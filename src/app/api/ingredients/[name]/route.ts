@@ -41,6 +41,33 @@ function extractTime(recipe: Recipe, kind: "prep" | "cook"): number | undefined 
   return undefined;
 }
 
+type IndexMatch = ReturnType<typeof getRecipesForIngredient>[number];
+
+/** The dossier shows the top 24 recipes with timing detail. */
+const RELATED_RECIPE_LIMIT = 24;
+
+function relatedRecipe(match: IndexMatch, recipe: Recipe | undefined): RelatedRecipe {
+  const amount = typeof match.amount === "number" ? match.amount : undefined;
+  if (!recipe) {
+    // Fallback if not loaded in memory
+    return { id: match.recipeId, name: match.recipeName, cuisine: match.cuisine, amount, unit: match.unit };
+  }
+  return {
+    id: recipe.id,
+    name: recipe.name,
+    cuisine: recipe.cuisine,
+    description: recipe.description,
+    prepTime: extractTime(recipe, "prep"),
+    cookTime: extractTime(recipe, "cook"),
+    servings:
+      (recipe as { baseServingSize?: number }).baseServingSize ??
+      recipe.servingSize ??
+      recipe.numberOfServings,
+    amount,
+    unit: match.unit,
+  };
+}
+
 /** `pairingRecommendations.complementary`, read defensively: cards store several shapes. */
 function complementaryOf(card: Record<string, unknown>): string[] {
   const pairing = card.pairingRecommendations;
@@ -64,7 +91,7 @@ function buildSubstitutions(
 export async function GET(
   request: Request,
   props: { params: Promise<{ name: string }> },
-) {
+): Promise<Response> {
   const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "ingredients-by-name" });
   if (!rl.allowed) return rl.response!;
   try {
@@ -109,36 +136,9 @@ export async function GET(
     const allRecipes = await recipeService.getAllRecipes();
     const recipeMap = new Map(allRecipes.map((r) => [r.id, r]));
 
-    const relatedRecipes: RelatedRecipe[] = [];
-    for (const match of matches) {
-      const recipe = recipeMap.get(match.recipeId);
-      if (recipe) {
-        relatedRecipes.push({
-          id: recipe.id,
-          name: recipe.name,
-          cuisine: recipe.cuisine,
-          description: recipe.description,
-          prepTime: extractTime(recipe, "prep"),
-          cookTime: extractTime(recipe, "cook"),
-          servings:
-            (recipe as { baseServingSize?: number }).baseServingSize ??
-            recipe.servingSize ??
-            recipe.numberOfServings,
-          amount: typeof match.amount === "number" ? match.amount : undefined,
-          unit: match.unit,
-        });
-      } else {
-        // Fallback if not loaded in memory
-        relatedRecipes.push({
-          id: match.recipeId,
-          name: match.recipeName,
-          cuisine: match.cuisine,
-          amount: typeof match.amount === "number" ? match.amount : undefined,
-          unit: match.unit,
-        });
-      }
-      if (relatedRecipes.length >= 24) break;
-    }
+    const relatedRecipes = matches
+      .slice(0, RELATED_RECIPE_LIMIT)
+      .map((match) => relatedRecipe(match, recipeMap.get(match.recipeId)));
 
     const substitutions = buildSubstitutions(ingredient, canonicalName);
 

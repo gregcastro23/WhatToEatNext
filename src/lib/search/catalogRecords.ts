@@ -56,6 +56,28 @@ function field(card: object | null, name: string): unknown {
   return card && name in card ? Reflect.get(card, name) : undefined;
 }
 
+/** The first card that carries a field: src/data's, else the unified one. */
+function firstDefined(cards: ReadonlyArray<object | null>, name: string): unknown {
+  return cards.map((card) => field(card, name)).find((value) => value !== undefined);
+}
+
+type Classification = Pick<IngredientRecord, "category" | "qualities" | "rulingPlanets">;
+
+function classificationOf({ source, unified }: CatalogIngredient): Classification {
+  return {
+    category: source?.category ?? unified?.category ?? "",
+    qualities: source?.qualities ?? unified?.qualities ?? [],
+    rulingPlanets: source?.astrologicalProfile?.rulingPlanets ?? unified?.astrologicalProfile?.rulingPlanets ?? [],
+  };
+}
+
+function appearanceOf({ source, unified }: CatalogIngredient): Pick<IngredientRecord, "elemental" | "imageUrl"> {
+  return {
+    elemental: elementalOf(source?.elementalProperties) ?? elementalOf(unified?.elementalProperties),
+    imageUrl: source?.image_url ?? source?.imageUrl ?? unified?.image_url ?? unified?.imageUrl ?? null,
+  };
+}
+
 /**
  * Union entry → search record. src/data's card wins field by field (owner
  * ruling 2026-09-23); the unified card fills what src/data lacks, and is the
@@ -69,15 +91,9 @@ function ingredientRecord(entry: CatalogIngredient): IngredientRecord {
     slug,
     name,
     aliases,
-    category: source?.category ?? unified?.category ?? "",
-    seasons: seasonsOf(
-      cards.map((card) => field(card, "season")).find((v) => v !== undefined),
-      cards.map((card) => field(card, "seasonality")).find((v) => v !== undefined),
-    ),
-    qualities: source?.qualities ?? unified?.qualities ?? [],
-    rulingPlanets: source?.astrologicalProfile?.rulingPlanets ?? unified?.astrologicalProfile?.rulingPlanets ?? [],
-    elemental: elementalOf(source?.elementalProperties) ?? elementalOf(unified?.elementalProperties),
-    imageUrl: source?.image_url ?? source?.imageUrl ?? unified?.image_url ?? unified?.imageUrl ?? null,
+    seasons: seasonsOf(firstDefined(cards, "season"), firstDefined(cards, "seasonality")),
+    ...classificationOf(entry),
+    ...appearanceOf(entry),
   };
 }
 

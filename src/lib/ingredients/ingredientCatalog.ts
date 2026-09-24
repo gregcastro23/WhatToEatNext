@@ -103,11 +103,11 @@ function buildEntries(): CatalogIngredient[] {
 function buildForms(entries: readonly CatalogIngredient[]): Map<string, CatalogIngredient> {
   const forms = new Map<string, CatalogIngredient>();
   const spellings: ReadonlyArray<(entry: CatalogIngredient) => readonly string[]> = [
-    ({ slug }) => [slug],
-    ({ key }) => [key],
-    ({ name }) => [name],
-    ({ unified }) => (unified ? [unified.name] : []),
-    ({ aliases: entryAliases }) => entryAliases,
+    ({ slug }): readonly string[] => [slug],
+    ({ key }): readonly string[] => [key],
+    ({ name }): readonly string[] => [name],
+    ({ unified }): readonly string[] => (unified ? [unified.name] : []),
+    ({ aliases: entryAliases }): readonly string[] => entryAliases,
   ];
   for (const spellingsOf of spellings) {
     for (const entry of entries) {
