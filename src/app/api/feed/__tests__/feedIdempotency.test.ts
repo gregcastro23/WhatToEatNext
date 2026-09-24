@@ -39,9 +39,14 @@ jest.mock("@/lib/redis", () => ({
   redisCached: jest.fn(),
 }));
 
+import {
+  computeV1Signature,
+  parseWebhookSecret,
+} from "@/lib/hooks/standardWebhooks";
 import { POST } from "../route";
 
 const TEST_SECRET = "test-internal-feed-secret";
+const TEST_HOOK_SECRET = "test-hook-secret-98765";
 
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
@@ -166,6 +171,96 @@ describe("POST /api/feed idempotency", () => {
     const res = await POST(req);
     expect(res.status).toBe(409);
     expect(res.headers.get("Retry-After")).toBe("1");
+    const data = await res.json();
+    expect(isRecord(data) && data.status).toBe("in_flight");
     expect(mockCreateEvent).not.toHaveBeenCalled();
+  });
+
+  it("records signature: 'valid' in summary when Standard Webhook headers are valid", async () => {
+    process.env.HOOK_SECRET_ASOL = TEST_HOOK_SECRET;
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 202, attempts: 1 }] });
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const body = {
+      agentEmail: "sol@agentic.alchm.kitchen",
+      eventType: "recipe_generation",
+      metadataPayload: { title: "Signed Elixir" },
+    };
+    const bodyStr = JSON.stringify(body);
+    const nowSec = Math.floor(Date.now() / 1000);
+    const msgId = "msg_valid_123";
+    const sig = computeV1Signature(msgId, nowSec, bodyStr, parseWebhookSecret(TEST_HOOK_SECRET));
+
+    const req = new Request("http://localhost/api/feed", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TEST_SECRET}`,
+        "webhook-id": msgId,
+        "webhook-timestamp": String(nowSec),
+        "webhook-signature": `v1,${sig}`,
+      },
+      body: bodyStr,
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+
+    // Verify payload summary passed to executeQuery
+    const firstCallArgs: unknown[] = mockExecuteQuery.mock.calls[0] ?? [];
+    const params = Array.isArray(firstCallArgs[1]) ? firstCallArgs[1] : [];
+    const payloadStr = typeof params[5] === "string" ? params[5] : "{}";
+    const payload = JSON.parse(payloadStr);
+    expect(isRecord(payload) && payload.signature).toBe("valid");
+
+    delete process.env.HOOK_SECRET_ASOL;
+  });
+
+  it("records keyMismatch: true when webhook-id and Idempotency-Key differ", async () => {
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 203, attempts: 1 }] });
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const req = new Request("http://localhost/api/feed", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${TEST_SECRET}`,
+        "webhook-id": "msg_key_a",
+        "Idempotency-Key": "key_b",
+      },
+      body: JSON.stringify({
+        agentEmail: "sol@agentic.alchm.kitchen",
+        eventType: "recipe_generation",
+      }),
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+
+    const firstCallArgs: unknown[] = mockExecuteQuery.mock.calls[0] ?? [];
+    const params = Array.isArray(firstCallArgs[1]) ? firstCallArgs[1] : [];
+    const payloadStr = typeof params[5] === "string" ? params[5] : "{}";
+    const payload = JSON.parse(payloadStr);
+    expect(isRecord(payload) && payload.keyMismatch).toBe(true);
+    expect(isRecord(payload) && payload.webhookId).toBe("msg_key_a");
+    expect(isRecord(payload) && payload.idempotencyKey).toBe("key_b");
+  });
+
+  it("rejects with 401 when ASOL_WEBHOOK_SIGNATURES='required' and request is unsigned", async () => {
+    process.env.ASOL_WEBHOOK_SIGNATURES = "required";
+    process.env.HOOK_SECRET_ASOL = TEST_HOOK_SECRET;
+
+    const req = makeFeedRequest({
+      agentEmail: "sol@agentic.alchm.kitchen",
+      eventType: "recipe_generation",
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(401);
+    const data = await res.json();
+    expect(isRecord(data) && data.error).toContain("unsigned");
+
+    delete process.env.ASOL_WEBHOOK_SIGNATURES;
+    delete process.env.HOOK_SECRET_ASOL;
   });
 });

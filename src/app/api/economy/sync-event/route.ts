@@ -1,12 +1,19 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
 import {
+  buildDeliverySummary,
   claimInboundEvent,
   completeWebhookEvent,
-  extractIdempotencyKey,
   failWebhookEvent,
+  resolveInboundDeliveryContext,
 } from "@/lib/hooks/idempotency";
+import { inFlightConflict } from "@/lib/hooks/inFlightConflict";
 import { safeEqual } from "@/lib/hooks/secureCompare";
+import {
+  evaluateSignatureGate,
+  resolveWebhookSecret,
+  verifyStandardWebhook,
+} from "@/lib/hooks/standardWebhooks";
 import { _logger } from "@/lib/logger";
 import { EconomySyncEventRequestSchema } from "@/lib/validation/apiSchemas";
 import { questService, type QuestEventMetadata } from "@/services/QuestService";
@@ -58,28 +65,66 @@ function parseEventMetadata(raw: unknown): QuestEventMetadata | undefined {
   };
 }
 
+async function readJsonBody(req: NextRequest): Promise<{ text: string; data: unknown } | null> {
+  try {
+    const text = await req.text();
+    return { text, data: JSON.parse(text) };
+  } catch {
+    return null;
+  }
+}
+
+function checkSyncHeaderAuth(req: NextRequest): NextResponse | null {
+  const authHeader = req.headers.get("X-Sync-Secret");
+  const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
+
+  if (!safeEqual(authHeader, syncSecret)) {
+    return NextResponse.json(
+      { ok: false, reason: "unauthorized" },
+      { status: 401 },
+    );
+  }
+  return null;
+}
+
+function verifyInboundWebhook(req: NextRequest, rawBodyText: string): {
+  verification: ReturnType<typeof verifyStandardWebhook>;
+  response: NextResponse | null;
+} {
+  const verification = verifyStandardWebhook({
+    headers: req.headers,
+    rawBody: rawBodyText,
+    secret: resolveWebhookSecret(),
+  });
+  const gate = evaluateSignatureGate(verification);
+  if (!gate.proceed) {
+    return {
+      verification,
+      response: NextResponse.json(
+        { ok: false, reason: "unauthorized", error: gate.error },
+        { status: gate.status ?? 401 },
+      ),
+    };
+  }
+  return { verification, response: null };
+}
+
 export async function POST(req: NextRequest) {
   try {
-    // 1. Validate Sync Secret
-    const authHeader = req.headers.get("X-Sync-Secret");
-    const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
+    const headerAuthError = checkSyncHeaderAuth(req);
+    if (headerAuthError) return headerAuthError;
 
-    if (!safeEqual(authHeader, syncSecret)) {
-      return NextResponse.json(
-        { ok: false, reason: "unauthorized" },
-        { status: 401 }
-      );
-    }
-
-    let rawBody: unknown;
-    try {
-      rawBody = await req.json();
-    } catch {
+    const parsedBody = await readJsonBody(req);
+    if (!parsedBody) {
       return NextResponse.json(
         { ok: false, reason: "invalid_request", message: "Body must be valid JSON" },
-        { status: 400 }
+        { status: 400 },
       );
     }
+    const { text: rawBodyText, data: rawBody } = parsedBody;
+
+    const { verification, response: gateResponse } = verifyInboundWebhook(req, rawBodyText);
+    if (gateResponse) return gateResponse;
 
     const parseResult = EconomySyncEventRequestSchema.safeParse(rawBody);
     if (!parseResult.success) {
@@ -90,7 +135,7 @@ export async function POST(req: NextRequest) {
           message: "Missing or invalid userEmail or event",
           details: parseResult.error.flatten().fieldErrors,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -100,36 +145,38 @@ export async function POST(req: NextRequest) {
     // 2. Look up user ID by email (and confirm they're an agentic account)
     const userResult = await executeQuery<{ id: string; is_agent: boolean | null }>(
       "SELECT id, is_agent FROM users WHERE email = $1 LIMIT 1",
-      [userEmail.toLowerCase()]
+      [userEmail.toLowerCase()],
     );
 
     const [eventUser] = userResult.rows;
     if (!eventUser) {
       return NextResponse.json(
         { ok: false, reason: "user_not_found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     const { id: userId, is_agent: isAgent } = eventUser;
 
-    // 3. Claim idempotency key if provided
-    const idempotencyKey = extractIdempotencyKey(req, rawBody);
+    // 3. Claim idempotency key if provided (reuse verification result)
+    const delivery = resolveInboundDeliveryContext(req.headers, rawBody, verification);
+
     const claimResult = await claimInboundEvent({
       source: "asol-sync-event",
-      key: idempotencyKey,
+      key: delivery.effectiveKey,
       eventType: "sync-event",
       subjectId: userEmail,
-      summary: { userEmail, event },
+      summary: buildDeliverySummary({ userEmail, event }, delivery),
       data: rawBody,
     });
 
     if (claimResult.isDuplicate) {
       if (claimResult.isInFlight) {
-        return NextResponse.json(
-          { ok: false, error: "conflict", message: "Event is currently being processed" },
-          { status: 409, headers: { "Retry-After": "1" } },
-        );
+        return inFlightConflict({
+          ok: false,
+          error: "conflict",
+          message: "Event is currently being processed",
+        });
       }
       return NextResponse.json({
         ...(claimResult.previousResult ?? { ok: true, event }),

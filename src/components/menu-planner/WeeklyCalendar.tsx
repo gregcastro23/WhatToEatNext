@@ -120,14 +120,14 @@ function DayColumn({
   dayOfWeek: DayOfWeek;
   date: Date;
   meals: MealSlotType[];
-  onMealClick?: ((mealSlot: MealSlotType) => void) | undefined;
-  onCopyMealClick?: ((mealSlot: MealSlotType) => void) | undefined;
-  onFocusDay?: (() => void) | undefined;
-  onToggleExpand?: (() => void) | undefined;
-  isExpanded?: boolean | undefined;
+  onMealClick?: (mealSlot: MealSlotType) => void;
+  onCopyMealClick?: (mealSlot: MealSlotType) => void;
+  onFocusDay?: () => void;
+  onToggleExpand?: () => void;
+  isExpanded?: boolean;
   currentPlanetaryHour?: string | null | undefined;
   dailyNutrition?: DailyNutritionResult | undefined;
-  isSelectedForHero?: boolean | undefined;
+  isSelectedForHero?: boolean;
 }): React.JSX.Element {
   const {
     addMealToSlot,
@@ -332,8 +332,8 @@ function TodayHeroCard({
   dayOfWeek: DayOfWeek;
   date: Date;
   meals: MealSlotType[];
-  onCopyMealClick?: ((mealSlot: MealSlotType) => void) | undefined;
-  onFocusDay?: (() => void) | undefined;
+  onCopyMealClick?: (mealSlot: MealSlotType) => void;
+  onFocusDay?: () => void;
   currentPlanetaryHour?: string | null | undefined;
   dailyNutrition?: DailyNutritionResult | undefined;
 }): React.JSX.Element {
@@ -807,7 +807,7 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
               dayOfWeek={day}
               date={weekDates[day]}
               meals={mealsByDay[day]}
-              onMealClick={onMealClick}
+              {...(onMealClick ? { onMealClick } : {})}
               onCopyMealClick={handleCopyMealClick}
               onFocusDay={(): void => handleOpenFocusedDay(day)}
               onToggleExpand={(): void => toggleExpandDay(day)}
@@ -843,7 +843,7 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
               dayOfWeek={day}
               date={weekDates[day]}
               meals={mealsByDay[day]}
-              onMealClick={onMealClick}
+              {...(onMealClick ? { onMealClick } : {})}
               onCopyMealClick={handleCopyMealClick}
               onFocusDay={(): void => handleOpenFocusedDay(day)}
               onToggleExpand={(): void => toggleExpandDay(day)}
@@ -861,7 +861,7 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
               dayOfWeek={day}
               date={weekDates[day]}
               meals={mealsByDay[day]}
-              onMealClick={onMealClick}
+              {...(onMealClick ? { onMealClick } : {})}
               onCopyMealClick={handleCopyMealClick}
               onFocusDay={(): void => handleOpenFocusedDay(day)}
               onToggleExpand={(): void => toggleExpandDay(day)}

@@ -42,6 +42,10 @@ function text(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 function cents(value: unknown): number {
   const parsed = typeof value === "number" ? value : Number(value);
   return Number.isInteger(parsed) && parsed >= 0 ? parsed : 0;
@@ -115,15 +119,16 @@ export class LogisticsClient {
       );
     }
 
-    const result = (await response.json()) as Record<string, unknown>;
+    const rawJson: unknown = await response.json();
+    const result = isRecord(rawJson) ? rawJson : {};
     const trackingId = text(result.delivery_id ?? result.tracking_id ?? result.id);
     if (!trackingId) {
       throw new Error("Logistics response did not include a tracking id");
     }
 
     const fee =
-      result.fee && typeof result.fee === "object"
-        ? cents((result.fee as Record<string, unknown>).total_fee_cents)
+      isRecord(result.fee)
+        ? cents(result.fee.total_fee_cents)
         : cents(result.delivery_fee_cents);
 
     const estimatedDeliveryTime = text(result.estimated_dropoff_time);

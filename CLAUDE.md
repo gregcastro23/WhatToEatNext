@@ -53,7 +53,7 @@ Inbound webhooks follow one pattern (`src/lib/hooks/`):
 **`webhook_events` is the idempotency guard and the immutable record.**
 - A trigger rejects any update to an event's identity or payload.
 - A redelivery of a finished event is answered 200 and not re-run.
-- A redelivery while the first attempt is still running gets 409, so the provider retries later.
+- A redelivery while the first attempt is still running gets 409 with `{status: "in_flight"}` and `Retry-After: 1`, so the provider retries later. ASOL retries only on that marker.
 - A redelivery of a *failed* event is re-claimed and processed again.
 - Store a curated summary only, never the raw body: Stripe bodies contain customer PII.
 - If the record can't be written, the event is still processed. Every handler is idempotent.

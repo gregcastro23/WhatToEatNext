@@ -33,6 +33,8 @@ function makeOverview(): AsolHealthOverview {
     totalReceived: 10,
     totalProcessed: 9,
     totalInFlight: 0,
+    totalLiveInFlight: 0,
+    totalStaleLocks: 0,
     totalFailed: 1,
     totalDuplicates: 2,
     overallP95LatencyMs: 150,
@@ -42,17 +44,31 @@ function makeOverview(): AsolHealthOverview {
         received: 10,
         processed: 9,
         inFlight: 0,
+        liveInFlight: 0,
+        staleLocks: 0,
         failed: 1,
         duplicates: 2,
         p95LatencyMs: 150,
+        signatureBreakdown: {
+          valid: 10,
+          unsigned: 0,
+          failed: 0,
+          reasons: {},
+        },
       },
     ],
     recentEvents: [],
     feedStatus: {
       lastEmit: null,
       signatureMode: "off",
+      signatureModeInfo: {
+        mode: "off",
+        raw: "",
+        valid: true,
+      },
       internalSecretConfigured: true,
       syncSecretConfigured: true,
+      hookSecretConfigured: false,
     },
   };
 }
@@ -94,6 +110,26 @@ describe("GET /api/admin/asol", () => {
     expect(data.totalReceived).toBe(10);
     expect(data.totalProcessed).toBe(9);
     expect(data.overallP95LatencyMs).toBe(150);
+  });
+
+  it("passes status=failed filter to health overview service", async () => {
+    mockValidateAdminRequest.mockResolvedValueOnce({
+      user: {
+        userId: "admin-1",
+        email: "admin@alchm.kitchen",
+        roles: ["admin"],
+      },
+    });
+
+    mockGetAsolHealthOverview.mockResolvedValueOnce(makeOverview());
+
+    const req = new NextRequest("http://localhost:3000/api/admin/asol?status=failed", {
+      method: "GET",
+    });
+
+    const res = await GET(req);
+    expect(res.status).toBe(200);
+    expect(mockGetAsolHealthOverview).toHaveBeenCalledWith({ status: "failed" });
   });
 
   it("returns 500 when telemetry service fails", async () => {

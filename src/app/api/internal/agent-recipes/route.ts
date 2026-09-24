@@ -17,12 +17,19 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { executeQuery } from "@/lib/database/connection";
 import {
+  buildDeliverySummary,
   claimInboundEvent,
   completeWebhookEvent,
-  extractIdempotencyKey,
   failWebhookEvent,
+  resolveInboundDeliveryContext,
 } from "@/lib/hooks/idempotency";
+import { inFlightConflict } from "@/lib/hooks/inFlightConflict";
 import { bearerMatches, safeEqual } from "@/lib/hooks/secureCompare";
+import {
+  evaluateSignatureGate,
+  resolveWebhookSecret,
+  verifyStandardWebhook,
+} from "@/lib/hooks/standardWebhooks";
 import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
@@ -46,7 +53,16 @@ interface InsertedRow {
   created_at: string;
 }
 
-export async function POST(request: NextRequest) {
+async function readJsonBody(request: NextRequest): Promise<{ text: string; data: unknown } | null> {
+  try {
+    const text = await request.text();
+    return { text, data: JSON.parse(text) };
+  } catch {
+    return null;
+  }
+}
+
+function checkAgentRecipeHeaderAuth(request: NextRequest): NextResponse | null {
   const authHeader = request.headers.get("authorization") ?? "";
   const syncHeader = request.headers.get("x-sync-secret") ?? "";
 
@@ -62,13 +78,46 @@ export async function POST(request: NextRequest) {
   if (!isBearerAuthorized && !isSyncHeaderAuthorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  return null;
+}
 
-  let rawBody: unknown;
-  try {
-    rawBody = await request.json();
-  } catch {
+function verifyAgentRecipeWebhook(
+  request: NextRequest,
+  rawBodyText: string,
+): {
+  verification: ReturnType<typeof verifyStandardWebhook>;
+  response: NextResponse | null;
+} {
+  const verification = verifyStandardWebhook({
+    headers: request.headers,
+    rawBody: rawBodyText,
+    secret: resolveWebhookSecret(),
+  });
+  const gate = evaluateSignatureGate(verification);
+  if (!gate.proceed) {
+    return {
+      verification,
+      response: NextResponse.json(
+        { error: gate.error ?? "Unauthorized" },
+        { status: gate.status ?? 401 },
+      ),
+    };
+  }
+  return { verification, response: null };
+}
+
+export async function POST(request: NextRequest) {
+  const headerAuthError = checkAgentRecipeHeaderAuth(request);
+  if (headerAuthError) return headerAuthError;
+
+  const parsedBody = await readJsonBody(request);
+  if (!parsedBody) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
+  const { text: rawBodyText, data: rawBody } = parsedBody;
+
+  const { verification, response: gateResponse } = verifyAgentRecipeWebhook(request, rawBodyText);
+  if (gateResponse) return gateResponse;
 
   const parsed = AgentRecipeBodySchema.safeParse(rawBody);
   if (!parsed.success) {
@@ -79,22 +128,24 @@ export async function POST(request: NextRequest) {
   }
   const body = parsed.data;
 
-  const idempotencyKey = extractIdempotencyKey(request, rawBody);
+  const delivery = resolveInboundDeliveryContext(request.headers, rawBody, verification);
+
   const claimResult = await claimInboundEvent({
     source: "asol-agent-recipes",
-    key: idempotencyKey,
+    key: delivery.effectiveKey,
     eventType: "agent-recipe",
     subjectId: body.userId,
-    summary: { userId: body.userId, name: body.name },
+    summary: buildDeliverySummary({ userId: body.userId, name: body.name }, delivery),
     data: rawBody,
   });
 
   if (claimResult.isDuplicate) {
     if (claimResult.isInFlight) {
-      return NextResponse.json(
-        { success: false, error: "conflict", message: "Event is currently being processed" },
-        { status: 409, headers: { "Retry-After": "1" } },
-      );
+      return inFlightConflict({
+        success: false,
+        error: "conflict",
+        message: "Event is currently being processed",
+      });
     }
     return NextResponse.json({
       ...(claimResult.previousResult ?? { success: true }),

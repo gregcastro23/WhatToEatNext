@@ -166,7 +166,7 @@ export default function RecipeBuilderPage() {
       lunarPhase: astroState.lunarPhase || "full",
       activePlanets: astroState.activePlanets || [],
       domElements: astroState.domElements || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-      currentPlanetaryHour: astroState.currentPlanetaryHour || undefined,
+      ...(astroState.currentPlanetaryHour ? { currentPlanetaryHour: astroState.currentPlanetaryHour } : {}),
     }),
     [astroState],
   );
@@ -177,7 +177,7 @@ export default function RecipeBuilderPage() {
     return {
       natalChart: currentUser.natalChart,
       prioritizeHarmony: true,
-      stats: currentUser.stats,
+      ...(currentUser.stats ? { stats: currentUser.stats } : {}),
     };
   }, [currentUser]);
 

@@ -262,40 +262,40 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       },
     };
 
-    const categoryMetrics = testCategories.reduce(
+    const categoryMetrics = testCategories.reduce<Record<string, number>>(
       (acc, category) => {
         const results = subcategoryFunc(category);
         acc[category] = Object.keys(results).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
-    const categoryStructure = testCategories.reduce(
+    const categoryStructure = testCategories.reduce<Record<string, number>>(
       (acc, category) => {
         const results = subcategoryFunc(category);
         acc[category] = Object.keys(results).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
-    const categoryOptimization = testCategories.reduce(
+    const categoryOptimization = testCategories.reduce<Record<string, string[]>>(
       (acc, category) => {
         const results = subcategoryFunc(category);
         acc[category] = Object.keys(results).slice(5);
         return acc;
       },
-      {} as Record<string, string[]>,
+      {},
     );
 
-    const categoryHarmony = testCategories.reduce(
+    const categoryHarmony = testCategories.reduce<Record<string, number>>(
       (acc, category) => {
         const results = subcategoryFunc(category);
         acc[category] = Object.keys(results).length > 0 ? 1.0 : 0.0;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
     return {
@@ -375,40 +375,40 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       },
     };
 
-    const seasonalMetrics = testSeasons.reduce(
+    const seasonalMetrics = testSeasons.reduce<Record<string, number>>(
       (acc, season) => {
         const results = seasonalFunc(season);
         acc[season] = Object.keys(results).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
-    const seasonalStructure = testSeasons.reduce(
+    const seasonalStructure = testSeasons.reduce<Record<string, number>>(
       (acc, season) => {
         const results = seasonalFunc(season);
         acc[season] = Object.keys(results).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
-    const seasonalOptimization = testSeasons.reduce(
+    const seasonalOptimization = testSeasons.reduce<Record<string, string[]>>(
       (acc, season) => {
         const results = seasonalFunc(season);
         acc[season] = Object.keys(results).slice(5);
         return acc;
       },
-      {} as Record<string, string[]>,
+      {},
     );
 
-    const seasonalHarmony = testSeasons.reduce(
+    const seasonalHarmony = testSeasons.reduce<Record<string, number>>(
       (acc, season) => {
         const results = seasonalFunc(season);
         acc[season] = Object.keys(results).length > 0 ? 1.0 : 0.0;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
     return {
@@ -489,40 +489,40 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       },
     };
 
-    const preparationMetrics = testMethods.reduce(
+    const preparationMetrics = testMethods.reduce<Record<string, number>>(
       (acc, method) => {
         const results = preparationFunc(method);
         acc[method] = Object.keys(results).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
-    const preparationStructure = testMethods.reduce(
+    const preparationStructure = testMethods.reduce<Record<string, number>>(
       (acc, method) => {
         const results = preparationFunc(method);
         acc[method] = Object.keys(results).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
-    const preparationOptimization = testMethods.reduce(
+    const preparationOptimization = testMethods.reduce<Record<string, string[]>>(
       (acc, method) => {
         const results = preparationFunc(method);
         acc[method] = Object.keys(results).slice(5);
         return acc;
       },
-      {} as Record<string, string[]>,
+      {},
     );
 
-    const preparationHarmony = testMethods.reduce(
+    const preparationHarmony = testMethods.reduce<Record<string, number>>(
       (acc, method) => {
         const results = preparationFunc(method);
         acc[method] = Object.keys(results).length > 0 ? 1.0 : 0.0;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
     return {
@@ -590,40 +590,40 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       },
     };
 
-    const methodMetrics = testMethods.reduce(
+    const methodMetrics = testMethods.reduce<Record<string, number>>(
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
-    const methodStructure = testMethods.reduce(
+    const methodStructure = testMethods.reduce<Record<string, number>>(
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
-    const methodOptimization = testMethods.reduce(
+    const methodOptimization = testMethods.reduce<Record<string, string[]>>(
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).slice(5);
         return acc;
       },
-      {} as Record<string, string[]>,
+      {},
     );
 
-    const methodHarmony = testMethods.reduce(
+    const methodHarmony = testMethods.reduce<Record<string, number>>(
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).length > 0 ? 1.0 : 0.0;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
     return {
@@ -698,40 +698,40 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       },
     };
 
-    const integrityMetrics = testMethods.reduce(
+    const integrityMetrics = testMethods.reduce<Record<string, number>>(
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
-    const integrityStructure = testMethods.reduce(
+    const integrityStructure = testMethods.reduce<Record<string, number>>(
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
-    const integrityOptimization = testMethods.reduce(
+    const integrityOptimization = testMethods.reduce<Record<string, string[]>>(
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).slice(5);
         return acc;
       },
-      {} as Record<string, string[]>,
+      {},
     );
 
-    const integrityHarmony = testMethods.reduce(
+    const integrityHarmony = testMethods.reduce<Record<string, number>>(
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).length > 0 ? 1.0 : 0.0;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
     return {
@@ -806,40 +806,40 @@ export const FRUIT_TYPE_INTELLIGENCE = {
       },
     };
 
-    const typeMetrics = fruitTypes.reduce(
+    const typeMetrics = fruitTypes.reduce<Record<string, number>>(
       (acc, type) => {
         const results = getFruitsBySubCategory(type);
         acc[type] = Object.keys(results).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
-    const typeStructure = fruitTypes.reduce(
+    const typeStructure = fruitTypes.reduce<Record<string, number>>(
       (acc, type) => {
         const results = getFruitsBySubCategory(type);
         acc[type] = Object.keys(results).length;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
-    const typeOptimization = fruitTypes.reduce(
+    const typeOptimization = fruitTypes.reduce<Record<string, string[]>>(
       (acc, type) => {
         const results = getFruitsBySubCategory(type);
         acc[type] = Object.keys(results).slice(5);
         return acc;
       },
-      {} as Record<string, string[]>,
+      {},
     );
 
-    const typeHarmony = fruitTypes.reduce(
+    const typeHarmony = fruitTypes.reduce<Record<string, number>>(
       (acc, type) => {
         const results = getFruitsBySubCategory(type);
         acc[type] = Object.keys(results).length > 0 ? 1.0 : 0.0;
         return acc;
       },
-      {} as Record<string, number>,
+      {},
     );
 
     return {

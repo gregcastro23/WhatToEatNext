@@ -20,7 +20,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   if ("error" in authResult) return authResult.error;
 
   try {
-    const payload = await getAsolHealthOverview();
+    const { searchParams } = new URL(request.url);
+    const statusParam = searchParams.get("status");
+    const status = statusParam === "failed" ? "failed" : "all";
+    const payload = await getAsolHealthOverview({ status });
     return NextResponse.json({ success: true, ...payload });
   } catch (error) {
     _logger.error("[GET /api/admin/asol] Error loading health:", error);

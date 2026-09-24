@@ -71,7 +71,7 @@ export default function GenerateRecipeButton({
           Earth: 0.25,
           Air: 0.25,
         },
-        currentPlanetaryHour: astroHook.currentPlanetaryHour ?? undefined,
+        ...(astroHook.currentPlanetaryHour ? { currentPlanetaryHour: astroHook.currentPlanetaryHour } : {}),
       };
 
       // Determine meal types from builder selection (or use all if none selected)
@@ -85,7 +85,7 @@ export default function GenerateRecipeButton({
         userContext = {
           natalChart: currentUser.natalChart,
           prioritizeHarmony: true,
-          stats: currentUser.stats,
+          ...(currentUser.stats ? { stats: currentUser.stats } : {}),
         };
         logger.info("Applying natal chart personalization for recipe generation");
       }

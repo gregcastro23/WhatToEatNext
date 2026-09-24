@@ -20,13 +20,20 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import {
+  buildDeliverySummary,
   claimInboundEvent,
   completeWebhookEvent,
-  extractIdempotencyKey,
   failWebhookEvent,
+  resolveInboundDeliveryContext,
   type ClaimOutcome,
 } from "@/lib/hooks/idempotency";
+import { inFlightConflict } from "@/lib/hooks/inFlightConflict";
 import { bearerMatches } from "@/lib/hooks/secureCompare";
+import {
+  evaluateSignatureGate,
+  resolveWebhookSecret,
+  verifyStandardWebhook,
+} from "@/lib/hooks/standardWebhooks";
 import { withObservability } from "@/lib/observability/withObservability";
 import { redisCached } from "@/lib/redis";
 import { FeedEventIngestSchema } from "@/lib/validation/apiSchemas";
@@ -80,21 +87,16 @@ interface WebhookPreview {
   eventType?: string;
 }
 
-async function extractWebhookPreview(request: Request): Promise<WebhookPreview> {
-  try {
-    const rawPreview = (await request.clone().json()) as unknown;
-    const parsed = WebhookPreviewSchema.safeParse(rawPreview);
-    if (!parsed.success) return {};
+function extractWebhookPreview(raw: unknown): WebhookPreview {
+  const parsed = WebhookPreviewSchema.safeParse(raw);
+  if (!parsed.success) return {};
 
-    const agentEmail = asString(parsed.data.agentEmail);
-    const eventType = asString(parsed.data.eventType);
-    return {
-      ...(agentEmail ? { agentEmail } : {}),
-      ...(eventType ? { eventType } : {}),
-    };
-  } catch {
-    return {};
-  }
+  const agentEmail = asString(parsed.data.agentEmail);
+  const eventType = asString(parsed.data.eventType);
+  return {
+    ...(agentEmail ? { agentEmail } : {}),
+    ...(eventType ? { eventType } : {}),
+  };
 }
 
 // The public GET feed is polled ~every 30s per client. Under a real-user
@@ -159,23 +161,45 @@ export const POST = withObservability(
     let eventType = "unknown";
     let claimOutcome: ClaimOutcome | null = null;
 
-    try {
-      const preview = await extractWebhookPreview(request);
-    agentEmail = preview.agentEmail ?? agentEmail;
-    eventType = preview.eventType ?? eventType;
-
     if (!isAuthorizedAgentRequest(request.headers.get("Authorization"))) {
       rememberFeedEmit(eventType, agentEmail, 401);
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    let rawBody: unknown;
     try {
-      rawBody = await request.json();
-    } catch {
-      rememberFeedEmit(eventType, agentEmail, 400);
-      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
-    }
+      let rawBodyText: string;
+      try {
+        rawBodyText = await request.text();
+      } catch {
+        rememberFeedEmit(eventType, agentEmail, 400);
+        return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+      }
+
+      let rawBody: unknown;
+      try {
+        rawBody = JSON.parse(rawBodyText);
+      } catch {
+        rememberFeedEmit(eventType, agentEmail, 400);
+        return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+      }
+
+      const preview = extractWebhookPreview(rawBody);
+      agentEmail = preview.agentEmail ?? agentEmail;
+      eventType = preview.eventType ?? eventType;
+
+      const verification = verifyStandardWebhook({
+        headers: request.headers,
+        rawBody: rawBodyText,
+        secret: resolveWebhookSecret(),
+      });
+      const gate = evaluateSignatureGate(verification);
+      if (!gate.proceed) {
+        rememberFeedEmit(eventType, agentEmail, gate.status ?? 401);
+        return NextResponse.json(
+          { error: gate.error ?? "Unauthorized" },
+          { status: gate.status ?? 401 },
+        );
+      }
 
     const parseResult = FeedEventIngestSchema.safeParse(rawBody);
     if (!parseResult.success) {
@@ -233,26 +257,27 @@ export const POST = withObservability(
     agentEmail = normalizedEmail;
     const isAgenticNamespace = normalizedEmail.endsWith(AGENTIC_EMAIL_DOMAIN);
 
-    const idempotencyKey = extractIdempotencyKey(request, rawBody);
+    const delivery = resolveInboundDeliveryContext(request.headers, rawBody, verification);
+
     claimOutcome = await claimInboundEvent({
       source: "asol-feed",
-      key: idempotencyKey,
+      key: delivery.effectiveKey,
       eventType: incomingEventType,
       subjectId: normalizedEmail,
-      summary: { agentEmail: normalizedEmail, eventType: incomingEventType },
+      summary: buildDeliverySummary(
+        { agentEmail: normalizedEmail, eventType: incomingEventType },
+        delivery,
+      ),
       data: rawBody,
     });
 
     if (claimOutcome.isDuplicate) {
       if (claimOutcome.isInFlight) {
-        return NextResponse.json(
-          {
-            success: false,
-            error: "conflict",
-            message: "Event is currently being processed",
-          },
-          { status: 409, headers: { "Retry-After": "1" } },
-        );
+        return inFlightConflict({
+          success: false,
+          error: "conflict",
+          message: "Event is currently being processed",
+        });
       }
       return NextResponse.json({
         ...(claimOutcome.previousResult ?? {

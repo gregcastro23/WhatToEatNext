@@ -20,8 +20,15 @@
  */
 
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { auth } from "@/lib/auth/auth";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
+
+const agentSyncStatusSchema = z.object({
+  active: z.boolean().optional(),
+  lastSync: z.string().nullable().optional(),
+  last_sync_at: z.string().nullable().optional(),
+});
 
 export const dynamic = "force-dynamic";
 
@@ -65,14 +72,11 @@ async function fetchBackendStatus(
       cache: "no-store",
     });
     if (!res.ok) return null;
-    const json = (await res.json()) as {
-      active?: boolean;
-      lastSync?: string | null;
-      last_sync_at?: string | null;
-    };
+    const parsed = agentSyncStatusSchema.safeParse(await res.json());
+    if (!parsed.success) return null;
     return {
-      active: Boolean(json.active),
-      lastSync: json.lastSync ?? json.last_sync_at ?? null,
+      active: Boolean(parsed.data.active),
+      lastSync: parsed.data.lastSync ?? parsed.data.last_sync_at ?? null,
     };
   } catch {
     return null;

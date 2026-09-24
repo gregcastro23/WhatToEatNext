@@ -51,7 +51,7 @@ export interface AstrologicalState {
   lunarPhase: LunarPhase;
   activePlanets: string[];
   domElements: ElementalProperties;
-  currentPlanetaryHour?: string | undefined;
+  currentPlanetaryHour?: string;
 }
 
 /**
@@ -61,33 +61,33 @@ export interface UserPersonalizationContext {
   natalChart: NatalChart;
   chartComparison?: ChartComparison;
   prioritizeHarmony?: boolean;
-  stats?: AlchemicalProfile | undefined;
+  stats?: AlchemicalProfile;
 }
 
 /**
  * Day recommendation options
  */
 export interface DayRecommendationOptions {
-  mealTypes?: MealType[] | undefined;
-  dietaryRestrictions?: string[] | undefined;
-  useCurrentPlanetary?: boolean | undefined;
-  maxRecipesPerMeal?: number | undefined;
-  preferredCuisines?: string[] | undefined;
-  excludeIngredients?: string[] | undefined;
+  mealTypes?: MealType[];
+  dietaryRestrictions?: string[];
+  useCurrentPlanetary?: boolean;
+  maxRecipesPerMeal?: number;
+  preferredCuisines?: string[];
+  excludeIngredients?: string[];
   /** Required ingredients to include in generated recipes */
-  requiredIngredients?: string[] | undefined;
+  requiredIngredients?: string[];
   /** Preferred cooking methods to guide recipe generation */
-  preferredCookingMethods?: string[] | undefined;
+  preferredCookingMethods?: string[];
   /** Flavor preferences to guide ingredient and cuisine selection */
-  flavorPreferences?: string[] | undefined;
+  flavorPreferences?: string[];
   /** Learned favorite ingredients to softly boost matching recipes */
-  favoriteIngredients?: string[] | undefined;
+  favoriteIngredients?: string[];
   /** Learned disliked ingredients to avoid in generated recommendations */
-  dislikedIngredients?: string[] | undefined;
+  dislikedIngredients?: string[];
   /** Learned complexity preference to softly bias recipe selection */
-  complexityPreference?: "simple" | "moderate" | "complex" | undefined;
+  complexityPreference?: "simple" | "moderate" | "complex";
   /** User personalization context for chart-based recommendations */
-  userContext?: UserPersonalizationContext | undefined;
+  userContext?: UserPersonalizationContext;
   /** Meals already planned for the week, used to avoid repetition */
   existingMeals?: Array<{
     recipeId: string;

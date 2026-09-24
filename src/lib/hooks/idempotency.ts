@@ -18,9 +18,17 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+export interface InboundDeliveryContext {
+  webhookId: string | null;
+  idempotencyKey: string | null;
+  effectiveKey: string | null;
+  keyMismatch: boolean;
+  signatureSummary: string;
+}
+
 /** Extract an idempotency key from request headers or the parsed JSON body. */
 export function extractIdempotencyKey(
-  req: Request,
+  req: Request | { headers: Headers | { get(name: string): string | null } },
   rawBody?: unknown,
 ): string | null {
   const headerKey =
@@ -35,6 +43,46 @@ export function extractIdempotencyKey(
     }
   }
   return null;
+}
+
+/** Resolve delivery identifiers and signature summary for inbound delivery tracking. */
+export function resolveInboundDeliveryContext(
+  headers: Headers | { get(name: string): string | null },
+  rawBody: unknown,
+  verification: { valid: boolean; reason?: string },
+): InboundDeliveryContext {
+  const rawWebhookId = headers.get("webhook-id")?.trim();
+  const webhookId = rawWebhookId && rawWebhookId.length > 0 ? rawWebhookId : null;
+  const idempotencyKey = extractIdempotencyKey({ headers }, rawBody);
+  const keyMismatch = Boolean(webhookId && idempotencyKey && webhookId !== idempotencyKey);
+  const effectiveKey = idempotencyKey ?? webhookId;
+  const signatureSummary = verification.valid ? "valid" : (verification.reason ?? "unknown");
+
+  return {
+    webhookId,
+    idempotencyKey,
+    effectiveKey,
+    keyMismatch,
+    signatureSummary,
+  };
+}
+
+/** Construct standard webhook summary payload with signature and keyMismatch metadata. */
+export function buildDeliverySummary(
+  baseSummary: Record<string, unknown>,
+  delivery: InboundDeliveryContext,
+): Record<string, unknown> {
+  return {
+    ...baseSummary,
+    signature: delivery.signatureSummary,
+    ...(delivery.keyMismatch
+      ? {
+          keyMismatch: true,
+          webhookId: delivery.webhookId,
+          idempotencyKey: delivery.idempotencyKey,
+        }
+      : {}),
+  };
 }
 
 /** Ensure an event id fits within webhook_events.event_id VARCHAR(255). */

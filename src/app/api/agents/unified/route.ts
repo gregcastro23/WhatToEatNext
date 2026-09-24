@@ -1,5 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { MAX_BIRTH_YEAR, MIN_BIRTH_YEAR, birthMomentUtc } from "@/lib/agents/birthYear";
 import { buildAgentContext } from "@/lib/agents/persona/build-agent-context";
 import { auth } from "@/lib/auth/auth";
@@ -472,10 +473,14 @@ export async function POST(request: NextRequest | Request): Promise<NextResponse
             throw new Error(`Planetary Agents API returned status ${res.status}: ${errText}`);
           }
 
-          const chatData = (await res.json()) as Record<string, unknown>;
+          const rawJson: unknown = await res.json();
+          const parsed = z.record(z.string(), z.unknown()).safeParse(rawJson);
+          if (!parsed.success) {
+            throw new Error("Invalid response format from Planetary Agents API: expected object");
+          }
           return NextResponse.json({
             success: true,
-            data: chatData,
+            data: parsed.data,
             timestamp
           });
         } catch (fetchErr: unknown) {

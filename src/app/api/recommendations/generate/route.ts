@@ -25,6 +25,7 @@ import {
   type DayRecommendationOptions,
   type UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
+import { toDayRecommendationOptions } from "./optionsAdapter";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -136,7 +137,7 @@ function buildServerUserContext(
 
   return {
     natalChart,
-    stats,
+    ...(stats ? { stats } : {}),
     prioritizeHarmony: typeof clientPriority === "boolean" ? clientPriority : true,
   };
 }
@@ -225,8 +226,7 @@ async function handlePost(request: NextRequest) {
   // authenticated users it is rebuilt below from the stored profile; for the
   // anonymous demo path it is dropped so demo runs stay chart-free.
   const clientUserContext = options.userContext;
-  const sanitizedOptions: DayRecommendationOptions = { ...options };
-  delete sanitizedOptions.userContext;
+  const sanitizedOptions: DayRecommendationOptions = toDayRecommendationOptions(options);
 
   // ── Demo path: anonymous visitor inside their daily demo budget. ──
   // Skip memo cache, monthly cap, premium check, token debit, retry grant,

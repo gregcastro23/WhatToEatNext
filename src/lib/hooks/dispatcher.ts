@@ -65,6 +65,10 @@ export function isInFlight(previousStatus: string): boolean {
 /**
  * HTTP status for a dispatch outcome. Failures and in-flight duplicates are
  * non-2xx so the provider retries; everything else is acknowledged.
+ *
+ * In-flight duplicates return HTTP 409 with `{status: "in_flight"}` and Retry-After: 1
+ * via `inFlightConflict(...)`. ASOL's delivery classifier
+ * (alchm-agents-solana/lib/wten/delivery.ts:isInFlightBody) requires this marker to retry.
  */
 export function httpStatusFor(outcome: DispatchOutcome): number {
   if (outcome.status === "failed") return 500;

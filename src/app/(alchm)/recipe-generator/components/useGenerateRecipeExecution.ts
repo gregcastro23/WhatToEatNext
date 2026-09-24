@@ -27,16 +27,16 @@ function buildOptions(
     mealTypes,
     dietaryRestrictions: [...builder.dietaryPreferences, ...builder.allergies],
     preferredCuisines: mergePreferenceList(builder.selectedCuisines, cuisines),
-    excludeIngredients: tasteGraph?.dislikedIngredients,
+    ...(tasteGraph?.dislikedIngredients ? { excludeIngredients: tasteGraph.dislikedIngredients } : {}),
     requiredIngredients: builder.selectedIngredients.map((i) => i.name),
     preferredCookingMethods: mergePreferenceList(builder.selectedCookingMethods, methods),
     flavorPreferences: builder.flavors,
-    favoriteIngredients: tasteGraph?.favoriteIngredients,
-    dislikedIngredients: tasteGraph?.dislikedIngredients,
-    complexityPreference: tasteGraph?.complexityPreference,
+    ...(tasteGraph?.favoriteIngredients ? { favoriteIngredients: tasteGraph.favoriteIngredients } : {}),
+    ...(tasteGraph?.dislikedIngredients ? { dislikedIngredients: tasteGraph.dislikedIngredients } : {}),
+    ...(tasteGraph?.complexityPreference ? { complexityPreference: tasteGraph.complexityPreference } : {}),
     useCurrentPlanetary: true,
     maxRecipesPerMeal: 8,
-    userContext,
+    ...(userContext ? { userContext } : {}),
   };
 }
 
