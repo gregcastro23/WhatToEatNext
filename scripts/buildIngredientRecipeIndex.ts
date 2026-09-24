@@ -78,7 +78,7 @@ function collectCanonical(project: Project): CanonicalIngredient[] {
 function parseIngredientFile(project: Project, file: string, out: CanonicalIngredient[], seen: Set<string>): void {
   const sf = project.addSourceFileAtPath(file);
   const rel = path.relative(INGREDIENTS_DIR, file).split(path.sep);
-  const category = rel[0].replace(/\.ts$/, "");
+  const category = (rel[0] ?? "").replace(/\.ts$/, "");
 
   for (const decl of sf.getVariableDeclarations()) {
     const init = decl.getInitializer()?.asKind(SyntaxKind.ObjectLiteralExpression);
@@ -251,7 +251,9 @@ function buildIndex(
         }
         if (matched) {
           matchedAtLeastOne = true;
-          index[c.slug].push({
+          const bucket = index[c.slug];
+          if (!bucket) throw new Error(`index has no bucket for canonical slug "${c.slug}"`);
+          bucket.push({
             recipeId: recipe.id,
             recipeName: recipe.name,
             cuisine: recipe.cuisine,
@@ -263,7 +265,7 @@ function buildIndex(
       }
 
       if (!matchedAtLeastOne) {
-        const normName = [...variants][0];
+        const normName = [...variants][0] ?? ing.name;
         const current = unmatched.get(normName) ?? { count: 0, recipes: new Set<string>() };
         current.count += 1;
         current.recipes.add(`${recipe.cuisine} / ${recipe.name}`);

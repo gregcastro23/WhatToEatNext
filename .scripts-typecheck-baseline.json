@@ -1,10 +1,9 @@
 {
-  "total": 66,
-  "files": 32,
+  "total": 30,
+  "files": 14,
   "note": "Baseline established in Phase 26 Tranche 0 for scripts/** under scripts/tsconfig.json with incremental false",
   "byFile": {
     "scripts/auditIngredients.ts": 1,
-    "scripts/backfill-agent-sync.ts": 1,
     "scripts/backfill-recipe-token-ids.ts": 2,
     "scripts/backfillBirthInstant.ts": 2,
     "scripts/backfillChartGeocentricDistance.ts": 2,
@@ -12,28 +11,11 @@
     "scripts/backfillMonicaPerConstruction.ts": 2,
     "scripts/backfillRecipeAlchemicalQuantities.ts": 1,
     "scripts/backfillRecipeNutrition.ts": 1,
-    "scripts/buildIngredientRecipeIndex.ts": 4,
-    "scripts/checkKitchenSettingsSqlParses.ts": 1,
     "scripts/checkNoStrayKalchmFormula.ts": 2,
-    "scripts/dedupeAgentRows.ts": 1,
-    "scripts/enrichCoreCatalog.ts": 2,
-    "scripts/enrichCoverageIngredients.ts": 2,
-    "scripts/enrichNutrition.ts": 1,
     "scripts/generate-cuisine-images.ts": 1,
     "scripts/generate-esms-baseline.ts": 1,
     "scripts/generate-method-images.ts": 3,
     "scripts/generate-recipe-images.ts": 7,
-    "scripts/healConstitutionGeometry.ts": 3,
-    "scripts/list_users.ts": 1,
-    "scripts/measureDignityBaselineDelta.ts": 1,
-    "scripts/migrate.ts": 2,
-    "scripts/migrateDataToBackend.ts": 5,
-    "scripts/provision-privy-server-wallets.ts": 2,
-    "scripts/purgeCoverageJunk.ts": 1,
-    "scripts/ratchetNullishCoalescing.ts": 2,
-    "scripts/resolveThermoCallers.ts": 1,
-    "scripts/spacetime/seedCulinary.ts": 2,
-    "scripts/stripe-mcp-top-up-e2e.ts": 4,
-    "scripts/updateRecipeNutrition.ts": 3
+    "scripts/healConstitutionGeometry.ts": 3
   }
 }

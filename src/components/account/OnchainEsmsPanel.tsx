@@ -12,39 +12,17 @@
 import { ArrowDownToLine, ExternalLink, Loader2, RefreshCw } from "lucide-react";
 import { useCallback, useEffect, useState, type JSX } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  OnchainClaimPostResponseSchema,
+  OnchainEsmsStatusSchema,
+  type OnchainEsmsStatusView as OnchainStatus,
+} from "@/lib/validation/accountResponseSchemas";
 
 interface CoinAmounts {
   spirit: number;
   essence: number;
   matter: number;
   substance: number;
-}
-
-interface ClaimInfo {
-  claimId: string;
-  amounts: CoinAmounts;
-  status: "pending" | "minted" | "refunded";
-  txHash: string | null;
-  explorerUrl?: string | null;
-  createdAt?: string;
-}
-
-interface OnchainStatus {
-  success: boolean;
-  configured: boolean;
-  walletAddress: string | null;
-  walletLinked: boolean;
-  offchain: CoinAmounts;
-  onchain: CoinAmounts | null;
-  pendingClaim: (ClaimInfo & { id: string }) | null;
-  recentClaims: Array<ClaimInfo & { id: string; createdAt: string }>;
-  chain: {
-    chainId: number;
-    chainName: string;
-    testnet: boolean;
-    contractAddress: string | null;
-    explorerBaseUrl: string | null;
-  };
 }
 
 const COINS: Array<{ key: keyof CoinAmounts; label: string; symbol: string; color: string }> = [
@@ -91,7 +69,8 @@ export function OnchainEsmsPanel(): JSX.Element | null {
         setStatus(null);
         return;
       }
-      setStatus((await res.json()) as OnchainStatus);
+      const parsed = OnchainEsmsStatusSchema.safeParse(await res.json());
+      setStatus(parsed.success ? parsed.data : null);
     } catch {
       setStatus(null);
     } finally {
@@ -108,13 +87,13 @@ export function OnchainEsmsPanel(): JSX.Element | null {
     setNotice(null);
     try {
       const res = await fetch("/api/economy/claim-onchain", { method: "POST" });
-      const json = (await res.json()) as {
-        success?: boolean;
-        error?: string;
-        code?: string;
-        retryable?: boolean;
-        claim?: ClaimInfo;
-      };
+      const parsed = OnchainClaimPostResponseSchema.safeParse(await res.json());
+      if (!parsed.success) {
+        // The claim may have gone through; the refresh below shows its real state.
+        setNotice({ kind: "err", text: "Could not read the claim result — check the claim history below." });
+        return;
+      }
+      const json = parsed.data;
       if (json.success) {
         const claimed = json.claim ? totalOf(json.claim.amounts) : 0;
         setNotice({

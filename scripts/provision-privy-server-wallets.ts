@@ -112,9 +112,14 @@ async function main() {
   }
   const MINTER_ROLE = keccak256(toHex("MINTER_ROLE"));
   const BURNER_ROLE = keccak256(toHex("BURNER_ROLE"));
+  const minterWallet = wallets[0];
+  const burnerWallet = wallets[1];
+  if (!minterWallet || !burnerWallet) {
+    throw new Error("Expected at least two wallets");
+  }
   const grants: Array<{ role: Hex; label: string; account: Address }> = [
-    { role: MINTER_ROLE, label: "MINTER_ROLE", account: wallets[0].address as Address },
-    { role: BURNER_ROLE, label: "BURNER_ROLE", account: wallets[1].address as Address },
+    { role: MINTER_ROLE, label: "MINTER_ROLE", account: minterWallet.address as Address },
+    { role: BURNER_ROLE, label: "BURNER_ROLE", account: burnerWallet.address as Address },
   ];
 
   const adminKey = process.env.ESMS_ADMIN_PRIVATE_KEY as Hex | undefined;

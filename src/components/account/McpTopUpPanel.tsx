@@ -13,8 +13,10 @@
 import { Check, CircleX, ExternalLink, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState, type JSX } from "react";
+import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { EconomyBalanceResponseSchema } from "@/lib/validation/accountResponseSchemas";
 
 interface SkuOption {
   sku: string;
@@ -31,11 +33,12 @@ interface BalanceState {
   substance: number;
 }
 
-interface TopUpResponse {
-  success: boolean;
-  url?: string;
-  error?: string;
-}
+/** POST /api/account/billing/mcp-top-up. Stripe types a session's `url` as nullable. */
+const topUpResponseSchema = z.object({
+  success: z.boolean(),
+  url: z.string().nullable().optional(),
+  error: z.string().optional(),
+});
 
 const STATIC_OPTIONS: SkuOption[] = [
   {
@@ -88,12 +91,9 @@ export function McpTopUpPanel(): JSX.Element {
           cache: "no-store",
         });
         if (!res.ok) return;
-        const json = (await res.json()) as {
-          success: boolean;
-          balances?: BalanceState;
-        };
-        if (cancelled || !json.balances) return;
-        setBalance(json.balances);
+        const parsed = EconomyBalanceResponseSchema.safeParse(await res.json());
+        if (cancelled || !parsed.success) return;
+        setBalance(parsed.data.balances);
       } finally {
         if (!cancelled) setBalanceLoaded(true);
       }
@@ -114,7 +114,10 @@ export function McpTopUpPanel(): JSX.Element {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ sku: selected }),
       });
-      const json = (await res.json()) as TopUpResponse;
+      const parsed = topUpResponseSchema.safeParse(await res.json());
+      const json = parsed.success
+        ? parsed.data
+        : { success: false, error: `Checkout failed (${res.status}).` };
       if (!res.ok || !json.success || !json.url) {
         setError(json.error ?? `Checkout failed (${res.status}).`);
         return;

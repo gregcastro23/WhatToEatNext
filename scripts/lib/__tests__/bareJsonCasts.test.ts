@@ -47,6 +47,42 @@ describe("bareJsonCasts gate", () => {
     });
   });
 
+  describe("predicate-less z.custom<T>()", () => {
+    it("counts z.custom<T>() with no predicate as a cast site", () => {
+      const sites = scanBareJsonCastsInSource(
+        "const S = z.object({ rows: z.array(z.custom<Row>()), one: z.custom<Row>().optional() });",
+        "src/a.ts",
+        false,
+      );
+      expect(sites.map((s) => [s.kind, s.typeText])).toEqual([
+        ["opaque-custom", "Row"],
+        ["opaque-custom", "Row"],
+      ]);
+    });
+
+    it("does not count z.custom<T>(predicate)", () => {
+      const sites = scanBareJsonCastsInSource(
+        "const S = z.custom<Row>((v) => typeof v === 'object' && v !== null);",
+        "src/a.ts",
+        false,
+      );
+      expect(sites).toEqual([]);
+    });
+
+    it("does not count a custom() that is not zod's", () => {
+      expect(scanBareJsonCastsInSource("const S = other.custom<Row>();", "src/a.ts", false)).toEqual([]);
+    });
+
+    it("counts both kinds in one file", () => {
+      const sites = scanBareJsonCastsInSource(
+        "const a = (await res.json()) as Row; const S = z.custom<Row>();",
+        "src/a.ts",
+        false,
+      );
+      expect(sites.map((s) => s.kind)).toEqual(["json-cast", "opaque-custom"]);
+    });
+  });
+
   describe("compareBareJsonCasts", () => {
     const base: BareJsonCastsBaseline = {
       total: 220,

@@ -6,7 +6,13 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
+import { z } from "zod";
 import type { InboxEntry } from "@/types/chat";
+
+const chatInboxResponseSchema = z.object({
+  conversations: z.array(z.custom<InboxEntry>()).optional(),
+  viewerId: z.string().nullable().optional(),
+});
 
 const POLL_MS = 30_000;
 
@@ -35,7 +41,8 @@ export function useChatInbox(enabled = true): UseChatInboxResult {
         setError(res.status === 401 ? "Sign in to see your messages." : "Could not load messages.");
         return;
       }
-      const data = (await res.json()) as { conversations?: InboxEntry[]; viewerId?: string | null };
+      const parsed = chatInboxResponseSchema.safeParse(await res.json());
+      const data = parsed.success ? parsed.data : {};
       setEntries(data.conversations ?? []);
       setViewerId(data.viewerId ?? null);
       setError(null);

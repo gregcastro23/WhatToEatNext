@@ -68,7 +68,7 @@ async function main() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "X-Sync-Secret": WTEN_SECRET,
+            "X-Sync-Secret": WTEN_SECRET ?? "",
           },
           body: JSON.stringify({
             email: agent.email,
