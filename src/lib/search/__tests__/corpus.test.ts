@@ -214,7 +214,7 @@ describe("golden queries (plan §8)", () => {
     ["spinach", "ingredient", "/ingredients/spinach", true],
     ["aubergine", "ingredient", "/ingredients/eggplant", true],
     ["thai", "cuisine", "/cuisines/thai", true],
-    ["carbonara", "sauce", "/sauces", true],
+    ["carbonara", "sauce", "/sauces?focus=carbonara", true],
     ["pinach", "ingredient", "/ingredients/spinach", false],
     ["spinich", "ingredient", "/ingredients/spinach", false],
   ])("top hit for %s: %s at %s, exact=%s (tier 0 only)", (query, kind, href, exact) => {

@@ -43,7 +43,7 @@ export const OMNIBAR_RESULTS_CSS = `
   margin-top: 2px; font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.12em; color: var(--fg-mute);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.omni-opt[data-kind="search"] .omni-opt-label { color: var(--accent); }
+[data-section="all"] .omni-opt-label { color: var(--accent); }
 .omni-hero { display: grid; grid-template-columns: 52px 1fr auto auto; gap: 14px; align-items: center; }
 .omni-hero-thumb {
   width: 52px; height: 52px; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center;
@@ -69,6 +69,18 @@ export const OMNIBAR_RESULTS_CSS = `
 .omni-hero-count { display: flex; flex-direction: column; align-items: flex-end; }
 .omni-hero-count-n { font-family: var(--f-display); font-size: 22px; line-height: 1; color: var(--fg); }
 .omni-hero-count-l { font-family: var(--f-mono); font-size: 8px; letter-spacing: 0.14em; color: var(--fg-mute); }
+.omni-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 10px 8px 76px; }
+.omni-chip {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 5px 12px;
+  border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,0.03);
+  color: var(--fg-dim); font-size: 12px; font-family: var(--f-body); cursor: pointer; text-decoration: none;
+}
+.omni-chip[aria-selected="true"] {
+  color: var(--fg); background: color-mix(in oklch, var(--accent), transparent 80%);
+  border-color: color-mix(in oklch, var(--accent), transparent 45%);
+}
+.omni-chip[data-pressed="true"] { color: var(--el-earth, oklch(0.74 0.11 130)); }
+.omni-notice { color: var(--el-earth, oklch(0.74 0.11 130)); }
 .omni-footer {
   display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
   padding: 9px 16px; border-top: 1px solid var(--line); background: rgba(255,255,255,0.015);
@@ -105,8 +117,10 @@ export const OMNIBAR_RESULTS_CSS = `
   color: var(--accent); font-size: 14px; cursor: pointer;
 }
 .omni-sheet .omni-footer { display: none; }
+.omni-sheet .omni-chip { min-height: 44px; }
 .omni-sheet .omni-listbox { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
 @media (max-width: 520px) {
+  .omni-chips { padding-left: 10px; }
   .omni-hero { grid-template-columns: 44px 1fr auto; }
   .omni-hero-thumb { width: 44px; height: 44px; }
   .omni-meter { display: none; }

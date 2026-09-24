@@ -31,13 +31,34 @@ export interface HeroRow extends RowBase {
   hero: OmnibarHero;
 }
 
-export type OmnibarRow = LinkRow | HeroRow;
+/** The hero's actions (plan §7 Phase 4). */
+export type HeroActionKind = "cook" | "pantry" | "pairings";
+
+/**
+ * A hero action. `cook` navigates to `href`; `pantry` adds the card to the
+ * local pantry, or opens the pantry once it is there; `pairings` shows or
+ * hides the card's pairings in place.
+ */
+export interface ActionRow extends RowBase {
+  type: "action";
+  action: HeroActionKind;
+  icon: GlyphName;
+  /** For the hero's own facts: the card the action is about. */
+  hero: OmnibarHero;
+  /** pantry: already in the pantry. pairings: the list is showing. */
+  pressed: boolean;
+}
+
+export type OmnibarRow = LinkRow | HeroRow | ActionRow;
 
 export interface OmnibarSection {
   id: string;
-  /** Empty for the trailing "see all" row. */
+  /** Empty for the trailing "see all" row and the action chips. */
   title: string;
   rows: OmnibarRow[];
+  /** "chips": one horizontal row (the hero's actions), labelled for screen readers. */
+  layout?: "chips";
+  label?: string;
 }
 
 /** idle = no query; loading = the current query's results have not arrived. */

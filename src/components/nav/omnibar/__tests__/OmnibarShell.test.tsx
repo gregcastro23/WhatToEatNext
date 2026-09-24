@@ -168,6 +168,70 @@ describe("desktop dropdown", () => {
   });
 });
 
+describe("hero actions (Phase 4)", () => {
+  async function onHero(): Promise<{ input: HTMLElement; listbox: HTMLElement }> {
+    const input = openInput();
+    const listbox = await type(input, "spinach");
+    fireEvent.keyDown(input, { key: "ArrowDown" });
+    await waitFor(() => expect(activeText(input)).toMatch(/^Spinach/));
+    return { input, listbox };
+  }
+
+  function activeText(input: HTMLElement): string {
+    return document.getElementById(input.getAttribute("aria-activedescendant") ?? "")?.textContent ?? "";
+  }
+
+  it("→ walks from the hero along its actions, ← walks back and stops at the hero", async () => {
+    const { input } = await onHero();
+    fireEvent.keyDown(input, { key: "ArrowRight" });
+    await waitFor(() => expect(activeText(input)).toBe("Cook with this"));
+    fireEvent.keyDown(input, { key: "ArrowRight" });
+    await waitFor(() => expect(activeText(input)).toBe("Add to pantry"));
+    fireEvent.keyDown(input, { key: "ArrowLeft" });
+    fireEvent.keyDown(input, { key: "ArrowLeft" });
+    await waitFor(() => expect(activeText(input)).toMatch(/^Spinach/));
+    fireEvent.keyDown(input, { key: "ArrowLeft" });
+    expect(activeText(input)).toMatch(/^Spinach/);
+  });
+
+  it("↵ on Cook with this opens the builder with the card queued", async () => {
+    const { input } = await onHero();
+    fireEvent.keyDown(input, { key: "ArrowRight" });
+    await waitFor(() => expect(activeText(input)).toBe("Cook with this"));
+    fireEvent.keyDown(input, { key: "Enter" });
+    expect(push).toHaveBeenCalledWith("/recipe-builder?ingredients=spinach");
+  });
+
+  it("Add to pantry adds the card once, says so, and then opens the pantry", async () => {
+    const { input } = await onHero();
+    fireEvent.keyDown(input, { key: "ArrowRight" });
+    fireEvent.keyDown(input, { key: "ArrowRight" });
+    await waitFor(() => expect(activeText(input)).toBe("Add to pantry"));
+    fireEvent.keyDown(input, { key: "Enter" });
+    await waitFor(() => expect(activeText(input)).toBe("In your pantry"));
+    expect(screen.getAllByText("Added Spinach to your pantry").length).toBeGreaterThan(0);
+    const stored: unknown = JSON.parse(window.localStorage.getItem("alchm_pantry") ?? "[]");
+    expect(stored).toEqual([expect.objectContaining({ name: "spinach", quantity: 1, unit: "unit" })]);
+    expect(push).not.toHaveBeenCalled();
+    fireEvent.keyDown(input, { key: "Enter" });
+    expect(push).toHaveBeenCalledWith("/pantry");
+  });
+
+  it("Show pairings opens the list in place, linked to the paired cards, and hides it again", async () => {
+    const { listbox } = await onHero();
+    const chip = within(listbox).getByRole("option", { name: /^Show pairings/, hidden: true });
+    fireEvent.click(chip);
+    const heading = await within(listbox).findByText("PAIRS WITH SPINACH");
+    const group = heading.closest('[role="group"]');
+    if (!(group instanceof HTMLElement)) throw new Error("pairings render outside a group");
+    const links = within(group).getAllByRole("option", { hidden: true }).map((o) => o.getAttribute("href"));
+    expect(links.some((href) => href?.startsWith("/ingredients/"))).toBe(true);
+    expect(push).not.toHaveBeenCalled();
+    fireEvent.click(within(listbox).getByRole("option", { name: "Hide pairings", hidden: true }));
+    await waitFor(() => expect(within(listbox).queryByText("PAIRS WITH SPINACH")).not.toBeInTheDocument());
+  });
+});
+
 describe("mobile sheet", () => {
   it("⌘K opens a modal sheet with its own search; Esc closes it and focus returns to the icon", async () => {
     desktop = false;

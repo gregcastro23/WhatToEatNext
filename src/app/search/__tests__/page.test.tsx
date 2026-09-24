@@ -72,6 +72,13 @@ describe("SearchPage", () => {
     expect(Number(match?.[2])).toBe(shown);
   });
 
+  it("the hero carries its actions and its pairings (Phase 4)", async () => {
+    const page = await html("spinach");
+    expect(page).toContain('href="/recipe-builder?ingredients=spinach"');
+    expect(page).toContain("Add to pantry");
+    expect(page).toContain("PAIRS WITH SPINACH");
+  });
+
   it("pinach: says which ingredient it is showing, and why", async () => {
     expect(await html("pinach")).toContain("Showing results for <strong>spinach</strong> (no exact match for “pinach”)");
   });

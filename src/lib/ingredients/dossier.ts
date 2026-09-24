@@ -13,6 +13,7 @@ import { containingRows, DEFAULT_CONTAINING } from "@/lib/search/omnibar";
 import { toDossierCard, type DossierCard } from "./dossierView";
 import { catalogRecord, resolveCatalogIngredient, type CatalogIngredient } from "./ingredientCatalog";
 import { ingredientHref } from "./ingredientSlug";
+import { resolvePairings, type PairingLink } from "./pairings";
 
 export type DossierTarget =
   | { kind: "dossier"; entry: CatalogIngredient }
@@ -36,6 +37,8 @@ export interface IngredientDossier {
   recipes: readonly DossierRecipe[];
   /** Every live recipe that uses the ingredient, not just the listed ones. */
   recipeCount: number;
+  /** The card's pairings, linked to their cards where the name is one. */
+  pairings: readonly PairingLink[];
 }
 
 function decoded(param: string): string {
@@ -64,12 +67,14 @@ export async function getIngredientDossier(entry: CatalogIngredient): Promise<In
       alternative,
     }),
   );
+  const card = toDossierCard(catalogRecord(entry), entry.name);
   return {
     slug: entry.slug,
     key: entry.key,
-    card: toDossierCard(catalogRecord(entry), entry.name),
+    card,
     recipes,
     recipeCount: index.recipeUses.get(entry.key)?.length ?? 0,
+    pairings: resolvePairings(card.pairings, entry.slug),
   };
 }
 

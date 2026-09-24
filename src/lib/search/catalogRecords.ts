@@ -6,7 +6,10 @@ import { SERVABLE_COOKING_METHOD_KEYS } from "@/constants/cookingMethodKeys";
 import { VALID_SEASONS, type Season } from "@/constants/seasons";
 import { getAlchemicalProfile } from "@/data/cooking/profiles";
 import type { Sauce } from "@/data/sauces";
+import { pairingsOf } from "@/lib/ingredients/dossierView";
 import type { CatalogIngredient } from "@/lib/ingredients/ingredientCatalog";
+import { resolvePairings } from "@/lib/ingredients/pairings";
+import { sauceHref } from "@/lib/sauces/sauceFocus";
 import type { Cuisine } from "@/types/cuisine";
 import type { Recipe } from "@/types/recipe";
 import { cuisineToSlug } from "@/utils/cuisineSlug";
@@ -94,6 +97,7 @@ function ingredientRecord(entry: CatalogIngredient): IngredientRecord {
     seasons: seasonsOf(firstDefined(cards, "season"), firstDefined(cards, "seasonality")),
     ...classificationOf(entry),
     ...appearanceOf(entry),
+    pairings: resolvePairings(pairingsOf(firstDefined(cards, "pairingRecommendations")), slug),
   };
 }
 
@@ -144,7 +148,7 @@ export function methodRecords(): NamedRecord[] {
 }
 
 /**
- * Sauces have no per-sauce page yet; Phase 4 adds a `?focus=` deep link. The
+ * Each sauce opens focused on /sauces (Phase 4's `?focus=` deep link). The
  * data's `variants` are match terms: Béarnaise exists only as a variant of
  * Hollandaise, so "béarnaise" should reach Hollandaise.
  */
@@ -152,7 +156,7 @@ export function sauceRecords(all: Readonly<Record<string, Sauce>>): NamedRecord[
   return Object.entries(all).map(([key, sauce]) => ({
     key,
     name: sauce.name,
-    href: "/sauces",
+    href: sauceHref(key),
     terms: [key.replace(/([a-z])([A-Z])/g, "$1 $2"), ...(sauce.variants ?? [])],
   }));
 }

@@ -51,6 +51,8 @@ const HeroSchema = z.object({
   elemental: ElementalSchema.nullable(),
   imageUrl: z.string().nullable(),
   recipeCount: z.number().int().nonnegative(),
+  /** Pairings; `href` is the paired card's dossier, null when the name is no card. */
+  pairings: z.array(z.object({ name: z.string(), href: z.string().nullable() })),
 });
 
 const CorrectionSchema = z.object({

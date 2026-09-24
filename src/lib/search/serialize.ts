@@ -3,6 +3,7 @@
  * destination) per the 2026-09-23 decision; the core keeps richer facts for
  * callers that want them.
  */
+import { ingredientHref } from "@/lib/ingredients/ingredientSlug";
 import type { OmnibarResponse } from "@/lib/validation/searchSchemas";
 import type { OmnibarResult, RecipeRow } from "./types";
 
@@ -24,6 +25,7 @@ export function toOmnibarResponse(result: OmnibarResult): OmnibarResponse {
           seasons: [...result.hero.seasons],
           qualities: [...result.hero.qualities],
           rulingPlanets: [...result.hero.rulingPlanets],
+          pairings: result.hero.pairings.map(({ name, slug }) => ({ name, href: slug === null ? null : ingredientHref(slug) })),
         }
       : null,
     recipesContaining: result.recipesContaining.map((row) => ({ ...textRow(row), alternative: row.alternative })),

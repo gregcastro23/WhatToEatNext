@@ -31,8 +31,26 @@ function remember(key: string, value: OmnibarResponse): void {
   if (oldest !== undefined) cache.delete(oldest);
 }
 
-async function request(key: string): Promise<OmnibarResponse> {
+/**
+ * One retry, after this long, for a request that never answered (network
+ * error, aborted) or answered 5xx: a transient failure (a cold start, a
+ * deploy, a dropped connection) should not leave the list on "unavailable"
+ * until the query is edited. 4xx is final: a 429 must not be hammered, and a
+ * 400 will not change.
+ */
+const RETRY_DELAY_MS = 400;
+
+async function attempt(key: string): Promise<Response> {
   const res = await fetch(`/api/search?q=${encodeURIComponent(key)}`);
+  if (res.status >= 500) throw new Error(`search failed: HTTP ${res.status}`);
+  return res;
+}
+
+async function request(key: string): Promise<OmnibarResponse> {
+  const res = await attempt(key).catch(async () => {
+    await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
+    return attempt(key);
+  });
   if (!res.ok) throw new Error(`search failed: HTTP ${res.status}`);
   const body = await readJson(res, OmnibarResponseSchema.parse);
   remember(key, body);

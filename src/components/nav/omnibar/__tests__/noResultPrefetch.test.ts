@@ -10,9 +10,12 @@ import { join } from "path";
 
 const RESULT_SURFACES = [
   "src/components/nav/omnibar/OmnibarResults.tsx",
+  "src/components/nav/omnibar/OmnibarActionChip.tsx",
   "src/components/search/SearchResultsView.tsx",
   "src/components/ingredients/dossier/DossierDetailPanels.tsx",
   "src/components/ingredients/dossier/TrendingTicker.tsx",
+  "src/components/sauces/SauceFocusCard.tsx",
+  "src/components/ingredients/IngredientActions.tsx",
 ];
 
 function linkTags(source: string): string[] {

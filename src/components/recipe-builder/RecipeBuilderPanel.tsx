@@ -21,6 +21,7 @@ import {
 import IngredientSearchBar from "./IngredientSearchBar";
 import IngredientSuggestions from "./IngredientSuggestions";
 import RecipeBuilderQueue from "./RecipeBuilderQueue";
+import { useIngredientPrefill } from "./useIngredientPrefill";
 
 // ===== Constants =====
 
@@ -478,6 +479,8 @@ interface RecipeBuilderPanelProps {
 export default function RecipeBuilderPanel({
   className = "",
 }: RecipeBuilderPanelProps) {
+  // "Cook with this" links arrive as ?ingredients=… (omnibar Phase 4).
+  useIngredientPrefill();
   return (
     <div className={`space-y-4 ${className}`}>
       {/* Header */}
