@@ -6,7 +6,14 @@ import {
 } from "../recipeIngredientIndex";
 import type { RecipeRecord } from "../types";
 
-const KEYS: Record<string, string> = { spinach: "spinach", "bok choy": "bok_choy", garlic: "garlic" };
+const KEYS: Record<string, string> = {
+  spinach: "spinach",
+  "bok choy": "bok_choy",
+  garlic: "garlic",
+  lamb: "lamb",
+  beef: "beef",
+  chicken: "chicken",
+};
 const keyOf: IngredientKeyResolver = (text) => KEYS[text.toLowerCase()] ?? null;
 const nameOf = (key: string): string => key.replace(/_/g, " ");
 
@@ -21,6 +28,18 @@ describe("keysForLine", () => {
 
   it("a plain line is required", () => {
     expect(keysForLine("spinach", keyOf)).toEqual({ keys: ["spinach"], alternative: false });
+  });
+
+  it("keeps every alternative of a comma list: 'lamb, beef, or chicken'", () => {
+    expect(keysForLine("lamb, beef, or chicken", keyOf)).toEqual({
+      keys: ["lamb", "beef", "chicken"],
+      alternative: true,
+    });
+  });
+
+  it("hands a required line to the resolver whole, commas included", () => {
+    // The stub knows "garlic" but not "garlic, minced": a comma split would find garlic.
+    expect(keysForLine("garlic, minced", keyOf)).toEqual({ keys: [], alternative: false });
   });
 });
 
