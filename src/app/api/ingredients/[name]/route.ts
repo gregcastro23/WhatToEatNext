@@ -75,6 +75,8 @@ function relatedRecipe(match: IndexMatch, recipe: Recipe | undefined): RelatedRe
     // Fallback if not loaded in memory
     return { id: match.recipeId, name: match.recipeName, cuisine: match.cuisine, amount, unit: match.unit };
   }
+  // Some catalog recipes carry an untyped baseServingSize.
+  const baseServings: unknown = Reflect.get(recipe, "baseServingSize");
   return {
     id: recipe.id,
     name: recipe.name,
@@ -82,10 +84,7 @@ function relatedRecipe(match: IndexMatch, recipe: Recipe | undefined): RelatedRe
     description: recipe.description,
     prepTime: extractTime(recipe, "prep"),
     cookTime: extractTime(recipe, "cook"),
-    servings:
-      (recipe as { baseServingSize?: number }).baseServingSize ??
-      recipe.servingSize ??
-      recipe.numberOfServings,
+    servings: typeof baseServings === "number" ? baseServings : (recipe.servingSize ?? recipe.numberOfServings),
     amount,
     unit: match.unit,
   };
