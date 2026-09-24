@@ -52,6 +52,7 @@ describe("GET /api/search", () => {
     const body = OmnibarResponseSchema.parse(await res.json());
     expect(body.hero).toMatchObject({ key: "spinach", href: "/ingredients/spinach" });
     expect(body.corrected).toEqual({ from: "pinach", to: "spinach", basis: "mid-word" });
+    expect(body.top).toMatchObject({ kind: "ingredient", key: "spinach", href: "/ingredients/spinach", exact: false });
     expect(body.recipesContaining.map((r) => r.name)).toEqual(["Spinach Pasta", "Dan Dan Noodles"]);
     expect(body.recipesContaining[1]?.alternative).toBe(true);
   });

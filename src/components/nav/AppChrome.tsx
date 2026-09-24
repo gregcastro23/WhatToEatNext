@@ -4,16 +4,15 @@ import { usePathname } from "next/navigation";
 import type { JSX, ReactNode } from "react";
 
 /**
- * Route-aware wrapper for the non-header chrome (footer + mobile tab bar +
- * command palette). The RedesignedHeader stays mounted on every route for
+ * Route-aware wrapper for the non-header chrome (footer + mobile tab bar).
+ * The RedesignedHeader, and with it the omnibar search, stays mounted on every route for
  * navigation/orientation, but on full-screen auth/gate splashes the footer
  * and tab bar compete with the splash's own affordances — so we hide them.
  *
  * Chromeless splash prefixes (footer + tab bar hidden):
  *   /login, /auth/*, /upgrade, /onboarding
  *
- * The command palette is always mounted because the ⌘K keybind should be
- * available everywhere.
+ * The ⌘K search lives in the header, so the keybind is available everywhere.
  */
 export function AppChromeFooter({ children }: { children: ReactNode }): JSX.Element | null {
   const pathname = usePathname();

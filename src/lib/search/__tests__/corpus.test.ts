@@ -210,7 +210,19 @@ describe("golden queries (plan §8)", () => {
     }
   });
 
+  it.each([
+    ["spinach", "ingredient", "/ingredients/spinach", true],
+    ["aubergine", "ingredient", "/ingredients/eggplant", true],
+    ["thai", "cuisine", "/cuisines/thai", true],
+    ["carbonara", "sauce", "/sauces", true],
+    ["pinach", "ingredient", "/ingredients/spinach", false],
+    ["spinich", "ingredient", "/ingredients/spinach", false],
+  ])("top hit for %s: %s at %s, exact=%s (tier 0 only)", (query, kind, href, exact) => {
+    expect(search(query).top).toMatchObject({ kind, href, exact });
+  });
+
   it("nonsense returns nothing rather than a wild guess", () => {
+    expect(search("xqzv").top).toBeNull();
     expect(search("xqzv").total).toEqual({ ingredient: 0, recipe: 0, cuisine: 0, method: 0, sauce: 0 });
   });
 

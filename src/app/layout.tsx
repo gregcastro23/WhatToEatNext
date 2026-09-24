@@ -5,7 +5,6 @@ import SignInModal from "@/components/auth/SignInModal";
 import TokenShopModal from "@/components/economy/TokenShopModal";
 import { GroceryCartDrawer } from "@/components/grocery-cart/GroceryCartDrawer";
 import { AppChromeFooter, AppChromeTabBar } from "@/components/nav/AppChrome";
-import { CommandPalette } from "@/components/nav/CommandPalette";
 import { MobileGlassTabBar } from "@/components/nav/MobileGlassTabBar";
 import { NavigationProgress } from "@/components/nav/NavigationProgress";
 import { RedesignedFooter } from "@/components/nav/RedesignedFooter";
@@ -131,7 +130,6 @@ export default function RootLayout({
           <AppChromeFooter>
             <RedesignedFooter />
           </AppChromeFooter>
-          <CommandPalette />
           <NavigationProgress />
           <AppChromeTabBar>
             <MobileGlassTabBar />
