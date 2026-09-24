@@ -55,6 +55,14 @@ describe("getIngredientDossier", () => {
     expect(dossier.recipes.every(({ href }) => href.startsWith("/recipes/"))).toBe(true);
   });
 
+  it("links pairings that are cards and keeps the rest as text (Phase 4)", async () => {
+    const dossier = await getIngredientDossier(entry("spinach"));
+    expect(dossier.pairings.length).toBeGreaterThan(0);
+    expect(dossier.pairings.some((p) => p.slug !== null)).toBe(true);
+    expect(dossier.pairings.every((p) => p.slug === null || getIngredientCatalog().bySlug.has(p.slug))).toBe(true);
+    expect(dossier.pairings.map((p) => p.slug)).not.toContain("spinach");
+  });
+
   it("gives a unified-only card its dossier: eggs", async () => {
     const dossier = await getIngredientDossier(entry("chicken-egg"));
     expect(dossier.card).toMatchObject({ name: "Chicken Egg", category: "protein" });

@@ -8,6 +8,8 @@ import Link from "next/link";
 import { SeasonalityChart, SensoryRadar } from "@/components/ui/alchm";
 import type { DossierRecipe } from "@/lib/ingredients/dossier";
 import type { DossierCard } from "@/lib/ingredients/dossierView";
+import { ingredientHref } from "@/lib/ingredients/ingredientSlug";
+import type { PairingLink } from "@/lib/ingredients/pairings";
 import { buildSensoryAxes, buildYieldCurve } from "./dossierCharts";
 import type { JSX } from "react";
 
@@ -112,18 +114,25 @@ export function UsedInPanel({ recipes, recipeCount }: { recipes: readonly Dossie
   );
 }
 
-export function PairingsPanel({ pairings }: { pairings: readonly string[] }): JSX.Element {
+/** Pairings link to their cards where the name is one; the rest stay text (never a guess). */
+export function PairingsPanel({ pairings }: { pairings: readonly PairingLink[] }): JSX.Element {
   return (
-    <div>
+    <div id="pairings">
       <div className="t-tag" style={{ marginBottom: 10 }}>
         PAIRS WITH
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-        {pairings.slice(0, 6).map((name) => (
-          <span key={name} className="alchm-chip">
-            {name}
-          </span>
-        ))}
+        {pairings.map(({ name, slug }) =>
+          slug === null ? (
+            <span key={name} className="alchm-chip">
+              {name}
+            </span>
+          ) : (
+            <Link key={slug} href={ingredientHref(slug)} prefetch={false} className="alchm-chip" style={{ textDecoration: "none" }}>
+              {name}
+            </Link>
+          ),
+        )}
         {pairings.length === 0 && (
           <span className="t-mono" style={{ fontSize: 10, color: "var(--fg-mute)" }}>
             no pairings indexed

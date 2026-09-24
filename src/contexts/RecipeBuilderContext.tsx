@@ -84,6 +84,13 @@ export interface RecipeBuilderContextType extends RecipeBuilderState {
 
   // Actions
   clearQueue: () => void;
+
+  /**
+   * True once the saved queue has loaded from localStorage. Additions made
+   * before then are overwritten by the saved state (the provider's load runs
+   * after its children's effects), so a prefill waits for this.
+   */
+  isReady: boolean;
 }
 
 const initialState: RecipeBuilderState = {
@@ -317,9 +324,11 @@ export function RecipeBuilderProvider({
       hasCookingMethod,
       totalItems,
       clearQueue,
+      isReady: isInitialized,
     }),
     [
       state,
+      isInitialized,
       setMealType,
       addFlavor,
       removeFlavor,

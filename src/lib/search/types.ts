@@ -6,6 +6,7 @@
  * the omnibar *result* is what the API (Phase 2) will serialize.
  */
 import type { Season } from "@/constants/seasons";
+import type { PairingLink } from "@/lib/ingredients/pairings";
 
 export type SearchKind = "ingredient" | "recipe" | "cuisine" | "method" | "sauce";
 
@@ -29,6 +30,8 @@ export interface IngredientRecord {
   rulingPlanets: readonly string[];
   elemental: ElementalVector | null;
   imageUrl: string | null;
+  /** The card's pairings, linked to their cards where the name is one. */
+  pairings: readonly PairingLink[];
 }
 
 export interface RecipeRecord {
@@ -95,6 +98,7 @@ export interface IngredientHero {
   imageUrl: string | null;
   /** Distinct live recipes that use the ingredient. */
   recipeCount: number;
+  pairings: readonly PairingLink[];
 }
 
 export interface RecipeRow {

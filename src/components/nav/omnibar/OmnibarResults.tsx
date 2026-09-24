@@ -8,12 +8,13 @@
 import Link from "next/link";
 import { useEffect, type JSX, type MouseEvent } from "react";
 import { Glyph } from "@/components/ui/alchm/Glyph";
+import { OmnibarActionChip } from "./OmnibarActionChip";
 import { OmnibarHeroRow } from "./OmnibarHeroRow";
-import { optionId, type OmnibarCorrection, type OmnibarRow } from "./omnibarTypes";
+import { optionId, type LinkRow, type HeroRow, type OmnibarCorrection, type OmnibarRow, type OmnibarSection } from "./omnibarTypes";
 import type { OmnibarController } from "./useOmnibarController";
 
 interface RowProps {
-  row: OmnibarRow;
+  row: LinkRow | HeroRow;
   id: string;
   selected: boolean;
   onHover: () => void;
@@ -69,6 +70,7 @@ function CorrectionLine({ correction }: { correction: OmnibarCorrection }): JSX.
 }
 
 function announcement(controller: OmnibarController): string {
+  if (controller.notice !== null) return controller.notice;
   if (controller.status === "loading") return "Searching";
   if (controller.status === "error") return "Search is unavailable right now";
   const count = controller.rows.filter((row) => row.kind !== "search").length;
@@ -86,8 +88,27 @@ function keepFocus(event: MouseEvent<HTMLDivElement>): void {
   event.preventDefault();
 }
 
+function Row({ row, at, controller, listboxId }: { row: OmnibarRow; at: number; controller: OmnibarController; listboxId: string }): JSX.Element {
+  const shared = {
+    id: optionId(listboxId, at),
+    selected: at === controller.activeIndex,
+    onHover: (): void => controller.setActiveIndex(at),
+    onPicked: (): void => controller.onPicked(row),
+  };
+  return row.type === "action" ? (
+    <OmnibarActionChip {...shared} row={row} onRun={() => controller.activate(row, false)} />
+  ) : (
+    <OptionRow {...shared} row={row} />
+  );
+}
+
+/** A section's heading, or for the chips a group label only screen readers hear. */
+function groupProps(section: OmnibarSection, listboxId: string): { "aria-labelledby"?: string; "aria-label"?: string; className?: string } {
+  if (section.layout === "chips") return { "aria-label": section.label ?? "Actions", className: "omni-chips" };
+  return section.title ? { "aria-labelledby": `${listboxId}-${section.id}` } : {};
+}
+
 function ResultList({ controller, listboxId, keepInputFocus }: OmnibarResultsProps): JSX.Element {
-  const { model, activeIndex } = controller;
   let index = -1;
   return (
     <div
@@ -98,8 +119,8 @@ function ResultList({ controller, listboxId, keepInputFocus }: OmnibarResultsPro
       className="omni-listbox"
       onMouseDown={keepInputFocus ? keepFocus : undefined}
     >
-      {model.sections.map((section) => (
-        <div key={section.id} role="group" aria-labelledby={section.title ? `${listboxId}-${section.id}` : undefined}>
+      {controller.model.sections.map((section) => (
+        <div key={section.id} role="group" data-section={section.id} {...groupProps(section, listboxId)}>
           {section.title ? (
             <div id={`${listboxId}-${section.id}`} className="omni-sec-title" role="presentation">
               {section.title}
@@ -107,17 +128,7 @@ function ResultList({ controller, listboxId, keepInputFocus }: OmnibarResultsPro
           ) : null}
           {section.rows.map((row) => {
             index += 1;
-            const at = index;
-            return (
-              <OptionRow
-                key={row.id}
-                row={row}
-                id={optionId(listboxId, at)}
-                selected={at === activeIndex}
-                onHover={() => controller.setActiveIndex(at)}
-                onPicked={() => controller.onPicked(row)}
-              />
-            );
+            return <Row key={row.id} row={row} at={index} controller={controller} listboxId={listboxId} />;
           })}
         </div>
       ))}
@@ -126,11 +137,13 @@ function ResultList({ controller, listboxId, keepInputFocus }: OmnibarResultsPro
 }
 
 function ResultsFooter({ controller }: { controller: OmnibarController }): JSX.Element {
-  const enterLabel = controller.activeIndex >= 0 ? "OPEN" : (controller.enter?.label ?? "OPEN");
+  const active = controller.rows[controller.activeIndex];
+  const enterLabel = active ? "OPEN" : (controller.enter?.label ?? "OPEN");
+  const onHero = active?.type === "hero" || active?.type === "action";
   return (
     <div className="omni-footer" aria-hidden="true">
       <span>
-        <kbd>↑↓</kbd> NAVIGATE <kbd>↵</kbd> {enterLabel} <kbd>⌘↵</kbd> NEW TAB
+        <kbd>↑↓</kbd> NAVIGATE {onHero ? <><kbd>←→</kbd> ACTIONS </> : null}<kbd>↵</kbd> {enterLabel} <kbd>⌘↵</kbd> NEW TAB
       </span>
       <span>
         <kbd>ESC</kbd> CLOSE
@@ -151,6 +164,7 @@ export function OmnibarResults(props: OmnibarResultsProps): JSX.Element {
       {model.correction ? <CorrectionLine correction={model.correction} /> : null}
       {status === "error" ? <div className="omni-status">Search is unavailable right now. Pages still work.</div> : null}
       {status === "loading" ? <div className="omni-status">Searching…</div> : null}
+      {controller.notice !== null ? <div className="omni-status omni-notice">{controller.notice}</div> : null}
       <ResultList {...props} />
       <ResultsFooter controller={controller} />
       <div className="omni-sr-only" role="status" aria-live="polite">

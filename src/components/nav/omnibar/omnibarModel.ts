@@ -1,5 +1,5 @@
 /**
- * Query + server response → the omnibar's sections (plan §6, Phase 3).
+ * Query + server response → the omnibar's sections (plan §6, Phases 3–4).
  *
  * Order: local pages first (instant, D6), then the server's results with the
  * top hit's kind leading, then "see all". Merge rule: a page whose label is
@@ -9,19 +9,11 @@
 import { titleCase } from "@/lib/ingredients/dossierView";
 import type { OmnibarResponse } from "@/lib/validation/searchSchemas";
 import { matchNav, quickActions } from "./navMatches";
-import {
-  KIND_ICON,
-  type LinkRow,
-  type OmnibarCorrection,
-  type OmnibarRow,
-  type OmnibarSection,
-  searchHref,
-  type RowKind,
-  type SearchStatus,
-} from "./omnibarTypes";
+import { heroSections, NO_HERO_STATE, type HeroState } from "./omnibarHero";
+import { link, recipeRow } from "./omnibarRows";
+import { searchHref, type LinkRow, type OmnibarCorrection, type OmnibarSection, type SearchStatus } from "./omnibarTypes";
 
 export type ServerKind = OmnibarResponse["ingredients"][number]["kind"];
-type RecipeWire = OmnibarResponse["recipes"][number];
 
 /** Dropdown row caps; `/search` lists everything. */
 export const LIMITS: Readonly<Record<"pages" | "recent" | "containing" | "perKind", number>> = {
@@ -52,6 +44,8 @@ export interface OmnibarModelInput {
   response: OmnibarResponse | null;
   status: SearchStatus;
   recent: readonly LinkRow[];
+  /** Pantry contents and the open pairings list, for the hero's actions. */
+  heroState?: HeroState;
 }
 
 export interface OmnibarModel {
@@ -60,37 +54,9 @@ export interface OmnibarModel {
   exactNav: LinkRow | null;
 }
 
-function link(kind: RowKind, id: string, label: string, hint: string, href: string): LinkRow {
-  return { type: "link", id, kind, label, hint, href, icon: KIND_ICON[kind], external: false };
-}
-
-function recipeRow(section: string, recipe: RecipeWire, alternative = false): LinkRow {
-  const hint = `${(recipe.cuisine ?? "recipe").toUpperCase()}${alternative ? " · AS AN ALTERNATIVE" : ""}`;
-  return link("recipe", `${section}:${recipe.id}`, recipe.name, hint, recipe.href);
-}
-
-function heroSections(response: OmnibarResponse): OmnibarSection[] {
-  const { hero } = response;
-  if (!hero) return [];
-  const heroRow: OmnibarRow = {
-    type: "hero",
-    id: `hero:${hero.key}`,
-    kind: "ingredient",
-    label: titleCase(hero.name),
-    hint: hero.category.toUpperCase(),
-    href: hero.href,
-    hero,
-  };
-  const containing = response.recipesContaining.slice(0, LIMITS.containing).map((r) => recipeRow("with", r, r.alternative));
-  return [
-    { id: "hero", title: "INGREDIENT", rows: [heroRow] },
-    { id: "with", title: `RECIPES WITH ${hero.name.toUpperCase()} · ${hero.recipeCount}`, rows: containing },
-  ];
-}
-
-function kindSections(response: OmnibarResponse, kind: ServerKind, withHero: boolean): OmnibarSection[] {
+function kindSections(response: OmnibarResponse, kind: ServerKind, hero: HeroState | null): OmnibarSection[] {
   if (kind === "recipe") {
-    const shown = new Set(withHero ? response.recipesContaining.map((r) => r.id) : []);
+    const shown = new Set(hero ? response.recipesContaining.map((r) => r.id) : []);
     const rows = response.recipes.filter((r) => !shown.has(r.id)).slice(0, LIMITS.perKind).map((r) => recipeRow("recipes", r));
     return [{ id: "recipes", title: KIND_TITLE.recipe, rows }];
   }
@@ -98,8 +64,8 @@ function kindSections(response: OmnibarResponse, kind: ServerKind, withHero: boo
   const rows = list
     .slice(0, LIMITS.perKind)
     .map((e) => link(kind, `${kind}:${e.key}`, kind === "ingredient" ? titleCase(e.name) : e.name, KIND_HINT[kind], e.href));
-  const hero = kind === "ingredient" && withHero ? heroSections(response) : [];
-  return [...hero, { id: kind, title: KIND_TITLE[kind], rows }];
+  const heroes = kind === "ingredient" && hero ? heroSections(response, hero, LIMITS.containing) : [];
+  return [...heroes, { id: kind, title: KIND_TITLE[kind], rows }];
 }
 
 /** Kinds in display order: the top hit's kind first, then the rest in a fixed order. */
@@ -108,9 +74,10 @@ export function orderedKinds(response: OmnibarResponse): readonly ServerKind[] {
   return lead ? [lead, ...KIND_ORDER.filter((k) => k !== lead)] : KIND_ORDER;
 }
 
-function serverSections(response: OmnibarResponse, suppressHero: boolean): OmnibarSection[] {
+/** `hero` null = the merge rule suppressed it. */
+function serverSections(response: OmnibarResponse, hero: HeroState | null): OmnibarSection[] {
   return orderedKinds(response)
-    .flatMap((kind) => kindSections(response, kind, !suppressHero))
+    .flatMap((kind) => kindSections(response, kind, hero))
     .filter((s) => s.rows.length > 0);
 }
 
@@ -142,12 +109,12 @@ function tailSections(query: string, status: SearchStatus, noServer: boolean, no
   return noPages ? [noMatchSection(query)] : [];
 }
 
-export function buildOmnibarModel({ query, response, status, recent }: OmnibarModelInput): OmnibarModel {
+export function buildOmnibarModel({ query, response, status, recent, heroState = NO_HERO_STATE }: OmnibarModelInput): OmnibarModel {
   const trimmed = query.trim();
   if (!trimmed) return { sections: emptyQuerySections(recent), correction: null, exactNav: null };
   const nav = matchNav(trimmed, LIMITS.pages);
   const pages: OmnibarSection[] = nav.rows.length > 0 ? [{ id: "pages", title: "PAGES", rows: nav.rows }] : [];
-  const server = response ? serverSections(response, nav.exact !== null) : [];
+  const server = response ? serverSections(response, nav.exact === null ? heroState : null) : [];
   const sections = [...pages, ...server, ...tailSections(trimmed, status, server.length === 0, pages.length === 0)];
   const correction = nav.exact === null && response ? response.corrected : null;
   return { sections, correction, exactNav: nav.exact };
@@ -160,19 +127,13 @@ export interface EnterTarget {
 }
 
 /**
- * Kinds whose href is the hit's own page. Every sauce links to the shared
- * /sauces page until Phase 4 adds `?focus=`, so Enter on "carbonara" (an
- * exact sauce) would land on a page that has lost the query.
- */
-const OWN_PAGE: Record<ServerKind, boolean> = { ingredient: true, recipe: true, cuisine: true, method: true, sauce: false };
-
-/**
  * Smart Enter (owner decision, round 2): an exact page or an exact top hit
- * opens directly; anything else goes to the full results page.
+ * opens directly; anything else goes to the full results page. Every kind now
+ * has its own page: a sauce opens focused on /sauces (Phase 4).
  */
 export function smartEnterTarget(query: string, exactNav: LinkRow | null, response: OmnibarResponse | null): EnterTarget {
   if (exactNav) return { href: exactNav.href, label: `OPEN ${exactNav.label.toUpperCase()}` };
   const best = response?.top;
-  if (best?.exact && OWN_PAGE[best.kind]) return { href: best.href, label: `OPEN ${titleCase(best.name).toUpperCase()}` };
+  if (best?.exact) return { href: best.href, label: `OPEN ${titleCase(best.name).toUpperCase()}` };
   return { href: searchHref(query), label: "ALL RESULTS" };
 }

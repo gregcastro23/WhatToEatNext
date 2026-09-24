@@ -20,8 +20,8 @@ import { GET } from "../route";
 
 const CATALOGS: SearchCatalogs = {
   ingredients: [
-    { key: "spinach", slug: "spinach", name: "spinach", aliases: [], category: "vegetable", seasons: ["spring", "autumn"], qualities: ["leafy"], rulingPlanets: ["Venus"], elemental: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 }, imageUrl: null },
-    { key: "garlic", slug: "garlic", name: "garlic", aliases: [], category: "vegetable", seasons: ["all"], qualities: [], rulingPlanets: [], elemental: null, imageUrl: null },
+    { key: "spinach", slug: "spinach", name: "spinach", aliases: [], category: "vegetable", seasons: ["spring", "autumn"], qualities: ["leafy"], rulingPlanets: ["Venus"], elemental: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 }, imageUrl: null, pairings: [{ name: "garlic", slug: "garlic" }, { name: "nutmeg", slug: null }] },
+    { key: "garlic", slug: "garlic", name: "garlic", aliases: [], category: "vegetable", seasons: ["all"], qualities: [], rulingPlanets: [], elemental: null, imageUrl: null, pairings: [] },
   ],
   recipes: [
     { id: "11111111-1111-4111-8111-111111111111", name: "Spinach Pasta", cuisine: "Italian", totalMinutes: 30, imageUrl: "https://example.test/a.png", ingredientLines: ["spinach", "garlic"] },
@@ -53,6 +53,11 @@ describe("GET /api/search", () => {
     expect(body.hero).toMatchObject({ key: "spinach", href: "/ingredients/spinach" });
     expect(body.corrected).toEqual({ from: "pinach", to: "spinach", basis: "mid-word" });
     expect(body.top).toMatchObject({ kind: "ingredient", key: "spinach", href: "/ingredients/spinach", exact: false });
+    // A pairing that is a card links to its dossier; one that is not stays unlinked.
+    expect(body.hero?.pairings).toEqual([
+      { name: "garlic", href: "/ingredients/garlic" },
+      { name: "nutmeg", href: null },
+    ]);
     expect(body.recipesContaining.map((r) => r.name)).toEqual(["Spinach Pasta", "Dan Dan Noodles"]);
     expect(body.recipesContaining[1]?.alternative).toBe(true);
   });

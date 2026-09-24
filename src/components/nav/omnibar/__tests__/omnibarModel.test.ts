@@ -6,7 +6,8 @@ import type { SearchIndex } from "@/lib/search/searchIndex";
 import type { OmnibarResponse } from "@/lib/validation/searchSchemas";
 import { matchNav } from "../navMatches";
 import { buildOmnibarModel, LIMITS, smartEnterTarget, type OmnibarModel } from "../omnibarModel";
-import type { LinkRow, SearchStatus } from "../omnibarTypes";
+import { NO_HERO_STATE, type HeroState } from "../omnibarHero";
+import type { LinkRow, OmnibarRow, SearchStatus } from "../omnibarTypes";
 import { loadRecent, pushRecent } from "../recentPicks";
 import { loadIndex, wire } from "./helpers/wireSearch";
 
@@ -42,14 +43,14 @@ describe("buildOmnibarModel", () => {
   it("spinich: the correction, the spinach hero, then the recipes that use it", () => {
     const m = model("spinich");
     expect(m.correction).toEqual({ from: "spinich", to: "spinach", basis: "edit-distance" });
-    expect(sectionIds(m).slice(0, 2)).toEqual(["hero", "with"]);
+    expect(sectionIds(m).slice(0, 3)).toEqual(["hero", "hero-actions", "with"]);
     const [hero] = m.sections[0]?.rows ?? [];
     expect(hero).toMatchObject({ type: "hero", label: "Spinach", href: "/ingredients/spinach" });
-    const withRows = m.sections[1]?.rows ?? [];
+    const withRows = m.sections[2]?.rows ?? [];
     expect(withRows.length).toBeGreaterThan(0);
     expect(withRows.length).toBeLessThanOrEqual(LIMITS.containing);
     expect(withRows.every((r) => r.href.startsWith("/recipes/"))).toBe(true);
-    expect(m.sections[1]?.title).toMatch(/^RECIPES WITH SPINACH · \d+$/);
+    expect(m.sections[2]?.title).toMatch(/^RECIPES WITH SPINACH · \d+$/);
     expect(sectionIds(m).at(-1)).toBe("all");
   });
 
@@ -92,6 +93,50 @@ describe("buildOmnibarModel", () => {
   });
 });
 
+describe("hero actions (Phase 4)", () => {
+  function heroModel(query: string, heroState: HeroState, response: OmnibarResponse = wire(index, query)): OmnibarModel {
+    return buildOmnibarModel({ query, response, status: "ready", recent: [], heroState });
+  }
+  const chips = (m: OmnibarModel): OmnibarRow[] => m.sections.find((s) => s.id === "hero-actions")?.rows ?? [];
+
+  it("spinach: Cook with this, Add to pantry, and Show pairings with the count", () => {
+    const m = heroModel("spinach", { pantry: new Set(), pairingsFor: null });
+    const response = wire(index, "spinach");
+    expect(chips(m).map((r) => [r.label, r.href])).toEqual([
+      ["Cook with this", "/recipe-builder?ingredients=spinach"],
+      ["Add to pantry", "/pantry"],
+      [`Show pairings · ${response.hero?.pairings.length}`, "/ingredients/spinach#pairings"],
+    ]);
+    expect(m.sections.find((s) => s.id === "hero-actions")).toMatchObject({ layout: "chips", label: "Actions for Spinach" });
+    expect(sectionIds(m)).not.toContain("pairings");
+  });
+
+  it("a card already in the pantry says so, and the chip then opens the pantry", () => {
+    const [, pantry] = chips(heroModel("spinach", { pantry: new Set(["spinach"]), pairingsFor: null }));
+    expect(pantry).toMatchObject({ type: "action", action: "pantry", label: "In your pantry", pressed: true, href: "/pantry" });
+  });
+
+  it("open pairings sit under the actions: cards link to their dossier, other names search", () => {
+    const m = heroModel("spinach", { pantry: new Set(), pairingsFor: "spinach" });
+    expect(sectionIds(m).slice(0, 4)).toEqual(["hero", "hero-actions", "pairings", "with"]);
+    const rows = m.sections.find((s) => s.id === "pairings")?.rows ?? [];
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows.every((r) => r.href.startsWith("/ingredients/") || r.href.startsWith("/search?q="))).toBe(true);
+    expect(rows.some((r) => r.href.startsWith("/ingredients/"))).toBe(true);
+    expect(chips(m)[2]).toMatchObject({ label: "Hide pairings", pressed: true });
+  });
+
+  it("a card with no pairings offers no pairings chip", () => {
+    const response = wire(index, "spinach");
+    const bare: OmnibarResponse = { ...response, hero: response.hero ? { ...response.hero, pairings: [] } : null };
+    expect(chips(heroModel("spinach", NO_HERO_STATE, bare)).map((r) => r.label)).toEqual(["Cook with this", "Add to pantry"]);
+  });
+
+  it("the merge rule hides the actions with the hero", () => {
+    expect(sectionIds(heroModel("pantry", NO_HERO_STATE))).not.toContain("hero-actions");
+  });
+});
+
 describe("smartEnterTarget (Smart Enter)", () => {
   it.each([
     ["spinach", "/ingredients/spinach"],
@@ -100,15 +145,15 @@ describe("smartEnterTarget (Smart Enter)", () => {
     ["pantry", "/pantry"],
     ["recipes", "/recipes"],
     ["spinich", "/search?q=spinich"],
-    // An exact sauce, but every sauce shares the /sauces page until Phase 4's ?focus=.
-    ["carbonara", "/search?q=carbonara"],
+    // An exact sauce opens focused on /sauces (Phase 4).
+    ["carbonara", "/sauces?focus=carbonara"],
     ["xqzv", "/search?q=xqzv"],
   ])("%s → %s", (query, href) => {
     expect(enterHref(query)).toBe(href);
   });
 
   it("carbonara's top hit really is an exact sauce (the control for the row above)", () => {
-    expect(wire(index, "carbonara").top).toMatchObject({ kind: "sauce", exact: true, href: "/sauces" });
+    expect(wire(index, "carbonara").top).toMatchObject({ kind: "sauce", exact: true, href: "/sauces?focus=carbonara" });
   });
 
   it("without this query's response yet, ↵ means the results page", () => {

@@ -59,6 +59,7 @@ function heroFor(index: SearchIndex, top: SearchHit, now: Date): IngredientHero 
     elemental: record.elemental,
     imageUrl: record.imageUrl,
     recipeCount: index.recipeUses.get(record.key)?.length ?? 0,
+    pairings: record.pairings,
   };
 }
 

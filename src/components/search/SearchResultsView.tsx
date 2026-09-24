@@ -5,6 +5,7 @@
  * plain GET, so refining works without JavaScript.
  */
 import Link from "next/link";
+import { IngredientActions } from "@/components/ingredients/IngredientActions";
 import { OmnibarHeroRow } from "@/components/nav/omnibar/OmnibarHeroRow";
 import { KIND_HINT, KIND_TITLE, orderedKinds, type ServerKind } from "@/components/nav/omnibar/omnibarModel";
 import { OMNIBAR_RESULTS_CSS } from "@/components/nav/omnibar/omnibarStyles";
@@ -25,7 +26,7 @@ const PAGE_CSS = `
 }
 .srch-note { color: var(--fg-dim); font-size: 14px; margin: 8px 0 20px; }
 .srch-note strong { color: var(--fg); }
-.srch-hero { display: block; padding: 14px; margin-bottom: 20px; border: 1px solid var(--line); border-radius: 12px; color: inherit; text-decoration: none; background: var(--surface); }
+.srch-hero { display: block; padding: 14px; margin-bottom: 12px; border: 1px solid var(--line); border-radius: 12px; color: inherit; text-decoration: none; background: var(--surface); }
 .srch-hero:hover { border-color: var(--line-hi); }
 .srch-sec { margin: 22px 0; }
 .srch-sec h2 { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.16em; color: var(--fg-mute); font-weight: 400; margin: 0 0 8px; }
@@ -90,6 +91,16 @@ function KindSection({ result, kind }: { result: OmnibarResponse; kind: ServerKi
   return <Section title={counted(kind, rows.length, result.total[kind])} rows={rows} />;
 }
 
+/** A pairing links to its card, or searches for the name when it is no card (as in the dropdown). */
+function pairingRows(hero: NonNullable<OmnibarResponse["hero"]>): Row[] {
+  return hero.pairings.map(({ name, href }) => ({
+    key: href ?? name,
+    label: titleCase(name),
+    hint: href === null ? "SEARCH" : "INGREDIENT",
+    href: href ?? `/search?q=${encodeURIComponent(name)}`,
+  }));
+}
+
 function HeroBlock({ result }: { result: OmnibarResponse }): JSX.Element | null {
   const { hero } = result;
   if (!hero) return null;
@@ -100,6 +111,8 @@ function HeroBlock({ result }: { result: OmnibarResponse }): JSX.Element | null 
       <Link href={hero.href} prefetch={false} className="srch-hero" aria-label={`${name}: open the ingredient`}>
         <OmnibarHeroRow hero={hero} label={name} />
       </Link>
+      <IngredientActions name={hero.name} category={hero.category} label={name} />
+      <Section title={`PAIRS WITH ${hero.name.toUpperCase()}`} rows={pairingRows(hero)} />
       <Section
         title={`RECIPES WITH ${hero.name.toUpperCase()} · ${hero.recipeCount}`}
         rows={result.recipesContaining.map((r) => ({
