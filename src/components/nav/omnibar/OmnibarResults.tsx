@@ -1,0 +1,154 @@
+"use client";
+
+/**
+ * The results listbox (ARIA combobox pattern): sections of options, one
+ * flat index across them, plus the did-you-mean line, a status line, the
+ * key hints, and a polite live region announcing the result count.
+ */
+import Link from "next/link";
+import { useEffect, type JSX, type MouseEvent } from "react";
+import { Glyph } from "@/components/ui/alchm/Glyph";
+import { OmnibarHeroRow } from "./OmnibarHeroRow";
+import { optionId, type OmnibarCorrection, type OmnibarRow } from "./omnibarTypes";
+import type { OmnibarController } from "./useOmnibarController";
+
+interface RowProps {
+  row: OmnibarRow;
+  id: string;
+  selected: boolean;
+  onHover: () => void;
+  onPicked: () => void;
+}
+
+function OptionRow({ row, id, selected, onHover, onPicked }: RowProps): JSX.Element {
+  const external = row.type === "link" && row.external;
+  return (
+    <Link
+      id={id}
+      role="option"
+      aria-selected={selected}
+      tabIndex={-1}
+      href={row.href}
+      className={row.type === "hero" ? "omni-opt omni-opt-hero" : "omni-opt"}
+      data-kind={row.kind}
+      onMouseMove={selected ? undefined : onHover}
+      onClick={onPicked}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {row.type === "hero" ? (
+        <OmnibarHeroRow hero={row.hero} label={row.label} />
+      ) : (
+        <>
+          <span className="omni-opt-icon" aria-hidden="true">
+            <Glyph name={row.icon} size={12} stroke={1.4} />
+          </span>
+          <span className="omni-opt-text">
+            <span className="omni-opt-label">{row.label}</span>
+            <span className="omni-opt-hint">{row.hint}</span>
+          </span>
+        </>
+      )}
+    </Link>
+  );
+}
+
+function CorrectionLine({ correction }: { correction: OmnibarCorrection }): JSX.Element {
+  const why = correction.basis === "synonym" ? `“${correction.from}” is another name for it` : `no exact match for “${correction.from}”`;
+  return (
+    <div className="omni-correction">
+      Showing results for <strong>{correction.to}</strong> <span className="omni-mute">· {why}</span>
+    </div>
+  );
+}
+
+function announcement(controller: OmnibarController): string {
+  if (controller.status === "loading") return "Searching";
+  if (controller.status === "error") return "Search is unavailable right now";
+  const count = controller.rows.filter((row) => row.kind !== "search").length;
+  return `${count} ${count === 1 ? "result" : "results"}`;
+}
+
+export interface OmnibarResultsProps {
+  controller: OmnibarController;
+  listboxId: string;
+  /** The desktop dropdown keeps focus in the input while a row is clicked. */
+  keepInputFocus: boolean;
+}
+
+function keepFocus(event: MouseEvent<HTMLDivElement>): void {
+  event.preventDefault();
+}
+
+function ResultList({ controller, listboxId, keepInputFocus }: OmnibarResultsProps): JSX.Element {
+  const { model, activeIndex } = controller;
+  let index = -1;
+  return (
+    <div
+      id={listboxId}
+      role="listbox"
+      tabIndex={-1}
+      aria-label="Search results"
+      className="omni-listbox"
+      onMouseDown={keepInputFocus ? keepFocus : undefined}
+    >
+      {model.sections.map((section) => (
+        <div key={section.id} role="group" aria-labelledby={section.title ? `${listboxId}-${section.id}` : undefined}>
+          {section.title ? (
+            <div id={`${listboxId}-${section.id}`} className="omni-sec-title" role="presentation">
+              {section.title}
+            </div>
+          ) : null}
+          {section.rows.map((row) => {
+            index += 1;
+            const at = index;
+            return (
+              <OptionRow
+                key={row.id}
+                row={row}
+                id={optionId(listboxId, at)}
+                selected={at === activeIndex}
+                onHover={() => controller.setActiveIndex(at)}
+                onPicked={() => controller.onPicked(row)}
+              />
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ResultsFooter({ controller }: { controller: OmnibarController }): JSX.Element {
+  const enterLabel = controller.activeIndex >= 0 ? "OPEN" : (controller.enter?.label ?? "OPEN");
+  return (
+    <div className="omni-footer" aria-hidden="true">
+      <span>
+        <kbd>↑↓</kbd> NAVIGATE <kbd>↵</kbd> {enterLabel} <kbd>⌘↵</kbd> NEW TAB
+      </span>
+      <span>
+        <kbd>ESC</kbd> CLOSE
+      </span>
+    </div>
+  );
+}
+
+export function OmnibarResults(props: OmnibarResultsProps): JSX.Element {
+  const { controller, listboxId } = props;
+  const { model, activeIndex, status } = controller;
+  useEffect(() => {
+    if (activeIndex < 0) return;
+    document.getElementById(optionId(listboxId, activeIndex))?.scrollIntoView({ block: "nearest" });
+  }, [activeIndex, listboxId]);
+  return (
+    <div className="omni-results">
+      {model.correction ? <CorrectionLine correction={model.correction} /> : null}
+      {status === "error" ? <div className="omni-status">Search is unavailable right now. Pages still work.</div> : null}
+      {status === "loading" ? <div className="omni-status">Searching…</div> : null}
+      <ResultList {...props} />
+      <ResultsFooter controller={controller} />
+      <div className="omni-sr-only" role="status" aria-live="polite">
+        {announcement(controller)}
+      </div>
+    </div>
+  );
+}

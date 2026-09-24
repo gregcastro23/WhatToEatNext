@@ -16,6 +16,7 @@ export function toOmnibarResponse(result: OmnibarResult): OmnibarResponse {
   return {
     success: true,
     query: result.query,
+    top: result.top,
     corrected: result.corrected,
     hero: result.hero
       ? {

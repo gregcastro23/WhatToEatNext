@@ -15,6 +15,7 @@ import {
   type PrimaryKey,
 } from "@/config/navigation";
 import { Logo } from "./Logo";
+import { OmnibarShell } from "./omnibar/OmnibarShell";
 
 const NotificationBell = dynamic(() => import("./NotificationBell"), { ssr: false });
 const MessagesBadge = dynamic(() => import("./MessagesBadge"), { ssr: false });
@@ -136,7 +137,7 @@ export interface RedesignedHeaderProps {
 
 /**
  * The redesigned alchm.kitchen header: 6 primary nav slots, mega-menus,
- * a ⌘K trigger, the live planetary chip, notifications, and the user chip.
+ * the omnibar search (⌘K), the live planetary chip, notifications, and the user chip.
  *
  * Sticky and present on every route. NAV_IA is the single source of truth.
  */
@@ -223,8 +224,6 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
     };
   }, [openMenu]);
 
-  const openPalette = () => window.dispatchEvent(new CustomEvent("alchm:palette:open"));
-
   const userInitial = session?.user?.name?.[0]?.toUpperCase() ?? "G";
   const userName = session?.user?.name ?? "Guest";
   const userId = session?.user?.id?.slice(0, 8).toUpperCase() ?? "VISITOR";
@@ -292,26 +291,6 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
           background: rgba(255,255,255,0.08);
         }
         .alchm-header-right { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
-        .alchm-header-search {
-          display: none;
-          align-items: center;
-          gap: 8px;
-          padding: 7px 10px 7px 12px;
-          background: rgba(255,255,255,0.025);
-          border: 1px solid var(--line);
-          border-radius: 8px;
-          cursor: pointer;
-          color: var(--fg-mute);
-        }
-        @media (min-width: 768px) {
-          .alchm-header-search { display: inline-flex; }
-        }
-        .alchm-header-search:hover { background: rgba(255,255,255,0.04); }
-        .alchm-header-search kbd {
-          margin-left: 18px; font-family: var(--f-mono); font-size: 9px;
-          color: var(--fg-faint); padding: 2px 6px;
-          border: 1px solid var(--line); border-radius: 4px;
-        }
         .alchm-header-userchip {
           display: flex; align-items: center; gap: 8px;
           padding: 4px 4px 4px 10px;
@@ -511,47 +490,9 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
           </div>
         </nav>
 
-        {/* RIGHT — search trigger, notifications, user chip */}
+        {/* RIGHT — search, notifications, user chip */}
         <div className="alchm-header-right">
-          <button
-            type="button"
-            className="alchm-header-search"
-            onClick={openPalette}
-            aria-label="Open command palette"
-          >
-            <Glyph name="search" size={13} stroke={1.4} />
-            <span style={{ fontSize: 12, fontFamily: "var(--f-body)" }}>
-              Search · navigate · do
-            </span>
-            <kbd>⌘K</kbd>
-          </button>
-
-          {/* mobile-only search icon trigger */}
-          <button
-            type="button"
-            onClick={openPalette}
-            aria-label="Open command palette"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: 36,
-              height: 36,
-              borderRadius: 8,
-              background: "rgba(255,255,255,0.025)",
-              border: "1px solid var(--line)",
-              color: "var(--fg-mute)",
-              cursor: "pointer",
-            }}
-            className="alchm-header-search-icon"
-          >
-            <Glyph name="search" size={16} stroke={1.4} />
-            <style>{`
-              @media (min-width: 768px) {
-                .alchm-header-search-icon { display: none !important; }
-              }
-            `}</style>
-          </button>
+          <OmnibarShell />
 
           <GroceryCartButton />
           {status === "authenticated" && <MessagesBadge />}

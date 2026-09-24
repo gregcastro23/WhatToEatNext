@@ -117,8 +117,17 @@ export interface Correction {
   basis: "synonym" | "mid-word" | "edit-distance";
 }
 
+/**
+ * The best hit across every kind. `exact` = tier 0 (name, key, alias or
+ * synonym equal to the query), which lets Enter open it directly.
+ */
+export interface TopHit extends SearchEntity {
+  exact: boolean;
+}
+
 export interface OmnibarResult {
   query: string;
+  top: TopHit | null;
   corrected: Correction | null;
   hero: IngredientHero | null;
   recipesContaining: readonly ContainingRecipeRow[];

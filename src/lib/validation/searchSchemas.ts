@@ -62,6 +62,8 @@ const CorrectionSchema = z.object({
 export const OmnibarResponseSchema = z.object({
   success: z.literal(true),
   query: z.string(),
+  /** The best hit of any kind; `exact` (tier 0) lets Enter open it directly. */
+  top: EntitySchema.extend({ exact: z.boolean() }).nullable(),
   corrected: CorrectionSchema.nullable(),
   hero: HeroSchema.nullable(),
   recipesContaining: z.array(RecipeRowSchema.extend({ alternative: z.boolean() })),

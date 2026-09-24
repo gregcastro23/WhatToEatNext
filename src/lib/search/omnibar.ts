@@ -79,6 +79,7 @@ export function containingRows(index: SearchIndex, key: string, limit: number): 
 function emptyResult(query: string): OmnibarResult {
   return {
     query,
+    top: null,
     corrected: null,
     hero: null,
     recipesContaining: [],
@@ -113,6 +114,7 @@ export function searchOmnibar(index: SearchIndex, rawQuery: string, options: Omn
   for (const hit of hits) total[hit.entity.kind] += 1;
   return {
     ...emptyResult(query),
+    top: { ...top.entity, exact: top.tier === 0 },
     corrected: correctionFor(top, query),
     hero,
     recipesContaining: hero ? containingRows(index, hero.key, options.containingLimit ?? DEFAULT_CONTAINING) : [],
