@@ -5,7 +5,7 @@
  */
 import { getServerRecipes } from "@/actions/recipes";
 import { allCookingMethods } from "@/data/cooking";
-import { allIngredients } from "@/data/ingredients";
+import { getIngredientCatalog } from "@/lib/ingredients/ingredientCatalog";
 import { slugToCuisineKey } from "@/utils/cuisineSlug";
 import { buildIndexForRecipes } from "../loader";
 import { searchOmnibar } from "../omnibar";
@@ -38,10 +38,10 @@ function oneEditTypos(word: string): string[] {
 }
 
 describe("corpus: every catalog ingredient", () => {
-  it("finds itself first by its own name (921/921, distinct heroes)", () => {
+  it("finds itself first by its own name (1,002/1,002 union cards, distinct heroes)", () => {
     const heroes = [...index.ingredients.values()].map((r) => search(r.name).hero?.key ?? null);
     expect(heroes).toEqual([...index.ingredients.keys()]);
-    expect(new Set(heroes).size).toBe(Object.keys(allIngredients).length);
+    expect(new Set(heroes).size).toBe(getIngredientCatalog().entries.length);
   });
 
   it("recovers one-edit typos in the top 3 (baseline 2,598/2,601)", () => {
@@ -65,7 +65,7 @@ describe("corpus: every catalog ingredient", () => {
 
 describe("synonyms", () => {
   it.each(INGREDIENT_SYNONYMS.map((s) => [s.term, s.canonical]))("%s → %s points at a real catalog key", (_, canonical) => {
-    expect(Object.keys(allIngredients)).toContain(canonical);
+    expect([...index.ingredients.keys()]).toContain(canonical);
   });
 
   it("no synonym term shadows a real catalog ingredient", () => {
@@ -140,10 +140,13 @@ describe("golden queries (plan §8)", () => {
     expect(search("oatmilk").hero?.key).toBe("oat_milk");
   });
 
-  it("egg: no hero (eggs are not in the ingredient catalog), egg recipes lead", () => {
-    const r = search("egg");
-    expect(r.hero).toBeNull();
-    expect(r.recipes[0]?.name.toLowerCase()).toContain("egg");
+  it("egg and eggs → Chicken Egg by synonym, with the recipes that use eggs", () => {
+    for (const query of ["egg", "eggs"]) {
+      const r = search(query);
+      expect(r.hero).toMatchObject({ key: "chicken_egg", href: "/ingredients/chicken-egg" });
+      expect(r.corrected?.basis).toBe("synonym");
+      expect(r.hero?.recipeCount).toBeGreaterThanOrEqual(100);
+    }
   });
 
   it("nonsense returns nothing rather than a wild guess", () => {

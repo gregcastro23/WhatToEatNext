@@ -6,7 +6,7 @@ import { SERVABLE_COOKING_METHOD_KEYS } from "@/constants/cookingMethodKeys";
 import { VALID_SEASONS, type Season } from "@/constants/seasons";
 import { getAlchemicalProfile } from "@/data/cooking/profiles";
 import type { Sauce } from "@/data/sauces";
-import type { Ingredient } from "@/types";
+import type { CatalogIngredient } from "@/lib/ingredients/ingredientCatalog";
 import type { Cuisine } from "@/types/cuisine";
 import type { Recipe } from "@/types/recipe";
 import { cuisineToSlug } from "@/utils/cuisineSlug";
@@ -29,15 +29,13 @@ function seasonValues(value: unknown): unknown[] {
 }
 
 /**
- * `season` (untyped, on most records) ∪ `seasonality`. Both read as unknown:
+ * `season` (untyped on most records) ∪ `seasonality`. Both read as unknown:
  * `seasonality` is typed Season[] but some records hold a plain string, which
  * the dossier page already handles. `fall` is stored as `autumn`: the Season
  * union carries both as aliases, and a card should not list the same season
  * twice.
  */
-function seasonsOf(ingredient: Ingredient): Season[] {
-  const season: unknown = "season" in ingredient ? ingredient.season : undefined;
-  const { seasonality } = ingredient;
+function seasonsOf(season: unknown, seasonality: unknown): Season[] {
   const seasons = new Set<Season>();
   for (const value of [...seasonValues(season), ...seasonValues(seasonality)]) {
     const parsed = toSeason(value);
@@ -46,23 +44,45 @@ function seasonsOf(ingredient: Ingredient): Season[] {
   return [...seasons];
 }
 
-function elementalOf(ingredient: Ingredient): ElementalVector | null {
-  const { Fire, Water, Earth, Air } = ingredient.elementalProperties;
+function elementalOf(properties: ElementalVector | undefined): ElementalVector | null {
+  if (!properties) return null;
+  const { Fire, Water, Earth, Air } = properties;
   const values = [Fire, Water, Earth, Air];
   return values.every((v) => typeof v === "number" && Number.isFinite(v)) ? { Fire, Water, Earth, Air } : null;
 }
 
-export function ingredientRecords(all: Readonly<Record<string, Ingredient>>): IngredientRecord[] {
-  return Object.entries(all).map(([key, ingredient]) => ({
+/** A card's own field, read as unknown: some records carry fields their type omits. */
+function field(card: object | null, name: string): unknown {
+  return card && name in card ? Reflect.get(card, name) : undefined;
+}
+
+/**
+ * Union entry → search record. src/data's card wins field by field (owner
+ * ruling 2026-09-23); the unified card fills what src/data lacks, and is the
+ * whole record for the 86 cards only it has.
+ */
+function ingredientRecord(entry: CatalogIngredient): IngredientRecord {
+  const { key, slug, name, aliases, source, unified } = entry;
+  const cards = [source, unified];
+  return {
     key,
-    name: ingredient.name.length > 0 ? ingredient.name : key,
-    category: ingredient.category,
-    seasons: seasonsOf(ingredient),
-    qualities: ingredient.qualities ?? [],
-    rulingPlanets: ingredient.astrologicalProfile?.rulingPlanets ?? [],
-    elemental: elementalOf(ingredient),
-    imageUrl: ingredient.image_url ?? ingredient.imageUrl ?? null,
-  }));
+    slug,
+    name,
+    aliases,
+    category: source?.category ?? unified?.category ?? "",
+    seasons: seasonsOf(
+      cards.map((card) => field(card, "season")).find((v) => v !== undefined),
+      cards.map((card) => field(card, "seasonality")).find((v) => v !== undefined),
+    ),
+    qualities: source?.qualities ?? unified?.qualities ?? [],
+    rulingPlanets: source?.astrologicalProfile?.rulingPlanets ?? unified?.astrologicalProfile?.rulingPlanets ?? [],
+    elemental: elementalOf(source?.elementalProperties) ?? elementalOf(unified?.elementalProperties),
+    imageUrl: source?.image_url ?? source?.imageUrl ?? unified?.image_url ?? unified?.imageUrl ?? null,
+  };
+}
+
+export function ingredientRecords(entries: readonly CatalogIngredient[]): IngredientRecord[] {
+  return entries.map(ingredientRecord);
 }
 
 /** Leading integer of "45", "45 minutes"; null when the recipe states none. */

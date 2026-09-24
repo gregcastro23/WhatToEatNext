@@ -20,8 +20,8 @@ import { GET } from "../route";
 
 const CATALOGS: SearchCatalogs = {
   ingredients: [
-    { key: "spinach", name: "spinach", category: "vegetable", seasons: ["spring", "autumn"], qualities: ["leafy"], rulingPlanets: ["Venus"], elemental: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 }, imageUrl: null },
-    { key: "garlic", name: "garlic", category: "vegetable", seasons: ["all"], qualities: [], rulingPlanets: [], elemental: null, imageUrl: null },
+    { key: "spinach", slug: "spinach", name: "spinach", aliases: [], category: "vegetable", seasons: ["spring", "autumn"], qualities: ["leafy"], rulingPlanets: ["Venus"], elemental: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 }, imageUrl: null },
+    { key: "garlic", slug: "garlic", name: "garlic", aliases: [], category: "vegetable", seasons: ["all"], qualities: [], rulingPlanets: [], elemental: null, imageUrl: null },
   ],
   recipes: [
     { id: "11111111-1111-4111-8111-111111111111", name: "Spinach Pasta", cuisine: "Italian", totalMinutes: 30, imageUrl: "https://example.test/a.png", ingredientLines: ["spinach", "garlic"] },
@@ -50,7 +50,7 @@ describe("GET /api/search", () => {
     expect(res.status).toBe(200);
     expect(res.headers.get("Cache-Control")).toBe("public, s-maxage=300, stale-while-revalidate=86400");
     const body = OmnibarResponseSchema.parse(await res.json());
-    expect(body.hero?.key).toBe("spinach");
+    expect(body.hero).toMatchObject({ key: "spinach", href: "/ingredients/spinach" });
     expect(body.corrected).toEqual({ from: "pinach", to: "spinach", basis: "mid-word" });
     expect(body.recipesContaining.map((r) => r.name)).toEqual(["Spinach Pasta", "Dan Dan Noodles"]);
     expect(body.recipesContaining[1]?.alternative).toBe(true);

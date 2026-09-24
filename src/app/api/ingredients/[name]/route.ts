@@ -5,10 +5,9 @@ import {
   getRecipesForIngredient,
   resolveIngredientSlug,
 } from "@/data/ingredientRecipeIndex";
-import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
+import { catalogRecord, resolveCatalogIngredient } from "@/lib/ingredients/ingredientCatalog";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
-import { IngredientService } from "@/services/IngredientService";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
 
@@ -42,26 +41,24 @@ function extractTime(recipe: Recipe, kind: "prep" | "cook"): number | undefined 
   return undefined;
 }
 
+/** `pairingRecommendations.complementary`, read defensively: cards store several shapes. */
+function complementaryOf(card: Record<string, unknown>): string[] {
+  const pairing = card.pairingRecommendations;
+  if (typeof pairing !== "object" || pairing === null || !("complementary" in pairing)) return [];
+  const { complementary } = pairing;
+  return Array.isArray(complementary) ? complementary.filter((alt): alt is string => typeof alt === "string") : [];
+}
+
 function buildSubstitutions(
-  ingredient: UnifiedIngredient | undefined,
+  card: Record<string, unknown> | null,
+  name: string,
 ): Array<{ name: string; rationale: string; type: "complementary" | "direct" }> {
-  if (!ingredient) return [];
-  const subs: Array<{ name: string; rationale: string; type: "complementary" | "direct" }> = [];
-
-  const pairing = (ingredient as { pairingRecommendations?: { complementary?: string[]; contrasting?: string[] } })
-    .pairingRecommendations;
-
-  if (pairing?.complementary) {
-    for (const alt of pairing.complementary.slice(0, 5)) {
-      subs.push({
-        name: alt,
-        rationale: `Shares flavor affinity with ${ingredient.name} — works well in similar contexts.`,
-        type: "complementary",
-      });
-    }
-  }
-
-  return subs;
+  if (!card) return [];
+  return complementaryOf(card).slice(0, 5).map((alt) => ({
+    name: alt,
+    rationale: `Shares flavor affinity with ${name} — works well in similar contexts.`,
+    type: "complementary",
+  }));
 }
 
 export async function GET(
@@ -94,11 +91,12 @@ export async function GET(
       );
     }
 
-    const ingredientService = IngredientService.getInstance();
-    const ingredient = ingredientService.getIngredientByName(ingredientName);
+    // Exact: slug, key, name or alias of one catalog card (no substring guess).
+    const resolved = resolveCatalogIngredient(ingredientName);
+    const ingredient = resolved ? catalogRecord(resolved.entry) : null;
 
     // Resolve canonical slug for the recipe index
-    const canonicalName = ingredient?.name ?? ingredientName;
+    const canonicalName = resolved?.entry.name ?? ingredientName;
     const slug = resolveIngredientSlug(canonicalName) ?? resolveIngredientSlug(ingredientName) ?? canonicalName;
 
     // Get from pre-computed recipe index
@@ -142,11 +140,12 @@ export async function GET(
       if (relatedRecipes.length >= 24) break;
     }
 
-    const substitutions = buildSubstitutions(ingredient);
+    const substitutions = buildSubstitutions(ingredient, canonicalName);
 
     return NextResponse.json({
       success: true,
-      ingredient: ingredient ?? null,
+      ingredient,
+      slug: resolved?.entry.slug ?? null,
       relatedRecipes,
       recipesByCuisine,
       substitutions,

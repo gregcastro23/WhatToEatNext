@@ -18,7 +18,11 @@ export interface ElementalVector {
 
 export interface IngredientRecord {
   key: string;
+  /** Dossier URL slug (lib/ingredients/ingredientSlug). */
+  slug: string;
   name: string;
+  /** Keys and names of plural cards merged into this one ("bay leaves"). */
+  aliases: readonly string[];
   category: string;
   seasons: readonly Season[];
   qualities: readonly string[];

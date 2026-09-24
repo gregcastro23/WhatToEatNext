@@ -16,6 +16,7 @@ import { calculatePlanetaryHoursInfluence } from "@/calculations/core/planetaryI
 import { unifiedIngredients } from "@/data/unified/ingredients";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import { isBoilerplateCoverageIngredient } from "@/lib/ingredients/coverageQuality";
+import { resolveCatalogIngredient } from "@/lib/ingredients/ingredientCatalog";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import {
@@ -129,7 +130,10 @@ export async function GET(request: Request): Promise<NextResponse> {
         (ing as { imageUrl?: unknown }).imageUrl ??
         (ing as { image?: unknown }).image;
       return {
-        id: slugify(ing.name),
+        // The dossier's slug, so the ticker's /ingredients/<id> links land
+        // (a name slug kept accents out, "cr-me-fra-che"). Every unified card
+        // resolves by name (dossierHrefs.test); the fallback is defensive.
+        id: resolveCatalogIngredient(ing.name)?.entry.slug ?? slugify(ing.name),
         name: ing.name,
         category: ing.category,
         elemental_affinity: dom.toLowerCase() as RecommendedIngredient["elemental_affinity"],

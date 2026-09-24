@@ -2,8 +2,9 @@
  * Rank every entity against a query (plan §4.2, D4). Each ordering key is a
  * named rule; ties end in name order, so results are deterministic.
  */
+import { ingredientHref } from "@/lib/ingredients/ingredientSlug";
 import { matchTier } from "./match";
-import { ingredientHref, type IndexedEntity, type SearchIndex } from "./searchIndex";
+import type { IndexedEntity, SearchIndex } from "./searchIndex";
 import type { NormalizedText } from "./text";
 import type { MatchVia, SearchEntity, SearchHit, SearchKind } from "./types";
 
@@ -56,7 +57,7 @@ function synonymHits(index: SearchIndex, query: NormalizedText): SearchHit[] {
     const tier = matchTier(query, text);
     const record = index.ingredients.get(canonical);
     if (tier === null || !record) continue;
-    const entity: SearchEntity = { kind: "ingredient", key: record.key, name: record.name, href: ingredientHref(record.name) };
+    const entity: SearchEntity = { kind: "ingredient", key: record.key, name: record.name, href: ingredientHref(record.slug) };
     hits.push({ entity, tier, via: "synonym", matched: term });
   }
   return hits;
