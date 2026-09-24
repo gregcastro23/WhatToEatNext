@@ -20,6 +20,7 @@
 
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
+import { isRpcUrl } from "@/lib/rpcUrl";
 
 /** A single env-driven config check. `ok` is the only value that leaves here. */
 export interface ReadinessCheck {
@@ -90,19 +91,16 @@ function check(
   };
 }
 
-/** anyOf — one check that passes if ANY of the given vars is set (e.g. the
- * mainnet OR testnet RPC url). */
-function anyOf(
-  label: string,
-  sources: string[],
-  kind: ReadinessCheck["kind"],
-): ReadinessCheck {
+/** rpcEndpoint — passes if ANY of the given vars (e.g. the mainnet OR testnet
+ * RPC url) holds an http(s) URL. Presence alone is not enough: a bare provider
+ * key is "set" yet fails every RPC call. Collapses to a boolean like isSet. */
+function rpcEndpoint(label: string, sources: string[]): ReadinessCheck {
   return {
     label,
     source: sources.join(" / "),
-    kind,
-    ok: sources.some((s) => (kind === "flag" ? isEnabled(s) : isSet(s))),
-    isPublic: sources.every((s) => s.startsWith("NEXT_PUBLIC_")),
+    kind: "config",
+    ok: sources.some((s) => isRpcUrl(process.env[s])),
+    isPublic: false,
   };
 }
 
@@ -196,7 +194,7 @@ export async function getLaunchReadiness(): Promise<LaunchReadinessReport> {
         check("On-chain enabled", "NEXT_PUBLIC_ESMS_ONCHAIN_ENABLED", "flag"),
         check("Chain", "NEXT_PUBLIC_ESMS_CHAIN", "config"),
         check("Token contract", "ESMS_CONTRACT_ADDRESS", "config"),
-        anyOf("RPC endpoint", ["BASE_RPC_URL", "BASE_SEPOLIA_RPC_URL"], "config"),
+        rpcEndpoint("RPC endpoint", ["BASE_RPC_URL", "BASE_SEPOLIA_RPC_URL"]),
         check("Minter key", "MINTER_PRIVATE_KEY", "secret"),
       ],
     ),

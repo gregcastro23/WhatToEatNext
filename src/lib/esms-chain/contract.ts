@@ -6,6 +6,7 @@
 
 import { createPublicClient, http, type Address } from 'viem'
 import { base, baseSepolia } from 'viem/chains'
+import { readRpcUrl } from '@/lib/rpcUrl'
 
 /** Token ids on the ERC-1155 (must match EsmsToken.sol). */
 export const ESMS_IDS = [0n, 1n, 2n, 3n] as const // spirit, essence, matter, substance
@@ -105,7 +106,7 @@ export function esmsContractAddress(): Address {
 }
 
 export function esmsRpcUrl(): string | undefined {
-  return esmsChain().id === base.id ? process.env.BASE_RPC_URL : process.env.BASE_SEPOLIA_RPC_URL
+  return readRpcUrl(esmsChain().id === base.id ? 'BASE_RPC_URL' : 'BASE_SEPOLIA_RPC_URL')
 }
 
 export function esmsPublicClient() {

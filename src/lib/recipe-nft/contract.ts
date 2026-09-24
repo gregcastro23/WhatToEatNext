@@ -9,6 +9,7 @@
 
 import { createPublicClient, http, type Address, type Hex } from "viem";
 import { base, baseSepolia } from "viem/chains";
+import { readRpcUrl } from "@/lib/rpcUrl";
 
 /** Genesis rights holder + first recipe recipient (chosen during design). */
 export const RIGHTS_HOLDER: Address = "0x554F991D030aDF539CBD2ff3D896951C6f089804";
@@ -164,9 +165,9 @@ export function recipeNftEnabled(): boolean {
 }
 
 export function recipeNftRpcUrl(): string | undefined {
-  return recipeNftChain().id === base.id
-    ? process.env.BASE_RPC_URL
-    : process.env.BASE_SEPOLIA_RPC_URL;
+  return readRpcUrl(
+    recipeNftChain().id === base.id ? "BASE_RPC_URL" : "BASE_SEPOLIA_RPC_URL",
+  );
 }
 
 export function recipeNftPublicClient() {
