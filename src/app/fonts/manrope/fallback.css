@@ -1,0 +1,19 @@
+/*
+ * Manrope's metric-matched local fallback, second in --font-body. It draws
+ * text during the font-display: swap window and, in steady state, every
+ * glyph Manrope lacks (arrows, ▼, ♂ ♀ …). Pinned to next/font/google's
+ * values so those glyphs keep their size; see ../README.md.
+ *
+ * Basis: next's capsize metrics. Manrope: ascent 2132, descent -600, lineGap
+ * 0, unitsPerEm 2000, xWidthAvg 920. Arial: xWidthAvg 913, unitsPerEm 2048.
+ * size-adjust = (920/2000) / (913/2048), and each override = metric /
+ * (unitsPerEm × size-adjust).
+ */
+@font-face {
+  font-family: "Manrope Fallback";
+  src: local("Arial");
+  ascent-override: 103.31%;
+  descent-override: 29.07%;
+  line-gap-override: 0%;
+  size-adjust: 103.19%;
+}
