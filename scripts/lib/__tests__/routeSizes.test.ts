@@ -6,7 +6,7 @@ import {
   pageKeyToRoute,
   parseBuildLog,
   routeToPageKey,
-} from "../routeSizes.cjs";
+} from "../../check-route-sizes.cjs";
 
 describe("routeSizes gate", () => {
   describe("getLayoutKeysForPage", () => {
