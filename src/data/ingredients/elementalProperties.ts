@@ -372,7 +372,7 @@ export const _getIngredientsByElement = (
       { element: "", value: 0 },
     );
 
-    return dominantElement.element === (element as string).toLowerCase();
+    return dominantElement.element === String(element).toLowerCase();
   });
 
 /** Get ingredients by planetary influence */

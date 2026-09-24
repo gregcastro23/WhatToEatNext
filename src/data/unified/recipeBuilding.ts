@@ -1689,11 +1689,11 @@ export class UnifiedRecipeBuildingSystem {
   private categorizeNutrientsByAlchemy(
     recipe: EnhancedRecipe,
   ): MonicaOptimizedRecipe["nutritionalOptimization"]["alchemicalNutrition"] {
-    const alchemicalNutrition = {
-      spiritNutrients: [] as string[],
-      essenceNutrients: [] as string[],
-      matterNutrients: [] as string[],
-      substanceNutrients: [] as string[],
+    const alchemicalNutrition: MonicaOptimizedRecipe["nutritionalOptimization"]["alchemicalNutrition"] = {
+      spiritNutrients: [],
+      essenceNutrients: [],
+      matterNutrients: [],
+      substanceNutrients: [],
     };
 
     // Categorize nutrients based on recipe ingredients and their alchemical properties
@@ -1967,9 +1967,10 @@ export class UnifiedRecipeBuildingSystem {
     // planetary hour and cuisine, which changes cooking methods, ingredients,
     // and flavour profile through the template system. ──
 
-    const altPlanets: string[] = [];
-    const currentPlanet = (criteria.planetaryHour as string) || "Sun";
-    for (const p of ["Moon", "Venus", "Mars", "Jupiter", "Saturn", "Mercury"]) {
+    const altPlanets: PlanetName[] = [];
+    const currentPlanet = criteria.planetaryHour || "Sun";
+    const candidates: readonly PlanetName[] = ["Moon", "Venus", "Mars", "Jupiter", "Saturn", "Mercury"];
+    for (const p of candidates) {
       if (p !== currentPlanet && altPlanets.length < 3) altPlanets.push(p);
     }
 
@@ -1986,9 +1987,10 @@ export class UnifiedRecipeBuildingSystem {
           ...criteriaWithoutRequired
         } = criteria;
         const altCuisine = altCuisines[i] ?? criteria.cuisine;
+        const planet = altPlanets[i];
         const altCriteria: RecipeBuildingCriteria = {
           ...criteriaWithoutRequired,
-          planetaryHour: altPlanets[i] as PlanetName,
+          ...(planet ? { planetaryHour: planet } : {}),
           ...(altCuisine !== undefined ? { cuisine: altCuisine } : {}),
         };
 

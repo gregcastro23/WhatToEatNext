@@ -72,7 +72,9 @@ function drawChart(rnd: () => number): Positions {
   const p: Positions = {}
   for (const body of BODIES) {
     const longitude = rnd() * 360
-    p[body] = { sign: SIGNS[Math.floor(longitude / 30)], exactLongitude: longitude }
+    const sign = SIGNS[Math.floor(longitude / 30)]
+    if (sign === undefined) throw new Error(`longitude ${longitude} is outside [0, 360)`)
+    p[body] = { sign, exactLongitude: longitude }
   }
   return p
 }

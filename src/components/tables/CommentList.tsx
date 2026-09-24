@@ -7,9 +7,19 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
+import { z } from "zod";
 import { GlassPanel, LabelXS } from "@/components/tables/ui";
 import type { TableComment } from "@/types/table";
 import type { JSX } from "react";
+
+const getCommentsResponseSchema = z.object({
+  comments: z.array(z.custom<TableComment>()).optional(),
+});
+
+const postCommentResponseSchema = z.object({
+  success: z.boolean().optional(),
+  message: z.string().optional(),
+});
 
 export interface CommentListProps {
   tableId: string;
@@ -35,7 +45,8 @@ export function CommentList({
         credentials: "include",
       });
       if (!res.ok) return;
-      const data = (await res.json()) as { comments?: TableComment[] };
+      const parsed = getCommentsResponseSchema.safeParse(await res.json());
+      const data = parsed.success ? parsed.data : {};
       setComments(data.comments ?? []);
     } catch {
       /* keep whatever we had */
@@ -58,7 +69,8 @@ export function CommentList({
         credentials: "include",
         body: JSON.stringify({ body: clean }),
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
+      const parsed = postCommentResponseSchema.safeParse(await res.json());
+      const data = parsed.success ? parsed.data : {};
       if (!res.ok || !data.success) {
         setError(data.message ?? "Could not post that.");
         return;

@@ -2386,7 +2386,7 @@ export function transformItemsWithPlanetaryPositions(
         gregsEnergy: thermodynamicProperties.gregsEnergy,
         dominantAlchemicalProperty: "Essence",
         planetaryBoost: 1.0 + compatibilityScore * 0.5, // Calculate based on compatibility
-        dominantPlanets: [] as string[],
+        dominantPlanets: [],
         planetaryDignities: {},
         // Optional legacy properties
         transformations: calculateElementalTransformations(
@@ -2427,7 +2427,7 @@ export function transformItemsWithPlanetaryPositions(
         dominantElement,
         dominantAlchemicalProperty: "Spirit",
         planetaryBoost: 1.0,
-        dominantPlanets: [] as string[],
+        dominantPlanets: [],
         planetaryDignities: {},
         // Optional legacy properties for backward compatibility
         thermodynamicProperties: {

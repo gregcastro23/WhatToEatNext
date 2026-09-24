@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { z } from "zod";
 import { createLogger } from "@/utils/logger";
 
 const _logger = createLogger("use-meal-plan");
@@ -19,13 +20,13 @@ export interface MealPlanEntry {
   addedAt: number;
 }
 
-interface MealPlanApiResponse {
-  authenticated?: boolean;
-  entries?: MealPlanEntry[];
-  entry?: MealPlanEntry;
-  success?: boolean;
-  message?: string;
-}
+const mealPlanApiResponseSchema = z.object({
+  authenticated: z.boolean().optional(),
+  entries: z.array(z.custom<MealPlanEntry>()).optional(),
+  entry: z.custom<MealPlanEntry>().optional(),
+  success: z.boolean().optional(),
+  message: z.string().optional(),
+});
 
 type Listener = (plan: MealPlanEntry[]) => void;
 const listeners = new Set<Listener>();
@@ -143,7 +144,8 @@ export function useMealPlan(): UseMealPlanReturn {
 
         const res = await fetch("/api/users/me/meal-plan", { cache: "no-store" });
         if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = (await res.json()) as MealPlanApiResponse;
+        const parsed = mealPlanApiResponseSchema.safeParse(await res.json());
+        const data = parsed.success ? parsed.data : {};
         if (data.authenticated && Array.isArray(data.entries)) {
           // Remote is source of truth when authed. Mirror into cache for
           // instant render, but do NOT persist to localStorage — we cleared it.
@@ -190,10 +192,12 @@ export function useMealPlan(): UseMealPlanReturn {
               }),
             });
             if (!res.ok) throw new Error(`status ${res.status}`);
-            const data = (await res.json()) as MealPlanApiResponse;
-            if (data.entry?.id) {
+            const parsed = mealPlanApiResponseSchema.safeParse(await res.json());
+            const data = parsed.success ? parsed.data : {};
+            const serverEntry = data.entry;
+            if (serverEntry?.id) {
               const reconciled = (cached ?? []).map((e) =>
-                e.id === optimistic.id ? (data.entry as MealPlanEntry) : e,
+                e.id === optimistic.id ? serverEntry : e,
               );
               cached = reconciled;
               listeners.forEach((l) => {

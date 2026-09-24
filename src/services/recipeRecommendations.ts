@@ -354,7 +354,7 @@ export class RecipeRecommender {
   }
 
   private aggregateIngredients(
-    ingredients: Array<{ elementalProperties?: ElementalProperties | undefined }>,
+    ingredients: Array<{ elementalProperties?: ElementalProperties }>,
   ): ElementalProperties {
     return ingredients.reduce(
       (acc, ingredient) => ({
