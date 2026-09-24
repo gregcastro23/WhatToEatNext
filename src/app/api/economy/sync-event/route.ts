@@ -74,7 +74,23 @@ async function readJsonBody(req: NextRequest): Promise<{ text: string; data: unk
   }
 }
 
-function checkSyncAuth(req: NextRequest, rawBodyText: string): { ok: true } | { ok: false; response: NextResponse } {
+function checkSyncHeaderAuth(req: NextRequest): NextResponse | null {
+  const authHeader = req.headers.get("X-Sync-Secret");
+  const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
+
+  if (!safeEqual(authHeader, syncSecret)) {
+    return NextResponse.json(
+      { ok: false, reason: "unauthorized" },
+      { status: 401 },
+    );
+  }
+  return null;
+}
+
+function verifyInboundWebhook(req: NextRequest, rawBodyText: string): {
+  verification: ReturnType<typeof verifyStandardWebhook>;
+  response: NextResponse | null;
+} {
   const verification = verifyStandardWebhook({
     headers: req.headers,
     rawBody: rawBodyText,
@@ -83,32 +99,21 @@ function checkSyncAuth(req: NextRequest, rawBodyText: string): { ok: true } | { 
   const gate = evaluateSignatureGate(verification);
   if (!gate.proceed) {
     return {
-      ok: false,
+      verification,
       response: NextResponse.json(
         { ok: false, reason: "unauthorized", error: gate.error },
         { status: gate.status ?? 401 },
       ),
     };
   }
-
-  const authHeader = req.headers.get("X-Sync-Secret");
-  const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
-
-  if (!safeEqual(authHeader, syncSecret)) {
-    return {
-      ok: false,
-      response: NextResponse.json(
-        { ok: false, reason: "unauthorized" },
-        { status: 401 },
-      ),
-    };
-  }
-
-  return { ok: true };
+  return { verification, response: null };
 }
 
 export async function POST(req: NextRequest) {
   try {
+    const headerAuthError = checkSyncHeaderAuth(req);
+    if (headerAuthError) return headerAuthError;
+
     const parsedBody = await readJsonBody(req);
     if (!parsedBody) {
       return NextResponse.json(
@@ -118,10 +123,8 @@ export async function POST(req: NextRequest) {
     }
     const { text: rawBodyText, data: rawBody } = parsedBody;
 
-    const authCheck = checkSyncAuth(req, rawBodyText);
-    if (!authCheck.ok) {
-      return authCheck.response;
-    }
+    const { verification, response: gateResponse } = verifyInboundWebhook(req, rawBodyText);
+    if (gateResponse) return gateResponse;
 
     const parseResult = EconomySyncEventRequestSchema.safeParse(rawBody);
     if (!parseResult.success) {
@@ -155,12 +158,7 @@ export async function POST(req: NextRequest) {
 
     const { id: userId, is_agent: isAgent } = eventUser;
 
-    // 3. Claim idempotency key if provided
-    const verification = verifyStandardWebhook({
-      headers: req.headers,
-      rawBody: rawBodyText,
-      secret: resolveWebhookSecret(),
-    });
+    // 3. Claim idempotency key if provided (reuse verification result)
     const delivery = resolveInboundDeliveryContext(req.headers, rawBody, verification);
 
     const claimResult = await claimInboundEvent({

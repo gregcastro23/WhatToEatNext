@@ -17,6 +17,7 @@ import {
   extractIdempotencyKey,
   fetchStoredResult,
   normalizeEventId,
+  resolveInboundDeliveryContext,
 } from "@/lib/hooks/idempotency";
 
 describe("idempotency helpers", () => {
@@ -156,6 +157,53 @@ describe("idempotency helpers", () => {
       mockExecuteQuery.mockRejectedValueOnce(new Error("DB timeout"));
       const result = await fetchStoredResult("asol-sync-event", "some-id");
       expect(result).toBeNull();
+    });
+  });
+
+  describe("resolveInboundDeliveryContext", () => {
+    it("prioritizes idempotencyKey over webhookId as effectiveKey", () => {
+      const headers = new Headers({
+        "webhook-id": "msg_webhook_123",
+        "idempotency-key": "idem_client_456",
+      });
+      const ctx = resolveInboundDeliveryContext(headers, {}, { valid: true });
+      expect(ctx.effectiveKey).toBe("idem_client_456");
+      expect(ctx.idempotencyKey).toBe("idem_client_456");
+      expect(ctx.webhookId).toBe("msg_webhook_123");
+      expect(ctx.keyMismatch).toBe(true);
+      expect(ctx.signatureSummary).toBe("valid");
+    });
+
+    it("falls back to webhookId when idempotencyKey is absent", () => {
+      const headers = new Headers({
+        "webhook-id": "msg_webhook_123",
+      });
+      const ctx = resolveInboundDeliveryContext(headers, {}, { valid: false, reason: "unsigned" });
+      expect(ctx.effectiveKey).toBe("msg_webhook_123");
+      expect(ctx.idempotencyKey).toBeNull();
+      expect(ctx.webhookId).toBe("msg_webhook_123");
+      expect(ctx.keyMismatch).toBe(false);
+      expect(ctx.signatureSummary).toBe("unsigned");
+    });
+
+    it("returns null effectiveKey when neither header nor body key is present", () => {
+      const headers = new Headers();
+      const ctx = resolveInboundDeliveryContext(headers, {}, { valid: false });
+      expect(ctx.effectiveKey).toBeNull();
+      expect(ctx.idempotencyKey).toBeNull();
+      expect(ctx.webhookId).toBeNull();
+      expect(ctx.keyMismatch).toBe(false);
+      expect(ctx.signatureSummary).toBe("unknown");
+    });
+
+    it("reports keyMismatch as false when both keys match", () => {
+      const headers = new Headers({
+        "webhook-id": "shared_key_789",
+        "idempotency-key": "shared_key_789",
+      });
+      const ctx = resolveInboundDeliveryContext(headers, {}, { valid: true });
+      expect(ctx.effectiveKey).toBe("shared_key_789");
+      expect(ctx.keyMismatch).toBe(false);
     });
   });
 });

@@ -1,7 +1,9 @@
 /**
  * AsolContractProbeService
  *
- * Synthetic contract probe verifying the WTEN <-> ASOL boundary contracts.
+ * On-demand contract diagnostic test library verifying the WTEN <-> ASOL boundary contracts.
+ * Note: This is an on-demand diagnostic test utility (executable via test suites, scripts,
+ * or operational probes), not an automated background synthetic probe.
  * Tests authorized calls and negative controls (unauthorized requests return 401).
  *
  * @file src/services/asolContractProbeService.ts

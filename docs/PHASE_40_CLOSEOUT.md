@@ -19,13 +19,13 @@ All commitments from the approved implementation plan and `docs/PHASE_40_PLAN.md
 ## 2. Commit Log on `codex/phase-40-asol-hardening`
 
 1. **`e56a3c52`** — `feat(hooks): in-flight conflict marker on 409 for ASOL delivery contract (#A1)`
-   - Added `respondWithInFlightConflict()` helper in `src/lib/hooks/inFlightConflict.ts`.
+   - Added `inFlightConflict(legacy)` helper in `src/lib/hooks/inFlightConflict.ts`.
    - Wired 409 conflict responses in `/api/feed`, `/api/economy/sync-event`, and `/api/internal/agent-recipes` to return `{ status: "in_flight", error: "conflict" }`.
    - Ensures ASOL's retry classifier correctly marks events as pending retry rather than falsely assuming `already_applied` or dropping them as `rejected`.
 
 2. **`345f9be0`** — `feat(admin): 24h delivery telemetry, signature audit, and stale lock alerts (#A2, #A3)`
    - Wired `verifyStandardWebhook` into `/api/feed`, `/api/economy/sync-event`, and `/api/internal/agent-recipes`.
-   - Implemented default `shadow` verification mode with defensive unknown mode fallback logging.
+   - Implemented `getWebhookSignatureModeInfo()` (`off` when unset, `shadow` on unknown values with error logging).
    - Built 24-hour rolling window SQL aggregates in `asolHealthQueries.ts` and `asolHealthService.ts`, separating live in-flight locks (≤ 300s) from stale unrecovered locks (> 300s).
    - Designed responsive `/admin/asol` dashboard with KPI cards, source breakdowns, delivery activity with payload modal inspection, and stale lock alerts.
 
@@ -71,10 +71,10 @@ All commitments from the approved implementation plan and `docs/PHASE_40_PLAN.md
 ### Workstream A: ASOL Boundary Contract & Telemetry
 1. **In-Flight Conflict Contract Marker (A1)**:
    - Root cause identified: WTEN returned `{ error: "conflict" }` on 409 in-flight collisions. ASOL's retry classifier requires `{ status: "in_flight" }` in the JSON response body. Without it, ASOL treated 409 on `sync-event` as `already_applied` and on `feed`/`agent-recipes` as `rejected`, permanently dropping payloads if the in-flight processing attempt failed.
-   - Solution: Extracted `respondWithInFlightConflict(source, eventId)` in `src/lib/hooks/inFlightConflict.ts` and wired it to all ASOL webhook endpoints. Verified with unit and route tests.
+   - Solution: Extracted `inFlightConflict(legacy)` in `src/lib/hooks/inFlightConflict.ts` and wired it to all ASOL webhook endpoints. Verified with unit and route tests.
 2. **Standard Webhook Verification in Shadow Mode (A2)**:
    - Wired `verifyStandardWebhook` into `/api/feed`, `/api/economy/sync-event`, and `/api/internal/agent-recipes`.
-   - Implemented `getWebhookSignatureModeInfo()` to parse `ASOL_WEBHOOK_SIGNATURES`. Any unknown or missing value safely defaults to `shadow` and logs an error, preventing silent authorization drops.
+   - Implemented `getWebhookSignatureModeInfo()` to parse `ASOL_WEBHOOK_SIGNATURES`. Defaults to `off` when missing/empty; defaults defensively to `shadow` with error logging on unknown values.
    - Evaluated signatures are persisted into `webhook_events.summary.signatureVerification` for production auditing without blocking un-signed payloads while ASOL prepares its sender rollout.
 3. **24-Hour Rolling Telemetry & Stale Lock Alerting (A3)**:
    - Replaced unbounded queries in `asolHealthQueries.ts` with explicit `NOW() - INTERVAL '24 hours'` filters.
@@ -85,6 +85,7 @@ All commitments from the approved implementation plan and `docs/PHASE_40_PLAN.md
 - Tightened 15 property sites in `src/utils/menuPlanner/recommendationBridge.ts` (`DayRecommendationOptions`, `UserPersonalizationData`, `CookingMethodRecommendationOptions`, etc.) from `foo?: T | undefined` to `foo?: T`.
 - Tightened 8 optional callback and boolean properties in `src/components/menu-planner/WeeklyCalendar.tsx`.
 - Adapted callers for `exactOptionalPropertyTypes: true` across `src/app/api/recommendations/generate/route.ts`, recipe generator hooks, and recipe builder buttons.
+- Added `toDayRecommendationOptions` adapter in `src/app/api/recommendations/generate/optionsAdapter.ts` to strictly sanitize request options for exact optionality while excluding client context leakage (`userContext`), backed by unit tests.
 - Scanner verified: Domain loose optionality down from 216 to 193.
 
 ### Workstream C: Bare JSON Response Casts
@@ -105,7 +106,7 @@ All commitments from the approved implementation plan and `docs/PHASE_40_PLAN.md
 - Single assertion sites ratcheted from 3,022 to 2,983 (below target of ≤ 2,992).
 
 ### Workstream E: ASOL Boundary Contract Probe
-- Implemented `AsolContractProbeService` (`src/services/asolContractProbeService.ts`) with methods:
+- Implemented `AsolContractProbeService` (`src/services/asolContractProbeService.ts`) as an on-demand contract diagnostic test library for validating WTEN <-> ASOL boundary contracts:
   - `probeAgentRoster` (`/api/internal/agent-roster` with Bearer auth)
   - `probeSyncStatus` (`/api/economy/sync-status` with `X-Sync-Secret`)
   - `probeVessel` (`/api/economy/vessel` with `X-Sync-Secret`)
@@ -144,4 +145,4 @@ When upstream Planetary Agents ships signature signing on outbound webhooks:
    - Trigger a zero-downtime redeployment.
 3. **Verify Enforcement**:
    - Confirm via `/admin/asol` that the KPI grid reflects signature mode `REQUIRED`.
-   - Run the contract probe to verify that unsigned requests continue to be rejected with HTTP 401.
+   - Run the on-demand contract probe diagnostic (`asolContractProbe.executeProbe()` via test or operational script) to verify boundary contracts, and verify incoming webhooks require valid signatures.

@@ -85,7 +85,7 @@ GROUP BY source`;
 
 export const SIGNATURE_BREAKDOWN_QUERY = `SELECT
   source,
-  COALESCE(payload->>'signature', 'unsigned') AS signature_tag,
+  COALESCE(payload->>'signature', 'untracked') AS signature_tag,
   COUNT(*)::int AS count
 FROM webhook_events
 WHERE source = ANY($1::text[])

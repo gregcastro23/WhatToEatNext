@@ -187,7 +187,10 @@ export class DeliverectClient {
       );
     }
 
-    const raw = record(await response.json()) ?? {};
+    const raw = record(await response.json());
+    if (!raw) {
+      throw new Error("Invalid menu payload: expected JSON object");
+    }
     const rawCategories = Array.isArray(raw.categories) ? raw.categories : [];
 
     const categories = rawCategories.flatMap((category, categoryIndex) => {

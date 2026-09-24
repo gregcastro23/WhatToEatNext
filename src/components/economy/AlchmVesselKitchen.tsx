@@ -127,9 +127,9 @@ export function AlchmVesselKitchen({ className = '' }: AlchmVesselKitchenProps):
     const cached = readCache(userKey);
     vesselRef.current = cached;
     setVessel(cached);
-    void load();
-    const interval = setInterval(() => void load(), REFRESH_MS);
-    const onEconomy = (): void => void load();
+    load().catch(() => {});
+    const interval = setInterval(() => { load().catch(() => {}); }, REFRESH_MS);
+    const onEconomy = (): void => { load().catch(() => {}); };
     window.addEventListener(TOKEN_ECONOMY_EVENT, onEconomy);
     return (): void => {
       clearInterval(interval);
@@ -178,7 +178,7 @@ export function AlchmVesselKitchen({ className = '' }: AlchmVesselKitchenProps):
       {state === 'error' && !vessel && (
         <div className="rounded-2xl border border-rose-400/20 bg-rose-400/5 p-4 text-xs text-rose-200/80 flex items-center justify-between">
           <span>The Vessel ledger could not be read right now.</span>
-          <button type="button" onClick={() => void load()} className="font-bold uppercase tracking-wider text-rose-200 hover:text-white">
+          <button type="button" onClick={() => { load().catch(() => {}); }} className="font-bold uppercase tracking-wider text-rose-200 hover:text-white">
             Retry
           </button>
         </div>

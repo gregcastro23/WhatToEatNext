@@ -27,6 +27,7 @@ jest.mock("@/services/QuestService", () => ({
 }));
 
 const TEST_SECRET = "test-sync-secret-idemp";
+const TEST_HOOK_SECRET = "test-hook-secret-asol";
 
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
@@ -52,9 +53,11 @@ function makeRequest(
 
 describe("POST /api/economy/sync-event idempotency", () => {
   const originalEnv = process.env.ALCHM_KITCHEN_SYNC_SECRET;
+  const originalHookEnv = process.env.HOOK_SECRET_ASOL;
 
   beforeEach(() => {
     process.env.ALCHM_KITCHEN_SYNC_SECRET = TEST_SECRET;
+    process.env.HOOK_SECRET_ASOL = TEST_HOOK_SECRET;
     mockExecuteQuery.mockReset();
     mockReportEvent.mockReset().mockResolvedValue([
       { questSlug: "morning-brew", tokensAwarded: 5, tokenType: "alchm" },
@@ -63,6 +66,8 @@ describe("POST /api/economy/sync-event idempotency", () => {
 
   afterAll(() => {
     process.env.ALCHM_KITCHEN_SYNC_SECRET = originalEnv;
+    if (originalHookEnv !== undefined) process.env.HOOK_SECRET_ASOL = originalHookEnv;
+    else delete process.env.HOOK_SECRET_ASOL;
   });
 
   it("processes a first delivery and claims it via webhook_events", async () => {
@@ -159,7 +164,7 @@ describe("POST /api/economy/sync-event idempotency", () => {
     const bodyStr = JSON.stringify(body);
     const nowSec = Math.floor(Date.now() / 1000);
     const msgId = "msg_sync_456";
-    const sig = computeV1Signature(msgId, nowSec, bodyStr, parseWebhookSecret(TEST_SECRET));
+    const sig = computeV1Signature(msgId, nowSec, bodyStr, parseWebhookSecret(TEST_HOOK_SECRET));
 
     const req = new NextRequest("http://localhost/api/economy/sync-event", {
       method: "POST",

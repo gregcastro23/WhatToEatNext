@@ -62,26 +62,7 @@ async function readJsonBody(request: NextRequest): Promise<{ text: string; data:
   }
 }
 
-function checkAgentRecipeAuth(
-  request: NextRequest,
-  rawBodyText: string,
-): { ok: true; verification: ReturnType<typeof verifyStandardWebhook> } | { ok: false; response: NextResponse } {
-  const verification = verifyStandardWebhook({
-    headers: request.headers,
-    rawBody: rawBodyText,
-    secret: resolveWebhookSecret(),
-  });
-  const gate = evaluateSignatureGate(verification);
-  if (!gate.proceed) {
-    return {
-      ok: false,
-      response: NextResponse.json(
-        { error: gate.error ?? "Unauthorized" },
-        { status: gate.status ?? 401 },
-      ),
-    };
-  }
-
+function checkAgentRecipeHeaderAuth(request: NextRequest): NextResponse | null {
   const authHeader = request.headers.get("authorization") ?? "";
   const syncHeader = request.headers.get("x-sync-secret") ?? "";
 
@@ -95,27 +76,48 @@ function checkAgentRecipeAuth(
   );
 
   if (!isBearerAuthorized && !isSyncHeaderAuthorized) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  return null;
+}
+
+function verifyAgentRecipeWebhook(
+  request: NextRequest,
+  rawBodyText: string,
+): {
+  verification: ReturnType<typeof verifyStandardWebhook>;
+  response: NextResponse | null;
+} {
+  const verification = verifyStandardWebhook({
+    headers: request.headers,
+    rawBody: rawBodyText,
+    secret: resolveWebhookSecret(),
+  });
+  const gate = evaluateSignatureGate(verification);
+  if (!gate.proceed) {
     return {
-      ok: false,
-      response: NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+      verification,
+      response: NextResponse.json(
+        { error: gate.error ?? "Unauthorized" },
+        { status: gate.status ?? 401 },
+      ),
     };
   }
-
-  return { ok: true, verification };
+  return { verification, response: null };
 }
 
 export async function POST(request: NextRequest) {
+  const headerAuthError = checkAgentRecipeHeaderAuth(request);
+  if (headerAuthError) return headerAuthError;
+
   const parsedBody = await readJsonBody(request);
   if (!parsedBody) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
   const { text: rawBodyText, data: rawBody } = parsedBody;
 
-  const authCheck = checkAgentRecipeAuth(request, rawBodyText);
-  if (!authCheck.ok) {
-    return authCheck.response;
-  }
-  const { verification } = authCheck;
+  const { verification, response: gateResponse } = verifyAgentRecipeWebhook(request, rawBodyText);
+  if (gateResponse) return gateResponse;
 
   const parsed = AgentRecipeBodySchema.safeParse(rawBody);
   if (!parsed.success) {

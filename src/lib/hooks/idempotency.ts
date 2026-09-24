@@ -55,7 +55,7 @@ export function resolveInboundDeliveryContext(
   const webhookId = rawWebhookId && rawWebhookId.length > 0 ? rawWebhookId : null;
   const idempotencyKey = extractIdempotencyKey({ headers }, rawBody);
   const keyMismatch = Boolean(webhookId && idempotencyKey && webhookId !== idempotencyKey);
-  const effectiveKey = webhookId ?? idempotencyKey;
+  const effectiveKey = idempotencyKey ?? webhookId;
   const signatureSummary = verification.valid ? "valid" : (verification.reason ?? "unknown");
 
   return {

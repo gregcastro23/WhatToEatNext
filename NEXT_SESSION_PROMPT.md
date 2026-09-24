@@ -45,7 +45,7 @@ Phase 40 is complete on branch `codex/phase-40-asol-hardening`. All static gates
 
 1. **ASOL Delivery Contract Hardening**:
    - Wired `{ status: "in_flight", error: "conflict" }` marker on 409 responses for `/api/feed`, `/api/economy/sync-event`, and `/api/internal/agent-recipes`. ASOL retry classification functions correctly without dropping pending events.
-   - Wired `verifyStandardWebhook` in `shadow` mode across inbound ASOL webhooks. Missing or unrecognized signature mode safely defaults to `shadow` and logs an alert.
+   - Wired `verifyStandardWebhook` in `shadow` mode across inbound ASOL webhooks. Missing signature mode defaults to `off`; unrecognized signature mode safely defaults to `shadow` and logs an alert.
    - Evaluated signature verification is stored in `webhook_events.summary.signatureVerification` for production auditing.
 2. **24-Hour Rolling Telemetry & Stale Lock Alerting**:
    - Bounded queries in `asolHealthQueries.ts` to `NOW() - INTERVAL '24 hours'`.

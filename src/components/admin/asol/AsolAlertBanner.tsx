@@ -3,6 +3,7 @@ import type { AsolHealthOverview } from "@/services/admin/asolHealthService";
 
 interface Props {
   data: AsolHealthOverview | null;
+  onFilterFailed?: () => void;
 }
 
 interface AlertItem {
@@ -21,7 +22,7 @@ function computeAlerts(data: AsolHealthOverview): AlertItem[] {
       id: "stale-locks",
       severity: "critical",
       title: `${data.totalStaleLocks} Stale Processing Lock${data.totalStaleLocks === 1 ? "" : "s"} Detected`,
-      description: "Locks older than 300 seconds are eligible for automated redelivery recovery.",
+      description: "Indicates aborted or stalled processing. Manual inspection required; automated redeliveries do not recover stale locks.",
     });
   }
 
@@ -62,7 +63,7 @@ function computeAlerts(data: AsolHealthOverview): AlertItem[] {
   return alerts;
 }
 
-export function AsolAlertBanner({ data }: Props): React.ReactElement | null {
+export function AsolAlertBanner({ data, onFilterFailed }: Props): React.ReactElement | null {
   if (!data) return null;
   const alerts = computeAlerts(data);
   if (alerts.length === 0) return null;
@@ -85,6 +86,15 @@ export function AsolAlertBanner({ data }: Props): React.ReactElement | null {
             </p>
             <p className="text-gray-600">{alert.description}</p>
           </div>
+          {alert.id === "failed-deliveries" && onFilterFailed && (
+            <button
+              type="button"
+              onClick={onFilterFailed}
+              className="text-xs font-semibold text-amber-900 underline hover:text-amber-950 shrink-0"
+            >
+              View Failed
+            </button>
+          )}
         </div>
       ))}
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { AsolAlertBanner } from "@/components/admin/asol/AsolAlertBanner";
 import { AsolDeliveryActivity } from "@/components/admin/asol/AsolDeliveryActivity";
 import { AsolKpiGrid } from "@/components/admin/asol/AsolKpiGrid";
@@ -16,6 +16,7 @@ export default function AsolHealthPage(): React.ReactElement {
     AsolHealthOverviewSchema,
     15_000,
   );
+  const [statusFilter, setStatusFilter] = useState<"all" | "failed">("all");
 
   return (
     <div className="space-y-6 p-4 md:p-8 max-w-7xl mx-auto">
@@ -27,7 +28,7 @@ export default function AsolHealthPage(): React.ReactElement {
         onRefresh={refresh}
       />
 
-      <AsolAlertBanner data={data} />
+      <AsolAlertBanner data={data} onFilterFailed={() => setStatusFilter("failed")} />
 
       {error && !data && (
         <div className="rounded-md bg-rose-50 border border-rose-200 p-4 text-sm text-rose-800">
@@ -36,10 +37,14 @@ export default function AsolHealthPage(): React.ReactElement {
         </div>
       )}
 
-      <AsolKpiGrid data={data} />
+      <AsolKpiGrid data={data} onFilterFailed={() => setStatusFilter("failed")} />
       <AsolStatusPanels data={data} />
       <AsolRouteBreakdown data={data} />
-      <AsolDeliveryActivity events={data?.recentEvents ?? []} />
+      <AsolDeliveryActivity
+        events={data?.recentEvents ?? []}
+        statusFilter={statusFilter}
+        onStatusFilterChange={setStatusFilter}
+      />
     </div>
   );
 }

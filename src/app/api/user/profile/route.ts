@@ -7,12 +7,16 @@
  */
 
 import { NextResponse } from "next/server";
-import { z } from "zod";
 import type { UserProfile } from "@/contexts/UserContext";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { withTimeout } from "@/lib/performance/withTimeout";
 import { NatalChartPatchSchema, UserProfileUpdateSchema } from "@/lib/validation/apiSchemas";
+import {
+  ServerProfileResponseSchema,
+  toDomainUserProfile,
+  type DomainUserProfile,
+} from "@/lib/validation/userProfileResponseSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { NatalChart, PlanetInfo } from "@/types/natalChart";
@@ -26,15 +30,10 @@ const INTERNAL_SECRET = process.env.INTERNAL_API_SECRET;
 
 interface ProfileApiResponse {
   success: boolean;
-  profile?: UserProfile;
+  profile?: UserProfile | DomainUserProfile;
   message?: string;
   details?: Record<string, string[] | undefined>;
 }
-
-const honoProfileResponseSchema = z.object({
-  success: z.boolean().optional(),
-  profile: z.custom<UserProfile>((val) => val === undefined || (typeof val === "object" && val !== null)).optional(),
-}).passthrough();
 
 /**
  * Migrates a natal chart with sub-arcminute planet positions if positions are missing
@@ -72,7 +71,7 @@ async function maybeMigrateNatalChart(
     if (rawPositions) {
       const updatedPlanets: PlanetInfo[] = natalChart.planets.map((p) => {
         const pos = rawPositions[p.name];
-        return pos ? { ...p, position: pos.exactLongitude ?? p.position } : p;
+        return pos ? { ...p, position: pos.exactLongitude } : p;
       });
       const migratedChart: NatalChart = { ...natalChart, planets: updatedPlanets };
 
@@ -101,20 +100,38 @@ function getHonoHeaders(userId: string): Record<string, string> {
 async function proxyHonoProfile(
   honoResponse: Response,
   userId?: string,
-  userEmail?: string,
 ): Promise<NextResponse<ProfileApiResponse> | null> {
   if (!honoResponse.ok) return null;
-  const parsed = honoProfileResponseSchema.safeParse(await honoResponse.json());
+  const parsed = ServerProfileResponseSchema.safeParse(await honoResponse.json());
   if (!parsed.success) return null;
 
-  const { profile } = parsed.data;
-  if (profile?.natalChart && userId) {
-    profile.natalChart = await maybeMigrateNatalChart(userId, userEmail, profile.natalChart);
+  const wire = parsed.data.profile;
+  if (!wire) return NextResponse.json({ success: true });
+
+  const profile: DomainUserProfile = toDomainUserProfile(wire, userId);
+  return NextResponse.json({ success: true, profile });
+}
+
+async function proxyHonoPut(
+  userId: string,
+  profileData: Partial<UserProfile>,
+): Promise<NextResponse<ProfileApiResponse> | null> {
+  if (!HONO_API_URL) return null;
+  try {
+    const res = await fetch(`${HONO_API_URL}/api/user/profile`, {
+      method: "PUT",
+      headers: getHonoHeaders(userId),
+      body: JSON.stringify(profileData),
+    });
+    if (!res.ok) return null;
+    const proxied = await proxyHonoProfile(res, userId);
+    if (proxied) return proxied;
+    _logger.error("[PUT /api/user/profile] Upstream update succeeded but schema validation failed");
+    return NextResponse.json({ success: false, message: "Invalid upstream response" }, { status: 502 });
+  } catch (err) {
+    _logger.error("Hono Gateway proxy failed for user profile update:", err);
+    return null;
   }
-  return NextResponse.json({
-    success: true,
-    ...(profile !== undefined ? { profile } : {}),
-  });
 }
 
 /**
@@ -137,7 +154,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ProfileApi
           method: "GET",
           headers: getHonoHeaders(user.id),
         });
-        const proxied = await proxyHonoProfile(honoResponse, user.id, user.email);
+        const proxied = await proxyHonoProfile(honoResponse, user.id);
         if (proxied) return proxied;
       } catch (err) {
         _logger.error("Hono Gateway proxy failed for user profile:", err);
@@ -223,40 +240,28 @@ export async function PUT(request: NextRequest): Promise<NextResponse<ProfileApi
       validatedNatalChart = parsedChart.data as NatalChart;
     }
 
-    const profileData: Partial<UserProfile> = {};
-    if (restProfile.name !== undefined) profileData.name = restProfile.name;
-    if (restProfile.birthData !== undefined) {
-      profileData.birthData = {
-        dateTime: restProfile.birthData.dateTime,
-        latitude: restProfile.birthData.latitude,
-        longitude: restProfile.birthData.longitude,
-        ...(restProfile.birthData.timezone ? { timezone: restProfile.birthData.timezone } : {}),
-        ...(restProfile.birthData.location ? { location: restProfile.birthData.location } : {}),
-      };
-    }
-    if (restProfile.preferences !== undefined) profileData.preferences = restProfile.preferences;
-    if (validatedNatalChart !== undefined) {
-      profileData.natalChart = validatedNatalChart;
-    }
+    const profileData: Partial<UserProfile> = {
+      ...(restProfile.name !== undefined ? { name: restProfile.name } : {}),
+      ...(restProfile.birthData !== undefined
+        ? {
+            birthData: {
+              dateTime: restProfile.birthData.dateTime,
+              latitude: restProfile.birthData.latitude,
+              longitude: restProfile.birthData.longitude,
+              ...(restProfile.birthData.timezone ? { timezone: restProfile.birthData.timezone } : {}),
+              ...(restProfile.birthData.location ? { location: restProfile.birthData.location } : {}),
+            },
+          }
+        : {}),
+      ...(restProfile.preferences !== undefined ? { preferences: restProfile.preferences } : {}),
+      ...(validatedNatalChart !== undefined ? { natalChart: validatedNatalChart } : {}),
+    };
 
     // Use authenticated user's ID
     const userId = user.id;
 
-    // Proxy to Hono if configured
-    if (HONO_API_URL) {
-      try {
-        const honoResponse = await fetch(`${HONO_API_URL}/api/user/profile`, {
-          method: "PUT",
-          headers: getHonoHeaders(user.id),
-          body: JSON.stringify(profileData),
-        });
-
-        const proxied = await proxyHonoProfile(honoResponse);
-        if (proxied) return proxied;
-      } catch (err) {
-        _logger.error("Hono Gateway proxy failed for user profile update:", err);
-      }
-    }
+    const proxied = await proxyHonoPut(userId, profileData);
+    if (proxied) return proxied;
 
     const updatedUser = await userDatabase.updateUserProfile(
       userId,
@@ -265,13 +270,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse<ProfileApi
     );
 
     if (!updatedUser) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "User not found during update",
-        },
-        { status: 404 },
-      );
+      return NextResponse.json({ success: false, message: "User not found during update" }, { status: 404 });
     }
 
     return NextResponse.json({

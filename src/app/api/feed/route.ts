@@ -161,6 +161,11 @@ export const POST = withObservability(
     let eventType = "unknown";
     let claimOutcome: ClaimOutcome | null = null;
 
+    if (!isAuthorizedAgentRequest(request.headers.get("Authorization"))) {
+      rememberFeedEmit(eventType, agentEmail, 401);
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     try {
       let rawBodyText: string;
       try {
@@ -194,11 +199,6 @@ export const POST = withObservability(
           { error: gate.error ?? "Unauthorized" },
           { status: gate.status ?? 401 },
         );
-      }
-
-      if (!isAuthorizedAgentRequest(request.headers.get("Authorization"))) {
-        rememberFeedEmit(eventType, agentEmail, 401);
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
 
     const parseResult = FeedEventIngestSchema.safeParse(rawBody);

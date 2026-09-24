@@ -27,6 +27,7 @@ import {
 export interface SignatureBreakdown {
   valid: number;
   unsigned: number;
+  untracked: number;
   failed: number;
   reasons: Record<string, number>;
 }
@@ -107,25 +108,28 @@ export function sanitizeError(err: string | null): string | null {
 function buildSignatureBreakdown(source: string, signatureRows: SignatureTagRow[]): SignatureBreakdown {
   let valid = 0;
   let unsigned = 0;
+  let untracked = 0;
   let failed = 0;
   const reasons: Record<string, number> = {};
 
   for (const row of signatureRows) {
     if (row.source !== source) continue;
-    const tag = row.signature_tag ?? "unsigned";
+    const tag = row.signature_tag ?? "untracked";
     const count = toNumber(row.count);
 
     if (tag === "valid") {
       valid += count;
     } else if (tag === "unsigned") {
       unsigned += count;
+    } else if (tag === "untracked") {
+      untracked += count;
     } else {
       failed += count;
       reasons[tag] = (reasons[tag] ?? 0) + count;
     }
   }
 
-  return { valid, unsigned, failed, reasons };
+  return { valid, unsigned, untracked, failed, reasons };
 }
 
 function buildSourceStats(

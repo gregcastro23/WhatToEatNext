@@ -11,6 +11,7 @@ import type { AsolHealthOverview } from "@/services/admin/asolHealthService";
 const SignatureBreakdownSchema = z.object({
   valid: z.number(),
   unsigned: z.number(),
+  untracked: z.number(),
   failed: z.number(),
   reasons: z.record(z.string(), z.number()),
 });

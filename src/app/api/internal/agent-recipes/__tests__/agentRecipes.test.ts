@@ -21,6 +21,7 @@ import { POST } from "../route";
 
 const TEST_INTERNAL_SECRET = "test-internal-secret-xyz";
 const TEST_SYNC_SECRET = "test-sync-secret-xyz";
+const TEST_HOOK_SECRET = "test-hook-secret-xyz";
 
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
@@ -57,16 +58,20 @@ function makeRecipeRequest(
 describe("POST /api/internal/agent-recipes", () => {
   const origInternal = process.env.INTERNAL_API_SECRET;
   const origSync = process.env.ALCHM_KITCHEN_SYNC_SECRET;
+  const origHook = process.env.HOOK_SECRET_ASOL;
 
   beforeEach(() => {
     process.env.INTERNAL_API_SECRET = TEST_INTERNAL_SECRET;
     process.env.ALCHM_KITCHEN_SYNC_SECRET = TEST_SYNC_SECRET;
+    process.env.HOOK_SECRET_ASOL = TEST_HOOK_SECRET;
     mockExecuteQuery.mockReset();
   });
 
   afterAll(() => {
     process.env.INTERNAL_API_SECRET = origInternal;
     process.env.ALCHM_KITCHEN_SYNC_SECRET = origSync;
+    if (origHook !== undefined) process.env.HOOK_SECRET_ASOL = origHook;
+    else delete process.env.HOOK_SECRET_ASOL;
   });
 
   it("rejects unauthorized requests with 401", async () => {
@@ -201,7 +206,7 @@ describe("POST /api/internal/agent-recipes", () => {
     const bodyStr = JSON.stringify(body);
     const nowSec = Math.floor(Date.now() / 1000);
     const msgId = "msg_recipe_789";
-    const sig = computeV1Signature(msgId, nowSec, bodyStr, parseWebhookSecret(TEST_SYNC_SECRET));
+    const sig = computeV1Signature(msgId, nowSec, bodyStr, parseWebhookSecret(TEST_HOOK_SECRET));
 
     const req = new NextRequest("http://localhost/api/internal/agent-recipes", {
       method: "POST",

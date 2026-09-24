@@ -198,9 +198,23 @@ describe("Standard Webhooks signature verifier", () => {
       expect(resultWithin.valid).toBe(true);
     });
 
-    it("rejects when secret is missing or empty", () => {
+    it("returns unsigned when all webhook headers are absent, even if secret is empty", () => {
       const result = verifyStandardWebhook({
         headers: {},
+        rawBody: BODY,
+        secret: "",
+      });
+      expect(result.valid).toBe(false);
+      expect(result.reason).toBe("unsigned");
+    });
+
+    it("rejects with missing_secret when webhook headers are present but secret is empty", () => {
+      const result = verifyStandardWebhook({
+        headers: {
+          "webhook-id": MSG_ID,
+          "webhook-timestamp": String(TIMESTAMP),
+          "webhook-signature": "v1,abc",
+        },
         rawBody: BODY,
         secret: "",
       });
@@ -342,10 +356,10 @@ describe("Standard Webhooks signature verifier", () => {
       expect(resolveWebhookSecret()).toBe("hook-secret-val");
     });
 
-    it("falls back to ALCHM_KITCHEN_SYNC_SECRET", () => {
+    it("does not fall back to ALCHM_KITCHEN_SYNC_SECRET", () => {
       delete process.env.HOOK_SECRET_ASOL;
       process.env.ALCHM_KITCHEN_SYNC_SECRET = "sync-secret-val";
-      expect(resolveWebhookSecret()).toBe("sync-secret-val");
+      expect(resolveWebhookSecret()).toBe("");
     });
 
     it("returns empty string when neither is set", () => {

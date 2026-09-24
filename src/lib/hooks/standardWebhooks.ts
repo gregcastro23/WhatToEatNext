@@ -76,13 +76,11 @@ export function getWebhookSignatureMode(): WebhookSignatureMode {
 
 /**
  * Resolve the standard webhook secret from environment variables.
- * Prefers HOOK_SECRET_ASOL, falls back to ALCHM_KITCHEN_SYNC_SECRET.
+ * Exclusively reads HOOK_SECRET_ASOL without fallback.
  */
 export function resolveWebhookSecret(): string {
   const hookSecret = process.env.HOOK_SECRET_ASOL?.trim();
   if (hookSecret && hookSecret.length > 0) return hookSecret;
-  const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET?.trim();
-  if (syncSecret && syncSecret.length > 0) return syncSecret;
   return "";
 }
 
@@ -179,16 +177,16 @@ export function verifyStandardWebhook(params: {
     toleranceSeconds = DEFAULT_TOLERANCE_SECONDS,
   } = params;
 
-  if (!secret || secret.trim().length === 0) {
-    return { valid: false, reason: "missing_secret" };
-  }
-
   const msgId = getHeader(headers, "webhook-id");
   const timestampStr = getHeader(headers, "webhook-timestamp");
   const signatureHeader = getHeader(headers, "webhook-signature");
 
   if (!msgId && !timestampStr && !signatureHeader) {
     return { valid: false, reason: "unsigned" };
+  }
+
+  if (!secret || secret.trim().length === 0) {
+    return { valid: false, reason: "missing_secret" };
   }
 
   if (!msgId || !timestampStr || !signatureHeader) {

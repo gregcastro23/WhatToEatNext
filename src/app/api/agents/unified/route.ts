@@ -475,10 +475,12 @@ export async function POST(request: NextRequest | Request): Promise<NextResponse
 
           const rawJson: unknown = await res.json();
           const parsed = z.record(z.string(), z.unknown()).safeParse(rawJson);
-          const chatData = parsed.success ? parsed.data : {};
+          if (!parsed.success) {
+            throw new Error("Invalid response format from Planetary Agents API: expected object");
+          }
           return NextResponse.json({
             success: true,
-            data: chatData,
+            data: parsed.data,
             timestamp
           });
         } catch (fetchErr: unknown) {

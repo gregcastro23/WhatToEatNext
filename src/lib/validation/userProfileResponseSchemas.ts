@@ -131,18 +131,29 @@ function toZodiacSignType(sign: unknown): ZodiacSignType {
   return "aries";
 }
 
-function extractBirthData(wire: z.infer<typeof NatalChartSchema>): BirthData {
+export function toDomainBirthData(wire: z.infer<typeof BirthDataSchema>): BirthData {
   return {
-    dateTime: wire.birthData?.dateTime ?? "",
-    latitude: wire.birthData?.latitude ?? 0,
-    longitude: wire.birthData?.longitude ?? 0,
-    ...(wire.birthData?.utcInstant ? { utcInstant: wire.birthData.utcInstant } : {}),
-    ...(wire.birthData?.timezone ? { timezone: wire.birthData.timezone } : {}),
-    ...(wire.birthData?.timezoneBasis && isTimezoneBasis(wire.birthData.timezoneBasis)
-      ? { timezoneBasis: wire.birthData.timezoneBasis }
+    dateTime: wire.dateTime,
+    latitude: wire.latitude,
+    longitude: wire.longitude,
+    ...(wire.utcInstant ? { utcInstant: wire.utcInstant } : {}),
+    ...(wire.timezone ? { timezone: wire.timezone } : {}),
+    ...(wire.timezoneBasis && isTimezoneBasis(wire.timezoneBasis)
+      ? { timezoneBasis: wire.timezoneBasis }
       : {}),
-    ...(wire.birthData?.location ? { location: wire.birthData.location } : {}),
+    ...(wire.location ? { location: wire.location } : {}),
   };
+}
+
+function extractBirthData(wire: z.infer<typeof NatalChartSchema>): BirthData {
+  if (!wire.birthData) {
+    return {
+      dateTime: "",
+      latitude: 0,
+      longitude: 0,
+    };
+  }
+  return toDomainBirthData(wire.birthData);
 }
 
 function extractPlanetaryMap(
@@ -227,7 +238,7 @@ export interface DomainUserProfile {
   preferences?: Record<string, unknown>;
   dietaryPreferences?: Record<string, unknown>;
   onboardingComplete?: boolean;
-  birthData?: z.infer<typeof BirthDataSchema>;
+  birthData?: BirthData;
   natalChart?: z.infer<typeof NatalChartSchema>;
   groupMembers?: Array<z.infer<typeof GroupMemberSchema>>;
   diningGroups?: Array<z.infer<typeof DiningGroupSchema>>;
@@ -248,7 +259,7 @@ export function toDomainUserProfile(
   if (wire.preferences !== undefined) result.preferences = wire.preferences;
   if (wire.dietaryPreferences !== undefined) result.dietaryPreferences = wire.dietaryPreferences;
   if (wire.onboardingComplete !== undefined) result.onboardingComplete = wire.onboardingComplete;
-  if (wire.birthData !== undefined) result.birthData = wire.birthData;
+  if (wire.birthData !== undefined) result.birthData = toDomainBirthData(wire.birthData);
   if (wire.natalChart !== undefined) {
     result.natalChart = wire.natalChart;
   }
