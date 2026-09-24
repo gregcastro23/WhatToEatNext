@@ -1,7 +1,8 @@
 /**
- * GET /api/ingredients/[name] resolves exactly over the union catalog
- * (omnibar Phase 2.5a). Only the rate limiter and the recipe service are
- * mocked; the catalog and the recipe index are real.
+ * GET /api/ingredients/[name] over the union catalog (omnibar Phase 2.5a):
+ * an exact identity first, then the legacy match for recipe lines. Only the
+ * rate limiter and the recipe service are mocked; the catalogs and the recipe
+ * index are real.
  */
 jest.mock("@/lib/rateLimit", () => ({ rateLimit: jest.fn() }));
 jest.mock("@/services/UnifiedRecipeService", () => ({
@@ -43,8 +44,14 @@ describe("GET /api/ingredients/[name]", () => {
     expect(body.ingredient).toMatchObject({ name: "Chicken Egg", category: "protein" });
   });
 
-  it("an unknown name is a 200 with no card, never a near miss", async () => {
-    const { status, body } = await get("fresh basil leaves");
+  it("a recipe line that is no identity keeps the legacy match (the drawer's card)", async () => {
+    const { body } = await get("ground beef (80/20)");
+    expect(body.ingredient?.name).toBe("Beef");
+    expect(body.slug).toBe("beef");
+  });
+
+  it("a name nothing matches is a 200 with no card", async () => {
+    const { status, body } = await get("xqzv");
     expect(status).toBe(200);
     expect(body).toMatchObject({ success: true, slug: null, ingredient: null });
   });

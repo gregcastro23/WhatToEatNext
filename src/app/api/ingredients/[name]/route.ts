@@ -5,9 +5,14 @@ import {
   getRecipesForIngredient,
   resolveIngredientSlug,
 } from "@/data/ingredientRecipeIndex";
-import { catalogRecord, resolveCatalogIngredient } from "@/lib/ingredients/ingredientCatalog";
+import {
+  catalogRecord,
+  resolveCatalogIngredient,
+  type CatalogIngredient,
+} from "@/lib/ingredients/ingredientCatalog";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { IngredientService } from "@/services/IngredientService";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
 
@@ -39,6 +44,24 @@ function extractTime(recipe: Recipe, kind: "prep" | "cook"): number | undefined 
     if (m) return parseInt(m[1] ?? "", 10);
   }
   return undefined;
+}
+
+/**
+ * The card for a name. An exact identity (slug, key, either catalog's name,
+ * alias) wins; that alone fixes the 15 names the substring match sent to
+ * another card ("Apple Cider Vinegar" → Apple). The IngredientDrawer also
+ * sends recipe lines ("ground beef (80/20)"), which are not identities.
+ * [MEASURED 2026-09-23] Only 649 of 2,880 distinct recipe lines are exact
+ * names, so for the rest the legacy match still answers, mapped onto the union
+ * card: the drawer shows a card for every line it showed one before. Better
+ * line resolution is its own measured change; dossier URLs turn strictly
+ * exact in Phase 2.5b, when the page stops calling this route.
+ */
+function cardFor(text: string): CatalogIngredient | null {
+  const exact = resolveCatalogIngredient(text);
+  if (exact) return exact.entry;
+  const legacy = IngredientService.getInstance().getIngredientByName(text);
+  return legacy ? (resolveCatalogIngredient(legacy.name)?.entry ?? null) : null;
 }
 
 type IndexMatch = ReturnType<typeof getRecipesForIngredient>[number];
@@ -118,12 +141,11 @@ export async function GET(
       );
     }
 
-    // Exact: slug, key, name or alias of one catalog card (no substring guess).
-    const resolved = resolveCatalogIngredient(ingredientName);
-    const ingredient = resolved ? catalogRecord(resolved.entry) : null;
+    const card = cardFor(ingredientName);
+    const ingredient = card ? catalogRecord(card) : null;
 
     // Resolve canonical slug for the recipe index
-    const canonicalName = resolved?.entry.name ?? ingredientName;
+    const canonicalName = card?.name ?? ingredientName;
     const slug = resolveIngredientSlug(canonicalName) ?? resolveIngredientSlug(ingredientName) ?? canonicalName;
 
     // Get from pre-computed recipe index
@@ -145,7 +167,7 @@ export async function GET(
     return NextResponse.json({
       success: true,
       ingredient,
-      slug: resolved?.entry.slug ?? null,
+      slug: card?.slug ?? null,
       relatedRecipes,
       recipesByCuisine,
       substitutions,
