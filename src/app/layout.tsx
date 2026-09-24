@@ -1,5 +1,4 @@
 import { Analytics } from "@vercel/analytics/next";
-import { Cormorant_Garamond, JetBrains_Mono, Manrope } from "next/font/google";
 import React, { Suspense } from "react";
 import PageViewTracker from "@/components/analytics/PageViewTracker";
 import SignInModal from "@/components/auth/SignInModal";
@@ -13,30 +12,11 @@ import { RedesignedFooter } from "@/components/nav/RedesignedFooter";
 import { RedesignedHeader } from "@/components/nav/RedesignedHeader";
 import PwaRegistration from "@/components/pwa/PwaRegistration";
 import ClientProviders from "./ClientProviders";
+import { cormorantGaramond } from "./fonts/cormorantGaramond";
+import { jetbrainsMono } from "./fonts/jetbrainsMono";
+import { manrope } from "./fonts/manrope";
 import type { Metadata } from "next";
 import "./globals.css";
-
-const cormorantGaramond = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-body",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-mono",
-  display: "swap",
-});
 
 // app/layout.tsx
 // Note: `force-dynamic` is intentionally NOT applied at the root layout. The

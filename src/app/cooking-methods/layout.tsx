@@ -1,15 +1,7 @@
-import { Bodoni_Moda } from "next/font/google";
+import { bodoniModa } from "../fonts/bodoniModa";
 import type { Metadata } from "next";
 
 import "./alchemy.css";
-
-const bodoniModa = Bodoni_Moda({
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  weight: ["400", "600", "700"],
-  variable: "--font-grimoire",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Cooking Methods — Alchemical Culinary Kinetics",

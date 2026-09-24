@@ -1,0 +1,20 @@
+/*
+ * JetBrains Mono's metric-matched local fallback, second in --font-mono. It
+ * draws text during the font-display: swap window and, in steady state,
+ * every glyph JetBrains Mono lacks (arrows, ▼, ♂ ♀ …). Pinned to
+ * next/font/google's values so those glyphs keep their size; see
+ * ../README.md.
+ *
+ * Basis: next's capsize metrics. JetBrains Mono: ascent 1020, descent -300,
+ * lineGap 0, unitsPerEm 1000, xWidthAvg 600. Arial: xWidthAvg 913,
+ * unitsPerEm 2048. size-adjust = (600/1000) / (913/2048), and each override
+ * = metric / (unitsPerEm × size-adjust).
+ */
+@font-face {
+  font-family: "JetBrains Mono Fallback";
+  src: local("Arial");
+  ascent-override: 75.79%;
+  descent-override: 22.29%;
+  line-gap-override: 0%;
+  size-adjust: 134.59%;
+}

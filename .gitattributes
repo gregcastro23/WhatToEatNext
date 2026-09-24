@@ -9,6 +9,10 @@
 *.ttf filter=lfs diff=lfs merge=lfs -text
 *.otf filter=lfs diff=lfs merge=lfs -text
 *.eot filter=lfs diff=lfs merge=lfs -text
+# ...except the fonts next/font/local reads at build time. Vercel's builder does
+# not fetch LFS objects, so an LFS pointer there would ship as a 130-byte "font".
+# Guarded by src/app/fonts/__tests__/selfHostedFonts.test.ts.
+src/app/fonts/** !filter !diff !merge
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.webm filter=lfs diff=lfs merge=lfs -text
 *.mp3 filter=lfs diff=lfs merge=lfs -text
