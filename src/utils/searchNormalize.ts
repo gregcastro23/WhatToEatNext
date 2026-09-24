@@ -10,16 +10,20 @@
  */
 
 /**
- * Lowercases, collapses separators (`_`, `-`) and runs of whitespace,
- * strips non-alphanumerics, and trims. Preserves single spaces between tokens.
+ * Folds diacritics, lowercases, collapses separators (`_`, `-`) and runs of
+ * whitespace, strips non-alphanumerics, and trims. Preserves single spaces
+ * between tokens.
  *
  *   "Oat Milk!"  -> "oat milk"
  *   "oat_milk"   -> "oat milk"
  *   "oat-milk"   -> "oat milk"
+ *   "Béarnaise"  -> "bearnaise"   (folded; the strip used to delete é → "barnaise")
  */
 export function normalizeForMatch(s: string | null | undefined): string {
   if (!s) return "";
   return s
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
     .toLowerCase()
     .replace(/[_-]+/g, " ")
     .replace(/[^a-z0-9\s]/g, "")
