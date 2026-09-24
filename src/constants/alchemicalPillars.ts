@@ -28,6 +28,9 @@ export interface AlchemicalPillar {
     primary: Element; // Primary element associated with the pillar
     secondary?: Element; // Secondary element (if applicable)
   };
+  // Fourteen Pillars duel spec (alchm-astro-core/spec/pillars.v1.json, vendored as src/data/pillars.v1.json)
+  sect?: "diurnal" | "nocturnal" | "both"; // Sky the pillar can be cast under
+  castMode?: "self" | "target"; // Whether its ESMS delta lands on the caster or the opponent
 }
 
 /**
@@ -64,6 +67,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Water",
       secondary: "Earth",
     },
+    sect: "nocturnal",
+    castMode: "target",
   },
   {
     id: 2,
@@ -82,6 +87,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Air",
       secondary: "Water",
     },
+    sect: "nocturnal",
+    castMode: "self",
   },
   {
     id: 3,
@@ -100,6 +107,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Air",
       secondary: "Fire",
     },
+    sect: "diurnal",
+    castMode: "self",
   },
   {
     id: 4,
@@ -118,6 +127,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Water",
       secondary: "Air",
     },
+    sect: "diurnal",
+    castMode: "self",
   },
   {
     id: 5,
@@ -136,6 +147,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Fire",
       secondary: "Water",
     },
+    sect: "diurnal",
+    castMode: "target",
   },
   {
     id: 6,
@@ -153,6 +166,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     elementalAssociations: {
       primary: "Fire",
     },
+    sect: "diurnal",
+    castMode: "target",
   },
   {
     id: 7,
@@ -171,6 +186,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Fire",
       secondary: "Earth",
     },
+    sect: "diurnal",
+    castMode: "target",
   },
   {
     id: 8,
@@ -189,6 +206,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Earth",
       secondary: "Air",
     },
+    sect: "nocturnal",
+    castMode: "target",
   },
   {
     id: 9,
@@ -207,6 +226,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Fire",
       secondary: "Air",
     },
+    sect: "diurnal",
+    castMode: "self",
   },
   {
     id: 10,
@@ -225,6 +246,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Earth",
       secondary: "Water",
     },
+    sect: "nocturnal",
+    castMode: "target",
   },
   {
     id: 11,
@@ -243,6 +266,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Water",
       secondary: "Fire",
     },
+    sect: "nocturnal",
+    castMode: "target",
   },
   {
     id: 12,
@@ -261,6 +286,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Earth",
       secondary: "Air",
     },
+    sect: "diurnal",
+    castMode: "target",
   },
   {
     id: 13,
@@ -279,6 +306,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Fire",
       secondary: "Water",
     },
+    sect: "nocturnal",
+    castMode: "target",
   },
   {
     id: 14,
@@ -297,6 +326,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       primary: "Fire",
       secondary: "Earth",
     },
+    sect: "both",
+    castMode: "target",
   },
 ];
 

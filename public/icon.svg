@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b17ca2b4cdf2acbfffc581d4dcda3735d1aeea54728628b18345e0e0fa89453d
-size 1081
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <circle cx="256" cy="256" r="240" fill="#6b46c1" stroke="#4c1d95" stroke-width="8"/>
+  
+  <!-- Fire (top, red/orange) -->
+  <circle cx="256" cy="120" r="48" fill="#ef4444" stroke="#f59e42" stroke-width="6"/>
+  <!-- Water (right, blue) -->
+  <circle cx="392" cy="256" r="48" fill="#3b82f6" stroke="#06b6d4" stroke-width="6"/>
+  <!-- Earth (bottom, green) -->
+  <circle cx="256" cy="392" r="48" fill="#84cc16" stroke="#a3e635" stroke-width="6"/>
+  <!-- Air (left, purple) -->
+  <circle cx="120" cy="256" r="48" fill="#a78bfa" stroke="#c4b5fd" stroke-width="6"/>
+
+  <!-- Center white circle -->
+  <circle cx="256" cy="256" r="80" fill="#fff" stroke="#ede9fe" stroke-width="4"/>
+  
+  <!-- Center text: W -->
+  <text x="256" y="278" text-anchor="middle" fill="#6b46c1" font-family="Arial, sans-serif" font-size="96" font-weight="bold">W</text>
+  <text x="256" y="320" text-anchor="middle" fill="#6b46c1" font-family="Arial, sans-serif" font-size="24">Eat Next</text>
+</svg> 

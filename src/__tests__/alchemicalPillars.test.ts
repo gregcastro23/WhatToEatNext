@@ -9,6 +9,7 @@ import {
   getRecommendedCookingMethods
 } from '../utils/alchemicalPillarUtils';
 import { CookingMethod } from '../types/alchemy';
+import pillarSpec from '../data/pillars.v1.json';
 
 describe('Alchemical Pillars', () => {
   test('All 14 pillars are defined', () => {
@@ -111,4 +112,28 @@ describe('Alchemical Pillars', () => {
     expect(recommendations[0].compatibility).toBeGreaterThanOrEqual(recommendations[1].compatibility);
     expect(recommendations[1].compatibility).toBeGreaterThanOrEqual(recommendations[2].compatibility);
   });
-}); 
+});
+
+// src/data/pillars.v1.json is vendored from alchm-astro-core/spec/pillars.v1.json
+// (AlchmAgentsSolana), which also drives the Rust crate Pentacles builds on.
+describe('Alchemical Pillars match the Fourteen Pillars spec', () => {
+  const ESMS = ['Spirit', 'Essence', 'Matter', 'Substance'] as const;
+
+  test('Every pillar agrees with the spec on identity, effects, elements, rulers, sect, and cast mode', () => {
+    expect(ALCHEMICAL_PILLARS.map(p => p.id)).toEqual(pillarSpec.pillars.map(p => p.id));
+    pillarSpec.pillars.forEach(spec => {
+      const pillar = ALCHEMICAL_PILLARS.find(p => p.id === spec.id);
+      expect(pillar?.name).toBe(spec.key);
+      expect(ESMS.map(k => pillar?.effects[k])).toEqual(spec.effects);
+      expect(pillar?.elementalAssociations?.primary).toBe(spec.primary);
+      expect(pillar?.elementalAssociations?.secondary ?? null).toBe(spec.secondary);
+      expect(pillar?.planetaryAssociations).toEqual(spec.rulers);
+      expect(pillar?.sect).toBe(spec.sect);
+      expect(pillar?.castMode).toBe(spec.castMode);
+    });
+  });
+
+  test('Pillar 8 is spelled Comixion', () => {
+    expect(ALCHEMICAL_PILLARS.find(p => p.id === 8)?.name).toBe('Comixion');
+  });
+});

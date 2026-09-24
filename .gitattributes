@@ -21,3 +21,10 @@
 *.7z filter=lfs diff=lfs merge=lfs -text 
 *.ai filter=lfs diff=lfs merge=lfs -text
 *.sketch filter=lfs diff=lfs merge=lfs -text
+
+# public/ is served verbatim by Vercel, whose builds do not fetch LFS objects:
+# anything stored there as an LFS pointer ships to users as ~130 bytes of
+# pointer text (this broke /icon.svg, /icons/**, and the ESMS token icons that
+# on-chain SPL metadata links to). Keep every public asset a regular blob.
+# Guarded by src/__tests__/publicAssetsAreRealBytes.test.ts.
+public/** !filter !diff !merge

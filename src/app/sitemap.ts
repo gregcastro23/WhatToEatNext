@@ -3,10 +3,11 @@ import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("sitemap");
 
-// The sitemap enumerates recipes from the local server payload (no Redis,
-// no DB). Going through LocalRecipeService would hit a no-store Upstash
-// fetch, which forces Next.js to bail out of static rendering and logs a
-// [Redis] GET failed / Dynamic server usage error during `next build`.
+// Recipe URLs are canonical ids (live UUIDs, plus static ids with no live
+// twin) from listCanonicalRecipeIds, which reads Postgres directly — not
+// LocalRecipeService, whose no-store Upstash fetches would bail the sitemap
+// out of static rendering during `next build`. Listing static-catalog slugs
+// here used to point every crawler at a redirect behind a not-found head.
 export const revalidate = 3600; // regenerate sitemap at most hourly
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://alchm.kitchen";
@@ -44,13 +45,12 @@ const STATIC_ROUTES: Array<{
 
 async function getRecipeEntries(now: Date): Promise<MetadataRoute.Sitemap> {
   try {
-    const { getServerRecipes } = await import("@/actions/recipes");
-    const recipes = await getServerRecipes();
-    return recipes
-      .map((recipe) => (recipe?.id ? String(recipe.id) : ""))
+    const { listCanonicalRecipeIds } = await import("@/lib/recipes/recipeRefResolver");
+    const ids = await listCanonicalRecipeIds();
+    return ids
       .filter(Boolean)
       .map((id) => ({
-        url: `${BASE_URL}/recipes/${id}`,
+        url: `${BASE_URL}/recipes/${encodeURIComponent(id)}`,
         lastModified: now,
         changeFrequency: "weekly" as const,
         priority: 0.6,

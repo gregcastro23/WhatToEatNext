@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import React, { useState } from "react";
+import { AlchmVesselKitchen } from "@/components/economy/AlchmVesselKitchen";
 import { DailyAlignmentWidget } from "@/components/economy/DailyAlignmentWidget";
 import { LiveLedgerFeed } from "@/components/economy/LiveLedgerFeed";
 import { TokenBalanceBar } from "@/components/economy/TokenBalanceBar";
@@ -143,6 +144,7 @@ const OperatorOverviewTab: React.FC<DashboardProps & { userName: string; email: 
 const OperatorEconomyTab: React.FC = () => (
   <div className="space-y-7">
     <TokenBalanceBar />
+    <AlchmVesselKitchen />
     <LiveLedgerFeed limit={5} />
     <div className="rounded-3xl glass-card-premium p-6 border-white/8">
       <div className="flex items-center justify-between mb-4">
