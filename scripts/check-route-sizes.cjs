@@ -1,85 +1,91 @@
 const fs = require('fs');
+const path = require('path');
+const {
+  DEFAULT_THRESHOLDS,
+  getLayoutKeysForPage,
+  pageKeyToRoute,
+  routeToPageKey,
+  calculateTrueRouteSizes,
+  parseBuildLog,
+  evaluateRouteSizes,
+} = require('./lib/routeSizes.cjs');
 
-let logContent = '';
-if (process.argv[2] && fs.existsSync(process.argv[2])) {
-  logContent = fs.readFileSync(process.argv[2], 'utf-8');
-} else {
-  try {
-    logContent = fs.readFileSync(0, 'utf-8'); // read from stdin
-  } catch {
-    logContent = '';
-  }
-}
-
-const lines = logContent.split('\n');
-
-const thresholds = {
-  '/': { maxRouteKb: 50, maxFirstLoadKb: 220 },
-  '/menu-planner': { maxRouteKb: 60, maxFirstLoadKb: 320 },
-  '/recipe-builder': { maxRouteKb: 50, maxFirstLoadKb: 200 },
-  '/recipe-generator': { maxRouteKb: 50, maxFirstLoadKb: 220 },
-  '/recipes/[recipeId]': { maxRouteKb: 80, maxFirstLoadKb: 350 },
-  '/shop': { maxRouteKb: 15, maxFirstLoadKb: 120 },
-  '/account': { maxRouteKb: 15, maxFirstLoadKb: 125 },
-};
-
-let failed = false;
-let foundAny = false;
-
-for (const [route, limits] of Object.entries(thresholds)) {
-  const escapedRoute = route.replace(/[[\]]/g, '\\$&');
-  const regex = new RegExp(`(?:\\s|^)${escapedRoute}(?:\\s|$)`);
-  const line = lines.find(l => regex.test(l));
-  if (line) {
-    foundAny = true;
-    const tokens = line.trim().split(/\s+/);
-    // Format: [prefix..., route, routeSize, routeUnit, firstLoadSize, firstLoadUnit]
-    const flUnit = tokens.pop();
-    const flSizeStr = tokens.pop();
-    const rUnit = tokens.pop();
-    const rSizeStr = tokens.pop();
-
-    let routeKb = parseFloat(rSizeStr);
-    if (rUnit === 'MB') routeKb *= 1024;
-    else if (rUnit === 'B') routeKb /= 1024;
-
-    let firstLoadKb = parseFloat(flSizeStr);
-    if (flUnit === 'MB') firstLoadKb *= 1024;
-    else if (flUnit === 'B') firstLoadKb /= 1024;
-
-    if (isNaN(routeKb) || isNaN(firstLoadKb)) {
-      console.error(`❌ Route ${route} found but could not parse sizes from line: ${line.trim()}`);
-      failed = true;
-      continue;
-    }
-
-    let routeOk = true;
-    if (routeKb > limits.maxRouteKb) {
-      console.error(`❌ Route ${route} exceeded route size threshold! Size: ${routeKb.toFixed(1)} kB (Max: ${limits.maxRouteKb} kB)`);
-      failed = true;
-      routeOk = false;
-    }
-    if (firstLoadKb > limits.maxFirstLoadKb) {
-      console.error(`❌ Route ${route} exceeded First Load JS threshold! First Load: ${firstLoadKb.toFixed(1)} kB (Max: ${limits.maxFirstLoadKb} kB)`);
-      failed = true;
-      routeOk = false;
-    }
-    if (routeOk) {
-      console.log(`✅ Route ${route} is within threshold: ${routeKb.toFixed(1)} kB route / ${firstLoadKb.toFixed(1)} kB first-load (Max: ${limits.maxRouteKb} kB / ${limits.maxFirstLoadKb} kB)`);
-    }
+function runCli() {
+  let logContent = '';
+  if (process.argv[2] && fs.existsSync(process.argv[2])) {
+    logContent = fs.readFileSync(process.argv[2], 'utf-8');
+  } else if (fs.existsSync('.next-build.log')) {
+    logContent = fs.readFileSync('.next-build.log', 'utf-8');
   } else {
-    console.error(`❌ Route ${route} not found in build log.`);
-    failed = true;
+    try {
+      logContent = fs.readFileSync(0, 'utf-8'); // read from stdin
+    } catch {
+      logContent = '';
+    }
+  }
+
+  const nextDir = process.env.NEXT_DIR || path.join(process.cwd(), '.next');
+  const manifestPath = path.join(nextDir, 'app-build-manifest.json');
+  const pathRoutesPath = path.join(nextDir, 'app-path-routes-manifest.json');
+
+  if (!fs.existsSync(manifestPath)) {
+    console.error(`❌ .next/app-build-manifest.json not found at ${manifestPath}!`);
+    console.error('   Run `next build` before running route size checks.');
+    process.exit(1);
+  }
+
+  let appBuildManifest = null;
+  try {
+    appBuildManifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+  } catch (err) {
+    console.error(`❌ Failed to parse ${manifestPath}: ${err.message}`);
+    process.exit(1);
+  }
+
+  let appPathRoutesManifest = null;
+  if (fs.existsSync(pathRoutesPath)) {
+    try {
+      appPathRoutesManifest = JSON.parse(fs.readFileSync(pathRoutesPath, 'utf-8'));
+    } catch {
+      appPathRoutesManifest = null;
+    }
+  }
+
+  const result = evaluateRouteSizes({
+    logContent,
+    appBuildManifest,
+    appPathRoutesManifest,
+    nextDir,
+    thresholds: DEFAULT_THRESHOLDS,
+  });
+
+  for (const success of result.successes) {
+    console.log(`✅ ${success}`);
+  }
+
+  for (const error of result.errors) {
+    console.error(`❌ ${error}`);
+  }
+
+  if (!result.ok) {
+    process.exit(1);
+  } else {
+    console.log('✅ All targeted routes passed bundle size checks (both Next table and true layout first-load).');
   }
 }
 
-if (!foundAny && logContent.trim().length > 0) {
-  console.warn('⚠️ No targeted routes were matched in the provided build output.');
+if (require.main === module) {
+  runCli();
 }
 
-if (failed) {
-  process.exit(1);
-} else {
-  console.log('✅ All targeted routes passed bundle size checks.');
-}
-
+module.exports = {
+  thresholds: DEFAULT_THRESHOLDS,
+  DEFAULT_THRESHOLDS,
+  getLayoutKeysForPage,
+  pageKeyToRoute,
+  routeToPageKey,
+  calculateTrueRouteSizes,
+  parseBuildLog,
+  evaluateRouteSizes,
+  runCli,
+};
