@@ -1,8 +1,8 @@
 # Phase 40 Closeout Report — ASOL Delivery Contract, Signature Rollout, and Debt Ratchets
 
 **Version:** 1.0.0  
-**Date:** 2026-09-23  
-**Base Commit:** `origin/master` (`5c79ef14`)  
+**Date:** 2026-09-24  
+**Base Commit:** `origin/master` (`17011035`)  
 **Branch:** `codex/phase-40-asol-hardening`  
 **Status:** Complete & Fully Verified  
 
@@ -39,11 +39,19 @@ All commitments from the approved implementation plan and `docs/PHASE_40_PLAN.md
    - **Workstream E:** Created `AsolContractProbeService` with positive checks and negative controls (verifying 401 across all 4 boundary endpoints), backed by 14 unit tests with zero new type assertions.
    - **Lint Hardening:** Refactored ASOL admin components and user profile routes to adhere to `max-lines` ≤ 300, `max-lines-per-function` ≤ 50, and `max-depth` ≤ 4. Tracked debt decreased to 1,320 (-2) and declined rules decreased to 4,889 (-3).
 
+5. **`b8040936`** — `fix(phase-40): address review findings across webhook auth, idempotency key, error handling, and telemetry`
+   - Removed `ALCHM_KITCHEN_SYNC_SECRET` fallback in `resolveWebhookSecret()` and updated header verification ordering to return `unsigned` on absent headers.
+   - Changed effective idempotency key to `idempotencyKey ?? webhookId` across inbound handlers so unsigned attempts and signed retries share identical keys.
+   - Implemented `toDayRecommendationOptions` allowlist adapter (`optionsAdapter.ts`) to strictly prevent client context leakage (`userContext`) under `exactOptionalPropertyTypes`.
+   - Preserved 502 error behavior on upstream parse failure in `user/profile/route.ts` while keeping the file under 300 lines with typed `toDomainBirthData`.
+   - Added separate tracking for `untracked` legacy signatures in ASOL health queries, schema, and admin activity filter.
+   - Refactored `AsolKpiGrid` and `AlchmVesselKitchen` to satisfy ESLint function length and `no-void` constraints.
+
 ---
 
 ## 3. Measured Metric Comparison
 
-| Metric / Gate | Baseline (`5c79ef14`) | Phase 40 Target | Final Measured | Status |
+| Metric / Gate | Baseline (`17011035`) | Phase 40 Target | Final Measured | Status |
 |---|---|---|---|---|
 | **Domain Loose Optionality** (`(?: T \| undefined)`) | 216 | ≤ 193 | **193** | ✅ Passed (-23) |
 | **Total Loose Optionality** | 305 | ≤ 282 | **282** | ✅ Passed (-23) |
@@ -52,7 +60,7 @@ All commitments from the approved implementation plan and `docs/PHASE_40_PLAN.md
 | **Single Assertion Sites** | 3,022 | ≤ 2,992 | **2,983** | ✅ Passed (-39) |
 | **Total Assertion Sites** | 3,186 | ≤ 3,150 | **3,147** | ✅ Passed (-39) |
 | **Tracked Lint Debt** | 1,322 | ≤ 1,322 | **1,320** | ✅ Decreased (-2) |
-| **Declined Rules Pool** | 4,892 | ≤ 4,892 | **4,889** | ✅ Decreased (-3) |
+| **Declined Rules Pool** | 4,889 | ≤ 4,889 | **4,886** | ✅ Decreased (-3) |
 | **Prefer Nullish Coalescing Sub-baseline** | 211 | ≤ 211 | **210** | ✅ Decreased (-1) |
 | **Diff Type Assertions** (`check:diff-assertions`) | 0 | 0 | **0 new** | ✅ Passed |
 | **Read JSON Response Validation** | 0 unvalidated | 0 | **0 unvalidated** | ✅ Passed |
@@ -61,7 +69,7 @@ All commitments from the approved implementation plan and `docs/PHASE_40_PLAN.md
 | **Behavioral Snapshot Witness** | 100% parity | 100% parity | **100% parity** | ✅ Passed |
 | **Dead Modules** | 0 dead | 0 dead | **0 dead** | ✅ Passed |
 | **TypeScript Strictness Checks** | 0 errors | 0 errors | **0 errors** | ✅ Passed |
-| **Full Jest Test Suite** | 430 suites | ≥ 430 suites | **432 suites, 4,362 passed** | ✅ Passed (100%) |
+| **Full Jest Test Suite** | 430 suites | ≥ 430 suites | **442 suites, 4,477 passed** | ✅ Passed (100%) |
 | **Production Build & Route Budgets** | 7/7 passing | 7/7 passing | **7/7 passing** | ✅ Passed |
 
 ---
@@ -129,7 +137,7 @@ The full verification suite was executed sequentially under Bun runtime:
 7. `bun run typecheck` → ✅ Passed (`tsc --noEmit --incremental false` with 0 errors).
 8. `bun run lint` → ✅ Passed (0 errors, 95 legacy warnings).
 9. `bun run verify:static` → ✅ Passed (100% behavioral parity, 0 dead modules, all debt ratchets satisfied).
-10. `bun run test --passWithNoTests` → ✅ Passed (432 test suites, 4,362 tests passed, 0 failures).
+10. `bun run test --passWithNoTests` → ✅ Passed (442 test suites, 4,477 tests passed, 0 failures).
 11. `bun run build` → ✅ Passed (Next.js 15.5.19 production build, all 7 route budgets strictly within limits).
 
 ---

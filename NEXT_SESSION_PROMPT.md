@@ -4,11 +4,13 @@ Implement this campaign end to end in the existing WhatToEatNext repository. Sta
 
 ---
 
-## 1. Starting State (Measured on `codex/phase-40-asol-hardening`, September 23, 2026)
+## 1. Starting State (Measured on `codex/phase-40-asol-hardening`, September 24, 2026)
 
-Phase 40 is complete on branch `codex/phase-40-asol-hardening`. All static gates, full test suites (432 suites, 4,362 tests), and production build checks pass with 0 errors and 0 warnings.
+Phase 40 is complete on branch `codex/phase-40-asol-hardening`. All static gates, full test suites (442 suites, 4,477 tests passed), and production build checks pass with 0 errors and 0 warnings.
 
 ### Preceding Commit Reference (Phase 40):
+- `b8040936`: `fix(phase-40): address review findings across webhook auth, idempotency key, error handling, and telemetry`
+- `ea908cac`: `Merge remote-tracking branch 'origin/master' into codex/phase-40-asol-hardening`
 - `4a7a2a30`: `feat(debt): domain loose optionality <= 193, bare json <= 128, assertions <= 2983 (#B, #C, #D, #E)`
 - `062620d5`: `style(admin): alphabetical import order in asol health page`
 - `345f9be0`: `feat(admin): 24h delivery telemetry, signature audit, and stale lock alerts (#A2, #A3)`
@@ -28,15 +30,15 @@ Phase 40 is complete on branch `codex/phase-40-asol-hardening`. All static gates
 | `lint:debt` (Assertions) | **3,147 sites** (2,523 prod, 624 test) | ≤3,147 | ✅ Decreased (-39) |
 | `lint:debt` (Single assertions) | **2,983 sites** | ≤2,983 | ✅ Decreased (-39) |
 | `lint:debt` (Tracked debt) | **1,320 sites** | ≤1,320 | ✅ Decreased (-2) |
-| `lint:debt` (Declined pool) | **4,889 sites** | ≤4,889 | ✅ Decreased (-3) |
+| `lint:debt` (Declined pool) | **4,886 sites** | ≤4,889 | ✅ Decreased (-3) |
 | `lint:debt` (Loose Domain) | **193 sites** | ≤193 | ✅ Met (89 wire segregated) |
 | `lint:debt` (Prefer nullish coalescing) | **210 sites** | ≤210 | ✅ Decreased (-1) |
-| `audit:dead-modules` | 0 dead modules (1,287 reachable) | 0 | ✅ Pass |
+| `audit:dead-modules` | 0 dead modules (1,305 reachable) | 0 | ✅ Pass |
 | `check:read-json` | 0 unvalidated / 108 calls | 0 unvalidated | ✅ 100% Compliant |
 | `check:bare-json` | **128 prod / 137 total** (100 files) | ≤128 prod | ✅ Decreased (-11) |
 | `check:diff-assertions` | **0 new type assertions** | 0 | ✅ Zero Slippage |
 | `check:snapshot-witness` | 100% behavioral parity | 100% | ✅ Exact Parity |
-| `bun run test` | 432 suites, 4,362 passed, 0 failed | natural exit 0 | ✅ Clean Teardown |
+| `bun run test` | 442 suites, 4,477 passed, 0 failed | natural exit 0 | ✅ Clean Teardown |
 | `bun run build` | 7/7 route size checks pass | ceilings met | ✅ Pass (`/account` 109 kB, `/menu-planner` 289 kB) |
 
 ---
