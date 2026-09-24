@@ -20,6 +20,7 @@ import { allIngredients } from "@/data/ingredients";
 import { resolveUnifiedIngredientKey, unifiedIngredients } from "@/data/unified/ingredients";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
 import type { Ingredient } from "@/types";
+import { getAssetUrl } from "@/utils/urlUtils";
 import { ingredientSlug, slugForm } from "./ingredientSlug";
 
 export interface CatalogIngredient {
@@ -29,6 +30,8 @@ export interface CatalogIngredient {
   /** src/data's card; its defined fields win. */
   source: Ingredient | null;
   unified: UnifiedIngredient | null;
+  /** Served image URL (absolute or root-relative), or null. */
+  imageUrl: string | null;
   /** Keys and names of the cards merged into this one (plurals, SAME_CARD). */
   aliases: readonly string[];
 }
@@ -50,8 +53,22 @@ function displayName(key: string, source: Ingredient | null, unified: UnifiedIng
   return [source?.name, unified?.name].find((name) => name !== undefined && name.length > 0) ?? key;
 }
 
+/**
+ * src/data stores an asset PATH ("ingredients/vanilla.png"); the unified card
+ * stores the served URL. [MEASURED 2026-09-23] 873 of 1,002 merged records
+ * would carry the bare path, which next/image rejects, so the image is always
+ * resolved through getAssetUrl, as the unified catalog does.
+ */
+function servedImage(source: Ingredient | null, unified: UnifiedIngredient | null): string | null {
+  const path = [source?.image_url, source?.imageUrl, unified?.image_url, unified?.imageUrl].find(
+    (value) => value !== undefined && value.trim() !== "",
+  );
+  return getAssetUrl(path) ?? null;
+}
+
 function entryFor(key: string, source: Ingredient | null, unified: UnifiedIngredient | null): CatalogIngredient {
-  return { key, slug: ingredientSlug(key), name: displayName(key, source, unified), source, unified, aliases: [] };
+  const name = displayName(key, source, unified);
+  return { key, slug: ingredientSlug(key), name, source, unified, imageUrl: servedImage(source, unified), aliases: [] };
 }
 
 /**
@@ -138,9 +155,11 @@ export function resolveCatalogIngredient(param: string): ResolvedIngredient | nu
 /** The card as JSON: the unified card overlaid with src/data's defined fields. */
 export function catalogRecord(entry: CatalogIngredient): Record<string, unknown> {
   const overlay: Array<[string, unknown]> = Object.entries(entry.source ?? {});
+  const image = entry.imageUrl === null ? {} : { image_url: entry.imageUrl, imageUrl: entry.imageUrl };
   return {
     ...entry.unified,
     ...Object.fromEntries(overlay.filter(([, value]) => value !== undefined)),
     name: entry.name,
+    ...image,
   };
 }

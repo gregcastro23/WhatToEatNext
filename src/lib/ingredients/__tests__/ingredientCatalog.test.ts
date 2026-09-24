@@ -76,6 +76,13 @@ describe("catalogRecord: src/data wins field by field", () => {
     expect(catalogRecord(entry("chicken_egg"))).toMatchObject({ name: "Chicken Egg", category: "protein" });
   });
 
+  it("serves every image as a URL next/image accepts, never a bare asset path", () => {
+    const bad = entries.filter(({ imageUrl }) => imageUrl !== null && !/^(https:\/\/|\/)/.test(imageUrl));
+    expect(bad.map(({ key, imageUrl }) => `${key}: ${imageUrl}`)).toEqual([]);
+    expect(entry("vanilla").source?.image_url).toBe("ingredients/vanilla.png");
+    expect(catalogRecord(entry("vanilla")).image_url).toBe(entry("vanilla").unified?.image_url);
+  });
+
   it("serializes as JSON", () => {
     expect(() => JSON.stringify(entries.map(catalogRecord))).not.toThrow();
   });

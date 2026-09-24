@@ -71,10 +71,10 @@ function classificationOf({ source, unified }: CatalogIngredient): Classificatio
   };
 }
 
-function appearanceOf({ source, unified }: CatalogIngredient): Pick<IngredientRecord, "elemental" | "imageUrl"> {
+function appearanceOf({ source, unified, imageUrl }: CatalogIngredient): Pick<IngredientRecord, "elemental" | "imageUrl"> {
   return {
     elemental: elementalOf(source?.elementalProperties) ?? elementalOf(unified?.elementalProperties),
-    imageUrl: source?.image_url ?? source?.imageUrl ?? unified?.image_url ?? unified?.imageUrl ?? null,
+    imageUrl,
   };
 }
 
