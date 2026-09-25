@@ -64,6 +64,17 @@ function fakeClient() {
   };
 }
 
+type Hook = (client: unknown) => Promise<void>;
+
+/** The pool config's onConnect, checked at runtime rather than cast (Invariant §4). */
+function hookFrom(value: unknown): Hook | undefined {
+  if (value === undefined) return undefined;
+  if (typeof value !== "function") throw new Error(`onConnect is ${typeof value}, not a function`);
+  return async (client) => {
+    await Reflect.apply(value, undefined, [client]);
+  };
+}
+
 /** Build the pool with a given pooler mode and return it plus its onConnect hook. */
 function buildPool(poolerMode: string) {
   jest.resetModules();
@@ -79,7 +90,7 @@ function buildPool(poolerMode: string) {
   const pool = mockPools[0];
   return {
     pool,
-    onConnect: pool.config.onConnect as ((client: unknown) => Promise<void>) | undefined,
+    onConnect: hookFrom(pool.config.onConnect),
   };
 }
 
@@ -185,18 +196,35 @@ class FakePgClient extends EventEmitter {
 }
 
 describe("pooled statement_timeout against the real pg-pool", () => {
-  type RealPool = {
-    connect(): Promise<FakePgClient>;
+  interface RealPool {
+    connect(): Promise<unknown>;
     end(): Promise<void>;
     totalCount: number;
     on(event: string, cb: (...args: unknown[]) => void): void;
-  };
-  const RealPool = jest.requireActual("pg-pool") as new (options: Record<string, unknown>) => RealPool;
+  }
+
+  /** pg-pool ships no types, so its instance is checked at runtime rather than cast. */
+  function isRealPool(value: unknown): value is RealPool {
+    return (
+      typeof value === "object" &&
+      value !== null &&
+      ["connect", "end", "on"].every((key) => typeof Reflect.get(value, key) === "function") &&
+      typeof Reflect.get(value, "totalCount") === "number"
+    );
+  }
+
+  function newRealPool(options: Record<string, unknown>): RealPool {
+    const PgPool: unknown = jest.requireActual("pg-pool");
+    if (typeof PgPool !== "function") throw new Error("pg-pool did not export a constructor");
+    const pool: unknown = Reflect.construct(PgPool, [options]);
+    if (!isRealPool(pool)) throw new Error("pg-pool instance lacks connect/end/on/totalCount");
+    return pool;
+  }
 
   function realPoolWithOurHook(): RealPool {
     const onConnect = buildPool("session").onConnect;
     expect(onConnect).toBeDefined();
-    const pool = new RealPool({ Client: FakePgClient, max: 1, onConnect });
+    const pool = newRealPool({ Client: FakePgClient, max: 1, onConnect });
     pool.on("connect", () => events.push("connect event"));
     return pool;
   }
@@ -228,6 +256,7 @@ describe("pooled statement_timeout against the real pg-pool", () => {
       "connect event",
       "checked out",
     ]);
+    if (!(client instanceof FakePgClient)) throw new Error("pool handed out a foreign client");
     client.release?.();
     await pool.end();
   });

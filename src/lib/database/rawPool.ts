@@ -91,7 +91,7 @@ export interface DatabaseConfig {
   // Awaited hook called by pg-pool on newly connected clients before they are
   // leased to any caller. Typed as @types/pg's PoolConfig.onConnect takes it
   // (ClientBase), so the config needs no cast to reach the constructor.
-  onConnect?: ((client: ClientBase) => Promise<void>) | undefined;
+  onConnect?: (client: ClientBase) => Promise<void>;
 }
 
 /** The pooled-mode onConnect hook: apply the floor, or log and reject so pg-pool drops the client. */
@@ -249,9 +249,10 @@ export function initializeDatabase(): Pool {
     databaseConfig.statementTimeoutMs,
   );
 
+  // The key is left off in direct mode; pg-pool only asks whether it is set.
   const poolConfig: DatabaseConfig = {
     ...config,
-    onConnect: pooledStatementTimeoutSql ? applyStatementFloor(pooledStatementTimeoutSql) : undefined,
+    ...(pooledStatementTimeoutSql ? { onConnect: applyStatementFloor(pooledStatementTimeoutSql) } : {}),
   };
 
   try {
