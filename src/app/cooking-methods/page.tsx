@@ -32,6 +32,7 @@ import { METHOD_PHYSICAL_REFERENCE } from "@/data/cooking/physicalReference";
 import { getAlchemicalProfile } from "@/data/cooking/profiles";
 import type { CookingMethodData } from "@/types/cookingMethod";
 import { elementalSignature } from "@/utils/elemental/signature";
+import type { Metadata } from "next";
 
 const CATEGORY_GROUPS: Array<{
   id: string;
@@ -188,6 +189,10 @@ function MethodCard({
     </article>
   );
 }
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/cooking-methods" },
+};
 
 export default function CookingMethodsPage() {
   return (

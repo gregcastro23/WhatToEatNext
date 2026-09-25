@@ -8,6 +8,7 @@
  * name alone. The parameter is removed afterwards, so a reload does not add
  * it twice.
  */
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useRecipeBuilder, type SelectedIngredient } from "@/contexts/RecipeBuilderContext";
 import { PREFILL_PARAM } from "@/lib/recipe-builder/prefillLink";
@@ -45,27 +46,38 @@ export function prefillIngredients(names: readonly string[], listed: readonly Li
   return queued;
 }
 
-function requestedNames(): string[] {
-  return new URLSearchParams(window.location.search).getAll(PREFILL_PARAM);
-}
-
 function withoutPrefill(): string {
   const url = new URL(window.location.href);
   url.searchParams.delete(PREFILL_PARAM);
   return `${url.pathname}${url.search}${url.hash}`;
 }
 
+/** Joins the requested names into one comparable effect key. */
+const SEPARATOR = "\u0000";
+
 export function useIngredientPrefill(): void {
   const { isReady, addIngredient } = useRecipeBuilder();
+  // Keyed on the parameter, not on mounting: "Cook with this" from the header
+  // while already on the builder is a soft navigation that keeps this
+  // component mounted, so an effect that only ran on mount would miss it.
+  const requested = useSearchParams()?.getAll(PREFILL_PARAM).join(SEPARATOR) ?? "";
   useEffect(() => {
-    if (!isReady) return;
-    const names = requestedNames();
-    if (names.length === 0) return;
+    if (!isReady || requested === "") return;
     try {
-      prefillIngredients(names, getAllIngredients()).forEach(addIngredient);
+      prefillIngredients(requested.split(SEPARATOR), getAllIngredients()).forEach(addIngredient);
     } catch (error) {
       logger.error("Failed to queue linked ingredients:", error);
     }
     window.history.replaceState(window.history.state, "", withoutPrefill());
-  }, [isReady, addIngredient]);
+  }, [isReady, addIngredient, requested]);
+}
+
+/**
+ * The prefill as a render-nothing component. `useSearchParams` needs a
+ * Suspense boundary on a prerendered page, so the panel mounts this inside
+ * one rather than calling the hook itself.
+ */
+export function IngredientPrefill(): null {
+  useIngredientPrefill();
+  return null;
 }

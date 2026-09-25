@@ -84,6 +84,7 @@ export const metadata: Metadata = {
   title: "Planetary Ecosystem — Free-Body Diagrams of the Current Sky",
   description:
     "Every force acting on every planet right now — aspects, elemental pulls, dignities, and momentum — drawn as physics-style free-body diagrams at arc-minute precision.",
+  alternates: { canonical: "/celestial-lab/mechanics" },
 };
 
 async function computeEcosystemUncached() {
