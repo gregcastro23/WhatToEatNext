@@ -528,6 +528,9 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
                   className="alchm-pill-btn"
                   data-active={isActive}
                   aria-current={isActive ? "page" : undefined}
+                  // No mega-menu names this section on hover, so in the
+                  // icons-only tier the tooltip is what does.
+                  title={section.label}
                   onMouseEnter={() => {
                     cancelClose();
                     setOpenMenu("none");
