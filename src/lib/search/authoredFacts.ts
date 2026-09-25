@@ -6,6 +6,9 @@
  * [MEASURED 2026-09-25, production] All 1,063 live recipes store prep 30 +
  * cook 30 and category "main": placeholders, not facts. Every live recipe has
  * a static twin (1,064 twins over 1,063 live recipes).
+ *
+ * Read by search (the time and meal filters) and by /recipes/[recipeId]
+ * (the visible times and meal, and the Recipe JSON-LD).
  */
 import { buildRecipeIdentityIndex, type RecipeIdentityRecord } from "@/lib/recipes/recipeIdentity";
 import type { Recipe } from "@/types/recipe";
@@ -15,8 +18,13 @@ import type { MealIntent } from "./intentLexicon";
 export interface AuthoredFacts {
   /** Prep plus cook, as authored; null = not stated. */
   minutes: number | null;
+  /** The two parts of `minutes`, each null exactly when it is. */
+  prepMinutes: number | null;
+  cookMinutes: number | null;
   meals: readonly MealIntent[];
 }
+
+export const NOT_AUTHORED: AuthoredFacts = { minutes: null, prepMinutes: null, cookMinutes: null, meals: [] };
 
 export type AuthoredLookup = (recipe: Recipe) => AuthoredFacts;
 
@@ -38,13 +46,17 @@ function stated(value: string | undefined): number | null {
   return value !== undefined && value.trim() !== "" && Number.isFinite(minutes) && minutes >= 0 ? minutes : null;
 }
 
-function authoredMinutes(recipe: Recipe): number | null {
+interface Times {
+  prep: number;
+  cook: number;
+}
+
+function authoredTimes(recipe: Recipe): Times | null {
   const prep = stated(recipe.prepTime);
   const cook = stated(recipe.cookTime);
   if (prep === null || cook === null) return null;
   if (isInternalCuisineCode(recipe.cuisine) && (prep === HSCA_FILL_MINUTES || cook === HSCA_FILL_MINUTES)) return null;
-  const total = prep + cook;
-  return total > 0 ? total : null;
+  return prep + cook > 0 ? { prep, cook } : null;
 }
 
 function mealsOf(recipe: Recipe): MealIntent[] {
@@ -54,7 +66,13 @@ function mealsOf(recipe: Recipe): MealIntent[] {
 }
 
 export function authoredFactsOf(recipe: Recipe): AuthoredFacts {
-  return { minutes: authoredMinutes(recipe), meals: mealsOf(recipe) };
+  const times = authoredTimes(recipe);
+  return {
+    minutes: times ? times.prep + times.cook : null,
+    prepMinutes: times?.prep ?? null,
+    cookMinutes: times?.cook ?? null,
+    meals: mealsOf(recipe),
+  };
 }
 
 /**
@@ -74,6 +92,20 @@ export function buildAuthoredLookup(staticRecipes: readonly Recipe[], liveRecipe
   return (recipe) => {
     const id = String(recipe.id);
     const source = staticById.get(id) ?? byLiveId.get(id);
-    return source ? authoredFactsOf(source) : { minutes: null, meals: [] };
+    return source ? authoredFactsOf(source) : NOT_AUTHORED;
   };
+}
+
+/**
+ * The recipe as a page shows and publishes it: its times and meal are the
+ * authored facts, or absent. Never the live catalog's placeholders.
+ */
+export function withAuthoredFacts(recipe: Recipe, facts: AuthoredFacts): Recipe {
+  const { prepTime: _prep, cookTime: _cook, totalTime: _total, timeToMake: _make, mealType: _meal, ...rest } = recipe;
+  const { minutes, prepMinutes, cookMinutes, meals } = facts;
+  const times =
+    minutes === null || prepMinutes === null || cookMinutes === null
+      ? {}
+      : { prepTime: String(prepMinutes), cookTime: String(cookMinutes), totalTime: String(minutes), timeToMake: `${minutes} minutes` };
+  return { ...rest, ...times, ...(meals.length > 0 ? { mealType: [...meals] } : {}) };
 }
