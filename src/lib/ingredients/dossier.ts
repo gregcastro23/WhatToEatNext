@@ -57,7 +57,7 @@ export function resolveDossierTarget(param: string): DossierTarget {
 
 export async function getIngredientDossier(entry: CatalogIngredient): Promise<IngredientDossier> {
   const index = await getSearchIndex();
-  const recipes = containingRows(index, entry.key, DEFAULT_CONTAINING).map(
+  const recipes = containingRows(index, entry.key, DEFAULT_CONTAINING).rows.map(
     ({ id, name, href, cuisine, totalMinutes, alternative }): DossierRecipe => ({
       id,
       name,

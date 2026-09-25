@@ -10,8 +10,8 @@ import { titleCase } from "@/lib/ingredients/dossierView";
 import type { OmnibarResponse } from "@/lib/validation/searchSchemas";
 import { matchNav, quickActions } from "./navMatches";
 import { heroSections, NO_HERO_STATE, type HeroState } from "./omnibarHero";
-import { link, recipeRow } from "./omnibarRows";
-import { searchHref, type LinkRow, type OmnibarCorrection, type OmnibarSection, type SearchStatus } from "./omnibarTypes";
+import { coverageSection, link, recipeRow } from "./omnibarRows";
+import { searchHref, type LinkRow, type OmnibarChip, type OmnibarCorrection, type OmnibarSection, type SearchStatus } from "./omnibarTypes";
 
 export type ServerKind = OmnibarResponse["ingredients"][number]["kind"];
 
@@ -51,12 +51,15 @@ export interface OmnibarModelInput {
 export interface OmnibarModel {
   sections: OmnibarSection[];
   correction: OmnibarCorrection | null;
+  /** The query's intent, as the server read it; none when a page matched exactly. */
+  chips: readonly OmnibarChip[];
   exactNav: LinkRow | null;
 }
 
 function kindSections(response: OmnibarResponse, kind: ServerKind, hero: HeroState | null): OmnibarSection[] {
   if (kind === "recipe") {
-    const shown = new Set(hero ? response.recipesContaining.map((r) => r.id) : []);
+    const listed = [...(hero ? response.recipesContaining : []), ...(response.coverage?.rows ?? [])];
+    const shown = new Set(listed.map((r) => r.id));
     const rows = response.recipes.filter((r) => !shown.has(r.id)).slice(0, LIMITS.perKind).map((r) => recipeRow("recipes", r));
     return [{ id: "recipes", title: KIND_TITLE.recipe, rows }];
   }
@@ -74,11 +77,11 @@ export function orderedKinds(response: OmnibarResponse): readonly ServerKind[] {
   return lead ? [lead, ...KIND_ORDER.filter((k) => k !== lead)] : KIND_ORDER;
 }
 
-/** `hero` null = the merge rule suppressed it. */
+/** `hero` null = the merge rule suppressed it. Several named ingredients lead with their recipes together. */
 function serverSections(response: OmnibarResponse, hero: HeroState | null): OmnibarSection[] {
-  return orderedKinds(response)
-    .flatMap((kind) => kindSections(response, kind, hero))
-    .filter((s) => s.rows.length > 0);
+  return [...coverageSection(response.coverage, LIMITS.containing), ...orderedKinds(response).flatMap((kind) => kindSections(response, kind, hero))].filter(
+    (s) => s.rows.length > 0,
+  );
 }
 
 /** D5: zero results still offer a next step. */
@@ -111,13 +114,14 @@ function tailSections(query: string, status: SearchStatus, noServer: boolean, no
 
 export function buildOmnibarModel({ query, response, status, recent, heroState = NO_HERO_STATE }: OmnibarModelInput): OmnibarModel {
   const trimmed = query.trim();
-  if (!trimmed) return { sections: emptyQuerySections(recent), correction: null, exactNav: null };
+  if (!trimmed) return { sections: emptyQuerySections(recent), correction: null, chips: [], exactNav: null };
   const nav = matchNav(trimmed, LIMITS.pages);
   const pages: OmnibarSection[] = nav.rows.length > 0 ? [{ id: "pages", title: "PAGES", rows: nav.rows }] : [];
   const server = response ? serverSections(response, nav.exact === null ? heroState : null) : [];
   const sections = [...pages, ...server, ...tailSections(trimmed, status, server.length === 0, pages.length === 0)];
   const correction = nav.exact === null && response ? response.corrected : null;
-  return { sections, correction, exactNav: nav.exact };
+  const chips = nav.exact === null && response ? response.chips : [];
+  return { sections, correction, chips, exactNav: nav.exact };
 }
 
 export interface EnterTarget {

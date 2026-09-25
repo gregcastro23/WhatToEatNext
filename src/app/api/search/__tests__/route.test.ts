@@ -4,7 +4,9 @@
  * boundary. Contracts:
  *   1. a query answers 200 with a schema-valid body and a CDN cache header;
  *   2. recipe rows are text-only (no image or time on the wire);
- *   3. bad input → 400, limiter → 429, failure → 503, all no-store.
+ *   3. bad input → 400, limiter → 429, failure → 503, all no-store;
+ *   4. intent (Phase 5): chips, coverage and filtered totals on the wire, and
+ *      a body cached before them still parses.
  */
 import { NextRequest } from "next/server";
 import { buildSearchIndex, type SearchIndex } from "@/lib/search/searchIndex";
@@ -18,14 +20,16 @@ import { rateLimit } from "@/lib/rateLimit";
 import { getSearchIndex } from "@/lib/search/loader";
 import { GET } from "../route";
 
+const PLANT = { vegan: "compliant", vegetarian: "compliant" } satisfies SearchCatalogs["ingredients"][number]["diet"];
+
 const CATALOGS: SearchCatalogs = {
   ingredients: [
-    { key: "spinach", slug: "spinach", name: "spinach", aliases: [], category: "vegetable", seasons: ["spring", "autumn"], qualities: ["leafy"], rulingPlanets: ["Venus"], elemental: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 }, imageUrl: null, pairings: [{ name: "garlic", slug: "garlic" }, { name: "nutmeg", slug: null }] },
-    { key: "garlic", slug: "garlic", name: "garlic", aliases: [], category: "vegetable", seasons: ["all"], qualities: [], rulingPlanets: [], elemental: null, imageUrl: null, pairings: [] },
+    { key: "spinach", slug: "spinach", name: "spinach", aliases: [], category: "vegetable", seasons: ["spring", "autumn"], qualities: ["leafy"], rulingPlanets: ["Venus"], elemental: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 }, imageUrl: null, pairings: [{ name: "garlic", slug: "garlic" }, { name: "nutmeg", slug: null }], diet: PLANT },
+    { key: "garlic", slug: "garlic", name: "garlic", aliases: [], category: "vegetable", seasons: ["all"], qualities: [], rulingPlanets: [], elemental: null, imageUrl: null, pairings: [], diet: PLANT },
   ],
   recipes: [
-    { id: "11111111-1111-4111-8111-111111111111", name: "Spinach Pasta", cuisine: "Italian", totalMinutes: 30, imageUrl: "https://example.test/a.png", ingredientLines: ["spinach", "garlic"] },
-    { id: "22222222-2222-4222-8222-222222222222", name: "Dan Dan Noodles", cuisine: "Chinese", totalMinutes: 45, imageUrl: null, ingredientLines: ["bok choy or spinach"] },
+    { id: "11111111-1111-4111-8111-111111111111", name: "Spinach Pasta", cuisine: "Italian", totalMinutes: 30, meals: ["dinner"], imageUrl: "https://example.test/a.png", ingredientLines: ["spinach", "garlic"] },
+    { id: "22222222-2222-4222-8222-222222222222", name: "Dan Dan Noodles", cuisine: "Chinese", totalMinutes: 45, meals: ["lunch"], imageUrl: null, ingredientLines: ["bok choy or spinach"] },
   ],
   cuisines: [{ key: "Thai", name: "Thai", href: "/cuisines/thai", terms: [] }],
   methods: [{ key: "braising", name: "Braising", href: "/cooking-methods/braising", terms: [] }],
@@ -90,6 +94,36 @@ describe("GET /api/search", () => {
     const res = await get("spinach");
     expect(res.status).toBe(429);
     expect(res.headers.get("Cache-Control")).toBe("no-store");
+  });
+
+  it("names several ingredients: the recipes that use them together, as text rows", async () => {
+    const body = OmnibarResponseSchema.parse(await (await get("spinach and garlic")).json());
+    expect(body.coverage).toEqual({
+      of: [
+        { kind: "ingredient", key: "spinach", name: "spinach", href: "/ingredients/spinach" },
+        { kind: "ingredient", key: "garlic", name: "garlic", href: "/ingredients/garlic" },
+      ],
+      rows: [{ id: "11111111-1111-4111-8111-111111111111", name: "Spinach Pasta", href: "/recipes/11111111-1111-4111-8111-111111111111", cuisine: "Italian", uses: 2, missing: [] }],
+      total: 1,
+    });
+    expect(body.hero).toBeNull();
+    expect(body.top?.exact).toBe(false);
+  });
+
+  it("filters by an intent, says so in a chip, and counts what is left", async () => {
+    const body = OmnibarResponseSchema.parse(await (await get("quick spinach")).json());
+    expect(body.chips).toEqual([expect.objectContaining({ kind: "time", label: "Quick · 30 min or less", applied: true })]);
+    expect(body.recipesContaining.map((r) => r.name)).toEqual(["Spinach Pasta"]);
+    expect(body.recipesContainingTotal).toBe(1);
+    expect(body.hero?.recipeCount).toBe(2);
+  });
+
+  it("a body cached before the intent fields still parses, with none", () => {
+    const cached = { success: true, query: "x", top: null, corrected: null, hero: null, recipesContaining: [], recipes: [], ingredients: [], cuisines: [], methods: [], sauces: [], total: { ingredient: 0, recipe: 0, cuisine: 0, method: 0, sauce: 0 } };
+    const body = OmnibarResponseSchema.parse(cached);
+    expect(body.chips).toEqual([]);
+    expect(body.coverage).toBeNull();
+    expect(body.recipesContainingTotal).toBeUndefined();
   });
 
   it("answers 503 no-store when the index can't load", async () => {

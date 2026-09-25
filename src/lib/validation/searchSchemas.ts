@@ -55,6 +55,24 @@ const HeroSchema = z.object({
   pairings: z.array(z.object({ name: z.string(), href: z.string().nullable() })),
 });
 
+/**
+ * A parsed intent (Phase 5). `kind` is a plain string so a chip added later
+ * never fails an older client's parse; `applied` = it filtered the results.
+ */
+const ChipSchema = z.object({
+  kind: z.string(),
+  label: z.string(),
+  basis: z.string(),
+  applied: z.boolean(),
+});
+
+/** Recipes that use several of the query's ingredients: "uses 2 of 3, missing feta". */
+const CoverageSchema = z.object({
+  of: z.array(EntitySchema),
+  rows: z.array(RecipeRowSchema.extend({ uses: z.number().int().positive(), missing: z.array(z.string()) })),
+  total: z.number().int().nonnegative(),
+});
+
 const CorrectionSchema = z.object({
   from: z.string(),
   to: z.string(),
@@ -69,6 +87,13 @@ export const OmnibarResponseSchema = z.object({
   corrected: CorrectionSchema.nullable(),
   hero: HeroSchema.nullable(),
   recipesContaining: z.array(RecipeRowSchema.extend({ alternative: z.boolean() })),
+  /**
+   * Phase 5 fields. Tolerant, so a response cached before them still parses:
+   * a missing total falls back to the hero's own count.
+   */
+  recipesContainingTotal: z.number().int().nonnegative().optional(),
+  chips: z.array(ChipSchema).default([]),
+  coverage: CoverageSchema.nullable().default(null),
   recipes: z.array(RecipeRowSchema),
   ingredients: z.array(EntitySchema),
   cuisines: z.array(EntitySchema),
