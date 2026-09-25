@@ -44,8 +44,7 @@ export interface PlanetarySnapshot {
   zodiacSign: StandardZodiacSignType;
   lunarPhase: LunarPhase;
   elementalState: ElementalProperties;
-  // Zod parse output: undefined when omitted from payload
-  planetaryPositions?: PlanetaryPositions | undefined;
+  planetaryPositions?: PlanetaryPositions;
   timestamp: Date;
 }
 
@@ -57,16 +56,15 @@ export interface MealSlotSauce {
   id: string;
   name: string;
   servings: number;
-  // Zod parse output: undefined when omitted from payload
   nutritionalProfile?: {
-    calories?: number | undefined;
-    protein?: number | undefined;
-    carbs?: number | undefined;
-    fat?: number | undefined;
-    fiber?: number | undefined;
-  } | undefined;
-  elementalProperties?: ElementalProperties | undefined;
-  ingredients?: string[] | undefined;
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
+  };
+  elementalProperties?: ElementalProperties;
+  ingredients?: string[];
 }
 
 /**
@@ -77,13 +75,12 @@ export interface MealSlot {
   id: string;
   dayOfWeek: DayOfWeek;
   mealType: MealType;
-  // Zod parse output: undefined when omitted from payload
-  recipe?: EnhancedRecipe | undefined;
+  recipe?: EnhancedRecipe;
   servings: number;
-  sauce?: MealSlotSauce | undefined;
+  sauce?: MealSlotSauce;
   planetarySnapshot: PlanetarySnapshot;
-  notes?: string | undefined;
-  isLocked?: boolean | undefined;
+  notes?: string;
+  isLocked?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -101,8 +98,7 @@ export interface DailyNutritionTotals {
   sodium: number;
   sugar: number;
   gregsEnergy: number;
-  // Zod parse output: undefined when omitted from payload
-  monicaConstant?: number | undefined;
+  monicaConstant?: number;
   kalchm: number;
   elementalBalance: ElementalProperties;
 }
@@ -221,8 +217,7 @@ export interface GroceryItem {
   inPantry: boolean;
   purchased: boolean;
   usedInRecipes: string[]; // Recipe IDs that use this ingredient
-  // Zod parse output: undefined when omitted from payload
-  notes?: string | undefined;
+  notes?: string;
 }
 
 /**

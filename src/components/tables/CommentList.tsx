@@ -9,12 +9,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { z } from "zod";
 import { GlassPanel, LabelXS } from "@/components/tables/ui";
+import { _logger } from "@/lib/logger";
+import { TableCommentListResponseSchema } from "@/lib/validation/tableResponseSchemas";
 import type { TableComment } from "@/types/table";
 import type { JSX } from "react";
-
-const getCommentsResponseSchema = z.object({
-  comments: z.array(z.custom<TableComment>()).optional(),
-});
 
 const postCommentResponseSchema = z.object({
   success: z.boolean().optional(),
@@ -45,9 +43,13 @@ export function CommentList({
         credentials: "include",
       });
       if (!res.ok) return;
-      const parsed = getCommentsResponseSchema.safeParse(await res.json());
-      const data = parsed.success ? parsed.data : {};
-      setComments(data.comments ?? []);
+      const parsed = TableCommentListResponseSchema.safeParse(await res.json());
+      if (!parsed.success) {
+        // Keep the comments already on screen rather than blanking the list.
+        _logger.error("[CommentList] comments response did not match its schema", parsed.error);
+        return;
+      }
+      setComments(parsed.data.comments);
     } catch {
       /* keep whatever we had */
     }

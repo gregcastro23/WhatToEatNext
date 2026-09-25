@@ -16,7 +16,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
-import { getSystemStatus } from "@/services/systemStatusService";
+import { getSystemStatus, type SystemStatusResponse } from "@/services/systemStatusService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -34,5 +34,5 @@ export async function GET(request: NextRequest) {
   const payload = await memoize("admin:system-status", CACHE_TTL_MS, () =>
     getSystemStatus(),
   );
-  return NextResponse.json({ success: true, ...payload });
+  return NextResponse.json<SystemStatusResponse>({ success: true, ...payload });
 }

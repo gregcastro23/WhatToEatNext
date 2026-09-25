@@ -11,24 +11,14 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useCallback, useState, type JSX } from "react";
-import { z } from "zod";
 import { GlassPanel, GradientButton } from "@/components/tables/ui";
 import { revealPracticeReward } from "@/lib/economy/practiceClient";
+import { _logger } from "@/lib/logger";
+import {
+  FeedCommentFailureSchema,
+  FeedCommentPostResponseSchema,
+} from "@/lib/validation/feedResponseSchemas";
 import type { FeedComment } from "@/services/feedCommentsDatabaseService";
-
-const postCommentResponseSchema = z.object({
-  success: z.boolean().optional(),
-  comment: z.custom<FeedComment>().optional(),
-  reward: z
-    .object({
-      tokenType: z.string(),
-      amount: z.number(),
-      hint: z.string(),
-    })
-    .nullable()
-    .optional(),
-  message: z.string().optional(),
-});
 
 const MAX = 1000;
 
@@ -54,15 +44,23 @@ export function CommentComposer({ eventId, onPosted }: CommentComposerProps): JS
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ eventId, body }),
       });
-      const parsed = postCommentResponseSchema.safeParse(await res.json());
-      const json = parsed.success ? parsed.data : {};
-      if (json.success && json.comment) {
-        onPosted(json.comment);
-        setValue("");
-        if (json.reward) revealPracticeReward(json.reward);
-      } else {
-        setError(json.message ?? "Could not post your comment.");
+      const raw: unknown = await res.json();
+      if (!res.ok) {
+        const failure = FeedCommentFailureSchema.safeParse(raw);
+        setError((failure.success ? failure.data.message : undefined) ?? "Could not post your comment.");
+        return;
       }
+      const parsed = FeedCommentPostResponseSchema.safeParse(raw);
+      if (!parsed.success) {
+        // The server stored the comment; only the response was unreadable.
+        _logger.error("[CommentComposer] post response did not match its schema", parsed.error);
+        setValue("");
+        setError("Your comment was posted but could not be shown. Refresh to see it.");
+        return;
+      }
+      onPosted(parsed.data.comment);
+      setValue("");
+      if (parsed.data.reward) revealPracticeReward(parsed.data.reward);
     } catch {
       setError("Could not post your comment.");
     } finally {

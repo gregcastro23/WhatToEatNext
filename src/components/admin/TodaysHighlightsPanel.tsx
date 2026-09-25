@@ -17,23 +17,10 @@ import { EmptyState } from "@/components/admin/kit/EmptyState";
 import { combine, fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { TodaysHighlightsResponseSchema, type TodaysHighlightsView } from "@/lib/admin/schemas/todaysHighlights";
 
-interface HighlightMetric {
-  id: string;
-  label: string;
-  today: number;
-  yesterday: number | null;
-  delta: number | null;
-  hint?: string;
-  live: boolean;
-  goodWhenIncreasing: boolean;
-}
-
-interface TodaysHighlightsPayload {
-  generatedAt: string;
-  metrics: HighlightMetric[];
-  live: boolean;
-}
+type TodaysHighlightsPayload = TodaysHighlightsView;
+type HighlightMetric = TodaysHighlightsView["metrics"][number];
 
 function formatRelative(iso: string): string {
   const ageMs = Date.now() - new Date(iso).getTime();
@@ -77,9 +64,9 @@ export default function TodaysHighlightsPanel(): React.JSX.Element | null {
         setError(`HTTP ${res.status}`);
         return { ok: false };
       }
-      const json = (await res.json()) as { success: boolean } & TodaysHighlightsPayload;
-      if (json.success) {
-        setData(json);
+      const parsed = TodaysHighlightsResponseSchema.safeParse(await res.json());
+      if (parsed.success) {
+        setData(parsed.data);
         setError(null);
         return { ok: true };
       }

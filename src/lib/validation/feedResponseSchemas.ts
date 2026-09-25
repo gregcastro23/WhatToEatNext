@@ -1,4 +1,10 @@
 import { z } from "zod";
+import type { AssertTrue, ServerSatisfies } from "@/lib/admin/schemas/drift";
+import type {
+  FeedComment,
+  FeedCommentListResponse,
+  FeedCommentPostResponse,
+} from "@/services/feedCommentsDatabaseService";
 import type { TokenType } from "@/types/economy";
 import { TOKEN_TYPES } from "@/types/economy";
 
@@ -177,3 +183,47 @@ export const SwapActionResponseSchema = z
   .passthrough();
 
 export type SwapActionResponseWire = z.infer<typeof SwapActionResponseSchema>;
+
+// ─── Feed comments — /api/feed/comments ───────────────────────────────────
+
+/** Every FeedComment field; guarded both ways so readers keep the domain type. */
+export const FeedCommentSchema = z.object({
+  id: z.string(),
+  eventId: z.string(),
+  authorId: z.string(),
+  authorName: z.string(),
+  authorImage: z.string().nullable(),
+  authorIsAgent: z.boolean(),
+  authorElement: z.string().nullable(),
+  body: z.string(),
+  createdAt: z.string(),
+  isEventActor: z.boolean(),
+});
+
+type _FeedCommentDrift = AssertTrue<ServerSatisfies<FeedComment, z.infer<typeof FeedCommentSchema>>>;
+type _FeedCommentExact = AssertTrue<ServerSatisfies<z.infer<typeof FeedCommentSchema>, FeedComment>>;
+
+export const FeedCommentListResponseSchema = z.object({
+  success: z.literal(true),
+  comments: z.array(FeedCommentSchema),
+  nextCursor: z.string().nullable(),
+});
+
+type _FeedCommentListDrift = AssertTrue<
+  ServerSatisfies<FeedCommentListResponse, z.infer<typeof FeedCommentListResponseSchema>>
+>;
+
+export const FeedCommentPostResponseSchema = z.object({
+  success: z.literal(true),
+  comment: FeedCommentSchema,
+  reward: z
+    .object({ tokenType: z.string(), amount: z.number(), hint: z.string() })
+    .nullable(),
+});
+
+type _FeedCommentPostDrift = AssertTrue<
+  ServerSatisfies<FeedCommentPostResponse, z.infer<typeof FeedCommentPostResponseSchema>>
+>;
+
+/** Any failure body from the comment routes: `{ success: false, message }`. */
+export const FeedCommentFailureSchema = z.object({ message: z.string().optional() });

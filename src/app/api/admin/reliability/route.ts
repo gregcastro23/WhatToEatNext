@@ -23,7 +23,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
 import { _logger } from "@/lib/logger";
-import { getAdminReliability } from "@/services/adminReliabilityService";
+import { getAdminReliability, type AdminReliabilityResponse } from "@/services/adminReliabilityService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       CACHE_TTL_MS,
       () => getAdminReliability({ historyHours, probeDays, alertDays }),
     );
-    return NextResponse.json({ success: true, ...payload });
+    return NextResponse.json<AdminReliabilityResponse>({ success: true, ...payload });
   } catch (error) {
     _logger.error("[admin/reliability] Failed:", error);
     return NextResponse.json(

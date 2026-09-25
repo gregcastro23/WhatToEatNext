@@ -6,18 +6,16 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
-import { z } from "zod";
-import type { InboxEntry } from "@/types/chat";
-
-const chatInboxResponseSchema = z.object({
-  conversations: z.array(z.custom<InboxEntry>()).optional(),
-  viewerId: z.string().nullable().optional(),
-});
+import { _logger } from "@/lib/logger";
+import {
+  ChatInboxResponseSchema,
+  type InboxEntryView,
+} from "@/lib/validation/chatResponseSchemas";
 
 const POLL_MS = 30_000;
 
 export interface UseChatInboxResult {
-  entries: InboxEntry[];
+  entries: InboxEntryView[];
   viewerId: string | null;
   loading: boolean;
   error: string | null;
@@ -25,7 +23,7 @@ export interface UseChatInboxResult {
 }
 
 export function useChatInbox(enabled = true): UseChatInboxResult {
-  const [entries, setEntries] = useState<InboxEntry[]>([]);
+  const [entries, setEntries] = useState<InboxEntryView[]>([]);
   const [viewerId, setViewerId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,10 +39,15 @@ export function useChatInbox(enabled = true): UseChatInboxResult {
         setError(res.status === 401 ? "Sign in to see your messages." : "Could not load messages.");
         return;
       }
-      const parsed = chatInboxResponseSchema.safeParse(await res.json());
-      const data = parsed.success ? parsed.data : {};
-      setEntries(data.conversations ?? []);
-      setViewerId(data.viewerId ?? null);
+      const parsed = ChatInboxResponseSchema.safeParse(await res.json());
+      if (!parsed.success) {
+        // Keep whatever the inbox last showed rather than blanking it.
+        _logger.error("[useChatInbox] inbox response did not match its schema", parsed.error);
+        setError("Could not load messages.");
+        return;
+      }
+      setEntries(parsed.data.conversations);
+      setViewerId(parsed.data.viewerId);
       setError(null);
     } catch {
       setError("Could not load messages.");

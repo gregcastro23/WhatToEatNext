@@ -124,7 +124,7 @@ export const planetarySnapshotSchema: z.ZodType<PlanetarySnapshot> = z.object({
   zodiacSign: z.enum(ZODIAC_SIGNS),
   lunarPhase: z.enum(LUNAR_PHASES),
   elementalState: elementalPropertiesSchema,
-  planetaryPositions: planetaryPositionsSchema.optional(),
+  planetaryPositions: planetaryPositionsSchema.exactOptional(),
   timestamp: isoDateSchema,
 });
 
@@ -134,15 +134,15 @@ export const mealSlotSauceSchema: z.ZodType<MealSlotSauce> = z.object({
   servings: z.number().finite(),
   nutritionalProfile: z
     .object({
-      calories: z.number().finite().optional(),
-      protein: z.number().finite().optional(),
-      carbs: z.number().finite().optional(),
-      fat: z.number().finite().optional(),
-      fiber: z.number().finite().optional(),
+      calories: z.number().finite().exactOptional(),
+      protein: z.number().finite().exactOptional(),
+      carbs: z.number().finite().exactOptional(),
+      fat: z.number().finite().exactOptional(),
+      fiber: z.number().finite().exactOptional(),
     })
-    .optional(),
-  elementalProperties: elementalPropertiesSchema.optional(),
-  ingredients: z.array(z.string()).optional(),
+    .exactOptional(),
+  elementalProperties: elementalPropertiesSchema.exactOptional(),
+  ingredients: z.array(z.string()).exactOptional(),
 });
 
 export const mealSlotSchema: z.ZodType<MealSlot> = z.object({
@@ -157,12 +157,12 @@ export const mealSlotSchema: z.ZodType<MealSlot> = z.object({
     z.literal(6),
   ]),
   mealType: z.enum(["breakfast", "lunch", "dinner", "snack"]),
-  recipe: enhancedRecipeSchema.optional(),
+  recipe: enhancedRecipeSchema.exactOptional(),
   servings: z.number().finite(),
-  sauce: mealSlotSauceSchema.optional(),
+  sauce: mealSlotSauceSchema.exactOptional(),
   planetarySnapshot: planetarySnapshotSchema,
-  notes: z.string().optional(),
-  isLocked: z.boolean().optional(),
+  notes: z.string().exactOptional(),
+  isLocked: z.boolean().exactOptional(),
   createdAt: isoDateSchema,
   updatedAt: isoDateSchema,
 });
@@ -176,7 +176,7 @@ export const dailyNutritionTotalsSchema: z.ZodType<DailyNutritionTotals> = z.obj
   sodium: z.number().finite(),
   sugar: z.number().finite(),
   gregsEnergy: z.number().finite(),
-  monicaConstant: z.number().finite().optional(),
+  monicaConstant: z.number().finite().exactOptional(),
   kalchm: z.number().finite(),
   elementalBalance: elementalPropertiesSchema,
 });
@@ -202,7 +202,7 @@ export const groceryItemSchema: z.ZodType<GroceryItem> = z.object({
   inPantry: z.boolean(),
   purchased: z.boolean(),
   usedInRecipes: z.array(z.string()),
-  notes: z.string().optional(),
+  notes: z.string().exactOptional(),
 });
 
 export const menuPutBodySchema = z.object({

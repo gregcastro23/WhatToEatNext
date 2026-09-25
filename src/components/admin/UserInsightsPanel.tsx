@@ -17,72 +17,9 @@ import { Metric } from "@/components/admin/kit/Metric";
 import { fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { UserInsightsResponseSchema, type UserInsightsView } from "@/lib/admin/schemas/userInsights";
 
-interface SignupTrendPoint {
-  day: string;
-  count: number;
-}
-
-interface SignDistribution {
-  sign: string;
-  count: number;
-}
-
-interface UserInsightsPayload {
-  generatedAt: string;
-  /** false when any server-side sub-query degraded — zeros are absence, not fact. */
-  live: boolean;
-  totals: {
-    all: number;
-    humans: number;
-    agents: number;
-    active: number;
-    admins: number;
-  };
-  signups: {
-    last24h: number;
-    last7d: number;
-    last30d: number;
-    trend: SignupTrendPoint[];
-  };
-  activity: {
-    activeIn24h: number;
-    activeIn7d: number;
-    activeIn30d: number;
-    neverLoggedIn: number;
-    dormantOver30d: number;
-    activeSessions: number;
-  };
-  onboarding: {
-    completed: number;
-    pending: number;
-    completionRate: number;
-    completedLast7d: number;
-    medianMinutesToComplete: number | null;
-  };
-  tiers: {
-    free: number;
-    premium: number;
-    admin: number;
-    visitors?: number;
-    accountHolders?: number;
-    activeHolders?: number;
-  };
-  elements: {
-    fire: number;
-    water: number;
-    earth: number;
-    air: number;
-    unknown: number;
-  };
-  modalities: {
-    cardinal: number;
-    fixed: number;
-    mutable: number;
-    unknown: number;
-  };
-  sunSigns: SignDistribution[];
-}
+type UserInsightsPayload = UserInsightsView;
 
 const ELEMENT_TONE: Record<string, string> = {
   fire: "bg-red-500",
@@ -127,9 +64,9 @@ export default function UserInsightsPanel(): React.JSX.Element {
         setError(`HTTP ${res.status}`);
         return { ok: false };
       }
-      const json = (await res.json()) as { success: boolean } & UserInsightsPayload;
-      if (json.success) {
-        setData(json);
+      const parsed = UserInsightsResponseSchema.safeParse(await res.json());
+      if (parsed.success) {
+        setData(parsed.data);
         setError(null);
         return { ok: true };
       }

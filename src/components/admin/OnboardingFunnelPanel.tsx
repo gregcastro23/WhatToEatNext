@@ -22,62 +22,10 @@ import { EmptyState } from "@/components/admin/kit/EmptyState";
 import { fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { OnboardingHealthResponseSchema, type OnboardingHealthView } from "@/lib/admin/schemas/onboardingHealth";
 
-type OverallStatus = "OK" | "DEGRADED" | "INCIDENT" | "UNKNOWN";
-
-interface FunnelStage {
-  id: string;
-  label: string;
-  count: number;
-  dropOff: number;
-}
-
-interface StuckUser {
-  userId: string;
-  email: string;
-  name: string | null;
-  createdAt: string;
-  ageHours: number;
-  missing: string;
-}
-
-interface RecentSuccess {
-  userId: string;
-  email: string;
-  name: string | null;
-  completedAt: string;
-  fullOnboarding: boolean;
-  dominantElement: string | null;
-}
-
-interface ApiHealth {
-  observed: boolean;
-  count: number;
-  successRate: number;
-  errors4xx: number;
-  errors5xx: number;
-  p50LatencyMs: number;
-  p95LatencyMs: number;
-  recentErrors: Array<{
-    at: string;
-    method: string;
-    path: string;
-    status: number;
-    latencyMs: number;
-  }>;
-}
-
-interface OnboardingHealthPayload {
-  generatedAt: string;
-  overall: OverallStatus;
-  headline: string;
-  funnel: FunnelStage[];
-  stuckUsers: StuckUser[];
-  recentSuccesses: RecentSuccess[];
-  apiHealth: ApiHealth;
-  skipRate: number;
-  live: boolean;
-}
+type OnboardingHealthPayload = OnboardingHealthView;
+type OverallStatus = OnboardingHealthView["overall"];
 
 const STATUS_STYLE: Record<
   OverallStatus,
@@ -147,11 +95,9 @@ export default function OnboardingFunnelPanel(): React.JSX.Element | null {
         setError(`Failed to load onboarding health (HTTP ${res.status})`);
         return { ok: false };
       }
-      const json = (await res.json()) as {
-        success: boolean;
-      } & OnboardingHealthPayload;
-      if (json.success) {
-        setData(json);
+      const parsed = OnboardingHealthResponseSchema.safeParse(await res.json());
+      if (parsed.success) {
+        setData(parsed.data);
         setError(null);
         return { ok: true };
       }

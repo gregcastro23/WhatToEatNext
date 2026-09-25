@@ -16,7 +16,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
-import { getTodaysHighlights } from "@/services/todaysHighlightsService";
+import { getTodaysHighlights, type TodaysHighlightsResponse } from "@/services/todaysHighlightsService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -32,5 +32,5 @@ export async function GET(request: NextRequest) {
   const payload = await memoize("admin:todays-highlights", CACHE_TTL_MS, () =>
     getTodaysHighlights(),
   );
-  return NextResponse.json({ success: true, ...payload });
+  return NextResponse.json<TodaysHighlightsResponse>({ success: true, ...payload });
 }

@@ -15,6 +15,8 @@ import { CommentComposer } from "@/components/feed/CommentComposer";
 import { ReportCommentDialog } from "@/components/feed/ReportCommentDialog";
 import { AvatarCircle } from "@/components/tables/ui";
 import type { Element } from "@/components/tables/ui";
+import { _logger } from "@/lib/logger";
+import { FeedCommentListResponseSchema } from "@/lib/validation/feedResponseSchemas";
 import type { FeedComment } from "@/services/feedCommentsDatabaseService";
 
 const ELEMENTS = new Set(["Fire", "Water", "Earth", "Air"]);
@@ -76,16 +78,17 @@ export function CommentThread({ eventId, open, onCountChange }: CommentThreadPro
         const qs = new URLSearchParams({ eventId, limit: "30" });
         if (before) qs.set("before", before);
         const res = await fetch(`/api/feed/comments?${qs.toString()}`);
-        const json = (await res.json()) as {
-          success?: boolean;
-          comments?: FeedComment[];
-          nextCursor?: string | null;
-        };
-        if (json.success && json.comments) {
-          // Older pages prepend (the service returns each page ascending).
-          setComments((prev) => (before ? [...json.comments!, ...prev] : json.comments!));
-          setNextCursor(json.nextCursor ?? null);
+        if (!res.ok) return;
+        const parsed = FeedCommentListResponseSchema.safeParse(await res.json());
+        if (!parsed.success) {
+          // Keep the comments already on screen rather than blanking the thread.
+          _logger.error("[CommentThread] comments response did not match its schema", parsed.error);
+          return;
         }
+        const page = parsed.data.comments;
+        // Older pages prepend (the service returns each page ascending).
+        setComments((prev) => (before ? [...page, ...prev] : page));
+        setNextCursor(parsed.data.nextCursor);
       } catch {
         /* silent — an empty thread is a valid state */
       } finally {

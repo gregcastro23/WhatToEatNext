@@ -15,23 +15,13 @@
  */
 
 import React, { useState } from "react";
+import {
+  AgentSyncBatchResponseSchema,
+  AgentSyncFailureSchema,
+  type AgentSyncBatchView,
+} from "@/lib/admin/schemas/agents";
 
-interface SyncResult {
-  agentId: string;
-  email: string;
-  ok: boolean;
-  status?: number;
-  error?: string;
-}
-
-interface SyncResponse {
-  success: boolean;
-  synced?: number;
-  failed?: number;
-  results?: SyncResult[];
-  note?: string;
-  error?: string;
-}
+type SyncResponse = AgentSyncBatchView;
 
 const AGENTIC_DOMAIN = "@agentic.alchm.kitchen";
 
@@ -57,11 +47,16 @@ export function PaAgentSyncPanel({ endpoint }: PaAgentSyncPanelProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      const data = (await resp.json()) as SyncResponse;
-      if (!resp.ok || !data.success) {
-        setError(data.error || `HTTP ${resp.status}`);
+      const raw: unknown = await resp.json();
+      const batch = AgentSyncBatchResponseSchema.safeParse(raw);
+      if (resp.ok && batch.success) {
+        setResult(batch.data);
+      } else if (resp.ok) {
+        // A 2xx the panel cannot read: some agents may already have synced.
+        setError("Sync ran but its reply was unreadable — check the agents before re-running.");
       } else {
-        setResult(data);
+        const failure = AgentSyncFailureSchema.safeParse(raw);
+        setError((failure.success ? failure.data.error : undefined) || `HTTP ${resp.status}`);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -194,15 +189,15 @@ export function PaAgentSyncPanel({ endpoint }: PaAgentSyncPanelProps) {
           ) : (
             <span>
               <strong style={{ color: "var(--el-earth)" }}>
-                {result.synced ?? 0} synced
+                {result.synced} synced
               </strong>
               {" · "}
               <strong
                 style={{
-                  color: (result.failed ?? 0) > 0 ? "var(--el-fire)" : "var(--fg-mute)",
+                  color: result.failed > 0 ? "var(--el-fire)" : "var(--fg-mute)",
                 }}
               >
-                {result.failed ?? 0} failed
+                {result.failed} failed
               </strong>
             </span>
           )}

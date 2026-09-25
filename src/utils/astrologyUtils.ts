@@ -889,9 +889,7 @@ export function calculateEnhancedStelliumEffects(
   Object.entries(planetsBySign).forEach(([sign, planets]) => {
     if (planets.length >= 3) {
       // Get the element of the sign
-      const element = getZodiacElement(
-        sign,
-      ).toLowerCase() as keyof LowercaseElementalProperties;
+      const element = getZodiacElement(sign).toLowerCase();
       // 1. Add bonus of +n of the sign element (n = number of planets)
       if (typeof result[element] === "number") {
         result[element] += planets.length;
@@ -970,7 +968,7 @@ export function calculateEnhancedStelliumEffects(
       // Count non-matching elements
       Object.values(elementsByPlanet).forEach((planetElement) => {
         if (planetElement !== element) {
-          const k = planetElement as keyof LowercaseElementalProperties;
+          const k = planetElement;
           if (typeof nonMatchingElements[k] === "number") {
             nonMatchingElements[k]++;
           }
@@ -979,7 +977,7 @@ export function calculateEnhancedStelliumEffects(
       // Add bonuses for non-matching elements that appear multiple times
       Object.entries(nonMatchingElements).forEach(([elem, count]) => {
         if (count >= 1) {
-          const key = elem as keyof LowercaseElementalProperties;
+          const key = elem;
           if (typeof result[key] === "number") {
             result[key] += count;
           }
@@ -1014,7 +1012,7 @@ export function calculateEnhancedStelliumEffects(
         // House stelliums are weighted by house type;
         const stelliumStrength = planets.length;
         // Add house stellium effect to the corresponding element
-        const elemKey = houseElement as keyof LowercaseElementalProperties;
+        const elemKey = houseElement;
         if (typeof result[elemKey] === "number") {
           result[elemKey] += stelliumStrength;
         }
@@ -1042,7 +1040,7 @@ function getHouseElement(_house: number): string {
     8: "Water",
     12: "Water",
   };
-  return (houseElements as Record<number, string | undefined>)[_house] ?? "Fire";
+  return houseElements[_house] ?? "Fire";
 }
 /**
  * Get longitude from sign and degree
@@ -1107,11 +1105,10 @@ export function calculateJoyEffects(
     // Check if planet is in its joy house
     if (isPlanetInJoy(planet, house)) {
       // Get house data
-      const houseData = (HOUSE_AFFINITIES as Record<number, { element: string } | undefined>)[house];
+      const houseData = HOUSE_AFFINITIES[house];
       if (houseData) {
         // Planet in joy gets a significant boost to the house's element
-        const element =
-          houseData.element.toLowerCase() as keyof LowercaseElementalProperties;
+        const element = houseData.element.toLowerCase();
         if (element in result && typeof result[element] === "number") {
           // The joy effect is powerful
           result[element] += 2.0;
@@ -1168,7 +1165,7 @@ export function calculateCompleteAstrologicalEffects(
     const dignity = getPlanetaryDignity(planet, position.sign);
     const element = getZodiacElement(position.sign).toLowerCase();
     // Apply dignity strength based on type
-    const elementKey = element as keyof LowercaseElementalProperties;
+    const elementKey = element;
     if (typeof dignityEffects[elementKey] === "number") {
       dignityEffects[elementKey] += dignity.strength;
     }
@@ -1501,8 +1498,8 @@ export function calculateAspects(
           // Apply elemental effects based on sign elements
           // The strength is proportional to the aspect strength and multiplier
           // Add effect to both planet elements to balance the system
-          const k1 = element1 as keyof LowercaseElementalProperties;
-          const k2 = element2 as keyof LowercaseElementalProperties;
+          const k1 = element1;
+          const k2 = element2;
           if (typeof elementalEffects[k1] === "number") {
             elementalEffects[k1] += multiplier * strength;
           }

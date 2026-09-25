@@ -18,7 +18,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
-import { getOnboardingHealth } from "@/services/onboardingHealthService";
+import { getOnboardingHealth, type OnboardingHealthResponse } from "@/services/onboardingHealthService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -34,5 +34,5 @@ export async function GET(request: NextRequest) {
   const payload = await memoize("admin:onboarding-health", CACHE_TTL_MS, () =>
     getOnboardingHealth(),
   );
-  return NextResponse.json({ success: true, ...payload });
+  return NextResponse.json<OnboardingHealthResponse>({ success: true, ...payload });
 }
