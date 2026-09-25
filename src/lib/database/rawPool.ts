@@ -88,6 +88,9 @@ export interface DatabaseConfig {
   // is paired with a server-side cap (statement_timeout direct, or a PgBouncer
   // connect_query when pooled).
   query_timeout: number;
+  // Awaited hook called by pg-pool on newly connected clients before they are
+  // leased to any caller.
+  onConnect?: ((client: PoolClient) => Promise<void>) | undefined;
 }
 
 // Environment-based configuration
@@ -200,46 +203,50 @@ export function initializeDatabase(): Pool {
 
   const config = getDatabaseConfig();
 
-  try {
-    pool = new ResolvedPool(config);
-  } catch (err: unknown) {
-    _logger.error("Failed to construct database pool", { err });
-    throw new Error("Failed to initialize database pool");
-  }
-
   // Restore the docs/adr/007 server-side floor on every new pooled connection.
   // PgBouncer refuses `statement_timeout` in the startup packet (see
   // resolveServerStatementCap), so when pooled it is delivered as an ordinary
-  // query right after connect, where session mode makes it stick.
+  // query via pg-pool's awaited `onConnect` hook right after connect.
   //
-  // ORDERING — why this is not a race. `client.query()` is called
-  // SYNCHRONOUSLY here and deliberately not awaited. pg-pool emits "connect"
-  // inside _acquireClient BEFORE invoking the waiter's callback (verified in
-  // pg-pool 8.21), and each client dispatches its queued queries in FIFO order
-  // on one connection. So the SET is guaranteed to reach Postgres ahead of the
-  // consumer's first statement. Awaiting here would instead let the consumer's
-  // query be queued first, and every new connection's first query would run
-  // uncapped. pg-pool also exposes an awaited `onConnect` option, which is
-  // stronger, but it is absent from @types/pg and would need an untyped cast.
+  // ORDERING & CONCURRENCY:
+  // pg-pool provides an awaited `onConnect` option that runs inside
+  // _acquireClient BEFORE the client is marked ready or leased to any waiter
+  // (verified in pg-pool 3.14 / index.js:288-305).
+  //
+  // Awaiting the SET here ensures:
+  // 1. The SET statement completes before the caller's first statement is
+  //    dispatched, guaranteeing every new connection runs with the floor.
+  // 2. The client._queryQueue is empty when the caller's query arrives,
+  //    eliminating the deprecation warning:
+  //    "Calling client.query() when the client is already executing a query".
+  // 3. The caller's query_timeout timer (6000ms) gets its full allotment
+  //    rather than racing and sharing time with SET on the same connection.
+  // 4. If SET fails or times out, pg-pool terminates the client (client.end())
+  //    and purges it, preventing a corrupted or uncapped client from entering
+  //    the active pool.
   const pooledStatementTimeoutSql = resolvePooledStatementTimeoutSql(
     databaseConfig.poolerMode,
     databaseConfig.statementTimeoutMs,
   );
 
+  const poolConfig: DatabaseConfig = {
+    ...config,
+    onConnect: pooledStatementTimeoutSql
+      ? async (client: PoolClient) => {
+          await client.query(pooledStatementTimeoutSql);
+        }
+      : undefined,
+  };
+
+  try {
+    pool = new ResolvedPool(poolConfig as unknown as Record<string, unknown>);
+  } catch (err: unknown) {
+    _logger.error("Failed to construct database pool", { err });
+    throw new Error("Failed to initialize database pool");
+  }
+
   // Connection event handlers
-  pool.on("connect", (client: PoolClient) => {
-    if (pooledStatementTimeoutSql) {
-      client.query(pooledStatementTimeoutSql).catch((err: Error) => {
-        // Log rather than throw: the connection is already checked out, and a
-        // request served without the floor beats a request that fails outright.
-        // A persistent failure here means the floor is silently off, so it is
-        // logged at error level to be greppable.
-        _logger.error("Failed to apply pooled statement_timeout", {
-          error: err.message,
-          statement: pooledStatementTimeoutSql,
-        });
-      });
-    }
+  pool.on("connect", (_client: PoolClient) => {
     _logger.info("New database connection established", {
       database: config.database,
       host: config.host,

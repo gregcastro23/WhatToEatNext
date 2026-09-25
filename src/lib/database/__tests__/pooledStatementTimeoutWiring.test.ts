@@ -60,7 +60,7 @@ function fakeClient() {
   };
 }
 
-/** Build the pool with a given pooler mode and return it plus its connect listener. */
+/** Build the pool with a given pooler mode and return it plus its onConnect hook. */
 function buildPool(poolerMode: string) {
   jest.resetModules();
   mockPools.length = 0;
@@ -73,7 +73,10 @@ function buildPool(poolerMode: string) {
   initializeDatabase();
 
   const pool = mockPools[0];
-  return { pool, onConnect: pool.listeners.connect?.[0] };
+  return {
+    pool,
+    onConnect: pool.config.onConnect as ((client: unknown) => Promise<void>) | undefined,
+  };
 }
 
 describe("pooled statement_timeout wiring", () => {
@@ -97,28 +100,26 @@ describe("pooled statement_timeout wiring", () => {
     jest.resetModules();
   });
 
-  it("issues the SET on every new connection when pooled", () => {
+  it("configures onConnect hook to issue the SET on every new connection when pooled", async () => {
     const { onConnect } = buildPool("session");
     const client = fakeClient();
 
     expect(onConnect).toBeDefined();
-    onConnect!(client);
+    await onConnect!(client);
 
     expect(client.query).toHaveBeenCalledWith("SET statement_timeout = 5000");
   });
 
-  it("issues the SET SYNCHRONOUSLY, before the consumer can queue a query", () => {
-    // The load-bearing property. pg-pool emits "connect" before handing the
-    // client to the waiter, so dispatching here — without awaiting — puts the
-    // SET at the head of the client's FIFO queue. If this ever became async,
-    // the first query on each new connection would run with no floor.
+  it("awaits the SET so it completes before consumer queries are dispatched", async () => {
+    // pg-pool invokes options.onConnect before leasing the client to any caller.
+    // Awaiting SET in onConnect guarantees the SET statement completes before
+    // the consumer's query can run, avoiding the "client is already executing a query"
+    // concurrency race and timeout collision.
     const { onConnect } = buildPool("session");
     const client = fakeClient();
 
-    onConnect!(client);
-    // No `await` between the listener returning and the consumer's query:
-    // exactly the window pg-pool leaves open.
-    void client.query("SELECT 1 FROM users");
+    await onConnect!(client);
+    await client.query("SELECT 1 FROM users");
 
     expect(client.dispatched).toEqual([
       "SET statement_timeout = 5000",
@@ -126,12 +127,9 @@ describe("pooled statement_timeout wiring", () => {
     ]);
   });
 
-  it("does not issue the SET in direct mode — the startup packet carries it", () => {
+  it("does not configure onConnect in direct mode — the startup packet carries it", () => {
     const { pool, onConnect } = buildPool("direct");
-    const client = fakeClient();
-    onConnect!(client);
-
-    expect(client.dispatched).toEqual([]);
+    expect(onConnect).toBeUndefined();
     // ...and exactly one of the two mechanisms is active.
     expect(pool.config.statement_timeout).toBe(5000);
   });
@@ -148,23 +146,13 @@ describe("pooled statement_timeout wiring", () => {
     expect(pool.config.query_timeout).toBeGreaterThan(5000);
   });
 
-  it("survives a failing SET without rejecting the checkout", async () => {
-    // A request served without the floor beats a request that fails outright —
-    // but it must be logged, not swallowed.
+  it("rejects when SET fails so pg-pool can cleanly terminate and purge the bad client", async () => {
     const { onConnect } = buildPool("session");
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { _logger } = require("@/lib/logger");
     const client = {
       query: jest.fn(() => Promise.reject(new Error("connection terminated"))),
     };
 
-    expect(() => onConnect!(client)).not.toThrow();
-    await Promise.resolve();
-    await Promise.resolve();
-
-    expect(_logger.error).toHaveBeenCalledWith(
-      "Failed to apply pooled statement_timeout",
-      expect.objectContaining({ error: "connection terminated" }),
-    );
+    expect(onConnect).toBeDefined();
+    await expect(onConnect!(client)).rejects.toThrow("connection terminated");
   });
 });
