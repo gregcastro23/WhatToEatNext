@@ -44,9 +44,11 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   applicationName: "Alchm Kitchen",
   manifest: "/manifest.json",
-  alternates: {
-    canonical: "/",
-  },
+  // No `alternates.canonical` and no `openGraph.url` here: every page that
+  // does not set its own inherits them, so a root value of "/" made /recipes,
+  // /cuisines, /ingredients… each declare the homepage as its canonical
+  // (production, 2026-09-25). A page without one is self-canonical; pages
+  // that need a specific canonical (/sauces, /search, dossiers) set their own.
   icons: {
     icon: [
       { url: "/alchm-icon-64.png", sizes: "64x64", type: "image/png" },
@@ -57,7 +59,6 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: SITE_URL,
     siteName: "Alchm Kitchen",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
