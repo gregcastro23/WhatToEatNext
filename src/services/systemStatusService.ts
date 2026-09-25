@@ -113,6 +113,9 @@ export interface SystemStatusPayload {
   dependencies: DependencyHealth[];
 }
 
+/** GET /api/admin/system-status — the payload with the route's success flag. */
+export type SystemStatusResponse = { success: true } & SystemStatusPayload;
+
 // ─── Helpers ──────────────────────────────────────────────────────────
 
 /**

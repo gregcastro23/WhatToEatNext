@@ -343,6 +343,9 @@ export interface AdminReliabilityPayload {
   alerts: AlertDeliveryData;
 }
 
+/** GET /api/admin/reliability — the payload with the route's success flag. */
+export type AdminReliabilityResponse = { success: true } & AdminReliabilityPayload;
+
 /**
  * All three reliability reads, in parallel. Each degrades independently so a
  * single failing source cannot blank the panel.
