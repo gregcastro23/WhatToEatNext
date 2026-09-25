@@ -6,12 +6,14 @@
  * While the DB is down the catalog degrades to the static list; those static
  * ids still resolve (Phase 0 bridges them to live UUIDs or renders them).
  */
+import { getServerRecipes } from "@/actions/recipes";
 import { CUISINES_METADATA } from "@/data/cuisines/index";
 import { resolveIngredientSlug } from "@/data/ingredientRecipeIndex";
 import { allSauces } from "@/data/sauces";
 import { getIngredientCatalog } from "@/lib/ingredients/ingredientCatalog";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { Recipe } from "@/types/recipe";
+import { buildAuthoredLookup } from "./authoredFacts";
 import {
   cuisineRecords,
   ingredientRecords,
@@ -46,22 +48,27 @@ function catalogsWithout(): Omit<SearchCatalogs, "recipes"> {
   return staticRecords;
 }
 
-/** Build an index from any recipe list; the loader passes the live catalog. */
-export function buildIndexForRecipes(recipes: readonly Recipe[]): SearchIndex {
+/**
+ * Build an index from any recipe list; the loader passes the live catalog.
+ * `staticRecipes` supplies authored meal and minutes by twin (./authoredFacts);
+ * a static list is its own source.
+ */
+export function buildIndexForRecipes(recipes: readonly Recipe[], staticRecipes: readonly Recipe[] = recipes): SearchIndex {
   const base = catalogsWithout();
   const { ingredients } = base;
   const keyOf = buildIngredientKeyResolver(ingredients, resolveIngredientSlug);
-  return buildSearchIndex({ ...base, recipes: recipeRecords(recipes) }, keyOf);
+  const authored = buildAuthoredLookup(staticRecipes, recipes);
+  return buildSearchIndex({ ...base, recipes: recipeRecords(recipes, authored) }, keyOf);
 }
 
 async function loadIndex(): Promise<SearchIndex> {
-  const recipes = await LocalRecipeService.getAllRecipes();
+  const [recipes, staticRecipes] = await Promise.all([LocalRecipeService.getAllRecipes(), getServerRecipes()]);
   const degraded = LocalRecipeService.isCatalogDegraded();
   degradedUntil = degraded ? Date.now() + DEGRADED_RETRY_MS : 0;
   if (memo?.recipes === recipes) return memo.index;
   // A failed refresh keeps the last live index: its ids are live, the fallback's are static.
   if (degraded && memo && !memo.degraded) return memo.index;
-  const index = buildIndexForRecipes(recipes);
+  const index = buildIndexForRecipes(recipes, staticRecipes);
   memo = { recipes, index, degraded };
   return index;
 }

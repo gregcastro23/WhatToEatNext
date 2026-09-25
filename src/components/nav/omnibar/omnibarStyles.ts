@@ -19,6 +19,13 @@ export const OMNIBAR_RESULTS_CSS = `
   padding: 10px 16px 4px; font-size: 12px; color: var(--fg-dim);
 }
 .omni-correction strong { color: var(--fg); font-weight: 600; }
+.omni-intent { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 16px 2px; }
+.omni-intent-chip {
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; color: var(--fg);
+  background: color-mix(in oklch, var(--accent), transparent 82%);
+  border: 1px solid color-mix(in oklch, var(--accent), transparent 50%);
+}
+.omni-intent-chip[data-applied="false"] { color: var(--fg-mute); background: transparent; border-style: dashed; border-color: var(--line-hi, var(--line)); }
 .omni-mute { color: var(--fg-mute); }
 .omni-sec-title {
   padding: 12px 8px 6px; font-family: var(--f-mono); font-size: 9px;

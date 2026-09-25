@@ -29,6 +29,15 @@ export function toOmnibarResponse(result: OmnibarResult): OmnibarResponse {
         }
       : null,
     recipesContaining: result.recipesContaining.map((row) => ({ ...textRow(row), alternative: row.alternative })),
+    recipesContainingTotal: result.recipesContainingTotal,
+    chips: result.chips.map((chip) => ({ ...chip })),
+    coverage: result.coverage
+      ? {
+          of: [...result.coverage.of],
+          rows: result.coverage.rows.map((row) => ({ ...textRow(row), uses: row.uses, missing: [...row.missing] })),
+          total: result.coverage.total,
+        }
+      : null,
     recipes: result.recipes.map(textRow),
     ingredients: [...result.ingredients],
     cuisines: [...result.cuisines],

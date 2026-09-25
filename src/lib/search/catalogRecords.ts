@@ -13,8 +13,10 @@ import { sauceHref } from "@/lib/sauces/sauceFocus";
 import type { Cuisine } from "@/types/cuisine";
 import type { Recipe } from "@/types/recipe";
 import { cuisineToSlug } from "@/utils/cuisineSlug";
+import { classifyIngredientDiet } from "@/utils/ingredientDietaryClassification";
 import { isInternalCuisineCode, publicCuisine } from "@/utils/internalCuisineCodes";
-import type { ElementalVector, IngredientRecord, NamedRecord, RecipeRecord } from "./types";
+import { authoredFactsOf, type AuthoredLookup } from "./authoredFacts";
+import type { DietVerdicts, ElementalVector, IngredientRecord, NamedRecord, RecipeRecord } from "./types";
 
 const YEAR_ROUND = new Set(["all", "year round", "year-round", "all year", "all-year"]);
 
@@ -81,6 +83,18 @@ function appearanceOf({ source, unified, imageUrl }: CatalogIngredient): Pick<In
   };
 }
 
+/** The classifier reads the name, the category and sub-category, and any dietary tag in `qualities`. */
+function dietOf(name: string, cards: ReadonlyArray<object | null>, classification: Classification): DietVerdicts {
+  const sub = firstDefined(cards, "subCategory") ?? firstDefined(cards, "subcategory");
+  const { isVegan, isVegetarian } = classifyIngredientDiet({
+    name,
+    category: classification.category,
+    subCategory: typeof sub === "string" ? sub : "",
+    qualities: classification.qualities,
+  });
+  return { vegan: isVegan, vegetarian: isVegetarian };
+}
+
 /**
  * Union entry → search record. src/data's card wins field by field (owner
  * ruling 2026-09-23); the unified card fills what src/data lacks, and is the
@@ -89,15 +103,17 @@ function appearanceOf({ source, unified, imageUrl }: CatalogIngredient): Pick<In
 function ingredientRecord(entry: CatalogIngredient): IngredientRecord {
   const { key, slug, name, aliases, source, unified } = entry;
   const cards = [source, unified];
+  const classification = classificationOf(entry);
   return {
     key,
     slug,
     name,
     aliases,
     seasons: seasonsOf(firstDefined(cards, "season"), firstDefined(cards, "seasonality")),
-    ...classificationOf(entry),
+    ...classification,
     ...appearanceOf(entry),
     pairings: resolvePairings(pairingsOf(firstDefined(cards, "pairingRecommendations")), slug),
+    diet: dietOf(name, cards, classification),
   };
 }
 
@@ -105,29 +121,24 @@ export function ingredientRecords(entries: readonly CatalogIngredient[]): Ingred
   return entries.map(ingredientRecord);
 }
 
-/** Leading integer of "45", "45 minutes"; null when the recipe states none. */
-function minutes(value: string | undefined): number | null {
-  const match = value?.match(/\d+/);
-  return match ? Number(match[0]) : null;
-}
-
-function totalMinutesOf(recipe: Recipe): number | null {
-  const stated = minutes(recipe.totalTime) ?? minutes(recipe.timeToMake);
-  if (stated !== null && stated > 0) return stated;
-  const prep = minutes(recipe.prepTime);
-  const cook = minutes(recipe.cookTime);
-  return prep === null && cook === null ? null : (prep ?? 0) + (cook ?? 0);
-}
-
-export function recipeRecords(recipes: readonly Recipe[]): RecipeRecord[] {
-  return recipes.map((recipe) => ({
-    id: String(recipe.id),
-    name: recipe.name,
-    cuisine: publicCuisine(recipe.cuisine) ?? null,
-    totalMinutes: totalMinutesOf(recipe),
-    imageUrl: recipe.imageUrl ?? recipe.image ?? null,
-    ingredientLines: recipe.ingredients.map((ingredient) => ingredient.name).filter(Boolean),
-  }));
+/**
+ * Minutes and meal come from `authored` (./authoredFacts): the live catalog's
+ * own times and category are placeholders. By default a recipe is its own
+ * source, as a static recipe is.
+ */
+export function recipeRecords(recipes: readonly Recipe[], authored: AuthoredLookup = authoredFactsOf): RecipeRecord[] {
+  return recipes.map((recipe) => {
+    const { minutes, meals } = authored(recipe);
+    return {
+      id: String(recipe.id),
+      name: recipe.name,
+      cuisine: publicCuisine(recipe.cuisine) ?? null,
+      totalMinutes: minutes,
+      meals,
+      imageUrl: recipe.imageUrl ?? recipe.image ?? null,
+      ingredientLines: recipe.ingredients.map((ingredient) => ingredient.name).filter(Boolean),
+    };
+  });
 }
 
 export function cuisineRecords(metadata: Readonly<Record<string, Partial<Cuisine>>>): NamedRecord[] {

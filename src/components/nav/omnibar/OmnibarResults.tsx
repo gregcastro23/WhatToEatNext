@@ -10,7 +10,7 @@ import { useEffect, type JSX, type MouseEvent } from "react";
 import { Glyph } from "@/components/ui/alchm/Glyph";
 import { OmnibarActionChip } from "./OmnibarActionChip";
 import { OmnibarHeroRow } from "./OmnibarHeroRow";
-import { optionId, type LinkRow, type HeroRow, type OmnibarCorrection, type OmnibarRow, type OmnibarSection } from "./omnibarTypes";
+import { optionId, type LinkRow, type HeroRow, type OmnibarChip, type OmnibarCorrection, type OmnibarRow, type OmnibarSection } from "./omnibarTypes";
 import type { OmnibarController } from "./useOmnibarController";
 
 interface RowProps {
@@ -69,12 +69,30 @@ function CorrectionLine({ correction }: { correction: OmnibarCorrection }): JSX.
   );
 }
 
+/**
+ * The query's intent as the server read it: filters, a suggestion, or a
+ * claim it can't verify (muted). The basis is the chip's tooltip here and is
+ * spelled out on /search.
+ */
+function IntentLine({ chips }: { chips: readonly OmnibarChip[] }): JSX.Element {
+  return (
+    <div className="omni-intent">
+      {chips.map((chip) => (
+        <span key={`${chip.kind}:${chip.label}`} className="omni-intent-chip" data-applied={chip.applied} title={chip.basis}>
+          {chip.label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 function announcement(controller: OmnibarController): string {
   if (controller.notice !== null) return controller.notice;
   if (controller.status === "loading") return "Searching";
   if (controller.status === "error") return "Search is unavailable right now";
   const count = controller.rows.filter((row) => row.kind !== "search").length;
-  return `${count} ${count === 1 ? "result" : "results"}`;
+  const filters = controller.model.chips.map((chip) => chip.label).join(", ");
+  return `${filters ? `${filters}. ` : ""}${count} ${count === 1 ? "result" : "results"}`;
 }
 
 export interface OmnibarResultsProps {
@@ -162,6 +180,7 @@ export function OmnibarResults(props: OmnibarResultsProps): JSX.Element {
   return (
     <div className="omni-results">
       {model.correction ? <CorrectionLine correction={model.correction} /> : null}
+      {model.chips.length > 0 ? <IntentLine chips={model.chips} /> : null}
       {status === "error" ? <div className="omni-status">Search is unavailable right now. Pages still work.</div> : null}
       {status === "loading" ? <div className="omni-status">Searching…</div> : null}
       {controller.notice !== null ? <div className="omni-status omni-notice">{controller.notice}</div> : null}

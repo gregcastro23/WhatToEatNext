@@ -8,6 +8,7 @@ import Link from "next/link";
 import { IngredientActions } from "@/components/ingredients/IngredientActions";
 import { OmnibarHeroRow } from "@/components/nav/omnibar/OmnibarHeroRow";
 import { KIND_HINT, KIND_TITLE, orderedKinds, type ServerKind } from "@/components/nav/omnibar/omnibarModel";
+import { coverageHint, coverageTitle } from "@/components/nav/omnibar/omnibarRows";
 import { OMNIBAR_RESULTS_CSS } from "@/components/nav/omnibar/omnibarStyles";
 import { titleCase } from "@/lib/ingredients/dossierView";
 import type { OmnibarResponse } from "@/lib/validation/searchSchemas";
@@ -37,6 +38,8 @@ const PAGE_CSS = `
 }
 .srch-list a:hover, .srch-list a:focus-visible { background: color-mix(in oklch, var(--accent), transparent 88%); color: var(--fg); }
 .srch-hint { font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.12em; color: var(--fg-mute); white-space: nowrap; }
+.srch-basis { list-style: none; margin: 10px 0 18px; padding: 0; display: grid; gap: 6px; font-size: 13px; color: var(--fg-dim); }
+.srch-basis .omni-intent-chip { margin-right: 8px; }
 `;
 
 interface Row {
@@ -75,7 +78,7 @@ function counted(kind: ServerKind, shown: number, total: number): string {
 
 function KindSection({ result, kind }: { result: OmnibarResponse; kind: ServerKind }): JSX.Element | null {
   if (kind === "recipe") {
-    const used = new Set(result.recipesContaining.map((r) => r.id));
+    const used = new Set([...result.recipesContaining, ...(result.coverage?.rows ?? [])].map((r) => r.id));
     const rows = recipeRows(result.recipes.filter((r) => !used.has(r.id)));
     // Recipes already listed under the hero count there, not here.
     const listedAbove = result.recipes.length - rows.length;
@@ -105,7 +108,8 @@ function HeroBlock({ result }: { result: OmnibarResponse }): JSX.Element | null 
   const { hero } = result;
   if (!hero) return null;
   const name = titleCase(hero.name);
-  const more = hero.recipeCount - result.recipesContaining.length;
+  const count = result.recipesContainingTotal ?? hero.recipeCount;
+  const more = count - result.recipesContaining.length;
   return (
     <>
       <Link href={hero.href} prefetch={false} className="srch-hero" aria-label={`${name}: open the ingredient`}>
@@ -114,7 +118,7 @@ function HeroBlock({ result }: { result: OmnibarResponse }): JSX.Element | null 
       <IngredientActions name={hero.name} category={hero.category} label={name} />
       <Section title={`PAIRS WITH ${hero.name.toUpperCase()}`} rows={pairingRows(hero)} />
       <Section
-        title={`RECIPES WITH ${hero.name.toUpperCase()} · ${hero.recipeCount}`}
+        title={`RECIPES WITH ${hero.name.toUpperCase()} · ${count}`}
         rows={result.recipesContaining.map((r) => ({
           key: r.id,
           label: r.name,
@@ -124,11 +128,39 @@ function HeroBlock({ result }: { result: OmnibarResponse }): JSX.Element | null 
       />
       {more > 0 ? (
         <p className="srch-note">
-          Showing {result.recipesContaining.length} of {hero.recipeCount}.
+          Showing {result.recipesContaining.length} of {count}.
         </p>
       ) : null}
     </>
   );
+}
+
+/** Each chip with its basis, so a filtered list says what it kept and why (Phase 5). */
+function IntentBlock({ chips }: { chips: OmnibarResponse["chips"] }): JSX.Element | null {
+  if (chips.length === 0) return null;
+  return (
+    <ul className="srch-basis" aria-label="How these results were read">
+      {chips.map((chip) => (
+        <li key={`${chip.kind}:${chip.label}`}>
+          <span className="omni-intent-chip" data-applied={chip.applied}>
+            {chip.label}
+          </span>
+          {chip.basis}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function CoverageBlock({ coverage }: { coverage: OmnibarResponse["coverage"] }): JSX.Element | null {
+  if (!coverage) return null;
+  if (coverage.rows.length === 0) {
+    const names = coverage.of.map((e) => titleCase(e.name)).join(", ");
+    return <p className="srch-note">No recipe uses {names} together yet.</p>;
+  }
+  const of = coverage.of.length;
+  const rows = coverage.rows.map((r) => ({ key: r.id, label: r.name, hint: coverageHint(r, of), href: r.href }));
+  return <Section title={coverageTitle(coverage)} rows={rows} />;
 }
 
 /** D5: zero results still offer a next step. */
@@ -151,16 +183,25 @@ function NoMatches({ query }: { query: string }): JSX.Element {
 }
 
 function Results({ query, result }: { query: string; result: OmnibarResponse }): JSX.Element {
-  if (result.top === null) return <NoMatches query={query} />;
+  if (result.top === null) {
+    return (
+      <>
+        <IntentBlock chips={result.chips} />
+        <NoMatches query={query} />
+      </>
+    );
+  }
   const { corrected } = result;
   return (
     <>
+      <IntentBlock chips={result.chips} />
       {corrected ? (
         <p className="srch-note">
           Showing results for <strong>{corrected.to}</strong>
           {corrected.basis === "synonym" ? ` (“${corrected.from}” is another name for it)` : ` (no exact match for “${corrected.from}”)`}.
         </p>
       ) : null}
+      <CoverageBlock coverage={result.coverage} />
       {orderedKinds(result).map((kind) => (
         <div key={kind}>
           {kind === "ingredient" ? <HeroBlock result={result} /> : null}

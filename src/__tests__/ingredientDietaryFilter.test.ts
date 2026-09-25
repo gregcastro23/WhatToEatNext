@@ -209,6 +209,42 @@ describe("classifyIngredientDiet", () => {
     }
   });
 
+  it("reads animal products the catalog files under plant or mixed categories by their names", () => {
+    // Each passed as plant-based before (omnibar Phase 5 measured them in live
+    // recipes): carbonara's guanciale is a `misc` card, béchamel a `seasoning`
+    // card and brioche a `grain` card.
+    const guanciale = classifyIngredientDiet({ name: "guanciale", category: "misc" });
+    expect(guanciale).toMatchObject({ isVegan: "non-compliant", isVegetarian: "non-compliant" });
+    expect(guanciale.basis).toContain("flesh");
+    const bechamel = classifyIngredientDiet({ name: "béchamel sauce", category: "seasoning" });
+    expect(bechamel).toMatchObject({ isVegan: "non-compliant", isVegetarian: "compliant" });
+    expect(bechamel.basis).toContain("dairy");
+    for (const name of ["brioche", "stale brioche or challah"]) {
+      const bread = classifyIngredientDiet({ name, category: "grain" });
+      expect(bread).toMatchObject({ isVegan: "non-compliant", isVegetarian: "compliant" });
+      expect(bread.basis).toContain("egg");
+    }
+  });
+
+  it("reads a rib of celery as celery, and a rib of meat still as meat", () => {
+    for (const name of ["rib celery", "celery ribs", "ribs of celery"]) {
+      const result = classifyIngredientDiet({ name });
+      expect(result).toMatchObject({ isVegan: "compliant", isVegetarian: "compliant" });
+      expect(result.basis).toContain("plant-compound");
+    }
+    expect(classifyIngredientDiet({ name: "pork spare ribs" }).isVegetarian).toBe("non-compliant");
+    expect(classifyIngredientDiet({ name: "beef short ribs" }).basis).toContain("flesh");
+  });
+
+  it("holds back a meat sauce named without its meat", () => {
+    // "bolognese ragù" put Lasagna al Forno in vegetarian results.
+    for (const name of ["bolognese ragù", "ragu", "spaghetti bolognese"]) {
+      const result = classifyIngredientDiet({ name });
+      expect(result).toMatchObject({ isVegan: "unknown", isVegetarian: "unknown" });
+      expect(result.basis).toContain("ambiguous");
+    }
+  });
+
   it("lets an unambiguous plant compound outrank an unreliable dairy tag", () => {
     // The catalog tags cream of tartar (a winemaking byproduct) `dairy-based`.
     const result = classifyIngredientDiet({

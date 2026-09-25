@@ -8,6 +8,8 @@ import type { OmnibarResponse } from "@/lib/validation/searchSchemas";
 
 export type OmnibarHero = NonNullable<OmnibarResponse["hero"]>;
 export type OmnibarCorrection = NonNullable<OmnibarResponse["corrected"]>;
+/** A parsed intent ("Vegan", "Quick · 30 min or less") and its basis (Phase 5). */
+export type OmnibarChip = OmnibarResponse["chips"][number];
 
 export type RowKind = "page" | "ingredient" | "recipe" | "cuisine" | "method" | "sauce" | "search";
 

@@ -96,6 +96,28 @@ describe("SearchPage", () => {
     expect(page).not.toContain("Nothing in the kitchen matches");
   });
 
+  it("vegan breakfast: each chip with its basis written out (Phase 5)", async () => {
+    const page = await html("vegan breakfast");
+    expect(page).toContain('aria-label="How these results were read"');
+    expect(page).toMatch(/>Vegan<\/span>No ingredient, by its line or its catalog card, is an animal product/);
+    expect(page).toMatch(/>Breakfast<\/span>The meal the recipe catalog files it under\./);
+  });
+
+  it("spinach eggs feta: the recipes that use them together, with what each lacks", async () => {
+    const page = await html("spinach eggs feta");
+    expect(page).toMatch(/RECIPES WITH SPINACH \+ CHICKEN EGG \+ FETA · \d+/);
+    expect(page).toContain("USES 3 OF 3");
+    expect(page).toMatch(/USES 2 OF 3 · MISSING [A-Z ,]+</);
+  });
+
+  it("two ingredients no recipe uses together: says so, and still links both", async () => {
+    const page = await html("vanilla fish sauce");
+    expect(page).toContain("No recipe uses Vanilla, Fish Sauce together yet.");
+    expect(page).toContain('href="/ingredients/vanilla"');
+    expect(page).toContain('href="/ingredients/fish-sauce"');
+    expect(page).not.toContain("Nothing in the kitchen matches");
+  });
+
   it("no query renders the form alone", async () => {
     const page = await html(undefined);
     expect(page).toContain('action="/search"');
