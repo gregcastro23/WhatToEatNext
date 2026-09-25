@@ -9,6 +9,7 @@ import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { tableDatabase } from "@/services/tableDatabaseService";
+import type { TableCommentListResponse } from "@/types/table";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -44,7 +45,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     }
 
     const comments = await tableDatabase.listComments(tableId);
-    return NextResponse.json({ success: true, comments });
+    return NextResponse.json<TableCommentListResponse>({ success: true, comments });
   } catch (error) {
     _logger.error("List table comments error:", error);
     return NextResponse.json(

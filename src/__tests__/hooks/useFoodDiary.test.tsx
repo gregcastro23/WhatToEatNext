@@ -148,6 +148,35 @@ describe("useFoodDiary hook", () => {
       expect(result.current.entries).toEqual(mockEntries);
     });
 
+    it("gives signed-in users the full daily summary, not the route's totals-only stub", async () => {
+      (useUser as jest.Mock).mockReturnValue({ currentUser: { userId: mockUserId } });
+      // The real GET /api/food-diary body: its `summary` carries four totals
+      // and nothing else (no totalNutrition, mealBreakdown, goalProgress...).
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              success: true,
+              entries: mockEntries,
+              count: mockEntries.length,
+              summary: { totalCalories: 95, totalProtein: 0, totalCarbs: 25, totalFat: 0 },
+            }),
+        } as Response),
+      );
+
+      const { result } = await renderFoodDiaryHook();
+      await waitForWeeklySummaryToLoad(result);
+
+      // NutritionDashboard destructures dailySummary.totalNutrition; the stub
+      // has none, which threw for every signed-in user with a summary.
+      expect(result.current.dailySummary?.totalNutrition).toEqual(mockSummary.totalNutrition);
+      expect(foodDiaryActions.getServerDailySummary).toHaveBeenCalledWith(
+        mockUserId,
+        expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
+      );
+    });
+
     it("handles errors gracefully", async () => {
       const errorMessage = "Failed to load";
       (foodDiaryActions.getServerDayEntries as jest.Mock).mockRejectedValue(new Error(errorMessage));

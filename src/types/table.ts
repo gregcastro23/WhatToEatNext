@@ -225,6 +225,12 @@ export interface TableComment {
   createdAt: string;
 }
 
+/** `GET /api/tables/[tableId]/comments` response. */
+export interface TableCommentListResponse {
+  success: true;
+  comments: TableComment[];
+}
+
 export interface TablePhoto {
   id: string;
   tableId: string;

@@ -1,5 +1,6 @@
 import { z } from "zod";
-import type { ChatMessage, MessageReport } from "@/types/chat";
+import type { AssertTrue, ServerSatisfies } from "@/lib/admin/schemas/drift";
+import type { ChatInboxResponse, ChatMessage, InboxEntry, MessageReport } from "@/types/chat";
 
 export const ChatAttachmentSchema = z
   .object({
@@ -147,3 +148,41 @@ export function toDomainMessageReport(wire: MessageReportWire): MessageReport {
   if (wire.conversationKind !== undefined) result.conversationKind = wire.conversationKind;
   return result;
 }
+
+// ─── Inbox — GET /api/chat/conversations ──────────────────────────────────
+
+/**
+ * The inbox fields InboxList reads. Optional fields are omitted (never null)
+ * by listInbox's conditional spreads; `lastMessageAt` and `lastMessage` are
+ * null when a conversation has no visible message yet.
+ */
+export const InboxEntryViewSchema = z.object({
+  conversation: z.object({
+    id: z.string(),
+    kind: z.string(),
+    title: z.string().optional(),
+    lastMessageAt: z.string().nullable(),
+  }),
+  lastMessage: z.object({ body: z.string() }).nullable(),
+  unreadCount: z.number(),
+  otherUser: z
+    .object({
+      id: z.string(),
+      name: z.string().optional(),
+      avatarUrl: z.string().optional(),
+    })
+    .optional(),
+});
+
+export type InboxEntryView = z.infer<typeof InboxEntryViewSchema>;
+
+type _InboxEntryDrift = AssertTrue<ServerSatisfies<InboxEntry, InboxEntryView>>;
+
+export const ChatInboxResponseSchema = z.object({
+  conversations: z.array(InboxEntryViewSchema),
+  viewerId: z.string(),
+});
+
+type _ChatInboxDrift = AssertTrue<
+  ServerSatisfies<ChatInboxResponse, z.infer<typeof ChatInboxResponseSchema>>
+>;
