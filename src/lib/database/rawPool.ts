@@ -1,4 +1,4 @@
-import pkg, { Pool, type PoolClient } from 'pg';
+import pkg, { Pool, type ClientBase, type PoolClient } from 'pg';
 import { _logger } from "../logger";
 import {
   databaseConfig,
@@ -89,8 +89,24 @@ export interface DatabaseConfig {
   // connect_query when pooled).
   query_timeout: number;
   // Awaited hook called by pg-pool on newly connected clients before they are
-  // leased to any caller.
-  onConnect?: ((client: PoolClient) => Promise<void>) | undefined;
+  // leased to any caller. Typed as @types/pg's PoolConfig.onConnect takes it
+  // (ClientBase), so the config needs no cast to reach the constructor.
+  onConnect?: ((client: ClientBase) => Promise<void>) | undefined;
+}
+
+/** The pooled-mode onConnect hook: apply the floor, or log and reject so pg-pool drops the client. */
+function applyStatementFloor(sql: string): (client: ClientBase) => Promise<void> {
+  return async (client) => {
+    try {
+      await client.query(sql);
+    } catch (err: unknown) {
+      _logger.error("Failed to apply pooled statement_timeout", {
+        error: err instanceof Error ? err.message : String(err),
+        statement: sql,
+      });
+      throw err;
+    }
+  };
 }
 
 // Environment-based configuration
@@ -209,9 +225,10 @@ export function initializeDatabase(): Pool {
   // query via pg-pool's awaited `onConnect` hook right after connect.
   //
   // ORDERING & CONCURRENCY:
-  // pg-pool provides an awaited `onConnect` option that runs inside
-  // _acquireClient BEFORE the client is marked ready or leased to any waiter
-  // (verified in pg-pool 3.14 / index.js:288-305).
+  // pg-pool (>= 3.14, pulled in by pg ^8.21) awaits `options.onConnect` in
+  // newClient, after connect and BEFORE _afterConnect/_acquireClient emit
+  // "connect" or hand the client to its waiter (pg-pool 3.14 index.js:288-305).
+  // pooledOnConnectContract.test.ts drives the real pg-pool to hold that true.
   //
   // Awaiting the SET here ensures:
   // 1. The SET statement completes before the caller's first statement is
@@ -221,9 +238,12 @@ export function initializeDatabase(): Pool {
   //    "Calling client.query() when the client is already executing a query".
   // 3. The caller's query_timeout timer (6000ms) gets its full allotment
   //    rather than racing and sharing time with SET on the same connection.
-  // 4. If SET fails or times out, pg-pool terminates the client (client.end())
-  //    and purges it, preventing a corrupted or uncapped client from entering
-  //    the active pool.
+  // 4. If SET fails or times out (query_timeout applies), pg-pool ends the
+  //    client and drops it, so no uncapped client enters the pool. The
+  //    checkout that created it fails with the SET's error — a deliberate
+  //    change from the old listener, which served the request without the
+  //    floor. The failure is logged here, since the caller only sees the
+  //    driver error.
   const pooledStatementTimeoutSql = resolvePooledStatementTimeoutSql(
     databaseConfig.poolerMode,
     databaseConfig.statementTimeoutMs,
@@ -231,15 +251,11 @@ export function initializeDatabase(): Pool {
 
   const poolConfig: DatabaseConfig = {
     ...config,
-    onConnect: pooledStatementTimeoutSql
-      ? async (client: PoolClient) => {
-          await client.query(pooledStatementTimeoutSql);
-        }
-      : undefined,
+    onConnect: pooledStatementTimeoutSql ? applyStatementFloor(pooledStatementTimeoutSql) : undefined,
   };
 
   try {
-    pool = new ResolvedPool(poolConfig as unknown as Record<string, unknown>);
+    pool = new ResolvedPool(poolConfig);
   } catch (err: unknown) {
     _logger.error("Failed to construct database pool", { err });
     throw new Error("Failed to initialize database pool");

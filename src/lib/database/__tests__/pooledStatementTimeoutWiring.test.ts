@@ -5,14 +5,18 @@
  *
  * resolvePooledStatementTimeoutSql being correct proves nothing on its own —
  * the floor is only real if the pool issues it, and only useful if it reaches
- * Postgres ahead of the consumer's first query. If the SET were awaited (or
- * scheduled on a later tick) the consumer's statement would be queued first and
- * the first query on every new connection would run uncapped — a silent hole
- * that no assertion on the helper could ever catch.
+ * Postgres ahead of the consumer's first query. It is delivered through
+ * pg-pool's awaited `onConnect` option; if pg-pool ignored that key (a typo,
+ * or an older pg-pool) the SET would silently never run — a hole no assertion
+ * on the helper, or on the config object, could catch.
  *
  * These drive the real initializeDatabase() against a fake pg, so the wiring
- * itself is under test rather than a restatement of it.
+ * itself is under test rather than a restatement of it. The "real pg-pool"
+ * block then hands the hook it built to the installed pg-pool, so the contract
+ * with the library is under test too.
  */
+
+import { EventEmitter } from "events";
 
 const mockPools: Array<{
   config: Record<string, unknown>;
@@ -110,23 +114,6 @@ describe("pooled statement_timeout wiring", () => {
     expect(client.query).toHaveBeenCalledWith("SET statement_timeout = 5000");
   });
 
-  it("awaits the SET so it completes before consumer queries are dispatched", async () => {
-    // pg-pool invokes options.onConnect before leasing the client to any caller.
-    // Awaiting SET in onConnect guarantees the SET statement completes before
-    // the consumer's query can run, avoiding the "client is already executing a query"
-    // concurrency race and timeout collision.
-    const { onConnect } = buildPool("session");
-    const client = fakeClient();
-
-    await onConnect!(client);
-    await client.query("SELECT 1 FROM users");
-
-    expect(client.dispatched).toEqual([
-      "SET statement_timeout = 5000",
-      "SELECT 1 FROM users",
-    ]);
-  });
-
   it("does not configure onConnect in direct mode — the startup packet carries it", () => {
     const { pool, onConnect } = buildPool("direct");
     expect(onConnect).toBeUndefined();
@@ -154,5 +141,104 @@ describe("pooled statement_timeout wiring", () => {
 
     expect(onConnect).toBeDefined();
     await expect(onConnect!(client)).rejects.toThrow("connection terminated");
+    // The caller only sees the driver error, so the hook names the cause.
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { _logger } = require("@/lib/logger");
+    expect(_logger.error).toHaveBeenCalledWith(
+      "Failed to apply pooled statement_timeout",
+      expect.objectContaining({ error: "connection terminated", statement: "SET statement_timeout = 5000" }),
+    );
+  });
+});
+
+/**
+ * A stand-in for pg.Client with just the surface pg-pool touches. Its SET
+ * takes a few ms, like a real round trip, so a hook that did not await it
+ * would hand the client over while it was still running.
+ */
+const events: string[] = [];
+
+class FakePgClient extends EventEmitter {
+  static failSet = false;
+  ended = false;
+  release?: () => void;
+  connect(cb: (err: Error | null) => void): void {
+    setImmediate(() => cb(null));
+  }
+  query(sql: string): Promise<{ rows: [] }> {
+    events.push(`start ${sql}`);
+    return new Promise((resolve, reject) =>
+      setTimeout(() => {
+        if (FakePgClient.failSet) return reject(new Error("SET refused"));
+        events.push(`done ${sql}`);
+        resolve({ rows: [] });
+      }, 10),
+    );
+  }
+  end(cb?: () => void): void {
+    this.ended = true;
+    events.push("end");
+    cb?.();
+  }
+  ref(): void {}
+  unref(): void {}
+}
+
+describe("pooled statement_timeout against the real pg-pool", () => {
+  type RealPool = {
+    connect(): Promise<FakePgClient>;
+    end(): Promise<void>;
+    totalCount: number;
+    on(event: string, cb: (...args: unknown[]) => void): void;
+  };
+  const RealPool = jest.requireActual("pg-pool") as new (options: Record<string, unknown>) => RealPool;
+
+  function realPoolWithOurHook(): RealPool {
+    const onConnect = buildPool("session").onConnect;
+    expect(onConnect).toBeDefined();
+    const pool = new RealPool({ Client: FakePgClient, max: 1, onConnect });
+    pool.on("connect", () => events.push("connect event"));
+    return pool;
+  }
+
+  const savedEnv = { ...process.env };
+  afterEach(() => {
+    for (const k of ["DB_POOLER_MODE", "DATABASE_URL", "DB_STATEMENT_TIMEOUT_MS"]) {
+      if (savedEnv[k] === undefined) delete process.env[k];
+      else process.env[k] = savedEnv[k];
+    }
+    jest.resetModules();
+  });
+
+  beforeEach(() => {
+    events.length = 0;
+    FakePgClient.failSet = false;
+    process.env.DATABASE_URL = "postgresql://u:p@pgbouncer.railway.internal:6432/railway?sslmode=disable";
+    process.env.DB_STATEMENT_TIMEOUT_MS = "5000";
+  });
+
+  it("finishes the SET before the checkout gets the client", async () => {
+    const pool = realPoolWithOurHook();
+    const client = await pool.connect();
+    events.push("checked out");
+
+    expect(events).toEqual([
+      "start SET statement_timeout = 5000",
+      "done SET statement_timeout = 5000",
+      "connect event",
+      "checked out",
+    ]);
+    client.release?.();
+    await pool.end();
+  });
+
+  it("drops the client and fails the checkout when the SET fails", async () => {
+    FakePgClient.failSet = true;
+    const pool = realPoolWithOurHook();
+
+    await expect(pool.connect()).rejects.toThrow("SET refused");
+    expect(events).toEqual(["start SET statement_timeout = 5000", "end"]);
+    expect(pool.totalCount).toBe(0);
+    await pool.end();
   });
 });
