@@ -11,6 +11,8 @@ const config = {
     // spacetimedb package's ESM-only build, which ts-jest can't transform.
     // Must come before the general "@/(.*)" mapping below.
     "^@/lib/spacetime/generated$": "<rootDir>/tests/setup/spacetime-generated-stub.ts",
+    // Stylesheets carry no values under jest (layouts import them for Next).
+    "\\.css$": "<rootDir>/tests/setup/style-stub.ts",
     "^@/(.*)$": "<rootDir>/src/$1",
     "^react$": "<rootDir>/node_modules/react",
     "^react-dom$": "<rootDir>/node_modules/react-dom",

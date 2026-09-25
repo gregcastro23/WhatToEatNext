@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "ESMS Token Vault & Treasury",
   description:
     "Manage your Spirit, Essence, Matter, and Substance tokens, claim daily Cosmic Yield, and fund your culinary alchemy.",
+  alternates: { canonical: "/vault" },
 };
 
 export default function PremiumLayout({

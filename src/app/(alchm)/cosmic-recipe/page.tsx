@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'Cosmic Recipe Generator',
   description:
     'Generate personalized cosmic recipes aligned with your astrological profile and elemental balance.',
+  alternates: { canonical: "/cosmic-recipe" },
 };
 
 export default function CosmicRecipePage() {

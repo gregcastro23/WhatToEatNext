@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Celestial Lab",
   description:
     "The mechanics of the sky — ephemeris positions, aspects and sect, kept separate from the alchm quantities derived from them.",
+  alternates: { canonical: "/celestial-lab" },
 };
 
 export default function CelestialLabPage(): JSX.Element {
