@@ -60,9 +60,8 @@
  * or `.env.development.local`.
  */
 
-import fs from "node:fs";
-import path from "node:path";
 import pg from "pg";
+import { loadEnvFile } from "./lib/env";
 import * as Astronomy from "astronomy-engine";
 
 import { calculateNatalChart } from "@/services/natalChartService";
@@ -140,17 +139,6 @@ function assertUtc(): void {
     );
     process.exit(1);
   }
-}
-
-function loadEnvFile(file: string): Record<string, string> {
-  const abs = path.resolve(process.cwd(), file);
-  if (!fs.existsSync(abs)) return {};
-  const out: Record<string, string> = {};
-  for (const line of fs.readFileSync(abs, "utf8").split("\n")) {
-    const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)$/);
-    if (m) out[m[1]] = m[2].replace(/^["']|["']$/g, "").trim();
-  }
-  return out;
 }
 
 function resolveConnectionString(): string {
@@ -624,9 +612,10 @@ async function main(): Promise<void> {
          WHERE ac.user_id IS NULL
            AND up.birth_true_utc_instant IS NOT NULL
       `);
-      if (Number(orphanCount[0]?.n ?? 0) > 0) {
+      const orphans = Number(orphanCount[0]?.n ?? 0);
+      if (orphans > 0) {
         console.log(
-          `\n  NOTE: ${orphanCount[0].n} profile(s) hold a natal chart but no constitution row,` +
+          `\n  NOTE: ${orphans} profile(s) hold a natal chart but no constitution row,` +
             "\n  so this script's constitution-scoped query cannot see them. After the\n" +
             "  temporal migration those charts are stale. Pass --orphan-charts to include them.",
         );

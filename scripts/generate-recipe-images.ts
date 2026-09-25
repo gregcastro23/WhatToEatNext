@@ -268,8 +268,7 @@ async function main() {
   let failed = 0;
   let dry = 0;
 
-  for (let i = 0; i < rows.length; i++) {
-    const r = rows[i];
+  for (const [i, r] of rows.entries()) {
     const tag = `[${i + 1}/${rows.length}]`;
     const label = `${r.name}${r.cuisine ? ` (${r.cuisine})` : ""}`;
 

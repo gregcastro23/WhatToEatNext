@@ -57,7 +57,7 @@ interface MintRow {
   tx_hash: string | null;
 }
 
-async function main() {
+async function main(registryAddress: Hex) {
   const pool = new Pool({ connectionString });
   const client = await pool.connect();
   const publicClient = recipeNftPublicClient();
@@ -81,13 +81,13 @@ async function main() {
         // Primary: decode the RecipeMinted event from the mint tx receipt.
         if (row.tx_hash) {
           const receipt = await publicClient.getTransactionReceipt({ hash: row.tx_hash as Hex });
-          tokenId = decodeMintedTokenId(receipt.logs, registry);
+          tokenId = decodeMintedTokenId(receipt.logs, registryAddress);
         }
 
         // Fallback: ask the registry directly which token holds this content.
         if (!tokenId) {
           const onChain = (await publicClient.readContract({
-            address: registry,
+            address: registryAddress,
             abi: recipeRegistryAbi,
             functionName: "tokenForContentHash",
             args: [row.content_hash as Hex],
@@ -125,7 +125,7 @@ async function main() {
   }
 }
 
-main().catch((err) => {
+main(registry).catch((err) => {
   console.error("Fatal:", err);
   process.exit(1);
 });
