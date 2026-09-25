@@ -15,9 +15,8 @@ describe("root layout metadata", () => {
   });
 
   it("sets no og:url, which every share card without its own would inherit", () => {
-    const openGraph = siteMetadata.openGraph as { url?: unknown } | undefined;
-    expect(openGraph).toBeDefined();
-    expect(openGraph?.url).toBeUndefined();
+    expect(siteMetadata.openGraph).toBeDefined();
+    expect(Object.keys(siteMetadata.openGraph ?? {})).not.toContain("url");
   });
 
   it("still resolves relative page canonicals against the site", () => {
