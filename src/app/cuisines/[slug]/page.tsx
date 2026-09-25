@@ -44,6 +44,9 @@ export async function generateMetadata({
   return {
     title: `${name} cuisine`,
     description: meta?.description ?? `${name} culinary tradition.`,
+    // The canonical slug, the one generateStaticParams lists: slugs match
+    // case-insensitively, so /cuisines/Italian names /cuisines/italian.
+    alternates: { canonical: `/cuisines/${cuisineToSlug(name)}` },
   };
 }
 

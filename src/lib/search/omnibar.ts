@@ -1,21 +1,29 @@
 /**
  * Query → omnibar result (plan §4.4): did-you-mean, an ingredient hero card,
- * the recipes that use it, and ranked hits per kind.
+ * the recipes that use it, and ranked hits per kind. A query with intent
+ * ("vegan pasta", "spinach eggs feta", "mercury herbs") goes through
+ * ./omnibarIntent (Phase 5).
  */
-import { _getSeason } from "@/utils/dateUtils";
+import { hasIntent, parseIntent, type QueryIntent } from "./intent";
+import { searchWithIntent } from "./omnibarIntent";
+import {
+  containingRows,
+  correctionFor,
+  countKinds,
+  DEFAULT_CONTAINING,
+  DEFAULT_PER_KIND,
+  emptyResult,
+  entitiesOf,
+  heroFor,
+  recipeRowsOf,
+  seasonOf,
+} from "./omnibarParts";
 import { rankEntities } from "./rank";
-import { rankRecipeUses } from "./recipeIngredientIndex";
-import { recipeHref, type SearchIndex } from "./searchIndex";
-import { normalizeText } from "./text";
-import type {
-  ContainingRecipeRow,
-  Correction,
-  IngredientHero,
-  OmnibarResult,
-  SearchEntity,
-  SearchHit,
-  SearchKind,
-} from "./types";
+import { normalizeText, type NormalizedText } from "./text";
+import type { SearchIndex } from "./searchIndex";
+import type { OmnibarResult, SearchHit } from "./types";
+
+export { containingRows, DEFAULT_CONTAINING } from "./omnibarParts";
 
 export interface OmnibarOptions {
   /** Injected so "in season now" is testable. */
@@ -24,106 +32,43 @@ export interface OmnibarOptions {
   containingLimit?: number;
 }
 
-const DEFAULT_PER_KIND = 6;
-/** Recipes listed under a hero; the dossier lists the same ones. */
-export const DEFAULT_CONTAINING = 12;
-
-/** Shown when the best hit needed a synonym, a mid-word match, or an edit. */
-function correctionFor(top: SearchHit, query: string): Correction | null {
-  if (top.via === "synonym") return { from: query, to: top.entity.name, basis: "synonym" };
-  if (top.tier === 3) return { from: query, to: top.entity.name, basis: "mid-word" };
-  if (top.tier >= 4) return { from: query, to: top.entity.name, basis: "edit-distance" };
-  return null;
+/**
+ * A query is read for intent unless it is exactly a name of any kind
+ * ("spring rolls", "eggs"). Names that merely contain the words ("Quick
+ * Bread" for "quick bread") are kept by ./omnibarIntent ahead of the filters.
+ */
+function intentFor(index: SearchIndex, query: NormalizedText, top: SearchHit | undefined, now: Date): QueryIntent | null {
+  if (query.tokens.length === 0 || top?.tier === 0) return null;
+  const intent = parseIntent(query.tokens, index.exactIngredient, seasonOf(now));
+  return hasIntent(intent) ? intent : null;
 }
 
-/** Meteorological season of `now`; "all" means year-round, fall and autumn are one season. */
-function inSeasonNow(seasons: readonly string[], now: Date): boolean {
-  const current = _getSeason(now.getMonth());
-  const aliases = current === "fall" ? ["fall", "autumn"] : [current];
-  return seasons.some((s) => s === "all" || aliases.includes(s));
-}
-
-function heroFor(index: SearchIndex, top: SearchHit, now: Date): IngredientHero | null {
-  if (top.entity.kind !== "ingredient") return null;
-  const record = index.ingredients.get(top.entity.key);
-  if (!record) return null;
-  return {
-    key: record.key,
-    name: record.name,
-    href: top.entity.href,
-    category: record.category,
-    seasons: record.seasons,
-    inSeasonNow: inSeasonNow(record.seasons, now),
-    qualities: record.qualities.slice(0, 3),
-    rulingPlanets: record.rulingPlanets,
-    elemental: record.elemental,
-    imageUrl: record.imageUrl,
-    recipeCount: index.recipeUses.get(record.key)?.length ?? 0,
-    pairings: record.pairings,
-  };
-}
-
-/** The recipes that use an ingredient, ranked (title mentions, then required, then name). */
-export function containingRows(index: SearchIndex, key: string, limit: number): ContainingRecipeRow[] {
-  const uses = index.recipeUses.get(key) ?? [];
-  const nameOf = (id: string): string => index.recipes.get(id)?.name ?? id;
-  return rankRecipeUses(uses, nameOf)
-    .slice(0, limit)
-    .flatMap((use) => {
-      const recipe = index.recipes.get(use.recipeId);
-      if (!recipe) return [];
-      const { id, name, cuisine, totalMinutes, imageUrl } = recipe;
-      return [{ id, name, href: recipeHref(id), cuisine, totalMinutes, imageUrl, alternative: use.alternative }];
-    });
-}
-
-function emptyResult(query: string): OmnibarResult {
-  return {
-    query,
-    top: null,
-    corrected: null,
-    hero: null,
-    recipesContaining: [],
-    recipes: [],
-    ingredients: [],
-    cuisines: [],
-    methods: [],
-    sauces: [],
-    total: { ingredient: 0, recipe: 0, cuisine: 0, method: 0, sauce: 0 },
-  };
-}
-
-function entitiesOf(hits: readonly SearchHit[], kind: SearchKind, limit: number, skip: string | null): SearchEntity[] {
-  return hits
-    .filter((h) => h.entity.kind === kind && h.entity.key !== skip)
-    .slice(0, limit)
-    .map((h) => h.entity);
-}
-
-export function searchOmnibar(index: SearchIndex, rawQuery: string, options: OmnibarOptions): OmnibarResult {
-  const query = rawQuery.trim();
-  const hits = rankEntities(index, normalizeText(query));
+function plainResult(index: SearchIndex, query: string, hits: readonly SearchHit[], options: OmnibarOptions): OmnibarResult {
   const [top] = hits;
   if (!top) return emptyResult(query);
   const perKind = options.perKindLimit ?? DEFAULT_PER_KIND;
   const hero = heroFor(index, top, options.now);
-  const recipeRows = entitiesOf(hits, "recipe", perKind, null).flatMap((entity) => {
-    const recipe = index.recipes.get(entity.key);
-    return recipe ? [{ id: recipe.id, name: recipe.name, href: entity.href, cuisine: recipe.cuisine, totalMinutes: recipe.totalMinutes, imageUrl: recipe.imageUrl }] : [];
-  });
-  const total: Record<SearchKind, number> = { ingredient: 0, recipe: 0, cuisine: 0, method: 0, sauce: 0 };
-  for (const hit of hits) total[hit.entity.kind] += 1;
+  const containing = hero ? containingRows(index, hero.key, options.containingLimit ?? DEFAULT_CONTAINING) : { rows: [], total: 0 };
   return {
     ...emptyResult(query),
     top: { ...top.entity, exact: top.tier === 0 },
     corrected: correctionFor(top, query),
     hero,
-    recipesContaining: hero ? containingRows(index, hero.key, options.containingLimit ?? DEFAULT_CONTAINING) : [],
-    recipes: recipeRows,
+    recipesContaining: containing.rows,
+    recipesContainingTotal: containing.total,
+    recipes: recipeRowsOf(index, entitiesOf(hits, "recipe", perKind, null)),
     ingredients: entitiesOf(hits, "ingredient", perKind, hero?.key ?? null),
     cuisines: entitiesOf(hits, "cuisine", perKind, null),
     methods: entitiesOf(hits, "method", perKind, null),
     sauces: entitiesOf(hits, "sauce", perKind, null),
-    total,
+    total: countKinds(hits),
   };
+}
+
+export function searchOmnibar(index: SearchIndex, rawQuery: string, options: OmnibarOptions): OmnibarResult {
+  const query = rawQuery.trim();
+  const normalized = normalizeText(query);
+  const hits = rankEntities(index, normalized);
+  const intent = intentFor(index, normalized, hits[0], options.now);
+  return intent ? searchWithIntent(index, { query, hits, intent }, options) : plainResult(index, query, hits, options);
 }

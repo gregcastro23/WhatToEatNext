@@ -54,6 +54,7 @@
     "start": "next start",
     "typecheck": "next typegen && tsc --noEmit --incremental false",
     "typecheck:scripts": "NODE_OPTIONS=--max-old-space-size=8192 tsc --noEmit --incremental false --project scripts/tsconfig.json",
+    "check:sitemap-canonicals": "bun scripts/checkSitemapCanonicals.ts",
     "check:scripts": "NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkScriptsTypecheck.ts",
     "check:scripts:ratchet": "NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkScriptsTypecheck.ts --ratchet",
     "audit:dead-modules": "bun scripts/auditDeadModules.ts",

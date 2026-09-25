@@ -5,6 +5,7 @@ import { DeliverectClient } from "@/lib/integrations/deliverect";
 import { _logger } from "@/lib/logger";
 import { appUrl } from "./helpers";
 import MenuOrderClient from "./MenuOrderClient";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -42,6 +43,12 @@ async function getRestaurant(id: string): Promise<RestaurantRow | null> {
     _logger.error(`[restaurants/${id}/menu] DB lookup failed:`, err);
     return null;
   }
+}
+
+/** Self-canonical, from the id alone: metadata need not wait on the restaurant lookup. */
+export async function generateMetadata({ params }: RestaurantMenuPageProps): Promise<Metadata> {
+  const { id } = await params;
+  return { alternates: { canonical: `/restaurants/${encodeURIComponent(id)}/menu` } };
 }
 
 export default async function RestaurantMenuPage({

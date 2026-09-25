@@ -8,7 +8,7 @@
  * @file src/components/recipe-builder/RecipeBuilderPanel.tsx
  */
 
-import React, { useMemo, useState } from "react";
+import React, { Suspense, useMemo, useState } from "react";
 import {
   useRecipeBuilder,
   type MealType,
@@ -21,7 +21,7 @@ import {
 import IngredientSearchBar from "./IngredientSearchBar";
 import IngredientSuggestions from "./IngredientSuggestions";
 import RecipeBuilderQueue from "./RecipeBuilderQueue";
-import { useIngredientPrefill } from "./useIngredientPrefill";
+import { IngredientPrefill } from "./useIngredientPrefill";
 
 // ===== Constants =====
 
@@ -479,10 +479,12 @@ interface RecipeBuilderPanelProps {
 export default function RecipeBuilderPanel({
   className = "",
 }: RecipeBuilderPanelProps) {
-  // "Cook with this" links arrive as ?ingredients=… (omnibar Phase 4).
-  useIngredientPrefill();
   return (
     <div className={`space-y-4 ${className}`}>
+      {/* "Cook with this" links arrive as ?ingredients=… (omnibar Phase 4). */}
+      <Suspense fallback={null}>
+        <IngredientPrefill />
+      </Suspense>
       {/* Header */}
       <div>
         <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600">

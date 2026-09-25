@@ -77,6 +77,6 @@ export function heroSections(response: OmnibarResponse, state: HeroState, contai
     { id: "hero", title: "INGREDIENT", rows: [heroRow] },
     { id: "hero-actions", title: "", rows: heroActions(hero, state), layout: "chips", label: `Actions for ${name}` },
     ...(state.pairingsFor === hero.key ? [pairingSection(hero)] : []),
-    { id: "with", title: `RECIPES WITH ${hero.name.toUpperCase()} · ${hero.recipeCount}`, rows: withRows },
+    { id: "with", title: `RECIPES WITH ${hero.name.toUpperCase()} · ${response.recipesContainingTotal ?? hero.recipeCount}`, rows: withRows },
   ];
 }

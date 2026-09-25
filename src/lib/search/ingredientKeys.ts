@@ -36,6 +36,12 @@ function lookup(forms: Map<string, string>, text: string): string | null {
   return forms.get(folded) ?? forms.get(stemmed) ?? null;
 }
 
+/** Exact names only (name, key, alias, synonym; folded or stemmed): the intent parser's lookup. */
+export function buildExactIngredientLookup(ingredients: readonly IngredientRecord[]): (text: string) => string | null {
+  const forms = exactFormMap(ingredients);
+  return (text) => lookup(forms, text);
+}
+
 export function buildIngredientKeyResolver(
   ingredients: readonly IngredientRecord[],
   resolveIndexSlug: IndexSlugResolver,

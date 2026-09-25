@@ -4,10 +4,13 @@
  * `resolveRecipeRef` serves `/recipes/[recipeId]`: it bridges a static-catalog
  * or ingredient-index id to the live recipe the page can render.
  * `listCanonicalRecipeIds` serves the sitemap: one canonical id per recipe.
+ * `loadAuthoredFacts` serves the page the other way: a live recipe's authored
+ * time and meal, from its static twin.
  */
 import { getServerRecipes } from "@/actions/recipes";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
+import { buildAuthoredLookup, NOT_AUTHORED, type AuthoredFacts, type AuthoredLookup } from "@/lib/search/authoredFacts";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { Recipe } from "@/types/recipe";
 import {
@@ -98,6 +101,33 @@ export async function resolveRecipeRef(ref: string): Promise<ResolvedRecipeRef |
   }
   const recipe = resolver.staticById.get(hit.staticId);
   return recipe ? { kind: "static-only", recipe, canonicalId: hit.staticId } : null;
+}
+
+interface AuthoredMemo {
+  staticRecipes: readonly Recipe[];
+  liveRecipes: readonly Recipe[];
+  lookup: AuthoredLookup;
+}
+
+let authoredMemo: AuthoredMemo | null = null;
+
+/**
+ * The authored times and meal of the recipe a page renders, read from its
+ * static twin (the live catalog's own are placeholders; see authoredFacts).
+ * Non-essential, like the page's other enrichment: a failure leaves the
+ * recipe with no time and no meal, never with the placeholders.
+ */
+export async function loadAuthoredFacts(recipe: Recipe): Promise<AuthoredFacts> {
+  try {
+    const [staticRecipes, liveRecipes] = await Promise.all([getServerRecipes(), LocalRecipeService.getAllRecipes()]);
+    if (authoredMemo?.staticRecipes !== staticRecipes || authoredMemo.liveRecipes !== liveRecipes) {
+      authoredMemo = { staticRecipes, liveRecipes, lookup: buildAuthoredLookup(staticRecipes, liveRecipes) };
+    }
+    return authoredMemo.lookup(recipe);
+  } catch (err) {
+    _logger.error(`[recipeRefResolver] authored facts unavailable for ${String(recipe.id)}:`, err);
+    return NOT_AUTHORED;
+  }
 }
 
 /**

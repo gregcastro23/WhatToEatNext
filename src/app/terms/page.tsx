@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "Terms for using Alchm Kitchen culinary planning tools.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {
