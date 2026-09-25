@@ -13,6 +13,8 @@ import {
   getDominantElement,
   isSectDiurnal,
   getPlanetarySectElement,
+  getSectElements,
+  PLANETARY_SECTARIAN_ELEMENTS,
   getZodiacQuality,
   getCurrentPlanetaryContribution,
   validatePlanetaryPositions,
@@ -276,6 +278,23 @@ describe("getPlanetarySectElement", () => {
 
   it("returns Air fallback for unknown planet", () => {
     expect(getPlanetarySectElement("Vulcan", true)).toBe("Air");
+  });
+
+  it("treats an inherited Object.prototype name as unknown, not as a planet", () => {
+    expect(getPlanetarySectElement("constructor", true)).toBe("Air");
+  });
+});
+
+describe("getSectElements", () => {
+  it("returns every planet's pair from the table", () => {
+    for (const [planet, pair] of Object.entries(PLANETARY_SECTARIAN_ELEMENTS)) {
+      expect(getSectElements(planet)).toEqual(pair);
+    }
+  });
+
+  it("returns undefined for a body with no sect pair", () => {
+    expect(getSectElements("Ascendant")).toBeUndefined();
+    expect(getSectElements("toString")).toBeUndefined();
   });
 });
 
