@@ -86,7 +86,8 @@ describe("in the static catalog", () => {
     expect(await bucketsOf("CHOCOLATE PUDDING")).toMatchObject({ mealType: ["breakfast", "dessert"], buckets: ["breakfast", "dessert"] });
   });
 
-  it("a hand-authored recipe keeps the meal it is filed under", async () => {
-    expect(await bucketsOf("Oyakodon (Chicken and Egg Rice Bowl)")).toMatchObject({ mealType: ["dinner"], buckets: ["dinner"] });
+  it("a hand-authored recipe is untouched", async () => {
+    // Filed under dinner and classified ["dinner"], so it claims dinner however its meal is read (#896).
+    expect(await bucketsOf("Authentic Beef Bourguignon")).toMatchObject({ mealType: ["dinner"], buckets: ["dinner"] });
   });
 });
