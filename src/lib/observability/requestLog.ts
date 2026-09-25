@@ -14,6 +14,8 @@
  * @file src/lib/observability/requestLog.ts
  */
 
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
+
 export interface RequestLogEntry {
   id: number;
   at: string;
@@ -96,7 +98,8 @@ function ensureHydrated(): void {
   hydrationStarted = true;
   if (typeof window !== "undefined") return;
   if (!process.env.DATABASE_URL) return;
-  void (async () => {
+  // Under after(), like the insert: a suspended read holds a pool connection.
+  runAfterResponse("request log hydration", async () => {
     try {
       const { executeQuery } = await import("@/lib/database/connection");
       const result = await executeQuery<{
@@ -136,7 +139,7 @@ function ensureHydrated(): void {
     } catch {
       // Persistence layer offline — keep operating in pure-memory mode.
     }
-  })();
+  });
 }
 
 export interface RequestLogQuery {
