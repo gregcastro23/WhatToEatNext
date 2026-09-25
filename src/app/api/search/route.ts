@@ -48,4 +48,7 @@ async function handleGet(request: Request): Promise<Response> {
   }
 }
 
-export const GET = withObservability({ routeName: "/api/search" }, handleGet);
+export const GET = withObservability(
+  { routeName: "/api/search", skipUserResolution: true },
+  handleGet,
+);
