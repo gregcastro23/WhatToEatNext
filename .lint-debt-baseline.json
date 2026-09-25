@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1308,
+  "trackedTotal": 1304,
   "casts": {
     "total": 165,
     "asAny": 38,
@@ -8,20 +8,20 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 3106,
+    "total": 3053,
     "asAny": 37,
     "chained": 127,
-    "single": 2942,
-    "production": 2482,
-    "test": 624,
+    "single": 2889,
+    "production": 2430,
+    "test": 623,
     "asConst": 575,
-    "nonNull": 602
+    "nonNull": 599
   },
   "looseOptionality": {
-    "total": 259,
-    "domain": 170,
+    "total": 222,
+    "domain": 133,
     "wire": 89,
-    "production": 259,
+    "production": 222,
     "test": 0,
     "wireAllowlist": [
       "src/types/yelp.ts",
@@ -49,15 +49,15 @@
     }
   },
   "declined": {
-    "total": 4877,
+    "total": 4856,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1354,
-      "@typescript-eslint/explicit-module-boundary-types": 665,
-      "complexity": 296,
+      "@typescript-eslint/explicit-function-return-type": 1344,
+      "@typescript-eslint/explicit-module-boundary-types": 664,
+      "complexity": 295,
       "max-depth": 83,
-      "max-lines": 514,
-      "max-lines-per-function": 1591,
-      "no-void": 374
+      "max-lines": 513,
+      "max-lines-per-function": 1588,
+      "no-void": 369
     },
     "note": "Declined rules pool, pinned at the LIVE measurement — no headroom. Ceilings above live are undetectable slack: the gate only fails when the pool EXCEEDS this total, so every granted unit is a regression the ratchet cannot see. An earlier revision carried 21 such units (4924 recorded vs 4903 live, incl. no-void 385 vs 374). Maintain this block with `bun run lint:debt:ratchet`, never by hand."
   },
@@ -79,7 +79,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 816,
+      "count": 813,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -87,7 +87,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 133,
+      "count": 132,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
