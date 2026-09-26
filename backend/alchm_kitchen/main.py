@@ -710,9 +710,11 @@ def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
             for key, value in alchemy.items():
                 totals[key] += value * dignity_multiplier * alchm_weight
 
-        sign_element = ZODIAC_ELEMENTS.get(sign, "Air")
+        # An unrecognised sign has no element, so it adds no sign weight.
+        sign_element = ZODIAC_ELEMENTS.get(sign)
         sect_element = get_planetary_sect_element(planet, diurnal)
-        totals[sign_element] += 0.6
+        if sign_element is not None:
+            totals[sign_element] += 0.6
         totals[sect_element] += 0.4
 
         modality = ZODIAC_MODALITIES.get(sign)
@@ -768,6 +770,8 @@ def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
     dominant_modality = max(modality_counts.items(), key=lambda item: item[1])[0]
     sun_position = positions.get("Sun", {}) if isinstance(positions.get("Sun"), dict) else {}
     sun_sign = str(sun_position.get("sign", ""))
+    # No Sun, or a sign that doesn't resolve, has no element to report.
+    chart_ruler = ZODIAC_ELEMENTS.get(sun_sign.lower())
     score = min(1.0, max(0.0, (spirit + essence + matter + substance + fire + water + air + earth) / 20))
 
     return {
@@ -797,7 +801,7 @@ def calculate_local_alchemize(request: AlchemizeRequest) -> Dict[str, Any]:
             "dominantElement": dominant_element,
             "dominantModality": dominant_modality,
             "sunSign": sun_sign,
-            "chartRuler": ZODIAC_ELEMENTS.get(sun_sign.lower(), "Air"),
+            **({"chartRuler": chart_ruler} if chart_ruler is not None else {}),
             "isDiurnal": diurnal,
             "timestamp": moment.isoformat(),
             "zodiacSystem": zodiac_system,
@@ -847,8 +851,11 @@ def calculate_local_philosophers_stone(
     for planet, position in positions.items():
         if not isinstance(position, dict):
             continue
-        sign_raw = str(position.get("sign", "Aries"))
-        sign_lower = sign_raw.lower() or "aries"
+        sign_raw = str(position.get("sign", ""))
+        sign_lower = sign_raw.lower()
+        # A missing sign is not Aries; skip it, as calculate_local_alchemize does.
+        if not sign_lower:
+            continue
         # Same gate as calculate_local_alchemize. Additionally keeps abstract
         # points out of `per_planet`, whose consumers reasonably assume its keys
         # are real bodies — an MC entry carried populated `elements` and a
@@ -869,10 +876,12 @@ def calculate_local_philosophers_stone(
             for key in planet_esms:
                 planet_esms[key] = alchemy[key] * dignity_multiplier * alchm_weight
 
-        sign_element = ZODIAC_ELEMENTS.get(sign_lower, "Air")
+        # An unrecognised sign has no element, so it adds no sign weight.
+        sign_element = ZODIAC_ELEMENTS.get(sign_lower)
         sect_element = get_planetary_sect_element(planet, diurnal)
         planet_elements = {"Fire": 0.0, "Water": 0.0, "Earth": 0.0, "Air": 0.0}
-        planet_elements[sign_element] += 0.6
+        if sign_element is not None:
+            planet_elements[sign_element] += 0.6
         planet_elements[sect_element] += 0.4
 
         per_planet[planet] = {

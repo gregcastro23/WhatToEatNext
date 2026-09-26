@@ -13,11 +13,14 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
 };
 
 /**
- * Maps zodiac signs to their corresponding elemental character
- * Inlined here to avoid circular dependency with astrologyUtils
+ * Maps zodiac signs to their corresponding elemental character, or undefined
+ * for an unrecognised sign. Inlined here to avoid circular dependency with
+ * astrologyUtils
  */
-const getZodiacElement = (sign: ZodiacSignType): ElementalCharacter => {
-  const elements: Record<ZodiacSignType, ElementalCharacter> = {
+const getZodiacElement = (
+  sign: ZodiacSignType | string,
+): ElementalCharacter | undefined => {
+  const elements: Partial<Record<string, ElementalCharacter>> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",
@@ -31,7 +34,7 @@ const getZodiacElement = (sign: ZodiacSignType): ElementalCharacter => {
     scorpio: "Water",
     pisces: "Water",
   };
-  return elements[sign] || "Fire";
+  return elements[String(sign).toLowerCase()];
 };
 
 /**
@@ -209,6 +212,9 @@ export function calculateHouseEffect(
 
   // Add house-based effect
   effects[houseElement] += houseStrength;
+
+  // An unrecognised sign has no element, so none of the sign bonuses apply
+  if (signElement === undefined) return effects;
 
   // Add synergy effect if sign element matches house element
   if (signElement === houseElement) {
