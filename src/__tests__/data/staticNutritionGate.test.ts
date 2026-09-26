@@ -30,7 +30,15 @@ async function recipe(id: string) {
 }
 
 describe("a computed total that does not account for the recipe is withheld", () => {
-  it("Pot-au-feu: 1.5 kg of brisket unresolved (it published 59 kcal a serving)", async () => {
+  it("Char siu: its 600 g of pork is 82% of the known mass and unresolved (it published 56 kcal)", async () => {
+    // Every other line resolves and is weighed, so the mass share alone decides.
+    const pork = await recipe("chinese-dinner-all-authentic-char-siu-chinese-bbq-pork");
+    expect(computeRecipeNutritionFromIngredients(pork)).toBeNull();
+    expect(pork.nutrition?.calories).toBe(authoredCalories(chinese, "Authentic Char Siu (Chinese BBQ Pork)"));
+    expect(pork.nutrition?.calories).not.toBe(56);
+  });
+
+  it("Pot-au-feu: 1.5 kg of brisket unresolved, vegetables counted 'whole' (it published 59 kcal)", async () => {
     const pot = await recipe("french-dinner-all-authentic-pot-au-feu");
     expect(computeRecipeNutritionFromIngredients(pot)).toBeNull();
     expect(pot.nutrition?.calories).toBe(authoredCalories(french, "Authentic Pot-au-Feu"));
