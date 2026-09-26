@@ -12,7 +12,7 @@ import { DiscoverySection } from "@/components/recipes/DiscoverySection";
 import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
 import { IngredientDrawer } from "@/components/recipes/IngredientDrawer";
 import { InteractiveInstruction } from "@/components/recipes/InteractiveInstruction";
-import { NutritionVisualization } from "@/components/recipes/NutritionVisualization";
+import { NutritionVisualization, type NutritionData } from "@/components/recipes/NutritionVisualization";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { RiffOnThisLink } from "@/components/recipes/RiffOnThisLink";
 import { SocialSection } from "@/components/recipes/SocialSection";
@@ -199,19 +199,7 @@ function getLunarPhases(recipe: Recipe): string[] {
   return [];
 }
 
-interface NormalizedNutrition {
-  calories?: number | undefined;
-  protein?: number | undefined;
-  carbs?: number | undefined;
-  fat?: number | undefined;
-  fiber?: number | undefined;
-  sodium?: number | undefined;
-  sugar?: number | undefined;
-  vitamins?: string[] | undefined;
-  minerals?: string[] | undefined;
-}
-
-function getNutrition(recipe: Recipe): NormalizedNutrition | null {
+function getNutrition(recipe: Recipe): NutritionData | null {
   const n = recipe.nutrition as ExtendedNutrition | undefined;
   if (!n) return null;
   return {
@@ -490,7 +478,7 @@ function computeMonicaComponents(
 }
 
 interface ASharpBlockProps {
-  ingAlch?: IngredientAlchemicalSummary | undefined;
+  ingAlch: IngredientAlchemicalSummary | undefined;
   aSharp: number;
   ingTotalASharp: number;
   aSharpSegments: DonutSegment[];

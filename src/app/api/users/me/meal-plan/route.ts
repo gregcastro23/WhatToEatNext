@@ -13,6 +13,11 @@ import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
 import { UserMealPlanPostSchema } from "@/lib/validation/apiSchemas";
+import type {
+  MealPlanAddResponse,
+  MealPlanEntryDTO,
+  MealPlanListResponse,
+} from "@/types/userMealPlan";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -28,16 +33,6 @@ interface MealPlanRow {
   added_at: string;
 }
 
-export interface MealPlanEntryDTO {
-  id: string;
-  recipeId: string;
-  recipeName?: string | undefined;
-  date: string;
-  mealType?: string | undefined;
-  servings?: number | undefined;
-  addedAt: number;
-}
-
 
 function rowToDTO(row: MealPlanRow): MealPlanEntryDTO {
   const dateStr =
@@ -47,9 +42,9 @@ function rowToDTO(row: MealPlanRow): MealPlanEntryDTO {
   return {
     id: row.id,
     recipeId: row.recipe_id,
-    recipeName: row.recipe_name ?? undefined,
+    ...(row.recipe_name !== null ? { recipeName: row.recipe_name } : {}),
     date: dateStr,
-    mealType: row.meal_type ?? undefined,
+    ...(row.meal_type !== null ? { mealType: row.meal_type } : {}),
     servings: row.servings,
     addedAt: new Date(row.added_at).getTime(),
   };
@@ -59,7 +54,7 @@ export async function GET() {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) {
-    return NextResponse.json({ authenticated: false, entries: [] });
+    return NextResponse.json<MealPlanListResponse>({ authenticated: false, entries: [] });
   }
 
   try {
@@ -70,7 +65,7 @@ export async function GET() {
        ORDER BY date ASC, added_at ASC`,
       [userId],
     );
-    return NextResponse.json({
+    return NextResponse.json<MealPlanListResponse>({
       authenticated: true,
       entries: result.rows.map(rowToDTO),
     });
@@ -174,7 +169,7 @@ export async function POST(request: NextRequest) {
         { status: 500 },
       );
     }
-    return NextResponse.json({
+    return NextResponse.json<MealPlanAddResponse>({
       authenticated: true,
       entry: rowToDTO(insertedRow),
     });

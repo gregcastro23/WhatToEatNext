@@ -5,12 +5,21 @@
  * or ingredient-index id to the live recipe the page can render.
  * `listCanonicalRecipeIds` serves the sitemap: one canonical id per recipe.
  * `loadAuthoredFacts` serves the page the other way: a live recipe's authored
- * time and meal, from its static twin.
+ * time and meal, from its static twin. `withAuthoredFactsAll` does the same
+ * for the recipe lists the API routes and the page's recommendations serve.
+ * `loadStaticTwinBridge` serves /discover: a live id's static twin, and the
+ * canonical id of each static recipe it links to.
  */
 import { getServerRecipes } from "@/actions/recipes";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
-import { buildAuthoredLookup, NOT_AUTHORED, type AuthoredFacts, type AuthoredLookup } from "@/lib/search/authoredFacts";
+import {
+  buildAuthoredLookup,
+  NOT_AUTHORED,
+  withAuthoredFacts,
+  type AuthoredFacts,
+  type AuthoredLookup,
+} from "@/lib/search/authoredFacts";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { Recipe } from "@/types/recipe";
 import {
@@ -55,19 +64,32 @@ interface ResolverMemo {
   index: RecipeIdentityIndex;
   staticById: Map<string, Recipe>;
   liveById: Map<string, Recipe>;
+  /** Each live id's static twin; the first twin wins, as in buildAuthoredLookup. */
+  staticIdByLiveId: Map<string, string>;
 }
 
 let memo: ResolverMemo | null = null;
 
+function staticIdsByLiveId(staticRecipes: readonly Recipe[], index: RecipeIdentityIndex): Map<string, string> {
+  const map = new Map<string, string>();
+  for (const recipe of staticRecipes) {
+    const hit = index.resolve(String(recipe.id));
+    if (hit?.kind === "twin" && !map.has(hit.liveId)) map.set(hit.liveId, hit.staticId);
+  }
+  return map;
+}
+
 /** Rebuilt only when either catalog array is replaced (catalog TTL refresh). */
 function resolverFor(staticRecipes: readonly Recipe[], liveRecipes: readonly Recipe[]): ResolverMemo {
   if (memo?.staticRecipes === staticRecipes && memo.liveRecipes === liveRecipes) return memo;
+  const index = buildRecipeIdentityIndex(toIdentities(staticRecipes), toIdentities(liveRecipes));
   memo = {
     staticRecipes,
     liveRecipes,
-    index: buildRecipeIdentityIndex(toIdentities(staticRecipes), toIdentities(liveRecipes)),
+    index,
     staticById: byId(staticRecipes),
     liveById: byId(liveRecipes),
+    staticIdByLiveId: staticIdsByLiveId(staticRecipes, index),
   };
   return memo;
 }
@@ -103,6 +125,42 @@ export async function resolveRecipeRef(ref: string): Promise<ResolvedRecipeRef |
   return recipe ? { kind: "static-only", recipe, canonicalId: hit.staticId } : null;
 }
 
+/**
+ * For routes that compute over the static catalog (it carries the ESMS and
+ * Monica scores the live rows lack) but serve pages keyed by live ids.
+ */
+export interface StaticTwinBridge {
+  staticRecipes: readonly Recipe[];
+  /** The static recipe a page id stands for: a static id or index alias, or a live id's twin. */
+  staticRecipeFor(ref: string): Recipe | null;
+  /** The id a link to a static recipe should use: its live twin's, else its own. */
+  canonicalIdOf(staticId: string): string;
+}
+
+const NO_LIVE_RECIPES: readonly Recipe[] = [];
+
+/**
+ * While the live catalog is degraded its list IS the static list, so the
+ * bridge pairs nothing and every id stays static (as resolveRecipeRef does).
+ */
+export async function loadStaticTwinBridge(): Promise<StaticTwinBridge> {
+  const [staticRecipes, liveRecipes] = await Promise.all([getServerRecipes(), LocalRecipeService.getAllRecipes()]);
+  const live = LocalRecipeService.isCatalogDegraded() ? NO_LIVE_RECIPES : liveRecipes;
+  const { index, staticById, staticIdByLiveId } = resolverFor(staticRecipes, live);
+  return {
+    staticRecipes,
+    staticRecipeFor: (ref): Recipe | null => {
+      const id = safeDecode(ref);
+      const staticId = staticIdByLiveId.get(id) ?? index.resolve(id)?.staticId;
+      return staticId === undefined ? null : (staticById.get(staticId) ?? null);
+    },
+    canonicalIdOf: (staticId): string => {
+      const hit = index.resolve(staticId);
+      return hit?.kind === "twin" ? hit.liveId : staticId;
+    },
+  };
+}
+
 interface AuthoredMemo {
   staticRecipes: readonly Recipe[];
   liveRecipes: readonly Recipe[];
@@ -111,23 +169,43 @@ interface AuthoredMemo {
 
 let authoredMemo: AuthoredMemo | null = null;
 
+const nothingAuthored: AuthoredLookup = () => NOT_AUTHORED;
+
 /**
- * The authored times and meal of the recipe a page renders, read from its
- * static twin (the live catalog's own are placeholders; see authoredFacts).
- * Non-essential, like the page's other enrichment: a failure leaves the
- * recipe with no time and no meal, never with the placeholders.
+ * The authored-facts lookup over the current catalogs, rebuilt only when
+ * either catalog array is replaced. Non-essential, like a page's other
+ * enrichment: a failure yields a lookup that finds nothing, so recipes show
+ * no time and no meal, never the placeholders.
  */
-export async function loadAuthoredFacts(recipe: Recipe): Promise<AuthoredFacts> {
+export async function loadAuthoredLookup(): Promise<AuthoredLookup> {
   try {
     const [staticRecipes, liveRecipes] = await Promise.all([getServerRecipes(), LocalRecipeService.getAllRecipes()]);
     if (authoredMemo?.staticRecipes !== staticRecipes || authoredMemo.liveRecipes !== liveRecipes) {
       authoredMemo = { staticRecipes, liveRecipes, lookup: buildAuthoredLookup(staticRecipes, liveRecipes) };
     }
-    return authoredMemo.lookup(recipe);
+    return authoredMemo.lookup;
   } catch (err) {
-    _logger.error(`[recipeRefResolver] authored facts unavailable for ${String(recipe.id)}:`, err);
-    return NOT_AUTHORED;
+    _logger.error("[recipeRefResolver] authored facts unavailable:", err);
+    return nothingAuthored;
   }
+}
+
+/**
+ * The authored times and meal of the recipe a page renders, read from its
+ * static twin (the live catalog's own are placeholders; see authoredFacts).
+ */
+export async function loadAuthoredFacts(recipe: Recipe): Promise<AuthoredFacts> {
+  return (await loadAuthoredLookup())(recipe);
+}
+
+/**
+ * Recipes as the UI shows them: each with its authored times and meal, or
+ * none. Apply it where recipes leave for display, after any scoring, so the
+ * recommenders keep reading the fields they have always read.
+ */
+export async function withAuthoredFactsAll(recipes: readonly Recipe[]): Promise<Recipe[]> {
+  const lookup = await loadAuthoredLookup();
+  return recipes.map((recipe) => withAuthoredFacts(recipe, lookup(recipe)));
 }
 
 /**

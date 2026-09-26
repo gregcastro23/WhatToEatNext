@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { ReportQueueCountSchema } from "@/lib/admin/schemas/moderation";
 import type {
   AuditEventsData,
   CatalogTrendingData,
@@ -1412,8 +1413,9 @@ export function ModerationQueue(): React.ReactElement {
       try {
         const res = await fetch(url, { cache: "no-store" });
         if (!res.ok) return null;
-        const json = (await res.json()) as { reports?: unknown[] };
-        return Array.isArray(json.reports) ? json.reports.length : 0;
+        const parsed = ReportQueueCountSchema.safeParse(await res.json());
+        // An unreadable body is an unknown count, never a zero.
+        return parsed.success ? parsed.data.reports.length : null;
       } catch {
         return null;
       }

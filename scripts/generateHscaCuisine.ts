@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { ingredientsMap } from "../src/data/ingredients/index";
+import { fileHscaRecipe } from "../src/lib/recipes/hscaMealFiling";
 import {
   calculateRecipeAlchemicalQuantities,
   calculateRecipeElementalFromIngredients
@@ -160,38 +161,11 @@ async function run() {
     const recipeName = r.name || r.title || "Unnamed Recipe";
     totalIngredientsCount += r.ingredients.length;
 
-    // Heuristics for mealType
-    let mealType = "dinner"; // fallback
-    const cats = r.categories.map(c => c.toLowerCase());
-    const title = r.title ? r.title.toLowerCase() : "";
-
-    if (
-      cats.some(c => ["breakfast", "brunch", "waffles", "pancakes", "muffins", "porridge", "crepes", "beverage"].includes(c)) ||
-      title.includes("breakfast") || title.includes("pancake") || title.includes("waffle") || title.includes("porridge")
-    ) {
-      mealType = "breakfast";
-    } else if (
-      cats.some(c => ["dessert", "cookies", "cake", "tart", "pastry", "chocolate", "brownies", "ice cream", "truffles", "pie", "sweets"].includes(c)) ||
-      title.includes("cookie") || title.includes("cake") || title.includes("truffle") || title.includes("chocolate")
-    ) {
-      mealType = "dessert";
-    } else if (
-      cats.some(c => ["salad", "sandwich", "soup", "dressing", "appetizer", "snack", "dip", "spread", "pate", "sauce", "marinade", "condiment"].includes(c)) ||
-      title.includes("soup") || title.includes("salad") || title.includes("sandwich") || title.includes("dip")
-    ) {
-      mealType = "lunch";
-    } else if (
-      cats.some(c => ["main course", "pasta", "stew", "casserole", "poultry", "seafood", "fish", "chicken", "burger", "pizza", "curry", "entree"].includes(c))
-    ) {
-      mealType = "dinner";
-    } else {
-      // Deterministic hash fallback to distribute evenly between lunch and dinner
-      let hash = 0;
-      for (let i = 0; i < recipeName.length; i++) {
-        hash = recipeName.charCodeAt(i) + ((hash << 5) - hash);
-      }
-      mealType = Math.abs(hash) % 2 === 0 ? "lunch" : "dinner";
-    }
+    // The bucket places the dish (and names its static id); `meals` is what it
+    // claims, only what the source categories support. See hscaMealFiling.
+    const filing = fileHscaRecipe({ name: recipeName, title: r.title, categories: r.categories });
+    const mealType = filing.bucket;
+    const ownMeals = filing.meals.length === 1 && filing.meals[0] === mealType ? {} : { mealType: filing.meals };
 
     // Heuristics for Season mapping
     const seasons = Array.isArray(r.season) && r.season.length > 0 ? r.season : ["all"];
@@ -365,8 +339,11 @@ async function run() {
       },
       ingredients: finalIngredients,
       instructions: instructions,
+      // standardizeRecipe fills a missing mealType from the bucket, so a dish
+      // that claims anything else must carry its own.
+      ...ownMeals,
       classifications: {
-        mealType: [mealType],
+        mealType: filing.meals,
         cookingMethods: cookingMethods,
       },
       elementalProperties: {

@@ -981,7 +981,7 @@ export function calculateEnhancedStelliumEffects(
       // Add bonuses for non-matching elements that appear multiple times
       Object.entries(nonMatchingElements).forEach(([elem, count]) => {
         if (count >= 1) {
-          const key = elem as keyof LowercaseElementalProperties;
+          const key = elem;
           if (typeof result[key] === "number") {
             result[key] += count;
           }
@@ -1101,11 +1101,10 @@ export function calculateJoyEffects(
     // Check if planet is in its joy house
     if (isPlanetInJoy(planet, house)) {
       // Get house data
-      const houseData = (HOUSE_AFFINITIES as Record<number, { element: string } | undefined>)[house];
+      const houseData = HOUSE_AFFINITIES[house];
       if (houseData) {
         // Planet in joy gets a significant boost to the house's element
-        const element =
-          houseData.element.toLowerCase() as keyof LowercaseElementalProperties;
+        const element = houseData.element.toLowerCase();
         if (element in result && typeof result[element] === "number") {
           // The joy effect is powerful
           result[element] += 2.0;

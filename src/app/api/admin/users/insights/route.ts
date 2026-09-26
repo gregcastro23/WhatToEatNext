@@ -13,7 +13,7 @@ import { NextResponse } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
 import { _logger } from "@/lib/logger";
-import { getUserInsights } from "@/services/userInsightsService";
+import { getUserInsights, type UserInsightsResponse } from "@/services/userInsightsService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     const payload = await memoize("admin:user-insights", CACHE_TTL_MS, () =>
       getUserInsights(),
     );
-    return NextResponse.json({ success: true, ...payload });
+    return NextResponse.json<UserInsightsResponse>({ success: true, ...payload });
   } catch (error) {
     _logger.error("[admin/users/insights] Failed:", error);
     return NextResponse.json(

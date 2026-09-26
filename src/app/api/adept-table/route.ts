@@ -7,6 +7,7 @@ import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
 import { AdeptTableRequestSchema } from "@/lib/validation/apiSchemas";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
 import type { AlchemicalProperties } from "@/types/celestial";
@@ -106,7 +107,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({
       success: true,
       compositeChart,
-      recipes: scoredRecipes.slice(0, 3), // Top 3 recommendations for the table
+      // Top 3 for the table, with their authored times and meal (not the live placeholders)
+      recipes: await withAuthoredFactsAll(scoredRecipes.slice(0, 3)),
     });
   } catch (error) {
     _logger.error("[premium-table] Error:", error);

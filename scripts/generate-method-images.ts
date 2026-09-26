@@ -190,7 +190,7 @@ function displayName(key: string, profile?: AlchemicalMethodProfile): string {
 function firstSentence(s: string): string {
   const clean = s.replace(/\s+/g, " ").trim();
   const m = clean.match(/^(.*?[.!?])(\s|$)/);
-  return (m ? m[1] : clean).trim();
+  return (m?.[1] ?? clean).trim();
 }
 
 /** Deterministic fallback prompt built straight from the profile fields. */
@@ -332,8 +332,7 @@ async function main() {
 
   let ok = 0;
   let failed = 0;
-  for (let i = 0; i < work.length; i++) {
-    const { key, profile } = work[i];
+  for (const [i, { key, profile }] of work.entries()) {
     const { prompt, alt } = resolve(key, profile);
     const outPath = path.join(IMAGE_DIR, `${key}.webp`);
     const rel = path.relative(process.cwd(), outPath);

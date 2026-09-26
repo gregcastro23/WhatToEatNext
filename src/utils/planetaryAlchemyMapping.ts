@@ -169,6 +169,12 @@ export type ZodiacSignType = keyof typeof ZODIAC_ELEMENTS;
 export type PlanetName = keyof typeof PLANETARY_ALCHEMY;
 export type ZodiacQuality = "Cardinal" | "Fixed" | "Mutable";
 
+/** One planet's sect element: by day (diurnal) and by night (nocturnal). */
+export interface SectElementPair {
+  readonly diurnal: AlchemicalElement;
+  readonly nocturnal: AlchemicalElement;
+}
+
 /**
  * Planetary Sectarian Elements - Traditional Western Astrology
  *
@@ -202,18 +208,31 @@ export type ZodiacQuality = "Cardinal" | "Fixed" | "Mutable";
  *   Neptune Water / Water   (modern - watery by nature)
  *   Pluto   Earth / Water   (modern - transformative)
  */
-export const PLANETARY_SECTARIAN_ELEMENTS = {
-  Sun:     { diurnal: "Fire"  as AlchemicalElement, nocturnal: "Fire"  as AlchemicalElement },
-  Moon:    { diurnal: "Water" as AlchemicalElement, nocturnal: "Water" as AlchemicalElement },
-  Mercury: { diurnal: "Air"   as AlchemicalElement, nocturnal: "Earth" as AlchemicalElement },
-  Venus:   { diurnal: "Water" as AlchemicalElement, nocturnal: "Earth" as AlchemicalElement },
-  Mars:    { diurnal: "Fire"  as AlchemicalElement, nocturnal: "Water" as AlchemicalElement },
-  Jupiter: { diurnal: "Air"   as AlchemicalElement, nocturnal: "Fire"  as AlchemicalElement },
-  Saturn:  { diurnal: "Air"   as AlchemicalElement, nocturnal: "Earth" as AlchemicalElement },
-  Uranus:  { diurnal: "Water" as AlchemicalElement, nocturnal: "Air"   as AlchemicalElement },
-  Neptune: { diurnal: "Water" as AlchemicalElement, nocturnal: "Water" as AlchemicalElement },
-  Pluto:   { diurnal: "Earth" as AlchemicalElement, nocturnal: "Water" as AlchemicalElement },
-} as const;
+export const PLANETARY_SECTARIAN_ELEMENTS: Readonly<Record<PlanetName, SectElementPair>> = {
+  Sun:     { diurnal: "Fire",  nocturnal: "Fire"  },
+  Moon:    { diurnal: "Water", nocturnal: "Water" },
+  Mercury: { diurnal: "Air",   nocturnal: "Earth" },
+  Venus:   { diurnal: "Water", nocturnal: "Earth" },
+  Mars:    { diurnal: "Fire",  nocturnal: "Water" },
+  Jupiter: { diurnal: "Air",   nocturnal: "Fire"  },
+  Saturn:  { diurnal: "Air",   nocturnal: "Earth" },
+  Uranus:  { diurnal: "Water", nocturnal: "Air"   },
+  Neptune: { diurnal: "Water", nocturnal: "Water" },
+  Pluto:   { diurnal: "Earth", nocturnal: "Water" },
+};
+
+const SECT_ELEMENTS_BY_PLANET: ReadonlyMap<string, SectElementPair> = new Map(
+  Object.entries(PLANETARY_SECTARIAN_ELEMENTS),
+);
+
+/**
+ * The sect pair for `planet`, or undefined for a body that has none (the
+ * Ascendant, the nodes, an unknown name). Only own keys match: a Map lookup
+ * cannot return an inherited `Object.prototype` member.
+ */
+export function getSectElements(planet: string): SectElementPair | undefined {
+  return SECT_ELEMENTS_BY_PLANET.get(planet);
+}
 
 export const PLANETARY_SECTARIAN_ALCHEMICAL = {
   Sun:     { diurnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }, nocturnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 } },
@@ -559,10 +578,7 @@ export function getPlanetarySectElement(
   planet: string,
   diurnal: boolean,
 ): AlchemicalElement {
-  const entry = (PLANETARY_SECTARIAN_ELEMENTS as Record<
-    string,
-    { diurnal: AlchemicalElement; nocturnal: AlchemicalElement } | undefined
-  >)[planet];
+  const entry = getSectElements(planet);
   if (!entry) return "Air"; // safe fallback
   return diurnal ? entry.diurnal : entry.nocturnal;
 }
@@ -941,10 +957,7 @@ export function aggregateEnhancedZodiacElementals(
     const sign = planetaryPositions[planet] ?? "";
     const signElement = (ZODIAC_ELEMENTS as Record<string, AlchemicalElement | undefined>)[sign];
 
-    const sectInfo = (PLANETARY_SECTARIAN_ELEMENTS as Record<
-      string,
-      { diurnal: AlchemicalElement; nocturnal: AlchemicalElement } | undefined
-    >)[planet];
+    const sectInfo = getSectElements(planet);
     const sectElement = sectInfo ? (isDiurnal ? sectInfo.diurnal : sectInfo.nocturnal) : signElement;
 
     if (!signElement || !sectElement || isExcludedAspectBody(planet)) {

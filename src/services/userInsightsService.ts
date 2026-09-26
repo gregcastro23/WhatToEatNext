@@ -78,6 +78,9 @@ export interface UserInsightsPayload {
   sunSigns: SignDistribution[];
 }
 
+/** GET /api/admin/users/insights — the payload with the route's success flag. */
+export type UserInsightsResponse = { success: true } & UserInsightsPayload;
+
 interface RollupRow {
   total: number;
   humans: number;

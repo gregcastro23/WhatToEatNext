@@ -28,75 +28,13 @@ import { EmptyState } from "@/components/admin/kit/EmptyState";
 import { combine, fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { ReliabilityResponseSchema, type ReliabilityView } from "@/lib/admin/schemas/reliability";
 
-type FlowStatus = "OK" | "DEGRADED" | "INCIDENT" | "UNKNOWN";
-
-interface HealthHistoryPoint {
-  capturedAt: string;
-  overall: FlowStatus;
-}
-
-interface HealthDrift {
-  thisWeekBadRate: number;
-  lastWeekBadRate: number;
-  delta: number | null;
-  thisWeekSamples: number;
-  lastWeekSamples: number;
-}
-
-interface HealthHistoryData {
-  points: HealthHistoryPoint[];
-  windowHours: number;
-  uptimePct: number | null;
-  drift: HealthDrift | null;
-  live: boolean;
-}
-
-interface ProbeReliabilityRow {
-  probeName: string;
-  runs: number;
-  failures: number;
-  failureRate: number;
-  p50LatencyMs: number | null;
-  p95LatencyMs: number | null;
-  maxLatencyMs: number | null;
-  lastRunAt: string | null;
-  lastStatus: string | null;
-  lastError: string | null;
-}
-
-interface ProbeReliabilityData {
-  probes: ProbeReliabilityRow[];
-  windowDays: number;
-  totalRuns: number;
-  totalFailures: number;
-  live: boolean;
-}
-
-interface AlertChannelDelivery {
-  channel: string;
-  attempted: number;
-  delivered: number;
-  failed: number;
-  deliveryRate: number;
-  lastError: string | null;
-  lastFailureAt: string | null;
-}
-
-interface AlertDeliveryData {
-  windowDays: number;
-  alertsFired: number;
-  suppressed: number;
-  channels: AlertChannelDelivery[];
-  live: boolean;
-}
-
-interface ReliabilityPayload {
-  generatedAt: string;
-  health: HealthHistoryData;
-  probes: ProbeReliabilityData;
-  alerts: AlertDeliveryData;
-}
+type ReliabilityPayload = ReliabilityView;
+type FlowStatus = ReliabilityView["health"]["points"][number]["overall"];
+type HealthHistoryData = ReliabilityView["health"];
+type ProbeReliabilityData = ReliabilityView["probes"];
+type AlertDeliveryData = ReliabilityView["alerts"];
 
 const STATUS_COLOR: Record<FlowStatus, string> = {
   OK: "bg-emerald-500",
@@ -385,10 +323,12 @@ export default function ReliabilityPanel(): React.JSX.Element {
           setError(`Request failed (${res.status})`);
           return { ok: false };
         }
-        const json = (await res.json()) as ReliabilityPayload & {
-          success: boolean;
-        };
-        setData(json);
+        const parsed = ReliabilityResponseSchema.safeParse(await res.json());
+        if (!parsed.success) {
+          setError("Reliability payload malformed");
+          return { ok: false };
+        }
+        setData(parsed.data);
         setError(null);
         return { ok: true };
       } catch (err) {

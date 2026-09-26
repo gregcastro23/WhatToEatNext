@@ -32,6 +32,18 @@ export interface CommentPage {
   nextCursor: string | null; // pass back as ?before= for older comments
 }
 
+/** GET /api/feed/comments — one page of an event's comments. */
+export interface FeedCommentListResponse extends CommentPage {
+  success: true;
+}
+
+/** POST /api/feed/comments — the stored comment and the commenter's reward, if any. */
+export interface FeedCommentPostResponse {
+  success: true;
+  comment: FeedComment;
+  reward: { tokenType: string; amount: number; hint: string } | null;
+}
+
 const DEFAULT_LIMIT = 30;
 const MAX_LIMIT = 50;
 const AUTO_HIDE_THRESHOLD = 3;

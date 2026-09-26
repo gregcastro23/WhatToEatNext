@@ -2043,21 +2043,6 @@ export class UnifiedRecipeBuildingSystem {
 
     // Confidence from criteria alignment
     if (
-      (criteria as { preferredCuisine?: string }).preferredCuisine &&
-      recipe.cuisine ===
-        (criteria as { preferredCuisine?: string }).preferredCuisine
-    ) {
-      confidence += 0.1;
-    }
-
-    if (
-      (criteria as { seasonalPreference?: string }).seasonalPreference &&
-      recipe.seasonalAdaptation.seasonalScore >= 0.8
-    ) {
-      confidence += 0.1;
-    }
-
-    if (
       criteria.dietaryRestrictions &&
       criteria.dietaryRestrictions.length > 0
     ) {
@@ -2094,20 +2079,13 @@ export class UnifiedRecipeBuildingSystem {
   ): RecipeGenerationResult["generationMetadata"] {
     // Calculate actual metadata based on recipe and criteria
     let criteriaMatched = 0;
-    const totalCriteria = 10; // Standard criteria count
+    // Ten criteria, but only the eight counted below can match: the
+    // cuisine-preference and seasonal-preference checks read fields that
+    // RecipeBuildingCriteria never had, so they never fired and were removed
+    // (Phase 42). The denominator is unchanged so the reported ratio is too.
+    const totalCriteria = 10;
 
     // Count matched criteria
-    if (
-      (criteria as { preferredCuisine?: string }).preferredCuisine &&
-      recipe.cuisine ===
-        (criteria as { preferredCuisine?: string }).preferredCuisine
-    )
-      criteriaMatched++;
-    if (
-      (criteria as { seasonalPreference?: string }).seasonalPreference &&
-      recipe.seasonalAdaptation.seasonalScore >= 0.7
-    )
-      criteriaMatched++;
     if (criteria.dietaryRestrictions) criteriaMatched++; // Assume dietary restrictions are met
     if (recipe.ingredients.length >= 5) criteriaMatched++;
     const recipeMethods = (recipe as { cookingMethods?: string[] }).cookingMethods;
