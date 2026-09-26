@@ -25,6 +25,8 @@ import {
   generateGregsEnergyChartData,
   getNutritionalInsights,
 } from "@/utils/menuPlanner/nutritionalCalculator";
+import { formatCoveredTotal } from "@/utils/menuPlanner/nutritionCoverage";
+import NutritionCoverageNote from "./NutritionCoverageNote";
 
 interface NutritionalDashboardProps {
   isOpen: boolean;
@@ -102,7 +104,7 @@ function BarChart({
   data,
   unit,
 }: {
-  data: Array<{ label: string; value: number; color?: string }>;
+  data: Array<{ label: string; value: number; display?: string; color?: string }>;
   unit?: string | undefined;
 }) {
   const maxValue = Math.max(...data.map((d) => d.value));
@@ -117,7 +119,7 @@ function BarChart({
             <div className="flex justify-between text-sm">
               <span className="font-medium">{item.label}</span>
               <span className="text-gray-600">
-                {Math.round(item.value)} {unit ?? ""}
+                {item.display ?? `${Math.round(item.value)} ${unit ?? ""}`}
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
@@ -303,7 +305,7 @@ export default function NutritionalDashboard({
     [weeklyTotals],
   );
   const caloriesChart = useMemo(
-    () => generateDailyCaloriesChartData(weeklyTotals.dailyBreakdown),
+    () => generateDailyCaloriesChartData(weeklyTotals.dailyBreakdown, weeklyTotals.dailyCoverage),
     [weeklyTotals],
   );
   const gregsEnergyChart = useMemo(
@@ -442,6 +444,8 @@ export default function NutritionalDashboard({
 
         {/* Content */}
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+          {/* Every figure below is a lower bound when some planned meals publish no nutrition. */}
+          <NutritionCoverageNote coverage={weeklyTotals.coverage} tone="light" className="mb-4" />
           {/* Overview Section */}
           <section className="mb-6">
             <button
@@ -461,60 +465,60 @@ export default function NutritionalDashboard({
                 <div className="bg-blue-50 rounded-lg p-4">
                   <p className="text-sm text-gray-600">Total Calories</p>
                   <p className="text-2xl font-bold text-blue-700">
-                    {Math.round(weeklyTotals.totalCalories)}
+                    {formatCoveredTotal(weeklyTotals.totalCalories, weeklyTotals.coverage)}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {Math.round(weeklyTotals.totalCalories / 7)}/day avg
+                    {formatCoveredTotal(weeklyTotals.totalCalories / 7, weeklyTotals.coverage)}/day avg
                   </p>
                 </div>
 
                 <div className="bg-red-50 rounded-lg p-4">
                   <p className="text-sm text-gray-600">Protein</p>
                   <p className="text-2xl font-bold text-red-700">
-                    {Math.round(weeklyTotals.totalProtein)}g
+                    {formatCoveredTotal(weeklyTotals.totalProtein, weeklyTotals.coverage, "g")}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {Math.round(weeklyTotals.totalProtein / 7)}g/day avg
+                    {formatCoveredTotal(weeklyTotals.totalProtein / 7, weeklyTotals.coverage, "g")}/day avg
                   </p>
                 </div>
 
                 <div className="bg-yellow-50 rounded-lg p-4">
                   <p className="text-sm text-gray-600">Carbs</p>
                   <p className="text-2xl font-bold text-yellow-700">
-                    {Math.round(weeklyTotals.totalCarbs)}g
+                    {formatCoveredTotal(weeklyTotals.totalCarbs, weeklyTotals.coverage, "g")}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {Math.round(weeklyTotals.totalCarbs / 7)}g/day avg
+                    {formatCoveredTotal(weeklyTotals.totalCarbs / 7, weeklyTotals.coverage, "g")}/day avg
                   </p>
                 </div>
 
                 <div className="bg-orange-50 rounded-lg p-4">
                   <p className="text-sm text-gray-600">Fat</p>
                   <p className="text-2xl font-bold text-orange-700">
-                    {Math.round(weeklyTotals.totalFat)}g
+                    {formatCoveredTotal(weeklyTotals.totalFat, weeklyTotals.coverage, "g")}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {Math.round(weeklyTotals.totalFat / 7)}g/day avg
+                    {formatCoveredTotal(weeklyTotals.totalFat / 7, weeklyTotals.coverage, "g")}/day avg
                   </p>
                 </div>
 
                 <div className="bg-indigo-50 rounded-lg p-4">
                   <p className="text-sm text-gray-600">Sodium</p>
                   <p className="text-2xl font-bold text-indigo-700">
-                    {Math.round(weeklyTotals.totalSodium)}mg
+                    {formatCoveredTotal(weeklyTotals.totalSodium, weeklyTotals.coverage, "mg")}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {Math.round(weeklyTotals.totalSodium / 7)}mg/day avg
+                    {formatCoveredTotal(weeklyTotals.totalSodium / 7, weeklyTotals.coverage, "mg")}/day avg
                   </p>
                 </div>
 
                 <div className="bg-teal-50 rounded-lg p-4">
                   <p className="text-sm text-gray-600">Sugar</p>
                   <p className="text-2xl font-bold text-teal-700">
-                    {Math.round(weeklyTotals.totalSugar)}g
+                    {formatCoveredTotal(weeklyTotals.totalSugar, weeklyTotals.coverage, "g")}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {Math.round(weeklyTotals.totalSugar / 7)}g/day avg
+                    {formatCoveredTotal(weeklyTotals.totalSugar / 7, weeklyTotals.coverage, "g")}/day avg
                   </p>
                 </div>
               </div>
