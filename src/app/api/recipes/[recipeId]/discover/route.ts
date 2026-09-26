@@ -1,7 +1,17 @@
+/**
+ * GET /api/recipes/[recipeId]/discover — three "Discover More" lenses.
+ *
+ * Computed over the static catalog: it carries the ESMS and Monica scores the
+ * live rows lack. Recipe pages are keyed by live ids, so a live id is read
+ * through its static twin, and each result links to its canonical page.
+ * [MEASURED 2026-09-25, production] this route 404'd for every live id, so
+ * the section rendered on no live recipe page.
+ */
 import { NextResponse } from "next/server";
 import { _logger } from "@/lib/logger";
-import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
+import { loadStaticTwinBridge, withAuthoredFactsAll, type StaticTwinBridge } from "@/lib/recipes/recipeRefResolver";
 import type { Recipe } from "@/types/recipe";
+import { publicCuisine } from "@/utils/internalCuisineCodes";
 
 export const dynamic = "force-dynamic";
 
@@ -60,13 +70,70 @@ function cosineSimilarity(a: ESMSVec, b: ESMSVec): number {
   return dot / (magA * magB);
 }
 
-/** Slim a Recipe to the fields the discovery carousel needs. */
-function slim(r: Recipe) {
+function byElementalDistance(base: Recipe, others: readonly Recipe[]): Recipe[] {
+  const target = getElemental(base);
+  if (!target) return [];
+  return others
+    .flatMap((r) => {
+      const v = getElemental(r);
+      return v ? [{ r, d: euclideanDistance(target, v) }] : [];
+    })
+    .sort((a, b) => a.d - b.d)
+    .map(({ r }) => r);
+}
+
+function byAlchemicalSimilarity(base: Recipe, others: readonly Recipe[]): Recipe[] {
+  const target = getESMS(base);
+  if (!target) return [];
+  return others
+    .flatMap((r) => {
+      const v = getESMS(r);
+      return v ? [{ r, s: cosineSimilarity(target, v) }] : [];
+    })
+    .sort((a, b) => b.s - a.s)
+    .map(({ r }) => r);
+}
+
+/** An internal archive code (HSCA) is not a tradition, so it has no lens. */
+function bySameCuisine(base: Recipe, others: readonly Recipe[]): Recipe[] {
+  const cuisine = publicCuisine(base.cuisine)?.toLowerCase();
+  if (cuisine === undefined) return [];
+  return others
+    .filter((r) => publicCuisine(r.cuisine)?.toLowerCase() === cuisine)
+    .sort((a, b) => (b.monicaScore ?? 0) - (a.monicaScore ?? 0));
+}
+
+/** The first `n` recipes with distinct pages, never the page itself. */
+function topDistinct(ranked: readonly Recipe[], n: number, bridge: StaticTwinBridge, selfId: string): Recipe[] {
+  const seen = new Set([selfId]);
+  const top: Recipe[] = [];
+  for (const recipe of ranked) {
+    if (top.length === n) break;
+    const id = bridge.canonicalIdOf(String(recipe.id));
+    if (seen.has(id)) continue;
+    seen.add(id);
+    top.push(recipe);
+  }
+  return top;
+}
+
+type CarriedField =
+  | "description" | "elementalProperties" | "spirit" | "essence" | "matter" | "substance"
+  | "monicaScore" | "monicaScoreLabel" | "prepTime" | "cookTime" | "mealType" | "season"
+  | "isVegetarian" | "isVegan" | "isGlutenFree";
+
+/** Carried fields may be undefined here; JSON drops them. */
+type DiscoveryItem = { id: string; name: string; cuisine: string | undefined } & {
+  [K in CarriedField]: Recipe[K] | undefined;
+};
+
+/** Slim a Recipe to the fields the discovery carousel needs, linked to its canonical page. */
+function slim(r: Recipe, id: string): DiscoveryItem {
   return {
-    id: r.id,
+    id,
     name: r.name,
     description: r.description,
-    cuisine: r.cuisine,
+    cuisine: publicCuisine(r.cuisine),
     elementalProperties: r.elementalProperties,
     spirit: r.spirit,
     essence: r.essence,
@@ -84,59 +151,31 @@ function slim(r: Recipe) {
   };
 }
 
-export async function GET(_req: Request, props: { params: Promise<{ recipeId: string }> }) {
+/** Authored times and meal only (the HSCA fill-in 15 is not a time). */
+async function present(recipes: Recipe[], bridge: StaticTwinBridge): Promise<DiscoveryItem[]> {
+  const shown = await withAuthoredFactsAll(recipes);
+  return shown.map((r) => slim(r, bridge.canonicalIdOf(String(r.id))));
+}
+
+export async function GET(_req: Request, props: { params: Promise<{ recipeId: string }> }): Promise<NextResponse> {
   try {
     const { recipeId } = await props.params;
-    const service = UnifiedRecipeService.getInstance();
-    const recipe = await service.getRecipeById(recipeId);
+    const bridge = await loadStaticTwinBridge();
+    const recipe = bridge.staticRecipeFor(recipeId);
     if (!recipe) {
       return NextResponse.json({ success: false, error: "Recipe not found" }, { status: 404 });
     }
 
-    const all = await service.getAllRecipes();
-    const others = all.filter((r) => r.id !== recipe.id && r.name !== recipe.name);
+    const selfId = bridge.canonicalIdOf(String(recipe.id));
+    const others = bridge.staticRecipes.filter((r) => r.id !== recipe.id && r.name !== recipe.name);
+    const top = (ranked: Recipe[], n: number): Recipe[] => topDistinct(ranked, n, bridge, selfId);
+    const [similarElemental, similarAlchemical, sameCuisine] = await Promise.all([
+      present(top(byElementalDistance(recipe, others), 6), bridge),
+      present(top(byAlchemicalSimilarity(recipe, others), 6), bridge),
+      present(top(bySameCuisine(recipe, others), 3), bridge),
+    ]);
 
-    const baseElemental = getElemental(recipe);
-    const baseESMS = getESMS(recipe);
-
-    const similarElemental = baseElemental
-      ? others
-          .map((r) => {
-            const v = getElemental(r);
-            return v ? { r, d: euclideanDistance(baseElemental, v) } : null;
-          })
-          .filter((x): x is { r: Recipe; d: number } => x !== null)
-          .sort((a, b) => a.d - b.d)
-          .slice(0, 6)
-          .map(({ r }) => slim(r))
-      : [];
-
-    const similarAlchemical = baseESMS
-      ? others
-          .map((r) => {
-            const v = getESMS(r);
-            return v ? { r, s: cosineSimilarity(baseESMS, v) } : null;
-          })
-          .filter((x): x is { r: Recipe; s: number } => x !== null)
-          .sort((a, b) => b.s - a.s)
-          .slice(0, 6)
-          .map(({ r }) => slim(r))
-      : [];
-
-    const sameCuisine = recipe.cuisine
-      ? others
-          .filter((r) => r.cuisine?.toLowerCase() === recipe.cuisine!.toLowerCase())
-          .sort((a, b) => (b.monicaScore ?? 0) - (a.monicaScore ?? 0))
-          .slice(0, 3)
-          .map((r) => slim(r))
-      : [];
-
-    return NextResponse.json({
-      success: true,
-      similarElemental,
-      similarAlchemical,
-      sameCuisine,
-    });
+    return NextResponse.json({ success: true, similarElemental, similarAlchemical, sameCuisine });
   } catch (err) {
     _logger.error("[discover] Error:", err);
     return NextResponse.json(
