@@ -8,6 +8,7 @@ import { createLogger } from "@/utils/logger";
 
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
+import { withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
 import { RecipesQueryBodySchema } from "@/lib/validation/apiSchemas";
 import type { Recipe } from "@/types/recipe";
 
@@ -118,7 +119,9 @@ async function handleGet(request: Request) {
 
       return NextResponse.json({
         success: true,
-        recipes: slicedRecipes,
+        // The live catalog's times and meal are placeholders (prep 30, cook
+        // 30, "main" on every row); serve the authored ones, or none.
+        recipes: await withAuthoredFactsAll(slicedRecipes),
         total,
         limit,
         offset,
@@ -128,7 +131,7 @@ async function handleGet(request: Request) {
       const recipes = filterRecipes(await getServerRecipes(), { element, cuisine, search });
       return NextResponse.json({
         success: true,
-        recipes: recipes.slice(offset, offset + limit),
+        recipes: await withAuthoredFactsAll(recipes.slice(offset, offset + limit)),
         total: recipes.length,
         limit,
         offset,

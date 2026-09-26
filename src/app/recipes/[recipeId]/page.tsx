@@ -1,7 +1,7 @@
 import { notFound, permanentRedirect } from "next/navigation";
 import { cache } from "react";
 import { _logger } from "@/lib/logger";
-import { loadAuthoredFacts, resolveRecipeRef } from "@/lib/recipes/recipeRefResolver";
+import { loadAuthoredFacts, resolveRecipeRef, withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
 import { withAuthoredFacts } from "@/lib/search/authoredFacts";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
@@ -231,9 +231,9 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
     const allRecipes = await LocalRecipeService.getAllRecipes();
     // Compared like for like: the other recipes carry the placeholders too.
-    recommendedRecipes = await _recipeRecommender.recommendSimilarRecipes(
-      liveRecipe,
-      allRecipes,
+    // Shown like the page: with their authored times and meal, or none.
+    recommendedRecipes = await withAuthoredFactsAll(
+      await _recipeRecommender.recommendSimilarRecipes(liveRecipe, allRecipes),
     );
   } catch (err) {
     _logger.error(
