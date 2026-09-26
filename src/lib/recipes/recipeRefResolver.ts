@@ -7,6 +7,8 @@
  * `loadAuthoredFacts` serves the page the other way: a live recipe's authored
  * time and meal, from its static twin. `withAuthoredFactsAll` does the same
  * for the recipe lists the API routes and the page's recommendations serve.
+ * `loadStaticTwinBridge` serves /discover: a live id's static twin, and the
+ * canonical id of each static recipe it links to.
  */
 import { getServerRecipes } from "@/actions/recipes";
 import { executeQuery } from "@/lib/database";
@@ -62,19 +64,32 @@ interface ResolverMemo {
   index: RecipeIdentityIndex;
   staticById: Map<string, Recipe>;
   liveById: Map<string, Recipe>;
+  /** Each live id's static twin; the first twin wins, as in buildAuthoredLookup. */
+  staticIdByLiveId: Map<string, string>;
 }
 
 let memo: ResolverMemo | null = null;
 
+function staticIdsByLiveId(staticRecipes: readonly Recipe[], index: RecipeIdentityIndex): Map<string, string> {
+  const map = new Map<string, string>();
+  for (const recipe of staticRecipes) {
+    const hit = index.resolve(String(recipe.id));
+    if (hit?.kind === "twin" && !map.has(hit.liveId)) map.set(hit.liveId, hit.staticId);
+  }
+  return map;
+}
+
 /** Rebuilt only when either catalog array is replaced (catalog TTL refresh). */
 function resolverFor(staticRecipes: readonly Recipe[], liveRecipes: readonly Recipe[]): ResolverMemo {
   if (memo?.staticRecipes === staticRecipes && memo.liveRecipes === liveRecipes) return memo;
+  const index = buildRecipeIdentityIndex(toIdentities(staticRecipes), toIdentities(liveRecipes));
   memo = {
     staticRecipes,
     liveRecipes,
-    index: buildRecipeIdentityIndex(toIdentities(staticRecipes), toIdentities(liveRecipes)),
+    index,
     staticById: byId(staticRecipes),
     liveById: byId(liveRecipes),
+    staticIdByLiveId: staticIdsByLiveId(staticRecipes, index),
   };
   return memo;
 }
@@ -108,6 +123,42 @@ export async function resolveRecipeRef(ref: string): Promise<ResolvedRecipeRef |
   }
   const recipe = resolver.staticById.get(hit.staticId);
   return recipe ? { kind: "static-only", recipe, canonicalId: hit.staticId } : null;
+}
+
+/**
+ * For routes that compute over the static catalog (it carries the ESMS and
+ * Monica scores the live rows lack) but serve pages keyed by live ids.
+ */
+export interface StaticTwinBridge {
+  staticRecipes: readonly Recipe[];
+  /** The static recipe a page id stands for: a static id or index alias, or a live id's twin. */
+  staticRecipeFor(ref: string): Recipe | null;
+  /** The id a link to a static recipe should use: its live twin's, else its own. */
+  canonicalIdOf(staticId: string): string;
+}
+
+const NO_LIVE_RECIPES: readonly Recipe[] = [];
+
+/**
+ * While the live catalog is degraded its list IS the static list, so the
+ * bridge pairs nothing and every id stays static (as resolveRecipeRef does).
+ */
+export async function loadStaticTwinBridge(): Promise<StaticTwinBridge> {
+  const [staticRecipes, liveRecipes] = await Promise.all([getServerRecipes(), LocalRecipeService.getAllRecipes()]);
+  const live = LocalRecipeService.isCatalogDegraded() ? NO_LIVE_RECIPES : liveRecipes;
+  const { index, staticById, staticIdByLiveId } = resolverFor(staticRecipes, live);
+  return {
+    staticRecipes,
+    staticRecipeFor: (ref): Recipe | null => {
+      const id = safeDecode(ref);
+      const staticId = staticIdByLiveId.get(id) ?? index.resolve(id)?.staticId;
+      return staticId === undefined ? null : (staticById.get(staticId) ?? null);
+    },
+    canonicalIdOf: (staticId): string => {
+      const hit = index.resolve(staticId);
+      return hit?.kind === "twin" ? hit.liveId : staticId;
+    },
+  };
 }
 
 interface AuthoredMemo {
