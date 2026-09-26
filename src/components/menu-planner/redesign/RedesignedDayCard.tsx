@@ -16,6 +16,8 @@ import {
   getPlanetaryDayCharacteristics,
 } from "@/types/menuPlanner";
 import type { DailyNutritionResult } from "@/types/nutrition";
+import { formatCoveredTotal, NO_MEALS } from "@/utils/menuPlanner/nutritionCoverage";
+import NutritionCoverageNote from "../NutritionCoverageNote";
 import { PLANET_GLYPHS } from "../StitchTransitRibbon";
 import MealRowCard from "./MealRowCard";
 
@@ -44,8 +46,9 @@ export default function RedesignedDayCard({
   const snack = byType("snack");
   const plannedMains = mains.filter((m) => m.recipe).length;
 
+  // "≥1311" when some meals publish no nutrition, "—" when none do.
   const kcal = dailyNutrition?.meals?.length
-    ? Math.round(dailyNutrition.totals.calories ?? 0)
+    ? formatCoveredTotal(dailyNutrition.totals.calories ?? 0, dailyNutrition.coverage)
     : null;
 
   const isHero = variant === "hero";
@@ -87,9 +90,15 @@ export default function RedesignedDayCard({
             {plannedMains}/3 planned
           </span>
           {kcal !== null && (
-            <span className="font-mono text-[10px] text-on-surface-variant/70">
-              {kcal} KCAL
-            </span>
+            <>
+              <span className="font-mono text-[10px] text-on-surface-variant/70">
+                {kcal} KCAL
+              </span>
+              <NutritionCoverageNote
+                coverage={dailyNutrition?.coverage ?? NO_MEALS}
+                className="text-right"
+              />
+            </>
           )}
         </div>
       </header>

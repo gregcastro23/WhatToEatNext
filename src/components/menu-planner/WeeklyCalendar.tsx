@@ -28,9 +28,15 @@ import {
   formatDateForDisplay,
 } from "@/types/menuPlanner";
 import type { DailyNutritionResult } from "@/types/nutrition";
+import {
+  coverageState,
+  formatCoveredShare,
+  formatCoveredTotal,
+} from "@/utils/menuPlanner/nutritionCoverage";
 import CopyMealModal from "./CopyMealModal";
 import FocusedDayView from "./FocusedDayView";
 import MealSlot from "./MealSlot";
+import NutritionCoverageNote from "./NutritionCoverageNote";
 import RedesignedMobilePlanner from "./redesign/RedesignedMobilePlanner";
 import StitchTransitRibbon, { PLANET_GLYPHS } from "./StitchTransitRibbon";
 
@@ -50,8 +56,12 @@ function DayNutritionStrip({
       </div>
     );
   }
+  // No planned meal publishes nutrition: there is no total, and no goal share of one.
+  if (coverageState(daily.coverage) === "none") {
+    return <NutritionCoverageNote coverage={daily.coverage} className="px-3 py-2 border-t border-muted" />;
+  }
 
-  const { totals, goals, compliance } = daily;
+  const { totals, goals, compliance, coverage } = daily;
   const calPct = goals.calories > 0
     ? Math.min(150, Math.round((totals.calories / goals.calories) * 100))
     : 0;
@@ -66,7 +76,7 @@ function DayNutritionStrip({
     <div className="px-3 py-2 border-t border-muted bg-surface-container-lowest/80 text-[11px] font-mono">
       <div className="flex items-center justify-between mb-1">
         <span className="font-semibold text-primary">
-          {Math.round(totals.calories)}/{Math.round(goals.calories)} kcal
+          {formatCoveredTotal(totals.calories, coverage)}/{Math.round(goals.calories)} kcal
         </span>
         <span
           className={`font-medium ${
@@ -87,10 +97,11 @@ function DayNutritionStrip({
         />
       </div>
       <div className="flex gap-2 mt-1 text-on-surface-variant">
-        <span>P {Math.round(totals.protein)}g</span>
-        <span>C {Math.round(totals.carbs)}g</span>
-        <span>F {Math.round(totals.fat)}g</span>
+        <span>P {formatCoveredTotal(totals.protein, coverage, "g")}</span>
+        <span>C {formatCoveredTotal(totals.carbs, coverage, "g")}</span>
+        <span>F {formatCoveredTotal(totals.fat, coverage, "g")}</span>
       </div>
+      <NutritionCoverageNote coverage={coverage} className="mt-1" />
     </div>
   );
 }
@@ -396,7 +407,7 @@ function TodayHeroCard({
               Calories
             </div>
             <div className="font-bold text-primary">
-              {Math.round(dailyNutrition.totals.calories)}
+              {formatCoveredTotal(dailyNutrition.totals.calories, dailyNutrition.coverage)}
               <span className="text-xs font-normal text-on-surface-variant">
                 {" "}/ {Math.round(dailyNutrition.goals.calories)}
               </span>
@@ -407,7 +418,7 @@ function TodayHeroCard({
               Protein
             </div>
             <div className="font-bold text-fire-spirit">
-              {Math.round(dailyNutrition.totals.protein)}g
+              {formatCoveredTotal(dailyNutrition.totals.protein, dailyNutrition.coverage, "g")}
             </div>
           </div>
           <div>
@@ -415,7 +426,7 @@ function TodayHeroCard({
               Carbs
             </div>
             <div className="font-bold text-air-substance">
-              {Math.round(dailyNutrition.totals.carbs)}g
+              {formatCoveredTotal(dailyNutrition.totals.carbs, dailyNutrition.coverage, "g")}
             </div>
           </div>
           <div>
@@ -423,7 +434,7 @@ function TodayHeroCard({
               Fat
             </div>
             <div className="font-bold text-earth-matter">
-              {Math.round(dailyNutrition.totals.fat)}g
+              {formatCoveredTotal(dailyNutrition.totals.fat, dailyNutrition.coverage, "g")}
             </div>
           </div>
           <div>
@@ -439,9 +450,13 @@ function TodayHeroCard({
                     : "text-error"
               }`}
             >
-              {Math.round(dailyNutrition.compliance.overall * 100)}%
+              {formatCoveredShare(dailyNutrition.compliance.overall, dailyNutrition.coverage)}
             </div>
           </div>
+          <NutritionCoverageNote
+            coverage={dailyNutrition.coverage}
+            className="col-span-2 md:col-span-5"
+          />
         </div>
       )}
 

@@ -8,6 +8,7 @@
 
 import type { LunarPhase } from "./alchemy";
 import type { PlanetaryPositions, StandardZodiacSignType } from "./astrology";
+import type { NutritionCoverage } from "./nutrition";
 import type { Recipe, ElementalProperties, EnhancedRecipe } from "./recipe";
 
 /**
@@ -120,6 +121,9 @@ export interface WeeklyNutritionTotals {
   averageKalchm: number;
   weeklyElementalBalance: ElementalProperties;
   dailyBreakdown: Record<DayOfWeek, DailyNutritionTotals>;
+  /** How many planned meals entered the totals; a week with a partial day is partial. */
+  coverage: NutritionCoverage;
+  dailyCoverage: Record<DayOfWeek, NutritionCoverage>;
 }
 
 /**
@@ -190,6 +194,8 @@ export interface NutritionalProgress {
 export interface ChartDataPoint {
   label: string;
   value: number;
+  /** Shown in place of the rounded value, e.g. "≥1311 kcal" or "—" (no total). */
+  display?: string;
   color?: string;
   metadata?: Record<string, any>;
 }
