@@ -91,8 +91,11 @@ function applyIndexedFields(recipe: IndexedRecipe): void {
   if (lcCookingMethod) recipe._lcCookingMethod = lcCookingMethod;
   const seasons = lowerArray(recipe.season);
   if (seasons) recipe._lcSeasons = seasons;
+  // An explicitly empty list claims no meal (HSCA drinks and sauces); only a
+  // missing one is unknown. lowerArray folds both to undefined.
   const mealTypes = lowerArray(recipe.mealType);
   if (mealTypes) recipe._lcMealTypes = mealTypes;
+  else if (Array.isArray(recipe.mealType)) recipe._lcMealTypes = [];
 }
 
 /** Coerce a value to a finite number, or `undefined` when it isn't one. */
@@ -520,10 +523,8 @@ function buildRecipeIndex(recipes: IndexedRecipe[]): RecipeIndex {
   }
 
   for (const r of recipes) {
-    const recipeMealTypes =
-      r._lcMealTypes && r._lcMealTypes.length > 0
-        ? r._lcMealTypes
-        : ["breakfast", "lunch", "dinner"];
+    // Unknown meal: any but dessert. No meal claimed: no bucket.
+    const recipeMealTypes = r._lcMealTypes ?? ["breakfast", "lunch", "dinner"];
     const recipeSeasons =
       r._lcSeasons && r._lcSeasons.length > 0 ? r._lcSeasons : ["all"];
 

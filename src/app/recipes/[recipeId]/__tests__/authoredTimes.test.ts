@@ -11,12 +11,18 @@ import RecipePage from "../page";
 
 const OYAKODON_ID = "e03c3505-9729-4a7e-bc0c-5ae57aff83a9";
 const AGUA_FRESCA_ID = "7d2f6a0e-3b1c-4e8a-9f55-2c4b8e1d0a63";
+const TIRAMISU_ID = "3f8b2c1d-6e4a-4b7f-8c2d-9a1e5f3b7c40";
+const CHOWDER_ID = "b6d4e2f0-1a3c-4e5b-9d7f-0c2e4a6b8d91";
 const PLACEHOLDER = { prepTime: "30", cookTime: "30", totalTime: "60", timeToMake: "60 minutes", mealType: ["main"] };
 
 const mockLive: Recipe[] = [
   { id: OYAKODON_ID, name: "Oyakodon (Chicken and Egg Rice Bowl)", cuisine: "Japanese", ingredients: [], instructions: [], ...PLACEHOLDER },
   // HSCA recipes reach the live catalog with no cuisine.
   { id: AGUA_FRESCA_ID, name: "Cucumber Agua Fresca", ingredients: [], instructions: [], ...PLACEHOLDER },
+  // Filed under dinner; classified as a dessert.
+  { id: TIRAMISU_ID, name: "Authentic Tiramisù", cuisine: "Italian", ingredients: [], instructions: [], ...PLACEHOLDER },
+  // Filed under dinner; classified ["lunch", "dinner"].
+  { id: CHOWDER_ID, name: "Classic New England Clam Chowder", cuisine: "American", ingredients: [], instructions: [], ...PLACEHOLDER },
 ];
 
 jest.mock("@/services/LocalRecipeService", () => ({
@@ -53,19 +59,32 @@ async function render(recipeId: string): Promise<Rendered> {
 }
 
 describe("recipe page times and meal", () => {
-  it("Oyakodon publishes its authored 10 + 12 minutes and its meal, not PT1H and main", async () => {
+  it("Oyakodon publishes its authored 10 + 12 minutes and its meals, not PT1H and main", async () => {
     const { jsonLd, shown } = await render(OYAKODON_ID);
-    expect(jsonLd).toMatchObject({ prepTime: "PT10M", cookTime: "PT12M", totalTime: "PT22M", recipeCategory: "dinner", keywords: "Japanese, dinner" });
-    expect(shown).toMatchObject({ prepTime: "10", cookTime: "12", totalTime: "22", timeToMake: "22 minutes", mealType: ["dinner"] });
+    // Filed under dinner, classified ["lunch", "dinner"]: dinner leads.
+    expect(jsonLd).toMatchObject({ prepTime: "PT10M", cookTime: "PT12M", totalTime: "PT22M", recipeCategory: "dinner", keywords: "Japanese, dinner, lunch" });
+    expect(shown).toMatchObject({ prepTime: "10", cookTime: "12", totalTime: "22", timeToMake: "22 minutes", mealType: ["dinner", "lunch"] });
   });
 
-  it("an HSCA recipe, whose 15 is the generator's fill-in, publishes no time at all", async () => {
+  it("an HSCA drink publishes no time (its 15 is the generator's fill-in) and no meal (a drink is not breakfast)", async () => {
     const { jsonLd, shown } = await render(AGUA_FRESCA_ID);
     for (const key of ["prepTime", "cookTime", "totalTime"]) expect(jsonLd).not.toHaveProperty(key);
     for (const key of ["prepTime", "cookTime", "totalTime", "timeToMake"]) expect(shown).not.toHaveProperty(key);
     const twin = (await getServerRecipes()).find((r) => r.id === "hsca-breakfast-spring-cucumber-agua-fresca");
-    expect(twin).toMatchObject({ prepTime: "10", cookTime: "15" });
-    expect(jsonLd.recipeCategory).toBe(twin?.mealType?.[0]);
+    expect(twin).toMatchObject({ prepTime: "10", cookTime: "15", mealType: [] });
+    expect(jsonLd).not.toHaveProperty("recipeCategory");
+    expect(shown).not.toHaveProperty("mealType");
+  });
+
+  it("a dessert filed under dinner publishes dessert, the meal its classification names", async () => {
+    const { jsonLd } = await render(TIRAMISU_ID);
+    expect(jsonLd).toMatchObject({ recipeCategory: "dessert", keywords: "Italian, dessert" });
+  });
+
+  it("a dish claiming lunch and dinner keeps the meal it is filed under first", async () => {
+    const { jsonLd, shown } = await render(CHOWDER_ID);
+    expect(jsonLd).toMatchObject({ recipeCategory: "dinner", keywords: "American, dinner, lunch" });
+    expect(shown.mealType).toEqual(["dinner", "lunch"]);
   });
 
   it("no page carries the placeholders", async () => {
