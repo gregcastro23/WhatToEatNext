@@ -29907,16 +29907,6 @@
       "unit": "tbsp"
     }
   ],
-  "chao": [
-    {
-      "recipeId": "vietnamese-ch-o",
-      "recipeName": "Cháo",
-      "cuisine": "vietnamese",
-      "rawIngredientName": "Foundation of Cháo",
-      "amount": 1,
-      "unit": "unit"
-    }
-  ],
   "nuoc_mau": [
     {
       "recipeId": "vietnamese-b-n-ch",

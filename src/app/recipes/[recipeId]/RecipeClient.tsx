@@ -13,6 +13,7 @@ import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
 import { IngredientDrawer } from "@/components/recipes/IngredientDrawer";
 import { InteractiveInstruction } from "@/components/recipes/InteractiveInstruction";
 import { NutritionVisualization, type NutritionData } from "@/components/recipes/NutritionVisualization";
+import { RecipeAttribution } from "@/components/recipes/RecipeAttribution";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { RiffOnThisLink } from "@/components/recipes/RiffOnThisLink";
 import { SocialSection } from "@/components/recipes/SocialSection";
@@ -888,6 +889,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
               {recipe.description}
             </p>
           )}
+          <RecipeAttribution source={recipe.adaptedFrom} />
 
           {/* Quick info pills */}
           <div className="flex flex-wrap gap-3 mt-6">

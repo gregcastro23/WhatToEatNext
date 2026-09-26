@@ -2113,53 +2113,16 @@ export const korean: Cuisine = {
             nutritionPerServing: {"calories":320,"proteinG":7,"carbsG":64,"fatG":5,"fiberG":4,"sodiumMg":95,"sugarG":38,"vitamins":["Vitamin C","Vitamin B12"],"minerals":["Calcium","Iron","Magnesium"]}
         },
       ],
-      winter: [
-        {
-          name: "Hotteok",
-          description: "An alchemically perfected and structurally rigorous preparation of Hotteok. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
-          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Hotteok","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
-          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
-          classifications: {"mealType":["dessert"],"cookingMethods":["simmering","frying"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4188},
-          substitutions: [{"originalIngredient":"Primary ingredient for Hotteok","substituteOptions":["Elemental equivalent"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
-        },
-      ],
       all: [
         {
           name: "Songpyeon",
-          description: "An alchemically perfected and structurally rigorous preparation of Songpyeon. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
-          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Songpyeon","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
-          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
-          classifications: {"mealType":["dessert"],"cookingMethods":["simmering","frying"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4188},
-          substitutions: [{"originalIngredient":"Primary ingredient for Songpyeon","substituteOptions":["Elemental equivalent"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
-        },
-        {
-          name: "Japchae",
-          description: "An alchemically perfected and structurally rigorous preparation of Japchae. Formulated to deliver extreme culinary satisfaction through precise temperature control and elemental balancing.",
-          details: {"cuisine":"Various","prepTimeMinutes":30,"cookTimeMinutes":45,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Primary ingredient for Japchae","notes":"Prepared with exacting precision."},{"amount":2,"unit":"tbsp","name":"Aromatic catalyst","notes":"For depth."}],
-          instructions: ["Step 1: The Preparation. Execute the initial phase with rigorous attention to detail, balancing the elemental forces.","Step 2: The Synthesis. Apply intense heat to trigger the Maillard reaction and synthesize the complex flavor compounds.","Step 3: The Climax. Bring the dish to its final temperature, locking in the energetic resonance.","Step 4: The Finish. Serve immediately to maximize the thermodynamic impact."],
-          classifications: {"mealType":["dessert"],"cookingMethods":["simmering","frying"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Sun","Moon"],"signs":["aries","libra"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4188},
-          substitutions: [{"originalIngredient":"Primary ingredient for Japchae","substituteOptions":["Elemental equivalent"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
+          description: "Half-moon rice cakes made for Chuseok, the Korean harvest-moon festival. A dough of wet short-grain rice flour and boiling water is wrapped around sweetened ground sesame, steamed on a bed of pine needles for a faint pine aroma, and rubbed with sesame oil.",
+          adaptedFrom: {"title":"Songpyeon (half-moon shaped rice cakes)","author":"Hyosun Ro","publisher":"Korean Bapsang","url":"https://www.koreanbapsang.com/songpyeon-half-moon-shaped-rice-cake/","accessed":"2026-09-26","notes":"One batch of the white dough with the sesame filling; the coloured doughs are left out. Times and servings are the recipe card's; the dough also rests 20 to 30 minutes. The optional pine needles (4 to 5 oz) line the steamer and are not eaten, so they appear in the method only."},
+          details: {"cuisine":"Korean","prepTimeMinutes":30,"cookTimeMinutes":30,"baseServingSize":4,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":2,"unit":"cups","name":"wet short-grain rice flour","notes":"Ssalgaru, sold frozen at Korean markets. Thawed and sifted."},{"amount":4,"unit":"tbsp","name":"boiling water","notes":"More a teaspoon at a time only if the dough stays crumbly."},{"amount":0.33,"unit":"cup","name":"roasted sesame seeds","notes":"For the filling."},{"amount":1.5,"unit":"tbsp","name":"sugar","notes":"For the filling."},{"amount":1,"unit":"tbsp","name":"honey","notes":"For the filling."},{"amount":1,"unit":"pinch","name":"salt","notes":"For the filling."},{"amount":1,"unit":"tsp","name":"sesame oil","notes":"For finishing."}],
+          instructions: ["Step 1: Make the dough. Sift the rice flour into a bowl, pour in the boiling water and stir it in quickly with a spoon. Add more boiling water a teaspoon at a time only if the dough will not come together.","Step 2: Knead for 4 to 5 minutes, pressing with the heel of your hand, folding and turning, until smooth. If it sticks, work in more rice flour a tablespoon at a time; if it cracks, add boiling water a teaspoon at a time.","Step 3: Cover the dough with plastic wrap or a damp towel and let it rest for 20 to 30 minutes.","Step 4: Make the filling. Grind the sesame seeds coarsely, then mix in the sugar, honey and salt until evenly combined.","Step 5: Shape. Roll a piece of dough into a ball about 1 inch across, press a well into it with your thumb and widen it. Add about 1/2 teaspoon of filling, pinch the edges closed, firm it in your palm and shape it into a half moon. Repeat with the rest (about 16).","Step 6: Steam. Bring the steamer to a boil over high heat and line it with a thin layer of pine needles (optional, 4 to 5 oz, rinsed two or three times and dried) or a damp cloth or silicone liner. Lay the rice cakes in without touching, cover with more needles if you have them, and steam for about 20 minutes.","Step 7: Finish. Dip the rice cakes briefly in cold water to rinse off the needles, drain, and rub them with the sesame oil. Serve warm or at room temperature."],
+          classifications: {"mealType":["dessert"],"cookingMethods":["steaming"]},
+          substitutions: [{"originalIngredient":"pine needles","substituteOptions":["damp kitchen cloth","silicone steamer liner"]},{"originalIngredient":"wet short-grain rice flour","substituteOptions":["dry short-grain rice flour with a little glutinous rice flour, moistened with cold water and rested (see the source's note)"]}]
         },
       ],
     },
