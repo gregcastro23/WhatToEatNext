@@ -3,6 +3,8 @@ import { createLogger } from "@/utils/logger";
 
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
+import { loadAuthoredFacts, withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
+import { withAuthoredFacts } from "@/lib/search/authoredFacts";
 import { RecipeSchema } from "@/lib/validation/apiSchemas";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
@@ -54,11 +56,13 @@ async function handleGet(request: Request, props: { params: Promise<{ recipeId: 
 
     // Use LocalRecipeService to fetch from database (matches /api/recipes listing)
     const { LocalRecipeService } = await import("@/services/LocalRecipeService");
-    const rawRecipe = await LocalRecipeService.getRecipeById(recipeId);
+    const liveRecipe = await LocalRecipeService.getRecipeById(recipeId);
 
-    if (!rawRecipe) {
+    if (!liveRecipe) {
       return NextResponse.json({ success: false, error: "Recipe not found" }, { status: 404 });
     }
+    // Served with its authored times and meal, never the live placeholders.
+    const rawRecipe = withAuthoredFacts(liveRecipe, await loadAuthoredFacts(liveRecipe));
 
     // Validate recipe shape at the service boundary.
     // On failure we still serve the raw recipe; the warning surfaces schema
@@ -86,9 +90,8 @@ async function handleGet(request: Request, props: { params: Promise<{ recipeId: 
     });
 
     const allRecipes = await LocalRecipeService.getAllRecipes();
-    const recommendedRecipes = await _recipeRecommender.recommendSimilarRecipes(
-      rawRecipe,
-      allRecipes,
+    const recommendedRecipes = await withAuthoredFactsAll(
+      await _recipeRecommender.recommendSimilarRecipes(liveRecipe, allRecipes),
     );
 
     // Track interaction if user is logged in (Data Hose injection)

@@ -5,12 +5,19 @@
  * or ingredient-index id to the live recipe the page can render.
  * `listCanonicalRecipeIds` serves the sitemap: one canonical id per recipe.
  * `loadAuthoredFacts` serves the page the other way: a live recipe's authored
- * time and meal, from its static twin.
+ * time and meal, from its static twin. `withAuthoredFactsAll` does the same
+ * for the recipe lists the API routes and the page's recommendations serve.
  */
 import { getServerRecipes } from "@/actions/recipes";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
-import { buildAuthoredLookup, NOT_AUTHORED, type AuthoredFacts, type AuthoredLookup } from "@/lib/search/authoredFacts";
+import {
+  buildAuthoredLookup,
+  NOT_AUTHORED,
+  withAuthoredFacts,
+  type AuthoredFacts,
+  type AuthoredLookup,
+} from "@/lib/search/authoredFacts";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { Recipe } from "@/types/recipe";
 import {
@@ -111,23 +118,43 @@ interface AuthoredMemo {
 
 let authoredMemo: AuthoredMemo | null = null;
 
+const nothingAuthored: AuthoredLookup = () => NOT_AUTHORED;
+
 /**
- * The authored times and meal of the recipe a page renders, read from its
- * static twin (the live catalog's own are placeholders; see authoredFacts).
- * Non-essential, like the page's other enrichment: a failure leaves the
- * recipe with no time and no meal, never with the placeholders.
+ * The authored-facts lookup over the current catalogs, rebuilt only when
+ * either catalog array is replaced. Non-essential, like a page's other
+ * enrichment: a failure yields a lookup that finds nothing, so recipes show
+ * no time and no meal, never the placeholders.
  */
-export async function loadAuthoredFacts(recipe: Recipe): Promise<AuthoredFacts> {
+export async function loadAuthoredLookup(): Promise<AuthoredLookup> {
   try {
     const [staticRecipes, liveRecipes] = await Promise.all([getServerRecipes(), LocalRecipeService.getAllRecipes()]);
     if (authoredMemo?.staticRecipes !== staticRecipes || authoredMemo.liveRecipes !== liveRecipes) {
       authoredMemo = { staticRecipes, liveRecipes, lookup: buildAuthoredLookup(staticRecipes, liveRecipes) };
     }
-    return authoredMemo.lookup(recipe);
+    return authoredMemo.lookup;
   } catch (err) {
-    _logger.error(`[recipeRefResolver] authored facts unavailable for ${String(recipe.id)}:`, err);
-    return NOT_AUTHORED;
+    _logger.error("[recipeRefResolver] authored facts unavailable:", err);
+    return nothingAuthored;
   }
+}
+
+/**
+ * The authored times and meal of the recipe a page renders, read from its
+ * static twin (the live catalog's own are placeholders; see authoredFacts).
+ */
+export async function loadAuthoredFacts(recipe: Recipe): Promise<AuthoredFacts> {
+  return (await loadAuthoredLookup())(recipe);
+}
+
+/**
+ * Recipes as the UI shows them: each with its authored times and meal, or
+ * none. Apply it where recipes leave for display, after any scoring, so the
+ * recommenders keep reading the fields they have always read.
+ */
+export async function withAuthoredFactsAll(recipes: readonly Recipe[]): Promise<Recipe[]> {
+  const lookup = await loadAuthoredLookup();
+  return recipes.map((recipe) => withAuthoredFacts(recipe, lookup(recipe)));
 }
 
 /**

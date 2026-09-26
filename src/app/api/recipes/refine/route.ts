@@ -10,6 +10,7 @@ import {
 } from "@/lib/economy/livePricing";
 import { OPERATION_COSTS } from "@/lib/economy/operationCosts";
 import { _logger } from "@/lib/logger";
+import { withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
 import { RecipeRefineRequestSchema } from "@/lib/validation/apiSchemas";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import { tokenEconomy } from "@/services/TokenEconomyService";
@@ -119,7 +120,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      recipes: scoredRecipes.slice(0, 10), // Top 10 refined recommendations
+      // Top 10 refined recommendations, with their authored times and meal
+      recipes: await withAuthoredFactsAll(scoredRecipes.slice(0, 10)),
       balances: newBalances,
     });
   } catch (error) {

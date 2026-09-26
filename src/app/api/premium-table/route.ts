@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
 import { PremiumTableRequestSchema } from "@/lib/validation/apiSchemas";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
 import type { AlchemicalProperties } from "@/types/celestial";
@@ -102,5 +103,6 @@ async function getTopScoredRecipes(compositeChart: ReturnType<typeof calculateCo
   });
 
   scored.sort((a, b) => b.score - a.score);
-  return scored.slice(0, 3);
+  // Shown with their authored times and meal, not the live placeholders.
+  return withAuthoredFactsAll(scored.slice(0, 3));
 }
