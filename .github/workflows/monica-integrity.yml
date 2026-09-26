@@ -106,6 +106,13 @@ jobs:
         # been replaced by an import and the same warning applies.
         run: python -m pytest backend/tests/test_main_planet_weighting.py -q
 
+      - name: Deployed-server sign element (Python)
+        # main.py read an unrecognised sign as "Air" and a missing one as Aries
+        # in the alchemize paths — the same fallbacks RealAlchemizeService.ts
+        # carried. Both runtimes now give such a sign no element. AST-only, like
+        # the step above, so it keeps the pytest-only install.
+        run: python -m pytest backend/tests/test_main_sign_element.py -q
+
   # ---------------------------------------------------------------------------
   # PRE-MERGE. The two gates a PULL REQUEST DIFF can actually break, run BEFORE
   # the code reaches master.

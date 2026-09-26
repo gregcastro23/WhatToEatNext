@@ -21,6 +21,7 @@ import type {
     ThermodynamicProperties
 } from "@/types/alchemy";
 import type { ZodiacSignType } from "@/types/celestial";
+import type { LowercaseElement } from "@/types/elemental";
 import type { TimeFactors } from "@/types/time";
 import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from "@/utils/safeAstrology";
 import { getAccuratePlanetaryPositions, type PlanetPositionData as AstronomyPlanetPositionData } from "./astrology/positions";
@@ -74,10 +75,13 @@ export const calculatePlanetaryAspects = safeCalculatePlanetaryAspects;
 /**
  * Get the element associated with a zodiac sign
  * @param sign Zodiac sign
- * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
+ * @returns Element ('Fire', 'Earth', 'Air', or 'Water'), or undefined for an
+ *   unrecognised sign — it has no element
  */
-export function getZodiacElement(_sign: ZodiacSignType | string): ElementalCharacter {
-  const elements: Record<ZodiacSignType, ElementalCharacter> = {
+export function getZodiacElement(
+  _sign: ZodiacSignType | string,
+): ElementalCharacter | undefined {
+  const elements: Partial<Record<string, ElementalCharacter>> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",
@@ -91,8 +95,20 @@ export function getZodiacElement(_sign: ZodiacSignType | string): ElementalChara
     scorpio: "Water",
     pisces: "Water",
   };
-  const normalizedSign = String(_sign).toLowerCase() as ZodiacSignType;
-  return (elements as Record<string, ElementalCharacter | undefined>)[normalizedSign] ?? "Fire";
+  return elements[String(_sign).toLowerCase()];
+}
+const LOWERCASE_ELEMENT: Record<ElementalCharacter, LowercaseElement> = {
+  Fire: "fire",
+  Earth: "earth",
+  Air: "air",
+  Water: "water",
+};
+/**
+ * The sign's element as a lowercase key, or undefined for an unrecognised sign
+ */
+function getLowercaseZodiacElement(sign: string): LowercaseElement | undefined {
+  const element = getZodiacElement(sign);
+  return element === undefined ? undefined : LOWERCASE_ELEMENT[element];
 }
 // Define a replacement getPlanetaryDignity function
 export function getPlanetaryDignity(
@@ -826,8 +842,8 @@ export function calculateHousePosition(
   risingDegree: number,
   planetDegree: number,
 ): number {
-  // Calculate relative position to the Ascendant
-  const relativeDegree = (planetDegree - risingDegree + 360) % 360;
+  // Calculate relative position to the Ascendant, in [0, 360) for any inputs
+  const relativeDegree = (((planetDegree - risingDegree) % 360) + 360) % 360;
   // Convert to house (each house is 30 degrees)
   const house = Math.floor(relativeDegree / 30) + 1;
   return house;
@@ -853,6 +869,38 @@ export function getTraditionalRuler(sign: string): string {
     pisces: "Jupiter", // Traditional ruler (before Neptune)
   };
   return rulers[sign] ?? "";
+}
+/**
+ * The element a body lends to a stellium, or undefined for an unrecognised
+ * body. Mercury is split by degree: air in the first half of a sign, earth in
+ * the second.
+ */
+function getStelliumPlanetElement(
+  planet: string,
+  degree: number | undefined,
+): LowercaseElement | undefined {
+  // Handle both traditional and modern planets
+  switch (planet.toLowerCase()) {
+    case "sun":
+    case "mars":
+      return "fire";
+    case "moon":
+    case "venus":
+    case "neptune":
+      return "water";
+    case "mercury":
+      return degree !== undefined && degree < 15 ? "air" : "earth";
+    case "jupiter":
+    case "uranus":
+      return "air";
+    case "saturn":
+    case "pluto":
+    case "ascendant": // Ascendant is Earth element
+    case "rising":
+      return "earth";
+    default:
+      return undefined;
+  }
 }
 /**
  * Calculate enhanced stellium effects based on planetary positions
@@ -888,61 +936,23 @@ export function calculateEnhancedStelliumEffects(
   // Find stelliums (3+ planets in same sign)
   Object.entries(planetsBySign).forEach(([sign, planets]) => {
     if (planets.length >= 3) {
-      // Get the element of the sign
-      const element = getZodiacElement(sign).toLowerCase();
+      // Get the element of the sign; an unrecognised sign has none
+      const element = getLowercaseZodiacElement(sign);
+      if (element === undefined) return;
       // 1. Add bonus of +n of the sign element (n = number of planets)
-      if (typeof result[element] === "number") {
-        result[element] += planets.length;
-      }
+      result[element] += planets.length;
       // Count planets whose element matches the sign element
       let matchingElementCount = 0;
       // Count planets by type for weighted stellium effects
-      const elementsByPlanet: Record<string, string> = {};
+      const elementsByPlanet: Record<string, LowercaseElement> = {};
       // Get element for each planet
       planets.forEach((planet) => {
-        let planetElement: string;
-        // Handle both traditional and modern planets
-        switch (planet.toLowerCase()) {
-          case "sun":
-            planetElement = "fire";
-            break;
-          case "moon":
-            planetElement = "water";
-            break;
-          case "mercury": {
-            const pos = planetPositions[planet];
-            planetElement =
-              pos && pos.degree < 15 ? "air" : "Earth"; // First half: Air, Second half: Earth
-            break;
-          }
-          case "venus":
-            planetElement = "water";
-            break;
-          case "mars":
-            planetElement = "fire";
-            break;
-          case "jupiter":
-            planetElement = "air";
-            break;
-          case "saturn":
-            planetElement = "earth";
-            break;
-          case "uranus":
-            planetElement = "air";
-            break;
-          case "neptune":
-            planetElement = "water";
-            break;
-          case "pluto":
-            planetElement = "earth";
-            break;
-          case "ascendant":
-          case "rising":
-            planetElement = "earth"; // Ascendant is Earth element
-            break;
-          default:
-            planetElement = "fire"; // Default to fire
-        }
+        const planetElement = getStelliumPlanetElement(
+          planet,
+          planetPositions[planet]?.degree,
+        );
+        // An unrecognised body counts toward n but has no element
+        if (planetElement === undefined) return;
         elementsByPlanet[planet] = planetElement;
         // Check if planet's element matches the sign's element
         if (planetElement === element) {
@@ -950,16 +960,13 @@ export function calculateEnhancedStelliumEffects(
         }
       });
       // 2. For planets with matching elements, add (1 + m) per planet where m is other planets with matching elements
-      if (matchingElementCount > 0 && typeof result[element] === "number") {
+      if (matchingElementCount > 0) {
         // Using the formula from the original, algorithm: for each matching planet, add 1 + (number of other matching planets)
         result[element] +=
           matchingElementCount * (1 + (matchingElementCount - 1));
       }
       // 3. For non-matching elements, count how many planets have that element
-      const nonMatchingElements: Record<
-        keyof LowercaseElementalProperties,
-        number
-      > = {
+      const nonMatchingElements: Record<LowercaseElement, number> = {
         fire: 0,
         earth: 0,
         air: 0,
@@ -968,10 +975,7 @@ export function calculateEnhancedStelliumEffects(
       // Count non-matching elements
       Object.values(elementsByPlanet).forEach((planetElement) => {
         if (planetElement !== element) {
-          const k = planetElement;
-          if (typeof nonMatchingElements[k] === "number") {
-            nonMatchingElements[k]++;
-          }
+          nonMatchingElements[planetElement]++;
         }
       });
       // Add bonuses for non-matching elements that appear multiple times
@@ -995,6 +999,7 @@ export function calculateEnhancedStelliumEffects(
         position.sign,
         position.degree,
       );
+      if (absoluteDegree === undefined) return;
       const house = calculateHousePosition(risingDegree, absoluteDegree);
       let houseList = planetsByHouse[house];
       if (!houseList) {
@@ -1009,43 +1014,45 @@ export function calculateEnhancedStelliumEffects(
         const houseNumber = parseInt(houseStr, 10);
         // Determine house element
         const houseElement = getHouseElement(houseNumber);
+        if (houseElement === undefined) return;
         // House stelliums are weighted by house type;
         const stelliumStrength = planets.length;
         // Add house stellium effect to the corresponding element
-        const elemKey = houseElement;
-        if (typeof result[elemKey] === "number") {
-          result[elemKey] += stelliumStrength;
-        }
+        result[houseElement] += stelliumStrength;
       }
     });
   }
   return result;
 }
 /**
- * Get the element associated with a house
+ * Get the element associated with a house (1–12). Any other number has no
+ * element and returns undefined, so it contributes nothing.
  */
-function getHouseElement(_house: number): string {
-  // Houses follow the elemental, pattern: Fire, Earth, Air, Water, repeating
-  const houseElements: Record<number, string> = {
-    1: "Fire",
-    5: "Fire",
-    9: "Fire",
-    2: "Earth",
-    6: "Earth",
-    10: "Earth",
-    3: "Air",
-    7: "Air",
-    11: "Air",
-    4: "Water",
-    8: "Water",
-    12: "Water",
+function getHouseElement(house: number): LowercaseElement | undefined {
+  // Houses follow the elemental pattern: Fire, Earth, Air, Water, repeating
+  const houseElements: Partial<Record<number, LowercaseElement>> = {
+    1: "fire",
+    5: "fire",
+    9: "fire",
+    2: "earth",
+    6: "earth",
+    10: "earth",
+    3: "air",
+    7: "air",
+    11: "air",
+    4: "water",
+    8: "water",
+    12: "water",
   };
-  return houseElements[_house] ?? "Fire";
+  return houseElements[house];
 }
 /**
- * Get longitude from sign and degree
+ * Get longitude from sign and degree, or undefined when the sign doesn't resolve
  */
-function getLongitudeFromSignAndDegree(sign: string, degree: number): number {
+function getLongitudeFromSignAndDegree(
+  sign: string,
+  degree: number,
+): number | undefined {
   const signs = [
     "aries",
     "taurus",
@@ -1063,7 +1070,7 @@ function getLongitudeFromSignAndDegree(sign: string, degree: number): number {
   const signIndex = signs.findIndex(
     (s) => s.toLowerCase() === sign.toLowerCase(),
   );
-  return (signIndex >= 0 ? signIndex : 0) * 30 + degree;
+  return signIndex >= 0 ? signIndex * 30 + degree : undefined;
 }
 /**
  * Calculate elemental effects of planets in joy houses
@@ -1083,23 +1090,12 @@ export function calculateJoyEffects(
   };
   // Process each planet
   for (const [planet, position] of Object.entries(planetPositions)) {
-    // Calculate absolute degree (0-359)
-    const zodiacSigns = [
-      "aries",
-      "taurus",
-      "gemini",
-      "cancer",
-      "leo",
-      "virgo",
-      "Libra",
-      "Scorpio",
-      "sagittarius",
-      "capricorn",
-      "aquarius",
-      "pisces",
-    ];
-    const signIndex = zodiacSigns.indexOf(position.sign);
-    const absoluteDegree = signIndex * 30 + position.degree;
+    // Calculate absolute degree (0-359); a sign that doesn't resolve has no house
+    const absoluteDegree = getLongitudeFromSignAndDegree(
+      position.sign,
+      position.degree,
+    );
+    if (absoluteDegree === undefined) continue;
     // Calculate house
     const house = calculateHousePosition(risingDegree, absoluteDegree);
     // Check if planet is in its joy house
@@ -1163,11 +1159,10 @@ export function calculateCompleteAstrologicalEffects(
   // Process each planet for dignity
   for (const [planet, position] of Object.entries(planetPositions)) {
     const dignity = getPlanetaryDignity(planet, position.sign);
-    const element = getZodiacElement(position.sign).toLowerCase();
-    // Apply dignity strength based on type
-    const elementKey = element;
-    if (typeof dignityEffects[elementKey] === "number") {
-      dignityEffects[elementKey] += dignity.strength;
+    const element = getLowercaseZodiacElement(position.sign);
+    // Apply dignity strength based on type; an unrecognised sign has no element
+    if (element !== undefined) {
+      dignityEffects[element] += dignity.strength;
     }
   }
   // Calculate aspect effects
@@ -1404,32 +1399,6 @@ export function calculateAspects(
     quintile: { maxOrb: 2, multiplier: 0.3 }, // +0.3 effect (mild positive)
     biquintile: { maxOrb: 2, multiplier: 0.3 }, // +0.3 effect (mild positive)
   };
-  // Helper function to get longitude from sign and degree
-  const getLongitude = (position: { sign: string; degree: number }): number => {
-    // Check if position or position.sign is undefined/null
-    if (!position.sign) {
-      debugLog("Invalid position object _encountered: ", position);
-      return 0; // Return default value
-    }
-    const signs = [
-      "aries",
-      "taurus",
-      "gemini",
-      "cancer",
-      "leo",
-      "virgo",
-      "libra",
-      "scorpio",
-      "sagittarius",
-      "capricorn",
-      "aquarius",
-      "pisces",
-    ];
-    const signIndex = signs.findIndex(
-      (s) => s.toLowerCase() === position.sign.toLowerCase(),
-    );
-    return signIndex * 30 + position.degree;
-  };
   // Calculate aspects between each planet pair
   const planets = Object.keys(positions);
   for (let i = 0; i < planets.length; i++) {
@@ -1441,8 +1410,10 @@ export function calculateAspects(
       const pos2 = positions[planet2];
       // Skip if missing position data
       if (!pos1 || !pos2 || !pos1.sign || !pos2.sign) continue;
-      const long1 = getLongitude(pos1);
-      const long2 = getLongitude(pos2);
+      // A sign that doesn't resolve has no longitude, so it forms no aspect
+      const long1 = getLongitudeFromSignAndDegree(pos1.sign, pos1.degree);
+      const long2 = getLongitudeFromSignAndDegree(pos2.sign, pos2.degree);
+      if (long1 === undefined || long2 === undefined) continue;
       // Calculate angular difference
       let diff = Math.abs(long1 - long2);
       if (diff > 180) diff = 360 - diff;
@@ -1469,8 +1440,8 @@ export function calculateAspects(
           // Calculate aspect strength based on orb (closer aspects are stronger)
           const strength = 1 - orb / definition.maxOrb;
           // Get element of the sign for each planet
-          const element1 = getZodiacElement(pos1.sign).toLowerCase();
-          const element2 = getZodiacElement(pos2.sign).toLowerCase();
+          const element1 = getLowercaseZodiacElement(pos1.sign);
+          const element2 = getLowercaseZodiacElement(pos2.sign);
           // Base multiplier from definition;
           let { multiplier } = definition;
           // Special, case: Square aspect with Ascendant is positive (+1) instead of negative
@@ -1498,13 +1469,12 @@ export function calculateAspects(
           // Apply elemental effects based on sign elements
           // The strength is proportional to the aspect strength and multiplier
           // Add effect to both planet elements to balance the system
-          const k1 = element1;
-          const k2 = element2;
-          if (typeof elementalEffects[k1] === "number") {
-            elementalEffects[k1] += multiplier * strength;
+          // An unrecognised sign has no element to receive the effect
+          if (element1 !== undefined) {
+            elementalEffects[element1] += multiplier * strength;
           }
-          if (typeof elementalEffects[k2] === "number") {
-            elementalEffects[k2] += multiplier * strength;
+          if (element2 !== undefined) {
+            elementalEffects[element2] += multiplier * strength;
           }
           // Only count the closest aspect between two planets
           break;
@@ -2472,7 +2442,7 @@ function calculateCurrentElementalInfluence(
       const weight = planetWeights[planet] ?? 0.5;
       const { sign } = data;
       const element = getZodiacElement(sign.toLowerCase());
-      influence[element] += weight;
+      if (element !== undefined) influence[element] += weight;
     });
     // Adjust for day/night cycle
     if (isDaytime) {
@@ -2487,7 +2457,7 @@ function calculateCurrentElementalInfluence(
       const currentElement = getZodiacElement(
         currentZodiac.toLowerCase(),
       );
-      influence[currentElement] *= 1.3;
+      if (currentElement !== undefined) influence[currentElement] *= 1.3;
     }
     // Normalize to 0-1 range
     const total = Object.values(influence).reduce((sum, val) => sum + val, 0);
