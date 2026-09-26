@@ -3,6 +3,7 @@
 // (elemental calculations) and the ingredient nutrition aggregator.
 
 import { PORTIONS_BY_INGREDIENT } from "@/data/cooking/measuredPortions";
+import { countToMass } from "@/lib/cooking/countToMass";
 import { volumeToMass } from "@/lib/cooking/volumetrics";
 
 /**
@@ -21,6 +22,8 @@ export interface GramConversion {
   basis: GramBasis;
   /** The FDC record backing a measured figure. Absent on an approximation. */
   fdcId?: number;
+  /** FDC's label for a measured COUNT portion ("large", "sprigs"). Absent otherwise. */
+  measuredAs?: string;
   /** Present ONLY on an approximation, so absence of data cannot look like data. */
   approximationNote?: string;
 }
@@ -99,6 +102,12 @@ const NAME_ALIASES: Record<string, string> = {
   "toasted sesame oil": "sesame oil",
   "canola oil": "vegetable oil",
   "sesame seed": "sesame seeds",
+  // Catalog names whose own nutritional profile IS the measured record's food:
+  // Chicken Egg is "1 large egg (50g), whole" (FDC 171287), and both onions are
+  // "1 medium onion (110g)" at 44 kcal (FDC 170000, Onions, raw).
+  "chicken egg": "egg",
+  "yellow onion": "onion",
+  "red onion": "onion",
 };
 
 function canonicalIngredient(name: string): string {
@@ -175,7 +184,10 @@ export const UNIT_CONVERSIONS: Record<string, number> = {
  * fact — and it errs in BOTH directions: a cup of salt is 292 g, not 240 g.
  *
  * Supplying `ingredientName` lets a volume unit resolve against USDA's measured
- * household-measure weights. Without it, or for an ingredient nobody has
+ * household-measure weights, and a count unit ("large", "sprigs", "whole")
+ * against USDA's measured count portions (see `countToMass`; a count with no
+ * measured portion is `null`, unless it is one of the table's own count
+ * guesses). Without a name, or for an ingredient nobody has
  * measured, the water approximation is still used — but it comes back labelled
  * `water-approximation` with a note, so a caller can never mistake it for a
  * measurement. Only {@link MEASURED_INGREDIENT_COUNT} ingredients are covered,
@@ -202,6 +214,11 @@ export function convertToGramsDetailed(
         ...(measured.fdcId !== undefined ? { fdcId: measured.fdcId } : {}),
       };
     }
+  }
+
+  const counted = ingredientName ? countToMass(canonicalIngredient(ingredientName), amount, key) : null;
+  if (counted !== null) {
+    return { grams: counted.grams, basis: "usda-measured", fdcId: counted.fdcId, measuredAs: counted.measuredAs };
   }
 
   const factor = UNIT_CONVERSIONS[key];
