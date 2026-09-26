@@ -2617,36 +2617,6 @@ export const thai: Cuisine = {
           substitutions: [{"originalIngredient":"Evaporated milk","substituteOptions":["Coconut milk (for a different variation)"]}],
             nutritionPerServing: {"calories":217,"proteinG":37,"carbsG":23,"fatG":2,"fiberG":6,"sodiumMg":515,"sugarG":4,"vitamins":["Vitamin B12","Niacin","Vitamin C","Folate","Vitamin B6"],"minerals":["Selenium","Phosphorus","Potassium","Calcium"]}
         },
-        {
-          name: "Gaeng Panang Neua",
-          description: "An alchemically precise execution of Gaeng Panang Neua, balancing extreme thermal application with structural integrity.",
-          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Gaeng Panang Neua","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
-          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dinner"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Gaeng Panang Neua","substituteOptions":["Alternate protein or vegetable"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
-        },
-        {
-          name: "Khao Soi Gai",
-          description: "An alchemically precise execution of Khao Soi Gai, balancing extreme thermal application with structural integrity.",
-          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Khao Soi Gai","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
-          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dinner"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Khao Soi Gai","substituteOptions":["Alternate protein or vegetable"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
-        },
       ],
     },
     dessert: {
@@ -2685,48 +2655,43 @@ export const thai: Cuisine = {
         },
         {
           name: "Tub Tim Grob",
-          description: "An alchemically precise execution of Tub Tim Grob, balancing extreme thermal application with structural integrity.",
-          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Tub Tim Grob","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
-          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dessert"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Tub Tim Grob","substituteOptions":["Alternate protein or vegetable"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
+          description: "Thai \"red rubies\": diced water chestnuts tinted red, coated in tapioca starch and boiled until each cube wears a clear, chewy jacket around a crisp centre. Served in pandan syrup with salted coconut milk over crushed ice.",
+          adaptedFrom: {"title":"Red Rubies Dessert (Tub Tim Grob)","author":"Pailin Chongchitnant","publisher":"Hot Thai Kitchen","url":"https://hot-thai-kitchen.com/tub-tim-grob/","accessed":"2026-09-26","notes":"Serves 4. The source states no prep or cook time, and gives no amounts for the crushed ice or the optional jackfruit and young coconut, so those appear in the method only."},
+          details: {"cuisine":"Thai","baseServingSize":4,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":8,"unit":"oz","name":"canned whole water chestnuts","notes":"One can, drained. Fresh also work."},{"amount":10,"unit":"drops","name":"red food colouring","notes":"10 to 15 drops, or beet juice."},{"amount":0.25,"unit":"cup","name":"tapioca starch","notes":"Up to 1/2 cup for a thicker coating."},{"amount":0.5,"unit":"cup","name":"sugar","notes":"For the syrup."},{"amount":1.5,"unit":"cups","name":"water","notes":"For the syrup."},{"amount":2,"unit":"leaves","name":"pandan leaves","notes":"One for the syrup, one for the coconut milk."},{"amount":1,"unit":"dash","name":"rose water","notes":"Optional; or orange blossom water. Both are strong, so add a little at a time."},{"amount":0.75,"unit":"cup","name":"coconut milk"},{"amount":0.25,"unit":"cup","name":"water","notes":"For the coconut milk."},{"amount":0.125,"unit":"tsp","name":"salt","notes":"For the coconut milk."}],
+          instructions: ["Step 1: Cut the water chestnuts into roughly 1 cm cubes. Cover them with water and add red food colouring (about 10 to 15 drops) until the water is bright red; leave them to soak.","Step 2: Make the syrup. Boil one pandan leaf in the 1 1/2 cups of water for 10 minutes, then stir in the sugar until it dissolves. Add the rose water if using, then chill completely.","Step 3: Make the coconut milk. Boil the coconut milk with the 1/4 cup of water, the salt and the second pandan leaf for 5 minutes, then chill.","Step 4: Bring a large pot of water to a boil and set a bowl of ice water beside it. Drain the chestnuts, then toss them with the tapioca starch about 2 tablespoons at a time until every piece is coated white and none stick together. Shake off the excess in a strainer.","Step 5: Cook the rubies in two batches. Scatter them into the rapidly boiling water, stir briefly, and boil for 2 to 3 minutes (about a minute after they float). Dip a few into the ice water: the coating should settle into a clear gel. If many show white, uncooked starch, boil a minute longer. Move the batch to the ice water.","Step 6: Once cool, drain the rubies. Keep them at room temperature rather than in the fridge; they hold for the day.","Step 7: To serve, spoon rubies into bowls with ripe jackfruit (fresh or canned in syrup) or young coconut meat if using. Add syrup until it almost covers them, then a couple of tablespoons of coconut milk (about 2 parts syrup to 1 part coconut milk). Add crushed ice and stir until very cold."],
+          classifications: {"mealType":["dessert"],"cookingMethods":["boiling"]},
+          substitutions: [{"originalIngredient":"red food colouring","substituteOptions":["beet juice"]},{"originalIngredient":"rose water","substituteOptions":["orange blossom water","water scented overnight with fresh jasmine flowers (used for the syrup)"]}]
         },
         {
           name: "Bua Loi",
-          description: "An alchemically precise execution of Bua Loi, balancing extreme thermal application with structural integrity.",
-          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Bua Loi","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
-          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dessert"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Bua Loi","substituteOptions":["Alternate protein or vegetable"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
+          description: "\"Floating lotus\": small glutinous rice balls, coloured and flavoured with mashed kabocha or taro, boiled until they float and then warmed in coconut milk sweetened with palm sugar and scented with pandan.",
+          adaptedFrom: {"title":"Rice Balls in Coconut Milk (bua loy)","author":"Pailin Chongchitnant","publisher":"Hot Thai Kitchen","url":"https://hot-thai-kitchen.com/rice-balls-bua-loy/","accessed":"2026-09-26","notes":"The source serves 4 to 6; the base here is 4. It states no prep or cook time."},
+          details: {"cuisine":"Thai","baseServingSize":4,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":100,"unit":"g","name":"glutinous rice flour","notes":"1 cup."},{"amount":0.5,"unit":"cup","name":"kabocha squash","notes":"Cooked and mashed. Or taro, or a coloured juice such as pandan or beet (then skip the water)."},{"amount":0.25,"unit":"cup","name":"water","notes":"1/4 to 1/2 cup, as the dough needs."},{"amount":2,"unit":"cups","name":"coconut milk"},{"amount":1,"unit":"cup","name":"water","notes":"For the coconut milk."},{"amount":0.75,"unit":"cup","name":"palm sugar","notes":"Chopped. Start with 1/2 cup and add to taste."},{"amount":0.75,"unit":"tsp","name":"salt"},{"amount":0.5,"unit":"leaves","name":"pandan leaf","notes":"Optional."}],
+          instructions: ["Step 1: Rub the rice flour and mashed squash together with your fingers, then add water a little at a time and knead until the dough is soft but not sticky. If it turns tacky, knead in a little more flour.","Step 2: Pat the dough into a rectangle just under 1 cm thick, cut it into 1 cm strips and then 1 cm cubes, and roll each cube into a ball. Keep the balls covered so they do not dry out.","Step 3: Bring a pot of water to a full boil. Meanwhile, heat the coconut milk, 1 cup of water, pandan leaf, 1/2 cup of the palm sugar and the salt over medium heat, stirring until the sugar dissolves. Taste, add more sugar if you like, then turn off the heat and remove the pandan.","Step 4: Set a bowl of cold water beside the boiling pot. Cook the balls in batches without crowding; within about a minute they float. Lift them out as soon as they do and drop them into the cold water.","Step 5: Drain the balls well, add them to the coconut milk and heat just until it returns to a simmer, then turn off the heat. Serve warm or at room temperature, on the day they are made: the balls keep absorbing liquid and turn soft."],
+          classifications: {"mealType":["dessert"],"cookingMethods":["boiling","simmering"]},
+          substitutions: [{"originalIngredient":"kabocha squash","substituteOptions":["taro root","pandan juice","beet juice"]}]
         },
         {
           name: "Sangkaya Fak Thong",
-          description: "An alchemically precise execution of Sangkaya Fak Thong, balancing extreme thermal application with structural integrity.",
-          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Sangkaya Fak Thong","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
-          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dessert"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Sangkaya Fak Thong","substituteOptions":["Alternate protein or vegetable"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
+          description: "A whole kabocha squash, hollowed and filled with a palm-sugar and coconut-milk egg custard, then steamed until both are set. Cut into wedges, the squash is the crust: a crustless pumpkin pie.",
+          adaptedFrom: {"title":"Thai Custard in a Pumpkin (Crustless Pumpkin Pie)","author":"Pailin Chongchitnant","publisher":"Hot Thai Kitchen","url":"https://hot-thai-kitchen.com/custard-in-a-pumpkin/","accessed":"2026-09-26","notes":"Times and yield are the recipe card's; steaming a large squash takes longer."},
+          details: {"cuisine":"Thai","prepTimeMinutes":30,"cookTimeMinutes":60,"baseServingSize":10,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":1,"unit":"whole","name":"kabocha squash","notes":"Small to medium; a large one takes much longer to steam."},{"amount":240,"unit":"ml","name":"coconut milk","notes":"1 cup. Keep back about 2 tablespoons."},{"amount":300,"unit":"g","name":"palm sugar","notes":"Chopped."},{"amount":1,"unit":"tbsp","name":"rice flour","notes":"Or cornstarch."},{"amount":0.625,"unit":"tsp","name":"salt","notes":"1/2 tsp plus 1/8 tsp."},{"amount":6,"unit":"whole","name":"eggs"},{"amount":1,"unit":"whole","name":"egg yolk"},{"amount":1,"unit":"leaves","name":"pandan leaf","notes":"Tied in a knot to bruise it."}],
+          instructions: ["Step 1: Cut a lid out of the top of the squash and scoop out all the seeds. Rinse it and let it dry upside down on a towel.","Step 2: Put the palm sugar, most of the coconut milk (keep back about 2 tablespoons) and the knotted pandan leaf in a pot. Warm over medium-low heat, stirring now and then, just until the sugar dissolves; do not let it reduce. Set aside.","Step 3: Stir the reserved coconut milk into the rice flour until smooth.","Step 4: In a large bowl, whisk the eggs, the yolk, the rice flour mixture and the salt. When the palm sugar mixture is cool enough to touch, whisk it in slowly. Strain the custard into a spouted jug.","Step 5: Bring the steamer to a simmer over high heat, then turn it to medium so it simmers steadily but gently. Stand the squash in a dish and wrap scrunched foil around its sides to support it in case it cracks.","Step 6: Stir the custard and pour it into the squash until it reaches the base of the flesh at the top, leaving room for it to puff. Steam until set: about an hour for a medium squash, and possibly much longer for a larger one.","Step 7: Test before taking it off: nudge a dinner knife sideways into the centre. Cloudy liquid running into the gap means it needs longer; clear liquid means it is done. Or check that the coolest part of the centre reads 170°F (77°C).","Step 8: Let it cool completely before cutting into wedges. Serve at room temperature or chilled."],
+          classifications: {"mealType":["dessert"],"cookingMethods":["steaming"]},
+          substitutions: [{"originalIngredient":"rice flour","substituteOptions":["cornstarch"]}]
+        },
+        {
+          name: "Kluay Tod",
+          description: "Thai street-stall fried bananas: slices of just-ripe namwa banana dipped in a thin rice-flour batter with shredded coconut and toasted sesame, fried deep brown and left to cool until the coating turns crisp.",
+          adaptedFrom: {"title":"Thai Fried Bananas (gluay kaeg)","author":"Pailin Chongchitnant","publisher":"Hot Thai Kitchen","url":"https://hot-thai-kitchen.com/fried-bananas-new/","accessed":"2026-09-26","notes":"Times are the recipe card's. It yields 24 pieces and states no servings. The frying oil is measured as a depth in the pot, so it appears in the method only."},
+          details: {"cuisine":"Thai","prepTimeMinutes":20,"cookTimeMinutes":20,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":6,"unit":"whole","name":"Thai namwa bananas","notes":"Almost ripe: mostly yellow with a hint of green. Or 2 sweet plantains with skins at least 70% black."},{"amount":32,"unit":"g","name":"shredded coconut","notes":"1/3 cup; dried, fresh or frozen. Soak dried coconut in 2 tbsp boiling water first."},{"amount":90,"unit":"g","name":"rice flour","notes":"3/4 cup."},{"amount":50,"unit":"g","name":"sugar","notes":"1/4 cup."},{"amount":0.5,"unit":"tsp","name":"salt"},{"amount":0.5,"unit":"tsp","name":"baking powder"},{"amount":15,"unit":"g","name":"white sesame seeds","notes":"1 1/2 tbsp, toasted."},{"amount":80,"unit":"ml","name":"water","notes":"1/3 cup."}],
+          instructions: ["Step 1: If using dried shredded coconut, soak it in 2 tablespoons of just-boiled water while you prepare the bananas.","Step 2: Peel the bananas and slice them lengthwise about 1/4 inch thick. (For plantains, cut each crosswise into 3 sections, then slice each section into 4.)","Step 3: In a bowl, mix the rice flour, sugar, sesame seeds, salt, baking powder and coconut, then stir in the water until smooth.","Step 4: Heat about 1 1/2 inches of neutral oil in a pot to about 325°F (160°C). Test the batter: it should cling to a banana slice long enough to get it into the oil. If it runs off, stir in more rice flour a tablespoon at a time.","Step 5: Fry in batches for about 5 minutes, until deep brown, keeping the oil below 350°F (175°C). If they brown sooner, the oil is too hot.","Step 6: Drain on a rack or paper towel and let them cool for several minutes; the coating crisps as it cools. Serve while crisp."],
+          classifications: {"mealType":["dessert"],"cookingMethods":["deep-frying"]},
+          substitutions: [{"originalIngredient":"Thai namwa bananas","substituteOptions":["sweet plantains","taro (a savoury version)","sweet potato (a savoury version)"]}]
         },
       ],
       summer: [
@@ -2744,25 +2709,6 @@ export const thai: Cuisine = {
           thermodynamicProperties: {"heat":0.027,"entropy":0.1898,"reactivity":2.0486,"gregsEnergy":-0.3618,"kalchm":0.5248,"monica":0.8752},
           substitutions: [{"originalIngredient":"Hale's Blue Boy","substituteOptions":["Any highly concentrated fruit syrup"]}],
             nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
-        },
-      ],
-    },
-    snacks: {
-      all: [
-        {
-          name: "Kluay Tod",
-          description: "An alchemically precise execution of Kluay Tod, balancing extreme thermal application with structural integrity.",
-          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Kluay Tod","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
-          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-          nutritionPerServing: {"calories":400,"proteinG":25,"carbsG":40,"fatG":15,"fiberG":4,"sodiumMg":800,"sugarG":5,"vitamins":["Vitamin C"],"minerals":["Iron"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Kluay Tod","substituteOptions":["Alternate protein or vegetable"]}]
         },
       ],
     },

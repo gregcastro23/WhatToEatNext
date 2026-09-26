@@ -410,35 +410,12 @@ export const vietnamese: Cuisine = {
         },
         {
           name: "Bánh Mì Ốp La",
-          description: "An alchemically precise execution of Bánh Mì Ốp La, balancing extreme thermal application with structural integrity.",
-          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Bánh Mì Ốp La","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
-          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["breakfast"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Bánh Mì Ốp La","substituteOptions":["Alternate protein or vegetable"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
-        },
-      ],
-      winter: [
-        {
-          name: "Cháo",
-          description: "An alchemically precise execution of Cháo, balancing extreme thermal application with structural integrity.",
-          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Cháo","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
-          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["breakfast"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Cháo","substituteOptions":["Alternate protein or vegetable"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
+          description: "The everyday Vietnamese breakfast sandwich: a toasted baguette spread with pâté and mayonnaise, layered with cucumber, pickled carrot and daikon and cilantro, filled with two fried eggs and finished with a drizzle of soy sauce. Ốp la comes from the French oeufs sur le plat.",
+          adaptedFrom: {"title":"10-Minute Bánh Mì Ốp La (Fried Egg Banh Mi)","author":"Becca Du","publisher":"Cooking Therapy","url":"https://www.cooking-therapy.com/banh-mi-op-la/","accessed":"2026-09-26","notes":"Times and servings are the recipe card's. The optional jalapeño has no stated amount, so it appears in the method only."},
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":5,"cookTimeMinutes":5,"baseServingSize":4,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":4,"unit":"small","name":"baguettes","notes":"Or 2 long baguettes, halved."},{"amount":8,"unit":"whole","name":"eggs"},{"amount":0.25,"unit":"cup","name":"pâté"},{"amount":0.25,"unit":"cup","name":"mayonnaise"},{"amount":1,"unit":"whole","name":"cucumber","notes":"Thinly sliced."},{"amount":0.25,"unit":"cup","name":"pickled carrots"},{"amount":0.25,"unit":"cup","name":"pickled daikon"},{"amount":0.25,"unit":"cup","name":"cilantro"},{"amount":2,"unit":"tbsp","name":"soy sauce"}],
+          instructions: ["Step 1: Toast the baguettes, then split each one lengthwise without cutting all the way through.","Step 2: Spread 1 tablespoon of pâté on one side and 1 tablespoon of mayonnaise on the other. Layer in a few cucumber slices and 1 tablespoon each of pickled daikon, pickled carrot and cilantro, plus a few slices of jalapeño if you want heat.","Step 3: Fry the eggs and tuck two into each sandwich.","Step 4: Drizzle 1 to 2 teaspoons of soy sauce over the eggs and serve."],
+          classifications: {"mealType":["breakfast"],"cookingMethods":["toasting","frying","assembling"]}
         },
       ],
     },
@@ -2621,33 +2598,23 @@ export const vietnamese: Cuisine = {
         },
         {
           name: "Thịt Kho Tàu",
-          description: "An alchemically precise execution of Thịt Kho Tàu, balancing extreme thermal application with structural integrity.",
-          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Thịt Kho Tàu","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
-          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dinner"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Thịt Kho Tàu","substituteOptions":["Alternate protein or vegetable"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
+          description: "Southern Vietnamese home cooking: pork belly marinated in fish sauce, shallot and garlic, then braised uncovered in coconut soda until tender and glossy, with whole boiled eggs added to soak up the savoury-sweet broth. Eaten with steamed rice.",
+          adaptedFrom: {"title":"Thịt Kho Trứng (Vietnamese Braised Pork Belly with Eggs)","author":"Vicky Pham","publisher":"Vicky Pham","url":"https://vickypham.com/blog/braised-pork-and-boiled-eggs-in-coconut-juice-thit-kho-tau/","accessed":"2026-09-26","notes":"Times and servings are the recipe card's; the marinade takes at least 30 minutes of the prep. The optional chili and green-onion garnish has no stated amount, so it appears in the method only."},
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":30,"cookTimeMinutes":80,"baseServingSize":6,"spiceLevel":"None","season":["all"]},
+          ingredients: [{"amount":2.5,"unit":"lbs","name":"pork belly","notes":"Cut into bite-size pieces about 1 1/2 by 1 inch, each with skin, fat and meat."},{"amount":0.33,"unit":"cup","name":"fish sauce"},{"amount":0.5,"unit":"tsp","name":"salt"},{"amount":1,"unit":"tbsp","name":"sugar"},{"amount":1,"unit":"tsp","name":"ground black pepper"},{"amount":2,"unit":"tsp","name":"chicken bouillon powder","notes":"Optional; or mushroom bouillon."},{"amount":1,"unit":"tsp","name":"MSG","notes":"Optional."},{"amount":4,"unit":"cloves","name":"garlic","notes":"Finely diced."},{"amount":1,"unit":"large","name":"shallot","notes":"Finely diced."},{"amount":0.5,"unit":"tsp","name":"thick soy sauce","notes":"Or homemade caramel sauce."},{"amount":3,"unit":"cups","name":"water"},{"amount":12,"unit":"oz","name":"coconut soda","notes":"One can."},{"amount":9,"unit":"whole","name":"eggs","notes":"9 to 12."}],
+          instructions: ["Step 1: Put the pork belly in a large pot, cover it with water and bring it to a boil (about 9 minutes) so the impurities rise. Lift the pork out and rinse it clean in a colander. Keep the water.","Step 2: Marinate the pork with the fish sauce, salt, sugar, pepper, bouillon powder and MSG if using, garlic, shallot and thick soy sauce for at least 30 minutes, or overnight in the fridge.","Step 3: Bring the blanching water back to a boil, lower in the eggs and cook for about 10 minutes. Crack the shells gently, cool in ice water and peel while still warm.","Step 4: Wash the pot, add the pork with all its marinade and fry for about a minute until the shallot and garlic are fragrant. Add the 3 cups of water and the coconut soda and simmer uncovered over medium heat for 40 minutes.","Step 5: Add the peeled eggs and simmer uncovered for another 30 minutes.","Step 6: Top with sliced chilies or green onions and a little more black pepper if you like, and serve with steamed rice."],
+          classifications: {"mealType":["dinner"],"cookingMethods":["blanching","marinating","braising"]},
+          substitutions: [{"originalIngredient":"coconut soda","substituteOptions":["1 1/2 cups coconut juice without pulp","water"]},{"originalIngredient":"thick soy sauce","substituteOptions":["homemade caramel sauce"]}]
         },
         {
           name: "Lẩu Thái",
-          description: "An alchemically precise execution of Lẩu Thái, balancing extreme thermal application with structural integrity.",
-          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Lẩu Thái","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
-          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dinner"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Lẩu Thái","substituteOptions":["Alternate protein or vegetable"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
+          description: "Vietnam's take on a Thai hot pot: a sweet-sour broth of shrimp-shell stock simmered with tomato, lemongrass, galangal, makrut lime leaf and tamarind, kept bubbling at the table for cooking shrimp, salmon, beef, tofu, greens and mushrooms, with noodles to finish.",
+          adaptedFrom: {"title":"Vietnamese-style Thai Hotpot (Lẩu Thái)","author":"Sophie Pham","publisher":"Delightful Plate","url":"https://delightfulplate.com/thai-hotpot-lau-thai/","accessed":"2026-09-26","notes":"Times and servings are the recipe card's. The source gives no amount for the cooking oil or the rice vermicelli, so those appear in the method only."},
+          details: {"cuisine":"Vietnamese","prepTimeMinutes":15,"cookTimeMinutes":90,"baseServingSize":4,"spiceLevel":"Mild","season":["all"]},
+          ingredients: [{"amount":1,"unit":"lb","name":"raw shell-on shrimp","notes":"Peeled and deveined: the heads and shells make the broth, the shrimp go on the platter."},{"amount":8.33,"unit":"cups","name":"water","notes":"8 1/3 cups."},{"amount":2.5,"unit":"tsp","name":"salt","notes":"2 tsp for the stock, the rest to season."},{"amount":1.5,"unit":"oz","name":"galangal","notes":"Sliced into thick rounds."},{"amount":0.5,"unit":"oz","name":"garlic","notes":"Peeled cloves."},{"amount":1,"unit":"oz","name":"shallots","notes":"Peeled."},{"amount":4,"unit":"medium","name":"tomatoes","notes":"Cut into wedges."},{"amount":2,"unit":"whole","name":"mild red chilies","notes":"Seeded and cut into short pieces."},{"amount":5,"unit":"stalks","name":"lemongrass","notes":"White and light green parts, bruised."},{"amount":8,"unit":"leaves","name":"makrut lime leaves","notes":"8 to 10, roughly torn."},{"amount":3,"unit":"tbsp","name":"tamarind paste","notes":"To taste."},{"amount":3,"unit":"tbsp","name":"sugar","notes":"To taste."},{"amount":2,"unit":"tsp","name":"fish sauce","notes":"To taste."},{"amount":10.5,"unit":"oz","name":"salmon fillet","notes":"Thinly sliced."},{"amount":1,"unit":"lb","name":"beef","notes":"Thinly sliced."},{"amount":12,"unit":"oz","name":"tofu","notes":"Silken or firm, sliced or cubed."},{"amount":1.5,"unit":"lbs","name":"mixed vegetables","notes":"Such as napa cabbage, garland chrysanthemum, water spinach and bean sprouts."},{"amount":8,"unit":"oz","name":"enoki mushrooms"}],
+          instructions: ["Step 1: Make the stock. Heat enough cooking oil to coat a pot over medium heat and brown the shrimp heads and shells until fragrant. Add the water and 2 teaspoons of salt, bring to a boil, then cover and simmer gently for 45 to 60 minutes. Prepare everything else meanwhile.","Step 2: Pound the galangal, garlic and shallots roughly in a mortar.","Step 3: About 10 to 15 minutes before the stock is ready, heat a little oil in a second pot over medium heat and cook the tomato wedges (keep a few back for the table) with the chilies for about 5 minutes, until soft.","Step 4: Add the galangal, lemongrass and lime leaves (keep a little of each for the table) with the garlic and shallots, and cook for about 5 minutes until soft and very fragrant.","Step 5: Discard the shrimp heads and shells and pour the stock into the aromatics. Bring to a simmer and season with the tamarind, sugar, fish sauce and remaining salt. Cover and simmer for about 20 minutes (up to 30), taste and adjust, then strain out the solids.","Step 6: At the table, pour the broth into a hot pot on a portable burner with the reserved tomato and aromatics and bring it to a simmer. Set out the shrimp, salmon, beef, tofu, vegetables, mushrooms and cooked rice vermicelli for everyone to cook in the broth, with separate chopsticks for raw food. As the broth reduces and grows saltier, top it up with stock or water; finish by warming the noodles in the broth."],
+          classifications: {"mealType":["dinner"],"cookingMethods":["simmering","pounding"]},
+          substitutions: [{"originalIngredient":"raw shell-on shrimp","substituteOptions":["chicken stock or pork bone broth in place of the shrimp-shell stock"]},{"originalIngredient":"salmon fillet","substituteOptions":["squid","clams","fish balls","shrimp balls"]},{"originalIngredient":"enoki mushrooms","substituteOptions":["oyster mushrooms"]}]
         },
         {
           name: "Bò Lúc Lắc",
@@ -3195,21 +3162,6 @@ export const vietnamese: Cuisine = {
     },
     dessert: {
       all: [
-        {
-          name: "Chè Ba Màu",
-          description: "An alchemically precise execution of Chè Ba Màu, balancing extreme thermal application with structural integrity.",
-          details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
-          ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Chè Ba Màu","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
-          instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dessert"],"cookingMethods":["various"]},
-          elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
-          astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
-
-          alchemicalProperties: {"Spirit":0.7,"Essence":0.7,"Matter":0.7,"Substance":0.7},
-          thermodynamicProperties: {"heat":0.068,"entropy":0.3061,"reactivity":1.8366,"gregsEnergy":-0.4941,"kalchm":1.0,"monica":0.4376},
-          substitutions: [{"originalIngredient":"Foundation of Chè Ba Màu","substituteOptions":["Alternate protein or vegetable"]}],
-            nutritionPerServing: {"calories":0,"proteinG":0,"carbsG":0,"fatG":0,"fiberG":0,"sodiumMg":0,"sugarG":0,"vitamins":[],"minerals":[]}
-        },
         {
           name: "Chè Chuối",
           description: "A thick, violently rich dessert soup relying on the suspension of sweet bananas and tapioca pearls within a heavy, salted coconut cream matrix.",

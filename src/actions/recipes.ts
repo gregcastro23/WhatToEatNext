@@ -6,6 +6,7 @@ import type { IndexedRecipe, RecipeIndex } from "@/types/indexedRecipe";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import { computeRecipeNutritionFromIngredients } from "@/utils/ingredientNutritionAggregation";
 import { createLogger } from "@/utils/logger";
+import { parseRecipeSource } from "@/utils/recipe/recipeSource";
 import {
   calculateRecipeAlchemicalQuantities,
   calculateRecipeElementalFromIngredients,
@@ -60,6 +61,7 @@ interface RawCuisineDish {
   nutritionPerServing?: unknown;
   nutrition?: unknown;
   nutritionalProfile?: unknown;
+  adaptedFrom?: unknown;
 }
 
 let _cachedRecipes: IndexedRecipe[] | null = null;
@@ -298,6 +300,7 @@ function extractRecipesFromCuisines(
           const matter = toFiniteNumber(alchemicalProps.Matter);
           const substance = toFiniteNumber(alchemicalProps.Substance);
           const monicaScore = toFiniteNumber(dish.monicaScore);
+          const adaptedFrom = parseRecipeSource(dish.adaptedFrom);
 
           const substitutions = (
             Array.isArray(dish.substitutions) ? dish.substitutions : []
@@ -327,6 +330,7 @@ function extractRecipesFromCuisines(
             name: dish.name,
             ...(imageUrl ? { image: imageUrl, imageUrl } : {}),
             description: dish.description ?? "",
+            ...(adaptedFrom ? { adaptedFrom } : {}),
             cuisine:
               dish.cuisine ??
               (details.cuisine as string | undefined) ??

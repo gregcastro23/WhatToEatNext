@@ -144,7 +144,12 @@ describe("time and meal: authored facts from the static catalog", () => {
     // [MEASURED 2026-09-25] 2 of 502 carry a parsed (non-15) time.
     expect(archive.filter((r) => r.totalMinutes !== null).length).toBeLessThanOrEqual(2);
     const others = [...index.recipes.values()].filter((r) => !r.id.startsWith("hsca-"));
-    expect(others.filter((r) => r.totalMinutes === null)).toEqual([]);
+    // Elsewhere only these two state no time: the recipes they are adapted
+    // from give none (2026-09-26). The template stubs they replaced claimed 20 + 30.
+    expect(others.filter((r) => r.totalMinutes === null).map((r) => r.id).sort()).toEqual([
+      "thai-dessert-all-bua-loi",
+      "thai-dessert-all-tub-tim-grob",
+    ]);
   });
 });
 
