@@ -80,7 +80,7 @@ describe("computeRecipeNutritionFromIngredients", () => {
     expect(result!.fat).toBeGreaterThan(0);
   });
 
-  it("returns null when fewer than half the ingredients resolve", () => {
+  it("returns null when unresolved ingredients are most of the recipe's mass", () => {
     const result = computeRecipeNutritionFromIngredients({
       ingredients: [
         { name: "olive oil", amount: 1, unit: "tablespoon" },
