@@ -43,6 +43,19 @@ const VOLUME_UNIT_TO_MEASURE: Record<string, "cup" | "tbsp" | "tsp"> = {
 };
 
 /**
+ * Larger US customary volumes, in cups (1 pint = 2 cups, 1 quart = 4 cups,
+ * 1 gallon = 16 cups), so they reach the same measured cup weights.
+ */
+const CUPS_PER_UNIT: Record<string, number> = {
+  pint: 2,
+  pints: 2,
+  quart: 4,
+  quarts: 4,
+  gallon: 16,
+  gallons: 16,
+};
+
+/**
  * Ingredient-name aliases, so a recipe's spelling reaches the measured row.
  *
  * Normalise on READ — the recipe corpus and the ingredient files are not
@@ -110,6 +123,7 @@ export const UNIT_CONVERSIONS: Record<string, number> = {
   lb: 453.59,
   pound: 453.59,
   pounds: 453.59,
+  lbs: 453.59,
 
   // Volume units (approximate conversions using water density)
   ml: 1,
@@ -129,6 +143,13 @@ export const UNIT_CONVERSIONS: Record<string, number> = {
   "fl oz": 29.57,
   "fluid ounce": 29.57,
   "fluid ounces": 29.57,
+  // US customary definitions (NIST Handbook 44): 1 gal = 231 in³ = 3.785411784 L.
+  pint: 473.18,
+  pints: 473.18,
+  quart: 946.35,
+  quarts: 946.35,
+  gallon: 3785.41,
+  gallons: 3785.41,
 
   // Piece/count units (context-dependent, using approximate averages)
   piece: 50,
@@ -170,9 +191,10 @@ export function convertToGramsDetailed(
   const key = (unit ?? "").toLowerCase().trim();
 
   // A volume unit is the only kind whose gram weight depends on WHAT it is.
-  const measure = VOLUME_UNIT_TO_MEASURE[key];
+  const cups = CUPS_PER_UNIT[key];
+  const measure = VOLUME_UNIT_TO_MEASURE[key] ?? (cups !== undefined ? "cup" : undefined);
   if (measure !== undefined && ingredientName) {
-    const measured = volumeToMass(canonicalIngredient(ingredientName), amount, measure);
+    const measured = volumeToMass(canonicalIngredient(ingredientName), amount * (cups ?? 1), measure);
     if (measured !== null) {
       return {
         grams: measured.grams,
