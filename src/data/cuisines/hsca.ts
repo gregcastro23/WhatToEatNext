@@ -76,10 +76,9 @@ export const cuisine: Cuisine = {
           "Combine cucumbers, lime juice, mint, water, and agave in blender and puree until smooth.",
           "Strain puree through sieve and serve in glasses with slice of lime."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -197,10 +196,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine pomegranate juice, blueberries, ginger juice, and agave in VitaMix and puree. Do not strain. Serve over ice."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -314,10 +312,9 @@ export const cuisine: Cuisine = {
           "Add mint mixture to remaining tea and strain.",
           "Serve over ice and garnish with mint sprig."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering"
@@ -434,10 +431,9 @@ export const cuisine: Cuisine = {
           "Put all ingredients into high-speed blender and blend until smooth.",
           "Serve milk chilled or warmed."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -539,10 +535,9 @@ export const cuisine: Cuisine = {
           "Using a mesh strainer set over a large bowl strain watermelon juice. Discard solids.",
           "Stir in lemon juice and refrigerate until ready to serve."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -649,10 +644,9 @@ export const cuisine: Cuisine = {
           "Alternate juicing beets and apples, finishing with beets. Refrigerate juice 5-10 minutes for foam to settle.",
           "Scrape off any excess foam and serve immediately."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -770,10 +764,9 @@ export const cuisine: Cuisine = {
           "Cut produce to fit juicer feed tube. Juice produce alternating ingredients (parsley, celery, lemon, ginger, carrots, parsley, etc.).",
           "Skim foam and serve immediately."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -909,10 +902,9 @@ export const cuisine: Cuisine = {
           "Cut produce to fit juicer feed tube. Juice produce in order of ingredient listing, ending with celery stalks.",
           "Serve immediately."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -1176,10 +1168,9 @@ export const cuisine: Cuisine = {
           "Keep master cleanse in glass jar, not in plastic.",
           "Rinse your mouth with water after each glass to prevent lemon juice from damaging enamel of your teeth."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -1284,10 +1275,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Mix all ingredients together and drink in morning 1/2 hour before breakfast."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -1386,10 +1376,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Grind flax seeds in spice grinder and mix with water. Drink immediately."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -1514,10 +1503,9 @@ export const cuisine: Cuisine = {
           "Turn off flame. Steep tea bags and fruit in water, covered, for 5 minutes.",
           "Add apple juice to pot, stir and serve."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -1647,10 +1635,9 @@ export const cuisine: Cuisine = {
           "In 2 batches, puree almonds, turmeric, and ginger with water in Vitamix until smooth. Strain milk through chinois.",
           "Transfer milk to 1-gallon pot. Bring milk mixture to simmer over medium flame (to infuse flavors). Turn off heat and add pepper, cinnamon, and maple syrup to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -3160,10 +3147,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Puree cashews and water in Vitamix until cashews are completely pulverized. Strain milk through chinois."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -3271,10 +3257,9 @@ export const cuisine: Cuisine = {
           "Pour small amount of almond mixture through sieve or chinois lined with prepared cheesecloth, wringing and squeezing cheesecloth to extract as much liquid from pulp as possible. Discard each batch of almond pulp when no more liquid can be extracted. Rinse cheesecloth well in cold water and proceed with next batch, repeating this process until all of almond mixture has been 'milked.'",
           "Strain almond milk through sieve. Add vanilla."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -3432,9 +3417,14 @@ export const cuisine: Cuisine = {
           "Using standard ice cream scoop, fill muffin tins 3/4 full.",
           "Bake 15-18 minutes. Best served warm."
         ],
+        "mealType": [
+          "breakfast",
+          "dessert"
+        ],
         "classifications": {
           "mealType": [
-            "breakfast"
+            "breakfast",
+            "dessert"
           ],
           "cookingMethods": [
             "steaming",
@@ -4852,9 +4842,14 @@ export const cuisine: Cuisine = {
           "Heat waffle iron. Ladle in 3/4 cups batter.",
           "Cook each waffle 4 minutes or until indicator light on machine goes on."
         ],
+        "mealType": [
+          "breakfast",
+          "dessert"
+        ],
         "classifications": {
           "mealType": [
-            "breakfast"
+            "breakfast",
+            "dessert"
           ],
           "cookingMethods": [
             "steaming",
@@ -6515,9 +6510,14 @@ export const cuisine: Cuisine = {
           "In medium bowl, combine oranges, kiwis, and grapes. Combine syrup mixture with fruit and stir gently to combine. Taste and adjust seasonings, adding lime juice as needed.",
           "Cover and refrigerate for at least 1 hour and up to 36 hours to allow flavors to combine. When ready to serve, sprinkle with toasted almonds."
         ],
+        "mealType": [
+          "breakfast",
+          "dessert"
+        ],
         "classifications": {
           "mealType": [
-            "breakfast"
+            "breakfast",
+            "dessert"
           ],
           "cookingMethods": [
             "steaming",
@@ -6663,9 +6663,14 @@ export const cuisine: Cuisine = {
           "Remove pot from heat and mix some of cocoa mixture with cashew butter until cashew butter is thinner, smooth, and creamy. Whisk tempered cashew butter into cocoa mixture.",
           "Pour cocoa mixture into shallow pan and cool until firm. In food processor, blend mixture until smooth and creamy. Spoon pudding into ramekins and chill until set (about 30 minutes)."
         ],
+        "mealType": [
+          "breakfast",
+          "dessert"
+        ],
         "classifications": {
           "mealType": [
-            "breakfast"
+            "breakfast",
+            "dessert"
           ],
           "cookingMethods": [
             "steaming",
@@ -6815,9 +6820,14 @@ export const cuisine: Cuisine = {
           "In separate 10-inch sauté pan, over medium-low heat, pour in small ladle full of syrup and heat to simmer. Place one crêpe (browned side down) in pan. Coat crêpe in warmed syrup then flip crêpe over with tongs to coat other side. Fold crêpe in quarters (fold in half then half again) to form triangle.",
           "Pour 1 tablespoon of Grand Marnier per crêpe over top of folded crepe. Ignite by tilting pan toward burner. Allow alcohol to burn off before removing to plate and serving. Repeat to order."
         ],
+        "mealType": [
+          "breakfast",
+          "dessert"
+        ],
         "classifications": {
           "mealType": [
-            "breakfast"
+            "breakfast",
+            "dessert"
           ],
           "cookingMethods": [
             "steaming",
@@ -7117,9 +7127,14 @@ export const cuisine: Cuisine = {
           "Pour batter into electric mixer, add eggs, and beat at medium speed for 1 1/2-2 minutes.",
           "Using small ice cream scoop, fill muffin papers half way. Bake 10-12 minutes. Gently remove from pan. Cool completely."
         ],
+        "mealType": [
+          "breakfast",
+          "dessert"
+        ],
         "classifications": {
           "mealType": [
-            "breakfast"
+            "breakfast",
+            "dessert"
           ],
           "cookingMethods": [
             "steaming",
@@ -7285,9 +7300,14 @@ export const cuisine: Cuisine = {
           "Pour batter into electric mixer, add eggs, and beat at medium speed for 1 1/2-2 minutes.",
           "Using small ice cream scoop, fill muffin papers half way. Bake 10-12 minutes. Gently remove from pan. Cool completely."
         ],
+        "mealType": [
+          "breakfast",
+          "dessert"
+        ],
         "classifications": {
           "mealType": [
-            "breakfast"
+            "breakfast",
+            "dessert"
           ],
           "cookingMethods": [
             "steaming",
@@ -7403,10 +7423,9 @@ export const cuisine: Cuisine = {
           "Strain milk through nut bag or chinois lined with 2 layers of moistened cheesecloth. Reserve almond pulp and set aside.",
           "Add vanilla and salt. Whisk to combine."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -7512,10 +7531,9 @@ export const cuisine: Cuisine = {
           "Combine almonds and water in blender or VitaMix. Process for few minutes until well-homogenized.",
           "Strain almond milk through fine sieve or nut milk bag. Add vanilla. Set aside 2 cups for almond cream recipe (recipe following)."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -7628,10 +7646,9 @@ export const cuisine: Cuisine = {
           "Blend mixture until smooth, and strain through fine mesh strainer (or nut milk bag), if finer texture is desired.",
           "Serve warm or cold, or use in your favorite recipes. Store in refrigerator in an airtight container for 3 to 5 days."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -7757,10 +7774,9 @@ export const cuisine: Cuisine = {
           "Set in cool dark spot for 2 days to ferment if using whey/juice or 3 days without.",
           "Strain beets from liquid, and discard beets. Return liquid to jar and refrigerate."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -7861,10 +7877,9 @@ export const cuisine: Cuisine = {
           "Transfer almonds and water to Vitamix. Blend until well homogenized.",
           "Pour almond mixture in batches through sieve or chinois lined with double layer of rinsed cheesecloth, wringing and squeezing cheesecloth to extract as much liquid from pulp as possible."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -8117,10 +8132,9 @@ export const cuisine: Cuisine = {
           "Combine cucumbers, lime juice, mint, water, and agave in blender and puree until smooth.",
           "Strain puree through sieve and serve in glasses with slice of lime."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -8247,10 +8261,9 @@ export const cuisine: Cuisine = {
           "Combine cucumbers, lime juice, mint, water, and agave in blender and puree until smooth.",
           "Strain puree through sieve and serve in glasses with slice of lime."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -8364,10 +8377,9 @@ export const cuisine: Cuisine = {
           "Add mint mixture to remaining tea and strain.",
           "Serve over ice and garnish with mint sprig."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering"
@@ -8486,10 +8498,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine pomegranate juice, blueberries, ginger juice, and agave in VitaMix and puree. Do not strain. Serve over ice."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -8609,10 +8620,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine pomegranate juice, blueberries, ginger juice, and agave in VitaMix and puree. Do not strain. Serve over ice."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "breakfast"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -8747,10 +8757,9 @@ export const cuisine: Cuisine = {
           "In small sauce pan, reduce stock to 6 tablespoons and set aside to cool.",
           "Combine stock with shallots, olive oil, mustard, orange juice, rice syrup and herbs in blender and puree until emulsified."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering"
@@ -9131,10 +9140,9 @@ export const cuisine: Cuisine = {
           "Combine onion and vegetable stock in 2-quart sauce pot. Bring mixture to boil, reduce to simmer, and cook for 15 minutes or until onion mixture is soft and reduced to 1/3 cup.",
           "Add remaining ingredients to pot and simmer for 10 minutes more. Refrigerate."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -9799,10 +9807,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Whisk together all ingredients in small bowl."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -9901,10 +9908,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In high-speed blender, blend apricots with papaya, adding a bit of soaking water if necessary to form smooth puree."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -10158,10 +10164,9 @@ export const cuisine: Cuisine = {
           "Combine horseradish with lemon juice and set aside for ten minutes at room temperature.",
           "Serve cold or room temperature mixed into water, stock or soup."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -10684,10 +10689,9 @@ export const cuisine: Cuisine = {
           "Bake 15-20 minutes or until lightly golden and firm to touch.",
           "Remove from sheet trays and cool on racks before serving."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -10832,10 +10836,9 @@ export const cuisine: Cuisine = {
           "Place toppings in bowls. Boil 3-4 bagels at a time for 30 seconds, flipping once or twice. Remove from pot with spider and turn bagel face side down into toppings. Gently lift bagels out of topping and transfer to prepared baking sheets. Repeat process until all bagels have been boiled.",
           "Transfer bagels to oven and bake approximately 20-25 minutes or until dough is golden and firm to touch."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -10972,10 +10975,9 @@ export const cuisine: Cuisine = {
           "Divide dough into two, form into loaves, and transfer to loaf pans or on sheet tray for final rise. Cover dough with damp towel and set aside in warm place. Rise until dough has doubled in size, about 10-15 minutes.",
           "Transfer bread to oven and bake approximately 30-45 minutes or until golden and firm to touch. Internal dough temperature should register between 190° and 205° F."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -11131,10 +11133,9 @@ export const cuisine: Cuisine = {
           "Loosely cover dough with damp towel and set aside in warm place. Rise for about 30 minutes or until dough has doubled again in size.",
           "Bake bread approximately 30 minutes or until dough is golden and firm to touch. Internal dough temperature should register approximately 190° to 205°F."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -11278,10 +11279,9 @@ export const cuisine: Cuisine = {
           "Loosely cover dough with damp towels and set aside in warm place. Rise for about 15 minutes.",
           "Bake pita for approximately 3-4 minutes or until puffed. Don’t let pita brown, as that makes them too crisp."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -11412,10 +11412,9 @@ export const cuisine: Cuisine = {
           "Loosely cover dough with damp towel and set aside in warm place. Allow to rise for about 40 minutes or until dough has doubled in size.",
           "Bake bread approximately 40-50 minutes or until dough is golden and firm to touch. Internal dough temperature should register between 190° and 205°."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -11573,10 +11572,9 @@ export const cuisine: Cuisine = {
           "Season with additional salt and pepper, if needed.",
           "Add cheese to taste, if using."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -11875,10 +11873,9 @@ export const cuisine: Cuisine = {
           "Bake for about 6 minutes and rotate pan in oven to ensure even browning. Glaze with maple syrup at this point, if desired. Continue to bake another 6-8 minutes or until golden on top and somewhat firm to touch.",
           "Transfer scones to cooling rack. Serve warm with jam or cool and store in tightly sealed container for up to four days."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -12036,10 +12033,9 @@ export const cuisine: Cuisine = {
           "Bake for 25-30 minutes or until golden brown and toothpick inserted in center comes out clean.",
           "Let bread cool in pan for 10 minutes before removing to wire rack to finish cooling."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -12185,10 +12181,9 @@ export const cuisine: Cuisine = {
           "Create well in center of dry ingredients. Add buttermilk and egg mixture and mix gently to combine. Transfer dough to muffin molds.",
           "Bake bread about 30-40 minutes, or until golden in color and toothpick inserted in quick bread comes out clean. Remove from oven, and allow bread to cool in muffin forms for 10 minutes before inverting finished bread onto cooling rack."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -12335,10 +12330,9 @@ export const cuisine: Cuisine = {
           "Pour batter into muffin molds.",
           "Bake for 30-45 minutes, or until toothpick inserted in bread comes out clean."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -12468,10 +12462,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine all ingredients in food processor until puréed. Taste and adjust seasoning."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -12627,10 +12620,9 @@ export const cuisine: Cuisine = {
           "Simmer sauce until flavors are well developed, approximately 40 minutes to 1 hour.",
           "Add salt and pepper."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -13064,10 +13056,9 @@ export const cuisine: Cuisine = {
           "Warm olive oil in 12-inch sauté pan. Add onions and cook over medium-low heat for about 7 minutes, until onions soften and start to brown. Add garlic and cook a few more minutes until fragrant. Add cooked beans and 2 1/2 cups of bean cooking liquid. (If using canned beans, add 2 1/2 cups water.)",
           "Tie herbs together with string and add to pot along with bay leaf. Cover, bring to boil over medium heat, reduce heat and simmer, partially covered, for 15 minutes to allow flavors to marry. Add lemon juice and salt and pepper to taste. Remove bay leaf and tied herbs."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -13190,10 +13181,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine all ingredients in food processor and blend until smooth. Stop now and again to scrape down sides with spoon or spatula."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -13318,10 +13308,9 @@ export const cuisine: Cuisine = {
           "Cook over medium heat 25 to 35 minutes until tomatoes have released their juices and water has cooked out.",
           "Add salt and black pepper to taste. You can puree sauce in blender, or serve it as is."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -13458,10 +13447,9 @@ export const cuisine: Cuisine = {
           "Transfer walnuts from strainer and add 3/4 cup to food processor. Add remaining ingredients.",
           "Process everything until smooth. Chop by hand remaining 1/2 cup of walnuts into pieces. Reserve for garnish."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -13580,10 +13568,9 @@ export const cuisine: Cuisine = {
           "Remove chard from pot and squeeze out any excess liquid. Finely chop.",
           "Warm oil with garlic in 10-inch sauté pan. When garlic just begins to color, add chard and stir to warm through. Season to taste with salt and black pepper. Remove from heat and stir in rosemary."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -13683,10 +13670,9 @@ export const cuisine: Cuisine = {
           "Heat butter in 8-inch sauté pan and stir in ground poppy seeds.",
           "As soon as ravioli are cooked, remove them with slotted spoon to pre-warmed plates. Pour poppy seed butter over them and sprinkle with grated parmesan."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -13786,10 +13772,9 @@ export const cuisine: Cuisine = {
           "Heat butter until it browns slightly and add sage leaves.",
           "As soon as ravioli are cooked, remove them with slotted spoon, arrange on plates, pour sage butter over."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -13933,10 +13918,9 @@ export const cuisine: Cuisine = {
           "Add sweated vegetables and miso to almond milk. Process until very smooth, adding salt and pepper to taste.",
           "Transfer sauce back to sauce pan and heat slowly, whisking to break up lumps. Stir in lemon juice and serve immediately."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -14063,10 +14047,9 @@ export const cuisine: Cuisine = {
           "Pour maple-oil mixture into food processor, pulsing to form cohesive dough. If dough is too moist to work with, transfer to fridge for 5-10 minutes.",
           "Using fingers, press dough evenly into prepared pan. Blind bake with pie weights to prevent crust from puffing up. Bake 15-20 minutes or until edges of crust are browned. Set aside to cool."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -14367,10 +14350,9 @@ export const cuisine: Cuisine = {
           "Loosely cover dough with damp towels and set aside in warm place. Rise for about 15 minutes.",
           "Bake pita for approximately 3-4 minutes or until puffed. Don’t let pita brown, as that makes them too crisp."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -14507,10 +14489,9 @@ export const cuisine: Cuisine = {
           "With wet fingertips, press crust into oiled pie or tart pan.",
           "Bake crust 20 to 25 minutes or until golden and completely baked."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -14610,10 +14591,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Puree blueberries and agave nectar in blender until smooth."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -14712,10 +14692,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Puree raspberries and maple syrup in blender until smooth. Strain puree to remove seeds."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -14820,10 +14799,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Puree mango, lime juice, and agave nectar in blender until smooth."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -16459,10 +16437,9 @@ export const cuisine: Cuisine = {
           "Arrange artichokes in steamer basket (see technique above) and steam until tender, about 20 minutes. Set artichokes aside to cool. Reserve any extra steaming liquid.",
           "Remove leaves and choke from cooled artichokes, leaving just heart and stem. Peel outer layer of stem. Cut each artichoke heart into 4 pieces an remove any fibrous material. Blend artichoke hearts with garlic, lemon juice, rice syrup, chives, salt, pepper, and olive oil, adding artichoke water as necessary for desired creamy consistency."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -21405,10 +21382,9 @@ export const cuisine: Cuisine = {
           "In VitaMix, combine almond milk-bean mixture and vegetables (minus the sliced/seared cauliflower). Blend until smooth. Fold chives into mixture. Adjust seasonings.",
           "Line terrine mold with parchment. Arrange seared cauliflower slices on bottom of mold. Pour puree into mold. Refrigerate and set until firm, about 2 hours."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -21584,10 +21560,9 @@ export const cuisine: Cuisine = {
           "Fold mixture into terrine mold. Bake until firm, about 20 to 30 minutes.",
           "Refrigerate terrine until it sets, about 1 hour."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -21764,10 +21739,9 @@ export const cuisine: Cuisine = {
           "Transfer lentils to medium-size bowl. Add onions, 1 cup bread crumbs, parsley, miso, and tahini. Mixture should be thick but moist. If mixture is too loose, add more bread crumbs. Season to taste with salt and pepper.",
           "Pour mixture into terrine mold and bake until firm, about 20 to 25 minutes. Chill terrine until it reaches room temperature, about 1 hour."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -21895,10 +21869,9 @@ export const cuisine: Cuisine = {
           "Chill preserves before serving.",
           "Serve fig-thyme preserves with Portobello mousse and sliced baguette (see previous recipe)."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -23692,10 +23665,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine all ingredients and adjust seasonings."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -23831,10 +23803,9 @@ export const cuisine: Cuisine = {
           "Whisk together egg yolk, mustard, lemon juice, water and salt in bowl.",
           "Drop by drop add oil, whisking constantly. When half the oil is used up, mayonnaise will be thick enough to add remainder about one tablespoon at a time, until it’s all used up. Add lemon zest. Refrigerate."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -24110,10 +24081,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine all ingredients (except salt) in blender. Blend to creamy consistency. Season with sea salt."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -24725,10 +24695,9 @@ export const cuisine: Cuisine = {
           "Add Brussels sprouts, garlic, poppy seeds and remaining 2 tablespoons of oil. Add remaining 3 tablespoons of wine. Cook until Brussels sprouts are tender (about 3-4 minutes).",
           "Warm right before service and add salt and pepper. Add parsley just before service."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -24833,10 +24802,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine all ingredients in 2 1/2 quart pot. Simmer until thickened to nappé consistency."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -24975,10 +24943,9 @@ export const cuisine: Cuisine = {
           "Peel and cut pineapple into 4 wedges of equal size. Grill slices and set aside. When slices are cool, cut into medium-small dice and add to onion and pepper mixture.",
           "Season with salt and lime juice and garnish with minced cilantro."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -25439,10 +25406,9 @@ export const cuisine: Cuisine = {
           "Combine horseradish, tofu, oil, miso, water, garlic, lemon, vinegar, umeboshi paste, and mustard in blender. Process until creamy and smooth.",
           "Add pepper and Tabasco to taste, blending until incorporated."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -25577,10 +25543,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In food processor, combine all ingredients; process until smooth and creamy. Adjust seasoning to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -25703,10 +25668,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In blender, combine all ingredients and process until smooth."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -25835,10 +25799,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine all ingredients in blender until smooth and well mixed."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -26637,10 +26600,9 @@ export const cuisine: Cuisine = {
           "In small bowl, combine all glaze ingredients and whisk to combine. Pour glaze over vegetables and seitan. Mix to combine, cooking until mixture thickens and all ingredients are evenly coated.",
           "Drizzle with toasted sesame oil and garnish with cashews and scallions."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -26963,10 +26925,9 @@ export const cuisine: Cuisine = {
           "Place plate or discover cabbage and press down to squeeze more brine to surface. Cover mouth of vessel with cheesecloth and secure to rim of lid with kitchen twine, rubber band, OR if using airlock lid, fill airlock and secure lid.",
           "Store sauerkraut in dry place for 2 - 4 weeks at room temperature. Be sure to check water level, adding more salt water as needed to ensure the mixture is covered throughout fermentation process. Taste every few days and eat or refrigerate when desired tangy flavor is achieved."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -27101,10 +27062,9 @@ export const cuisine: Cuisine = {
           "Fermentation is complete when pickles taste sour and bubbles have stopped rising; this should take approximately 6 to 7 days. Once this happens, cover the crock loosely and place in refrigerator for 3 days, skimming daily or as needed.",
           "Store for up to 2 months in refrigerator."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -27396,10 +27356,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine all ingredients and serve atop crusted flounder."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -27516,10 +27475,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In bowl, whisk all ingredients together. Cover and refrigerate for at least 1/2 hour."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -27642,10 +27600,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In bowl mix all ingredients together. Cover and refrigerate for at least 1/2 hour."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -27762,10 +27719,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine all ingredients in small bowl."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -28649,10 +28605,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine all ingredients in a bowl, and serve with poached shrimp."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -28787,10 +28742,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine ingredients in blender and puree."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -28928,10 +28882,9 @@ export const cuisine: Cuisine = {
           "Pour kuzu mixture into saucepan and heat slowly, stirring with whisk to prevent lumping. Add salt.",
           "Simmer 5 minutes and adjust seasonings."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -29067,10 +29020,9 @@ export const cuisine: Cuisine = {
           "Combine lime juice, lemon juice, orange juice, olive oil, garlic, black pepper, bay leaves and cilantro in blender.",
           "Let stand 30 minutes to allow flavors to develop before using."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -29229,10 +29181,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine olive oil, water, garlic, red onion, tomato puree, ginger juice, macadamia nuts, jalapeno pepper, turmeric, red pepper flakes, salt and lime juice in blender. Process to make thin paste. Add water to thin if necessary."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -29361,10 +29312,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In small saucepan, warm all ingredients in oil and remove from heat. Cool marinade before use."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -29493,10 +29443,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In blender, combine wine, olive oil, lemon juice, garlic, salt, pepper and thyme."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -29692,10 +29641,9 @@ export const cuisine: Cuisine = {
           "In 8-inch sauté pan, heat oil and fry garlic and spices until fragrant (30 to 60 seconds), taking care not to burn them.",
           "Cool for approximately 10 minutes. Puree mixture in blender."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -29843,10 +29791,9 @@ export const cuisine: Cuisine = {
           "Whisk together all ingredients.",
           "Toss food being grilled in rub (tempeh, tofu, chicken, or fish) in spice mixture. Let food marinate for 30 minutes to 1 hour before grilling."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -29964,10 +29911,9 @@ export const cuisine: Cuisine = {
           "In small bowl, combine all ingredients.",
           "Let vegetables soak in marinade for 20 to 30 minutes before grilling."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -30103,10 +30049,9 @@ export const cuisine: Cuisine = {
           "Whisk together all ingredients.",
           "Marinate vegetables and grill."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -30229,10 +30174,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine ingredients. This marinade can be used for most vegetables (use half amount of oil if using for fruit)."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -30373,10 +30317,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In blender, combine all ingredients."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -30482,10 +30425,9 @@ export const cuisine: Cuisine = {
           "In small pot, combine kasha, salt and water.",
           "Bring to boil, immediately turn off heat, and let sit (with lid on) until all water is absorbed (approximately 10 minutes)."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -30605,10 +30547,9 @@ export const cuisine: Cuisine = {
           "Add water, salt, and kaffir lime leaves; cover dish tightly with tin foil.",
           "Cook covered, about 50 to 60 minutes, or until all water is absorbed."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -30715,10 +30656,9 @@ export const cuisine: Cuisine = {
           "Dry roast until rice in small pot until dry and slightly aromatic.",
           "Add boiling water and salt to rice. Cover. Bring back to a boil. Reduce heat, and simmer for 30 minutes or until all water is absorbed. Remove pot from heat and let steam 10 to 15 minutes covered."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -30825,10 +30765,9 @@ export const cuisine: Cuisine = {
           "Place top on pressure cooker and bring up to pressure.",
           "Lower heat and cook 20 minutes. Remove pressure cooker from stove. Let pressure come down completely before attempting to open it."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -31166,10 +31105,9 @@ export const cuisine: Cuisine = {
           "Add bok choy stems, then add leaves, red pepper and scallions. Cook until pepper is just tender. Add sprouts and jalapeno.",
           "Add shoyu and toasted sesame oil. Season with salt to taste. Add noodles. Mix well and serve."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -31342,10 +31280,9 @@ export const cuisine: Cuisine = {
           "Bake until warmed through, about 20 minutes.",
           "Let cool to room temperature before removing from pan. Slice and serve."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -33314,10 +33251,9 @@ export const cuisine: Cuisine = {
           "Add water and 1/2 teaspoon salt to quinoa. Tightly cover with tin foil and bake 20 minutes or until all water is absorbed. Remove from oven and let sit covered 5 minutes. Remove foil and fluff with fork. Place quinoa into bowl and let cool.",
           "Add peas, parsley, cilantro, chives, remaining 1 teaspoon oil, and lemon juice to cooked quinoa. Season with remaining 1/4 teaspoon salt."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -33435,10 +33371,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In 10-inch sauté pan, heat oil. Add red pepper, tomatoes, salt, and paprika. Stir well and cook, uncovered, over low heat for 20 minutes, stirring often. Serve hot."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -33586,10 +33521,9 @@ export const cuisine: Cuisine = {
           "In 3-gallon stockpot, heat oil. Add vegetables and sweat.",
           "Add water to cover (7-8 quarts) and bouquet garni. Bring to boil and skim off foam. Simmer, partially covered, for 1 - 1 1/2 hours. Strain immediately through chinois."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -33737,10 +33671,9 @@ export const cuisine: Cuisine = {
           "In 3-gallon stockpot, heat oil. Add vegetables and sweat.",
           "Add water to cover (7-8 quarts) and bouquet garni. Bring to boil and skim off foam. Simmer, partially covered, for 1 - 1 1/2 hours. Strain immediately through chinois."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -33904,10 +33837,9 @@ export const cuisine: Cuisine = {
           "Strain stock through double layer of cheesecloth. Press vegetables firmly to get out as much liquid as possible.",
           "Measure volume of stock. Return to stove and reduce to 3 cups."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -34650,10 +34582,9 @@ export const cuisine: Cuisine = {
           "Simmer uncovered about 30 minutes or until reduced by half and nappé is achieved.",
           "Strain through chinois. Adjust seasoning to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -34810,10 +34741,9 @@ export const cuisine: Cuisine = {
           "Bring sauce to boil and skim. Reduce heat, and simmer, uncovered, for 20 to 25 minutes, or until flavor has rounded and nappé consistency is achieved.",
           "Strain sauce through chinois. Adjust seasoning to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -34962,10 +34892,9 @@ export const cuisine: Cuisine = {
           "Strain through chinois and return to pot.",
           "Adjust seasoning to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -35129,10 +35058,9 @@ export const cuisine: Cuisine = {
           "Return stock and roux mixture to pot. Simmer 15 to 20 minutes until sauce thickens and nappé consistency is achieved.",
           "Strain sauce through chinois. Adjust seasonings to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -35297,10 +35225,9 @@ export const cuisine: Cuisine = {
           "Strain sauce through chinois and return sauce to pot.",
           "Add garlic paste mixture to pot to and simmer another 5 minutes or until nappé consistency is achieved. Adjust seasoning to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -35440,10 +35367,9 @@ export const cuisine: Cuisine = {
           "Lower heat, add agave, red pepper flakes, and reserved tomato juice. Simmer until sauce thickens, about 10 minutes.",
           "Add basil leaves. Simmer 2-3 minutes more. Adjust seasoning to taste with salt and pepper."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -35594,10 +35520,9 @@ export const cuisine: Cuisine = {
           "Lower heat and add agave and reserved tomato juice. Simmer until sauce thickens, about 10 minutes.",
           "Adjust seasoning to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -35769,10 +35694,9 @@ export const cuisine: Cuisine = {
           "Add puree to pot and simmer until thickened to desired consistency.",
           "Add rice syrup and basil. Simmer few minutes more. Adjust seasoning to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -35900,10 +35824,9 @@ export const cuisine: Cuisine = {
           "Simmer sauce for approximately 20-25 minutes until thickened and reduced to nappé consistency.",
           "Strain sauce through fine chinois. Add additional 1 cup milk on low flame, if needed."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -36038,10 +35961,9 @@ export const cuisine: Cuisine = {
           "Strain sauce through fine chinois.",
           "Add cheese and whisk until cheese is totally melted and incorporated into sauce."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -36155,10 +36077,9 @@ export const cuisine: Cuisine = {
           "Lower heat and simmer about 35-40 minutes or until sauce achieves nappé consistency.",
           "Adjust seasonings to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -36259,10 +36180,9 @@ export const cuisine: Cuisine = {
           "Slowly whisk in heavy cream, and mix until incorporated.",
           "Adjust seasoning to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -36407,10 +36327,9 @@ export const cuisine: Cuisine = {
           "Increase heat to simmer and continue cooking for about 20-25 minutes, stirring often until sauce thickens.",
           "Strain sauce through chinois. Add lemon juice. Season to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -36535,10 +36454,9 @@ export const cuisine: Cuisine = {
           "Combine and puree pumpkin seeds, garlic, cilantro, umeboshi paste, and miso in food processor.",
           "Through feed tube, add oil slowly and puree until well combined (20-30 seconds)."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -36659,10 +36577,9 @@ export const cuisine: Cuisine = {
           "Transfer 'corn milk' to 2 1/2 quart pot, and simmer for 5-10 minutes, stirring constantly, until mixture begins to thicken. Whisk in butter. Sauce should have nappé consistency.",
           "Whisk in lemon juice. Season to taste with salt and pepper."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -36777,10 +36694,9 @@ export const cuisine: Cuisine = {
           "Transfer 'corn milk' to 2 1/2 quart pot, and simmer for 5-10 minutes, stirring constantly, until desired nappé consistency is achieved.",
           "Whisk in lemon juice, and season to taste with salt and pepper."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -36930,10 +36846,9 @@ export const cuisine: Cuisine = {
           "Bring sauce to boil, and reduce flame to medium. Simmer partially covered 1-2 minutes until sauce thickens, or until desired nappé consistency is achieved. Whisk in vinegar.",
           "Season to taste with salt and pepper. Garnish with scallions."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -37060,10 +36975,9 @@ export const cuisine: Cuisine = {
           "Add stock and simmer uncovered for 15 minutes.",
           "Puree in blender until creamy and return to pan. Season to taste with salt and pepper."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -37190,10 +37104,9 @@ export const cuisine: Cuisine = {
           "Add stock and simmer uncovered for 15 minutes.",
           "Puree in blender until creamy and return to pan. Season to taste with salt and pepper."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -37320,10 +37233,9 @@ export const cuisine: Cuisine = {
           "Add stock and simmer uncovered for 15 minutes.",
           "Puree in blender until creamy and return to pan. Season to taste with salt and pepper."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -37450,10 +37362,9 @@ export const cuisine: Cuisine = {
           "Add stock and simmer uncovered for 15 minutes.",
           "Puree in blender until creamy and return to pan. Season to taste with salt and pepper."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -37592,10 +37503,9 @@ export const cuisine: Cuisine = {
           "Combine peppers with onion-garlic mixture in VitaMix and blend until creamy. Add remaining 2 tablespoons oil through feed tube, slowly while machine is running.",
           "Add warm vegetable stock as needed for desired consistency. Add lemon juice to taste. Adjust seasonings with salt, pepper, and hot sauce."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -37716,10 +37626,9 @@ export const cuisine: Cuisine = {
           "When all butter is incorporated, season to taste.",
           "Strain sauce through chinois. Re-heat carefully over very low flame."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -37880,10 +37789,9 @@ export const cuisine: Cuisine = {
           "Strain vegetables and spices from sauce, and return sauce to pot.",
           "Add ginger and lime juices. Season to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -38015,10 +37923,9 @@ export const cuisine: Cuisine = {
           "In 8-inch sauté pan, over medium-high flame, reduce white wine with shallots until almost dry (au sec).",
           "In blender combine shallots, roasted garlic paste, almonds and vegetable stock. Through feed tube, slowly add remaining 1/4 cup of olive oil. Blend until creamy. Season to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -38193,10 +38100,9 @@ export const cuisine: Cuisine = {
           "Return sauce to sauce pan and add remaining onions and garlic. Add remaining 1/2 cup cooking liquid to achieve proper consistency, if needed.",
           "Season to taste with salt and pepper."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -38339,10 +38245,9 @@ export const cuisine: Cuisine = {
           "Add garlic, onion, vinegar, lemon juice, and oregano to food processor with parsley and pulse to combine.",
           "Add olive oil through feed tube and continue to process for 30 seconds or until sauce is blended, but still retains some texture. Season to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -38488,10 +38393,9 @@ export const cuisine: Cuisine = {
           "In 10-inch sauté pan, heat 2 tablespoons oil over low flame, add garlic, and sweat until garlic has softened. Add tomatoes and peppers. Increase heat to medium-high and sauté until vegetables begin to caramelize.",
           "In food processor, combine tomatoes, chili, hazelnuts, almonds, vinegar, and remaining 1/4 cup of oil. Blend until smooth. If sauce is too thick, add chili soaking water to processor to thin sauce."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -38638,10 +38542,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In VitaMix, combine all ingredients until well blended."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -38835,10 +38738,9 @@ export const cuisine: Cuisine = {
           "Add blended mixture to pot along with ketchup and maple syrup.",
           "Simmer sauce 10-15 minutes or to desired consistency. Season to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -38985,10 +38887,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In 2 1/2 quart pot, combine all ingredients and simmer on medium-low heat, stirring often, until nappé consistency is achieved."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -39123,10 +39024,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In 2 1/2 quart pot, simmer all ingredients until desired consistency (nappé) is achieved."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -39255,10 +39155,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Process all ingredients in food processor until smooth and creamy. Season to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -39821,10 +39720,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Combine all ingredients in food processor until smooth and creamy. Season to taste."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -41074,10 +40972,9 @@ export const cuisine: Cuisine = {
           "As mixture begins to thicken, oil can be added somewhat more rapidly (no more than one tablespoon at a time).",
           "When all oil has been incorporated, whisk in lemon juice."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -41201,10 +41098,9 @@ export const cuisine: Cuisine = {
           "Combine all ingredients except oil in blender and process until completely smooth.",
           "With motor running, add oil very slowly, in steady stream. As mixture starts to thicken, oil can be added a bit more quickly."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -41325,10 +41221,9 @@ export const cuisine: Cuisine = {
           "If sauce breaks, rescue by adding 1 teaspoon of cold water and beating vigorously. If this does not work, whisk 2 egg yolks into broken sauce as you would butter.",
           "If necessary, thin with few drops of warm water."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -41449,10 +41344,9 @@ export const cuisine: Cuisine = {
           "If sauce breaks, rescue by adding 1 teaspoon of cold water and beating vigorously. If this does not work, whisk 2 egg yolks into broken sauce as you would butter.",
           "If necessary, thin with few drops of warm water."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -41564,10 +41458,9 @@ export const cuisine: Cuisine = {
           "Reduce all ingredients at simmer to 1-2 tablespoons.",
           "Cool reduction and strain before adding to yolks in Hollandaise recipe (above)."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -41669,10 +41562,9 @@ export const cuisine: Cuisine = {
           "Serve as a condiment over cooked millet.",
           "Store excess in air-tight glass container."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -41786,10 +41678,9 @@ export const cuisine: Cuisine = {
           "Bring to boil, reduce to simmer, and stir often. Let simmer until all the liquid is absorbed.",
           "Serve as condiment on grains or beans."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -41882,10 +41773,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "With tongs, wave nori back and forth over flame several times, until nori turns brighter shade of green. Pass nori through flame carefully and quickly."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -42309,10 +42199,9 @@ export const cuisine: Cuisine = {
           "Puree tofu, lemon juice, salt, olive oil, and water in food processor until smooth and creamy.",
           "Add dill or chives and process for 30 seconds more. Chill for 20 minutes."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -42706,10 +42595,9 @@ export const cuisine: Cuisine = {
           "Using chopstick or spoon, spread separate, thin, horizontal lines of wasabi and umeboshi paste across the rice at near end of nori sheet. Arrange slices of avocado, carrot, and scallions lengthwise on top of paste.",
           "Bring near edge of nori and mat up and snugly over arranged vegetables, in rolling motion. Continue rolling forward, withdrawing mat as you go. Moisten strip of nori at far end of roll with wet fingertips. Continue to roll forward to seal roll."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -42858,10 +42746,9 @@ export const cuisine: Cuisine = {
           "Combine hiziki in separate 2 1/2 quart pot with apple juice and water. Bring to boil. Add carrots, onion, fried tofu, toasted sesame oil, and shoyu. Simmer 30 minutes or until all liquid is absorbed.",
           "Garnish with sesame seeds before serving."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -42999,10 +42886,9 @@ export const cuisine: Cuisine = {
           "Add water to cover arame halfway. Bring water to boil. Add shoyu, brown rice syrup, and mirin. Simmer for 20-30 minutes or until all liquid has evaporated.",
           "Add bok choy stems and sweat until stems just become tender. Add leaves and sweat until leaves wilt."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -43430,10 +43316,9 @@ export const cuisine: Cuisine = {
           "In small sauce pan, reduce stock to 6 tablespoons and set aside to cool.",
           "Combine stock with shallots, olive oil, mustard, orange juice, rice syrup and herbs in blender and puree until emulsified."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering"
@@ -43565,10 +43450,9 @@ export const cuisine: Cuisine = {
           "In small sauce pan, reduce stock to 6 tablespoons and set aside to cool.",
           "Combine stock with shallots, olive oil, mustard, orange juice, rice syrup and herbs in blender and puree until emulsified."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "lunch"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering"
@@ -44447,10 +44331,9 @@ export const cuisine: Cuisine = {
           "Transfer rapini mixture to bowl and thoroughly mix with quinoa, capers, black pepper, and lemon zest.",
           "Divide quinoa-rapini mixture among four plates, placing Arctic Char filet atop each portion."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -44582,10 +44465,9 @@ export const cuisine: Cuisine = {
           "Add enough water to just barely cover hiziki. Add shoyu. Bring to boil. Cover, lower flame, and cook until most of liquid has evaporated – about 30 minutes.",
           "Gently stir in scallions and lemon juice until well mixed. Serve."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -44736,10 +44618,9 @@ export const cuisine: Cuisine = {
           "Skin hazelnuts by wrapping in towel and vigorously rubbing them. Roughly chop hazelnuts and transfer them to large bowl.",
           "Add vegetables to bowl and toss with parsley, cilantro, and garlic just before serving."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -44925,10 +44806,9 @@ export const cuisine: Cuisine = {
           "Bake approximately 30 minutes or until dough is golden and firm to touch. Internal dough temperature should be approximately 190°-205° F.",
           "Cool bread on racks (out of pan) before serving."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -45071,10 +44951,9 @@ export const cuisine: Cuisine = {
           "Divide dough into two. Form dough into loaves and transfer to prepared loaf pans or on sheet trays. Cover dough with wet towel and rise one final time (approximately 15-30 minutes).",
           "Bake approximately 30-45 minutes or until dough is golden and firm to touch."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -45217,10 +45096,9 @@ export const cuisine: Cuisine = {
           "Loosely cover challahs with damp towels and set aside in warm place. Rise until dough has doubled in size, 15 to 20 minutes.",
           "Bake bread approximately 30-40 minutes or until dough is thoroughly golden and firm to touch. Internal dough temperature should register between 190° and 205°F. Brush with egg wash few minutes before bread is finished baking."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -45363,10 +45241,9 @@ export const cuisine: Cuisine = {
           "Loosely cover dough with damp towel and set aside in warm place. Allow to rise for about 40 minutes or until dough has doubled in size.",
           "Bake bread approximately 30 minutes or until dough is golden and firm to touch. Internal dough temperature should register approximately 190° - 205°."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -45500,10 +45377,9 @@ export const cuisine: Cuisine = {
           "Prepare crêpe pan by oiling lightly. Pour 1/4 cup of batter into pan, tipping pan so batter thins to about 6-inch circle. Cook 30 seconds, until crêpe is golden brown on bottom. Flip, cook another 30 seconds.",
           "If necessary, thin batter with more water to maintain consistency of light cream."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -45626,10 +45502,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Emulsify all ingredients in blender until smooth."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -45734,10 +45609,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Note: Use only 2 cups of this flour for crepe batter."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -46026,10 +45900,9 @@ export const cuisine: Cuisine = {
           "Bake for about 6 minutes and rotate pan in oven to ensure even browning. Continue baking for about another 10 minutes or until golden brown on top and slightly firm to touch.",
           "Transfer to rack and cool."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -46199,10 +46072,9 @@ export const cuisine: Cuisine = {
           "Whisk wet ingredients into dry. Pour batter into loaf pan and bake for 55 minutes.",
           "Let bread cool completely before slicing and serving."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -46308,10 +46180,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Whisk together to combine."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -46450,10 +46321,9 @@ export const cuisine: Cuisine = {
           "Pour batter into muffin molds and immediately transfer back to oven to bake.",
           "Bake for at least 30-40 minutes. Bread is ready when toothpick inserted in bread comes out clean."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -46636,10 +46506,9 @@ export const cuisine: Cuisine = {
           "In small saucepan, melt butter for crumble. Combine butter, maple crystals, and rolled oats in bowl. Transfer crumble to top of bread.",
           "Bake for 30-45 minutes, or until toothpick inserted into center of loaf comes out clean. Remove from oven and allow to rest in pan for 15 minutes, before inverting onto wire rack to cool completely."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -47380,10 +47249,9 @@ export const cuisine: Cuisine = {
           "Combine vegetables, garlic, and olive oil in large roasting pan.",
           "Roast for 30 minutes. Drain and cool."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -49215,10 +49083,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Use only 3/4 cup flour for cake recipe."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -49323,10 +49190,9 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Note: For this recipe, use only 1 cup."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -49459,10 +49325,9 @@ export const cuisine: Cuisine = {
           "Pour coconut mixture into shallow pan and chill until set (about 15 minutes in freezer or 30-40 minutes in refrigerator).",
           "In food processor, combine coconut milk-agar mixture with cashew butter and coconut extract. Process until very smooth."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -49801,10 +49666,9 @@ export const cuisine: Cuisine = {
           "Fold and turn dough. Flatten and form focaccia on parchment-lined pizza peel. Cover with damp towel and let rise again 15-20 minutes more, or until doubled in size again.",
           "Brush top of focaccia with olive oil and sprinkle with mixture of fresh herbs, sea salt, and fresh cracked pepper. Dimple surface with fingertips, and transfer to pizza stone. Bake 20-25 minutes."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -50294,10 +50158,9 @@ export const cuisine: Cuisine = {
           "Remove quinoa from heat. Add boiling water and salt. Lower heat and simmer, covered, for 15 minutes or until quinoa is cooked and all liquid is absorbed.",
           "Fluff with fork and add tarragon before serving."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -50423,10 +50286,9 @@ export const cuisine: Cuisine = {
           "In same pot, blanch kale for 3 to 4 minutes until tender but not mushy. Shock in ice water, drain and set aside.",
           "In 12-inch sauté pan, heat oil, add garlic slices and sauté until garlic slices are just golden. Do not burn! Add kale and carrots. Cook until heated through."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -50773,10 +50635,9 @@ export const cuisine: Cuisine = {
           "Add rice and stir to coat with oil.",
           "Add stock, salt, pepper, and thyme. Bring to boil, reduce heat, cover, and simmer 45 minutes or until all water is absorbed. Remove from heat and keep covered to steam for at least another 15 minutes. Garnish with fresh herbs."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -51981,10 +51842,9 @@ export const cuisine: Cuisine = {
           "In 2 1/2 quart pot, combine shoyu, ginger, kombu, sea salt, and tempeh. Pour in enough water to cover tempeh (about 3 cups). Cover pan and bring to boil. Reduce heat and simmer about 20-25 minutes.",
           "Drain tempeh and set aside. Reserve cooking liquid for use in Tempeh Scaloppini."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -52156,10 +52016,9 @@ export const cuisine: Cuisine = {
           "Remove from heat and stir in lemon juice to taste.",
           "Garnish with parsley and serve with rice, noodles or sautéed greens."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -52356,10 +52215,9 @@ export const cuisine: Cuisine = {
           "Dissolve kuzu in cold water and add to wok. Simmer 1 minute. Adjust ginger juice and shoyu or tamari if necessary.",
           "Serve over rice or noodles. Garnish with scallions."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -52534,10 +52392,9 @@ export const cuisine: Cuisine = {
           "In large sauté pan, combine all marinade ingredients. Transfer tofu to marinade and simmer gently 25-30 minutes or place sauté pan in 350° oven for 20 minutes.",
           "Remove tofu from pan. Reduce sauce to desired consistency."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -55980,10 +55837,9 @@ export const cuisine: Cuisine = {
           "Place plate or discover cabbage and press down to squeeze more brine to the surface. Cover mouth of vessel with cheesecloth and secure to rim of lid with kitchen twine, rubber band, OR if using airlock lid, fill airlock and secure lid.",
           "Store sauerkraut in dry place for 2 - 4 weeks at room temperature. Be sure to check water level, adding more salt water as needed to ensure the mixture is covered throughout fermentation process. Taste every few days and eat or refrigerate when desired tangy flavor is achieved."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -57958,10 +57814,9 @@ export const cuisine: Cuisine = {
           "Turn off heat under pan and add stock. Quickly cover to avoid sputtering.",
           "Bring back to boil and reduce to simmer for 10 to 15 minutes until all water is absorbed."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -58093,10 +57948,9 @@ export const cuisine: Cuisine = {
           "Add water and spices to rice; cover baking dish tightly with tin foil.",
           "Cook covered, about 50 to 60 minutes, or until all water is absorbed."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -58223,10 +58077,9 @@ export const cuisine: Cuisine = {
           "Add water, salt, galangal, and lemongrass to rice; cover tightly with tin foil.",
           "Cook covered, about 50 to 60 minutes, or until all water is absorbed."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -58334,10 +58187,9 @@ export const cuisine: Cuisine = {
           "In small saucepot, add rice to water. Add salt. Bring to a boil, covered, lower heat and simmer about 45 to 50 minutes or until rice is tender (rice should butterfly slightly).",
           "Place rice in colander and drain excess water."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -58444,10 +58296,9 @@ export const cuisine: Cuisine = {
           "Bring water and salt to boil in small saucepot, add bulgur, cover and bring back to a rolling boil for 1 minute.",
           "Remove pot from heat. Let steam, covered, 45 minutes."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -58554,10 +58405,9 @@ export const cuisine: Cuisine = {
           "Bring water and salt to boil in small saucepot, add bulgur, cover and bring back to a rolling boil for 1 minute.",
           "Remove pot from heat. Let steam, covered, 45 minutes."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -59381,10 +59231,9 @@ export const cuisine: Cuisine = {
           "Mix carrots, onions, shallots, celery, and parsnips with oil. Roast on large oiled baking sheet, stirring occasionally, until browned and aromatic. Add tomatoes and garlic to vegetables in oven near end of roasting time. Add roasted vegetables to bean stockpot.",
           "Deglaze baking sheet with white wine. Add deglaze liquid, walnuts, bouquet garni, and shoyu to bean stockpot. Simmer, partially covered, for 60-90 minutes. Strain immediately."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -59564,10 +59413,9 @@ export const cuisine: Cuisine = {
           "Mix carrots, onions, shallots, celery, and parsnips with oil. Roast on large oiled baking sheet, stirring occasionally, until browned and aromatic. Add tomatoes and garlic to vegetables in oven near end of roasting time. Add roasted vegetables to bean stockpot.",
           "Deglaze baking sheet with red wine. Add deglaze liquid, walnuts, sachet d'épices, and shoyu to bean stockpot. Simmer, partially covered for 60-90 minutes. Strain immediately."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -59797,10 +59645,9 @@ export const cuisine: Cuisine = {
           "Add kombu and bring to boil. Lower flame and simmer 5 minutes.",
           "Strain stock through fine chinois, pressing firmly to extract as much liquid as possible."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -59967,10 +59814,9 @@ export const cuisine: Cuisine = {
           "Sweat for 15-20 minutes. Add 4 quarts filtered water.",
           "Bring to boil, covered, lower heat and simmer 30 minutes, uncovered. Strain stock through chinois."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",
@@ -60503,10 +60349,9 @@ export const cuisine: Cuisine = {
           "Toss bread in bowl with oil, thyme, salt, and pepper. Transfer croutons to sheet tray.",
           "Bake until bread is golden in color and crisp in texture. Serve over soup."
         ],
+        "mealType": [],
         "classifications": {
-          "mealType": [
-            "dinner"
-          ],
+          "mealType": [],
           "cookingMethods": [
             "steaming",
             "simmering",

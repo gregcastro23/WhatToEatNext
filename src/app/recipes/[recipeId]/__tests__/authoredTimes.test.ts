@@ -59,13 +59,14 @@ describe("recipe page times and meal", () => {
     expect(shown).toMatchObject({ prepTime: "10", cookTime: "12", totalTime: "22", timeToMake: "22 minutes", mealType: ["dinner"] });
   });
 
-  it("an HSCA recipe, whose 15 is the generator's fill-in, publishes no time at all", async () => {
+  it("an HSCA drink publishes no time (its 15 is the generator's fill-in) and no meal (a drink is not breakfast)", async () => {
     const { jsonLd, shown } = await render(AGUA_FRESCA_ID);
     for (const key of ["prepTime", "cookTime", "totalTime"]) expect(jsonLd).not.toHaveProperty(key);
     for (const key of ["prepTime", "cookTime", "totalTime", "timeToMake"]) expect(shown).not.toHaveProperty(key);
     const twin = (await getServerRecipes()).find((r) => r.id === "hsca-breakfast-spring-cucumber-agua-fresca");
-    expect(twin).toMatchObject({ prepTime: "10", cookTime: "15" });
-    expect(jsonLd.recipeCategory).toBe(twin?.mealType?.[0]);
+    expect(twin).toMatchObject({ prepTime: "10", cookTime: "15", mealType: [] });
+    expect(jsonLd).not.toHaveProperty("recipeCategory");
+    expect(shown).not.toHaveProperty("mealType");
   });
 
   it("no page carries the placeholders", async () => {
