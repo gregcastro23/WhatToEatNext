@@ -59,10 +59,15 @@ function authoredTimes(recipe: Recipe): Times | null {
   return prep + cook > 0 ? { prep, cook } : null;
 }
 
+/** In the recipe's own order: the first is the page's recipeCategory. */
 function mealsOf(recipe: Recipe): MealIntent[] {
   const values = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
-  const lowered = values.map((value) => (typeof value === "string" ? value.trim().toLowerCase() : ""));
-  return MEALS.filter((meal) => lowered.includes(meal));
+  const meals: MealIntent[] = [];
+  for (const value of values) {
+    const meal = MEALS.find((m) => typeof value === "string" && value.trim().toLowerCase() === m);
+    if (meal && !meals.includes(meal)) meals.push(meal);
+  }
+  return meals;
 }
 
 export function authoredFactsOf(recipe: Recipe): AuthoredFacts {
