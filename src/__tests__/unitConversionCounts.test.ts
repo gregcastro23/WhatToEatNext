@@ -10,6 +10,7 @@
  *
  * @file src/__tests__/unitConversionCounts.test.ts
  */
+import { parseServingSizeGrams } from "@/utils/ingredientNutritionAggregation";
 import { calculateQuantityFactor } from "@/utils/quantityScaling";
 import { convertToGramsDetailed } from "@/utils/unitConversion";
 
@@ -81,5 +82,12 @@ describe("what a count unit feeds", () => {
   it("gives the elemental quantity factor the eggs' mass, not their count", () => {
     // Before, "2 large eggs" had no gram weight and fell back to 2 g.
     expect(calculateQuantityFactor(2, "large", "g", "egg")).toBeCloseTo(Math.log(2), 10);
+  });
+
+  it("reads a serving size written with a tilde", () => {
+    // The catalog's Egg Yolk is "1 large egg yolk (~17g)". Unread, its calories
+    // were scored as if per 100 g.
+    expect(parseServingSizeGrams("1 large egg yolk (~17g)")).toBe(17);
+    expect(parseServingSizeGrams("1 cup (148 g)")).toBe(148);
   });
 });
