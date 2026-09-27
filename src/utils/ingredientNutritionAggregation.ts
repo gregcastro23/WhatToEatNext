@@ -15,7 +15,7 @@
 import type { Recipe } from "@/types/recipe";
 import { resolveIngredientByName } from "./ingredientResolution";
 import { accountsForRecipe, type WeighedLine } from "./nutritionCompleteness";
-import { UNIT_CONVERSIONS, convertToGrams } from "./unitConversion";
+import { UNIT_CONVERSIONS, convertToGrams, convertToGramsDetailed } from "./unitConversion";
 import type { NormalizedRecipeNutrition } from "./recipeNutrition";
 
 // `resolveIngredientByName` (added here in #555) was lifted into the shared
@@ -333,15 +333,20 @@ interface WeighedContribution {
 function weighLine(ing: Recipe["ingredients"][number]): WeighedContribution {
   const amount = Number(ing.amount) || 1;
   const unit = String(ing.unit);
+  // The line's own words name the cut, where USDA weighed a measure several ways.
+  const words = `${ing.name} ${ing.notes ?? ""}`;
   const found = resolveIngredientByName(ing.name);
   if (!found?.nutritionalProfile) {
-    return { line: { kind: "unresolved", grams: convertToGrams(amount, unit, ing.name) }, nutrition: null };
+    return { line: { kind: "unresolved", grams: convertToGrams(amount, unit, ing.name, words) }, nutrition: null };
   }
-  const grams = convertToGrams(amount, unit, found.name);
+  const weighed = convertToGramsDetailed(amount, unit, found.name, words);
+  const grams = weighed?.grams ?? null;
   // A profile with no calories or macros (water, salt) contributes nothing at any mass.
   if (!computeIngredientNutrition(found, 1, "g")) return { line: { kind: "zero", grams }, nutrition: null };
   if (grams === null) return { line: { kind: "unweighable" }, nutrition: null };
-  return { line: { kind: "counted", grams }, nutrition: computeIngredientNutrition(found, grams, "g") };
+  const line: WeighedLine =
+    weighed?.spread !== undefined ? { kind: "counted", grams, spread: weighed.spread } : { kind: "counted", grams };
+  return { line, nutrition: computeIngredientNutrition(found, grams, "g") };
 }
 
 /**

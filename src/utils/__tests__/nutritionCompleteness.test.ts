@@ -26,6 +26,14 @@ describe("accountsForRecipe", () => {
     expect(accountsForRecipe([counted(899), unresolved(101)])).toBe(false);
   });
 
+  it("holds a line's cut spread against the unresolved share", () => {
+    // "1 cup walnuts, toasted" names no cut: 80 g (ground) counted, up to 40 g
+    // more (pieces or chips). 40 g of 400 g known is the limit; of 399 g, past it.
+    const walnuts: WeighedLine = { kind: "counted", grams: 80, spread: 40 };
+    expect(accountsForRecipe([counted(280), walnuts])).toBe(true);
+    expect(accountsForRecipe([counted(279), walnuts])).toBe(false);
+  });
+
   it("counts water and salt toward the recipe's mass", () => {
     // 60 g unresolved of 600 g known: exactly the limit, because the 400 g of water counts.
     expect(accountsForRecipe([counted(140), { kind: "zero", grams: 400 }, unresolved(60)])).toBe(true);

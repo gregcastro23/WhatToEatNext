@@ -29,6 +29,14 @@
 /** The volume measures a recipe actually uses. */
 export type VolumeMeasure = "cup" | "tbsp" | "tsp";
 
+/** One way USDA weighed a measure: "chopped", "ground". */
+export interface MeasuredCut {
+  /** FDC's own words for what it weighed. */
+  as: string;
+  /** Grams per ONE measure of this cut. */
+  grams: number;
+}
+
 export interface MeasuredPortion {
   /** Matches the `ingredient` key used by the USDA composition fetch. */
   ingredient: string;
@@ -43,12 +51,21 @@ export interface MeasuredPortion {
    * The preparation USDA measured, where the portion was qualified —
    * "chopped", "ground", "shredded". Present only for a qualified measure; an
    * unqualified one always wins over a qualified one for the same measure, and
-   * a qualifier naming another food ("whipped", "in shell") is never used.
+   * a qualifier naming another food ("whipped", "in shell", "cherry") is
+   * never used.
    *
    * It matters: a cup of CHOPPED onion and a cup of whole onion are different
    * masses, and the reader deserves to know which was weighed.
    */
   measuredAs?: Partial<Record<VolumeMeasure, string>>;
+  /**
+   * A measure USDA weighed only qualified, several ways, at different weights:
+   * a cup of walnuts is 80 g ground and 117 g chopped. No one of them is the
+   * ingredient's cup, so the measure is absent from `gramsPer`, and a recipe
+   * line is weighed only when its own words name exactly one cut (see
+   * `volumeToMass`).
+   */
+  cuts?: Partial<Record<VolumeMeasure, readonly MeasuredCut[]>>;
 }
 
 export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
@@ -75,12 +92,34 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     gramsPer: { tbsp: 14.2, cup: 227 },
   },
   {
+    ingredient: "Carrot",
+    fdcId: 170393,
+    fdcDescription: "Carrots, raw",
+    retrieved: "2026-08-18",
+    gramsPer: {},
+    cuts: {
+      cup: [
+        { as: "grated", grams: 110 },
+        { as: "chopped", grams: 128 },
+        { as: "strips or slices", grams: 122 },
+      ],
+    },
+  },
+  {
     ingredient: "Chicken",
     fdcId: 171477,
     fdcDescription: "Chicken, broilers or fryers, breast, meat only, cooked, roasted",
     retrieved: "2026-08-18",
     gramsPer: { cup: 140 },
     measuredAs: { cup: "chopped or diced" },
+  },
+  {
+    ingredient: "Chives",
+    fdcId: 169994,
+    fdcDescription: "Chives, raw",
+    retrieved: "2026-08-18",
+    gramsPer: { tsp: 1, tbsp: 3 },
+    measuredAs: { tsp: "chopped", tbsp: "chopped" },
   },
   {
     ingredient: "Cilantro",
@@ -119,6 +158,22 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     measuredAs: { tsp: "whole", tbsp: "whole" },
   },
   {
+    ingredient: "Dill",
+    fdcId: 172233,
+    fdcDescription: "Dill weed, fresh",
+    retrieved: "2026-08-18",
+    gramsPer: { cup: 8.9 },
+    measuredAs: { cup: "sprigs" },
+  },
+  {
+    ingredient: "Egg",
+    fdcId: 171287,
+    fdcDescription: "Egg, whole, raw, fresh",
+    retrieved: "2026-08-18",
+    gramsPer: { cup: 243 },
+    measuredAs: { cup: "(4.86 large eggs)" },
+  },
+  {
     ingredient: "Garlic",
     fdcId: 169230,
     fdcDescription: "Garlic, raw",
@@ -130,7 +185,8 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     fdcId: 169231,
     fdcDescription: "Ginger root, raw",
     retrieved: "2026-08-18",
-    gramsPer: { tsp: 2 },
+    gramsPer: { cup: 96, tsp: 2 },
+    measuredAs: { cup: "slices (1\" dia)" },
   },
   {
     ingredient: "Heavy Cream",
@@ -187,23 +243,36 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     fdcId: 170000,
     fdcDescription: "Onions, raw",
     retrieved: "2026-08-18",
-    gramsPer: { cup: 160 },
-    measuredAs: { cup: "chopped" },
+    gramsPer: { tbsp: 10 },
+    measuredAs: { tbsp: "chopped" },
+    cuts: {
+      cup: [
+        { as: "chopped", grams: 160 },
+        { as: "sliced", grams: 115 },
+      ],
+    },
   },
   {
     ingredient: "Parsley",
     fdcId: 170416,
     fdcDescription: "Parsley, fresh",
     retrieved: "2026-08-18",
-    gramsPer: { tbsp: 3.8 },
+    gramsPer: { cup: 60, tbsp: 3.8 },
+    measuredAs: { cup: "chopped" },
   },
   {
     ingredient: "Pepper",
     fdcId: 170931,
     fdcDescription: "Spices, pepper, black",
     retrieved: "2026-08-18",
-    gramsPer: { tbsp: 6.9, tsp: 2.3 },
-    measuredAs: { tbsp: "ground", tsp: "ground" },
+    gramsPer: { tbsp: 6.9 },
+    measuredAs: { tbsp: "ground" },
+    cuts: {
+      tsp: [
+        { as: "ground", grams: 2.3 },
+        { as: "whole", grams: 2.9 },
+      ],
+    },
   },
   {
     ingredient: "Potato",
@@ -225,8 +294,8 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     fdcId: 170005,
     fdcDescription: "Onions, spring or scallions (includes tops and bulb), raw",
     retrieved: "2026-08-18",
-    gramsPer: { cup: 100 },
-    measuredAs: { cup: "chopped" },
+    gramsPer: { tbsp: 6, cup: 100 },
+    measuredAs: { tbsp: "chopped", cup: "chopped" },
   },
   {
     ingredient: "Sesame Oil",
@@ -304,8 +373,15 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     fdcId: 170187,
     fdcDescription: "Nuts, walnuts, english",
     retrieved: "2026-08-18",
-    gramsPer: { cup: 80 },
-    measuredAs: { cup: "ground" },
+    gramsPer: {},
+    cuts: {
+      cup: [
+        { as: "ground", grams: 80 },
+        { as: "chopped", grams: 117 },
+        { as: "pieces or chips", grams: 120 },
+        { as: "shelled (50 halves)", grams: 100 },
+      ],
+    },
   },
   {
     ingredient: "Water",

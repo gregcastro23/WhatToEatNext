@@ -11,7 +11,7 @@
  * @file src/app/(alchm)/lab/_solver/VolumetricsPanel.tsx
  */
 import { useMemo } from "react";
-import { MEASURED_PORTIONS } from "@/data/cooking/measuredPortions";
+import { MEASURED_PORTIONS, type MeasuredPortion, type VolumeMeasure } from "@/data/cooking/measuredPortions";
 import type { MassFractions } from "@/lib/cooking/choiOkos";
 import { analysePacking, volumeToMass } from "@/lib/cooking/volumetrics";
 import { MEASURED_INGREDIENT_COUNT, UNIT_CONVERSIONS, convertToGramsDetailed } from "@/utils/unitConversion";
@@ -38,6 +38,21 @@ const FLOUR: MassFractions = {
   water: 0.119, protein: 0.103, fat: 0.01, carbohydrate: 0.763, ash: 0.0047,
 };
 const OLIVE_OIL: MassFractions = { water: 0, protein: 0, fat: 1, carbohydrate: 0, ash: 0 };
+
+/** A measure's grams: its one weight, or the range of the cuts USDA weighed it at. */
+function measureCell(p: MeasuredPortion, measure: VolumeMeasure, digits: number): React.ReactNode {
+  const single = p.gramsPer[measure];
+  if (single !== undefined) return single.toFixed(digits);
+  const grams = (p.cuts?.[measure] ?? []).map((cut) => cut.grams);
+  if (grams.length === 0) return <span className="ma-absent">—</span>;
+  return `${Math.min(...grams).toFixed(digits)}–${Math.max(...grams).toFixed(digits)}`;
+}
+
+/** One qualifier per distinct preparation, not one per measure: USDA repeats "crumbled" across a bay leaf's tbsp and tsp. */
+function measuredAs(p: MeasuredPortion): string {
+  const cuts = Object.values(p.cuts ?? {}).flatMap((all) => all.map((cut) => cut.as));
+  return [...new Set([...Object.values(p.measuredAs ?? {}), ...cuts])].join(", ");
+}
 
 export function VolumetricsPanel(): React.JSX.Element {
   const rows = useMemo(
@@ -182,16 +197,12 @@ export function VolumetricsPanel(): React.JSX.Element {
                 {MEASURED_PORTIONS.map((p) => (
                   <tr key={p.ingredient}>
                     <td>{p.ingredient}</td>
-                    <td>{p.gramsPer.cup?.toFixed(1) ?? <span className="ma-absent">—</span>}</td>
-                    <td>{p.gramsPer.tbsp?.toFixed(2) ?? <span className="ma-absent">—</span>}</td>
-                    <td>{p.gramsPer.tsp?.toFixed(2) ?? <span className="ma-absent">—</span>}</td>
+                    <td>{measureCell(p, "cup", 1)}</td>
+                    <td>{measureCell(p, "tbsp", 2)}</td>
+                    <td>{measureCell(p, "tsp", 2)}</td>
                     <td className="ma-quiet">#{p.fdcId}</td>
                     <td className="ma-quiet">
-                      {/* One qualifier per distinct preparation, not one per measure:
-                          USDA repeats "crumbled" across a bay leaf's tbsp and tsp. */}
-                      {[...new Set(Object.values(p.measuredAs ?? {}))].join(", ") || (
-                        <span className="ma-absent">unqualified</span>
-                      )}
+                      {measuredAs(p) || <span className="ma-absent">unqualified</span>}
                     </td>
                   </tr>
                 ))}
