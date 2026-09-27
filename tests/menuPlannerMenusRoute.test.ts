@@ -155,11 +155,31 @@ describe("PUT /api/menu-planner/menus", () => {
     expect(menuPersistenceService.upsertMenu).toHaveBeenCalledWith("user-1", {
       weekStartDate: new Date("2026-08-23T00:00:00.000Z"),
       meals: [],
-      nutritionalTotals: {},
       groceryList: [],
       inventory: [],
       weeklyBudget: null,
     });
+  });
+
+  it("does not persist the nutrition totals an older client still sends", async () => {
+    // The planner used to send createInitialMenu's seven all-zero days, and they
+    // were stored as if measured. Nothing reads the column (ruling 2026-09-27).
+    const zeroDay = {
+      calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, sodium: 0, sugar: 0,
+      gregsEnergy: 0, monicaConstant: 0, kalchm: 0,
+      elementalBalance: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    };
+    const response = await PUT(
+      makeRequest({
+        weekStartDate: "2026-08-23T00:00:00.000Z",
+        nutritionalTotals: { 0: zeroDay, 1: zeroDay, 2: zeroDay, 3: zeroDay, 4: zeroDay, 5: zeroDay, 6: zeroDay },
+      }),
+    );
+
+    expect(response.status).toBe(200);
+    const stored = jest.mocked(menuPersistenceService.upsertMenu).mock.lastCall?.[1];
+    expect(stored).toMatchObject({ weekStartDate: new Date("2026-08-23T00:00:00.000Z") });
+    expect(stored).not.toHaveProperty("nutritionalTotals");
   });
 });
 
@@ -210,7 +230,6 @@ describe("GET /api/menu-planner/menus", () => {
       id: "menu-123",
       weekStartDate: new Date("2026-08-23T00:00:00.000Z"),
       meals: [],
-      nutritionalTotals: {},
       groceryList: [],
       inventory: ["salt", "pepper"],
       weeklyBudget: 150,
@@ -230,6 +249,8 @@ describe("GET /api/menu-planner/menus", () => {
     expect(body.menu.id).toBe("menu-123");
     expect(body.menu.savedAsTemplate).toBe(false);
     expect(body.menu.inventory).toEqual(["salt", "pepper"]);
+    // No stored totals are served: the planner computes them live from meals.
+    expect(body.menu).not.toHaveProperty("nutritionalTotals");
   });
 });
 

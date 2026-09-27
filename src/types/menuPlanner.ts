@@ -237,14 +237,15 @@ export type GroceryCategory =
   | "other";
 
 /**
- * Complete weekly menu structure
+ * Complete weekly menu structure. It carries no stored nutrition totals: day
+ * totals are computed live from `meals` (owner ruling 2026-09-27; see
+ * `services/menuPersistenceQueries.ts`).
  */
 export interface WeeklyMenu {
   id: string;
   weekStartDate: Date;
   weekEndDate: Date;
   meals: MealSlot[];
-  nutritionalTotals: Record<DayOfWeek, DailyNutritionTotals>;
   groceryList: GroceryItem[];
   savedAsTemplate: boolean;
   templateName?: string;

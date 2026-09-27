@@ -75,7 +75,6 @@ export function useMenuPersistence({
             name,
             weekStartDate: currentMenu.weekStartDate,
             meals: currentMenu.meals,
-            nutritionalTotals: currentMenu.nutritionalTotals,
             groceryList,
             inventory,
             weeklyBudget,
