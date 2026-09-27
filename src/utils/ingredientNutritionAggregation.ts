@@ -13,6 +13,11 @@
 // report a misleadingly low total.
 
 import type { Recipe } from "@/types/recipe";
+import {
+  addDailyValueFractions,
+  readDailyValueFractions,
+  scaleDailyValueFractions,
+} from "./dailyValueFractions";
 import { resolveIngredientByName } from "./ingredientResolution";
 import { UNIT_CONVERSIONS, convertToGrams } from "./unitConversion";
 import type { NormalizedRecipeNutrition } from "./recipeNutrition";
@@ -75,6 +80,8 @@ interface NutritionalMacros {
   sugar?: number;
   sodium?: number;
   saturatedFat?: number;
+  potassium?: number;
+  cholesterol?: number;
 }
 
 interface NutritionalProfileShape {
@@ -86,6 +93,8 @@ interface NutritionalProfileShape {
   fiber?: number;
   sugar?: number;
   sodium?: number;
+  potassium?: number;
+  cholesterol?: number;
   vitamins?: Record<string, number> | string[];
   minerals?: Record<string, number> | string[];
   serving_size?: string;
@@ -96,49 +105,16 @@ function readNum(value: unknown): number {
   return Number.isFinite(n) ? n : 0;
 }
 
-type MicronutrientKey =
-  | "vitaminA"
-  | "vitaminC"
-  | "vitaminD"
-  | "vitaminE"
-  | "vitaminK"
-  | "thiamin"
-  | "riboflavin"
-  | "niacin"
-  | "vitaminB6"
-  | "vitaminB12"
-  | "folate"
-  | "calcium"
-  | "iron"
-  | "magnesium"
-  | "phosphorus"
-  | "potassium"
-  | "zinc"
-  | "copper"
-  | "manganese"
-  | "selenium";
-
-const microKeys: readonly MicronutrientKey[] = [
-  "vitaminA",
-  "vitaminC",
-  "vitaminD",
-  "vitaminE",
-  "vitaminK",
-  "thiamin",
-  "riboflavin",
-  "niacin",
-  "vitaminB6",
-  "vitaminB12",
-  "folate",
-  "calcium",
-  "iron",
-  "magnesium",
-  "phosphorus",
+/**
+ * Published in mg only when every ingredient in the total carries a value
+ * (owner ruling 2026-09-27). Profiles keep both in `macros` as mg: against
+ * USDA they match per serving for 13 of 16 and 6 of 6 FDC-pinned ingredients.
+ * A missing value is not 0 mg, so one gap leaves the recipe's figure absent.
+ * (`minerals.potassium` is a Daily Value fraction; it used to stand in here.)
+ */
+const COMPLETE_ONLY: ReadonlyArray<"potassium" | "cholesterol"> = [
   "potassium",
-  "zinc",
-  "copper",
-  "manganese",
-  "selenium",
+  "cholesterol",
 ];
 
 function emptyNutrition(): NormalizedRecipeNutrition {
@@ -171,12 +147,16 @@ function addNutrition(
   if (b.saturatedFat != null) {
     a.saturatedFat = (a.saturatedFat ?? 0) + b.saturatedFat;
   }
-  for (const k of microKeys) {
+  for (const k of COMPLETE_ONLY) {
     const bv = b[k];
-    if (typeof bv === "number" && Number.isFinite(bv)) {
-      const prev = a[k];
-      a[k] = (typeof prev === "number" ? prev : 0) + bv;
-    }
+    const sum = a[k] ?? 0;
+    // NaN marks a gap; `scaleNutrition` drops it, so the total publishes nothing.
+    a[k] = typeof bv === "number" && !Number.isNaN(sum) ? sum + bv : NaN;
+  }
+  if (b.dailyValue) {
+    a.dailyValue = a.dailyValue
+      ? addDailyValueFractions(a.dailyValue, b.dailyValue)
+      : b.dailyValue;
   }
 }
 
@@ -196,12 +176,13 @@ function scaleNutrition(
   };
   if (n.saturatedFat != null) out.saturatedFat = n.saturatedFat * factor;
 
-  for (const k of microKeys) {
+  for (const k of COMPLETE_ONLY) {
     const v = n[k];
     if (typeof v === "number" && Number.isFinite(v)) {
       out[k] = v * factor;
     }
   }
+  if (n.dailyValue) out.dailyValue = scaleDailyValueFractions(n.dailyValue, factor);
   return out;
 }
 
@@ -237,50 +218,12 @@ function profileToNutrition(
     out.sodium = readNum(profile.sodium);
   }
 
-  // Copy numeric vitamin/mineral records when present.
-  if (profile.vitamins && !Array.isArray(profile.vitamins)) {
-    const vits = profile.vitamins;
-    const pick = (
-      target: MicronutrientKey,
-      ...keys: string[]
-    ): void => {
-      for (const k of keys) {
-        if (typeof vits[k] === "number") {
-          out[target] = vits[k];
-          return;
-        }
-      }
-    };
-    pick("vitaminA", "A", "a", "vitaminA");
-    pick("vitaminC", "C", "c", "vitaminC");
-    pick("vitaminD", "D", "d", "vitaminD");
-    pick("vitaminE", "E", "e", "vitaminE");
-    pick("vitaminK", "K", "k", "vitaminK");
-    pick("vitaminB6", "B6", "b6", "vitaminB6");
-    pick("vitaminB12", "B12", "b12", "vitaminB12");
-    pick("folate", "folate", "Folate");
-    pick("thiamin", "B1", "b1", "thiamin");
-    pick("riboflavin", "B2", "b2", "riboflavin");
-    pick("niacin", "B3", "b3", "niacin");
+  for (const k of COMPLETE_ONLY) {
+    const mg = profile.macros ? profile.macros[k] : profile[k];
+    if (typeof mg === "number" && Number.isFinite(mg)) out[k] = mg;
   }
-  if (profile.minerals && !Array.isArray(profile.minerals)) {
-    const min = profile.minerals;
-    for (const key of [
-      "calcium",
-      "iron",
-      "magnesium",
-      "phosphorus",
-      "potassium",
-      "zinc",
-      "copper",
-      "manganese",
-      "selenium",
-    ] as const) {
-      if (typeof min[key] === "number") {
-        out[key] = min[key];
-      }
-    }
-  }
+  // Vitamins and minerals are Daily Value fractions, never amounts.
+  out.dailyValue = readDailyValueFractions(profile);
   return out;
 }
 
