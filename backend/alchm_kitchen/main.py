@@ -1802,36 +1802,38 @@ async def get_current_moment_cuisine_recommendations(
         current_state = {}
 
         if not zodiac_sign or not season:
-            try:
-                # Use backend-native calculation
-                now = datetime.utcnow()
-                result = calculate_planetary_positions_swisseph(
-                    now.year, now.month, now.day, now.hour, now.minute,
-                    FOREST_HILLS_COORDINATES["latitude"],
-                    FOREST_HILLS_COORDINATES["longitude"],
-                    "tropical"
-                )
-                
-                if "positions" in result:
-                    sun_pos = result["positions"].get("Sun", {})
-                    zodiac_sign = zodiac_sign or sun_pos.get("sign")
-                
-                # Determine season from month
-                if not season:
-                    month = now.month
-                    if month in [3, 4, 5]: season = "Spring"
-                    elif month in [6, 7, 8]: season = "Summer"
-                    elif month in [9, 10, 11]: season = "Autumn"
-                    else: season = "Winter"
-            except Exception as e:
-                print(f"Native astrological state calculation failed: {e}")
-                # Fallback to defaults
-                zodiac_sign = zodiac_sign or 'Libra'
-                season = season or 'Autumn'
+            now = datetime.utcnow()
 
-        # Normalize and validate inputs
-        if zodiac_sign:
-            zodiac_sign = zodiac_sign.capitalize()
+            # Determine season from month. It follows from the date alone, so it
+            # needs no ephemeris.
+            if not season:
+                month = now.month
+                if month in [3, 4, 5]: season = "Spring"
+                elif month in [6, 7, 8]: season = "Summer"
+                elif month in [9, 10, 11]: season = "Autumn"
+                else: season = "Winter"
+
+            if not zodiac_sign:
+                try:
+                    # Use backend-native calculation
+                    result = calculate_planetary_positions_swisseph(
+                        now.year, now.month, now.day, now.hour, now.minute,
+                        FOREST_HILLS_COORDINATES["latitude"],
+                        FOREST_HILLS_COORDINATES["longitude"],
+                        "tropical"
+                    )
+
+                    if "positions" in result:
+                        sun_pos = result["positions"].get("Sun", {})
+                        zodiac_sign = sun_pos.get("sign")
+                except Exception as e:
+                    # Without the ephemeris there is no Sun sign. Leave it None
+                    # (no sign term) rather than inventing one.
+                    print(f"Native astrological state calculation failed: {e}")
+
+        # Normalize and validate inputs. A sign the ephemeris could not supply
+        # stays None: the recommendations then rest on the season alone.
+        zodiac_sign = zodiac_sign.capitalize() if zodiac_sign else None
         
         if season:
             season = season.capitalize()
@@ -1845,7 +1847,7 @@ async def get_current_moment_cuisine_recommendations(
         valid_seasons = ['Spring', 'Summer', 'Autumn', 'Winter']
         valid_meals = ['breakfast', 'lunch', 'dinner', 'dessert']
 
-        if zodiac_sign not in valid_signs:
+        if zodiac_sign is not None and zodiac_sign not in valid_signs:
             raise HTTPException(status_code=400, detail=f"Invalid zodiac sign: {zodiac_sign}")
         if season not in valid_seasons:
             raise HTTPException(status_code=400, detail=f"Invalid season: {season}")
@@ -1872,7 +1874,11 @@ async def get_current_moment_cuisine_recommendations(
                     recommendations.append({
                         **cuisine_data,
                         "astrological_score": score,
-                        "compatibility_reason": f"Harmonizes with {zodiac_sign} energy and {season} seasonal flow"
+                        "compatibility_reason": (
+                            f"Harmonizes with {zodiac_sign} energy and {season} seasonal flow"
+                            if zodiac_sign
+                            else f"Harmonizes with the {season} seasonal flow"
+                        )
                     })
                 else:
                     print(f"DEBUG: No cuisine data returned for {cuisine_id}")
@@ -1908,18 +1914,19 @@ async def get_current_moment_cuisine_recommendations(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get cuisine recommendations: {str(e)}")
 
-async def calculate_cuisine_astrological_compatibility(zodiac_sign: str, season: str, db: Session) -> Dict[str, float]:
+async def calculate_cuisine_astrological_compatibility(zodiac_sign: Optional[str], season: str, db: Session) -> Dict[str, float]:
     """Calculate cuisine compatibility scores based on astrological factors."""
     scores = {}
     zodiac_affinities = []
     seasonal_assocs = []
 
     try:
-        # Zodiac affinity scores
-        zodiac_affinities = db.query(ZodiacAffinity).filter(
-            ZodiacAffinity.zodiac_sign == zodiac_sign,
-            ZodiacAffinity.affinity_strength > 0.5
-        ).all()
+        # Zodiac affinity scores. With no sign there is no zodiac term.
+        if zodiac_sign is not None:
+            zodiac_affinities = db.query(ZodiacAffinity).filter(
+                ZodiacAffinity.zodiac_sign == zodiac_sign,
+                ZodiacAffinity.affinity_strength > 0.5
+            ).all()
 
         # Seasonal compatibility scores
         seasonal_assocs = db.query(SeasonalAssociation).filter(
@@ -1960,7 +1967,7 @@ async def calculate_cuisine_astrological_compatibility(zodiac_sign: str, season:
     return scores
 
 async def get_cuisine_with_nested_data(cuisine_id: str, season: str, meal_type: Optional[str],
-                                     zodiac_sign: str, db: Session) -> Optional[Dict[str, Any]]:
+                                     zodiac_sign: Optional[str], db: Session) -> Optional[Dict[str, Any]]:
     """Get comprehensive cuisine data with nested recipes and sauces."""
     try:
         # Get cuisine data from external source or database
@@ -2003,7 +2010,11 @@ async def get_cuisine_with_nested_data(cuisine_id: str, season: str, meal_type: 
             "elemental_properties": cuisine_data.get('elementalProperties', {}),
             "nested_recipes": nested_recipes,
             "recommended_sauces": sauce_recommendations,
-            "seasonal_context": f"Perfect for {season} with {zodiac_sign} energy"
+            "seasonal_context": (
+                f"Perfect for {season} with {zodiac_sign} energy"
+                if zodiac_sign
+                else f"Perfect for {season}"
+            )
         }
 
     except Exception as e:
@@ -2102,7 +2113,7 @@ async def get_nested_recipes_for_cuisine(cuisine_id: str, season: str,
         print(f"Error getting nested recipes for {cuisine_id}: {e}")
         return []
 
-async def get_sauce_recommendations_for_cuisine(cuisine_id: str, zodiac_sign: str, season: str) -> List[Dict[str, Any]]:
+async def get_sauce_recommendations_for_cuisine(cuisine_id: str, zodiac_sign: Optional[str], season: str) -> List[Dict[str, Any]]:
     """Get sauce recommendations for a cuisine based on astrological factors."""
     try:
         sauce_recommendations = []
@@ -2111,9 +2122,10 @@ async def get_sauce_recommendations_for_cuisine(cuisine_id: str, zodiac_sign: st
             # Get sauces that match the cuisine and astrological factors
             for sauce_name, sauce_data in allSauces.items():
                 if sauce_data.get('cuisine', '').lower() == cuisine_id.lower():
-                    # Check astrological compatibility
-                    astro_match = any(sign.lower() in sauce_data.get('astrologicalInfluences', [])
-                                    for sign in [zodiac_sign.lower()])
+                    # Check astrological compatibility (none without a sign)
+                    astro_match = zodiac_sign is not None and any(
+                        sign.lower() in sauce_data.get('astrologicalInfluences', [])
+                        for sign in [zodiac_sign.lower()])
 
                     # Check seasonal compatibility
                     seasonal_match = season.lower() in sauce_data.get('seasonality', '').lower()
@@ -2145,7 +2157,11 @@ async def get_sauce_recommendations_for_cuisine(cuisine_id: str, zodiac_sign: st
                     "sauce_name": sauce,
                     "description": f"Authentic {sauce} for {cuisine_id.title()} cuisine",
                     "compatibility_score": 0.7,
-                    "reason": f"Traditional {season.lower()} pairing with {zodiac_sign} harmony"
+                    "reason": (
+                        f"Traditional {season.lower()} pairing with {zodiac_sign} harmony"
+                        if zodiac_sign
+                        else f"Traditional {season.lower()} pairing"
+                    )
                 })
 
         return sauce_recommendations[:3]  # Limit to 3 sauce recommendations

@@ -113,6 +113,19 @@ jobs:
         # the step above, so it keeps the pytest-only install.
         run: python -m pytest backend/tests/test_main_sign_element.py -q
 
+      - name: Deployed-server cuisine recommender sky (Python)
+        # GET /cuisines/recommend fell back to Libra/Autumn when the ephemeris
+        # failed. Now the season comes from the date and a missing sign stays
+        # None. The test extracts the endpoint from main.py's source and runs it
+        # with stubs, so it too keeps the pytest-only install.
+        run: python -m pytest backend/tests/test_main_cuisine_recommend_sky.py -q
+
+      - name: Deployed-server excluded bodies (Python)
+        # Nodes, MC and other abstract points must not contribute mass or
+        # element in main.py's alchemize paths (parity with the TS gate). The
+        # file existed but no workflow ran it. AST extraction, pytest only.
+        run: python -m pytest backend/tests/test_main_excluded_bodies.py -q
+
   # ---------------------------------------------------------------------------
   # PRE-MERGE. The two gates a PULL REQUEST DIFF can actually break, run BEFORE
   # the code reaches master.
