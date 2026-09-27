@@ -29,6 +29,29 @@ const MEASURES: ReadonlyMap<string, string> = new Map([
   ["teaspoon", "tsp"],
 ]);
 
+/**
+ * Qualifiers that weigh something other than the ingredient as a recipe
+ * measures it. Such a portion is never the ingredient's cup or spoon.
+ *
+ * - "whipped" is a different state of the food: half of it is air. FDC 170859
+ *   (heavy whipping cream) says so itself — "1 cup, fluid (yields 2 cups
+ *   whipped)" = 238 g against "1 cup, whipped" = 120 g — and its plain tbsp
+ *   (15 g) is the fluid one (238 / 16 = 14.9). Taken first, it had made every
+ *   recipe's cup of cream weigh half what it does.
+ * - "in shell" fills the cup with shells: FDC 170187 yields 28 g of walnut from
+ *   it. No row selects it today; it is listed so none ever does.
+ *
+ * A cut — chopped, diced, sliced, grated, crumbled, ground, whole — is the
+ * same food measured another way, and stays.
+ */
+const NOT_THE_INGREDIENT: readonly RegExp[] = [/\bwhipped\b/i, /\bin shell\b/i];
+
+/** A qualifier's own words, without its parenthetical ("fluid (yields 2 cups whipped)" is fluid). */
+function describesAnotherFood(qualifier: string | undefined): boolean {
+  const words = (qualifier ?? "").replace(/\([^)]*\)/g, "");
+  return NOT_THE_INGREDIENT.some((pattern) => pattern.test(words));
+}
+
 interface Weighed {
   qualifier?: string;
   grams: number;
@@ -45,13 +68,14 @@ function readLabel(label: string): { measure: string; qualifier?: string } | nul
 
 /**
  * Each measure's weight. The first portion read wins, except that a plain
- * measure always replaces a qualified one.
+ * measure always replaces a qualified one, and a portion of another food
+ * (`NOT_THE_INGREDIENT`) is never read.
  */
 function weighMeasures(portions: FdcRecord["portions"]): Map<string, Weighed> {
   const chosen = new Map<string, Weighed>();
   for (const p of portions) {
     const read = readLabel(p.modifier ?? p.unit);
-    if (read === null || !(p.amount > 0)) continue;
+    if (read === null || !(p.amount > 0) || describesAnotherFood(read.qualifier)) continue;
     const weighed: Weighed = { grams: p.gramWeight / p.amount };
     if (read.qualifier !== undefined) weighed.qualifier = read.qualifier;
     const current = chosen.get(read.measure);
@@ -82,8 +106,9 @@ const HEADER = `/**
  * MEASURED household-measure weights, from USDA FoodData Central.
  *
  * ⚠️ GENERATED — do not hand-edit. Regenerate with:
- *     FDC_API_KEY=… bun run fetch:portions
- * then re-run the generator in that script's docs. Every row carries the
+ *     bun run generate:volume-portions        (offline, from scripts/data/usda-portions.json)
+ *     FDC_API_KEY=… bun run fetch:portions    (refetch, then regenerate)
+ * The rules are in scripts/lib/volumePortionsSource.ts. Every row carries the
  * \`fdcId\` it came from, so any figure here can be checked against its source.
  *
  * ── Why this file has to exist ──────────────────────────────────────────────
@@ -121,7 +146,8 @@ export interface MeasuredPortion {
   /**
    * The preparation USDA measured, where the portion was qualified —
    * "chopped", "ground", "shredded". Present only for a qualified measure; an
-   * unqualified one always wins over a qualified one for the same measure.
+   * unqualified one always wins over a qualified one for the same measure, and
+   * a qualifier naming another food ("whipped", "in shell") is never used.
    *
    * It matters: a cup of CHOPPED onion and a cup of whole onion are different
    * masses, and the reader deserves to know which was weighed.

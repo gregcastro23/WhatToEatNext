@@ -50,6 +50,19 @@ describe("volume conversion uses measurements where they exist", () => {
     expect(convertToGramsDetailed(1, "cup", "granulated sugar")!.basis).toBe("usda-measured");
   });
 
+  it("weighs a recipe's cup of cream fluid, not whipped", () => {
+    // FDC 170859 publishes both: "1 cup, fluid (yields 2 cups whipped)" = 238 g
+    // and "1 cup, whipped" = 120 g. Every recipe line measures the cream fluid;
+    // taking the whipped cup had halved it (clam chowder's 2 cups: 240 g).
+    expect(convertToGramsDetailed(2, "cups", "heavy cream")).toEqual({
+      grams: 476,
+      basis: "usda-measured",
+      fdcId: 170859,
+    });
+    expect(convertToGramsDetailed(1, "cup", "heavy whipping cream")?.grams).toBe(238);
+    expect(convertToGramsDetailed(1, "pint", "heavy cream")?.grams).toBe(476);
+  });
+
   it("LABELS the fallback rather than letting absence look like data", () => {
     // The defect was never that a number was wrong. It was that a number was
     // always returned, with nothing to say it had been assumed.
