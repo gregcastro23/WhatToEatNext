@@ -130,7 +130,13 @@ describe("diffAssertions", () => {
 
     it("resolves a default git base ref in the current repository", () => {
       const base = resolveBaseRef();
-      expect(["origin/master", "master", "origin/main", "main"]).toContain(base);
+      // In a pull request, CI names the PR's base branch, and resolveBaseRef
+      // diffs against it; a PR stacked on another PR's branch has that branch
+      // as its base, not master.
+      const prBase = process.env.GITHUB_BASE_REF;
+      const accepted = ["origin/master", "master", "origin/main", "main"];
+      if (prBase) accepted.push(`origin/${prBase}`, prBase);
+      expect(accepted).toContain(base);
     });
 
     it("fails closed when merge-base cannot be resolved", () => {
