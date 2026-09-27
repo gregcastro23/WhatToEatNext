@@ -1977,8 +1977,8 @@ async def get_cuisine_with_nested_data(cuisine_id: str, season: str, meal_type: 
             cuisine_data = cuisines[cuisine_id]
             print(f"DEBUG: Found cuisine data for {cuisine_id}")
         else:
-            # Fallback to database query
-            # For now, return a basic structure
+            # No cuisine record: name the cuisine, but claim no elemental
+            # profile. A balanced 0.25 each would be a profile with no basis.
             cuisine_names = {
                 'italian': 'Italian', 'french': 'French', 'japanese': 'Japanese',
                 'indian': 'Indian', 'chinese': 'Chinese', 'mexican': 'Mexican',
@@ -1990,7 +1990,6 @@ async def get_cuisine_with_nested_data(cuisine_id: str, season: str, meal_type: 
                 'id': cuisine_id,
                 'name': cuisine_names.get(cuisine_id, cuisine_id.title()),
                 'description': f'Authentic {cuisine_names.get(cuisine_id, cuisine_id.title())} cuisine',
-                'elementalProperties': {'Fire': 0.25, 'Water': 0.25, 'Earth': 0.25, 'Air': 0.25}
             }
 
         if not cuisine_data:
@@ -2007,7 +2006,9 @@ async def get_cuisine_with_nested_data(cuisine_id: str, season: str, meal_type: 
             "cuisine_id": cuisine_id,
             "name": cuisine_data.get('name', cuisine_id.title()),
             "description": cuisine_data.get('description', ''),
-            "elemental_properties": cuisine_data.get('elementalProperties', {}),
+            # None, not {}, when the record has no profile: an empty object
+            # reads as "a profile with nothing in it".
+            "elemental_properties": cuisine_data.get('elementalProperties'),
             "nested_recipes": nested_recipes,
             "recommended_sauces": sauce_recommendations,
             "seasonal_context": (
