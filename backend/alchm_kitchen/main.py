@@ -81,12 +81,8 @@ except ImportError:
     CUISINES_AVAILABLE = False
     cuisines = {}
 
-try:
-    from src.data.sauces import allSauces
-    SAUCES_AVAILABLE = True
-except ImportError:
-    SAUCES_AVAILABLE = False
-    allSauces = {}
+# The sauce catalogue is data/json/sauces.json, read where it is used (see
+# get_sauce_recommendations_for_cuisine).
 
 PLANETARY_AGENTS_URL = os.getenv("PLANETARY_AGENTS_URL", "http://localhost:8000")
 
@@ -2119,27 +2115,35 @@ async def get_sauce_recommendations_for_cuisine(cuisine_id: str, zodiac_sign: Op
     try:
         sauce_recommendations = []
 
-        if SAUCES_AVAILABLE:
-            # Get sauces that match the cuisine and astrological factors
-            for sauce_name, sauce_data in allSauces.items():
-                if sauce_data.get('cuisine', '').lower() == cuisine_id.lower():
-                    # Check astrological compatibility (none without a sign)
-                    astro_match = zodiac_sign is not None and any(
-                        sign.lower() in sauce_data.get('astrologicalInfluences', [])
-                        for sign in [zodiac_sign.lower()])
+        # The catalogue is a JSON copy of src/data/sauces.ts `allSauces`; Python
+        # cannot import the TypeScript module itself.
+        all_sauces = load_json_file("sauces.json") or {}
 
-                    # Check seasonal compatibility
-                    seasonal_match = season.lower() in sauce_data.get('seasonality', '').lower()
+        # Get sauces that match the cuisine and astrological factors
+        for sauce_name, sauce_data in all_sauces.items():
+            if sauce_data.get('cuisine', '').lower() == cuisine_id.lower():
+                # Check astrological compatibility (none without a sign). The
+                # influences mix planets and signs, in either case.
+                influences = {str(i).lower() for i in sauce_data.get('astrologicalInfluences', [])}
+                astro_match = zodiac_sign is not None and zodiac_sign.lower() in influences
 
-                    if astro_match or seasonal_match:
-                        sauce_recommendations.append({
-                            "sauce_name": sauce_name,
-                            "description": sauce_data.get('description', ''),
-                            "key_ingredients": sauce_data.get('keyIngredients', []),
-                            "elemental_properties": sauce_data.get('elementalProperties', {}),
-                            "compatibility_score": 0.8 if astro_match and seasonal_match else 0.6,
-                            "reason": f"Matches {zodiac_sign} energy" if astro_match else f"Perfect for {season}"
-                        })
+                # Check seasonal compatibility: seasonality lists seasons
+                # ("autumn, winter") or says "all".
+                seasons = {s.strip() for s in sauce_data.get('seasonality', '').lower().split(',')}
+                seasonal_match = 'all' in seasons or season.lower() in seasons
+
+                if astro_match or seasonal_match:
+                    sauce_recommendations.append({
+                        "sauce_name": sauce_data.get('name', sauce_name),
+                        "description": sauce_data.get('description', ''),
+                        "key_ingredients": sauce_data.get('keyIngredients', []),
+                        "elemental_properties": sauce_data.get('elementalProperties'),
+                        "compatibility_score": 0.8 if astro_match and seasonal_match else 0.6,
+                        "reason": f"Matches {zodiac_sign} energy" if astro_match else f"Perfect for {season}"
+                    })
+
+        # Sign-and-season matches before single matches (the sort is stable).
+        sauce_recommendations.sort(key=lambda s: s["compatibility_score"], reverse=True)
 
         # If no sauces found, provide generic recommendations
         if not sauce_recommendations:

@@ -231,7 +231,7 @@ def test_control_an_invalid_client_sign_is_still_rejected():
 def _sauces(available, all_sauces):
     namespace = {
         "List": List, "Dict": Dict, "Any": Any,
-        "SAUCES_AVAILABLE": available, "allSauces": all_sauces,
+        "load_json_file": lambda _name: all_sauces if available else None,
     }
     return _load(SAUCES, namespace)
 
