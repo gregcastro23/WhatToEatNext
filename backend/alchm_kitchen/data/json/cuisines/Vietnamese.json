@@ -1,10 +1,10 @@
 {
   "name": "Vietnamese",
   "elementalProperties": {
-    "Water": 0.4,
-    "Fire": 0.2,
-    "Earth": 0.2,
-    "Air": 0.2
+    "Fire": 0.2696,
+    "Water": 0.3272,
+    "Earth": 0.2533,
+    "Air": 0.15
   },
   "description": "Fresh, light flavors with an emphasis on herbs and clear broths.",
   "id": "vietnamese",
@@ -46,5 +46,9 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": []
+  "astrologicalInfluences": [],
+  "elementalProfileBasis": {
+    "method": "recipe-mean",
+    "recipes": 46
+  }
 }
