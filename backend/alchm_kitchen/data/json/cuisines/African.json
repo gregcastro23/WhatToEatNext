@@ -1,10 +1,10 @@
 {
   "name": "African",
   "elementalProperties": {
-    "Fire": 0.3,
-    "Earth": 0.4,
-    "Water": 0.2,
-    "Air": 0.1
+    "Fire": 0.3303,
+    "Water": 0.2592,
+    "Earth": 0.3079,
+    "Air": 0.1026
   },
   "description": "Rich and diverse culinary traditions from across the African continent.",
   "id": "african",
@@ -46,5 +46,9 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": []
+  "astrologicalInfluences": [],
+  "elementalProfileBasis": {
+    "method": "recipe-mean",
+    "recipes": 38
+  }
 }

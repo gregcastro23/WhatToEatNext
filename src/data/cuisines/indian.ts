@@ -1,4 +1,5 @@
 // src/data/cuisines/indian.ts
+import derivedProfiles from "./derivedProfiles.json";
 
 export const indian = {
   id: "indian",
@@ -5741,12 +5742,7 @@ export const indian = {
       seasonality: "all",
     },
   },
-  elementalProperties: {
-    Fire: 0.5,
-    Earth: 0.2,
-    Water: 0.2,
-    Air: 0.1,
-  },
+  elementalProperties: derivedProfiles.cuisines.Indian.elementalProperties,
 };
 
 export default indian;

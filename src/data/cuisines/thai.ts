@@ -1,5 +1,6 @@
 // src/data/cuisines/thai.ts
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const thai: Cuisine = {
   id: "thai",
@@ -3428,12 +3429,7 @@ export const thai: Cuisine = {
         "Emphasizes aesthetic beauty, balance of flavors, and sophisticated presentation",
     },
   ],
-  elementalProperties: {
-    Fire: 0.35, // Represents spicy elements, chili heat, and grilling techniques,
-    Water: 0.25, // Represents soups, coconut-based dishes, and steaming,
-    Earth: 0.25, // Represents grains, proteins, and root vegetables,
-    Air: 0.15, // Represents herbs, aromatics, and light textures
-  },
+  elementalProperties: derivedProfiles.cuisines.Thai.elementalProperties,
 };
 
 export default thai;

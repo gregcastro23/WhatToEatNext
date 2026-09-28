@@ -1,5 +1,6 @@
 // src/data/cuisines/japanese.ts
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const japanese: Cuisine = {
   id: "japanese",
@@ -3803,12 +3804,7 @@ export const japanese: Cuisine = {
       ],
     },
   },
-  elementalProperties: {
-    Water: 0.35, // Represents broths, gentle cooking methods, and seafood focus,
-    Earth: 0.3, // Represents grounding rice, roots, and umami elements,
-    Air: 0.2, // Represents lightness, seasonal awareness, and presentation,
-    Fire: 0.15, // Represents grilling techniques and wasabi heat
-  },
+  elementalProperties: derivedProfiles.cuisines.Japanese.elementalProperties,
   astrologicalInfluences: [
     "Neptune - Governs the subtle dashi broths and seafood elements",
     "Mercury - Influences the precision and attention to detail",
