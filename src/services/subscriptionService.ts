@@ -1,7 +1,9 @@
 /**
  * Subscription Service
  *
- * Manages user subscription state, usage tracking, and feature gating.
+ * Keeps each user's Stripe customer / subscription record. It grants nothing:
+ * the premium tier is retired (owner ruling 2026-09-28), so no method reads or
+ * writes `user_subscriptions.tier`, which stays in the table as inert history.
  * Uses PostgreSQL for persistent storage with in-memory fallback.
  *
  * @file src/services/subscriptionService.ts
@@ -9,12 +11,7 @@
 
 import { randomUUID } from "crypto";
 import { _logger } from "@/lib/logger";
-import type {
-  SubscriptionTier as _SubscriptionTier,
-  SubscriptionStatus as _SubscriptionStatus,
-  UserSubscription,
-  UsageRecord,
-} from "@/types/subscription";
+import type { UserSubscription } from "@/types/subscription";
 
 const isServerWithDB = (): boolean => typeof window === "undefined" && !!process.env.DATABASE_URL;
 
@@ -32,7 +29,6 @@ const getDbModule = async (): Promise<typeof import("@/lib/database") | null> =>
 
 // In-memory fallback
 const memorySubscriptions = new Map<string, UserSubscription>();
-const memoryUsage = new Map<string, UsageRecord>();
 
 function getCurrentPeriod(): { start: string; end: string } {
   const now = new Date();
@@ -50,7 +46,7 @@ class SubscriptionService {
     if (db) {
       try {
         const result = await db.executeQuery<UserSubscription>(
-          `SELECT id, user_id as "userId", tier, status,
+          `SELECT id, user_id as "userId", status,
                   stripe_customer_id as "stripeCustomerId",
                   stripe_subscription_id as "stripeSubscriptionId",
                   current_period_start as "currentPeriodStart",
@@ -67,14 +63,12 @@ class SubscriptionService {
       }
     }
     sub ??= memorySubscriptions.get(userId) ?? null;
-    // In ESMS Token Economy, default active status with free/standard tier
     if (sub) {
       return {
         ...sub,
         status: "active",
       };
     }
-    // Auto-provision standard free tier for new users
     return this.createDefaultSubscription(userId);
   }
 
@@ -92,7 +86,6 @@ class SubscriptionService {
     const sub: UserSubscription = {
       id: randomUUID(),
       userId,
-      tier: "free",
       status: "active",
       stripeCustomerId: null,
       stripeSubscriptionId: null,
@@ -108,15 +101,14 @@ class SubscriptionService {
       try {
         await db.executeQuery(
           `INSERT INTO user_subscriptions (
-            id, user_id, tier, status,
+            id, user_id, status,
             current_period_start, current_period_end,
             cancel_at_period_end, created_at, updated_at
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
           ON CONFLICT (user_id) DO NOTHING`,
           [
             sub.id,
             sub.userId,
-            sub.tier,
             sub.status,
             sub.currentPeriodStart,
             sub.currentPeriodEnd,
@@ -138,7 +130,6 @@ class SubscriptionService {
     updates: Partial<
       Pick<
         UserSubscription,
-        | "tier"
         | "status"
         | "stripeCustomerId"
         | "stripeSubscriptionId"
@@ -155,10 +146,6 @@ class SubscriptionService {
         const values: unknown[] = [];
         let idx = 1;
 
-        if (updates.tier !== undefined) {
-          setClauses.push(`tier = $${idx++}`);
-          values.push(updates.tier);
-        }
         if (updates.status !== undefined) {
           setClauses.push(`status = $${idx++}`);
           values.push(updates.status);
@@ -188,7 +175,7 @@ class SubscriptionService {
         const result = await db.executeQuery<UserSubscription>(
           `UPDATE user_subscriptions SET ${setClauses.join(", ")}
            WHERE user_id = $${idx}
-           RETURNING id, user_id as "userId", tier, status,
+           RETURNING id, user_id as "userId", status,
                      stripe_customer_id as "stripeCustomerId",
                      stripe_subscription_id as "stripeSubscriptionId",
                      current_period_start as "currentPeriodStart",
@@ -218,87 +205,6 @@ class SubscriptionService {
     return null;
   }
 
-  async getUsage(
-    userId: string,
-    feature: string,
-  ): Promise<number> {
-    const period = getCurrentPeriod();
-    const db = await getDbModule();
-
-    if (db) {
-      try {
-        const result = await db.executeQuery<{ count: number }>(
-          `SELECT count FROM usage_records
-           WHERE user_id = $1 AND feature = $2 AND period_start = $3`,
-          [userId, feature, period.start],
-        );
-        return result.rows[0]?.count ?? 0;
-      } catch (error) {
-        _logger.error("[subscriptionService] Usage query failed:", error);
-      }
-    }
-
-    const key = `${userId}:${feature}:${period.start}`;
-    return memoryUsage.get(key)?.count ?? 0;
-  }
-
-  async incrementUsage(
-    userId: string,
-    feature: string,
-  ): Promise<number> {
-    const period = getCurrentPeriod();
-    const db = await getDbModule();
-
-    if (db) {
-      try {
-        const result = await db.executeQuery<{ count: number }>(
-          `INSERT INTO usage_records (user_id, feature, count, period_start, period_end)
-           VALUES ($1, $2, 1, $3, $4)
-           ON CONFLICT (user_id, feature, period_start)
-           DO UPDATE SET count = usage_records.count + 1, updated_at = NOW()
-           RETURNING count`,
-          [userId, feature, period.start, period.end],
-        );
-        return result.rows[0]?.count ?? 1;
-      } catch (error) {
-        _logger.error("[subscriptionService] Increment failed:", error);
-      }
-    }
-
-    const key = `${userId}:${feature}:${period.start}`;
-    const existing = memoryUsage.get(key);
-    const newCount = (existing?.count ?? 0) + 1;
-    memoryUsage.set(key, {
-      userId,
-      feature,
-      count: newCount,
-      periodStart: period.start,
-      periodEnd: period.end,
-    });
-    return newCount;
-  }
-
-  /**
-   * Boolean feature-flag check: does the user's tier unlock this feature?
-   *
-   * NOTE: this is a feature-ACCESS gate, not a usage-rate cap. Usage rates
-   * (recipe generation etc.) are throttled by the token economy. Don't
-   * re-add a `monthlyRecipeGenerations` branch — see feedback_throttling_model.
-   */
-  canUseFeature(
-    userId: string,
-    _feature: string,
-  ): Promise<{ allowed: boolean; reason?: string }> {
-    if (!userId) {
-      return Promise.resolve({
-        allowed: false,
-        reason: "Authentication required — please sign in to use Alchm tools.",
-      });
-    }
-    // All tools are accessible via ESMS tokens in the token economy
-    return Promise.resolve({ allowed: true });
-  }
-
   async getSubscriptionByStripeCustomerId(
     stripeCustomerId: string,
   ): Promise<UserSubscription | null> {
@@ -306,7 +212,7 @@ class SubscriptionService {
     if (db) {
       try {
         const result = await db.executeQuery<UserSubscription>(
-          `SELECT id, user_id as "userId", tier, status,
+          `SELECT id, user_id as "userId", status,
                   stripe_customer_id as "stripeCustomerId",
                   stripe_subscription_id as "stripeSubscriptionId",
                   current_period_start as "currentPeriodStart",

@@ -27,7 +27,6 @@ export const TokenEconomyStateSchema = z
       matter: z.number(),
       substance: z.number(),
     }),
-    isPremium: z.boolean(),
     streakCount: z.number(),
     lastDailyClaimAt: z.string().nullable().optional(),
   })
