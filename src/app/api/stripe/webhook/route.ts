@@ -34,7 +34,7 @@ import { isHandledStripeEvent, stripeHookEvent } from "@/lib/hooks/stripe/stripe
 import { withObservability } from "@/lib/observability/withObservability";
 import { triggerOrderFulfillment } from "@/lib/orders/fulfillment";
 import { RESTAURANT_ORDER_PURPOSE } from "@/lib/payments/restaurantPayments";
-import type { SubscriptionTier, SubscriptionStatus } from "@/types/subscription";
+import type { SubscriptionStatus } from "@/types/subscription";
 import { createLogger } from "@/utils/logger";
 import type Stripe from "stripe";
 
@@ -551,8 +551,12 @@ export const POST = withObservability(
           break;
         }
 
+        // Records the Stripe customer, subscription and period only. It never
+        // sets a tier: the subscription tier is retired and grants nothing
+        // (owner ruling 2026-09-28), and no WTEN route opens a subscription-mode
+        // checkout, so this branch sees only checkouts made elsewhere on the
+        // shared Stripe account.
         const userId = session.metadata?.userId;
-        const tier = (session.metadata?.tier ?? "premium") as SubscriptionTier;
 
         if (userId && session.customer) {
           // Ensure record exists
@@ -574,7 +578,6 @@ export const POST = withObservability(
           }
 
           await subscriptionService.updateSubscription(userId, {
-            tier,
             status: "active",
             stripeCustomerId: session.customer as string,
             stripeSubscriptionId,
@@ -582,7 +585,7 @@ export const POST = withObservability(
             currentPeriodEnd,
           });
           logger.info(
-            `[webhook] Checkout completed: user=${userId} tier=${tier} sub=${stripeSubscriptionId}`,
+            `[webhook] Checkout completed: user=${userId} sub=${stripeSubscriptionId}`,
           );
         }
         break;
