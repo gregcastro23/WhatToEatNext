@@ -116,7 +116,8 @@
     "build:wasm": "bash scripts/build-thermo-wasm.sh",
     "fetch:composition": "node scripts/fetch-usda-composition.mjs",
     "apply:composition": "node scripts/apply-usda-composition.mjs",
-    "fetch:portions": "node scripts/fetch-usda-portions.mjs",
+    "fetch:portions": "node scripts/fetch-usda-portions.mjs && bun scripts/generate-count-portions.ts",
+    "generate:count-portions": "bun scripts/generate-count-portions.ts",
     "test:parity:rust": "cargo test -p thermo-core",
     "test:parity:boundary": "bun scripts/verify-boundary-solver-parity.mjs"
   },

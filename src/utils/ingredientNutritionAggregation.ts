@@ -39,8 +39,9 @@ export function parseServingSizeGrams(
 ): number | null {
   if (!servingSize) return null;
 
-  // Prefer the explicit grams annotation — `(148g)` / `(148 g)` / `(1.5g)`.
-  const explicit = servingSize.match(/\((\d+(?:\.\d+)?)\s*g\)/i);
+  // Prefer the explicit grams annotation — `(148g)` / `(148 g)` / `(1.5g)` /
+  // `(~17g)`. Missing the `~` form scored a 17 g egg yolk's calories as 100 g.
+  const explicit = servingSize.match(/\(~?\s*(\d+(?:\.\d+)?)\s*g\)/i);
   if (explicit) {
     const grams = Number(explicit[1]);
     if (Number.isFinite(grams) && grams > 0) return grams;
