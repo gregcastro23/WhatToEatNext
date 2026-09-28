@@ -133,6 +133,13 @@ jobs:
         # file existed but no workflow ran it. AST extraction, pytest only.
         run: python -m pytest backend/tests/test_main_excluded_bodies.py -q
 
+      - name: Deploy-time migration runner (Python)
+        # backend/scripts/run_init_migrations.py runs before uvicorn on every
+        # Railway deploy. A no-transaction migration first in line failed it
+        # ("set_session cannot be used inside a transaction"), so the deploy
+        # never became healthy. psycopg2 is faked, so pytest-only still holds.
+        run: python -m pytest backend/tests/test_run_init_migrations.py -q
+
   # ---------------------------------------------------------------------------
   # PRE-MERGE. The two gates a PULL REQUEST DIFF can actually break, run BEFORE
   # the code reaches master.
