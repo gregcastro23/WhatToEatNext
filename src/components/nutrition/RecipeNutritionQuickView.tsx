@@ -122,6 +122,17 @@ export function RecipeNutritionQuickView({
         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-mono bg-yellow-50 text-yellow-700">
           F:{Math.round(data.fat)}g
         </span>
+        {/* Compact keeps the opener small; it carries its own surface so it reads on dark slots */}
+        {onShowDetails && (
+          <button
+            type="button"
+            onClick={onShowDetails}
+            aria-label="Nutrition details"
+            className="inline-flex items-center px-1.5 py-0.5 rounded text-xs bg-amber-50 text-amber-800 border border-amber-200 hover:underline transition-colors"
+          >
+            Details →
+          </button>
+        )}
       </div>
     );
   }

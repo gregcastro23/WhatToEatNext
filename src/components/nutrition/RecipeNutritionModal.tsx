@@ -6,7 +6,8 @@
  * and compliance impact analysis.
  */
 
-import React from "react";
+import React, { useEffect, useId, useRef } from "react";
+import { createPortal } from "react-dom";
 import type {
   NutritionalSummary,
   WeeklyNutritionResult as _WeeklyNutritionResult,
@@ -122,13 +123,22 @@ export function RecipeNutritionModal({
   onClose,
   ingredientMapping,
 }: RecipeNutritionModalProps) {
+  const titleId = useId();
+  const closeRef = useRef<HTMLButtonElement>(null);
+  // Focus lands inside the dialog, so Escape reaches its key handler.
+  useEffect(() => {
+    if (isOpen) closeRef.current?.focus();
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const calories = published(recipe, "calories", servings) ?? 0;
   const hasNutrition =
     calories > 0 || (published(recipe, "protein", servings) ?? 0) > 0;
 
-  return (
+  // Portalled to <body>: the planner's meal slot has a backdrop-filter, which
+  // makes it the containing block for `fixed`, so inline the overlay filled only the slot.
+  return createPortal(
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
       role="presentation"
@@ -139,16 +149,27 @@ export function RecipeNutritionModal({
         if (event.key === "Escape") onClose();
       }}
     >
-      <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-hidden flex flex-col">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        className="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-hidden flex flex-col"
+      >
         {/* Sticky Header */}
         <div className="p-4 border-b-2 border-gray-800 bg-white flex items-center justify-between shrink-0">
           <div>
-            <h2 className="text-xl font-bold text-gray-900">{recipe.name}</h2>
+            <h2
+              id={titleId}
+              className="text-xl font-bold text-gray-900"
+            >
+              {recipe.name}
+            </h2>
             {recipe.cuisine && (
               <p className="text-sm text-gray-500">{recipe.cuisine}</p>
             )}
           </div>
           <button
+            ref={closeRef}
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
             aria-label="Close nutrition modal"
@@ -305,6 +326,7 @@ export function RecipeNutritionModal({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
