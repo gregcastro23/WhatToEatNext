@@ -1,5 +1,6 @@
 // src/data/cuisines/hsca.ts
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const cuisine: Cuisine = {
   id: "hsca",
@@ -81042,12 +81043,7 @@ export const cuisine: Cuisine = {
     "winter": []
   }
 },
-  elementalProperties: {
-    Fire: 0.25,
-    Earth: 0.35,
-    Water: 0.25,
-    Air: 0.15,
-  },
+  elementalProperties: derivedProfiles.cuisines.HSCA.elementalProperties,
   astrologicalInfluences: ["Moon", "Saturn", "Venus"],
 };
 

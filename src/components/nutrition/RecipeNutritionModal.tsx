@@ -6,13 +6,13 @@
  * and compliance impact analysis.
  */
 
-import React, { useMemo } from "react";
+import React from "react";
 import type {
   NutritionalSummary,
   WeeklyNutritionResult as _WeeklyNutritionResult,
 } from "@/types/nutrition";
-import { createEmptyNutritionalSummary } from "@/types/nutrition";
 import type { Recipe, IngredientMapping } from "@/types/recipe";
+import { DailyValueFootnote, DailyValueLabelRows } from "./DailyValueRows";
 
 interface RecipeNutritionModalProps {
   recipe: Recipe;
@@ -22,7 +22,11 @@ interface RecipeNutritionModalProps {
   ingredientMapping: IngredientMapping;
 }
 
-/** FDA Daily Values (2000 cal reference diet) */
+/**
+ * FDA Daily Values (2000 cal reference diet) for the rows shown as amounts.
+ * Vitamins and minerals come as %DV from the ingredient data instead
+ * (`DailyValueLabelRows`), because it records no amounts for them.
+ */
 const DAILY_VALUES: Partial<
   Record<keyof NutritionalSummary, { value: number; unit: string }>
 > = {
@@ -36,23 +40,7 @@ const DAILY_VALUES: Partial<
   fiber: { value: 28, unit: "g" },
   sugar: { value: 50, unit: "g" },
   protein: { value: 50, unit: "g" },
-  vitaminA: { value: 900, unit: "mcg" },
-  vitaminC: { value: 90, unit: "mg" },
-  vitaminD: { value: 20, unit: "mcg" },
-  vitaminE: { value: 15, unit: "mg" },
-  vitaminK: { value: 120, unit: "mcg" },
-  thiamin: { value: 1.2, unit: "mg" },
-  riboflavin: { value: 1.3, unit: "mg" },
-  niacin: { value: 16, unit: "mg" },
-  vitaminB6: { value: 1.7, unit: "mg" },
-  folate: { value: 400, unit: "mcg" },
-  vitaminB12: { value: 2.4, unit: "mcg" },
-  calcium: { value: 1300, unit: "mg" },
-  iron: { value: 18, unit: "mg" },
-  magnesium: { value: 420, unit: "mg" },
-  phosphorus: { value: 1250, unit: "mg" },
   potassium: { value: 4700, unit: "mg" },
-  zinc: { value: 11, unit: "mg" },
 };
 
 const MACRO_DISPLAY: Array<{
@@ -73,76 +61,16 @@ const MACRO_DISPLAY: Array<{
   { key: "protein", label: "Protein", unit: "g", bold: true },
 ];
 
-const MICRO_DISPLAY: Array<{
-  key: keyof NutritionalSummary;
-  label: string;
-  unit: string;
-}> = [
-  { key: "vitaminA", label: "Vitamin A", unit: "mcg" },
-  { key: "vitaminC", label: "Vitamin C", unit: "mg" },
-  { key: "vitaminD", label: "Vitamin D", unit: "mcg" },
-  { key: "vitaminE", label: "Vitamin E", unit: "mg" },
-  { key: "vitaminK", label: "Vitamin K", unit: "mcg" },
-  { key: "thiamin", label: "Thiamin", unit: "mg" },
-  { key: "riboflavin", label: "Riboflavin", unit: "mg" },
-  { key: "niacin", label: "Niacin", unit: "mg" },
-  { key: "vitaminB6", label: "Vitamin B6", unit: "mg" },
-  { key: "folate", label: "Folate", unit: "mcg" },
-  { key: "vitaminB12", label: "Vitamin B12", unit: "mcg" },
-  { key: "calcium", label: "Calcium", unit: "mg" },
-  { key: "iron", label: "Iron", unit: "mg" },
-  { key: "magnesium", label: "Magnesium", unit: "mg" },
-  { key: "phosphorus", label: "Phosphorus", unit: "mg" },
-  { key: "potassium", label: "Potassium", unit: "mg" },
-  { key: "zinc", label: "Zinc", unit: "mg" },
-];
-
-function extractFullNutrition(
+/** The recipe's published value for `servings`, or null: absent is not 0. */
+function published(
   recipe: Recipe,
+  key: keyof NutritionalSummary,
   servings: number,
-): NutritionalSummary {
-  const base = createEmptyNutritionalSummary();
-  const n = recipe.nutrition;
-  if (!n) return base;
-
-  base.calories = (n.calories ?? 0) * servings;
-  base.protein = (n.protein ?? 0) * servings;
-  base.carbs = (n.carbs ?? 0) * servings;
-  base.fat = (n.fat ?? 0) * servings;
-  base.fiber = (n.fiber ?? 0) * servings;
-
-  base.vitaminA = (n.vitaminA ?? 0) * servings;
-  base.vitaminD = (n.vitaminD ?? 0) * servings;
-  base.vitaminE = (n.vitaminE ?? 0) * servings;
-  base.vitaminK = (n.vitaminK ?? 0) * servings;
-  base.vitaminC = (n.vitaminC ?? 0) * servings;
-  base.thiamin = (n.thiamin ?? 0) * servings;
-  base.riboflavin = (n.riboflavin ?? 0) * servings;
-  base.niacin = (n.niacin ?? 0) * servings;
-  base.pantothenicAcid = (n.pantothenicAcid ?? 0) * servings;
-  base.vitaminB6 = (n.vitaminB6 ?? 0) * servings;
-  base.biotin = (n.biotin ?? 0) * servings;
-  base.folate = (n.folate ?? 0) * servings;
-  base.vitaminB12 = (n.vitaminB12 ?? 0) * servings;
-  base.choline = (n.choline ?? 0) * servings;
-
-  base.calcium = (n.calcium ?? 0) * servings;
-  base.phosphorus = (n.phosphorus ?? 0) * servings;
-  base.magnesium = (n.magnesium ?? 0) * servings;
-  base.sodium = (n.sodium ?? 0) * servings;
-  base.potassium = (n.potassium ?? 0) * servings;
-  base.iron = (n.iron ?? 0) * servings;
-  base.zinc = (n.zinc ?? 0) * servings;
-  base.chloride = (n.chloride ?? 0) * servings;
-  base.copper = (n.copper ?? 0) * servings;
-  base.manganese = (n.manganese ?? 0) * servings;
-  base.selenium = (n.selenium ?? 0) * servings;
-  base.iodine = (n.iodine ?? 0) * servings;
-  base.chromium = (n.chromium ?? 0) * servings;
-  base.molybdenum = (n.molybdenum ?? 0) * servings;
-  base.fluoride = (n.fluoride ?? 0) * servings;
-
-  return base;
+): number | null {
+  const value = recipe.nutrition?.[key];
+  return typeof value === "number" && Number.isFinite(value)
+    ? value * servings
+    : null;
 }
 
 function dvPercent(
@@ -160,6 +88,33 @@ function dvColor(pct: number): string {
   return "text-gray-500";
 }
 
+/** One label row: "Sodium 480mg  21%", or "Cholesterol —" when unpublished. */
+function AmountRow({ nutrient, label, unit, value, bold, indent }: {
+  nutrient: keyof NutritionalSummary;
+  label: string;
+  unit: string;
+  value: number | null;
+  bold?: boolean;
+  indent?: boolean;
+}): React.JSX.Element {
+  const pct = value === null ? null : dvPercent(value, nutrient);
+  return (
+    <div
+      className={`flex justify-between py-0.5 border-b border-gray-200 ${indent ? "pl-4" : ""}`}
+    >
+      <span className={`text-sm ${bold ? "font-bold" : ""}`}>
+        {label}{" "}
+        <span className="font-mono">
+          {value === null ? "—" : `${Math.round(value)}${unit}`}
+        </span>
+      </span>
+      {pct !== null && (
+        <span className={`text-sm font-mono ${dvColor(pct)}`}>{pct}%</span>
+      )}
+    </div>
+  );
+}
+
 export function RecipeNutritionModal({
   recipe,
   servings = 1,
@@ -167,14 +122,11 @@ export function RecipeNutritionModal({
   onClose,
   ingredientMapping,
 }: RecipeNutritionModalProps) {
-  const nutrition = useMemo(
-    () => extractFullNutrition(recipe, servings),
-    [recipe, servings],
-  );
-
   if (!isOpen) return null;
 
-  const hasNutrition = nutrition.calories > 0 || nutrition.protein > 0;
+  const calories = published(recipe, "calories", servings) ?? 0;
+  const hasNutrition =
+    calories > 0 || (published(recipe, "protein", servings) ?? 0) > 0;
 
   return (
     <div
@@ -237,7 +189,7 @@ export function RecipeNutritionModal({
                   <div className="flex justify-between items-baseline border-b border-gray-300 py-1">
                     <span className="text-lg font-black">Calories</span>
                     <span className="text-2xl font-black font-mono">
-                      {Math.round(nutrition.calories)}
+                      {Math.round(calories)}
                     </span>
                   </div>
 
@@ -246,63 +198,42 @@ export function RecipeNutritionModal({
                   </div>
 
                   {/* Macronutrients */}
-                  {MACRO_DISPLAY.map(({ key, label, unit, bold, indent }) => {
-                    const val = nutrition[key];
-                    if (typeof val !== "number") return null;
-                    const pct = dvPercent(val, key);
-                    return (
-                      <div
-                        key={key}
-                        className={`flex justify-between py-0.5 border-b border-gray-200 ${indent ? "pl-4" : ""}`}
-                      >
-                        <span className={`text-sm ${bold ? "font-bold" : ""}`}>
-                          {label}{" "}
-                          <span className="font-mono">
-                            {Math.round(val)}
-                            {unit}
-                          </span>
-                        </span>
-                        {pct !== null && (
-                          <span className={`text-sm font-mono ${dvColor(pct)}`}>
-                            {pct}%
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
+                  {MACRO_DISPLAY.map(({ key, label, unit, bold, indent }) => (
+                    <AmountRow
+                      key={key}
+                      nutrient={key}
+                      label={label}
+                      unit={unit}
+                      value={published(recipe, key, servings)}
+                      bold={bold ?? false}
+                      indent={indent ?? false}
+                    />
+                  ))}
                 </div>
 
                 {/* Vitamins & Minerals */}
                 <div className="border-t-4 border-gray-900 mt-1 pt-1">
-                  {MICRO_DISPLAY.map(({ key, label, unit }) => {
-                    const val = nutrition[key];
-                    if (typeof val !== "number" || val === 0) return null;
-                    const pct = dvPercent(val, key);
-                    return (
-                      <div
-                        key={key}
-                        className="flex justify-between py-0.5 border-b border-gray-100"
-                      >
-                        <span className="text-sm">
-                          {label}{" "}
-                          <span className="font-mono text-gray-600">
-                            {val < 1 ? val.toFixed(1) : Math.round(val)}
-                            {unit}
-                          </span>
-                        </span>
-                        {pct !== null && (
-                          <span className={`text-sm font-mono ${dvColor(pct)}`}>
-                            {pct}%
-                          </span>
-                        )}
-                      </div>
-                    );
-                  })}
+                  <AmountRow
+                    nutrient="potassium"
+                    label="Potassium"
+                    unit="mg"
+                    value={published(recipe, "potassium", servings)}
+                  />
+                  <div className="text-xs font-semibold text-gray-600 pt-1">
+                    Vitamins &amp; minerals, % Daily Value†
+                  </div>
+                  <DailyValueLabelRows
+                    nutrition={recipe.nutrition}
+                    servings={servings}
+                  />
                 </div>
 
-                <p className="text-xs text-gray-500 mt-2">
-                  * Percent Daily Values based on a 2,000 calorie diet.
-                </p>
+                <div className="mt-2 space-y-1">
+                  <DailyValueFootnote />
+                  <p className="text-xs text-gray-500">
+                    * Percent Daily Values based on a 2,000 calorie diet.
+                  </p>
+                </div>
               </div>
 
               {/* Ingredient Contributions */}

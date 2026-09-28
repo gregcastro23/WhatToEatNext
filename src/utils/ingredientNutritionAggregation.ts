@@ -7,13 +7,19 @@
 // results, and divides by the recipe's serving count to produce a per-serving
 // nutrition payload.
 //
-// The aggregator is intentionally forgiving: missing or unrecognised
-// ingredients are skipped. When fewer than half of the ingredients resolve,
-// the aggregator declines to produce a result (returns `null`) rather than
-// report a misleadingly low total.
+// A total is returned only when it accounts for the recipe: every resolved
+// ingredient can be weighed, and unresolved ingredients are a small, known
+// share of its mass (see `./nutritionCompleteness`). Otherwise it returns
+// `null` rather than a misleadingly partial total.
 
 import type { Recipe } from "@/types/recipe";
+import {
+  addDailyValueFractions,
+  readDailyValueFractions,
+  scaleDailyValueFractions,
+} from "./dailyValueFractions";
 import { resolveIngredientByName } from "./ingredientResolution";
+import { accountsForRecipe, type WeighedLine } from "./nutritionCompleteness";
 import { UNIT_CONVERSIONS, convertToGrams } from "./unitConversion";
 import type { NormalizedRecipeNutrition } from "./recipeNutrition";
 
@@ -38,8 +44,9 @@ export function parseServingSizeGrams(
 ): number | null {
   if (!servingSize) return null;
 
-  // Prefer the explicit grams annotation — `(148g)` / `(148 g)` / `(1.5g)`.
-  const explicit = servingSize.match(/\((\d+(?:\.\d+)?)\s*g\)/i);
+  // Prefer the explicit grams annotation — `(148g)` / `(148 g)` / `(1.5g)` /
+  // `(~17g)`. Missing the `~` form scored a 17 g egg yolk's calories as 100 g.
+  const explicit = servingSize.match(/\(~?\s*(\d+(?:\.\d+)?)\s*g\)/i);
   if (explicit) {
     const grams = Number(explicit[1]);
     if (Number.isFinite(grams) && grams > 0) return grams;
@@ -75,6 +82,8 @@ interface NutritionalMacros {
   sugar?: number;
   sodium?: number;
   saturatedFat?: number;
+  potassium?: number;
+  cholesterol?: number;
 }
 
 interface NutritionalProfileShape {
@@ -86,6 +95,8 @@ interface NutritionalProfileShape {
   fiber?: number;
   sugar?: number;
   sodium?: number;
+  potassium?: number;
+  cholesterol?: number;
   vitamins?: Record<string, number> | string[];
   minerals?: Record<string, number> | string[];
   serving_size?: string;
@@ -96,49 +107,16 @@ function readNum(value: unknown): number {
   return Number.isFinite(n) ? n : 0;
 }
 
-type MicronutrientKey =
-  | "vitaminA"
-  | "vitaminC"
-  | "vitaminD"
-  | "vitaminE"
-  | "vitaminK"
-  | "thiamin"
-  | "riboflavin"
-  | "niacin"
-  | "vitaminB6"
-  | "vitaminB12"
-  | "folate"
-  | "calcium"
-  | "iron"
-  | "magnesium"
-  | "phosphorus"
-  | "potassium"
-  | "zinc"
-  | "copper"
-  | "manganese"
-  | "selenium";
-
-const microKeys: readonly MicronutrientKey[] = [
-  "vitaminA",
-  "vitaminC",
-  "vitaminD",
-  "vitaminE",
-  "vitaminK",
-  "thiamin",
-  "riboflavin",
-  "niacin",
-  "vitaminB6",
-  "vitaminB12",
-  "folate",
-  "calcium",
-  "iron",
-  "magnesium",
-  "phosphorus",
+/**
+ * Published in mg only when every ingredient in the total carries a value
+ * (owner ruling 2026-09-27). Profiles keep both in `macros` as mg: against
+ * USDA they match per serving for 13 of 16 and 6 of 6 FDC-pinned ingredients.
+ * A missing value is not 0 mg, so one gap leaves the recipe's figure absent.
+ * (`minerals.potassium` is a Daily Value fraction; it used to stand in here.)
+ */
+const COMPLETE_ONLY: ReadonlyArray<"potassium" | "cholesterol"> = [
   "potassium",
-  "zinc",
-  "copper",
-  "manganese",
-  "selenium",
+  "cholesterol",
 ];
 
 function emptyNutrition(): NormalizedRecipeNutrition {
@@ -171,12 +149,16 @@ function addNutrition(
   if (b.saturatedFat != null) {
     a.saturatedFat = (a.saturatedFat ?? 0) + b.saturatedFat;
   }
-  for (const k of microKeys) {
+  for (const k of COMPLETE_ONLY) {
     const bv = b[k];
-    if (typeof bv === "number" && Number.isFinite(bv)) {
-      const prev = a[k];
-      a[k] = (typeof prev === "number" ? prev : 0) + bv;
-    }
+    const sum = a[k] ?? 0;
+    // NaN marks a gap; `scaleNutrition` drops it, so the total publishes nothing.
+    a[k] = typeof bv === "number" && !Number.isNaN(sum) ? sum + bv : NaN;
+  }
+  if (b.dailyValue) {
+    a.dailyValue = a.dailyValue
+      ? addDailyValueFractions(a.dailyValue, b.dailyValue)
+      : b.dailyValue;
   }
 }
 
@@ -196,12 +178,13 @@ function scaleNutrition(
   };
   if (n.saturatedFat != null) out.saturatedFat = n.saturatedFat * factor;
 
-  for (const k of microKeys) {
+  for (const k of COMPLETE_ONLY) {
     const v = n[k];
     if (typeof v === "number" && Number.isFinite(v)) {
       out[k] = v * factor;
     }
   }
+  if (n.dailyValue) out.dailyValue = scaleDailyValueFractions(n.dailyValue, factor);
   return out;
 }
 
@@ -237,50 +220,12 @@ function profileToNutrition(
     out.sodium = readNum(profile.sodium);
   }
 
-  // Copy numeric vitamin/mineral records when present.
-  if (profile.vitamins && !Array.isArray(profile.vitamins)) {
-    const vits = profile.vitamins;
-    const pick = (
-      target: MicronutrientKey,
-      ...keys: string[]
-    ): void => {
-      for (const k of keys) {
-        if (typeof vits[k] === "number") {
-          out[target] = vits[k];
-          return;
-        }
-      }
-    };
-    pick("vitaminA", "A", "a", "vitaminA");
-    pick("vitaminC", "C", "c", "vitaminC");
-    pick("vitaminD", "D", "d", "vitaminD");
-    pick("vitaminE", "E", "e", "vitaminE");
-    pick("vitaminK", "K", "k", "vitaminK");
-    pick("vitaminB6", "B6", "b6", "vitaminB6");
-    pick("vitaminB12", "B12", "b12", "vitaminB12");
-    pick("folate", "folate", "Folate");
-    pick("thiamin", "B1", "b1", "thiamin");
-    pick("riboflavin", "B2", "b2", "riboflavin");
-    pick("niacin", "B3", "b3", "niacin");
+  for (const k of COMPLETE_ONLY) {
+    const mg = profile.macros ? profile.macros[k] : profile[k];
+    if (typeof mg === "number" && Number.isFinite(mg)) out[k] = mg;
   }
-  if (profile.minerals && !Array.isArray(profile.minerals)) {
-    const min = profile.minerals;
-    for (const key of [
-      "calcium",
-      "iron",
-      "magnesium",
-      "phosphorus",
-      "potassium",
-      "zinc",
-      "copper",
-      "manganese",
-      "selenium",
-    ] as const) {
-      if (typeof min[key] === "number") {
-        out[key] = min[key];
-      }
-    }
-  }
+  // Vitamins and minerals are Daily Value fractions, never amounts.
+  out.dailyValue = readDailyValueFractions(profile);
   return out;
 }
 
@@ -322,14 +267,31 @@ export function computeIngredientNutrition(
   return scaleNutrition(perServing, factor);
 }
 
+interface WeighedContribution {
+  line: WeighedLine;
+  nutrition: NormalizedRecipeNutrition | null;
+}
+
+/** One ingredient line: how it was weighed, and what it adds to the total. */
+function weighLine(ing: Recipe["ingredients"][number]): WeighedContribution {
+  const amount = Number(ing.amount) || 1;
+  const unit = String(ing.unit);
+  const found = resolveIngredientByName(ing.name);
+  if (!found?.nutritionalProfile) {
+    return { line: { kind: "unresolved", grams: convertToGrams(amount, unit, ing.name) }, nutrition: null };
+  }
+  const grams = convertToGrams(amount, unit, found.name);
+  // A profile with no calories or macros (water, salt) contributes nothing at any mass.
+  if (!computeIngredientNutrition(found, 1, "g")) return { line: { kind: "zero", grams }, nutrition: null };
+  if (grams === null) return { line: { kind: "unweighable" }, nutrition: null };
+  return { line: { kind: "counted", grams }, nutrition: computeIngredientNutrition(found, grams, "g") };
+}
+
 /**
- * Compute recipe-level nutrition from the ingredients list. Returns `null`
- * when fewer than half of the ingredients resolved against the unified
- * ingredient DB — at that point the total would be misleadingly incomplete.
- *
- * The resulting nutrition is expressed per serving (divided by
- * `recipe.numberOfServings`, defaulting to 4 when the recipe doesn't state
- * one).
+ * Compute recipe-level nutrition from the ingredients list, per serving
+ * (divided by `numberOfServings`, defaulting to 4 when the recipe states
+ * none). Returns `null` unless the total accounts for the recipe; see
+ * `accountsForRecipe`.
  */
 export function computeRecipeNutritionFromIngredients(
   recipe: Pick<Recipe, "ingredients" | "numberOfServings"> & {
@@ -340,31 +302,15 @@ export function computeRecipeNutritionFromIngredients(
   if (!Array.isArray(ingredients) || ingredients.length === 0) return null;
 
   const total = emptyNutrition();
-  let resolved = 0;
-
+  const lines: WeighedLine[] = [];
   for (const ing of ingredients) {
     if (!ing.name) continue;
-    const found = resolveIngredientByName(ing.name);
-    if (!found) continue;
-
-    const amount = Number(ing.amount) || 1;
-    const unit = ing.unit.toString();
-    const contribution = computeIngredientNutrition(found, amount, unit);
-    if (!contribution) continue;
-
-    addNutrition(total, contribution);
-    resolved++;
+    const { line, nutrition } = weighLine(ing);
+    lines.push(line);
+    if (nutrition) addNutrition(total, nutrition);
   }
+  if (!accountsForRecipe(lines)) return null;
 
-  if (resolved === 0) return null;
-  // Require at least half of the ingredients to resolve — otherwise the
-  // total under-counts the recipe and would be more misleading than useful.
-  if (resolved * 2 < ingredients.length) return null;
-
-  const servings =
-    (recipe as { numberOfServings?: number }).numberOfServings ??
-    (recipe as { servings?: number }).servings ??
-    DEFAULT_RECIPE_SERVINGS;
-
+  const servings = recipe.numberOfServings ?? recipe.servings ?? DEFAULT_RECIPE_SERVINGS;
   return scaleNutrition(total, 1 / Math.max(1, servings));
 }

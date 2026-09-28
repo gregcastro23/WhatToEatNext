@@ -1,5 +1,6 @@
 // src/data/cuisines/italian.ts
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const italian: Cuisine = {
   id: "italian",
@@ -5134,12 +5135,7 @@ export const italian: Cuisine = {
       seasonality: "all",
     },
   },
-  elementalProperties: {
-    Earth: 0.3, // Represents hearty ingredients and grounding dishes
-    Water: 0.3, // Represents sauces and moisture,
-    Fire: 0.2, // Represents cooking techniques
-    Air: 0.2, // Represents herbs and lightness
-  },
+  elementalProperties: derivedProfiles.cuisines.Italian.elementalProperties,
   astrologicalInfluences: [
     "Venus - Roman goddess of love and beauty influences the sensory pleasures of Italian cuisine",
     "Jupiter - Brings abundance and generosity to communal Italian dining traditions",
