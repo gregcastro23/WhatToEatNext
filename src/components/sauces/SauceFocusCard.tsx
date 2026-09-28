@@ -48,13 +48,34 @@ function facts(sauce: Sauce): string[] {
 
 export function SauceFocusCard({ sauce }: { sauce: Sauce }): JSX.Element {
   return (
-    <section id="sauce-focus" aria-labelledby="sauce-focus-name" className="rounded-2xl border border-violet-400/30 bg-white/[0.04] p-6 md:p-8 space-y-6">
-      <div>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-violet-300/80">Sauce</p>
-        <h2 id="sauce-focus-name" className="mt-1 text-3xl font-bold text-white">{sauce.name}</h2>
-        <p className="mt-1 text-sm text-white/50">{facts(sauce).join(" · ")}</p>
-        <p className="mt-4 max-w-3xl text-white/80">{sauce.description}</p>
+    <section
+      id="sauce-focus"
+      aria-labelledby="sauce-focus-name"
+      className="rounded-2xl border border-violet-400/40 bg-[#0e0c16]/95 p-6 md:p-8 space-y-6 shadow-[0_0_35px_rgba(139,92,246,0.15)] backdrop-blur-xl relative"
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-violet-300">Focused Sauce Dossier</p>
+            <span className="text-white/30 font-mono">·</span>
+            <span className="text-[10px] font-mono text-amber-300 uppercase">{sauce.cuisine}</span>
+          </div>
+          <h2 id="sauce-focus-name" className="mt-1 text-3xl sm:text-4xl font-serif font-medium text-white tracking-wide">
+            {sauce.name}
+          </h2>
+          <p className="mt-1 text-xs font-mono text-white/50">{facts(sauce).join(" · ")}</p>
+        </div>
+
+        <Link
+          href="/sauces"
+          className="text-xs font-mono text-white/40 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/20 bg-white/[0.02] transition-colors"
+          title="Return to full sauce matrix"
+        >
+          Clear Focus ✕
+        </Link>
       </div>
+
+      <p className="max-w-3xl text-sm text-white/80 leading-relaxed font-body">{sauce.description}</p>
       <div>
         <Label>Key ingredients</Label>
         <div className="flex flex-wrap gap-2">
