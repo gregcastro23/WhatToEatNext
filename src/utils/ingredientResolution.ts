@@ -9,8 +9,9 @@
 // half of all recipe ingredient occurrences.
 //
 // This resolver closes that gap with conservative normalization: strip leading
-// quantities/units, take the first option of "X or Y", drop preparation
-// adjectives, singularize, then match by exact-normalized form and finally by
+// quantities/units, take the first option of "X or Y" (with any head noun it
+// shares: "beef or chicken broth" → beef broth), drop preparation adjectives,
+// singularize, then match by exact-normalized form and finally by
 // token-subset (every word of the query noun-phrase present in the catalog
 // entry). Token-subset matching is whole-word, so "egg" resolves "Chicken Egg"
 // but "rice" never resolves "ice".
@@ -91,6 +92,40 @@ function coreTokens(name: string): string[] {
     .map(singularizeWord);
 }
 
+/** Words that open a post-modifier ("oil for frying", "pepper to taste"). */
+const POST_MODIFIER_WORDS = new Set(["for", "with", "in", "to", "as"]);
+
+/**
+ * "beef or chicken broth" is two broths: the alternatives share the head noun
+ * that only the last one spells out, so the first option is "beef broth", not
+ * "beef". Returns the first option with each tail of the next one distributed
+ * onto it, longest first ("pork or chicken bone broth" → "pork bone broth",
+ * then "pork broth"). A first option of qualifiers only ("light or dark corn
+ * syrup") takes the whole remainder, never a bare "syrup".
+ *
+ * Empty when there is no shared head: the next option is one food word ("lamb
+ * or mutton", "ghee or melted butter"), carries its own quantity ("rice syrup
+ * or 1/2 cup honey"), or the first already has that head ("olive oil or
+ * neutral oil").
+ */
+function sharedHeadReadings(name: string): string[] {
+  const [first = "", next] = normName(stripLeadingQuantity(name)).split(/\bor\b/);
+  if (next === undefined || /^\s*\d/.test(next)) return [];
+  const words = next.trim().split(" ");
+  const cut = words.findIndex((w) => POST_MODIFIER_WORDS.has(w));
+  const phrase = cut === -1 ? words : words.slice(0, cut);
+  const head = phrase[phrase.length - 1];
+  if (!head || coreTokens(phrase.join(" ")).length < 2) return [];
+  const firstTokens = coreTokens(first);
+  if (firstTokens.includes(singularizeWord(head))) return [];
+  const end = firstTokens.length === 0 ? 2 : phrase.length;
+  const readings: string[] = [];
+  for (let start = 1; start < end; start++) {
+    readings.push(`${first} ${phrase.slice(start).join(" ")}`);
+  }
+  return readings;
+}
+
 interface TokenEntry {
   tokens: Set<string>;
   count: number;
@@ -141,6 +176,29 @@ function buildIndex(): void {
   );
 }
 
+/** Cleaned-exact match, then token-subset (every token, whole-word). */
+function resolveTokens(
+  tokens: string[],
+  idx: Map<string, UnifiedIngredient>,
+  entries: TokenEntry[],
+): UnifiedIngredient | undefined {
+  if (tokens.length === 0) return undefined;
+  const cleanedHit = idx.get(tokens.join(" "));
+  if (cleanedHit) return cleanedHit;
+  const query = new Set(tokens);
+  for (const entry of entries) {
+    let all = true;
+    for (const t of query) {
+      if (!entry.tokens.has(t)) {
+        all = false;
+        break;
+      }
+    }
+    if (all) return entry.ingredient;
+  }
+  return undefined;
+}
+
 /**
  * Resolve a free-text ingredient name to a catalog ingredient.
  * Exact-normalized matches always win (preserving prior behavior); the
@@ -152,30 +210,23 @@ export function resolveIngredientByName(
   if (!name || typeof name !== "string") return undefined;
   if (!exactIndex || !tokenIndex) buildIndex();
   const idx = exactIndex!;
+  const entries = tokenIndex!;
 
   const norm = normName(name);
   const exact = idx.get(norm);
   if (exact) return exact;
 
+  // A shared head wins only when the catalog names that food; otherwise the
+  // first option stands alone ("honey or maple syrup" → honey).
+  for (const reading of sharedHeadReadings(name)) {
+    const hit = resolveTokens(coreTokens(reading), idx, entries);
+    if (hit) return hit;
+  }
+
   const tokens = coreTokens(name);
   if (tokens.length === 0) return undefined;
-
-  const cleaned = tokens.join(" ");
-  const cleanedHit = idx.get(cleaned);
-  if (cleanedHit) return cleanedHit;
-
-  // Token-subset: every query token must appear (whole-word) in the candidate.
-  const query = new Set(tokens);
-  for (const entry of tokenIndex!) {
-    let all = true;
-    for (const t of query) {
-      if (!entry.tokens.has(t)) {
-        all = false;
-        break;
-      }
-    }
-    if (all) return entry.ingredient;
-  }
+  const hit = resolveTokens(tokens, idx, entries);
+  if (hit) return hit;
 
   // Compound lines ("sea salt and pepper to taste") resolve as their first
   // item. Query-side only — indexed catalog names keep their full identity —
