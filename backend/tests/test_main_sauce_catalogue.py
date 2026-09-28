@@ -129,3 +129,9 @@ def test_control_a_cuisine_with_no_matching_sauce_keeps_the_generic_list():
     # French sauces are spring or autumn/winter only; none suits Summer.
     sauces = _recommend("french", None, "Summer")
     assert [s["sauce_name"] for s in sauces] == ["Béarnaise", "Hollandaise", "Béchamel"]
+
+
+def test_a_cuisine_with_no_sauces_gets_none_not_a_placeholder():
+    # Korean is in neither the catalogue nor the hard-coded list. It got a
+    # sauce named "Traditional Sauce".
+    assert _recommend("korean", None, "Winter") == []

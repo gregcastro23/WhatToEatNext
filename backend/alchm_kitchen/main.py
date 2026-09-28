@@ -73,15 +73,8 @@ from backend.config.celestial_config import FOREST_HILLS_COORDINATES, USER_BIRTH
 # External data imports for cuisine and sauce recommendations
 
 
-# Import cuisine data (we'll need to handle this carefully)
-try:
-    from src.data.cuisines import cuisines
-    CUISINES_AVAILABLE = True
-except ImportError:
-    CUISINES_AVAILABLE = False
-    cuisines = {}
-
-# The sauce catalogue is data/json/sauces.json, read where it is used (see
+# Cuisine records and the sauce catalogue are data/json/cuisines.json and
+# sauces.json, read where they are used (load_cuisine_records,
 # get_sauce_recommendations_for_cuisine).
 
 PLANETARY_AGENTS_URL = os.getenv("PLANETARY_AGENTS_URL", "http://localhost:8000")
@@ -232,6 +225,24 @@ def load_json_file(filename: str):
     """Public wrapper for JSON loading."""
     # We use the cached version for performance
     return load_json_file_cached(filename)
+
+def normalize_cuisine_id(cuisine_id: str) -> str:
+    """'middle-eastern', 'Middle Eastern' and 'MiddleEastern' -> 'middleeastern'."""
+    return "".join(ch for ch in cuisine_id.lower() if ch.isalnum())
+
+def load_cuisine_records() -> Dict[str, Dict[str, Any]]:
+    """Cuisine records from data/json/cuisines.json, keyed by normalised id.
+
+    The file is exported from src/data/cuisines. Its elementalProperties are
+    COMPUTED from each cuisine's dishes (scripts/generateCuisineProfiles.ts),
+    with the recipe count in elementalProfileBasis.
+    """
+    data = load_json_file("cuisines.json") or {}
+    return {
+        normalize_cuisine_id(key): record
+        for key, record in data.items()
+        if isinstance(record, dict)
+    }
 
 @app.get("/api/v1/cuisines")
 async def get_all_cuisines():
@@ -1783,6 +1794,88 @@ async def get_personalized_cooking_plan(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to create personalized cooking plan: {str(e)}")
 
+# The cuisines GET /cuisines/recommend ranks.
+RECOMMENDABLE_CUISINES = (
+    'italian', 'french', 'japanese', 'indian', 'chinese', 'mexican', 'thai',
+    'greek', 'korean', 'vietnamese', 'middle-eastern', 'american', 'russian', 'african',
+)
+
+SKY_ELEMENTS = ("Fire", "Water", "Earth", "Air")
+
+# The most recent sky this process computed. When the ephemeris later fails,
+# the recommender reuses it and reports when it was computed.
+_LAST_SKY: Dict[str, Any] = {}
+
+def current_sky(now: datetime) -> Optional[Dict[str, Any]]:
+    """The sky's element shares and Sun sign, from this module's alchemize engine.
+
+    When the ephemeris fails: the most recent sky this process computed, marked
+    `cached`, or None when there has been none.
+    """
+    try:
+        result = calculate_planetary_positions_swisseph(
+            now.year, now.month, now.day, now.hour, now.minute,
+            FOREST_HILLS_COORDINATES["latitude"],
+            FOREST_HILLS_COORDINATES["longitude"],
+            "tropical"
+        )
+        positions = result.get("positions")
+        if not positions:
+            raise ValueError(result.get("error", "no planetary positions"))
+        alchemized = calculate_local_alchemize(AlchemizeRequest(
+            year=now.year, month=now.month, date=now.day, hour=now.hour, minute=now.minute,
+            planetaryPositions=positions,
+        ))
+        sun = positions.get("Sun") if isinstance(positions.get("Sun"), dict) else {}
+        _LAST_SKY.clear()
+        _LAST_SKY.update({
+            "elements": alchemized["elementalProperties"],
+            "sun_sign": sun.get("sign") or None,
+            "computed_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        })
+        return {**_LAST_SKY, "cached": False}
+    except Exception as e:
+        print(f"Sky calculation failed: {e}")
+        return {**_LAST_SKY, "cached": True} if _LAST_SKY else None
+
+def elemental_match(sky_elements: Dict[str, float], profile: Any) -> Optional[float]:
+    """Cosine similarity of the sky's element shares and a cuisine's profile.
+
+    1.0 when the two are in the same proportions. None without a full profile.
+    """
+    if not isinstance(profile, dict) or not all(
+        isinstance(profile.get(e), (int, float)) for e in SKY_ELEMENTS
+    ):
+        return None
+    dot = sum(sky_elements[e] * profile[e] for e in SKY_ELEMENTS)
+    sky_norm = sum(sky_elements[e] ** 2 for e in SKY_ELEMENTS) ** 0.5
+    profile_norm = sum(profile[e] ** 2 for e in SKY_ELEMENTS) ** 0.5
+    return dot / (sky_norm * profile_norm) if sky_norm > 0 and profile_norm > 0 else None
+
+def rank_cuisines_by_sky(sky: Optional[Dict[str, Any]], records: Dict[str, Dict[str, Any]]) -> List[tuple]:
+    """(cuisine_id, score) for RECOMMENDABLE_CUISINES, best match with the sky first.
+
+    Without a sky, or for a cuisine without a profile, the score is None; those
+    come last, alphabetically.
+    """
+    scored = []
+    for cuisine_id in RECOMMENDABLE_CUISINES:
+        record = records.get(normalize_cuisine_id(cuisine_id), {})
+        score = elemental_match(sky["elements"], record.get("elementalProperties")) if sky else None
+        scored.append((cuisine_id, score))
+    return sorted(scored, key=lambda item: (item[1] is None, -(item[1] or 0.0), item[0]))
+
+def match_reason(score: Optional[float], sky: Optional[Dict[str, Any]]) -> Optional[str]:
+    """The ranking's basis in words; None for an unranked cuisine."""
+    if score is None or not sky:
+        return None
+    if sky.get("cached"):
+        computed_at = sky["computed_at"]
+        when = f"the sky as of {computed_at[:10]} {computed_at[11:16]} UTC"
+    else:
+        when = "today's sky"
+    return f"Elemental match with {when}: {round(score * 100)}%"
+
 # Current Moment Cuisine Recommendations - Phase 6
 @app.get("/cuisines/recommend")
 async def get_current_moment_cuisine_recommendations(
@@ -1792,43 +1885,28 @@ async def get_current_moment_cuisine_recommendations(
     limit: int = 3,
     db: Session = Depends(get_db)
 ):
-    """Get cuisine recommendations based on current astrological moment with nested recipes and sauces."""
+    """Cuisines ranked by how closely their elemental profile matches the
+    current sky, with nested recipes and sauces."""
     try:
-        # Get current astrological state if not provided
-        current_state = {}
+        now = datetime.utcnow()
 
-        if not zodiac_sign or not season:
-            now = datetime.utcnow()
+        # Determine season from month. It follows from the date alone, so it
+        # needs no ephemeris.
+        if not season:
+            month = now.month
+            if month in [3, 4, 5]: season = "Spring"
+            elif month in [6, 7, 8]: season = "Summer"
+            elif month in [9, 10, 11]: season = "Autumn"
+            else: season = "Winter"
 
-            # Determine season from month. It follows from the date alone, so it
-            # needs no ephemeris.
-            if not season:
-                month = now.month
-                if month in [3, 4, 5]: season = "Spring"
-                elif month in [6, 7, 8]: season = "Summer"
-                elif month in [9, 10, 11]: season = "Autumn"
-                else: season = "Winter"
+        # The sky ranks the cuisines and supplies the Sun sign. When the
+        # ephemeris fails it is the most recent sky computed, marked cached;
+        # None when there has been none.
+        sky = current_sky(now)
+        if not zodiac_sign and sky:
+            zodiac_sign = sky.get("sun_sign")
 
-            if not zodiac_sign:
-                try:
-                    # Use backend-native calculation
-                    result = calculate_planetary_positions_swisseph(
-                        now.year, now.month, now.day, now.hour, now.minute,
-                        FOREST_HILLS_COORDINATES["latitude"],
-                        FOREST_HILLS_COORDINATES["longitude"],
-                        "tropical"
-                    )
-
-                    if "positions" in result:
-                        sun_pos = result["positions"].get("Sun", {})
-                        zodiac_sign = sun_pos.get("sign")
-                except Exception as e:
-                    # Without the ephemeris there is no Sun sign. Leave it None
-                    # (no sign term) rather than inventing one.
-                    print(f"Native astrological state calculation failed: {e}")
-
-        # Normalize and validate inputs. A sign the ephemeris could not supply
-        # stays None: the recommendations then rest on the season alone.
+        # Normalize and validate inputs. A sign no sky could supply stays None.
         zodiac_sign = zodiac_sign.capitalize() if zodiac_sign else None
         
         if season:
@@ -1850,14 +1928,8 @@ async def get_current_moment_cuisine_recommendations(
         if meal_type and meal_type not in valid_meals:
             raise HTTPException(status_code=400, detail=f"Invalid meal type: {meal_type}")
 
-        # Calculate cuisine compatibility scores based on astrological factors
-        cuisine_scores = await calculate_cuisine_astrological_compatibility(
-            zodiac_sign, season, db
-        )
-
-        # Sort cuisines by compatibility score
-        sorted_cuisines = sorted(cuisine_scores.items(), key=lambda x: x[1], reverse=True)
-        top_cuisines = sorted_cuisines[:limit]
+        ranked = rank_cuisines_by_sky(sky, load_cuisine_records())
+        top_cuisines = ranked[:limit]
 
         # Build comprehensive recommendations with nested data
         recommendations = []
@@ -1870,11 +1942,7 @@ async def get_current_moment_cuisine_recommendations(
                     recommendations.append({
                         **cuisine_data,
                         "astrological_score": score,
-                        "compatibility_reason": (
-                            f"Harmonizes with {zodiac_sign} energy and {season} seasonal flow"
-                            if zodiac_sign
-                            else f"Harmonizes with the {season} seasonal flow"
-                        )
+                        "compatibility_reason": match_reason(score, sky),
                     })
                 else:
                     print(f"DEBUG: No cuisine data returned for {cuisine_id}")
@@ -1895,12 +1963,13 @@ async def get_current_moment_cuisine_recommendations(
                 "zodiac_sign": zodiac_sign,
                 "season": season,
                 "meal_type": meal_type,
+                "sky": sky,
                 "timestamp": datetime.now().isoformat()
             },
             "cuisine_recommendations": recommendations,
             "total_recommendations": len(recommendations),
             "debug_info": {
-                "cuisine_scores": cuisine_scores,
+                "cuisine_scores": dict(ranked),
                 "top_cuisines": top_cuisines
             }
         }
@@ -1910,69 +1979,14 @@ async def get_current_moment_cuisine_recommendations(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get cuisine recommendations: {str(e)}")
 
-async def calculate_cuisine_astrological_compatibility(zodiac_sign: Optional[str], season: str, db: Session) -> Dict[str, float]:
-    """Calculate cuisine compatibility scores based on astrological factors."""
-    scores = {}
-    zodiac_affinities = []
-    seasonal_assocs = []
-
-    try:
-        # Zodiac affinity scores. With no sign there is no zodiac term.
-        if zodiac_sign is not None:
-            zodiac_affinities = db.query(ZodiacAffinity).filter(
-                ZodiacAffinity.zodiac_sign == zodiac_sign,
-                ZodiacAffinity.affinity_strength > 0.5
-            ).all()
-
-        # Seasonal compatibility scores
-        seasonal_assocs = db.query(SeasonalAssociation).filter(
-            SeasonalAssociation.season == season,
-            SeasonalAssociation.strength > 0.6
-        ).all()
-    except Exception as e:
-        print(f"Database query failed in calculate_cuisine_astrological_compatibility: {e}")
-        # Continue with empty affinities/associations (will fall back to base weights)
-
-    # Combine scores for each cuisine
-    cuisine_weights = {
-        'italian': 1.0, 'french': 1.0, 'japanese': 1.0, 'indian': 1.0,
-        'chinese': 1.0, 'mexican': 1.0, 'thai': 1.0, 'greek': 1.0,
-        'korean': 1.0, 'vietnamese': 1.0, 'middle-eastern': 1.0, 'american': 0.8,
-        'russian': 0.7, 'african': 0.7
-    }
-
-    for cuisine_id, base_weight in cuisine_weights.items():
-        # Calculate zodiac score
-        zodiac_score = 0
-        if zodiac_affinities:
-            cuisine_affinities = [a for a in zodiac_affinities if a.entity_type == 'cuisine' and str(a.entity_id) == cuisine_id]
-            if cuisine_affinities:
-                zodiac_score = max(a.affinity_strength for a in cuisine_affinities)
-
-        # Calculate seasonal score
-        seasonal_score = 0
-        if seasonal_assocs:
-            cuisine_seasonals = [s for s in seasonal_assocs if s.entity_type == 'cuisine' and str(s.entity_id) == cuisine_id]
-            if cuisine_seasonals:
-                seasonal_score = max(s.strength for s in cuisine_seasonals)
-
-        # Combine scores with base weight
-        combined_score = (zodiac_score * 0.4 + seasonal_score * 0.4 + base_weight * 0.2)
-        scores[cuisine_id] = combined_score
-
-    return scores
-
 async def get_cuisine_with_nested_data(cuisine_id: str, season: str, meal_type: Optional[str],
                                      zodiac_sign: Optional[str], db: Session) -> Optional[Dict[str, Any]]:
     """Get comprehensive cuisine data with nested recipes and sauces."""
     try:
-        # Get cuisine data from external source or database
-        cuisine_data = None
-        print(f"DEBUG: CUISINES_AVAILABLE={CUISINES_AVAILABLE}, cuisine_id={cuisine_id}")
-        if CUISINES_AVAILABLE and cuisine_id in cuisines:
-            cuisine_data = cuisines[cuisine_id]
-            print(f"DEBUG: Found cuisine data for {cuisine_id}")
-        else:
+        # The cuisine's record: name, description and a profile COMPUTED from
+        # its dishes (data/json/cuisines.json).
+        cuisine_data = load_cuisine_records().get(normalize_cuisine_id(cuisine_id))
+        if cuisine_data is None:
             # No cuisine record: name the cuisine, but claim no elemental
             # profile. A balanced 0.25 each would be a profile with no basis.
             cuisine_names = {
@@ -2005,6 +2019,8 @@ async def get_cuisine_with_nested_data(cuisine_id: str, season: str, meal_type: 
             # None, not {}, when the record has no profile: an empty object
             # reads as "a profile with nothing in it".
             "elemental_properties": cuisine_data.get('elementalProperties'),
+            # How the profile was computed, e.g. {"method": "recipe-mean", "recipes": 37}
+            "elemental_basis": cuisine_data.get('elementalProfileBasis'),
             "nested_recipes": nested_recipes,
             "recommended_sauces": sauce_recommendations,
             "seasonal_context": (
@@ -2157,7 +2173,7 @@ async def get_sauce_recommendations_for_cuisine(cuisine_id: str, zodiac_sign: Op
                 'thai': ['Pad Thai Sauce', 'Green Curry', 'Massaman Curry']
             }
 
-            for sauce in generic_sauces.get(cuisine_id, ['Traditional Sauce']):
+            for sauce in generic_sauces.get(cuisine_id, []):
                 sauce_recommendations.append({
                     "sauce_name": sauce,
                     "description": f"Authentic {sauce} for {cuisine_id.title()} cuisine",
@@ -2790,6 +2806,27 @@ class GroupCompatibilityRequest(BaseModel):
     """Request for group elemental compatibility analysis"""
     members: List[GroupMemberChart]
 
+# Which SMES score each element aligns with, and its weight in the group harmony.
+ELEMENT_SMES_WEIGHTS = (
+    ("Fire", "spirit_score", 0.3),
+    ("Water", "essence_score", 0.3),
+    ("Earth", "matter_score", 0.2),
+    ("Air", "substance_score", 0.2),
+)
+
+def elemental_smes_harmony(profile: Dict[str, Any], smes: Any) -> Optional[float]:
+    """Weighted alignment of a cuisine's elements with a set of SMES scores.
+
+    None when the SMES scores lack a term: a missing score is not 0.5.
+    """
+    total = 0.0
+    for element, smes_key, weight in ELEMENT_SMES_WEIGHTS:
+        score = smes.get(smes_key) if isinstance(smes, dict) else None
+        if not isinstance(score, (int, float)):
+            return None
+        total += profile[element] * score * weight
+    return total
+
 @app.post("/api/group/recommendations")
 async def get_group_recommendations(
     request: GroupRecommendationRequest,
@@ -2835,73 +2872,67 @@ async def get_group_recommendations(
         # Generate harmonizing recipe profile
         harmonizing_profile = await engine.generate_harmonizing_recipe_profile(collective_result)
 
-        # Score cuisines from database if available
+        # Score the recommendable cuisines from their records
         cuisine_recommendations = []
-        if CUISINES_AVAILABLE and cuisines:
-            for cuisine_name, cuisine_data in cuisines.items():
-                if request.cuisine_filter and cuisine_name.lower() != request.cuisine_filter.lower():
-                    continue
+        records = load_cuisine_records()
+        for cuisine_id in RECOMMENDABLE_CUISINES:
+            cuisine_data = records.get(normalize_cuisine_id(cuisine_id))
+            if cuisine_data is None:
+                continue
+            cuisine_name = cuisine_data.get("name", cuisine_id)
+            if request.cuisine_filter and normalize_cuisine_id(request.cuisine_filter) not in (
+                normalize_cuisine_id(cuisine_id), normalize_cuisine_id(cuisine_name)
+            ):
+                continue
 
-                elemental = cuisine_data.get("elementalProperties", {})
-                cuisine_fire = elemental.get("Fire", 0.25)
-                cuisine_water = elemental.get("Water", 0.25)
-                cuisine_earth = elemental.get("Earth", 0.25)
-                cuisine_air = elemental.get("Air", 0.25)
+            # A cuisine without a full profile can't be scored. It is left out
+            # rather than given 0.25 per element.
+            elemental = cuisine_data.get("elementalProperties")
+            if not isinstance(elemental, dict) or not all(
+                isinstance(elemental.get(e), (int, float)) for e in SKY_ELEMENTS
+            ):
+                continue
 
-                # Calculate harmony score between collective SMES and cuisine elementals
-                collective_spirit = collective_smes.get("spirit_score", 0.5)
-                collective_matter = collective_smes.get("matter_score", 0.5)
-                collective_essence = collective_smes.get("essence_score", 0.5)
-                collective_substance = collective_smes.get("substance_score", 0.5)
+            # Harmony = alignment between cuisine elementals and group needs
+            harmony = elemental_smes_harmony(elemental, collective_smes)
 
-                # Harmony = alignment between cuisine elementals and group needs
-                harmony = (
-                    cuisine_fire * collective_spirit * 0.3 +
-                    cuisine_water * collective_essence * 0.3 +
-                    cuisine_earth * collective_matter * 0.2 +
-                    cuisine_air * collective_substance * 0.2
-                )
-
-                # Per-member scores
-                per_member = []
-                for i, snapshot in enumerate(individual_snapshots):
-                    member_smes = snapshot["smes_scores"]
-                    member_harmony = (
-                        cuisine_fire * member_smes.get("spirit_score", 0.5) * 0.3 +
-                        cuisine_water * member_smes.get("essence_score", 0.5) * 0.3 +
-                        cuisine_earth * member_smes.get("matter_score", 0.5) * 0.2 +
-                        cuisine_air * member_smes.get("substance_score", 0.5) * 0.2
-                    )
-                    member_info = request.members[i]
-                    per_member.append({
-                        "name": member_info.name or member_info.user_id or f"Member {i+1}",
-                        "score": round(member_harmony, 4),
-                        "natal_sun_element": snapshot.get("natal_sun_element", "Unknown"),
-                    })
-
-                # Strategy-based scoring
-                member_scores = [m["score"] for m in per_member]
-                if request.strategy == "minimum":
-                    final_score = min(member_scores) if member_scores else 0
-                elif request.strategy == "average":
-                    final_score = sum(member_scores) / len(member_scores) if member_scores else 0
-                else:  # consensus
-                    avg = sum(member_scores) / len(member_scores) if member_scores else 0
-                    variance = sum((s - avg) ** 2 for s in member_scores) / len(member_scores) if member_scores else 0
-                    # Higher consensus = lower variance
-                    consensus_bonus = max(0, 1 - variance * 10)
-                    final_score = avg * 0.6 + consensus_bonus * 0.4
-
-                cuisine_recommendations.append({
-                    "cuisine": cuisine_name,
-                    "score": round(final_score, 4),
-                    "harmony": round(harmony, 4),
-                    "per_member_scores": per_member,
-                    "description": cuisine_data.get("description", ""),
+            # Per-member scores
+            per_member = []
+            for i, snapshot in enumerate(individual_snapshots):
+                member_harmony = elemental_smes_harmony(elemental, snapshot["smes_scores"])
+                member_info = request.members[i]
+                per_member.append({
+                    "name": member_info.name or member_info.user_id or f"Member {i+1}",
+                    "score": round(member_harmony, 4) if member_harmony is not None else None,
+                    "natal_sun_element": snapshot.get("natal_sun_element", "Unknown"),
                 })
 
-            cuisine_recommendations.sort(key=lambda x: x["score"], reverse=True)
-            cuisine_recommendations = cuisine_recommendations[:request.max_results]
+            # Strategy-based scoring over the members that could be scored
+            member_scores = [m["score"] for m in per_member if m["score"] is not None]
+            if not member_scores:
+                final_score = None
+            elif request.strategy == "minimum":
+                final_score = min(member_scores)
+            elif request.strategy == "average":
+                final_score = sum(member_scores) / len(member_scores)
+            else:  # consensus
+                avg = sum(member_scores) / len(member_scores)
+                variance = sum((s - avg) ** 2 for s in member_scores) / len(member_scores)
+                # Higher consensus = lower variance
+                consensus_bonus = max(0, 1 - variance * 10)
+                final_score = avg * 0.6 + consensus_bonus * 0.4
+
+            cuisine_recommendations.append({
+                "cuisine": cuisine_name,
+                "score": round(final_score, 4) if final_score is not None else None,
+                "harmony": round(harmony, 4) if harmony is not None else None,
+                "per_member_scores": per_member,
+                "description": cuisine_data.get("description", ""),
+            })
+
+        # Scored cuisines first, best first
+        cuisine_recommendations.sort(key=lambda x: (x["score"] is None, -(x["score"] or 0.0)))
+        cuisine_recommendations = cuisine_recommendations[:request.max_results]
 
         return {
             "strategy": request.strategy,

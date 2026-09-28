@@ -6,9 +6,11 @@ Ephemeris call raised, it fell back to `zodiac_sign or 'Libra'` and
 `season or 'Autumn'`: a sky with no basis, whatever the date. Now:
 
 - the season is DERIVED from today's month, which never needed the ephemeris;
-- the sign is ABSENT (None). It adds no sign term to the scores, and neither
-  the response nor its reason strings claim one. A Sun sign the ephemeris
-  could not supply is no longer answered with 400 "Invalid zodiac sign: None".
+- the sign comes from the most recent sky the process computed, which the
+  response marks `cached` (see test_main_cuisine_sky_ranking.py). With no
+  sky at all it is ABSENT (None), and neither the response nor its reason
+  strings claim one. A Sun sign the ephemeris could not supply is no longer
+  answered with 400 "Invalid zodiac sign: None".
 
 ── How this tests it without importing it ──────────────────────────────────
 
@@ -30,10 +32,15 @@ import pytest
 MAIN_PY = Path(__file__).resolve().parents[1] / "alchm_kitchen" / "main.py"
 
 ENDPOINT = "get_current_moment_cuisine_recommendations"
-SCORING = "calculate_cuisine_astrological_compatibility"
+SKY = "current_sky"
 NESTED = "get_cuisine_with_nested_data"
 SAUCES = "get_sauce_recommendations_for_cuisine"
-FUNCS = (ENDPOINT, SCORING, NESTED, SAUCES)
+FUNCS = (ENDPOINT, SKY, NESTED, SAUCES)
+# The endpoint's own helpers, run from source alongside it.
+HELPERS = (
+    "RECOMMENDABLE_CUISINES", "SKY_ELEMENTS", "_LAST_SKY", "normalize_cuisine_id",
+    SKY, "elemental_match", "rank_cuisines_by_sky", "match_reason",
+)
 
 SIGNS = {
     "aries", "taurus", "gemini", "cancer", "leo", "virgo",
@@ -56,17 +63,30 @@ def _func(name):
     raise AssertionError(f"{name} not found in main.py")
 
 
-def _load(name, namespace):
-    """Execute one top-level function from main.py's source into `namespace`.
+def _defines(node, name):
+    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+        return node.name == name
+    if isinstance(node, ast.Assign):
+        return any(isinstance(t, ast.Name) and t.id == name for t in node.targets)
+    if isinstance(node, ast.AnnAssign):
+        return isinstance(node.target, ast.Name) and node.target.id == name
+    return False
+
+
+def _load(name, namespace, *helpers):
+    """Execute top-level definitions from main.py's source into `namespace`.
 
     main.py imports these typing names at module level, so its annotations
     may use any of them.
     """
     for typing_name, value in (("Any", Any), ("Dict", Dict), ("List", List), ("Optional", Optional)):
         namespace.setdefault(typing_name, value)
-    node = _func(name)
-    node.decorator_list = []  # drop @app.get — the route table is not under test
-    exec(compile(ast.Module(body=[node], type_ignores=[]), str(MAIN_PY), "exec"), namespace)
+    wanted = (*helpers, name)
+    nodes = [n for n in _module().body if any(_defines(n, w) for w in wanted)]
+    for node in nodes:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            node.decorator_list = []  # drop @app.get — the route table is not under test
+    exec(compile(ast.Module(body=nodes, type_ignores=[]), str(MAIN_PY), "exec"), namespace)
     return namespace[name]
 
 
@@ -91,14 +111,12 @@ def _failing_ephemeris(*_args, **_kwargs):
     raise RuntimeError("swisseph unavailable")
 
 
+# A sky's element shares, as calculate_local_alchemize reports them.
+SKY_SHARES = {"Fire": 0.4, "Water": 0.2, "Earth": 0.3, "Air": 0.1}
+
+
 def _run_endpoint(ephemeris, **params):
-    """Call the real endpoint body; return (response, sign/season the scorer got)."""
-    seen = {}
-
-    async def scoring(zodiac_sign, season, db):
-        seen["scoring"] = (zodiac_sign, season)
-        return {"italian": 0.6, "thai": 0.5}
-
+    """Call the real endpoint body; return (response, sign/season it settled on)."""
     async def nested(cuisine_id, season, meal_type, zodiac_sign, db):
         return {"cuisine_id": cuisine_id}
 
@@ -113,16 +131,19 @@ def _run_endpoint(ephemeris, **params):
         "datetime": _FixedDatetime,
         "HTTPException": _HTTPException,
         "calculate_planetary_positions_swisseph": ephemeris,
+        "calculate_local_alchemize": lambda request: {"elementalProperties": dict(SKY_SHARES)},
+        "AlchemizeRequest": lambda **fields: fields,
+        "load_cuisine_records": lambda: {},
         "FOREST_HILLS_COORDINATES": {"latitude": 40.7, "longitude": -73.8},
-        SCORING: scoring,
         NESTED: nested,
         "log_system_metric": log_metric,
     }
-    endpoint = _load(ENDPOINT, namespace)
+    endpoint = _load(ENDPOINT, namespace, *HELPERS)
     call = dict(zodiac_sign=None, season=None, meal_type=None, limit=3, db=None)
     call.update(params)
     response = asyncio.run(endpoint(**call))
-    return response, seen.get("scoring")
+    moment = response["current_moment"]
+    return response, (moment["zodiac_sign"], moment["season"])
 
 
 def _strings(value):
@@ -199,11 +220,12 @@ def test_control_a_working_ephemeris_supplies_the_sun_sign():
 
 
 def test_a_failing_ephemeris_leaves_the_sign_absent_and_derives_the_season():
+    # A fresh process has no earlier sky to fall back to.
     response, scored = _run_endpoint(_failing_ephemeris)
     assert response["current_moment"]["zodiac_sign"] is None
     assert response["current_moment"]["season"] == "Winter"  # January, not "Autumn"
     assert scored == (None, "Winter")
-    assert response["total_recommendations"] == 2
+    assert response["total_recommendations"] == 3
     _claims_no_sign(response)
 
 
@@ -268,65 +290,10 @@ def test_nested_cuisine_data_without_a_sign_does_not_print_one():
 
     namespace = {
         "Optional": Optional, "Dict": Dict, "Any": Any, "Session": object,
-        "CUISINES_AVAILABLE": False, "cuisines": {},
+        "load_cuisine_records": lambda: {},
         "get_nested_recipes_for_cuisine": recipes, SAUCES: sauces,
     }
-    nested = _load(NESTED, namespace)
+    nested = _load(NESTED, namespace, "normalize_cuisine_id")
     data = asyncio.run(nested("thai", "Winter", None, None, None))
     assert data["seasonal_context"] == "Perfect for Winter"
     _claims_no_sign(data["seasonal_context"])
-
-
-class _Column:
-    """A stand-in model column: comparisons just yield a marker."""
-
-    def __eq__(self, other):
-        return ("eq", other)
-
-    def __gt__(self, other):
-        return ("gt", other)
-
-    __hash__ = object.__hash__
-
-
-class _Row:
-    def __init__(self, **fields):
-        self.__dict__.update(fields)
-
-
-def test_scoring_without_a_sign_has_no_zodiac_term():
-    class ZodiacAffinity:
-        zodiac_sign = _Column()
-        affinity_strength = _Column()
-
-    class SeasonalAssociation:
-        season = _Column()
-        strength = _Column()
-
-    queried = []
-
-    class _Query:
-        def __init__(self, model):
-            queried.append(model.__name__)
-            self.model = model
-
-        def filter(self, *_conditions):
-            return self
-
-        def all(self):
-            if self.model is SeasonalAssociation:
-                return [_Row(entity_type="cuisine", entity_id="thai", strength=0.9)]
-            return [_Row(entity_type="cuisine", entity_id="italian", affinity_strength=0.9)]
-
-    class _DB:
-        def query(self, model):
-            return _Query(model)
-
-    namespace = {
-        "Dict": Dict, "Session": object, "Optional": Optional,
-        "ZodiacAffinity": ZodiacAffinity, "SeasonalAssociation": SeasonalAssociation,
-    }
-    scoring = _load(SCORING, namespace)
-    scores = asyncio.run(scoring(None, "Winter", _DB()))
-    assert "ZodiacAffinity" not in queried  # no sign: no zodiac lookup at all
-    assert scores["thai"] > scores["italian"]  # ranked on season alone
