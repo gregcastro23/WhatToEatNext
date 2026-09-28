@@ -291,7 +291,7 @@ function SauceResultCard({
 }: {
   result: CuisineSauceResult;
   rank: number;
-  onInspectLineage?: ((id: string) => void) | undefined;
+  onInspectLineage?: (id: string) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
   const [scaleMultiplier, setScaleMultiplier] = useState(1);
@@ -1178,7 +1178,7 @@ export default function EnhancedSauceRecommender({
                   key={r.sauce.id}
                   result={r}
                   rank={i + 1}
-                  onInspectLineage={onInspectLineage}
+                  {...(onInspectLineage ? { onInspectLineage } : {})}
                 />
               ))}
             </div>

@@ -68,6 +68,7 @@ export function SauceFocusCard({ sauce }: { sauce: Sauce }): JSX.Element {
 
         <Link
           href="/sauces"
+          prefetch={false}
           className="text-xs font-mono text-white/40 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/20 bg-white/[0.02] transition-colors"
           title="Return to full sauce matrix"
         >
