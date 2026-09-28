@@ -1,7 +1,7 @@
 /**
  * Admin Users API Route
- * GET  /api/admin/users         - List users (paginated) with tier + activity metrics
- * PATCH /api/admin/users/[id]   - Update user role or tier (handled in [id]/route.ts)
+ * GET  /api/admin/users         - List users (paginated) with activity metrics
+ * PATCH /api/admin/users/[id]   - Update user role (handled in [id]/route.ts)
  *
  * @requires Authentication - Admin role required
  */
@@ -33,7 +33,6 @@ interface AdminUserRow {
   dominant_element: string | null;
   bio: string | null;
   monica_constant: string | null;
-  subscription_tier: string | null;
   subscription_status: string | null;
   active_sessions: number | null;
   feed_events_24h: number | null;
@@ -48,7 +47,7 @@ interface AdminUserRow {
 /**
  * GET /api/admin/users
  *
- * Returns a paginated user list with subscription tier, login count,
+ * Returns a paginated user list with roles, login count,
  * active session count, and ESMS token balances joined in a single
  * query (no N+1).
  *
@@ -56,7 +55,6 @@ interface AdminUserRow {
  *   q         — alias for `search`; substring match on email or name
  *   search    — substring match on email or name
  *   status    — "active" | "inactive"
- *   tier      — "free" | "premium"
  *   userType  — "human" | "agent" | "all" (default "all"); agents are
  *               users with `is_agent = true` (typically @agentic.alchm.kitchen)
  *   page      — 1-indexed (default 1)
@@ -79,7 +77,6 @@ export async function GET(request: NextRequest) {
       searchParams.get("search")?.toLowerCase()?.trim() ??
       null;
     const status = searchParams.get("status");
-    const tierFilter = searchParams.get("tier");
     const userType = (searchParams.get("userType") ?? "all").toLowerCase();
     const page = Math.max(parseInt(searchParams.get("page") ?? "1", 10) || 1, 1);
     const pageSize = Math.min(
@@ -98,13 +95,6 @@ export async function GET(request: NextRequest) {
     }
     if (status === "active") where.push(`u.is_active = true`);
     else if (status === "inactive") where.push(`u.is_active = false`);
-
-    if (tierFilter === "premium") {
-      // Admins are effectively premium even without a row in user_subscriptions.
-      where.push(`(s.tier = 'premium' OR u.role = 'ADMIN')`);
-    } else if (tierFilter === "free") {
-      where.push(`(COALESCE(s.tier, 'free') = 'free' AND u.role <> 'ADMIN')`);
-    }
 
     if (userType === "agent") {
       where.push(`u.is_agent = true`);
@@ -134,7 +124,6 @@ export async function GET(request: NextRequest) {
       `SELECT COUNT(DISTINCT u.id)::int AS total
        FROM users u
        LEFT JOIN user_profiles up ON up.user_id = u.id
-       LEFT JOIN user_subscriptions s ON s.user_id = u.id
        ${whereSql}`,
       params,
     );
@@ -170,7 +159,6 @@ export async function GET(request: NextRequest) {
          -- §18o: monica_constant is single-body only; COALESCE the other two
          -- constructions so the admin panel shows an agent's real value.
          COALESCE(up.monica_constant, up.monica_two_body, up.monica_full_chart)::text AS monica_constant,
-         s.tier::text AS subscription_tier,
          s.status::text AS subscription_status,
          ds.active_sessions,
          fa.feed_events_24h,
@@ -192,7 +180,6 @@ export async function GET(request: NextRequest) {
 
     const users = result.rows.map((row) => {
       const isAdmin = (row.role || "").toUpperCase() === "ADMIN";
-      const effectiveTier = isAdmin ? "premium" : (row.subscription_tier ?? "free");
       // token_balances columns come back as strings (PG numeric → text via ::text);
       // parseFloat → 0 fallback keeps the admin UI numeric-safe.
       const toNum = (v: string | null) => (v === null ? 0 : Number.parseFloat(v) || 0);
@@ -201,7 +188,6 @@ export async function GET(request: NextRequest) {
         email: row.email,
         name: row.name ?? null,
         roles: isAdmin ? ["admin", "user"] : ["user"],
-        tier: effectiveTier,
         subscriptionStatus: row.subscription_status ?? null,
         isActive: row.is_active,
         isAgent: row.is_agent === true,
@@ -224,7 +210,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Counts by user type so the UI can render filter pills with badges
-    // without a second round-trip. These reflect the same search/status/tier
+    // without a second round-trip. These reflect the same search/status
     // filters as the page, but ignore userType — the point is to know the
     // full agent + human split inside the rest of the filter set.
     //
@@ -247,7 +233,6 @@ export async function GET(request: NextRequest) {
          COUNT(*) FILTER (WHERE u.is_agent = true)::int AS agents
        FROM users u
        LEFT JOIN user_profiles up ON up.user_id = u.id
-       LEFT JOIN user_subscriptions s ON s.user_id = u.id
        ${countWhereSql}`,
       countParams,
     );
@@ -306,7 +291,6 @@ export async function GET(request: NextRequest) {
           email: u.email,
           name: u.profile.name ?? null,
           roles: u.roles,
-          tier: "free",
           subscriptionStatus: null,
           isActive: u.isActive,
           isAgent: u.isAgent === true,

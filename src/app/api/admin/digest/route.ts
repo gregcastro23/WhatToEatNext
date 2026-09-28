@@ -45,7 +45,7 @@ interface CountsRow {
   active_24h: number;
   active_7d: number;
   active_sessions: number;
-  premium: number;
+  admins: number;
 }
 
 async function buildPayload(period: "daily" | "weekly") {
@@ -60,7 +60,7 @@ async function buildPayload(period: "daily" | "weekly") {
        COUNT(*) FILTER (WHERE last_login_at >= NOW() - INTERVAL '24 hours')::int AS active_24h,
        COUNT(*) FILTER (WHERE last_login_at >= NOW() - INTERVAL '${interval}')::int AS active_7d,
        (SELECT COUNT(*)::int FROM device_sessions WHERE revoked_at IS NULL) AS active_sessions,
-       (SELECT COUNT(*)::int FROM user_subscriptions WHERE tier = 'premium' AND status = 'active') AS premium
+       COUNT(*) FILTER (WHERE role = 'ADMIN')::int AS admins
      FROM users`,
   );
 
@@ -76,7 +76,7 @@ async function buildPayload(period: "daily" | "weekly") {
       active_24h: 0,
       active_7d: 0,
       active_sessions: 0,
-      premium: 0,
+      admins: 0,
     },
     authEvents: events,
   };
@@ -102,7 +102,7 @@ function renderHtml(payload: Awaited<ReturnType<typeof buildPayload>>): string {
       <tr><td>New (24h / 7d)</td><td style="text-align:right">${u.new_24h} / ${u.new_7d}</td></tr>
       <tr><td>Signed in (24h / 7d)</td><td style="text-align:right">${u.active_24h} / ${u.active_7d}</td></tr>
       <tr><td>Active sessions</td><td style="text-align:right">${u.active_sessions}</td></tr>
-      <tr><td>Premium</td><td style="text-align:right">${u.premium}</td></tr>
+      <tr><td>Admins</td><td style="text-align:right">${u.admins}</td></tr>
     </table>
 
     <h2 style="font-size:14px;margin:24px 0 8px">Auth events (last ${payload.period === "weekly" ? "7 days" : "24 hours"})</h2>
