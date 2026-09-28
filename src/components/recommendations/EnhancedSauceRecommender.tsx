@@ -107,7 +107,18 @@ const ROLES: Array<{ key: SauceRole; label: string; glyph: string; description: 
   },
 ];
 
-const PRESETS = [
+interface Preset {
+  title: string;
+  subtitle: string;
+  cuisine: string;
+  protein: string;
+  vegetable: string;
+  cookingMethod: string;
+  role: SauceRole;
+  flavors: FlavorAxis[];
+}
+
+const PRESETS: readonly Preset[] = [
   {
     title: "Florentine Bistecca",
     subtitle: "Italian · Beef · Grilling",
@@ -115,8 +126,8 @@ const PRESETS = [
     protein: "beef",
     vegetable: "leafy",
     cookingMethod: "grilling",
-    role: "contrast" as SauceRole,
-    flavors: ["sour", "umami"] as FlavorAxis[],
+    role: "contrast",
+    flavors: ["sour", "umami"],
   },
   {
     title: "Cantonese Steamed Fish",
@@ -125,8 +136,8 @@ const PRESETS = [
     protein: "fish",
     vegetable: "mushroom",
     cookingMethod: "steaming",
-    role: "complement" as SauceRole,
-    flavors: ["umami", "salty"] as FlavorAxis[],
+    role: "complement",
+    flavors: ["umami", "salty"],
   },
   {
     title: "Oaxacan Braised Carnitas",
@@ -135,8 +146,8 @@ const PRESETS = [
     protein: "pork",
     vegetable: "nightshades",
     cookingMethod: "braising",
-    role: "enhance" as SauceRole,
-    flavors: ["spicy", "umami"] as FlavorAxis[],
+    role: "enhance",
+    flavors: ["spicy", "umami"],
   },
   {
     title: "Kyoto Forest Harvest",
@@ -145,8 +156,8 @@ const PRESETS = [
     protein: "tofu",
     vegetable: "squash",
     cookingMethod: "roasting",
-    role: "balance" as SauceRole,
-    flavors: ["sweet", "umami"] as FlavorAxis[],
+    role: "balance",
+    flavors: ["sweet", "umami"],
   },
 ];
 
@@ -508,22 +519,11 @@ function SauceResultCard({
                 </div>
 
                 <ul className="text-xs space-y-1.5 divide-y divide-white/5">
-                  {scaledIngredients.map((ing, i) => {
-                    const ingObj =
-                      typeof ing === "object" && ing !== null
-                        ? (ing as { name?: string; amount?: number | string; unit?: string })
-                        : null;
-                    return (
-                      <li key={i} className="flex justify-between items-center pt-1.5 first:pt-0">
-                        <span className="text-white/80">
-                          {typeof ing === "string" ? ing : ingObj?.name}
-                        </span>
-                        <span className="font-mono text-violet-300 text-xs">
-                          {typeof ing === "string" ? "" : `${ingObj?.amount ?? ""} ${ingObj?.unit ?? ""}`}
-                        </span>
-                      </li>
-                    );
-                  })}
+                  {scaledIngredients.map((ing, i) => (
+                    <li key={i} className="flex justify-between items-center pt-1.5 first:pt-0">
+                      <span className="text-white/80">{ing}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
@@ -615,9 +615,13 @@ export default function EnhancedSauceRecommender({
   const [dietary, setDietary] = useState<string[]>([]);
   const [flavorTargets, setFlavorTargets] = useState<FlavorAxis[]>([]);
   const [role, setRole] = useState<SauceRole>("complement");
-  const [season, _setSeason] = useState<CuisineSauceContext["season"]>(
-    detectedSeason.toLowerCase() as CuisineSauceContext["season"],
-  );
+  const [season, _setSeason] = useState<CuisineSauceContext["season"]>(() => {
+    const lc = detectedSeason.toLowerCase();
+    if (lc === "spring" || lc === "summer" || lc === "fall" || lc === "autumn" || lc === "winter") {
+      return lc;
+    }
+    return "all";
+  });
   const [cosmicSync, setCosmicSync] = useState(true);
   const [strictCuisine, setStrictCuisine] = useState(false);
   const [applyUserBias, setApplyUserBias] = useState(true);
