@@ -16,6 +16,7 @@ export { PlanetaryChip, type PlanetaryChipProps } from "./PlanetaryChip";
 export { ProcurementMark, type ProcurementMarkProps } from "./ProcurementMark";
 export { PremiumMark, type PremiumMarkProps } from "./PremiumMark";
 export { PremiumLockBadge } from "./PremiumLockBadge";
+export { PremiumGlow, type PremiumGlowProps } from "./PremiumGlow";
 export { ProcurementKit, type ProcurementItem, type ProcurementKitProps } from "./ProcurementKit";
 export { ProcureChip, type ProcureChipProps } from "./ProcureChip";
 
