@@ -287,6 +287,17 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkSamplingHourAgrees.ts
 
+      - name: Food diary entries are stored, with what they carry
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Diff-sensitive: it imports the food_diary_entries statements from
+        # src/services/foodDiaryQueries.ts and runs them over synthetic rows, in
+        # a transaction that is always rolled back, with a failing control per
+        # check. Every diary insert failed for five months ("entry_…" into a
+        # UUID id) behind mocked tests that never ran the statement.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkFoodDiaryPersistenceSql.mjs
+
   # ---------------------------------------------------------------------------
   # Data. master + cron only: it needs production credentials, so it must never
   # run on a pull_request from a fork.
