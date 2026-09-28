@@ -331,6 +331,18 @@ export interface ComplianceDeficiency {
 }
 
 /**
+ * How many planned meals entered a nutrition total. A recipe that publishes
+ * no nutrition is not a 0 kcal meal: a total that leaves it out is a lower
+ * bound (owner ruling 2026-09-26). See `utils/menuPlanner/nutritionCoverage`.
+ */
+export interface NutritionCoverage {
+  /** Meals with a recipe. */
+  planned: number;
+  /** Of those, the meals whose nutrition entered the total. */
+  withNutrition: number;
+}
+
+/**
  * Daily nutrition result with compliance analysis
  */
 export interface DailyNutritionResult {
@@ -339,8 +351,11 @@ export interface DailyNutritionResult {
     recipeName: string;
     mealType: "breakfast" | "lunch" | "dinner" | "snack";
     nutrition: NutritionalSummary;
+    /** False when the recipe publishes no nutrition; `nutrition` is then all zeros. */
+    hasNutrition: boolean;
   }>;
   totals: NutritionalSummary;
+  coverage: NutritionCoverage;
   goals: NutritionalSummary;
   compliance: {
     overall: number;
@@ -359,6 +374,7 @@ export interface WeeklyNutritionResult {
   weekEndDate: Date;
   days: DailyNutritionResult[];
   weeklyTotals: NutritionalSummary;
+  coverage: NutritionCoverage;
   weeklyGoals: NutritionalSummary;
   weeklyCompliance: {
     overall: number;

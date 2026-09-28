@@ -14,6 +14,7 @@ import React, { useMemo, useState } from "react";
 import type { WeeklyMenu } from "@/types/menuPlanner";
 import type { WeeklyNutritionResult } from "@/types/nutrition";
 import type { Recipe } from "@/types/recipe";
+import { coverageNote, coverageState } from "@/utils/menuPlanner/nutritionCoverage";
 
 /** A single suggestion generated from current menu state */
 export interface Suggestion {
@@ -184,9 +185,13 @@ export default function SmartSuggestionsSidebar({
     }
 
     // --- NUTRITIONAL ---
-    if (weeklyNutrition) {
+    // No planned meal has nutrition: there is no total to judge. Otherwise a
+    // partial total still drives the suggestions, and each one says so.
+    if (weeklyNutrition && coverageState(weeklyNutrition.coverage) !== "none") {
       const totals = weeklyNutrition.weeklyTotals;
       const goals = weeklyNutrition.weeklyGoals;
+      const partialNote = coverageNote(weeklyNutrition.coverage);
+      const partial = partialNote ? ` (${partialNote})` : "";
 
       if (goals.protein > 0) {
         const proteinPct = goals.protein > 0 ? totals.protein / goals.protein : 0;
@@ -197,7 +202,7 @@ export default function SmartSuggestionsSidebar({
             severity: proteinPct < 0.5 ? "critical" : "warning",
             icon: "🥩",
             title: "Protein Gap",
-            message: `Only ${Math.round(proteinPct * 100)}% of weekly protein target. Add lean meats, legumes, or dairy.`,
+            message: `Only ${Math.round(proteinPct * 100)}% of weekly protein target. Add lean meats, legumes, or dairy.${partial}`,
             actionable: true,
           });
         }
@@ -212,7 +217,7 @@ export default function SmartSuggestionsSidebar({
             severity: "warning",
             icon: "🌾",
             title: "Low Fiber",
-            message: `${Math.round(fiberGap)}g fiber short. Add whole grains, legumes, or vegetables.`,
+            message: `${Math.round(fiberGap)}g fiber short. Add whole grains, legumes, or vegetables.${partial}`,
             actionable: true,
           });
         }
@@ -225,7 +230,7 @@ export default function SmartSuggestionsSidebar({
           severity: "warning",
           icon: "⚡",
           title: "Calorie Surplus",
-          message: `${Math.round(((totals.calories - goals.calories) / goals.calories) * 100)}% above target. Consider lighter options for some days.`,
+          message: `${Math.round(((totals.calories - goals.calories) / goals.calories) * 100)}% above target. Consider lighter options for some days.${partial}`,
         });
       }
 
@@ -236,7 +241,7 @@ export default function SmartSuggestionsSidebar({
           severity: "warning",
           icon: "🔋",
           title: "Low Energy Week",
-          message: `Calories only ${Math.round((totals.calories / goals.calories) * 100)}% of target. Add more nutrient-dense meals.`,
+          message: `Calories only ${Math.round((totals.calories / goals.calories) * 100)}% of target. Add more nutrient-dense meals.${partial}`,
         });
       }
 
@@ -248,7 +253,7 @@ export default function SmartSuggestionsSidebar({
           severity: "info",
           icon: "✨",
           title: "Excellent Balance!",
-          message: `${Math.round(compliance.overall * 100)}% nutritional compliance — outstanding week!`,
+          message: `${Math.round(compliance.overall * 100)}% nutritional compliance — outstanding week!${partial}`,
         });
       }
     }
