@@ -2,10 +2,6 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { menuTemplateSaveBodySchema } from "@/lib/menu-planner/schemas";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
-import type {
-  DayOfWeek,
-  DailyNutritionTotals,
-} from "@/types/menuPlanner";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("api:menu-planner:templates");
@@ -88,29 +84,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const {
-      name,
-      weekStartDate,
-      meals,
-      nutritionalTotals,
-      groceryList,
-      inventory,
-      weeklyBudget,
-    } = parsed.data;
+    // `nutritionalTotals`, if sent, is stripped by the schema and never stored.
+    const { name, weekStartDate, meals, groceryList, inventory, weeklyBudget } =
+      parsed.data;
 
     const template = await menuPersistenceService.saveTemplate(userId, {
       name,
-      menu: {
-        weekStartDate,
-        meals,
-        nutritionalTotals: nutritionalTotals as Record<
-          DayOfWeek,
-          DailyNutritionTotals
-        >,
-        groceryList,
-        inventory,
-        weeklyBudget,
-      },
+      menu: { weekStartDate, meals, groceryList, inventory, weeklyBudget },
     });
 
     return NextResponse.json({ success: true, template }, { status: 201 });

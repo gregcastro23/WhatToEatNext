@@ -247,7 +247,8 @@ export default function TodaysMealsWidget({
     return map;
   }, [todayMealSlots]);
 
-  const plannedCount = Object.values(todaysMeals).filter(Boolean).length;
+  // A slot exists for every meal window; it is planned only once it holds a recipe.
+  const plannedCount = Object.values(todaysMeals).filter((slot) => Boolean(slot.recipe)).length;
 
   // Track which meal types have been logged this session so the button can
   // switch to a "logged" state without a diary refetch.

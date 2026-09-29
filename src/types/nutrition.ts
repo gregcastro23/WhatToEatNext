@@ -360,6 +360,8 @@ export interface DailyNutritionResult {
   compliance: {
     overall: number;
     byNutrient: Record<string, number>;
+    /** The nutrients `overall` is scored over; name them wherever it is shown. */
+    basis: ReadonlyArray<keyof NutritionalSummary>;
     deficiencies: ComplianceDeficiency[];
     excesses: ComplianceDeficiency[];
     suggestions: string[];
@@ -379,6 +381,7 @@ export interface WeeklyNutritionResult {
   weeklyCompliance: {
     overall: number;
     byNutrient: Record<string, number>;
+    basis: ReadonlyArray<keyof NutritionalSummary>;
     deficiencies: ComplianceDeficiency[];
     excesses: ComplianceDeficiency[];
   };
