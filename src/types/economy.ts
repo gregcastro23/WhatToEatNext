@@ -49,6 +49,14 @@ export type TransactionSourceType =
    */
   | "group_chat_quest"
   /**
+   * A Jing Arena duel round won on the agents app (agents.alchm.kitchen). The
+   * arena pays the signed-in player there and forwards the same basket here
+   * through POST /api/economy/sync-credit under the agents app's own source
+   * name. Idempotency key shape: `duel_yield:<agentsUserId>:<mintedAt>`; the
+   * daily cap is enforced on the agents side (DUEL_YIELD_DAILY_CAP).
+   */
+  | "duel_yield"
+  /**
    * Debit for AI recipe ingestion — a user added a recipe by pasting text or
    * uploading a photo (GPT-4o extraction) via POST /api/recipes/extract.
    * Live-priced per extraction like refine_oracle; refunded if extraction fails.

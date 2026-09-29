@@ -217,6 +217,7 @@ export const TransactionSourceTypeSchema = z.enum([
   "mcp_top_up",
   "transit_attunement",
   "group_chat_quest",
+  "duel_yield",
   "recipe_ingestion",
   "restaurant_order",
   "restaurant_refund",
