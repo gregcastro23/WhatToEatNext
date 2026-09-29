@@ -71,7 +71,9 @@ export default function GenerateRecipeButton({
           Earth: 0.25,
           Air: 0.25,
         },
-        ...(astroHook.currentPlanetaryHour ? { currentPlanetaryHour: astroHook.currentPlanetaryHour } : {}),
+        ...(astroHook.currentPlanetaryHour
+          ? { currentPlanetaryHour: astroHook.currentPlanetaryHour }
+          : {}),
       };
 
       // Determine meal types from builder selection (or use all if none selected)
@@ -87,7 +89,9 @@ export default function GenerateRecipeButton({
           prioritizeHarmony: true,
           ...(currentUser.stats ? { stats: currentUser.stats } : {}),
         };
-        logger.info("Applying natal chart personalization for recipe generation");
+        logger.info(
+          "Applying natal chart personalization for recipe generation",
+        );
       }
 
       logger.info("Generating recipes with full recommendation pipeline", {
@@ -108,7 +112,8 @@ export default function GenerateRecipeButton({
             ...builder.allergies,
           ],
           preferredCuisines: builder.selectedCuisines,
-          excludeIngredients: [],
+          excludeIngredients: builder.allergies,
+          maxPrepTimeMinutes: builder.maxPrepTimeMinutes,
           requiredIngredients: builder.selectedIngredients.map((i) => i.name),
           preferredCookingMethods: builder.selectedCookingMethods,
           flavorPreferences: builder.flavors,
@@ -146,7 +151,9 @@ export default function GenerateRecipeButton({
           if (typeof window !== "undefined") {
             window.dispatchEvent(new Event("open-token-shop"));
           }
-          onError?.("Insufficient tokens. Each generation costs 5 Spirit + 5 Essence.");
+          onError?.(
+            "Insufficient tokens. Each generation costs 5 Spirit + 5 Essence.",
+          );
           onGenerated([]);
           return;
         }
@@ -191,7 +198,9 @@ export default function GenerateRecipeButton({
   return (
     <div className={className}>
       <button
-        onClick={() => { void handleGenerate(); }}
+        onClick={() => {
+          void handleGenerate();
+        }}
         disabled={!canGenerate || isGenerating}
         className={`
           w-full py-3.5 px-6 rounded-xl font-bold text-sm transition-all
@@ -204,9 +213,24 @@ export default function GenerateRecipeButton({
       >
         {isGenerating ? (
           <span className="flex items-center justify-center gap-2">
-            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            <svg
+              className="animate-spin h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+              />
             </svg>
             Consulting the cosmos...
           </span>
@@ -214,7 +238,9 @@ export default function GenerateRecipeButton({
           <span className="flex items-center justify-center gap-2">
             ✨ Generate Recipes
             {currentUser?.natalChart && (
-              <span className="text-xs opacity-80 font-normal">(personalized)</span>
+              <span className="text-xs opacity-80 font-normal">
+                (personalized)
+              </span>
             )}
           </span>
         )}
@@ -222,7 +248,8 @@ export default function GenerateRecipeButton({
 
       {!canGenerate && (
         <p className="text-xs text-gray-400 text-center mt-2">
-          Add at least one preference (meal type, ingredients, cuisines, methods, flavors, or dietary filters)
+          Add at least one preference (meal type, ingredients, cuisines,
+          methods, flavors, or dietary filters)
         </p>
       )}
 

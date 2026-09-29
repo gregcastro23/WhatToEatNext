@@ -16,6 +16,12 @@ jest.mock("@/lib/auth/validateRequest", () => ({
   getUserIdFromRequest: jest.fn(),
 }));
 
+// Recognition runs in the background; route tests must not start real database
+// work that outlives their Jest environment.
+jest.mock("@/lib/economy/tableJoin", () => ({
+  recognizeTableJoin: jest.fn(),
+}));
+
 jest.mock("@/lib/redis", () => ({
   getRedisClient: () => null,
 }));
