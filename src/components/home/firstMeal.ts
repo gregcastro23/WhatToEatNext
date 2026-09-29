@@ -294,7 +294,8 @@ export function scoreFirstMeal(
   }
 
   let [dominant] = ELEMENT_ORDER;
-  if (dominant === undefined) throw new Error("firstMeal: ELEMENT_ORDER is empty");
+  if (dominant === undefined)
+    throw new Error("firstMeal: ELEMENT_ORDER is empty");
   for (const el of ELEMENT_ORDER) {
     if (totals[el] > totals[dominant]) dominant = el;
   }
@@ -377,3 +378,12 @@ export function saveMealAnswers(answers: readonly number[]): void {
     /* localStorage unavailable */
   }
 }
+
+// Adaptive engine exports; the original four-answer API remains compatible.
+export { scoreQuiz } from "./quiz/quizScoring";
+export type {
+  QuizContext,
+  QuizReading,
+  QuizState,
+  QuizMode,
+} from "./quiz/types";
