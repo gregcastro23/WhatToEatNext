@@ -1,31 +1,43 @@
 "use client";
 
 /**
- * Nutritional Dashboard Component
- * Displays weekly nutrition totals, macronutrient breakdown, and alchemical metrics
+ * Nutrition Dashboard
+ * The planned week's nutrition: totals, macro split, daily calories,
+ * elemental balance and insights.
+ *
+ * Owner ruling 2026-09-29: the planner's "Nutrition Dashboard" button opens
+ * this modal on the alchm dark surface, and only sections with a basis stay.
+ * The holistic score (invented weights), Greg's Energy trend (−0.53 printed as
+ * "−1", negative bars drawn empty) and the alchemical metrics (Kalchm ≈ 1, so
+ * Monica is its φ fallback) were removed.
+ *
+ * Portalled to <body>, so no transformed or filtered ancestor can confine it.
  *
  * @file src/components/menu-planner/NutritionalDashboard.tsx
  * @created 2026-01-11 (Phase 3)
  */
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useId, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type {
+  DayOfWeek,
   MealSlot,
   NutritionalGoals,
+  WeeklyMenu,
   WeeklyNutritionTotals,
 } from "@/types/menuPlanner";
 import { emptyDayRecord } from "@/utils/dayCircuitCalculations";
 import {
-  calculateWeeklyTotals,
   calculateMacroBreakdown,
-  generateMacroChartData,
-  generateElementalChartData,
+  calculateWeeklyTotals,
   generateDailyCaloriesChartData,
-  generateGregsEnergyChartData,
+  generateElementalChartData,
+  generateMacroChartData,
   getNutritionalInsights,
 } from "@/utils/menuPlanner/nutritionalCalculator";
 import { formatCoveredTotal } from "@/utils/menuPlanner/nutritionCoverage";
+import { BarChart, PieChart, RadarChart } from "./NutritionCharts";
 import NutritionCoverageNote from "./NutritionCoverageNote";
 
 interface NutritionalDashboardProps {
@@ -34,227 +46,231 @@ interface NutritionalDashboardProps {
   goals?: NutritionalGoals;
 }
 
-/**
- * Simple Pie Chart Component
- */
-function PieChart({
-  data,
-}: {
-  data: Array<{ label: string; value: number; color?: string }>;
-}) {
-  const total = data.reduce((sum, item) => sum + item.value, 0);
+type SectionId = "overview" | "macros" | "calories" | "elemental" | "insights";
 
-  let cumulativePercent = 0;
+type TotalKey =
+  | "totalCalories"
+  | "totalProtein"
+  | "totalCarbs"
+  | "totalFat"
+  | "totalSodium"
+  | "totalSugar";
 
+const OVERVIEW: ReadonlyArray<{ label: string; key: TotalKey; unit: string; tone: string }> = [
+  { label: "Calories", key: "totalCalories", unit: " kcal", tone: "text-active-violet" },
+  { label: "Protein", key: "totalProtein", unit: "g", tone: "text-fire-spirit" },
+  { label: "Carbs", key: "totalCarbs", unit: "g", tone: "text-water-essence" },
+  { label: "Fat", key: "totalFat", unit: "g", tone: "text-gold-accent" },
+  { label: "Sodium", key: "totalSodium", unit: "mg", tone: "text-air-substance" },
+  { label: "Sugar", key: "totalSugar", unit: "g", tone: "text-earth-matter" },
+];
+
+function mealsByDayOf(menu: WeeklyMenu | null): Record<DayOfWeek, MealSlot[]> {
+  const grouped = emptyDayRecord<MealSlot[]>(() => []);
+  menu?.meals.forEach((meal) => {
+    grouped[meal.dayOfWeek].push(meal);
+  });
+  return grouped;
+}
+
+function OverviewTiles({ totals }: { totals: WeeklyNutritionTotals }): React.JSX.Element {
   return (
-    <div className="flex items-center justify-center gap-6">
-      {/* Pie Chart */}
-      <div className="relative w-48 h-48">
-        <svg viewBox="0 0 100 100" className="transform -rotate-90">
-          {data.map((item, index) => {
-            const percent = (item.value / total) * 100;
-            const offset = cumulativePercent;
-            cumulativePercent += percent;
-
-            // SVG circle with stroke-dasharray for pie slice
-            const circumference = 2 * Math.PI * 30; // radius = 30
-            const dashArray = `${(percent / 100) * circumference} ${circumference}`;
-            const dashOffset = -((offset / 100) * circumference);
-
-            return (
-              <circle
-                key={index}
-                cx="50"
-                cy="50"
-                r="30"
-                fill="transparent"
-                stroke={item.color ?? "#8b5cf6"}
-                strokeWidth="30"
-                strokeDasharray={dashArray}
-                strokeDashoffset={dashOffset}
-                style={{ transition: "all 0.3s ease" }}
-              />
-            );
-          })}
-        </svg>
-      </div>
-
-      {/* Legend */}
-      <div className="space-y-2">
-        {data.map((item, index) => (
-          <div key={index} className="flex items-center gap-2">
-            <div
-              className="w-4 h-4 rounded"
-              style={{ backgroundColor: item.color ?? "#8b5cf6" }}
-            />
-            <span className="text-sm">
-              {item.label}: {item.value.toFixed(1)}%
-            </span>
-          </div>
-        ))}
-      </div>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+      {OVERVIEW.map(({ label, key, unit, tone }) => (
+        <div key={key} className="rounded-xl border border-muted bg-surface-container-low p-3">
+          <p className="font-label-caps text-[10px] uppercase tracking-wider text-on-surface-variant">
+            {label}
+          </p>
+          <p className={`font-mono text-xl font-bold ${tone}`}>
+            {formatCoveredTotal(totals[key], totals.coverage, unit)}
+          </p>
+          <p className="font-mono text-[11px] text-on-surface-variant">
+            {formatCoveredTotal(totals[key] / 7, totals.coverage, unit)}/day
+          </p>
+        </div>
+      ))}
+      <p className="col-span-full font-mono text-[11px] text-on-surface-variant">
+        Per day = the week&apos;s total ÷ 7.
+      </p>
     </div>
   );
 }
 
-/**
- * Simple Bar Chart Component
- */
-function BarChart({
-  data,
-  unit,
+function Section({
+  id,
+  title,
+  openId,
+  onToggle,
+  children,
 }: {
-  data: Array<{ label: string; value: number; display?: string; color?: string }>;
-  unit?: string | undefined;
-}) {
-  const maxValue = Math.max(...data.map((d) => d.value));
-
+  id: SectionId;
+  title: string;
+  openId: SectionId | null;
+  onToggle: (id: SectionId) => void;
+  children: React.ReactNode;
+}): React.JSX.Element {
+  const open = openId === id;
   return (
-    <div className="space-y-3">
-      {data.map((item, index) => {
-        const percentage = maxValue > 0 ? (item.value / maxValue) * 100 : 0;
-
-        return (
-          <div key={index} className="space-y-1">
-            <div className="flex justify-between text-sm">
-              <span className="font-medium">{item.label}</span>
-              <span className="text-gray-600">
-                {item.display ?? `${Math.round(item.value)} ${unit ?? ""}`}
-              </span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
-              <div
-                className="h-full rounded-full transition-all duration-500"
-                style={{
-                  width: `${percentage}%`,
-                  backgroundColor: item.color ?? "#8b5cf6",
-                }}
-              />
-            </div>
-          </div>
-        );
-      })}
-    </div>
+    <section className="mb-3">
+      <h3>
+        <button
+          type="button"
+          onClick={() => onToggle(id)}
+          aria-expanded={open}
+          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border border-muted bg-surface-container-low hover:bg-surface-container-high transition-colors cursor-pointer font-label-caps text-xs uppercase tracking-wider text-on-surface"
+        >
+          {title}
+          <span aria-hidden="true" className="text-on-surface-variant">
+            {open ? "▼" : "▶"}
+          </span>
+        </button>
+      </h3>
+      {open && <div className="mt-3 rounded-xl border border-muted bg-surface-container-lowest/60 p-4">{children}</div>}
+    </section>
   );
 }
 
-/**
- * Simple Radar Chart Component
- */
-function RadarChart({
-  data,
-}: {
-  data: Array<{ label: string; value: number; color?: string }>;
-}) {
-  const size = 200;
-  const center = size / 2;
-  const radius = size / 2 - 20;
-  const levels = 5;
-
-  // Calculate points for the data polygon
-  const dataPoints = data.map((item, i) => {
-    const angle = (i * 2 * Math.PI) / data.length - Math.PI / 2;
-    const distance = item.value * radius;
+function useWeekNutrition(goals: NutritionalGoals | undefined): {
+  totals: WeeklyNutritionTotals;
+  hasMacros: boolean;
+  charts: {
+    macros: ReturnType<typeof generateMacroChartData>;
+    calories: ReturnType<typeof generateDailyCaloriesChartData>;
+    elemental: ReturnType<typeof generateElementalChartData>;
+  };
+  insights: string[];
+} {
+  const { currentMenu } = useMenuPlanner();
+  return useMemo(() => {
+    const totals = calculateWeeklyTotals(mealsByDayOf(currentMenu));
+    const macros = calculateMacroBreakdown(totals.totalProtein / 7, totals.totalCarbs / 7, totals.totalFat / 7);
     return {
-      x: center + distance * Math.cos(angle),
-      y: center + distance * Math.sin(angle),
+      totals,
+      hasMacros: totals.totalProtein + totals.totalCarbs + totals.totalFat > 0,
+      charts: {
+        macros: generateMacroChartData(macros),
+        calories: generateDailyCaloriesChartData(totals.dailyBreakdown, totals.dailyCoverage),
+        elemental: generateElementalChartData(totals.weeklyElementalBalance),
+      },
+      insights: getNutritionalInsights(totals, goals),
     };
-  });
+  }, [currentMenu, goals]);
+}
 
-  const dataPath = `${dataPoints
-    .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`)
-    .join(" ")} Z`;
-
-  // Calculate axis labels positions
-  const axisLabels = data.map((item, i) => {
-    const angle = (i * 2 * Math.PI) / data.length - Math.PI / 2;
-    const distance = radius + 15;
-    return {
-      x: center + distance * Math.cos(angle),
-      y: center + distance * Math.sin(angle),
-      label: item.label,
-      color: item.color,
-    };
-  });
-
+function WeekSections({ goals }: { goals: NutritionalGoals | undefined }): React.JSX.Element {
+  const { totals, hasMacros, charts, insights } = useWeekNutrition(goals);
+  const [openId, setOpenId] = useState<SectionId | null>("overview");
+  const toggle = (id: SectionId): void => setOpenId((current) => (current === id ? null : id));
+  if (totals.coverage.planned === 0) {
+    return (
+      <p className="py-8 text-center text-sm text-on-surface-variant">
+        No meals are planned this week yet. Plan some to see the week&apos;s nutrition.
+      </p>
+    );
+  }
+  const shared = { openId, onToggle: toggle };
   return (
-    <div className="flex justify-center">
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-        {/* Background levels */}
-        {Array.from({ length: levels }, (_, i) => {
-          const levelRadius = ((i + 1) / levels) * radius;
-          const levelPoints = data.map((_, j) => {
-            const angle = (j * 2 * Math.PI) / data.length - Math.PI / 2;
-            return {
-              x: center + levelRadius * Math.cos(angle),
-              y: center + levelRadius * Math.sin(angle),
-            };
-          });
-          const levelPath = `${levelPoints
-            .map((p, j) => `${j === 0 ? "M" : "L"} ${p.x} ${p.y}`)
-            .join(" ")} Z`;
+    <>
+      <NutritionCoverageNote coverage={totals.coverage} className="mb-3" />
+      <Section id="overview" title="Weekly Overview" {...shared}>
+        <OverviewTiles totals={totals} />
+      </Section>
+      <Section id="macros" title="Macronutrient Distribution" {...shared}>
+        {hasMacros ? (
+          <PieChart data={charts.macros.data} label="Share of macro energy: protein, carbs and fat" />
+        ) : (
+          <p className="text-sm text-on-surface-variant">No planned meal publishes protein, carbs or fat.</p>
+        )}
+      </Section>
+      <Section id="calories" title="Daily Calories" {...shared}>
+        <BarChart data={charts.calories.data} unit=" kcal" />
+      </Section>
+      <Section id="elemental" title="Elemental Balance" {...shared}>
+        <RadarChart data={charts.elemental.data} label="Elemental balance of the planned meals" />
+      </Section>
+      <Section id="insights" title="Nutritional Insights" {...shared}>
+        <ul className="space-y-2 text-sm text-on-surface">
+          {insights.map((insight) => (
+            <li key={insight} className="flex items-start gap-2">
+              <span aria-hidden="true" className="text-active-violet font-bold">•</span>
+              <span>{insight}</span>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    </>
+  );
+}
 
-          return (
-            <path
-              key={i}
-              d={levelPath}
-              fill="none"
-              stroke="#e5e7eb"
-              strokeWidth="1"
-            />
-          );
-        })}
+function DialogHeader({
+  titleId,
+  onClose,
+}: {
+  titleId: string;
+  onClose: () => void;
+}): React.JSX.Element {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  // Focus starts inside the dialog, on its close button.
+  useEffect(() => {
+    closeRef.current?.focus();
+  }, []);
+  return (
+    <header className="flex items-start justify-between gap-4 p-5 border-b border-muted">
+      <div>
+        <h2 id={titleId} className="font-display-lg text-headline-lg text-primary">
+          Nutrition Dashboard
+        </h2>
+        <p className="mt-1 text-sm text-on-surface-variant">Totals for the meals planned this week</p>
+      </div>
+      <button
+        ref={closeRef}
+        type="button"
+        onClick={onClose}
+        aria-label="Close nutrition dashboard"
+        className="text-2xl leading-none text-on-surface-variant hover:text-white transition-colors cursor-pointer"
+      >
+        ×
+      </button>
+    </header>
+  );
+}
 
-        {/* Axes */}
-        {data.map((_, i) => {
-          const angle = (i * 2 * Math.PI) / data.length - Math.PI / 2;
-          return (
-            <line
-              key={i}
-              x1={center}
-              y1={center}
-              x2={center + radius * Math.cos(angle)}
-              y2={center + radius * Math.sin(angle)}
-              stroke="#d1d5db"
-              strokeWidth="1"
-            />
-          );
-        })}
-
-        {/* Data polygon */}
-        <path
-          d={dataPath}
-          fill="rgba(139, 92, 246, 0.3)"
-          stroke="#8b5cf6"
-          strokeWidth="2"
-        />
-
-        {/* Data points */}
-        {dataPoints.map((point, i) => (
-          <circle
-            key={i}
-            cx={point.x}
-            cy={point.y}
-            r="4"
-            fill={data[i]?.color ?? "#8b5cf6"}
-          />
-        ))}
-
-        {/* Labels */}
-        {axisLabels.map((label, i) => (
-          <text
-            key={i}
-            x={label.x}
-            y={label.y}
-            textAnchor="middle"
-            alignmentBaseline="middle"
-            className="text-xs font-medium"
-            fill={label.color ?? "#8b5cf6"}
+function DashboardDialog({
+  onClose,
+  children,
+}: {
+  onClose: () => void;
+  children: React.ReactNode;
+}): React.JSX.Element {
+  const titleId = useId();
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent): void => {
+      if (event.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return (): void => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  return (
+    // z-[70] clears the phone tab bar (z 65), as the site's other full-screen modals do.
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        className="alchm-panel alchm-panel-glow regmarks w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden rounded-2xl text-on-surface"
+      >
+        <DialogHeader titleId={titleId} onClose={onClose} />
+        <div className="flex-1 overflow-y-auto p-5">{children}</div>
+        <footer className="flex justify-end p-4 border-t border-muted">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-6 py-2 border border-active-violet text-active-violet bg-active-violet/10 hover:bg-active-violet/20 transition-colors font-label-caps text-xs uppercase cursor-pointer active:scale-95"
           >
-            {label.label}
-          </text>
-        ))}
-      </svg>
+            Close
+          </button>
+        </footer>
+      </div>
     </div>
   );
 }
@@ -266,581 +282,12 @@ export default function NutritionalDashboard({
   isOpen,
   onClose,
   goals,
-}: NutritionalDashboardProps) {
-  const { currentMenu } = useMenuPlanner();
-  const [expandedSection, setExpandedSection] = useState<string | null>(
-    "overview",
-  );
-
-  // Group meals by day
-  const mealsByDay = useMemo(() => {
-    if (!currentMenu) return emptyDayRecord<MealSlot[]>(() => []);
-
-    const grouped = emptyDayRecord<MealSlot[]>(() => []);
-
-    currentMenu.meals.forEach((meal) => {
-      grouped[meal.dayOfWeek].push(meal);
-    });
-
-    return grouped;
-  }, [currentMenu]);
-
-  // Calculate weekly totals
-  const weeklyTotals: WeeklyNutritionTotals = useMemo(() => calculateWeeklyTotals(mealsByDay), [mealsByDay]);
-
-  // Calculate macro breakdown
-  const macroBreakdown = useMemo(() => calculateMacroBreakdown(
-      weeklyTotals.totalProtein / 7,
-      weeklyTotals.totalCarbs / 7,
-      weeklyTotals.totalFat / 7,
-    ), [weeklyTotals]);
-
-  // Generate chart data
-  const macroChart = useMemo(
-    () => generateMacroChartData(macroBreakdown),
-    [macroBreakdown],
-  );
-  const elementalChart = useMemo(
-    () => generateElementalChartData(weeklyTotals.weeklyElementalBalance),
-    [weeklyTotals],
-  );
-  const caloriesChart = useMemo(
-    () => generateDailyCaloriesChartData(weeklyTotals.dailyBreakdown, weeklyTotals.dailyCoverage),
-    [weeklyTotals],
-  );
-  const gregsEnergyChart = useMemo(
-    () => generateGregsEnergyChartData(weeklyTotals.dailyBreakdown),
-    [weeklyTotals],
-  );
-
-  // Get insights
-  const insights = useMemo(
-    () => getNutritionalInsights(weeklyTotals, goals),
-    [weeklyTotals, goals],
-  );
-
-  const toggleSection = (section: string) => {
-    setExpandedSection(expandedSection === section ? null : section);
-  };
-
-  // Calculate nutrient density score (nutrients per calorie)
-  const calculateNutrientDensity = (totals: WeeklyNutritionTotals): number => {
-    if (totals.totalCalories === 0) return 0;
-
-    // Calculate nutrient score based on protein, fiber, and macros
-    const proteinScore = (totals.totalProtein / totals.totalCalories) * 100;
-    const fiberScore = (totals.totalFiber / totals.totalCalories) * 500;
-
-    // Higher protein and fiber per calorie = better density
-    const score = Math.min(
-      100,
-      ((proteinScore * 2 + fiberScore * 3) / 5) * 100,
-    );
-    return Math.round(score);
-  };
-
-  // Calculate meal type percentage of total calories
-  const getMealTypePercentage = (mealType: string): number => {
-    if (!currentMenu || weeklyTotals.totalCalories === 0) return 0;
-
-    let mealTypeCalories = 0;
-    currentMenu.meals.forEach((meal) => {
-      if (meal.mealType === mealType && meal.recipe) {
-        const profile: unknown = Reflect.get(meal.recipe, "nutritionalProfile");
-        const calories =
-          profile && typeof profile === "object" && "calories" in profile && typeof profile.calories === "number"
-            ? profile.calories
-            : meal.recipe.nutrition?.calories;
-        if (calories) {
-          mealTypeCalories += calories * (meal.servings || 1);
-        }
-      }
-    });
-
-    return Math.round((mealTypeCalories / weeklyTotals.totalCalories) * 100);
-  };
-
-  // Calculate unique ingredient count
-  const calculateIngredientVariety = (): number => {
-    if (!currentMenu) return 0;
-
-    const uniqueIngredients = new Set<string>();
-    currentMenu.meals.forEach((meal) => {
-      if (meal.recipe?.ingredients) {
-        meal.recipe.ingredients.forEach((ing) => {
-          uniqueIngredients.add(ing.name?.toLowerCase() ?? "");
-        });
-      }
-    });
-
-    return uniqueIngredients.size;
-  };
-
-  // Calculate overall holistic nutrition score
-  const calculateHolisticScore = (): number => {
-    const densityScore = calculateNutrientDensity(weeklyTotals);
-    const varietyScore = Math.min(
-      100,
-      (calculateIngredientVariety() / 30) * 100,
-    );
-    const fiberScore = Math.min(100, (weeklyTotals.totalFiber / 7 / 30) * 100);
-
-    // Meal balance score - closer to ideal distribution is better
-    const breakfastPct = getMealTypePercentage("breakfast");
-    const lunchPct = getMealTypePercentage("lunch");
-    const dinnerPct = getMealTypePercentage("dinner");
-
-    const balanceScore =
-      100 -
-      (Math.abs(breakfastPct - 25) +
-        Math.abs(lunchPct - 35) +
-        Math.abs(dinnerPct - 40));
-
-    // Weighted average
-    const score =
-      densityScore * 0.3 +
-      varietyScore * 0.25 +
-      fiberScore * 0.2 +
-      Math.max(0, balanceScore) * 0.25;
-
-    return Math.round(score);
-  };
-
+}: NutritionalDashboardProps): React.JSX.Element | null {
   if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold">Nutritional Dashboard</h2>
-              <p className="text-purple-100 text-sm mt-1">
-                Weekly nutrition totals and alchemical metrics
-              </p>
-            </div>
-            <button
-              onClick={onClose}
-              className="text-white hover:bg-white hover:bg-opacity-20 rounded-lg p-2 transition-colors"
-              aria-label="Close"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-          {/* Every figure below is a lower bound when some planned meals publish no nutrition. */}
-          <NutritionCoverageNote coverage={weeklyTotals.coverage} tone="light" className="mb-4" />
-          {/* Overview Section */}
-          <section className="mb-6">
-            <button
-              onClick={() => toggleSection("overview")}
-              className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <h3 className="text-lg font-bold text-gray-800">
-                📊 Weekly Overview
-              </h3>
-              <span className="text-gray-600">
-                {expandedSection === "overview" ? "▼" : "▶"}
-              </span>
-            </button>
-
-            {expandedSection === "overview" && (
-              <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                <div className="bg-blue-50 rounded-lg p-4">
-                  <p className="text-sm text-gray-600">Total Calories</p>
-                  <p className="text-2xl font-bold text-blue-700">
-                    {formatCoveredTotal(weeklyTotals.totalCalories, weeklyTotals.coverage)}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {formatCoveredTotal(weeklyTotals.totalCalories / 7, weeklyTotals.coverage)}/day avg
-                  </p>
-                </div>
-
-                <div className="bg-red-50 rounded-lg p-4">
-                  <p className="text-sm text-gray-600">Protein</p>
-                  <p className="text-2xl font-bold text-red-700">
-                    {formatCoveredTotal(weeklyTotals.totalProtein, weeklyTotals.coverage, "g")}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {formatCoveredTotal(weeklyTotals.totalProtein / 7, weeklyTotals.coverage, "g")}/day avg
-                  </p>
-                </div>
-
-                <div className="bg-yellow-50 rounded-lg p-4">
-                  <p className="text-sm text-gray-600">Carbs</p>
-                  <p className="text-2xl font-bold text-yellow-700">
-                    {formatCoveredTotal(weeklyTotals.totalCarbs, weeklyTotals.coverage, "g")}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {formatCoveredTotal(weeklyTotals.totalCarbs / 7, weeklyTotals.coverage, "g")}/day avg
-                  </p>
-                </div>
-
-                <div className="bg-orange-50 rounded-lg p-4">
-                  <p className="text-sm text-gray-600">Fat</p>
-                  <p className="text-2xl font-bold text-orange-700">
-                    {formatCoveredTotal(weeklyTotals.totalFat, weeklyTotals.coverage, "g")}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {formatCoveredTotal(weeklyTotals.totalFat / 7, weeklyTotals.coverage, "g")}/day avg
-                  </p>
-                </div>
-
-                <div className="bg-indigo-50 rounded-lg p-4">
-                  <p className="text-sm text-gray-600">Sodium</p>
-                  <p className="text-2xl font-bold text-indigo-700">
-                    {formatCoveredTotal(weeklyTotals.totalSodium, weeklyTotals.coverage, "mg")}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {formatCoveredTotal(weeklyTotals.totalSodium / 7, weeklyTotals.coverage, "mg")}/day avg
-                  </p>
-                </div>
-
-                <div className="bg-teal-50 rounded-lg p-4">
-                  <p className="text-sm text-gray-600">Sugar</p>
-                  <p className="text-2xl font-bold text-teal-700">
-                    {formatCoveredTotal(weeklyTotals.totalSugar, weeklyTotals.coverage, "g")}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {formatCoveredTotal(weeklyTotals.totalSugar / 7, weeklyTotals.coverage, "g")}/day avg
-                  </p>
-                </div>
-              </div>
-            )}
-          </section>
-
-          {/* Macronutrient Distribution */}
-          <section className="mb-6">
-            <button
-              onClick={() => toggleSection("macros")}
-              className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <h3 className="text-lg font-bold text-gray-800">
-                🥗 Macronutrient Distribution
-              </h3>
-              <span className="text-gray-600">
-                {expandedSection === "macros" ? "▼" : "▶"}
-              </span>
-            </button>
-
-            {expandedSection === "macros" && (
-              <div className="mt-4 bg-white rounded-lg p-6 border border-gray-200">
-                <PieChart data={macroChart.data} />
-              </div>
-            )}
-          </section>
-
-          {/* Daily Calories */}
-          <section className="mb-6">
-            <button
-              onClick={() => toggleSection("calories")}
-              className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <h3 className="text-lg font-bold text-gray-800">
-                📈 Daily Calories
-              </h3>
-              <span className="text-gray-600">
-                {expandedSection === "calories" ? "▼" : "▶"}
-              </span>
-            </button>
-
-            {expandedSection === "calories" && (
-              <div className="mt-4 bg-white rounded-lg p-6 border border-gray-200">
-                <BarChart data={caloriesChart.data} unit={caloriesChart.unit} />
-              </div>
-            )}
-          </section>
-
-          {/* Elemental Balance */}
-          <section className="mb-6">
-            <button
-              onClick={() => toggleSection("elemental")}
-              className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <h3 className="text-lg font-bold text-gray-800">
-                🔮 Elemental Balance
-              </h3>
-              <span className="text-gray-600">
-                {expandedSection === "elemental" ? "▼" : "▶"}
-              </span>
-            </button>
-
-            {expandedSection === "elemental" && (
-              <div className="mt-4 bg-white rounded-lg p-6 border border-gray-200">
-                <RadarChart data={elementalChart.data} />
-              </div>
-            )}
-          </section>
-
-          {/* Greg's Energy Trend */}
-          <section className="mb-6">
-            <button
-              onClick={() => toggleSection("gregs-energy")}
-              className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <h3 className="text-lg font-bold text-gray-800">
-                ⚡ Greg&apos;s Energy Trend
-              </h3>
-              <span className="text-gray-600">
-                {expandedSection === "gregs-energy" ? "▼" : "▶"}
-              </span>
-            </button>
-
-            {expandedSection === "gregs-energy" && (
-              <div className="mt-4 bg-white rounded-lg p-6 border border-gray-200">
-                <BarChart
-                  data={gregsEnergyChart.data}
-                  unit={gregsEnergyChart.unit}
-                />
-              </div>
-            )}
-          </section>
-
-          {/* Alchemical Metrics */}
-          <section className="mb-6">
-            <button
-              onClick={() => toggleSection("alchemical")}
-              className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <h3 className="text-lg font-bold text-gray-800">
-                🧪 Alchemical Metrics
-              </h3>
-              <span className="text-gray-600">
-                {expandedSection === "alchemical" ? "▼" : "▶"}
-              </span>
-            </button>
-
-            {expandedSection === "alchemical" && (
-              <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div className="bg-purple-50 rounded-lg p-4">
-                  <p className="text-sm text-gray-600">Greg&apos;s Energy</p>
-                  <p className="text-2xl font-bold text-purple-700">
-                    {weeklyTotals.averageGregsEnergy.toFixed(3)}
-                  </p>
-                </div>
-
-                <div className="bg-pink-50 rounded-lg p-4">
-                  <p className="text-sm text-gray-600">Monica Constant</p>
-                  <p className="text-2xl font-bold text-pink-700">
-                    {weeklyTotals.averageMonica.toFixed(3)}
-                  </p>
-                </div>
-
-                <div className="bg-indigo-50 rounded-lg p-4">
-                  <p className="text-sm text-gray-600">Kalchm</p>
-                  <p className="text-2xl font-bold text-indigo-700">
-                    {weeklyTotals.averageKalchm.toFixed(3)}
-                  </p>
-                </div>
-              </div>
-            )}
-          </section>
-
-          {/* Insights */}
-          <section className="mb-6">
-            <button
-              onClick={() => toggleSection("insights")}
-              className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <h3 className="text-lg font-bold text-gray-800">
-                💡 Nutritional Insights
-              </h3>
-              <span className="text-gray-600">
-                {expandedSection === "insights" ? "▼" : "▶"}
-              </span>
-            </button>
-
-            {expandedSection === "insights" && (
-              <div className="mt-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-200">
-                <ul className="space-y-2">
-                  {insights.map((insight, index) => (
-                    <li
-                      key={index}
-                      className="flex items-start gap-2 text-gray-700"
-                    >
-                      <span className="text-purple-600 font-bold">•</span>
-                      <span>{insight}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </section>
-
-          {/* Holistic Nutrition Section */}
-          <section className="mb-6">
-            <button
-              onClick={() => toggleSection("holistic")}
-              className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <h3 className="text-lg font-bold text-gray-800">
-                🌿 Holistic Nutrition Score
-              </h3>
-              <span className="text-gray-600">
-                {expandedSection === "holistic" ? "▼" : "▶"}
-              </span>
-            </button>
-
-            {expandedSection === "holistic" && (
-              <div className="mt-4 space-y-4">
-                {/* Nutrient Density */}
-                <div className="bg-white rounded-lg p-4 border border-gray-200">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-gray-700">
-                      Nutrient Density
-                    </h4>
-                    <span className="text-lg font-bold text-green-600">
-                      {calculateNutrientDensity(weeklyTotals)}%
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-2">
-                    Measures nutrients per calorie - higher is better
-                  </p>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
-                    <div
-                      className="h-3 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 transition-all"
-                      style={{
-                        width: `${Math.min(100, calculateNutrientDensity(weeklyTotals))}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* Meal Balance */}
-                <div className="bg-white rounded-lg p-4 border border-gray-200">
-                  <h4 className="font-semibold text-gray-700 mb-3">
-                    Meal Balance
-                  </h4>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="text-center">
-                      <div className="text-2xl mb-1">🌅</div>
-                      <p className="text-xs text-gray-600">Breakfast</p>
-                      <p className="font-bold text-orange-600">
-                        {getMealTypePercentage("breakfast")}%
-                      </p>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl mb-1">☀️</div>
-                      <p className="text-xs text-gray-600">Lunch</p>
-                      <p className="font-bold text-blue-600">
-                        {getMealTypePercentage("lunch")}%
-                      </p>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl mb-1">🌙</div>
-                      <p className="text-xs text-gray-600">Dinner</p>
-                      <p className="font-bold text-purple-600">
-                        {getMealTypePercentage("dinner")}%
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-3 text-center">
-                    Ideal: 25% breakfast, 35% lunch, 40% dinner
-                  </p>
-                </div>
-
-                {/* Ingredient Variety */}
-                <div className="bg-white rounded-lg p-4 border border-gray-200">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-gray-700">
-                      Ingredient Variety
-                    </h4>
-                    <span className="text-lg font-bold text-blue-600">
-                      {calculateIngredientVariety()} unique
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-2">
-                    Diverse ingredients provide broader nutrition
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-gray-200 rounded-full h-3">
-                      <div
-                        className="h-3 rounded-full bg-gradient-to-r from-blue-400 to-cyan-500 transition-all"
-                        style={{
-                          width: `${Math.min(100, (calculateIngredientVariety() / 30) * 100)}%`,
-                        }}
-                      />
-                    </div>
-                    <span className="text-xs text-gray-500">Goal: 30+</span>
-                  </div>
-                </div>
-
-                {/* Fiber Intake */}
-                <div className="bg-white rounded-lg p-4 border border-gray-200">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-gray-700">
-                      Fiber Intake
-                    </h4>
-                    <span className="text-lg font-bold text-amber-600">
-                      {Math.round(weeklyTotals.totalFiber / 7)}g/day
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-600 mb-2">
-                    Daily fiber supports gut health and satiety
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-gray-200 rounded-full h-3">
-                      <div
-                        className="h-3 rounded-full bg-gradient-to-r from-amber-400 to-yellow-500 transition-all"
-                        style={{
-                          width: `${Math.min(100, (weeklyTotals.totalFiber / 7 / 30) * 100)}%`,
-                        }}
-                      />
-                    </div>
-                    <span className="text-xs text-gray-500">Goal: 30g</span>
-                  </div>
-                </div>
-
-                {/* Overall Holistic Score */}
-                <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg p-4 border border-purple-300">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="font-bold text-purple-800">
-                        Overall Holistic Score
-                      </h4>
-                      <p className="text-sm text-purple-600">
-                        Based on variety, balance, and nutrient density
-                      </p>
-                    </div>
-                    <div className="text-4xl font-bold text-purple-700">
-                      {calculateHolisticScore()}
-                      <span className="text-xl text-purple-500">/100</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </section>
-        </div>
-
-        {/* Footer */}
-        <div className="border-t border-gray-200 p-4 bg-gray-50">
-          <div className="flex justify-end">
-            <button
-              onClick={onClose}
-              className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+  return createPortal(
+    <DashboardDialog onClose={onClose}>
+      <WeekSections goals={goals} />
+    </DashboardDialog>,
+    document.body,
   );
 }
