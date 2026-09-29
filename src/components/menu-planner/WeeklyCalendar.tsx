@@ -33,6 +33,7 @@ import {
   formatCoveredShare,
   formatCoveredTotal,
 } from "@/utils/menuPlanner/nutritionCoverage";
+import { describeComplianceBasis } from "@/utils/nutritionAggregation";
 import CopyMealModal from "./CopyMealModal";
 import FocusedDayView from "./FocusedDayView";
 import MealSlot from "./MealSlot";
@@ -86,8 +87,9 @@ function DayNutritionStrip({
                 ? "text-gold-accent"
                 : "text-error"
           }`}
+          title={`Compliance over ${describeComplianceBasis(compliance.basis)}`}
         >
-          {Math.round(compliance.overall * 100)}%
+          {Math.round(compliance.overall * 100)}% macros
         </span>
       </div>
       <div className="h-1 rounded-full bg-surface-container-high overflow-hidden">
@@ -438,8 +440,11 @@ function TodayHeroCard({
             </div>
           </div>
           <div>
-            <div className="text-[10px] uppercase text-on-surface-variant tracking-wide">
-              Compliance
+            <div
+              className="text-[10px] uppercase text-on-surface-variant tracking-wide"
+              title={`Scored over ${describeComplianceBasis(dailyNutrition.compliance.basis)}`}
+            >
+              Macro compliance
             </div>
             <div
               className={`font-bold ${
