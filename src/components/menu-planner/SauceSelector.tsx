@@ -8,6 +8,7 @@
  */
 
 import React, { useState, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { allSauces } from "@/data/sauces";
 import type { Sauce } from "@/data/sauces";
 import type { ElementalProperties } from "@/types/recipe";
@@ -242,8 +243,11 @@ export default function SauceSelector({
 
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+  // Portalled to <body>: the planner's meal slot and day card have a
+  // backdrop-filter, which makes them the containing block for `fixed`, so
+  // inline the overlay filled only the slot. z-[70] clears the phone tab bar (z 65).
+  return createPortal(
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50">
       <div className="bg-white rounded-xl shadow-2xl w-[90vw] max-w-3xl max-h-[85vh] flex flex-col">
         {/* Header */}
         <div className="p-4 border-b border-slate-200 flex items-center justify-between">
@@ -352,6 +356,7 @@ export default function SauceSelector({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

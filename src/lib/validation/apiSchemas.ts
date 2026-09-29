@@ -15,6 +15,7 @@
 import { z } from "zod";
 import { PRACTICE_TYPES } from "@/lib/economy/practices";
 import type { TransactionSourceType } from "@/types/economy";
+import { FOOD_SOURCES } from "@/types/foodSource";
 import type { NatalChart } from "@/types/natalChart";
 import type {
   AstrologicalState,
@@ -109,7 +110,7 @@ export const ServingSizeSchema = z.object({
 export const CreateFoodDiaryEntrySchema = z.object({
   userId: z.string().optional(),
   foodName: z.string().min(1),
-  foodSource: z.enum(["recipe", "custom", "barcode", "search", "quick", "favorite"]),
+  foodSource: z.enum(FOOD_SOURCES),
   sourceId: z.string().optional(),
   brandName: z.string().optional(),
   date: z.coerce.date(),
@@ -216,6 +217,7 @@ export const TransactionSourceTypeSchema = z.enum([
   "mcp_top_up",
   "transit_attunement",
   "group_chat_quest",
+  "duel_yield",
   "recipe_ingestion",
   "restaurant_order",
   "restaurant_refund",
@@ -1285,7 +1287,8 @@ export const AgentWeeklyMenuRequestSchema = z.object({
   agentDisplayName: z.string().optional(),
   weekStartDate: z.string().optional(),
   meals: z.array(z.unknown()).optional(),
-  nutritionalTotals: z.unknown().optional(),
+  // No `nutritionalTotals`: an agent's flat, model-estimated totals are stripped
+  // here and never stored (owner ruling 2026-09-27).
   groceryList: z.array(z.unknown()).optional(),
   inventory: z.unknown().optional(),
   weeklyBudget: z.number().optional(),

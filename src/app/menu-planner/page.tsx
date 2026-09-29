@@ -152,8 +152,6 @@ function MenuPlannerContent(): React.ReactElement {
   const [detailRecipe, setDetailRecipe] = useState<Recipe | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showMobileSuggestions, setShowMobileSuggestions] = useState(false);
-  const [isWeeklyDashboardExpanded, setIsWeeklyDashboardExpanded] =
-    useState(false); // New state for sticky dashboard
 
   const { toast, showSuccess, showError, showInfo } = useToast();
 
@@ -420,7 +418,6 @@ function MenuPlannerContent(): React.ReactElement {
               onClick={() => {
                 regenerateGroceryList();
                 setShowGroceryList(true);
-                setIsWeeklyDashboardExpanded(false);
                 setShowPosso(false);
               }}
               className="flex items-center gap-2 px-4 py-2 border border-muted text-on-surface-variant hover:text-white hover:border-white transition-colors font-label-caps text-label-caps text-xs uppercase cursor-pointer active:scale-95"
@@ -430,15 +427,9 @@ function MenuPlannerContent(): React.ReactElement {
             </button>
 
             <button
-              onClick={() => {
-                setIsWeeklyDashboardExpanded(!isWeeklyDashboardExpanded);
-                setShowGroceryList(false);
-              }}
-              className={`flex items-center gap-2 px-4 py-2 border transition-all font-label-caps text-label-caps text-xs uppercase cursor-pointer active:scale-95 ${
-                isWeeklyDashboardExpanded
-                  ? "border-active-violet text-active-violet bg-active-violet/10 shadow-[0_0_10px_rgba(184,90,240,0.1)]"
-                  : "border-muted text-on-surface-variant hover:text-white hover:border-white"
-              }`}
+              onClick={() => setShowNutritionDashboard(true)}
+              aria-haspopup="dialog"
+              className="flex items-center gap-2 px-4 py-2 border border-muted text-on-surface-variant hover:text-white hover:border-white transition-colors font-label-caps text-label-caps text-xs uppercase cursor-pointer active:scale-95"
             >
               <span className="text-[18px]">📊</span>
               Nutrition Dashboard
@@ -542,8 +533,9 @@ function MenuPlannerContent(): React.ReactElement {
         </div>
 
         {/* Sticky nutrition bar removed — TGT/PRO/FIB and "ORBITAL SYNC" were
-            hardcoded placeholders, not computed from the planned meals. The real
-            nutrition totals live in the Nutrition Dashboard panel below. */}
+            hardcoded placeholders, not computed from the planned meals. The
+            week's real totals open from the Nutrition Dashboard button above
+            (and "Week nutrition" on phones). */}
         
         {/* Posso Widget Panel (collapsible) — desktop/tablet only */}
         {showPosso && (
@@ -602,9 +594,9 @@ function MenuPlannerContent(): React.ReactElement {
             onShopWeek={() => {
               regenerateGroceryList();
               setShowGroceryList(true);
-              setIsWeeklyDashboardExpanded(false);
               setShowPosso(false);
             }}
+            onOpenNutrition={() => setShowNutritionDashboard(true)}
           />
         </div>
 
@@ -685,7 +677,8 @@ function MenuPlannerContent(): React.ReactElement {
           onClose={() => setShowGroceryList(false)}
         />
 
-        {/* Nutritional Dashboard - Alchemical Metrics (Phase 3) */}
+        {/* Nutrition Dashboard — the week's totals, opened from the tools bar
+            and from the mobile planner's "Week nutrition" button */}
         <NutritionalDashboard
           isOpen={showNutritionDashboard}
           onClose={() => setShowNutritionDashboard(false)}

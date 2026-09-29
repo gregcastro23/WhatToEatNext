@@ -263,6 +263,16 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkWelcomeGrantCoverageBehaviour.mjs
 
+      - name: Menu saves store no nutrition totals
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Diff-sensitive: it imports the weekly_menus statements and runs each
+        # one, rolled back, over rows seeded in both pre-ruling shapes. Each
+        # check is re-run against a mutant that restores the old behaviour, to
+        # prove the check can fail (owner ruling 2026-09-27).
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkMenuPersistenceSql.mjs
+
       - name: Environmental SQL parses against PostgreSQL
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # Diff-sensitive: it imports the live query builders AND applies
@@ -286,6 +296,17 @@ jobs:
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkSamplingHourAgrees.ts
+
+      - name: Food diary entries are stored, with what they carry
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Diff-sensitive: it imports the food_diary_entries statements from
+        # src/services/foodDiaryQueries.ts and runs them over synthetic rows, in
+        # a transaction that is always rolled back, with a failing control per
+        # check. Every diary insert failed for five months ("entry_…" into a
+        # UUID id) behind mocked tests that never ran the statement.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkFoodDiaryPersistenceSql.mjs
 
   # ---------------------------------------------------------------------------
   # Data. master + cron only: it needs production credentials, so it must never

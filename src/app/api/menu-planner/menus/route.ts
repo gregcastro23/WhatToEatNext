@@ -6,7 +6,6 @@ import {
   savedMenuApiDataSchema,
 } from "@/lib/menu-planner/schemas";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
-import type { DailyNutritionTotals, DayOfWeek } from "@/types";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -69,21 +68,14 @@ export async function PUT(request: NextRequest) {
         { status: 400 },
       );
     }
-    const {
-      weekStartDate,
-      meals,
-      nutritionalTotals,
-      groceryList,
-      inventory,
-      weeklyBudget,
-    } = parsedBody.data;
+    // A client still sending `nutritionalTotals` has it stripped by the schema:
+    // nothing is stored (owner ruling 2026-09-27).
+    const { weekStartDate, meals, groceryList, inventory, weeklyBudget } =
+      parsedBody.data;
 
     const persisted = await menuPersistenceService.upsertMenu(userId, {
       weekStartDate,
       meals,
-      // UpsertMenuInput/PersistedWeeklyMenu/WeeklyMenu all declare a *total*
-      // Record; widening is load-bearing until those three become Partial.
-      nutritionalTotals: nutritionalTotals as unknown as Record<DayOfWeek, DailyNutritionTotals>,
       groceryList,
       inventory,
       weeklyBudget,
