@@ -15,6 +15,7 @@ import type { WeeklyMenu } from "@/types/menuPlanner";
 import type { WeeklyNutritionResult } from "@/types/nutrition";
 import type { Recipe } from "@/types/recipe";
 import { coverageNote, coverageState } from "@/utils/menuPlanner/nutritionCoverage";
+import { describeComplianceBasis } from "@/utils/nutritionAggregation";
 
 /** A single suggestion generated from current menu state */
 export interface Suggestion {
@@ -253,7 +254,7 @@ export default function SmartSuggestionsSidebar({
           severity: "info",
           icon: "✨",
           title: "Excellent Balance!",
-          message: `${Math.round(compliance.overall * 100)}% nutritional compliance — outstanding week!${partial}`,
+          message: `${Math.round(compliance.overall * 100)}% macro compliance (${describeComplianceBasis(compliance.basis)}) — outstanding week!${partial}`,
         });
       }
     }

@@ -11,11 +11,13 @@
 import React, { useMemo, useState } from "react";
 import type {
   DailyFoodDiarySummary,
+  EntryCoverage,
   WeeklyFoodDiarySummary,
   FoodInsight,
   FoodDiaryStats,
 } from "@/types/foodDiary";
 import type { NutritionalSummary } from "@/types/nutrition";
+import { coverageNote, formatCoveredAmount } from "@/utils/foodDiary/diaryNutrients";
 import { NutritionRing } from "../nutrition";
 import DiaryAnalytics from "./DiaryAnalytics";
 import ElementalBalanceWheel from "./ElementalBalanceWheel";
@@ -272,19 +274,14 @@ export default function NutritionDashboard({
                     color="#ec4899"
                     inverse
                   />
-                  <NutrientBar
-                    label="Vitamin C"
-                    value={dailySummary.totalNutrition.vitaminC || 0}
-                    max={90}
-                    unit="mg"
-                    color="#f97316"
-                  />
+                  {/* Vitamin C: no food source supplies it in mg (owner ruling 2026-09-28). */}
                   <NutrientBar
                     label="Potassium"
                     value={dailySummary.totalNutrition.potassium || 0}
                     max={dailySummary.nutritionGoals?.potassium ?? 4700}
                     unit="mg"
                     color="#a855f7"
+                    {...coverageProp(dailySummary.nutrientCoverage?.potassium)}
                   />
                   <NutrientBar
                     label="Sat. Fat"
@@ -293,6 +290,7 @@ export default function NutritionDashboard({
                     unit="g"
                     color="#f43f5e"
                     inverse
+                    {...coverageProp(dailySummary.nutrientCoverage?.saturatedFat)}
                   />
                   <NutrientBar
                     label="Sodium"
@@ -578,8 +576,14 @@ export default function NutritionDashboard({
   );
 }
 
+function coverageProp(coverage: EntryCoverage | undefined): { coverage?: EntryCoverage } {
+  return coverage ? { coverage } : {};
+}
+
 /**
- * Nutrient progress bar component
+ * Nutrient progress bar component. With `coverage`, the total is marked as a
+ * lower bound ("≥") when only some entries carry the nutrient, and is "—"
+ * when none does.
  */
 function NutrientBar({
   label,
@@ -588,6 +592,7 @@ function NutrientBar({
   unit,
   color,
   inverse = false,
+  coverage,
 }: {
   label: string;
   value: number;
@@ -595,24 +600,29 @@ function NutrientBar({
   unit: string;
   color: string;
   inverse?: boolean;
+  coverage?: EntryCoverage;
 }): React.JSX.Element {
-  const percentage = Math.min((value / max) * 100, 100);
-  const isOver = value > max;
+  const known = coverage === undefined || coverage.withValue > 0;
+  const percentage = known ? Math.min((value / max) * 100, 100) : 0;
+  const isOver = known && value > max;
+  const shown = coverage ? formatCoveredAmount(value, coverage) : String(Math.round(value));
+  const note = coverage ? coverageNote(coverage) : null;
 
   return (
     <div>
-      <div className="flex justify-between text-sm mb-1">
+      <div className="flex justify-between gap-1 text-sm mb-1">
         <span className="text-gray-600">{label}</span>
         <span
-          className={
+          className={`text-right ${
             isOver && inverse ? "text-red-600 font-medium" : "text-gray-900"
-          }
+          }`}
         >
-          {Math.round(value)}
-          {unit} / {max}
+          {shown}
+          {known ? unit : ""} / {max}
           {unit}
         </span>
       </div>
+      {note && <p className="text-xs text-gray-400 mb-1">{note}</p>}
       <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
         <div
           className="h-full rounded-full transition-all"
