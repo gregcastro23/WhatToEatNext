@@ -226,25 +226,11 @@ async function runBackgroundSignInTasks(
       }
     }
 
-    // 1. Auto-provision admin
-    if (isAdminEmail(user.email)) {
-      const { subscriptionService } = await import("@/services/subscriptionService");
-      const sub = await subscriptionService.getOrCreateSubscription(dbUser.id);
-      if (sub.tier !== "premium") {
-        const now = new Date();
-        const yearFromNow = new Date(now);
-        yearFromNow.setFullYear(yearFromNow.getFullYear() + 10);
-        await subscriptionService.updateSubscription(dbUser.id, {
-          tier: "premium",
-          status: "active",
-          currentPeriodStart: now.toISOString(),
-          currentPeriodEnd: yearFromNow.toISOString(),
-        });
-        logger.info(`Auto-provisioned premium for ${user.email}`);
-      }
-    }
+    // Admins are no longer auto-provisioned a "premium" subscription row: the
+    // tier is retired, and operators are exempt from generation charges by role
+    // (isOperatorAccount), not by tier (owner ruling 2026-09-28).
 
-    // 2. Send emails
+    // 1. Send emails
     const emailService = (await import("@/services/emailService")).default;
     emailService.ensureInitialized();
     if (emailService.isConfigured()) {
@@ -259,7 +245,7 @@ async function runBackgroundSignInTasks(
       logger.info(`Background emails sent for ${user.email}`);
     }
 
-    // 3. In-app notifications
+    // 2. In-app notifications
     try {
       const { notificationDatabase } = await import("@/services/notificationDatabaseService");
       const userName = user.name ?? user.email;

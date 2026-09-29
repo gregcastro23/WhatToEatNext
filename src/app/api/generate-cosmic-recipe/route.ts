@@ -21,19 +21,17 @@
  * now in place, WTEN simplifies to a proxy.
  */
 import { z } from "zod";
+import { isOperatorAccount } from "@/lib/auth/adminEmails";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import {
   applyPersonalizedPricing,
   getPersonalizedPricingContext,
 } from "@/lib/economy/livePricing";
-import { createLogger } from "@/utils/logger";
-
 import { withObservability } from "@/lib/observability/withObservability";
 import { getServiceUrl } from "@/lib/serviceUrls";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import { alchemize } from "@/services/RealAlchemizeService";
-import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import { cosmicRecipeSchema } from "@/types/cosmicRecipeSchema";
 import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
@@ -50,6 +48,7 @@ import {
   normalizeCuisineName,
 } from "@/utils/cuisine/cuisineIndex";
 import { findTopIngredientsForElement } from "@/utils/ingredient/ingredientIndex";
+import { createLogger } from "@/utils/logger";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
@@ -173,8 +172,14 @@ async function handlePost(request: NextRequest) {
         logger.warn("[generate-cosmic-recipe] Failed to verify daily limit:", err);
       }
 
+      // The stored user decides the exemption and, below, prices the charge.
+      // Operators generate without paying; the retired subscription tier
+      // exempts no one (owner ruling 2026-09-28).
+      const { userDatabase } = await import("@/services/userDatabaseService");
+      const dbUser = isFirstGeneration ? null : await userDatabase.getUserById(userId);
+
       // If they already generated their free daily recipe, charge them using their ESMS token balances
-      if (!isFirstGeneration) {
+      if (!isFirstGeneration && !isOperatorAccount(dbUser)) {
         const item = await tokenEconomy.getShopItem("unlock-cosmic-recipe");
         if (!item?.isActive) {
           return new Response(JSON.stringify({
@@ -186,10 +191,8 @@ async function handlePost(request: NextRequest) {
           });
         }
 
-        // Fetch natal chart for per-user pricing. Falls back to global multiplier
+        // Natal chart for per-user pricing. Falls back to global multiplier
         // when the user hasn't onboarded a chart yet.
-        const { userDatabase } = await import("@/services/userDatabaseService");
-        const dbUser = await userDatabase.getUserById(userId);
         const natalPositions = getCapitalizedNatalPositions(dbUser?.profile?.natalChart);
 
         const pricing = await getPersonalizedPricingContext(natalPositions);
@@ -482,25 +485,22 @@ async function handlePost(request: NextRequest) {
       );
     }
 
-    // Increment recipes_generated count atomically in user_daily_limits for free-tier users
+    // Count every auth'd generation in user_daily_limits: this count is what
+    // makes the next one chargeable. It used to skip tier "premium", so every
+    // generation by those accounts read as the free first one and cost nothing.
     let updatedCount = 0;
     if (access.mode === "auth") {
       try {
-        const sub = await subscriptionService.getUserSubscription(access.userId);
-        const isPremium = sub?.tier === "premium";
-
-        if (!isPremium) {
-          const { executeQuery } = await import("@/lib/database");
-          const updateResult = await executeQuery<{ recipes_generated: number }>(
-            `INSERT INTO user_daily_limits (user_id, date, recipes_generated)
-             VALUES ($1, CURRENT_DATE, 1)
-             ON CONFLICT (user_id, date)
-             DO UPDATE SET recipes_generated = user_daily_limits.recipes_generated + 1
-             RETURNING recipes_generated`,
-            [access.userId]
-          );
-          updatedCount = updateResult.rows[0]?.recipes_generated ?? 1;
-        }
+        const { executeQuery } = await import("@/lib/database");
+        const updateResult = await executeQuery<{ recipes_generated: number }>(
+          `INSERT INTO user_daily_limits (user_id, date, recipes_generated)
+           VALUES ($1, CURRENT_DATE, 1)
+           ON CONFLICT (user_id, date)
+           DO UPDATE SET recipes_generated = user_daily_limits.recipes_generated + 1
+           RETURNING recipes_generated`,
+          [access.userId]
+        );
+        updatedCount = updateResult.rows[0]?.recipes_generated ?? 1;
       } catch (err) {
         logger.warn("[generate-cosmic-recipe] Failed to increment daily limits:", err);
       }
