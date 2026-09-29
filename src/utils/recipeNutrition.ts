@@ -9,6 +9,8 @@
 // Legacy dishes may use `nutritionalProfile` or `nutrition`. This helper
 // accepts all three and produces a single canonical object.
 
+import type { DailyValueFractions } from "./dailyValueFractions";
+
 /**
  * Flat nutrition shape consumed by NutritionTrackingService.extractMealNutrition.
  * Only the fields we actually read from recipes are declared here; anything
@@ -23,8 +25,18 @@ export interface NormalizedRecipeNutrition {
   sugar: number;
   sodium: number;
   saturatedFat?: number;
+  /** mg; only when every ingredient in the total carries it. */
+  cholesterol?: number;
 
-  // Micronutrients — included when available on the source.
+  /**
+   * Vitamins and minerals from ingredient data, as fractions of a Daily
+   * Value. See `./dailyValueFractions`.
+   */
+  dailyValue?: DailyValueFractions;
+
+  // Amounts in mg / µg. Ingredient data never fills these: its vitamins and
+  // minerals are Daily Value fractions (`dailyValue`). Potassium is the
+  // exception: mg, and only when every ingredient in the total carries it.
   vitaminA?: number;
   vitaminC?: number;
   vitaminD?: number;

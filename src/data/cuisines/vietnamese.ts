@@ -1,5 +1,6 @@
 // src/data/vietnamese.ts
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const vietnamese: Cuisine = {
   id: "vietnamese",
@@ -3875,12 +3876,7 @@ export const vietnamese: Cuisine = {
         "Deep connection to mountain landscapes and ethnic culinary heritage",
     },
   ],
-  elementalProperties: {
-    Water: 0.3, // Represents soups and broths
-    Earth: 0.3, // Represents rice and proteins,
-    Fire: 0.2, // Represents spicy elements and grilling
-    Air: 0.2, // Represents herbs and aromatics
-  },
+  elementalProperties: derivedProfiles.cuisines.Vietnamese.elementalProperties,
 };
 
 export default vietnamese;

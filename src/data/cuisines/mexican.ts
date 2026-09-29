@@ -1,4 +1,6 @@
 // src/data/cuisines/mexican.ts
+import derivedProfiles from "./derivedProfiles.json";
+
 export const mexican = {
   name: "Mexican",
   description:
@@ -3572,12 +3574,7 @@ export const mexican = {
       seasonality: "coastal seasonal patterns with monsoon influence",
     },
   },
-  elementalProperties: {
-    Fire: 0.3, // Represents chiles and grilling,
-    Earth: 0.3, // Represents corn and beans,
-    Water: 0.2, // Represents sauces and stews,
-    Air: 0.2, // Represents herbs and light dishes
-  },
+  elementalProperties: derivedProfiles.cuisines.Mexican.elementalProperties,
 };
 
 export default mexican;

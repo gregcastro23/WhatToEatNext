@@ -192,6 +192,11 @@ def main() -> int:
 
             cur.execute("SELECT filename FROM _migrations")
             applied = {row[0] for row in cur.fetchall()}
+            # End the read's implicit transaction: a no-transaction migration
+            # first in line switches to autocommit, which psycopg2 refuses
+            # inside an open transaction ("set_session cannot be used inside a
+            # transaction"). That failed migration 88 and the deploy of bbc5aab7.
+            conn.commit()
 
         files = list_migration_files()
         pending = [f for f in files if f not in applied]

@@ -1,11 +1,11 @@
 "use client";
 
 /**
- * Sauce Lineage Tree
+ * Sauce Lineage Tree — Phylogenetic Phylogeny Engine
  *
- * Navigable phylogeny of sauces across cuisines. Demonstrates how every
- * traditional sauce descends from a small set of structural parents
- * (mother sauces or base-family roots) and where divergences happen.
+ * Navigable evolutionary tree of sauces across cuisines. Demonstrates how every
+ * traditional sauce descends from structural parents (mother sauces or base-family roots)
+ * and where ingredient divergences happen.
  */
 
 import React, { useCallback, useMemo, useState, useEffect } from "react";
@@ -24,7 +24,7 @@ import {
 } from "@/utils/cuisine/sauceLineage";
 
 // ============================================================================
-// Helpers
+// Helpers & Tokens
 // ============================================================================
 
 const FAMILY_ICONS: Record<BaseFamily, string> = {
@@ -47,16 +47,28 @@ const ORIGIN_BADGES: Record<
   SauceNode["origin"],
   { label: string; className: string }
 > = {
-  mother: { label: "Mother", className: "bg-amber-500 text-white" },
-  traditional: { label: "Traditional", className: "bg-slate-700 text-white" },
-  global: { label: "Catalog", className: "bg-slate-200 text-slate-700" },
-  "variant-only": { label: "Variant", className: "bg-slate-100 text-slate-500" },
+  mother: {
+    label: "Mother Sauce",
+    className: "bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-[0_0_8px_rgba(251,191,36,0.3)]",
+  },
+  traditional: {
+    label: "Traditional",
+    className: "bg-violet-500/20 text-violet-300 border border-violet-500/40 shadow-[0_0_8px_rgba(167,139,250,0.3)]",
+  },
+  global: {
+    label: "Catalog",
+    className: "bg-sky-500/20 text-sky-300 border border-sky-500/40",
+  },
+  "variant-only": {
+    label: "Variant",
+    className: "bg-white/5 text-white/50 border border-white/10",
+  },
 };
 
 function CuisineChip({ cuisine }: { cuisine?: string | undefined }) {
   if (!cuisine) return null;
   return (
-    <span className="text-[9px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded uppercase tracking-wider">
+    <span className="text-[9px] font-mono uppercase tracking-wider bg-white/[0.04] text-white/60 border border-white/10 px-1.5 py-0.5 rounded">
       {cuisine}
     </span>
   );
@@ -65,16 +77,14 @@ function CuisineChip({ cuisine }: { cuisine?: string | undefined }) {
 function OriginBadge({ origin }: { origin: SauceNode["origin"] }) {
   const meta = ORIGIN_BADGES[origin];
   return (
-    <span
-      className={`text-[9px] px-1.5 py-0.5 rounded font-medium ${meta.className}`}
-    >
+    <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-medium ${meta.className}`}>
       {meta.label}
     </span>
   );
 }
 
 // ============================================================================
-// Tree node row
+// Tree Node Row
 // ============================================================================
 
 interface NodeRowProps {
@@ -84,7 +94,7 @@ interface NodeRowProps {
   expanded: Set<string>;
   onToggle: (id: string) => void;
   onSelect: (id: string) => void;
-  cuisinesData?: Record<string, any> | undefined;
+  cuisinesData?: Record<string, unknown> | undefined;
 }
 
 function NodeRow({
@@ -106,12 +116,12 @@ function NodeRow({
   return (
     <div>
       <div
-        className={`flex items-center gap-2 py-1.5 pr-2 rounded transition-colors cursor-pointer ${
+        className={`flex items-center gap-2 py-1.5 pr-2 rounded-xl transition-all cursor-pointer ${
           isSelected
-            ? "bg-amber-100/70 ring-1 ring-amber-400"
-            : "hover:bg-slate-50"
+            ? "bg-violet-950/60 ring-1 ring-violet-500 text-white border-l-2 border-violet-400 shadow-[0_0_15px_rgba(139,92,246,0.2)]"
+            : "hover:bg-white/[0.04] text-white/80 hover:text-white"
         }`}
-        style={{ paddingLeft: `${depth * 16 + 8}px` }}
+        style={{ paddingLeft: `${depth * 16 + 10}px` }}
       >
         {hasChildren ? (
           <button
@@ -119,7 +129,7 @@ function NodeRow({
               e.stopPropagation();
               onToggle(node.id);
             }}
-            className="w-4 h-4 flex items-center justify-center text-slate-500 hover:text-slate-800 text-xs"
+            className="w-4 h-4 flex items-center justify-center text-white/50 hover:text-violet-300 text-xs transition-colors"
             aria-label={isOpen ? "Collapse" : "Expand"}
           >
             {isOpen ? "▾" : "▸"}
@@ -135,17 +145,19 @@ function NodeRow({
         >
           <OriginBadge origin={node.origin} />
           <span
-            className={`text-sm ${
+            className={`text-xs truncate ${
               node.origin === "mother"
-                ? "font-semibold text-amber-800"
-                : "text-slate-700"
+                ? "font-serif text-sm font-semibold text-amber-300"
+                : isSelected
+                ? "font-medium text-white"
+                : "text-white/80"
             }`}
           >
             {node.name}
           </span>
           <CuisineChip cuisine={node.cuisine} />
           {hasChildren && (
-            <span className="text-[10px] text-slate-400 ml-auto">
+            <span className="text-[10px] font-mono text-white/40 ml-auto tabular-nums">
               {children.length + variants.length} desc.
             </span>
           )}
@@ -153,7 +165,7 @@ function NodeRow({
       </div>
 
       {isOpen && hasChildren && (
-        <div className="border-l border-slate-200 ml-4">
+        <div className="border-l border-white/10 ml-4 my-0.5">
           {children.map((c) => (
             <NodeRow
               key={c.id}
@@ -169,13 +181,13 @@ function NodeRow({
           {variants.map((v) => (
             <div
               key={v.id}
-              className="flex items-center gap-2 py-1 pr-2 text-xs text-slate-500 italic"
+              className="flex items-center gap-2 py-1 pr-2 text-xs text-white/40 italic"
               style={{ paddingLeft: `${(depth + 1) * 16 + 12}px` }}
             >
-              <span className="text-slate-300">↳</span>
-              <span>{v.name}</span>
-              <span className="text-[9px] text-slate-400 bg-slate-50 px-1 rounded">
-                variant string
+              <span className="text-white/20">↳</span>
+              <span className="truncate">{v.name}</span>
+              <span className="text-[8px] font-mono text-white/30 bg-white/[0.02] border border-white/5 px-1 rounded">
+                variant
               </span>
             </div>
           ))}
@@ -186,7 +198,7 @@ function NodeRow({
 }
 
 // ============================================================================
-// Detail pane
+// Detail Pane
 // ============================================================================
 
 function DetailPane({
@@ -196,66 +208,76 @@ function DetailPane({
 }: {
   selectedId: string | null;
   onSelect: (id: string) => void;
-  cuisinesData?: Record<string, any> | undefined;
+  cuisinesData?: Record<string, unknown> | undefined;
 }) {
   const forest = useMemo(() => getSauceForest(cuisinesData), [cuisinesData]);
+
   if (!selectedId) {
     return (
-      <div className="p-6 text-sm text-slate-500 bg-slate-50 rounded-lg border border-slate-100 h-full flex flex-col items-center justify-center text-center">
-        <div className="text-3xl mb-2">🌳</div>
-        <div className="font-medium text-slate-600 mb-1">
-          Pick a sauce to inspect its lineage
+      <div className="p-8 text-white/50 bg-[#0e0c16]/50 rounded-2xl border border-white/10 h-full min-h-[380px] flex flex-col items-center justify-center text-center space-y-3">
+        <div className="w-12 h-12 rounded-full bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-2xl text-violet-300">
+          🌳
         </div>
-        <div className="text-xs">
-          You&apos;ll see its ancestral path, ingredient divergence from its parent,
-          and the closest sauces in other cuisines for cross-tradition cooking.
+        <div className="font-serif text-lg text-white font-medium">
+          Select a Sauce to Inspect Lineage
         </div>
+        <p className="text-xs text-white/60 max-w-sm leading-relaxed">
+          Explore its structural ancestry, key ingredient divergences from its parent,
+          and close culinary relatives across other world traditions.
+        </p>
       </div>
     );
   }
+
   const node = forest.nodes.get(selectedId);
   if (!node) return null;
+
   const lineage = getLineage(forest, selectedId);
   const divergence = getDivergence(forest, selectedId);
   const bridges = getFusionBridges(forest, selectedId);
   const variants = getVariantLeaves(forest, selectedId);
 
   return (
-    <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
-      <div className="p-4 border-b border-slate-100 bg-gradient-to-r from-amber-50 to-rose-50">
-        <div className="flex items-center gap-2 mb-1">
+    <div className="rounded-2xl border border-white/10 bg-[#0e0c16]/90 backdrop-blur-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+      {/* Header Banner */}
+      <div className="p-5 border-b border-white/10 bg-gradient-to-r from-violet-950/40 via-[#15121f] to-amber-950/30">
+        <div className="flex flex-wrap items-center gap-2 mb-2">
           <OriginBadge origin={node.origin} />
           <CuisineChip cuisine={node.cuisine} />
           {node.base && (
-            <span className="text-[10px] text-slate-500">
-              base: <span className="font-medium text-slate-700">{node.base}</span>
+            <span className="text-[10px] font-mono text-white/50">
+              Base: <span className="text-violet-300 font-medium">{node.base}</span>
             </span>
           )}
         </div>
-        <h3 className="text-lg font-bold text-slate-800">{node.name}</h3>
+        <h3 className="text-2xl font-serif font-medium text-white tracking-wide">
+          {node.name}
+        </h3>
         {node.description && (
-          <p className="text-xs text-slate-600 mt-1">{node.description}</p>
+          <p className="text-xs text-white/70 mt-2 leading-relaxed">
+            {node.description}
+          </p>
         )}
       </div>
 
-      <div className="p-4 space-y-4">
-        {/* Lineage breadcrumb */}
+      <div className="p-5 space-y-5">
+        {/* Lineage Breadcrumb */}
         <div>
-          <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
-            Lineage
+          <div className="text-[10px] font-mono uppercase tracking-widest text-violet-300 mb-2">
+            Ancestral Descent
           </div>
-          <div className="flex flex-wrap items-center gap-1 text-xs">
+          <div className="flex flex-wrap items-center gap-1.5 text-xs">
             {lineage.map((n, i) => (
               <React.Fragment key={n.id}>
-                {i > 0 && <span className="text-slate-300">→</span>}
+                {i > 0 && <span className="text-white/30 font-mono">→</span>}
                 <button
                   onClick={() => onSelect(n.id)}
-                  className={`px-2 py-0.5 rounded transition-colors ${
+                  className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all ${
                     n.id === selectedId
-                      ? "bg-amber-600 text-white"
-                      : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                      ? "bg-amber-500/25 border border-amber-500/50 text-amber-200 shadow-[0_0_10px_rgba(251,191,36,0.3)]"
+                      : "bg-white/[0.04] border border-white/10 text-white/70 hover:bg-white/[0.08] hover:text-white"
                   }`}
-                  title={n.cuisine}
+                  title={`${n.name} (${n.cuisine ?? "Global"})`}
                 >
                   {n.name}
                 </button>
@@ -265,59 +287,79 @@ function DetailPane({
         </div>
 
         {/* Divergence */}
-        {divergence ? (
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">
-                Divergence from parent
-              </div>
-              <span className="text-[10px] text-slate-500">
-                Jaccard {(divergence.similarity * 100).toFixed(0)}%
-              </span>
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <div className="text-[10px] font-mono uppercase tracking-widest text-white/40">
+              Divergence from Parent
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px]">
-              <div className="bg-emerald-50 border border-emerald-100 rounded p-2">
-                <div className="text-emerald-700 font-semibold mb-1">
-                  Inherited ({divergence.inherited.length})
+            {divergence && (
+              <span className="text-[10px] font-mono text-violet-300">
+                Jaccard Similarity: {(divergence.similarity * 100).toFixed(0)}%
+              </span>
+            )}
+          </div>
+
+          {divergence ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
+              {/* Inherited */}
+              <div className="rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-3">
+                <div className="text-[10px] font-mono text-emerald-300 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                  <span>Inherited</span>
+                  <span className="font-bold">({divergence.inherited.length})</span>
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {divergence.inherited.length === 0 ? (
-                    <span className="text-slate-400">—</span>
+                    <span className="text-white/30 text-[10px]">—</span>
                   ) : (
                     divergence.inherited.map((t) => (
-                      <span key={t} className="bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">
+                      <span
+                        key={t}
+                        className="bg-emerald-500/20 border border-emerald-500/30 text-emerald-200 px-1.5 py-0.5 rounded text-[10px]"
+                      >
                         {t}
                       </span>
                     ))
                   )}
                 </div>
               </div>
-              <div className="bg-sky-50 border border-sky-100 rounded p-2">
-                <div className="text-sky-700 font-semibold mb-1">
-                  Added ({divergence.added.length})
+
+              {/* Added */}
+              <div className="rounded-xl border border-sky-500/20 bg-sky-950/20 p-3">
+                <div className="text-[10px] font-mono text-sky-300 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                  <span>Added</span>
+                  <span className="font-bold">({divergence.added.length})</span>
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {divergence.added.length === 0 ? (
-                    <span className="text-slate-400">—</span>
+                    <span className="text-white/30 text-[10px]">—</span>
                   ) : (
                     divergence.added.map((t) => (
-                      <span key={t} className="bg-sky-100 text-sky-800 px-1.5 py-0.5 rounded">
+                      <span
+                        key={t}
+                        className="bg-sky-500/20 border border-sky-500/30 text-sky-200 px-1.5 py-0.5 rounded text-[10px]"
+                      >
                         + {t}
                       </span>
                     ))
                   )}
                 </div>
               </div>
-              <div className="bg-rose-50 border border-rose-100 rounded p-2">
-                <div className="text-rose-700 font-semibold mb-1">
-                  Dropped ({divergence.dropped.length})
+
+              {/* Dropped */}
+              <div className="rounded-xl border border-rose-500/20 bg-rose-950/20 p-3">
+                <div className="text-[10px] font-mono text-rose-300 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                  <span>Dropped</span>
+                  <span className="font-bold">({divergence.dropped.length})</span>
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {divergence.dropped.length === 0 ? (
-                    <span className="text-slate-400">—</span>
+                    <span className="text-white/30 text-[10px]">—</span>
                   ) : (
                     divergence.dropped.map((t) => (
-                      <span key={t} className="bg-rose-100 text-rose-800 px-1.5 py-0.5 rounded">
+                      <span
+                        key={t}
+                        className="bg-rose-500/20 border border-rose-500/30 text-rose-200 px-1.5 py-0.5 rounded text-[10px]"
+                      >
                         − {t}
                       </span>
                     ))
@@ -325,24 +367,25 @@ function DetailPane({
                 </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="rounded bg-amber-50 border border-amber-100 p-2 text-[11px] text-amber-800">
-            ⚜️ Root sauce — origin point of its base family.
-          </div>
-        )}
+          ) : (
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-200 flex items-center gap-2">
+              <span>⚜️</span>
+              <span>Root Mother Sauce — primordial origin point of this base family.</span>
+            </div>
+          )}
+        </div>
 
         {/* Variants */}
         {variants.length > 0 && (
           <div>
-            <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
-              Declared variants
+            <div className="text-[10px] font-mono uppercase tracking-widest text-white/40 mb-1.5">
+              Documented Variant Leaves
             </div>
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap gap-1.5">
               {variants.map((v) => (
                 <span
                   key={v.id}
-                  className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded italic"
+                  className="text-[11px] bg-white/[0.04] border border-white/10 text-white/70 px-2 py-0.5 rounded-md italic"
                 >
                   {v.name}
                 </span>
@@ -351,51 +394,53 @@ function DetailPane({
           </div>
         )}
 
-        {/* Fusion bridges */}
+        {/* Fusion Bridges */}
         <div>
-          <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
-            Cross-cuisine bridges
-            <span className="ml-2 text-slate-400 lowercase font-normal">
-              same flavor logic, different tradition
+          <div className="text-[10px] font-mono uppercase tracking-widest text-violet-300 mb-2 flex items-center justify-between">
+            <span>Cross-Cuisine Fusion Bridges</span>
+            <span className="text-white/40 font-normal lowercase">
+              structural relatives across traditions
             </span>
           </div>
+
           {bridges.length === 0 ? (
-            <div className="text-xs text-slate-500 italic">
-              No close cross-cuisine relatives — this sauce stands on its own.
+            <div className="text-xs text-white/40 italic p-3 rounded-xl border border-white/5 bg-white/[0.01]">
+              No close cross-tradition relatives identified — this sauce stands unique.
             </div>
           ) : (
             <div className="space-y-2">
-              {bridges.map((b) => {
+              {bridges.slice(0, 4).map((b) => {
                 const target = forest.nodes.get(b.toId);
                 if (!target) return null;
                 return (
                   <button
                     key={b.toId}
                     onClick={() => onSelect(b.toId)}
-                    className="w-full text-left bg-gradient-to-br from-violet-50 via-white to-amber-50 hover:from-violet-100 border border-violet-200/50 rounded-lg p-2.5 transition-colors"
+                    className="w-full text-left rounded-xl border border-white/10 bg-white/[0.02] hover:bg-violet-950/25 hover:border-violet-500/40 p-3.5 transition-all group"
                   >
-                    <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-slate-800">
+                        <span className="text-sm font-medium text-white group-hover:text-violet-200">
                           {target.name}
                         </span>
                         <CuisineChip cuisine={target.cuisine} />
                         <OriginBadge origin={target.origin} />
                       </div>
-                      <div className="text-[10px] text-violet-700 font-bold tabular-nums">
+                      <span className="text-xs font-mono font-bold text-violet-300 tabular-nums">
                         {(b.similarity * 100).toFixed(0)}% overlap
-                      </div>
+                      </span>
                     </div>
-                    <div className="grid grid-cols-3 gap-1.5 text-[10px]">
+
+                    <div className="grid grid-cols-3 gap-2 text-[10px]">
                       <div>
-                        <div className="text-emerald-700 font-medium mb-0.5">
+                        <div className="text-emerald-400 font-mono mb-1">
                           Shared ({b.shared.length})
                         </div>
-                        <div className="flex flex-wrap gap-0.5">
-                          {b.shared.slice(0, 6).map((t) => (
+                        <div className="flex flex-wrap gap-1">
+                          {b.shared.slice(0, 4).map((t) => (
                             <span
                               key={t}
-                              className="bg-emerald-100 text-emerald-800 px-1 py-0.5 rounded"
+                              className="bg-emerald-500/20 text-emerald-300 px-1 py-0.5 rounded"
                             >
                               {t}
                             </span>
@@ -403,14 +448,14 @@ function DetailPane({
                         </div>
                       </div>
                       <div>
-                        <div className="text-slate-700 font-medium mb-0.5">
+                        <div className="text-white/50 font-mono mb-1">
                           {node.name} only
                         </div>
-                        <div className="flex flex-wrap gap-0.5">
-                          {b.fromUnique.slice(0, 5).map((t) => (
+                        <div className="flex flex-wrap gap-1">
+                          {b.fromUnique.slice(0, 3).map((t) => (
                             <span
                               key={t}
-                              className="bg-slate-100 text-slate-700 px-1 py-0.5 rounded"
+                              className="bg-white/5 text-white/60 px-1 py-0.5 rounded"
                             >
                               {t}
                             </span>
@@ -418,14 +463,14 @@ function DetailPane({
                         </div>
                       </div>
                       <div>
-                        <div className="text-violet-700 font-medium mb-0.5">
+                        <div className="text-violet-300 font-mono mb-1">
                           {target.name} only
                         </div>
-                        <div className="flex flex-wrap gap-0.5">
-                          {b.toUnique.slice(0, 5).map((t) => (
+                        <div className="flex flex-wrap gap-1">
+                          {b.toUnique.slice(0, 3).map((t) => (
                             <span
                               key={t}
-                              className="bg-violet-100 text-violet-800 px-1 py-0.5 rounded"
+                              className="bg-violet-500/20 text-violet-200 px-1 py-0.5 rounded"
                             >
                               {t}
                             </span>
@@ -440,34 +485,19 @@ function DetailPane({
           )}
         </div>
 
-        {/* Notes */}
+        {/* Technical Tips & Notes */}
         {(node.preparationNotes ?? node.technicalTips) && (
-          <div className="bg-slate-50 rounded p-2 border border-slate-100 space-y-1">
+          <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3 space-y-2">
             {node.preparationNotes && (
-              <p className="text-[11px] text-slate-600">📝 {node.preparationNotes}</p>
+              <p className="text-xs text-white/70 leading-relaxed">
+                📝 {node.preparationNotes}
+              </p>
             )}
             {node.technicalTips && (
-              <p className="text-[11px] text-amber-700">💡 {node.technicalTips}</p>
+              <p className="text-xs text-amber-200 leading-relaxed">
+                💡 {node.technicalTips}
+              </p>
             )}
-          </div>
-        )}
-
-        {/* Influences */}
-        {node.astrologicalInfluences.length > 0 && (
-          <div>
-            <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold mb-1">
-              Astrological influences
-            </div>
-            <div className="flex flex-wrap gap-1">
-              {node.astrologicalInfluences.map((a) => (
-                <span
-                  key={a}
-                  className="text-[10px] bg-purple-50 text-purple-700 border border-purple-200/40 px-1.5 py-0.5 rounded capitalize"
-                >
-                  {a}
-                </span>
-              ))}
-            </div>
           </div>
         )}
       </div>
@@ -476,15 +506,25 @@ function DetailPane({
 }
 
 // ============================================================================
-// Main component
+// Main Component
 // ============================================================================
 
-export default function SauceLineageTree() {
+export interface SauceLineageTreeProps {
+  initialSelectedId?: string | null;
+  onSelectSauce?: (id: string) => void;
+  className?: string;
+}
+
+export default function SauceLineageTree({
+  initialSelectedId,
+  onSelectSauce,
+  className = "",
+}: SauceLineageTreeProps) {
   const { cuisines, loading } = useAlchemicalData();
   const forest = useMemo(() => getSauceForest(cuisines ?? undefined), [cuisines]);
   const [activeFamily, setActiveFamily] = useState<BaseFamily>("tomato");
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(initialSelectedId ?? null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const onToggle = useCallback((id: string) => {
@@ -499,6 +539,7 @@ export default function SauceLineageTree() {
   const onSelect = useCallback(
     (id: string) => {
       setSelectedId(id);
+      onSelectSauce?.(id);
       const lineage = getLineage(forest, id);
       setExpanded((prev) => {
         const next = new Set(prev);
@@ -510,8 +551,14 @@ export default function SauceLineageTree() {
         setActiveFamily(node.baseFamily);
       }
     },
-    [forest, activeFamily],
+    [forest, activeFamily, onSelectSauce],
   );
+
+  useEffect(() => {
+    if (initialSelectedId && initialSelectedId !== selectedId) {
+      onSelect(initialSelectedId);
+    }
+  }, [initialSelectedId, selectedId, onSelect]);
 
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return null;
@@ -532,7 +579,7 @@ export default function SauceLineageTree() {
 
   useEffect(() => {
     if (forest && forest.families.length > 0) {
-      if (!activeFamily || !forest.families.find(f => f.family === activeFamily)) {
+      if (!activeFamily || !forest.families.find((f) => f.family === activeFamily)) {
         const [firstFamily] = forest.families;
         if (firstFamily) setActiveFamily(firstFamily.family);
       }
@@ -540,151 +587,176 @@ export default function SauceLineageTree() {
   }, [forest, activeFamily]);
 
   if (loading && !forest.nodes.size) {
-    return <div className="p-10 text-center text-slate-500">Loading sauce phylogeny...</div>;
+    return (
+      <div className="p-12 text-center text-white/50 font-mono text-sm animate-pulse">
+        Mapping phylogenetic culinary lineages...
+      </div>
+    );
   }
 
+  const totalBridges = Math.floor(
+    Array.from(forest.fusionByNode.values()).reduce((s, b) => s + b.length, 0) / 2,
+  );
+
   return (
-    <div className="w-full bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
-      {/* Header */}
-      <div className="p-6 border-b border-slate-100 bg-gradient-to-r from-violet-50 via-rose-50 to-amber-50">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+    <div className={`w-full max-w-7xl mx-auto space-y-6 ${className}`}>
+      {/* Header Banner */}
+      <div className="rounded-2xl border border-white/10 bg-[#0e0c16]/90 p-6 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-slate-800">
-              Sauce Phylogeny — A Cross-Cuisine Lineage
+            <div className="text-[10px] font-mono uppercase tracking-widest text-violet-300 mb-1">
+              Phylogeny & Evolution
+            </div>
+            <h2 className="text-3xl font-serif font-medium text-white tracking-wide">
+              Cross-Cuisine Sauce Lineage
             </h2>
-            <p className="text-slate-600 mt-1 text-sm max-w-3xl">
-              Every traditional sauce descends from a small set of structural
-              parents. Trace the family tree, see what each sauce inherits or
-              drops from its ancestor, and find the closest relatives in other
-              cuisines — a structural map for informed, non-fusion-but-cross-tradition cooking.
+            <p className="text-xs text-white/70 mt-1 max-w-2xl leading-relaxed">
+              Every traditional sauce descends from a small set of structural parent foundations.
+              Trace the phylogenetic tree, discover how ingredients diverge across generations, and
+              explore shared flavor logic across distinct culinary traditions.
             </p>
           </div>
-          <div className="flex items-center gap-3 text-[11px] text-slate-500">
-            <div>
-              <span className="font-semibold text-slate-700">{forest.nodes.size}</span> sauces
+          <div className="flex items-center gap-3 text-xs font-mono text-white/60">
+            <div className="px-3 py-1.5 rounded-xl border border-white/10 bg-white/[0.03]">
+              <span className="text-violet-300 font-bold">{forest.nodes.size}</span> Sauces
             </div>
-            <div>
-              <span className="font-semibold text-slate-700">{forest.edges.length}</span> edges
+            <div className="px-3 py-1.5 rounded-xl border border-white/10 bg-white/[0.03]">
+              <span className="text-amber-300 font-bold">{forest.edges.length}</span> Branches
             </div>
-            <div>
-              <span className="font-semibold text-slate-700">
-                {Array.from(forest.fusionByNode.values()).reduce((s, b) => s + b.length, 0) / 2 | 0}
-              </span>{" "}
-              bridges
+            <div className="px-3 py-1.5 rounded-xl border border-white/10 bg-white/[0.03]">
+              <span className="text-emerald-300 font-bold">{totalBridges}</span> Fusion Bridges
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="p-5 space-y-4">
-        {/* Family tabs */}
-        <div className="flex flex-wrap gap-1.5">
-          {forest.families.map((f) => (
-            <button
-              key={f.family}
-              onClick={() => setActiveFamily(f.family)}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors flex items-center gap-1.5 ${
-                activeFamily === f.family
-                  ? "bg-slate-800 text-white shadow-sm"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
-              title={f.description}
-            >
-              <span>{FAMILY_ICONS[f.family]}</span>
-              <span>{f.label}</span>
-              <span className="text-[10px] opacity-70">{f.size}</span>
-            </button>
-          ))}
+        {/* Base Family Tabs */}
+        <div className="flex flex-wrap gap-2 mt-6 pt-5 border-t border-white/5">
+          {forest.families.map((f) => {
+            const isActive = activeFamily === f.family;
+            return (
+              <button
+                key={f.family}
+                onClick={() => setActiveFamily(f.family)}
+                className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-2 border ${
+                  isActive
+                    ? "bg-violet-600/30 border-violet-400 text-white shadow-[0_0_15px_rgba(139,92,246,0.3)] ring-1 ring-violet-400/40"
+                    : "bg-white/[0.03] border-white/10 text-white/60 hover:border-white/20 hover:text-white"
+                }`}
+                title={f.description}
+              >
+                <span>{FAMILY_ICONS[f.family]}</span>
+                <span>{f.label}</span>
+                <span className="text-[10px] text-white/40 tabular-nums">({f.size})</span>
+              </button>
+            );
+          })}
         </div>
 
+        {/* Active Family Summary Card */}
         {activeFamilyTree && (
-          <div className="rounded bg-slate-50 border border-slate-100 p-2.5">
-            <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold">
-              {activeFamilyTree.label} family
+          <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-xs">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-violet-300">
+                {activeFamilyTree.label} Foundation
+              </span>
+              <span className="text-[10px] font-mono text-white/40">
+                {activeFamilyTree.cuisines.length} Cuisines Represented
+              </span>
             </div>
-            <p className="text-xs text-slate-600 mt-0.5">
+            <p className="text-xs text-white/70 leading-relaxed">
               {FAMILY_DESCRIPTIONS[activeFamilyTree.family]}
             </p>
-            <div className="text-[10px] text-slate-500 mt-1">
-              {activeFamilyTree.cuisines.length} cuisines:{" "}
-              {activeFamilyTree.cuisines.join(", ")}
+            <div className="text-[10px] font-mono text-white/50 mt-2">
+              Traditions: {activeFamilyTree.cuisines.join(" · ")}
             </div>
           </div>
         )}
+      </div>
 
-        {/* Search */}
+      {/* Search Input */}
+      <div className="relative">
         <input
           type="text"
-          placeholder="Search by sauce, cuisine, ingredient (e.g. soy, lemon, mole)..."
+          placeholder="Search by sauce name, cuisine, or key ingredient (e.g. mole, velouté, soy, chili)..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+          className="w-full bg-[#0e0c16]/90 text-white border border-white/15 rounded-2xl px-4 py-3 text-sm focus:border-violet-400 focus:ring-1 focus:ring-violet-400 outline-none backdrop-blur-xl placeholder-white/40 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
         />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery("")}
+            className="absolute right-4 top-3 text-xs font-mono text-white/40 hover:text-white"
+          >
+            Clear ✕
+          </button>
+        )}
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {/* Tree pane */}
-          <div className="border border-slate-200 rounded-lg bg-white overflow-hidden flex flex-col max-h-[680px]">
-            <div className="bg-slate-50 border-b border-slate-200 px-3 py-1.5 text-[10px] uppercase tracking-wider text-slate-500 font-semibold flex items-center justify-between">
-              <span>{searchResults ? "Search results" : "Family forest"}</span>
-              {searchResults && (
-                <span className="text-slate-400 lowercase font-normal">
-                  {searchResults.length} matches
-                </span>
-              )}
-            </div>
-            <div className="overflow-y-auto py-2 px-1 flex-1">
-              {searchResults ? (
-                searchResults.length === 0 ? (
-                  <div className="px-4 py-6 text-sm text-slate-500 text-center">
-                    No sauces match.
-                  </div>
-                ) : (
-                  searchResults.map((n) => (
-                    <button
-                      key={n.id}
-                      onClick={() => onSelect(n.id)}
-                      className={`w-full text-left flex items-center gap-2 px-3 py-1.5 rounded transition-colors ${
-                        selectedId === n.id
-                          ? "bg-amber-100/70 ring-1 ring-amber-400"
-                          : "hover:bg-slate-50"
-                      }`}
-                    >
-                      <span>{FAMILY_ICONS[n.baseFamily]}</span>
-                      <OriginBadge origin={n.origin} />
-                      <span className="text-sm text-slate-700">{n.name}</span>
-                      <CuisineChip cuisine={n.cuisine} />
-                    </button>
-                  ))
-                )
-              ) : activeFamilyTree && activeFamilyTree.roots.length > 0 ? (
-                activeFamilyTree.roots.map((root) => (
-                  <NodeRow
-                    key={root.id}
-                    node={root}
-                    depth={0}
-                    selectedId={selectedId}
-                    expanded={expanded}
-                    onToggle={onToggle}
-                    onSelect={onSelect}
-                    cuisinesData={cuisines ?? undefined}
-                  />
-                ))
-              ) : (
-                <div className="px-4 py-6 text-sm text-slate-500 text-center">
-                  No sauces in this family.
+      {/* Two-Pane Tree & Dossier Explorer */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* Left Tree Pane (5 cols) */}
+        <div className="lg:col-span-5 rounded-2xl border border-white/10 bg-[#0e0c16]/90 backdrop-blur-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)] flex flex-col max-h-[720px]">
+          <div className="bg-white/[0.03] border-b border-white/10 px-4 py-3 text-[10px] font-mono uppercase tracking-widest text-white/50 flex items-center justify-between">
+            <span>{searchResults ? "Search Results" : "Family Forest"}</span>
+            {searchResults && (
+              <span className="text-violet-300 font-mono">
+                {searchResults.length} matches
+              </span>
+            )}
+          </div>
+
+          <div className="overflow-y-auto p-3 flex-1 space-y-1">
+            {searchResults ? (
+              searchResults.length === 0 ? (
+                <div className="p-8 text-center text-xs text-white/40">
+                  No sauces found matching &ldquo;{searchQuery}&rdquo;.
                 </div>
-              )}
-            </div>
+              ) : (
+                searchResults.map((n) => (
+                  <button
+                    key={n.id}
+                    onClick={() => onSelect(n.id)}
+                    className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-xl transition-all ${
+                      selectedId === n.id
+                        ? "bg-violet-950/60 ring-1 ring-violet-500 text-white border-l-2 border-violet-400"
+                        : "hover:bg-white/[0.04] text-white/80"
+                    }`}
+                  >
+                    <span>{FAMILY_ICONS[n.baseFamily]}</span>
+                    <OriginBadge origin={n.origin} />
+                    <span className="text-xs truncate font-medium">{n.name}</span>
+                    <CuisineChip cuisine={n.cuisine} />
+                  </button>
+                ))
+              )
+            ) : activeFamilyTree && activeFamilyTree.roots.length > 0 ? (
+              activeFamilyTree.roots.map((root) => (
+                <NodeRow
+                  key={root.id}
+                  node={root}
+                  depth={0}
+                  selectedId={selectedId}
+                  expanded={expanded}
+                  onToggle={onToggle}
+                  onSelect={onSelect}
+                  cuisinesData={cuisines ?? undefined}
+                />
+              ))
+            ) : (
+              <div className="p-8 text-center text-xs text-white/40">
+                No sauces recorded for this base family.
+              </div>
+            )}
           </div>
+        </div>
 
-          {/* Detail pane */}
-          <div className="max-h-[680px] overflow-y-auto">
-            <DetailPane
-              selectedId={selectedId}
-              onSelect={onSelect}
-              cuisinesData={cuisines ?? undefined}
-            />
-          </div>
+        {/* Right Detail Pane (7 cols) */}
+        <div className="lg:col-span-7">
+          <DetailPane
+            selectedId={selectedId}
+            onSelect={onSelect}
+            cuisinesData={cuisines ?? undefined}
+          />
         </div>
       </div>
     </div>

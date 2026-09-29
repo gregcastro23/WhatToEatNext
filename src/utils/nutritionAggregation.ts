@@ -13,6 +13,7 @@ import type {
   WeeklyNutritionResult,
 } from "@/types/nutrition";
 import { createEmptyNutritionalSummary } from "@/types/nutrition";
+import { coverageOf, sumCoverage } from "@/utils/menuPlanner/nutritionCoverage";
 
 /**
  * Key macronutrient fields for quick iteration
@@ -112,15 +113,12 @@ export function calculateOverallCompliance(
 }
 
 /**
- * Build a DailyNutritionResult from meal nutrition data
+ * Build a DailyNutritionResult from meal nutrition data. `totals` sums only
+ * the meals with nutrition; `coverage` says how many that is.
  */
 export function buildDailyResult(
   date: Date,
-  meals: Array<{
-    recipeName: string;
-    mealType: "breakfast" | "lunch" | "dinner" | "snack";
-    nutrition: NutritionalSummary;
-  }>,
+  meals: DailyNutritionResult["meals"],
   goals: NutritionalSummary,
 ): DailyNutritionResult {
   const totals = aggregateNutrition(meals.map((m) => m.nutrition));
@@ -139,6 +137,7 @@ export function buildDailyResult(
     date,
     meals,
     totals,
+    coverage: coverageOf(meals.map((m) => m.hasNutrition)),
     goals,
     compliance: {
       overall,
@@ -182,6 +181,7 @@ export function buildWeeklyResult(
     weekEndDate,
     days,
     weeklyTotals,
+    coverage: sumCoverage(days.map((d) => d.coverage)),
     weeklyGoals,
     weeklyCompliance: {
       overall,

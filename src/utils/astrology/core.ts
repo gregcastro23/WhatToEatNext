@@ -213,10 +213,13 @@ export function getLunarPhaseModifier(phase: LunarPhase): number {
 /**
  * Get the element associated with a zodiac sign
  * @param sign Zodiac sign
- * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
+ * @returns Element ('Fire', 'Earth', 'Air', or 'Water'), or undefined for an
+ *   unrecognised sign — it has no element
  */
-export function getZodiacElement(sign: ZodiacSignType | string): ElementalCharacter {
-  const elements: Record<string, ElementalCharacter> = {
+export function getZodiacElement(
+  sign: ZodiacSignType | string,
+): ElementalCharacter | undefined {
+  const elements: Partial<Record<string, ElementalCharacter>> = {
     aries: "Fire",
     leo: "Fire",
     sagittarius: "Fire",
@@ -230,7 +233,7 @@ export function getZodiacElement(sign: ZodiacSignType | string): ElementalCharac
     scorpio: "Water",
     pisces: "Water",
   };
-  return (elements as Record<string, Element | undefined>)[sign.toLowerCase()] ?? "Fire";
+  return elements[sign.toLowerCase()];
 }
 /**
  * Calculate lunar phase more accurately using astronomy-engine data
@@ -523,9 +526,11 @@ export function getPlanetaryElementalInfluence(planet: PlanetName): Element {
 /**
  * Get zodiac elemental influence
  * @param sign Zodiac sign
- * @returns Element
+ * @returns Element, or undefined for an unrecognised sign
  */
-export function getZodiacElementalInfluence(sign: ZodiacSignType | string): Element {
+export function getZodiacElementalInfluence(
+  sign: ZodiacSignType | string,
+): Element | undefined {
   const element = getZodiacElement(sign);
   // Convert ElementalCharacter to celestial Element type
   return element;
@@ -551,12 +556,12 @@ export function calculateElementalCompatibility(
  * Calculate dominant element from astrological state
  * @param astroState Astrological state
  * @param _timeFactors Time factors
- * @returns Dominant element
+ * @returns Dominant element, or undefined when no position resolves to one
  */
 export async function calculateDominantElement(
   astroState: AstrologicalState,
   _timeFactors: TimeFactors,
-): Promise<Element> {
+): Promise<Element | undefined> {
   await Promise.resolve();
   const elementCounts: Record<Element, number> = {
     Fire: 0,
@@ -568,7 +573,12 @@ export async function calculateDominantElement(
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions).forEach(
       ([planet, position]) => {
-        const element = getZodiacElementalInfluence(position.sign ?? "aries");
+        // A missing or unrecognised sign has no element; leave the planet out
+        const element =
+          position.sign === undefined
+            ? undefined
+            : getZodiacElementalInfluence(position.sign);
+        if (element === undefined) return;
         // Weight by planet importance
         let weight = 1;
         if (planet === "Sun" || planet === "Moon") weight = 3;
@@ -578,7 +588,8 @@ export async function calculateDominantElement(
     );
   }
   // Find dominant element
-  let dominantElement: Element = "Fire";
+  // With no counts there is no dominant element
+  let dominantElement: Element | undefined;
   let maxCount = 0;
   Object.entries(elementCounts).forEach(([element, count]) => {
     if (count > maxCount) {
@@ -609,7 +620,12 @@ export async function calculateElementalProfile(
   if (astroState.planetaryPositions) {
     Object.entries(astroState.planetaryPositions).forEach(
       ([planet, position]) => {
-        const element = getZodiacElementalInfluence(position.sign ?? "aries");
+        // A missing or unrecognised sign has no element; leave the planet out
+        const element =
+          position.sign === undefined
+            ? undefined
+            : getZodiacElementalInfluence(position.sign);
+        if (element === undefined) return;
         // Weight by planet importance
         let weight = 1;
         if (planet === "Sun" || planet === "Moon") weight = 3;
@@ -632,6 +648,17 @@ export async function calculateElementalProfile(
     profile[element as Element] = count / total;
   });
   return profile;
+}
+/**
+ * Add an aspect's effect to a sign's element. An unrecognised sign (undefined)
+ * has no element to receive it.
+ */
+function addAspectEffect(
+  effects: ElementalProperties,
+  element: ElementalCharacter | undefined,
+  amount: number,
+): void {
+  if (element !== undefined) effects[element] += amount;
 }
 /**
  * Calculate planetary aspects between positions
@@ -662,24 +689,28 @@ export async function calculateAspects(
     harmonic: number;
     description?: string;
   }
-  // Using Record instead of any for aspect types
-  const aspectTypes: { [key: string]: AspectData } = {
+  // Keyed by AspectType, so each key is the emitted aspect `type`
+  const aspectTypes = {
     conjunction: { angle: 0, orb: 8, significance: 1.0, harmonic: 1 },
-    _opposition: { angle: 180, orb: 8, significance: 0.9, harmonic: 2 },
-    _trine: { angle: 120, orb: 6, significance: 0.8, harmonic: 3 },
+    opposition: { angle: 180, orb: 8, significance: 0.9, harmonic: 2 },
+    trine: { angle: 120, orb: 6, significance: 0.8, harmonic: 3 },
     square: { angle: 90, orb: 6, significance: 0.8, harmonic: 4 },
-    _sextile: { angle: 60, orb: 4, significance: 0.6, harmonic: 6 },
-    _quincunx: { angle: 150, orb: 3, significance: 0.5, harmonic: 12 },
-    _semisextile: { angle: 30, orb: 2, significance: 0.4, harmonic: 12 },
-    _semisquare: { angle: 45, orb: 2, significance: 0.4, harmonic: 8 },
-    _sesquisquare: { angle: 135, orb: 2, significance: 0.4, harmonic: 8 },
-    _quintile: { angle: 72, orb: 1.5, significance: 0.3, harmonic: 5 },
-  };
+    sextile: { angle: 60, orb: 4, significance: 0.6, harmonic: 6 },
+    quincunx: { angle: 150, orb: 3, significance: 0.5, harmonic: 12 },
+    "semi-sextile": { angle: 30, orb: 2, significance: 0.4, harmonic: 12 },
+    semisquare: { angle: 45, orb: 2, significance: 0.4, harmonic: 8 },
+    sesquisquare: { angle: 135, orb: 2, significance: 0.4, harmonic: 8 },
+    quintile: { angle: 72, orb: 1.5, significance: 0.3, harmonic: 5 },
+  } satisfies Partial<Record<AspectType, AspectData>>;
   // Helper function to get longitude from sign and degree
-  const getLongitude = (position: { sign: string; degree: number }): number => {
+  // Longitude of a position, or undefined when its sign doesn't resolve
+  const getLongitude = (position: {
+    sign: string;
+    degree: number;
+  }): number | undefined => {
     if (typeof position.sign !== "string" || position.sign.length === 0) {
       debugLog("Invalid position object encountered: ", position);
-      return 0;
+      return undefined;
     }
     const signs = [
       "aries",
@@ -698,7 +729,7 @@ export async function calculateAspects(
     const signIndex = signs.findIndex(
       (s) => s.toLowerCase() === position.sign.toLowerCase(),
     );
-    return signIndex * 30 + position.degree;
+    return signIndex >= 0 ? signIndex * 30 + position.degree : undefined;
   };
   // Calculate aspects between each planet pair
   const planets = Object.keys(positions);
@@ -711,8 +742,10 @@ export async function calculateAspects(
       const pos2 = (positions as Record<string, { sign: string; degree: number } | undefined>)[planet2];
       // Skip if missing position data
       if (!pos1 || !pos2 || !pos1.sign || !pos2.sign) continue;
+      // A sign that doesn't resolve has no longitude, so it forms no aspect
       const long1 = getLongitude(pos1);
       const long2 = getLongitude(pos2);
+      if (long1 === undefined || long2 === undefined) continue;
       // Calculate angular difference
       let diff = Math.abs(long1 - long2);
       if (diff > 180) diff = 360 - diff;
@@ -724,14 +757,15 @@ export async function calculateAspects(
           // Calculate aspect strength based on orb
           const strength = 1 - orb / definition.orb;
           // Get element of the sign for each planet
-          const element1 = getZodiacElement(pos1.sign).toLowerCase();
-          const element2 = getZodiacElement(pos2.sign).toLowerCase();
+          const element1 = getZodiacElement(pos1.sign);
+          const element2 = getZodiacElement(pos2.sign);
           // Base multiplier from definition
           let multiplier = definition.significance;
           // Special case: Square aspect with Ascendant is positive
           if (
             type === "square" &&
-            (element1 === "ascendant" || element2 === "ascendant")
+            (planet1.toLowerCase() === "ascendant" ||
+              planet2.toLowerCase() === "ascendant")
           ) {
             multiplier = 1;
           }
@@ -746,7 +780,7 @@ export async function calculateAspects(
             exactAngle: orb,
             applyingSeparating: orb <= 120 ? "applying" : "separating",
             significance: orb / 180,
-            description: `Aspect between ${element1} and ${element2}`,
+            description: `Aspect between ${planet1} and ${planet2}`,
             elementalInfluence: {
               fire: 0,
               water: 0,
@@ -755,10 +789,8 @@ export async function calculateAspects(
             },
           });
           // Apply elemental effects
-          elementalEffects[element1 as "Fire" | "Water" | "Earth" | "Air"] +=
-            multiplier * strength;
-          elementalEffects[element2 as "Fire" | "Water" | "Earth" | "Air"] +=
-            multiplier * strength;
+          addAspectEffect(elementalEffects, element1, multiplier * strength);
+          addAspectEffect(elementalEffects, element2, multiplier * strength);
           // Only count the closest aspect between two planets
           break;
         }

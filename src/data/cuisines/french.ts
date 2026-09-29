@@ -1,5 +1,6 @@
 // src/data/cuisines/french.ts
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const french: Cuisine = {
   id: "french",
@@ -5291,12 +5292,7 @@ export const french: Cuisine = {
       seasonality: "autumn, winter",
     },
   },
-  elementalProperties: {
-    Earth: 0.3,
-    Water: 0.3,
-    Fire: 0.2,
-    Air: 0.2,
-  },
+  elementalProperties: derivedProfiles.cuisines.French.elementalProperties,
   astrologicalInfluences: [
     "Venus - Governs the sensual, pleasure-seeking aspects of French cuisine",
     "Jupiter - Influences the celebratory and abundant nature of French dining",

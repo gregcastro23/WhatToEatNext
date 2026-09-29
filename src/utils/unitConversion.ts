@@ -3,6 +3,7 @@
 // (elemental calculations) and the ingredient nutrition aggregator.
 
 import { PORTIONS_BY_INGREDIENT } from "@/data/cooking/measuredPortions";
+import { countToMass } from "@/lib/cooking/countToMass";
 import { volumeToMass } from "@/lib/cooking/volumetrics";
 
 /**
@@ -21,6 +22,8 @@ export interface GramConversion {
   basis: GramBasis;
   /** The FDC record backing a measured figure. Absent on an approximation. */
   fdcId?: number;
+  /** FDC's label for a measured COUNT portion ("large", "sprigs"). Absent otherwise. */
+  measuredAs?: string;
   /** Present ONLY on an approximation, so absence of data cannot look like data. */
   approximationNote?: string;
 }
@@ -40,6 +43,19 @@ const VOLUME_UNIT_TO_MEASURE: Record<string, "cup" | "tbsp" | "tsp"> = {
   tsp: "tsp",
   teaspoon: "tsp",
   teaspoons: "tsp",
+};
+
+/**
+ * Larger US customary volumes, in cups (1 pint = 2 cups, 1 quart = 4 cups,
+ * 1 gallon = 16 cups), so they reach the same measured cup weights.
+ */
+const CUPS_PER_UNIT: Record<string, number> = {
+  pint: 2,
+  pints: 2,
+  quart: 4,
+  quarts: 4,
+  gallon: 16,
+  gallons: 16,
 };
 
 /**
@@ -86,6 +102,12 @@ const NAME_ALIASES: Record<string, string> = {
   "toasted sesame oil": "sesame oil",
   "canola oil": "vegetable oil",
   "sesame seed": "sesame seeds",
+  // Catalog names whose own nutritional profile IS the measured record's food:
+  // Chicken Egg is "1 large egg (50g), whole" (FDC 171287), and both onions are
+  // "1 medium onion (110g)" at 44 kcal (FDC 170000, Onions, raw).
+  "chicken egg": "egg",
+  "yellow onion": "onion",
+  "red onion": "onion",
 };
 
 function canonicalIngredient(name: string): string {
@@ -110,6 +132,7 @@ export const UNIT_CONVERSIONS: Record<string, number> = {
   lb: 453.59,
   pound: 453.59,
   pounds: 453.59,
+  lbs: 453.59,
 
   // Volume units (approximate conversions using water density)
   ml: 1,
@@ -129,6 +152,13 @@ export const UNIT_CONVERSIONS: Record<string, number> = {
   "fl oz": 29.57,
   "fluid ounce": 29.57,
   "fluid ounces": 29.57,
+  // US customary definitions (NIST Handbook 44): 1 gal = 231 in³ = 3.785411784 L.
+  pint: 473.18,
+  pints: 473.18,
+  quart: 946.35,
+  quarts: 946.35,
+  gallon: 3785.41,
+  gallons: 3785.41,
 
   // Piece/count units (context-dependent, using approximate averages)
   piece: 50,
@@ -154,7 +184,10 @@ export const UNIT_CONVERSIONS: Record<string, number> = {
  * fact — and it errs in BOTH directions: a cup of salt is 292 g, not 240 g.
  *
  * Supplying `ingredientName` lets a volume unit resolve against USDA's measured
- * household-measure weights. Without it, or for an ingredient nobody has
+ * household-measure weights, and a count unit ("large", "sprigs", "whole")
+ * against USDA's measured count portions (see `countToMass`; a count with no
+ * measured portion is `null`, unless it is one of the table's own count
+ * guesses). Without a name, or for an ingredient nobody has
  * measured, the water approximation is still used — but it comes back labelled
  * `water-approximation` with a note, so a caller can never mistake it for a
  * measurement. Only {@link MEASURED_INGREDIENT_COUNT} ingredients are covered,
@@ -170,9 +203,10 @@ export function convertToGramsDetailed(
   const key = (unit ?? "").toLowerCase().trim();
 
   // A volume unit is the only kind whose gram weight depends on WHAT it is.
-  const measure = VOLUME_UNIT_TO_MEASURE[key];
+  const cups = CUPS_PER_UNIT[key];
+  const measure = VOLUME_UNIT_TO_MEASURE[key] ?? (cups !== undefined ? "cup" : undefined);
   if (measure !== undefined && ingredientName) {
-    const measured = volumeToMass(canonicalIngredient(ingredientName), amount, measure);
+    const measured = volumeToMass(canonicalIngredient(ingredientName), amount * (cups ?? 1), measure);
     if (measured !== null) {
       return {
         grams: measured.grams,
@@ -180,6 +214,11 @@ export function convertToGramsDetailed(
         ...(measured.fdcId !== undefined ? { fdcId: measured.fdcId } : {}),
       };
     }
+  }
+
+  const counted = ingredientName ? countToMass(canonicalIngredient(ingredientName), amount, key) : null;
+  if (counted !== null) {
+    return { grams: counted.grams, basis: "usda-measured", fdcId: counted.fdcId, measuredAs: counted.measuredAs };
   }
 
   const factor = UNIT_CONVERSIONS[key];

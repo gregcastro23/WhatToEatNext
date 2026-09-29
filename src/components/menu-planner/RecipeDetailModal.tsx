@@ -9,6 +9,7 @@
  */
 
 import React, { useState, useMemo } from "react";
+import { DailyValueChips } from "@/components/nutrition/DailyValueRows";
 import { DietaryAdaptationPanel } from "@/components/recipes/DietaryAdaptationPanel";
 import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
 import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
@@ -16,53 +17,23 @@ import { RestaurantDiscovery } from "@/components/RestaurantDiscovery";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { resolveAsin, AMAZON_ASSOCIATE_TAG, getStandardizedQuantity } from "@/data/amazon";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
-import type { NutritionalSummary } from "@/types/nutrition";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import type { DietaryMode } from "@/utils/dietaryAdaptation";
 import type { TimeBudget } from "@/utils/timeShortcuts";
 
-// Define constant keys for vitamins and minerals based on NutritionalSummary
-const VITAMIN_KEYS: Array<keyof NutritionalSummary> = [
-  "vitaminA",
-  "vitaminD",
-  "vitaminE",
-  "vitaminK",
-  "vitaminC",
-  "thiamin",
-  "riboflavin",
-  "niacin",
-  "pantothenicAcid",
-  "vitaminB6",
-  "biotin",
-  "folate",
-  "vitaminB12",
-  "choline",
+/** Minerals the recipe publishes as amounts; the rest are %DV chips. */
+const MINERAL_AMOUNTS: Array<{ key: "sodium" | "potassium"; label: string }> = [
+  { key: "sodium", label: "Sodium" },
+  { key: "potassium", label: "Potassium" },
 ];
 
-const MINERAL_KEYS: Array<keyof NutritionalSummary> = [
-  "calcium",
-  "phosphorus",
-  "magnesium",
-  "sodium",
-  "potassium",
-  "chloride",
-  "iron",
-  "zinc",
-  "copper",
-  "manganese",
-  "selenium",
-  "iodine",
-  "chromium",
-  "molybdenum",
-  "fluoride",
-];
-
-// Helper to format nutrient keys into readable labels
-function formatNutrientLabel(key: keyof NutritionalSummary): string {
-  // Add spaces before capital letters and capitalize the first letter
-  return key
-    .replace(/([A-Z])/g, " $1")
-    .replace(/^./, (str) => str.toUpperCase());
+function mineralAmounts(recipe: Recipe, multiplier: number): Array<{ label: string; text: string }> {
+  return MINERAL_AMOUNTS.flatMap(({ key, label }) => {
+    const value = recipe.nutrition?.[key];
+    return typeof value === "number" && value > 0
+      ? [{ label, text: `${Math.round(value * multiplier)} mg` }]
+      : [];
+  });
 }
 
 interface RecipeDetailModalProps {
@@ -651,69 +622,11 @@ export default function RecipeDetailModal({
                   )}
 
                   {/* Vitamins & Minerals */}
-                  {/* Vitamins & Minerals */}
-                  {(VITAMIN_KEYS.some(
-                    (key) => (recipe.nutrition?.[key] ?? 0) > 0,
-                  ) ||
-                    MINERAL_KEYS.some(
-                      (key) => (recipe.nutrition?.[key] ?? 0) > 0,
-                    )) && (
-                    <>
-                      {VITAMIN_KEYS.some(
-                        (key) => (recipe.nutrition?.[key] ?? 0) > 0,
-                      ) && (
-                        <div>
-                          <h4 className="font-medium text-sm text-gray-700 mb-2">
-                            Vitamins
-                          </h4>
-                          <div className="flex flex-wrap gap-1">
-                            {VITAMIN_KEYS.map((key) => {
-                              const value = recipe.nutrition?.[key];
-                              if (value != null && value > 0) {
-                                return (
-                                  <span
-                                    key={key}
-                                    className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs"
-                                  >
-                                    {formatNutrientLabel(key)}:{" "}
-                                    {Math.round(value * servingMultiplier)}
-                                  </span>
-                                );
-                              }
-                              return null;
-                            })}
-                          </div>
-                        </div>
-                      )}
-
-                      {MINERAL_KEYS.some(
-                        (key) => (recipe.nutrition?.[key] ?? 0) > 0,
-                      ) && (
-                        <div>
-                          <h4 className="font-medium text-sm text-gray-700 mb-2">
-                            Minerals
-                          </h4>
-                          <div className="flex flex-wrap gap-1">
-                            {MINERAL_KEYS.map((key) => {
-                              const value = recipe.nutrition?.[key];
-                              if (value != null && value > 0) {
-                                return (
-                                  <span
-                                    key={key}
-                                    className="px-2 py-0.5 bg-teal-100 text-teal-700 rounded text-xs"
-                                  >
-                                    {formatNutrientLabel(key)}:{" "}
-                                    {Math.round(value * servingMultiplier)}
-                                  </span>
-                                );
-                              }
-                              return null;
-                            })}
-                          </div>
-                        </div>
-                      )}
-                    </>
-                  )}
+                  <DailyValueChips
+                    nutrition={recipe.nutrition}
+                    servings={servingMultiplier}
+                    amounts={mineralAmounts(recipe, servingMultiplier)}
+                  />
 
                   <p className="text-xs text-gray-400">
                     Values shown per {scaledServings} serving
