@@ -82,11 +82,19 @@ interface MealMacros {
   fat: number;
   fiber: number;
   /** Absent where the recipe does not state it: absent is not 0. */
-  sodium?: number | undefined;
-  sugar?: number | undefined;
+  sodium?: number;
+  sugar?: number;
 }
 
 type PlannedRecipe = EnhancedRecipe & { nutritionPerServing?: NutritionPerServingLike };
+
+/** Only what a recipe states: an absent sodium or sugar stays a missing key. */
+function statedSodiumSugar(sodium: number | undefined, sugar: number | undefined): { sodium?: number; sugar?: number } {
+  return {
+    ...(sodium === undefined ? {} : { sodium }),
+    ...(sugar === undefined ? {} : { sugar }),
+  };
+}
 
 function macrosFromProfile(p: NutritionalProfileLike & { calories: number }): MealMacros {
   return {
@@ -95,8 +103,7 @@ function macrosFromProfile(p: NutritionalProfileLike & { calories: number }): Me
     carbs: p.carbs ?? 0,
     fat: p.fat ?? 0,
     fiber: p.fiber ?? 0,
-    sodium: p.sodium,
-    sugar: p.sugar,
+    ...statedSodiumSugar(p.sodium, p.sugar),
   };
 }
 
@@ -107,8 +114,7 @@ function macrosFromPerServing(p: NutritionPerServingLike & { calories: number })
     carbs: p.carbsG ?? 0,
     fat: p.fatG ?? 0,
     fiber: p.fiberG ?? 0,
-    sodium: p.sodiumMg,
-    sugar: p.sugarG,
+    ...statedSodiumSugar(p.sodiumMg, p.sugarG),
   };
 }
 

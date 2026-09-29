@@ -64,8 +64,8 @@ export type StatedNutrients = Record<"sodium" | "sugar", boolean>;
 export const NOT_STATED: StatedNutrients = { sodium: false, sugar: false };
 
 interface SodiumSugar {
-  sodium?: number | undefined;
-  sugar?: number | undefined;
+  sodium?: number;
+  sugar?: number;
 }
 
 /** A meal states a value only if its recipe does, and its sauce does when it has one. */
