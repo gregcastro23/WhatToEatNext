@@ -15,18 +15,13 @@ import type {
   UserNutritionProfile,
   DailyNutritionResult,
   WeeklyNutritionResult,
-  ComplianceSeverity,
 } from "@/types/nutrition";
-import {
-  createEmptyNutritionalSummary,
-  getComplianceSeverity,
-} from "@/types/nutrition";
+import { createEmptyNutritionalSummary } from "@/types/nutrition";
 import { publishesCalories, statedByRecipe } from "@/utils/menuPlanner/nutritionCoverage";
 import {
   buildDailyResult,
   buildWeeklyResult,
   aggregateNutrition as _aggregateNutrition,
-  formatNutrientName,
 } from "@/utils/nutritionAggregation";
 
 /**
@@ -241,39 +236,6 @@ export class NutritionTrackingService {
     }
 
     return buildWeeklyResult(weekStartDate, days, this.targets.weekly);
-  }
-
-  /**
-   * Get compliance severity label for a score
-   */
-  getComplianceLabel(score: number): ComplianceSeverity {
-    return getComplianceSeverity(score);
-  }
-
-  /**
-   * Get a color string for a compliance score (for UI)
-   */
-  getComplianceColor(score: number): string {
-    const severity = getComplianceSeverity(score);
-    switch (severity) {
-      case "excellent":
-        return "#22c55e";
-      case "good":
-        return "#84cc16";
-      case "fair":
-        return "#eab308";
-      case "poor":
-        return "#f97316";
-      case "critical":
-        return "#ef4444";
-    }
-  }
-
-  /**
-   * Format a nutrient key for display
-   */
-  formatNutrient(key: string): string {
-    return formatNutrientName(key as keyof NutritionalSummary);
   }
 }
 

@@ -231,7 +231,7 @@ export function buildWeeklyResult(
 /**
  * Convert camelCase nutrient key to human-readable name
  */
-export function formatNutrientName(key: keyof NutritionalSummary): string {
+function formatNutrientName(key: keyof NutritionalSummary): string {
   const names: Partial<Record<keyof NutritionalSummary, string>> = {
     calories: "Calories",
     protein: "Protein",

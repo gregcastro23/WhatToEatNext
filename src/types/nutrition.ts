@@ -415,24 +415,6 @@ export interface WeeklyNutritionResult {
   };
 }
 
-/**
- * Compliance severity levels
- */
-export type ComplianceSeverity =
-  | "excellent"
-  | "good"
-  | "fair"
-  | "poor"
-  | "critical";
-
-export function getComplianceSeverity(score: number): ComplianceSeverity {
-  if (score >= 0.9) return "excellent";
-  if (score >= 0.75) return "good";
-  if (score >= 0.6) return "fair";
-  if (score >= 0.4) return "poor";
-  return "critical";
-}
-
 export type NutrientImportance = "critical" | "high" | "medium" | "low";
 
 export enum DietaryRestriction {
