@@ -263,6 +263,16 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkWelcomeGrantCoverageBehaviour.mjs
 
+      - name: Menu saves store no nutrition totals
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Diff-sensitive: it imports the weekly_menus statements and runs each
+        # one, rolled back, over rows seeded in both pre-ruling shapes. Each
+        # check is re-run against a mutant that restores the old behaviour, to
+        # prove the check can fail (owner ruling 2026-09-27).
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkMenuPersistenceSql.mjs
+
       - name: Environmental SQL parses against PostgreSQL
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # Diff-sensitive: it imports the live query builders AND applies

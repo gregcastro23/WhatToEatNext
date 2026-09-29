@@ -1287,7 +1287,8 @@ export const AgentWeeklyMenuRequestSchema = z.object({
   agentDisplayName: z.string().optional(),
   weekStartDate: z.string().optional(),
   meals: z.array(z.unknown()).optional(),
-  nutritionalTotals: z.unknown().optional(),
+  // No `nutritionalTotals`: an agent's flat, model-estimated totals are stripped
+  // here and never stored (owner ruling 2026-09-27).
   groceryList: z.array(z.unknown()).optional(),
   inventory: z.unknown().optional(),
   weeklyBudget: z.number().optional(),
