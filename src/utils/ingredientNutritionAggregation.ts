@@ -29,7 +29,7 @@ import {
   type CompleteOnlySource,
 } from "./nutrientCompleteness";
 import { accountsForRecipe, type WeighedLine } from "./nutritionCompleteness";
-import { UNIT_CONVERSIONS, convertToGrams } from "./unitConversion";
+import { UNIT_CONVERSIONS, convertToGrams, isCountUnit } from "./unitConversion";
 import type { NormalizedRecipeNutrition } from "./recipeNutrition";
 
 // `resolveIngredientByName` (added here in #555) was lifted into the shared
@@ -253,9 +253,10 @@ interface WeighedContribution {
 function macrolessNutrition(
   found: IngredientLike,
   grams: number | null,
+  massKnown: boolean,
 ): NormalizedRecipeNutrition | null {
   const scaled = computeIngredientNutrition(found, grams ?? 1, "g", true);
-  return scaled ? macrolessContribution(scaled, grams !== null) : null;
+  return scaled ? macrolessContribution(scaled, massKnown) : null;
 }
 
 /** One ingredient line: how it was weighed, and what it adds to the total. */
@@ -269,7 +270,9 @@ function weighLine(ing: Recipe["ingredients"][number]): WeighedContribution {
   const grams = convertToGrams(amount, unit, found.name);
   // A profile with no calories or macros (water, salt) adds no energy at any mass, but sodium.
   if (!computeIngredientNutrition(found, 1, "g")) {
-    return { line: { kind: "zero", grams }, nutrition: macrolessNutrition(found, grams), gapKeys: MACROLESS_KEYS };
+    // "1 piece" of salt is not 50 g: a count says nothing about how much of it there is.
+    const massKnown = grams !== null && !isCountUnit(unit);
+    return { line: { kind: "zero", grams }, nutrition: macrolessNutrition(found, grams, massKnown), gapKeys: MACROLESS_KEYS };
   }
   if (grams === null) return { line: { kind: "unweighable" }, nutrition: null };
   return { line: { kind: "counted", grams }, nutrition: computeIngredientNutrition(found, grams, "g") };

@@ -71,7 +71,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (4g)",
       calories: 15,
-      macros: { protein: 0, carbs: 3.8, fat: 0, fiber: 0, sugar: 3.6, sodium: 0.001 },
+      macros: { protein: 0, carbs: 3.8, fat: 0, fiber: 0, sugar: 3.6, sodium: 0.44 }, // sodium mg: FDC 169658, 11 mg/100 g x 4 g (was 0.001)
       vitamins: {},
       minerals: { manganese: 0.08, zinc: 0.01 },
       source: "USDA FoodData Central",
@@ -118,7 +118,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tbsp (4g)",
       calories: 12,
-      macros: { protein: 0.1, carbs: 3.0, fat: 0, fiber: 2.8, sugar: 0, sodium: 0.04 },
+      macros: { protein: 0.1, carbs: 3.0, fat: 0, fiber: 2.8, sugar: 0, sodium: 4.1 }, // sodium mg: FDC 170090, 102 mg/100 g x 4 g (was 0.04)
       vitamins: {},
       minerals: { calcium: 0.02, iron: 0.01 },
       source: "USDA FoodData Central",
@@ -165,7 +165,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (2g)",
       calories: 6,
-      macros: { protein: 0.1, carbs: 1.5, fat: 0, fiber: 1.4, sugar: 0, sodium: 0.02 },
+      macros: { protein: 0.1, carbs: 1.5, fat: 0, fiber: 1.4, sugar: 0, sodium: 2 }, // sodium mg: FDC 170090, 102 mg/100 g x 2 g (was 0.02)
       vitamins: {},
       minerals: { calcium: 0.01 },
       source: "USDA FoodData Central",
@@ -259,7 +259,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tbsp (8g)",
       calories: 28,
-      macros: { protein: 0, carbs: 7.0, fat: 0, fiber: 0.2, sugar: 0, sodium: 0.001 },
+      macros: { protein: 0, carbs: 7.0, fat: 0, fiber: 0.2, sugar: 0, sodium: 0.16 }, // sodium mg: FDC 170684, 2 mg/100 g x 8 g (was 0.001)
       vitamins: {},
       minerals: { potassium: 0.01 },
       source: "USDA FoodData Central",
@@ -477,7 +477,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (5g)",
       calories: 2,
-      macros: { protein: 0, carbs: 1.3, fat: 0, fiber: 0, sugar: 0.1, sodium: 0.19 },
+      macros: { protein: 0, carbs: 1.3, fat: 0, fiber: 0, sugar: 0.1, sodium: 394.6 }, // sodium mg: FDC 172804, 7893 mg/100 g x 5 g (was 0.19)
       vitamins: {},
       minerals: { calcium: 0.04, sodium: 0.19 },
       source: "USDA FoodData Central",
@@ -786,7 +786,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tbsp (17g)",
       calories: 20,
-      macros: { protein: 0.2, carbs: 5.3, fat: 0, fiber: 0, sugar: 0.5, sodium: 0.07 },
+      macros: { protein: 0.2, carbs: 5.3, fat: 0, fiber: 0, sugar: 0.5, sodium: 154.2 }, // sodium mg: FDC 168556, 907 mg/100 g x 17 g (was 0.07)
       vitamins: { A: 0.02 },
       minerals: { sodium: 0.07 },
       source: "USDA FoodData Central",
@@ -813,7 +813,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 tsp (5g)",
       calories: 3,
-      macros: { protein: 0.2, carbs: 0.3, fat: 0.2, fiber: 0.1, sugar: 0.0, sodium: 0.02 },
+      macros: { protein: 0.2, carbs: 0.3, fat: 0.2, fiber: 0.1, sugar: 0.0, sodium: 55.2 }, // sodium mg: FDC 172234, 1104 mg/100 g x 5 g (was 0.02)
       vitamins: {},
       minerals: { selenium: 0.04, sodium: 0.02 },
       source: "USDA FoodData Central",
@@ -840,7 +840,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "3 slices (34g)",
       calories: 161,
-      macros: { protein: 11.6, carbs: 0.6, fat: 12.1, fiber: 0, sugar: 0.1, sodium: 0.28 },
+      macros: { protein: 11.6, carbs: 0.6, fat: 12.1, fiber: 0, sugar: 0.1, sodium: 572.6 }, // sodium mg: FDC 168322, 1684 mg/100 g x 34 g (was 0.28)
       vitamins: { B3: 0.18, B12: 0.09, B1: 0.08 },
       minerals: { selenium: 0.24, phosphorus: 0.1, sodium: 0.28 },
       source: "USDA FoodData Central",
@@ -1002,7 +1002,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "2 oz (56g)",
       calories: 62,
-      macros: { protein: 11.6, carbs: 1.2, fat: 0.9, fiber: 0, sugar: 0.1, sodium: 0.2 },
+      macros: { protein: 11.6, carbs: 1.2, fat: 0.9, fiber: 0, sugar: 0.1, sodium: 502.9 }, // sodium mg: FDC 172941, 898 mg/100 g x 56 g (was 0.2)
       vitamins: { B3: 0.12, B6: 0.08 },
       minerals: { selenium: 0.2, sodium: 0.2 },
       source: "USDA FoodData Central",
@@ -1056,7 +1056,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "0.5 cup (100g)",
       calories: 177,
-      macros: { protein: 3.2, carbs: 21.7, fat: 8.6, fiber: 1.3, sugar: 2.2, sodium: 0.24 },
+      macros: { protein: 3.2, carbs: 21.7, fat: 8.6, fiber: 1.3, sugar: 2.2, sodium: 479 }, // sodium mg: FDC 174931, 479 mg/100 g x 100 g (was 0.24)
       vitamins: { B1: 0.1, B9: 0.08 },
       minerals: { sodium: 0.24, iron: 0.07 },
       source: "USDA FoodData Central",
@@ -1083,7 +1083,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "2 tbsp (36g)",
       calories: 52,
-      macros: { protein: 0.2, carbs: 12.8, fat: 0.2, fiber: 0.2, sugar: 10.2, sodium: 0.13 },
+      macros: { protein: 0.2, carbs: 12.8, fat: 0.2, fiber: 0.2, sugar: 10.2, sodium: 369.7 }, // sodium mg: FDC 174523, 1027 mg/100 g x 36 g (was 0.13)
       vitamins: {},
       minerals: { sodium: 0.13 },
       source: "USDA FoodData Central",
@@ -1272,7 +1272,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "2 sheets (28g)",
       calories: 118,
-      macros: { protein: 1.9, carbs: 21.5, fat: 2.8, fiber: 0.8, sugar: 2.1, sodium: 0.07 },
+      macros: { protein: 1.9, carbs: 21.5, fat: 2.8, fiber: 0.8, sugar: 2.1, sodium: 144.5 }, // sodium mg: FDC 174957, 516 mg/100 g x 28 g (was 0.07)
       vitamins: { B1: 0.06 },
       minerals: { iron: 0.06, sodium: 0.07 },
       source: "USDA FoodData Central",
@@ -1365,7 +1365,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "4 pieces (29g)",
       calories: 92,
-      macros: { protein: 0.5, carbs: 23.4, fat: 0, fiber: 0, sugar: 18.7, sodium: 0.01 },
+      macros: { protein: 0.5, carbs: 23.4, fat: 0, fiber: 0, sugar: 18.7, sodium: 23.2 }, // sodium mg: FDC 167995, 80 mg/100 g x 29 g (was 0.01)
       vitamins: {},
       minerals: { sodium: 0.01 },
       source: "USDA FoodData Central",
@@ -1419,7 +1419,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "0.25 tsp (1.5g)",
       calories: 0,
-      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0, sodium: 0.24 },
+      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0, sodium: 581.4 }, // sodium mg: FDC 173468, 38758 mg/100 g x 1.5 g (was 0.24)
       vitamins: {},
       minerals: { sodium: 0.24 },
       source: "USDA FoodData Central",
@@ -1446,7 +1446,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1/8 crust (23g)",
       calories: 109,
-      macros: { protein: 1.3, carbs: 10.1, fat: 7.0, fiber: 0.3, sugar: 1.0, sodium: 0.05 },
+      macros: { protein: 1.3, carbs: 10.1, fat: 7.0, fiber: 0.3, sugar: 1.0, sodium: 108.6 }, // sodium mg: FDC 167930, 472 mg/100 g x 23 g (was 0.05)
       vitamins: {},
       minerals: { iron: 0.04, sodium: 0.05 },
       source: "USDA FoodData Central",
@@ -1511,7 +1511,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       },
       serving_size: "0.25 tsp (1.5g)",
       calories: 0,
-      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0, sodium: 0.25 },
+      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0, sodium: 581.4 }, // sodium mg: FDC 173468, 38758 mg/100 g x 1.5 g (was 0.25)
       vitamins: {},
       minerals: { sodium: 0.25 },
       source: "USDA FoodData Central",
@@ -1808,7 +1808,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "2 oz (56g)",
       calories: 60,
-      macros: { protein: 10.0, carbs: 1.5, fat: 1.5, fiber: 0, sugar: 0.2, sodium: 0.24 },
+      macros: { protein: 10.0, carbs: 1.5, fat: 1.5, fiber: 0, sugar: 0.2, sodium: 529.2 }, // sodium mg: FDC 173863, 945 mg/100 g x 56 g (was 0.24)
       vitamins: { B1: 0.15, B3: 0.1 },
       minerals: { sodium: 0.24, selenium: 0.15 },
       source: "USDA FoodData Central",
@@ -1835,7 +1835,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "0.25 cup (63g)",
       calories: 60,
-      macros: { protein: 2.0, carbs: 4.5, fat: 3.5, fiber: 0, sugar: 3.6, sodium: 0.05 },
+      macros: { protein: 2.0, carbs: 4.5, fat: 3.5, fiber: 0, sugar: 3.6, sodium: 115.9 }, // sodium mg: FDC 174542, 184 mg/100 g x 63 g (was 0.05)
       vitamins: { B2: 0.05, A: 0.03 },
       minerals: { calcium: 0.06, sodium: 0.05 },
       source: "USDA FoodData Central",
@@ -1862,7 +1862,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "5 fillets (20g)",
       calories: 42,
-      macros: { protein: 5.8, carbs: 0, fat: 1.9, fiber: 0, sugar: 0.0, sodium: 0.3 },
+      macros: { protein: 5.8, carbs: 0, fat: 1.9, fiber: 0, sugar: 0.0, sodium: 733.6 }, // sodium mg: FDC 174183, 3668 mg/100 g x 20 g (was 0.3)
       vitamins: { B12: 0.1, B3: 0.05 },
       minerals: { selenium: 0.1, iron: 0.09, calcium: 0.05, sodium: 0.3 },
       source: "USDA FoodData Central",
@@ -1943,7 +1943,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
       calories: 130,
-      macros: { protein: 3.5, carbs: 0.2, fat: 12.8, fiber: 0, sugar: 0.0, sodium: 0.15 },
+      macros: { protein: 3.5, carbs: 0.2, fat: 12.8, fiber: 0, sugar: 0.0, sodium: 471.5 }, // sodium mg: FDC 168322, 1684 mg/100 g x 28 g (was 0.15)
       vitamins: { B1: 0.05 },
       minerals: { sodium: 0.15, selenium: 0.06 },
       source: "USDA FoodData Central",
@@ -2052,7 +2052,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
       calories: 135,
-      macros: { protein: 4.5, carbs: 0.3, fat: 13.0, fiber: 0, sugar: 0.0, sodium: 0.2 },
+      macros: { protein: 4.5, carbs: 0.3, fat: 13.0, fiber: 0, sugar: 0.0, sodium: 471.5 }, // sodium mg: FDC 168322, 1684 mg/100 g x 28 g (was 0.2)
       vitamins: { B3: 0.1, B12: 0.05 },
       minerals: { sodium: 0.2, selenium: 0.1 },
       source: "USDA FoodData Central",
@@ -2106,7 +2106,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 oz (28g)",
       calories: 130,
-      macros: { protein: 1.6, carbs: 11.0, fat: 8.8, fiber: 0.4, sugar: 1.1, sodium: 0.04 },
+      macros: { protein: 1.6, carbs: 11.0, fat: 8.8, fiber: 0.4, sugar: 1.1, sodium: 132.2 }, // sodium mg: FDC 167930, 472 mg/100 g x 28 g (was 0.04)
       vitamins: {},
       minerals: { iron: 0.04, sodium: 0.04 },
       source: "USDA FoodData Central",
@@ -2133,7 +2133,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 puff (22g)",
       calories: 67,
-      macros: { protein: 1.6, carbs: 5.9, fat: 4.1, fiber: 0.1, sugar: 0.6, sodium: 0.03 },
+      macros: { protein: 1.6, carbs: 5.9, fat: 4.1, fiber: 0.1, sugar: 0.6, sodium: 106.3 }, // sodium mg: FDC 174986, 483 mg/100 g x 22 g (was 0.03)
       vitamins: { A: 0.02 },
       minerals: { sodium: 0.03 },
       source: "USDA FoodData Central",
@@ -2187,7 +2187,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "2 sheets (32g)",
       calories: 114,
-      macros: { protein: 2.6, carbs: 19.8, fat: 2.7, fiber: 0.7, sugar: 2.0, sodium: 0.04 },
+      macros: { protein: 2.6, carbs: 19.8, fat: 2.7, fiber: 0.7, sugar: 2.0, sodium: 154.6 }, // sodium mg: FDC 172791, 483 mg/100 g x 32 g (was 0.04)
       vitamins: { B1: 0.08 },
       minerals: { iron: 0.05, sodium: 0.04 },
       source: "USDA FoodData Central",
@@ -2646,7 +2646,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "4 wrappers (32g)",
       calories: 96,
-      macros: { protein: 2.6, carbs: 19.6, fat: 0.4, fiber: 0.6, sugar: 2.0, sodium: 0.06 },
+      macros: { protein: 2.6, carbs: 19.6, fat: 0.4, fiber: 0.6, sugar: 2.0, sodium: 183 }, // sodium mg: FDC 172802, 572 mg/100 g x 32 g (was 0.06)
       vitamins: { B1: 0.06 },
       minerals: { iron: 0.05, sodium: 0.06 },
       source: "USDA FoodData Central",
@@ -2685,7 +2685,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
       },
       serving_size: "1 tbsp (18g)",
       calories: 11,
-      macros: { protein: 1.3, carbs: 1.0, fat: 0, fiber: 0.1, sugar: 0.8, sodium: 0.38 },
+      macros: { protein: 1.3, carbs: 1.0, fat: 0, fiber: 0.1, sugar: 0.8, sodium: 988.7 }, // sodium mg: FDC 174277, 5493 mg/100 g x 18 g (was 0.38)
       vitamins: { B3: 0.04 },
       minerals: { sodium: 0.38, iron: 0.02, manganese: 0.04 },
       source: "USDA FoodData Central",
@@ -2739,7 +2739,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "0.5 cup (75g)",
       calories: 16,
-      macros: { protein: 1.1, carbs: 2.4, fat: 0.5, fiber: 1.0, sugar: 0.2, sodium: 0.24 },
+      macros: { protein: 1.1, carbs: 2.4, fat: 0.5, fiber: 1.0, sugar: 0.2, sodium: 373.5 }, // sodium mg: FDC 170392, 498 mg/100 g x 75 g (was 0.24)
       vitamins: { C: 0.18, K: 0.2, B9: 0.04 },
       minerals: { sodium: 0.24, iron: 0.02 },
       source: "USDA FoodData Central",
@@ -2820,7 +2820,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "0.5 cup (75g)",
       calories: 16,
-      macros: { protein: 1.1, carbs: 2.4, fat: 0.5, fiber: 1.0, sugar: 0.2, sodium: 0.24 },
+      macros: { protein: 1.1, carbs: 2.4, fat: 0.5, fiber: 1.0, sugar: 0.2, sodium: 373.5 }, // sodium mg: FDC 170392, 498 mg/100 g x 75 g (was 0.24)
       vitamins: { C: 0.18, K: 0.2, B9: 0.04 },
       minerals: { sodium: 0.24, iron: 0.02 },
       source: "USDA FoodData Central",
@@ -3317,7 +3317,7 @@ const rawMisc: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 spear (35g)",
       calories: 4,
-      macros: { protein: 0.2, carbs: 0.8, fat: 0, fiber: 0.3, sugar: 0.1, sodium: 0.12 },
+      macros: { protein: 0.2, carbs: 0.8, fat: 0, fiber: 0.3, sugar: 0.1, sodium: 283.1 }, // sodium mg: FDC 168558, 809 mg/100 g x 35 g (was 0.12)
       vitamins: { K: 0.06 },
       minerals: { sodium: 0.12 },
       source: "USDA FoodData Central",

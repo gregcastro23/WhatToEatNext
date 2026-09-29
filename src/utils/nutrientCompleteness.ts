@@ -12,7 +12,8 @@
 // fat, yet only 38, 36 and 4 had every counted ingredient stating it. Half the
 // ingredient catalog states neither sugar nor sodium (477 and 498 of 1,002
 // profiles) and 158 state saturated fat. `readNum(undefined)` had made each
-// missing value a 0. Under the rule 40, 16 and 11 of the 200 publish them.
+// missing value a 0. Under the rule 40, 16 and 11 of the 200 publish them; with
+// the 34 sodium profiles corrected from USDA, 40, 25 and 11.
 
 import type { NormalizedRecipeNutrition } from "./recipeNutrition";
 
@@ -56,12 +57,15 @@ function stated(value: unknown): number | undefined {
 /**
  * A sodium above 0 and below this is not a value in mg.
  *
- * [MEASURED 2026-09-29, 1,002 ingredient profiles] 56 state a sodium between 0
- * and 1: salt 0.25 per 1.5 g, sea salt 0.24, soy sauce 0.38 per tbsp, bacon
- * 0.28 per 3 slices, kimchi 0.24 per 75 g. Salt is 39% sodium by mass, about
- * 590 mg in 1.5 g, and the same catalog's Table Salt row says 2,325 mg per 6 g.
- * Read as mg these understate by about 1,000-fold, so they are not stated. An
- * exact 0 still is: oil, sugar and pepper carry none.
+ * [MEASURED 2026-09-29, 1,002 ingredient profiles] 56 stated a sodium between 0
+ * and 1: 39 copied the profile's Daily Value fraction (salt 0.25), 17 stated
+ * grams (kasha 0.005 for 43 g). 34 are corrected from USDA FoodData Central
+ * (`data/ingredients/sodiumFdcBasis.ts`; salt is 581.4 mg in 1.5 g). 22 have no
+ * SR Legacy record that is the same food and still state one
+ * (`SODIUM_UNRESOLVED`: gochujang, black salt, jameed, ...). Three corrected
+ * servings are truly under 1 mg (chives 3 g, arrowroot 8 g, maple crystals 4 g)
+ * and are held out with them until the last unresolved profile is corrected.
+ * An exact 0 still is a value: oil, sugar and pepper carry none.
  */
 const SODIUM_MG_FLOOR = 1;
 
