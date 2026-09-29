@@ -15,6 +15,7 @@
 import { z } from "zod";
 import { PRACTICE_TYPES } from "@/lib/economy/practices";
 import type { TransactionSourceType } from "@/types/economy";
+import { FOOD_SOURCES } from "@/types/foodSource";
 import type { NatalChart } from "@/types/natalChart";
 import type {
   AstrologicalState,
@@ -109,7 +110,7 @@ export const ServingSizeSchema = z.object({
 export const CreateFoodDiaryEntrySchema = z.object({
   userId: z.string().optional(),
   foodName: z.string().min(1),
-  foodSource: z.enum(["recipe", "custom", "barcode", "search", "quick", "favorite"]),
+  foodSource: z.enum(FOOD_SOURCES),
   sourceId: z.string().optional(),
   brandName: z.string().optional(),
   date: z.coerce.date(),
