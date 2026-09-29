@@ -625,8 +625,6 @@ export interface CommerceSummaryData {
   mrr: number;
   /** Stripe-backed subs — actual paying customers. */
   paidSubs: number;
-  /** Premium subs with no Stripe link — provisioned/agent accounts, $0 revenue. */
-  provisionedSubs: number;
   recentOrders: Array<{
     id: string;
     user: string;
@@ -719,7 +717,7 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
       executeQuery("SELECT COUNT(*)::integer AS count FROM user_profiles WHERE onboarding_completed = true"),
       executeQuery("SELECT COUNT(*)::integer AS count FROM users WHERE is_active = true"),
       executeQuery("SELECT COUNT(DISTINCT user_id)::integer AS count FROM user_interactions WHERE interaction_type = 'recipe_cook'"),
-      getSubscriptionRevenueBreakdown().catch(() => ({ paidSubs: 0, provisionedSubs: 0, mrr: 0 })),
+      getSubscriptionRevenueBreakdown().catch(() => ({ paidSubs: 0, mrr: 0 })),
       executeQuery(`
         SELECT
           COALESCE(dominant_element, 'Unknown') AS element,
@@ -781,7 +779,7 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
         .then((res) => ({ ...res, live: true }))
         .catch((err) => {
           _logger.warn("[getCommerceTelemetry] revenue breakdown failed:", err);
-          return { paidSubs: 0, provisionedSubs: 0, mrr: 0, live: false };
+          return { paidSubs: 0, mrr: 0, live: false };
         }),
       // Coded to the DEPLOYED cart_handoff_intents schema, which has drifted
       // from database/init/24: the live table has a real `status` column and
@@ -823,7 +821,7 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
         }),
     ]);
 
-    const { paidSubs, provisionedSubs, mrr } = revenue;
+    const { paidSubs, mrr } = revenue;
 
     const recentOrders = (ordersRes.rows as Array<{
       id: string;
@@ -846,7 +844,6 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
     return {
       mrr,
       paidSubs,
-      provisionedSubs,
       recentOrders,
       live: revenue.live && ordersRes.live,
     };
@@ -855,7 +852,6 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
     return {
       mrr: 0,
       paidSubs: 0,
-      provisionedSubs: 0,
       recentOrders: [],
       live: false,
     };

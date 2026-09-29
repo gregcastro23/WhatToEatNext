@@ -1184,7 +1184,6 @@ export const WaitlistSignupRequestSchema = z.object({
 // ─── Admin & Composite Calculations ──────────────────────────────────────────
 
 export const AdminUpdateUserRequestSchema = z.object({
-  tier: z.string().optional(),
   isActive: z.boolean().optional(),
   role: z.string().optional(),
 });

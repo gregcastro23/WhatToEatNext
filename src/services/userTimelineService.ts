@@ -9,7 +9,7 @@
  *   - users + user_profiles (identity, signup, onboarding, natal chart,
  *     dominant element, bio, Monica constant, token balances)
  *   - device_sessions (active count)
- *   - user_subscriptions (tier, status, period dates)
+ *   - user_subscriptions (Stripe status, period dates)
  *   - auth_events (sign-ins / sign-outs / failures)
  *   - feed_events (agent activity, quest events)
  *   - token_transactions (every ESMS movement)
@@ -77,7 +77,6 @@ export interface UserBalances {
 }
 
 export interface UserSubscription {
-  tier: string;
   status: string;
   currentPeriodEnd: string | null;
 }
@@ -130,7 +129,6 @@ interface IdentityRow {
   essence: string | null;
   matter: string | null;
   substance: string | null;
-  sub_tier: string | null;
   sub_status: string | null;
   sub_period_end: Date | null;
   active_sessions: number;
@@ -174,7 +172,6 @@ async function readIdentity(
          tb.essence::text AS essence,
          tb.matter::text AS matter,
          tb.substance::text AS substance,
-         s.tier::text AS sub_tier,
          s.status::text AS sub_status,
          s.current_period_end AS sub_period_end,
          (
@@ -228,10 +225,9 @@ async function readIdentity(
       activeSessions: row.active_sessions,
     };
 
-    const subscription: UserSubscription | null = row.sub_tier
+    const subscription: UserSubscription | null = row.sub_status
       ? {
-          tier: row.sub_tier,
-          status: row.sub_status ?? "unknown",
+          status: row.sub_status,
           currentPeriodEnd: row.sub_period_end
             ? new Date(row.sub_period_end).toISOString()
             : null,

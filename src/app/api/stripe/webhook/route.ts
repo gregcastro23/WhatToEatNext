@@ -625,7 +625,6 @@ export const POST = withObservability(
         const sub = await subscriptionService.getSubscriptionByStripeCustomerId(stripeCustomerId);
         if (sub) {
           await subscriptionService.updateSubscription(sub.userId, {
-            tier: "free",
             status: "canceled",
             stripeSubscriptionId: null,
           });
@@ -665,14 +664,10 @@ export const POST = withObservability(
 
         const sub = await subscriptionService.getSubscriptionByStripeCustomerId(stripeCustomerId);
         if (sub) {
-          // Downgrade to free immediately so server-side DB checks return the
-          // correct tier while the JWT (which caches the old tier for up to 24h)
-          // is still in circulation.
           await subscriptionService.updateSubscription(sub.userId, {
-            tier: "free",
             status: "past_due",
           });
-          logger.info(`Invoice payment failed: ${invoice.id} for user=${sub.userId} — downgraded to free`);
+          logger.info(`Invoice payment failed: ${invoice.id} for user=${sub.userId}`);
         } else {
           logger.warn(`No local subscription for Stripe customer ${stripeCustomerId} (invoice.payment_failed ${invoice.id})`);
         }

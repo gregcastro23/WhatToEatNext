@@ -38,7 +38,7 @@ const usersStatsSchema = z.object({
     total: countSchema,
     active: countSchema,
     onboarded: countSchema,
-    premium: countSchema,
+    admins: countSchema,
     agents: countSchema,
     signups: z.object({ last24h: countSchema, last7d: countSchema }),
     activity: z.object({
