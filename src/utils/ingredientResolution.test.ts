@@ -1,5 +1,6 @@
 // src/utils/ingredientResolution.test.ts
 
+import { unifiedIngredients } from "@/data/unified/ingredients";
 import {
   resolveIngredientByName,
   normName,
@@ -9,6 +10,45 @@ describe("ingredientResolution.normName", () => {
   it("treats underscores like spaces (slug-form catalog names)", () => {
     expect(normName("rice_vinegar")).toBe("rice vinegar");
     expect(normName("Extra-Virgin Olive Oil")).toBe("extra virgin olive oil");
+  });
+
+  it("drops an accent rather than splitting its word", () => {
+    // NFKD splits "ñ" into "n" + a combining mark, which became a space:
+    // "jalapen o", "cre me frai che".
+    expect(normName("jalapeño")).toBe("jalapeno");
+    expect(normName("crème fraîche")).toBe("creme fraiche");
+    expect(normName("nước chấm")).toBe("nuoc cham");
+  });
+});
+
+// Real static-recipe lines against the real catalog.
+describe("accented and unaccented spellings meet", () => {
+  it.each([
+    ["jalapeño", "jalapenos"], // was unresolved; "jalapeno" already resolved
+    ["jalapeño or bird's eye chili", "jalapenos"],
+    ["creme fraiche or heavy cream", "crème fraîche"], // was unresolved
+    ["gruyere cheese", "Gruyère Cheese"], // was unresolved: 4 oz in Mornay sauce
+    ["mắm ruốc", "mam ruoc"], // was unresolved
+  ])("%s → %s", (line, food) => {
+    expect(resolveIngredientByName(line)?.name).toBe(food);
+  });
+
+  it("keeps every accented catalog name on its own row", () => {
+    // The exact index is keyed through normName too, so an accented name's key
+    // changed; none may now be taken by an earlier-indexed row.
+    const accented = Object.values(unifiedIngredients).flatMap((ingredient) => {
+      const aliases = "aliases" in ingredient ? ingredient.aliases : undefined;
+      const names = [ingredient.name, ...(Array.isArray(aliases) ? aliases : [])];
+      return names
+        .filter((n): n is string => typeof n === "string" && n.normalize("NFKD") !== n)
+        .map((name) => ({ name, ingredient }));
+    });
+    expect(accented.map((a) => a.name)).toEqual(
+      expect.arrayContaining(["Gruyère Cheese", "béchamel sauce", "crème fraîche"]),
+    );
+    for (const { name, ingredient } of accented) {
+      expect(resolveIngredientByName(name)).toBe(ingredient);
+    }
   });
 });
 
