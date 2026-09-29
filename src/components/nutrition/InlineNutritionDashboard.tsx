@@ -8,8 +8,9 @@
 
 import React, { useState, useMemo } from "react";
 import { multiplyNutrition } from "@/data/nutritional/rdaStandards";
-import type { WeeklyNutritionResult } from "@/types/nutrition";
+import type { NutritionCoverage, WeeklyNutritionResult } from "@/types/nutrition";
 import { getComplianceSeverity } from "@/types/nutrition";
+import { coverageState, formatCoveredTotal } from "@/utils/menuPlanner/nutritionCoverage";
 import { ComplianceScore } from "./ComplianceScore";
 import { MacroSummary } from "./MacroSummary";
 import { MicronutrientHighlights } from "./MicronutrientHighlights";
@@ -107,6 +108,7 @@ export function InlineNutritionDashboard({
               value={Math.round(weeklyTotals.sodium)}
               target={Math.round(weeklyGoals.sodium)}
               unit="mg"
+              coverage={weeklyResult.nutrientCoverage.sodium}
             />
           </div>
         </div>
@@ -161,6 +163,7 @@ export function InlineNutritionDashboard({
               <MicronutrientHighlights
                 totals={weeklyTotals}
                 goals={weeklyGoals}
+                coverage={weeklyResult.nutrientCoverage}
               />
             </div>
 
@@ -201,15 +204,23 @@ function MacroPill({
   value,
   target,
   unit,
+  coverage,
 }: {
   label: string;
   value: number;
   target: number;
   unit: string;
+  /** For a nutrient a recipe may not state: the value is a lower bound, or absent. */
+  coverage?: NutritionCoverage;
 }) {
+  const state = coverage ? coverageState(coverage) : "complete";
   const pct = target > 0 ? Math.round((value / target) * 100) : 0;
+  const shown = coverage ? formatCoveredTotal(value, coverage) : value.toLocaleString();
+  const shownPct = state === "none" ? "—" : `${state === "partial" ? "≥" : ""}${pct}%`;
   const color =
-    pct >= 85 && pct <= 115
+    state !== "complete"
+      ? "text-gray-500"
+      : pct >= 85 && pct <= 115
       ? "text-green-700"
       : pct < 85
         ? "text-yellow-700"
@@ -221,12 +232,12 @@ function MacroPill({
         {label}
       </p>
       <p className="text-sm font-bold text-gray-800">
-        {value.toLocaleString()}
+        {shown}
         <span className="text-xs text-gray-400 ml-0.5">
           / {target.toLocaleString()} {unit}
         </span>
       </p>
-      <p className={`text-[10px] font-semibold ${color}`}>{pct}%</p>
+      <p className={`text-[10px] font-semibold ${color}`}>{shownPct}</p>
     </div>
   );
 }

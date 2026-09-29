@@ -21,7 +21,7 @@ import {
   createEmptyNutritionalSummary,
   getComplianceSeverity,
 } from "@/types/nutrition";
-import { publishesCalories } from "@/utils/menuPlanner/nutritionCoverage";
+import { publishesCalories, statedByRecipe } from "@/utils/menuPlanner/nutritionCoverage";
 import {
   buildDailyResult,
   buildWeeklyResult,
@@ -217,6 +217,8 @@ export class NutritionTrackingService {
         nutrition: this.extractMealNutrition(m),
         // extractMealNutrition reads recipe.nutrition; without calories the meal is absent, not 0 kcal.
         hasNutrition: publishesCalories(m.recipe?.nutrition),
+        // A nutrient the recipe does not state reads 0 in `nutrition`; `stated` says which are real.
+        stated: statedByRecipe(m.recipe?.nutrition),
       }));
 
     return buildDailyResult(date, mealData, this.targets.daily);

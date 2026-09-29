@@ -111,6 +111,7 @@ export function DailyNutritionSummary({
           <MicronutrientHighlights
             totals={result.totals}
             goals={result.goals}
+            coverage={result.nutrientCoverage}
           />
         </div>
       )}

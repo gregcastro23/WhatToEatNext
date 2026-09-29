@@ -16,7 +16,12 @@
  * and 21–22% under the gate.
  */
 
-import type { NutritionCoverage, PlannerNutrientCoverage } from "@/types/nutrition";
+import type {
+  LowerBoundCoverage,
+  LowerBoundNutrient,
+  NutritionCoverage,
+  PlannerNutrientCoverage,
+} from "@/types/nutrition";
 
 export type CoverageState = "complete" | "partial" | "none";
 
@@ -100,6 +105,40 @@ export function sumNutrientCoverage(
     sodium: sumCoverage(parts.map((p) => p.sodium)),
     sugar: sumCoverage(parts.map((p) => p.sugar)),
   };
+}
+
+function perNutrient<T>(of: (key: LowerBoundNutrient) => T): Record<LowerBoundNutrient, T> {
+  return {
+    sugar: of("sugar"),
+    sodium: of("sodium"),
+    saturatedFat: of("saturatedFat"),
+    potassium: of("potassium"),
+    cholesterol: of("cholesterol"),
+  };
+}
+
+/** Which lower-bound nutrients a recipe's nutrition states; none if it publishes no calories. */
+export function statedByRecipe(nutrition: unknown): Record<LowerBoundNutrient, boolean> {
+  return perNutrient((key) => {
+    if (!publishesCalories(nutrition)) return false;
+    const value: unknown = Reflect.get(nutrition, key);
+    return typeof value === "number" && Number.isFinite(value);
+  });
+}
+
+/** Coverage of a day for the lower-bound nutrients, from what each planned meal states. */
+export function lowerBoundCoverageOf(
+  stated: ReadonlyArray<Record<LowerBoundNutrient, boolean>>,
+): LowerBoundCoverage {
+  return perNutrient((key) => ({
+    planned: stated.length,
+    withNutrition: stated.filter((s) => s[key]).length,
+  }));
+}
+
+/** Coverage of a week for the lower-bound nutrients, from its days. */
+export function sumLowerBoundCoverage(parts: readonly LowerBoundCoverage[]): LowerBoundCoverage {
+  return perNutrient((key) => sumCoverage(parts.map((p) => p[key])));
 }
 
 /** "partial: 2 of 3 meals state sodium", or null when every meal does. */
