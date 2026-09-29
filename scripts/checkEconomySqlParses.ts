@@ -223,6 +223,12 @@ statements.push({
 });
 
 statements.push({
+  label: "pentacleConversionDebits",
+  sql: queries.pentacleConversionDebitsSql({ userId: UUID, quoteId: "probe" }).sql,
+  builder: "pentacleConversionDebitsSql",
+});
+
+statements.push({
   label: "shopItemForPurchase",
   sql: queries.shopItemForPurchaseSql("probe-slug").sql,
   builder: "shopItemForPurchaseSql",
@@ -347,8 +353,8 @@ statements.push({
 });
 
 // 4 credit + 4 debit + 1 getBalances + 2 debitAll + 12 transmute = 23 money
-// statements, plus 14 reads/bookkeeping and 11 dashboard/reconciliation aggregates.
-const EXPECTED_TOTAL = 48;
+// statements, plus 15 reads/bookkeeping and 11 dashboard/reconciliation aggregates.
+const EXPECTED_TOTAL = 49;
 
 const client = new pg.Client({
   connectionString: url,

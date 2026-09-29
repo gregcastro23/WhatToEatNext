@@ -57,6 +57,22 @@ export type TransactionSourceType =
    */
   | "duel_yield"
   /**
+   * Pentacles → ESMS on the agents app's vessel. The player's pentacles are
+   * escrowed in the Pentacles SpacetimeDB module, and this credit is the ESMS
+   * they convert into, on the quote's single element. Idempotency key shape:
+   * `pentacle_conv:<quoteId>`. Pentacles themselves never reach this ledger:
+   * WTEN holds only the ESMS side of a conversion (owner ruling 2026-09-29).
+   */
+  | "pentacle_conversion"
+  /**
+   * Compensation for a failed ESMS → Pentacles conversion: sync-debit took the
+   * ESMS (key `pentacle_conv:<quoteId>`) but the pentacles never landed, so the
+   * agents app returns it. Key shape: `pentacle_conv_refund:<quoteId>`. A
+   * refund may not exceed that debit (`uncoveredPentacleRefund`), so it can
+   * never mint.
+   */
+  | "pentacle_conversion_refund"
+  /**
    * Debit for AI recipe ingestion — a user added a recipe by pasting text or
    * uploading a photo (GPT-4o extraction) via POST /api/recipes/extract.
    * Live-priced per extraction like refine_oracle; refunded if extraction fails.
