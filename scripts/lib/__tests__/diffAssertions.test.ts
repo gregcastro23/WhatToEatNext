@@ -128,15 +128,44 @@ describe("diffAssertions", () => {
       );
     });
 
-    it("resolves a default git base ref in the current repository", () => {
-      const base = resolveBaseRef();
-      // In a pull request, CI names the PR's base branch, and resolveBaseRef
-      // diffs against it; a PR stacked on another PR's branch has that branch
-      // as its base, not master.
-      const prBase = process.env.GITHUB_BASE_REF;
-      const accepted = ["origin/master", "master", "origin/main", "main"];
-      if (prBase) accepted.push(`origin/${prBase}`, prBase);
-      expect(accepted).toContain(base);
+    describe("default base ref honours GITHUB_BASE_REF", () => {
+      const original = process.env.GITHUB_BASE_REF;
+      const FALLBACKS = ["origin/master", "master", "origin/main", "main"];
+
+      afterEach(() => {
+        if (original === undefined) delete process.env.GITHUB_BASE_REF;
+        else process.env.GITHUB_BASE_REF = original;
+      });
+
+      it("falls back to master/main when GITHUB_BASE_REF is unset", () => {
+        delete process.env.GITHUB_BASE_REF;
+        expect(FALLBACKS).toContain(resolveBaseRef());
+      });
+
+      it("falls back to master/main when GITHUB_BASE_REF names no existing ref", () => {
+        process.env.GITHUB_BASE_REF = "no-such-branch-xyz-123";
+        expect(FALLBACKS).toContain(resolveBaseRef());
+      });
+
+      it("prefers the PR base over master when GITHUB_BASE_REF names an existing branch", () => {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), "diff-guard-base-"));
+        try {
+          const git = (...args: string[]) => execFileSync("git", args, { cwd: dir, stdio: "ignore" });
+          git("init", "-b", "master");
+          git("config", "user.name", "Test Runner");
+          git("config", "user.email", "test@example.com");
+          git("commit", "--allow-empty", "-m", "init");
+          git("branch", "stacked/parent");
+
+          process.env.GITHUB_BASE_REF = "stacked/parent";
+          expect(resolveBaseRef(undefined, dir)).toBe("stacked/parent");
+
+          delete process.env.GITHUB_BASE_REF;
+          expect(resolveBaseRef(undefined, dir)).toBe("master");
+        } finally {
+          fs.rmSync(dir, { recursive: true, force: true });
+        }
+      });
     });
 
     it("fails closed when merge-base cannot be resolved", () => {
@@ -174,8 +203,13 @@ describe("diffAssertions", () => {
     });
 
     it("resolves default base ref within temp git repository without relying on outer repo", () => {
-      const base = resolveBaseRef(undefined, tempDir);
-      expect(base).toBe("master");
+      const original = process.env.GITHUB_BASE_REF;
+      delete process.env.GITHUB_BASE_REF;
+      try {
+        expect(resolveBaseRef(undefined, tempDir)).toBe("master");
+      } finally {
+        if (original !== undefined) process.env.GITHUB_BASE_REF = original;
+      }
     });
 
     it("detects assertion swap (removes 1, adds 1 elsewhere) as a regression", () => {
