@@ -16,7 +16,7 @@
  * and 21–22% under the gate.
  */
 
-import type { NutritionCoverage } from "@/types/nutrition";
+import type { NutritionCoverage, PlannerNutrientCoverage } from "@/types/nutrition";
 
 export type CoverageState = "complete" | "partial" | "none";
 
@@ -55,6 +55,62 @@ export function sumCoverage(
     }),
     NO_MEALS,
   );
+}
+
+/** Which of a planned meal's sodium and sugar its recipe (and sauce) states. */
+export type StatedNutrients = Record<"sodium" | "sugar", boolean>;
+
+/** Every planned meal counted, none stating either: an incomplete recipe. */
+export const NOT_STATED: StatedNutrients = { sodium: false, sugar: false };
+
+interface SodiumSugar {
+  sodium?: number | undefined;
+  sugar?: number | undefined;
+}
+
+/** A meal states a value only if its recipe does, and its sauce does when it has one. */
+export function statedBy(
+  recipe: SodiumSugar | null,
+  sauce: SodiumSugar | undefined,
+): StatedNutrients {
+  if (recipe === null) return NOT_STATED;
+  const has = (n: SodiumSugar | undefined, k: keyof StatedNutrients) =>
+    n === undefined || (typeof n[k] === "number" && Number.isFinite(n[k]));
+  return { sodium: has(recipe, "sodium") && has(sauce, "sodium"), sugar: has(recipe, "sugar") && has(sauce, "sugar") };
+}
+
+export const NO_NUTRIENT_COVERAGE: PlannerNutrientCoverage = { sodium: NO_MEALS, sugar: NO_MEALS };
+
+/** Sodium and sugar coverage of one day, from what each planned meal states. */
+export function nutrientCoverageOf(
+  stated: readonly StatedNutrients[],
+): PlannerNutrientCoverage {
+  const count = (k: keyof StatedNutrients) => ({
+    planned: stated.length,
+    withNutrition: stated.filter((s) => s[k]).length,
+  });
+  return { sodium: count("sodium"), sugar: count("sugar") };
+}
+
+/** Sodium and sugar coverage of a week, from its days. */
+export function sumNutrientCoverage(
+  parts: readonly PlannerNutrientCoverage[],
+): PlannerNutrientCoverage {
+  return {
+    sodium: sumCoverage(parts.map((p) => p.sodium)),
+    sugar: sumCoverage(parts.map((p) => p.sugar)),
+  };
+}
+
+/** "partial: 2 of 3 meals state sodium", or null when every meal does. */
+export function nutrientNote(
+  name: string,
+  coverage: NutritionCoverage,
+): string | null {
+  const { planned, withNutrition } = coverage;
+  if (withNutrition >= planned) return null;
+  const verb = withNutrition === 1 ? "states" : "state";
+  return `partial: ${withNutrition} of ${planned} meals ${verb} ${name}`;
 }
 
 export function coverageState(coverage: NutritionCoverage): CoverageState {

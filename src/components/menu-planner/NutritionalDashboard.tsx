@@ -36,7 +36,7 @@ import {
   generateMacroChartData,
   getNutritionalInsights,
 } from "@/utils/menuPlanner/nutritionalCalculator";
-import { formatCoveredTotal } from "@/utils/menuPlanner/nutritionCoverage";
+import { formatCoveredTotal, nutrientNote } from "@/utils/menuPlanner/nutritionCoverage";
 import { BarChart, PieChart, RadarChart } from "./NutritionCharts";
 import NutritionCoverageNote from "./NutritionCoverageNote";
 
@@ -56,13 +56,14 @@ type TotalKey =
   | "totalSodium"
   | "totalSugar";
 
-const OVERVIEW: ReadonlyArray<{ label: string; key: TotalKey; unit: string; tone: string }> = [
+/** Sodium and sugar carry their own coverage: a recipe that does not state them adds nothing. */
+const OVERVIEW: ReadonlyArray<{ label: string; key: TotalKey; unit: string; tone: string; nutrient?: "sodium" | "sugar" }> = [
   { label: "Calories", key: "totalCalories", unit: " kcal", tone: "text-active-violet" },
   { label: "Protein", key: "totalProtein", unit: "g", tone: "text-fire-spirit" },
   { label: "Carbs", key: "totalCarbs", unit: "g", tone: "text-water-essence" },
   { label: "Fat", key: "totalFat", unit: "g", tone: "text-gold-accent" },
-  { label: "Sodium", key: "totalSodium", unit: "mg", tone: "text-air-substance" },
-  { label: "Sugar", key: "totalSugar", unit: "g", tone: "text-earth-matter" },
+  { label: "Sodium", key: "totalSodium", unit: "mg", tone: "text-air-substance", nutrient: "sodium" },
+  { label: "Sugar", key: "totalSugar", unit: "g", tone: "text-earth-matter", nutrient: "sugar" },
 ];
 
 function mealsByDayOf(menu: WeeklyMenu | null): Record<DayOfWeek, MealSlot[]> {
@@ -76,19 +77,24 @@ function mealsByDayOf(menu: WeeklyMenu | null): Record<DayOfWeek, MealSlot[]> {
 function OverviewTiles({ totals }: { totals: WeeklyNutritionTotals }): React.JSX.Element {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-      {OVERVIEW.map(({ label, key, unit, tone }) => (
+      {OVERVIEW.map(({ label, key, unit, tone, nutrient }) => {
+        const coverage = nutrient ? totals.nutrientCoverage[nutrient] : totals.coverage;
+        const note = nutrient ? nutrientNote(nutrient, coverage) : null;
+        return (
         <div key={key} className="rounded-xl border border-muted bg-surface-container-low p-3">
           <p className="font-label-caps text-[10px] uppercase tracking-wider text-on-surface-variant">
             {label}
           </p>
           <p className={`font-mono text-xl font-bold ${tone}`}>
-            {formatCoveredTotal(totals[key], totals.coverage, unit)}
+            {formatCoveredTotal(totals[key], coverage, unit)}
           </p>
           <p className="font-mono text-[11px] text-on-surface-variant">
-            {formatCoveredTotal(totals[key] / 7, totals.coverage, unit)}/day
+            {formatCoveredTotal(totals[key] / 7, coverage, unit)}/day
           </p>
+          {note && <p className="font-mono text-[11px] text-on-surface-variant">{note}</p>}
         </div>
-      ))}
+        );
+      })}
       <p className="col-span-full font-mono text-[11px] text-on-surface-variant">
         Per day = the week&apos;s total ÷ 7.
       </p>

@@ -343,6 +343,13 @@ export interface NutritionCoverage {
 }
 
 /**
+ * Sodium and sugar coverage of a planner total: `withNutrition` counts the
+ * meals whose recipe (and sauce) states the value. A recipe that does not state
+ * it adds nothing, so the total is a lower bound (owner ruling 2026-09-29).
+ */
+export type PlannerNutrientCoverage = Record<"sodium" | "sugar", NutritionCoverage>;
+
+/**
  * Daily nutrition result with compliance analysis
  */
 export interface DailyNutritionResult {

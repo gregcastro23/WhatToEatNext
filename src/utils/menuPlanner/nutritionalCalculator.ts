@@ -27,7 +27,7 @@ import type {
   ChartDataPoint as _ChartDataPoint,
   NutritionalChart,
 } from "@/types/menuPlanner";
-import type { NutritionCoverage } from "@/types/nutrition";
+import type { NutritionCoverage, PlannerNutrientCoverage } from "@/types/nutrition";
 import type { ElementalProperties, EnhancedRecipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
 import {
@@ -35,8 +35,14 @@ import {
   coverageOf,
   formatCoveredTotal,
   NO_MEALS,
+  NO_NUTRIENT_COVERAGE,
+  NOT_STATED,
+  nutrientCoverageOf,
   publishesCalories,
+  statedBy,
   sumCoverage,
+  sumNutrientCoverage,
+  type StatedNutrients,
 } from "./nutritionCoverage";
 
 const logger = createLogger("NutritionalCalculator");
@@ -75,8 +81,9 @@ interface MealMacros {
   carbs: number;
   fat: number;
   fiber: number;
-  sodium: number;
-  sugar: number;
+  /** Absent where the recipe does not state it: absent is not 0. */
+  sodium?: number | undefined;
+  sugar?: number | undefined;
 }
 
 type PlannedRecipe = EnhancedRecipe & { nutritionPerServing?: NutritionPerServingLike };
@@ -88,8 +95,8 @@ function macrosFromProfile(p: NutritionalProfileLike & { calories: number }): Me
     carbs: p.carbs ?? 0,
     fat: p.fat ?? 0,
     fiber: p.fiber ?? 0,
-    sodium: p.sodium ?? 0,
-    sugar: p.sugar ?? 0,
+    sodium: p.sodium,
+    sugar: p.sugar,
   };
 }
 
@@ -100,8 +107,8 @@ function macrosFromPerServing(p: NutritionPerServingLike & { calories: number })
     carbs: p.carbsG ?? 0,
     fat: p.fatG ?? 0,
     fiber: p.fiberG ?? 0,
-    sodium: p.sodiumMg ?? 0,
-    sugar: p.sugarG ?? 0,
+    sodium: p.sodiumMg,
+    sugar: p.sugarG,
   };
 }
 
@@ -156,9 +163,14 @@ export function calculateDailyTotals(meals: MealSlot[]): DailyNutritionTotals {
 export function calculateDayTotals(meals: MealSlot[]): {
   totals: DailyNutritionTotals;
   coverage: NutritionCoverage;
+  /** `totals.sodium` and `totals.sugar` are lower bounds where a meal does not state them. */
+  nutrientCoverage: PlannerNutrientCoverage;
 } {
-  if (meals.length === 0) return { totals: { ...EMPTY_DAILY_TOTALS }, coverage: NO_MEALS };
+  if (meals.length === 0) {
+    return { totals: { ...EMPTY_DAILY_TOTALS }, coverage: NO_MEALS, nutrientCoverage: NO_NUTRIENT_COVERAGE };
+  }
   const entered: boolean[] = [];
+  const stated: StatedNutrients[] = [];
 
   let totalCalories = 0;
   let totalProtein = 0;
@@ -197,20 +209,23 @@ export function calculateDayTotals(meals: MealSlot[]): {
         `Recipe ${recipe.id} is incomplete (missing ingredients or instructions). Skipping nutrition calculation.`,
       );
       entered.push(false);
+      stated.push(NOT_STATED);
       return; // Skip nutrition calculation for incomplete recipes
     }
     const servings = meal.servings || 1;
 
     const nutrition = plannedRecipeNutrition(recipe);
     entered.push(nutrition !== null);
+    const sauceProfile: NutritionalProfileLike | undefined = meal.sauce?.nutritionalProfile;
+    stated.push(statedBy(nutrition, sauceProfile));
     if (nutrition) {
       totalCalories += nutrition.calories * servings;
       totalProtein += nutrition.protein * servings;
       totalCarbs += nutrition.carbs * servings;
       totalFat += nutrition.fat * servings;
       totalFiber += nutrition.fiber * servings;
-      totalSodium += nutrition.sodium * servings;
-      totalSugar += nutrition.sugar * servings;
+      totalSodium += (nutrition.sodium ?? 0) * servings;
+      totalSugar += (nutrition.sugar ?? 0) * servings;
     }
 
     // Elemental properties
@@ -304,7 +319,7 @@ export function calculateDayTotals(meals: MealSlot[]): {
     kalchm: alchemicalMetrics.kalchm,
     elementalBalance: elementalAccumulator,
   };
-  return { totals, coverage: coverageOf(entered) };
+  return { totals, coverage: coverageOf(entered), nutrientCoverage: nutrientCoverageOf(stated) };
 }
 
 /**
@@ -321,6 +336,7 @@ export function calculateWeeklyTotals(
   const dailyCoverage: Record<DayOfWeek, NutritionCoverage> = {
     0: NO_MEALS, 1: NO_MEALS, 2: NO_MEALS, 3: NO_MEALS, 4: NO_MEALS, 5: NO_MEALS, 6: NO_MEALS,
   };
+  const dailyNutrientCoverage: PlannerNutrientCoverage[] = [];
 
   let totalCalories = 0;
   let totalProtein = 0;
@@ -344,9 +360,10 @@ export function calculateWeeklyTotals(
   // Calculate daily totals for each day
   ([0, 1, 2, 3, 4, 5, 6] as DayOfWeek[]).forEach((day) => {
     const meals = mealsByDay[day] || [];
-    const { totals: dailyTotal, coverage } = calculateDayTotals(meals);
+    const { totals: dailyTotal, coverage, nutrientCoverage } = calculateDayTotals(meals);
     dailyBreakdown[day] = dailyTotal;
     dailyCoverage[day] = coverage;
+    dailyNutrientCoverage.push(nutrientCoverage);
 
     if (meals.filter((m) => m.recipe).length > 0) {
       totalCalories += dailyTotal.calories;
@@ -392,6 +409,7 @@ export function calculateWeeklyTotals(
     dailyBreakdown,
     coverage: sumCoverage(Object.values(dailyCoverage)),
     dailyCoverage,
+    nutrientCoverage: sumNutrientCoverage(dailyNutrientCoverage),
   };
 }
 
