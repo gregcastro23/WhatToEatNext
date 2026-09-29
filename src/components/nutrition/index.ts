@@ -2,9 +2,6 @@
 export { NutritionRing } from "./NutritionRing";
 export { MacroSummary } from "./MacroSummary";
 export { ComplianceScore } from "./ComplianceScore";
-export { MicronutrientHighlights } from "./MicronutrientHighlights";
-export { DailyNutritionSummary } from "./DailyNutritionSummary";
-export { InlineNutritionDashboard } from "./InlineNutritionDashboard";
 export { RecipeNutritionQuickView } from "./RecipeNutritionQuickView";
 export { RecipeNutritionModal } from "./RecipeNutritionModal";
 export { NutritionFilters } from "./NutritionFilters";

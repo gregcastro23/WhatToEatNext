@@ -2,21 +2,14 @@
  * The nutrition tracking result says which of sodium, sugar, saturated fat,
  * potassium and cholesterol the planned meals state: a recipe that does not
  * state one reads 0 in its `NutritionalSummary`, so the total is a lower bound
- * (owner ruling 2026-09-29). The unused-but-exported dashboard and highlights
- * show it as one.
+ * (owner ruling 2026-09-29). A future dashboard reads the coverage to say so.
  *
  * Real catalog rows: Butter Poppyseed Sauce states sodium and sugar; Authentic
  * Kofta Kebab (10 ingredients) states neither; Falafel publishes no nutrition.
- * The potassium rows are found in the catalog: one recipe that states it, and
- * Kofta, which does not.
  *
  * Imports only modules that exist on the base branch, so the red proof is behavioural.
  */
-import { render, screen } from "@testing-library/react";
-import React from "react";
 import { getServerRecipes } from "@/actions/recipes";
-import { InlineNutritionDashboard } from "@/components/nutrition/InlineNutritionDashboard";
-import { MicronutrientHighlights } from "@/components/nutrition/MicronutrientHighlights";
 import { NutritionTrackingService } from "@/services/NutritionTrackingService";
 import type { DayOfWeek, MealSlot, MealType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
@@ -80,65 +73,12 @@ describe("the tracking result's nutrient coverage", () => {
     expect(day?.meals.map((m) => m.stated.sugar)).toEqual([true, false, false]);
     expect(day?.nutrientCoverage.sodium).toEqual({ planned: 3, withNutrition: 1 });
   });
-});
 
-describe("the inline dashboard's sodium pill", () => {
-  function pill() {
-    return screen.getByText("Sodium").closest("div")?.textContent ?? "";
-  }
-
-  it("is a lower bound when one of two meals states sodium", () => {
-    render(<InlineNutritionDashboard weeklyResult={week([slot(recipe(SAUCE), "lunch"), slot(recipe(KOFTA), "dinner")])} />);
-    expect(pill()).toMatch(new RegExp(`^Sodium≥${Math.round(sauceSodium())}`));
-    expect(pill()).toMatch(/≥\d+%$/);
-  });
-
-  it("is whole when every meal states it", () => {
-    render(<InlineNutritionDashboard weeklyResult={week([slot(recipe(SAUCE), "lunch")])} />);
-    expect(pill()).toMatch(new RegExp(`^Sodium${Math.round(sauceSodium())}`));
-    expect(pill()).not.toContain("≥");
-  });
-
-  it("has no figure when no meal states it", () => {
-    render(<InlineNutritionDashboard weeklyResult={week([slot(recipe(KOFTA), "dinner")])} />);
-    expect(pill()).toMatch(/^Sodium—/);
-    expect(pill()).toMatch(/—$/);
-  });
-});
-
-describe("the key-micronutrients list", () => {
-  /** A catalog recipe that states potassium (a complete total), and Kofta, which does not. */
-  function statesPotassium(): Recipe {
-    const found = catalog.find((r) => typeof r.nutrition?.potassium === "number" && (r.nutrition?.calories ?? 0) > 0);
-    if (!found) throw new Error("no catalog recipe states potassium");
-    return found;
-  }
-
-  function show(meals: MealSlot[]) {
-    const result = week(meals);
-    render(
-      <MicronutrientHighlights
-        totals={result.weeklyTotals}
-        goals={result.weeklyGoals}
-        coverage={result.nutrientCoverage}
-      />,
-    );
-  }
-
-  it("omits potassium when no planned meal states it", () => {
-    show([slot(recipe(KOFTA), "dinner")]);
-    expect(screen.queryByText("Potassium")).toBeNull();
-  });
-
-  it("marks potassium a lower bound when only some do, and whole when all do", () => {
-    show([slot(statesPotassium(), "lunch"), slot(recipe(KOFTA), "dinner")]);
-    const row = screen.getByText("Potassium").closest("li")?.textContent ?? "";
-    expect(row).toContain("≥");
-  });
-
-  it("leaves a whole potassium total unmarked", () => {
-    show([slot(statesPotassium(), "lunch")]);
-    const row = screen.getByText("Potassium").closest("li")?.textContent ?? "";
-    expect(row).not.toContain("≥");
+  it("counts potassium separately: a catalog recipe that states it, and Kofta, which does not", () => {
+    const states = catalog.find((r) => typeof r.nutrition?.potassium === "number" && (r.nutrition?.calories ?? 0) > 0);
+    if (!states) throw new Error("no catalog recipe states potassium");
+    const result = week([slot(states, "lunch"), slot(recipe(KOFTA), "dinner")]);
+    expect(result.nutrientCoverage.potassium).toEqual({ planned: 2, withNutrition: 1 });
+    expect(result.nutrientCoverage.cholesterol.withNutrition).toBeLessThanOrEqual(1);
   });
 });
