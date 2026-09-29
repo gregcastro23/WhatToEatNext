@@ -17,6 +17,8 @@
  *     dressing is not a lunch);
  *   - breakfast and dessert for the breakfast recipes the source also
  *     categorises as dessert (owner ruling 2026-09-25).
+ * Since 2026-09-29, 532: a second transcription of Rich Almond Milk (for
+ * Almond Fruit Tart) was removed, so breakfast 57 and 19 drinks.
  */
 export type HscaMeal = "breakfast" | "lunch" | "dinner" | "dessert";
 
