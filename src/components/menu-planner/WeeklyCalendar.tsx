@@ -110,6 +110,8 @@ interface WeeklyCalendarProps {
   onMealClick?: (mealSlot: MealSlotType) => void;
   /** Fires the "Shop the week" flow (build grocery list + open it). Mobile redesign. */
   onShopWeek?: () => void;
+  /** Opens the week's Nutrition Dashboard. Mobile redesign ("Week nutrition"). */
+  onOpenNutrition?: () => void;
 }
 
 /**
@@ -546,7 +548,11 @@ function TodayHeroCard({
 /**
  * Main Weekly Calendar Component
  */
-export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalendarProps): React.JSX.Element {
+export default function WeeklyCalendar({
+  onMealClick,
+  onShopWeek,
+  onOpenNutrition,
+}: WeeklyCalendarProps): React.JSX.Element {
   const {
     currentMenu,
     navigation,
@@ -911,6 +917,7 @@ export default function WeeklyCalendar({ onMealClick, onShopWeek }: WeeklyCalend
           weeklyNutrition={weeklyNutrition}
           currentPlanetaryHour={currentPlanetaryHour}
           onShopWeek={onShopWeek}
+          onOpenNutrition={onOpenNutrition}
         />
       </div>
 

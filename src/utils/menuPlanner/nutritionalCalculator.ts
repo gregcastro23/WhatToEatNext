@@ -659,28 +659,18 @@ export function generateGregsEnergyChartData(
 }
 
 /**
- * Get nutritional insights and recommendations
- *
- * @param weekly - Weekly nutrition totals
- * @param goals - Nutritional goals (optional)
- * @returns Array of insight strings
+ * Macro-balance insights. None when no planned meal publishes protein, carbs
+ * or fat: with no macro energy there is no split to judge, and 0% protein is
+ * not "low protein".
  */
-export function getNutritionalInsights(
-  weekly: WeeklyNutritionTotals,
-  goals?: NutritionalGoals,
-): string[] {
-  const insights: string[] = [];
-
-  // Average daily calories
-  const avgDailyCalories = weekly.totalCalories / 7;
-  insights.push(`Average daily calories: ${Math.round(avgDailyCalories)} kcal`);
-
-  // Macronutrient balance
+function macroInsights(weekly: WeeklyNutritionTotals): string[] {
+  if (weekly.totalProtein + weekly.totalCarbs + weekly.totalFat <= 0) return [];
   const macros = calculateMacroBreakdown(
     weekly.totalProtein / 7,
     weekly.totalCarbs / 7,
     weekly.totalFat / 7,
   );
+  const insights: string[] = [];
 
   if (macros.proteinPercentage < 15) {
     insights.push(
@@ -705,51 +695,73 @@ export function getNutritionalInsights(
       "ℹ️ Fat intake is high. Balance with more vegetables and lean proteins.",
     );
   }
+  return insights;
+}
 
-  // Greg's Energy analysis
-  if (weekly.averageGregsEnergy > 0.5) {
-    insights.push(
-      "✨ High Greg's Energy! Your meals are thermodynamically energizing.",
-    );
-  } else if (weekly.averageGregsEnergy < -0.5) {
-    insights.push(
-      "💤 Low Greg's Energy. Consider more Fire-element foods for vitality.",
-    );
+function gregsEnergyInsights(averageGregsEnergy: number): string[] {
+  if (averageGregsEnergy > 0.5) {
+    return ["✨ High Greg's Energy! Your meals are thermodynamically energizing."];
   }
+  if (averageGregsEnergy < -0.5) {
+    return ["💤 Low Greg's Energy. Consider more Fire-element foods for vitality."];
+  }
+  return [];
+}
 
-  // Elemental balance
-  const { Fire, Water, Earth, Air } = weekly.weeklyElementalBalance;
+/** The largest elemental share; none when no planned recipe carries one. */
+function dominantElementInsights(balance: ElementalProperties): string[] {
   const elements = [
-    { name: "Fire", value: Fire },
-    { name: "Water", value: Water },
-    { name: "Earth", value: Earth },
-    { name: "Air", value: Air },
+    { name: "Fire", value: balance.Fire },
+    { name: "Water", value: balance.Water },
+    { name: "Earth", value: balance.Earth },
+    { name: "Air", value: balance.Air },
   ];
   const dominant = elements.reduce((max, el) =>
     el.value > max.value ? el : max,
   );
-
-  insights.push(
+  if (dominant.value <= 0) return [];
+  return [
     `🔮 Dominant element: ${dominant.name} (${(dominant.value * 100).toFixed(0)}%)`,
-  );
+  ];
+}
 
-  // Goal progress (if goals provided)
-  if (goals?.dailyCalories) {
-    const avgProgress = (avgDailyCalories / goals.dailyCalories) * 100;
-    if (avgProgress < 85) {
-      insights.push(
-        `📉 Below calorie target by ${Math.round(100 - avgProgress)}%`,
-      );
-    } else if (avgProgress > 115) {
-      insights.push(
-        `📈 Above calorie target by ${Math.round(avgProgress - 100)}%`,
-      );
-    } else {
-      insights.push("✅ Calorie intake is on track with your goals!");
-    }
+function calorieGoalInsights(
+  avgDailyCalories: number,
+  goals?: NutritionalGoals,
+): string[] {
+  if (!goals?.dailyCalories) return [];
+  const avgProgress = (avgDailyCalories / goals.dailyCalories) * 100;
+  if (avgProgress < 85) {
+    return [`📉 Below calorie target by ${Math.round(100 - avgProgress)}%`];
   }
+  if (avgProgress > 115) {
+    return [`📈 Above calorie target by ${Math.round(avgProgress - 100)}%`];
+  }
+  return ["✅ Calorie intake is on track with your goals!"];
+}
 
-  return insights;
+/**
+ * Get nutritional insights and recommendations
+ *
+ * The daily average is a lower bound ("≥…") when some planned meals publish
+ * no nutrition, like every other total drawn from the week.
+ *
+ * @param weekly - Weekly nutrition totals
+ * @param goals - Nutritional goals (optional)
+ * @returns Array of insight strings
+ */
+export function getNutritionalInsights(
+  weekly: WeeklyNutritionTotals,
+  goals?: NutritionalGoals,
+): string[] {
+  const avgDailyCalories = weekly.totalCalories / 7;
+  return [
+    `Average daily calories: ${formatCoveredTotal(avgDailyCalories, weekly.coverage, " kcal")}`,
+    ...macroInsights(weekly),
+    ...gregsEnergyInsights(weekly.averageGregsEnergy),
+    ...dominantElementInsights(weekly.weeklyElementalBalance),
+    ...calorieGoalInsights(avgDailyCalories, goals),
+  ];
 }
 
 /**
