@@ -4,7 +4,6 @@ export { MacroSummary } from "./MacroSummary";
 export { ComplianceScore } from "./ComplianceScore";
 export { MicronutrientHighlights } from "./MicronutrientHighlights";
 export { DailyNutritionSummary } from "./DailyNutritionSummary";
-export { WeeklyNutritionDashboard } from "./WeeklyNutritionDashboard";
 export { InlineNutritionDashboard } from "./InlineNutritionDashboard";
 export { RecipeNutritionQuickView } from "./RecipeNutritionQuickView";
 export { RecipeNutritionModal } from "./RecipeNutritionModal";
