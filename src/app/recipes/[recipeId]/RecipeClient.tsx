@@ -24,6 +24,7 @@ import { _logger } from "@/lib/logger";
 import type { Recipe, IngredientAlchemicalSummary } from "@/types/recipe";
 import { adaptRecipe, type DietaryMode, type AdaptationResult } from "@/utils/dietaryAdaptation";
 import { analyzeTimeShortcuts, type TimeBudget, type TimeShortcutResult } from "@/utils/timeShortcuts";
+import { roundedCalories } from "@/utils/roundedCalories";
 
 // ===== Constants =====
 
@@ -295,7 +296,8 @@ function buildPlainTextRecipe(recipe: Recipe, servings: number): string {
 
   if (nutrition) {
     text += `--- NUTRITION (per serving) ---\n\n`;
-    if (nutrition.calories) text += `Calories: ${nutrition.calories}\n`;
+    const kcal = roundedCalories(nutrition.calories);
+    if (kcal !== null) text += `Calories: ${kcal}\n`;
     if (nutrition.protein) text += `Protein: ${nutrition.protein}g\n`;
     if (nutrition.carbs) text += `Carbs: ${nutrition.carbs}g\n`;
     if (nutrition.fat) text += `Fat: ${nutrition.fat}g\n`;
