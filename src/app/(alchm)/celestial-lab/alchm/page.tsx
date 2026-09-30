@@ -17,6 +17,12 @@ import PlanetaryContributionsChart from "@/components/PlanetaryContributionsChar
 import { QuantityContextStrip } from "@/components/QuantityContext";
 import { AlchemicalStatisticsProvider } from "@/contexts/AlchemicalStatisticsContext";
 import { emitTokenEconomyUpdate } from "@/hooks/useTokenEconomy";
+import { safeReadJson } from "@/lib/api/json";
+import { CelestialLabBalanceResponseSchema } from "@/lib/validation/accountResponseSchemas";
+import {
+  AlchmQuantitiesApiResponseSchema,
+  type AlchmQuantitiesApiResponse,
+} from "@/lib/validation/apiSchemas";
 import type {
   TokenBalances,
   UserStreak,
@@ -181,30 +187,7 @@ function Spinner(): React.JSX.Element {
 
 // ─── Token Card (per-token hero card with live balance + value) ───────────────
 
-interface AlchemyData {
-  quantities: {
-    Spirit: number;
-    Essence: number;
-    Matter: number;
-    Substance: number;
-    ANumber: number;
-    DayEssence: number;
-    NightEssence: number;
-  };
-  planetaryMomentum: Record<string, number>;
-  dominantElement: string;
-  isDiurnal?: boolean;
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  energy: number;
-  kalchm: number;
-  monica: number;
-  timestamp: string;
-  /** Present only when the sky data or monica is not fully live. */
-  degraded?: { reasons: string[] };
-  error?: string;
-}
+type AlchemyData = AlchmQuantitiesApiResponse;
 
 // Human-readable labels for the machine-readable degraded reasons (see DegradedInfo).
 const DEGRADED_REASON_LABELS: Record<string, string> = {
@@ -392,12 +375,6 @@ function MomentumTideDisplay({ momentum }: { momentum: Record<string, number> | 
 
 // ─── Economy Tab ──────────────────────────────────────────────────────────────
 
-interface BalanceApiResponse {
-  success: boolean;
-  balances: TokenBalances;
-  streak: UserStreak;
-  canClaimDaily: boolean;
-}
 
 interface ClaimDailyApiResponse {
   success: boolean;
@@ -431,8 +408,10 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
     try {
       const res = await fetch("/api/economy/balance", { credentials: "include" });
       if (!res.ok) return;
-      const data = (await res.json()) as BalanceApiResponse;
-      if (data.success) {
+      const data = await safeReadJson(res, null, {
+        parse: (d) => CelestialLabBalanceResponseSchema.parse(d),
+      });
+      if (data?.success) {
         setBalances(data.balances);
         setStreak(data.streak);
         setCanClaim(data.canClaimDaily);
@@ -448,8 +427,12 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
       setAlchLoading(true);
       const res = await fetch("/api/alchm-quantities");
       if (!res.ok) return;
-      const data = (await res.json()) as AlchemyData;
-      setAlchData(data);
+      const data = await safeReadJson(res, null, {
+        parse: (d) => AlchmQuantitiesApiResponseSchema.parse(d),
+      });
+      if (data) {
+        setAlchData(data);
+      }
     } catch {
       // Non-critical
     } finally {

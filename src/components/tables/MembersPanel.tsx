@@ -10,6 +10,8 @@ import { useState } from "react";
 import { GlassPanel, LabelXS, RsvpChip } from "@/components/tables/ui";
 import { AvatarCircle } from "@/components/tables/ui/AvatarCircle";
 import type { Element } from "@/components/tables/ui/elements";
+import { safeReadJson } from "@/lib/api/json";
+import { GenericActionResponseSchema } from "@/lib/validation/commensalResponseSchemas";
 import type { TableMember } from "@/types/table";
 import type { JSX } from "react";
 
@@ -49,7 +51,7 @@ export function MembersPanel({
         method: "DELETE",
         credentials: "include",
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
+      const data = await safeReadJson(res, { success: false }, { parse: (d) => GenericActionResponseSchema.parse(d) });
       if (!res.ok || !data.success) {
         setError(data.message ?? "Could not remove this member.");
         return;

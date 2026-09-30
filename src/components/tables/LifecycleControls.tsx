@@ -9,6 +9,8 @@
 
 import { useState } from "react";
 import { GradientButton, LabelXS } from "@/components/tables/ui";
+import { safeReadJson } from "@/lib/api/json";
+import { GenericActionResponseSchema } from "@/lib/validation/commensalResponseSchemas";
 import type { TableStatus } from "@/types/table";
 import type { JSX } from "react";
 
@@ -41,7 +43,7 @@ export function LifecycleControls({
         method: "POST",
         credentials: "include",
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
+      const data = await safeReadJson(res, { success: false }, { parse: (d) => GenericActionResponseSchema.parse(d) });
       if (!res.ok || !data.success) {
         setError(data.message ?? "That didn't work — try again.");
         return;

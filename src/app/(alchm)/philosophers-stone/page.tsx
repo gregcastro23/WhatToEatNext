@@ -31,6 +31,7 @@ import { Slider } from '@/components/ui/slider'
 import { Textarea } from '@/components/ui/textarea'
 import { MONICA_EQUILIBRIUM } from '@/data/unified/alchemicalCalculations'
 import { downloadManifest, downloadIgnitionBundle } from '@/lib/agents/ignition-bundle-generator'
+import { safeReadJson } from '@/lib/api/json'
 import { calculateAllPlanets } from '@/lib/enhanced-astronomical-calculator'
 import type { EnhancedBirthInfo } from '@/lib/enhanced-astronomical-calculator'
 import { _logger } from '@/lib/logger'
@@ -41,6 +42,10 @@ import {
   deriveStatsFromChart,
   calculateAverage,
 } from '@/lib/sacred-7-stats'
+import {
+  UnifiedAgentChatResponseSchema,
+  UnifiedAgentCreateResponseSchema,
+} from '@/lib/validation/agentResponseSchemas'
 
 interface AgentCreationData {
   name: string
@@ -323,7 +328,7 @@ export default function ModernPhilosophersStone(): ReactNode {
           },
         }),
       })
-      const resJson = (await response.json()) as { success?: boolean; data?: { text?: string } }
+      const resJson = await safeReadJson(response, {}, { parse: (d) => UnifiedAgentChatResponseSchema.parse(d) })
       if (resJson.success && resJson.data?.text) {
         setChatMessages(prev => [...prev, { role: 'agent', content: resJson.data?.text ?? '' }])
       } else {
@@ -706,11 +711,7 @@ export default function ModernPhilosophersStone(): ReactNode {
                             parameters: agentData,
                           }),
                         })
-                        const resJson = (await response.json()) as {
-                          success?: boolean
-                          data?: { id: string; name: string; dominantElement: string; monicaConstant: number }
-                          error?: string
-                        }
+                        const resJson = await safeReadJson(response, {}, { parse: (d) => UnifiedAgentCreateResponseSchema.parse(d) })
                         if (resJson.success && resJson.data) {
                           const newAgent = resJson.data
                           setCreatedAgent(newAgent)

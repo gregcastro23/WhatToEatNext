@@ -10,12 +10,17 @@ import {
 import {
   CommensalListResponseSchema,
   CommensalMemberResponseSchema,
+  CommensalsListResponseSchema,
   DiningGroupListResponseSchema,
   DiningGroupResponseSchema,
   GenericActionResponseSchema,
   LinkedCommensalsResponseSchema,
   UserSearchResponseSchema,
 } from "../commensalResponseSchemas";
+import {
+  UnifiedAgentChatResponseSchema,
+  UnifiedAgentCreateResponseSchema,
+} from "../agentResponseSchemas";
 import {
   FoodLabListResponseSchema,
   FoodLabSingleResponseSchema,
@@ -356,6 +361,57 @@ describe("boundaryValidationSchemas", () => {
           linkedCommensals: [{ id: "lc1", name: "Charlie" }],
         }),
       ).toThrow();
+    });
+
+    it("parses CommensalsListResponse with manual and linked companions", () => {
+      const parsed = CommensalsListResponseSchema.parse({
+        manualCompanions: [{ id: "m1", name: "Companion 1" }],
+        linkedCommensals: [{ userId: "u1", name: "User 1" }],
+      });
+      expect(parsed.manualCompanions?.[0]?.name).toBe("Companion 1");
+      expect(parsed.linkedCommensals?.[0]?.userId).toBe("u1");
+    });
+  });
+
+  describe("agentResponseSchemas", () => {
+    it("parses UnifiedAgentChatResponse with message text", () => {
+      const parsed = UnifiedAgentChatResponseSchema.parse({
+        success: true,
+        data: { text: "Greetings, seeker." },
+      });
+      expect(parsed.success).toBe(true);
+      expect(parsed.data?.text).toBe("Greetings, seeker.");
+    });
+
+    it("parses UnifiedAgentCreateResponse with new agent metadata", () => {
+      const parsed = UnifiedAgentCreateResponseSchema.parse({
+        success: true,
+        data: {
+          id: "agent-123",
+          name: "Solaris",
+          dominantElement: "Fire",
+          monicaConstant: 1.414,
+        },
+      });
+      expect(parsed.success).toBe(true);
+      expect(parsed.data?.name).toBe("Solaris");
+      expect(parsed.data?.monicaConstant).toBe(1.414);
+    });
+
+    it("accepts error payloads in UnifiedAgent schemas", () => {
+      const chatErr = UnifiedAgentChatResponseSchema.parse({
+        success: false,
+        error: "Rate limited",
+      });
+      expect(chatErr.success).toBe(false);
+      expect(chatErr.error).toBe("Rate limited");
+
+      const createErr = UnifiedAgentCreateResponseSchema.parse({
+        success: false,
+        error: "Agent creation failed",
+      });
+      expect(createErr.success).toBe(false);
+      expect(createErr.error).toBe("Agent creation failed");
     });
   });
 

@@ -11,6 +11,11 @@
 import { QRCodeSVG } from "qrcode.react";
 import { useCallback, useEffect, useState } from "react";
 import { GlassPanel, GradientButton, LabelXS } from "@/components/tables/ui";
+import { safeReadJson } from "@/lib/api/json";
+import {
+  CommensalsListResponseSchema,
+  GenericActionResponseSchema,
+} from "@/lib/validation/commensalResponseSchemas";
 import type { TableInvite } from "@/types/table";
 import type { JSX } from "react";
 
@@ -31,10 +36,7 @@ async function fetchCompanions(): Promise<Companion[]> {
   try {
     const res = await fetch("/api/commensals", { credentials: "include" });
     if (!res.ok) return [];
-    const data = (await res.json()) as {
-      manualCompanions?: Array<{ id: string; name: string }>;
-      linkedCommensals?: Array<{ userId: string; name: string }>;
-    };
+    const data = await safeReadJson(res, {}, { parse: (d) => CommensalsListResponseSchema.parse(d) });
     const manual = (data.manualCompanions ?? []).map((c) => ({
       type: "manual" as const,
       id: c.id,
@@ -82,7 +84,7 @@ export function InvitePanel({
         credentials: "include",
         body: JSON.stringify({}),
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
+      const data = await safeReadJson(res, { success: false }, { parse: (d) => GenericActionResponseSchema.parse(d) });
       if (!res.ok || !data.success) {
         setError(data.message ?? "Could not create an invite link.");
         return;
@@ -135,7 +137,7 @@ export function InvitePanel({
         credentials: "include",
         body: JSON.stringify(body),
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
+      const data = await safeReadJson(res, { success: false }, { parse: (d) => GenericActionResponseSchema.parse(d) });
       if (!res.ok || !data.success) {
         setError(data.message ?? "Could not add this companion.");
         return;

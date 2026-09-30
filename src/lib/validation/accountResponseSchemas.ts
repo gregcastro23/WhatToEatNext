@@ -35,6 +35,35 @@ export type EconomyBalanceView = z.infer<typeof EconomyBalanceResponseSchema>;
 
 type _EconomyBalanceDrift = AssertTrue<ServerSatisfies<EconomyBalanceResponse, EconomyBalanceView>>;
 
+export const CelestialLabTokenBalancesSchema = z.object({
+  spirit: z.number(),
+  essence: z.number(),
+  matter: z.number(),
+  substance: z.number(),
+  lastDailyClaimAt: z.string().nullable(),
+  lastDailyClaimAgentsAt: z.string().nullable(),
+  updatedAt: z.string(),
+});
+
+export const CelestialLabUserStreakSchema = z.object({
+  currentStreak: z.number(),
+  longestStreak: z.number(),
+  lastActivityDate: z.string().nullable(),
+  streakFrozenUntil: z.string().nullable(),
+  updatedAt: z.string(),
+});
+
+export const CelestialLabBalanceResponseSchema = z.object({
+  success: z.boolean(),
+  balances: CelestialLabTokenBalancesSchema,
+  streak: CelestialLabUserStreakSchema,
+  canClaimDaily: z.boolean(),
+});
+
+export type CelestialLabBalanceResponse = z.infer<typeof CelestialLabBalanceResponseSchema>;
+
+type _CelestialLabBalanceDrift = AssertTrue<ServerSatisfies<EconomyBalanceResponse, CelestialLabBalanceResponse>>;
+
 // ─── On-chain ESMS claims — /api/economy/claim-onchain ────────────────────
 
 const ClaimStatusSchema = z.enum(["pending", "minted", "refunded"]);

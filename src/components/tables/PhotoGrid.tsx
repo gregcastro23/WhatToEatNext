@@ -9,6 +9,8 @@
 import { Camera } from "lucide-react";
 import { useRef, useState } from "react";
 import { GlassPanel, LabelXS } from "@/components/tables/ui";
+import { safeReadJson } from "@/lib/api/json";
+import { GenericActionResponseSchema } from "@/lib/validation/commensalResponseSchemas";
 import type { TablePhoto } from "@/types/table";
 import type { JSX } from "react";
 
@@ -54,7 +56,7 @@ export function PhotoGrid({
         credentials: "include",
         body: JSON.stringify({ photoDataUrl: dataUrl }),
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
+      const data = await safeReadJson(res, { success: false }, { parse: (d) => GenericActionResponseSchema.parse(d) });
       if (!res.ok || !data.success) {
         setError(data.message ?? "Could not add that photo.");
         return;
