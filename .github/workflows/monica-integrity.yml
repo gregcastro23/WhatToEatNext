@@ -225,6 +225,15 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkEconomySqlParses.ts
 
+      - name: Transmutation Circle SQL parses against PostgreSQL
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # PREPAREs every statement in transmutationQueries.ts (writes nothing).
+        # Prints an explicit SKIP, not a pass, until migration 91 has created
+        # transmutation_offers on this database.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkTransmutationSqlParses.ts
+
       - name: Auth SQL parses against PostgreSQL
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # Diff-sensitive: it imports live auth SQL constants, so a PR that edits
@@ -444,6 +453,15 @@ jobs:
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkEconomySqlParses.ts
+
+      - name: Transmutation Circle SQL parses against PostgreSQL
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # PREPAREs every statement in transmutationQueries.ts (writes nothing).
+        # Prints an explicit SKIP, not a pass, until migration 91 has created
+        # transmutation_offers on this database.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkTransmutationSqlParses.ts
 
       - name: Auth SQL parses against PostgreSQL
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
