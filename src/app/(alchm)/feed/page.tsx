@@ -10,6 +10,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { TransmutationCircle } from "@/components/economy/TransmutationCircle";
 import { CookedDishCard } from "@/components/feed/CookedDishCard";
 import { FeedEngagementBar } from "@/components/feed/FeedEngagementBar";
 import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
@@ -119,6 +120,7 @@ const TAB_NAV = [
   { id: "agents", label: "Agents", icon: "🤖" },
   { id: "transactions", label: "Transactions", icon: "🝇" },
   { id: "swap", label: "Swap", icon: "🔁" },
+  { id: "transmute", label: "Transmute", icon: "⚗️" },
 ] as const;
 
 type TabId = (typeof TAB_NAV)[number]["id"];
@@ -201,6 +203,12 @@ function getEventNarration(event: FeedEvent): ReturnType<typeof narrateFeedEvent
 
 export default function FeedPage(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<TabId>("feed");
+  // Deep links (`/feed?tab=transmute`) — from trade bells and feed items.
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("tab");
+    const match = TAB_NAV.find((tab) => tab.id === requested);
+    if (match) setActiveTab(match.id);
+  }, []);
   const [events, setEvents] = useState<FeedEvent[]>([]);
   const [historicalItems, setHistoricalItems] = useState<
     HistoricalAgentFeedItem[]
@@ -609,6 +617,16 @@ export default function FeedPage(): React.JSX.Element {
                   });
                 }}
               />
+            </motion.div>
+          )}
+          {activeTab === "transmute" && (
+            <motion.div
+              key="transmute"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+            >
+              <TransmutationCircle />
             </motion.div>
           )}
         </AnimatePresence>
