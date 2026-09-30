@@ -42,9 +42,13 @@ import { fullChartMonica } from "@/utils/fullChartMonica";
 
 const WRITE = process.argv.includes("--write");
 const f = (n: number) => n.toFixed(6);
-const q = (xs: number[], p: number) => {
+const q = (xs: number[], p: number): number => {
   const s = [...xs].sort((a, b) => a - b);
-  return s[Math.floor((s.length - 1) * p)];
+  const val = s[Math.floor((s.length - 1) * p)];
+  if (val === undefined) {
+    throw new Error("q() called on empty array or out of bounds index");
+  }
+  return val;
 };
 
 const client = new pg.Client({
@@ -201,10 +205,17 @@ if (fullChart.length) {
       `\nfull-chart: replacing ${before.length} HAND-AUTHORED literals ` +
         `[${f(Math.min(...before))}, ${f(Math.max(...before))}]`,
     );
-    console.log(
-      `  |authored / computed| median ${q(ratios, 0.5).toFixed(1)}x  max ${Math.max(...ratios).toFixed(1)}x` +
-        `  <- these are NOT recomputable; the snapshot exists for them`,
-    );
+    if (ratios.length > 0) {
+      console.log(
+        `  |authored / computed| median ${q(ratios, 0.5).toFixed(1)}x  max ${Math.max(...ratios).toFixed(1)}x` +
+          `  <- these are NOT recomputable; the snapshot exists for them`,
+      );
+    } else {
+      console.log(
+        `  |authored / computed|: no non-zero computed ratios available` +
+          `  <- these are NOT recomputable; the snapshot exists for them`,
+      );
+    }
   }
   console.log(`\nfull-chart sample (both sects stored — sect is unresolvable, §18n):`);
   console.table(
