@@ -12,6 +12,7 @@ export const UnifiedAgentChatResponseSchema = z
     data: z
       .object({
         text: z.string().optional(),
+        degraded: z.boolean().optional(),
       })
       .passthrough()
       .optional(),

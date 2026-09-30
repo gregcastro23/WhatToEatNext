@@ -17,9 +17,9 @@ export interface IngredientRecipeMatchInput {
 }
 
 export function extractRecipeTime(recipe: Partial<Recipe> | Record<string, unknown>, kind: "prep" | "cook"): number | undefined {
-  const details = Reflect.get(recipe, "details") as { prepTimeMinutes?: number; cookTimeMinutes?: number } | undefined;
-  if (details) {
-    const v = kind === "prep" ? details.prepTimeMinutes : details.cookTimeMinutes;
+  const details: unknown = Reflect.get(recipe, "details");
+  if (details !== null && typeof details === "object") {
+    const v: unknown = Reflect.get(details, kind === "prep" ? "prepTimeMinutes" : "cookTimeMinutes");
     if (typeof v === "number") return v;
   }
   const raw = kind === "prep" ? recipe.prepTime : recipe.cookTime;

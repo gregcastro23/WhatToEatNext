@@ -27,7 +27,7 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import React from "react";
-import type { NextRequest } from "next/server";
+import { z } from "zod";
 import { LifecycleControls } from "@/components/tables/LifecycleControls";
 import { MembersPanel } from "@/components/tables/MembersPanel";
 import { buildRelatedIngredientRecipe } from "@/lib/ingredients/relatedRecipe";
@@ -58,7 +58,7 @@ jest.mock("@/lib/rateLimit", () => ({
   rateLimit: jest.fn(async () => ({ allowed: true })),
 }));
 
-const mockExecuteQuery = executeQuery as unknown as jest.MockedFunction<typeof executeQuery>;
+const mockExecuteQuery = jest.mocked(executeQuery);
 
 describe("Phase 43 Consumer Recovery Behavior", () => {
   // ─── 1. Unreadable 2xx Table Controls Recovery ────────────────────────────
@@ -187,14 +187,19 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
         }),
       });
 
-      const response = await POST(req as unknown as NextRequest);
+      const response = await POST(req);
       const json: unknown = await response.json();
 
       expect(response.status).toBe(200);
+      expect(mockExecuteQuery).toHaveBeenCalledWith(
+        expect.stringContaining("u.profile->>'createdByUserId' = $2"),
+        ["stable-client-req-999", "creator-uuid-0001"],
+      );
       const parsed = UnifiedAgentCreateResponseSchema.safeParse(json);
       expect(parsed.success).toBe(true);
 
-      const resBody = json as { success: boolean; deduplicated?: boolean; data?: { id: string; name: string } };
+      if (!parsed.success) throw new Error("Agent response failed validation");
+      const resBody = parsed.data;
       expect(resBody.success).toBe(true);
       expect(resBody.deduplicated).toBe(true);
       expect(resBody.data?.id).toBe("agent-existing-123");
@@ -397,7 +402,7 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
       expect(parsed.success).toBe(true);
       if (parsed.success) {
         expect(parsed.data.data?.text).toContain("quiet");
-        expect((parsed.data.data as Record<string, unknown> | undefined)?.degraded).toBe(true);
+        expect(parsed.data.data?.degraded).toBe(true);
       }
     });
   });
@@ -433,7 +438,10 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
       prepTime: "10 mins",
       cookTime: "15 mins",
       numberOfServings: 4,
-    } as unknown as Recipe;
+      ingredients: [],
+      instructions: [],
+      elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    };
 
     const matchPopulated = {
       recipeId: "rec-1",
@@ -491,7 +499,12 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
 
       expect(nextJson).toEqual(honoJson);
 
-      const parsed = JSON.parse(nextJson) as Array<Record<string, unknown>>;
+      const parsedJson: unknown = JSON.parse(nextJson);
+      const parsed = z.array(z.object({
+        name: z.string(),
+        description: z.string().optional(),
+        servings: z.number().optional(),
+      }).passthrough()).parse(parsedJson);
       expect(parsed).toHaveLength(2);
       expect(parsed[0]?.name).toBe("Herbal Infusion");
       expect(parsed[0]?.servings).toBe(4);

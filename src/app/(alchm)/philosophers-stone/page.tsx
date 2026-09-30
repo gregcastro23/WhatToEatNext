@@ -375,13 +375,11 @@ export default function ModernPhilosophersStone(): ReactNode {
   const handleCreateAgent = async (): Promise<void> => {
     setIsCalculating(true)
     try {
-      if (!creationRequestIdRef.current) {
-        creationRequestIdRef.current =
-          typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
-            ? crypto.randomUUID()
-            : `req-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
-      }
-      const clientRequestId = creationRequestIdRef.current
+      const clientRequestId = creationRequestIdRef.current ??= (
+        typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+          ? crypto.randomUUID()
+          : `req-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+      )
 
       const response = await fetch('/api/agents/unified', {
         method: 'POST',

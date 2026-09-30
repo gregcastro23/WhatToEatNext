@@ -88,7 +88,7 @@ export function MembersPanel({
           const isSelf = !!currentUserId && member.userId === currentUserId;
           const canRemove = member.role !== "host" && (isHost || isSelf);
           return (
-            <li key={member.id ?? member.userId ?? index} className="flex items-center gap-3">
+            <li key={member.id} className="flex items-center gap-3">
               <AvatarCircle
                 name={member.name ?? member.displayName ?? "Guest"}
                 src={member.avatarUrl}

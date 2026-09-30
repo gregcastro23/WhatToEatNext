@@ -213,26 +213,25 @@ export async function POST(request: NextRequest | Request): Promise<NextResponse
              FROM users u
              JOIN user_profiles up ON up.user_id = u.id
              WHERE u.profile->>'clientRequestId' = $1
+               AND u.profile->>'createdByUserId' = $2
              LIMIT 1`,
-            [clientRequestId]
+            [clientRequestId, userId]
           );
 
-          if (existing.rows.length > 0) {
-            const [row] = existing.rows;
-            if (row) {
-              logger.info(`[unified-api] Deduplicated agent creation with clientRequestId: ${clientRequestId}`);
-              return NextResponse.json({
-                success: true,
-                data: {
-                  id: row.id,
-                  name: row.name,
-                  dominantElement: row.dominant_element,
-                  monicaConstant: Number(row.monica_constant),
-                },
-                deduplicated: true,
-                timestamp,
-              });
-            }
+          const [row] = existing.rows;
+          if (row) {
+            logger.info(`[unified-api] Deduplicated agent creation with clientRequestId: ${clientRequestId}`);
+            return NextResponse.json({
+              success: true,
+              data: {
+                id: row.id,
+                name: row.name,
+                dominantElement: row.dominant_element,
+                monicaConstant: Number(row.monica_constant),
+              },
+              deduplicated: true,
+              timestamp,
+            });
           }
         }
 
@@ -388,7 +387,7 @@ export async function POST(request: NextRequest | Request): Promise<NextResponse
           natalChart: formattedChart,
           personalContext,
           stats,
-          ...(clientRequestId ? { clientRequestId } : {}),
+          ...(clientRequestId ? { clientRequestId, createdByUserId: userId } : {}),
         };
 
         await executeQuery(
