@@ -69,10 +69,16 @@ function buildVariants(text: string): Set<string> {
   const tokens = tokenize(text).map((t) => singularize(t));
   if (tokens.length) {
     set.add(tokens.join(" "));
-    // 3. last-token-only (e.g. "raspberries" from "fresh raspberries")
-    set.add(tokens[tokens.length - 1]);
-    // 4. first-token-only (e.g. "agave" from "agave nectar")
-    set.add(tokens[0]);
+    const last = tokens[tokens.length - 1];
+    if (last !== undefined) {
+      // 3. last-token-only (e.g. "raspberries" from "fresh raspberries")
+      set.add(last);
+    }
+    const first = tokens[0];
+    if (first !== undefined) {
+      // 4. first-token-only (e.g. "agave" from "agave nectar")
+      set.add(first);
+    }
   }
   return set;
 }

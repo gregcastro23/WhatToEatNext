@@ -7,7 +7,7 @@ export interface CoinAmountsWire {
   substance: number;
 }
 
-export const CoinAmountsSchema: z.ZodType<CoinAmountsWire> = z.object({
+export const CoinAmountsSchema = z.object({
   spirit: z.number(),
   essence: z.number(),
   matter: z.number(),

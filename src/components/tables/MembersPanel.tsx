@@ -10,6 +10,8 @@ import { useState } from "react";
 import { GlassPanel, LabelXS, RsvpChip } from "@/components/tables/ui";
 import { AvatarCircle } from "@/components/tables/ui/AvatarCircle";
 import type { Element } from "@/components/tables/ui/elements";
+import { safeReadJson } from "@/lib/api/json";
+import { GenericActionResponseSchema } from "@/lib/validation/commensalResponseSchemas";
 import type { TableMember } from "@/types/table";
 import type { JSX } from "react";
 
@@ -49,11 +51,21 @@ export function MembersPanel({
         method: "DELETE",
         credentials: "include",
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
-      if (!res.ok || !data.success) {
+      const data = await safeReadJson(res, null, { parse: (d) => GenericActionResponseSchema.parse(d) });
+      if (!res.ok) {
+        setError(data?.message ?? "Could not remove this member.");
+        return;
+      }
+      if (data?.success) {
+        onChanged?.();
+        return;
+      }
+      if (data?.success === false) {
         setError(data.message ?? "Could not remove this member.");
         return;
       }
+      // Unreadable 2xx reply: removal may already have completed on the server.
+      setError("Removal submitted, but confirmation could not be verified. Refreshing…");
       onChanged?.();
     } catch {
       setError("Could not remove this member.");

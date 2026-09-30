@@ -450,7 +450,7 @@ export type ProgressCallback = (progress: {
 export async function batchEnrichWithProgress(
   recipes: Array<Partial<Recipe>>,
   options: BatchEnrichmentOptions = {},
-  onProgress?: ProgressCallback | undefined,
+  onProgress?: ProgressCallback,
 ): Promise<BatchEnrichmentResult> {
   const {
     skipExisting = false,
