@@ -436,6 +436,26 @@ export function swapLegIdempotencyKey(paymentKey: string, legIndex: number): str
   return `${paymentKey}:swap${legIndex}`;
 }
 
+/** `token_transactions.idempotency_key` is VARCHAR(255). */
+const IDEMPOTENCY_KEY_MAX = 255;
+/** The longest `:<TokenType>` suffix `transmuteSql` appends. */
+const LONGEST_TOKEN_SUFFIX = Math.max(...TOKEN_TYPES.map((t) => t.length + 1));
+
+/**
+ * The key a leg is written under, or null when it would not fit the column.
+ *
+ * A caller's payment key is only validated as non-empty, and a leg key is a few
+ * characters longer than the payment's own rows. Rather than let a long key
+ * fail the whole payment with 22001, that leg is written unkeyed: it commits in
+ * the same transaction as the payment rows, whose own keys still reject a
+ * replayed payment — and with it, the leg.
+ */
+function legKey(paymentKey: string | null, legIndex: number): string | null {
+  if (!paymentKey) return null;
+  const key = swapLegIdempotencyKey(paymentKey, legIndex);
+  return key.length + LONGEST_TOKEN_SUFFIX <= IDEMPOTENCY_KEY_MAX ? key : null;
+}
+
 /**
  * Write every leg of `plan` as a transmutation under `transactionGroupId`.
  *
@@ -481,9 +501,7 @@ export async function executeSwapPlan(
       creditDescription:
         `Auto-swap received ${leg.toAmount} ${leg.toToken} from ${leg.fromToken} ` +
         `for ${args.purpose}`,
-      idempotencyKey: args.idempotencyKey
-        ? swapLegIdempotencyKey(args.idempotencyKey, legIndex)
-        : null,
+      idempotencyKey: legKey(args.idempotencyKey, legIndex),
     });
     const result = await query(statement.sql, statement.values);
     const [row] = result.rows;

@@ -271,6 +271,12 @@ export const SyncDebitRequestSchema = z.object({
   source: z.string().optional(),
   idempotencyKey: z.string().min(1, "idempotencyKey is required"),
   metadata: z.record(z.string(), z.unknown()).optional(),
+  /**
+   * Cover a short axis by swapping the agent's surplus coins at live EEI
+   * parity (the Swapping Bridge) before refusing with insufficient_funds.
+   * Defaults to true; false restores the exact-basket-or-402 behaviour.
+   */
+  autoSwap: z.boolean().optional(),
 });
 
 export type ParsedSyncDebitRequest = z.infer<typeof SyncDebitRequestSchema>;

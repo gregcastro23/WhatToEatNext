@@ -513,6 +513,32 @@ describe("executeSwapPlan — the ledger writes", () => {
     expect(ledger.statements.every((s) => s.values[8] === null)).toBe(true);
   });
 
+  it("writes a leg unkeyed rather than overflow the VARCHAR(255) key column", async () => {
+    const start = axes(20, 0, 1, 2.5);
+    const plan = planAutoSwap({ costs: COSMIC, balances: start, prices: PRICES });
+    const ledger = fakeLedger(start);
+    // Fits as `<key>:Substance` (the payment's own rows) but not as `<key>:swap0:Substance`.
+    const longKey = "k".repeat(255 - ":Substance".length);
+    await executeSwapPlan(ledger.query, {
+      userId: "user-1",
+      plan,
+      transactionGroupId: GROUP,
+      idempotencyKey: longKey,
+      purpose: "test",
+    });
+    expect(ledger.statements.map((s) => s.values[8])).toEqual([null, null]);
+    // A key with room keeps its per-leg keys.
+    const roomy = fakeLedger(start);
+    await executeSwapPlan(roomy.query, {
+      userId: "user-1",
+      plan,
+      transactionGroupId: GROUP,
+      idempotencyKey: "k".repeat(255 - ":swap0:Substance".length),
+      purpose: "test",
+    });
+    expect(roomy.statements.every((s) => typeof s.values[8] === "string")).toBe(true);
+  });
+
   it("refuses to execute a plan that cannot cover the payment", async () => {
     const plan = planAutoSwap({ costs: COSMIC, balances: axes(0, 0, 0, 0), prices: PRICES });
     const ledger = fakeLedger(axes(0, 0, 0, 0));
