@@ -1,16 +1,15 @@
 /** @jest-environment node */
 
-import { probeEsmsContract, type esmsPublicClient } from "@/lib/esms-chain/contract";
+import { probeEsmsContract } from "@/lib/esms-chain/contract";
 
 const ADDRESS = "0x124ECa1bb1E106D3614A22A256f9A412FfeEAd8F";
-type EsmsClient = ReturnType<typeof esmsPublicClient>;
 
 function reader(chainId: number, code: `0x${string}` | undefined = "0x1234") {
   const getChainId = jest.fn().mockResolvedValue(chainId);
   const getBytecode = jest.fn().mockResolvedValue(code);
   const readContract = jest.fn().mockResolvedValue(false);
   return {
-    client: { getChainId, getBytecode, readContract } as unknown as EsmsClient,
+    client: { getChainId, getBytecode, readContract },
     getBytecode,
     readContract,
   };

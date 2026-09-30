@@ -130,8 +130,19 @@ export interface EsmsContractCheck {
   message: string
 }
 
+interface EsmsProbeClient {
+  getChainId(): Promise<number>
+  getBytecode(args: { address: Address }): Promise<`0x${string}` | undefined>
+  readContract(args: {
+    address: Address
+    abi: typeof ESMS_ABI
+    functionName: 'redeemedOrders'
+    args: readonly [`0x${string}`]
+  }): Promise<boolean>
+}
+
 /** Check the actual RPC chain, deployed bytecode, and the shop audit read. */
-export async function probeEsmsContract(client = esmsPublicClient()): Promise<EsmsContractCheck> {
+export async function probeEsmsContract(client: EsmsProbeClient = esmsPublicClient()): Promise<EsmsContractCheck> {
   const expectedChainId = esmsChain().id
   const address = process.env.ESMS_CONTRACT_ADDRESS ?? null
   const result = (status: EsmsContractStatus, message: string, rpcChainId: number | null = null): EsmsContractCheck => ({
