@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
-import { getCurrentSwapRates } from "@/lib/economy/swapRates";
+import { tryGetCurrentSwapRates } from "@/lib/economy/swapRates";
 import { _logger } from "@/lib/logger";
 import { getPrivyWallet } from "@/lib/privy/server";
 import { buildMetadata, buildRecipeNftContent, computeCommitments } from "@/lib/recipe-nft/content";
@@ -105,9 +105,12 @@ export async function POST(request: NextRequest) {
   let cost = baseMintCost(fingerprint);
 
   let weightedToCoin: string | null = null;
-  if (natalPositions && Object.keys(natalPositions).length > 0) {
+  // Redistribution converts at live EEI parity; with no live rate sheet the
+  // flat cost is charged as-is rather than converted at a guessed rate.
+  const swapRates = tryGetCurrentSwapRates();
+  if (swapRates && natalPositions && Object.keys(natalPositions).length > 0) {
     const coin = elementToCoin(getDominantElementFromPositions(natalPositions));
-    cost = redistributeTowardDominant(cost, coin, getCurrentSwapRates());
+    cost = redistributeTowardDominant(cost, coin, swapRates);
     weightedToCoin = coin;
   }
 

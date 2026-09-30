@@ -1330,7 +1330,7 @@ function SwapTab({
               </span>
             </div>
             <div className="flex justify-between items-center text-sm mt-2">
-              <span className="text-white/60">Cosmic modifier</span>
+              <span className="text-white/60">Vs. 1:1 parity</span>
               <span
                 className={`font-mono tabular-nums ${
                   activeRate.modifier < 1
@@ -1386,9 +1386,9 @@ function SwapTab({
         )}
 
         <p className="text-[10px] uppercase tracking-widest text-white/30 mt-6">
-          Rates re-roll at the top of the next planetary hour
+          Rates track the live Elemental Exchange Index, no spread
           {context.validUntil
-            ? ` (≈ ${new Date(context.validUntil).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })})`
+            ? ` — next refresh ≈ ${new Date(context.validUntil).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
             : ""}
           .
         </p>
