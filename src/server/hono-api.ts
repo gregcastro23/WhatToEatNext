@@ -196,12 +196,12 @@ app.get('/api/ingredients/:name', async (c) => {
       id: string;
       name: string;
       cuisine: string;
-      description?: string | undefined;
-      prepTime?: number | undefined;
-      cookTime?: number | undefined;
-      servings?: number | undefined;
-      amount?: number | undefined;
-      unit?: string | undefined;
+      description: string | undefined;
+      prepTime: number | undefined;
+      cookTime: number | undefined;
+      servings: number | undefined;
+      amount: number | undefined;
+      unit: string | undefined;
     }> = [];
     for (const match of matches) {
       const recipe = recipeMap.get(match.recipeId);
@@ -226,6 +226,10 @@ app.get('/api/ingredients/:name', async (c) => {
           id: match.recipeId,
           name: match.recipeName,
           cuisine: match.cuisine,
+          description: undefined,
+          prepTime: undefined,
+          cookTime: undefined,
+          servings: undefined,
           amount: typeof match.amount === "number" ? match.amount : undefined,
           unit: match.unit,
         });

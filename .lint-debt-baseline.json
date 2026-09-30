@@ -18,10 +18,10 @@
     "nonNull": 598
   },
   "looseOptionality": {
-    "total": 221,
-    "domain": 132,
+    "total": 195,
+    "domain": 106,
     "wire": 89,
-    "production": 221,
+    "production": 195,
     "test": 0,
     "wireAllowlist": [
       "src/types/yelp.ts",

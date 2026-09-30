@@ -23,13 +23,13 @@ const { HONO_API_URL } = process.env;
 interface RelatedRecipe {
   id: string;
   name: string;
-  cuisine?: string | undefined;
-  description?: string | undefined;
-  prepTime?: number | undefined;
-  cookTime?: number | undefined;
-  servings?: number | undefined;
-  amount?: number | undefined;
-  unit?: string | undefined;
+  cuisine: string | undefined;
+  description: string | undefined;
+  prepTime: number | undefined;
+  cookTime: number | undefined;
+  servings: number | undefined;
+  amount: number | undefined;
+  unit: string | undefined;
 }
 
 function extractTime(recipe: Recipe, kind: "prep" | "cook"): number | undefined {
@@ -73,7 +73,17 @@ function relatedRecipe(match: IndexMatch, recipe: Recipe | undefined): RelatedRe
   const amount = typeof match.amount === "number" ? match.amount : undefined;
   if (!recipe) {
     // Fallback if not loaded in memory
-    return { id: match.recipeId, name: match.recipeName, cuisine: match.cuisine, amount, unit: match.unit };
+    return {
+      id: match.recipeId,
+      name: match.recipeName,
+      cuisine: match.cuisine,
+      description: undefined,
+      prepTime: undefined,
+      cookTime: undefined,
+      servings: undefined,
+      amount,
+      unit: match.unit,
+    };
   }
   // Some catalog recipes carry an untyped baseServingSize.
   const baseServings: unknown = Reflect.get(recipe, "baseServingSize");
