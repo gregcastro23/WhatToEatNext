@@ -31,7 +31,6 @@ import {
   shopItemsSql,
   transactionCountSql,
   transactionsPageSql,
-  transmuteSql,
   userOwnsItemSql,
   type AxisAmounts,
   type DebitAllIntent,
@@ -41,11 +40,9 @@ import type {
   TokenBalances,
   TokenTransaction,
   TransactionSourceType,
-  TransmutationResult,
 } from "@/types/economy";
 import {
   EMPTY_BALANCES,
-  TRANSMUTATION_RATIO,
 } from "@/types/economy";
 
 // ─── DB Bootstrapping (lazy import pattern) ───────────────────────────
@@ -1036,113 +1033,6 @@ class TokenEconomyService {
       lastClaim.getUTCMonth() === now.getUTCMonth() &&
       lastClaim.getUTCDate() === now.getUTCDate()
     );
-  }
-
-  // ═══════════════════════════════════════════════════════════════════
-  // TRANSMUTATION
-  // ═══════════════════════════════════════════════════════════════════
-
-  /**
-   * Transmute tokens: spend 3:1 ratio to convert one type to another.
-   *
-   * Pass `opts.idempotencyKey` to make a retry safe. Without one, a client that
-   * retries after a network error transmutes a SECOND time and is debited
-   * twice — every other money-moving path here takes a key for exactly that
-   * reason. With one, the unique index on `token_transactions.idempotency_key`
-   * rejects the duplicate and this returns null rather than charging again.
-   */
-  async transmute(
-    userId: string,
-    fromToken: TokenType,
-    toToken: TokenType,
-    targetAmount: number,
-    opts?: { idempotencyKey?: string },
-  ): Promise<TransmutationResult | null> {
-    if (fromToken === toToken) return null;
-    if (targetAmount <= 0) return null;
-
-    const costAmount = targetAmount * TRANSMUTATION_RATIO;
-    const groupId = crypto.randomUUID();
-    const db = await getDbModule();
-    const fromColumn = fromToken.toLowerCase() as "spirit" | "essence" | "matter" | "substance";
-    const toColumn = toToken.toLowerCase() as "spirit" | "essence" | "matter" | "substance";
-
-    if (db) {
-      try {
-        const query = transmuteSql({
-          fromColumn,
-          toColumn,
-          userId,
-          costAmount,
-          targetAmount,
-          transactionGroupId: groupId,
-          fromToken,
-          toToken,
-          debitDescription: `Transmute ${costAmount} ${fromToken} → ${targetAmount} ${toToken}`,
-          creditDescription: `Received from transmutation of ${fromToken}`,
-          idempotencyKey: opts?.idempotencyKey ?? null,
-        });
-        const result = await db.executeQuery<TokenBalanceRow>(query.sql, query.values);
-
-        const [txRow] = result.rows;
-        if (!txRow) {
-          return null;
-        }
-
-        return {
-          spent: { tokenType: fromToken, amount: costAmount },
-          received: { tokenType: toToken, amount: targetAmount },
-          newBalances: rowToBalances(txRow),
-        };
-      } catch (error) {
-        // Unique-violation on idempotency_key: this transmutation already ran.
-        // Returning null means the caller reports it as not-applied, which is
-        // correct — the point is that the user is NOT debited a second time.
-        if (isPgError(error) && error.code === "23505") {
-          _logger.info(
-            "[TokenEconomy] Duplicate transmutation blocked by idempotency key:",
-            opts?.idempotencyKey,
-          );
-          return null;
-        }
-        _logger.error("[TokenEconomy] transmute DB failed:", error);
-        return null;
-      }
-    }
-
-    // In-memory fallback. No idempotency guard here: `debitTokens` takes no key
-    // and this path has no durable ledger to enforce one against. It runs only
-    // when there is no database at all.
-    const afterDebit = await this.debitTokens(
-      userId,
-      fromToken,
-      costAmount,
-      "transmutation",
-      {
-        description: `Transmute ${costAmount} ${fromToken} → ${targetAmount} ${toToken}`,
-        transactionGroupId: groupId,
-      },
-    );
-
-    if (!afterDebit) return null; // Insufficient balance
-
-    // Credit
-    const newBalances = await this.creditTokens(
-      userId,
-      toToken,
-      targetAmount,
-      "transmutation",
-      {
-        description: `Received from transmutation of ${fromToken}`,
-        transactionGroupId: groupId,
-      },
-    );
-
-    return {
-      spent: { tokenType: fromToken, amount: costAmount },
-      received: { tokenType: toToken, amount: targetAmount },
-      newBalances: newBalances ?? afterDebit,
-    };
   }
 
   // ═══════════════════════════════════════════════════════════════════

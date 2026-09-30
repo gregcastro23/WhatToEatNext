@@ -322,6 +322,23 @@ async function quietly(label: string, effect: () => Promise<unknown>): Promise<v
 
 // ─── Inputs and results ───────────────────────────────────────────────
 
+/** How each refusal reads over HTTP — one table for the human and agent doors. */
+export const TRANSMUTATION_FAILURE_STATUS: Record<TransmutationFailureReason, number> = {
+  invalid_offer: 400,
+  own_offer: 400,
+  insufficient_funds: 402,
+  counterparty_unavailable: 403,
+  counterparty_not_found: 404,
+  offer_not_found: 404,
+  offer_closed: 409,
+  maker_cannot_cover: 409,
+  offer_expired: 410,
+  off_market: 422,
+  too_many_open_offers: 429,
+  failed: 500,
+  rates_unavailable: 503,
+};
+
 export interface CreateOfferInput extends TransmutationTerms {
   /** Direct the offer at one practitioner, by id or (agents, over S2S) email. */
   counterparty?: { id?: string | undefined; email?: string | undefined } | undefined;
