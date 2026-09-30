@@ -105,7 +105,7 @@ async function handlePost(request: NextRequest) {
   // Parse the body BEFORE any money moves.
   //
   // This used to sit ~50 lines below the ESMS debit, so a malformed request
-  // paid full price (15-48 ESMS) for a 400. Hoisting deletes those two
+  // paid full price for a 400. Hoisting deletes those two
   // charge-and-fail exits outright rather than refunding them, and stops a junk
   // request costing a daily-limit query, a shop lookup and a pricing
   // computation. Safe: nothing in the auth/debit block below reads the body,
