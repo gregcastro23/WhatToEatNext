@@ -23,7 +23,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
-import { TransmuteRequestSchema } from "@/lib/validation/apiSchemas";
+import { TransmuteRequestSchema, type ParsedTransmuteRequest } from "@/lib/validation/apiSchemas";
 import {
   TRANSMUTATION_FAILURE_STATUS,
   transmutationService,
@@ -65,6 +65,104 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   }
 }
 
+/** Read and validate the body; a response means "stop here and send this". */
+async function readAct(
+  request: NextRequest,
+): Promise<{ ok: true; body: ParsedTransmuteRequest } | { ok: false; response: NextResponse }> {
+  let rawBody: unknown;
+  try {
+    rawBody = await request.json();
+  } catch {
+    return {
+      ok: false,
+      response: NextResponse.json({ success: false, message: "Invalid request body" }, { status: 400 }),
+    };
+  }
+
+  // The retired 3:1 solo conversion: say where it went instead of a bare 400.
+  if (rawBody && typeof rawBody === "object" && "fromToken" in rawBody && !("action" in rawBody)) {
+    return {
+      ok: false,
+      response: NextResponse.json(
+        {
+          success: false,
+          reason: "retired",
+          message:
+            "Converting coins on your own is now a swap at live index rates — use /api/economy/swap. " +
+            "Transmutation is a trade with another practitioner: post an offer with action \"offer\".",
+        },
+        { status: 410 },
+      ),
+    };
+  }
+
+  const parsed = TransmuteRequestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return {
+      ok: false,
+      response: NextResponse.json(
+        {
+          success: false,
+          reason: "invalid_request",
+          message: parsed.error.issues[0]?.message ?? "Invalid transmutation request",
+          details: parsed.error.flatten().fieldErrors,
+        },
+        { status: 400 },
+      ),
+    };
+  }
+  return { ok: true, body: parsed.data };
+}
+
+type OfferAct = Extract<ParsedTransmuteRequest, { action: "offer" }>;
+
+async function postOffer(userId: string, body: OfferAct): Promise<NextResponse> {
+  const result = await transmutationService.createOffer(userId, {
+    giveToken: body.giveToken,
+    giveAmount: body.giveAmount,
+    wantToken: body.wantToken,
+    wantAmount: body.wantAmount,
+    counterparty: body.counterpartyId ? { id: body.counterpartyId } : null,
+    replyToOfferId: body.replyToOfferId ?? null,
+    message: body.message ?? null,
+    ttlHours: body.ttlHours ?? null,
+    idempotencyKey: body.idempotencyKey ?? null,
+  });
+  if (!result.ok) return refused(result);
+  return NextResponse.json(
+    {
+      success: true,
+      offer: result.offer,
+      replayed: result.replayed,
+      message: result.offer.directed ? "⚗️ Offer sent." : "⚗️ Offer posted to the Transmutation Circle.",
+    },
+    { status: result.replayed ? 200 : 201 },
+  );
+}
+
+async function fillOffer(userId: string, offerId: string): Promise<NextResponse> {
+  const result = await transmutationService.acceptOffer(userId, offerId);
+  if (!result.ok) return refused(result);
+  const { gave, received } = result.trade;
+  return NextResponse.json({
+    success: true,
+    offer: result.offer,
+    trade: result.trade,
+    balances: result.balances,
+    bonus: result.bonus,
+    message: `⚗️ Transmuted: you gave ${gave.amount} ${gave.tokenType} and received ${received.amount} ${received.tokenType}.`,
+  });
+}
+
+async function closeOffer(userId: string, offerId: string, kind: "cancel" | "decline"): Promise<NextResponse> {
+  const result =
+    kind === "cancel"
+      ? await transmutationService.cancelOffer(userId, offerId)
+      : await transmutationService.declineOffer(userId, offerId);
+  if (!result.ok) return refused(result);
+  return NextResponse.json({ success: true, offer: result.offer });
+}
+
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const userId = await getUserIdFromRequest(request);
   if (!userId) return authRequired();
@@ -72,91 +170,19 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(request, { window: 60_000, max: 30, bucket: "economy-transmute", identifier: userId });
   if (!rl.allowed) return rl.response ?? slowDown();
 
-  let rawBody: unknown;
-  try {
-    rawBody = await request.json();
-  } catch {
-    return NextResponse.json({ success: false, message: "Invalid request body" }, { status: 400 });
-  }
+  const read = await readAct(request);
+  if (!read.ok) return read.response;
+  const { body } = read;
 
-  // The retired 3:1 solo conversion: say where it went instead of a bare 400.
-  if (rawBody && typeof rawBody === "object" && "fromToken" in rawBody && !("action" in rawBody)) {
-    return NextResponse.json(
-      {
-        success: false,
-        reason: "retired",
-        message:
-          "Converting coins on your own is now a swap at live index rates — use /api/economy/swap. " +
-          "Transmutation is a trade with another practitioner: post an offer with action \"offer\".",
-      },
-      { status: 410 },
-    );
-  }
-
-  const parsed = TransmuteRequestSchema.safeParse(rawBody);
-  if (!parsed.success) {
-    const [issue] = parsed.error.issues;
-    return NextResponse.json(
-      {
-        success: false,
-        reason: "invalid_request",
-        message: issue?.message ?? "Invalid transmutation request",
-        details: parsed.error.flatten().fieldErrors,
-      },
-      { status: 400 },
-    );
-  }
-
-  const body = parsed.data;
   try {
     switch (body.action) {
-      case "offer": {
-        const result = await transmutationService.createOffer(userId, {
-          giveToken: body.giveToken,
-          giveAmount: body.giveAmount,
-          wantToken: body.wantToken,
-          wantAmount: body.wantAmount,
-          counterparty: body.counterpartyId ? { id: body.counterpartyId } : undefined,
-          replyToOfferId: body.replyToOfferId,
-          message: body.message,
-          ttlHours: body.ttlHours,
-          idempotencyKey: body.idempotencyKey,
-        });
-        if (!result.ok) return refused(result);
-        return NextResponse.json(
-          {
-            success: true,
-            offer: result.offer,
-            replayed: result.replayed,
-            message: result.offer.directed
-              ? "⚗️ Offer sent."
-              : "⚗️ Offer posted to the Transmutation Circle.",
-          },
-          { status: result.replayed ? 200 : 201 },
-        );
-      }
-      case "accept": {
-        const result = await transmutationService.acceptOffer(userId, body.offerId);
-        if (!result.ok) return refused(result);
-        const { gave, received } = result.trade;
-        return NextResponse.json({
-          success: true,
-          offer: result.offer,
-          trade: result.trade,
-          balances: result.balances,
-          bonus: result.bonus,
-          message: `⚗️ Transmuted: you gave ${gave.amount} ${gave.tokenType} and received ${received.amount} ${received.tokenType}.`,
-        });
-      }
+      case "offer":
+        return await postOffer(userId, body);
+      case "accept":
+        return await fillOffer(userId, body.offerId);
       case "cancel":
-      case "decline": {
-        const result =
-          body.action === "cancel"
-            ? await transmutationService.cancelOffer(userId, body.offerId)
-            : await transmutationService.declineOffer(userId, body.offerId);
-        if (!result.ok) return refused(result);
-        return NextResponse.json({ success: true, offer: result.offer });
-      }
+      case "decline":
+        return await closeOffer(userId, body.offerId, body.action);
     }
   } catch (error) {
     _logger.error("[POST /api/economy/transmute]", error);

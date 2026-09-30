@@ -2,7 +2,8 @@
  * PREPARE every Transmutation Circle statement against a real PostgreSQL.
  *
  * The same gate `checkEconomySqlParses.ts` runs for the token ledger, for the
- * statements in `src/services/transmutationQueries.ts`: PREPARE parses and
+ * statements in `src/services/transmutationQueries.ts` and
+ * `transmutationBoardQueries.ts`: PREPARE parses and
  * type-checks a statement and writes nothing. Unit tests mock the database,
  * and a mock accepts SQL no database would.
  *
@@ -14,7 +15,14 @@
  * reports PASS without having prepared every statement.
  */
 import pg from "pg";
-import * as queries from "../src/services/transmutationQueries";
+import * as boardQueries from "../src/services/transmutationBoardQueries";
+import * as offerQueries from "../src/services/transmutationQueries";
+
+/** Both modules' builders, as one namespace. */
+const queries = { ...offerQueries, ...boardQueries };
+
+/** Exported functions that build no SQL (the `$n` collector class). */
+const NON_BUILDER_EXPORTS = new Set(["QueryParams"]);
 
 const fail = (msg: string): never => {
   console.error(`\n✗ ${msg}`);
@@ -99,7 +107,7 @@ try {
 
   // Control 2: every exported builder is exercised.
   const exported = Object.entries(queries)
-    .filter(([, value]) => typeof value === "function")
+    .filter(([name, value]) => typeof value === "function" && !NON_BUILDER_EXPORTS.has(name))
     .map(([name]) => name);
   const covered = new Set(statements.map((s) => s.builder));
   const ungated = exported.filter((name) => !covered.has(name));

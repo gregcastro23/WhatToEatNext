@@ -1,10 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { safeEqual } from "@/lib/hooks/secureCompare";
 import { withObservability } from "@/lib/observability/withObservability";
-import { SyncTransmuteRequestSchema } from "@/lib/validation/apiSchemas";
+import { SyncTransmuteRequestSchema, type ParsedSyncTransmuteRequest } from "@/lib/validation/apiSchemas";
 import {
   TRANSMUTATION_FAILURE_STATUS,
   transmutationService,
+  type CounterpartyRef,
 } from "@/services/transmutationService";
 import type { TransmutationFailure } from "@/types/transmutation";
 import { createLogger } from "@/utils/logger";
@@ -48,100 +49,125 @@ function refused(failure: TransmutationFailure): NextResponse {
   );
 }
 
-async function handlePost(req: NextRequest): Promise<NextResponse> {
-  if (!safeEqual(req.headers.get("X-Sync-Secret"), process.env.ALCHM_KITCHEN_SYNC_SECRET)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+function badRequest(message: string, details?: unknown): NextResponse {
+  return NextResponse.json(
+    { ok: false, reason: "invalid_request", message, ...(details ? { details } : {}) },
+    { status: 400 },
+  );
+}
 
+/** Read and validate the body; a response means "stop here and send this". */
+async function readAgentAct(
+  req: NextRequest,
+): Promise<{ ok: true; body: ParsedSyncTransmuteRequest } | { ok: false; response: NextResponse }> {
   let rawBody: unknown;
   try {
     rawBody = await req.json();
   } catch {
-    return NextResponse.json(
-      { ok: false, reason: "invalid_request", message: "Invalid JSON body" },
-      { status: 400 },
-    );
+    return { ok: false, response: badRequest("Invalid JSON body") };
   }
-
   const parsed = SyncTransmuteRequestSchema.safeParse(rawBody);
   if (!parsed.success) {
-    return NextResponse.json(
-      {
-        ok: false,
-        reason: "invalid_request",
-        message: parsed.error.issues[0]?.message ?? "Invalid sync-transmute request",
-        details: parsed.error.flatten().fieldErrors,
-      },
-      { status: 400 },
-    );
+    return {
+      ok: false,
+      response: badRequest(
+        parsed.error.issues[0]?.message ?? "Invalid sync-transmute request",
+        parsed.error.flatten().fieldErrors,
+      ),
+    };
   }
-  const body = parsed.data;
+  return { ok: true, body: parsed.data };
+}
 
-  try {
-    const agent = await transmutationService.findParticipantIdByEmail(body.agentEmail);
-    if (!agent) {
-      return NextResponse.json({ ok: false, reason: "agent_not_found" }, { status: 404 });
-    }
-    if (!agent.isAgent && !body.agentEmail.endsWith(AGENTIC_EMAIL_DOMAIN)) {
-      return NextResponse.json(
+/** The acting account, which must be an agent. */
+async function resolveAgent(email: string): Promise<{ ok: true; id: string } | { ok: false; response: NextResponse }> {
+  const agent = await transmutationService.findParticipantIdByEmail(email);
+  if (!agent) {
+    return { ok: false, response: NextResponse.json({ ok: false, reason: "agent_not_found" }, { status: 404 }) };
+  }
+  if (!agent.isAgent && !email.endsWith(AGENTIC_EMAIL_DOMAIN)) {
+    return {
+      ok: false,
+      response: NextResponse.json(
         {
           ok: false,
           reason: "not_an_agent",
           message: "Only agent accounts trade through this door; humans trade with their own session.",
         },
         { status: 403 },
-      );
-    }
+      ),
+    };
+  }
+  return { ok: true, id: agent.id };
+}
 
-    switch (body.action) {
-      case "board": {
-        const circle = await transmutationService.getCircle(agent.id);
-        return NextResponse.json({ ok: true, agentId: agent.id, ...circle });
-      }
-      case "offer": {
-        const counterparty = body.counterpartyEmail
-          ? { email: body.counterpartyEmail }
-          : body.counterpartyId
-            ? { id: body.counterpartyId }
-            : undefined;
-        const result = await transmutationService.createOffer(agent.id, {
-          giveToken: body.giveToken,
-          giveAmount: body.giveAmount,
-          wantToken: body.wantToken,
-          wantAmount: body.wantAmount,
-          counterparty,
-          replyToOfferId: body.replyToOfferId,
-          message: body.message,
-          ttlHours: body.ttlHours,
-          idempotencyKey: body.idempotencyKey,
-        });
-        if (!result.ok) return refused(result);
-        return NextResponse.json(
-          { ok: true, agentId: agent.id, offer: result.offer, replayed: result.replayed },
-          { status: result.replayed ? 200 : 201 },
-        );
-      }
-      case "accept": {
-        const result = await transmutationService.acceptOffer(agent.id, body.offerId);
-        if (!result.ok) return refused(result);
-        return NextResponse.json({
-          ok: true,
-          agentId: agent.id,
-          offer: result.offer,
-          trade: result.trade,
-          balances: result.balances,
-        });
-      }
-      case "cancel":
-      case "decline": {
-        const result =
-          body.action === "cancel"
-            ? await transmutationService.cancelOffer(agent.id, body.offerId)
-            : await transmutationService.declineOffer(agent.id, body.offerId);
-        if (!result.ok) return refused(result);
-        return NextResponse.json({ ok: true, agentId: agent.id, offer: result.offer });
-      }
+type AgentOfferAct = Extract<ParsedSyncTransmuteRequest, { action: "offer" }>;
+
+function counterpartyOf(body: AgentOfferAct): CounterpartyRef | null {
+  if (body.counterpartyEmail) return { email: body.counterpartyEmail };
+  if (body.counterpartyId) return { id: body.counterpartyId };
+  return null;
+}
+
+async function agentOffer(agentId: string, body: AgentOfferAct): Promise<NextResponse> {
+  const result = await transmutationService.createOffer(agentId, {
+    giveToken: body.giveToken,
+    giveAmount: body.giveAmount,
+    wantToken: body.wantToken,
+    wantAmount: body.wantAmount,
+    counterparty: counterpartyOf(body),
+    replyToOfferId: body.replyToOfferId ?? null,
+    message: body.message ?? null,
+    ttlHours: body.ttlHours ?? null,
+    idempotencyKey: body.idempotencyKey ?? null,
+  });
+  if (!result.ok) return refused(result);
+  return NextResponse.json(
+    { ok: true, agentId, offer: result.offer, replayed: result.replayed },
+    { status: result.replayed ? 200 : 201 },
+  );
+}
+
+async function agentAct(agentId: string, body: ParsedSyncTransmuteRequest): Promise<NextResponse> {
+  switch (body.action) {
+    case "board":
+      return NextResponse.json({ ok: true, agentId, ...(await transmutationService.getCircle(agentId)) });
+    case "offer":
+      return agentOffer(agentId, body);
+    case "accept": {
+      const result = await transmutationService.acceptOffer(agentId, body.offerId);
+      if (!result.ok) return refused(result);
+      return NextResponse.json({
+        ok: true,
+        agentId,
+        offer: result.offer,
+        trade: result.trade,
+        balances: result.balances,
+      });
     }
+    case "cancel":
+    case "decline": {
+      const result =
+        body.action === "cancel"
+          ? await transmutationService.cancelOffer(agentId, body.offerId)
+          : await transmutationService.declineOffer(agentId, body.offerId);
+      if (!result.ok) return refused(result);
+      return NextResponse.json({ ok: true, agentId, offer: result.offer });
+    }
+  }
+}
+
+async function handlePost(req: NextRequest): Promise<NextResponse> {
+  if (!safeEqual(req.headers.get("X-Sync-Secret"), process.env.ALCHM_KITCHEN_SYNC_SECRET)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const read = await readAgentAct(req);
+  if (!read.ok) return read.response;
+
+  try {
+    const agent = await resolveAgent(read.body.agentEmail);
+    if (!agent.ok) return agent.response;
+    return await agentAct(agent.id, read.body);
   } catch (error) {
     logger.error("[sync-transmute] Internal Error:", error);
     return NextResponse.json(
