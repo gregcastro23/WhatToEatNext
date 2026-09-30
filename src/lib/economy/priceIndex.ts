@@ -521,7 +521,77 @@ export function getLivePriceIndexSnapshot(
   return snapshot;
 }
 
-/** Test hook: drop the per-bucket memo. */
+/**
+ * The current EEI per token — the price feed the Swapping Bridge and the
+ * public swap-rate sheet both read.
+ *
+ * Every value here is `snapshot.tokens[i].index` for the same minute bucket:
+ * the snapshot's current quote is `computeSkySample` at the bucket instant,
+ * and so is this. What it skips is the other 24 hourly samples the snapshot
+ * spends on the sparkline and the 24h change — `[MEASURED 2026-09-30]` a full
+ * snapshot costs ~330-540 ms locally, and the bridge runs in the payment path
+ * where it only needs "now". When the full snapshot for this bucket is already
+ * memoized it is read from directly, so there is never a second computation of
+ * the same bucket on one instance.
+ */
+export interface OracleQuote {
+  /** Start of the minute bucket the prices are pinned to (UTC ISO). */
+  bucketStartUtc: string;
+  /** EEI per token, INDEX_ROUND_DIGITS-rounded — identical to the ticker. */
+  prices: Record<TokenType, number>;
+  /** Degrade reasons of the sample(s) behind these prices; null when fully live. */
+  degraded: string[] | null;
+}
+
+let quoteMemo: { bucketMs: number; quote: OracleQuote } | null = null;
+
+function quoteFromEei(
+  bucketMs: number,
+  eei: Record<TokenType, number>,
+  degraded: readonly string[] | null,
+): OracleQuote {
+  const prices = {} as Record<TokenType, number>;
+  for (const token of TOKEN_TYPES) prices[token] = eei[token];
+  return {
+    bucketStartUtc: new Date(bucketMs).toISOString(),
+    prices,
+    degraded: degraded && degraded.length > 0 ? [...degraded].sort() : null,
+  };
+}
+
+/**
+ * Throws exactly when the snapshot would: a broken engine must never quote,
+ * and a caller that swaps on this must never swap at a fabricated rate.
+ *
+ * `provider` is a test hook. Injected providers bypass both memos, so a test
+ * can never read a production-sky value out of them or leave one behind.
+ */
+export function getLiveOracleQuote(
+  now: Date = new Date(),
+  provider: PositionsProvider = defaultProvider,
+): OracleQuote {
+  const bucketMs =
+    Math.floor(now.getTime() / ORACLE_BUCKET_MS) * ORACLE_BUCKET_MS;
+  const shared = provider === defaultProvider;
+
+  if (shared && memo?.bucketMs === bucketMs) {
+    const { snapshot } = memo;
+    const eei = {} as Record<TokenType, number>;
+    for (const quote of snapshot.tokens) eei[quote.token] = quote.index;
+    return quoteFromEei(bucketMs, eei, snapshot.degraded);
+  }
+  if (shared && quoteMemo?.bucketMs === bucketMs) return quoteMemo.quote;
+
+  const bucketDate = new Date(bucketMs);
+  const { positions, degraded } = provider(bucketDate);
+  const sample = computeSkySample(positions, bucketDate, degraded);
+  const quote = quoteFromEei(bucketMs, sample.eei, sample.degradedReasons);
+  if (shared) quoteMemo = { bucketMs, quote };
+  return quote;
+}
+
+/** Test hook: drop the per-bucket memos. */
 export function clearPriceIndexMemo(): void {
   memo = null;
+  quoteMemo = null;
 }
