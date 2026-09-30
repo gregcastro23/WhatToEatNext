@@ -152,7 +152,7 @@ describe("POST — the four acts", () => {
     ["maker_cannot_cover", 409],
     ["offer_expired", 410],
     ["off_market", 422],
-    ["too_many_open_offers", 429],
+    ["too_many_open_offers", 409],
     ["rates_unavailable", 503],
   ])("a %s refusal answers %i with the service's message", async (reason, status) => {
     acceptOffer.mockResolvedValue({ ok: false, reason, message: `because ${reason}` });

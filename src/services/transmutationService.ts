@@ -72,7 +72,11 @@ import type {
   TransmutationTrade,
 } from "@/types/transmutation";
 
-/** How each refusal reads over HTTP — one table for the human and agent doors. */
+/**
+ * How each refusal reads over HTTP — one table for the human and agent doors.
+ * 429 is reserved for the rate limiter: S2S clients retry it, and retrying
+ * cannot close an offer, so a full book is a 409 like any other state conflict.
+ */
 export const TRANSMUTATION_FAILURE_STATUS: Record<TransmutationFailureReason, number> = {
   invalid_offer: 400,
   own_offer: 400,
@@ -82,9 +86,9 @@ export const TRANSMUTATION_FAILURE_STATUS: Record<TransmutationFailureReason, nu
   offer_not_found: 404,
   offer_closed: 409,
   maker_cannot_cover: 409,
+  too_many_open_offers: 409,
   offer_expired: 410,
   off_market: 422,
-  too_many_open_offers: 429,
   failed: 500,
   rates_unavailable: 503,
 };

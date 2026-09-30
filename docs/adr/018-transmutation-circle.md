@@ -129,7 +129,11 @@ books its legs with it.
   `/feed?tab=transmute`.
 - **Limits.** Offers last 1–168 hours (default 72), with at most 10 live per
   maker and amounts up to 10,000. An open offer past its expiry reads as
-  `expired`; no sweep is needed because nothing is held.
+  `expired`; no sweep is needed because nothing is held. A full book answers
+  409, not 429: 429 stays the rate limiter's, and S2S clients retry it.
+- **Rollout.** `docs/runbooks/transmutation-circle-rollout.md` covers applying
+  migrations 90–92 and the follow-up work in AlchmHackStation,
+  alchm-agents-solana and Pentacles.
 - **Verification.**
   - Unit tests: `transmutationMarket.test.ts`, `transmutationService.test.ts`
     (a transactional fake, including a mid-fill rollback and supply

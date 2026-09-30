@@ -72,7 +72,11 @@ export interface TransmutationTerms {
 
 /** Everything the Circle view needs, in one read. */
 export interface TransmutationCircleSnapshot {
-  /** Offers the viewer can fill; ones made to them first, then the ones that complement them. */
+  /**
+   * Open offers by others that their makers can still cover (`youCanFill` says
+   * whether the viewer can pay). Ones made to the viewer first, then the ones
+   * that complement them.
+   */
   board: TransmutationBoardOffer[];
   mine: TransmutationOwnOffer[];
   /** Null when balances or prices are unavailable. */
