@@ -51,11 +51,21 @@ export function MembersPanel({
         method: "DELETE",
         credentials: "include",
       });
-      const data = await safeReadJson(res, { success: false }, { parse: (d) => GenericActionResponseSchema.parse(d) });
-      if (!res.ok || !data.success) {
+      const data = await safeReadJson(res, null, { parse: (d) => GenericActionResponseSchema.parse(d) });
+      if (!res.ok) {
+        setError(data?.message ?? "Could not remove this member.");
+        return;
+      }
+      if (data?.success) {
+        onChanged?.();
+        return;
+      }
+      if (data?.success === false) {
         setError(data.message ?? "Could not remove this member.");
         return;
       }
+      // Unreadable 2xx reply: removal may already have completed on the server.
+      setError("Removal submitted, but confirmation could not be verified. Refreshing…");
       onChanged?.();
     } catch {
       setError("Could not remove this member.");
@@ -78,7 +88,7 @@ export function MembersPanel({
           const isSelf = !!currentUserId && member.userId === currentUserId;
           const canRemove = member.role !== "host" && (isHost || isSelf);
           return (
-            <li key={member.id} className="flex items-center gap-3">
+            <li key={member.id ?? member.userId ?? index} className="flex items-center gap-3">
               <AvatarCircle
                 name={member.name ?? member.displayName ?? "Guest"}
                 src={member.avatarUrl}

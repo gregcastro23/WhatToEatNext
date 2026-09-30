@@ -34,17 +34,18 @@ Committed baseline files were ratcheted: `.bare-json-casts-baseline.json` (85 pr
 2. **Derived Celestial Lab Schemas & Drift Prevention (`src/lib/validation/accountResponseSchemas.ts`):**
    - Refactored `CelestialLabTokenBalancesSchema` to extend `CoinAmountsSchema` directly (`CoinAmountsSchema.extend({...})`), eliminating field duplication and preventing schema drift.
    - Preserved `EconomyBalanceResponseSchema` contract for server-to-server readers (`MenuOrderClient`, `McpTopUpPanel`).
-   - Added `CelestialLabQuantitiesResponseSchema` defining a consumed-fields view of `/api/alchm-quantities` (quantities, diurnal sect, thermodynamic metrics, kalchm/monica, momentum, degraded reasons) while passing through unrelated structural blocks (`circuit`, `kinetics`, `vectorCircuit`).
+   - Added `CelestialLabQuantitiesResponseSchema` defining a consumed-fields view of `/api/alchm-quantities`. Requires all four displayed quantities (`Spirit`, `Essence`, `Matter`, `Substance`), rejecting `quantities: {}` and avoiding zero-fallback displays, while allowing unrelated structural blocks (`circuit`, `kinetics`, `vectorCircuit`) to vary.
 3. **Monica Endpoint Deferral (`src/app/(alchm)/philosophers-stone/page.tsx:286`):**
    - Confirmed `/api/monica-agent` is an external endpoint without a local route. Safely deferred converting this single cast rather than inventing a speculative schema, while still achieving the target production ceiling of 85.
-4. **Shared Ingredient Fallback Types (`src/types/ingredient.ts`, `src/app/api/ingredients/[name]/route.ts`, `src/server/hono-api.ts`):**
-   - Exported `RelatedIngredientRecipe` in `src/types/ingredient.ts` as the shared contract across the Next.js API route and Hono server.
-   - Both routes explicitly construct all 4 fallback keys (`description`, `prepTime`, `cookTime`, `servings`) with `undefined` when recipe data is not loaded in memory.
-   - Verified wire serialization parity across populated and missing-recipe fixtures.
-5. **Mutation Ambiguity, Refresh Visibility & Recovery Test Suite:**
-   - **Mutation Ambiguity:** On unreadable 2xx replies, `LifecycleControls.tsx` and `philosophers-stone/page.tsx` distinguish unverified 2xx responses from explicit server rejections, triggering state reconciliation (`onChanged?.()`) and warning the user rather than inviting a blind retry (which could generate duplicate agents or repeat table transitions).
+4. **Shared Ingredient Fallback Types & Unified Producer (`src/types/ingredient.ts`, `src/lib/ingredients/relatedRecipe.ts`, `src/app/api/ingredients/[name]/route.ts`, `src/server/hono-api.ts`):**
+   - Exported `RelatedIngredientRecipe` in `src/types/ingredient.ts` as the shared contract across Next.js and Hono.
+   - Extracted shared `buildRelatedIngredientRecipe` in `src/lib/ingredients/relatedRecipe.ts`, adopted by both `route.ts` and `hono-api.ts` to construct populated recipes and fallback shapes (`description`, `prepTime`, `cookTime`, `servings` explicitly `undefined`).
+   - Verified wire serialization parity across Next.js and Hono implementations.
+5. **Mutation Ambiguity, Idempotent Creation & Consumer Recovery Test Suite:**
+   - **Comprehensive Uncertain Mutation Handling:** Handled unreadable 2xx replies across all table mutations (`LifecycleControls.tsx`, `tables/[tableId]/page.tsx` for RSVP and join requests, `PhotoGrid.tsx` for photo uploads, and `MembersPanel.tsx` for member removal). Unreadable 2xx replies trigger state reconciliation (`onChanged?.()` / `refetch()`) and inform the user with an uncertain-outcome notice rather than treating it as an ordinary failure or inviting a blind duplicate retry.
+   - **Idempotent Agent Creation:** Client (`philosophers-stone/page.tsx`) generates and retains a stable `clientRequestId` across retries. The server (`src/app/api/agents/unified/route.ts`) stores `clientRequestId` in `users.profile` and performs server-side deduplication, returning the existing agent with `deduplicated: true` on replay.
    - **Refresh Visibility:** `celestial-lab/alchm/page.tsx` and `InvitePanel.tsx` log 2xx validation failures via `_logger.warn` and surface unavailable states (`economyError` and `companionsUnavailable`) while preserving prior good state.
-   - **Consumer Recovery Tests:** Added `src/lib/validation/__tests__/phase43ConsumerRecovery.test.ts` (16 passing tests) covering unreadable 2xx table actions and agent creations, degraded quantities and chat, populated vs missing ingredient fallback serialization parity across Next and Hono, and script quantile safeguards.
+   - **Consumer Recovery Tests:** `src/lib/validation/__tests__/phase43ConsumerRecovery.test.ts` (19 passing tests) invokes the real table controls (`LifecycleControls`, `MembersPanel`) via `@testing-library/react`, the real unified agent creation route with server deduplication, the real `buildRelatedIngredientRecipe` producer with Next/Hono parity verification, the real `q()` from `scripts/lib/quantile.ts`, and the real route degraded-chat shape (`data.text` + `data.degraded: true`).
 
 ---
 

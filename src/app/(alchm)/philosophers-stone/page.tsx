@@ -20,7 +20,7 @@ import {
   Download,
   Archive,
 } from 'lucide-react'
-import { useState, useEffect, useCallback, type ChangeEvent, type KeyboardEvent, type ReactNode } from 'react'
+import { useState, useEffect, useCallback, useRef, type ChangeEvent, type KeyboardEvent, type ReactNode } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -147,6 +147,7 @@ export default function ModernPhilosophersStone(): ReactNode {
   const [chatInput, setChatInput] = useState('')
   const [isChatLoading, setIsChatLoading] = useState(false)
   const [chatSessionId, setChatSessionId] = useState('')
+  const creationRequestIdRef = useRef<string | null>(null)
 
   const totalSteps = 6
 
@@ -356,6 +357,7 @@ export default function ModernPhilosophersStone(): ReactNode {
   }
 
   const handleAgentCreated = (newAgent: CreatedAgent): void => {
+    creationRequestIdRef.current = null
     setCreatedAgent(newAgent)
     setChatSessionId(Math.random().toString(36).substring(7))
     setChatMessages([
@@ -373,10 +375,24 @@ export default function ModernPhilosophersStone(): ReactNode {
   const handleCreateAgent = async (): Promise<void> => {
     setIsCalculating(true)
     try {
+      if (!creationRequestIdRef.current) {
+        creationRequestIdRef.current =
+          typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+            ? crypto.randomUUID()
+            : `req-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+      }
+      const clientRequestId = creationRequestIdRef.current
+
       const response = await fetch('/api/agents/unified', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'create', parameters: agentData }),
+        body: JSON.stringify({
+          action: 'create',
+          parameters: {
+            ...agentData,
+            clientRequestId,
+          },
+        }),
       })
       const resJson = await safeReadJson(response, null, {
         parse: (d) => UnifiedAgentCreateResponseSchema.parse(d),

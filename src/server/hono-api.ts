@@ -26,6 +26,7 @@ import {
   resolveIngredientSlug,
 } from '../data/ingredientRecipeIndex.js';
 import { userDatabase } from '../services/userDatabaseService.js';
+import { buildRelatedIngredientRecipe } from '../lib/ingredients/relatedRecipe.js';
 import type { RelatedIngredientRecipe } from '../types/ingredient.js';
 import type { Recipe } from '../types/recipe.js';
 
@@ -60,19 +61,7 @@ function getCookingMethods(recipe: Partial<Recipe> | Record<string, unknown>): s
     .filter(Boolean);
 }
 
-function extractTime(recipe: Partial<Recipe> | Record<string, unknown>, kind: "prep" | "cook"): number | undefined {
-  const details = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } }).details;
-  if (details) {
-    const v = kind === "prep" ? details.prepTimeMinutes : details.cookTimeMinutes;
-    if (typeof v === "number") return v;
-  }
-  const raw = kind === "prep" ? recipe.prepTime : recipe.cookTime;
-  if (typeof raw === "string") {
-    const m = raw.match(/(\d+)/);
-    if (m?.[1]) return parseInt(m[1], 10);
-  }
-  return undefined;
-}
+
 
 function buildSubstitutions(
   ingredient: unknown,
@@ -196,35 +185,7 @@ app.get('/api/ingredients/:name', async (c) => {
     const relatedRecipes: RelatedIngredientRecipe[] = [];
     for (const match of matches) {
       const recipe = recipeMap.get(match.recipeId);
-      if (recipe) {
-        relatedRecipes.push({
-          id: recipe.id,
-          name: recipe.name,
-          cuisine: recipe.cuisine ?? "",
-          description: recipe.description,
-          prepTime: extractTime(recipe, "prep"),
-          cookTime: extractTime(recipe, "cook"),
-          servings:
-            (recipe as Recipe & { baseServingSize?: number }).baseServingSize ||
-            recipe.servingSize ||
-            recipe.numberOfServings,
-          amount: typeof match.amount === "number" ? match.amount : undefined,
-          unit: match.unit,
-        });
-      } else {
-        // Fallback if not loaded in memory
-        relatedRecipes.push({
-          id: match.recipeId,
-          name: match.recipeName,
-          cuisine: match.cuisine,
-          description: undefined,
-          prepTime: undefined,
-          cookTime: undefined,
-          servings: undefined,
-          amount: typeof match.amount === "number" ? match.amount : undefined,
-          unit: match.unit,
-        });
-      }
+      relatedRecipes.push(buildRelatedIngredientRecipe(match, recipe));
       if (relatedRecipes.length >= 24) break;
     }
 

@@ -56,11 +56,21 @@ export function PhotoGrid({
         credentials: "include",
         body: JSON.stringify({ photoDataUrl: dataUrl }),
       });
-      const data = await safeReadJson(res, { success: false }, { parse: (d) => GenericActionResponseSchema.parse(d) });
-      if (!res.ok || !data.success) {
+      const data = await safeReadJson(res, null, { parse: (d) => GenericActionResponseSchema.parse(d) });
+      if (!res.ok) {
+        setError(data?.message ?? "Could not add that photo.");
+        return;
+      }
+      if (data?.success) {
+        onChanged?.();
+        return;
+      }
+      if (data?.success === false) {
         setError(data.message ?? "Could not add that photo.");
         return;
       }
+      // Unreadable 2xx reply: photo upload may already have succeeded on the server.
+      setError("Photo submitted, but confirmation could not be verified. Refreshing…");
       onChanged?.();
     } catch {
       setError("Could not add that photo.");

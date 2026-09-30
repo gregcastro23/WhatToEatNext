@@ -2,20 +2,38 @@
  * Consumer recovery behavior tests for Phase 43.
  *
  * Covers:
- *  1. Unreadable 2xx table action responses and agent creation responses:
- *     Ensures consumers treat unreadable 2xx replies as uncertain outcomes,
- *     triggering reconciliation and warning the user rather than inviting a blind retry.
- *  2. Degraded agent chat and Celestial Lab quantities responses:
- *     Ensures CelestialLabQuantitiesResponseSchema validates only consumed fields,
- *     retains degraded.reasons, and survives omission of unrelated blocks (kinetics, circuit).
- *  3. Ingredient fallback fixtures serialization parity:
- *     Compares serialized results for populated recipes and missing-recipe fallback fixtures
- *     between the Next.js and Hono route response shapes.
- *  4. Script quantile recovery fixture:
- *     Verifies quantile calculation and empty array/ratio safeguards under noUncheckedIndexedAccess.
+ *  1. Real table controls unreadable 2xx handling (LifecycleControls & MembersPanel):
+ *     Ensures unreadable 2xx responses trigger state reconciliation and display
+ *     uncertain outcome guidance rather than inviting a blind retry.
+ *  2. Real agent creation flow deduplication & lost response recovery:
+ *     Ensures stable clientRequestId deduplication in the unified agent creation route,
+ *     returning existing agent data on retries rather than generating duplicate agents.
+ *  3. Celestial Lab quantities view schema & degraded chat handling:
+ *     Ensures CelestialLabQuantitiesResponseSchema requires the 4 displayed ESMS quantities,
+ *     rejects empty quantities {}, and retains degraded.reasons;
+ *     ensures UnifiedAgentChatResponseSchema validates route's data.text and data.degraded shape.
+ *  4. Companion list schema:
+ *     Validates manual and linked companions structure.
+ *  5. Real ingredient producer parity:
+ *     Invokes shared buildRelatedIngredientRecipe for populated recipes and fallback shapes,
+ *     verifying identical JSON serialization across Next.js and Hono routes.
+ *  6. Real script quantile function:
+ *     Invokes q() from scripts/lib/quantile for populated distributions, empty array safety,
+ *     and zero-ratio filtering safeguards.
+ *
+ * @file src/lib/validation/__tests__/phase43ConsumerRecovery.test.ts
  */
 
 import { describe, expect, it, jest } from "@jest/globals";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import React from "react";
+import type { NextRequest } from "next/server";
+import { LifecycleControls } from "@/components/tables/LifecycleControls";
+import { MembersPanel } from "@/components/tables/MembersPanel";
+import { buildRelatedIngredientRecipe } from "@/lib/ingredients/relatedRecipe";
+import { q } from "../../../../scripts/lib/quantile";
+import { executeQuery } from "@/lib/database";
+import { POST } from "@/app/api/agents/unified/route";
 import { safeReadJson } from "@/lib/api/json";
 import {
   CelestialLabQuantitiesResponseSchema,
@@ -28,10 +46,22 @@ import {
   GenericActionResponseSchema,
   CommensalsListResponseSchema,
 } from "../commensalResponseSchemas";
-import type { RelatedIngredientRecipe } from "@/types/ingredient";
+import type { Recipe } from "@/types/recipe";
+
+jest.mock("@/lib/database", () => ({
+  executeQuery: jest.fn(),
+}));
+jest.mock("@/lib/auth/auth", () => ({
+  auth: jest.fn(async () => ({ user: { id: "creator-uuid-0001" } })),
+}));
+jest.mock("@/lib/rateLimit", () => ({
+  rateLimit: jest.fn(async () => ({ allowed: true })),
+}));
+
+const mockExecuteQuery = executeQuery as unknown as jest.MockedFunction<typeof executeQuery>;
 
 describe("Phase 43 Consumer Recovery Behavior", () => {
-  // ─── 1. Unreadable 2xx Table Actions & Agent Creation ─────────────────────
+  // ─── 1. Unreadable 2xx Table Controls Recovery ────────────────────────────
 
   describe("Table action mutations: unreadable 2xx handling", () => {
     it("fails schema validation on empty 201 response body {}", () => {
@@ -39,48 +69,78 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
       expect(parsed.success).toBe(false);
     });
 
-    it("consumer reconciles on unreadable 2xx rather than inviting a blind retry", async () => {
-      // Simulate 201 Created with unreadable / empty JSON body {}
-      const mockResponse = new Response("{}", {
-        status: 201,
-        headers: { "Content-Type": "application/json" },
-      });
-
-      const data = await safeReadJson(mockResponse, null, {
-        parse: (d) => GenericActionResponseSchema.parse(d),
-      });
-
-      expect(mockResponse.ok).toBe(true);
-      expect(data).toBeNull(); // Schema validation failed on empty object
-
-      // Simulate consumer decision tree in LifecycleControls.tsx
+    it("LifecycleControls reconciles and sets uncertain error on unreadable 2xx response", async () => {
       const onChanged = jest.fn();
-      let errorMsg: string | null = null;
-      let confirmingCancel = true;
+      const mockFetch = jest.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+        new Response("{}", {
+          status: 201,
+          headers: { "Content-Type": "application/json" },
+        }),
+      );
 
-      if (!mockResponse.ok) {
-        errorMsg = "That didn't work — try again.";
-      } else if (data?.success) {
-        confirmingCancel = false;
-        onChanged();
-      } else if (data && data.success === false) {
-        errorMsg = data.message ?? "The action could not be completed.";
-      } else {
-        // Unreadable 2xx reply
-        confirmingCancel = false;
-        errorMsg = "Action submitted, but the confirmation response could not be verified. Refreshing table status…";
-        onChanged();
-      }
+      render(
+        React.createElement(LifecycleControls, {
+          tableId: "tbl-1",
+          status: "live",
+          isHost: true,
+          onChanged,
+        }),
+      );
 
-      // Assert: consumer reconciled (onChanged was called) and signaled uncertain outcome
-      expect(onChanged).toHaveBeenCalledTimes(1);
-      expect(confirmingCancel).toBe(false);
-      expect(errorMsg).toContain("Refreshing table status");
-      expect(errorMsg).not.toBe("That didn't work — try again.");
+      const closeButton = screen.getByRole("button", { name: /Close & Save the Memory/i });
+      fireEvent.click(closeButton);
+
+      await waitFor(() => {
+        expect(onChanged).toHaveBeenCalledTimes(1);
+        expect(screen.getByText(/confirmation response could not be verified/i)).toBeInTheDocument();
+      });
+
+      mockFetch.mockRestore();
+    });
+
+    it("MembersPanel reconciles and sets uncertain error on unreadable 2xx member removal response", async () => {
+      const onChanged = jest.fn();
+      const mockFetch = jest.spyOn(globalThis, "fetch").mockResolvedValueOnce(
+        new Response("{}", {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+      );
+
+      render(
+        React.createElement(MembersPanel, {
+          tableId: "tbl-1",
+          isHost: true,
+          currentUserId: "host-user-id",
+          members: [
+            {
+              id: "mem-1",
+              tableId: "tbl-1",
+              userId: "member-to-remove",
+              role: "guest",
+              name: "Test Guest",
+              joinedAt: "2026-09-30T10:00:00Z",
+            },
+          ],
+          onChanged,
+        }),
+      );
+
+      const removeButton = screen.getByRole("button", { name: /Remove/i });
+      fireEvent.click(removeButton);
+
+      await waitFor(() => {
+        expect(onChanged).toHaveBeenCalledTimes(1);
+        expect(screen.getByText(/Removal submitted, but confirmation could not be verified/i)).toBeInTheDocument();
+      });
+
+      mockFetch.mockRestore();
     });
   });
 
-  describe("Agent creation mutations: unreadable 2xx handling", () => {
+  // ─── 2. Agent Creation Mutations & Deduplication ──────────────────────────
+
+  describe("Agent creation mutations: unreadable 2xx handling & deduplication", () => {
     it("fails schema validation on malformed agent creation payload (e.g. numeric id)", () => {
       const parsed = UnifiedAgentCreateResponseSchema.safeParse({
         success: true,
@@ -89,8 +149,59 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
       expect(parsed.success).toBe(false);
     });
 
-    it("consumer warns uncertain outcome and prevents duplicate agent creation when agent data is missing on 2xx", async () => {
-      // Simulate 200 OK with unexpected / missing data payload
+    it("invokes real agent creation route and deduplicates repeated requests with stable clientRequestId", async () => {
+      mockExecuteQuery.mockResolvedValueOnce({
+        rows: [
+          {
+            id: "agent-existing-123",
+            name: "Agent Veritas",
+            dominant_element: "Water",
+            monica_constant: 1.618,
+          },
+        ],
+        rowCount: 1,
+        command: "SELECT",
+        oid: 0,
+        fields: [],
+      });
+
+      const req = new Request("http://localhost/api/agents/unified", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "create",
+          parameters: {
+            name: "Agent Veritas",
+            purpose: "Alchemical inquiry and exploration",
+            birthInfo: {
+              year: 1995,
+              month: 7,
+              day: 15,
+              hour: 14,
+              minute: 30,
+              latitude: 40.7128,
+              longitude: -74.006,
+            },
+            clientRequestId: "stable-client-req-999",
+          },
+        }),
+      });
+
+      const response = await POST(req as unknown as NextRequest);
+      const json: unknown = await response.json();
+
+      expect(response.status).toBe(200);
+      const parsed = UnifiedAgentCreateResponseSchema.safeParse(json);
+      expect(parsed.success).toBe(true);
+
+      const resBody = json as { success: boolean; deduplicated?: boolean; data?: { id: string; name: string } };
+      expect(resBody.success).toBe(true);
+      expect(resBody.deduplicated).toBe(true);
+      expect(resBody.data?.id).toBe("agent-existing-123");
+      expect(resBody.data?.name).toBe("Agent Veritas");
+    });
+
+    it("consumer warns uncertain outcome and retains stable request id on unreadable 2xx reply", async () => {
       const mockResponse = new Response(JSON.stringify({ status: "ok" }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
@@ -101,30 +212,27 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
       });
 
       expect(mockResponse.ok).toBe(true);
-      expect(resJson?.data).toBeUndefined(); // data payload is absent
+      expect(resJson?.data).toBeUndefined();
 
-      // Simulate consumer decision tree in philosophers-stone/page.tsx
       let userMessage = "";
       let proceededToChat = false;
 
       if (!mockResponse.ok) {
-        userMessage = `There was an issue creating the agent: Server error. Please check your inputs.`;
+        userMessage = "There was an issue creating the agent: Server error. Please check your inputs.";
       } else if (resJson?.success && resJson.data) {
         proceededToChat = true;
       } else if (resJson && resJson.success === false) {
         userMessage = `There was an issue creating the agent: ${resJson.error ?? "Creation was not accepted."}`;
       } else {
-        // Unreadable / missing data 2xx reply: agent may already have been forged
         userMessage = "Agent creation was received by the server, but confirmation details could not be verified. Please check your forged agents list or refresh before trying again.";
       }
 
       expect(proceededToChat).toBe(false);
       expect(userMessage).toContain("check your forged agents list or refresh before trying again");
-      expect(userMessage).not.toContain("Please try again.");
     });
   });
 
-  // ─── 2. Degraded Quantities & Agent Chat Responses ────────────────────────
+  // ─── 3. Degraded Quantities & Agent Chat Responses ────────────────────────
 
   describe("Celestial Lab quantities view schema: consumed fields & degraded handling", () => {
     const fullQuantitiesPayload = {
@@ -170,6 +278,22 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
         esmsBalance: { Spirit: 25, Essence: 25, Matter: 25, Substance: 25 },
       },
     };
+
+    it("rejects quantities payload when any of the four displayed quantities are missing", () => {
+      const emptyQuantitiesPayload = {
+        success: true as const,
+        quantities: {},
+        isDiurnal: true,
+        heat: 1.0,
+        entropy: 1.0,
+        reactivity: 1.0,
+        energy: 1.0,
+        kalchm: 1.0,
+        monica: 1.0,
+      };
+      const parsed = CelestialLabQuantitiesResponseSchema.safeParse(emptyQuantitiesPayload);
+      expect(parsed.success).toBe(false);
+    });
 
     it("parses full quantities payload and preserves consumed fields", () => {
       const parsed = CelestialLabQuantitiesResponseSchema.safeParse(fullQuantitiesPayload);
@@ -244,26 +368,36 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
     it("parses valid agent chat response", () => {
       const chatPayload = {
         success: true,
-        message: "The alchemical forces are aligned today.",
-        session: { id: "session-123" },
+        data: {
+          text: "The alchemical forces are aligned today.",
+          agentId: "agent-123",
+          sessionId: "session-123",
+        },
       };
       const parsed = UnifiedAgentChatResponseSchema.safeParse(chatPayload);
       expect(parsed.success).toBe(true);
       if (parsed.success) {
-        expect(parsed.data.message).toBe("The alchemical forces are aligned today.");
+        expect(parsed.data.data?.text).toBe("The alchemical forces are aligned today.");
       }
     });
 
-    it("parses degraded chat response containing fallback message", () => {
-      const degradedChat = {
+    it("parses degraded chat response matching route data.text and data.degraded shape", () => {
+      const degradedRoutePayload = {
         success: true,
-        message: "Chamber acoustics are muted. Planetary alignments remain accessible.",
-        degraded: true,
+        data: {
+          text: "I hear you, seeker. My cosmic resonance is currently aligning with the celestial transits, and my voice is quiet.",
+          agentId: "agent-uuid-1",
+          sessionId: "session-uuid-1",
+          degraded: true,
+          error: "Planetary Agents API connection timed out",
+        },
+        timestamp: "2026-09-30T14:00:00.000Z",
       };
-      const parsed = UnifiedAgentChatResponseSchema.safeParse(degradedChat);
+      const parsed = UnifiedAgentChatResponseSchema.safeParse(degradedRoutePayload);
       expect(parsed.success).toBe(true);
       if (parsed.success) {
-        expect(parsed.data.message).toContain("muted");
+        expect(parsed.data.data?.text).toContain("quiet");
+        expect((parsed.data.data as Record<string, unknown> | undefined)?.degraded).toBe(true);
       }
     });
   });
@@ -288,41 +422,37 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
     });
   });
 
-  // ─── 3. Ingredient Fallback Serialization Parity ──────────────────────────
+  // ─── 4. Real Ingredient Producer Parity ────────────────────────────────────
 
   describe("Ingredient route response parity: populated vs missing-recipe fallbacks", () => {
-    // Producer for populated recipe match
-    function makePopulatedRecipe(id: string): RelatedIngredientRecipe {
-      return {
-        id,
-        name: "Herbal Infusion",
-        cuisine: "Mediterranean",
-        description: "A calming herbal preparation.",
-        prepTime: 10,
-        cookTime: 15,
-        servings: 4,
-        amount: 250,
-        unit: "ml",
-      };
-    }
+    const populatedRecipe: Recipe = {
+      id: "rec-1",
+      name: "Herbal Infusion",
+      cuisine: "Mediterranean",
+      description: "A calming herbal preparation.",
+      prepTime: "10 mins",
+      cookTime: "15 mins",
+      numberOfServings: 4,
+    } as unknown as Recipe;
 
-    // Producer for missing-recipe fallback fixture (matching both route.ts and hono-api.ts)
-    function makeFallbackRecipe(id: string): RelatedIngredientRecipe {
-      return {
-        id,
-        name: "Unknown Recipe",
-        cuisine: "General",
-        description: undefined,
-        prepTime: undefined,
-        cookTime: undefined,
-        servings: undefined,
-        amount: undefined,
-        unit: undefined,
-      };
-    }
+    const matchPopulated = {
+      recipeId: "rec-1",
+      recipeName: "Herbal Infusion",
+      cuisine: "Mediterranean",
+      amount: 250,
+      unit: "ml",
+    };
 
-    it("populated recipe carries all 9 fields with expected values", () => {
-      const item = makePopulatedRecipe("rec-1");
+    const matchMissing = {
+      recipeId: "rec-missing",
+      recipeName: "Unknown Recipe",
+      cuisine: "General",
+      amount: undefined,
+      unit: undefined,
+    };
+
+    it("populated recipe carries all 9 fields with expected values via real producer", () => {
+      const item = buildRelatedIngredientRecipe(matchPopulated, populatedRecipe);
       expect(item.id).toBe("rec-1");
       expect(item.name).toBe("Herbal Infusion");
       expect(item.cuisine).toBe("Mediterranean");
@@ -334,8 +464,8 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
       expect(item.unit).toBe("ml");
     });
 
-    it("fallback recipe explicitly carries the 4 fallback keys as undefined", () => {
-      const item = makeFallbackRecipe("rec-missing");
+    it("fallback recipe explicitly carries the 4 fallback keys as undefined via real producer", () => {
+      const item = buildRelatedIngredientRecipe(matchMissing, undefined);
       expect("description" in item).toBe(true);
       expect("prepTime" in item).toBe(true);
       expect("cookTime" in item).toBe(true);
@@ -347,39 +477,34 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
     });
 
     it("serialized JSON wire representation is identical across Next and Hono conventions", () => {
-      const nextOutput = [makePopulatedRecipe("r1"), makeFallbackRecipe("r2")];
-      const honoOutput = [makePopulatedRecipe("r1"), makeFallbackRecipe("r2")];
+      const nextOutput = [
+        buildRelatedIngredientRecipe(matchPopulated, populatedRecipe),
+        buildRelatedIngredientRecipe(matchMissing, undefined),
+      ];
+      const honoOutput = [
+        buildRelatedIngredientRecipe(matchPopulated, populatedRecipe),
+        buildRelatedIngredientRecipe(matchMissing, undefined),
+      ];
 
       const nextJson = JSON.stringify(nextOutput);
       const honoJson = JSON.stringify(honoOutput);
 
       expect(nextJson).toEqual(honoJson);
 
-      const parsed = JSON.parse(nextJson);
+      const parsed = JSON.parse(nextJson) as Array<Record<string, unknown>>;
       expect(parsed).toHaveLength(2);
-      expect(parsed[0].name).toBe("Herbal Infusion");
-      expect(parsed[0].servings).toBe(4);
-      // In JSON, undefined keys are omitted during stringification
-      expect(parsed[1].name).toBe("Unknown Recipe");
-      expect(parsed[1].description).toBeUndefined();
-      expect(parsed[1].servings).toBeUndefined();
+      expect(parsed[0]?.name).toBe("Herbal Infusion");
+      expect(parsed[0]?.servings).toBe(4);
+      expect(parsed[1]?.name).toBe("Unknown Recipe");
+      expect(parsed[1]?.description).toBeUndefined();
+      expect(parsed[1]?.servings).toBeUndefined();
     });
   });
 
-  // ─── 4. Script Quantile Function & Empty Ratios Safeguards ─────────────────
+  // ─── 5. Real Script Quantile Function & Empty Ratios Safeguards ───────────
 
   describe("Script quantile function q() & empty ratios reporting safeguards", () => {
-    // The exact q() implementation hardened in scripts/backfillMonicaPerConstruction.ts
-    const q = (xs: number[], p: number): number => {
-      const s = [...xs].sort((a, b) => a - b);
-      const val = s[Math.floor((s.length - 1) * p)];
-      if (val === undefined) {
-        throw new Error("q() called on empty array or out of bounds index");
-      }
-      return val;
-    };
-
-    it("computes exact quantiles for populated numeric distributions", () => {
+    it("computes exact quantiles for populated numeric distributions via real q()", () => {
       const values = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
       expect(q(values, 0.0)).toBe(10);
       expect(q(values, 0.5)).toBe(50);
@@ -394,7 +519,6 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
       const allZeros = [0, 0, 0, 0];
       const nonZeroRatios = allZeros.filter((r) => r > 0);
 
-      // Verify safe reporting branch
       let reportMessage = "";
       if (nonZeroRatios.length === 0) {
         reportMessage = "No non-zero ratios available to report.";

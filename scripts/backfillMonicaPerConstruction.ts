@@ -40,16 +40,10 @@ import {
 } from "@/utils/agentMonicaResolver";
 import { fullChartMonica } from "@/utils/fullChartMonica";
 
+import { q } from "./lib/quantile";
+
 const WRITE = process.argv.includes("--write");
 const f = (n: number) => n.toFixed(6);
-const q = (xs: number[], p: number): number => {
-  const s = [...xs].sort((a, b) => a - b);
-  const val = s[Math.floor((s.length - 1) * p)];
-  if (val === undefined) {
-    throw new Error("q() called on empty array or out of bounds index");
-  }
-  return val;
-};
 
 const client = new pg.Client({
   connectionString: process.env.DATABASE_PUBLIC_URL,

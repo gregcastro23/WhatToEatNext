@@ -72,10 +72,10 @@ type _CelestialLabBalanceDrift = AssertTrue<ServerSatisfies<EconomyBalanceRespon
 export const CelestialLabQuantitiesResponseSchema = z.object({
   success: z.literal(true),
   quantities: z.object({
-    Spirit: z.number().optional(),
-    Essence: z.number().optional(),
-    Matter: z.number().optional(),
-    Substance: z.number().optional(),
+    Spirit: z.number(),
+    Essence: z.number(),
+    Matter: z.number(),
+    Substance: z.number(),
   }),
   dominantElement: z.string().optional(),
   isDiurnal: z.boolean(),
