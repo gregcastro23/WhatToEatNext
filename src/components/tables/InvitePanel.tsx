@@ -12,6 +12,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useCallback, useEffect, useState } from "react";
 import { GlassPanel, GradientButton, LabelXS } from "@/components/tables/ui";
 import { safeReadJson } from "@/lib/api/json";
+import { _logger } from "@/lib/logger";
 import {
   CommensalsListResponseSchema,
   GenericActionResponseSchema,
@@ -32,11 +33,18 @@ interface Companion {
   name: string;
 }
 
-async function fetchCompanions(): Promise<Companion[]> {
+async function fetchCompanions(): Promise<{ companions: Companion[]; unavailable: boolean }> {
   try {
     const res = await fetch("/api/commensals", { credentials: "include" });
-    if (!res.ok) return [];
-    const data = await safeReadJson(res, {}, { parse: (d) => CommensalsListResponseSchema.parse(d) });
+    if (!res.ok) {
+      _logger.warn("[InvitePanel] /api/commensals returned non-2xx status", { status: res.status });
+      return { companions: [], unavailable: true };
+    }
+    const data = await safeReadJson(res, null, { parse: (d) => CommensalsListResponseSchema.parse(d) });
+    if (!data) {
+      _logger.warn("[InvitePanel] /api/commensals validation failed on 2xx response");
+      return { companions: [], unavailable: true };
+    }
     const manual = (data.manualCompanions ?? []).map((c) => ({
       type: "manual" as const,
       id: c.id,
@@ -47,9 +55,10 @@ async function fetchCompanions(): Promise<Companion[]> {
       id: c.userId,
       name: c.name,
     }));
-    return [...linked, ...manual];
-  } catch {
-    return [];
+    return { companions: [...linked, ...manual], unavailable: false };
+  } catch (err) {
+    _logger.warn("[InvitePanel] fetchCompanions failed", err);
+    return { companions: [], unavailable: true };
   }
 }
 
@@ -64,10 +73,14 @@ export function InvitePanel({
   const [copied, setCopied] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [companions, setCompanions] = useState<Companion[]>([]);
+  const [companionsUnavailable, setCompanionsUnavailable] = useState(false);
   const [addingId, setAddingId] = useState<string | null>(null);
 
   useEffect(() => {
-    void fetchCompanions().then(setCompanions);
+    void fetchCompanions().then((result) => {
+      setCompanions(result.companions);
+      setCompanionsUnavailable(result.unavailable);
+    });
   }, []);
 
   const activeInvites = invites.filter(
@@ -84,11 +97,21 @@ export function InvitePanel({
         credentials: "include",
         body: JSON.stringify({}),
       });
-      const data = await safeReadJson(res, { success: false }, { parse: (d) => GenericActionResponseSchema.parse(d) });
-      if (!res.ok || !data.success) {
+      const data = await safeReadJson(res, null, { parse: (d) => GenericActionResponseSchema.parse(d) });
+      if (!res.ok) {
+        setError(data?.message ?? "Could not create an invite link.");
+        return;
+      }
+      if (data?.success) {
+        onChanged?.();
+        return;
+      }
+      if (data && data.success === false) {
         setError(data.message ?? "Could not create an invite link.");
         return;
       }
+      // Unreadable 2xx reply
+      setError("Invite submitted, but confirmation could not be verified. Refreshing…");
       onChanged?.();
     } catch {
       setError("Could not create an invite link.");
@@ -137,11 +160,21 @@ export function InvitePanel({
         credentials: "include",
         body: JSON.stringify(body),
       });
-      const data = await safeReadJson(res, { success: false }, { parse: (d) => GenericActionResponseSchema.parse(d) });
-      if (!res.ok || !data.success) {
+      const data = await safeReadJson(res, null, { parse: (d) => GenericActionResponseSchema.parse(d) });
+      if (!res.ok) {
+        setError(data?.message ?? "Could not add this companion.");
+        return;
+      }
+      if (data?.success) {
+        onChanged?.();
+        return;
+      }
+      if (data && data.success === false) {
         setError(data.message ?? "Could not add this companion.");
         return;
       }
+      // Unreadable 2xx reply
+      setError("Companion addition submitted, but confirmation could not be verified. Refreshing…");
       onChanged?.();
     } catch {
       setError("Could not add this companion.");
@@ -206,7 +239,14 @@ export function InvitePanel({
         </GradientButton>
       </div>
 
-      {companions.length > 0 && (
+      {companionsUnavailable && (
+        <div className="mt-6">
+          <LabelXS className="text-alchm-fg-dim">Your Companions</LabelXS>
+          <p className="mt-2 text-xs text-alchm-fg-mute">Companions list temporarily unavailable</p>
+        </div>
+      )}
+
+      {!companionsUnavailable && companions.length > 0 && (
         <div className="mt-6">
           <LabelXS className="text-alchm-fg-dim">Your Companions</LabelXS>
           <ul className="mt-2 space-y-1.5">

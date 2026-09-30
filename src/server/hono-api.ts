@@ -26,6 +26,7 @@ import {
   resolveIngredientSlug,
 } from '../data/ingredientRecipeIndex.js';
 import { userDatabase } from '../services/userDatabaseService.js';
+import type { RelatedIngredientRecipe } from '../types/ingredient.js';
 import type { Recipe } from '../types/recipe.js';
 
 const app = new Hono();
@@ -192,17 +193,7 @@ app.get('/api/ingredients/:name', async (c) => {
     const allRecipes = await recipeService.getAllRecipes();
     const recipeMap = new Map(allRecipes.map((r) => [r.id, r]));
 
-    const relatedRecipes: Array<{
-      id: string;
-      name: string;
-      cuisine: string;
-      description: string | undefined;
-      prepTime: number | undefined;
-      cookTime: number | undefined;
-      servings: number | undefined;
-      amount: number | undefined;
-      unit: string | undefined;
-    }> = [];
+    const relatedRecipes: RelatedIngredientRecipe[] = [];
     for (const match of matches) {
       const recipe = recipeMap.get(match.recipeId);
       if (recipe) {

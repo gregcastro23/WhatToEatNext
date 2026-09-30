@@ -14,23 +14,12 @@ import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { IngredientService } from "@/services/IngredientService";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
+import type { RelatedIngredientRecipe } from "@/types/ingredient";
 import type { Recipe } from "@/types/recipe";
 
 export const dynamic = "force-dynamic";
 
 const { HONO_API_URL } = process.env;
-
-interface RelatedRecipe {
-  id: string;
-  name: string;
-  cuisine: string | undefined;
-  description: string | undefined;
-  prepTime: number | undefined;
-  cookTime: number | undefined;
-  servings: number | undefined;
-  amount: number | undefined;
-  unit: string | undefined;
-}
 
 function extractTime(recipe: Recipe, kind: "prep" | "cook"): number | undefined {
   const { details } = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } });
@@ -69,7 +58,7 @@ type IndexMatch = ReturnType<typeof getRecipesForIngredient>[number];
 /** The dossier shows the top 24 recipes with timing detail. */
 const RELATED_RECIPE_LIMIT = 24;
 
-function relatedRecipe(match: IndexMatch, recipe: Recipe | undefined): RelatedRecipe {
+function relatedRecipe(match: IndexMatch, recipe: Recipe | undefined): RelatedIngredientRecipe {
   const amount = typeof match.amount === "number" ? match.amount : undefined;
   if (!recipe) {
     // Fallback if not loaded in memory

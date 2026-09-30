@@ -43,12 +43,30 @@ export function LifecycleControls({
         method: "POST",
         credentials: "include",
       });
-      const data = await safeReadJson(res, { success: false }, { parse: (d) => GenericActionResponseSchema.parse(d) });
-      if (!res.ok || !data.success) {
-        setError(data.message ?? "That didn't work — try again.");
+      const data = await safeReadJson(res, null, {
+        parse: (d) => GenericActionResponseSchema.parse(d),
+      });
+
+      if (!res.ok) {
+        setError(data?.message ?? "That didn't work — try again.");
         return;
       }
+
+      if (data?.success) {
+        setConfirmingCancel(false);
+        onChanged?.();
+        return;
+      }
+
+      if (data && data.success === false) {
+        setError(data.message ?? "The action could not be completed.");
+        return;
+      }
+
+      // Unreadable 2xx reply: mutation may have already succeeded on the server.
+      // Reconcile and inform the user rather than inviting a duplicate retry.
       setConfirmingCancel(false);
+      setError("Action submitted, but the confirmation response could not be verified. Refreshing table status…");
       onChanged?.();
     } catch {
       setError("That didn't work — try again.");

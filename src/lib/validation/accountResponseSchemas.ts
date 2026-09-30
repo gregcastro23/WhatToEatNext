@@ -35,11 +35,7 @@ export type EconomyBalanceView = z.infer<typeof EconomyBalanceResponseSchema>;
 
 type _EconomyBalanceDrift = AssertTrue<ServerSatisfies<EconomyBalanceResponse, EconomyBalanceView>>;
 
-export const CelestialLabTokenBalancesSchema = z.object({
-  spirit: z.number(),
-  essence: z.number(),
-  matter: z.number(),
-  substance: z.number(),
+export const CelestialLabTokenBalancesSchema = CoinAmountsSchema.extend({
   lastDailyClaimAt: z.string().nullable(),
   lastDailyClaimAgentsAt: z.string().nullable(),
   updatedAt: z.string(),
@@ -63,6 +59,41 @@ export const CelestialLabBalanceResponseSchema = z.object({
 export type CelestialLabBalanceResponse = z.infer<typeof CelestialLabBalanceResponseSchema>;
 
 type _CelestialLabBalanceDrift = AssertTrue<ServerSatisfies<EconomyBalanceResponse, CelestialLabBalanceResponse>>;
+
+// ─── Celestial Lab Live Quantities — GET /api/alchm-quantities ────────────
+
+/**
+ * Consumed-fields view for the Celestial Lab live quantities display.
+ * Validates only the fields the lab page renders (quantities, diurnal sect,
+ * thermodynamic metrics, kalchm/monica, momentum, and degraded reasons),
+ * passing through unrelated structural blocks (kinetics, circuit, etc.)
+ * so changes to other surfaces never break the lab's live values.
+ */
+export const CelestialLabQuantitiesResponseSchema = z.object({
+  success: z.literal(true),
+  quantities: z.object({
+    Spirit: z.number().optional(),
+    Essence: z.number().optional(),
+    Matter: z.number().optional(),
+    Substance: z.number().optional(),
+  }),
+  dominantElement: z.string().optional(),
+  isDiurnal: z.boolean(),
+  heat: z.number(),
+  entropy: z.number(),
+  reactivity: z.number(),
+  energy: z.number(),
+  kalchm: z.number(),
+  monica: z.number(),
+  planetaryMomentum: z.record(z.string(), z.number()).optional(),
+  degraded: z.object({
+    reasons: z.array(z.string()),
+  }).optional(),
+}).passthrough();
+
+export type CelestialLabQuantitiesResponse = z.infer<typeof CelestialLabQuantitiesResponseSchema>;
+
+type _CelestialLabQuantitiesDrift = AssertTrue<ServerSatisfies<import("@/lib/validation/apiSchemas").AlchmQuantitiesApiResponse, CelestialLabQuantitiesResponse>>;
 
 // ─── On-chain ESMS claims — /api/economy/claim-onchain ────────────────────
 

@@ -18,11 +18,12 @@ import { QuantityContextStrip } from "@/components/QuantityContext";
 import { AlchemicalStatisticsProvider } from "@/contexts/AlchemicalStatisticsContext";
 import { emitTokenEconomyUpdate } from "@/hooks/useTokenEconomy";
 import { safeReadJson } from "@/lib/api/json";
-import { CelestialLabBalanceResponseSchema } from "@/lib/validation/accountResponseSchemas";
+import { _logger } from "@/lib/logger";
 import {
-  AlchmQuantitiesApiResponseSchema,
-  type AlchmQuantitiesApiResponse,
-} from "@/lib/validation/apiSchemas";
+  CelestialLabBalanceResponseSchema,
+  CelestialLabQuantitiesResponseSchema,
+  type CelestialLabQuantitiesResponse,
+} from "@/lib/validation/accountResponseSchemas";
 import type {
   TokenBalances,
   UserStreak,
@@ -187,7 +188,7 @@ function Spinner(): React.JSX.Element {
 
 // ─── Token Card (per-token hero card with live balance + value) ───────────────
 
-type AlchemyData = AlchmQuantitiesApiResponse;
+type AlchemyData = CelestialLabQuantitiesResponse;
 
 // Human-readable labels for the machine-readable degraded reasons (see DegradedInfo).
 const DEGRADED_REASON_LABELS: Record<string, string> = {
@@ -407,7 +408,11 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
   const fetchBalances = useCallback(async (): Promise<void> => {
     try {
       const res = await fetch("/api/economy/balance", { credentials: "include" });
-      if (!res.ok) return;
+      if (!res.ok) {
+        _logger.warn("[CelestialLab] /api/economy/balance returned non-2xx status", { status: res.status });
+        setEconomyError("Token balances temporarily unavailable");
+        return;
+      }
       const data = await safeReadJson(res, null, {
         parse: (d) => CelestialLabBalanceResponseSchema.parse(d),
       });
@@ -415,9 +420,14 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
         setBalances(data.balances);
         setStreak(data.streak);
         setCanClaim(data.canClaimDaily);
+        setEconomyError(null);
+      } else {
+        _logger.warn("[CelestialLab] Balance validation failed on 2xx response");
+        setEconomyError("Token balances temporarily unavailable");
       }
-    } catch {
-      // Non-critical
+    } catch (err) {
+      _logger.warn("[CelestialLab] Failed to fetch balances", err);
+      setEconomyError("Token balances temporarily unavailable");
     }
   }, []);
 
@@ -426,15 +436,20 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
     try {
       setAlchLoading(true);
       const res = await fetch("/api/alchm-quantities");
-      if (!res.ok) return;
+      if (!res.ok) {
+        _logger.warn("[CelestialLab] /api/alchm-quantities returned non-2xx status", { status: res.status });
+        return;
+      }
       const data = await safeReadJson(res, null, {
-        parse: (d) => AlchmQuantitiesApiResponseSchema.parse(d),
+        parse: (d) => CelestialLabQuantitiesResponseSchema.parse(d),
       });
       if (data) {
         setAlchData(data);
+      } else {
+        _logger.warn("[CelestialLab] Quantities validation failed on 2xx response");
       }
-    } catch {
-      // Non-critical
+    } catch (err) {
+      _logger.warn("[CelestialLab] Failed to fetch alchemy quantities", err);
     } finally {
       setAlchLoading(false);
     }
