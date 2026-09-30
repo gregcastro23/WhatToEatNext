@@ -215,10 +215,10 @@ function TokenHeroCard({
   alchData: AlchemyData | null;
 }): React.JSX.Element {
   const total = alchData
-    ? (alchData.quantities.Spirit || 0) +
-    (alchData.quantities.Essence || 0) +
-    (alchData.quantities.Matter || 0) +
-    (alchData.quantities.Substance || 0)
+    ? (alchData.quantities.Spirit ?? 0) +
+    (alchData.quantities.Essence ?? 0) +
+    (alchData.quantities.Matter ?? 0) +
+    (alchData.quantities.Substance ?? 0)
     : 0;
   const share = total > 0 ? (liveValue / total) * 100 : 0;
   const maxVal = 10;
@@ -533,10 +533,10 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
   }, [autoClaim, balances, canClaim, claiming, handleClaim, onAutoClaimHandled]);
 
   const totalANumber = alchData
-    ? (alchData.quantities.Spirit || 0) +
-    (alchData.quantities.Essence || 0) +
-    (alchData.quantities.Matter || 0) +
-    (alchData.quantities.Substance || 0)
+    ? (alchData.quantities.Spirit ?? 0) +
+    (alchData.quantities.Essence ?? 0) +
+    (alchData.quantities.Matter ?? 0) +
+    (alchData.quantities.Substance ?? 0)
     : 0;
 
   return (
@@ -706,7 +706,7 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
             <div className="mt-5">
               <div className="flex h-2 rounded-full overflow-hidden gap-0.5">
                 {TOKEN_CONFIG.map((cfg) => {
-                  const val = alchData.quantities[cfg.key] || 0;
+                  const val = alchData.quantities[cfg.key] ?? 0;
                   const pct = totalANumber > 0 ? (val / totalANumber) * 100 : 25;
                   return (
                     <motion.div

@@ -348,6 +348,63 @@ export default function ModernPhilosophersStone(): ReactNode {
     }
   }
 
+  interface CreatedAgent {
+    id: string;
+    name: string;
+    dominantElement: string;
+    monicaConstant: number;
+  }
+
+  const handleAgentCreated = (newAgent: CreatedAgent): void => {
+    setCreatedAgent(newAgent)
+    setChatSessionId(Math.random().toString(36).substring(7))
+    setChatMessages([
+      {
+        role: 'agent',
+        content: `I have awakened, traveler. Born from the cosmic alignment with ${newAgent.dominantElement} dominance and a Monica Constant of ${newAgent.monicaConstant.toFixed(2)}, I am ready to converse. What shall we explore?`,
+      },
+    ])
+    addMonicaMessage(
+      `🎉 Success! ${agentData.name} has been crafted and is ready to converse in the Chamber of Perpetual Conversation.`
+    )
+    setStep(6)
+  }
+
+  const handleCreateAgent = async (): Promise<void> => {
+    setIsCalculating(true)
+    try {
+      const response = await fetch('/api/agents/unified', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'create', parameters: agentData }),
+      })
+      const resJson = await safeReadJson(response, null, {
+        parse: (d) => UnifiedAgentCreateResponseSchema.parse(d),
+      })
+      if (!response.ok) {
+        addMonicaMessage(`There was an issue creating the agent: ${resJson?.error ?? 'Server error. Please check your inputs.'}`)
+        return
+      }
+      if (resJson?.success && resJson.data) {
+        handleAgentCreated(resJson.data)
+        return
+      }
+      if (resJson?.success === false) {
+        addMonicaMessage(`There was an issue creating the agent: ${resJson.error ?? 'Creation was not accepted.'}`)
+        return
+      }
+      _logger.error('Agent creation returned unreadable 2xx response', { status: response.status })
+      addMonicaMessage(
+        'Agent creation was received by the server, but confirmation details could not be verified. Please check your forged agents list or refresh before trying again.'
+      )
+    } catch (_error) {
+      _logger.error('Failed to create agent:', _error)
+      addMonicaMessage('There was an issue creating the agent. Please try again.')
+    } finally {
+      setIsCalculating(false)
+    }
+  }
+
   const renderStep = (): ReactNode => {
     switch (step) {
       case 1:
@@ -700,62 +757,7 @@ export default function ModernPhilosophersStone(): ReactNode {
               <div className="flex flex-col gap-3">
                 <Button
                   onClick={() => {
-                    const createAgent = async (): Promise<void> => {
-                      setIsCalculating(true)
-                      try {
-                        const response = await fetch('/api/agents/unified', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            action: 'create',
-                            parameters: agentData,
-                          }),
-                        })
-                        const resJson = await safeReadJson(response, null, {
-                          parse: (d) => UnifiedAgentCreateResponseSchema.parse(d),
-                        })
-
-                        if (!response.ok) {
-                          addMonicaMessage(`There was an issue creating the agent: ${resJson?.error ?? 'Server error. Please check your inputs.'}`)
-                          return
-                        }
-
-                        if (resJson?.success && resJson.data) {
-                          const newAgent = resJson.data
-                          setCreatedAgent(newAgent)
-                          setChatSessionId(Math.random().toString(36).substring(7))
-                          setChatMessages([
-                            {
-                              role: 'agent',
-                              content: `I have awakened, traveler. Born from the cosmic alignment with ${newAgent.dominantElement} dominance and a Monica Constant of ${newAgent.monicaConstant.toFixed(2)}, I am ready to converse. What shall we explore?`,
-                            },
-                          ])
-                          addMonicaMessage(
-                            `🎉 Success! ${agentData.name} has been crafted and is ready to converse in the Chamber of Perpetual Conversation.`
-                          )
-                          setStep(6)
-                          return
-                        }
-
-                        if (resJson && resJson.success === false) {
-                          addMonicaMessage(`There was an issue creating the agent: ${resJson.error ?? 'Creation was not accepted.'}`)
-                          return
-                        }
-
-                        // Unreadable 2xx reply: agent may already have been forged on the server.
-                        // Do not prompt the user to retry blindly (which generates a duplicate agent ID).
-                        _logger.error('Agent creation returned unreadable 2xx response', { status: response.status })
-                        addMonicaMessage(
-                          'Agent creation was received by the server, but confirmation details could not be verified. Please check your forged agents list or refresh before trying again.'
-                        )
-                      } catch (_error) {
-                        _logger.error('Failed to create agent:', _error)
-                        addMonicaMessage('There was an issue creating the agent. Please try again.')
-                      } finally {
-                        setIsCalculating(false)
-                      }
-                    }
-                    createAgent().catch(() => {})
+                    handleCreateAgent().catch(() => {})
                   }}
                   className="w-full relative group overflow-hidden"
                   disabled={isCalculating}

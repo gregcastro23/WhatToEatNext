@@ -58,7 +58,7 @@ export function LifecycleControls({
         return;
       }
 
-      if (data && data.success === false) {
+      if (data?.success === false) {
         setError(data.message ?? "The action could not be completed.");
         return;
       }

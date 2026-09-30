@@ -106,7 +106,7 @@ export function InvitePanel({
         onChanged?.();
         return;
       }
-      if (data && data.success === false) {
+      if (data?.success === false) {
         setError(data.message ?? "Could not create an invite link.");
         return;
       }
@@ -169,7 +169,7 @@ export function InvitePanel({
         onChanged?.();
         return;
       }
-      if (data && data.success === false) {
+      if (data?.success === false) {
         setError(data.message ?? "Could not add this companion.");
         return;
       }
