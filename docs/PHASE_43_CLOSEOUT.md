@@ -43,7 +43,7 @@ Committed baseline files were ratcheted: `.bare-json-casts-baseline.json` (85 pr
    - Verified wire serialization parity across Next.js and Hono implementations.
 5. **Mutation Ambiguity, Idempotent Creation & Consumer Recovery Test Suite:**
    - **Comprehensive Uncertain Mutation Handling:** Handled unreadable 2xx replies across all table mutations (`LifecycleControls.tsx`, `tables/[tableId]/page.tsx` for RSVP and join requests, `PhotoGrid.tsx` for photo uploads, and `MembersPanel.tsx` for member removal). Unreadable 2xx replies trigger state reconciliation (`onChanged?.()` / `refetch()`) and inform the user with an uncertain-outcome notice rather than treating it as an ordinary failure or inviting a blind duplicate retry.
-   - **Idempotent Agent Creation:** Client (`philosophers-stone/page.tsx`) generates and retains a stable `clientRequestId` across retries. The server (`src/app/api/agents/unified/route.ts`) stores `clientRequestId` in `users.profile` and performs server-side deduplication, returning the existing agent with `deduplicated: true` on replay.
+   - **Idempotent Agent Creation:** Client (`philosophers-stone/page.tsx`) generates and retains a stable `clientRequestId` across retries. The server (`src/app/api/agents/unified/route.ts`) stores `clientRequestId` and `createdByUserId` in `users.profile` and performs server-side deduplication scoped to the authenticated creator, returning the existing agent with `deduplicated: true` on replay. *(Known limitation: concurrent in-flight requests with identical IDs can race between lookup and insert because the check is non-atomic; strict atomicity can be enforced via a DB partial unique constraint `((profile->>'clientRequestId'), (profile->>'createdByUserId')) WHERE profile->>'clientRequestId' IS NOT NULL` in a future migration).*
    - **Refresh Visibility:** `celestial-lab/alchm/page.tsx` and `InvitePanel.tsx` log 2xx validation failures via `_logger.warn` and surface unavailable states (`economyError` and `companionsUnavailable`) while preserving prior good state.
    - **Consumer Recovery Tests:** `src/lib/validation/__tests__/phase43ConsumerRecovery.test.ts` (19 passing tests) invokes the real table controls (`LifecycleControls`, `MembersPanel`) via `@testing-library/react`, the real unified agent creation route with server deduplication, the real `buildRelatedIngredientRecipe` producer with Next/Hono parity verification, the real `q()` from `scripts/lib/quantile.ts`, and the real route degraded-chat shape (`data.text` + `data.degraded: true`).
 
@@ -98,6 +98,15 @@ Committed baseline files were ratcheted: `.bare-json-casts-baseline.json` (85 pr
 - Removed lines 27–42 and 1426–1632 in `src/data/ingredients/fruits/index.ts`.
 - Verified exported `fruits` SHA-256 hash match before and after deletion (`e9cbdede6eeff05a866a5d6a7ae75ff8ba096fd5b0ce1e8f7ad4e1fdc08d786a`).
 - Verified assertion site reduction from 2,857 to 2,827 (−30 single assertion sites).
+
+### Follow-up: Response Integrity, Creator-Scoped Deduplication & Real Recovery Testing (`98852e66`, `3a0c9156`)
+- `fix(phase-43): enforce response integrity, idempotent agent creation, and real recovery testing`
+- `Fix Phase 43 CI gates and scope agent deduplication`
+- Required all 4 ESMS values in `CelestialLabQuantitiesResponseSchema` (rejecting empty objects).
+- Reconciled unreadable 2xx mutations across RSVP, join requests, photos, and member removal.
+- Implemented client `clientRequestId` retention and server deduplication scoped to `createdByUserId`.
+- Unchecked cast cleanup, redundant quantity fallback removal, and Zod parsing in tests.
+- Upgraded `phase43ConsumerRecovery.test.ts` to 19 tests invoking real components, routes, producers, and script quantile helpers.
 
 ---
 
