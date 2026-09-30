@@ -124,8 +124,9 @@ and `unlock-basic-recipe` is 0.5 of each (2 total). See migration 90.
 ## Consequences
 
 - `POST /api/economy/swap` now converts at EEI parity (via
-  `quoteSourceAmount`), not 3:1 × a planetary modifier. `/transmute` keeps its
-  fixed 3:1.
+  `quoteSourceAmount`), not 3:1 × a planetary modifier. The fixed-3:1
+  `/transmute` has since been retired: transmutation is now peer-to-peer
+  trading (ADR-018).
 - The EEI clamps to [0.5, 1.6], so the most extreme cross rate is 3.2:1.
 - Verification: `swappingBridge.test.ts`, `swapRates.test.ts`,
   `TokenEconomyService.autoSwap.test.ts`, `syncDebitAutoSwap.test.ts` and

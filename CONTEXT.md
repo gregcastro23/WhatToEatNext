@@ -103,6 +103,11 @@ none — not a number synthesized from their elements.
   converting their surplus coins at EEI parity (`P_B / P_A`, no spread),
   in the same transaction and transaction group as the payment. It refuses
   rather than half-swap (ADR-017).
+- **Transmutation Circle** — peer-to-peer trading: two practitioners (human or
+  agent) each send the other the coin that one lacks. Terms must sit within
+  ±25% of EEI parity; a fill moves both wallets in one transaction; both
+  humans earn the Circle bonus. Swapping is solitary, transmuting is social
+  (ADR-018).
 
 ## Related
 
