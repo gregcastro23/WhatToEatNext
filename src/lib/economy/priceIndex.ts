@@ -550,12 +550,27 @@ function quoteFromEei(
   eei: Record<TokenType, number>,
   degraded: readonly string[] | null,
 ): OracleQuote {
-  const prices = {} as Record<TokenType, number>;
-  for (const token of TOKEN_TYPES) prices[token] = eei[token];
   return {
     bucketStartUtc: new Date(bucketMs).toISOString(),
-    prices,
+    prices: { ...eei },
     degraded: degraded && degraded.length > 0 ? [...degraded].sort() : null,
+  };
+}
+
+/** The headline index row of a snapshot. Throws if a token is missing from it. */
+function snapshotIndexRow(snapshot: PriceIndexSnapshot): Record<TokenType, number> {
+  const indexFor = (token: TokenType): number => {
+    const quote = snapshot.tokens.find((entry) => entry.token === token);
+    if (!quote) {
+      throw new Error(`price-index: memoized snapshot carries no ${token} quote`);
+    }
+    return quote.index;
+  };
+  return {
+    Spirit: indexFor("Spirit"),
+    Essence: indexFor("Essence"),
+    Matter: indexFor("Matter"),
+    Substance: indexFor("Substance"),
   };
 }
 
@@ -576,9 +591,7 @@ export function getLiveOracleQuote(
 
   if (shared && memo?.bucketMs === bucketMs) {
     const { snapshot } = memo;
-    const eei = {} as Record<TokenType, number>;
-    for (const quote of snapshot.tokens) eei[quote.token] = quote.index;
-    return quoteFromEei(bucketMs, eei, snapshot.degraded);
+    return quoteFromEei(bucketMs, snapshotIndexRow(snapshot), snapshot.degraded);
   }
   if (shared && quoteMemo?.bucketMs === bucketMs) return quoteMemo.quote;
 

@@ -34,10 +34,20 @@ const USER = "11111111-2222-4333-8444-555555555555";
 const ITEM_ID = "99999999-8888-4777-8666-555555555555";
 const SLUG = "unlock-cosmic-recipe";
 
-const db = {
+interface FakeDb {
+  balances: Map<string, Balances>;
+  ledger: LedgerRow[];
+  purchases: Array<{ user: string; item: string; group: string }>;
+  transactions: number;
+  rolledBack: number;
+  failTransmute: boolean;
+  failPaymentAfterSwap: boolean;
+}
+
+const db: FakeDb = {
   balances: new Map<string, Balances>(),
-  ledger: [] as LedgerRow[],
-  purchases: [] as Array<{ user: string; item: string; group: string }>,
+  ledger: [],
+  purchases: [],
   transactions: 0,
   rolledBack: 0,
   failTransmute: false,
@@ -45,12 +55,20 @@ const db = {
 };
 
 const round4 = (n: number): number => Math.round(n * 10_000) / 10_000;
+const AXES: readonly Axis[] = ["spirit", "essence", "matter", "substance"];
 const TOKEN_AXIS: Record<string, Axis> = {
   Spirit: "spirit",
   Essence: "essence",
   Matter: "matter",
   Substance: "substance",
 };
+/** The balance column a ledger token name moves; throws on anything else. */
+function axisOf(token: string): Axis {
+  const axis = TOKEN_AXIS[token];
+  if (!axis) throw new Error(`fake db: unknown token ${token}`);
+  return axis;
+}
+const keyOf = (value: unknown): string | null => (value == null ? null : String(value));
 
 function insertLedger(row: LedgerRow): void {
   if (row.key && db.ledger.some((r) => r.key === row.key)) {
@@ -89,13 +107,19 @@ function run(sql: string, values: unknown[]): { rows: Array<Record<string, unkno
   }
   if (/WITH balance_check AS/.test(sql)) {
     // debitAllTokensSql, purchase intent: user, s, e, m, sub, itemId, desc, idem[, group]
-    const [user, s, e, m, sub, itemId, , idem, group] = values as [
-      string, number, number, number, number, string, string, string | null, string | undefined,
-    ];
+    const user = String(values[0]);
+    const itemId = String(values[5]);
+    const idem = keyOf(values[7]);
+    const group = values[8] == null ? undefined : String(values[8]);
     if (db.failPaymentAfterSwap && group) return { rows: [] };
     const held = db.balances.get(user);
-    const want: Balances = { spirit: s, essence: e, matter: m, substance: sub };
-    if (!held || (Object.keys(want) as Axis[]).some((a) => held[a] < want[a])) return { rows: [] };
+    const want: Balances = {
+      spirit: Number(values[1]),
+      essence: Number(values[2]),
+      matter: Number(values[3]),
+      substance: Number(values[4]),
+    };
+    if (!held || AXES.some((a) => held[a] < want[a])) return { rows: [] };
     const gid = group ?? `gen-${db.ledger.length}`;
     for (const [token, axis] of Object.entries(TOKEN_AXIS)) {
       if (want[axis] <= 0) continue;
@@ -108,20 +132,24 @@ function run(sql: string, values: unknown[]): { rows: Array<Record<string, unkno
       });
     }
     const next = { ...held };
-    for (const axis of Object.keys(want) as Axis[]) next[axis] = round4(held[axis] - want[axis]);
+    for (const axis of AXES) next[axis] = round4(held[axis] - want[axis]);
     db.balances.set(user, next);
     db.purchases.push({ user, item: itemId, group: gid });
     return { rows: [{ ...next, txn_group_id: gid, updated_at: new Date() }] };
   }
   if (/check_balance AS/.test(sql) && /'transmutation'/.test(sql)) {
     // transmuteSql: user, cost, target, group, fromToken, debitDesc, toToken, creditDesc, idem
-    const [user, cost, target, group, fromToken, , toToken, , idem] = values as [
-      string, number, number, string, string, string, string, string, string | null,
-    ];
+    const user = String(values[0]);
+    const cost = Number(values[1]);
+    const target = Number(values[2]);
+    const group = String(values[3]);
+    const fromToken = String(values[4]);
+    const toToken = String(values[6]);
+    const idem = keyOf(values[8]);
     if (db.failTransmute) return { rows: [] };
     const held = db.balances.get(user);
-    const from = TOKEN_AXIS[fromToken] as Axis;
-    const to = TOKEN_AXIS[toToken] as Axis;
+    const from = axisOf(fromToken);
+    const to = axisOf(toToken);
     if (!held || held[from] < cost) return { rows: [] };
     insertLedger({ group, token: fromToken, amount: -cost, source: "transmutation", key: idem ? `${idem}:${fromToken}` : null });
     insertLedger({ group, token: toToken, amount: target, source: "transmutation", key: idem ? `${idem}:${toToken}` : null });

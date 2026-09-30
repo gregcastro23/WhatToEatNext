@@ -136,9 +136,8 @@ describe("no oracle, no rates — never a fabricated sheet", () => {
     jest.spyOn(console, "error").mockImplementation(() => undefined);
     const res = await GET();
     expect(res.status).toBe(503);
-    const body = (await res.json()) as Record<string, unknown>;
-    expect(body.success).toBe(false);
-    expect(body.live).toBe(false);
+    const body: unknown = await res.json();
+    expect(body).toMatchObject({ success: false, live: false });
     expect(body).not.toHaveProperty("rates");
     expect(body).not.toHaveProperty("prices");
   });
@@ -148,18 +147,16 @@ describe("GET /api/economy/swap-rates — live", () => {
   it("serves the sheet with its prices so a client can reproduce any rate", async () => {
     const res = await GET();
     expect(res.status).toBe(200);
-    const body = (await res.json()) as {
-      success: boolean;
-      live: boolean;
-      prices: OraclePrices;
-      rates: Array<{ fromToken: string; toToken: string; rate: number }>;
-      rulingHourPlanet: string;
-      validUntil: string;
-    };
-    expect(body.success).toBe(true);
-    expect(body.live).toBe(true);
-    expect(body.prices).toEqual(PRICES);
-    expect(body.rates).toHaveLength(12);
-    expect(typeof body.rulingHourPlanet).toBe("string");
+    const body: unknown = await res.json();
+    expect(body).toMatchObject({
+      success: true,
+      live: true,
+      prices: PRICES,
+      rulingHourPlanet: expect.any(String),
+      rates: expect.arrayContaining([
+        expect.objectContaining({ fromToken: "Spirit", toToken: "Essence" }),
+      ]),
+    });
+    expect(body).toHaveProperty("rates.length", 12);
   });
 });

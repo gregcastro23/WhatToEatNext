@@ -125,7 +125,7 @@ describe("cosmic recipe × Swapping Bridge", () => {
     recipeOk();
     const res = await post();
     expect(res.status).toBe(200);
-    const body = (await res.json()) as Record<string, any>;
+    const body = await res.json();
     expect(body.success).toBe(true);
     expect(body.payment).toEqual({
       charged: true,
@@ -138,7 +138,7 @@ describe("cosmic recipe × Swapping Bridge", () => {
   it("reports autoSwap: null when the basket was paid as-is", async () => {
     purchaseShopItem.mockResolvedValue({ success: true, transactionGroupId: GROUP, autoSwap: null });
     recipeOk();
-    const body = (await (await post()).json()) as Record<string, any>;
+    const body = await (await post()).json();
     expect(body.payment).toMatchObject({ charged: true, autoSwap: null });
   });
 
@@ -176,7 +176,7 @@ describe("cosmic recipe × Swapping Bridge", () => {
 
     expect(res.status).toBe(402);
     expect(fetchSpy).not.toHaveBeenCalled();
-    const body = (await res.json()) as Record<string, any>;
+    const body = await res.json();
     expect(body.autoSwap).toMatchObject({ reason: "insufficient_value", shortfallValue: 4.2 });
     // The old copy named only Spirit and Essence of a four-axis charge.
     expect(body.message).toContain("2.50 Spirit, 2.50 Essence, 2.50 Matter and 2.50 Substance");
@@ -190,14 +190,14 @@ describe("cosmic recipe × Swapping Bridge", () => {
       autoSwap: { reason: "rates_unavailable", shortfallValue: null, deficits: null },
     });
     installFetchMock(jest.fn());
-    const body = (await (await post()).json()) as Record<string, any>;
+    const body = await (await post()).json();
     expect(body.message).toContain("Live exchange rates are unavailable");
   });
 
   it("omits the swap explanation when auto-swap was switched off", async () => {
     purchaseShopItem.mockResolvedValue({ success: false, reason: "insufficient_funds" });
     installFetchMock(jest.fn());
-    const body = (await (await post({ autoSwap: false })).json()) as Record<string, any>;
+    const body = await (await post({ autoSwap: false })).json();
     expect(body).not.toHaveProperty("autoSwap");
     expect(body.message).not.toContain("swapping");
   });

@@ -206,9 +206,9 @@ function roundTo(value: number, digits: number): number {
  * mint coins from nothing, and a broken quote must never price a swap.
  */
 function toPriceUnits(prices: OraclePrices): Record<TokenType, bigint> {
-  const units = {} as Record<TokenType, bigint>;
-  for (const token of TOKEN_TYPES) {
-    const price = prices[token];
+  const unitsFor = (token: TokenType): bigint => {
+    // Read as unknown: the record may have come off the wire without this key.
+    const price: unknown = prices[token];
     const scaled =
       typeof price === "number" && Number.isFinite(price)
         ? Math.round(price * PRICE_SCALE)
@@ -218,9 +218,14 @@ function toPriceUnits(prices: OraclePrices): Record<TokenType, bigint> {
         `swapping-bridge: no usable price for ${token} (${String(price)})`,
       );
     }
-    units[token] = BigInt(scaled);
-  }
-  return units;
+    return BigInt(scaled);
+  };
+  return {
+    Spirit: unitsFor("Spirit"),
+    Essence: unitsFor("Essence"),
+    Matter: unitsFor("Matter"),
+    Substance: unitsFor("Substance"),
+  };
 }
 
 const AXIS_OF = (token: TokenType): keyof AxisAmounts => columnFor(token);

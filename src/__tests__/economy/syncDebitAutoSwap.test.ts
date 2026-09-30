@@ -19,6 +19,8 @@ jest.mock("@/lib/economy/priceIndex", () => ({
   getLiveOracleQuote: (...args: unknown[]) => getLiveOracleQuote(...args),
 }));
 
+import { NextRequest } from "next/server";
+
 type Axis = "spirit" | "essence" | "matter" | "substance";
 type Balances = Record<Axis, number>;
 interface LedgerRow {
@@ -39,19 +41,40 @@ const TOKEN_AXIS: Record<string, Axis> = {
   Substance: "substance",
 };
 
-const state = {
-  balances: { spirit: 0, essence: 0, matter: 0, substance: 0 } as Balances,
-  ledger: [] as LedgerRow[],
+interface FakeState {
+  balances: Balances;
+  ledger: LedgerRow[];
   /** Statements run on the transaction client, in order (first 40 chars). */
-  inTransaction: [] as string[],
+  inTransaction: string[];
+  rolledBack: boolean;
+  failTransmute: boolean;
+  failDebitAfterSwap: boolean;
+}
+
+const state: FakeState = {
+  balances: { spirit: 0, essence: 0, matter: 0, substance: 0 },
+  ledger: [],
+  inTransaction: [],
   rolledBack: false,
   failTransmute: false,
   failDebitAfterSwap: false,
 };
 
 const round4 = (n: number): number => Math.round(n * 10_000) / 10_000;
-const asText = (b: Balances) =>
-  Object.fromEntries(AXES.map((a) => [a, b[a].toFixed(4)])) as Record<Axis, string>;
+const asText = (b: Balances): Record<Axis, string> => ({
+  spirit: b.spirit.toFixed(4),
+  essence: b.essence.toFixed(4),
+  matter: b.matter.toFixed(4),
+  substance: b.substance.toFixed(4),
+});
+/** The balance column a ledger token name moves; throws on anything else. */
+function axisOf(token: unknown): Axis {
+  const axis = typeof token === "string" ? TOKEN_AXIS[token] : undefined;
+  if (!axis) throw new Error(`fake db: unknown token ${String(token)}`);
+  return axis;
+}
+const str = (value: unknown): string => String(value);
+const keyOf = (value: unknown): string | null => (value == null ? null : String(value));
 
 function run(sql: string, params: unknown[]): { rows: Array<Record<string, unknown>> } {
   if (/SELECT\s+u\.id/i.test(sql)) return { rows: [{ id: USER_ID, profile_name: "Ada" }] };
@@ -60,12 +83,15 @@ function run(sql: string, params: unknown[]): { rows: Array<Record<string, unkno
   if (/SELECT spirit::text/i.test(sql)) return { rows: [asText(state.balances)] };
   if (/check_balance AS/.test(sql) && /'transmutation'/.test(sql)) {
     // transmuteSql: user, cost, target, group, fromToken, debitDesc, toToken, creditDesc, idem
-    const [, cost, target, group, fromToken, , toToken, , idem] = params as [
-      string, number, number, string, string, string, string, string, string | null,
-    ];
+    const cost = Number(params[1]);
+    const target = Number(params[2]);
+    const group = str(params[3]);
+    const fromToken = str(params[4]);
+    const toToken = str(params[6]);
+    const idem = keyOf(params[8]);
     if (state.failTransmute) return { rows: [] };
-    const from = TOKEN_AXIS[fromToken] as Axis;
-    const to = TOKEN_AXIS[toToken] as Axis;
+    const from = axisOf(fromToken);
+    const to = axisOf(toToken);
     if (state.balances[from] < cost) return { rows: [] };
     state.balances = {
       ...state.balances,
@@ -87,14 +113,24 @@ function run(sql: string, params: unknown[]): { rows: Array<Record<string, unkno
     };
     if (state.failDebitAfterSwap && state.ledger.length > 0) return { rows: [] };
     if (AXES.some((a) => state.balances[a] < want[a])) return { rows: [] };
-    state.balances = Object.fromEntries(
-      AXES.map((a) => [a, round4(state.balances[a] - want[a])]),
-    ) as Balances;
+    const held = state.balances;
+    state.balances = {
+      spirit: round4(held.spirit - want.spirit),
+      essence: round4(held.essence - want.essence),
+      matter: round4(held.matter - want.matter),
+      substance: round4(held.substance - want.substance),
+    };
     return { rows: [asText(state.balances)] };
   }
   if (/INSERT INTO token_transactions/i.test(sql) && /'agents_operation'/.test(sql)) {
-    const [group, , token, amount, , , key] = params as [string, string, string, string, string, string, string];
-    state.ledger.push({ group, token, amount: -Number(amount), source: "agents_operation", key });
+    // group, user, token, amount, operationType, description, key
+    state.ledger.push({
+      group: str(params[0]),
+      token: str(params[2]),
+      amount: -Number(params[3]),
+      source: "agents_operation",
+      key: keyOf(params[6]),
+    });
     return { rows: [] };
   }
   return { rows: [] };
@@ -125,9 +161,9 @@ jest.mock("@/utils/fullChartMonica", () => ({
 const PRICES = { Spirit: 1.0, Essence: 1.25, Matter: 0.8, Substance: 1.6 };
 let keySeq = 0;
 
-async function post(body: Record<string, unknown> = {}): Promise<{ status: number; json: Record<string, any> }> {
-  const { POST } = require("@/app/api/economy/sync-debit/route");
-  const req = new Request("https://alchm.kitchen/api/economy/sync-debit", {
+async function post(body: Record<string, unknown> = {}) {
+  const { POST } = await import("@/app/api/economy/sync-debit/route");
+  const req = new NextRequest("https://alchm.kitchen/api/economy/sync-debit", {
     method: "POST",
     headers: { "content-type": "application/json", "X-Sync-Secret": SECRET },
     body: JSON.stringify({
@@ -138,8 +174,10 @@ async function post(body: Record<string, unknown> = {}): Promise<{ status: numbe
       ...body,
     }),
   });
-  const res = (await POST(req as never)) as Response;
-  return { status: res.status, json: (await res.json()) as Record<string, any> };
+  const res = await POST(req);
+  // `Response.json()` is untyped by design; the assertions below check shape.
+  const json = await res.json();
+  return { status: res.status, json };
 }
 
 describe("sync-debit — Swapping Bridge", () => {

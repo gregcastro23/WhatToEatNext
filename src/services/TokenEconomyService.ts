@@ -358,7 +358,7 @@ interface LedgerClient {
 type AutoSwapPayment =
   | {
       kind: "paid";
-      row: TokenBalanceRow & { txn_group_id?: string };
+      row: Record<string, unknown>;
       transactionGroupId: string;
       execution: AutoSwapExecution | null;
     }
@@ -389,7 +389,7 @@ async function payWithAutoSwapInTransaction(
 ): Promise<AutoSwapPayment> {
   const lock = lockBalancesForUpdateSql(args.userId);
   const locked = await client.query(lock.sql, lock.values);
-  const [held] = locked.rows as TokenBalanceRow[];
+  const [held] = locked.rows;
   if (!held) {
     return {
       kind: "refused",
@@ -429,7 +429,7 @@ async function payWithAutoSwapInTransaction(
     transactionGroupId,
   });
   const paid = await client.query(debit.sql, debit.values);
-  const [paidRow] = paid.rows as Array<TokenBalanceRow & { txn_group_id?: string }>;
+  const [paidRow] = paid.rows;
   if (!paidRow) {
     // The plan was priced against the row this transaction holds locked, so
     // the payment cannot legitimately be short here. Throwing is what undoes
@@ -442,7 +442,8 @@ async function payWithAutoSwapInTransaction(
   return {
     kind: "paid",
     row: paidRow,
-    transactionGroupId: paidRow.txn_group_id ?? transactionGroupId,
+    transactionGroupId:
+      typeof paidRow.txn_group_id === "string" ? paidRow.txn_group_id : transactionGroupId,
     // A plan with no legs means the balance was topped up between the fast
     // path's refusal and the lock — the basket was paid as-is.
     execution: plan.legs.length > 0 ? bridge.describeExecution(plan, args.quote) : null,

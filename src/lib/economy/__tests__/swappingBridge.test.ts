@@ -277,7 +277,9 @@ describe("planAutoSwap — refusals", () => {
         }),
       ).toThrow(SwapPricingError);
     }
-    const missing = { Spirit: 1, Essence: 1, Matter: 1 } as unknown as OraclePrices;
+    // A quote off the wire can lack a key the type promises. JSON.parse is how
+    // such a record really arrives, so it stands in for one here.
+    const missing: OraclePrices = JSON.parse('{"Spirit":1,"Essence":1,"Matter":1}');
     expect(() =>
       planAutoSwap({ costs: COSMIC, balances: axes(100, 0, 0, 0), prices: missing }),
     ).toThrow(SwapPricingError);
@@ -364,6 +366,13 @@ describe("relative rates — P_B / P_A, no spread", () => {
 
 // ─── Execution and ledger atomicity ─────────────────────────────────────────
 
+/** A bound value that must name a coin — a type guard, not a cast. */
+function tokenOf(value: unknown): TokenType {
+  const token = TOKEN_TYPES.find((t) => t === value);
+  if (!token) throw new Error(`fake ledger: not a token: ${String(value)}`);
+  return token;
+}
+
 /**
  * A minimal transactional ledger: enough of PostgreSQL to hold balances and
  * rows, apply the transmute statement the bridge sends (by its bound values),
@@ -389,9 +398,12 @@ function fakeLedger(start: AxisAmounts) {
     statements.push({ sql, values });
     // transmuteSql binds: user, cost, target, group, fromToken, debitDesc,
     // toToken, creditDesc, idempotencyKey.
-    const [, cost, target, group, fromToken, , toToken, , key] = values as [
-      string, number, number, string, TokenType, string, TokenType, string, string | null,
-    ];
+    const cost = Number(values[1]);
+    const target = Number(values[2]);
+    const group = String(values[3]);
+    const fromToken = tokenOf(values[4]);
+    const toToken = tokenOf(values[6]);
+    const key = values[8] == null ? null : String(values[8]);
     const index = legCount++;
     if (throwOnLeg === index) return Promise.reject(new Error("connection reset"));
     const from = AXIS[fromToken];
@@ -584,8 +596,7 @@ describe("ledger atomicity — a failure anywhere rolls the whole payment back",
     ledger.failLeg(1);
     const failure = await run(ledger).catch((e: unknown) => e);
     expect(failure).toBeInstanceOf(SwapLegFailedError);
-    expect((failure as SwapLegFailedError).legIndex).toBe(1);
-    expect((failure as SwapLegFailedError).leg).toEqual(plan.legs[1]);
+    expect(failure).toMatchObject({ legIndex: 1, leg: plan.legs[1] });
     // Leg 2 was never attempted after leg 1 failed.
     expect(ledger.statements).toHaveLength(2);
   });
