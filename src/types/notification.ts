@@ -26,7 +26,9 @@ export type NotificationType =
   | 'comment_received'
   | 'dm_message'
   | 'circle_message'
-  | 'table_chat_mention';
+  | 'table_chat_mention'
+  | 'transmutation_offer'
+  | 'transmutation_accepted';
 
 export interface NotificationMetadata {
   commensalshipId?: string;
@@ -126,4 +128,6 @@ export const NOTIFICATION_STYLES: Record<NotificationType, { bg: string; border:
   dm_message:          { bg: '#E8EAF6', border: '#7986CB', icon: '💬' },
   circle_message:      { bg: '#EDE9FE', border: '#A78BFA', icon: '💬' },
   table_chat_mention:  { bg: '#EDE9FE', border: '#B57EE0', icon: '📣' },
+  transmutation_offer:    { bg: '#E0F2F1', border: '#4DB6AC', icon: '⚗️' },
+  transmutation_accepted: { bg: '#E8F5E9', border: '#81C784', icon: '🤝' },
 };
