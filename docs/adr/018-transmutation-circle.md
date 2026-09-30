@@ -116,7 +116,8 @@ books its legs with it.
 
 ## Consequences
 
-- **Where the SQL lives.** The Circle's SQL is in `transmutationQueries.ts`,
+- **Where the SQL lives.** The Circle's SQL is in `transmutationQueries.ts`
+  (offers and fills) and `transmutationBoardQueries.ts` (the Circle's reads),
   not `tokenEconomyQueries.ts`. The economy gate PREPAREs against production
   on every PR, so a PR that adds the table would fail its own gate.
   `checkTransmutationSqlParses.ts` PREPAREs all 16 statements. It prints an
