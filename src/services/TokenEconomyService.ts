@@ -8,6 +8,11 @@
  * @file src/services/TokenEconomyService.ts
  */
 
+import type { OracleQuote } from "@/lib/economy/priceIndex";
+import type {
+  AutoSwapExecution,
+  AutoSwapRefusal,
+} from "@/lib/economy/swappingBridge";
 import { _logger } from "@/lib/logger";
 import {
   columnFor,
@@ -20,6 +25,7 @@ import {
   getBalancesSql,
   hasActivePurchaseSql,
   idempotencyProbeSql,
+  lockBalancesForUpdateSql,
   shopItemDetailSql,
   shopItemForPurchaseSql,
   shopItemsSql,
@@ -27,6 +33,8 @@ import {
   transactionsPageSql,
   transmuteSql,
   userOwnsItemSql,
+  type AxisAmounts,
+  type DebitAllIntent,
 } from "@/services/tokenEconomyQueries";
 import type {
   TokenType,
@@ -308,6 +316,137 @@ export function isMissingUserFailure(
     outcome.constraint !== null &&
     USER_FK_CONSTRAINTS.has(outcome.constraint)
   );
+}
+
+// ─── Swapping Bridge payments ─────────────────────────────────────────
+
+/** Why a shop purchase did not go through. */
+export type PurchaseFailureReason =
+  | "item_not_found"
+  | "already_owned"
+  | "already_applied"
+  | "insufficient_funds"
+  | "purchase_failed";
+
+/** What `purchaseShopItem` did. */
+export type PurchaseResult =
+  | {
+      success: true;
+      balances: TokenBalances;
+      transactionGroupId: string;
+      /**
+       * The conversions the Swapping Bridge made to fund this purchase, all in
+       * `transactionGroupId`; null when the basket was paid as-is.
+       */
+      autoSwap: AutoSwapExecution | null;
+    }
+  | {
+      success: false;
+      reason: PurchaseFailureReason;
+      /** Present when the basket was short and the bridge could not cover it. */
+      autoSwap?: AutoSwapRefusal;
+    };
+
+/** The slice of a pg client the payment transaction uses. */
+interface LedgerClient {
+  query: (
+    sql: string,
+    values: unknown[],
+  ) => Promise<{ rows: Array<Record<string, unknown>> }>;
+}
+
+type AutoSwapPayment =
+  | {
+      kind: "paid";
+      row: TokenBalanceRow & { txn_group_id?: string };
+      transactionGroupId: string;
+      execution: AutoSwapExecution | null;
+    }
+  | { kind: "refused"; refusal: AutoSwapRefusal };
+
+/**
+ * Pay `costs` after swapping surplus coins into the short axes — ONE
+ * transaction, ONE transaction group.
+ *
+ * Runs inside `withTransaction`: it locks the balance row, plans from the
+ * locked numbers (so no concurrent spend can land between plan and write),
+ * writes every swap leg, then writes the payment debit under the same group.
+ * Any failure after the first write THROWS, and the caller's transaction rolls
+ * the swaps back with it — a payer is never left converted but unpaid. A
+ * refusal returns before anything is written.
+ */
+async function payWithAutoSwapInTransaction(
+  client: LedgerClient,
+  bridge: typeof import("@/lib/economy/swappingBridge"),
+  args: {
+    userId: string;
+    costs: AxisAmounts;
+    quote: OracleQuote;
+    description: string;
+    idempotencyKey: string | null;
+    intent: DebitAllIntent;
+  },
+): Promise<AutoSwapPayment> {
+  const lock = lockBalancesForUpdateSql(args.userId);
+  const locked = await client.query(lock.sql, lock.values);
+  const [held] = locked.rows as TokenBalanceRow[];
+  if (!held) {
+    return {
+      kind: "refused",
+      refusal: { reason: "no_balance", shortfallValue: null, deficits: null },
+    };
+  }
+
+  const plan = bridge.planAutoSwap({
+    costs: args.costs,
+    balances: {
+      spirit: toNumber(held.spirit),
+      essence: toNumber(held.essence),
+      matter: toNumber(held.matter),
+      substance: toNumber(held.substance),
+    },
+    prices: args.quote.prices,
+  });
+  if (!plan.canCover) {
+    return { kind: "refused", refusal: bridge.describeRefusal(plan) };
+  }
+
+  const transactionGroupId = crypto.randomUUID();
+  await bridge.executeSwapPlan((sql, values) => client.query(sql, values), {
+    userId: args.userId,
+    plan,
+    transactionGroupId,
+    idempotencyKey: args.idempotencyKey,
+    purpose: args.description,
+  });
+
+  const debit = debitAllTokensSql({
+    userId: args.userId,
+    amounts: args.costs,
+    description: args.description,
+    idempotencyKey: args.idempotencyKey,
+    intent: args.intent,
+    transactionGroupId,
+  });
+  const paid = await client.query(debit.sql, debit.values);
+  const [paidRow] = paid.rows as Array<TokenBalanceRow & { txn_group_id?: string }>;
+  if (!paidRow) {
+    // The plan was priced against the row this transaction holds locked, so
+    // the payment cannot legitimately be short here. Throwing is what undoes
+    // the swaps already written above.
+    throw new Error(
+      "swapping-bridge: payment refused after auto-swap; rolling the swaps back",
+    );
+  }
+
+  return {
+    kind: "paid",
+    row: paidRow,
+    transactionGroupId: paidRow.txn_group_id ?? transactionGroupId,
+    // A plan with no legs means the balance was topped up between the fast
+    // path's refusal and the lock — the basket was paid as-is.
+    execution: plan.legs.length > 0 ? bridge.describeExecution(plan, args.quote) : null,
+  };
 }
 
 // ─── Service Class ────────────────────────────────────────────────────
@@ -1058,7 +1197,14 @@ class TokenEconomyService {
    * Purchase a shop item by slug. Atomically checks affordability,
    * debits all required token types, and records the purchase.
    *
-   * @returns New balances + transaction group ID, or null if insufficient funds
+   * When the basket is short on some axis and `autoSwap` is on (the default),
+   * the Swapping Bridge converts the payer's surplus coins into the short ones
+   * at live EEI parity and pays — the swap legs and the payment debit commit in
+   * one transaction under one transaction group, or not at all. A payer whose
+   * TOTAL value cannot cover the basket is still refused, and nothing moves.
+   *
+   * @returns New balances, transaction group ID and any auto-swap made; or the
+   *          failure reason (with the bridge's refusal when it tried).
    */
   async purchaseShopItem(
     userId: string,
@@ -1072,11 +1218,14 @@ class TokenEconomyService {
       };
       descriptionSuffix?: string;
       idempotencyKey?: string;
+      /**
+       * Cover a short axis by swapping surplus coins at live EEI parity.
+       * Default true; pass false to refuse any basket the balance cannot pay
+       * exactly as priced.
+       */
+      autoSwap?: boolean;
     },
-  ): Promise<
-    | { success: true; balances: TokenBalances; transactionGroupId: string }
-    | { success: false; reason: "item_not_found" | "already_owned" | "already_applied" | "insufficient_funds" | "purchase_failed" }
-  > {
+  ): Promise<PurchaseResult> {
     const db = await getDbModule();
 
     if (db) {
@@ -1136,15 +1285,69 @@ class TokenEconomyService {
         const result = await db.executeQuery<TokenBalanceRow & { txn_group_id: string }>(query.sql, query.values);
 
         const [purchaseRow] = result.rows;
-        if (!purchaseRow) {
+        if (purchaseRow) {
+          return {
+            success: true,
+            balances: rowToBalances(purchaseRow),
+            transactionGroupId: purchaseRow.txn_group_id,
+            autoSwap: null,
+          };
+        }
+
+        // 4. Short on at least one axis. Without the bridge, that is final.
+        if (!(opts?.autoSwap ?? true)) {
           _logger.info("[TokenEconomy] Insufficient funds for:", shopItemSlug);
           return { success: false, reason: "insufficient_funds" };
         }
 
+        // 5. Swapping Bridge. Loaded here, not at module scope: the oracle
+        //    pulls in the ephemeris engine, and only a short basket needs it.
+        //    Prices are read BEFORE the transaction so the row lock is never
+        //    held across an oracle computation.
+        const bridge = await import("@/lib/economy/swappingBridge");
+        let quote: OracleQuote;
+        try {
+          quote = bridge.getLiveSwapQuote();
+          bridge.assertUsablePrices(quote.prices);
+        } catch (oracleError) {
+          // Never swap at a guessed rate: an unpriceable sky means the basket
+          // is simply short, exactly as before the bridge existed.
+          _logger.warn("[TokenEconomy] auto-swap skipped — oracle unavailable:", oracleError);
+          return {
+            success: false,
+            reason: "insufficient_funds",
+            autoSwap: { reason: "rates_unavailable", shortfallValue: null, deficits: null },
+          };
+        }
+
+        const swapped = await db.withTransaction(async (client: LedgerClient) =>
+          payWithAutoSwapInTransaction(client, bridge, {
+            userId,
+            costs,
+            quote,
+            description,
+            idempotencyKey: idemKey,
+            intent: { kind: "purchase", shopItemId: item.id },
+          }),
+        );
+
+        if (swapped.kind === "refused") {
+          _logger.info(
+            `[TokenEconomy] Insufficient funds for ${shopItemSlug} even with auto-swap (${swapped.refusal.reason})`,
+          );
+          return { success: false, reason: "insufficient_funds", autoSwap: swapped.refusal };
+        }
+
+        if (swapped.execution) {
+          _logger.info(
+            `[TokenEconomy] ${shopItemSlug} paid via auto-swap: ${swapped.execution.legs.length} leg(s) in group ${swapped.transactionGroupId}`,
+          );
+        }
         return {
           success: true,
-          balances: rowToBalances(purchaseRow),
-          transactionGroupId: purchaseRow.txn_group_id,
+          balances: rowToBalances(swapped.row),
+          transactionGroupId: swapped.transactionGroupId,
+          autoSwap: swapped.execution,
         };
       } catch (error) {
         // Unique-violation on idempotency_key (race condition) → already_applied
@@ -1160,7 +1363,7 @@ class TokenEconomyService {
     const balances = memoryBalances.get(userId) ?? { ...EMPTY_BALANCES };
     // Simple affordability check placeholder
     _logger.warn("[TokenEconomy] purchaseShopItem in-memory fallback for:", shopItemSlug);
-    return { success: true, balances, transactionGroupId: `mem_${Date.now()}` };
+    return { success: true, balances, transactionGroupId: `mem_${Date.now()}`, autoSwap: null };
   }
 
   /**

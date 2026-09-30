@@ -274,6 +274,14 @@ export function quoteSourceAmount(
   );
 }
 
+/**
+ * Throws `SwapPricingError` unless every coin has a usable price. Lets a caller
+ * refuse BEFORE opening a transaction, rather than discover it mid-payment.
+ */
+export function assertUsablePrices(prices: OraclePrices): void {
+  toPriceUnits(prices);
+}
+
 /** The live price feed, read at the current oracle bucket. Throws on engine failure. */
 export function getLiveSwapQuote(now: Date = new Date()): OracleQuote {
   return getLiveOracleQuote(now);
