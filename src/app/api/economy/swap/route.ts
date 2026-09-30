@@ -2,16 +2,19 @@
  * POST /api/economy/swap
  *
  * Authenticated ESMS coin swap. Unlike /api/economy/transmute (fixed 3:1) the
- * swap rate floats with the current planetary hour and day. The server is the
- * sole source of truth for the rate — clients can preview but never dictate
- * pricing. Atomic debit + credit; transactions are linked via a shared
+ * swap converts at live Elemental Exchange Index parity — `P_to / P_from`, no
+ * spread — the same rate sheet /api/economy/swap-rates publishes and the same
+ * conversion the Swapping Bridge books when it auto-swaps a short payment.
+ * The server is the sole source of truth for the rate — clients can preview
+ * but never dictate pricing. Debit + credit are linked via a shared
  * transaction_group_id and tagged source_type='transmutation'.
  */
 
 import crypto from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { findRate, getCurrentSwapRates } from "@/lib/economy/swapRates";
+import { quoteSourceAmount } from "@/lib/economy/swappingBridge";
+import { findRate, tryGetCurrentSwapRates } from "@/lib/economy/swapRates";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { EconomySwapRequestSchema } from "@/lib/validation/apiSchemas";
@@ -67,7 +70,15 @@ export async function POST(request: NextRequest) {
 
     const { fromToken, toToken, amount } = parseResult.data;
 
-    const rateContext = getCurrentSwapRates();
+    // No rate sheet means the oracle cannot price the sky right now. Refuse
+    // rather than swap at a guessed rate.
+    const rateContext = tryGetCurrentSwapRates();
+    if (!rateContext) {
+      return NextResponse.json(
+        { success: false, message: "Swap rates are temporarily unavailable. Try again shortly." },
+        { status: 503 },
+      );
+    }
     const rateEntry = findRate(rateContext, fromToken, toToken);
     if (!rateEntry) {
       return NextResponse.json(
@@ -76,11 +87,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const costAmount = Number((amount * rateEntry.rate).toFixed(4));
+    // The bridge's own conversion: exact, and rounded up to the ledger unit, so
+    // swapping here costs exactly what an auto-swapped payment would.
+    const costAmount = quoteSourceAmount(rateContext.prices, fromToken, toToken, amount);
     const groupId = crypto.randomUUID();
 
     // Debit first; if it fails, no credit is issued.
-    const debitDescription = `Swap ${costAmount} ${fromToken} → ${amount} ${toToken} @ rate ${rateEntry.rate} (hour: ${rateContext.rulingHourPlanet})`;
+    const debitDescription = `Swap ${costAmount} ${fromToken} → ${amount} ${toToken} @ rate ${rateEntry.rate} (EEI parity, bucket ${rateContext.priceBucketStartUtc})`;
     const afterDebit = await tokenEconomy.debitTokens(
       userId,
       fromToken,
@@ -148,6 +161,12 @@ export async function POST(request: NextRequest) {
       planetaryContext: {
         rulingHourPlanet: rateContext.rulingHourPlanet,
         rulingDayPlanet: rateContext.rulingDayPlanet,
+      },
+      pricing: {
+        basis: rateContext.basis,
+        spread: rateContext.spread,
+        prices: rateContext.prices,
+        priceBucketStartUtc: rateContext.priceBucketStartUtc,
       },
       message: `⚗️ Swap complete under the hour of ${rateContext.rulingHourPlanet}: ${costAmount} ${fromToken} → ${amount} ${toToken}`,
     });

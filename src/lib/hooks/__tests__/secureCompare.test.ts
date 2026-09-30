@@ -38,6 +38,7 @@ describe("the shared-secret and internal routes", () => {
   const SYNC_ROUTES = [
     "src/app/api/economy/sync-credit/route.ts",
     "src/app/api/economy/sync-debit/route.ts",
+    "src/app/api/economy/sync-transmute/route.ts",
     "src/app/api/economy/sync-event/route.ts",
     "src/app/api/economy/balance/route.ts",
     "src/app/api/internal/agent-sync/route.ts",

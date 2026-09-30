@@ -24,6 +24,8 @@ export const CANONICAL_NOTIFICATION_TYPES: readonly NotificationType[] = [
   "dm_message",
   "circle_message",
   "table_chat_mention",
+  "transmutation_offer",
+  "transmutation_accepted",
 ] as const;
 
 /**

@@ -189,6 +189,8 @@ export async function POST(request: NextRequest) {
             matter: liveCost.matter,
             substance: liveCost.substance,
           },
+          // Why the Swapping Bridge could not cover the short axes, when it tried.
+          ...(result.autoSwap ? { autoSwap: result.autoSwap } : {}),
         },
         { status: 402 },
       );
@@ -200,6 +202,8 @@ export async function POST(request: NextRequest) {
       transactionGroupId: result.transactionGroupId,
       liveCost,
       pricing,
+      // Surplus coins swapped (at live EEI parity) to fund a short axis; null if none.
+      autoSwap: result.autoSwap,
       message: `✨ Purchased: ${item.title}`,
     });
   } catch (error) {

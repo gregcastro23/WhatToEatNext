@@ -312,21 +312,10 @@ export interface AffordabilityCheck {
 }
 
 // ─── Transmutation ─────────────────────────────────────────────────────
-
-/** Transmutation ratio: 3 of source → 1 of target */
-export const TRANSMUTATION_RATIO = 3;
-
-export interface TransmutationRequest {
-  fromToken: TokenType;
-  toToken: TokenType;
-  amount: number; // amount of target tokens to receive
-}
-
-export interface TransmutationResult {
-  spent: { tokenType: TokenType; amount: number };
-  received: { tokenType: TokenType; amount: number };
-  newBalances: TokenBalances;
-}
+//
+// Transmutation is a peer-to-peer trade between two practitioners — see
+// `@/types/transmutation` and ADR-018. Converting coins alone is a swap
+// (ADR-017); the old fixed 3:1 solo transmutation is retired.
 
 // ─── Economy Constants ─────────────────────────────────────────────────
 
@@ -400,8 +389,3 @@ export interface QuestsResponse {
   streak: UserStreak;
 }
 
-export interface TransmuteResponse {
-  success: boolean;
-  result: TransmutationResult;
-  message: string;
-}

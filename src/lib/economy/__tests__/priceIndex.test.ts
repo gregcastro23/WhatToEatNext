@@ -22,9 +22,11 @@ import {
   buildPriceIndexSnapshot,
   clearPriceIndexMemo,
   computeSkySample,
+  getLiveOracleQuote,
   getLivePriceIndexSnapshot,
   type PositionsProvider,
 } from "@/lib/economy/priceIndex";
+import { TOKEN_TYPES } from "@/types/economy";
 import type { PlanetPositionData } from "@/utils/astrology/positions";
 
 // 2026-07-20 12:00 UTC = 08:00 EDT — comfortably diurnal at the canonical NY
@@ -370,5 +372,56 @@ describe("getLivePriceIndexSnapshot — the per-bucket memo", () => {
       new Date(FIXED_DATE.getTime() + ORACLE_BUCKET_MS),
     );
     expect(c).not.toBe(a);
+  });
+});
+
+describe("getLiveOracleQuote — the feed the Swapping Bridge prices with", () => {
+  beforeEach(() => clearPriceIndexMemo());
+
+  const indexRow = (snapshot: ReturnType<typeof buildPriceIndexSnapshot>) =>
+    Object.fromEntries(snapshot.tokens.map((t) => [t.token, t.index]));
+
+  it("quotes exactly the snapshot's headline index for the same bucket (one feed)", () => {
+    const provider = constantProvider(fixtureSky());
+    const quote = getLiveOracleQuote(FIXED_DATE, provider);
+    const snapshot = buildPriceIndexSnapshot(FIXED_DATE, provider);
+    expect(quote.prices).toEqual(indexRow(snapshot));
+    expect(quote.bucketStartUtc).toBe(snapshot.bucketStartUtc);
+    // Pinned against the golden row above, so a drift in either path shows.
+    expect(TOKEN_TYPES.map((t) => quote.prices[t])).toEqual([
+      1.0149, 1.0483, 1.1302, 1.1401,
+    ]);
+  });
+
+  it("pins to the same minute bucket as the snapshot", () => {
+    const provider = constantProvider(fixtureSky());
+    const a = getLiveOracleQuote(new Date(FIXED_DATE.getTime() + 30_000), provider);
+    expect(a.bucketStartUtc).toBe(FIXED_DATE.toISOString());
+  });
+
+  it("carries the positions util's degraded reasons", () => {
+    const provider: PositionsProvider = () => ({
+      positions: fixtureSky(),
+      degraded: { reasons: ["stale-positions"] },
+    });
+    expect(getLiveOracleQuote(FIXED_DATE, provider).degraded).toContain(
+      "stale-positions",
+    );
+  });
+
+  it("THROWS on an empty sky — a swap must never run at a fabricated price", () => {
+    const provider: PositionsProvider = () => ({ positions: {}, degraded: null });
+    expect(() => getLiveOracleQuote(FIXED_DATE, provider)).toThrow();
+  });
+
+  it("on the live engine, agrees with the live snapshot whichever is built first", () => {
+    // Quote first: computed from one sample, then memoized.
+    const quoteFirst = getLiveOracleQuote(FIXED_DATE);
+    const snapshot = getLivePriceIndexSnapshot(FIXED_DATE);
+    expect(quoteFirst.prices).toEqual(indexRow(snapshot));
+    // Snapshot memoized: the quote is read straight out of it.
+    const quoteAfter = getLiveOracleQuote(new Date(FIXED_DATE.getTime() + 5_000));
+    expect(quoteAfter.prices).toEqual(indexRow(snapshot));
+    expect(quoteAfter.bucketStartUtc).toBe(snapshot.bucketStartUtc);
   });
 });
