@@ -99,6 +99,10 @@ none — not a number synthesized from their elements.
   index served by `alchm.kitchen/api/economy/price-index`. Kitchen owns the
   astronomical quote; Agents owns Solana token identity and consumes the quote
   unchanged. It is never a synthetic USD or SOL market price (ADR-013).
+- **Swapping Bridge** — pays a four-axis basket the payer is short on by
+  converting their surplus coins at EEI parity (`P_B / P_A`, no spread),
+  in the same transaction and transaction group as the payment. It refuses
+  rather than half-swap (ADR-017).
 
 ## Related
 
