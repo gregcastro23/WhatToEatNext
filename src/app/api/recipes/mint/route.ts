@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
+import { refundBasketAfterSwap } from "@/lib/economy/swappingBridge";
 import { tryGetCurrentSwapRates } from "@/lib/economy/swapRates";
 import { _logger } from "@/lib/logger";
 import { getPrivyWallet } from "@/lib/privy/server";
@@ -137,6 +138,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: purchase.reason }, { status: 503 });
   }
 
+  // A mint that fails after the debit is refunded NET of any Swapping Bridge
+  // conversion that funded it, so the user ends exactly where they started.
+  // Equal to `cost` when nothing was swapped; never negative on any axis.
+  const autoSwap = purchase.autoSwap ?? null;
+  const refund = refundBasketAfterSwap(cost, autoSwap?.legs ?? []);
+
   // Pin display metadata: generate the hero image (live nanobanana, cached) and
   // build absolute content/metadata URIs served from our own infra (no IPFS).
   // KEEP null when generation fails — the ledger stores absence, and the
@@ -200,10 +207,10 @@ export async function POST(request: NextRequest) {
     await tokenEconomy.creditMultipleTokens(
       userId,
       [
-        { tokenType: "Spirit", amount: cost.spirit },
-        { tokenType: "Essence", amount: cost.essence },
-        { tokenType: "Matter", amount: cost.matter },
-        { tokenType: "Substance", amount: cost.substance },
+        { tokenType: "Spirit", amount: refund.spirit },
+        { tokenType: "Essence", amount: refund.essence },
+        { tokenType: "Matter", amount: refund.matter },
+        { tokenType: "Substance", amount: refund.substance },
       ],
       "mint_refund",
       {
@@ -291,10 +298,10 @@ export async function POST(request: NextRequest) {
     await tokenEconomy.creditMultipleTokens(
       userId,
       [
-        { tokenType: "Spirit", amount: cost.spirit },
-        { tokenType: "Essence", amount: cost.essence },
-        { tokenType: "Matter", amount: cost.matter },
-        { tokenType: "Substance", amount: cost.substance },
+        { tokenType: "Spirit", amount: refund.spirit },
+        { tokenType: "Essence", amount: refund.essence },
+        { tokenType: "Matter", amount: refund.matter },
+        { tokenType: "Substance", amount: refund.substance },
       ],
       "mint_refund",
       {
@@ -325,6 +332,7 @@ export async function POST(request: NextRequest) {
     reason: chainResult.reason,
     cost,
     weightedToCoin,
+    autoSwap,
     contentHash: commitments.contentHash,
     metadataUri: metadataURI,
     imageUrl,
