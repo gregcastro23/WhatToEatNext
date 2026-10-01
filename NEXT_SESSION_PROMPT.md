@@ -1,27 +1,75 @@
-# Next session — post-Phase 43 reliability and type-safety targets
+# Next session — post-Phase 43 response contracts and the WTEN ↔ ASOL boundary
 
-Phase 43 is complete in [PR #933](https://github.com/gregcastro23/WhatToEatNext/pull/933). Read `docs/PHASE_43_CLOSEOUT.md` and check the PR's latest status before beginning. Work from an updated `master` after the PR merges, or explicitly state why a follow-up must branch from the PR. Do not repeat the completed optionality, cast, assertion, or scripts campaigns.
+## Starting state (verified 2026-10-01)
 
-The committed Phase 43 ceilings are 106 domain loose-optionality sites, 89 wire sites, 85 production bare JSON casts (94 total), zero scripts typecheck errors, 2,827 single assertion sites, and 1,293 tracked lint warnings. Re-measure against the actual starting tree before changing a baseline; these numbers are context, not permission to spend headroom.
+- Phase 43 is merged: [PR #933](https://github.com/gregcastro23/WhatToEatNext/pull/933) merged 2026-09-30, and `bfa1cde` is the head of `master`. Branch from `master`; there is nothing to wait for. Read `docs/PHASE_43_CLOSEOUT.md`, `CONTEXT.md`, and ADRs 013 and 014 (the existing cross-site contracts) before touching code.
+- Phase 43 ceilings: 106 domain loose-optionality sites, 89 wire sites, 85 production bare JSON casts (94 total), 0 scripts typecheck errors, 2,827 single assertion sites, 1,293 tracked lint warnings. These are context, not headroom. Re-measure on the starting tree before changing any baseline.
+- Do not repeat the completed optionality, cast, assertion, or scripts campaigns. The house-stellium `"Fire"`/`fire` mismatch is a scoring decision, not a type cleanup; leave it alone.
 
-## 1. First implementation target: make agent creation truly idempotent
+## Boundary rule: do not grow WTEN into ASOL
 
-`src/app/api/agents/unified/route.ts` now scopes `clientRequestId` lookup to `createdByUserId`, but the lookup and the three inserts (`users`, `user_profiles`, `token_balances`) are separate operations. Two concurrent requests can both miss the lookup and create agents; failure after the first insert can leave a partial agent that a retry cannot find through the current join. This is the highest-value follow-up because a lost 2xx response already causes the client to retry with the same ID.
+- **WTEN** (`alchm.kitchen`) owns recommendations, meal planning, Celestial Lab, Commensal Dining tables, the food diary, the token economy, and the static ingredient/recipe catalogs.
+- **ASOL** (`agents.alchm.kitchen` UI, `api.agents.alchm.kitchen` API) owns the Planetary Agents UI and backend. Agent creation, Monica Agent, and the Philosopher's Stone are canonical ASOL features.
+- Cross-site interaction goes through defined points only: `NEXT_PUBLIC_AGENTS_UI_URL` and `PLANETARY_AGENTS_API_URL` via `src/lib/serviceUrls.ts`, and server-to-server calls authenticated with `INTERNAL_API_SECRET`. Reuse the `agentChatUrl.ts` pattern for links; never hard-code the host.
+- **Allowed** in WTEN-resident, ASOL-adjacent code (`src/app/api/agents/unified`, `src/app/api/agent-forge/ignite`, `src/app/api/philosophers-stone/positions`, `src/app/api/planetary-agents/diet`, the Philosopher's Stone page): audit, correctness and security fixes, and removing dead calls.
+- **Not allowed** without an explicit owner decision: new agent-creation schemas, new tables or migrations, atomic multi-table transactions, new local routes standing in for ASOL endpoints, or deleting the existing WTEN-resident creation paths. If the audit concludes something should move to ASOL, write it up as a decision for the owner (a candidate ADR) and stop there.
 
-Design a database-enforced uniqueness boundary for `(creator, clientRequestId)` and make the creation writes atomic. Inspect the migration runner and existing rows before choosing a partial unique index on `users.profile` or a dedicated idempotency table. Plan the rollout so the constraint exists before code relies on it. On a uniqueness conflict, read and return the completed original agent rather than surfacing a generic 500. Decide and document what a replay with the same ID but different input means. Preserve behavior for requests without a client ID.
+## 1. First target: replace opaque response validation with real contracts
 
-Acceptance evidence: two simultaneous requests by one creator return one agent ID and leave one complete set of rows; replay after a lost response returns that ID; the same request ID from another creator is independent; an injected failure rolls back all related writes; malformed input cannot retrieve a previous agent. Prefer a database-backed concurrency test over a mock that only checks SQL strings. If a database test cannot run locally, keep the migration and concurrency claim explicitly unverified.
+Four predicate-less `z.custom<T>()` sites remain (every other `z.custom` in `src` carries a predicate):
 
-## 2. Next type-safety target: replace opaque response validation with real contracts
+- `src/hooks/useFoodDiary.ts:155` (`entries`) and `:267` (`entry`)
+- `src/hooks/useTables.ts:16` (`tables`) and `:20` (`table`)
 
-Five predicate-less `z.custom<T>()` sites still act as casts at response boundaries: `PremiumContext.tsx` (subscription), `useFoodDiary.ts` (entries and entry), and `useTables.ts` (list and detail). Start with one coherent producer-to-consumer slice, read every success, degraded, and error response, and validate only fields that the consumer actually needs. Add compile-time producer/reader compatibility checks where an authoritative server type exists, plus runtime tests for real response shapes and malformed 2xx payloads. Preserve prior good read state and uncertain mutation handling; do not replace the casts with `z.unknown()`, a permissive `z.custom`, or an unchecked assertion.
+The earlier prompt listed a fifth, a subscription site in `PremiumContext.tsx`. It no longer exists: the premium tier was retired in #919 (owner ruling 2026-09-28), so the `tier: "standard"` audit is moot. The `rate_limit_tier: "standard"` in the account schemas is the API-key tier and unrelated.
 
-The subscription route currently emits `tier: "standard"`, which is outside the existing union. Audit the product meaning of that tier before changing entitlement behavior or narrowing the schema. For food diary, inspect stored `food_source`, `meal_type`, and serving-unit values before using enums. For tables, inspect `composite_snapshot` and the fields each reader consumes. If a contract needs a product or data decision, leave that site deferred with evidence and complete a safe slice instead.
+The cast is not the only defect. All four sites do `parsed.success ? parsed.data : {}`, so a malformed 2xx silently becomes empty state:
 
-## 3. Investigate the unresolved Monica chat endpoint
+- `useMyTables` calls `setTables([])` and wipes prior good state with no error.
+- `useFoodDiary.loadCoreData` renders an empty diary.
+- `addEntry` after a 2xx POST with an unreadable body returns `null`. That reads as a plain failure and invites a duplicate submit although the row may exist.
 
-`src/app/(alchm)/philosophers-stone/page.tsx` still calls `/api/monica-agent`, while Phase 43 found no local Next route or documented rewrite for that path. Trace the actual deployed request and intended provider before changing code. If the endpoint is absent, make its user-facing failure explicit and propose or implement the smallest supported route/consumer repair with a verified response contract. Do not invent a schema from the old cast or silently redirect it to `/api/agents/unified` without checking semantics.
+Fix those behaviors, not just the types.
+
+- **Scope**: take one coherent producer-to-consumer slice (producers under `src/app/api/food-diary` or `src/app/api/tables`). Food diary is the cheaper start: list and create share one `FoodDiaryEntry` type. Read every success, degraded, and error response the producer can emit, and validate only the fields the consumer actually reads.
+- **Compile-time**: where an authoritative server type exists (`FoodDiaryEntry`, `TableRecord`, `TableDetail`), add a drift guard against it, following the pattern in `src/lib/admin/schemas/`.
+- **Runtime**: invoke the real route handler and parse its real output with the schema, as `phase43ConsumerRecovery.test.ts` does. Add malformed-2xx cases for each site. Show the new tests failing on the starting tree, then passing.
+- **Behavior**:
+  - An unreadable 2xx read keeps prior good state and surfaces an explicit unavailable/error state (the Phase 43 `economyError` and `companionsUnavailable` pattern).
+  - An unreadable 2xx mutation reconciles with a refetch and tells the user the outcome is uncertain.
+  - A non-2xx stays an ordinary failure.
+  - Use `safeReadJson(..., { parse })` so `check:read-json` stays at 0.
+- **Data inspection**: for `food_source`, `meal_type`, and serving units, read the migrations, every writer, and the fixtures before choosing enums. If production values cannot be read, do not enumerate from code alone: validate as a constrained string, or defer with evidence. For tables, inspect `composite_snapshot` and the fields each reader consumes.
+- **Never** replace a cast with `z.unknown()`, a permissive `z.custom`, or an unchecked assertion. If a site needs a product or data decision, leave it deferred with evidence and finish a safe slice instead.
+
+Done when: the predicate-less count drops (or each remainder is deferred with evidence), `check:bare-json` does not rise, and the behavior above is covered by tests that fail without the change.
+
+## 2. Second target (only after 1 is verified): the Monica / Philosopher's Stone boundary
+
+Facts to confirm first, not assume:
+
+- `src/app/(alchm)/philosophers-stone/page.tsx:292` calls `fetch('/api/monica-agent')`. There is no such route under `src/app/api`, and `next.config` has removed its proxy rewrites, so on `alchm.kitchen` it most likely 404s on the WTEN origin. Trace or curl it to confirm.
+- `docs/physics/SYNTHESIS_MODEL.md` (§16a) records `/api/monica-agent` as a Planetary Agents route called by PA's `MonicaChatBubble`. That points to ASOL ownership, but it is a docs claim and may be stale.
+- The call has no `response.ok` check and uses a bare cast. It is the one cast Phase 43 deferred, so resolving it should move production casts 85 → 84. Ratchet only after measuring.
+- The same page also calls local `/api/agents/unified` for creation and chat (Phase 43 added `clientRequestId` and creator-scoped dedupe there). That route and `/api/agent-forge/ignite` are WTEN-resident creation paths today.
+
+Steps:
+
+1. **Inventory** every Monica and Philosopher's Stone touchpoint in WTEN: file, call, target origin, owner, live or dead. Put the table in the closeout note, not in new code.
+2. **Locate** the real `/api/monica-agent` and the `/philosophers-stone` page. Try `list_repos` / `add_repo` for the ASOL repo, or probe `agents.alchm.kitchen`. Mark anything you cannot reach as unverified.
+3. **Make the smallest repair**:
+   - If ASOL hosts the Philosopher's Stone, hand off to `${agentsUi}/philosophers-stone` via `getServiceUrlSafe("agentsUi")`.
+   - If WTEN keeps an embedded view, remove or gate the dead Monica call with an explicit user-facing unavailable state. Call ASOL directly from the browser only if you have verified its CORS and auth support that.
+   - If neither works without a new proxy or schema, stop and ask for the decision.
+4. **Do not** invent a schema from the old cast, add a local stand-in route, or silently redirect the call to `/api/agents/unified`.
+
+## Deliberately deferred
+
+The previous prompt's first target (atomic, database-enforced agent-creation idempotency) is dropped under the boundary rule above. The Phase 43 limitation stands: the `clientRequestId` lookup in `/api/agents/unified` is non-atomic, and concurrent identical requests can both insert. Carry it into the closeout as an open owner decision (does creation belong in ASOL?). Do not fix it here.
 
 ## Working rules and completion
 
-Keep the first session focused on target 1; take target 2 or 3 only if the primary change is complete and verified. Treat the house-stellium `"Fire"`/`fire` mismatch as a separate scoring decision, not a type-only cleanup. For response work, distinguish a server rejection from an unreadable 2xx mutation result. Run focused tests, `bun run verify:static`, and the relevant build/integration checks. Ratchet baselines only after measuring the final merged tree. Record remaining risks and actual gate deltas in a closeout note.
+- Target 1 first. Start target 2 only when target 1 has passing focused tests and a green `bun run verify:static`.
+- Run focused jest suites, `bun run verify:static`, and `bun run build`.
+- Ratchet baselines only after measuring the final tree, and only counts that went down.
+- Write `docs/PHASE_44_CLOSEOUT.md` with measured gate deltas, the touchpoint inventory, deferred sites with evidence, and anything left unverified. Say plainly what you could not check.
