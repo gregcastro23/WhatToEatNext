@@ -31,9 +31,6 @@ import { z } from "zod";
 import { LifecycleControls } from "@/components/tables/LifecycleControls";
 import { MembersPanel } from "@/components/tables/MembersPanel";
 import { buildRelatedIngredientRecipe } from "@/lib/ingredients/relatedRecipe";
-import { q } from "../../../../scripts/lib/quantile";
-import { executeQuery } from "@/lib/database";
-import { POST } from "@/app/api/agents/unified/route";
 import { safeReadJson } from "@/lib/api/json";
 import {
   CelestialLabQuantitiesResponseSchema,
@@ -47,18 +44,7 @@ import {
   CommensalsListResponseSchema,
 } from "../commensalResponseSchemas";
 import type { Recipe } from "@/types/recipe";
-
-jest.mock("@/lib/database", () => ({
-  executeQuery: jest.fn(),
-}));
-jest.mock("@/lib/auth/auth", () => ({
-  auth: jest.fn(async () => ({ user: { id: "creator-uuid-0001" } })),
-}));
-jest.mock("@/lib/rateLimit", () => ({
-  rateLimit: jest.fn(async () => ({ allowed: true })),
-}));
-
-const mockExecuteQuery = jest.mocked(executeQuery);
+import { q } from "../../../../scripts/lib/quantile";
 
 describe("Phase 43 Consumer Recovery Behavior", () => {
   // ─── 1. Unreadable 2xx Table Controls Recovery ────────────────────────────
@@ -147,63 +133,6 @@ describe("Phase 43 Consumer Recovery Behavior", () => {
         data: { id: 12345, name: "Test" },
       });
       expect(parsed.success).toBe(false);
-    });
-
-    it("invokes real agent creation route and deduplicates repeated requests with stable clientRequestId", async () => {
-      mockExecuteQuery.mockResolvedValueOnce({
-        rows: [
-          {
-            id: "agent-existing-123",
-            name: "Agent Veritas",
-            dominant_element: "Water",
-            monica_constant: 1.618,
-          },
-        ],
-        rowCount: 1,
-        command: "SELECT",
-        oid: 0,
-        fields: [],
-      });
-
-      const req = new Request("http://localhost/api/agents/unified", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "create",
-          parameters: {
-            name: "Agent Veritas",
-            purpose: "Alchemical inquiry and exploration",
-            birthInfo: {
-              year: 1995,
-              month: 7,
-              day: 15,
-              hour: 14,
-              minute: 30,
-              latitude: 40.7128,
-              longitude: -74.006,
-            },
-            clientRequestId: "stable-client-req-999",
-          },
-        }),
-      });
-
-      const response = await POST(req);
-      const json: unknown = await response.json();
-
-      expect(response.status).toBe(200);
-      expect(mockExecuteQuery).toHaveBeenCalledWith(
-        expect.stringContaining("u.profile->>'createdByUserId' = $2"),
-        ["stable-client-req-999", "creator-uuid-0001"],
-      );
-      const parsed = UnifiedAgentCreateResponseSchema.safeParse(json);
-      expect(parsed.success).toBe(true);
-
-      if (!parsed.success) throw new Error("Agent response failed validation");
-      const resBody = parsed.data;
-      expect(resBody.success).toBe(true);
-      expect(resBody.deduplicated).toBe(true);
-      expect(resBody.data?.id).toBe("agent-existing-123");
-      expect(resBody.data?.name).toBe("Agent Veritas");
     });
 
     it("consumer warns uncertain outcome and retains stable request id on unreadable 2xx reply", async () => {

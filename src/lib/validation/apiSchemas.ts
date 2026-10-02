@@ -1408,12 +1408,6 @@ export const AgentGroupChatRequestSchema = z.object({
 });
 export type AgentGroupChatRequest = z.infer<typeof AgentGroupChatRequestSchema>;
 
-export const UnifiedAgentRequestSchema = z.object({
-  action: z.string(),
-  parameters: z.record(z.string(), z.unknown()).optional(),
-});
-export type UnifiedAgentRequest = z.infer<typeof UnifiedAgentRequestSchema>;
-
 // ─── Batch 3: External Integrations & Lab Inbound Request Schemas ───────────
 
 export const FoodLabUploadFormDataSchema = z.custom<FormData>(
