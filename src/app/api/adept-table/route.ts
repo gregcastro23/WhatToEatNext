@@ -5,6 +5,7 @@
  */
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { collectOrRefuse, quoteFeature } from "@/lib/economy/featureCharge";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
@@ -33,10 +34,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Tier gate removed with the premium concept. Only 3 humans ever held a
-    // `premium` row (against 3,418 agents), and none was Stripe-backed — so
-    // this 402 kept the Alchemical Midpoint dark for effectively every real
-    // user. It is authenticated + rate-limited, which is the actual protection.
+    // The Alchemical Midpoint was a premium feature. The tier is retired, so it
+    // now costs ESMS per calculation, priced on the caller's chart and the
+    // current sky and collected once the midpoint is computed (featureCharge).
 
     _logger.info(`[adept-table] User ${user.id} requested composite chart.`);
 
@@ -103,13 +103,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
 
     scoredRecipes.sort((a, b) => b.score - a.score);
+    // Top 3 for the table, with their authored times and meal (not the live placeholders)
+    const tableRecipes = await withAuthoredFactsAll(scoredRecipes.slice(0, 3));
 
-    return NextResponse.json({
-      success: true,
-      compositeChart,
-      // Top 3 for the table, with their authored times and meal (not the live placeholders)
-      recipes: await withAuthoredFactsAll(scoredRecipes.slice(0, 3)),
-    });
+    const unpaid = await collectOrRefuse(user.id, await quoteFeature(user, "alchemicalMidpoint"));
+    if (unpaid) return unpaid;
+
+    return NextResponse.json({ success: true, compositeChart, recipes: tableRecipes });
   } catch (error) {
     _logger.error("[premium-table] Error:", error);
     return NextResponse.json({ success: false, error: "Failed to calculate Alchemical Midpoint." }, { status: 500 });

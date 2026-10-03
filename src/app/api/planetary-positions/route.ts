@@ -10,7 +10,7 @@ import { z } from "zod";
 import { readJson } from "@/lib/api/json";
 import { rateLimit } from "@/lib/rateLimit";
 import { redisGet, redisSet } from "@/lib/redis";
-import { PlanetaryPositionsRequestSchema } from "@/lib/validation/apiSchemas";
+import { PlanetaryPositionsRequestSchema, type PlanetaryPositionsRequest } from "@/lib/validation/apiSchemas";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
@@ -33,14 +33,14 @@ interface NormalizedPlanetPosition {
 }
 
 interface PlanetaryRequestBody {
-  year?: number | undefined;
-  month?: number | undefined;
-  day?: number | undefined;
-  date?: number | undefined;
-  hour?: number | undefined;
-  minute?: number | undefined;
-  latitude?: number | undefined;
-  longitude?: number | undefined;
+  year: number | undefined;
+  month: number | undefined;
+  day: number | undefined;
+  date: number | undefined;
+  hour: number | undefined;
+  minute: number | undefined;
+  latitude: number | undefined;
+  longitude: number | undefined;
 }
 
 interface RawPositionObject {
@@ -128,7 +128,7 @@ function normalizeBackendPositions(backendPayload: unknown): Record<string, Norm
 const BackendPayloadSchema = z.record(z.string(), z.unknown());
 
 async function fetchFromBackend(
-  payload: PlanetaryRequestBody,
+  payload: PlanetaryRequestBody | PlanetaryPositionsRequest,
 ): Promise<Record<string, NormalizedPlanetPosition> | null> {
   if (!BACKEND_URL) return null;
 

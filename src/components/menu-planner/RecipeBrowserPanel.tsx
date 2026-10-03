@@ -28,6 +28,7 @@ import {
   type ScoredRecipe,
   type RecipeSearchOptions,
 } from "@/utils/recipeSearchEngine";
+import { roundedCalories } from "@/utils/roundedCalories";
 
 const logger = createLogger("RecipeBrowserPanel");
 
@@ -604,6 +605,8 @@ function BrowserRecipeCard({
   const planetSymbol = planetSymbols[todayPlanet];
   const resonanceScore = getPlanetaryResonance(recipe, todayPlanet);
 
+  const calories = roundedCalories(recipe.nutrition?.calories);
+
   return (
     <div
       className="relative p-4 rounded-lg border border-muted bg-surface/50 hover:border-active-violet hover:shadow-[0_0_12px_rgba(184,90,240,0.15)] transition-all duration-200 cursor-pointer group"
@@ -659,9 +662,7 @@ function BrowserRecipeCard({
           </span>
         )}
         {recipe.prepTime && <span>⏱️ {recipe.prepTime}</span>}
-        {recipe.nutrition?.calories && (
-          <span>🔥 {recipe.nutrition.calories} cal</span>
-        )}
+        {calories !== null && <span>🔥 {calories} cal</span>}
       </div>
 
       {/* Dietary badges */}

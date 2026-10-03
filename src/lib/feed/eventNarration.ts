@@ -318,6 +318,37 @@ export function narrateFeedEvent(
       };
     }
 
+    case "transmutation_offer": {
+      // An open offer to the whole Transmutation Circle (ADR-018).
+      const give = coinPhrase(metadata, "giveAmount", "giveToken");
+      const want = coinPhrase(metadata, "wantAmount", "wantToken");
+      const edge = getNumber(metadata, "takerEdgePct");
+      const generous = edge !== undefined && edge > 0.5 ? ` — ${edge.toFixed(0)}% better than a swap` : "";
+      return {
+        icon: "⚗️",
+        action: give && want
+          ? `is offering ${give} for ${want} in the Transmutation Circle${generous}.`
+          : "opened an offer in the Transmutation Circle.",
+        label: give && want ? `Offer · ${give} for ${want}` : "Transmutation offer",
+        href: "/feed?tab=transmute",
+      };
+    }
+
+    case "transmutation_trade": {
+      // A completed peer trade, narrated from the taker's side.
+      const gave = coinPhrase(metadata, "gaveAmount", "gaveToken");
+      const received = coinPhrase(metadata, "receivedAmount", "receivedToken");
+      const partner = getString(metadata, "partnerName") ?? "a fellow alchemist";
+      return {
+        icon: "🤝",
+        action: gave && received
+          ? `transmuted ${gave} for ${received} with ${partner}.`
+          : `completed a transmutation with ${partner}.`,
+        label: gave && received ? `Trade · ${gave} ⇄ ${received}` : "Transmutation",
+        href: "/feed?tab=transmute",
+      };
+    }
+
     case "cart_handoff":
     case "grocery_cart_send":
     case "amazon_cart_send": {
@@ -378,6 +409,14 @@ export function narrateFeedEvent(
         : "recorded network activity.",
     label: fallbackLabel,
   };
+}
+
+/** "3 Spirit" from an amount field and a token field, or undefined. */
+function coinPhrase(meta: FeedMetadata, amountKey: string, tokenKey: string): string | undefined {
+  const amount = getNumber(meta, amountKey);
+  const token = getString(meta, tokenKey);
+  if (amount === undefined || !token) return undefined;
+  return `${Number(amount.toFixed(4)).toString()} ${token}`;
 }
 
 function truncate(text: string, max: number): string {

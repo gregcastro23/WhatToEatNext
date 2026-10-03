@@ -32,10 +32,12 @@ jest.mock("@/lib/auth/validateRequest", () => ({
   getDatabaseUserFromRequest: jest.fn(),
 }));
 
-jest.mock("@/services/subscriptionService", () => ({
-  subscriptionService: {
-    canUseFeature: jest.fn(() => Promise.resolve({ allowed: true })),
-  },
+// The ESMS charge has its own suite (lib/economy featureCharge.test.ts); here it
+// settles unless a case says otherwise, so the merge logic stays under test.
+const mockCollectOrRefuse = jest.fn();
+jest.mock("@/lib/economy/featureCharge", () => ({
+  quoteFeature: async () => ({ feature: "groupRecommendations", exempt: false }),
+  collectOrRefuse: (...a: unknown[]) => mockCollectOrRefuse(...a),
 }));
 
 jest.mock("@/services/commensalDatabaseService", () => ({
@@ -73,6 +75,7 @@ function makeRequest(body: unknown): any {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  mockCollectOrRefuse.mockResolvedValue(null);
   (getDatabaseUserFromRequest as jest.Mock).mockResolvedValue({
     id: USER_ID,
     profile: {
@@ -100,6 +103,23 @@ beforeEach(() => {
 });
 
 describe("POST /api/group-recommendations", () => {
+  it("charges the caller once per computation, and withholds the result when refused", async () => {
+    mockCollectOrRefuse.mockResolvedValue({
+      status: 402,
+      json: async () => ({ success: false, reason: "insufficient_tokens" }),
+    });
+
+    const res = await POST(
+      makeRequest({ commensalIds: ["legacy-1", "table-1"], linkedUserIds: [], strategy: "average" }),
+    );
+    const data = await res.json();
+
+    expect(res.status).toBe(402);
+    expect(data).not.toHaveProperty("recommendations");
+    expect(mockCollectOrRefuse).toHaveBeenCalledTimes(1);
+    expect(mockCollectOrRefuse.mock.calls[0]?.[0]).toBe(USER_ID);
+  });
+
   it("includes companions from the manual_companion_charts table (not only legacy JSONB)", async () => {
     const res = await POST(
       makeRequest({

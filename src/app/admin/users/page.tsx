@@ -23,7 +23,6 @@ interface AdminUser {
   email: string;
   name: string | null;
   roles: string[];
-  tier?: string;
   subscriptionStatus?: string | null;
   isActive: boolean;
   isAgent: boolean;
@@ -66,7 +65,6 @@ const AdminUserWireSchema = z
     email: z.string(),
     name: z.string().nullable(),
     roles: z.array(z.string()),
-    tier: z.string().optional(),
     subscriptionStatus: z.string().nullable().optional(),
     isActive: z.boolean(),
     isAgent: z.boolean(),
@@ -96,7 +94,6 @@ function toDomainAdminUser(wire: AdminUserWire): AdminUser {
     dominantElement: wire.dominantElement,
     hasCompletedOnboarding: wire.hasCompletedOnboarding,
   };
-  if (wire.tier !== undefined) user.tier = wire.tier;
   if (wire.subscriptionStatus !== undefined) user.subscriptionStatus = wire.subscriptionStatus;
   if (wire.lastLoginAt !== undefined) user.lastLoginAt = wire.lastLoginAt;
   if (wire.loginCount !== undefined) user.loginCount = wire.loginCount;
@@ -169,7 +166,7 @@ export default function AdminUsersPage() {
         if (data.counts) setCounts(data.counts);
         setPagination(data.pagination ?? null);
         // The API sets `degraded: true` on its in-memory fallback path, where
-        // tier/loginCount/session fields are absent (rendered as zeros).
+        // loginCount/session fields are absent (rendered as zeros).
         setDegraded(data.degraded === true);
         setError(null);
       } else {
@@ -286,7 +283,7 @@ export default function AdminUsersPage() {
         </div>
       </div>
 
-      {/* Aggregate insights — demographics, activity, onboarding, tier, signups */}
+      {/* Aggregate insights — demographics, activity, onboarding, roles, signups */}
       <UserInsightsPanel />
 
       {/* User Type Tabs */}
@@ -372,7 +369,7 @@ export default function AdminUsersPage() {
       </div>
 
       {/* Degraded state — the API fell back to its in-memory roster. The
-          fallback rows carry no tier/login/session data, so those columns
+          fallback rows carry no login/session data, so those columns
           render zeros that mean "absent", not "measured zero". */}
       {degraded && (
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 text-sm text-amber-800">
@@ -787,25 +784,6 @@ export default function AdminUsersPage() {
                       }`}
                     >
                       {selectedUser.hasCompletedOnboarding ? "Complete" : "Pending"}
-                    </span>
-                  </p>
-                </div>
-              )}
-              {!selectedUser.isAgent && selectedUser.tier && (
-                <div>
-                  <span className="text-sm text-gray-500">Tier</span>
-                  <p>
-                    <span
-                      className={`px-2 py-1 rounded-full text-sm font-medium ${
-                        selectedUser.tier === "premium"
-                          ? "bg-amber-100 text-amber-800"
-                          : "bg-gray-100 text-gray-700"
-                      }`}
-                    >
-                      {selectedUser.tier}
-                      {selectedUser.subscriptionStatus
-                        ? ` · ${selectedUser.subscriptionStatus}`
-                        : ""}
                     </span>
                   </p>
                 </div>

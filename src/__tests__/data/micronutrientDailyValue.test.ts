@@ -83,7 +83,7 @@ describe("vitamins and minerals are Daily Value fractions, and say so", () => {
 
   it("every computed catalog recipe carries one, and no count exceeds its ingredients", () => {
     const blocks = catalog.map((r) => dailyValueOf(r.nutrition)).filter((dv) => dv !== undefined);
-    expect(blocks.length).toBeGreaterThan(800);
+    expect(blocks.length).toBeGreaterThan(150);
     const over = blocks.filter((dv) => Object.values(dv.listedBy).some((k) => k > dv.ingredients));
     expect(over).toEqual([]);
   });

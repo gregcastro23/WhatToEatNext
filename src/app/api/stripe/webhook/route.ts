@@ -34,7 +34,7 @@ import { isHandledStripeEvent, stripeHookEvent } from "@/lib/hooks/stripe/stripe
 import { withObservability } from "@/lib/observability/withObservability";
 import { triggerOrderFulfillment } from "@/lib/orders/fulfillment";
 import { RESTAURANT_ORDER_PURPOSE } from "@/lib/payments/restaurantPayments";
-import type { SubscriptionTier, SubscriptionStatus } from "@/types/subscription";
+import type { SubscriptionStatus } from "@/types/subscription";
 import { createLogger } from "@/utils/logger";
 import type Stripe from "stripe";
 
@@ -551,8 +551,12 @@ export const POST = withObservability(
           break;
         }
 
+        // Records the Stripe customer, subscription and period only. It never
+        // sets a tier: the subscription tier is retired and grants nothing
+        // (owner ruling 2026-09-28), and no WTEN route opens a subscription-mode
+        // checkout, so this branch sees only checkouts made elsewhere on the
+        // shared Stripe account.
         const userId = session.metadata?.userId;
-        const tier = (session.metadata?.tier ?? "premium") as SubscriptionTier;
 
         if (userId && session.customer) {
           // Ensure record exists
@@ -574,7 +578,6 @@ export const POST = withObservability(
           }
 
           await subscriptionService.updateSubscription(userId, {
-            tier,
             status: "active",
             stripeCustomerId: session.customer as string,
             stripeSubscriptionId,
@@ -582,7 +585,7 @@ export const POST = withObservability(
             currentPeriodEnd,
           });
           logger.info(
-            `[webhook] Checkout completed: user=${userId} tier=${tier} sub=${stripeSubscriptionId}`,
+            `[webhook] Checkout completed: user=${userId} sub=${stripeSubscriptionId}`,
           );
         }
         break;
@@ -622,7 +625,6 @@ export const POST = withObservability(
         const sub = await subscriptionService.getSubscriptionByStripeCustomerId(stripeCustomerId);
         if (sub) {
           await subscriptionService.updateSubscription(sub.userId, {
-            tier: "free",
             status: "canceled",
             stripeSubscriptionId: null,
           });
@@ -662,14 +664,10 @@ export const POST = withObservability(
 
         const sub = await subscriptionService.getSubscriptionByStripeCustomerId(stripeCustomerId);
         if (sub) {
-          // Downgrade to free immediately so server-side DB checks return the
-          // correct tier while the JWT (which caches the old tier for up to 24h)
-          // is still in circulation.
           await subscriptionService.updateSubscription(sub.userId, {
-            tier: "free",
             status: "past_due",
           });
-          logger.info(`Invoice payment failed: ${invoice.id} for user=${sub.userId} — downgraded to free`);
+          logger.info(`Invoice payment failed: ${invoice.id} for user=${sub.userId}`);
         } else {
           logger.warn(`No local subscription for Stripe customer ${stripeCustomerId} (invoice.payment_failed ${invoice.id})`);
         }

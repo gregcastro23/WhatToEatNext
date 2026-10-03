@@ -159,7 +159,7 @@ interface IngredientReport {
 function categoryFromFile(file: string): string {
   const rel = path.relative(INGREDIENTS_DIR, file).split(path.sep);
   // Top-level folder is the category (e.g. "proteins", "vegetables")
-  return rel[0].replace(/\.ts$/, "");
+  return (rel[0] ?? "").replace(/\.ts$/, "");
 }
 
 function propMap(obj: ObjectLiteralExpression): Map<string, PropertyAssignment> {

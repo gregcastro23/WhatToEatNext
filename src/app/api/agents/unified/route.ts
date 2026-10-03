@@ -186,6 +186,7 @@ export async function POST(request: NextRequest | Request): Promise<NextResponse
           purpose,
           stats,
           personalContext,
+          clientRequestId: rawClientRequestId,
         } = parameters;
         const birthInfo = rawBirthInfo as BirthInfoInput | undefined;
 
@@ -194,6 +195,44 @@ export async function POST(request: NextRequest | Request): Promise<NextResponse
             { success: false, error: "name, birthInfo, and purpose are required.", timestamp },
             { status: 400 }
           );
+        }
+
+        const clientRequestId =
+          typeof rawClientRequestId === "string" && rawClientRequestId.trim().length > 0 && rawClientRequestId.length <= 128
+            ? rawClientRequestId.trim()
+            : null;
+
+        if (clientRequestId) {
+          const existing = await executeQuery<{
+            id: string;
+            name: string;
+            dominant_element: string;
+            monica_constant: string | number;
+          }>(
+            `SELECT u.id, up.name, up.dominant_element, up.monica_constant
+             FROM users u
+             JOIN user_profiles up ON up.user_id = u.id
+             WHERE u.profile->>'clientRequestId' = $1
+               AND u.profile->>'createdByUserId' = $2
+             LIMIT 1`,
+            [clientRequestId, userId]
+          );
+
+          const [row] = existing.rows;
+          if (row) {
+            logger.info(`[unified-api] Deduplicated agent creation with clientRequestId: ${clientRequestId}`);
+            return NextResponse.json({
+              success: true,
+              data: {
+                id: row.id,
+                name: row.name,
+                dominantElement: row.dominant_element,
+                monicaConstant: Number(row.monica_constant),
+              },
+              deduplicated: true,
+              timestamp,
+            });
+          }
         }
 
         if (typeof name !== "string" || name.trim().length === 0 || name.length > 100) {
@@ -347,7 +386,8 @@ export async function POST(request: NextRequest | Request): Promise<NextResponse
           birthData,
           natalChart: formattedChart,
           personalContext,
-          stats
+          stats,
+          ...(clientRequestId ? { clientRequestId, createdByUserId: userId } : {}),
         };
 
         await executeQuery(

@@ -2,13 +2,11 @@
  * NextAuth.js type augmentations
  *
  * Extends the default Session and JWT types to include
- * custom fields used by alchm.kitchen (role, tier, onboardingComplete).
+ * custom fields used by alchm.kitchen (role, onboardingComplete).
  */
 
 import "next-auth";
 import "next-auth/jwt";
-
-import type { SubscriptionTier } from "@/types/subscription";
 
 declare module "next-auth" {
   interface Session {
@@ -18,11 +16,9 @@ declare module "next-auth" {
       name?: string | null;
       image?: string | null;
       role?: string;
-      tier?: SubscriptionTier;
       onboardingComplete?: boolean;
       /** JWT id (jti) — used by middleware to look up revocation state. */
       sessionId?: string;
-      recipesGeneratedToday?: number;
       authTime?: number;
     };
   }
@@ -33,7 +29,6 @@ declare module "next-auth" {
     name?: string | null;
     image?: string | null;
     role?: string;
-    tier?: SubscriptionTier;
     onboardingComplete?: boolean;
   }
 }
@@ -46,13 +41,11 @@ declare module "next-auth/jwt" {
     picture?: string;
     provider?: string;
     role?: string;
-    tier?: SubscriptionTier;
     onboardingComplete?: boolean;
     /** UUID for the NextAuth `sessions` table row (revocable). */
     sessionId?: string;
     /** UUID for the `device_sessions` table row (UI-facing revocation target). */
     deviceSessionId?: string;
-    recipesGeneratedToday?: number;
     authTime?: number;
   }
 }

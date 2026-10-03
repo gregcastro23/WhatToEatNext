@@ -49,6 +49,14 @@ export type TransactionSourceType =
    */
   | "group_chat_quest"
   /**
+   * A Jing Arena duel round won on the agents app (agents.alchm.kitchen). The
+   * arena pays the signed-in player there and forwards the same basket here
+   * through POST /api/economy/sync-credit under the agents app's own source
+   * name. Idempotency key shape: `duel_yield:<agentsUserId>:<mintedAt>`; the
+   * daily cap is enforced on the agents side (DUEL_YIELD_DAILY_CAP).
+   */
+  | "duel_yield"
+  /**
    * Debit for AI recipe ingestion — a user added a recipe by pasting text or
    * uploading a photo (GPT-4o extraction) via POST /api/recipes/extract.
    * Live-priced per extraction like refine_oracle; refunded if extraction fails.
@@ -304,21 +312,10 @@ export interface AffordabilityCheck {
 }
 
 // ─── Transmutation ─────────────────────────────────────────────────────
-
-/** Transmutation ratio: 3 of source → 1 of target */
-export const TRANSMUTATION_RATIO = 3;
-
-export interface TransmutationRequest {
-  fromToken: TokenType;
-  toToken: TokenType;
-  amount: number; // amount of target tokens to receive
-}
-
-export interface TransmutationResult {
-  spent: { tokenType: TokenType; amount: number };
-  received: { tokenType: TokenType; amount: number };
-  newBalances: TokenBalances;
-}
+//
+// Transmutation is a peer-to-peer trade between two practitioners — see
+// `@/types/transmutation` and ADR-018. Converting coins alone is a swap
+// (ADR-017); the old fixed 3:1 solo transmutation is retired.
 
 // ─── Economy Constants ─────────────────────────────────────────────────
 
@@ -392,8 +389,3 @@ export interface QuestsResponse {
   streak: UserStreak;
 }
 
-export interface TransmuteResponse {
-  success: boolean;
-  result: TransmutationResult;
-  message: string;
-}

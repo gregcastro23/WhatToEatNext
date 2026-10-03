@@ -53,4 +53,41 @@ describe("narrateFeedEvent", () => {
     expect(narration.label).toBe("Voice Walkthrough · Solar Saffron Elixir");
     expect(narration.href).toBe("https://assets.alchm.kitchen/audio/solar_saffron.mp3");
   });
+  it("narrates an open Transmutation Circle offer, flagging a generous edge", () => {
+    const narration = narrateFeedEvent("transmutation_offer", {
+      giveToken: "Spirit",
+      giveAmount: 4,
+      wantToken: "Essence",
+      wantAmount: 2.9091,
+      takerEdgePct: 10,
+    });
+    expect(narration.icon).toBe("⚗️");
+    expect(narration.action).toBe(
+      "is offering 4 Spirit for 2.9091 Essence in the Transmutation Circle — 10% better than a swap.",
+    );
+    expect(narration.label).toBe("Offer · 4 Spirit for 2.9091 Essence");
+    expect(narration.href).toBe("/feed?tab=transmute");
+  });
+
+  it("narrates a completed trade with the partner's shared name", () => {
+    const narration = narrateFeedEvent("transmutation_trade", {
+      gaveToken: "Essence",
+      gaveAmount: 3.2,
+      receivedToken: "Spirit",
+      receivedAmount: 4,
+      partnerName: "Ada",
+    });
+    expect(narration.icon).toBe("🤝");
+    expect(narration.action).toBe("transmuted 3.2 Essence for 4 Spirit with Ada.");
+    expect(narration.label).toBe("Trade · 3.2 Essence ⇄ 4 Spirit");
+  });
+
+  it("degrades gracefully when trade metadata is missing", () => {
+    expect(narrateFeedEvent("transmutation_trade", {}).action).toBe(
+      "completed a transmutation with a fellow alchemist.",
+    );
+    expect(narrateFeedEvent("transmutation_offer", null).action).toBe(
+      "opened an offer in the Transmutation Circle.",
+    );
+  });
 });
