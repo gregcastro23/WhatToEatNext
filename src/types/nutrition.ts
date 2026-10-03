@@ -350,6 +350,16 @@ export interface NutritionCoverage {
 export type PlannerNutrientCoverage = Record<"sodium" | "sugar", NutritionCoverage>;
 
 /**
+ * The nutrients a recipe states only when every ingredient does (owner rulings
+ * 2026-09-27 and 2026-09-29). In a `NutritionalSummary` a recipe that does not
+ * state one still reads 0, so its total is a lower bound: read the coverage.
+ */
+export type LowerBoundNutrient = "sugar" | "sodium" | "saturatedFat" | "potassium" | "cholesterol";
+
+/** For each lower-bound nutrient, how many planned meals state it. */
+export type LowerBoundCoverage = Record<LowerBoundNutrient, NutritionCoverage>;
+
+/**
  * Daily nutrition result with compliance analysis
  */
 export interface DailyNutritionResult {
@@ -360,9 +370,13 @@ export interface DailyNutritionResult {
     nutrition: NutritionalSummary;
     /** False when the recipe publishes no nutrition; `nutrition` is then all zeros. */
     hasNutrition: boolean;
+    /** Which lower-bound nutrients the recipe states; an unstated one is a 0 in `nutrition`. */
+    stated: Record<LowerBoundNutrient, boolean>;
   }>;
   totals: NutritionalSummary;
   coverage: NutritionCoverage;
+  /** `totals` of these are lower bounds where fewer meals state them than are planned. */
+  nutrientCoverage: LowerBoundCoverage;
   goals: NutritionalSummary;
   compliance: {
     overall: number;
@@ -384,6 +398,7 @@ export interface WeeklyNutritionResult {
   days: DailyNutritionResult[];
   weeklyTotals: NutritionalSummary;
   coverage: NutritionCoverage;
+  nutrientCoverage: LowerBoundCoverage;
   weeklyGoals: NutritionalSummary;
   weeklyCompliance: {
     overall: number;
@@ -398,24 +413,6 @@ export interface WeeklyNutritionResult {
     cuisineDiversity: number;
     colorDiversity: number;
   };
-}
-
-/**
- * Compliance severity levels
- */
-export type ComplianceSeverity =
-  | "excellent"
-  | "good"
-  | "fair"
-  | "poor"
-  | "critical";
-
-export function getComplianceSeverity(score: number): ComplianceSeverity {
-  if (score >= 0.9) return "excellent";
-  if (score >= 0.75) return "good";
-  if (score >= 0.6) return "fair";
-  if (score >= 0.4) return "poor";
-  return "critical";
 }
 
 export type NutrientImportance = "critical" | "high" | "medium" | "low";

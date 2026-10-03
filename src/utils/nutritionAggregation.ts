@@ -13,7 +13,12 @@ import type {
   WeeklyNutritionResult,
 } from "@/types/nutrition";
 import { createEmptyNutritionalSummary } from "@/types/nutrition";
-import { coverageOf, sumCoverage } from "@/utils/menuPlanner/nutritionCoverage";
+import {
+  coverageOf,
+  lowerBoundCoverageOf,
+  sumCoverage,
+  sumLowerBoundCoverage,
+} from "@/utils/menuPlanner/nutritionCoverage";
 
 /**
  * Key macronutrient fields for quick iteration
@@ -167,6 +172,7 @@ export function buildDailyResult(
     meals,
     totals,
     coverage: coverageOf(meals.map((m) => m.hasNutrition)),
+    nutrientCoverage: lowerBoundCoverageOf(meals.map((m) => m.stated)),
     goals,
     compliance: {
       overall,
@@ -204,6 +210,7 @@ export function buildWeeklyResult(
     days,
     weeklyTotals,
     coverage: sumCoverage(days.map((d) => d.coverage)),
+    nutrientCoverage: sumLowerBoundCoverage(days.map((d) => d.nutrientCoverage)),
     weeklyGoals,
     weeklyCompliance: {
       overall,
@@ -224,7 +231,7 @@ export function buildWeeklyResult(
 /**
  * Convert camelCase nutrient key to human-readable name
  */
-export function formatNutrientName(key: keyof NutritionalSummary): string {
+function formatNutrientName(key: keyof NutritionalSummary): string {
   const names: Partial<Record<keyof NutritionalSummary, string>> = {
     calories: "Calories",
     protein: "Protein",

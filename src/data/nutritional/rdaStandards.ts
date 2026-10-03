@@ -243,14 +243,6 @@ export const RDA_STANDARDS: RDAStandard[] = [
 ];
 
 /**
- * Get unit string for a given nutrient
- */
-export function getNutrientUnit(nutrient: keyof NutritionalSummary): string {
-  const standard = RDA_STANDARDS.find((s) => s.nutrient === nutrient);
-  return standard?.unit ?? "";
-}
-
-/**
  * Activity level calorie multipliers (Harris-Benedict)
  */
 const ACTIVITY_MULTIPLIERS: Record<ActivityLevel, number> = {
