@@ -27949,11 +27949,15 @@
     }
   },
   "elementalProperties": {
-    "Fire": 0.2,
-    "Water": 0.3,
-    "Earth": 0.3,
-    "Air": 0.2
+    "Fire": 0.2857,
+    "Water": 0.2526,
+    "Earth": 0.3628,
+    "Air": 0.0989
   },
   "regionalVarieties": 5,
-  "astrologicalInfluences": []
+  "astrologicalInfluences": [],
+  "elementalProfileBasis": {
+    "method": "recipe-mean",
+    "recipes": 45
+  }
 }

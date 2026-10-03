@@ -39,7 +39,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "2 cups (40g)",
       calories: 10,
-      macros: { protein: 1.0, carbs: 1.5, fat: 0.3, fiber: 0.6, sugar: 0.8, sodium: 0.01 },
+      macros: { protein: 1.0, carbs: 1.5, fat: 0.3, fiber: 0.6, sugar: 0.8, sodium: 10.8 }, // sodium mg: FDC 169387, 27 mg/100 g x 40 g (was 0.01)
       vitamins: { K: 0.45, A: 0.10, C: 0.08 },
       minerals: { calcium: 0.06, potassium: 0.03, magnesium: 0.02 },
       source: "USDA FoodData Central",
@@ -84,7 +84,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 cup chopped (40g)",
       calories: 9,
-      macros: { protein: 0.6, carbs: 1.8, fat: 0.1, fiber: 0.4, sugar: 0.2, sodium: 0.01 },
+      macros: { protein: 0.6, carbs: 1.8, fat: 0.1, fiber: 0.4, sugar: 0.2, sodium: 8.8 }, // sodium mg: FDC 168564, 22 mg/100 g x 40 g (was 0.01)
       vitamins: { K: 0.35, C: 0.04 },
       minerals: { potassium: 0.03, copper: 0.02 },
       source: "USDA FoodData Central",
@@ -129,7 +129,7 @@ const rawLeafyGreens: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       serving_size: "1 cup (50g)",
       calories: 11,
-      macros: { protein: 0.8, carbs: 2.0, fat: 0.1, fiber: 1.8, sugar: 0.3, sodium: 0.02 },
+      macros: { protein: 0.8, carbs: 2.0, fat: 0.1, fiber: 1.8, sugar: 0.3, sodium: 22.5 }, // sodium mg: FDC 169992, 45 mg/100 g x 50 g (was 0.02)
       vitamins: { A: 0.28, C: 0.10, folate: 0.08 },
       minerals: { calcium: 0.05, iron: 0.03, potassium: 0.04 },
       source: "USDA FoodData Central",

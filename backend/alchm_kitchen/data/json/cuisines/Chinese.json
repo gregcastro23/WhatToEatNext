@@ -1,10 +1,10 @@
 {
   "name": "Chinese",
   "elementalProperties": {
-    "Fire": 0.3,
-    "Water": 0.3,
-    "Earth": 0.3,
-    "Air": 0.1
+    "Fire": 0.3012,
+    "Water": 0.2924,
+    "Earth": 0.2692,
+    "Air": 0.1372
   },
   "description": "Ancient culinary traditions with a focus on balance and wok hei.",
   "id": "chinese",
@@ -46,5 +46,9 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": []
+  "astrologicalInfluences": [],
+  "elementalProfileBasis": {
+    "method": "recipe-mean",
+    "recipes": 43
+  }
 }

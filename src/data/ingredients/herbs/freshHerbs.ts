@@ -39,7 +39,7 @@ const rawFreshHerbs = {
       },
       serving_size: "1 tbsp chopped (3g)",
       calories: 1,
-      macros: { protein: 0.1, carbs: 0.1, fat: 0.01, fiber: 0.1, sugar: 0.05, sodium: 0.001 },
+      macros: { protein: 0.1, carbs: 0.1, fat: 0.01, fiber: 0.1, sugar: 0.05, sodium: 0.09 }, // sodium mg: FDC 169994, 3 mg/100 g x 3 g (was 0.001)
       vitamins: { A: 0.05, C: 0.02, K: 0.08 },
       minerals: { potassium: 0.01 },
       source: "USDA FoodData Central",

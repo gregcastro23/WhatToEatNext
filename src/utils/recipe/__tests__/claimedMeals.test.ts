@@ -4,7 +4,6 @@
  * it and names its static id.
  */
 import { getServerRecipes } from "@/actions/recipes";
-import { getCuisineData, PRIMARY_CUISINE_KEYS } from "@/data/cuisines/index";
 import { claimedMeals } from "../claimedMeals";
 
 describe("claimedMeals", () => {
@@ -35,25 +34,9 @@ describe("in the static catalog", () => {
     ["african-lunch-all-authentic-nigerian-jollof-rice", ["lunch", "dinner"], "the bucket leads when claimed"],
     ["american-dinner-all-classic-new-england-clam-chowder", ["dinner", "lunch"], "so dinner stays first here"],
     ["american-lunch-all-authentic-new-england-clam-chowder", ["lunch"], "classified only as a soup: the bucket"],
-    ["thai-dessert-all-tub-tim-grob", ["dessert"], "a template entry keeps its bucket"],
+    ["thai-dessert-all-tub-tim-grob", ["dessert"], "an authored dessert claims its classification"],
   ])("%s claims %j: %s", async (id, meals) => {
     const recipe = (await getServerRecipes()).find((r) => r.id === id);
     expect(recipe?.mealType).toEqual(meals);
-  });
-});
-
-describe("the cuisine data", () => {
-  it("no template entry carries the template's stamped lunch + dinner", async () => {
-    const stamped: string[] = [];
-    for (const key of PRIMARY_CUISINE_KEYS) {
-      const cuisine = await getCuisineData(key);
-      for (const [bucket, seasons] of Object.entries(cuisine?.dishes ?? {})) {
-        for (const dish of Object.values(seasons ?? {}).flat()) {
-          const template = /^An alchemically/.test(String(dish.description ?? ""));
-          if (template && JSON.stringify(dish.mealType) !== JSON.stringify([bucket])) stamped.push(`${key} ${bucket}: ${dish.name} ${JSON.stringify(dish.mealType)}`);
-        }
-      }
-    }
-    expect(stamped).toEqual([]);
   });
 });

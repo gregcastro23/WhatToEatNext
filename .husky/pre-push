@@ -1,6 +1,11 @@
 #!/bin/sh
 export PATH="$HOME/.bun/bin:$PATH"
 
+# Verification creates temporary Git repositories. Clear the hook's inherited
+# repository selectors so those fixtures cannot operate on this checkout.
+# Git intentionally lists these as whitespace-separated shell variable names.
+unset $(git rev-parse --local-env-vars)
+
 # Run full verify suite before pushing.
 # `|| exit 1` is load-bearing: this file has no `set -e`, and without it the
 # hook's exit status comes from the trailing `git lfs pre-push` (or the `exit 0`

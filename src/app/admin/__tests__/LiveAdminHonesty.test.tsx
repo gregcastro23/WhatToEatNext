@@ -7,12 +7,13 @@
 
 import { render, screen } from "@testing-library/react";
 import React from "react";
+import { BaseKpis, OperatorWallets } from "@/app/admin/chain/_components/BaseSections";
 import { SolanaMilestones } from "@/app/admin/chain/_components/SolanaMilestones";
 import { JobsKpis } from "@/app/admin/jobs/_components/JobsSummary";
 import { JobsTable } from "@/app/admin/jobs/_components/JobsTable";
 import { ModeBanner, RevenueKpis } from "@/app/admin/revenue/_components/RevenueSections";
 import { TrafficStatusNotice } from "@/app/admin/traffic/_components/TrafficSections";
-import type { SolanaView } from "@/lib/admin/schemas/chain";
+import type { BaseView, SolanaView } from "@/lib/admin/schemas/chain";
 import type { JobsView } from "@/lib/admin/schemas/jobs";
 import type { RevenueView } from "@/lib/admin/schemas/revenue";
 import type { TrafficSummaryView } from "@/lib/admin/schemas/traffic";
@@ -91,6 +92,39 @@ describe("Solana milestones", () => {
     render(<SolanaMilestones solana={solana} />);
     expect(screen.getAllByText("unknown").length).toBeGreaterThanOrEqual(6);
     expect(screen.queryByText("done")).toBeNull();
+  });
+});
+
+describe("Base chain status", () => {
+  it("shows a wrong RPC chain and leaves wallet gas unknown", () => {
+    const base: BaseView = {
+      generatedAt: "2026-09-30T00:00:00Z",
+      chain: "Base Sepolia",
+      chainId: 84532,
+      explorer: "https://sepolia.basescan.org",
+      reachable: false,
+      error: "ESMS RPC reports eip155:8453; configured chain is eip155:84532",
+      blockNumber: null,
+      esmsContract: "0x124ECa1bb1E106D3614A22A256f9A412FfeEAd8F",
+      contractCheck: {
+        status: "rpc-chain-mismatch",
+        address: "0x124ECa1bb1E106D3614A22A256f9A412FfeEAd8F",
+        expectedChainId: 84532,
+        rpcChainId: 8453,
+        message: "ESMS RPC reports eip155:8453; configured chain is eip155:84532",
+      },
+      recipeRegistry: null,
+      recipeNftEnabled: false,
+      wallets: [{ role: "redeemer", address: "0x0000000000000000000000000000000000000001", eth: null, low: false, configured: true }],
+      claims: { status: "error", byStatus: {}, last30d: 0, oldestPendingHours: null, totals: null, recent: [] },
+      recipeMints: { status: "error", byStatus: {}, last30d: 0 },
+    };
+    render(<><BaseKpis base={base} /><OperatorWallets base={base} /></>);
+    expect(screen.getByText("wrong chain")).toBeTruthy();
+    expect(screen.getByText("blocked")).toBeTruthy();
+    expect(screen.getByText("unknown")).toBeTruthy();
+    expect(screen.queryByText("funded")).toBeNull();
+    expect(screen.queryByText("refill")).toBeNull();
   });
 });
 

@@ -90,7 +90,7 @@ export function VolumeChart({ data }: { data: RevenueView }): React.JSX.Element 
 }
 
 const PURPOSE_LABEL: Record<string, string> = {
-  premium_subscription: "Premium subscription",
+  subscription: "Subscription (another app)",
   mcp_top_up: "MCP credit top-up",
   token_package: "ESMS token pack",
   restaurant_order: "Restaurant order",

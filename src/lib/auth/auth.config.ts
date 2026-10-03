@@ -245,14 +245,12 @@ export const authConfig = {
       session.user.name = token.name ?? "";
       session.user.image = token.picture ?? "";
       session.user.role = token.role ?? "user";
-      session.user.tier = token.tier ?? "free";
       session.user.onboardingComplete =
         token.onboardingComplete ?? false;
       const sessId = token.deviceSessionId ?? token.sessionId;
       if (sessId) {
         session.user.sessionId = sessId;
       }
-      session.user.recipesGeneratedToday = token.recipesGeneratedToday ?? 0;
       if (typeof token.authTime === "number") {
         session.user.authTime = token.authTime;
       }

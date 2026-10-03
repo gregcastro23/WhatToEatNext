@@ -1,5 +1,6 @@
 // src/data/cuisines/russian.ts
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const russian: Cuisine = {
   id: "russian",
@@ -3143,12 +3144,7 @@ export const russian: Cuisine = {
       seasonality: "river-influenced with seasonal fishing patterns",
     },
   },
-  elementalProperties: {
-    Earth: 0.5,
-    Water: 0.3,
-    Fire: 0.1,
-    Air: 0.1,
-  },
+  elementalProperties: derivedProfiles.cuisines.Russian.elementalProperties,
 };
 
 export default russian;

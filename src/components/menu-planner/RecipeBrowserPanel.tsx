@@ -28,6 +28,7 @@ import {
   type ScoredRecipe,
   type RecipeSearchOptions,
 } from "@/utils/recipeSearchEngine";
+import { roundedCalories } from "@/utils/roundedCalories";
 
 const logger = createLogger("RecipeBrowserPanel");
 
@@ -565,6 +566,9 @@ export default function RecipeBrowserPanel({
   );
 }
 
+const DETAILS_CLASS =
+  "px-2 py-1 bg-surface-container-high border border-muted text-primary rounded text-xs font-mono uppercase hover:border-active-violet transition-colors flex items-center justify-center cursor-pointer";
+
 /**
  * Recipe Card for the browser panel
  */
@@ -600,6 +604,8 @@ function BrowserRecipeCard({
   };
   const planetSymbol = planetSymbols[todayPlanet];
   const resonanceScore = getPlanetaryResonance(recipe, todayPlanet);
+
+  const calories = roundedCalories(recipe.nutrition?.calories);
 
   return (
     <div
@@ -656,9 +662,7 @@ function BrowserRecipeCard({
           </span>
         )}
         {recipe.prepTime && <span>⏱️ {recipe.prepTime}</span>}
-        {recipe.nutrition?.calories && (
-          <span>🔥 {recipe.nutrition.calories} cal</span>
-        )}
+        {calories !== null && <span>🔥 {calories} cal</span>}
       </div>
 
       {/* Dietary badges */}
@@ -714,16 +718,30 @@ function BrowserRecipeCard({
             In Queue
           </span>
         )}
-        <Link
-          href={`/recipes/${recipe.id}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            if (onViewDetail) onViewDetail();
-          }}
-          className="px-2 py-1 bg-surface-container-high border border-muted text-primary rounded text-xs font-mono uppercase hover:border-active-violet transition-colors flex items-center justify-center cursor-pointer"
-        >
-          Details
-        </Link>
+        {/* Details opens the planner's modal and stays on the page; the
+            recipe name above is the link to the full recipe page. */}
+        {onViewDetail ? (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onViewDetail();
+            }}
+            className={DETAILS_CLASS}
+          >
+            Details
+          </button>
+        ) : (
+          <Link
+            href={`/recipes/${recipe.id}`}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className={DETAILS_CLASS}
+          >
+            Details
+          </Link>
+        )}
       </div>
     </div>
   );

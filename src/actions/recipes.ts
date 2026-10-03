@@ -6,6 +6,7 @@ import type { IndexedRecipe, RecipeIndex } from "@/types/indexedRecipe";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import { computeRecipeNutritionFromIngredients } from "@/utils/ingredientNutritionAggregation";
 import { createLogger } from "@/utils/logger";
+import { parseRecipeSource } from "@/utils/recipe/recipeSource";
 import {
   calculateRecipeAlchemicalQuantities,
   calculateRecipeElementalFromIngredients,
@@ -60,6 +61,7 @@ interface RawCuisineDish {
   nutritionPerServing?: unknown;
   nutrition?: unknown;
   nutritionalProfile?: unknown;
+  adaptedFrom?: unknown;
 }
 
 let _cachedRecipes: IndexedRecipe[] | null = null;
@@ -198,6 +200,18 @@ function inferDietary(ingredients: unknown[]): DietaryFlags {
 }
 
 /**
+ * A static id is the dish's cuisine, meal, season and name slug, so two
+ * different dishes whose names differ only in punctuation share one (HSCA's
+ * TOFU "SOUR CREAM" and TOFU SOUR CREAM). The first keeps the id that every
+ * existing URL resolves to; a later one is numbered ("…-tofu-sour-cream-2").
+ */
+function claimRecipeId(id: string, served: Map<string, number>): string {
+  const count = (served.get(id) ?? 0) + 1;
+  served.set(id, count);
+  return count === 1 ? id : `${id}-${count}`;
+}
+
+/**
  * Extract and normalize recipes from the static cuisine data files.
  * This is the authoritative source for the full recipe catalog.
  */
@@ -206,6 +220,7 @@ function extractRecipesFromCuisines(
 ): IndexedRecipe[] {
   const recipes: IndexedRecipe[] = [];
   const seen = new Set<string>();
+  const servedIds = new Map<string, number>();
   const stats: NutritionCoverageStats = {
     total: 0,
     fromSource: 0,
@@ -298,6 +313,7 @@ function extractRecipesFromCuisines(
           const matter = toFiniteNumber(alchemicalProps.Matter);
           const substance = toFiniteNumber(alchemicalProps.Substance);
           const monicaScore = toFiniteNumber(dish.monicaScore);
+          const adaptedFrom = parseRecipeSource(dish.adaptedFrom);
 
           const substitutions = (
             Array.isArray(dish.substitutions) ? dish.substitutions : []
@@ -321,12 +337,15 @@ function extractRecipesFromCuisines(
             );
 
           const recipe: IndexedRecipe = {
-            id:
+            id: claimRecipeId(
               dish.id ??
-              `${cuisineName.toLowerCase()}-${key.replace(/\s+/g, "-")}`,
+                `${cuisineName.toLowerCase()}-${key.replace(/\s+/g, "-")}`,
+              servedIds,
+            ),
             name: dish.name,
             ...(imageUrl ? { image: imageUrl, imageUrl } : {}),
             description: dish.description ?? "",
+            ...(adaptedFrom ? { adaptedFrom } : {}),
             cuisine:
               dish.cuisine ??
               (details.cuisine as string | undefined) ??

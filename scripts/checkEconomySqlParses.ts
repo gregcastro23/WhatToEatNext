@@ -164,6 +164,41 @@ statements.push({
   builder: "debitAllTokensSql",
 });
 
+// The Swapping Bridge writes its payment debit under the swap's group id. That
+// binds one extra parameter, so it is a different statement from the two above
+// and is prepared in both intents.
+statements.push({
+  label: "debitAll(spend, group)",
+  sql: queries.debitAllTokensSql({
+    userId: UUID,
+    amounts: AMOUNTS,
+    description: "probe",
+    idempotencyKey: "probe",
+    intent: { kind: "spend", sourceType: "recipe_ingestion", sourceId: null },
+    transactionGroupId: UUID,
+  }).sql,
+  builder: "debitAllTokensSql",
+});
+
+statements.push({
+  label: "debitAll(purchase, group)",
+  sql: queries.debitAllTokensSql({
+    userId: UUID,
+    amounts: AMOUNTS,
+    description: "probe",
+    idempotencyKey: "probe",
+    intent: { kind: "purchase", shopItemId: UUID },
+    transactionGroupId: UUID,
+  }).sql,
+  builder: "debitAllTokensSql",
+});
+
+statements.push({
+  label: "lockBalancesForUpdate",
+  sql: queries.lockBalancesForUpdateSql(UUID).sql,
+  builder: "lockBalancesForUpdateSql",
+});
+
 // Transmutation interpolates TWO columns, so every ordered pair is its own
 // statement — 4 x 3 = 12. Checking one pair would leave a typo in any of the
 // other eleven to surface only for whoever happened to swap those two axes.
@@ -346,9 +381,10 @@ statements.push({
   builder: "circulatingSupplySql",
 });
 
-// 4 credit + 4 debit + 1 getBalances + 2 debitAll + 12 transmute = 23 money
+// 4 credit + 4 debit + 1 getBalances + 4 debitAll (2 intents x with/without a
+// caller-supplied group) + 1 balance lock + 12 transmute = 26 money
 // statements, plus 14 reads/bookkeeping and 11 dashboard/reconciliation aggregates.
-const EXPECTED_TOTAL = 48;
+const EXPECTED_TOTAL = 51;
 
 const client = new pg.Client({
   connectionString: url,

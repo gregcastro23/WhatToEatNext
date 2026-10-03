@@ -23,9 +23,11 @@ import { keccak256, toHex, formatUnits } from "viem";
 import { executeQuery } from "@/lib/database";
 import {
   esmsOnchainConfigured,
+  probeEsmsContract,
   readEsmsBalancesMany,
   readEsmsClaimed,
   readEsmsRedeemed,
+  type EsmsContractStatus,
   type OnchainEsms,
 } from "@/lib/esms-chain/contract";
 import { mintEsmsClaim, minterConfigured } from "@/lib/esms-chain/minter";
@@ -55,6 +57,7 @@ export interface BurnHealSummary {
   healed: number; // burned on-chain, grant inserted
   failures: number;
   firstError?: string;
+  preflight?: EsmsContractStatus;
 }
 
 export interface InvariantSummary {
@@ -130,6 +133,16 @@ export async function healBurnedPurchases(maxReads = 40): Promise<BurnHealSummar
   const summary: BurnHealSummary = { pairsChecked: 0, healed: 0, failures: 0 };
   if (!esmsOnchainConfigured()) return summary;
 
+  // A broken deployment setting affects every pair. Diagnose it once before
+  // enumerating users, instead of producing forty identical read failures.
+  const check = await probeEsmsContract();
+  summary.preflight = check.status;
+  if (check.status !== "ready") {
+    summary.failures = 1;
+    summary.firstError = check.message;
+    return summary;
+  }
+
   let pairs: Array<{ user_id: string; slug: string; item_id: string }> = [];
   try {
     // Wallet-linked users × active one-time items they DON'T own. The hourly
@@ -153,6 +166,7 @@ export async function healBurnedPurchases(maxReads = 40): Promise<BurnHealSummar
   } catch (err) {
     _logger.error("[chainReconcile] pair enumeration failed:", err);
     summary.failures++;
+    summary.firstError = `Shop pair enumeration failed: ${err instanceof Error ? err.message : String(err)}`;
     return summary;
   }
 

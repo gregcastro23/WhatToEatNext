@@ -14,6 +14,7 @@
 
 import { isInternalCuisineCode } from "@/utils/internalCuisineCodes";
 import rawIndex from "./generated/ingredientRecipeIndex.json";
+import { containmentMatcher, type SlugFilter } from "./ingredientContainment";
 
 export interface IngredientRecipeMatch {
   recipeId: string;
@@ -30,6 +31,9 @@ function normalizeIngredientInput(value: string): string {
   return value
     .toLowerCase()
     .normalize("NFKD")
+    // NFKD splits "ñ" into "n" plus a mark; the next replace used to turn the
+    // mark into a space ("jalapen o"). The spelled-out repairs below predate this.
+    .replace(/\p{M}/gu, "")
     .replace(/[^\w\s]/g, " ")
     .replace(/_/g, " ")
     .replace(/\bgruye re\b/g, "gruyere")
@@ -120,96 +124,34 @@ const CONTAINMENT_STOPWORDS = new Set([
   "to taste", "for garnish", "for serving", "optional",
 ]);
 
-/**
- * Words that name a portion of another ingredient rather than an ingredient:
- * "garlic cloves", "4 cloves garlic", "juice of 1 lemon", "thyme sprigs".
- * Basis: a clove is one segment of a garlic bulb, juice is the liquid pressed
- * from the fruit named with it, and heads, sprigs, stalks and leaves are how
- * a vegetable or herb is counted. "cloves" (the spice) and "juice" are index
- * slugs, so a portion word still resolves when it is the only name in the
- * text ("ground cloves"), but it never wins against another name.
- */
-const PORTION_WORDS = new Set([
-  "clove", "cloves", "juice", "head", "heads", "sprig", "sprigs",
-  "stalk", "stalks", "leaf", "leaves",
-]);
-
-/**
- * Heads that make "<ingredient> <head>" a product of its own: neither the
- * ingredient nor the plain head. Basis: the index carries almond, cashew and
- * sunflower-seed butter as slugs distinct from the nut and from dairy butter,
- * so "peanut butter", which has no slug, is not peanuts and not butter.
- */
-const PRODUCT_HEADS = new Set(["butter"]);
-
-/** Containment aliases, matched as whole-token sequences of the input. */
-const CONTAINMENT_ALIASES: ReadonlyMap<string, string> = new Map(
-  Array.from(ALIAS_TO_SLUG.entries()).filter(
-    ([alias]) => alias.length >= 4 && !CONTAINMENT_STOPWORDS.has(alias),
+/** Containment over every alias of 4+ characters that is not a bare descriptor. */
+const containedSlug = containmentMatcher(
+  new Map(
+    Array.from(ALIAS_TO_SLUG.entries()).filter(
+      ([alias]) => alias.length >= 4 && !CONTAINMENT_STOPWORDS.has(alias),
+    ),
   ),
 );
-const MAX_ALIAS_TOKENS = Math.max(...Array.from(CONTAINMENT_ALIASES.keys(), (alias) => alias.split(" ").length));
+const ANY_SLUG: SlugFilter = () => true;
 
-interface AliasMatch {
-  alias: string;
-  slug: string;
-  /** Token span [start, end) in the input. */
-  start: number;
-  end: number;
-}
-
-/** Every containment alias the input holds as whole words, with its span. */
-function aliasMatches(input: string): AliasMatch[] {
-  const tokens = input.split(" ");
-  const matches: AliasMatch[] = [];
-  for (let start = 0; start < tokens.length; start++) {
-    const last = Math.min(tokens.length, start + MAX_ALIAS_TOKENS);
-    for (let end = start + 1; end <= last; end++) {
-      const alias = tokens.slice(start, end).join(" ");
-      const slug = CONTAINMENT_ALIASES.get(alias);
-      if (slug !== undefined) matches.push({ alias, slug, start, end });
-    }
-  }
-  return matches;
-}
-
-function isInside(inner: AliasMatch, outer: AliasMatch): boolean {
-  return outer !== inner && outer.start <= inner.start && outer.end >= inner.end;
-}
-
-/** Drop each product head and the name right before it ("peanut butter"). */
-function withoutProducts(matches: readonly AliasMatch[]): AliasMatch[] {
-  const heads = matches.filter((m) => PRODUCT_HEADS.has(m.alias) && matches.some((p) => p.end === m.start));
-  return matches.filter((m) => !heads.some((head) => head === m || head.start === m.end));
-}
-
-/**
- * The slug an input names by containment. Rules, in order:
- *   1. A name inside a longer name drops out ("fresh pandan leaves").
- *   2. Portion words yield to any other name ("garlic cloves" → garlic).
- *   3. A product head and the name before it drop out ("peanut butter").
- *   4. The longest remaining name wins; on equal length the rightmost, since
- *      the last noun heads the phrase ("garlic chives" → chives).
- * Rules 1–3 used to be approximated by length alone, with ties going to
- * whichever slug came first in the JSON: "garlic cloves" → cloves.
- */
-function containedSlug(input: string): string | null {
-  const all = aliasMatches(input);
-  const outer = all.filter((m) => !all.some((o) => isInside(m, o)));
-  const named = outer.filter((m) => !PORTION_WORDS.has(m.alias));
-  const kept = withoutProducts(named.length > 0 ? named : outer);
-  const best = kept.reduce<AliasMatch | null>(
-    (top, m) => (top === null || m.alias.length >= top.alias.length ? m : top),
-    null,
-  );
-  return best?.slug ?? null;
+function slugFor(candidate: string, accepts: SlugFilter): string | null {
+  const exact = toSlug(candidate);
+  if (INDEX_KEYS.has(exact) && accepts(exact)) return exact;
+  const byAlias = ALIAS_TO_SLUG.get(candidate);
+  if (byAlias !== undefined && accepts(byAlias)) return byAlias;
+  // Containment fallback for prefixed names like "fresh pandan leaves".
+  return containedSlug(candidate, accepts);
 }
 
 /**
  * Resolve a canonical index slug from a user-facing ingredient input.
  * Returns null when no slug can be resolved.
+ *
+ * A slug `accepts` rejects is skipped at every step, so the input can still
+ * reach a name the caller can use. For the omnibar, "ground beef" → beef:
+ * the index has a ground_beef slug, but the catalog has no card for it.
  */
-export function resolveIngredientSlug(input: string): string | null {
+export function resolveIngredientSlug(input: string, accepts: SlugFilter = ANY_SLUG): string | null {
   if (!input) return null;
   const normalized = normalizeIngredientInput(input);
   const candidates = new Set<string>();
@@ -223,15 +165,8 @@ export function resolveIngredientSlug(input: string): string | null {
   }
 
   for (const candidateInput of candidates) {
-    const slug = toSlug(candidateInput);
-    if (INDEX_KEYS.has(slug)) return slug;
-
-    const byAlias = ALIAS_TO_SLUG.get(candidateInput);
-    if (byAlias) return byAlias;
-
-    // Containment fallback for prefixed names like "fresh pandan leaves".
-    const contained = containedSlug(candidateInput);
-    if (contained !== null) return contained;
+    const slug = slugFor(candidateInput, accepts);
+    if (slug !== null) return slug;
   }
   return null;
 }

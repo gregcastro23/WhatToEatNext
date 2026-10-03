@@ -4,7 +4,10 @@
  */
 
 import { getPersonalizedPricingContext } from "@/lib/economy/livePricing";
-import { getCurrentSwapRates } from "@/lib/economy/swapRates";
+import {
+  getPlanetaryRulers,
+  tryGetCurrentSwapRates,
+} from "@/lib/economy/swapRates";
 import { recipeNftEnabled } from "./contract";
 import { baseMintCost, buildRedistributePreview } from "./cost";
 import { computeRecipeFingerprint } from "./fingerprint";
@@ -40,8 +43,14 @@ export async function buildMintQuote(
   const pricing = await getPersonalizedPricingContext(natalPositions ?? null);
   const live = base; // flat cost — multiplier intentionally bypassed
 
-  const swap = getCurrentSwapRates();
-  const redistributePreview = buildRedistributePreview(live, swap);
+  // Redistribution converts at live EEI parity. When the oracle cannot price
+  // the sky there is no rate to convert at, so every variant is the flat cost —
+  // shown as-is rather than converted at a guessed rate.
+  const swap = tryGetCurrentSwapRates();
+  const redistributePreview = swap
+    ? buildRedistributePreview(live, swap)
+    : { Spirit: { ...live }, Essence: { ...live }, Matter: { ...live }, Substance: { ...live } };
+  const rulers = swap ?? getPlanetaryRulers();
 
   return {
     recipeId: recipe.id,
@@ -62,9 +71,10 @@ export async function buildMintQuote(
         timestamp: pricing.timestamp,
       },
       swap: {
-        rulingHourPlanet: swap.rulingHourPlanet,
-        rulingDayPlanet: swap.rulingDayPlanet,
-        validUntil: swap.validUntil,
+        rulingHourPlanet: rulers.rulingHourPlanet,
+        rulingDayPlanet: rulers.rulingDayPlanet,
+        // No live sheet → nothing to hold the preview to; it is already stale.
+        validUntil: swap?.validUntil ?? pricing.timestamp,
       },
     },
   };

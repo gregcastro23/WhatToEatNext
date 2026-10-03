@@ -31,6 +31,7 @@ export const PRACTICE_TYPES = [
   "follow_made",
   "first_follower_gained",
   "visage_revealed",
+  "transmutation_shared",
 ] as const;
 
 export type PracticeType = (typeof PRACTICE_TYPES)[number];
@@ -287,6 +288,27 @@ export const PRACTICES: Record<PracticeType, PracticeDefinition> = {
     description:
       "Reveal your visage — set a true likeness where the sigil stood.",
   },
+  transmutation_shared: {
+    type: "transmutation_shared",
+    // A trade is flow between two vessels — Water's coin. It also means the
+    // bonus lands on an axis other than the social acts' Spirit.
+    tokenType: "Essence",
+    baseAmount: 1,
+    // Once per trading PARTNER per day (the target is the partner's id), and
+    // at most three partners a day: two accounts trading back and forth earn
+    // one bonus a day, not one per trade.
+    dedupe: "daily",
+    dailyCap: 3,
+    requiresTarget: true,
+    hints: [
+      "Two vessels, each filled from the other",
+      "What you lacked arrived from a fellow's surplus",
+      "The Circle turns when coins change hands",
+      "An exchange completed — both charts richer for it",
+    ],
+    description:
+      "Complete a trade in the Transmutation Circle — each practitioner sends the other the coin they lack, and Essence flows to both.",
+  },
 };
 
 /**
@@ -317,6 +339,9 @@ export const SERVER_ONLY_PRACTICES: ReadonlySet<PracticeType> = new Set([
   "first_follower_gained",
   // Recognized inside POST /api/user/avatar — the avatar_url write is the proof.
   "visage_revealed",
+  // Recognized by transmutationService after a fill commits — the filled
+  // transmutation_offers row and its four ledger rows are the proof.
+  "transmutation_shared",
 ]);
 
 /**

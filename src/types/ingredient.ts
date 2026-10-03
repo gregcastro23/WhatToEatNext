@@ -92,3 +92,15 @@ export interface Ingredient {
 export type { ElementalProperties, Season } from "./alchemy";
 export type { ZodiacSignType, PlanetName } from "./celestial";
 export type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
+
+export interface RelatedIngredientRecipe {
+  id: string;
+  name: string;
+  cuisine: string | undefined;
+  description: string | undefined;
+  prepTime: number | undefined;
+  cookTime: number | undefined;
+  servings: number | undefined;
+  amount: number | undefined;
+  unit: string | undefined;
+}

@@ -11,7 +11,6 @@ import type { UserRole } from "@/lib/auth/roles";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { _logger } from "@/lib/logger";
 import { AdminUpdateUserRequestSchema } from "@/lib/validation/apiSchemas";
-import { subscriptionService } from "@/services/subscriptionService";
 import { userDatabase } from "@/services/userDatabaseService";
 import type { UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
@@ -145,7 +144,8 @@ const ALLOWED_ROLES = new Set(["USER", "ADMIN", "ALCHEMIST", "GRAND_MASTER"]);
 
 /**
  * PATCH /api/admin/users/[userId]
- * Allows admins to update a user's tier, role, or deactivation status.
+ * Allows admins to update a user's role or deactivation status. There is no
+ * tier to set: the premium tier is retired (owner ruling 2026-09-28).
  */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
@@ -174,7 +174,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const { tier, isActive, role } = parsed.data;
+    const { isActive, role } = parsed.data;
 
     const user: AdminRouteUser | null = await userDatabase.getUserById(userId);
     if (!user) {
@@ -230,24 +230,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    // Update subscription tier
-    if (tier === "free" || tier === "premium") {
-      const now = new Date();
-      const periodEnd = new Date(now);
-      if (tier === "premium") {
-        periodEnd.setFullYear(periodEnd.getFullYear() + 10);
-      } else {
-        periodEnd.setMonth(periodEnd.getMonth() + 1);
-      }
-      await subscriptionService.getOrCreateSubscription(userId);
-      await subscriptionService.updateSubscription(userId, {
-        tier,
-        status: "active",
-        currentPeriodStart: now.toISOString(),
-        currentPeriodEnd: periodEnd.toISOString(),
-      });
-    }
-
     // Update role (guards above already ran)
     if (normalizedRole) {
       const applied = await userDatabase.updateUserRole(
@@ -275,7 +257,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       success: true,
       message: "User updated",
       userId,
-      ...(tier ? { tier } : {}),
       ...(normalizedRole ? { role: normalizedRole } : {}),
     });
   } catch (error) {

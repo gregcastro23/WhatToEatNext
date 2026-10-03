@@ -129,7 +129,7 @@ describe("buildRecipeIdentityIndex", () => {
     expect(index.resolve("korean-dinner-all-japchae")).toMatchObject({ kind: "static-only" });
   });
 
-  it("keeps a shared index alias when both static recipes land on the same twin", () => {
+  it("gives a shared name's index alias to the first static recipe, with its twin", () => {
     const index = buildRecipeIdentityIndex(
       [
         { id: "korean-dinner-all-japchae", name: "Japchae", cuisine: "korean" },
@@ -138,7 +138,35 @@ describe("buildRecipeIdentityIndex", () => {
       [{ id: "live-japchae", name: "Japchae", cuisine: "Korean" }],
     );
     expect(index.resolve("korean-japchae")).toMatchObject({ kind: "twin", liveId: "live-japchae" });
+    expect(index.resolve("korean-lunch-all-japchae")).toMatchObject({ kind: "static-only" });
     expect(index.stats.aliasCollisions).toBe(0);
+  });
+
+  // Real rows. HSCA's archive has two different dishes whose names differ only
+  // in punctuation; production's live catalog holds one of them, the soft-tofu one.
+  const TOFU_SOFT = { id: "hsca-lunch-all-tofu-sour-cream", name: 'TOFU "SOUR CREAM"', cuisine: "hsca" };
+  const TOFU_FIRM = { id: "hsca-lunch-all-tofu-sour-cream-2", name: "TOFU SOUR CREAM", cuisine: "hsca" };
+  const TOFU_LIVE = { id: "b1025b54-60c5-4b3d-9448-809792481373", name: 'TOFU "SOUR CREAM"' };
+
+  it("gives a live twin to the first of two static recipes of one exact name", () => {
+    const index = buildRecipeIdentityIndex([TOFU_SOFT, TOFU_FIRM], [TOFU_LIVE]);
+    expect(index.resolve(TOFU_SOFT.id)).toEqual({ kind: "twin", staticId: TOFU_SOFT.id, liveId: TOFU_LIVE.id });
+    // The firm-tofu recipe has no live twin: its page is its own, not the soft-tofu one.
+    expect(index.resolve(TOFU_FIRM.id)).toEqual({ kind: "static-only", staticId: TOFU_FIRM.id });
+    expect(index.staticOnlyIds).toEqual([TOFU_FIRM.id]);
+    // The ingredient drawer's link keeps landing where it does in production.
+    expect(index.resolve("hsca-tofu-sour-cream")).toMatchObject({ kind: "twin", liveId: TOFU_LIVE.id });
+  });
+
+  it("lets spellings that meet only once accents fold share one live twin", () => {
+    // Production's live catalog has one Che Ba Mau; both static spellings are that dish.
+    const dinner = { id: "vietnamese-dinner-all-che-ba-mau", name: "Che Ba Mau", cuisine: "vietnamese" };
+    const dessert = { id: "vietnamese-dessert-all-ch-ba-mu", name: "Chè Ba Màu", cuisine: "vietnamese" };
+    const live = { id: "8c1de6c1-9d46-4922-90db-64bd4a63b8f9", name: "Che Ba Mau", cuisine: "Vietnamese" };
+    const index = buildRecipeIdentityIndex([dinner, dessert], [live]);
+    expect(index.resolve(dinner.id)).toMatchObject({ kind: "twin", liveId: live.id });
+    expect(index.resolve(dessert.id)).toMatchObject({ kind: "twin", liveId: live.id });
+    expect(index.resolve("vietnamese-ch-u00e8-ba-m-u00e0u")).toMatchObject({ kind: "twin", liveId: live.id });
   });
 
   it("never lets an index alias shadow a real static id", () => {

@@ -38,7 +38,20 @@ import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
 import { invokeTool } from "@/lib/mcp/tools";
 
-const PROBE_TIMEOUT_MS = 10_000;
+export const DEFAULT_PROBE_TIMEOUT_MS = 10_000;
+const PROBE_TIMEOUT_MS = DEFAULT_PROBE_TIMEOUT_MS;
+
+/**
+ * Timeout for the cosmic-recipe probe (50s).
+ *
+ * Upstream Planetary Agents recipe generation calls an LLM and takes
+ * ~15-35s (bounded at 45s by `PA_TIMEOUT_MS` in `/api/generate-cosmic-recipe`).
+ * The default 10s probe timeout aborted every real generation attempt,
+ * causing 100% false-positive probe timeouts (0/24 failing).
+ * 50s provides enough headroom for PA while remaining below the 60s
+ * lambda `maxDuration` limit.
+ */
+export const COSMIC_RECIPE_PROBE_TIMEOUT_MS = 50_000;
 
 /**
  * When the long-lived `SYNTHETIC_PROBE_TOKEN` JWT stops being accepted.
@@ -288,6 +301,7 @@ export async function runOnboardingSkipProbe(options: {
 export async function runCosmicRecipeProbe(options: {
   baseUrl: string;
   bearerToken: string | null;
+  timeoutMs?: number;
 }): Promise<ProbeResult> {
   return runJsonPostProbe({
     probeName: "cosmic-recipe",
@@ -299,9 +313,10 @@ export async function runCosmicRecipeProbe(options: {
     },
     baseUrl: options.baseUrl,
     bearerToken: options.bearerToken,
+    timeoutMs: options.timeoutMs ?? COSMIC_RECIPE_PROBE_TIMEOUT_MS,
     extractResponseSnapshot: (body) => ({
       success: body.success ?? null,
-      hasData: body.data != null,
+      hasData: body.data != null || body.id != null || body.title != null,
       demo: body.demo ?? null,
     }),
     // A 402 means the synthetic user has already spent its one free daily
@@ -677,11 +692,13 @@ async function runJsonPostProbe(args: {
   body: Record<string, unknown>;
   baseUrl: string;
   bearerToken: string | null;
+  timeoutMs?: number;
   extractResponseSnapshot: (
     body: Record<string, unknown>,
   ) => Record<string, unknown>;
   isSuccess: (status: number, body: Record<string, unknown>) => boolean;
 }): Promise<ProbeResult> {
+  const timeoutMs = args.timeoutMs ?? PROBE_TIMEOUT_MS;
   const startedAt = new Date().toISOString();
   const t0 = Date.now();
 
@@ -707,7 +724,7 @@ async function runJsonPostProbe(args: {
   }
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), PROBE_TIMEOUT_MS);
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
     const res = await fetch(`${args.baseUrl}${args.path}`, {
@@ -732,7 +749,7 @@ async function runJsonPostProbe(args: {
   } catch (err) {
     if (err instanceof Error && err.name === "AbortError") {
       status = "timeout";
-      errorMessage = `Probe timed out after ${PROBE_TIMEOUT_MS}ms`;
+      errorMessage = `Probe timed out after ${timeoutMs}ms`;
     } else {
       status = "failure";
       errorMessage = err instanceof Error ? err.message : "Unknown error";

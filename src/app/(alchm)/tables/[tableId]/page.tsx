@@ -28,6 +28,8 @@ import {
   LabelXS,
 } from "@/components/tables/ui";
 import { useTable } from "@/hooks/useTables";
+import { safeReadJson } from "@/lib/api/json";
+import { GenericActionResponseSchema } from "@/lib/validation/commensalResponseSchemas";
 import type { TableStatus } from "@/types/table";
 import { resolveErrorMessage, resolveVenueLabel } from "./helpers";
 
@@ -117,11 +119,21 @@ export default function TableDetailPage() {
         credentials: "include",
         body: JSON.stringify({ response }),
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
-      if (!res.ok || !data.success) {
+      const data = await safeReadJson(res, null, { parse: (d) => GenericActionResponseSchema.parse(d) });
+      if (!res.ok) {
+        setRsvpError(data?.message && data.message.length > 0 ? data.message : "Could not record your response.");
+        return;
+      }
+      if (data?.success) {
+        await refetch();
+        return;
+      }
+      if (data?.success === false) {
         setRsvpError(data.message && data.message.length > 0 ? data.message : "Could not record your response.");
         return;
       }
+      // Unreadable 2xx reply: mutation may have already succeeded on the server.
+      setRsvpError("Response submitted, but confirmation could not be verified. Refreshing…");
       await refetch();
     } catch {
       setRsvpError("Could not record your response.");
@@ -139,14 +151,22 @@ export default function TableDetailPage() {
         method: "POST",
         credentials: "include",
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
-      if (!res.ok || !data.success) {
+      const data = await safeReadJson(res, null, { parse: (d) => GenericActionResponseSchema.parse(d) });
+      if (!res.ok) {
+        setJoinRequestState("error");
+        setJoinRequestError(data?.message && data.message.length > 0 ? data.message : "Could not send your request.");
+        return;
+      }
+      if (data?.success) {
+        setJoinRequestState("sent");
+        return;
+      }
+      if (data?.success === false) {
         setJoinRequestState("error");
         setJoinRequestError(data.message && data.message.length > 0 ? data.message : "Could not send your request.");
         return;
       }
-      // The server treats a dedupe hit as success too (host-silent by
-      // design) — either way, "Requested" is the correct terminal state.
+      // Unreadable 2xx reply: request may already have been recorded on the server.
       setJoinRequestState("sent");
     } catch {
       setJoinRequestState("error");

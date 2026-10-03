@@ -109,6 +109,15 @@ describe("reverse index: a recipe line is filed under its head ingredient", () =
     ["unsweetened peanut butter", [], false],
     ["lamb or mutton", ["lamb", "mutton"], true],
     ["lamb, beef, or chicken", ["lamb", "beef", "chicken"], true],
+    // An index slug with no catalog card is skipped, not a dead end.
+    ["ground beef or lamb", ["beef", "lamb"], true],
+    ["beef chuck", ["beef"], false],
+    ["boneless chicken thighs", ["chicken"], false],
+    ["whole vanilla bean", ["vanilla"], false],
+    // Plurals and accents in the line.
+    ["juice of 2 lemons", ["lemon"], false],
+    ["navel oranges", ["orange"], false],
+    ["-2 jalapeño peppers", ["jalapenos"], false],
   ])("%s → %j", (line, keys, alternative) => {
     expect(keysForLine(line, keyOf)).toEqual({ keys, alternative });
   });
@@ -121,31 +130,36 @@ describe("reverse index: a recipe line is filed under its head ingredient", () =
     expect(createLineAuditor(ingredients, wrong("peanuts"))("peanut butter").flags).toEqual(["modifier"]);
   });
 
-  it("no line is filed under a unit word; generic and modifier cards may not grow", () => {
+  it("no line is filed under a unit word; generic, modifier and unresolved lines may not grow", () => {
     const lines = [...new Set([...index.recipes.values()].flatMap((r) => r.ingredientLines))];
     const summary = summarizeLineAudits(lines.map(createLineAuditor(ingredients, keyOf)));
     expect(summary.lines).toBeGreaterThan(2500);
-    // [MEASURED 2026-09-24] over 2,880 distinct lines, before → after the fix:
-    //   unit-word  8 → 0   ("garlic cloves" → cloves)
-    //   generic   43 → 7   ("lemon juice" → juice; left: corn/oat flour → flour,
-    //                       ice water → water, date sugar → sugar, and "juice of 2
-    //                       lemons" / "juice oranges", whose plural is no index alias)
-    //   modifier  46 → 41  (for review, not all wrong: "jalapeno pepper" → jalapeno
-    //                       is right, "almond flour" → almonds awaits a ruling)
+    // [MEASURED 2026-09-24] over 2,880 distinct lines: master before #882 → #882 → step 1
+    //   unit-word   8 →   0 →   0  ("garlic cloves" → cloves)
+    //   generic    43 →   7 →   6  ("lemon juice" → juice; left: corn/oat flour → flour,
+    //                               ice water → water, date sugar → sugar)
+    //   modifier   46 →  41 →  41  (for review, not all wrong: "jalapeno pepper" →
+    //                               jalapeno is right; "almond flour" awaits the derived flag)
+    //   unresolved 373 → 377 → 273 (step 1: non-card slugs skipped, plurals, accents)
     expect(summary.flagged["unit-word"]).toBe(0);
-    expect(summary.flagged.generic).toBeLessThanOrEqual(7);
+    expect(summary.flagged.generic).toBeLessThanOrEqual(6);
     expect(summary.flagged.modifier).toBeLessThanOrEqual(41);
+    expect(summary.unresolved).toBeLessThanOrEqual(273);
   });
 
   it("hero recipe counts follow the head: lemon and garlic, not juice and cloves", () => {
     const count = (query: string): number => search(query).hero?.recipeCount ?? -1;
-    // [MEASURED 2026-09-24] static catalog, before → after: lemon 61 → 172,
-    // lime 22 → 64, garlic 267 → 280, juice 203 → 6, cloves 33 → 20.
-    expect(count("lemon")).toBeGreaterThanOrEqual(150);
-    expect(count("lime")).toBeGreaterThanOrEqual(50);
+    // [MEASURED 2026-09-24] static catalog, master before #882 → #882 → step 1:
+    // lemon 61 → 172 → 174, lime 22 → 64 → 64, garlic 267 → 280 → 280,
+    // juice 203 → 6 → 3, cloves 33 → 20 → 20, beef 45 → 43 → 86 (24 lines such as
+    // ground beef, chuck, shank, sirloin), chicken 82 → 82 → 92 (thigh, pieces).
+    expect(count("lemon")).toBeGreaterThanOrEqual(170);
+    expect(count("lime")).toBeGreaterThanOrEqual(60);
     expect(count("garlic")).toBeGreaterThanOrEqual(275);
-    expect(count("juice")).toBeLessThanOrEqual(10);
+    expect(count("juice")).toBeLessThanOrEqual(5);
     expect(count("cloves")).toBeLessThanOrEqual(25);
+    expect(count("beef")).toBeGreaterThanOrEqual(80);
+    expect(count("chicken")).toBeGreaterThanOrEqual(90);
   });
 });
 

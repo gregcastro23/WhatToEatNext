@@ -1,5 +1,6 @@
 // src/data/cuisines/middle-eastern.ts
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const middleEastern: Cuisine = {
   id: "middle-eastern",
@@ -3768,12 +3769,7 @@ export const middleEastern: Cuisine = {
       seasonality: "four distinct seasons with special holiday dishes",
     },
   },
-  elementalProperties: {
-    Fire: 0.2,
-    Water: 0.3,
-    Earth: 0.3,
-    Air: 0.2,
-  },
+  elementalProperties: derivedProfiles.cuisines.MiddleEastern.elementalProperties,
 };
 
 export default middleEastern;

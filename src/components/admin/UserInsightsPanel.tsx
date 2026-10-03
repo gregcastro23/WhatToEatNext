@@ -134,9 +134,9 @@ export default function UserInsightsPanel(): React.JSX.Element {
       sub: `${activity.activeSessions} live sessions`,
     },
     {
-      label: "Premium",
-      value: tiers.premium,
-      sub: `${tiers.free} free · ${tiers.admin} admin`,
+      label: "Admins",
+      value: tiers.admin,
+      sub: `of ${totals.humans} humans`,
     },
     {
       label: "New today",
