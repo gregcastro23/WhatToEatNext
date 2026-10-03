@@ -9,18 +9,14 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
-import { z } from "zod";
+import {
+  TableDetailApiResponseSchema,
+  TablesApiResponseSchema,
+} from "@/lib/validation/tableResponseSchemas";
 import type { TableDetail, TableRecord } from "@/types/table";
+import { createLogger } from "@/utils/logger";
 
-const tablesApiResponseSchema = z.object({
-  tables: z.array(z.custom<TableRecord>()).optional(),
-});
-
-const tableDetailApiResponseSchema = z.object({
-  table: z.custom<TableDetail>().optional(),
-  viewerId: z.string().nullable().optional(),
-  message: z.string().optional(),
-});
+const _logger = createLogger("useTables");
 
 export type TableListScope = "upcoming" | "past" | "hosting" | "all";
 
@@ -57,9 +53,13 @@ export function useMyTables(
       if (!res.ok) {
         throw new Error(`Failed to load tables (${res.status})`);
       }
-      const parsed = tablesApiResponseSchema.safeParse(await res.json());
-      const data = parsed.success ? parsed.data : {};
-      setTables(data.tables ?? []);
+      const raw = await res.json();
+      const parsed = TablesApiResponseSchema.safeParse(raw);
+      if (!parsed.success) {
+        _logger.warn("Malformed 2xx response from /api/tables; retaining prior state", parsed.error);
+        return;
+      }
+      setTables(parsed.data.tables ?? []);
     } catch {
       setError("Unable to load tables right now.");
     } finally {
@@ -113,15 +113,22 @@ export function useTable(
       const res = await fetch(`/api/tables/${encodeURIComponent(tableId)}`, {
         credentials: "include",
       });
-      const parsed = tableDetailApiResponseSchema.safeParse(await res.json());
-      const data = parsed.success ? parsed.data : {};
       if (!res.ok) {
         setStatusCode(res.status);
         setTable(null);
         return;
       }
-      setTable(data.table ?? null);
-      setViewerId(data.viewerId ?? null);
+      const raw = await res.json();
+      const parsed = TableDetailApiResponseSchema.safeParse(raw);
+      if (!parsed.success) {
+        _logger.warn(
+          `Malformed 2xx response from /api/tables/${tableId}; retaining prior state`,
+          parsed.error,
+        );
+        return;
+      }
+      setTable(parsed.data.table ?? null);
+      setViewerId(parsed.data.viewerId ?? null);
     } catch {
       setError("Unable to load this table right now.");
     } finally {

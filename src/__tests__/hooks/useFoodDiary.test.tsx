@@ -94,7 +94,24 @@ const renderFoodDiaryInsightsHook = async () => {
 
 describe("useFoodDiary hook", () => {
   const mockUserId = "test-user-id";
-  const mockEntries = [{ id: "1", foodName: "Apple", calories: 95 }];
+  const mockEntries: FoodDiaryEntry[] = [
+    {
+      id: "1",
+      userId: mockUserId,
+      foodName: "Apple",
+      foodSource: "quick",
+      date: new Date("2026-10-01T12:00:00.000Z"),
+      mealType: "snack",
+      time: "15:00",
+      serving: { amount: 1, unit: "serving", grams: 182, description: "1 medium apple" },
+      quantity: 1,
+      nutrition: { calories: 95, protein: 0.5, carbs: 25, fat: 0.3 },
+      nutritionConfidence: "high",
+      isFavorite: false,
+      createdAt: new Date("2026-10-01T15:00:00.000Z"),
+      updatedAt: new Date("2026-10-01T15:00:00.000Z"),
+    },
+  ];
   const mockSummary = { date: new Date(), totalNutrition: { calories: 95 } };
   const mockStats = { totalEntries: 10, averageRating: 4.5 };
   const mockFavorites = [{ id: "fav1", foodName: "Banana" }];
