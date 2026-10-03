@@ -132,6 +132,16 @@ export const PulseSchema = z.object({
       claimsMinted: z.number().nullable(),
     })
     .nullable(),
+  agents: z
+    .object({
+      live: z.boolean(),
+      totalAgents: z.number(),
+      paReachable: z.boolean(),
+      creditVerdict: z.enum(["OK", "IDLE", "STALLED", "INCIDENT", "UNKNOWN"]),
+      debitVerdict: z.enum(["OK", "IDLE", "INCIDENT", "UNKNOWN"]),
+      activeDeliveryEvents24h: z.number(),
+    })
+    .nullable(),
 });
 
 export type PulseView = z.infer<typeof PulseSchema>;
