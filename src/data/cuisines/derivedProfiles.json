@@ -74,12 +74,12 @@
       }
     },
     "Korean": {
-      "recipes": 43,
+      "recipes": 40,
       "elementalProperties": {
-        "Fire": 0.3234,
-        "Water": 0.2713,
-        "Earth": 0.2878,
-        "Air": 0.1174
+        "Fire": 0.329,
+        "Water": 0.2729,
+        "Earth": 0.2906,
+        "Air": 0.1075
       }
     },
     "Mexican": {
@@ -110,21 +110,21 @@
       }
     },
     "Thai": {
-      "recipes": 47,
+      "recipes": 41,
       "elementalProperties": {
-        "Fire": 0.3016,
-        "Water": 0.3197,
-        "Earth": 0.2473,
-        "Air": 0.1314
+        "Fire": 0.3091,
+        "Water": 0.3299,
+        "Earth": 0.247,
+        "Air": 0.114
       }
     },
     "Vietnamese": {
-      "recipes": 46,
+      "recipes": 41,
       "elementalProperties": {
-        "Fire": 0.2696,
-        "Water": 0.3272,
-        "Earth": 0.2533,
-        "Air": 0.15
+        "Fire": 0.272,
+        "Water": 0.3366,
+        "Earth": 0.2537,
+        "Air": 0.1378
       }
     },
     "Fusion": {
