@@ -58,6 +58,7 @@ backend/data/json
 !public/**/*.webp
 !postcss.config.mjs
 !scripts/
+!scripts/**/*.cjs
 !scripts/check-version.cjs
 !scripts/check-route-sizes.cjs
 !scripts/vercel-ignore-build-step.sh

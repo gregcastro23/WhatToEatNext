@@ -2,17 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import React, { useState, useEffect, useCallback, useMemo, type JSX } from "react";
 import { OrderIngredientsModal } from "@/components/order/OrderIngredientsModal";
-import { FutureRecipeSkeleton } from "@/components/premium/FutureRecipeSkeleton";
 import { AddToMealPlanButton } from "@/components/recipes/AddToMealPlanButton";
 import { DietaryAdaptationPanel } from "@/components/recipes/DietaryAdaptationPanel";
 import { DiscoverySection } from "@/components/recipes/DiscoverySection";
 import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
 import { IngredientDrawer } from "@/components/recipes/IngredientDrawer";
 import { InteractiveInstruction } from "@/components/recipes/InteractiveInstruction";
-import { NutritionVisualization } from "@/components/recipes/NutritionVisualization";
+import { NutritionVisualization, type NutritionData } from "@/components/recipes/NutritionVisualization";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { RiffOnThisLink } from "@/components/recipes/RiffOnThisLink";
 import { SocialSection } from "@/components/recipes/SocialSection";
@@ -24,6 +22,7 @@ import { _logger } from "@/lib/logger";
 import type { Recipe, IngredientAlchemicalSummary } from "@/types/recipe";
 import { adaptRecipe, type DietaryMode, type AdaptationResult } from "@/utils/dietaryAdaptation";
 import { analyzeTimeShortcuts, type TimeBudget, type TimeShortcutResult } from "@/utils/timeShortcuts";
+import { roundedCalories } from "@/utils/roundedCalories";
 
 // ===== Constants =====
 
@@ -199,19 +198,7 @@ function getLunarPhases(recipe: Recipe): string[] {
   return [];
 }
 
-interface NormalizedNutrition {
-  calories?: number | undefined;
-  protein?: number | undefined;
-  carbs?: number | undefined;
-  fat?: number | undefined;
-  fiber?: number | undefined;
-  sodium?: number | undefined;
-  sugar?: number | undefined;
-  vitamins?: string[] | undefined;
-  minerals?: string[] | undefined;
-}
-
-function getNutrition(recipe: Recipe): NormalizedNutrition | null {
+function getNutrition(recipe: Recipe): NutritionData | null {
   const n = recipe.nutrition as ExtendedNutrition | undefined;
   if (!n) return null;
   return {
@@ -307,7 +294,8 @@ function buildPlainTextRecipe(recipe: Recipe, servings: number): string {
 
   if (nutrition) {
     text += `--- NUTRITION (per serving) ---\n\n`;
-    if (nutrition.calories) text += `Calories: ${nutrition.calories}\n`;
+    const kcal = roundedCalories(nutrition.calories);
+    if (kcal !== null) text += `Calories: ${kcal}\n`;
     if (nutrition.protein) text += `Protein: ${nutrition.protein}g\n`;
     if (nutrition.carbs) text += `Carbs: ${nutrition.carbs}g\n`;
     if (nutrition.fat) text += `Fat: ${nutrition.fat}g\n`;
@@ -490,7 +478,7 @@ function computeMonicaComponents(
 }
 
 interface ASharpBlockProps {
-  ingAlch?: IngredientAlchemicalSummary | undefined;
+  ingAlch: IngredientAlchemicalSummary | undefined;
   aSharp: number;
   ingTotalASharp: number;
   aSharpSegments: DonutSegment[];
@@ -739,17 +727,6 @@ interface RecipeClientProps {
 }
 
 export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes }: RecipeClientProps): JSX.Element {
-  const { data: session } = useSession();
-
-  const dailyLimitReached = useMemo((): boolean => {
-    const user = session?.user;
-    if (!user) return false;
-    const isPremium = user.tier === "premium" || user.role === "ADMIN";
-    if (isPremium) return false;
-    const count = user.recipesGeneratedToday ?? 0;
-    return count >= 1;
-  }, [session]);
-
   const [servings, setServings] = useState(getBaseServings(recipe));
   const [copied, setCopied] = useState(false);
   const [heroImageFailed, setHeroImageFailed] = useState(false);
@@ -1572,40 +1549,29 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
           onClose={() => setSelectedTechnique(null)}
         />
 
-        {/* TemporalFrictionGate removed with the tier concept: it existed only
-            to show an upsell veil to non-premium users who hit the daily limit.
-            The children already branch on `dailyLimitReached` themselves. */}
-        <>
-          {dailyLimitReached ? (
-            <div className="pt-8 space-y-8">
-              <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
-                Next Cosmic Discovery
-              </h2>
-              <FutureRecipeSkeleton />
-            </div>
-          ) : (
-            <>
-              {/* ===== Discovery (elemental / alchemical / cuisine) ===== */}
-              <div className="pt-8">
-                <DiscoverySection recipeId={recipe.id} />
-              </div>
+        {/* Discovery and Also Recommended show for everyone. They used to be
+            swapped for a "Next Cosmic Discovery" skeleton once a non-premium user
+            had generated a recipe that day; the ESMS charge on generation is the
+            only throttle now (owner ruling 2026-09-28). */}
 
-              {/* ===== Similar Recipes (service-recommended fallback) ===== */}
-              {recommendedRecipes.length > 0 && (
-                <div className="pt-8">
-                  <h2 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
-                    Also Recommended
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {recommendedRecipes.map((rec) => (
-                      <RecipeCard key={rec.id} recipe={rec} />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </>
-          )}
-        </>
+        {/* ===== Discovery (elemental / alchemical / cuisine) ===== */}
+        <div className="pt-8">
+          <DiscoverySection recipeId={recipe.id} />
+        </div>
+
+        {/* ===== Similar Recipes (service-recommended fallback) ===== */}
+        {recommendedRecipes.length > 0 && (
+          <div className="pt-8">
+            <h2 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-orange-300">
+              Also Recommended
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {recommendedRecipes.map((rec) => (
+                <RecipeCard key={rec.id} recipe={rec} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );

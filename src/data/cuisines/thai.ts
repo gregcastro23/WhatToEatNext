@@ -1,5 +1,6 @@
 // src/data/cuisines/thai.ts
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const thai: Cuisine = {
   id: "thai",
@@ -2623,7 +2624,7 @@ export const thai: Cuisine = {
           details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
           ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Gaeng Panang Neua","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
           instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          classifications: {"mealType":["dinner"],"cookingMethods":["various"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
 
@@ -2638,7 +2639,7 @@ export const thai: Cuisine = {
           details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
           ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Khao Soi Gai","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
           instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          classifications: {"mealType":["dinner"],"cookingMethods":["various"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
 
@@ -2689,7 +2690,7 @@ export const thai: Cuisine = {
           details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
           ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Tub Tim Grob","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
           instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          classifications: {"mealType":["dessert"],"cookingMethods":["various"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
 
@@ -2704,7 +2705,7 @@ export const thai: Cuisine = {
           details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
           ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Bua Loi","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
           instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          classifications: {"mealType":["dessert"],"cookingMethods":["various"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
 
@@ -2719,7 +2720,7 @@ export const thai: Cuisine = {
           details: {"cuisine":"Various","prepTimeMinutes":20,"cookTimeMinutes":30,"baseServingSize":2,"spiceLevel":"Medium","season":["all"]},
           ingredients: [{"amount":1,"unit":"unit","name":"Foundation of Sangkaya Fak Thong","notes":"Highest quality."},{"amount":1,"unit":"dash","name":"Alchemical binding agent","notes":"For cohesion."}],
           instructions: ["Step 1: The Setup. Prepare the components with absolute geometric precision.","Step 2: The Reaction. Apply heat or acid to trigger the necessary breakdown of cellular structures.","Step 3: The Assembly. Combine elements while maintaining textural contrast.","Step 4: The Presentation. Serve immediately to capture the peak thermodynamic state."],
-          classifications: {"mealType":["dinner","lunch"],"cookingMethods":["various"]},
+          classifications: {"mealType":["dessert"],"cookingMethods":["various"]},
           elementalProperties: {"Fire":0.25,"Water":0.25,"Earth":0.25,"Air":0.25},
           astrologicalAffinities: {"planets":["Jupiter","Venus"],"signs":["sagittarius","taurus"],"lunarPhases":["Full Moon"]},
 
@@ -3428,12 +3429,7 @@ export const thai: Cuisine = {
         "Emphasizes aesthetic beauty, balance of flavors, and sophisticated presentation",
     },
   ],
-  elementalProperties: {
-    Fire: 0.35, // Represents spicy elements, chili heat, and grilling techniques,
-    Water: 0.25, // Represents soups, coconut-based dishes, and steaming,
-    Earth: 0.25, // Represents grains, proteins, and root vegetables,
-    Air: 0.15, // Represents herbs, aromatics, and light textures
-  },
+  elementalProperties: derivedProfiles.cuisines.Thai.elementalProperties,
 };
 
 export default thai;

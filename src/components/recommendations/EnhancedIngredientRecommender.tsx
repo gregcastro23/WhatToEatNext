@@ -36,6 +36,7 @@ import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import { deriveLiveSkyQuantities } from "@/utils/liveSkyQuantities";
 import { looseIncludes } from "@/utils/searchNormalize";
 import { getAssetUrl } from "@/utils/urlUtils";
+import { roundedCalories } from "@/utils/roundedCalories";
 
 
 // Pagination constant - items shown before expansion
@@ -1610,7 +1611,7 @@ export const EnhancedIngredientRecommender: React.FC<
                 <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs">
                   {n.calories != null && (
                     <span className="font-semibold text-gray-700 dark:text-slate-200">
-                      🔥 {n.calories} cal
+                      🔥 {roundedCalories(n.calories)} cal
                     </span>
                   )}
                   {n.protein != null && n.protein > 0 && (

@@ -69,9 +69,8 @@
  * `.env.development.local`.
  */
 
-import fs from "node:fs";
-import path from "node:path";
 import pg from "pg";
+import { loadEnvFile } from "./lib/env";
 
 import { calculateNatalChart } from "@/services/natalChartService";
 import { toEsmsShares, selectArchetype } from "@/utils/alchemicalConstitution";
@@ -128,17 +127,6 @@ function assertUtc(): void {
     );
     process.exit(1);
   }
-}
-
-function loadEnvFile(file: string): Record<string, string> {
-  const abs = path.resolve(process.cwd(), file);
-  if (!fs.existsSync(abs)) return {};
-  const out: Record<string, string> = {};
-  for (const line of fs.readFileSync(abs, "utf8").split("\n")) {
-    const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)$/);
-    if (m) out[m[1]] = m[2].replace(/^["']|["']$/g, "").trim();
-  }
-  return out;
 }
 
 function resolveConnectionString(): string {

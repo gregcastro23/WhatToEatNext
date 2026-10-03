@@ -3,6 +3,12 @@
 import Link from "next/link";
 import React from "react";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import {
+  AgentNetworkResponseSchema,
+  MonicaTelemetryResponseSchema,
+  type AgentNetworkView,
+  type MonicaTelemetryView,
+} from "@/lib/admin/schemas/agents";
 import type { FeedEmitStatus } from "@/services/feedEmitTracker";
 import { Glyph } from "./atoms";
 import { Card } from "./hero";
@@ -97,32 +103,7 @@ interface CosmicModifierEntry {
   description: string;
 }
 
-interface AgentNetworkData {
-  generatedAt: string;
-  totals: {
-    total: number;
-    live: number;
-    idle: number;
-    warn: number;
-    draining: number;
-    live_source: boolean;
-  };
-  roles: { entries: AgentRoleSlice[]; live: boolean };
-  dispatch: { entries: AgentDispatchEntry[]; live: boolean };
-  leaderboard: { entries: AgentLeaderboardEntry[]; live: boolean };
-  interactions: { entries: AgentInteractionEntry[]; live: boolean };
-  roleOps: { entries: AgentRoleOpsEntry[]; live: boolean };
-  reasoning: {
-    entries: AgentReasoningEntry[];
-    live: boolean;
-    instrumented: boolean;
-  };
-  modifiers: {
-    entries: CosmicModifierEntry[];
-    netVelocity: number;
-    live: boolean;
-  };
-}
+type AgentNetworkData = AgentNetworkView;
 
 const EMPTY_NETWORK: AgentNetworkData = {
   generatedAt: new Date(0).toISOString(),
@@ -182,12 +163,10 @@ function useAgentNetwork(filters: AgentNetworkFilters = {}): {
         : "/api/admin/agents/network";
       const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) return { ok: false };
-      const json = (await res.json()) as { success: boolean } & AgentNetworkData;
-      if (json.success) {
-        setData(json);
-        return { ok: true };
-      }
-      return { ok: false };
+      const parsed = AgentNetworkResponseSchema.safeParse(await res.json());
+      if (!parsed.success) return { ok: false };
+      setData(parsed.data);
+      return { ok: true };
     } catch {
       return { ok: false };
     }
@@ -1776,24 +1755,7 @@ function ReasoningTracePanel({
 // Sub-panel that proxies Monica rollups from the PA project (helpfulness,
 // average completion, top assisted pages) into the control room.
 // ============================================================
-interface MonicaTopPage {
-  path: string;
-  count: number;
-}
-
-interface MonicaTelemetryData {
-  window: "1h" | "24h" | "7d";
-  helpfulnessScore: number | null;
-  helpfulnessSampleSize: number;
-  avgCompletionMs: number | null;
-  totalInteractions: number;
-  contextualHelpRequests: number;
-  topPages: MonicaTopPage[];
-  live: boolean;
-  source: string;
-  error?: string;
-  generatedAt: string;
-}
+type MonicaTelemetryData = MonicaTelemetryView;
 
 const EMPTY_MONICA: MonicaTelemetryData = {
   window: "24h",
@@ -1836,12 +1798,10 @@ function MonicaCompanionTelemetry() {
         { cache: "no-store" },
       );
       if (!res.ok) return { ok: false };
-      const json = (await res.json()) as { success: boolean } & MonicaTelemetryData;
-      if (json.success) {
-        setData({ ...json, window: json.window ?? windowKey });
-        return { ok: true };
-      }
-      return { ok: false };
+      const parsed = MonicaTelemetryResponseSchema.safeParse(await res.json());
+      if (!parsed.success) return { ok: false };
+      setData(parsed.data);
+      return { ok: true };
     } catch {
       return { ok: false };
     }

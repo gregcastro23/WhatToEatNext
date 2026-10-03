@@ -7,9 +7,17 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
+import { z } from "zod";
 import { GlassPanel, LabelXS } from "@/components/tables/ui";
+import { _logger } from "@/lib/logger";
+import { TableCommentListResponseSchema } from "@/lib/validation/tableResponseSchemas";
 import type { TableComment } from "@/types/table";
 import type { JSX } from "react";
+
+const postCommentResponseSchema = z.object({
+  success: z.boolean().optional(),
+  message: z.string().optional(),
+});
 
 export interface CommentListProps {
   tableId: string;
@@ -35,8 +43,13 @@ export function CommentList({
         credentials: "include",
       });
       if (!res.ok) return;
-      const data = (await res.json()) as { comments?: TableComment[] };
-      setComments(data.comments ?? []);
+      const parsed = TableCommentListResponseSchema.safeParse(await res.json());
+      if (!parsed.success) {
+        // Keep the comments already on screen rather than blanking the list.
+        _logger.error("[CommentList] comments response did not match its schema", parsed.error);
+        return;
+      }
+      setComments(parsed.data.comments);
     } catch {
       /* keep whatever we had */
     }
@@ -58,7 +71,8 @@ export function CommentList({
         credentials: "include",
         body: JSON.stringify({ body: clean }),
       });
-      const data = (await res.json()) as { success?: boolean; message?: string };
+      const parsed = postCommentResponseSchema.safeParse(await res.json());
+      const data = parsed.success ? parsed.data : {};
       if (!res.ok || !data.success) {
         setError(data.message ?? "Could not post that.");
         return;

@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import type { UserTier } from '@/lib/tiers';
 import type { NatalChart } from '@/types/natalChart';
 import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
 
@@ -9,7 +8,8 @@ interface ProfileHeroCardProps {
   userName: string;
   email: string;
   natalChart: NatalChart;
-  tier: UserTier;
+  /** Operators (admin role plus an allowlisted email) are the only tier left. */
+  isOperator: boolean;
   onEditProfile: () => void;
   onOpenSettings: () => void;
 }
@@ -75,7 +75,7 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
   userName,
   email: _email,
   natalChart,
-  tier,
+  isOperator,
   onEditProfile,
   onOpenSettings,
 }) => {
@@ -105,11 +105,11 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
                   {userName}
                 </h1>
                 <span className={`text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-[0.3em] ${
-                  tier === 'premium'
+                  isOperator
                     ? 'bg-amber-400 text-amber-950 shadow-[0_0_20px_rgba(251,191,36,0.5)]'
                     : 'glass-base text-white/40 border border-white/10'
                 }`}>
-                  {tier === 'premium' ? 'Premium' : 'Initiate'}
+                  {isOperator ? 'Admin' : 'Initiate'}
                 </span>
               </div>
               <p className="text-white/25 text-[10px] font-black tracking-[0.4em] uppercase opacity-80 flex items-center gap-2">

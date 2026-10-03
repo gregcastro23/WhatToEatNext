@@ -29,6 +29,9 @@ jest.mock("next/dynamic", () => () => {
   return Stub;
 });
 
+// The header's search fires one analytics event; the package ships ESM only.
+jest.mock("@vercel/analytics", () => ({ track: jest.fn() }));
+
 jest.mock("next-auth/react", () => ({
   useSession: () => ({
     status: "authenticated",

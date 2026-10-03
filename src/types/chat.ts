@@ -116,6 +116,13 @@ export interface InboxEntry {
   };
 }
 
+/** GET /api/chat/conversations — the viewer's inbox. */
+export interface ChatInboxResponse {
+  success: true;
+  conversations: InboxEntry[];
+  viewerId: string;
+}
+
 export interface ChatUnread {
   total: number;
   byConversation: Record<string, number>;

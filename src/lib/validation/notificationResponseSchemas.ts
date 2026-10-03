@@ -22,6 +22,8 @@ export const NOTIFICATION_TYPES = [
   "dm_message",
   "circle_message",
   "table_chat_mention",
+  "transmutation_offer",
+  "transmutation_accepted",
 ] as const;
 
 export const NotificationTypeSchema = z.enum(NOTIFICATION_TYPES);

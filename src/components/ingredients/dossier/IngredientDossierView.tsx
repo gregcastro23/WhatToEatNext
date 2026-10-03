@@ -6,8 +6,10 @@
  * only the sky match and the trending strip are live on the client.
  */
 import { useState, type JSX } from "react";
+import { IngredientActions } from "@/components/ingredients/IngredientActions";
 import { ProcurementKit, type ProcurementItem } from "@/components/ui/alchm";
 import type { IngredientDossier } from "@/lib/ingredients/dossier";
+import { titleCase } from "@/lib/ingredients/dossierView";
 import { PairingsPanel, SensoryPanel, SeasonalityPanel, UsedInPanel } from "./DossierDetailPanels";
 import { IdentityPanel, SkyMatchPanel, UsagePanel } from "./DossierHeroPanels";
 import { TrendingTicker } from "./TrendingTicker";
@@ -41,6 +43,7 @@ export function IngredientDossierView({ dossier }: { dossier: IngredientDossier 
           <SkyMatchPanel card={card} />
           <UsagePanel card={card} recipeCount={recipeCount} />
         </section>
+        <IngredientActions name={card.name} category={card.category} label={titleCase(card.name)} />
         <section className="ihero-charts">
           <SeasonalityPanel seasons={card.seasons} now={now} />
           <SensoryPanel flavorProfile={card.flavorProfile} />
@@ -50,7 +53,7 @@ export function IngredientDossierView({ dossier }: { dossier: IngredientDossier 
         </section>
         <section style={{ padding: "20px 24px", display: "flex", flexDirection: "column", gap: 20 }}>
           <UsedInPanel recipes={recipes} recipeCount={recipeCount} />
-          <PairingsPanel pairings={card.pairings} />
+          <PairingsPanel pairings={dossier.pairings} />
         </section>
       </main>
     </div>

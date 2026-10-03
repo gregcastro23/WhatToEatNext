@@ -24,48 +24,12 @@ import { EmptyState } from "@/components/admin/kit/EmptyState";
 import { combine, fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
+import { SystemStatusResponseSchema, type SystemStatusView } from "@/lib/admin/schemas/systemStatus";
 
-interface FlowMetric {
-  label: string;
-  value: string;
-  raw?: number;
-}
-
-interface FlowIssue {
-  at: string;
-  message: string;
-  severity: "warn" | "error";
-}
-
-type FlowStatus = "OK" | "DEGRADED" | "INCIDENT" | "UNKNOWN";
-
-interface FlowHealth {
-  id: string;
-  label: string;
-  description: string;
-  status: FlowStatus;
-  summary: string;
-  metrics: FlowMetric[];
-  issues: FlowIssue[];
-  checkedAt: string;
-  live: boolean;
-}
-
-interface DependencyHealth {
-  id: string;
-  label: string;
-  status: FlowStatus;
-  summary: string;
-  latencyMs: number | null;
-  checkedAt: string;
-}
-
-interface SystemStatusPayload {
-  generatedAt: string;
-  overall: FlowStatus;
-  flows: FlowHealth[];
-  dependencies: DependencyHealth[];
-}
+type SystemStatusPayload = SystemStatusView;
+type FlowStatus = SystemStatusView["overall"];
+type FlowHealth = SystemStatusView["flows"][number];
+type DependencyHealth = SystemStatusView["dependencies"][number];
 
 const STATUS_STYLE: Record<
   FlowStatus,
@@ -120,9 +84,9 @@ export default function SystemStatusPanel(): React.JSX.Element | null {
         setError(`Failed to load status (HTTP ${res.status})`);
         return { ok: false };
       }
-      const json = (await res.json()) as { success: boolean } & SystemStatusPayload;
-      if (json.success) {
-        setData(json);
+      const parsed = SystemStatusResponseSchema.safeParse(await res.json());
+      if (parsed.success) {
+        setData(parsed.data);
         setError(null);
         return { ok: true };
       }

@@ -685,7 +685,7 @@ function assembleForest(
       if (aKids !== bKids) return bKids - aKids;
       return a.name.localeCompare(b.name);
     });
-    const cuisines = Array.from(new Set(all.map((n) => n.cuisine).filter(Boolean) as string[]));
+    const cuisines = Array.from(new Set(all.map((n) => n.cuisine).filter((c): c is string => Boolean(c))));
     families.push({
       family: f,
       label: FAMILY_LABEL[f],

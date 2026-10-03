@@ -8,7 +8,7 @@
  * @file src/components/recipe-builder/RecipeBuilderPanel.tsx
  */
 
-import React, { useMemo, useState } from "react";
+import React, { Suspense, useMemo, useState } from "react";
 import {
   useRecipeBuilder,
   type MealType,
@@ -21,6 +21,7 @@ import {
 import IngredientSearchBar from "./IngredientSearchBar";
 import IngredientSuggestions from "./IngredientSuggestions";
 import RecipeBuilderQueue from "./RecipeBuilderQueue";
+import { IngredientPrefill } from "./useIngredientPrefill";
 
 // ===== Constants =====
 
@@ -73,10 +74,7 @@ const CUISINE_FALLBACK = [
   "Vietnamese",
 ];
 
-function formatSignatureLabel(
-  property: string,
-  zscore: number,
-): string {
+function formatSignatureLabel(property: string, zscore: number): string {
   const direction = zscore >= 0 ? "elevated" : "reduced";
   const magnitude = Math.abs(zscore).toFixed(1);
   return `${property} ${direction} ${magnitude}\u03C3`;
@@ -103,7 +101,10 @@ function MealTypeSelector() {
 
   return (
     <div role="group" aria-labelledby="recipe-builder-meal-type-label">
-      <span id="recipe-builder-meal-type-label" className="text-xs font-medium text-gray-600 mb-1.5 block">
+      <span
+        id="recipe-builder-meal-type-label"
+        className="text-xs font-medium text-gray-600 mb-1.5 block"
+      >
         Meal Type
       </span>
       <div className="flex flex-wrap gap-2">
@@ -132,7 +133,10 @@ function FlavorSelector() {
 
   return (
     <div role="group" aria-labelledby="recipe-builder-flavor-label">
-      <span id="recipe-builder-flavor-label" className="text-xs font-medium text-gray-600 mb-1.5 block">
+      <span
+        id="recipe-builder-flavor-label"
+        className="text-xs font-medium text-gray-600 mb-1.5 block"
+      >
         Flavor Preferences
       </span>
       <div className="flex flex-wrap gap-2">
@@ -162,7 +166,10 @@ function DietarySelector() {
 
   return (
     <div role="group" aria-labelledby="recipe-builder-dietary-label">
-      <span id="recipe-builder-dietary-label" className="text-xs font-medium text-gray-600 mb-1.5 block">
+      <span
+        id="recipe-builder-dietary-label"
+        className="text-xs font-medium text-gray-600 mb-1.5 block"
+      >
         Dietary Preferences
       </span>
       <div className="flex flex-wrap gap-2">
@@ -207,7 +214,10 @@ function AllergySelector() {
 
   return (
     <div role="group" aria-labelledby="recipe-builder-allergies-label">
-      <span id="recipe-builder-allergies-label" className="text-xs font-medium text-gray-600 mb-1.5 block">
+      <span
+        id="recipe-builder-allergies-label"
+        className="text-xs font-medium text-gray-600 mb-1.5 block"
+      >
         Allergies / Exclusions
       </span>
       <div className="flex flex-wrap gap-2 mb-2">
@@ -273,7 +283,14 @@ function CuisineSelector() {
   const signatureBySelected = useMemo(() => {
     const map = new Map<
       string,
-      { signatures: Array<{ property: string; zscore: number; description?: string }>; sampleSize: number }
+      {
+        signatures: Array<{
+          property: string;
+          zscore: number;
+          description?: string;
+        }>;
+        sampleSize: number;
+      }
     >();
     for (const cuisine of selectedCuisines) {
       const entry = getCuisineEntry(cuisine);
@@ -303,7 +320,10 @@ function CuisineSelector() {
 
   return (
     <div role="group" aria-labelledby="recipe-builder-cuisines-label">
-      <span id="recipe-builder-cuisines-label" className="text-xs font-medium text-gray-600 mb-1.5 block">
+      <span
+        id="recipe-builder-cuisines-label"
+        className="text-xs font-medium text-gray-600 mb-1.5 block"
+      >
         Preferred Cuisines
       </span>
       <div className="flex flex-wrap gap-2 mb-2">
@@ -314,7 +334,9 @@ function CuisineSelector() {
               key={cuisine}
               type="button"
               aria-pressed={isSelected}
-              onClick={() => (isSelected ? removeCuisine(cuisine) : addCuisine(cuisine))}
+              onClick={() =>
+                isSelected ? removeCuisine(cuisine) : addCuisine(cuisine)
+              }
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
                 isSelected
                   ? "bg-purple-600 text-white border-purple-600"
@@ -379,11 +401,8 @@ function CuisineSelector() {
 }
 
 function CookingMethodSelector() {
-  const {
-    selectedCookingMethods,
-    addCookingMethod,
-    removeCookingMethod,
-  } = useRecipeBuilder();
+  const { selectedCookingMethods, addCookingMethod, removeCookingMethod } =
+    useRecipeBuilder();
   const [customMethod, setCustomMethod] = useState("");
 
   const handleAddCustomMethod = () => {
@@ -396,7 +415,10 @@ function CookingMethodSelector() {
 
   return (
     <div role="group" aria-labelledby="recipe-builder-methods-label">
-      <span id="recipe-builder-methods-label" className="text-xs font-medium text-gray-600 mb-1.5 block">
+      <span
+        id="recipe-builder-methods-label"
+        className="text-xs font-medium text-gray-600 mb-1.5 block"
+      >
         Cooking Methods
       </span>
       <div className="flex flex-wrap gap-2 mb-2">
@@ -408,7 +430,9 @@ function CookingMethodSelector() {
               type="button"
               aria-pressed={isSelected}
               onClick={() =>
-                isSelected ? removeCookingMethod(method) : addCookingMethod(method)
+                isSelected
+                  ? removeCookingMethod(method)
+                  : addCookingMethod(method)
               }
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
                 isSelected
@@ -452,7 +476,11 @@ interface CollapsibleSectionProps {
   children: React.ReactNode;
 }
 
-const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({ title, defaultOpen = false, children }) => {
+const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
+  title,
+  defaultOpen = false,
+  children,
+}) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
@@ -462,7 +490,9 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({ title, defaultO
         className="w-full flex items-center justify-between px-4 py-2.5 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
       >
         <span className="text-sm font-medium text-gray-700">{title}</span>
-        <span className="text-gray-400 text-xs">{isOpen ? "\u25B2" : "\u25BC"}</span>
+        <span className="text-gray-400 text-xs">
+          {isOpen ? "\u25B2" : "\u25BC"}
+        </span>
       </button>
       {isOpen && <div className="p-4 space-y-4">{children}</div>}
     </div>
@@ -478,17 +508,39 @@ interface RecipeBuilderPanelProps {
 export default function RecipeBuilderPanel({
   className = "",
 }: RecipeBuilderPanelProps) {
+  const { quizBrief, maxPrepTimeMinutes } = useRecipeBuilder();
   return (
     <div className={`space-y-4 ${className}`}>
+      {/* "Cook with this" links arrive as ?ingredients=… (omnibar Phase 4). */}
+      <Suspense fallback={null}>
+        <IngredientPrefill />
+      </Suspense>
       {/* Header */}
       <div>
         <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-orange-600">
           Recipe Builder
         </h2>
         <p className="text-sm text-gray-500 mt-1">
-          Search ingredients, set preferences, and generate cosmically-aligned recipes
+          Search ingredients, set preferences, and generate cosmically-aligned
+          recipes
         </p>
       </div>
+
+      {quizBrief && (
+        <details className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
+          <summary className="cursor-pointer font-medium">
+            Your quiz preferences are loaded
+            {maxPrepTimeMinutes ? ` · up to ${maxPrepTimeMinutes} minutes` : ""}
+          </summary>
+          <p className="mt-2 text-xs">
+            Ingredients, cuisine, method, diet, allergens and time guide the
+            builder. Your complete original brief is saved below.
+          </p>
+          <pre className="mt-3 whitespace-pre-wrap break-words text-xs leading-relaxed">
+            {quizBrief}
+          </pre>
+        </details>
+      )}
 
       {/* Ingredient Search */}
       <div>

@@ -2,6 +2,10 @@
 
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  MealPlanAddResponseSchema,
+  MealPlanListResponseSchema,
+} from "@/lib/validation/mealPlanResponseSchemas";
 import { createLogger } from "@/utils/logger";
 
 const _logger = createLogger("use-meal-plan");
@@ -17,14 +21,6 @@ export interface MealPlanEntry {
   mealType?: string;   // "breakfast" | "lunch" | "dinner" | "snack"
   servings?: number;
   addedAt: number;
-}
-
-interface MealPlanApiResponse {
-  authenticated?: boolean;
-  entries?: MealPlanEntry[];
-  entry?: MealPlanEntry;
-  success?: boolean;
-  message?: string;
 }
 
 type Listener = (plan: MealPlanEntry[]) => void;
@@ -143,11 +139,16 @@ export function useMealPlan(): UseMealPlanReturn {
 
         const res = await fetch("/api/users/me/meal-plan", { cache: "no-store" });
         if (!res.ok) throw new Error(`status ${res.status}`);
-        const data = (await res.json()) as MealPlanApiResponse;
-        if (data.authenticated && Array.isArray(data.entries)) {
+        const parsed = MealPlanListResponseSchema.safeParse(await res.json());
+        if (!parsed.success) {
+          // Keep the plan already on screen rather than replacing it with nothing.
+          _logger.error("meal-plan response did not match its schema:", parsed.error);
+          return;
+        }
+        if (parsed.data.authenticated) {
           // Remote is source of truth when authed. Mirror into cache for
           // instant render, but do NOT persist to localStorage — we cleared it.
-          cached = data.entries;
+          cached = parsed.data.entries;
           listeners.forEach((l) => {
             if (cached) l(cached);
           });
@@ -190,16 +191,20 @@ export function useMealPlan(): UseMealPlanReturn {
               }),
             });
             if (!res.ok) throw new Error(`status ${res.status}`);
-            const data = (await res.json()) as MealPlanApiResponse;
-            if (data.entry?.id) {
-              const reconciled = (cached ?? []).map((e) =>
-                e.id === optimistic.id ? (data.entry as MealPlanEntry) : e,
-              );
-              cached = reconciled;
-              listeners.forEach((l) => {
-                if (cached) l(cached);
-              });
+            const parsed = MealPlanAddResponseSchema.safeParse(await res.json());
+            if (!parsed.success) {
+              // The entry was saved; only its server id could not be read. The
+              // optimistic row stays until the next load replaces it.
+              _logger.error("meal-plan add response did not match its schema:", parsed.error);
+              return;
             }
+            const serverEntry = parsed.data.entry;
+            cached = (cached ?? []).map((e) =>
+              e.id === optimistic.id ? serverEntry : e,
+            );
+            listeners.forEach((l) => {
+              if (cached) l(cached);
+            });
           } catch (err) {
             _logger.warn("meal-plan remote add failed:", err);
           }

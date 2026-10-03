@@ -1,3 +1,4 @@
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { _logger } from "../logger";
 import { recordSlowQuery, type PoolGauges } from "../observability/slowQueryLog";
 import { databaseConfig } from "./config";
@@ -177,18 +178,24 @@ export async function executeQuery<T extends QueryResultRow = Record<string, unk
       nowMs - _lastSlowQueryMetricAt >= SLOW_QUERY_METRIC_MIN_INTERVAL_MS
     ) {
       _lastSlowQueryMetricAt = nowMs;
-      getDatabasePool().query(
-        `INSERT INTO system_metrics (metric_name, metric_value, metric_unit, tags)
-         VALUES ($1, $2, $3, $4)`,
-        [
-          "slow_query_duration_ms",
-          executionTime,
-          "ms",
-          { query: query.substring(0, 500), rowCount: result.rowCount }
-        ]
-      ).catch((err: Error) => {
-        _logger.error("Failed to write slow query to system_metrics:", err.message);
-      });
+      // Under after(), not floating: the caller usually returns its response
+      // before this insert lands, and Vercel suspends work nothing waits for,
+      // leaving the insert holding a pool connection until the instance next
+      // wakes (see withObservability).
+      runAfterResponse("slow-query metric", () =>
+        getDatabasePool().query(
+          `INSERT INTO system_metrics (metric_name, metric_value, metric_unit, tags)
+           VALUES ($1, $2, $3, $4)`,
+          [
+            "slow_query_duration_ms",
+            executionTime,
+            "ms",
+            { query: query.substring(0, 500), rowCount: result.rowCount }
+          ]
+        ).catch((err: Error) => {
+          _logger.error("Failed to write slow query to system_metrics:", err.message);
+        }),
+      );
     }
 
     if (executionTime > 1000) {

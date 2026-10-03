@@ -8,6 +8,7 @@
 
 import type { LunarPhase } from "./alchemy";
 import type { PlanetaryPositions, StandardZodiacSignType } from "./astrology";
+import type { NutritionCoverage, PlannerNutrientCoverage } from "./nutrition";
 import type { Recipe, ElementalProperties, EnhancedRecipe } from "./recipe";
 
 /**
@@ -44,8 +45,7 @@ export interface PlanetarySnapshot {
   zodiacSign: StandardZodiacSignType;
   lunarPhase: LunarPhase;
   elementalState: ElementalProperties;
-  // Zod parse output: undefined when omitted from payload
-  planetaryPositions?: PlanetaryPositions | undefined;
+  planetaryPositions?: PlanetaryPositions;
   timestamp: Date;
 }
 
@@ -57,16 +57,15 @@ export interface MealSlotSauce {
   id: string;
   name: string;
   servings: number;
-  // Zod parse output: undefined when omitted from payload
   nutritionalProfile?: {
-    calories?: number | undefined;
-    protein?: number | undefined;
-    carbs?: number | undefined;
-    fat?: number | undefined;
-    fiber?: number | undefined;
-  } | undefined;
-  elementalProperties?: ElementalProperties | undefined;
-  ingredients?: string[] | undefined;
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+    fiber?: number;
+  };
+  elementalProperties?: ElementalProperties;
+  ingredients?: string[];
 }
 
 /**
@@ -77,13 +76,12 @@ export interface MealSlot {
   id: string;
   dayOfWeek: DayOfWeek;
   mealType: MealType;
-  // Zod parse output: undefined when omitted from payload
-  recipe?: EnhancedRecipe | undefined;
+  recipe?: EnhancedRecipe;
   servings: number;
-  sauce?: MealSlotSauce | undefined;
+  sauce?: MealSlotSauce;
   planetarySnapshot: PlanetarySnapshot;
-  notes?: string | undefined;
-  isLocked?: boolean | undefined;
+  notes?: string;
+  isLocked?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -101,8 +99,7 @@ export interface DailyNutritionTotals {
   sodium: number;
   sugar: number;
   gregsEnergy: number;
-  // Zod parse output: undefined when omitted from payload
-  monicaConstant?: number | undefined;
+  monicaConstant?: number;
   kalchm: number;
   elementalBalance: ElementalProperties;
 }
@@ -124,6 +121,11 @@ export interface WeeklyNutritionTotals {
   averageKalchm: number;
   weeklyElementalBalance: ElementalProperties;
   dailyBreakdown: Record<DayOfWeek, DailyNutritionTotals>;
+  /** How many planned meals entered the totals; a week with a partial day is partial. */
+  coverage: NutritionCoverage;
+  dailyCoverage: Record<DayOfWeek, NutritionCoverage>;
+  /** How many planned meals state sodium and sugar; `totalSodium` and `totalSugar` are lower bounds where fewer. */
+  nutrientCoverage: PlannerNutrientCoverage;
 }
 
 /**
@@ -194,6 +196,8 @@ export interface NutritionalProgress {
 export interface ChartDataPoint {
   label: string;
   value: number;
+  /** Shown in place of the rounded value, e.g. "≥1311 kcal" or "—" (no total). */
+  display?: string;
   color?: string;
   metadata?: Record<string, any>;
 }
@@ -221,8 +225,7 @@ export interface GroceryItem {
   inPantry: boolean;
   purchased: boolean;
   usedInRecipes: string[]; // Recipe IDs that use this ingredient
-  // Zod parse output: undefined when omitted from payload
-  notes?: string | undefined;
+  notes?: string;
 }
 
 /**
@@ -242,14 +245,15 @@ export type GroceryCategory =
   | "other";
 
 /**
- * Complete weekly menu structure
+ * Complete weekly menu structure. It carries no stored nutrition totals: day
+ * totals are computed live from `meals` (owner ruling 2026-09-27; see
+ * `services/menuPersistenceQueries.ts`).
  */
 export interface WeeklyMenu {
   id: string;
   weekStartDate: Date;
   weekEndDate: Date;
   meals: MealSlot[];
-  nutritionalTotals: Record<DayOfWeek, DailyNutritionTotals>;
   groceryList: GroceryItem[];
   savedAsTemplate: boolean;
   templateName?: string;

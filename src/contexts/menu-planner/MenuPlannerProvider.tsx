@@ -43,7 +43,6 @@ import type {
   DayOfWeek,
   MealType,
   GroceryItem,
-  DailyNutritionTotals,
   PlanetarySnapshot,
 } from "@/types/menuPlanner";
 import {
@@ -109,7 +108,6 @@ function createEmptyMealSlot(
 
 function createInitialMenu(weekStartDate: Date): WeeklyMenu {
   const meals: MealSlot[] = [];
-  const nutritionalTotals = {} as Record<DayOfWeek, DailyNutritionTotals>;
 
   for (let day = 0; day < 7; day++) {
     const dayOfWeek = day as DayOfWeek;
@@ -126,20 +124,6 @@ function createInitialMenu(weekStartDate: Date): WeeklyMenu {
     mealTypes.forEach((mealType) => {
       meals.push(createEmptyMealSlot(dayOfWeek, mealType, planetarySnapshot));
     });
-
-    nutritionalTotals[dayOfWeek] = {
-      calories: 0,
-      protein: 0,
-      carbs: 0,
-      fat: 0,
-      fiber: 0,
-      sodium: 0,
-      sugar: 0,
-      gregsEnergy: 0,
-      monicaConstant: 0,
-      kalchm: 0,
-      elementalBalance: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-    };
   }
 
   return {
@@ -147,7 +131,6 @@ function createInitialMenu(weekStartDate: Date): WeeklyMenu {
     weekStartDate,
     weekEndDate: getWeekEndDate(weekStartDate),
     meals,
-    nutritionalTotals,
     groceryList: [],
     savedAsTemplate: false,
     createdAt: new Date(),
@@ -348,7 +331,6 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
           body: JSON.stringify({
             weekStartDate: activeMenu.weekStartDate,
             meals: activeMenu.meals,
-            nutritionalTotals: activeMenu.nutritionalTotals,
             groceryList: overrides?.groceryList ?? groceryList,
             inventory: overrides?.inventory ?? inventory,
             weeklyBudget:

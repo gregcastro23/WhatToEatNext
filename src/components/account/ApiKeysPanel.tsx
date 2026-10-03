@@ -45,18 +45,11 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-interface ApiKeyRow {
-  id: string;
-  name: string;
-  scopes: string[];
-  rate_limit_tier: string;
-  is_active: boolean;
-  expires_at: string | null;
-  last_used_at: string | null;
-  usage_count: number;
-  created_at: string;
-}
+import {
+  ApiKeyListResponseSchema,
+  ApiKeyMintResponseSchema,
+  type ApiKeyRowView as ApiKeyRow,
+} from "@/lib/validation/accountResponseSchemas";
 
 function relativeTime(iso: string | null | undefined): string {
   if (!iso) return "Never";
@@ -113,11 +106,12 @@ export function ApiKeysPanel(): JSX.Element {
         setLoadError(`Failed to load keys (${res.status}).`);
         return;
       }
-      const json = (await res.json()) as {
-        success: boolean;
-        keys?: ApiKeyRow[];
-      };
-      setKeys(json.keys ?? []);
+      const parsed = ApiKeyListResponseSchema.safeParse(await res.json());
+      if (!parsed.success) {
+        setLoadError("Could not read the key list from the server.");
+        return;
+      }
+      setKeys(parsed.data.keys ?? []);
     } catch (err) {
       setLoadError(
         err instanceof Error ? err.message : "Failed to load keys.",
@@ -154,19 +148,24 @@ export function ApiKeysPanel(): JSX.Element {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ name, scopes: ["mcp:invoke"] }),
       });
-      const json = (await res.json()) as {
-        success: boolean;
-        error?: string;
-        key?: ApiKeyRow;
-        plaintext?: string;
-      };
+      const parsed = ApiKeyMintResponseSchema.safeParse(await res.json());
+      if (!parsed.success) {
+        setCreateError(
+          res.ok
+            ? "The key may have been created, but the reply could not be read. Reload to check, and revoke it if it appears."
+            : `Mint failed (${res.status}).`,
+        );
+        return;
+      }
+      const json = parsed.data;
       if (!res.ok || !json.success || !json.key || !json.plaintext) {
         setCreateError(json.error ?? `Mint failed (${res.status}).`);
         return;
       }
-      setRevealedKey(json.key);
-      setRevealedPlaintext(json.plaintext);
-      setKeys((prev) => [json.key as ApiKeyRow, ...prev]);
+      const { key, plaintext } = json;
+      setRevealedKey(key);
+      setRevealedPlaintext(plaintext);
+      setKeys((prev) => [key, ...prev]);
       setCreateOpen(false);
       setDraftName("");
     } catch (err) {

@@ -30,6 +30,8 @@
  * manufactures the starvation being measured. Reading three counters off the
  * pool object changes nothing about acquisition.
  */
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
+
 export interface PoolGauges {
   waiting: number;
   total: number;
@@ -82,7 +84,9 @@ export function recordSlowQuery(
 
   // Skip persistence for self-writes — would loop forever otherwise.
   if (query.toLowerCase().includes("slow_query_log_entries")) return;
-  void persistSlowQueryEntry(entry);
+  // Under after(), not floating: Vercel suspends work nothing waits for once
+  // the response is sent, and a suspended insert holds a pool connection.
+  runAfterResponse("slow-query log", () => persistSlowQueryEntry(entry));
 }
 
 async function persistSlowQueryEntry(entry: SlowQueryEntry): Promise<void> {
@@ -121,7 +125,7 @@ function ensureHydrated(): void {
   hydrationStarted = true;
   if (typeof window !== "undefined") return;
   if (!process.env.DATABASE_URL) return;
-  void (async () => {
+  runAfterResponse("slow-query log hydration", async () => {
     try {
       const { getDatabasePool } = await import("@/lib/database/rawPool");
       const result = await getDatabasePool().query<{
@@ -153,7 +157,7 @@ function ensureHydrated(): void {
     } catch {
       // Persistence offline — operate in pure-memory mode.
     }
-  })();
+  });
 }
 
 export function getRecentSlowQueries(limit = 50): SlowQueryEntry[] {

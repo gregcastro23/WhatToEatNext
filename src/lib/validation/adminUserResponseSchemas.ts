@@ -64,7 +64,6 @@ export type AdminBalances = z.infer<typeof AdminBalancesSchema>;
 
 export const AdminSubscriptionSchema = z
   .object({
-    tier: z.string(),
     status: z.string(),
     currentPeriodEnd: z.string().nullable(),
   })

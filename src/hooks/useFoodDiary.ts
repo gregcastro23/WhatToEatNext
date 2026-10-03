@@ -10,6 +10,7 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { z } from "zod";
 import {
   getServerDayEntries,
   getServerDailySummary,
@@ -48,11 +49,6 @@ import type { MealType } from "@/types/menuPlanner";
 import { createLogger } from "@/utils/logger";
 
 const _logger = createLogger("use-food-diary");
-
-interface FoodDiaryApiResponse {
-  entries?: FoodDiaryEntry[];
-  summary?: (Omit<DailyFoodDiarySummary, "entries"> & { entries?: FoodDiaryEntry[] }) | null;
-}
 
 /**
  * Hook state interface
@@ -149,29 +145,32 @@ export function useFoodDiary(): UseFoodDiaryReturn {
   const loadCoreData = useCallback(async () => {
     if (userId && userId !== "guest") {
       // Fetch persisted entries from the API
-      const [dateStr] = selectedDate.toISOString().split("T");
+      const dateStr = selectedDate.toISOString().slice(0, 10);
       const res = await fetch(
         `/api/food-diary?userId=${encodeURIComponent(userId)}&date=${dateStr}`,
         { credentials: "include" },
       );
       if (res.ok) {
-        const data = (await res.json()) as FoodDiaryApiResponse;
+        const schema = z.object({
+          entries: z.array(z.custom<FoodDiaryEntry>()).optional(),
+        });
+        const parsed = schema.safeParse(await res.json());
+        const data = parsed.success ? parsed.data : {};
         const entries = data.entries ?? [];
-        // The /api/food-diary GET returns a partial summary (totals only, no
-        // `entries`/`mealBreakdown`). Merge the entries the API did return so
-        // NutritionDashboard's `dailySummary.entries.length` check doesn't crash
-        // and users with logged food see their data rather than the empty state.
-        const summary: DailyFoodDiarySummary | null = data.summary
-          ? { ...data.summary, entries: data.summary.entries ?? entries }
-          : null;
-        const [stats, favorites] = await Promise.all([
+        // The route's own `summary` is four totals, not a DailyFoodDiarySummary
+        // (no totalNutrition, mealBreakdown, goalProgress...), and dressing it
+        // up as one made NutritionDashboard throw on `totalNutrition`. Take the
+        // real summary from the same service, for the same day string the
+        // route was given.
+        const [dailySummary, stats, favorites] = await Promise.all([
+          getServerDailySummary(userId, dateStr),
           getServerStats(userId),
           getServerFavorites(userId),
         ]);
 
         return {
           entries,
-          dailySummary: summary,
+          dailySummary,
           stats,
           favorites,
         };
@@ -264,7 +263,11 @@ export function useFoodDiary(): UseFoodDiaryReturn {
             body: JSON.stringify(parsedInput.data),
           });
           if (!res.ok) throw new Error(`Server error (${res.status})`);
-          const data = (await res.json()) as { entry?: FoodDiaryEntry };
+          const schema = z.object({
+            entry: z.custom<FoodDiaryEntry>().optional(),
+          });
+          const parsed = schema.safeParse(await res.json());
+          const data = parsed.success ? parsed.data : {};
           entry = data.entry ?? null;
         } else {
           entry = await createServerEntry(userId, parsedInput.data as CreateFoodDiaryEntryInput);

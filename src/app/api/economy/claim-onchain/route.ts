@@ -36,6 +36,8 @@ import { rateLimit } from "@/lib/rateLimit";
 import {
   esmsOnchainClaimService,
   type EsmsClaimAmounts,
+  type EsmsClaimResponse,
+  type EsmsClaimStatusResponse,
   type EsmsOnchainClaim,
 } from "@/services/esmsOnchainClaimService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
@@ -109,7 +111,7 @@ export async function GET(request: NextRequest) {
     wallet && esmsOnchainConfigured() ? readOnchainOrNull(wallet) : Promise.resolve(null),
   ]);
 
-  return NextResponse.json({
+  return NextResponse.json<EsmsClaimStatusResponse>({
     success: true,
     configured,
     walletAddress: wallet,
@@ -132,7 +134,7 @@ function floor4(n: number): number {
   return Math.floor(n * 10_000) / 10_000;
 }
 
-function claimToResponse(claim: EsmsOnchainClaim, extra?: Record<string, unknown>) {
+function claimToResponse(claim: EsmsOnchainClaim): EsmsClaimResponse {
   const meta = chainMeta();
   return {
     claimId: claim.claimId,
@@ -141,7 +143,6 @@ function claimToResponse(claim: EsmsOnchainClaim, extra?: Record<string, unknown
     txHash: claim.txHash,
     explorerUrl:
       claim.txHash && meta.explorerBaseUrl ? `${meta.explorerBaseUrl}/tx/${claim.txHash}` : null,
-    ...extra,
   };
 }
 

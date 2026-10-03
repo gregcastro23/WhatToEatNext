@@ -68,7 +68,7 @@ const TOOLS: ToolRow[] = [
   },
   {
     name: "generate_cosmic_recipe",
-    cost: "7.5 of each ESMS (30 total)",
+    cost: "2.5 of each ESMS (10 total)",
     blurb:
       "Search the 579-recipe catalog by element, cuisine, and dietary needs.",
   },

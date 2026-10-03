@@ -349,8 +349,9 @@ if (!canonical) {
 // Opt-in only — this script is read-only by default and must not drop a generated
 // artifact into the repo just for being run.
 const jsonFlag = process.argv.indexOf("--json");
-if (jsonFlag !== -1 && process.argv[jsonFlag + 1]) {
-  const out = process.argv[jsonFlag + 1];
+const outArg = jsonFlag !== -1 ? process.argv[jsonFlag + 1] : undefined;
+if (outArg) {
+  const out = outArg;
   fs.writeFileSync(
     out,
     JSON.stringify(

@@ -1689,11 +1689,11 @@ export class UnifiedRecipeBuildingSystem {
   private categorizeNutrientsByAlchemy(
     recipe: EnhancedRecipe,
   ): MonicaOptimizedRecipe["nutritionalOptimization"]["alchemicalNutrition"] {
-    const alchemicalNutrition = {
-      spiritNutrients: [] as string[],
-      essenceNutrients: [] as string[],
-      matterNutrients: [] as string[],
-      substanceNutrients: [] as string[],
+    const alchemicalNutrition: MonicaOptimizedRecipe["nutritionalOptimization"]["alchemicalNutrition"] = {
+      spiritNutrients: [],
+      essenceNutrients: [],
+      matterNutrients: [],
+      substanceNutrients: [],
     };
 
     // Categorize nutrients based on recipe ingredients and their alchemical properties
@@ -1967,9 +1967,10 @@ export class UnifiedRecipeBuildingSystem {
     // planetary hour and cuisine, which changes cooking methods, ingredients,
     // and flavour profile through the template system. ──
 
-    const altPlanets: string[] = [];
-    const currentPlanet = (criteria.planetaryHour as string) || "Sun";
-    for (const p of ["Moon", "Venus", "Mars", "Jupiter", "Saturn", "Mercury"]) {
+    const altPlanets: PlanetName[] = [];
+    const currentPlanet = criteria.planetaryHour || "Sun";
+    const candidates: readonly PlanetName[] = ["Moon", "Venus", "Mars", "Jupiter", "Saturn", "Mercury"];
+    for (const p of candidates) {
       if (p !== currentPlanet && altPlanets.length < 3) altPlanets.push(p);
     }
 
@@ -1986,9 +1987,10 @@ export class UnifiedRecipeBuildingSystem {
           ...criteriaWithoutRequired
         } = criteria;
         const altCuisine = altCuisines[i] ?? criteria.cuisine;
+        const planet = altPlanets[i];
         const altCriteria: RecipeBuildingCriteria = {
           ...criteriaWithoutRequired,
-          planetaryHour: altPlanets[i] as PlanetName,
+          ...(planet ? { planetaryHour: planet } : {}),
           ...(altCuisine !== undefined ? { cuisine: altCuisine } : {}),
         };
 
@@ -2041,21 +2043,6 @@ export class UnifiedRecipeBuildingSystem {
 
     // Confidence from criteria alignment
     if (
-      (criteria as { preferredCuisine?: string }).preferredCuisine &&
-      recipe.cuisine ===
-        (criteria as { preferredCuisine?: string }).preferredCuisine
-    ) {
-      confidence += 0.1;
-    }
-
-    if (
-      (criteria as { seasonalPreference?: string }).seasonalPreference &&
-      recipe.seasonalAdaptation.seasonalScore >= 0.8
-    ) {
-      confidence += 0.1;
-    }
-
-    if (
       criteria.dietaryRestrictions &&
       criteria.dietaryRestrictions.length > 0
     ) {
@@ -2092,20 +2079,13 @@ export class UnifiedRecipeBuildingSystem {
   ): RecipeGenerationResult["generationMetadata"] {
     // Calculate actual metadata based on recipe and criteria
     let criteriaMatched = 0;
-    const totalCriteria = 10; // Standard criteria count
+    // Ten criteria, but only the eight counted below can match: the
+    // cuisine-preference and seasonal-preference checks read fields that
+    // RecipeBuildingCriteria never had, so they never fired and were removed
+    // (Phase 42). The denominator is unchanged so the reported ratio is too.
+    const totalCriteria = 10;
 
     // Count matched criteria
-    if (
-      (criteria as { preferredCuisine?: string }).preferredCuisine &&
-      recipe.cuisine ===
-        (criteria as { preferredCuisine?: string }).preferredCuisine
-    )
-      criteriaMatched++;
-    if (
-      (criteria as { seasonalPreference?: string }).seasonalPreference &&
-      recipe.seasonalAdaptation.seasonalScore >= 0.7
-    )
-      criteriaMatched++;
     if (criteria.dietaryRestrictions) criteriaMatched++; // Assume dietary restrictions are met
     if (recipe.ingredients.length >= 5) criteriaMatched++;
     const recipeMethods = (recipe as { cookingMethods?: string[] }).cookingMethods;

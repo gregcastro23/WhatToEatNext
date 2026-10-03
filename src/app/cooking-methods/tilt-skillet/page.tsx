@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Tilt Skillet Batch Planner · Recipe as a Circuit",
   description:
     "Plan large-batch cooking as a series circuit — each stage a reaction with its own charge, voltage, current, resistance and power.",
+  alternates: { canonical: "/cooking-methods/tilt-skillet" },
 };
 
 /**

@@ -5,7 +5,7 @@
  * the rail is unproven, not healthy. These tests pin that distinction.
  */
 
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { makeDocumentVisible } from "@/utils/testing/pollingTestEnv";
 import SettlementPanel from "@/components/admin/SettlementPanel";
@@ -112,5 +112,53 @@ describe("SettlementPanel empty states", () => {
     // Unknown must not be rendered as "0 orders settled to date".
     expect(screen.queryByText(/settled to date/)).not.toBeInTheDocument();
     expect(screen.queryByText("Rail not yet in use")).not.toBeInTheDocument();
+  });
+});
+
+describe("SettlementPanel reply parsing (Phase 42)", () => {
+  const pendingOrder = {
+    id: "order-00000001",
+    user_id: "u-1",
+    restaurant_name: "Chez Test",
+    currency: "usd",
+    transfer_amount_cents: 1250,
+    stripe_connected_account_id: "acct_123",
+    stripe_transfer_id: null,
+    status: "settlement_pending",
+    payment_status: "esms_debited",
+    transfer_status: "retry_required",
+    created_at: "2026-09-25T12:00:00.000Z",
+  };
+
+  it("does not call a readable-but-malformed 2xx retry reply a failure — the transfer may have gone out", async () => {
+    const list = { success: true, pending: [pendingOrder], lifetime: { orders: 1, restaurants: 1 } };
+    installFetchMock(
+      jest.fn((url: string, init?: RequestInit) =>
+        Promise.resolve(
+          init?.method === "POST"
+            ? { ok: true, status: 200, json: async () => ({ unexpected: "shape" }) }
+            : { ok: true, status: 200, json: async () => list },
+        ),
+      ),
+    );
+    render(<SettlementPanel />);
+
+    const retry = await screen.findByRole("button", { name: "Retry" });
+    fireEvent.click(retry);
+
+    await waitFor(() =>
+      expect(screen.getByText(/may already be settled/)).toBeInTheDocument(),
+    );
+    expect(screen.queryByText(/HTTP 200/)).not.toBeInTheDocument();
+  });
+
+  it("treats a list body without `lifetime` as unreadable, not as an unknown total", async () => {
+    mockFetch({ success: true, pending: [] });
+    render(<SettlementPanel />);
+
+    await waitFor(() =>
+      expect(screen.getByText("Cannot read the settlement queue")).toBeInTheDocument(),
+    );
+    expect(screen.queryByText("No orders awaiting settlement")).not.toBeInTheDocument();
   });
 });

@@ -10,41 +10,17 @@ import {
   resolveCatalogIngredient,
   type CatalogIngredient,
 } from "@/lib/ingredients/ingredientCatalog";
+import { buildRelatedIngredientRecipe } from "@/lib/ingredients/relatedRecipe";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { IngredientService } from "@/services/IngredientService";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
+import type { RelatedIngredientRecipe } from "@/types/ingredient";
 import type { Recipe } from "@/types/recipe";
 
 export const dynamic = "force-dynamic";
 
 const { HONO_API_URL } = process.env;
-
-interface RelatedRecipe {
-  id: string;
-  name: string;
-  cuisine?: string | undefined;
-  description?: string | undefined;
-  prepTime?: number | undefined;
-  cookTime?: number | undefined;
-  servings?: number | undefined;
-  amount?: number | undefined;
-  unit?: string | undefined;
-}
-
-function extractTime(recipe: Recipe, kind: "prep" | "cook"): number | undefined {
-  const { details } = (recipe as { details?: { prepTimeMinutes?: number; cookTimeMinutes?: number } });
-  if (details) {
-    const v = kind === "prep" ? details.prepTimeMinutes : details.cookTimeMinutes;
-    if (typeof v === "number") return v;
-  }
-  const raw = kind === "prep" ? recipe.prepTime : recipe.cookTime;
-  if (typeof raw === "string") {
-    const m = raw.match(/(\d+)/);
-    if (m) return parseInt(m[1] ?? "", 10);
-  }
-  return undefined;
-}
 
 /**
  * The card for a name. An exact identity (slug, key, either catalog's name,
@@ -69,25 +45,8 @@ type IndexMatch = ReturnType<typeof getRecipesForIngredient>[number];
 /** The dossier shows the top 24 recipes with timing detail. */
 const RELATED_RECIPE_LIMIT = 24;
 
-function relatedRecipe(match: IndexMatch, recipe: Recipe | undefined): RelatedRecipe {
-  const amount = typeof match.amount === "number" ? match.amount : undefined;
-  if (!recipe) {
-    // Fallback if not loaded in memory
-    return { id: match.recipeId, name: match.recipeName, cuisine: match.cuisine, amount, unit: match.unit };
-  }
-  // Some catalog recipes carry an untyped baseServingSize.
-  const baseServings: unknown = Reflect.get(recipe, "baseServingSize");
-  return {
-    id: recipe.id,
-    name: recipe.name,
-    cuisine: recipe.cuisine,
-    description: recipe.description,
-    prepTime: extractTime(recipe, "prep"),
-    cookTime: extractTime(recipe, "cook"),
-    servings: typeof baseServings === "number" ? baseServings : (recipe.servingSize ?? recipe.numberOfServings),
-    amount,
-    unit: match.unit,
-  };
+function relatedRecipe(match: IndexMatch, recipe: Recipe | undefined): RelatedIngredientRecipe {
+  return buildRelatedIngredientRecipe(match, recipe);
 }
 
 /** `pairingRecommendations.complementary`, read defensively: cards store several shapes. */

@@ -24,13 +24,59 @@ function findIngredient(name: string) {
   const lowerName = name.toLowerCase();
   return flattenedIngredients.find(ing => 
     ing?.name?.toLowerCase() === lowerName || 
-    ing?.id?.toLowerCase() === lowerName ||
+    (typeof ing?.id === "string" && ing.id.toLowerCase() === lowerName) ||
     lowerName.includes(ing?.name?.toLowerCase()) ||
     (ing?.name && lowerName.includes(ing.name.toLowerCase()))
   );
 }
 
-function calculateNutrition(recipe) {
+interface NutritionData {
+  calories?: number;
+  macros?: {
+    protein?: number;
+    proteinG?: number;
+    carbs?: number;
+    carbsG?: number;
+    fat?: number;
+    fatG?: number;
+    fiber?: number;
+    fiberG?: number;
+    sodium?: number;
+    sodiumMg?: number;
+    sugar?: number;
+    sugarG?: number;
+  };
+  protein?: number;
+  proteinG?: number;
+  carbs?: number;
+  carbsG?: number;
+  fat?: number;
+  fatG?: number;
+  fiber?: number;
+  fiberG?: number;
+  sodium?: number;
+  sodiumMg?: number;
+  sugar?: number;
+  sugarG?: number;
+  vitamins?: Record<string, unknown>;
+  minerals?: Record<string, unknown>;
+}
+
+/** Ingredients carry nutrition as `nutritionalProfile` or the legacy `nutrition`; both are read field by field. */
+function nutritionOf(ing: unknown): NutritionData | null {
+  if (typeof ing !== "object" || ing === null) return null;
+  const source =
+    ("nutritionalProfile" in ing && ing.nutritionalProfile) || ("nutrition" in ing && ing.nutrition);
+  return typeof source === "object" && source !== null ? source : null;
+}
+
+interface RecipeToAnalyze {
+  details?: { baseServingSize?: number };
+  servingSize?: number;
+  ingredients: Array<{ name: string; amount?: number | string; unit?: string }>;
+}
+
+function calculateNutrition(recipe: RecipeToAnalyze) {
   let calories = 0;
   let proteinG = 0;
   let carbsG = 0;
@@ -52,7 +98,7 @@ function calculateNutrition(recipe) {
     else if (ing.unit === 'tbsp') factor = amount * 0.15;
     else factor = amount; 
 
-    const nutrition = matched?.nutritionalProfile || matched?.nutrition || null;
+    const nutrition = nutritionOf(matched);
 
     if (nutrition) {
       const cals = nutrition.calories || 0;

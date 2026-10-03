@@ -15,6 +15,7 @@ import { ensureConversationSchema } from "@/lib/chat/schemas";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { chatDatabase } from "@/services/chatDatabaseService";
+import type { ChatInboxResponse } from "@/types/chat";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -117,7 +118,7 @@ export async function GET(request: NextRequest) {
     if (!rl.allowed) return rl.response!;
 
     const inbox = await chatDatabase.listInbox(userId);
-    return NextResponse.json({ success: true, conversations: inbox, viewerId: userId });
+    return NextResponse.json<ChatInboxResponse>({ success: true, conversations: inbox, viewerId: userId });
   } catch (error) {
     _logger.error("Chat conversations GET error:", error);
     return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });

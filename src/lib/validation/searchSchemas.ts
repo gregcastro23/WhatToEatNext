@@ -51,6 +51,26 @@ const HeroSchema = z.object({
   elemental: ElementalSchema.nullable(),
   imageUrl: z.string().nullable(),
   recipeCount: z.number().int().nonnegative(),
+  /** Pairings; `href` is the paired card's dossier, null when the name is no card. */
+  pairings: z.array(z.object({ name: z.string(), href: z.string().nullable() })),
+});
+
+/**
+ * A parsed intent (Phase 5). `kind` is a plain string so a chip added later
+ * never fails an older client's parse; `applied` = it filtered the results.
+ */
+const ChipSchema = z.object({
+  kind: z.string(),
+  label: z.string(),
+  basis: z.string(),
+  applied: z.boolean(),
+});
+
+/** Recipes that use several of the query's ingredients: "uses 2 of 3, missing feta". */
+const CoverageSchema = z.object({
+  of: z.array(EntitySchema),
+  rows: z.array(RecipeRowSchema.extend({ uses: z.number().int().positive(), missing: z.array(z.string()) })),
+  total: z.number().int().nonnegative(),
 });
 
 const CorrectionSchema = z.object({
@@ -62,9 +82,18 @@ const CorrectionSchema = z.object({
 export const OmnibarResponseSchema = z.object({
   success: z.literal(true),
   query: z.string(),
+  /** The best hit of any kind; `exact` (tier 0) lets Enter open it directly. */
+  top: EntitySchema.extend({ exact: z.boolean() }).nullable(),
   corrected: CorrectionSchema.nullable(),
   hero: HeroSchema.nullable(),
   recipesContaining: z.array(RecipeRowSchema.extend({ alternative: z.boolean() })),
+  /**
+   * Phase 5 fields. Tolerant, so a response cached before them still parses:
+   * a missing total falls back to the hero's own count.
+   */
+  recipesContainingTotal: z.number().int().nonnegative().optional(),
+  chips: z.array(ChipSchema).default([]),
+  coverage: CoverageSchema.nullable().default(null),
   recipes: z.array(RecipeRowSchema),
   ingredients: z.array(EntitySchema),
   cuisines: z.array(EntitySchema),

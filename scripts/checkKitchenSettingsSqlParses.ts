@@ -32,7 +32,7 @@ let dbUrl = process.env.DATABASE_PUBLIC_URL ?? process.env.DATABASE_URL;
 if (!dbUrl) {
   for (const line of env.split("\n")) {
     if (line.startsWith("DATABASE_PUBLIC_URL=")) {
-      dbUrl = line.split("=")[1].trim().replace(/^['"]|['"]$/g, "");
+      dbUrl = line.split("=")[1]?.trim().replace(/^['"]|['"]$/g, "") ?? "";
       break;
     }
   }

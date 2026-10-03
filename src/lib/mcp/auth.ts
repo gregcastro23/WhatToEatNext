@@ -156,8 +156,8 @@ export async function resolveCaller(
 
 /**
  * Per-axis ESMS cost for one MCP tool call. Matches the existing
- * shop_items rate for `unlock-cosmic-recipe` (database/init/40):
- * 7.5 of each axis = 30 total per cosmic recipe.
+ * shop_items rate for `unlock-cosmic-recipe` (database/init/90):
+ * 2.5 of each axis = 10 total per cosmic recipe.
  *
  * Other tools are free for now — alchemize/transits don't cost tokens
  * in-app, so the MCP boundary mirrors that.
@@ -166,7 +166,7 @@ export const TOOL_COSTS: Record<
   string,
   { spirit: number; essence: number; matter: number; substance: number } | null
 > = {
-  generate_cosmic_recipe: { spirit: 7.5, essence: 7.5, matter: 7.5, substance: 7.5 },
+  generate_cosmic_recipe: { spirit: 2.5, essence: 2.5, matter: 2.5, substance: 2.5 },
   alchemize_ingredients: null,
   get_live_sky_transits: null,
 };

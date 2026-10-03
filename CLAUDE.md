@@ -68,7 +68,7 @@ Inbound webhooks follow one pattern (`src/lib/hooks/`):
 
 **Shared secrets:**
 - Compare with `safeEqual` / `bearerMatches` from `src/lib/hooks/secureCompare.ts`, never `===`.
-- The six `ALCHM_KITCHEN_SYNC_SECRET` routes already do. `secureCompare.test.ts` guards this.
+- The seven `ALCHM_KITCHEN_SYNC_SECRET` routes already do (including `sync-transmute`, the Transmutation Circle's agent door). `secureCompare.test.ts` guards this.
 - PA and ASOL still send the static header. Signed requests (Standard Webhooks) are Phase 2.
 
 **Launch readiness** = presence-only env config for the revenue/on-chain subsystems (Stripe, restaurant crypto-food payments, on-chain ESMS, Recipe-NFT, Privy, Amazon Fresh, agent network, email). Source: `src/services/launchReadinessService.ts` → `GET /api/admin/launch-readiness`. It reports booleans only — never serialize a secret's value.

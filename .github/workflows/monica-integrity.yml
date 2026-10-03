@@ -106,6 +106,56 @@ jobs:
         # been replaced by an import and the same warning applies.
         run: python -m pytest backend/tests/test_main_planet_weighting.py -q
 
+      - name: Deployed-server sign element (Python)
+        # main.py read an unrecognised sign as "Air" and a missing one as Aries
+        # in the alchemize paths — the same fallbacks RealAlchemizeService.ts
+        # carried. Both runtimes now give such a sign no element. AST-only, like
+        # the step above, so it keeps the pytest-only install.
+        run: python -m pytest backend/tests/test_main_sign_element.py -q
+
+      - name: Deployed-server cuisine recommender sky (Python)
+        # GET /cuisines/recommend fell back to Libra/Autumn when the ephemeris
+        # failed. Now the season comes from the date and a missing sign stays
+        # None. The test extracts the endpoint from main.py's source and runs it
+        # with stubs, so it too keeps the pytest-only install.
+        run: python -m pytest backend/tests/test_main_cuisine_recommend_sky.py -q
+
+      - name: Deployed-server cuisine elemental fallback (Python)
+        # The same endpoint gave every cuisine it had no record for a balanced
+        # 0.25-per-element profile — every cuisine in production, since the
+        # record import names a TypeScript module. The profile is now None.
+        # Extracted and run with stubs, so it keeps the pytest-only install.
+        run: python -m pytest backend/tests/test_main_cuisine_elemental_fallback.py -q
+
+      - name: Deployed-server cuisine sky ranking (Python)
+        # The same endpoint ranked cuisines by hand-set base weights: its zodiac
+        # and season lookups compared UUID columns to 'italian', so they never
+        # matched and every sky gave the same order. It now ranks by the cosine
+        # match between the sky's element shares and each cuisine's
+        # recipe-derived profile, falling back to the last computed sky. Run
+        # from main.py's source with stubs, so it keeps the pytest-only install.
+        run: python -m pytest backend/tests/test_main_cuisine_sky_ranking.py -q
+
+      - name: Deployed-server sauce catalogue (Python)
+        # The same endpoint's sauce catalogue was imported from a TypeScript
+        # module, so it never loaded and every cuisine got a hard-coded list.
+        # It now reads data/json/sauces.json through main.py's own loader; the
+        # test does the same against the real file, stdlib + pytest only.
+        run: python -m pytest backend/tests/test_main_sauce_catalogue.py -q
+
+      - name: Deployed-server excluded bodies (Python)
+        # Nodes, MC and other abstract points must not contribute mass or
+        # element in main.py's alchemize paths (parity with the TS gate). The
+        # file existed but no workflow ran it. AST extraction, pytest only.
+        run: python -m pytest backend/tests/test_main_excluded_bodies.py -q
+
+      - name: Deploy-time migration runner (Python)
+        # backend/scripts/run_init_migrations.py runs before uvicorn on every
+        # Railway deploy. A no-transaction migration first in line failed it
+        # ("set_session cannot be used inside a transaction"), so the deploy
+        # never became healthy. psycopg2 is faked, so pytest-only still holds.
+        run: python -m pytest backend/tests/test_run_init_migrations.py -q
+
   # ---------------------------------------------------------------------------
   # PRE-MERGE. The two gates a PULL REQUEST DIFF can actually break, run BEFORE
   # the code reaches master.
@@ -175,6 +225,15 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkEconomySqlParses.ts
 
+      - name: Transmutation Circle SQL parses against PostgreSQL
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # PREPAREs every statement in transmutationQueries.ts (writes nothing).
+        # Prints an explicit SKIP, not a pass, until migration 91 has created
+        # transmutation_offers on this database.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkTransmutationSqlParses.ts
+
       - name: Auth SQL parses against PostgreSQL
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # Diff-sensitive: it imports live auth SQL constants, so a PR that edits
@@ -213,6 +272,16 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkWelcomeGrantCoverageBehaviour.mjs
 
+      - name: Menu saves store no nutrition totals
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Diff-sensitive: it imports the weekly_menus statements and runs each
+        # one, rolled back, over rows seeded in both pre-ruling shapes. Each
+        # check is re-run against a mutant that restores the old behaviour, to
+        # prove the check can fail (owner ruling 2026-09-27).
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkMenuPersistenceSql.mjs
+
       - name: Environmental SQL parses against PostgreSQL
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # Diff-sensitive: it imports the live query builders AND applies
@@ -236,6 +305,17 @@ jobs:
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkSamplingHourAgrees.ts
+
+      - name: Food diary entries are stored, with what they carry
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Diff-sensitive: it imports the food_diary_entries statements from
+        # src/services/foodDiaryQueries.ts and runs them over synthetic rows, in
+        # a transaction that is always rolled back, with a failing control per
+        # check. Every diary insert failed for five months ("entry_…" into a
+        # UUID id) behind mocked tests that never ran the statement.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkFoodDiaryPersistenceSql.mjs
 
   # ---------------------------------------------------------------------------
   # Data. master + cron only: it needs production credentials, so it must never
@@ -373,6 +453,15 @@ jobs:
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkEconomySqlParses.ts
+
+      - name: Transmutation Circle SQL parses against PostgreSQL
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # PREPAREs every statement in transmutationQueries.ts (writes nothing).
+        # Prints an explicit SKIP, not a pass, until migration 91 has created
+        # transmutation_offers on this database.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkTransmutationSqlParses.ts
 
       - name: Auth SQL parses against PostgreSQL
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}

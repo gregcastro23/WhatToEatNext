@@ -53,6 +53,9 @@ export interface TodaysHighlightsPayload {
   live: boolean;
 }
 
+/** GET /api/admin/todays-highlights — the payload with the route's success flag. */
+export type TodaysHighlightsResponse = { success: true } & TodaysHighlightsPayload;
+
 interface PairCounts {
   today: number;
   yesterday: number;

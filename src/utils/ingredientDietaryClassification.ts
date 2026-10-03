@@ -85,6 +85,9 @@ const PLANT_COMPOUNDS: RegExp[] = [
   /\bvegetable\s+(broth|stock|bouillon)\b/,
   /\b(vegan|vegetarian|plant[-\s]?based|non[-\s]?dairy|dairy[-\s]?free|meat[-\s]?free|meatless|mock|imitation|faux)\b/,
   /\bcrab\s?apples?\b/,
+  // A stalk of celery. [MEASURED 2026-09-25] 32 recipe lines say "rib celery"
+  // or "celery rib"; every line with a meat rib also names its animal.
+  /\b(celery\s+ribs?|ribs?\s+(of\s+)?celery)\b/,
 ];
 
 /**
@@ -97,6 +100,9 @@ const FLESH_TERMS: RegExp[] = [
   // Mammal / poultry
   /\b(beef|veal|pork|mutton|lamb|venison|goat\s+meat|rabbit)\b/,
   /\b(bacon|pancetta|prosciutto|hams?|lardons?|lard|salami|chorizo|andouille|sausages?|spam|hot\s?dogs?)\b/,
+  // Cured pork jowl. The catalog files its `guanciale` card under `misc`, so
+  // only the name can exclude it (omnibar Phase 5: carbonara read as vegetarian).
+  /\bguanciale\b/,
   /\b(steaks?|brisket|sirloin|ribeye|tenderloin|cutlets?|chops?|ribs?)\b/,
   /\b(chicken|turkey|ducks?|goose|quail|poultry|schmaltz)\b/,
   /\b(livers?|pate|marrow|tripe|oxtail|suet|tallow|gizzard|sweetbread)\b/,
@@ -115,6 +121,8 @@ const FLESH_TERMS: RegExp[] = [
 /** Dairy: excluded from vegan, allowed for vegetarian. */
 const DAIRY_TERMS: RegExp[] = [
   /\b(milk|buttermilk|cream|creams?|butter|ghee|cheeses?|yogh?urts?|whey|casein|curds?|kefir|custard)\b/,
+  // A roux thickened with milk; the `béchamel sauce` card sits under `seasoning`.
+  /\bb[eé]chamel\b/,
   /\b(paneer|ricotta|mozzarella|parmesan|parmigiano|cheddar|feta|mascarpone|gouda|brie|halloumi|queso)\b/,
   /\bcr[eè]me\s+fra[iî]che\b/,
 ];
@@ -137,6 +145,8 @@ const BIRD_EGG_TERMS: RegExp[] = [
 const EGG_TERMS: RegExp[] = [
   /\beggs?\b/,
   /\b(tamago|albumen|meringue|mayonnaise|mayo|aioli)\b/,
+  // Egg-enriched breads; the `brioche` card sits under `grain`.
+  /\b(brioche|challah)\b/,
 ];
 
 /** Other animal products: excluded from vegan, allowed for vegetarian. */
@@ -154,6 +164,9 @@ const AMBIGUOUS_TERMS: RegExp[] = [
   /\b(broth|stock|bouillon|consomm[eé]|gravy|gao\s+tang)\b/,
   /\b(baked|refried)\s+beans\b/, // commonly prepared with pork fat
   /\b(kimchi|caesar|xo\s+sauce)\b/, // commonly contain fish products
+  // A meat sauce unless named otherwise ("bolognese ragù" in Lasagna al Forno);
+  // the lookahead lets the accented "ragù" end the word.
+  /\b(rag[uù]|bolognese)(?![a-z])/,
 ];
 
 // ===== STRUCTURAL RULES =====

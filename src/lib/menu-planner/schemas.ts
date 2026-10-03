@@ -13,8 +13,6 @@ import {
   LUNAR_PHASES,
   ZODIAC_SIGNS,
   type CelestialPosition,
-  type DailyNutritionTotals,
-  type DayOfWeek,
   type ElementalProperties,
   type EnhancedRecipe,
   type GroceryItem,
@@ -124,7 +122,7 @@ export const planetarySnapshotSchema: z.ZodType<PlanetarySnapshot> = z.object({
   zodiacSign: z.enum(ZODIAC_SIGNS),
   lunarPhase: z.enum(LUNAR_PHASES),
   elementalState: elementalPropertiesSchema,
-  planetaryPositions: planetaryPositionsSchema.optional(),
+  planetaryPositions: planetaryPositionsSchema.exactOptional(),
   timestamp: isoDateSchema,
 });
 
@@ -134,15 +132,15 @@ export const mealSlotSauceSchema: z.ZodType<MealSlotSauce> = z.object({
   servings: z.number().finite(),
   nutritionalProfile: z
     .object({
-      calories: z.number().finite().optional(),
-      protein: z.number().finite().optional(),
-      carbs: z.number().finite().optional(),
-      fat: z.number().finite().optional(),
-      fiber: z.number().finite().optional(),
+      calories: z.number().finite().exactOptional(),
+      protein: z.number().finite().exactOptional(),
+      carbs: z.number().finite().exactOptional(),
+      fat: z.number().finite().exactOptional(),
+      fiber: z.number().finite().exactOptional(),
     })
-    .optional(),
-  elementalProperties: elementalPropertiesSchema.optional(),
-  ingredients: z.array(z.string()).optional(),
+    .exactOptional(),
+  elementalProperties: elementalPropertiesSchema.exactOptional(),
+  ingredients: z.array(z.string()).exactOptional(),
 });
 
 export const mealSlotSchema: z.ZodType<MealSlot> = z.object({
@@ -157,41 +155,15 @@ export const mealSlotSchema: z.ZodType<MealSlot> = z.object({
     z.literal(6),
   ]),
   mealType: z.enum(["breakfast", "lunch", "dinner", "snack"]),
-  recipe: enhancedRecipeSchema.optional(),
+  recipe: enhancedRecipeSchema.exactOptional(),
   servings: z.number().finite(),
-  sauce: mealSlotSauceSchema.optional(),
+  sauce: mealSlotSauceSchema.exactOptional(),
   planetarySnapshot: planetarySnapshotSchema,
-  notes: z.string().optional(),
-  isLocked: z.boolean().optional(),
+  notes: z.string().exactOptional(),
+  isLocked: z.boolean().exactOptional(),
   createdAt: isoDateSchema,
   updatedAt: isoDateSchema,
 });
-
-export const dailyNutritionTotalsSchema: z.ZodType<DailyNutritionTotals> = z.object({
-  calories: z.number().finite(),
-  protein: z.number().finite(),
-  carbs: z.number().finite(),
-  fat: z.number().finite(),
-  fiber: z.number().finite(),
-  sodium: z.number().finite(),
-  sugar: z.number().finite(),
-  gregsEnergy: z.number().finite(),
-  monicaConstant: z.number().finite().optional(),
-  kalchm: z.number().finite(),
-  elementalBalance: elementalPropertiesSchema,
-});
-
-// The refine proves every key present is a DayOfWeek; it does not prove all
-// seven are present, so the honest output type is a Partial record.
-export const nutritionalTotalsSchema = z
-  .record(z.string(), dailyNutritionTotalsSchema)
-  .refine(
-    (totals) => Object.keys(totals).every((day) => /^[0-6]$/.test(day)),
-    "Nutrition totals contain an invalid day",
-  )
-  .transform(
-    (totals): Partial<Record<DayOfWeek, DailyNutritionTotals>> => totals,
-  );
 
 export const groceryItemSchema: z.ZodType<GroceryItem> = z.object({
   id: z.string(),
@@ -202,13 +174,12 @@ export const groceryItemSchema: z.ZodType<GroceryItem> = z.object({
   inPantry: z.boolean(),
   purchased: z.boolean(),
   usedInRecipes: z.array(z.string()),
-  notes: z.string().optional(),
+  notes: z.string().exactOptional(),
 });
 
 export const menuPutBodySchema = z.object({
   weekStartDate: isoDateSchema,
   meals: z.array(mealSlotSchema).default([]),
-  nutritionalTotals: nutritionalTotalsSchema.default(() => ({})),
   groceryList: z.array(groceryItemSchema).default([]),
   inventory: z.array(z.string()).default([]),
   weeklyBudget: z.number().finite().nullable().default(null),
@@ -218,7 +189,6 @@ export const menuTemplateSaveBodySchema = z.object({
   name: z.string().trim().min(1, "Template name is required"),
   weekStartDate: isoDateSchema,
   meals: z.array(mealSlotSchema).default([]),
-  nutritionalTotals: nutritionalTotalsSchema.default(() => ({})),
   groceryList: z.array(groceryItemSchema).default([]),
   inventory: z.array(z.string()).default([]),
   weeklyBudget: z.number().finite().nullable().default(null),
@@ -230,9 +200,6 @@ export const savedMenuSchema = z
     weekStartDate: isoDateSchema,
     weekEndDate: isoDateSchema.optional(),
     meals: z.array(mealSlotSchema).default([]),
-    nutritionalTotals: z
-      .record(z.string(), dailyNutritionTotalsSchema)
-      .default({}),
     groceryList: z.array(groceryItemSchema).default([]),
     inventory: z.array(z.string()).default([]),
     weeklyBudget: z.number().finite().nullable().default(null),
@@ -273,8 +240,6 @@ export const savedMenuSchema = z
         createdAt: restMenu.createdAt ?? new Date(),
         updatedAt: restMenu.updatedAt ?? new Date(),
         weeklyBudget: restMenu.weeklyBudget ?? null,
-        nutritionalTotals:
-          restMenu.nutritionalTotals as Record<DayOfWeek, DailyNutritionTotals>,
       };
     },
   );

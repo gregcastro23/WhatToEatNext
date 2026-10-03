@@ -1,7 +1,8 @@
 import { notFound, permanentRedirect } from "next/navigation";
 import { cache } from "react";
 import { _logger } from "@/lib/logger";
-import { resolveRecipeRef } from "@/lib/recipes/recipeRefResolver";
+import { loadAuthoredFacts, resolveRecipeRef, withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
+import { withAuthoredFacts } from "@/lib/search/authoredFacts";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
@@ -195,7 +196,10 @@ export default async function RecipePage({ params }: RecipePageProps) {
     return handleMissingRecipe(recipeId);
   }
 
-  const { recipe } = target;
+  const { recipe: liveRecipe } = target;
+  // The live catalog's times and meal are placeholders (prep 30 + cook 30,
+  // "main" on every recipe): what the page shows and publishes is authored.
+  const recipe = withAuthoredFacts(liveRecipe, await loadAuthoredFacts(liveRecipe));
 
   const cookingMethods = getCookingMethods(recipe);
 
@@ -226,9 +230,10 @@ export default async function RecipePage({ params }: RecipePageProps) {
     });
 
     const allRecipes = await LocalRecipeService.getAllRecipes();
-    recommendedRecipes = await _recipeRecommender.recommendSimilarRecipes(
-      recipe,
-      allRecipes,
+    // Compared like for like: the other recipes carry the placeholders too.
+    // Shown like the page: with their authored times and meal, or none.
+    recommendedRecipes = await withAuthoredFactsAll(
+      await _recipeRecommender.recommendSimilarRecipes(liveRecipe, allRecipes),
     );
   } catch (err) {
     _logger.error(

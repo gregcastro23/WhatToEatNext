@@ -20,16 +20,12 @@
  */
 
 import pkg from "pg";
+import { requireEnv } from "./lib/env";
 import { calculateRecipeAlchemicalQuantities } from "../src/utils/recipeAlchemicalQuantities";
 
 const { Pool } = pkg;
 
-const DATABASE_URL = process.env.DATABASE_URL;
-if (!DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL is required — set it in the environment before running this backfill script.",
-  );
-}
+const DATABASE_URL = requireEnv("DATABASE_URL");
 
 const onlyMissing = process.argv.includes("--only-missing");
 

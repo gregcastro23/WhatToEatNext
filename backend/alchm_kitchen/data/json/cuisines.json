@@ -2,10 +2,10 @@
   "African": {
     "name": "African",
     "elementalProperties": {
-      "Fire": 0.3,
-      "Earth": 0.4,
-      "Water": 0.2,
-      "Air": 0.1
+      "Fire": 0.3303,
+      "Water": 0.2592,
+      "Earth": 0.3079,
+      "Air": 0.1026
     },
     "description": "Rich and diverse culinary traditions from across the African continent.",
     "id": "african",
@@ -47,15 +47,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 38
+    }
   },
   "American": {
     "name": "American",
     "elementalProperties": {
-      "Fire": 0.3,
-      "Water": 0.2,
-      "Earth": 0.3,
-      "Air": 0.2
+      "Fire": 0.2372,
+      "Water": 0.2895,
+      "Earth": 0.3372,
+      "Air": 0.136
     },
     "description": "Diverse culinary influences reflecting the melting pot of American culture.",
     "id": "american",
@@ -97,15 +101,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 43
+    }
   },
   "Chinese": {
     "name": "Chinese",
     "elementalProperties": {
-      "Fire": 0.3,
-      "Water": 0.3,
-      "Earth": 0.3,
-      "Air": 0.1
+      "Fire": 0.3012,
+      "Water": 0.2924,
+      "Earth": 0.2692,
+      "Air": 0.1372
     },
     "description": "Ancient culinary traditions with a focus on balance and wok hei.",
     "id": "chinese",
@@ -147,15 +155,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 43
+    }
   },
   "French": {
     "name": "French",
     "elementalProperties": {
-      "Fire": 0.2,
-      "Water": 0.3,
-      "Earth": 0.3,
-      "Air": 0.2
+      "Fire": 0.1864,
+      "Water": 0.3171,
+      "Earth": 0.3321,
+      "Air": 0.1643
     },
     "description": "Classical techniques and a focus on high-quality ingredients and sauces.",
     "id": "french",
@@ -197,15 +209,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 35
+    }
   },
   "Greek": {
     "name": "Greek",
     "elementalProperties": {
-      "Fire": 0.2,
-      "Earth": 0.3,
-      "Water": 0.3,
-      "Air": 0.2
+      "Fire": 0.2468,
+      "Water": 0.2706,
+      "Earth": 0.3587,
+      "Air": 0.1238
     },
     "description": "Mediterranean flavors with fresh herbs, olive oil, and seafood.",
     "id": "greek",
@@ -247,15 +263,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 42
+    }
   },
   "Indian": {
     "name": "Indian",
     "elementalProperties": {
-      "Fire": 0.4,
-      "Water": 0.2,
-      "Earth": 0.2,
-      "Air": 0.2
+      "Fire": 0.3019,
+      "Water": 0.2532,
+      "Earth": 0.3192,
+      "Air": 0.1256
     },
     "description": "Complex spice blends and traditional cooking methods like the tandoor.",
     "id": "indian",
@@ -297,15 +317,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 39
+    }
   },
   "Italian": {
     "name": "Italian",
     "elementalProperties": {
-      "Fire": 0.3,
-      "Earth": 0.4,
-      "Water": 0.2,
-      "Air": 0.1
+      "Fire": 0.202,
+      "Water": 0.3259,
+      "Earth": 0.3171,
+      "Air": 0.155
     },
     "description": "Regional specialties with a focus on fresh pasta, tomatoes, and olive oil.",
     "id": "italian",
@@ -347,15 +371,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 37
+    }
   },
   "Japanese": {
     "name": "Japanese",
     "elementalProperties": {
-      "Fire": 0.2,
-      "Water": 0.4,
-      "Earth": 0.2,
-      "Air": 0.2
+      "Fire": 0.2522,
+      "Water": 0.3111,
+      "Earth": 0.2944,
+      "Air": 0.1422
     },
     "description": "Precision and seasonality with a focus on umami and fresh seafood.",
     "id": "japanese",
@@ -397,15 +425,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 45
+    }
   },
   "Korean": {
     "name": "Korean",
     "elementalProperties": {
-      "Fire": 0.3,
-      "Earth": 0.3,
-      "Water": 0.2,
-      "Air": 0.2
+      "Fire": 0.3234,
+      "Water": 0.2713,
+      "Earth": 0.2878,
+      "Air": 0.1174
     },
     "description": "Bold flavors from fermentation and grilling.",
     "id": "korean",
@@ -447,15 +479,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 43
+    }
   },
   "Mexican": {
     "name": "Mexican",
     "elementalProperties": {
-      "Fire": 0.5,
-      "Earth": 0.3,
-      "Water": 0.1,
-      "Air": 0.1
+      "Fire": 0.2675,
+      "Water": 0.3111,
+      "Earth": 0.312,
+      "Air": 0.1094
     },
     "description": "Vibrant flavors with a focus on chilies, corn, and traditional salsas.",
     "id": "mexican",
@@ -497,15 +533,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 39
+    }
   },
   "MiddleEastern": {
     "name": "Middle Eastern",
     "elementalProperties": {
-      "Fire": 0.3,
-      "Earth": 0.3,
-      "Water": 0.2,
-      "Air": 0.2
+      "Fire": 0.2857,
+      "Water": 0.2526,
+      "Earth": 0.3628,
+      "Air": 0.0989
     },
     "description": "Aromatic spices, grains, and grilled meats with fresh vegetable salads.",
     "id": "middleeastern",
@@ -547,15 +587,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 45
+    }
   },
   "Russian": {
     "name": "Russian",
     "elementalProperties": {
-      "Earth": 0.5,
-      "Water": 0.2,
-      "Fire": 0.2,
-      "Air": 0.1
+      "Fire": 0.1833,
+      "Water": 0.3526,
+      "Earth": 0.3436,
+      "Air": 0.1205
     },
     "description": "Hearty soups, grains, and preserved foods suitable for cold climates.",
     "id": "russian",
@@ -597,15 +641,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 39
+    }
   },
   "Thai": {
     "name": "Thai",
     "elementalProperties": {
-      "Fire": 0.4,
-      "Water": 0.3,
-      "Earth": 0.2,
-      "Air": 0.1
+      "Fire": 0.3016,
+      "Water": 0.3197,
+      "Earth": 0.2473,
+      "Air": 0.1314
     },
     "description": "Perfect balance of sour, sweet, salty, and spicy flavors.",
     "id": "thai",
@@ -647,15 +695,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 47
+    }
   },
   "Vietnamese": {
     "name": "Vietnamese",
     "elementalProperties": {
-      "Water": 0.4,
-      "Fire": 0.2,
-      "Earth": 0.2,
-      "Air": 0.2
+      "Fire": 0.2696,
+      "Water": 0.3272,
+      "Earth": 0.2533,
+      "Air": 0.15
     },
     "description": "Fresh, light flavors with an emphasis on herbs and clear broths.",
     "id": "vietnamese",
@@ -697,15 +749,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 46
+    }
   },
   "HSCA": {
     "name": "HSCA",
     "elementalProperties": {
-      "Fire": 0.25,
-      "Earth": 0.35,
-      "Water": 0.25,
-      "Air": 0.15
+      "Fire": 0.2283,
+      "Water": 0.2912,
+      "Earth": 0.3051,
+      "Air": 0.1754
     },
     "description": "Holistic Health and Macrobiotic clean cuisine focusing on energetic harmony and elemental balance.",
     "id": "hsca",
@@ -747,6 +803,10 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 498
+    }
   }
 }

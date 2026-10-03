@@ -21,6 +21,7 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { extractClientIp, hashIp } from "./hashIp";
 import { recordRequest } from "./requestLog";
 
@@ -101,21 +102,28 @@ export function withObservability<TRest extends unknown[] = []>(
     const latencyMs = Math.round(performance.now() - startedAt);
     const { status } = response;
 
-    // Fire-and-forget: kick the userId + ip-hash resolution into the
-    // background. The response goes back to the client immediately;
-    // the ring buffer entry shows up a few ms later. We deliberately
-    // do not await this so the request hot path is unaffected.
-    void resolveAndRecord({
+    // After the response: the userId + ip-hash resolution and the durable
+    // insert run once the client has its answer, so the hot path is
+    // unaffected. They are registered with `after()` rather than left
+    // floating: on Vercel, work nothing waits for is suspended with the
+    // instance once the response is sent. [MEASURED 2026-09-25, production]
+    // All 48 "Query read timeout" errors in a 77-minute window were this
+    // path — the user lookup (22) and the request_log_entries insert (26) —
+    // with a median executionTime of 67 s against a 6 s query timeout: the
+    // timers fired when the instance next woke, and each suspended query
+    // held one of the pool's 5 connections the whole time.
+    const recordOpts: ResolveAndRecordOpts = {
       request,
       // Resolved HERE, synchronously, rather than inside resolveAndRecord:
       // a throwing deriver is caught on the request path where we still have
-      // a `try` around it, and can never reach the fire-and-forget microtask.
+      // a `try` around it, and can never reach the after-response task.
       routeName: resolveRouteName(options, request),
       method,
       status,
       latencyMs,
       skipUserResolution: options.skipUserResolution ?? false,
-    });
+    };
+    runAfterResponse("observability", () => resolveAndRecord(recordOpts));
 
     if (threw !== undefined) {
       // Preserve Next.js's normal error path — if the inner handler
@@ -173,7 +181,8 @@ async function resolveAndRecord(opts: ResolveAndRecordOpts): Promise<void> {
     // Swallow: recording must never throw past the response.
   }
   try {
-    recordRequest({
+    // Awaited so the after-response task lasts until the insert settles.
+    await recordRequest({
       method: opts.method,
       path: opts.routeName,
       status: opts.status,

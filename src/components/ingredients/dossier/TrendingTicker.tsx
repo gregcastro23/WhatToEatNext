@@ -52,6 +52,7 @@ function TickerLink({ item, last }: { item: RecommendedIngredient; last: boolean
   return (
     <Link
       href={ingredientHref(item.id)}
+      prefetch={false}
       className="t-mono"
       style={{
         display: "flex",

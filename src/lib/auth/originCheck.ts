@@ -20,7 +20,7 @@ import { NextResponse } from "next/server";
 export interface OriginCheckResult {
   allowed: boolean;
   status: number;
-  error?: string | undefined;
+  error?: string;
 }
 
 function isLocalHost(hostname: string): boolean {

@@ -9,6 +9,12 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
+import { z } from "zod";
+
+const chatUnreadResponseSchema = z.object({
+  total: z.number().optional(),
+  byConversation: z.record(z.string(), z.number()).optional(),
+});
 
 const CHAT_UNREAD_REFRESH_EVENT = "chat:unread:refresh";
 const POLL_MS = 30_000;
@@ -34,7 +40,8 @@ export function useChatUnread(enabled = true): UseChatUnreadResult {
     try {
       const res = await fetch("/api/chat/unread", { credentials: "include" });
       if (!res.ok) return;
-      const data = (await res.json()) as { total?: number; byConversation?: Record<string, number> };
+      const parsed = chatUnreadResponseSchema.safeParse(await res.json());
+      const data = parsed.success ? parsed.data : {};
       setTotal(data.total ?? 0);
       setByConversation(data.byConversation ?? {});
     } catch {

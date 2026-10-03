@@ -1,10 +1,10 @@
 
 import fs from 'fs';
 import path from 'path';
-import { cuisinesMap } from '../src/data/cuisines/index.ts';
-import { allSauces } from '../src/data/sauces.ts';
-import { allIngredients } from '../src/data/ingredients/index.ts';
-import { getAllRecipes } from '../src/data/recipes/index.ts';
+import { cuisinesMap } from '../src/data/cuisines/index';
+import { allSauces } from '../src/data/sauces';
+import { allIngredients } from '../src/data/ingredients/index';
+import { getAllRecipes } from '../src/data/recipes/index';
 
 const JSON_DATA_PATH = path.join(process.cwd(), 'backend/alchm_kitchen/data/json');
 
@@ -26,7 +26,7 @@ async function migrate() {
   // Save individual cuisines for optimized loading
   Object.entries(cuisinesMap).forEach(([id, data]) => {
     // Only save primary capitalized versions to the individual folder
-    if (id[0] === id[0].toUpperCase()) {
+    if (id[0] && id[0] === id[0].toUpperCase()) {
       fs.writeFileSync(path.join(cuisinesPath, `${id}.json`), JSON.stringify(data, null, 2));
     }
   });

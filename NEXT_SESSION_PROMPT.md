@@ -1,79 +1,27 @@
-# Phase 41: Domain Loose Optionality (≤175), Bare JSON Casts (≤115), and Scripts Typecheck Hardening
+# Next session — post-Phase 43 reliability and type-safety targets
 
-Implement this campaign end to end in the existing WhatToEatNext repository. Start with a short evidence-based plan, then implement and verify; do not stop at a proposal. Use judgment for routine reversible decisions. Ask only when a missing requirement or permission genuinely blocks dependent work, and continue independent work meanwhile.
+Phase 43 is complete in [PR #933](https://github.com/gregcastro23/WhatToEatNext/pull/933). Read `docs/PHASE_43_CLOSEOUT.md` and check the PR's latest status before beginning. Work from an updated `master` after the PR merges, or explicitly state why a follow-up must branch from the PR. Do not repeat the completed optionality, cast, assertion, or scripts campaigns.
 
----
+The committed Phase 43 ceilings are 106 domain loose-optionality sites, 89 wire sites, 85 production bare JSON casts (94 total), zero scripts typecheck errors, 2,827 single assertion sites, and 1,293 tracked lint warnings. Re-measure against the actual starting tree before changing a baseline; these numbers are context, not permission to spend headroom.
 
-## 1. Starting State (Measured on `codex/phase-40-asol-hardening`, September 24, 2026)
+## 1. First implementation target: make agent creation truly idempotent
 
-Phase 40 is complete on branch `codex/phase-40-asol-hardening`. All static gates, full test suites (442 suites, 4,477 tests passed), and production build checks pass with 0 errors and 0 warnings.
+`src/app/api/agents/unified/route.ts` now scopes `clientRequestId` lookup to `createdByUserId`, but the lookup and the three inserts (`users`, `user_profiles`, `token_balances`) are separate operations. Two concurrent requests can both miss the lookup and create agents; failure after the first insert can leave a partial agent that a retry cannot find through the current join. This is the highest-value follow-up because a lost 2xx response already causes the client to retry with the same ID.
 
-### Preceding Commit Reference (Phase 40):
-- `b8040936`: `fix(phase-40): address review findings across webhook auth, idempotency key, error handling, and telemetry`
-- `ea908cac`: `Merge remote-tracking branch 'origin/master' into codex/phase-40-asol-hardening`
-- `4a7a2a30`: `feat(debt): domain loose optionality <= 193, bare json <= 128, assertions <= 2983 (#B, #C, #D, #E)`
-- `062620d5`: `style(admin): alphabetical import order in asol health page`
-- `345f9be0`: `feat(admin): 24h delivery telemetry, signature audit, and stale lock alerts (#A2, #A3)`
-- `e56a3c52`: `feat(hooks): in-flight conflict marker on 409 for ASOL delivery contract (#A1)`
+Design a database-enforced uniqueness boundary for `(creator, clientRequestId)` and make the creation writes atomic. Inspect the migration runner and existing rows before choosing a partial unique index on `users.profile` or a dedicated idempotency table. Plan the rollout so the constraint exists before code relies on it. On a uniqueness conflict, read and return the completed original agent rather than surfacing a generic 500. Decide and document what a replay with the same ID but different input means. Preserve behavior for requests without a client ID.
 
-### Verified Gate State:
+Acceptance evidence: two simultaneous requests by one creator return one agent ID and leave one complete set of rows; replay after a lost response returns that ID; the same request ID from another creator is independent; an injected failure rolls back all related writes; malformed input cannot retrieve a previous agent. Prefer a database-backed concurrency test over a mock that only checks SQL strings. If a database test cannot run locally, keep the migration and concurrency claim explicitly unverified.
 
-| Gate / Command | Measured Value | Baseline / Ceiling | Status |
-|---|---:|---:|---|
-| `check:untracked` | 0 untracked files | 0 | ✅ Clean |
-| `check:route-validation` | 0 unvalidated / 123 body routes | 0 | ✅ 100% Compliant |
-| `test:gates` | 10/10 suites, 147 tests passed | 10/10 | ✅ Pass |
-| `check:scripts` | 66 baseline errors across 32 files | ≤66 | ✅ Met (0 regressions) |
-| `typecheck` | 0 errors | 0 | ✅ Zero Type Errors |
-| `lint:scripts` | 0 errors, ≤25 warnings | 0 errors | ✅ Pass |
-| `lint:debt` (Casts) | **165 casts** (38 asAny, 127 asUnknownAs) | ≤165 | ✅ Met |
-| `lint:debt` (Assertions) | **3,147 sites** (2,523 prod, 624 test) | ≤3,147 | ✅ Decreased (-39) |
-| `lint:debt` (Single assertions) | **2,983 sites** | ≤2,983 | ✅ Decreased (-39) |
-| `lint:debt` (Tracked debt) | **1,320 sites** | ≤1,320 | ✅ Decreased (-2) |
-| `lint:debt` (Declined pool) | **4,886 sites** | ≤4,889 | ✅ Decreased (-3) |
-| `lint:debt` (Loose Domain) | **193 sites** | ≤193 | ✅ Met (89 wire segregated) |
-| `lint:debt` (Prefer nullish coalescing) | **210 sites** | ≤210 | ✅ Decreased (-1) |
-| `audit:dead-modules` | 0 dead modules (1,305 reachable) | 0 | ✅ Pass |
-| `check:read-json` | 0 unvalidated / 108 calls | 0 unvalidated | ✅ 100% Compliant |
-| `check:bare-json` | **128 prod / 137 total** (100 files) | ≤128 prod | ✅ Decreased (-11) |
-| `check:diff-assertions` | **0 new type assertions** | 0 | ✅ Zero Slippage |
-| `check:snapshot-witness` | 100% behavioral parity | 100% | ✅ Exact Parity |
-| `bun run test` | 442 suites, 4,477 passed, 0 failed | natural exit 0 | ✅ Clean Teardown |
-| `bun run build` | 7/7 route size checks pass | ceilings met | ✅ Pass (`/account` 109 kB, `/menu-planner` 289 kB) |
+## 2. Next type-safety target: replace opaque response validation with real contracts
 
----
+Five predicate-less `z.custom<T>()` sites still act as casts at response boundaries: `PremiumContext.tsx` (subscription), `useFoodDiary.ts` (entries and entry), and `useTables.ts` (list and detail). Start with one coherent producer-to-consumer slice, read every success, degraded, and error response, and validate only fields that the consumer actually needs. Add compile-time producer/reader compatibility checks where an authoritative server type exists, plus runtime tests for real response shapes and malformed 2xx payloads. Preserve prior good read state and uncertain mutation handling; do not replace the casts with `z.unknown()`, a permissive `z.custom`, or an unchecked assertion.
 
-## 2. Phase 40 Deliverables Summary
+The subscription route currently emits `tier: "standard"`, which is outside the existing union. Audit the product meaning of that tier before changing entitlement behavior or narrowing the schema. For food diary, inspect stored `food_source`, `meal_type`, and serving-unit values before using enums. For tables, inspect `composite_snapshot` and the fields each reader consumes. If a contract needs a product or data decision, leave that site deferred with evidence and complete a safe slice instead.
 
-1. **ASOL Delivery Contract Hardening**:
-   - Wired `{ status: "in_flight", error: "conflict" }` marker on 409 responses for `/api/feed`, `/api/economy/sync-event`, and `/api/internal/agent-recipes`. ASOL retry classification functions correctly without dropping pending events.
-   - Wired `verifyStandardWebhook` in `shadow` mode across inbound ASOL webhooks. Missing signature mode defaults to `off`; unrecognized signature mode safely defaults to `shadow` and logs an alert.
-   - Evaluated signature verification is stored in `webhook_events.summary.signatureVerification` for production auditing.
-2. **24-Hour Rolling Telemetry & Stale Lock Alerting**:
-   - Bounded queries in `asolHealthQueries.ts` to `NOW() - INTERVAL '24 hours'`.
-   - Separated live in-flight locks (received ≤ 300s ago) from stale locks (> 300s).
-   - Upgraded `/admin/asol` dashboard with KPI grid, latency indicators, source breakdown, delivery failure inspection modal, and stale lock alerts.
-3. **Debt Ratchets Shipped**:
-   - Domain loose optionality down from 216 to 193 (target ≤ 193).
-   - Bare JSON casts down from 139 to 128 production (target ≤ 130).
-   - Single assertion sites down from 3,022 to 2,983 (target ≤ 2,992).
-   - Tracked lint debt decreased to 1,320 (-2), declined rules pool decreased to 4,889 (-3).
-4. **ASOL Boundary Contract Probe**:
-   - Implemented `AsolContractProbeService` with positive probes and negative controls (verifying 401 across all 4 boundary endpoints), backed by 14 unit tests with 0 new type assertions.
+## 3. Investigate the unresolved Monica chat endpoint
 
----
+`src/app/(alchm)/philosophers-stone/page.tsx` still calls `/api/monica-agent`, while Phase 43 found no local Next route or documented rewrite for that path. Trace the actual deployed request and intended provider before changing code. If the endpoint is absent, make its user-facing failure explicit and propose or implement the smallest supported route/consumer repair with a verified response contract. Do not invent a schema from the old cast or silently redirect it to `/api/agents/unified` without checking semantics.
 
-## 3. Recommended Scope for Phase 41
+## Working rules and completion
 
-1. **Workstream A: Domain Loose Optionality Ratchet (193 → ≤ 175)**:
-   - Target next high-density domain model files (`src/utils/dayCircuitCalculations.ts`, `src/types/mealCircuit.ts`, and core domain types) for removing `?: T | undefined` patterns.
-   - Verify with `bun scripts/scanLooseOptionality.ts`.
-2. **Workstream B: Bare JSON Response Casts (128 → ≤ 115)**:
-   - Target client-side queries and remaining internal endpoints (`src/hooks/useTables.ts`, `src/hooks/useUserLocation.ts`, `src/app/restaurants/[id]/menu/MenuOrderClient.tsx`, etc.).
-   - Replace bare casts with Zod schemas or typed parsing helpers.
-3. **Workstream C: Assertion Sites Ratchet (2,983 → ≤ 2,950)**:
-   - Target typed accumulators and type-guarded unions across `src/data/` and `src/utils/`.
-4. **Workstream D: Scripts Typecheck Hardening (66 → ≤ 40)**:
-   - Remediate TypeScript errors in `scripts/` identified by `bun run check:scripts`.
-5. **Workstream E: Operator Verification of ASOL Webhook Signatures**:
-   - Check `/admin/asol` signature audit metrics in shadow mode once ASOL deploys signing headers.
+Keep the first session focused on target 1; take target 2 or 3 only if the primary change is complete and verified. Treat the house-stellium `"Fire"`/`fire` mismatch as a separate scoring decision, not a type-only cleanup. For response work, distinguish a server rejection from an unreadable 2xx mutation result. Run focused tests, `bun run verify:static`, and the relevant build/integration checks. Ratchet baselines only after measuring the final merged tree. Record remaining risks and actual gate deltas in a closeout note.

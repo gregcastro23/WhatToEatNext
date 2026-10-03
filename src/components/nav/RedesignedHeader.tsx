@@ -15,6 +15,7 @@ import {
   type PrimaryKey,
 } from "@/config/navigation";
 import { Logo } from "./Logo";
+import { OmnibarShell } from "./omnibar/OmnibarShell";
 
 const NotificationBell = dynamic(() => import("./NotificationBell"), { ssr: false });
 const MessagesBadge = dynamic(() => import("./MessagesBadge"), { ssr: false });
@@ -136,7 +137,7 @@ export interface RedesignedHeaderProps {
 
 /**
  * The redesigned alchm.kitchen header: 6 primary nav slots, mega-menus,
- * a ⌘K trigger, the live planetary chip, notifications, and the user chip.
+ * the omnibar search (⌘K), the live planetary chip, notifications, and the user chip.
  *
  * Sticky and present on every route. NAV_IA is the single source of truth.
  */
@@ -223,8 +224,6 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
     };
   }, [openMenu]);
 
-  const openPalette = () => window.dispatchEvent(new CustomEvent("alchm:palette:open"));
-
   const userInitial = session?.user?.name?.[0]?.toUpperCase() ?? "G";
   const userName = session?.user?.name ?? "Guest";
   const userId = session?.user?.id?.slice(0, 8).toUpperCase() ?? "VISITOR";
@@ -250,7 +249,8 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
           align-items: center;
           gap: 16px;
           padding: 12px 20px;
-          max-width: 1600px;
+          /* Wide enough for the full pill row beside a signed-in right-hand group. */
+          max-width: 1720px;
           margin: 0 auto;
         }
         @media (min-width: 1024px) {
@@ -260,15 +260,33 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
           display: none;
           position: relative;
         }
+        /*
+         * The pill nav is a size container: it takes the width the logo and
+         * the right-hand group leave, and never pushes the page wider. The
+         * tiers below fit the pills to that width, which depends on the
+         * viewport and the auth state. The full row is 855px, but between
+         * 900 and 1600 it is given only 295–840px (measured 2026-09-24).
+         * When this column sized to its content, the page overflowed by up
+         * to 416px.
+         */
         @media (min-width: 900px) {
-          .alchm-pillnav { display: flex; justify-content: center; }
+          .alchm-pillnav {
+            display: flex; justify-content: center;
+            container: alchm-pillnav / inline-size;
+          }
         }
         .alchm-pill {
           display: flex; gap: 6px; padding: 5px;
           background: rgba(255,255,255,0.025);
           border: 1px solid var(--line);
           border-radius: 999px;
+          /* If a font renders wider than the tier widths assume, the row
+             scrolls inside itself rather than overlapping its neighbours. */
+          min-width: 0;
+          overflow-x: auto;
+          scrollbar-width: none;
         }
+        .alchm-pill::-webkit-scrollbar { display: none; }
         .alchm-pill-btn {
           display: flex; align-items: center; gap: 8px;
           padding: 8px 16px;
@@ -291,27 +309,35 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
           color: var(--fg);
           background: rgba(255,255,255,0.08);
         }
+        /*
+         * Pill tiers, widest first. Each threshold is the natural width of the
+         * tier above it (JetBrains Mono, measured 2026-09-24) plus 1.5% for
+         * rendering differences between browsers:
+         *   full 855 → snug 669 → tight 612 → labels only 498 → icons only 232.
+         * Every section stays reachable in every tier. The icons-only tier
+         * keeps each label for screen readers, and hovering a pill still opens
+         * its mega-menu, which names the section.
+         */
+        @container alchm-pillnav (width < 868px) {
+          .alchm-pill { gap: 2px; }
+          .alchm-pill-btn { padding: 8px 12px; letter-spacing: 0.1em; }
+          .alchm-pill-chevron { display: none; }
+        }
+        @container alchm-pillnav (width < 680px) {
+          .alchm-pill-btn { padding: 8px 10px; gap: 6px; letter-spacing: 0.06em; }
+        }
+        @container alchm-pillnav (width < 622px) {
+          .alchm-pill-glyph { display: none; }
+        }
+        @container alchm-pillnav (width < 506px) {
+          .alchm-pill-btn { position: relative; min-height: calc(1lh + 16px); }
+          .alchm-pill-glyph { display: block; width: 15px; height: 15px; }
+          .alchm-pill-label {
+            position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+            overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+          }
+        }
         .alchm-header-right { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
-        .alchm-header-search {
-          display: none;
-          align-items: center;
-          gap: 8px;
-          padding: 7px 10px 7px 12px;
-          background: rgba(255,255,255,0.025);
-          border: 1px solid var(--line);
-          border-radius: 8px;
-          cursor: pointer;
-          color: var(--fg-mute);
-        }
-        @media (min-width: 768px) {
-          .alchm-header-search { display: inline-flex; }
-        }
-        .alchm-header-search:hover { background: rgba(255,255,255,0.04); }
-        .alchm-header-search kbd {
-          margin-left: 18px; font-family: var(--f-mono); font-size: 9px;
-          color: var(--fg-faint); padding: 2px 6px;
-          border: 1px solid var(--line); border-radius: 4px;
-        }
         .alchm-header-userchip {
           display: flex; align-items: center; gap: 8px;
           padding: 4px 4px 4px 10px;
@@ -321,8 +347,11 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
           cursor: pointer; color: inherit;
           text-decoration: none;
         }
-        .alchm-header-userchip-text { display: none; text-align: right; line-height: 1.2; }
-        @media (min-width: 1100px) {
+        .alchm-header-userchip-text { display: none; max-width: 140px; text-align: right; line-height: 1.2; }
+        .alchm-header-userchip-text > div { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        /* Below 1440 the name's width is worth more to the pill labels; the
+           account menu still shows the name and email. */
+        @media (min-width: 1440px) {
           .alchm-header-userchip-text { display: block; }
         }
         .alchm-header-avatar {
@@ -472,13 +501,14 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
                   aria-expanded={hasMenu ? isOpen : undefined}
                   aria-controls={hasMenu ? `alchm-mega-menu-${k}` : undefined}
                 >
-                  <Glyph name={section.glyph} size={13} stroke={1.4} />
-                  {section.label}
+                  <Glyph name={section.glyph} size={13} stroke={1.4} className="alchm-pill-glyph" />
+                  <span className="alchm-pill-label">{section.label}</span>
                   {hasMenu && (
                     <Glyph
                       name="chevron"
                       size={9}
                       stroke={1.6}
+                      className="alchm-pill-chevron"
                       style={{
                         transform: `rotate(${isOpen ? 90 : 0}deg)`,
                         transition: "transform 180ms ease",
@@ -498,60 +528,25 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
                   className="alchm-pill-btn"
                   data-active={isActive}
                   aria-current={isActive ? "page" : undefined}
+                  // No mega-menu names this section on hover, so in the
+                  // icons-only tier the tooltip is what does.
+                  title={section.label}
                   onMouseEnter={() => {
                     cancelClose();
                     setOpenMenu("none");
                   }}
                 >
-                  <Glyph name={section.glyph} size={13} stroke={1.4} />
-                  {section.label}
+                  <Glyph name={section.glyph} size={13} stroke={1.4} className="alchm-pill-glyph" />
+                  <span className="alchm-pill-label">{section.label}</span>
                 </Link>
               );
             })}
           </div>
         </nav>
 
-        {/* RIGHT — search trigger, notifications, user chip */}
+        {/* RIGHT — search, notifications, user chip */}
         <div className="alchm-header-right">
-          <button
-            type="button"
-            className="alchm-header-search"
-            onClick={openPalette}
-            aria-label="Open command palette"
-          >
-            <Glyph name="search" size={13} stroke={1.4} />
-            <span style={{ fontSize: 12, fontFamily: "var(--f-body)" }}>
-              Search · navigate · do
-            </span>
-            <kbd>⌘K</kbd>
-          </button>
-
-          {/* mobile-only search icon trigger */}
-          <button
-            type="button"
-            onClick={openPalette}
-            aria-label="Open command palette"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: 36,
-              height: 36,
-              borderRadius: 8,
-              background: "rgba(255,255,255,0.025)",
-              border: "1px solid var(--line)",
-              color: "var(--fg-mute)",
-              cursor: "pointer",
-            }}
-            className="alchm-header-search-icon"
-          >
-            <Glyph name="search" size={16} stroke={1.4} />
-            <style>{`
-              @media (min-width: 768px) {
-                .alchm-header-search-icon { display: none !important; }
-              }
-            `}</style>
-          </button>
+          <OmnibarShell />
 
           <GroceryCartButton />
           {status === "authenticated" && <MessagesBadge />}

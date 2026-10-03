@@ -21,6 +21,8 @@ export interface BareJsonCastSite {
   column: number;
   isTest: boolean;
   typeText: string;
+  /** `json-cast`: `(await res.json()) as T`. `opaque-custom`: `z.custom<T>()` with no predicate. */
+  kind: "json-cast" | "opaque-custom";
 }
 
 export interface BareJsonCastsSummary {
@@ -63,6 +65,24 @@ export function isBareJsonCast(node: TSType.Node): boolean {
   return false;
 }
 
+/**
+ * `z.custom<T>()` with no predicate accepts every value, so at runtime it is
+ * `as T` under another name. Counting it here keeps a bare cast from leaving
+ * this ratchet by being rewritten as a schema that checks nothing.
+ */
+export function isOpaqueCustomSchema(node: TSType.Node): boolean {
+  if (!ts.isCallExpression(node) || node.arguments.length > 0) {
+    return false;
+  }
+  const callee = unwrap(node.expression);
+  return (
+    ts.isPropertyAccessExpression(callee) &&
+    callee.name.text === "custom" &&
+    ts.isIdentifier(callee.expression) &&
+    callee.expression.text === "z"
+  );
+}
+
 export function scanBareJsonCastsInSource(
   code: string,
   relPath: string,
@@ -92,6 +112,18 @@ export function scanBareJsonCastsInSource(
         column: pos.character + 1,
         isTest,
         typeText,
+        kind: "json-cast",
+      });
+    } else if (isOpaqueCustomSchema(node)) {
+      const pos = sf.getLineAndCharacterOfPosition(node.getStart(sf));
+      const typeArg = ts.isCallExpression(node) ? node.typeArguments?.[0] : undefined;
+      sites.push({
+        file: relPath,
+        line: pos.line + 1,
+        column: pos.character + 1,
+        isTest,
+        typeText: typeArg ? typeArg.getText(sf) : "unknown",
+        kind: "opaque-custom",
       });
     }
     ts.forEachChild(node, visit);

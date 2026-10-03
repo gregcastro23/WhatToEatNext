@@ -112,6 +112,9 @@ export async function generateMetadata({
   return {
     title: `${name.charAt(0).toUpperCase()}${name.slice(1)} — ${profile?.epithet ?? "Cooking Method"}`,
     description,
+    // The resolved key, the one generateStaticParams lists: an alias or a
+    // different case names the method's own URL.
+    alternates: { canonical: `/cooking-methods/${encodeURIComponent(key)}` },
   };
 }
 

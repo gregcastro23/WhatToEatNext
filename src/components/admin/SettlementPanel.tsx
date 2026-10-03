@@ -23,20 +23,12 @@ import { EmptyState } from "@/components/admin/kit/EmptyState";
 import type { Provenance } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
-
-interface PendingOrder {
-  id: string;
-  user_id: string | null;
-  restaurant_name: string;
-  currency: string;
-  transfer_amount_cents: number;
-  stripe_connected_account_id: string | null;
-  stripe_transfer_id: string | null;
-  status: string;
-  payment_status: string | null;
-  transfer_status: string | null;
-  created_at: string;
-}
+import {
+  SettlementActionSuccessSchema,
+  SettlementFailureSchema,
+  SettlementListResponseSchema,
+} from "@/lib/admin/schemas/settlement";
+import type { SettlementPendingOrder as PendingOrder } from "@/types/adminSettlement";
 
 interface ActionResult {
   orderId: string;
@@ -83,20 +75,15 @@ export default function SettlementPanel(): React.JSX.Element {
         setError(`HTTP ${res.status}`);
         return { ok: false };
       }
-      const json = (await res.json()) as {
-        success: boolean;
-        pending?: PendingOrder[];
-        lifetime?: { orders: number; restaurants: number } | null;
-        message?: string;
-      };
-      if (json.success) {
-        setOrders(json.pending ?? []);
-        setLifetime(json.lifetime ?? null);
+      const parsed = SettlementListResponseSchema.safeParse(await res.json());
+      if (parsed.success) {
+        setOrders(parsed.data.pending);
+        setLifetime(parsed.data.lifetime);
         setError(null);
         setLoaded(true);
         return { ok: true };
       }
-      setError(json.message ?? "Payload malformed");
+      setError("Payload malformed");
       return { ok: false };
     } catch (_err) {
       setError("Failed to reach settlement API");
@@ -130,21 +117,21 @@ export default function SettlementPanel(): React.JSX.Element {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ orderId, action }),
       });
-      const json = (await res.json()) as {
-        success: boolean;
-        message?: string;
-        status?: string;
-        transferId?: string;
-      };
+      const raw: unknown = await res.json();
+      const settled = SettlementActionSuccessSchema.safeParse(raw);
+      const failure = SettlementFailureSchema.safeParse(raw);
       setResult({
         orderId,
         action,
-        success: json.success,
-        message: json.success
+        success: settled.success,
+        message: settled.success
           ? action === "retry"
-            ? `Transfer settled${json.transferId ? ` · ${json.transferId}` : ""} — order marked paid.`
+            ? `Transfer settled${settled.data.transferId ? ` · ${settled.data.transferId}` : ""} — order marked paid.`
             : "ESMS re-credited — order marked refunded."
-          : json.message ?? `HTTP ${res.status}`,
+          : res.ok
+            ? // A 2xx the panel cannot read: the action may well have gone through.
+              "The server accepted the request but its reply was unreadable — the order may already be settled. Check the queue before retrying."
+            : (failure.success ? failure.data.message : undefined) ?? `HTTP ${res.status}`,
       });
       await poll();
     } catch (err) {

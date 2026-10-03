@@ -3,10 +3,13 @@
  * plus the ingredient → recipe reverse index. Built once per catalog refresh.
  */
 import { ingredientHref } from "@/lib/ingredients/ingredientSlug";
+import { buildExactIngredientLookup } from "./ingredientKeys";
+import { createRecipeDietDeriver } from "./recipeDiet";
 import { buildRecipeIngredientIndex, type IngredientKeyResolver, type RecipeUse } from "./recipeIngredientIndex";
 import { INGREDIENT_SYNONYMS } from "./synonyms";
 import { normalizeText, type NormalizedText } from "./text";
 import type {
+  DietVerdicts,
   IngredientRecord,
   MatchVia,
   NamedRecord,
@@ -39,7 +42,11 @@ export interface SearchIndex {
   ingredients: ReadonlyMap<string, IngredientRecord>;
   recipes: ReadonlyMap<string, RecipeRecord>;
   recipeUses: ReadonlyMap<string, readonly RecipeUse[]>;
+  /** Each recipe's derived diet (./recipeDiet). */
+  recipeDiet: ReadonlyMap<string, DietVerdicts>;
   synonyms: readonly IndexedSynonym[];
+  /** Exact catalog names → key, for the intent parser's ingredient spans. */
+  exactIngredient: (text: string) => string | null;
 }
 
 export function recipeHref(id: string): string {
@@ -84,5 +91,8 @@ export function buildSearchIndex(
   const synonyms = INGREDIENT_SYNONYMS.filter((s) => ingredients.has(s.canonical)).map(
     (s): IndexedSynonym => ({ text: normalizeText(s.term), canonical: s.canonical, term: s.term }),
   );
-  return { entities, ingredients, recipes, recipeUses, synonyms };
+  const dietOf = createRecipeDietDeriver(keyOf, (key) => ingredients.get(key)?.diet);
+  const recipeDiet = new Map([...recipes.values()].map((r) => [r.id, dietOf(r.ingredientLines)]));
+  const exactIngredient = buildExactIngredientLookup(catalogs.ingredients);
+  return { entities, ingredients, recipes, recipeUses, recipeDiet, synonyms, exactIngredient };
 }

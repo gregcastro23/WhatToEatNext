@@ -69,27 +69,15 @@
  * guard.
  */
 
-import fs from "node:fs";
-import path from "node:path";
 import * as Astronomy from "astronomy-engine";
 import pg from "pg";
+import { loadEnvFile } from "./lib/env";
 
 import { PLANET_MEAN_GEOCENTRIC_AU } from "@/utils/planetaryAlchemyMapping";
 
 const APPLY = process.argv.slice(2).includes("--apply");
 
 // ─────────────────────────────── plumbing ───────────────────────────────
-
-function loadEnvFile(file: string): Record<string, string> {
-  const abs = path.resolve(process.cwd(), file);
-  if (!fs.existsSync(abs)) return {};
-  const out: Record<string, string> = {};
-  for (const line of fs.readFileSync(abs, "utf8").split("\n")) {
-    const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)$/);
-    if (m) out[m[1]] = m[2].replace(/^["']|["']$/g, "").trim();
-  }
-  return out;
-}
 
 function resolveConnectionString(): string {
   const env = { ...loadEnvFile(".env.development.local"), ...loadEnvFile(".env.local") };

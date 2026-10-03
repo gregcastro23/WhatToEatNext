@@ -65,7 +65,7 @@ function elementalOf(value: unknown): ElementalShares | null {
 }
 
 /** `pairingRecommendations` is a list on some cards, `{ complementary }` on others. */
-function pairingsOf(value: unknown): string[] {
+export function pairingsOf(value: unknown): string[] {
   return Array.isArray(value) ? texts(value) : texts(member(value, "complementary"));
 }
 

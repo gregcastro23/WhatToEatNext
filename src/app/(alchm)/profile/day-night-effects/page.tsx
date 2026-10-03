@@ -6,7 +6,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { useProfile } from "@/hooks/useProfile";
 import { extractAlchemicalPlanetPositions } from "@/utils/astrology/chartDataUtils";
 import {
-  PLANETARY_SECTARIAN_ELEMENTS,
+  getSectElements,
   PLANETARY_SECTARIAN_ESMS,
   isSectDiurnalForBirth,
   calculateAlchemicalFromPlanets,
@@ -147,7 +147,7 @@ export default function DayNightEffectsPage() {
         <h2 className={`text-2xl font-black mb-6 mt-16 ${'text-white'}`}>Planetary State Details</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {(['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'Ascendant'] as const).map((planet) => {
-            const sectEl = PLANETARY_SECTARIAN_ELEMENTS[planet as Extract<keyof typeof PLANETARY_SECTARIAN_ELEMENTS, string>];
+            const sectEl = getSectElements(planet);
             const sectEsms = PLANETARY_SECTARIAN_ESMS[planet];
             if (!sectEsms) return null;
 

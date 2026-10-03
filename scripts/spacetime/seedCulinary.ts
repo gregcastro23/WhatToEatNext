@@ -37,6 +37,11 @@ const ELEMENT_INDEX: Record<string, number> = {
 
 type AnyRecord = Record<string, unknown>;
 
+/** The fields below are read by name, so view each ingredient as a plain record. */
+function toRecord(value: object): AnyRecord {
+  return Object.fromEntries(Object.entries(value));
+}
+
 function num(value: unknown): number {
   const n = typeof value === "string" ? Number(value) : (value as number);
   return typeof n === "number" && Number.isFinite(n) ? n : 0;
@@ -61,16 +66,16 @@ function esmsOf(raw: AnyRecord): {
 /** Dominant classical element index from elementalProperties. */
 function primaryElementOf(raw: AnyRecord): number {
   const props = (raw.elementalProperties ?? {}) as AnyRecord;
-  let best = "Fire";
+  let bestIndex = 0; // Fire
   let bestVal = -Infinity;
-  for (const element of Object.keys(ELEMENT_INDEX)) {
+  for (const [element, index] of Object.entries(ELEMENT_INDEX)) {
     const v = num(props[element]);
     if (v > bestVal) {
-      best = element;
+      bestIndex = index;
       bestVal = v;
     }
   }
-  return ELEMENT_INDEX[best];
+  return bestIndex;
 }
 
 function nutritionOf(raw: AnyRecord): {
@@ -161,10 +166,9 @@ async function main() {
 
   // ---- Ingredients ---------------------------------------------------------
   let sentIngredients = 0;
-  for (const [name, raw] of Object.entries(
-    allIngredients as Record<string, AnyRecord>,
-  )) {
+  for (const [name, ingredient] of Object.entries(allIngredients)) {
     if (sentIngredients >= LIMIT) break;
+    const raw = toRecord(ingredient);
     const cleanName = (raw.name as string | undefined)?.trim() || name.trim();
     if (!cleanName || existingIngredients.has(cleanName.toLowerCase())) continue;
     const nutrition = nutritionOf(raw);

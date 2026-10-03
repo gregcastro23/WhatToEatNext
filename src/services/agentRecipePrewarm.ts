@@ -108,7 +108,6 @@ function buildPaRequestBody(row: PrewarmAgentRow): Record<string, unknown> | nul
     dietPreference: "omnivore",
     alchemicalState: calculateAlchemicalFromPlanets(positions),
     thermodynamicProperties,
-    tier: "premium",
   };
 }
 

@@ -10,8 +10,28 @@
 
 import { Camera, X } from "lucide-react";
 import { useRef, useState, type JSX } from "react";
+import { z } from "zod";
 import { LabelXS } from "@/components/tables/ui";
 import { revealPracticeReward } from "@/lib/economy/practiceClient";
+
+const uploadAvatarResponseSchema = z.object({
+  success: z.boolean().optional(),
+  avatarUrl: z.string().optional(),
+  message: z.string().optional(),
+  reward: z
+    .object({
+      tokenType: z.string(),
+      amount: z.number(),
+      hint: z.string(),
+    })
+    .nullable()
+    .optional(),
+});
+
+const removeAvatarResponseSchema = z.object({
+  success: z.boolean().optional(),
+  message: z.string().optional(),
+});
 
 const MAX_BYTES = 5 * 1024 * 1024;
 const ACCEPTED = new Set(["image/jpeg", "image/png", "image/webp"]);
@@ -51,12 +71,8 @@ export function AvatarUpload({ hasAvatar, onChanged, className = "" }: AvatarUpl
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ photoDataUrl: dataUrl }),
       });
-      const json = (await res.json()) as {
-        success?: boolean;
-        avatarUrl?: string;
-        message?: string;
-        reward?: { tokenType: string; amount: number; hint: string } | null;
-      };
+      const parsed = uploadAvatarResponseSchema.safeParse(await res.json());
+      const json = parsed.success ? parsed.data : {};
       if (json.success && json.avatarUrl) {
         onChanged(json.avatarUrl);
         if (json.reward) revealPracticeReward(json.reward);
@@ -75,7 +91,8 @@ export function AvatarUpload({ hasAvatar, onChanged, className = "" }: AvatarUpl
     setBusy(true);
     try {
       const res = await fetch("/api/user/avatar", { method: "DELETE" });
-      const json = (await res.json()) as { success?: boolean; message?: string };
+      const parsed = removeAvatarResponseSchema.safeParse(await res.json());
+      const json = parsed.success ? parsed.data : {};
       if (json.success) {
         onChanged(null);
       } else {

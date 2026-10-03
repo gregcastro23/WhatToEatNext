@@ -12,6 +12,13 @@ jest.mock("@/lib/rateLimit", () => ({
   rateLimit: jest.fn().mockResolvedValue({ allowed: true }),
 }));
 
+// The ESMS charge has its own suite (chargesOnDelivery.test.ts); here it
+// always settles so the computation itself stays under test.
+jest.mock("@/lib/economy/featureCharge", () => ({
+  quoteFeature: async () => ({ feature: "alchemicalMidpoint", exempt: false }),
+  collectOrRefuse: async () => null,
+}));
+
 jest.mock("@/services/groupNatalChartService", () => ({
   calculateCompositeNatalChart: jest.fn().mockReturnValue({
     id: "composite-1",
@@ -37,6 +44,11 @@ jest.mock("@/services/LocalRecipeService", () => ({
       {
         id: "recipe-1",
         name: "Sun Soup",
+        // The live catalog's placeholders; Sun Soup has no static twin.
+        prepTime: "30",
+        cookTime: "30",
+        timeToMake: "60 minutes",
+        mealType: ["main"],
         alchemical_properties: {
           Spirit: 30,
           Essence: 20,
@@ -127,5 +139,10 @@ describe("POST /api/adept-table", () => {
     expect(data.success).toBe(true);
     expect(data.compositeChart).toBeDefined();
     expect(data.recipes).toBeDefined();
+    // Served without the placeholders: nothing authored, so no time or meal.
+    expect(data.recipes[0].name).toBe("Sun Soup");
+    for (const key of ["prepTime", "cookTime", "timeToMake", "mealType"]) {
+      expect(data.recipes[0]).not.toHaveProperty(key);
+    }
   });
 });

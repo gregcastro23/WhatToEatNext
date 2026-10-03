@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Kitchen Lab",
   description:
     "The thermodynamics of a pan of food — measured heat transfer, latent heat and medium boundaries, kept separate from the alchm model of the same kitchen.",
+  alternates: { canonical: "/kitchen-lab" },
 };
 
 export default function KitchenLabPage(): JSX.Element {

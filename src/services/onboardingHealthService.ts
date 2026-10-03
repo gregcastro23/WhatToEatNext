@@ -102,6 +102,9 @@ export interface OnboardingHealthPayload {
   live: boolean;
 }
 
+/** GET /api/admin/onboarding-health — the payload with the route's success flag. */
+export type OnboardingHealthResponse = { success: true } & OnboardingHealthPayload;
+
 const ONE_HOUR_MS = 60 * 60 * 1000;
 
 export interface FunnelRow {

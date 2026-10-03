@@ -23,7 +23,6 @@ import { menuPersistenceService } from "@/services/menuPersistenceService";
 import { userDatabase } from "@/services/userDatabaseService";
 import { NextRequest } from "next/server";
 import type { UserWithProfile } from "@/services/userDatabaseService";
-import type { DailyNutritionTotals, DayOfWeek } from "@/types/menuPlanner";
 
 const mockedEnsureAgent = userDatabase.ensurePlanetaryAgent as jest.MockedFunction<
   typeof userDatabase.ensurePlanetaryAgent
@@ -35,30 +34,6 @@ const mockedUpsertMenu =
 const mockedCreateEvent = feedDatabase.createEvent as jest.MockedFunction<
   typeof feedDatabase.createEvent
 >;
-
-const defaultDayTotals = (): DailyNutritionTotals => ({
-  calories: 0,
-  protein: 0,
-  carbs: 0,
-  fat: 0,
-  fiber: 0,
-  sodium: 0,
-  sugar: 0,
-  gregsEnergy: 0,
-  monicaConstant: 0,
-  kalchm: 0,
-  elementalBalance: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-});
-
-const defaultNutritionalTotals = (): Record<DayOfWeek, DailyNutritionTotals> => ({
-  0: defaultDayTotals(),
-  1: defaultDayTotals(),
-  2: defaultDayTotals(),
-  3: defaultDayTotals(),
-  4: defaultDayTotals(),
-  5: defaultDayTotals(),
-  6: defaultDayTotals(),
-});
 
 function makeRequest(json: unknown, token = "secret"): NextRequest {
   return new NextRequest("http://x/api/menu-planner/agent-weekly-menu", {
@@ -107,7 +82,6 @@ describe("POST /api/menu-planner/agent-weekly-menu", () => {
       id: "menu-id",
       weekStartDate: new Date("2026-06-01T00:00:00.000Z"),
       meals: [],
-      nutritionalTotals: defaultNutritionalTotals(),
       groceryList: [],
       inventory: [],
       weeklyBudget: null,
@@ -189,5 +163,35 @@ describe("POST /api/menu-planner/agent-weekly-menu", () => {
       }),
       true,
     );
+  });
+
+  it("does not store an agent's flat nutritional totals (they became seven 0 kcal days)", async () => {
+    // ASOL's generate route sends one flat, model-estimated object with no
+    // stated basis (daily or weekly). The route used to turn it into seven
+    // zero days; nothing reads the column, so nothing is stored (ruling 2026-09-27).
+    const response = await POST(
+      makeRequest({
+        agentSlug: "saturn",
+        weekStartDate: "2026-06-01T00:00:00.000Z",
+        meals: [
+          {
+            id: "1-dinner",
+            dayOfWeek: 1,
+            mealType: "dinner",
+            servings: 1,
+            recipe: { id: "stew-1", name: "Saturnine Stew" },
+            planetarySnapshot: {},
+            createdAt: "2026-05-31T00:00:00.000Z",
+            updatedAt: "2026-05-31T00:00:00.000Z",
+          },
+        ],
+        nutritionalTotals: { calories: 2100, protein: 90, carbs: 250, fat: 70 },
+      }),
+    );
+
+    expect(response.status).toBe(200);
+    const stored = mockedUpsertMenu.mock.lastCall?.[1];
+    expect(stored).toMatchObject({ weekStartDate: expect.any(Date) });
+    expect(stored).not.toHaveProperty("nutritionalTotals");
   });
 });

@@ -39,8 +39,10 @@
 const args = new Map<string, string>();
 for (let i = 2; i < process.argv.length; i++) {
   const flag = process.argv[i];
-  if (flag.startsWith("--") && process.argv[i + 1]) {
-    args.set(flag.slice(2), process.argv[++i]);
+  const nextVal = process.argv[i + 1];
+  if (flag && flag.startsWith("--") && nextVal) {
+    args.set(flag.slice(2), nextVal);
+    i++;
   }
 }
 
@@ -74,7 +76,7 @@ if (!priceId) fatal(`${priceIdEnv} is required (must be a test-mode Price id)`);
 
 async function main() {
   const Stripe = (await import("stripe")).default;
-  const stripe = new Stripe(secretKey!, { apiVersion: "2025-09-30.clover" });
+  const stripe = new Stripe(secretKey!, { apiVersion: "2026-04-22.dahlia" });
 
   process.stdout.write(`[layer-2] Creating test-mode Checkout Session for sku=${sku}...\n`);
   const session = await stripe.checkout.sessions.create({

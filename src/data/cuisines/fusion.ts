@@ -1,4 +1,5 @@
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 const chorizoBologneseDish = {
   name: "Chorizo Bolognese",
@@ -330,12 +331,7 @@ export const fusion: Cuisine = {
   description:
     "Innovative culinary intersections bridging traditions across cultures through elemental harmony, balancing fire, water, earth, and air without oppositions.",
   imageUrl: "/images/cuisines/fusion.png",
-  elementalProperties: {
-    Fire: 0.35,
-    Earth: 0.35,
-    Water: 0.2,
-    Air: 0.1,
-  },
+  elementalProperties: derivedProfiles.cuisines.Fusion.elementalProperties,
   alchemicalProperties: {
     targetKAlchm: 2.1,
     tolerance: 0.5,

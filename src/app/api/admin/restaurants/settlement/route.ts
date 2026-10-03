@@ -30,6 +30,7 @@ import { _logger } from "@/lib/logger";
 import { getStripe } from "@/lib/stripe/stripe";
 import { AdminRestaurantSettlementRequestSchema } from "@/lib/validation/apiSchemas";
 import { tokenEconomy } from "@/services/TokenEconomyService";
+import type { SettlementActionResponse, SettlementListResponse } from "@/types/adminSettlement";
 import { TOKEN_TYPES, type TokenType } from "@/types/economy";
 
 export const dynamic = "force-dynamic";
@@ -157,7 +158,7 @@ export async function GET(request: NextRequest) {
       _logger.warn("[admin/restaurants/settlement] lifetime totals failed:", err);
     }
 
-    return NextResponse.json({
+    return NextResponse.json<SettlementListResponse>({
       success: true,
       pending: result.rows,
       lifetime,
@@ -272,9 +273,9 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      return NextResponse.json({
+      return NextResponse.json<SettlementActionResponse>({
         success: true,
-        action,
+        action: "retry",
         orderId,
         transferId: transfer.id,
         status: "paid",
@@ -369,9 +370,9 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({
+    return NextResponse.json<SettlementActionResponse>({
       success: true,
-      action,
+      action: "refund",
       orderId,
       credited: credits,
       balances,

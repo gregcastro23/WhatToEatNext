@@ -11,6 +11,11 @@
 
 import { getSlimIngredients } from "@/lib/ingredients/slimIngredients";
 import { IngredientsExplorer } from "./IngredientsExplorer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/ingredients" },
+};
 
 export default function IngredientsPage() {
   return <IngredientsExplorer ingredients={getSlimIngredients()} />;

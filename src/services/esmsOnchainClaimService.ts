@@ -36,6 +36,34 @@ export interface EsmsOnchainClaim {
   createdAt: string;
 }
 
+/** A claim as POST /api/economy/claim-onchain returns it. */
+export interface EsmsClaimResponse {
+  claimId: string;
+  amounts: EsmsClaimAmounts;
+  status: EsmsOnchainClaim["status"];
+  txHash: string | null;
+  explorerUrl: string | null;
+}
+
+/** GET /api/economy/claim-onchain (200). */
+export interface EsmsClaimStatusResponse {
+  success: true;
+  configured: boolean;
+  walletAddress: string | null;
+  walletLinked: boolean;
+  offchain: EsmsClaimAmounts;
+  onchain: EsmsClaimAmounts | null;
+  pendingClaim: EsmsOnchainClaim | null;
+  recentClaims: EsmsOnchainClaim[];
+  chain: {
+    chainId: number;
+    chainName: string;
+    testnet: boolean;
+    contractAddress: string | null;
+    explorerBaseUrl: string | null;
+  };
+}
+
 interface ClaimRow {
   id: string;
   user_id: string;

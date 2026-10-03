@@ -18,7 +18,11 @@ import { notifyCommentReceived } from "@/lib/notifications/engagementNotify";
 
 import { rateLimit } from "@/lib/rateLimit";
 import { FeedCommentRequestSchema } from "@/lib/validation/apiSchemas";
-import { feedCommentsDatabase } from "@/services/feedCommentsDatabaseService";
+import {
+  feedCommentsDatabase,
+  type FeedCommentListResponse,
+  type FeedCommentPostResponse,
+} from "@/services/feedCommentsDatabaseService";
 import { practiceRewardService } from "@/services/practiceRewardService";
 import type { NextRequest } from "next/server";
 
@@ -56,7 +60,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const page = await feedCommentsDatabase.listComments(eventId, viewerId, { limit, before });
-    return NextResponse.json({ success: true, ...page });
+    return NextResponse.json<FeedCommentListResponse>({ success: true, ...page });
   } catch (error) {
     logger.error("[feed/comments] GET failed:", error);
     return NextResponse.json({ success: false, message: "Failed to load comments" }, { status: 500 });
@@ -147,7 +151,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return NextResponse.json({ success: true, comment, reward });
+    return NextResponse.json<FeedCommentPostResponse>({ success: true, comment, reward });
   } catch (error) {
     logger.error("[feed/comments] POST failed:", error);
     return NextResponse.json({ success: false, message: "Failed to post comment" }, { status: 500 });

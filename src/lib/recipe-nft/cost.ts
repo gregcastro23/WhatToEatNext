@@ -5,7 +5,7 @@
  * priced live by the sky × the user's chart. Premium members get
  * "chart-weighted redistribution": the cost is shifted toward their dominant
  * coin (the one their chart favors and they tend to hold more of), converted at
- * live SMES swap rates so the alchemical value is preserved.
+ * live EEI-parity swap rates so the alchemical value is preserved.
  */
 
 import {
@@ -66,7 +66,8 @@ export function liveMintCost(
  * member's dominant coin, converting at the live swap rate so the alchemical
  * VALUE is preserved (the dominant coin carries more of the load; the coins the
  * member is short on are eased). Returns the standard cost unchanged if no swap
- * rate is available for a pair.
+ * rate is available for a pair. Rates are the live EEI-parity sheet
+ * (`swapRates.ts`), the same conversion the Swapping Bridge books.
  *
  * Swap convention: `findRate(from → to).rate` = units of `from` needed to mint
  * 1 `to`. So shifting `amt` units of a non-dominant coin onto the dominant coin

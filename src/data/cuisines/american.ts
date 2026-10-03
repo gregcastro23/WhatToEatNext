@@ -1,5 +1,6 @@
 import type { /* _ , */} from "@/types/alchemy";
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const american: Cuisine = {
   id: "american",
@@ -6541,12 +6542,7 @@ export const american: Cuisine = {
     },
   },
   // Enhanced elemental properties with more balanced distribution
-  elementalProperties: {
-    Fire: 0.3, // Grilling, BBQ, spicy elements,
-    Water: 0.2, // Stews, soups, steaming,
-    Earth: 0.3, // Root vegetables, grains, hearty foods,
-    Air: 0.2, // Light preparations, whipped dishes
-  },
+  elementalProperties: derivedProfiles.cuisines.American.elementalProperties,
   // Added astrological influences
   astrologicalInfluences: [
     "Jupiter", // Abundance and generosity in portions

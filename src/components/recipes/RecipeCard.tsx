@@ -98,8 +98,9 @@ interface RecipeCardProps {
 export function RecipeCard({ recipe }: RecipeCardProps) {
   const [imageFailed, setImageFailed] = useState(false);
 
-  // Planetary fields are attached by the recipes page's scoring pass; they
-  // are absent on un-scored cards (e.g. "similar recipes" on the detail page).
+  // `score` is a whole percent wherever it is set: the recipes page's
+  // planetary pass, the table APIs, and the detail page's similar recipes
+  // (rankSimilarRecipes). The planetary fields come only from the recipes page.
   const score = recipe.score ?? (recipe as { planetaryScore?: number }).planetaryScore;
   const { rulingPlanet } = (recipe as { rulingPlanet?: string });
   const { planetaryReason } = (recipe as { planetaryReason?: string });

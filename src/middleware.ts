@@ -119,6 +119,5 @@ export const config = {
     "/celestial-lab/standing-chart/:path*",
     "/celestial-lab/current-chart/:path*",
     "/restaurant-creator/:path*",
-    "/premium-table/:path*",
   ],
 };

@@ -83,6 +83,21 @@ function lowerArray(value: unknown): string[] | undefined {
   return undefined;
 }
 
+function applyIndexedFields(recipe: IndexedRecipe): void {
+  recipe._lcCuisine = recipe.cuisine?.toLowerCase() ?? "";
+  const tags = lowerArray(recipe.tags);
+  if (tags) recipe._lcTags = tags;
+  const lcCookingMethod = lowerArray(recipe.cookingMethod);
+  if (lcCookingMethod) recipe._lcCookingMethod = lcCookingMethod;
+  const seasons = lowerArray(recipe.season);
+  if (seasons) recipe._lcSeasons = seasons;
+  // An explicitly empty list claims no meal (HSCA drinks and sauces); only a
+  // missing one is unknown. lowerArray folds both to undefined.
+  const mealTypes = lowerArray(recipe.mealType);
+  if (mealTypes) recipe._lcMealTypes = mealTypes;
+  else if (Array.isArray(recipe.mealType)) recipe._lcMealTypes = [];
+}
+
 /** Coerce a value to a finite number, or `undefined` when it isn't one. */
 function toFiniteNumber(value: unknown): number | undefined {
   const n = typeof value === "number" ? value : Number(value);
@@ -183,6 +198,18 @@ function inferDietary(ingredients: unknown[]): DietaryFlags {
 }
 
 /**
+ * A static id is the dish's cuisine, meal, season and name slug, so two
+ * different dishes whose names differ only in punctuation share one (HSCA's
+ * TOFU "SOUR CREAM" and TOFU SOUR CREAM). The first keeps the id that every
+ * existing URL resolves to; a later one is numbered ("…-tofu-sour-cream-2").
+ */
+function claimRecipeId(id: string, served: Map<string, number>): string {
+  const count = (served.get(id) ?? 0) + 1;
+  served.set(id, count);
+  return count === 1 ? id : `${id}-${count}`;
+}
+
+/**
  * Extract and normalize recipes from the static cuisine data files.
  * This is the authoritative source for the full recipe catalog.
  */
@@ -191,6 +218,7 @@ function extractRecipesFromCuisines(
 ): IndexedRecipe[] {
   const recipes: IndexedRecipe[] = [];
   const seen = new Set<string>();
+  const servedIds = new Map<string, number>();
   const stats: NutritionCoverageStats = {
     total: 0,
     fromSource: 0,
@@ -306,9 +334,11 @@ function extractRecipesFromCuisines(
             );
 
           const recipe: IndexedRecipe = {
-            id:
+            id: claimRecipeId(
               dish.id ??
-              `${cuisineName.toLowerCase()}-${key.replace(/\s+/g, "-")}`,
+                `${cuisineName.toLowerCase()}-${key.replace(/\s+/g, "-")}`,
+              servedIds,
+            ),
             name: dish.name,
             ...(imageUrl ? { image: imageUrl, imageUrl } : {}),
             description: dish.description ?? "",
@@ -473,13 +503,7 @@ function extractRecipesFromCuisines(
           }
 
           // ── Precomputed lowercased fields for perf in the bridge ──
-          recipe._lcCuisine = recipe.cuisine?.toLowerCase() ?? "";
-          recipe._lcTags = lowerArray(recipe.tags);
-          recipe._lcCookingMethod = lowerArray(
-            (recipe as { cookingMethod?: unknown }).cookingMethod,
-          );
-          recipe._lcSeasons = lowerArray(recipe.season);
-          recipe._lcMealTypes = lowerArray(recipe.mealType);
+          applyIndexedFields(recipe);
 
           recipes.push(recipe);
         }
@@ -514,10 +538,8 @@ function buildRecipeIndex(recipes: IndexedRecipe[]): RecipeIndex {
   }
 
   for (const r of recipes) {
-    const recipeMealTypes =
-      r._lcMealTypes && r._lcMealTypes.length > 0
-        ? r._lcMealTypes
-        : ["breakfast", "lunch", "dinner"];
+    // Unknown meal: any but dessert. No meal claimed: no bucket.
+    const recipeMealTypes = r._lcMealTypes ?? ["breakfast", "lunch", "dinner"];
     const recipeSeasons =
       r._lcSeasons && r._lcSeasons.length > 0 ? r._lcSeasons : ["all"];
 

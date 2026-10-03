@@ -27,17 +27,13 @@
  */
 
 import pkg from "pg";
+import { requireEnv } from "./lib/env";
 import { computeRecipeNutritionFromIngredients } from "../src/utils/ingredientNutritionAggregation";
 import { isPlausibleNutrition } from "../src/utils/recipeNutrition";
 
 const { Pool } = pkg;
 
-const DATABASE_URL = process.env.DATABASE_URL;
-if (!DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL is required — set it in the environment before running this backfill script.",
-  );
-}
+const DATABASE_URL = requireEnv("DATABASE_URL");
 
 const dryRun = process.argv.includes("--dry-run");
 const onlyMissing = process.argv.includes("--only-missing");

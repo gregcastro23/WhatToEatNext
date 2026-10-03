@@ -6,6 +6,9 @@
  * the omnibar *result* is what the API (Phase 2) will serialize.
  */
 import type { Season } from "@/constants/seasons";
+import type { PairingLink } from "@/lib/ingredients/pairings";
+import type { DietaryVerdict } from "@/utils/ingredientDietaryClassification";
+import type { MealIntent } from "./intentLexicon";
 
 export type SearchKind = "ingredient" | "recipe" | "cuisine" | "method" | "sauce";
 
@@ -14,6 +17,12 @@ export interface ElementalVector {
   Water: number;
   Earth: number;
   Air: number;
+}
+
+/** Vegan and vegetarian verdicts from the canonical classifier. */
+export interface DietVerdicts {
+  vegan: DietaryVerdict;
+  vegetarian: DietaryVerdict;
 }
 
 export interface IngredientRecord {
@@ -29,13 +38,19 @@ export interface IngredientRecord {
   rulingPlanets: readonly string[];
   elemental: ElementalVector | null;
   imageUrl: string | null;
+  /** The card's pairings, linked to their cards where the name is one. */
+  pairings: readonly PairingLink[];
+  diet: DietVerdicts;
 }
 
 export interface RecipeRecord {
   id: string;
   name: string;
   cuisine: string | null;
+  /** Prep plus cook as authored (./authoredFacts); null = not stated. */
   totalMinutes: number | null;
+  /** The meal the static catalog files the recipe under. */
+  meals: readonly MealIntent[];
   imageUrl: string | null;
   ingredientLines: readonly string[];
 }
@@ -95,6 +110,7 @@ export interface IngredientHero {
   imageUrl: string | null;
   /** Distinct live recipes that use the ingredient. */
   recipeCount: number;
+  pairings: readonly PairingLink[];
 }
 
 export interface RecipeRow {
@@ -117,11 +133,50 @@ export interface Correction {
   basis: "synonym" | "mid-word" | "edit-distance";
 }
 
+/**
+ * The best hit across every kind. `exact` = tier 0 (name, key, alias or
+ * synonym equal to the query), which lets Enter open it directly.
+ */
+export interface TopHit extends SearchEntity {
+  exact: boolean;
+}
+
+/**
+ * One parsed intent, shown with the results. `applied` = it filtered them;
+ * false for a suggestion (a region) or a claim the data can't verify.
+ */
+export interface IntentChip {
+  kind: "diet" | "unverified" | "time" | "meal" | "season" | "planet" | "quality" | "category" | "region";
+  label: string;
+  basis: string;
+  applied: boolean;
+}
+
+/** A recipe that uses several of the ingredients a query names (plan §3, multi-ingredient). */
+export interface CoverageRow extends RecipeRow {
+  uses: number;
+  /** Names of the query's ingredients this recipe does not use. */
+  missing: readonly string[];
+}
+
+export interface Coverage {
+  /** The ingredients the query named, in its order. */
+  of: readonly SearchEntity[];
+  rows: readonly CoverageRow[];
+  total: number;
+}
+
 export interface OmnibarResult {
   query: string;
+  top: TopHit | null;
   corrected: Correction | null;
   hero: IngredientHero | null;
   recipesContaining: readonly ContainingRecipeRow[];
+  /** Recipes that use the hero, after any filter; the hero's own count is unfiltered. */
+  recipesContainingTotal: number;
+  /** Chips for the query's intent; empty for a plain name search. */
+  chips: readonly IntentChip[];
+  coverage: Coverage | null;
   recipes: readonly RecipeRow[];
   ingredients: readonly SearchEntity[];
   cuisines: readonly SearchEntity[];

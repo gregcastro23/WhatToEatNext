@@ -9,17 +9,17 @@
 
 import Link from "next/link";
 import { formatNotificationTimeAgo } from "@/hooks/useNotifications";
-import type { InboxEntry } from "@/types/chat";
+import type { InboxEntryView } from "@/lib/validation/chatResponseSchemas";
 import { SenderAvatar, elementForSender } from "./MessageBubble";
 import type { JSX } from "react";
 
 export interface InboxListProps {
-  entries: InboxEntry[];
+  entries: InboxEntryView[];
   loading?: boolean;
   className?: string;
 }
 
-function titleFor(entry: InboxEntry): string {
+function titleFor(entry: InboxEntryView): string {
   if (entry.conversation.kind === "dm") return entry.otherUser?.name ?? "Direct message";
   return entry.conversation.title ?? (entry.conversation.kind === "table" ? "Table chat" : "Circle");
 }

@@ -9,7 +9,18 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
+import { z } from "zod";
 import type { TableDetail, TableRecord } from "@/types/table";
+
+const tablesApiResponseSchema = z.object({
+  tables: z.array(z.custom<TableRecord>()).optional(),
+});
+
+const tableDetailApiResponseSchema = z.object({
+  table: z.custom<TableDetail>().optional(),
+  viewerId: z.string().nullable().optional(),
+  message: z.string().optional(),
+});
 
 export type TableListScope = "upcoming" | "past" | "hosting" | "all";
 
@@ -46,7 +57,8 @@ export function useMyTables(
       if (!res.ok) {
         throw new Error(`Failed to load tables (${res.status})`);
       }
-      const data = (await res.json()) as { tables?: TableRecord[] };
+      const parsed = tablesApiResponseSchema.safeParse(await res.json());
+      const data = parsed.success ? parsed.data : {};
       setTables(data.tables ?? []);
     } catch {
       setError("Unable to load tables right now.");
@@ -101,11 +113,8 @@ export function useTable(
       const res = await fetch(`/api/tables/${encodeURIComponent(tableId)}`, {
         credentials: "include",
       });
-      const data = (await res.json()) as {
-        table?: TableDetail;
-        viewerId?: string | null;
-        message?: string;
-      };
+      const parsed = tableDetailApiResponseSchema.safeParse(await res.json());
+      const data = parsed.success ? parsed.data : {};
       if (!res.ok) {
         setStatusCode(res.status);
         setTable(null);

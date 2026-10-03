@@ -7,6 +7,11 @@
 
 import React from "react";
 import type { Recipe } from "@/types/recipe";
+import {
+  dailyValueEntries,
+  formatDailyValue,
+  type DvNutrient,
+} from "@/utils/dailyValueFractions";
 
 interface RecipeNutritionQuickViewProps {
   recipe: Recipe;
@@ -16,18 +21,33 @@ interface RecipeNutritionQuickViewProps {
   compact?: boolean;
 }
 
-/** Thresholds for "good source" badges */
+/** Thresholds for "good source" badges, on amounts in g / mg. */
 const GOOD_SOURCE_THRESHOLDS: Record<
   string,
   { min: number; label: string; icon: string }
 > = {
   fiber: { min: 5, label: "Fiber", icon: "🌾" },
-  vitaminC: { min: 15, label: "Vit C", icon: "🍊" },
-  calcium: { min: 130, label: "Calcium", icon: "🦴" },
-  iron: { min: 2, label: "Iron", icon: "🔩" },
   protein: { min: 20, label: "Protein", icon: "💪" },
   sodium: { min: 480, label: "Sodium", icon: "🧂" },
 };
+
+/**
+ * Vitamin and mineral badges. The ingredient data records these as fractions
+ * of a Daily Value, not mg, so the threshold is FDA's "good source": 10% DV
+ * in the portion. A lower-bound figure that reaches it still does.
+ */
+const GOOD_SOURCE_DV = 0.1;
+const DV_BADGES: Array<{ nutrient: DvNutrient; label: string; icon: string }> = [
+  { nutrient: "vitaminC", label: "Vit C", icon: "🍊" },
+  { nutrient: "calcium", label: "Calcium", icon: "🦴" },
+  { nutrient: "iron", label: "Iron", icon: "🔩" },
+];
+
+interface Badge {
+  label: string;
+  icon: string;
+  title: string;
+}
 
 function extractNutritionValues(recipe: Recipe, servings: number) {
   const n = recipe.nutrition;
@@ -41,9 +61,6 @@ function extractNutritionValues(recipe: Recipe, servings: number) {
   const sodium = (n.sodium ?? 0) * servings;
 
   const microValues: Record<string, number> = {};
-  microValues.vitaminC = (n.vitaminC ?? 0) * servings;
-  microValues.calcium = (n.calcium ?? 0) * servings;
-  microValues.iron = (n.iron ?? 0) * servings;
   microValues.fiber = fiber;
   microValues.protein = protein;
   microValues.sodium = sodium;
@@ -53,13 +70,22 @@ function extractNutritionValues(recipe: Recipe, servings: number) {
 
 function getGoodSourceBadges(
   microValues: Record<string, number>,
-): Array<{ label: string; icon: string }> {
-  const badges: Array<{ label: string; icon: string }> = [];
+  recipe: Recipe,
+  servings: number,
+): Badge[] {
+  const badges: Badge[] = [];
   for (const [key, threshold] of Object.entries(GOOD_SOURCE_THRESHOLDS)) {
     const val = microValues[key] ?? 0;
     if (val >= threshold.min) {
-      badges.push({ label: threshold.label, icon: threshold.icon });
+      badges.push({ label: threshold.label, icon: threshold.icon, title: `Good source of ${threshold.label}` });
     }
+  }
+  const entries = dailyValueEntries(recipe.nutrition, servings);
+  for (const { nutrient, label, icon } of DV_BADGES) {
+    const entry = entries.find((e) => e.nutrient === nutrient);
+    if (!entry || entry.fraction < GOOD_SOURCE_DV) continue;
+    const title = `Good source of ${entry.label}: ${formatDailyValue(entry)} of the Daily Value, as the ingredient data records it`;
+    badges.push({ label, icon, title });
   }
   return badges;
 }
@@ -79,7 +105,7 @@ export function RecipeNutritionQuickView({
     );
   }
 
-  const badges = getGoodSourceBadges(data.microValues);
+  const badges = getGoodSourceBadges(data.microValues, recipe, servings);
 
   if (compact) {
     return (
@@ -129,7 +155,7 @@ export function RecipeNutritionQuickView({
             <span
               key={b.label}
               className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-xs bg-green-50 text-green-700 border border-green-200"
-              title={`Good source of ${b.label}`}
+              title={b.title}
             >
               {b.icon} {b.label}
             </span>

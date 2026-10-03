@@ -1,10 +1,10 @@
 {
   "name": "Italian",
   "elementalProperties": {
-    "Fire": 0.3,
-    "Earth": 0.4,
-    "Water": 0.2,
-    "Air": 0.1
+    "Fire": 0.202,
+    "Water": 0.3259,
+    "Earth": 0.3171,
+    "Air": 0.155
   },
   "description": "Regional specialties with a focus on fresh pasta, tomatoes, and olive oil.",
   "id": "italian",
@@ -46,5 +46,9 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": []
+  "astrologicalInfluences": [],
+  "elementalProfileBasis": {
+    "method": "recipe-mean",
+    "recipes": 37
+  }
 }

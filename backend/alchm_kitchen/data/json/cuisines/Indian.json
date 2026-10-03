@@ -1,10 +1,10 @@
 {
   "name": "Indian",
   "elementalProperties": {
-    "Fire": 0.4,
-    "Water": 0.2,
-    "Earth": 0.2,
-    "Air": 0.2
+    "Fire": 0.3019,
+    "Water": 0.2532,
+    "Earth": 0.3192,
+    "Air": 0.1256
   },
   "description": "Complex spice blends and traditional cooking methods like the tandoor.",
   "id": "indian",
@@ -46,5 +46,9 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": []
+  "astrologicalInfluences": [],
+  "elementalProfileBasis": {
+    "method": "recipe-mean",
+    "recipes": 39
+  }
 }

@@ -367,7 +367,6 @@ export const FALLBACK_DATA: AdminDashboardData = {
   commerce: {
     mrr: 0,
     paidSubs: 0,
-    provisionedSubs: 0,
     recentOrders: [],
     live: false,
   },

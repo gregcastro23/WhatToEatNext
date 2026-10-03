@@ -3,7 +3,7 @@
  *
  * A bounded ring buffer of the most recent HTTP requests handled by this
  * Node process backs every admin observability query. Persistence to
- * `request_log_entries` is fire-and-forget so the ring stays the fast
+ * `request_log_entries` never blocks the response, so the ring stays the fast
  * read path while cold starts can hydrate from durable storage rather
  * than starting empty.
  *
@@ -13,6 +13,8 @@
  *
  * @file src/lib/observability/requestLog.ts
  */
+
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 
 export interface RequestLogEntry {
   id: number;
@@ -38,7 +40,12 @@ export interface RecordOptions {
   ipHash?: string | null;
 }
 
-export function recordRequest(opts: RecordOptions): void {
+/**
+ * Push to the ring now; the returned promise settles when the durable mirror
+ * has been written (or skipped, or failed — it never rejects). Callers running
+ * after the response await it so the invocation outlives the insert.
+ */
+export function recordRequest(opts: RecordOptions): Promise<void> {
   const entry: RequestLogEntry = {
     id: nextId++,
     at: new Date().toISOString(),
@@ -52,9 +59,9 @@ export function recordRequest(opts: RecordOptions): void {
   ring.push(entry);
   if (ring.length > RING_SIZE) ring.shift();
 
-  // Fire-and-forget durable mirror. Dynamic import breaks the
-  // request-log <-> connection circular dependency.
-  void persistRequestEntry(entry);
+  // Durable mirror. Dynamic import breaks the request-log <-> connection
+  // circular dependency.
+  return persistRequestEntry(entry);
 }
 
 async function persistRequestEntry(entry: RequestLogEntry): Promise<void> {
@@ -91,7 +98,8 @@ function ensureHydrated(): void {
   hydrationStarted = true;
   if (typeof window !== "undefined") return;
   if (!process.env.DATABASE_URL) return;
-  void (async () => {
+  // Under after(), like the insert: a suspended read holds a pool connection.
+  runAfterResponse("request log hydration", async () => {
     try {
       const { executeQuery } = await import("@/lib/database/connection");
       const result = await executeQuery<{
@@ -131,7 +139,7 @@ function ensureHydrated(): void {
     } catch {
       // Persistence layer offline — keep operating in pure-memory mode.
     }
-  })();
+  });
 }
 
 export interface RequestLogQuery {

@@ -13,6 +13,7 @@ import type {
   FoodSearchResult,
 } from "@/types/foodDiary";
 import type { MealType } from "@/types/menuPlanner";
+import { roundedCalories } from "@/utils/roundedCalories";
 
 interface QuickFoodInputProps {
   presets: QuickFoodPreset[];
@@ -203,7 +204,7 @@ export default function QuickFoodInput({
                 )}
               </div>
               <div className="text-[10px] font-black text-amber-500/60 uppercase">
-                {result.nutritionPer100g?.calories} KCAL
+                {roundedCalories(result.nutritionPer100g?.calories) ?? "—"} KCAL
               </div>
             </button>
           ))}

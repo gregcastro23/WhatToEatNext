@@ -1,19 +1,11 @@
 /**
- * The dossier's design-system frame: the `.alchm-root .lab` wrapper (tokens
- * such as --bg-elev and --el-fire) and the obsidian backdrop, as the (alchm)
- * group layout provides them. The dossier lives outside that group so its
- * status codes are real; it deliberately omits the group's force-dynamic.
+ * The dossier lives outside the (alchm) group so its status codes are real
+ * (that group's loading.tsx turns redirects and 404s into 200s), and keeps
+ * the group's frame.
  */
-import { AgentsFeedThread } from "@/components/home/AgentsFeedThread";
-import CosmicVoidBackground from "@/components/ui/alchm/CosmicVoidBackground";
+import { AlchmRouteFrame } from "@/components/layout/AlchmRouteFrame";
 import type { JSX, ReactNode } from "react";
 
 export default function IngredientDossierLayout({ children }: { children: ReactNode }): JSX.Element {
-  return (
-    <div data-alchm-route="true" className="alchm-root lab">
-      <CosmicVoidBackground intensity="low" />
-      {children}
-      <AgentsFeedThread />
-    </div>
-  );
+  return <AlchmRouteFrame>{children}</AlchmRouteFrame>;
 }

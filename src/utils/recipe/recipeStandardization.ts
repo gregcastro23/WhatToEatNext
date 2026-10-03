@@ -1,4 +1,5 @@
 import type { Recipe } from "@/types/recipe";
+import { claimedMeals } from "./claimedMeals";
 
 // ============ NAME NORMALIZATION & DEDUPLICATION ============
 
@@ -176,8 +177,9 @@ export function standardizeRecipe(
     standardized.cuisine = rawCuisine.replace(/\s*\([^)]*\)\s*/g, "").trim().toLowerCase();
   }
 
+  // The dish's own classification, not the bucket it is filed under; see claimedMeals.
   if (!standardized.mealType) {
-    standardized.mealType = [mealType];
+    standardized.mealType = claimedMeals(standardized, mealType);
   } else if (!Array.isArray(standardized.mealType)) {
     standardized.mealType = [standardized.mealType];
   }

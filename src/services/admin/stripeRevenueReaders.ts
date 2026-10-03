@@ -52,7 +52,9 @@ function toMoney(map: Map<string, number>): Money[] {
 function purposeOf(metadata: Stripe.Metadata | null | undefined, mode?: string | null): string {
   const purpose = metadata?.purpose;
   if (typeof purpose === "string" && purpose.length > 0) return purpose;
-  return mode === "subscription" ? "premium_subscription" : "other";
+  // No WTEN route opens a subscription-mode checkout (the premium tier is
+  // retired), so an untagged one was made elsewhere on the shared account.
+  return mode === "subscription" ? "subscription" : "other";
 }
 
 export async function readBalance(stripe: Stripe): Promise<{ available: Money[]; pending: Money[] }> {

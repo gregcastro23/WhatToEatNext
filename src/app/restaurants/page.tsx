@@ -1,10 +1,12 @@
 import { Suspense } from "react";
 import RestaurantsPageClient from "./RestaurantsPageClient";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Explore Local Restaurants",
   description:
     "Discover restaurants near you, ranked by cosmic alignment with the current planetary moment.",
+  alternates: { canonical: "/restaurants" },
 };
 
 export default function RestaurantsPage() {

@@ -11,6 +11,7 @@ import {
 import type { EsmsBalanceLike } from "@/lib/payments/restaurantEsms";
 import { restaurantCryptoPaymentsEnabled } from "@/lib/payments/restaurantPayments";
 import type { RestaurantPaymentPreference } from "@/lib/payments/restaurantPayments";
+import { EconomyBalanceResponseSchema } from "@/lib/validation/accountResponseSchemas";
 
 interface RestaurantMenuClientProps {
   restaurant: {
@@ -89,12 +90,11 @@ export default function MenuOrderClient({
           return;
         }
         if (!response.ok) throw new Error("Could not load ESMS balance");
-        const data = (await response.json()) as {
-          balances?: EsmsBalanceLike;
-        };
-        if (!data.balances) throw new Error("ESMS balance was unavailable");
+        const parsed = EconomyBalanceResponseSchema.safeParse(await response.json());
+        if (!parsed.success) throw new Error("ESMS balance was unavailable");
+        const { balances } = parsed.data;
         if (active) {
-          setEsmsBalances(data.balances);
+          setEsmsBalances(balances);
           setEsmsBalanceStatus("ready");
         }
       })

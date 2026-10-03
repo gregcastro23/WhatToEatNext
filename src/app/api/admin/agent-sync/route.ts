@@ -21,6 +21,7 @@ import { executeQuery } from "@/lib/database";
 import { getServiceUrl } from "@/lib/serviceUrls";
 import { AdminAgentSyncRequestSchema } from "@/lib/validation/apiSchemas";
 import { userDatabase } from "@/services/userDatabaseService";
+import type { AgentSyncBatchResponse, AgentSyncResult } from "@/types/adminAgentSync";
 import { logger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
@@ -43,13 +44,7 @@ interface SyncTarget {
   displayName: string | null;
 }
 
-interface SyncResult {
-  agentId: string;
-  email: string;
-  ok: boolean;
-  status?: number;
-  error?: string;
-}
+type SyncResult = AgentSyncResult;
 
 function getPaConfig(): { url: string; secret: string } | { error: string } {
   const secret = process.env.INTERNAL_API_SECRET;
@@ -246,7 +241,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const { targets } = resolved;
 
   if (targets.length === 0) {
-    return NextResponse.json({
+    return NextResponse.json<AgentSyncBatchResponse>({
       success: true,
       synced: 0,
       failed: 0,
@@ -263,7 +258,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     `[admin/agent-sync] complete: synced=${synced} failed=${failed} adminEmail=${authResult.user.email}`,
   );
 
-  return NextResponse.json({
+  return NextResponse.json<AgentSyncBatchResponse>({
     success: true,
     synced,
     failed,

@@ -2,6 +2,7 @@ import { renderHook, act, waitFor } from "@testing-library/react";
 import { useFoodDiary, useQuickFoodEntry, useFoodDiaryInsights } from "@/hooks/useFoodDiary";
 import * as foodDiaryActions from "@/actions/foodDiary";
 import { useUser } from "@/contexts/UserContext";
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 // Mock the actions
 jest.mock("@/actions/foodDiary", () => ({
@@ -113,11 +114,23 @@ describe("useFoodDiary hook", () => {
     (foodDiaryActions.getServerWeeklySummary as jest.Mock).mockResolvedValue({ totalEntries: 70 });
     
     // Mock global fetch
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ entries: mockEntries, summary: mockSummary }),
-      } as Response)
+    installFetchMock(
+      jest.fn(() =>
+        Promise.resolve({
+          ok: true,
+          // The real GET /api/food-diary body: its `summary` is four totals and
+          // nothing else — not a DailyFoodDiarySummary (no totalNutrition,
+          // mealBreakdown, goalProgress...). Mocking the full summary here is
+          // what let the signed-in dashboard crash go unnoticed.
+          json: () =>
+            Promise.resolve({
+              success: true,
+              entries: mockEntries,
+              count: mockEntries.length,
+              summary: { totalCalories: 95, totalProtein: 0, totalCarbs: 25, totalFat: 0 },
+            }),
+        }),
+      ),
     );
   });
 
@@ -146,6 +159,13 @@ describe("useFoodDiary hook", () => {
       // Even in auth mode, stats and favorites are fetched via actions if response is ok
       expect(foodDiaryActions.getServerStats).toHaveBeenCalledWith(mockUserId);
       expect(result.current.entries).toEqual(mockEntries);
+      // The summary comes from the service, not the route's totals-only stub:
+      // NutritionDashboard destructures dailySummary.totalNutrition.
+      expect(result.current.dailySummary?.totalNutrition).toEqual(mockSummary.totalNutrition);
+      expect(foodDiaryActions.getServerDailySummary).toHaveBeenCalledWith(
+        mockUserId,
+        expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
+      );
     });
 
     it("handles errors gracefully", async () => {
