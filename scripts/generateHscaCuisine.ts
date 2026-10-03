@@ -92,7 +92,9 @@ function parseIngredientString(ingStr: string) {
     "pints?", "quarts?", "gallons?", "bottles?", "jars?", "packages?", "bags?", "handfuls?", "cans?"
   ];
 
-  const unitRegex = new RegExp(`^(${units.join("|")})\\s*(.*)$`, "i");
+  // A unit must be a whole word: without the lookahead "4 Granny Smith apples"
+  // read as 4 g of "ranny smith apples", and "Canola oil" as a can of "ola oil".
+  const unitRegex = new RegExp(`^(${units.join("|")})(?![a-z])\\s*(.*)$`, "i");
   const unitMatch = remaining.match(unitRegex);
 
   if (unitMatch && unitMatch[1]) {
