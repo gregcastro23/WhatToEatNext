@@ -103,7 +103,7 @@ export const NAV_IA: NavIA = {
       { label: "Recipes", path: "/recipes", glyph: "bookmark", hint: "12,438 · filtered to your hour" },
       { label: "Recipe Builder", path: "/recipe-builder", glyph: "plus", hint: "Compose from raw materials" },
       { label: "Restaurants", path: "/restaurants", glyph: "atom", hint: "Local · ranked by cosmic alignment" },
-      { label: "Recipe Generator", path: "/recipe-generator", glyph: "spiral", hint: "AI-generated · carousel · tuned to your hour" },
+      { label: "Cosmic Recipes", path: "/cosmic-recipe", glyph: "spiral", hint: "AI-generated · tuned to your chart & sky" },
     ],
   },
   plan: {

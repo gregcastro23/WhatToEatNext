@@ -1,6 +1,6 @@
 {
-  "total": 83,
-  "production": 74,
+  "total": 81,
+  "production": 72,
   "test": 9,
   "byFile": {
     "src/__tests__/api/syncCreditDailyGuard.test.ts": 3,
@@ -8,8 +8,6 @@
     "src/app/(alchm)/generated-recipe/[id]/page.tsx": 1,
     "src/app/(alchm)/grimoire/page.tsx": 2,
     "src/app/(alchm)/profile/[userId]/page.tsx": 1,
-    "src/app/(alchm)/recipe-generator/components/useRecipeGeneratorLogic.ts": 1,
-    "src/app/(alchm)/recipe-generator/components/useSaveRecipeAction.ts": 1,
     "src/app/(alchm)/tables/page.tsx": 1,
     "src/app/api/admin/agents/monica/route.ts": 1,
     "src/app/api/agent-forge/ignite/route.ts": 2,

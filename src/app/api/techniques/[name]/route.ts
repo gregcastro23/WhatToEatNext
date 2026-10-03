@@ -4,7 +4,7 @@ import { allCookingMethods } from "@/data/cooking/methods";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 /**
  * Common verb → CANONICAL COOKING METHOD KEY.
@@ -107,7 +107,10 @@ export async function GET(
     }
 
     const method = (allCookingMethods as Record<string, unknown>)[match];
-    return NextResponse.json({ success: true, technique: method, canonicalKey: match });
+    return NextResponse.json(
+      { success: true, technique: method, canonicalKey: match },
+      { headers: { "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800" } },
+    );
   } catch (error) {
     _logger.error("[techniques/:name] Error:", error);
     return NextResponse.json(
