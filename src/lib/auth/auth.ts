@@ -36,20 +36,10 @@ interface ExtendedJWT extends JWT {
   userId?: string;
   role?: "admin" | "user";
   onboardingComplete?: boolean;
-  tier?: "free" | "premium";
-  recipesGeneratedToday?: number;
   sessionId?: string;
   deviceSessionId?: string;
   provider?: string;
   authTime?: number;
-}
-
-interface DailyLimitRow {
-  recipes_generated: number;
-}
-
-interface UpdateSessionPayload {
-  recipesGeneratedToday?: number;
 }
 
 function describeError(err: unknown): { code: string; message: string } {
@@ -226,25 +216,11 @@ async function runBackgroundSignInTasks(
       }
     }
 
-    // 1. Auto-provision admin
-    if (isAdminEmail(user.email)) {
-      const { subscriptionService } = await import("@/services/subscriptionService");
-      const sub = await subscriptionService.getOrCreateSubscription(dbUser.id);
-      if (sub.tier !== "premium") {
-        const now = new Date();
-        const yearFromNow = new Date(now);
-        yearFromNow.setFullYear(yearFromNow.getFullYear() + 10);
-        await subscriptionService.updateSubscription(dbUser.id, {
-          tier: "premium",
-          status: "active",
-          currentPeriodStart: now.toISOString(),
-          currentPeriodEnd: yearFromNow.toISOString(),
-        });
-        logger.info(`Auto-provisioned premium for ${user.email}`);
-      }
-    }
+    // Admins are no longer auto-provisioned a "premium" subscription row: the
+    // tier is retired, and operators are exempt from generation charges by role
+    // (isOperatorAccount), not by tier (owner ruling 2026-09-28).
 
-    // 2. Send emails
+    // 1. Send emails
     const emailService = (await import("@/services/emailService")).default;
     emailService.ensureInitialized();
     if (emailService.isConfigured()) {
@@ -259,7 +235,7 @@ async function runBackgroundSignInTasks(
       logger.info(`Background emails sent for ${user.email}`);
     }
 
-    // 3. In-app notifications
+    // 2. In-app notifications
     try {
       const { notificationDatabase } = await import("@/services/notificationDatabaseService");
       const userName = user.name ?? user.email;
@@ -555,7 +531,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
 
-    async jwt({ token, user, account, trigger, session }): Promise<JWT | null> {
+    async jwt({ token, user, account, trigger }): Promise<JWT | null> {
       const extToken = token as ExtendedJWT;
       const isInitialSignIn = Boolean(user) || Boolean(account);
 
@@ -585,14 +561,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         extToken.provider = account.provider;
       }
 
-      // Sync recipesGeneratedToday dynamically from trigger update
-      if (trigger === "update" && session && typeof session === "object" && "recipesGeneratedToday" in session) {
-        const updatePayload = session as UpdateSessionPayload;
-        if (typeof updatePayload.recipesGeneratedToday === "number") {
-          extToken.recipesGeneratedToday = updatePayload.recipesGeneratedToday;
-        }
-      }
-
       // Soft session revocation check
       if (
         process.env.AUTH_REVOCATION_CHECK === "on" &&
@@ -613,7 +581,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       }
 
-      // Resolve role, tier, and onboarding status from DB
+      // Resolve role and onboarding status from DB
       if (extToken.email && (user || trigger === "update" || !extToken.userId)) {
         try {
           const normTokenEmail = extToken.email.toLowerCase().trim();
@@ -690,53 +658,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 logger.warn("device_sessions write failed (non-blocking):", e);
               }
             }
-
-            // Embed subscription tier into JWT
-            if (isAdmin) {
-              extToken.tier = "premium";
-            } else {
-              try {
-                const { subscriptionService } = await import(
-                  "@/services/subscriptionService"
-                );
-                const sub = await Promise.race([
-                  subscriptionService.getUserSubscription(dbUser.id),
-                  new Promise<{ tier?: "free" | "premium" } | null>((_, reject) => setTimeout(() => reject(new Error("Subscription Timeout")), 3000))
-                ]);
-                extToken.tier = sub?.tier === "premium" ? "premium" : "free";
-              } catch {
-                extToken.tier ??= "free";
-              }
-            }
-
-            // Resolve recipesGeneratedToday for free-tier users
-            if (extToken.tier === "free") {
-              try {
-                const { executeQuery } = await import("@/lib/database");
-                const limitRows = await executeQuery<DailyLimitRow>(
-                  `SELECT recipes_generated FROM user_daily_limits 
-                   WHERE user_id = $1 AND date = CURRENT_DATE`,
-                  [dbUser.id]
-                );
-                extToken.recipesGeneratedToday = limitRows.rows[0]?.recipes_generated ?? 0;
-              } catch (e) {
-                logger.warn("Failed to fetch recipes_generated for JWT:", e);
-                extToken.recipesGeneratedToday ??= 0;
-              }
-            } else {
-              extToken.recipesGeneratedToday = 0;
-            }
           } else {
             extToken.role = isAdminEmail(extToken.email) ? "admin" : "user";
             extToken.onboardingComplete = false;
-            extToken.tier = isAdminEmail(extToken.email) ? "premium" : "free";
-            extToken.recipesGeneratedToday = 0;
           }
         } catch {
           extToken.role ??= isAdminEmail(extToken.email) ? "admin" : "user";
           extToken.onboardingComplete ??= false;
-          extToken.tier ??= isAdminEmail(extToken.email) ? "premium" : "free";
-          extToken.recipesGeneratedToday ??= 0;
         }
       }
 

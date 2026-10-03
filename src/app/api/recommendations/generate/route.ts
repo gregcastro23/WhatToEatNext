@@ -8,6 +8,7 @@
 
 import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
+import { isOperatorAccount } from "@/lib/auth/adminEmails";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import {
   applyPersonalizedPricing,
@@ -15,7 +16,6 @@ import {
 } from "@/lib/economy/livePricing";
 import { withObservability } from "@/lib/observability/withObservability";
 import { GenerateRecommendationsRequestSchema } from "@/lib/validation/apiSchemas";
-import { subscriptionService } from "@/services/subscriptionService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import type { NatalChart } from "@/types/natalChart";
 import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
@@ -229,7 +229,7 @@ async function handlePost(request: NextRequest) {
   const sanitizedOptions: DayRecommendationOptions = toDayRecommendationOptions(options);
 
   // ── Demo path: anonymous visitor inside their daily demo budget. ──
-  // Skip memo cache, monthly cap, premium check, token debit, retry grant,
+  // Skip memo cache, monthly cap, operator check, token debit, retry grant,
   // and usage tracking — none of those apply without a user. Just run the
   // generator so the visitor sees real output and is enticed to sign in.
   if (access.mode === "demo") {
@@ -324,17 +324,18 @@ async function handlePost(request: NextRequest) {
     );
   }
 
-  const sub = await subscriptionService.getUserSubscription(userId);
-  const isPremium = sub?.tier === "premium";
+  // The retired subscription tier exempts no one; operators are the only
+  // accounts that generate without paying (owner ruling 2026-09-28).
+  const exemptFromCharge = isOperatorAccount(dbUser);
 
   let charged = false;
   let usedRetryWindow = false;
   let activeRetryGrant: RetryGrant | null = null;
 
-  // Strict server-side per-click consumption for non-premium users.
+  // Strict server-side per-click consumption for everyone but operators.
   // Tokens (priced per user × current sky) are the only throttle — no
   // per-minute caps, no monthly quotas. If the user can afford it, it runs.
-  if (!isPremium) {
+  if (!exemptFromCharge) {
     const reusedGrant = lookupRetryGrant(userId, retryToken);
     if (reusedGrant) {
       usedRetryWindow = true;
@@ -440,7 +441,7 @@ async function handlePost(request: NextRequest) {
       // retry-window requests, preserve the original grant's expiration
       // so the timer never extends beyond the original 5-minute budget.
       let retry: { token: string; expiresAt: string } | null = null;
-      if (!isPremium) {
+      if (!exemptFromCharge) {
         if (activeRetryGrant && retryToken) {
           retry = createRetryGrant(userId, retryToken, activeRetryGrant.expiresAt);
         } else if (charged) {

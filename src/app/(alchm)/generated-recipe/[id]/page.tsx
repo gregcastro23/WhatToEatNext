@@ -20,6 +20,7 @@ import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import { elementalSignature } from "@/utils/elemental/signature";
 import { getRecipeFromStore } from "@/utils/generatedRecipeStore";
 import { createLogger } from "@/utils/logger";
+import { roundedCalories } from "@/utils/roundedCalories";
 
 const logger = createLogger("GeneratedRecipePage");
 
@@ -481,7 +482,7 @@ export default function GeneratedRecipePage(): React.JSX.Element {
                 </p>
                 <div className="flex flex-wrap gap-4 text-sm">
                   <span>
-                    <strong>{recipe.nutrition.calories}</strong>{" "}
+                    <strong>{roundedCalories(recipe.nutrition.calories) ?? "—"}</strong>{" "}
                     <span className="text-gray-400">kcal</span>
                   </span>
                   <span>

@@ -8,7 +8,7 @@
 
 import type { LunarPhase } from "./alchemy";
 import type { PlanetaryPositions, StandardZodiacSignType } from "./astrology";
-import type { NutritionCoverage } from "./nutrition";
+import type { NutritionCoverage, PlannerNutrientCoverage } from "./nutrition";
 import type { Recipe, ElementalProperties, EnhancedRecipe } from "./recipe";
 
 /**
@@ -124,6 +124,8 @@ export interface WeeklyNutritionTotals {
   /** How many planned meals entered the totals; a week with a partial day is partial. */
   coverage: NutritionCoverage;
   dailyCoverage: Record<DayOfWeek, NutritionCoverage>;
+  /** How many planned meals state sodium and sugar; `totalSodium` and `totalSugar` are lower bounds where fewer. */
+  nutrientCoverage: PlannerNutrientCoverage;
 }
 
 /**
@@ -243,14 +245,15 @@ export type GroceryCategory =
   | "other";
 
 /**
- * Complete weekly menu structure
+ * Complete weekly menu structure. It carries no stored nutrition totals: day
+ * totals are computed live from `meals` (owner ruling 2026-09-27; see
+ * `services/menuPersistenceQueries.ts`).
  */
 export interface WeeklyMenu {
   id: string;
   weekStartDate: Date;
   weekEndDate: Date;
   meals: MealSlot[];
-  nutritionalTotals: Record<DayOfWeek, DailyNutritionTotals>;
   groceryList: GroceryItem[];
   savedAsTemplate: boolean;
   templateName?: string;

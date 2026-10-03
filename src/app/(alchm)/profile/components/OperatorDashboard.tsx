@@ -127,7 +127,7 @@ const OperatorOverviewTab: React.FC<DashboardProps & { userName: string; email: 
       userName={userName}
       email={email}
       natalChart={natalChart}
-      tier="premium"
+      isOperator
       onEditProfile={onEditBirthData}
       onOpenSettings={onOpenSettings}
     />
@@ -191,7 +191,7 @@ const OperatorCosmosTab: React.FC<DashboardProps> = (props) => (
     <div className="glass-card-premium rounded-3xl p-1 border-white/8 overflow-hidden">
       <UserDashboard
         session={props.session}
-        profileData={props.profileData}
+        isOperator
         natalChart={props.natalChart}
         preferences={props.preferences}
         onEditBirthData={props.onEditBirthData}

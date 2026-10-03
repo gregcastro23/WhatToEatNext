@@ -6,13 +6,16 @@ import {
 } from "../notificationEnumParity";
 
 describe("notificationEnumParity static gate & database verification", () => {
-  it("declares exactly 20 canonical notification types matching TS union", () => {
-    expect(CANONICAL_NOTIFICATION_TYPES.length).toBe(20);
+  it("declares exactly 22 canonical notification types matching TS union", () => {
+    expect(CANONICAL_NOTIFICATION_TYPES.length).toBe(22);
     expect(CANONICAL_NOTIFICATION_TYPES).toContain("quest_completed");
     expect(CANONICAL_NOTIFICATION_TYPES).toContain("master_quest_broadcast");
     expect(CANONICAL_NOTIFICATION_TYPES).toContain("agent_broadcast");
     expect(CANONICAL_NOTIFICATION_TYPES).toContain("reaction_received");
     expect(CANONICAL_NOTIFICATION_TYPES).toContain("comment_received");
+    // Migration 92 — the Transmutation Circle.
+    expect(CANONICAL_NOTIFICATION_TYPES).toContain("transmutation_offer");
+    expect(CANONICAL_NOTIFICATION_TYPES).toContain("transmutation_accepted");
   });
 
   it("statically verifies 100% parity between SQL migrations and TypeScript NotificationType union", () => {
@@ -51,7 +54,7 @@ describe("notificationEnumParity static gate & database verification", () => {
     expect(mockPool.query).toHaveBeenCalledTimes(1);
   });
 
-  it("passes when all 20 canonical values are present in database", async () => {
+  it("passes when all 22 canonical values are present in database", async () => {
     const mockPool = {
       query: jest.fn(async () => ({
         rows: CANONICAL_NOTIFICATION_TYPES.map((enumlabel) => ({ enumlabel })),

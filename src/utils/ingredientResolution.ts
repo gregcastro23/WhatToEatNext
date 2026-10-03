@@ -53,6 +53,9 @@ export function normName(s: string): string {
   return s
     .toLowerCase()
     .normalize("NFKD")
+    // NFKD splits "ñ" into "n" + a combining mark. Drop the mark, so
+    // "jalapeño" meets "jalapeno" instead of becoming "jalapen o".
+    .replace(/\p{M}/gu, "")
     // Treat underscores like spaces: some catalog `name` fields carry the slug
     // form ("rice_vinegar") instead of the human name, which would otherwise
     // never resolve against space-separated free-text.

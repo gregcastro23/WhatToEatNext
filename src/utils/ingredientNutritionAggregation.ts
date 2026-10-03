@@ -13,7 +13,21 @@
 // `null` rather than a misleadingly partial total.
 
 import type { Recipe } from "@/types/recipe";
+import {
+  addDailyValueFractions,
+  readDailyValueFractions,
+  scaleDailyValueFractions,
+} from "./dailyValueFractions";
 import { resolveIngredientByName } from "./ingredientResolution";
+import {
+  foldCompleteOnly,
+  MACROLESS_KEYS,
+  macrolessContribution,
+  readCompleteOnly,
+  scaleCompleteOnly,
+  type CompleteOnlyKey,
+  type CompleteOnlySource,
+} from "./nutrientCompleteness";
 import { accountsForRecipe, type WeighedLine } from "./nutritionCompleteness";
 import { UNIT_CONVERSIONS, convertToGrams } from "./unitConversion";
 import type { NormalizedRecipeNutrition } from "./recipeNutrition";
@@ -77,6 +91,8 @@ interface NutritionalMacros {
   sugar?: number;
   sodium?: number;
   saturatedFat?: number;
+  potassium?: number;
+  cholesterol?: number;
 }
 
 interface NutritionalProfileShape {
@@ -88,6 +104,9 @@ interface NutritionalProfileShape {
   fiber?: number;
   sugar?: number;
   sodium?: number;
+  saturatedFat?: number;
+  potassium?: number;
+  cholesterol?: number;
   vitamins?: Record<string, number> | string[];
   minerals?: Record<string, number> | string[];
   serving_size?: string;
@@ -98,51 +117,6 @@ function readNum(value: unknown): number {
   return Number.isFinite(n) ? n : 0;
 }
 
-type MicronutrientKey =
-  | "vitaminA"
-  | "vitaminC"
-  | "vitaminD"
-  | "vitaminE"
-  | "vitaminK"
-  | "thiamin"
-  | "riboflavin"
-  | "niacin"
-  | "vitaminB6"
-  | "vitaminB12"
-  | "folate"
-  | "calcium"
-  | "iron"
-  | "magnesium"
-  | "phosphorus"
-  | "potassium"
-  | "zinc"
-  | "copper"
-  | "manganese"
-  | "selenium";
-
-const microKeys: readonly MicronutrientKey[] = [
-  "vitaminA",
-  "vitaminC",
-  "vitaminD",
-  "vitaminE",
-  "vitaminK",
-  "thiamin",
-  "riboflavin",
-  "niacin",
-  "vitaminB6",
-  "vitaminB12",
-  "folate",
-  "calcium",
-  "iron",
-  "magnesium",
-  "phosphorus",
-  "potassium",
-  "zinc",
-  "copper",
-  "manganese",
-  "selenium",
-];
-
 function emptyNutrition(): NormalizedRecipeNutrition {
   return {
     calories: 0,
@@ -150,35 +124,28 @@ function emptyNutrition(): NormalizedRecipeNutrition {
     carbs: 0,
     fat: 0,
     fiber: 0,
-    sugar: 0,
-    sodium: 0,
   };
 }
 
 /**
  * Add numeric nutrition fields from `b` onto `a` in place. Preserves
- * untouched fields.
+ * untouched fields. `gapKeys` are the complete-only fields `b` must state.
  */
 function addNutrition(
   a: NormalizedRecipeNutrition,
   b: NormalizedRecipeNutrition,
+  gapKeys?: readonly CompleteOnlyKey[],
 ): void {
   a.calories += b.calories;
   a.protein += b.protein;
   a.carbs += b.carbs;
   a.fat += b.fat;
   a.fiber += b.fiber;
-  a.sugar += b.sugar;
-  a.sodium += b.sodium;
-  if (b.saturatedFat != null) {
-    a.saturatedFat = (a.saturatedFat ?? 0) + b.saturatedFat;
-  }
-  for (const k of microKeys) {
-    const bv = b[k];
-    if (typeof bv === "number" && Number.isFinite(bv)) {
-      const prev = a[k];
-      a[k] = (typeof prev === "number" ? prev : 0) + bv;
-    }
+  foldCompleteOnly(a, b, gapKeys);
+  if (b.dailyValue) {
+    a.dailyValue = a.dailyValue
+      ? addDailyValueFractions(a.dailyValue, b.dailyValue)
+      : b.dailyValue;
   }
 }
 
@@ -193,17 +160,9 @@ function scaleNutrition(
     carbs: n.carbs * factor,
     fat: n.fat * factor,
     fiber: n.fiber * factor,
-    sugar: n.sugar * factor,
-    sodium: n.sodium * factor,
   };
-  if (n.saturatedFat != null) out.saturatedFat = n.saturatedFat * factor;
-
-  for (const k of microKeys) {
-    const v = n[k];
-    if (typeof v === "number" && Number.isFinite(v)) {
-      out[k] = v * factor;
-    }
-  }
+  scaleCompleteOnly(n, factor, out);
+  if (n.dailyValue) out.dailyValue = scaleDailyValueFractions(n.dailyValue, factor);
   return out;
 }
 
@@ -224,77 +183,32 @@ function profileToNutrition(
     out.carbs = readNum(profile.macros.carbs);
     out.fat = readNum(profile.macros.fat);
     out.fiber = readNum(profile.macros.fiber);
-    out.sugar = readNum(profile.macros.sugar);
-    out.sodium = readNum(profile.macros.sodium);
-    if (profile.macros.saturatedFat != null) {
-      out.saturatedFat = readNum(profile.macros.saturatedFat);
-    }
   } else {
     // Flat shape
     out.protein = readNum(profile.protein);
     out.carbs = readNum(profile.carbs);
     out.fat = readNum(profile.fat);
     out.fiber = readNum(profile.fiber);
-    out.sugar = readNum(profile.sugar);
-    out.sodium = readNum(profile.sodium);
   }
 
-  // Copy numeric vitamin/mineral records when present.
-  if (profile.vitamins && !Array.isArray(profile.vitamins)) {
-    const vits = profile.vitamins;
-    const pick = (
-      target: MicronutrientKey,
-      ...keys: string[]
-    ): void => {
-      for (const k of keys) {
-        if (typeof vits[k] === "number") {
-          out[target] = vits[k];
-          return;
-        }
-      }
-    };
-    pick("vitaminA", "A", "a", "vitaminA");
-    pick("vitaminC", "C", "c", "vitaminC");
-    pick("vitaminD", "D", "d", "vitaminD");
-    pick("vitaminE", "E", "e", "vitaminE");
-    pick("vitaminK", "K", "k", "vitaminK");
-    pick("vitaminB6", "B6", "b6", "vitaminB6");
-    pick("vitaminB12", "B12", "b12", "vitaminB12");
-    pick("folate", "folate", "Folate");
-    pick("thiamin", "B1", "b1", "thiamin");
-    pick("riboflavin", "B2", "b2", "riboflavin");
-    pick("niacin", "B3", "b3", "niacin");
-  }
-  if (profile.minerals && !Array.isArray(profile.minerals)) {
-    const min = profile.minerals;
-    for (const key of [
-      "calcium",
-      "iron",
-      "magnesium",
-      "phosphorus",
-      "potassium",
-      "zinc",
-      "copper",
-      "manganese",
-      "selenium",
-    ] as const) {
-      if (typeof min[key] === "number") {
-        out[key] = min[key];
-      }
-    }
-  }
+  const source: CompleteOnlySource = profile.macros ?? profile;
+  Object.assign(out, readCompleteOnly(source));
+  // Vitamins and minerals are Daily Value fractions, never amounts.
+  out.dailyValue = readDailyValueFractions(profile);
   return out;
 }
 
 /**
  * Compute the nutrition contribution of a single recipe ingredient, scaled
  * to the amount + unit actually used in the recipe. Returns `null` when the
- * ingredient isn't recognised or has no usable nutritional profile.
+ * ingredient isn't recognised or has no usable nutritional profile, or (unless
+ * `keepMacroless`) states no calories or macros.
  */
 export function computeIngredientNutrition(
   ingredient: IngredientLike | undefined | null,
   amount: number,
   unit: string,
+  keepMacroless = false,
 ): NormalizedRecipeNutrition | null {
   if (!ingredient) return null;
   const profile = ingredient.nutritionalProfile as
@@ -304,6 +218,7 @@ export function computeIngredientNutrition(
 
   const perServing = profileToNutrition(profile);
   if (
+    !keepMacroless &&
     perServing.calories === 0 &&
     perServing.protein === 0 &&
     perServing.carbs === 0 &&
@@ -327,6 +242,20 @@ export function computeIngredientNutrition(
 interface WeighedContribution {
   line: WeighedLine;
   nutrition: NormalizedRecipeNutrition | null;
+  /** The complete-only fields `nutrition` must state; all of them when omitted. */
+  gapKeys?: readonly CompleteOnlyKey[];
+}
+
+/**
+ * What a line with no calories or macros (salt, water) adds: its sugar, sodium
+ * and saturated fat. Salt is most of a recipe's sodium, so it is not skipped.
+ */
+function macrolessNutrition(
+  found: IngredientLike,
+  grams: number | null,
+): NormalizedRecipeNutrition | null {
+  const scaled = computeIngredientNutrition(found, grams ?? 1, "g", true);
+  return scaled ? macrolessContribution(scaled, grams !== null) : null;
 }
 
 /** One ingredient line: how it was weighed, and what it adds to the total. */
@@ -338,8 +267,10 @@ function weighLine(ing: Recipe["ingredients"][number]): WeighedContribution {
     return { line: { kind: "unresolved", grams: convertToGrams(amount, unit, ing.name) }, nutrition: null };
   }
   const grams = convertToGrams(amount, unit, found.name);
-  // A profile with no calories or macros (water, salt) contributes nothing at any mass.
-  if (!computeIngredientNutrition(found, 1, "g")) return { line: { kind: "zero", grams }, nutrition: null };
+  // A profile with no calories or macros (water, salt) adds no energy at any mass, but sodium.
+  if (!computeIngredientNutrition(found, 1, "g")) {
+    return { line: { kind: "zero", grams }, nutrition: macrolessNutrition(found, grams), gapKeys: MACROLESS_KEYS };
+  }
   if (grams === null) return { line: { kind: "unweighable" }, nutrition: null };
   return { line: { kind: "counted", grams }, nutrition: computeIngredientNutrition(found, grams, "g") };
 }
@@ -362,9 +293,9 @@ export function computeRecipeNutritionFromIngredients(
   const lines: WeighedLine[] = [];
   for (const ing of ingredients) {
     if (!ing.name) continue;
-    const { line, nutrition } = weighLine(ing);
+    const { line, nutrition, gapKeys } = weighLine(ing);
     lines.push(line);
-    if (nutrition) addNutrition(total, nutrition);
+    if (nutrition) addNutrition(total, nutrition, gapKeys);
   }
   if (!accountsForRecipe(lines)) return null;
 

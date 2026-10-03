@@ -11,7 +11,7 @@
 
 import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useState, Suspense } from "react";
-import { FEATURE_TOKEN_COSTS } from "@/types/subscription";
+import { PRICED_TOOLS } from "@/lib/economy/featurePrices";
 
 interface TokenBalances {
   spirit: number;
@@ -172,21 +172,20 @@ function PremiumPageContent() {
           <div className="p-8 border-b border-white/10">
             <h2 className="text-2xl font-black text-white">Tool Token Costs</h2>
             <p className="text-sm text-white/60 mt-1">
-              Every tool on Alchm.kitchen is pay-as-you-go using your ESMS tokens.
+              Most of Alchm.kitchen is free. These tools cost ESMS per use, priced live on
+              your natal chart and the current sky across Spirit, Essence, Matter and Substance.
             </p>
           </div>
           <div className="divide-y divide-white/10">
-            {Object.entries(FEATURE_TOKEN_COSTS).map(([key, item]) => (
-              <div key={key} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            {PRICED_TOOLS.map((item) => (
+              <div key={item.key} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-bold text-lg text-white capitalize">
-                    {key.replace(/([A-Z])/g, " $1")}
-                  </h3>
+                  <h3 className="font-bold text-lg text-white">{item.title}</h3>
                   <p className="text-sm text-white/60">{item.description}</p>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-amber-300 font-bold text-sm">
-                    {item.label}
+                    {item.price}
                   </span>
                 </div>
               </div>

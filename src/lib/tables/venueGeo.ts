@@ -24,8 +24,8 @@ export interface ResolvedVenueCoords {
  */
 export async function resolveVenueCoords(
   venue: { type: string; address?: string | undefined },
-  venueLat?: number | null | undefined,
-  venueLng?: number | null | undefined,
+  venueLat?: number | null,
+  venueLng?: number | null,
 ): Promise<ResolvedVenueCoords | null> {
   if (venue.type === "home") {
     if (venueLat != null || venueLng != null) return null; // reject — home never geocoded

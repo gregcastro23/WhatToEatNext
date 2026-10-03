@@ -1,13 +1,24 @@
 /**
  * GET /api/economy/swap-rates
  *
- * Returns the current ESMS swap rate sheet, modulated by the ruling planetary
- * hour and day. Public — used by the Live Network Feed page so anyone can see
- * how the cosmos is biasing today's exchanges before authenticating.
+ * The current ESMS swap rate sheet: every pair at `P_to / P_from` over the
+ * live Elemental Exchange Index, no spread. Public — used by the Live Network
+ * Feed page so anyone can see today's exchange rates before authenticating.
+ *
+ * These are the exact rates the Swapping Bridge auto-swaps a short payment at
+ * within the same oracle minute (`validUntil`); the sheet carries the prices
+ * it was computed from so a client can reproduce any rate.
+ *
+ * Honesty contract (the price-index precedent): when the oracle cannot price
+ * the sky this answers 503 with `live: false` and NO rates — never a fallback
+ * sheet under `success: true`.
  */
 
 import { NextResponse } from "next/server";
-import { getCurrentSwapRates } from "@/lib/economy/swapRates";
+import {
+  SwapRatesUnavailableError,
+  getCurrentSwapRates,
+} from "@/lib/economy/swapRates";
 import { _logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
@@ -16,13 +27,22 @@ export const runtime = "nodejs";
 export function GET(): Promise<NextResponse> {
   try {
     const rates = getCurrentSwapRates();
-    return Promise.resolve(NextResponse.json({ success: true, ...rates }));
+    return Promise.resolve(
+      NextResponse.json({ success: true, live: true, ...rates }),
+    );
   } catch (error) {
+    const unavailable = error instanceof SwapRatesUnavailableError;
     _logger.error("[GET /api/economy/swap-rates]", error);
     return Promise.resolve(
       NextResponse.json(
-        { success: false, message: "Failed to compute swap rates" },
-        { status: 500 },
+        {
+          success: false,
+          live: false,
+          message: unavailable
+            ? "Swap rates are unavailable: the price oracle cannot price the current sky"
+            : "Failed to compute swap rates",
+        },
+        { status: unavailable ? 503 : 500 },
       ),
     );
   }

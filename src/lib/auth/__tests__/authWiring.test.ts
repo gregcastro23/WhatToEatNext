@@ -368,7 +368,10 @@ describe("Auth wiring tests", () => {
 
       expect(result).not.toBeNull();
       expect(result?.authTime).toBe(originalAuthTime);
-      expect(result?.recipesGeneratedToday).toBe(5);
+      // The token no longer carries a daily recipe count (the premium tier and
+      // the recipe-page gate that read it are retired), so a client-sent value
+      // must not land on it either.
+      expect(result).not.toHaveProperty("recipesGeneratedToday");
     });
 
     it("rejects corrupted authTime (explicit null or NaN) immediately without DB lookups", async () => {

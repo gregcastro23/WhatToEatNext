@@ -1,10 +1,10 @@
 {
   "name": "Greek",
   "elementalProperties": {
-    "Fire": 0.2,
-    "Earth": 0.3,
-    "Water": 0.3,
-    "Air": 0.2
+    "Fire": 0.2468,
+    "Water": 0.2706,
+    "Earth": 0.3587,
+    "Air": 0.1238
   },
   "description": "Mediterranean flavors with fresh herbs, olive oil, and seafood.",
   "id": "greek",
@@ -46,5 +46,9 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": []
+  "astrologicalInfluences": [],
+  "elementalProfileBasis": {
+    "method": "recipe-mean",
+    "recipes": 42
+  }
 }

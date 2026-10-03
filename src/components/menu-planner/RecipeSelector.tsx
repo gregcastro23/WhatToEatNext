@@ -10,6 +10,7 @@
 
 import Link from "next/link";
 import React, { useState, useEffect, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type {
@@ -29,6 +30,7 @@ import {
   type RecipeSearchOptions,
   type ScoredRecipe,
 } from "@/utils/recipeSearchEngine";
+import { roundedCalories } from "@/utils/roundedCalories";
 
 const logger = createLogger("RecipeSelector");
 
@@ -63,6 +65,8 @@ function RecipeCard({
         ([_, value]) => typeof value === "number",
       )
     : [];
+
+  const calories = roundedCalories(recipe.nutrition?.calories);
 
   return (
     <div
@@ -125,10 +129,10 @@ function RecipeCard({
             {recipe.prepTime}
           </span>
         )}
-        {recipe.nutrition?.calories && (
+        {calories !== null && (
           <span className="flex items-center gap-1">
             <span>🔥</span>
-            {recipe.nutrition.calories} cal
+            {calories} cal
           </span>
         )}
         {recipe.servingSize && (
@@ -391,8 +395,12 @@ export default function RecipeSelector({
 
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+  // Portalled to <body>: the planner's meal slot and day card have a
+  // backdrop-filter, which makes them the containing block for `fixed`, so
+  // inline the overlay filled only the slot (measured 323×270 px, not 1440×1000).
+  // z-[70] clears the phone tab bar (z 65), as the site's other full-screen modals do.
+  return createPortal(
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[70] p-4">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-purple-50 to-pink-50">
@@ -717,6 +725,7 @@ export default function RecipeSelector({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

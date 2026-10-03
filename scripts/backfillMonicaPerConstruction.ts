@@ -40,12 +40,10 @@ import {
 } from "@/utils/agentMonicaResolver";
 import { fullChartMonica } from "@/utils/fullChartMonica";
 
+import { q } from "./lib/quantile";
+
 const WRITE = process.argv.includes("--write");
 const f = (n: number) => n.toFixed(6);
-const q = (xs: number[], p: number) => {
-  const s = [...xs].sort((a, b) => a - b);
-  return s[Math.floor((s.length - 1) * p)];
-};
 
 const client = new pg.Client({
   connectionString: process.env.DATABASE_PUBLIC_URL,
@@ -201,10 +199,17 @@ if (fullChart.length) {
       `\nfull-chart: replacing ${before.length} HAND-AUTHORED literals ` +
         `[${f(Math.min(...before))}, ${f(Math.max(...before))}]`,
     );
-    console.log(
-      `  |authored / computed| median ${q(ratios, 0.5).toFixed(1)}x  max ${Math.max(...ratios).toFixed(1)}x` +
-        `  <- these are NOT recomputable; the snapshot exists for them`,
-    );
+    if (ratios.length > 0) {
+      console.log(
+        `  |authored / computed| median ${q(ratios, 0.5).toFixed(1)}x  max ${Math.max(...ratios).toFixed(1)}x` +
+          `  <- these are NOT recomputable; the snapshot exists for them`,
+      );
+    } else {
+      console.log(
+        `  |authored / computed|: no non-zero computed ratios available` +
+          `  <- these are NOT recomputable; the snapshot exists for them`,
+      );
+    }
   }
   console.log(`\nfull-chart sample (both sects stored — sect is unresolvable, §18n):`);
   console.table(

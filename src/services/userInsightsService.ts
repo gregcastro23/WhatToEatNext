@@ -1,7 +1,7 @@
 /**
  * User Insights Service
  *
- * Aggregates demographic, activity, onboarding, and tier breakdowns for the
+ * Aggregates demographic, activity, onboarding, and role breakdowns for the
  * full user roster so /admin/users can render a single-glance overview.
  *
  * Demographic charts (elements / modalities / sun signs) scope to humans only
@@ -55,8 +55,6 @@ export interface UserInsightsPayload {
     medianMinutesToComplete: number | null;
   };
   tiers: {
-    free: number;
-    premium: number;
     admin: number;
     visitors?: number;
     accountHolders?: number;
@@ -98,8 +96,6 @@ interface RollupRow {
   onboarded: number;
   pending_onboarding: number;
   onboarded_7d: number;
-  premium: number;
-  free: number;
 }
 
 interface CountRow<T extends string> {
@@ -130,8 +126,29 @@ const ZODIAC_SIGNS = [
   "pisces",
 ] as const;
 
+/**
+ * One sub-query of the insights payload, degraded independently: a failed
+ * aggregate yields empty rows (logged) instead of rejecting the whole payload.
+ * Consumers already handle empty rows (e.g. `?? emptyRollup()`).
+ */
+async function degradeToEmpty<T>(
+  query: Promise<{ rows: T[] }>,
+  markDegraded: () => void,
+): Promise<{ rows: T[] }> {
+  try {
+    return await query;
+  } catch (e) {
+    _logger.error("[userInsights] sub-query failed, degrading to empty rows:", e);
+    markDegraded();
+    return { rows: [] };
+  }
+}
+
 export async function getUserInsights(): Promise<UserInsightsPayload> {
   let live = true;
+  const markDegraded = (): void => {
+    live = false;
+  };
   const [
     rollupRes,
     trendRes,
@@ -140,9 +157,8 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
     sunSignsRes,
     medianRes,
     sessionsRes,
-  ] = (await Promise.all(
-    [
-    executeQuery<RollupRow>(
+  ] = await Promise.all([
+    degradeToEmpty(executeQuery<RollupRow>(
       `SELECT
          COUNT(*)::int AS total,
          COUNT(*) FILTER (WHERE COALESCE(u.is_agent, false) = false)::int AS humans,
@@ -165,16 +181,12 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
 
          COUNT(*) FILTER (WHERE up.onboarding_completed = true)::int AS onboarded,
          COUNT(*) FILTER (WHERE COALESCE(up.onboarding_completed, false) = false)::int AS pending_onboarding,
-         COUNT(*) FILTER (WHERE up.onboarding_completed_at >= NOW() - INTERVAL '7 days')::int AS onboarded_7d,
-
-         COUNT(*) FILTER (WHERE s.tier = 'premium' OR u.role = 'ADMIN')::int AS premium,
-         COUNT(*) FILTER (WHERE COALESCE(s.tier, 'free') = 'free' AND u.role <> 'ADMIN')::int AS free
+         COUNT(*) FILTER (WHERE up.onboarding_completed_at >= NOW() - INTERVAL '7 days')::int AS onboarded_7d
        FROM users u
-       LEFT JOIN user_profiles up ON up.user_id = u.id
-       LEFT JOIN user_subscriptions s ON s.user_id = u.id`,
-    ),
+       LEFT JOIN user_profiles up ON up.user_id = u.id`,
+    ), markDegraded),
 
-    executeQuery<{ day: string; count: number }>(
+    degradeToEmpty(executeQuery<{ day: string; count: number }>(
       // Bucket by New York calendar day (the app's domain timezone), not the DB
       // session zone — a 9pm-ET signup must count toward that ET day, and the JS
       // axis in fillSignupTrend() builds the same NY day keys.
@@ -186,9 +198,9 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
          AND COALESCE(u.is_agent, false) = false
        GROUP BY date_trunc('day', u.created_at AT TIME ZONE 'America/New_York')
        ORDER BY day ASC`,
-    ),
+    ), markDegraded),
 
-    executeQuery<CountRow<string>>(
+    degradeToEmpty(executeQuery<CountRow<string>>(
       `SELECT
          LOWER(COALESCE(up.dominant_element, up.natal_chart->>'dominantElement')) AS bucket,
          COUNT(*)::int AS count
@@ -197,9 +209,9 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
        WHERE COALESCE(u.is_agent, false) = false
          AND up.onboarding_completed = true
        GROUP BY LOWER(COALESCE(up.dominant_element, up.natal_chart->>'dominantElement'))`,
-    ),
+    ), markDegraded),
 
-    executeQuery<CountRow<string>>(
+    degradeToEmpty(executeQuery<CountRow<string>>(
       `SELECT
          LOWER(up.natal_chart->>'dominantModality') AS bucket,
          COUNT(*)::int AS count
@@ -208,9 +220,9 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
        WHERE COALESCE(u.is_agent, false) = false
          AND up.onboarding_completed = true
        GROUP BY LOWER(up.natal_chart->>'dominantModality')`,
-    ),
+    ), markDegraded),
 
-    executeQuery<CountRow<string>>(
+    degradeToEmpty(executeQuery<CountRow<string>>(
       `SELECT
          LOWER(up.natal_chart->'planetaryPositions'->'Sun'->>'sign') AS bucket,
          COUNT(*)::int AS count
@@ -220,9 +232,9 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
          AND up.onboarding_completed = true
          AND up.natal_chart->'planetaryPositions'->'Sun'->>'sign' IS NOT NULL
        GROUP BY LOWER(up.natal_chart->'planetaryPositions'->'Sun'->>'sign')`,
-    ),
+    ), markDegraded),
 
-    executeQuery<MedianRow>(
+    degradeToEmpty(executeQuery<MedianRow>(
       `SELECT
          PERCENTILE_CONT(0.5) WITHIN GROUP (
            ORDER BY EXTRACT(EPOCH FROM (up.onboarding_completed_at - u.created_at)) / 60.0
@@ -232,35 +244,14 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
        WHERE up.onboarding_completed = true
          AND up.onboarding_completed_at IS NOT NULL
          AND COALESCE(u.is_agent, false) = false`,
-    ),
+    ), markDegraded),
 
-    executeQuery<ActiveSessionsRow>(
+    degradeToEmpty(executeQuery<ActiveSessionsRow>(
       `SELECT COUNT(*)::int AS active_sessions
        FROM device_sessions
        WHERE revoked_at IS NULL`,
-    ),
-    ].map((p) =>
-      // Each sub-query degrades independently: a single failed aggregate returns
-      // empty rows (logged) instead of rejecting the whole insights payload.
-      // Consumers below already handle empty rows (e.g. `?? emptyRollup()`).
-      p.catch((e) => {
-        _logger.error(
-          "[userInsights] sub-query failed, degrading to empty rows:",
-          e,
-        );
-        live = false;
-        return { rows: [] as never[] };
-      }),
-    ),
-  )) as unknown as [
-    { rows: RollupRow[] },
-    { rows: Array<{ day: string; count: number }> },
-    { rows: Array<CountRow<string>> },
-    { rows: Array<CountRow<string>> },
-    { rows: Array<CountRow<string>> },
-    { rows: MedianRow[] },
-    { rows: ActiveSessionsRow[] },
-  ];
+    ), markDegraded),
+  ]);
 
   const rollup = rollupRes.rows[0] ?? emptyRollup();
   const activeSessions = sessionsRes.rows[0]?.active_sessions ?? 0;
@@ -328,8 +319,6 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
         : null,
     },
     tiers: {
-      free: rollup.free,
-      premium: rollup.premium,
       admin: rollup.admins,
       visitors: rollup.pending_onboarding,
       accountHolders: rollup.humans,
@@ -415,7 +404,5 @@ function emptyRollup(): RollupRow {
     onboarded: 0,
     pending_onboarding: 0,
     onboarded_7d: 0,
-    premium: 0,
-    free: 0,
   };
 }
