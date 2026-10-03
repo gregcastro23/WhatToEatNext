@@ -3,7 +3,7 @@
  * GET /api/admin/users/stats
  *
  * Aggregates from `users`, `auth_events`, and `device_sessions` to answer:
- *   - How many users do we have? (active, onboarded, premium)
+ *   - How many users do we have? (active, onboarded, admins)
  *   - How many sign-in attempts in the last 24h / 7d?
  *   - How many of those failed? Which event types?
  *   - How many sessions are live right now?
@@ -26,7 +26,7 @@ interface UserRollupRow {
   total: number;
   active: number;
   onboarded: number;
-  premium: number;
+  admins: number;
   agents: number;
   signups_24h: number;
   signups_7d: number;
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
          COUNT(*)::int AS total,
          COUNT(*) FILTER (WHERE u.is_active = true)::int AS active,
          COUNT(*) FILTER (WHERE up.onboarding_completed = true)::int AS onboarded,
-         COUNT(*) FILTER (WHERE COALESCE(s.tier, 'free') = 'premium' OR u.role = 'ADMIN')::int AS premium,
+         COUNT(*) FILTER (WHERE u.role = 'ADMIN')::int AS admins,
          COUNT(*) FILTER (WHERE u.is_agent = true)::int AS agents,
          COUNT(*) FILTER (WHERE u.created_at >= NOW() - INTERVAL '24 hours')::int AS signups_24h,
          COUNT(*) FILTER (WHERE u.created_at >= NOW() - INTERVAL '7 days')::int  AS signups_7d,
@@ -66,15 +66,14 @@ export async function GET(request: NextRequest) {
            SELECT COUNT(*)::int FROM device_sessions WHERE revoked_at IS NULL
          ) AS active_sessions
        FROM users u
-       LEFT JOIN user_profiles up ON up.user_id = u.id
-       LEFT JOIN user_subscriptions s ON s.user_id = u.id`,
+       LEFT JOIN user_profiles up ON up.user_id = u.id`,
     );
 
     const rollup = rollupResult.rows[0] ?? {
       total: 0,
       active: 0,
       onboarded: 0,
-      premium: 0,
+      admins: 0,
       agents: 0,
       signups_24h: 0,
       signups_7d: 0,
@@ -103,7 +102,7 @@ export async function GET(request: NextRequest) {
         total: rollup.total,
         active: rollup.active,
         onboarded: rollup.onboarded,
-        premium: rollup.premium,
+        admins: rollup.admins,
         agents: rollup.agents,
         signups: {
           last24h: rollup.signups_24h,

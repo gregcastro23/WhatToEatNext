@@ -47,6 +47,9 @@ function getMigrationSource(val: string): string {
       return "Migration 69 (database/init/69-notification-type-table-join-request.sql)";
     case "agent_broadcast":
       return "Migration 88 (database/init/88-notification-type-agent-broadcast.sql)";
+    case "transmutation_offer":
+    case "transmutation_accepted":
+      return "Migration 92 (database/init/92-notification-types-transmutation.sql)";
     default:
       return "Migration 13 (database/init/13-notifications-schema.sql)";
   }

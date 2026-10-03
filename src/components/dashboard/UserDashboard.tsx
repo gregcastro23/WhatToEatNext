@@ -13,7 +13,6 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useActiveTransits } from '@/hooks/useActiveTransits';
 import { useTransitGroupChat } from '@/hooks/useTransitGroupChat';
 import { reportQuestEvent } from '@/lib/questReporter';
-import type { UserTier } from '@/lib/tiers';
 import type { NatalChart } from '@/types/natalChart';
 import type { SavedRestaurant } from '@/types/restaurant';
 import { extractPlanetaryPositions } from '@/utils/astrology/chartDataUtils';
@@ -61,14 +60,9 @@ interface SessionLike {
   user?: { email?: string | null; name?: string | null } | null;
 }
 
-interface ProfileDataLike {
-  subscription?: { tier?: string } | null;
-  [key: string]: unknown;
-}
-
 interface UserDashboardProps {
   session: SessionLike | null;
-  profileData: ProfileDataLike | null;
+  isOperator: boolean;
   natalChart: NatalChart;
   preferences: UserPreferences;
   onEditBirthData: () => void;
@@ -419,7 +413,7 @@ type ViewMode = 'dashboard' | 'chart-detail' | 'recommendations' | 'companions' 
 
 export const UserDashboard: React.FC<UserDashboardProps> = ({
   session,
-  profileData,
+  isOperator,
   natalChart,
   preferences,
   onEditBirthData,
@@ -437,8 +431,6 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
 
   const email = session?.user?.email ?? '';
   const userName = session?.user?.name ?? 'User';
-
-  const tier: UserTier = (profileData?.subscription?.tier as UserTier | undefined) ?? 'free';
 
   const BackButton = (): React.ReactNode => (
     <motion.button
@@ -565,7 +557,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
               userName={userName}
               email={email}
               natalChart={natalChart}
-              tier={tier}
+              isOperator={isOperator}
               onEditProfile={onEditBirthData}
               onOpenSettings={() => setViewMode('settings')}
             />

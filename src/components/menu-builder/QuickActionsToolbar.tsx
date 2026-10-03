@@ -575,6 +575,9 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
   };
 
   const totalMeals = currentMenu?.meals.filter((m) => m.recipe).length ?? 0;
+  // Every slot the week has (breakfast, lunch, dinner and snack × 7 = 28), so
+  // the count and its total cover the same slots.
+  const totalSlots = currentMenu?.meals.length ?? 0;
 
   // Count active generation preferences (including nutritional targets)
   const nutTargets = generationPreferences.nutritionalTargets;
@@ -649,7 +652,7 @@ export default function QuickActionsToolbar({ onTogglePreferences }: QuickAction
             </span>
             {totalMeals > 0 && (
               <span className="text-xs text-on-surface-variant">
-                ({totalMeals}/21 meals planned)
+                ({totalMeals}/{totalSlots} meals planned)
               </span>
             )}
           </div>

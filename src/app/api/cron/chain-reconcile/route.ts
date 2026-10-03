@@ -21,6 +21,7 @@ import {
   healBurnedPurchases,
   settleStaleClaims,
 } from "@/services/chainReconcileService";
+import { notifyShopAudit } from "@/services/chainShopAlertService";
 import { recordCronRun } from "@/services/cronHeartbeatService";
 import type { NextRequest } from "next/server";
 
@@ -58,18 +59,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       alerts.push("chain-claims");
     }
 
-    if (shop.failures > 0) {
-      await dispatchAlert({
-        component: "chain-shop",
-        componentLabel: "Shop burn↔grant audit",
-        previous: "OK",
-        current: "DEGRADED",
-        severity: "warn",
-        title: `Shop burn audit hit ${shop.failures} error(s)`,
-        message: `Checked ${shop.pairsChecked} (user, item) pairs; healed ${shop.healed}; ${shop.failures} reads/grants failed.${shop.firstError ? ` First error: ${shop.firstError}` : ""}`,
-      });
-      alerts.push("chain-shop");
-    }
+    if (await notifyShopAudit(shop)) alerts.push("chain-shop");
 
     // Wallet-invariant violations persist to alert_events through
     // dispatchAlert: persistAlertEvent runs unconditionally (a cooldown only
@@ -105,14 +95,16 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       alerts.push("chain-nft");
     }
 
-    // Coverage goes on the heartbeat so /admin/jobs can show a run that
-    // "succeeded" while verifying only part of what it scanned.
+    // A completed cron with failed reads or grants did not complete its audit.
+    // Keep counts in the heartbeat so /admin/jobs shows the actual coverage.
+    const auditFailed = claims.failures + shop.failures + invariants.failures + nfts.failures > 0;
     await recordCronRun("chain-reconcile", {
-      status: "success",
+      status: auditFailed ? "failure" : "success",
       startedAt,
+      ...(auditFailed ? { error: shop.firstError ?? invariants.firstError ?? nfts.firstError ?? "Chain audit had failed reads or writes" } : {}),
       details: {
         claims,
-        shop: { pairsChecked: shop.pairsChecked, healed: shop.healed, failures: shop.failures },
+        shop,
         invariants: {
           walletsChecked: invariants.walletsChecked,
           walletsTotal: invariants.walletsTotal,

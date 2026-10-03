@@ -1,11 +1,11 @@
 import { _logger } from "@/lib/logger";
-import type {
-  DayOfWeek,
-  DailyNutritionTotals,
-  GroceryItem,
-  MealSlot,
-  WeeklyMenu,
-} from "@/types/menuPlanner";
+import type { GroceryItem, MealSlot, WeeklyMenu } from "@/types/menuPlanner";
+import {
+  INSERT_TEMPLATE_SQL,
+  SELECT_MENU_SQL,
+  SELECT_TEMPLATES_SQL,
+  UPSERT_MENU_SQL,
+} from "./menuPersistenceQueries";
 
 const isServerWithDB = (): boolean => typeof window === "undefined" && !!process.env.DATABASE_URL;
 
@@ -25,7 +25,6 @@ export interface PersistedWeeklyMenu {
   id: string;
   weekStartDate: Date;
   meals: MealSlot[];
-  nutritionalTotals: Record<DayOfWeek, DailyNutritionTotals>;
   groceryList: GroceryItem[];
   inventory: string[];
   weeklyBudget: number | null;
@@ -38,7 +37,6 @@ export interface PersistedWeeklyMenu {
 export interface UpsertMenuInput {
   weekStartDate: Date;
   meals: MealSlot[];
-  nutritionalTotals: Record<DayOfWeek, DailyNutritionTotals>;
   groceryList: GroceryItem[];
   inventory: string[];
   weeklyBudget: number | null;
@@ -48,7 +46,6 @@ interface WeeklyMenuRow {
   id: string;
   week_start_date: Date | string;
   meals: unknown;
-  nutritional_totals: unknown;
   grocery_list: unknown;
   inventory: unknown;
   weekly_budget: number | null;
@@ -75,10 +72,6 @@ function mapRowToPersistedMenu(row: WeeklyMenuRow): PersistedWeeklyMenu {
     id: row.id,
     weekStartDate: new Date(row.week_start_date),
     meals: parseJsonField<MealSlot[]>(row.meals, []),
-    nutritionalTotals: parseJsonField<Record<DayOfWeek, DailyNutritionTotals>>(
-      row.nutritional_totals,
-      {} as Record<DayOfWeek, DailyNutritionTotals>,
-    ),
     groceryList: parseJsonField<GroceryItem[]>(row.grocery_list, []),
     inventory: parseJsonField<string[]>(row.inventory, []),
     weeklyBudget: row.weekly_budget,
@@ -97,14 +90,10 @@ class MenuPersistenceService {
     const db = await getDbModule();
     if (!db) return null;
 
-    const result = await db.executeQuery<WeeklyMenuRow>(
-      `SELECT id, week_start_date, meals, nutritional_totals, grocery_list,
-              inventory, weekly_budget, is_template, template_name, created_at, updated_at
-       FROM weekly_menus
-       WHERE user_id = $1 AND week_start_date = $2 AND is_template = false
-       LIMIT 1`,
-      [userId, weekStartDate],
-    );
+    const result = await db.executeQuery<WeeklyMenuRow>(SELECT_MENU_SQL, [
+      userId,
+      weekStartDate,
+    ]);
 
     const [row] = result.rows;
     if (!row) return null;
@@ -120,41 +109,14 @@ class MenuPersistenceService {
       throw new Error("Database is not available");
     }
 
-    const result = await db.executeQuery<WeeklyMenuRow>(
-      `INSERT INTO weekly_menus (
-         user_id,
-         week_start_date,
-         meals,
-         nutritional_totals,
-         grocery_list,
-         inventory,
-         weekly_budget,
-         is_template,
-         template_name
-       )
-       VALUES ($1, $2, $3::jsonb, $4::jsonb, $5::jsonb, $6::jsonb, $7, false, NULL)
-       ON CONFLICT (user_id, week_start_date)
-       DO UPDATE SET
-         meals = EXCLUDED.meals,
-         nutritional_totals = EXCLUDED.nutritional_totals,
-         grocery_list = EXCLUDED.grocery_list,
-         inventory = EXCLUDED.inventory,
-         weekly_budget = EXCLUDED.weekly_budget,
-         is_template = false,
-         template_name = NULL,
-         updated_at = CURRENT_TIMESTAMP
-       RETURNING id, week_start_date, meals, nutritional_totals, grocery_list,
-                 inventory, weekly_budget, is_template, template_name, created_at, updated_at`,
-      [
-        userId,
-        menuData.weekStartDate,
-        JSON.stringify(menuData.meals),
-        JSON.stringify(menuData.nutritionalTotals),
-        JSON.stringify(menuData.groceryList),
-        JSON.stringify(menuData.inventory),
-        menuData.weeklyBudget,
-      ],
-    );
+    const result = await db.executeQuery<WeeklyMenuRow>(UPSERT_MENU_SQL, [
+      userId,
+      menuData.weekStartDate,
+      JSON.stringify(menuData.meals),
+      JSON.stringify(menuData.groceryList),
+      JSON.stringify(menuData.inventory),
+      menuData.weeklyBudget,
+    ]);
 
     const [row] = result.rows;
     if (!row) {
@@ -175,32 +137,15 @@ class MenuPersistenceService {
       throw new Error("Database is not available");
     }
 
-    const result = await db.executeQuery<WeeklyMenuRow>(
-      `INSERT INTO weekly_menus (
-         user_id,
-         week_start_date,
-         meals,
-         nutritional_totals,
-         grocery_list,
-         inventory,
-         weekly_budget,
-         is_template,
-         template_name
-       )
-       VALUES ($1, $2, $3::jsonb, $4::jsonb, $5::jsonb, $6::jsonb, $7, true, $8)
-       RETURNING id, week_start_date, meals, nutritional_totals, grocery_list,
-                 inventory, weekly_budget, is_template, template_name, created_at, updated_at`,
-      [
-        userId,
-        templateData.menu.weekStartDate,
-        JSON.stringify(templateData.menu.meals),
-        JSON.stringify(templateData.menu.nutritionalTotals),
-        JSON.stringify(templateData.menu.groceryList),
-        JSON.stringify(templateData.menu.inventory),
-        templateData.menu.weeklyBudget,
-        templateData.name,
-      ],
-    );
+    const result = await db.executeQuery<WeeklyMenuRow>(INSERT_TEMPLATE_SQL, [
+      userId,
+      templateData.menu.weekStartDate,
+      JSON.stringify(templateData.menu.meals),
+      JSON.stringify(templateData.menu.groceryList),
+      JSON.stringify(templateData.menu.inventory),
+      templateData.menu.weeklyBudget,
+      templateData.name,
+    ]);
 
     const [row] = result.rows;
     if (!row) {
@@ -213,14 +158,9 @@ class MenuPersistenceService {
     const db = await getDbModule();
     if (!db) return [];
 
-    const result = await db.executeQuery<WeeklyMenuRow>(
-      `SELECT id, week_start_date, meals, nutritional_totals, grocery_list,
-              inventory, weekly_budget, is_template, template_name, created_at, updated_at
-       FROM weekly_menus
-       WHERE user_id = $1 AND is_template = true
-       ORDER BY updated_at DESC`,
-      [userId],
-    );
+    const result = await db.executeQuery<WeeklyMenuRow>(SELECT_TEMPLATES_SQL, [
+      userId,
+    ]);
 
     return result.rows.map((row) => mapRowToPersistedMenu(row));
   }

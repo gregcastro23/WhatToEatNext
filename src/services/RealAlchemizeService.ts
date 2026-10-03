@@ -125,7 +125,8 @@ export interface StandardizedAlchemicalResult {
     dominantElement: string;
     dominantModality: string;
     sunSign: string;
-    chartRuler: string;
+    /** Element of the Sun's sign; omitted when there is no Sun or its sign is unrecognised */
+    chartRuler?: string;
     isDiurnal: boolean;
   };
   /**
@@ -183,8 +184,11 @@ function normalizeSign(sign: string): ZodiacSign {
   }
   throw new Error(`Invalid zodiac sign: ${sign}`);
 }
-function getZodiacElement(sign: string): string {
-  const elementMap: Record<string, string> = {
+/**
+ * The sign's element, or undefined for an unrecognised sign — it has no element
+ */
+function getZodiacElement(sign: string): string | undefined {
+  const elementMap: Partial<Record<string, string>> = {
     aries: "Fire",
     taurus: "Earth",
     gemini: "Air",
@@ -198,7 +202,18 @@ function getZodiacElement(sign: string): string {
     aquarius: "Air",
     pisces: "Water",
   };
-  return elementMap[sign.toLowerCase()] || "Air";
+  return elementMap[sign.toLowerCase()];
+}
+/**
+ * `chartRuler` for result metadata: the element of the Sun's sign, or nothing
+ * when there is no Sun or its sign is unrecognised.
+ */
+function chartRulerOf(
+  sunPos: PlanetaryPosition | undefined,
+): { chartRuler?: string } {
+  const chartRuler =
+    sunPos === undefined ? undefined : getZodiacElement(sunPos.sign);
+  return chartRuler === undefined ? {} : { chartRuler };
 }
 /**
  * Core alchemize function that calculates alchemical properties from planetary positions
@@ -284,7 +299,7 @@ export function alchemize(
     // Sectarian element: the planet's own elemental nature under the current sect.
     const sectElement = getPlanetarySectElement(canonicalPlanet, diurnal);
     // Apply both weights (total weight per planet remains 1.0)
-    const addElement = (el: string, weight: number): void => {
+    const addElement = (el: string | undefined, weight: number): void => {
       if (el === "Fire") totals.Fire += weight;
       else if (el === "Water") totals.Water += weight;
       else if (el === "Air") totals.Air += weight;
@@ -424,7 +439,7 @@ export function alchemize(
       dominantElement,
       dominantModality: computeDominantModality(planetaryPositions),
       sunSign: sunPos?.sign ?? "",
-      chartRuler: getZodiacElement(sunPos?.sign ?? "aries"),
+      ...chartRulerOf(sunPos),
       isDiurnal: diurnal,
     },
     ...(degraded ? { degraded } : {}),
@@ -436,13 +451,14 @@ export function alchemize(
  *                (sect × inertial Λ × dignityMultiplier).
  * - `elements` : Fire/Water/Earth/Air contributed (sign-element × 0.6 + sect-element × 0.4).
  * - `signElement` / `sectElement` : the two elemental sources that blended.
+ *   `signElement` is null for an unrecognised sign, which adds no sign weight.
  * - `alchmWeight` / `dignityMultiplier` : the scalars applied this moment.
  */
 export interface PerPlanetBreakdown {
   esms: { Spirit: number; Essence: number; Matter: number; Substance: number };
   elements: { Fire: number; Water: number; Earth: number; Air: number };
   sign: string;
-  signElement: string;
+  signElement: string | null;
   sectElement: string;
   alchmWeight: number;
   dignityMultiplier: number;
@@ -517,7 +533,7 @@ export function alchemizeDetailed(
     const signElement = getZodiacElement(position.sign);
     const sectElement = getPlanetarySectElement(canonicalPlanet, diurnal);
     const planetElements = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    const addElement = (el: string, weight: number): void => {
+    const addElement = (el: string | undefined, weight: number): void => {
       if (el === "Fire") {
         totals.Fire += weight;
         planetElements.Fire += weight;
@@ -553,7 +569,7 @@ export function alchemizeDetailed(
       esms: contribution.esms,
       elements: planetElements,
       sign: String(position.sign).toLowerCase(),
-      signElement,
+      signElement: signElement ?? null,
       sectElement,
       alchmWeight: contribution.alchmWeight,
       dignityMultiplier: contribution.dignityMultiplier,
@@ -634,7 +650,7 @@ export function alchemizeDetailed(
       dominantElement,
       dominantModality: computeDominantModality(planetaryPositions),
       sunSign: sunPos?.sign ?? "",
-      chartRuler: getZodiacElement(sunPos?.sign ?? "aries"),
+      ...chartRulerOf(sunPos),
       isDiurnal: diurnal,
     },
     perPlanet,

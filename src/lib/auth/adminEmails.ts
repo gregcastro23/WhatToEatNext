@@ -19,3 +19,20 @@ export function isAdminEmail(email: string | null | undefined): boolean {
   const normalized = email.trim().toLowerCase();
   return ADMIN_EMAILS.some((e) => e.trim().toLowerCase() === normalized);
 }
+
+/** The two fields an operator check reads from a stored user. */
+export interface OperatorCandidate {
+  readonly roles: readonly string[];
+  readonly email: string | null | undefined;
+}
+
+/**
+ * An operator holds the admin role AND an allowlisted email, the same pair
+ * `validateAdminRequest` demands. Operators are the only accounts exempt from
+ * per-generation ESMS charges: the subscription tier is retired and exempts no
+ * one (owner ruling 2026-09-28).
+ */
+export function isOperatorAccount(user: OperatorCandidate | null | undefined): boolean {
+  if (!user) return false;
+  return user.roles.includes("admin") && isAdminEmail(user.email);
+}

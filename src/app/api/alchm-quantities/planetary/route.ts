@@ -8,6 +8,7 @@ import {
   ZODIAC_ELEMENTS,
   getPlanetarySectElement,
   getZodiacQuality,
+  type ZodiacSignType,
 } from "@/utils/planetaryAlchemyMapping";
 import { calculateNextSignTransition } from "@/utils/planetaryTransitions";
 import {
@@ -30,8 +31,8 @@ interface PlanetaryData {
     Matter: number;
     Substance: number;
   };
-  /** Element derived from the zodiac sign the planet occupies */
-  signElement: string;
+  /** Element derived from the zodiac sign the planet occupies; null for an unrecognised sign */
+  signElement: string | null;
   /** Element the planet expresses under the current sect (day/night) */
   sectElement: string;
   /** Quality (modality) of the sign the planet currently occupies */
@@ -45,6 +46,11 @@ interface PlanetaryData {
 }
 
 const RATE_LIMIT = { window: 60_000, max: 30, bucket: "alchm-quantities-planetary" };
+
+/** Whether `sign` is a Capitalised key of ZODIAC_ELEMENTS */
+function isZodiacSign(sign: string): sign is ZodiacSignType {
+  return Object.hasOwn(ZODIAC_ELEMENTS, sign);
+}
 
 export async function GET(request: Request) {
   const rl = await rateLimit(request, RATE_LIMIT);
@@ -106,11 +112,13 @@ export async function GET(request: Request) {
         continue;
       }
 
-      // Sign element: the element of the zodiac sign the planet currently occupies
+      // Sign element: the element of the zodiac sign the planet currently
+      // occupies. An unrecognised sign has no element.
       const signStr = String(position.sign);
       const capitalised = signStr.charAt(0).toUpperCase() + signStr.slice(1).toLowerCase();
-      const signElement =
-        ZODIAC_ELEMENTS[capitalised as keyof typeof ZODIAC_ELEMENTS] ?? "Air";
+      const signElement = isZodiacSign(capitalised)
+        ? ZODIAC_ELEMENTS[capitalised]
+        : null;
 
       // Sectarian element: what this planet expresses under the current sect
       const sectElement = getPlanetarySectElement(planetName, diurnal);

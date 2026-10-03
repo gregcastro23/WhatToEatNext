@@ -945,7 +945,7 @@ export function LivingEconomyPanel({ data }: { data?: { affiliateClicksWeek: num
 }
 
 export function CommercePanel({ commerceSummary }: { commerceSummary?: CommerceSummaryData }): React.ReactElement {
-  const summary = commerceSummary ?? { mrr: 0, paidSubs: 0, provisionedSubs: 0, recentOrders: [], live: false };
+  const summary = commerceSummary ?? { mrr: 0, paidSubs: 0, recentOrders: [], live: false };
   const { live } = summary;
 
   const stateColor: Record<string, string> = {
@@ -962,7 +962,7 @@ export function CommercePanel({ commerceSummary }: { commerceSummary?: CommerceS
       title="Commerce & Conversion"
       subtitle={
         live
-          ? `${summary.paidSubs} paying · $${summary.mrr.toLocaleString()} MRR${summary.provisionedSubs > 0 ? ` · ${summary.provisionedSubs} provisioned` : ""}`
+          ? `${summary.paidSubs} paying · $${summary.mrr.toLocaleString()} MRR`
           : "billing telemetry offline"
       }
       right={

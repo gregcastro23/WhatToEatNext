@@ -1,6 +1,7 @@
 // src/data/cuisines/african.ts
 import type { /* _ , */} from "@/types/alchemy";
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const african: Cuisine = {
   name: "African",
@@ -5616,10 +5617,5 @@ export const african: Cuisine = {
       seasonality: "all",
     },
   },
-  elementalProperties: {
-    Earth: 0.4,
-    Fire: 0.3,
-    Water: 0.2,
-    Air: 0.1,
-  },
+  elementalProperties: derivedProfiles.cuisines.African.elementalProperties,
 };

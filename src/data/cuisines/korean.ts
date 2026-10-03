@@ -1,5 +1,6 @@
 // src/data/cuisines/korean.ts
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const korean: Cuisine = {
   id: "korean",
@@ -2613,12 +2614,7 @@ export const korean: Cuisine = {
       seasonality: "island seasonal cycle",
     },
   },
-  elementalProperties: {
-    Fire: 0.3, // Represents spicy elements and grilling
-    Earth: 0.3, // Represents fermented foods and root vegetables,
-    Water: 0.2, // Represents soups and stews
-    Air: 0.2, // Represents light broths and garnishes
-  },
+  elementalProperties: derivedProfiles.cuisines.Korean.elementalProperties,
 };
 
 export default korean;

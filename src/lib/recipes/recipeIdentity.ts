@@ -11,7 +11,8 @@
  *
  * Both are bridged to the live catalog by normalized recipe name, with cuisine
  * as the tie-break when names collide. A static recipe with no unique live
- * twin resolves to itself ("static-only") so its page can still render.
+ * twin, or whose twin an earlier static recipe of the same exact name has,
+ * resolves to itself ("static-only") so its page can still render.
  *
  * Pure: no I/O. The loader lives in `./recipeRefResolver`.
  */
@@ -140,6 +141,37 @@ function findLiveTwin(record: RecipeIdentityRecord, maps: LiveNameMaps): TwinPic
   return pickTwin(record, maps.folded.get(normalizeRecipeName(record.name)) ?? []);
 }
 
+interface StaticResolution {
+  resolution: RecipeRefResolution;
+  ambiguous: boolean;
+  /** An earlier static recipe of this exact name already has its live twin. */
+  nameTaken: boolean;
+}
+
+/**
+ * The loader keeps one recipe per name, so two served recipes whose exact name
+ * keys match differ only in punctuation (HSCA's TOFU "SOUR CREAM" and TOFU SOUR
+ * CREAM) and are different dishes: the live twin they both name is the first's,
+ * as with a duplicate static id, and the later one resolves to itself. Spellings
+ * that meet only once accents are folded ("Chè Ba Màu", "Che Ba Mau") are one
+ * dish and still share the twin.
+ */
+function resolveStatic(
+  record: RecipeIdentityRecord,
+  liveByName: LiveNameMaps,
+  claimants: Map<string, string>,
+): StaticResolution {
+  const twin = findLiveTwin(record, liveByName);
+  const self: RecipeRefResolution = { kind: "static-only", staticId: record.id };
+  if (twin === null || twin === "ambiguous") {
+    return { resolution: self, ambiguous: twin === "ambiguous", nameTaken: false };
+  }
+  const name = exactNameKey(record.name);
+  if (claimants.get(twin.id) === name) return { resolution: self, ambiguous: false, nameTaken: true };
+  if (!claimants.has(twin.id)) claimants.set(twin.id, name);
+  return { resolution: { kind: "twin", staticId: record.id, liveId: twin.id }, ambiguous: false, nameTaken: false };
+}
+
 interface AliasCandidate {
   alias: string;
   resolution: RecipeRefResolution;
@@ -191,20 +223,20 @@ export function buildRecipeIdentityIndex(
   const byRef = new Map<string, RecipeRefResolution>();
   const aliasCandidates: AliasCandidate[] = [];
   const staticOnlyIds: string[] = [];
+  const claimants = new Map<string, string>(); // live id → exact name of its first static twin
   let twins = 0;
   let ambiguous = 0;
 
   for (const record of staticRecipes) {
     if (byRef.has(record.id)) continue; // duplicate static id: first wins
-    const twin = findLiveTwin(record, liveByName);
-    if (twin === "ambiguous") ambiguous += 1;
-    const resolution: RecipeRefResolution =
-      twin !== null && twin !== "ambiguous"
-        ? { kind: "twin", staticId: record.id, liveId: twin.id }
-        : { kind: "static-only", staticId: record.id };
+    const resolved = resolveStatic(record, liveByName, claimants);
+    const { resolution } = resolved;
+    if (resolved.ambiguous) ambiguous += 1;
     if (resolution.kind === "twin") twins += 1;
     else staticOnlyIds.push(record.id);
     byRef.set(record.id, resolution);
+    // Its index alias is the same name's, and goes with the twin to the first.
+    if (resolved.nameTaken) continue;
     for (const alias of indexRecipeIdAliases(record.cuisine ?? "", record.name)) {
       aliasCandidates.push({ alias, resolution });
     }

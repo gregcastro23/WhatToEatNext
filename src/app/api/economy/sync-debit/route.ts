@@ -1,6 +1,10 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery, withTransaction } from "@/lib/database";
+import type {
+  AutoSwapExecution,
+  AutoSwapRefusal,
+} from "@/lib/economy/swappingBridge";
 import { safeEqual } from "@/lib/hooks/secureCompare";
 import { withObservability } from "@/lib/observability/withObservability";
 import { SyncDebitRequestSchema } from "@/lib/validation/apiSchemas";
@@ -22,12 +26,17 @@ export const runtime = "nodejs";
  *
  * Auth: X-Sync-Secret header matched against ALCHM_KITCHEN_SYNC_SECRET env var.
  *
+ * Swapping Bridge: when the basket is short on some axis but the agent's
+ * TOTAL value covers it, the surplus coins are swapped into the short ones at
+ * live EEI parity (no spread) inside the same transaction as the debit, under
+ * the same transaction group. Opt out per call with `autoSwap: false`.
+ *
  * Responses:
- *   200 { ok: true, transactionGroupId, balances }
+ *   200 { ok: true, transactionGroupId, balances, autoSwap: {legs, prices, …} | null }
  *   401 { error: "Unauthorized" }
  *   400 { ok: false, reason: "invalid_request", message }
  *   404 { ok: false, reason: "user_not_found" }
- *   402 { ok: false, reason: "insufficient_funds", balances }
+ *   402 { ok: false, reason: "insufficient_funds", balances, autoSwap?: {reason, shortfallValue, deficits} }
  *   409 { ok: false, reason: "already_applied" }
  *   500 { ok: false, reason: "internal_error", message }
  */
@@ -79,7 +88,16 @@ async function handlePost(req: NextRequest) {
     );
   }
 
-  const { userEmail, amounts, idempotencyKey, operationType, source, metadata } = parseResult.data;
+  const {
+    userEmail,
+    amounts,
+    idempotencyKey,
+    operationType,
+    source,
+    metadata,
+    autoSwap: autoSwapRequested,
+  } = parseResult.data;
+  const autoSwapEnabled = autoSwapRequested ?? true;
 
   // Parse and validate amounts — pass as strings so pg sends text, avoiding
   // 'operator is not unique' on DECIMAL columns
@@ -370,7 +388,9 @@ async function handlePost(req: NextRequest) {
         return { kind: "already_applied" as const };
       }
 
-      // 3. Ensure balance row, read current balances
+      // 3. Ensure balance row, read current balances — and HOLD the row. The
+      //    Swapping Bridge below plans its legs from these numbers, so no
+      //    concurrent debit may land between this read and its writes.
       await executeQuery(
         `INSERT INTO token_balances (user_id) VALUES ($1) ON CONFLICT (user_id) DO NOTHING`,
         [userId],
@@ -379,7 +399,7 @@ async function handlePost(req: NextRequest) {
       const balRow = await executeQuery<{
         spirit: string; essence: string; matter: string; substance: string;
       }>(
-        `SELECT spirit::text, essence::text, matter::text, substance::text FROM token_balances WHERE user_id = $1`,
+        `SELECT spirit::text, essence::text, matter::text, substance::text FROM token_balances WHERE user_id = $1 FOR UPDATE`,
         [userId],
         { client },
       );
@@ -388,18 +408,64 @@ async function handlePost(req: NextRequest) {
       const curEssence = parseFloat(bal.essence) || 0;
       const curMatter = parseFloat(bal.matter) || 0;
       const curSubstance = parseFloat(bal.substance) || 0;
+      const current = { spirit: curSpirit, essence: curEssence, matter: curMatter, substance: curSubstance };
+
+      // One group for the whole charge: any swap legs AND the debit rows.
+      const groupId = randomUUID();
+      let swapExecution: AutoSwapExecution | null = null;
 
       if (curSpirit < spirit || curEssence < essence || curMatter < matter || curSubstance < substance) {
-        return {
-          kind: "insufficient_funds" as const,
-          balances: { spirit: curSpirit, essence: curEssence, matter: curMatter, substance: curSubstance },
-        };
+        if (!autoSwapEnabled) {
+          return { kind: "insufficient_funds" as const, balances: current };
+        }
+
+        // 3b. Swapping Bridge. Loaded only for a short basket — the oracle pulls
+        //     in the ephemeris engine. The quote is one memoized sky sample per
+        //     oracle minute, so the row lock is held for at most one sample.
+        const bridge = await import("@/lib/economy/swappingBridge");
+        let quote: ReturnType<typeof bridge.getLiveSwapQuote>;
+        try {
+          quote = bridge.getLiveSwapQuote();
+          bridge.assertUsablePrices(quote.prices);
+        } catch (oracleError) {
+          // Never swap at a guessed rate: an unpriceable sky leaves the basket
+          // exactly as short as it was before the bridge existed.
+          logger.warn("[sync-debit] auto-swap skipped — oracle unavailable", { userId, error: oracleError });
+          const refusal: AutoSwapRefusal = { reason: "rates_unavailable", shortfallValue: null, deficits: null };
+          return { kind: "insufficient_funds" as const, balances: current, autoSwap: refusal };
+        }
+
+        // Plan against exactly what step 4 debits: the 4dp amounts.
+        const plan = bridge.planAutoSwap({
+          costs: {
+            spirit: Number(sSpirit),
+            essence: Number(sEssence),
+            matter: Number(sMatter),
+            substance: Number(sSubstance),
+          },
+          balances: current,
+          prices: quote.prices,
+        });
+        if (!plan.canCover) {
+          return {
+            kind: "insufficient_funds" as const,
+            balances: current,
+            autoSwap: bridge.describeRefusal(plan),
+          };
+        }
+
+        // Legs are written on THIS transaction's client: they commit with the
+        // debit below or roll back with it. A leg that moves nothing throws.
+        await bridge.executeSwapPlan(
+          (sql, values) => executeQuery(sql, values, { client }),
+          { userId, plan, transactionGroupId: groupId, idempotencyKey, purpose: description },
+        );
+        swapExecution = bridge.describeExecution(plan, quote);
       }
 
       // 4. Atomic debit — UPDATE using text-cast params to avoid operator ambiguity.
       //    The amounts are passed as fixed-point strings (e.g. "2.0000"), which
       //    Postgres coerces to DECIMAL without ambiguity.
-      const groupId = randomUUID();
       const updateRes = await executeQuery<{ spirit: string; essence: string; matter: string; substance: string }>(
         `UPDATE token_balances
        SET spirit    = spirit    - $2::decimal,
@@ -418,6 +484,12 @@ async function handlePost(req: NextRequest) {
       );
 
       if (updateRes.rows.length === 0) {
+        if (swapExecution) {
+          // Returning would COMMIT the swaps without the charge they funded.
+          // The row is locked and the plan covered it, so this is a bug, not a
+          // race — throw so the whole transaction, swaps included, rolls back.
+          throw new Error("sync-debit: debit refused after auto-swap; rolling the swaps back");
+        }
         // Race condition lost — re-read and return 402
         const cur2 = await executeQuery<{ spirit: string; essence: string; matter: string; substance: string }>(
           `SELECT spirit::text, essence::text, matter::text, substance::text FROM token_balances WHERE user_id = $1`,
@@ -473,6 +545,7 @@ async function handlePost(req: NextRequest) {
       return {
         kind: "ok" as const,
         groupId,
+        autoSwap: swapExecution,
         balances: {
           spirit: parseFloat(final.spirit) || 0,
           essence: parseFloat(final.essence) || 0,
@@ -492,7 +565,13 @@ async function handlePost(req: NextRequest) {
     }
     if (outcome.kind === "insufficient_funds") {
       return NextResponse.json(
-        { ok: false, reason: "insufficient_funds", userId, balances: outcome.balances },
+        {
+          ok: false,
+          reason: "insufficient_funds",
+          userId,
+          balances: outcome.balances,
+          ...("autoSwap" in outcome && outcome.autoSwap ? { autoSwap: outcome.autoSwap } : {}),
+        },
         { status: 402 },
       );
     }
@@ -502,6 +581,7 @@ async function handlePost(req: NextRequest) {
       userId,
       transactionGroupId: outcome.groupId,
       balances: outcome.balances,
+      autoSwap: outcome.autoSwap,
     });
   } catch (error) {
     // Unique-violation on idempotency_key (race condition) → 409

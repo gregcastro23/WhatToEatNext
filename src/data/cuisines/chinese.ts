@@ -1,4 +1,6 @@
 // src/data/cuisines/chinese.ts
+import derivedProfiles from "./derivedProfiles.json";
+
 export const chinese = {
   name: "Chinese",
   description:
@@ -5640,12 +5642,7 @@ export const chinese = {
       seasonality: "all",
     },
   },
-  elementalProperties: {
-    Earth: 0.3,
-    Fire: 0.3,
-    Water: 0.3,
-    Air: 0.1,
-  },
+  elementalProperties: derivedProfiles.cuisines.Chinese.elementalProperties,
 };
 
 export default chinese;

@@ -1,6 +1,7 @@
 import type { Cuisine } from "@/types/cuisine";
 import { createLogger } from "@/utils/logger";
 import { standardizeRecipe } from "@/utils/recipe/recipeStandardization";
+import derivedProfiles from "./derivedProfiles.json";
 import cuisineImagesRaw from "./images.json";
 
 const logger = createLogger("data:cuisines");
@@ -37,95 +38,96 @@ const getCuisineImage = (key: string): { imageUrl: string } | Record<string, nev
 };
 
 // Metadata is kept synchronous to avoid placeholders and allow immediate UI render
-// These are extracted from the 2.8MB static files
+// These are extracted from the 2.8MB static files; elementalProperties are
+// COMPUTED from each cuisine's dishes (derivedProfiles.json, see deriveProfile.ts)
 export const CUISINES_METADATA: Record<string, Partial<Cuisine>> = {
   African: {
     name: "African",
-    elementalProperties: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 },
+    elementalProperties: derivedProfiles.cuisines.African.elementalProperties,
     description: "Rich and diverse culinary traditions from across the African continent.",
     ...getCuisineImage("African"),
   },
   American: {
     name: "American",
-    elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
+    elementalProperties: derivedProfiles.cuisines.American.elementalProperties,
     description: "Diverse culinary influences reflecting the melting pot of American culture.",
     ...getCuisineImage("American"),
   },
   Chinese: {
     name: "Chinese",
-    elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.3, Air: 0.1 },
+    elementalProperties: derivedProfiles.cuisines.Chinese.elementalProperties,
     description: "Ancient culinary traditions with a focus on balance and wok hei.",
     ...getCuisineImage("Chinese"),
   },
   French: {
     name: "French",
-    elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
+    elementalProperties: derivedProfiles.cuisines.French.elementalProperties,
     description: "Classical techniques and a focus on high-quality ingredients and sauces.",
     ...getCuisineImage("French"),
   },
   Greek: {
     name: "Greek",
-    elementalProperties: { Fire: 0.2, Earth: 0.3, Water: 0.3, Air: 0.2 },
+    elementalProperties: derivedProfiles.cuisines.Greek.elementalProperties,
     description: "Mediterranean flavors with fresh herbs, olive oil, and seafood.",
     ...getCuisineImage("Greek"),
   },
   Indian: {
     name: "Indian",
-    elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
+    elementalProperties: derivedProfiles.cuisines.Indian.elementalProperties,
     description: "Complex spice blends and traditional cooking methods like the tandoor.",
     ...getCuisineImage("Indian"),
   },
   Italian: {
     name: "Italian",
-    elementalProperties: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 },
+    elementalProperties: derivedProfiles.cuisines.Italian.elementalProperties,
     description: "Regional specialties with a focus on fresh pasta, tomatoes, and olive oil.",
     ...getCuisineImage("Italian"),
   },
   Japanese: {
     name: "Japanese",
-    elementalProperties: { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 },
+    elementalProperties: derivedProfiles.cuisines.Japanese.elementalProperties,
     description: "Precision and seasonality with a focus on umami and fresh seafood.",
     ...getCuisineImage("Japanese"),
   },
   Korean: {
     name: "Korean",
-    elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.2, Air: 0.2 },
+    elementalProperties: derivedProfiles.cuisines.Korean.elementalProperties,
     description: "Bold flavors from fermentation and grilling.",
     ...getCuisineImage("Korean"),
   },
   Mexican: {
     name: "Mexican",
-    elementalProperties: { Fire: 0.5, Earth: 0.3, Water: 0.1, Air: 0.1 },
+    elementalProperties: derivedProfiles.cuisines.Mexican.elementalProperties,
     description: "Vibrant flavors with a focus on chilies, corn, and traditional salsas.",
     ...getCuisineImage("Mexican"),
   },
   MiddleEastern: {
     name: "Middle Eastern",
-    elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.2, Air: 0.2 },
+    elementalProperties: derivedProfiles.cuisines.MiddleEastern.elementalProperties,
     description: "Aromatic spices, grains, and grilled meats with fresh vegetable salads.",
     ...getCuisineImage("MiddleEastern"),
   },
   Russian: {
     name: "Russian",
-    elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
+    elementalProperties: derivedProfiles.cuisines.Russian.elementalProperties,
     description: "Hearty soups, grains, and preserved foods suitable for cold climates.",
     ...getCuisineImage("Russian"),
   },
   Thai: {
     name: "Thai",
-    elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
+    elementalProperties: derivedProfiles.cuisines.Thai.elementalProperties,
     description: "Perfect balance of sour, sweet, salty, and spicy flavors.",
     ...getCuisineImage("Thai"),
   },
   Vietnamese: {
     name: "Vietnamese",
-    elementalProperties: { Water: 0.4, Fire: 0.2, Earth: 0.2, Air: 0.2 },
+    elementalProperties: derivedProfiles.cuisines.Vietnamese.elementalProperties,
     description: "Fresh, light flavors with an emphasis on herbs and clear broths.",
     ...getCuisineImage("Vietnamese"),
   },
   Fusion: {
     name: "Fusion",
-    elementalProperties: { Fire: 0.35, Earth: 0.35, Water: 0.2, Air: 0.1 },
+    elementalProperties: derivedProfiles.cuisines.Fusion.elementalProperties,
     description: "Innovative culinary intersections bridging traditions across cultures through elemental harmony.",
     ...getCuisineImage("Fusion"),
   },
@@ -228,6 +230,12 @@ export async function getCuisineData(key: string): Promise<Cuisine | null> {
 
 // Map of primary cuisine keys
 export const PRIMARY_CUISINE_KEYS = Object.keys(cuisineImports);
+
+/** A cuisine file's data as authored, before processing (for generators and drift tests) */
+export async function loadRawCuisine(key: string): Promise<unknown> {
+  const loader = cuisineImports[key];
+  return loader ? loader() : undefined;
+}
 
 // Legacy exports - these now return METADATA by default to avoid the 2.8MB bundle.
 // If dishes are needed, use getCuisineData() instead.

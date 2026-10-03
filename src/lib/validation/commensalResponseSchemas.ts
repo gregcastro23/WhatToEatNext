@@ -189,3 +189,32 @@ export const LinkedCommensalsResponseSchema = z
 export type LinkedCommensalsResponse = z.infer<
   typeof LinkedCommensalsResponseSchema
 >;
+
+export const CommensalsListResponseSchema = z
+  .object({
+    manualCompanions: z
+      .array(
+        z
+          .object({
+            id: z.string(),
+            name: z.string(),
+          })
+          .passthrough(),
+      )
+      .optional(),
+    linkedCommensals: z
+      .array(
+        z
+          .object({
+            userId: z.string(),
+            name: z.string(),
+          })
+          .passthrough(),
+      )
+      .optional(),
+  })
+  .passthrough();
+
+export type CommensalsListResponse = z.infer<
+  typeof CommensalsListResponseSchema
+>;

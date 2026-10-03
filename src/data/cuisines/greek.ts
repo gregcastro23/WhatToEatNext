@@ -1,5 +1,6 @@
 // src/data/cuisines/greek.ts
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const greek: Cuisine = {
   id: "greek",
@@ -5486,12 +5487,7 @@ export const greek: Cuisine = {
       seasonality: "all",
     },
   },
-  elementalProperties: {
-    Earth: 0.4,
-    Water: 0.3,
-    Fire: 0.2,
-    Air: 0.1,
-  },
+  elementalProperties: derivedProfiles.cuisines.Greek.elementalProperties,
 };
 
 export default greek;

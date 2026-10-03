@@ -1,10 +1,10 @@
 {
   "name": "French",
   "elementalProperties": {
-    "Fire": 0.2,
-    "Water": 0.3,
-    "Earth": 0.3,
-    "Air": 0.2
+    "Fire": 0.1864,
+    "Water": 0.3171,
+    "Earth": 0.3321,
+    "Air": 0.1643
   },
   "description": "Classical techniques and a focus on high-quality ingredients and sauces.",
   "id": "french",
@@ -46,5 +46,9 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": []
+  "astrologicalInfluences": [],
+  "elementalProfileBasis": {
+    "method": "recipe-mean",
+    "recipes": 35
+  }
 }

@@ -13,6 +13,7 @@ import type {
   WeeklyNutritionResult,
 } from "@/types/nutrition";
 import { createEmptyNutritionalSummary } from "@/types/nutrition";
+import { coverageOf, sumCoverage } from "@/utils/menuPlanner/nutritionCoverage";
 
 /**
  * Key macronutrient fields for quick iteration
@@ -92,57 +93,85 @@ export function nutrientComplianceScore(
 }
 
 /**
- * Calculate overall compliance across all tracked nutrients
+ * The nutrients compliance is scored over (owner ruling 2026-09-27, option b):
+ * the five the recipe catalog publishes for every recipe, and the food diary's set.
+ *
+ * [MEASURED 2026-09-27, 1,084 static recipes] Compliance used to average 26
+ * nutrients and score each absent one as a deficit.
+ * - 18 micronutrients: no authored recipe carries them as numbers. Computed
+ *   recipes carry partial sums in Daily Value fractions, not the mg/µg of the
+ *   targets.
+ * - Sugar, sodium, saturated fat and cholesterol are upper limits that were
+ *   scored as targets. They are mostly partial sums, and cholesterol is never
+ *   published.
+ * A 1,311 kcal day (Manakish Za'atar + Authentic Kofta Kebab) read 24.6%;
+ * over these five it reads 69.7%.
  */
+export const COMPLIANCE_NUTRIENTS: ReadonlyArray<keyof NutritionalSummary> = [
+  "calories",
+  "protein",
+  "carbs",
+  "fat",
+  "fiber",
+];
+
+/** Human-readable basis for a compliance figure: "Calories, Protein, …". */
+export function describeComplianceBasis(
+  basis: ReadonlyArray<keyof NutritionalSummary> = COMPLIANCE_NUTRIENTS,
+): string {
+  return basis.map((key) => formatNutrientName(key)).join(", ");
+}
+
+/** Per-nutrient compliance over `COMPLIANCE_NUTRIENTS` that have a target. */
+export function scoreByNutrient(
+  actual: NutritionalSummary,
+  target: NutritionalSummary,
+): Record<string, number> {
+  const scores: Record<string, number> = {};
+  for (const key of COMPLIANCE_NUTRIENTS) {
+    const a = actual[key];
+    const t = target[key];
+    if (typeof a === "number" && typeof t === "number" && t > 0) {
+      scores[key] = nutrientComplianceScore(a, t);
+    }
+  }
+  return scores;
+}
+
+/** Overall compliance: the mean of `scoreByNutrient`. */
 export function calculateOverallCompliance(
   actual: NutritionalSummary,
   target: NutritionalSummary,
 ): number {
-  let totalScore = 0;
-  let count = 0;
-  for (const key of ALL_NUTRIENT_KEYS) {
-    const a = actual[key];
-    const t = target[key];
-    if (typeof a === "number" && typeof t === "number" && t > 0) {
-      totalScore += nutrientComplianceScore(a, t);
-      count++;
-    }
-  }
-  return count > 0 ? totalScore / count : 0;
+  const scores = Object.values(scoreByNutrient(actual, target));
+  return scores.length > 0
+    ? scores.reduce((sum, score) => sum + score, 0) / scores.length
+    : 0;
 }
 
 /**
- * Build a DailyNutritionResult from meal nutrition data
+ * Build a DailyNutritionResult from meal nutrition data. `totals` sums only
+ * the meals with nutrition; `coverage` says how many that is.
  */
 export function buildDailyResult(
   date: Date,
-  meals: Array<{
-    recipeName: string;
-    mealType: "breakfast" | "lunch" | "dinner" | "snack";
-    nutrition: NutritionalSummary;
-  }>,
+  meals: DailyNutritionResult["meals"],
   goals: NutritionalSummary,
 ): DailyNutritionResult {
   const totals = aggregateNutrition(meals.map((m) => m.nutrition));
   const overall = calculateOverallCompliance(totals, goals);
-
-  const byNutrient: Record<string, number> = {};
-  for (const key of ALL_NUTRIENT_KEYS) {
-    const a = totals[key];
-    const t = goals[key];
-    if (typeof a === "number" && typeof t === "number" && t > 0) {
-      byNutrient[key] = nutrientComplianceScore(a, t);
-    }
-  }
+  const byNutrient = scoreByNutrient(totals, goals);
 
   return {
     date,
     meals,
     totals,
+    coverage: coverageOf(meals.map((m) => m.hasNutrition)),
     goals,
     compliance: {
       overall,
       byNutrient,
+      basis: COMPLIANCE_NUTRIENTS,
       deficiencies: [],
       excesses: [],
       suggestions: [],
@@ -163,15 +192,7 @@ export function buildWeeklyResult(
 
   const weeklyTotals = aggregateNutrition(days.map((d) => d.totals));
   const overall = calculateOverallCompliance(weeklyTotals, weeklyGoals);
-
-  const byNutrient: Record<string, number> = {};
-  for (const key of ALL_NUTRIENT_KEYS) {
-    const a = weeklyTotals[key];
-    const t = weeklyGoals[key];
-    if (typeof a === "number" && typeof t === "number" && t > 0) {
-      byNutrient[key] = nutrientComplianceScore(a, t);
-    }
-  }
+  const byNutrient = scoreByNutrient(weeklyTotals, weeklyGoals);
 
   const uniqueRecipes = new Set(
     days.flatMap((d) => d.meals.map((m) => m.recipeName)),
@@ -182,10 +203,12 @@ export function buildWeeklyResult(
     weekEndDate,
     days,
     weeklyTotals,
+    coverage: sumCoverage(days.map((d) => d.coverage)),
     weeklyGoals,
     weeklyCompliance: {
       overall,
       byNutrient,
+      basis: COMPLIANCE_NUTRIENTS,
       deficiencies: [],
       excesses: [],
     },

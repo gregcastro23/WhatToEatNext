@@ -132,6 +132,8 @@ for (const sf of program.getSourceFiles()) {
       node.expression.name.text === "pow" &&
       norm(node.expression.expression, sf) === "Math" &&
       node.arguments.length === 2 &&
+      node.arguments[0] !== undefined &&
+      node.arguments[1] !== undefined &&
       norm(node.arguments[0], sf) === norm(node.arguments[1], sf)
     ) {
       selfExp = node;

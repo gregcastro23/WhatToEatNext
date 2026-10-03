@@ -1,13 +1,6 @@
 {
-  "total": 9,
-  "files": 6,
+  "total": 0,
+  "files": 0,
   "note": "Baseline established in Phase 26 Tranche 0 for scripts/** under scripts/tsconfig.json with incremental false",
-  "byFile": {
-    "scripts/auditIngredients.ts": 1,
-    "scripts/backfillHscaElementalProperties.ts": 2,
-    "scripts/backfillMonicaPerConstruction.ts": 2,
-    "scripts/checkNoStrayKalchmFormula.ts": 2,
-    "scripts/generate-cuisine-images.ts": 1,
-    "scripts/generate-esms-baseline.ts": 1
-  }
+  "byFile": {}
 }
