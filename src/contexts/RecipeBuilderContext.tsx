@@ -26,7 +26,13 @@ const STORAGE_KEY = "alchm-recipe-builder";
 
 export type MealType = "Breakfast" | "Lunch" | "Dinner" | "Snack";
 
-export type FlavorPreference = "spicy" | "sweet" | "savory" | "bitter" | "sour" | "umami";
+export type FlavorPreference =
+  | "spicy"
+  | "sweet"
+  | "savory"
+  | "bitter"
+  | "sour"
+  | "umami";
 
 export interface SelectedIngredient {
   name: string;
@@ -47,6 +53,9 @@ export interface RecipeBuilderState {
   selectedCuisines: string[];
   selectedIngredients: SelectedIngredient[];
   selectedCookingMethods: string[];
+  /** Preserved quiz context, alongside the editable builder selections. */
+  quizBrief: string | null;
+  maxPrepTimeMinutes: number | null;
 }
 
 export interface RecipeBuilderContextType extends RecipeBuilderState {
@@ -84,6 +93,7 @@ export interface RecipeBuilderContextType extends RecipeBuilderState {
 
   // Actions
   clearQueue: () => void;
+  seedFromQuiz: (state: RecipeBuilderState) => void;
 
   /**
    * True once the saved queue has loaded from localStorage. Additions made
@@ -101,11 +111,13 @@ const initialState: RecipeBuilderState = {
   selectedCuisines: [],
   selectedIngredients: [],
   selectedCookingMethods: [],
+  quizBrief: null,
+  maxPrepTimeMinutes: null,
 };
 
-const RecipeBuilderContext = createContext<RecipeBuilderContextType | undefined>(
-  undefined,
-);
+const RecipeBuilderContext = createContext<
+  RecipeBuilderContextType | undefined
+>(undefined);
 
 // ===== Provider =====
 
@@ -113,7 +125,7 @@ export function RecipeBuilderProvider({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}): React.JSX.Element {
   const [state, setState] = useState<RecipeBuilderState>(initialState);
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -260,10 +272,7 @@ export function RecipeBuilderProvider({
         ? prev
         : {
             ...prev,
-            selectedCookingMethods: [
-              ...prev.selectedCookingMethods,
-              method,
-            ],
+            selectedCookingMethods: [...prev.selectedCookingMethods, method],
           },
     );
     logger.info(`Added cooking method: ${method}`);
@@ -302,6 +311,10 @@ export function RecipeBuilderProvider({
     logger.info("Cleared recipe builder queue");
   }, []);
 
+  const seedFromQuiz = useCallback((next: RecipeBuilderState) => {
+    setState(next);
+  }, []);
+
   const contextValue = useMemo<RecipeBuilderContextType>(
     () => ({
       ...state,
@@ -324,6 +337,7 @@ export function RecipeBuilderProvider({
       hasCookingMethod,
       totalItems,
       clearQueue,
+      seedFromQuiz,
       isReady: isInitialized,
     }),
     [
@@ -348,6 +362,7 @@ export function RecipeBuilderProvider({
       hasCookingMethod,
       totalItems,
       clearQueue,
+      seedFromQuiz,
     ],
   );
 

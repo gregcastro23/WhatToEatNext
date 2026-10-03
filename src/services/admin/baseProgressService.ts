@@ -12,6 +12,7 @@
 import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database/connection";
 import { isMissingRelation } from "@/lib/database/pgErrors";
+import type { EsmsContractCheck } from "@/lib/esms-chain/contract";
 import { _logger } from "@/lib/logger";
 import { settle } from "@/services/admin/solanaRpc";
 
@@ -46,6 +47,7 @@ export interface BaseProgress {
   error: string | null;
   blockNumber: string | null;
   esmsContract: string | null;
+  contractCheck: EsmsContractCheck;
   recipeRegistry: string | null;
   recipeNftEnabled: boolean;
   wallets: OperatorWallet[];
@@ -61,22 +63,24 @@ async function readWallet(
   client: BalanceReader,
   role: OperatorWallet["role"],
   key: string | undefined,
+  rpcChainVerified: boolean,
 ): Promise<OperatorWallet> {
   if (!key) return { role, address: null, eth: null, low: false, configured: false };
   const { privateKeyToAccount } = await import("viem/accounts");
   const hex: `0x${string}` = key.startsWith("0x") ? `0x${key.slice(2)}` : `0x${key}`;
   const account = await settle(Promise.resolve().then(() => privateKeyToAccount(hex)));
   if (!account) return { role, address: null, eth: null, low: false, configured: true };
-  const wei = await settle(client.getBalance({ address: account.address }));
+  // A balance on the wrong chain is not this wallet's Base Sepolia gas balance.
+  const wei = rpcChainVerified ? await settle(client.getBalance({ address: account.address })) : null;
   const eth = wei === null ? null : Number(wei) / 1e18;
   return { role, address: account.address, eth, low: eth !== null && eth < LOW_ETH_THRESHOLD, configured: true };
 }
 
-function readWallets(client: BalanceReader): Promise<OperatorWallet[]> {
+function readWallets(client: BalanceReader, rpcChainVerified: boolean): Promise<OperatorWallet[]> {
   return Promise.all([
-    readWallet(client, "minter", process.env.MINTER_PRIVATE_KEY),
-    readWallet(client, "redeemer", process.env.REDEEMER_PRIVATE_KEY),
-    readWallet(client, "recipe-minter", process.env.RECIPE_MINTER_PRIVATE_KEY),
+    readWallet(client, "minter", process.env.MINTER_PRIVATE_KEY, rpcChainVerified),
+    readWallet(client, "redeemer", process.env.REDEEMER_PRIVATE_KEY, rpcChainVerified),
+    readWallet(client, "recipe-minter", process.env.RECIPE_MINTER_PRIVATE_KEY, rpcChainVerified),
   ]);
 }
 
@@ -159,25 +163,29 @@ async function readRecipeMints(): Promise<BaseProgress["recipeMints"]> {
 }
 
 async function computeBaseProgress(): Promise<BaseProgress> {
-  const { esmsChain, esmsPublicClient } = await import("@/lib/esms-chain/contract");
+  const { esmsChain, esmsPublicClient, probeEsmsContract } = await import("@/lib/esms-chain/contract");
   const { recipeRegistryAddress, recipeNftEnabled } = await import("@/lib/recipe-nft/contract");
   const chain = esmsChain();
   const client = esmsPublicClient();
+  const contractCheck = await probeEsmsContract(client);
+  const rpcChainVerified = contractCheck.rpcChainId === chain.id;
   const [block, wallets, claims, recipeMints] = await Promise.all([
     settle(client.getBlockNumber()),
-    readWallets(client),
+    readWallets(client, rpcChainVerified),
     readClaims(),
     readRecipeMints(),
   ]);
+  const reachable = block !== null && rpcChainVerified;
   return {
     generatedAt: new Date().toISOString(),
     chain: chain.name,
     chainId: chain.id,
     explorer: chain.blockExplorers.default.url,
-    reachable: block !== null,
-    error: block === null ? `${chain.name} RPC unreachable` : null,
-    blockNumber: block === null ? null : block.toString(),
+    reachable,
+    error: reachable ? null : contractCheck.status === "rpc-chain-mismatch" ? contractCheck.message : `${chain.name} RPC unavailable or unverified`,
+    blockNumber: reachable && block !== null ? block.toString() : null,
     esmsContract: process.env.ESMS_CONTRACT_ADDRESS ?? null,
+    contractCheck,
     recipeRegistry: recipeRegistryAddress() ?? null,
     recipeNftEnabled: recipeNftEnabled(),
     wallets,

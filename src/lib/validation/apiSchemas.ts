@@ -271,6 +271,12 @@ export const SyncDebitRequestSchema = z.object({
   source: z.string().optional(),
   idempotencyKey: z.string().min(1, "idempotencyKey is required"),
   metadata: z.record(z.string(), z.unknown()).optional(),
+  /**
+   * Cover a short axis by swapping the agent's surplus coins at live EEI
+   * parity (the Swapping Bridge) before refusing with insufficient_funds.
+   * Defaults to true; false restores the exact-basket-or-402 behaviour.
+   */
+  autoSwap: z.boolean().optional(),
 });
 
 export type ParsedSyncDebitRequest = z.infer<typeof SyncDebitRequestSchema>;
@@ -298,14 +304,91 @@ export const EconomyPurchaseRequestSchema = z.object({
   idempotencyKey: z.string().optional(),
 });
 
-export const EconomyTransmuteRequestSchema = z.object({
-  fromToken: TokenTypeSchema,
-  toToken: TokenTypeSchema,
-  amount: z.number().positive("Amount must be a positive number").finite(),
-}).refine((data) => data.fromToken !== data.toToken, {
-  message: "Cannot transmute a token into itself.",
-  path: ["toToken"],
-});
+/**
+ * POST /api/economy/transmute — the Transmutation Circle (ADR-018).
+ * One door, four acts, discriminated by `action`. Fairness (the corridor),
+ * funding and who may act are the service's to judge; this checks shape.
+ */
+const TransmuteAmountSchema = z
+  .number()
+  .finite()
+  .positive("Amounts must be positive")
+  .max(10_000, "Amounts may not exceed 10000");
+
+export const TransmuteOfferActionSchema = z
+  .object({
+    action: z.literal("offer"),
+    giveToken: TokenTypeSchema,
+    giveAmount: TransmuteAmountSchema,
+    wantToken: TokenTypeSchema,
+    wantAmount: TransmuteAmountSchema,
+    /** Direct the offer at one practitioner. */
+    counterpartyId: z.string().uuid().optional(),
+    /** Counter someone's offer (directed at its maker). */
+    replyToOfferId: z.string().uuid().optional(),
+    message: z.string().max(280).optional(),
+    ttlHours: z.number().int().min(1).max(168).optional(),
+    idempotencyKey: z.string().trim().min(8).max(160).optional(),
+  })
+  .refine((data) => data.giveToken !== data.wantToken, {
+    message: "An offer must trade one coin for a different coin.",
+    path: ["wantToken"],
+  })
+  .refine((data) => !(data.counterpartyId && data.replyToOfferId), {
+    message: "Direct an offer at a practitioner OR counter an offer, not both.",
+    path: ["replyToOfferId"],
+  });
+
+const TransmuteOfferRefSchema = z.object({ offerId: z.string().uuid() });
+
+export const TransmuteRequestSchema = z.union([
+  TransmuteOfferActionSchema,
+  TransmuteOfferRefSchema.extend({ action: z.literal("accept") }),
+  TransmuteOfferRefSchema.extend({ action: z.literal("cancel") }),
+  TransmuteOfferRefSchema.extend({ action: z.literal("decline") }),
+]);
+
+export type ParsedTransmuteRequest = z.infer<typeof TransmuteRequestSchema>;
+
+/**
+ * POST /api/economy/sync-transmute — the same acts for agents, over the
+ * shared sync secret. The acting agent and any counterparty are named by
+ * email; `board` reads the Circle as that agent sees it.
+ */
+const AgentEmailSchema = z.string().trim().toLowerCase().email();
+
+export const SyncTransmuteRequestSchema = z.union([
+  z.object({ action: z.literal("board"), agentEmail: AgentEmailSchema }),
+  z
+    .object({
+      action: z.literal("offer"),
+      agentEmail: AgentEmailSchema,
+      giveToken: TokenTypeSchema,
+      giveAmount: TransmuteAmountSchema,
+      wantToken: TokenTypeSchema,
+      wantAmount: TransmuteAmountSchema,
+      counterpartyEmail: AgentEmailSchema.optional(),
+      counterpartyId: z.string().uuid().optional(),
+      replyToOfferId: z.string().uuid().optional(),
+      message: z.string().max(280).optional(),
+      ttlHours: z.number().int().min(1).max(168).optional(),
+      idempotencyKey: z.string().trim().min(8).max(160).optional(),
+    })
+    .refine((data) => data.giveToken !== data.wantToken, {
+      message: "An offer must trade one coin for a different coin.",
+      path: ["wantToken"],
+    })
+    .refine(
+      (data) =>
+        [data.counterpartyEmail, data.counterpartyId, data.replyToOfferId].filter(Boolean).length <= 1,
+      { message: "Name at most one counterparty.", path: ["counterpartyEmail"] },
+    ),
+  z.object({ action: z.literal("accept"), agentEmail: AgentEmailSchema, offerId: z.string().uuid() }),
+  z.object({ action: z.literal("cancel"), agentEmail: AgentEmailSchema, offerId: z.string().uuid() }),
+  z.object({ action: z.literal("decline"), agentEmail: AgentEmailSchema, offerId: z.string().uuid() }),
+]);
+
+export type ParsedSyncTransmuteRequest = z.infer<typeof SyncTransmuteRequestSchema>;
 
 export const PracticeTypeSchema = z.enum(PRACTICE_TYPES);
 

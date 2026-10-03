@@ -10,6 +10,7 @@ jest.mock("@/lib/database/connection", () => ({
 }));
 
 import {
+  COSMIC_RECIPE_PROBE_TIMEOUT_MS,
   runAuthSigninProbe,
   runCosmicRecipeProbe,
   runOnboardingSkipProbe,
@@ -203,6 +204,35 @@ describe("runCosmicRecipeProbe", () => {
 
     expect(result.status).toBe("failure");
     expect(result.httpStatus).toBe(200);
+  });
+
+  it("uses the 50s timeout budget and reports timeout correctly", async () => {
+    const abortError = new Error("aborted");
+    abortError.name = "AbortError";
+    jest.spyOn(globalThis, "fetch").mockRejectedValue(abortError);
+
+    const result = await runCosmicRecipeProbe({
+      baseUrl: "http://localhost:3000",
+      bearerToken: "test-token",
+    });
+
+    expect(result.status).toBe("timeout");
+    expect(result.errorMessage).toBe(`Probe timed out after ${COSMIC_RECIPE_PROBE_TIMEOUT_MS}ms`);
+  });
+
+  it("supports overriding timeoutMs in options", async () => {
+    const abortError = new Error("aborted");
+    abortError.name = "AbortError";
+    jest.spyOn(globalThis, "fetch").mockRejectedValue(abortError);
+
+    const result = await runCosmicRecipeProbe({
+      baseUrl: "http://localhost:3000",
+      bearerToken: "test-token",
+      timeoutMs: 25_000,
+    });
+
+    expect(result.status).toBe("timeout");
+    expect(result.errorMessage).toBe("Probe timed out after 25000ms");
   });
 });
 

@@ -448,7 +448,7 @@ export const alchemicalApi = new AlchemicalApiClient();
 export interface UseBackendCalculationsReturn {
   calculateElements: (
     ingredients: string[],
-    weights?: number[] | undefined,
+    weights?: number[],
   ) => Promise<ElementalProperties>;
   calculateThermodynamics: (
     elements: ElementalProperties,
@@ -461,7 +461,7 @@ export interface UseBackendCalculationsReturn {
     request: PlanetaryPositionsRequest,
   ) => Promise<PlanetaryPositionsResponse>;
   createRealtimeConnection: (
-    onPlanetaryUpdate?: ((data: unknown) => void) | undefined,
+    onPlanetaryUpdate?: (data: unknown) => void,
   ) => WebSocket | null;
 }
 
