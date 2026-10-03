@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { CUISINES } from "@/data/cuisines/index";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { collectOrRefuse, quoteFeature } from "@/lib/economy/featureCharge";
 import { _logger } from "@/lib/logger";
 import { GroupRecommendationsRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
@@ -258,6 +259,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     scoredCuisines.sort((a, b) => b.aggregatedScore - a.aggregatedScore);
     const recommendations = scoredCuisines.slice(0, 10);
+
+    // A formerly premium feature: charged per computation, on the caller's chart.
+    const unpaid = await collectOrRefuse(userId, await quoteFeature(currentUser, "groupRecommendations"));
+    if (unpaid) return unpaid;
 
     return NextResponse.json({
       success: true,

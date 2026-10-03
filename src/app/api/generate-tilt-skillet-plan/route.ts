@@ -3,9 +3,9 @@
  *
  * Thin proxy in front of the Planetary Agents backend's /api/tilt-skillet-plan endpoint —
  * the same proxy → PA pattern as /api/generate-cosmic-recipe. WTEN's job here:
- *   - Require an authenticated user holding at least the ESMS cost (hard 402 otherwise).
- *     Despite what this line used to say, the gate has always been a token-balance
- *     check, never a subscription tier.
+ *   - Require an authenticated user who can afford the plan: a chart-priced ESMS cost
+ *     (featureCharge), checked before the agents call and collected only once a valid
+ *     plan comes back (hard 402 otherwise). Operators are not charged.
  *   - Compute the deterministic recipe-as-a-circuit grounding from the staged ingredient list
  *     (computeBatchCircuit reuses the existing kinetics / Kalchm / Monica engine).
  *   - Forward the grounding + stages to PA, which owns the LLM persona, JSON mode, validation,
@@ -14,10 +14,10 @@
  *     surfaces at the WTEN edge.
  */
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
+import { collectOrRefuse, quoteFeature, refuseIfUnaffordable } from "@/lib/economy/featureCharge";
 import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { getServiceUrl } from "@/lib/serviceUrls";
-import { tokenEconomy } from "@/services/TokenEconomyService";
 import {
   tiltSkilletBatchSchema,
   tiltSkilletBodySchema,
@@ -69,26 +69,16 @@ async function handlePost(request: NextRequest) {
   }
   const { prompt, batchServings, cuisine, diet, disallowed_ingredients: disallowedIngredients, stages } = parsed.data;
 
-  const COST = 5;
-  const balances = await tokenEconomy.getBalances(userId);
-  const total = balances.spirit + balances.essence + balances.matter + balances.substance;
-
-  if (total < COST) {
-    return json(
-      {
-        error: "insufficient_esms",
-        message: `Tilt Skillet batch planning costs ${COST} ESMS tokens. You currently have ${total.toFixed(1)} ESMS. Claim your daily Cosmic Yield to earn more tokens!`,
-        requiredCost: COST,
-        userBalance: total,
-      },
-      402,
-    );
+  const { userDatabase } = await import("@/services/userDatabaseService");
+  const payer = await userDatabase.getUserById(userId);
+  if (!payer) {
+    return json({ error: "auth_required", message: "Please sign in to generate a batch plan." }, 401);
   }
-
-  // Deduct ESMS tokens for batch plan generation
-  await tokenEconomy.debitTokens(userId, "Spirit", COST, "purchase", {
-    description: "Tilt Skillet batch circuit plan generation",
-  });
+  // It used to check the four-axis total but debit all 5 from Spirit, without
+  // checking the debit landed. Now priced on the chart and collected on delivery.
+  const quote = await quoteFeature(payer, "tiltSkillet");
+  const cannotPay = await refuseIfUnaffordable(userId, quote);
+  if (cannotPay) return cannotPay;
 
   const circuit = computeBatchCircuit(
     stages.map((s) => ({
@@ -157,6 +147,8 @@ async function handlePost(request: NextRequest) {
     return json({ error: "Internal server error contacting agents network" }, 500);
   }
 
+  const unpaid = await collectOrRefuse(userId, quote);
+  if (unpaid) return unpaid;
   return json(plan, 200);
 }
 
