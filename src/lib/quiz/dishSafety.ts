@@ -1,6 +1,6 @@
 import { classifyIngredientDiet } from "@/utils/ingredientDietaryClassification";
-import type { AllergenKey, DietKey } from "./catalogContract";
 import { normalizeText } from "./dishLexicon";
+import type { AllergenKey, DietKey } from "./catalogContract";
 
 /**
  * Dietary and allergen tags for quiz dishes.

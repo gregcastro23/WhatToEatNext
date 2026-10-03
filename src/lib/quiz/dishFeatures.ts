@@ -31,6 +31,7 @@ export interface RecipeSource {
   season?: string | readonly string[];
   totalTime?: string;
   numberOfServings?: number;
+  elementalProperties?: { Fire: number; Water: number; Earth: number; Air: number };
 }
 
 /**

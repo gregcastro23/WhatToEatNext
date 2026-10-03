@@ -1,7 +1,7 @@
-import type { CuisineFamily, QuizDish } from "./catalogContract";
 import { computeFeatures, readDishText, type DishText, type RecipeSource } from "./dishFeatures";
 import { groupsNamedBy, ingredientGroup, normalizeText } from "./dishLexicon";
 import { allergensNamedBy, dietsOf } from "./dishSafety";
+import type { CuisineFamily, ElementShares, QuizDish } from "./catalogContract";
 
 /**
  * Builds the quiz catalog from the static recipe catalog: keeps only dishes a
@@ -185,5 +185,20 @@ function assembleDish(recipe: RecipeSource, text: DishText, groups: string[]): Q
     allergens: allergensNamedBy(names),
     groups,
     features: computeFeatures(recipe, text),
+    elements: elementShares(recipe.elementalProperties),
+  };
+}
+
+/** The recipe's elementalProperties as shares of 1; even shares when absent. */
+export function elementShares(raw: RecipeSource["elementalProperties"]): ElementShares {
+  const values = raw ?? { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+  const clean = (value: number): number => (Number.isFinite(value) && value > 0 ? value : 0);
+  const total = clean(values.Fire) + clean(values.Water) + clean(values.Earth) + clean(values.Air);
+  if (total <= 0) return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  return {
+    Fire: clean(values.Fire) / total,
+    Water: clean(values.Water) / total,
+    Earth: clean(values.Earth) / total,
+    Air: clean(values.Air) / total,
   };
 }

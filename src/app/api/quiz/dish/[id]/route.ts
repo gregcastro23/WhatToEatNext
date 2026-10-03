@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { rateLimit } from "@/lib/rateLimit";
 import { quizDishRecipe } from "@/lib/quiz/serverCatalog";
+import { rateLimit } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
 

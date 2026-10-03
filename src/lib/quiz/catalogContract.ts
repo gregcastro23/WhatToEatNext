@@ -92,6 +92,15 @@ export interface QuizDish {
   /** Ingredient-group ids (dishLexicon INGREDIENT_GROUPS) named by the recipe. */
   groups: readonly string[];
   features: FeatureVector;
+  /** The recipe's own elementalProperties, normalized to sum 1. */
+  elements: ElementShares;
+}
+
+export interface ElementShares {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
 }
 
 const dishWireSchema = z.object({
@@ -133,6 +142,7 @@ const dishWireSchema = z.object({
   ),
   g: z.array(z.string()),
   f: z.array(z.number().finite().min(0).max(1)).length(FEATURE_KEYS.length),
+  el: z.array(z.number().finite().min(0).max(1)).length(4),
 });
 
 export const quizCatalogSchema = z.object({
@@ -163,6 +173,7 @@ export function encodeDish(dish: QuizDish): DishWire {
     a: [...dish.allergens],
     g: [...dish.groups],
     f: FEATURE_KEYS.map((key) => round2(dish.features[key])),
+    el: [dish.elements.Fire, dish.elements.Water, dish.elements.Earth, dish.elements.Air].map(round2),
   };
 }
 
@@ -186,6 +197,12 @@ export function decodeDish(wire: DishWire): QuizDish {
     allergens: wire.a,
     groups: wire.g,
     features,
+    elements: {
+      Fire: wire.el[0] ?? 0.25,
+      Water: wire.el[1] ?? 0.25,
+      Earth: wire.el[2] ?? 0.25,
+      Air: wire.el[3] ?? 0.25,
+    },
   };
 }
 
