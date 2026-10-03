@@ -434,10 +434,10 @@
   "Korean": {
     "name": "Korean",
     "elementalProperties": {
-      "Fire": 0.3234,
-      "Water": 0.2713,
-      "Earth": 0.2878,
-      "Air": 0.1174
+      "Fire": 0.329,
+      "Water": 0.2729,
+      "Earth": 0.2906,
+      "Air": 0.1075
     },
     "description": "Bold flavors from fermentation and grilling.",
     "id": "korean",
@@ -482,7 +482,7 @@
     "astrologicalInfluences": [],
     "elementalProfileBasis": {
       "method": "recipe-mean",
-      "recipes": 43
+      "recipes": 40
     }
   },
   "Mexican": {
@@ -650,10 +650,10 @@
   "Thai": {
     "name": "Thai",
     "elementalProperties": {
-      "Fire": 0.3016,
-      "Water": 0.3197,
-      "Earth": 0.2473,
-      "Air": 0.1314
+      "Fire": 0.3091,
+      "Water": 0.3299,
+      "Earth": 0.247,
+      "Air": 0.114
     },
     "description": "Perfect balance of sour, sweet, salty, and spicy flavors.",
     "id": "thai",
@@ -698,16 +698,16 @@
     "astrologicalInfluences": [],
     "elementalProfileBasis": {
       "method": "recipe-mean",
-      "recipes": 47
+      "recipes": 41
     }
   },
   "Vietnamese": {
     "name": "Vietnamese",
     "elementalProperties": {
-      "Fire": 0.2696,
-      "Water": 0.3272,
-      "Earth": 0.2533,
-      "Air": 0.15
+      "Fire": 0.272,
+      "Water": 0.3366,
+      "Earth": 0.2537,
+      "Air": 0.1378
     },
     "description": "Fresh, light flavors with an emphasis on herbs and clear broths.",
     "id": "vietnamese",
@@ -752,7 +752,7 @@
     "astrologicalInfluences": [],
     "elementalProfileBasis": {
       "method": "recipe-mean",
-      "recipes": 46
+      "recipes": 41
     }
   },
   "HSCA": {

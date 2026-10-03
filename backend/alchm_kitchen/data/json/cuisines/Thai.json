@@ -1,10 +1,10 @@
 {
   "name": "Thai",
   "elementalProperties": {
-    "Fire": 0.3016,
-    "Water": 0.3197,
-    "Earth": 0.2473,
-    "Air": 0.1314
+    "Fire": 0.3091,
+    "Water": 0.3299,
+    "Earth": 0.247,
+    "Air": 0.114
   },
   "description": "Perfect balance of sour, sweet, salty, and spicy flavors.",
   "id": "thai",
@@ -49,6 +49,6 @@
   "astrologicalInfluences": [],
   "elementalProfileBasis": {
     "method": "recipe-mean",
-    "recipes": 47
+    "recipes": 41
   }
 }
