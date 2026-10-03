@@ -10,7 +10,6 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { z } from "zod";
 import {
   getServerDayEntries,
   getServerDailySummary,
@@ -29,6 +28,12 @@ import {
   generateServerInsights,
 } from "@/actions/foodDiary";
 import { useUser } from "@/contexts/UserContext";
+import {
+  FoodDiaryFoodSourceSchema,
+  FoodDiaryListResponseSchema,
+  FoodDiaryMutationResponseSchema,
+  FoodDiaryServingUnitSchema,
+} from "@/lib/validation/foodDiaryResponseSchemas";
 import type {
   FoodDiaryEntry,
   CreateFoodDiaryEntryInput,
@@ -49,6 +54,17 @@ import type { MealType } from "@/types/menuPlanner";
 import { createLogger } from "@/utils/logger";
 
 const _logger = createLogger("use-food-diary");
+
+function isRecord(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null;
+}
+
+function extractEntryId(raw: unknown): string {
+  if (isRecord(raw) && isRecord(raw["entry"]) && typeof raw["entry"]["id"] === "string") {
+    return raw["entry"]["id"];
+  }
+  return `reconciled_${Date.now()}`;
+}
 
 /**
  * Hook state interface
@@ -151,12 +167,17 @@ export function useFoodDiary(): UseFoodDiaryReturn {
         { credentials: "include" },
       );
       if (res.ok) {
-        const schema = z.object({
-          entries: z.array(z.custom<FoodDiaryEntry>()).optional(),
-        });
-        const parsed = schema.safeParse(await res.json());
-        const data = parsed.success ? parsed.data : {};
-        const entries = data.entries ?? [];
+        const raw = await res.json();
+        const parsed = FoodDiaryListResponseSchema.safeParse(raw);
+        let entries: FoodDiaryEntry[] | undefined;
+        if (parsed.success) {
+          entries = parsed.data.entries ?? [];
+        } else {
+          _logger.warn(
+            "Malformed 2xx response from GET /api/food-diary; retaining prior entries",
+            parsed.error,
+          );
+        }
         // The route's own `summary` is four totals, not a DailyFoodDiarySummary
         // (no totalNutrition, mealBreakdown, goalProgress...), and dressing it
         // up as one made NutritionDashboard throw on `totalNutrition`. Take the
@@ -169,7 +190,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
         ]);
 
         return {
-          entries,
+          ...(entries !== undefined ? { entries } : {}),
           dailySummary,
           stats,
           favorites,
@@ -216,6 +237,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
       setState((prev) => ({
         ...prev,
         ...coreData,
+        entries: coreData.entries ?? prev.entries,
         weeklySummary:
           weeklySummaryResult.weeklySummary ?? prev.weeklySummary,
         isLoading: false,
@@ -263,12 +285,48 @@ export function useFoodDiary(): UseFoodDiaryReturn {
             body: JSON.stringify(parsedInput.data),
           });
           if (!res.ok) throw new Error(`Server error (${res.status})`);
-          const schema = z.object({
-            entry: z.custom<FoodDiaryEntry>().optional(),
-          });
-          const parsed = schema.safeParse(await res.json());
-          const data = parsed.success ? parsed.data : {};
-          entry = data.entry ?? null;
+          const raw = await res.json();
+          const parsed = FoodDiaryMutationResponseSchema.safeParse(raw);
+          if (parsed.success && parsed.data.entry) {
+            const { entry: createdEntry } = parsed.data;
+            entry = createdEntry;
+          } else {
+            _logger.warn(
+              "Food diary entry created (2xx) but response payload was unreadable; reconciling via loadData()",
+              parsed.success ? undefined : parsed.error,
+            );
+            entry = {
+              id: extractEntryId(raw),
+              userId,
+              foodName: parsedInput.data.foodName,
+              foodSource: FoodDiaryFoodSourceSchema.parse(parsedInput.data.foodSource),
+              ...(parsedInput.data.sourceId ? { sourceId: parsedInput.data.sourceId } : {}),
+              ...(parsedInput.data.brandName ? { brandName: parsedInput.data.brandName } : {}),
+              date: parsedInput.data.date,
+              mealType: parsedInput.data.mealType,
+              time: parsedInput.data.time,
+              serving: {
+                amount: parsedInput.data.serving.amount,
+                grams: parsedInput.data.serving.grams,
+                unit: FoodDiaryServingUnitSchema.parse(parsedInput.data.serving.unit),
+                ...(parsedInput.data.serving.description !== undefined
+                  ? { description: parsedInput.data.serving.description }
+                  : {}),
+              },
+              quantity: parsedInput.data.quantity,
+              nutrition: parsedInput.data.nutrition ?? {},
+              nutritionConfidence: "medium",
+              ...(parsedInput.data.elementalProperties ? { elementalProperties: parsedInput.data.elementalProperties } : {}),
+              ...(parsedInput.data.notes ? { notes: parsedInput.data.notes } : {}),
+              isFavorite: false,
+              ...(parsedInput.data.tags ? { tags: parsedInput.data.tags } : {}),
+              ...(parsedInput.data.price !== undefined ? { price: parsedInput.data.price } : {}),
+              ...(parsedInput.data.store ? { store: parsedInput.data.store } : {}),
+              ...(parsedInput.data.quality ? { quality: parsedInput.data.quality } : {}),
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            };
+          }
         } else {
           entry = await createServerEntry(userId, parsedInput.data as CreateFoodDiaryEntryInput);
         }
