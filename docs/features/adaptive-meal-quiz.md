@@ -21,7 +21,7 @@ flowchart TD
   Result --> AI[Explicit generation via existing cosmic recipe API]
 ```
 
-All implementation files are in `src/components/home/quiz`. `types.ts` defines the public types; `quizQuestions.ts` is the ordered configuration; `quizMachine.ts` owns progress, `quizPersistence.ts` validates and migrates drafts; `quizScoring.ts` composes a measured meal; `quizIntegrations.ts` translates it for existing site services, and `quizGeneratedRecipes.ts` validates generated recipe responses. The question registry composes separate core and context banks. The existing `firstMeal.ts` exports remain compatible.
+All implementation files are in `src/components/home/quiz`. `types.ts` defines the public types; `quizQuestions.ts` is the ordered configuration; `quizMachine.ts` owns progress, `quizPersistence.ts` validates and migrates drafts; `quizScoring.ts` composes a measured meal; `quizIntegrations.ts` translates it for existing site services, and `quizGeneratedRecipes.ts` validates generated recipe responses. The question registry composes separate core and context banks. The original four-answer module, `firstMeal.ts`, was removed once nothing imported it; its saved answers still migrate through `migrateLegacyQuiz`.
 
 ## Configuration contract
 
