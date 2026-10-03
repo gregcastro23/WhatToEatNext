@@ -22,8 +22,17 @@ export interface GramConversion {
   basis: GramBasis;
   /** The FDC record backing a measured figure. Absent on an approximation. */
   fdcId?: number;
-  /** FDC's label for a measured COUNT portion ("large", "sprigs"). Absent otherwise. */
+  /**
+   * FDC's label for a measured COUNT portion ("large", "sprigs"), or the cut a
+   * volume line named where USDA weighed several ("chopped"). Absent otherwise.
+   */
   measuredAs?: string;
+  /**
+   * Grams the amount may weigh beyond `grams`. USDA weighed the measure only
+   * several ways and the line named none, so `grams` is the lightest cut and
+   * this the gap to the heaviest (see `volumeToMass`).
+   */
+  spread?: number;
   /** Present ONLY on an approximation, so absence of data cannot look like data. */
   approximationNote?: string;
 }
@@ -207,11 +216,16 @@ export function isCountUnit(unit: string): boolean {
  * measurement. Only {@link MEASURED_INGREDIENT_COUNT} ingredients are covered,
  * so most of the corpus still takes that path, and that is worth surfacing
  * rather than hiding.
+ *
+ * `lineText` is the recipe line's own words. Where USDA weighed a measure only
+ * several ways (a cup of walnuts: 80 g ground, 117 g chopped), the cut the line
+ * names is weighed; a line naming none gets the lightest cut and a `spread`.
  */
 export function convertToGramsDetailed(
   amount: number,
   unit: string,
   ingredientName?: string,
+  lineText?: string,
 ): GramConversion | null {
   if (!Number.isFinite(amount) || amount <= 0) return null;
   const key = (unit ?? "").toLowerCase().trim();
@@ -220,12 +234,15 @@ export function convertToGramsDetailed(
   const cups = CUPS_PER_UNIT[key];
   const measure = VOLUME_UNIT_TO_MEASURE[key] ?? (cups !== undefined ? "cup" : undefined);
   if (measure !== undefined && ingredientName) {
-    const measured = volumeToMass(canonicalIngredient(ingredientName), amount * (cups ?? 1), measure);
+    const canonical = canonicalIngredient(ingredientName);
+    const measured = volumeToMass(canonical, amount * (cups ?? 1), measure, lineText);
     if (measured !== null) {
       return {
         grams: measured.grams,
         basis: "usda-measured",
         ...(measured.fdcId !== undefined ? { fdcId: measured.fdcId } : {}),
+        ...(measured.cut !== undefined ? { measuredAs: measured.cut } : {}),
+        ...(measured.spread !== undefined ? { spread: measured.spread } : {}),
       };
     }
   }
@@ -262,6 +279,7 @@ export function convertToGrams(
   amount: number,
   unit: string,
   ingredientName?: string,
+  lineText?: string,
 ): number | null {
-  return convertToGramsDetailed(amount, unit, ingredientName)?.grams ?? null;
+  return convertToGramsDetailed(amount, unit, ingredientName, lineText)?.grams ?? null;
 }

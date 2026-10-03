@@ -39,12 +39,15 @@ const MEASURES: ReadonlyMap<string, string> = new Map([
  *   (15 g) is the fluid one (238 / 16 = 14.9). Taken first, it had made every
  *   recipe's cup of cream weigh half what it does.
  * - "in shell" fills the cup with shells: FDC 170187 yields 28 g of walnut from
- *   it. No row selects it today; it is listed so none ever does.
+ *   it.
+ * - "cherry" is another item: FDC 170457 (tomatoes, red, ripe) weighs "cup
+ *   cherry tomatoes" (149 g) of whole cherry tomatoes, which it also counts
+ *   apart ("cherry", 17 g each) from the round tomato the record describes.
  *
  * A cut — chopped, diced, sliced, grated, crumbled, ground, whole — is the
  * same food measured another way, and stays.
  */
-const NOT_THE_INGREDIENT: readonly RegExp[] = [/\bwhipped\b/i, /\bin shell\b/i];
+const NOT_THE_INGREDIENT: readonly RegExp[] = [/\bwhipped\b/i, /\bin shell\b/i, /\bcherry\b/i];
 
 /** A qualifier's own words, without its parenthetical ("fluid (yields 2 cups whipped)" is fluid). */
 function describesAnotherFood(qualifier: string | undefined): boolean {
@@ -57,9 +60,20 @@ interface Weighed {
   grams: number;
 }
 
-/** "cup" is a plain cup; "cup, chopped" a cup qualified "chopped". Anything else is not read. */
+/** A measure's one weight, or the several cuts USDA weighed it at. */
+type MeasureWeight = { kind: "single"; weighed: Weighed } | { kind: "cuts"; cuts: Weighed[] };
+
+/**
+ * "cup" is a plain cup; "cup, chopped" and "cup chopped" are a cup qualified
+ * "chopped". Anything else ("serving 1/4 cup", "fl oz") is not read.
+ *
+ * The comma carries no meaning: FDC writes the same measurement both ways.
+ * FDC 170000 (onions, raw) weighs "cup, chopped" at 160 g and "tbsp chopped"
+ * at 10 g, and 160 / 16 = 10; FDC 170005 (scallions) weighs "cup, chopped" at
+ * 100 g and "tbsp chopped" at 6 g (100 / 16 = 6.25).
+ */
 function readLabel(label: string): { measure: string; qualifier?: string } | null {
-  const match = /^(cup|tbsp|tablespoon|tsp|teaspoon)(?:, (.+))?$/i.exec(label.trim());
+  const match = /^(cup|tbsp|tablespoon|tsp|teaspoon)(?:,?\s+(.+))?$/i.exec(label.trim());
   const measure = MEASURES.get(match?.[1]?.toLowerCase() ?? "");
   if (match === null || measure === undefined) return null;
   const qualifier = match[2];
@@ -67,37 +81,60 @@ function readLabel(label: string): { measure: string; qualifier?: string } | nul
 }
 
 /**
- * Each measure's weight. The first portion read wins, except that a plain
- * measure always replaces a qualified one, and a portion of another food
- * (`NOT_THE_INGREDIENT`) is never read.
+ * A measure's weight: its first plain portion; else its one weight, when
+ * every qualified portion agrees; else each cut, for a recipe line to name.
  */
-function weighMeasures(portions: FdcRecord["portions"]): Map<string, Weighed> {
-  const chosen = new Map<string, Weighed>();
+function resolveMeasure(all: readonly Weighed[]): MeasureWeight | null {
+  const first = all.find((w) => w.qualifier === undefined) ?? all[0];
+  if (first === undefined) return null;
+  if (first.qualifier === undefined || new Set(all.map((w) => w.grams)).size === 1) {
+    return { kind: "single", weighed: first };
+  }
+  return { kind: "cuts", cuts: [...all] };
+}
+
+/** Each measure's weight. A portion of another food (`NOT_THE_INGREDIENT`) is never read. */
+function weighMeasures(portions: FdcRecord["portions"]): Map<string, MeasureWeight> {
+  const read = new Map<string, Weighed[]>();
   for (const p of portions) {
-    const read = readLabel(p.modifier ?? p.unit);
-    if (read === null || !(p.amount > 0) || describesAnotherFood(read.qualifier)) continue;
+    const label = readLabel(p.modifier ?? p.unit);
+    if (label === null || !(p.amount > 0) || describesAnotherFood(label.qualifier)) continue;
     const weighed: Weighed = { grams: p.gramWeight / p.amount };
-    if (read.qualifier !== undefined) weighed.qualifier = read.qualifier;
-    const current = chosen.get(read.measure);
-    if (current === undefined || (current.qualifier !== undefined && read.qualifier === undefined)) {
-      chosen.set(read.measure, weighed);
-    }
+    if (label.qualifier !== undefined) weighed.qualifier = label.qualifier;
+    read.set(label.measure, [...(read.get(label.measure) ?? []), weighed]);
+  }
+  const chosen = new Map<string, MeasureWeight>();
+  for (const [measure, all] of read) {
+    const weight = resolveMeasure(all);
+    if (weight !== null) chosen.set(measure, weight);
   }
   return chosen;
 }
 
-function rowLines(r: FdcRecord, measures: Map<string, Weighed>): string[] {
-  const entries = [...measures];
-  const grams = entries.map(([m, w]) => `${m}: ${w.grams}`).join(", ");
-  const qualified = entries.flatMap(([m, w]) => (w.qualifier === undefined ? [] : [`${m}: ${JSON.stringify(w.qualifier)}`]));
+function cutLines(measures: Map<string, MeasureWeight>): string[] {
+  const lines: string[] = [];
+  for (const [measure, weight] of measures) {
+    if (weight.kind !== "cuts") continue;
+    lines.push(`      ${measure}: [`);
+    for (const cut of weight.cuts) lines.push(`        { as: ${JSON.stringify(cut.qualifier ?? "")}, grams: ${cut.grams} },`);
+    lines.push("      ],");
+  }
+  return lines.length > 0 ? ["    cuts: {", ...lines, "    },"] : [];
+}
+
+function rowLines(r: FdcRecord, measures: Map<string, MeasureWeight>): string[] {
+  const single = [...measures].flatMap(([measure, w]) => (w.kind === "single" ? [{ measure, ...w.weighed }] : []));
+  const grams = single.map((w) => `${w.measure}: ${w.grams}`).join(", ");
+  const qualified = single.flatMap((w) => (w.qualifier === undefined ? [] : [`${w.measure}: ${JSON.stringify(w.qualifier)}`]));
   return [
     "  {",
     `    ingredient: ${JSON.stringify(r.ingredient)},`,
     `    fdcId: ${r.fdcId},`,
     `    fdcDescription: ${JSON.stringify(r.fdcDescription)},`,
     `    retrieved: ${JSON.stringify(r.retrieved)},`,
-    `    gramsPer: { ${grams} },`,
+    `    gramsPer: ${grams.length > 0 ? `{ ${grams} }` : "{}"},`,
     ...(qualified.length > 0 ? [`    measuredAs: { ${qualified.join(", ")} },`] : []),
+    ...cutLines(measures),
     "  },",
   ];
 }
@@ -133,6 +170,14 @@ const HEADER = `/**
 /** The volume measures a recipe actually uses. */
 export type VolumeMeasure = "cup" | "tbsp" | "tsp";
 
+/** One way USDA weighed a measure: "chopped", "ground". */
+export interface MeasuredCut {
+  /** FDC's own words for what it weighed. */
+  as: string;
+  /** Grams per ONE measure of this cut. */
+  grams: number;
+}
+
 export interface MeasuredPortion {
   /** Matches the \`ingredient\` key used by the USDA composition fetch. */
   ingredient: string;
@@ -147,12 +192,21 @@ export interface MeasuredPortion {
    * The preparation USDA measured, where the portion was qualified —
    * "chopped", "ground", "shredded". Present only for a qualified measure; an
    * unqualified one always wins over a qualified one for the same measure, and
-   * a qualifier naming another food ("whipped", "in shell") is never used.
+   * a qualifier naming another food ("whipped", "in shell", "cherry") is
+   * never used.
    *
    * It matters: a cup of CHOPPED onion and a cup of whole onion are different
    * masses, and the reader deserves to know which was weighed.
    */
   measuredAs?: Partial<Record<VolumeMeasure, string>>;
+  /**
+   * A measure USDA weighed only qualified, several ways, at different weights:
+   * a cup of walnuts is 80 g ground and 117 g chopped. No one of them is the
+   * ingredient's cup, so the measure is absent from \`gramsPer\`, and a recipe
+   * line is weighed only when its own words name exactly one cut (see
+   * \`volumeToMass\`).
+   */
+  cuts?: Partial<Record<VolumeMeasure, readonly MeasuredCut[]>>;
 }
 `;
 
