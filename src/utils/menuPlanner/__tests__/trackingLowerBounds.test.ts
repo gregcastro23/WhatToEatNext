@@ -5,7 +5,7 @@
  * (owner ruling 2026-09-29). A future dashboard reads the coverage to say so.
  *
  * Real catalog rows: Butter Poppyseed Sauce states sodium and sugar; Authentic
- * Kofta Kebab (10 ingredients) states neither; Falafel publishes no nutrition.
+ * Kofta Kebab (10 ingredients) states neither; Lentil Soup publishes no nutrition.
  *
  * Imports only modules that exist on the base branch, so the red proof is behavioural.
  */
@@ -16,7 +16,7 @@ import type { Recipe } from "@/types/recipe";
 
 const SAUCE = "hsca-lunch-all-butter-poppyseed-sauce";
 const KOFTA = "middleeastern-lunch-all-authentic-kofta-kebab";
-const FALAFEL = "middleeastern-dinner-all-falafel";
+const LENTIL_SOUP = "middleeastern-dinner-all-lentil-soup-shorbat-adas";
 const WEDNESDAY: DayOfWeek = 3;
 const WEEK_START = new Date("2026-09-27T00:00:00Z");
 
@@ -60,7 +60,7 @@ const sauceSodium = (): number => recipe(SAUCE).nutrition?.sodium ?? NaN;
 
 describe("the tracking result's nutrient coverage", () => {
   it("counts the planned meals that state each nutrient, apart from the calories coverage", () => {
-    const result = week([slot(recipe(SAUCE), "lunch"), slot(recipe(KOFTA), "dinner"), slot(recipe(FALAFEL), "snack")]);
+    const result = week([slot(recipe(SAUCE), "lunch"), slot(recipe(KOFTA), "dinner"), slot(recipe(LENTIL_SOUP), "snack")]);
     expect(result.coverage).toEqual({ planned: 3, withNutrition: 2 });
     expect(result.nutrientCoverage.sodium).toEqual({ planned: 3, withNutrition: 1 });
     expect(result.nutrientCoverage.sugar).toEqual({ planned: 3, withNutrition: 1 });
@@ -68,7 +68,7 @@ describe("the tracking result's nutrient coverage", () => {
   });
 
   it("records per meal which nutrients its recipe states", () => {
-    const day = week([slot(recipe(SAUCE), "lunch"), slot(recipe(KOFTA), "dinner"), slot(recipe(FALAFEL), "snack")]).days[WEDNESDAY];
+    const day = week([slot(recipe(SAUCE), "lunch"), slot(recipe(KOFTA), "dinner"), slot(recipe(LENTIL_SOUP), "snack")]).days[WEDNESDAY];
     expect(day?.meals.map((m) => m.stated.sodium)).toEqual([true, false, false]);
     expect(day?.meals.map((m) => m.stated.sugar)).toEqual([true, false, false]);
     expect(day?.nutrientCoverage.sodium).toEqual({ planned: 3, withNutrition: 1 });
