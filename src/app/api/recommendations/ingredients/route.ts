@@ -28,7 +28,7 @@ import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { elementalSignature } from "@/utils/elemental/signature";
 import { calculateElementalInfluences } from "@/utils/recommendation/ingredientRecommendation";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 const ELEMENT_KEYS = ["Fire", "Water", "Earth", "Air"] as const;
 
@@ -156,7 +156,9 @@ export async function GET(request: Request): Promise<NextResponse> {
       ingredients: items,
     });
 
-    return NextResponse.json(body);
+    return NextResponse.json(body, {
+      headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600" },
+    });
   } catch (error) {
     _logger.error("[recommendations/ingredients] Error:", error);
     return NextResponse.json(

@@ -32,7 +32,7 @@ const GROUP_DEFS: readonly GroupDef[] = [
   {
     label: "Cook",
     sub: "Compose and generate from raw materials",
-    paths: ["/recipes", "/recipe-builder", "/recipe-generator"],
+    paths: ["/recipes", "/recipe-builder", "/cosmic-recipe"],
   },
 ];
 

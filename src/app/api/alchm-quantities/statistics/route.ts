@@ -21,9 +21,8 @@ import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("AlchmQuantitiesStatisticsAPI");
 
-export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-export const revalidate = 0;
+export const revalidate = 300;
 
 const VALID_PERIODS: StatPeriod[] = [
   "day",

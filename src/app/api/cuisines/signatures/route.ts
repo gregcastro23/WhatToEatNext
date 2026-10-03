@@ -23,7 +23,7 @@ import type { ElementalProperties } from "@/types/alchemy";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { calculateElementalInfluences } from "@/utils/recommendation/ingredientRecommendation";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 const CUISINES_JSON_PATH = path.join(
   process.cwd(),
@@ -162,7 +162,9 @@ export async function GET(request: Request) {
       cuisines: rows,
     });
 
-    return NextResponse.json(body);
+    return NextResponse.json(body, {
+      headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600" },
+    });
   } catch (error) {
     _logger.error("[cuisines/signatures] Error:", error);
     return NextResponse.json(

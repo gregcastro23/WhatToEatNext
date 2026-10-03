@@ -42,7 +42,7 @@ export function RiffOnThisLink({ recipe }: Props) {
   if (flavors.length > 0) params.set("seedFlavors", flavors.join(","));
   if (recipe.name) params.set("seedFrom", recipe.name);
 
-  const href = `/recipe-generator?${params.toString()}`;
+  const href = `/recipe-builder?${params.toString()}`;
 
   return (
     <Link
