@@ -15,6 +15,7 @@ import type { ElementalProperties } from "@/types/recipe";
 import { recommendSauces } from "@/utils/cuisine/intelligentSauceRecommender";
 import { scaleSauceIngredients, parseYieldToServings } from "@/utils/sauceScaling";
 import { looseIncludes } from "@/utils/searchNormalize";
+import { roundedCalories } from "@/utils/roundedCalories";
 
 interface SauceSelectorProps {
   isOpen: boolean;
@@ -80,7 +81,7 @@ function SauceCard({
       {/* Nutritional Summary */}
       {sauce.nutritionalProfile && (
         <div className="flex gap-3 text-[10px] text-slate-500 mb-2">
-          <span>{sauce.nutritionalProfile.calories} cal</span>
+          <span>{roundedCalories(sauce.nutritionalProfile.calories) ?? "—"} cal</span>
           <span>{sauce.nutritionalProfile.protein}g pro</span>
           <span>{sauce.nutritionalProfile.fat}g fat</span>
           <span>{sauce.nutritionalProfile.carbs}g carb</span>

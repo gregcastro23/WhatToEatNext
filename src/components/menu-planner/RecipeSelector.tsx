@@ -30,6 +30,7 @@ import {
   type RecipeSearchOptions,
   type ScoredRecipe,
 } from "@/utils/recipeSearchEngine";
+import { roundedCalories } from "@/utils/roundedCalories";
 
 const logger = createLogger("RecipeSelector");
 
@@ -64,6 +65,8 @@ function RecipeCard({
         ([_, value]) => typeof value === "number",
       )
     : [];
+
+  const calories = roundedCalories(recipe.nutrition?.calories);
 
   return (
     <div
@@ -126,10 +129,10 @@ function RecipeCard({
             {recipe.prepTime}
           </span>
         )}
-        {recipe.nutrition?.calories && (
+        {calories !== null && (
           <span className="flex items-center gap-1">
             <span>🔥</span>
-            {recipe.nutrition.calories} cal
+            {calories} cal
           </span>
         )}
         {recipe.servingSize && (

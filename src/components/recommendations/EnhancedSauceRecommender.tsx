@@ -25,6 +25,7 @@ import {
   type SauceRole,
 } from "@/utils/cuisine/cuisineSauceProfiler";
 import { scaleSauceIngredients, parseYieldToServings } from "@/utils/sauceScaling";
+import { roundedCalories } from "@/utils/roundedCalories";
 
 // ============================================================================
 // Constants & Config
@@ -567,7 +568,7 @@ function SauceResultCard({
             {/* Nutrition preview if available */}
             {sauce.nutritionalProfile && (
               <div className="flex items-center gap-3 text-[10px] font-mono text-white/50 pt-1">
-                <span>{sauce.nutritionalProfile.calories} cal</span>
+                <span>{roundedCalories(sauce.nutritionalProfile.calories) ?? "—"} cal</span>
                 <span>·</span>
                 <span>{sauce.nutritionalProfile.protein}g protein</span>
                 <span>·</span>

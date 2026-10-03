@@ -12,6 +12,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
 import type { QueuedRecipe } from "@/contexts/RecipeQueueContext";
+import { roundedCalories } from "@/utils/roundedCalories";
 
 interface RecipeQueueProps {
   onSelectRecipe?: (recipe: QueuedRecipe) => void;
@@ -71,6 +72,8 @@ function QueueItemCard({
     setIsDragging(false);
   };
 
+  const calories = roundedCalories(recipe.nutrition?.calories);
+
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- Native drag events belong to this focusable list item; its nested controls provide the keyboard actions.
     <div
@@ -119,10 +122,10 @@ function QueueItemCard({
             <span>{recipe.prepTime}</span>
           </div>
         )}
-        {recipe.nutrition?.calories && (
+        {calories !== null && (
           <div className="flex items-center gap-1">
             <span>🔥</span>
-            <span>{recipe.nutrition.calories} cal</span>
+            <span>{calories} cal</span>
           </div>
         )}
       </div>
