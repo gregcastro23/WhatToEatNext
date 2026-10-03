@@ -32,7 +32,13 @@ export function BaseKpis({ base }: { base: BaseView }): React.JSX.Element {
   const live = base.claims.status === "live";
   return (
     <StatGrid>
-      <Stat label={base.chain} value={base.reachable ? "reachable" : "down"} sub={base.blockNumber ? `block ${Number(base.blockNumber).toLocaleString("en-US")}` : (base.error ?? "")} tone={base.reachable ? "ok" : "bad"} />
+      <Stat label={base.chain} value={base.reachable ? "reachable" : base.contractCheck.status === "rpc-chain-mismatch" ? "wrong chain" : "down"} sub={base.blockNumber ? `block ${Number(base.blockNumber).toLocaleString("en-US")}` : (base.error ?? "")} tone={base.reachable ? "ok" : "bad"} />
+      <Stat
+        label="ESMS contract"
+        value={base.contractCheck.status === "ready" ? "ready" : base.contractCheck.status === "not-configured" ? "off" : "blocked"}
+        sub={base.contractCheck.message}
+        tone={base.contractCheck.status === "ready" ? "ok" : base.contractCheck.status === "not-configured" ? "neutral" : "bad"}
+      />
       <Stat label="Claims minted" value={live ? fmtInt(base.claims.byStatus.minted ?? 0) : null} sub={live ? `${fmtInt(base.claims.last30d)} claims in 30d` : `claims ledger: ${base.claims.status}`} />
       <Stat label="Claims pending" {...pendingStat(base)} />
       <Stat label="ESMS moved on-chain" value={claimTotal(base)} sub="sum of all four tokens across minted claims" />
@@ -55,7 +61,7 @@ export function OperatorWallets({ base }: { base: BaseView }): React.JSX.Element
               <td className="py-1.5 font-mono">{w.address ? <ExternalLink href={`${base.explorer}/address/${w.address}`}>{shortAddress(w.address)}</ExternalLink> : "—"}</td>
               <td className="py-1.5 text-right font-mono">{w.eth === null ? "—" : w.eth.toFixed(5)}</td>
               <td className="py-1.5 text-right">
-                {!w.configured ? <Pill tone="neutral">not configured</Pill> : <Pill tone={w.low ? "bad" : "ok"}>{w.low ? "refill" : "funded"}</Pill>}
+                {!w.configured ? <Pill tone="neutral">not configured</Pill> : w.eth === null ? <Pill tone="neutral">unknown</Pill> : <Pill tone={w.low ? "bad" : "ok"}>{w.low ? "refill" : "funded"}</Pill>}
               </td>
             </tr>
           ))}
@@ -64,6 +70,11 @@ export function OperatorWallets({ base }: { base: BaseView }): React.JSX.Element
       <p className="mt-2 text-[10px] text-gray-500">
         ESMS contract {base.esmsContract ? <ExternalLink href={`${base.explorer}/address/${base.esmsContract}`}>{shortAddress(base.esmsContract)}</ExternalLink> : "not configured"} · chain id {base.chainId}
       </p>
+      {base.contractCheck.status !== "ready" && base.contractCheck.status !== "not-configured" && (
+        <p className="mt-1 text-[10px] text-rose-700" role="alert">
+          {base.contractCheck.message}
+        </p>
+      )}
     </Panel>
   );
 }

@@ -15,10 +15,6 @@ export const PREMIUM_MONTHLY_PRICE_USD = 24;
 export interface SubscriptionRevenueBreakdown {
   /** Active subs backed by a real Stripe subscription — actual paying customers. */
   paidSubs: number;
-  /**
-   * Active provisioned accounts.
-   */
-  provisionedSubs: number;
   /** Monthly recurring / token sales revenue in USD. */
   mrr: number;
   /** Total token bundles purchased (mcp_top_up / token_package transactions). */
@@ -34,11 +30,9 @@ export interface SubscriptionRevenueBreakdown {
  * Stripe subscriptions, one-time token purchases, daily yield volume, and token burns.
  */
 export async function getSubscriptionRevenueBreakdown(): Promise<SubscriptionRevenueBreakdown> {
-  const subResult = await executeQuery<{ paid: number; provisioned: number }>(
+  const subResult = await executeQuery<{ paid: number }>(
     `SELECT
-        COUNT(*) FILTER (WHERE stripe_subscription_id IS NOT NULL)::int AS paid,
-        COUNT(*) FILTER (WHERE stripe_subscription_id IS NULL
-                           AND tier = 'premium')::int                  AS provisioned
+        COUNT(*) FILTER (WHERE stripe_subscription_id IS NOT NULL)::int AS paid
        FROM user_subscriptions
       WHERE status = 'active'`,
   );
@@ -67,11 +61,9 @@ export async function getSubscriptionRevenueBreakdown(): Promise<SubscriptionRev
   }
 
   const paidSubs = Number(subResult.rows[0]?.paid ?? 0);
-  const provisionedSubs = Number(subResult.rows[0]?.provisioned ?? 0);
 
   return {
     paidSubs,
-    provisionedSubs,
     mrr: paidSubs * PREMIUM_MONTHLY_PRICE_USD,
     tokenBundlesSold,
     dailyYieldsClaimed,

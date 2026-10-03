@@ -3,8 +3,8 @@
  *
  * Regression guard for the Practitioner Cohorts panel. It must report:
  *  - paidPro from the SAME revenue breakdown that drives the Commerce MRR panel
- *    (Stripe-backed payers only) — never the ~950 comp/provisioned premium subs,
- *    which used to make "Paid Pro" contradict "MRR $0".
+ *    (Stripe-backed payers only) — never the ~950 comp/provisioned premium subs
+ *    (the retired tier), which used to make "Paid Pro" contradict "MRR $0".
  *  - onboarded + elemental from the canonical user_profiles columns, NOT the
  *    vestigial users.profile JSONB (which showed ~61 onboarded / 99.6% Unknown).
  */
@@ -25,8 +25,8 @@ describe("getPractitionerCohorts", () => {
   beforeEach(() => jest.clearAllMocks());
 
   it("uses canonical sources + revenue paidSubs (never JSONB, never all-active subs)", async () => {
-    // 955 provisioned premium, 0 paying — the trap the old query fell into.
-    mockRev.mockResolvedValue({ paidSubs: 0, provisionedSubs: 955, mrr: 0 });
+    // 0 paying: paidPro must read 0, not a count of all active subs.
+    mockRev.mockResolvedValue({ paidSubs: 0, mrr: 0 });
     mockQ.mockImplementation((sql: string) => {
       if (/FROM users\b/.test(sql) && /is_active/.test(sql))
         return Promise.resolve({ rows: [{ count: 200 }] }); // active

@@ -851,12 +851,10 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
 
   let mrr = 0;
   let paidSubs = 0;
-  let provisionedSubs = 0;
   let live = true;
   try {
-    // Only Stripe-backed subs are revenue; provisioned/agent accounts are not.
-    ({ paidSubs, provisionedSubs, mrr } =
-      await getSubscriptionRevenueBreakdown());
+    // Only Stripe-backed subs are revenue.
+    ({ paidSubs, mrr } = await getSubscriptionRevenueBreakdown());
   } catch (err) {
     _logger.warn("[systemStatus] subscriptions query failed:", err);
     live = false;
@@ -940,7 +938,7 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
     status,
     summary:
       status === "OK"
-        ? `${paidSubs} paid · MRR $${mrr.toLocaleString()}${provisionedSubs > 0 ? ` · ${provisionedSubs} provisioned` : ""}`
+        ? `${paidSubs} paid · MRR $${mrr.toLocaleString()}`
         : status === "DEGRADED"
           ? synthetic.stale
             ? "Synthetic stripe-webhook probe stale"
@@ -955,11 +953,6 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
     metrics: [
       { label: "Paid subs", value: `${paidSubs}`, raw: paidSubs },
       { label: "MRR", value: `$${mrr.toLocaleString()}`, raw: mrr },
-      {
-        label: "Provisioned",
-        value: `${provisionedSubs}`,
-        raw: provisionedSubs,
-      },
       {
         label: "Webhook 5xx · 1h",
         value: `${webhook.errors5xx}`,

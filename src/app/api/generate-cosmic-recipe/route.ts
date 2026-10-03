@@ -27,6 +27,11 @@ import {
   applyPersonalizedPricing,
   getPersonalizedPricingContext,
 } from "@/lib/economy/livePricing";
+import {
+  refundBasketAfterSwap,
+  type AutoSwapExecution,
+  type AutoSwapRefusal,
+} from "@/lib/economy/swappingBridge";
 import { withObservability } from "@/lib/observability/withObservability";
 import { getServiceUrl } from "@/lib/serviceUrls";
 import { foodDiaryService } from "@/services/FoodDiaryService";
@@ -91,7 +96,51 @@ const cosmicRecipeBodySchema = z.object({
   preferredCuisine: z.string().trim().max(80).optional(),
   idempotencyKey: z.string().trim().min(8).max(160).optional(),
   requestId: z.string().trim().min(8).max(160).optional(),
+  /**
+   * Let the Swapping Bridge cover a short ESMS axis from the caller's surplus
+   * coins at live EEI parity. Default true; false charges the basket exactly
+   * as priced or refuses with 402.
+   */
+  autoSwap: z.boolean().optional(),
 });
+
+/** What the response tells the client about how the generation was paid. */
+interface PaymentMetadata {
+  charged: boolean;
+  /** The live, personalized ESMS basket debited. */
+  costs?: { spirit: number; essence: number; matter: number; substance: number };
+  transactionGroupId?: string;
+  /** Surplus coins the Swapping Bridge converted to fund this charge, if any. */
+  autoSwap: AutoSwapExecution | null;
+}
+
+const AXIS_LABEL = [
+  ["spirit", "Spirit"],
+  ["essence", "Essence"],
+  ["matter", "Matter"],
+  ["substance", "Substance"],
+] as const;
+
+/** "2.50 Spirit, 2.50 Essence, 2.50 Matter and 2.50 Substance" — every axis, not two. */
+function describeBasket(costs: PaymentMetadata["costs"] & object): string {
+  const parts = AXIS_LABEL.map(([key, label]) => `${costs[key].toFixed(2)} ${label}`);
+  return `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
+}
+
+/** The 402 copy, honest about whether the bridge tried and why it could not help. */
+function insufficientTokensMessage(
+  costs: PaymentMetadata["costs"] & object,
+  refusal: AutoSwapRefusal | undefined,
+): string {
+  const base = `You have generated your free recipe for today. Generating another costs ${describeBasket(costs)}.`;
+  const why =
+    refusal?.reason === "rates_unavailable"
+      ? " Live exchange rates are unavailable right now, so your surplus coins could not be swapped to cover it."
+      : refusal
+        ? " Your combined balance cannot cover that, even after swapping surplus coins at live rates."
+        : "";
+  return `${base}${why} Earn more via the daily Cosmic Yield or complete quests.`;
+}
 
 async function handlePost(request: NextRequest) {
   // Auth'd users → token economy (Spirit/Essence per cosmic recipe) is the throttle.
@@ -105,7 +154,7 @@ async function handlePost(request: NextRequest) {
   // Parse the body BEFORE any money moves.
   //
   // This used to sit ~50 lines below the ESMS debit, so a malformed request
-  // paid full price (15-48 ESMS) for a 400. Hoisting deletes those two
+  // paid full price for a 400. Hoisting deletes those two
   // charge-and-fail exits outright rather than refunding them, and stops a junk
   // request costing a daily-limit query, a shop lookup and a pricing
   // computation. Safe: nothing in the auth/debit block below reads the body,
@@ -149,7 +198,16 @@ async function handlePost(request: NextRequest) {
     userId: string;
     groupId: string;
     costs: { spirit: number; essence: number; matter: number; substance: number };
+    /**
+     * What a refund must credit to put the user back exactly where they were:
+     * the basket, net of any auto-swap that funded it. Equal to `costs` when
+     * nothing was swapped.
+     */
+    refund: { spirit: number; essence: number; matter: number; substance: number };
   } | null = null;
+  // Surfaced on the 200 so the client can show what was spent and swapped.
+  let payment: PaymentMetadata | null =
+    access.mode === "auth" ? { charged: false, autoSwap: null } : null;
 
   // Auth'd path: token economy is the throttle. Every user gets 1 free daily generation,
   // and subsequent recipe generations spend personalized live ESMS tokens.
@@ -221,6 +279,9 @@ async function handlePost(request: NextRequest) {
           ...(clientKey
             ? { idempotencyKey: `cosmic_recipe_debit:${clientKey}` }
             : {}),
+          // A short axis is covered from the user's surplus coins at live EEI
+          // parity, in the same transaction as the debit (Swapping Bridge).
+          autoSwap: parsed.data.autoSwap ?? true,
         });
 
         if (!purchase.success && purchase.reason !== "already_owned") {
@@ -251,12 +312,16 @@ async function handlePost(request: NextRequest) {
               headers: { "Content-Type": "application/json" },
             });
           }
+          const refusal = "autoSwap" in purchase ? purchase.autoSwap : undefined;
           return new Response(JSON.stringify({
             error: "Insufficient tokens",
-            message: `You have generated your free recipe for today. Generating another requires ${liveCost.spirit.toFixed(2)} Spirit and ${liveCost.essence.toFixed(2)} Essence. Earn more via the daily Cosmic Yield or complete quests.`,
+            message: insufficientTokensMessage(liveCost, refusal),
             liveCost,
             pricing,
             recipesGeneratedToday: count,
+            // Why the Swapping Bridge could not fund it (shortfall, per-axis
+            // deficits) — absent when auto-swap was switched off.
+            ...(refusal ? { autoSwap: refusal } : {}),
           }), {
             status: 402,
             headers: { "Content-Type": "application/json" },
@@ -272,10 +337,20 @@ async function handlePost(request: NextRequest) {
         // nothing. Refunding that would credit ESMS never taken. Dev-only, but
         // this is a money path.
         if (purchase.success && !purchase.transactionGroupId.startsWith("mem_")) {
+          // `?? null`: a result without the field (older mocks, the in-memory
+          // path) means nothing was swapped.
+          const swapped = purchase.autoSwap ?? null;
           spend = {
             userId,
             groupId: purchase.transactionGroupId,
             costs: liveCost,
+            refund: refundBasketAfterSwap(liveCost, swapped?.legs ?? []),
+          };
+          payment = {
+            charged: true,
+            costs: liveCost,
+            transactionGroupId: purchase.transactionGroupId,
+            autoSwap: swapped,
           };
         }
       }
@@ -514,6 +589,9 @@ async function handlePost(request: NextRequest) {
       success: true,
       ...recipe,
       recipesGeneratedToday: updatedCount,
+      // How this generation was paid, including any auto-swap legs. Absent
+      // for demo users, who pay nothing.
+      ...(payment ? { payment } : {}),
     };
 
     if (demoMode) {
@@ -538,9 +616,13 @@ async function handlePost(request: NextRequest) {
   } finally {
     if (spend && !delivered) {
       try {
-        // Credit the EXACT basket that was debited. `applyPersonalizedPricing`
-        // rounds to 2dp and the column is DECIMAL(12,4), so this reverses the
-        // debit with no rounding residual in either direction.
+        // Credit the EXACT basket that was debited — net of any auto-swap that
+        // funded it, so the user ends where they started: the coins the bridge
+        // consumed come back and the ones it delivered are not credited twice.
+        // `refundBasketAfterSwap` is a pure credit (never negative on an axis),
+        // and equals the debited basket when nothing was swapped.
+        // `applyPersonalizedPricing` rounds to 2dp and the column is
+        // DECIMAL(12,4), so this reverses the debit with no rounding residual.
         //
         // Idempotency is the ledger's, not ours: token_transactions
         // .idempotency_key is UNIQUE and creditTokensSql upserts the balance
@@ -554,10 +636,10 @@ async function handlePost(request: NextRequest) {
         const outcome = await tokenEconomy.creditMultipleTokensDetailed(
           spend.userId,
           [
-            { tokenType: "Spirit", amount: spend.costs.spirit },
-            { tokenType: "Essence", amount: spend.costs.essence },
-            { tokenType: "Matter", amount: spend.costs.matter },
-            { tokenType: "Substance", amount: spend.costs.substance },
+            { tokenType: "Spirit", amount: spend.refund.spirit },
+            { tokenType: "Essence", amount: spend.refund.essence },
+            { tokenType: "Matter", amount: spend.refund.matter },
+            { tokenType: "Substance", amount: spend.refund.substance },
           ],
           "cosmic_recipe_refund",
           {

@@ -112,7 +112,6 @@ async function handlePost(request: NextRequest) {
         stages: stages.map((s) => ({ name: s.name, ingredients: s.ingredients })),
         circuitContext: circuit,
         userId,
-        tier: "premium",
       }),
     });
 

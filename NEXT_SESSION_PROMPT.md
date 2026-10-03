@@ -1,95 +1,27 @@
-# Phase 43: Domain Loose Optionality (≤115), Bare JSON Casts (≤85), Assertion Sites (≤2,850), Scripts Typecheck (≤3)
+# Next session — post-Phase 43 reliability and type-safety targets
 
-Implement this campaign in the existing WhatToEatNext repository. Start by presenting a clear, evidence-based plan and pause for review. Do not proceed to implementation until the plan has been reviewed and approved, allowing for potential improvements to be incorporated. Once approved, use judgment for routine reversible decisions, and ask only when a missing requirement or permission genuinely blocks dependent work.
+Phase 43 is complete in [PR #933](https://github.com/gregcastro23/WhatToEatNext/pull/933). Read `docs/PHASE_43_CLOSEOUT.md` and check the PR's latest status before beginning. Work from an updated `master` after the PR merges, or explicitly state why a follow-up must branch from the PR. Do not repeat the completed optionality, cast, assertion, or scripts campaigns.
 
----
+The committed Phase 43 ceilings are 106 domain loose-optionality sites, 89 wire sites, 85 production bare JSON casts (94 total), zero scripts typecheck errors, 2,827 single assertion sites, and 1,293 tracked lint warnings. Re-measure against the actual starting tree before changing a baseline; these numbers are context, not permission to spend headroom.
 
-## 1. Starting State (Phase 42, measured on `master` @ `b20e3baf` + the Phase 42 diff, September 25, 2026)
+## 1. First implementation target: make agent creation truly idempotent
 
-Phase 42's full report is `docs/PHASE_42_CLOSEOUT.md`. Branch from `master` after Phase 42 merges, not from the Phase 42 branch. Check `git log master..HEAD` on the new branch before measuring: Phase 42's branch was first cut with two unmerged #890 commits on it, and they pushed a gate over its baseline.
+`src/app/api/agents/unified/route.ts` now scopes `clientRequestId` lookup to `createdByUserId`, but the lookup and the three inserts (`users`, `user_profiles`, `token_balances`) are separate operations. Two concurrent requests can both miss the lookup and create agents; failure after the first insert can leave a partial agent that a retry cannot find through the current join. This is the highest-value follow-up because a lost 2xx response already causes the client to retry with the same ID.
 
-| Gate | Measured | Baseline file |
-|---|---:|---|
-| Domain loose optionality | **133** (89 wire, allowlisted) | `.lint-debt-baseline.json` → `looseOptionality` |
-| Bare JSON casts (`check:bare-json`) | **97 prod / 106 total**: 92 `res.json()` casts + 5 predicate-less `z.custom<T>()` | `.bare-json-casts-baseline.json` |
-| Scripts typecheck errors (`check:scripts`) | **9 across 6 files** | `.scripts-typecheck-baseline.json` |
-| Single assertion sites | **2,889** (3,053 total) | `.lint-debt-baseline.json` → `assertionSites` |
-| Non-null assertions | **599** | `.lint-debt-baseline.json` → `assertionSites.nonNull` |
-| Tracked lint debt | **1,304** | `.lint-debt-baseline.json` |
+Design a database-enforced uniqueness boundary for `(creator, clientRequestId)` and make the creation writes atomic. Inspect the migration runner and existing rows before choosing a partial unique index on `users.profile` or a dedicated idempotency table. Plan the rollout so the constraint exists before code relies on it. On a uniqueness conflict, read and return the completed original agent rather than surfacing a generic 500. Decide and document what a replay with the same ID but different input means. Preserve behavior for requests without a client ID.
 
----
+Acceptance evidence: two simultaneous requests by one creator return one agent ID and leave one complete set of rows; replay after a lost response returns that ID; the same request ID from another creator is independent; an injected failure rolls back all related writes; malformed input cannot retrieve a previous agent. Prefer a database-backed concurrency test over a mock that only checks SQL strings. If a database test cannot run locally, keep the migration and concurrency claim explicitly unverified.
 
-## 2. Rules Phases 41–42 learned the hard way
+## 2. Next type-safety target: replace opaque response validation with real contracts
 
-1. **A schema that checks nothing is still a cast.** `z.custom<T>()` with no
-   predicate accepts every value, and `check:bare-json` counts it.
-2. **Drift-guard every response schema against a named server type.** Use
-   `type _X = AssertTrue<ServerSatisfies<ServerType, z.infer<typeof Schema>>>`
-   (`src/lib/admin/schemas/drift.ts`).
-   - If the route builds its payload inline, name the type (in `src/types/` or
-     the service) and annotate `NextResponse.json<T>(…)`.
-   - When the schema covers the whole payload, guard both directions. The
-     reader can then keep the domain type with no cast.
-3. **Match the wire, not the type.** Read every return path of the route,
-   including degrade paths that send `null`.
-   - A cast can hide a type that lies. `/api/food-diary` sent four totals where
-     the hook claimed a full summary, and the dashboard crashed on it.
-   - The subscription route sends `tier: "standard"`, which is outside its own
-     union.
-   - Stored enums can be wider than the TypeScript union. Audit before writing
-     `z.enum`.
-4. **A failed parse must not degrade silently.** Log with `_logger.error`
-   (`warn` is silent in prod) and keep what the screen already showed.
-   - For writes, a 2xx you cannot read is **not** a failure: the order may
-     have settled, or the comment may have posted. Say so.
-   - An absent count is unknown (`null`), never `0`.
-5. **Optionality fixes.**
-   - If a type is annotated `z.ZodType<T>` and every parse site reads JSON,
-     pair `?: T` with `.exactOptional()`.
-   - If every constructor always sets the key, write `key: T | undefined` and
-     drop the `?`.
-   - Never win the count by renaming to `*Wire`, adding to `wireAllowlist`, or
-     moving files into `src/lib/validation/`.
-6. **`check:diff-assertions` scans `src/` only.** Grep the `scripts/` diff for
-   `as` and `!` by hand. Test files count toward `single`: use
-   `installFetchMock` (`src/__tests__/helpers/fetchMock.ts`), not `as Response`.
-7. **Prove each type-only edit.** Diff the emitted JavaScript
-   (`ts.transpileModule`) with a real `diff -u`, and read every file that differs.
-8. **Measure and ratchet on the merged tree.** CI checks the PR merged into
-   master, so merge `origin/master` first, then run the three `:ratchet` scripts.
+Five predicate-less `z.custom<T>()` sites still act as casts at response boundaries: `PremiumContext.tsx` (subscription), `useFoodDiary.ts` (entries and entry), and `useTables.ts` (list and detail). Start with one coherent producer-to-consumer slice, read every success, degraded, and error response, and validate only fields that the consumer actually needs. Add compile-time producer/reader compatibility checks where an authoritative server type exists, plus runtime tests for real response shapes and malformed 2xx payloads. Preserve prior good read state and uncertain mutation handling; do not replace the casts with `z.unknown()`, a permissive `z.custom`, or an unchecked assertion.
 
----
+The subscription route currently emits `tier: "standard"`, which is outside the existing union. Audit the product meaning of that tier before changing entitlement behavior or narrowing the schema. For food diary, inspect stored `food_source`, `meal_type`, and serving-unit values before using enums. For tables, inspect `composite_snapshot` and the fields each reader consumes. If a contract needs a product or data decision, leave that site deferred with evidence and complete a safe slice instead.
 
-## 3. Recommended Scope for Phase 43
+## 3. Investigate the unresolved Monica chat endpoint
 
-1. **Workstream A: Domain loose optionality (133 → ≤ 115).** Densest remaining
-   files:
-   - `src/app/api/planetary-positions/route.ts` (8)
-   - `src/contexts/GroceryCartContext.tsx` (7)
-   - `src/app/api/ingredients/[name]/route.ts` (7)
-   - `src/hooks/useUserLocation.ts` (7)
-   - `src/server/hono-api.ts` (6)
-   - `src/hooks/useChartData.ts`, `src/lib/order/orderList.ts` and
-     `src/services/AlchemicalApiClient.ts` (5 each)
-2. **Workstream B: Bare JSON (97 → ≤ 85).** The 92 `res.json()` casts,
-   densest first:
-   - `philosophers-stone/page.tsx` (3), `celestial-lab/alchm/page.tsx` (3),
-     `useAgentRelationalData.ts` (3), `tables/InvitePanel.tsx` (3)
-   - then the 2-cast files
-3. **The five deferred `z.custom` sites need decisions first (closeout §4).**
-   Do not convert them blind.
-   - `PremiumContext`: owner ruling on the `"standard"` tier (entitlement).
-   - `useFoodDiary` entries: audit stored `food_source` / `meal_type` /
-     `serving.unit` values against the unions.
-   - `useTables`: view types per reader, or a `composite_snapshot` audit.
-4. **Workstream C: Assertion sites (2,889 → ≤ 2,850).** Typed accumulators and
-   type-guarded unions across `src/data/` and `src/utils/`, in production code
-   first.
-5. **Workstream D: Scripts typecheck (9 → ≤ 3).**
-   - `backfillHscaElementalProperties` (2), `backfillMonicaPerConstruction` (2)
-     and `checkNoStrayKalchmFormula` (2)
-   - then `auditIngredients`, `generate-cuisine-images` and
-     `generate-esms-baseline` (1 each)
-6. **Open finding (needs a ruling, not a type fix).** The house-stellium bonus
-   in `calculateEnhancedStelliumEffects` never applies (`"Fire"` vs `fire`
-   keys). Enabling it changes scores.
+`src/app/(alchm)/philosophers-stone/page.tsx` still calls `/api/monica-agent`, while Phase 43 found no local Next route or documented rewrite for that path. Trace the actual deployed request and intended provider before changing code. If the endpoint is absent, make its user-facing failure explicit and propose or implement the smallest supported route/consumer repair with a verified response contract. Do not invent a schema from the old cast or silently redirect it to `/api/agents/unified` without checking semantics.
+
+## Working rules and completion
+
+Keep the first session focused on target 1; take target 2 or 3 only if the primary change is complete and verified. Treat the house-stellium `"Fire"`/`fire` mismatch as a separate scoring decision, not a type-only cleanup. For response work, distinguish a server rejection from an unreadable 2xx mutation result. Run focused tests, `bun run verify:static`, and the relevant build/integration checks. Ratchet baselines only after measuring the final merged tree. Record remaining risks and actual gate deltas in a closeout note.

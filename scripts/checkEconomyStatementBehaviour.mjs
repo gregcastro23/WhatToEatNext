@@ -23,6 +23,7 @@ import {
   getBalancesSql,
   hasActivePurchaseSql,
   idempotencyProbeSql,
+  lockBalancesForUpdateSql,
   shopItemDetailSql,
   shopItemForPurchaseSql,
   shopItemsSql,
@@ -302,6 +303,93 @@ try {
   t2.rowCount === 0 && same(await balances(t), afterT)
     ? ok("unaffordable transmutation moves NEITHER axis")
     : no(`returned ${t2.rowCount} rows, balances ${JSON.stringify(await balances(t))}`);
+
+  // ── auto-swapped purchase (Swapping Bridge ledger shape) ─────────────────
+  // The bridge covers a short axis by transmuting surplus coins, then pays,
+  // all in one transaction and ONE transaction group. Replayed here with the
+  // same builders the service sends, in the same order: lock, legs, payment.
+  console.log("\nauto-swapped purchase (swap legs + payment share one group)");
+  const swapUser = await mkUser("auto-swapper");
+  for (const [tokenType, amount] of [["Spirit", 20], ["Matter", 5], ["Substance", 5]]) {
+    const q = creditTokensSql({
+      userId: swapUser, tokenType, amount, sourceType: "signup_grant",
+      sourceId: null, description: "probe funding",
+      transactionGroupId: randomUUID(), idempotencyKey: `fund:${swapUser}:${tokenType}`,
+    });
+    await c.query(q.sql, q.values);
+  }
+  const lockQ = lockBalancesForUpdateSql(swapUser);
+  const locked = await c.query(lockQ.sql, lockQ.values);
+  locked.rowCount === 1 && Number(locked.rows[0].essence) === 0
+    ? ok("balance lock reads the row (essence 0 — the short axis)")
+    : no(`lock returned ${locked.rowCount} rows`);
+  const lockNobody = lockBalancesForUpdateSql(randomUUID());
+  (await c.query(lockNobody.sql, lockNobody.values)).rowCount === 0
+    ? ok("balance lock reads NOTHING for a user with no row — no row conjured")
+    : no("balance lock returned a row for a user that has none");
+
+  const swapGroup = randomUUID();
+  const swapKey = `probe-swap-${randomUUID()}`;
+  // Cover a 4-Essence deficit from Spirit at 1.25 Spirit per Essence.
+  const legQ = transmuteSql({
+    fromColumn: "spirit", toColumn: "essence", userId: swapUser,
+    costAmount: 5, targetAmount: 4, transactionGroupId: swapGroup,
+    fromToken: "Spirit", toToken: "Essence",
+    debitDescription: "probe auto-swap debit", creditDescription: "probe auto-swap credit",
+    idempotencyKey: `${swapKey}:swap0`,
+  });
+  const leg = await c.query(legQ.sql, legQ.values);
+  const payQ = debitAllTokensSql({
+    userId: swapUser, amounts: COST, description: "probe auto-swapped purchase",
+    idempotencyKey: swapKey,
+    intent: { kind: "purchase", shopItemId: itemId },
+    transactionGroupId: swapGroup,
+  });
+  const paid = await c.query(payQ.sql, payQ.values);
+  const afterSwapPay = await balances(swapUser);
+  leg.rowCount === 1 &&
+  paid.rowCount === 1 &&
+  paid.rows[0].txn_group_id === swapGroup &&
+  same(afterSwapPay, { spirit: 14, essence: 2, matter: 2, substance: 1 })
+    ? ok("leg then payment: spirit 20-5-1, essence 0+4-2, matter 5-3, substance 5-4")
+    : no(
+        `leg ${leg.rowCount} / pay ${paid.rowCount} / group ${paid.rows[0]?.txn_group_id} / ${JSON.stringify(afterSwapPay)}`,
+      );
+
+  const grouped = await c.query(
+    `SELECT source_type, token_type, amount::numeric AS amount FROM token_transactions
+      WHERE transaction_group_id = $1`,
+    [swapGroup],
+  );
+  // Compared as a set: rows inside one data-modifying CTE are numbered in the
+  // order the executor happens to run the sub-statements, which is not a
+  // property worth pinning.
+  const shape = grouped.rows
+    .map((r) => `${r.source_type}:${r.token_type}:${Number(r.amount)}`)
+    .sort();
+  JSON.stringify(shape) ===
+  JSON.stringify(
+    [
+      "transmutation:Spirit:-5",
+      "transmutation:Essence:4",
+      "premium_purchase:Spirit:-1",
+      "premium_purchase:Essence:-2",
+      "premium_purchase:Matter:-3",
+      "premium_purchase:Substance:-4",
+    ].sort(),
+  )
+    ? ok("one group holds both transmutation legs AND the four payment rows")
+    : no(`group rows are ${JSON.stringify(shape)}`);
+
+  const swapProbe = idempotencyProbeSql(swapKey);
+  (await c.query(swapProbe.sql, swapProbe.values)).rowCount === 1
+    ? ok("the purchase's idempotency probe sees the swap keys (same prefix)")
+    : no("idempotency probe missed the auto-swap rows");
+
+  const legReplay = await attempt(() => c.query(legQ.sql, legQ.values));
+  !legReplay.ok && legReplay.error?.code === "23505" && same(await balances(swapUser), afterSwapPay)
+    ? ok("a replayed swap leg is rejected with 23505 — no second conversion")
+    : no(`leg replay: ok=${legReplay.ok} code=${legReplay.error?.code}`);
 
   // ── idempotency: a retry must not charge twice ───────────────────────────
   console.log("\nidempotency (a client retry must not double-charge)");

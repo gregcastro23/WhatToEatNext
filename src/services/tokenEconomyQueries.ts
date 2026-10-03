@@ -174,6 +174,31 @@ export function getBalancesSql(userId: string): BuiltQuery {
   };
 }
 
+/**
+ * Read the four axes AND hold the balance row until the transaction ends.
+ *
+ * Only meaningful inside a transaction. The Swapping Bridge plans its swap
+ * legs from these numbers and then writes them; without the lock, a concurrent
+ * spend landing between the read and the writes would leave the plan priced
+ * against balances that no longer exist. With it, the plan and the writes see
+ * the same row.
+ *
+ * Deliberately NOT an upsert like `getBalancesSql`: a user with no balance row
+ * has nothing to swap, and this must read zero rows for them — the same
+ * fail-closed shape every debit-side statement here keeps.
+ */
+export function lockBalancesForUpdateSql(userId: string): BuiltQuery {
+  const p = new QueryParams();
+  const user = p.add(userId);
+  return {
+    sql: `SELECT spirit, essence, matter, substance
+            FROM token_balances
+           WHERE user_id = ${user}
+           FOR UPDATE`,
+    values: p.values,
+  };
+}
+
 // ─── Single-axis credit / debit ───────────────────────────────────────
 
 // Single-statement credit: insert an immutable ledger entry (idempotency-guarded)
@@ -399,6 +424,19 @@ export function debitAllTokensSql(opts: {
    *  slips past any application-level pre-check. Null disables the guard. */
   idempotencyKey: string | null;
   intent: DebitAllIntent;
+  /**
+   * Write the debit under THIS group instead of a freshly generated one.
+   *
+   * The Swapping Bridge needs it: an auto-swapped payment writes its
+   * transmutation legs first, and the payment debit must land in the same
+   * group so the swap and the purchase it funded reconcile together.
+   *
+   * Bound AFTER every other parameter, and only when supplied, so the
+   * statement every existing caller sends stays byte-identical to the
+   * pre-refactor fixtures `checkEconomyStatementBehaviour.mjs` compares
+   * against. Omitted or null keeps `uuid_generate_v4()`.
+   */
+  transactionGroupId?: string | null;
 }): BuiltQuery {
   const p = new QueryParams();
 
@@ -425,6 +463,12 @@ export function debitAllTokensSql(opts: {
     intent.kind === "purchase" ? p.add(intent.shopItemId) : p.add(intent.sourceId);
   const description = p.add(opts.description);
   const idem = p.add(opts.idempotencyKey);
+  // Last on purpose — see `transactionGroupId` above. Absent, it takes no slot
+  // and the statement is exactly what it was before this option existed.
+  const groupSource =
+    opts.transactionGroupId != null
+      ? `${p.add(opts.transactionGroupId)}::uuid`
+      : "uuid_generate_v4()";
 
   // An explicit ordered list, not an object: the axis order determines the CTE
   // order in the emitted SQL, and that should not rest on object key-ordering
@@ -473,7 +517,7 @@ export function debitAllTokensSql(opts: {
             AND spirit >= ${spirit} AND essence >= ${essence} AND matter >= ${matter} AND substance >= ${substance}
           ),
           new_group AS (
-            SELECT uuid_generate_v4() AS gid
+            SELECT ${groupSource} AS gid
           ),
 ${debits}
           updated AS (

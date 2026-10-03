@@ -13,7 +13,7 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { getCelestialRewardContext } from "@/lib/economy/celestial";
 import { PRACTICES } from "@/lib/economy/practices";
-import { getCurrentSwapRates } from "@/lib/economy/swapRates";
+import { getPlanetaryRulers } from "@/lib/economy/swapRates";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { practiceRewardService } from "@/services/practiceRewardService";
@@ -42,7 +42,8 @@ export async function GET(request: NextRequest) {
       questService.getQuestPanel(userId),
       streakService.getStreak(userId),
     ]);
-    const swap = getCurrentSwapRates();
+    // Display-only sky context: the grimoire must not depend on the price oracle.
+    const swap = getPlanetaryRulers();
 
     const practices = Object.values(PRACTICES).map((p) => {
       const coin = p.tokenType.toLowerCase() as "spirit" | "essence" | "matter" | "substance";

@@ -62,6 +62,8 @@ export interface AlertCandidate {
   severity: AlertSeverity;
   title: string;
   message: string;
+  /** Optional destination for the email's dashboard button. */
+  dashboardUrl?: string;
 }
 
 export interface DispatchedAlert extends AlertCandidate {
@@ -551,6 +553,7 @@ async function sendAlertEmail(
     previous: candidate.previous,
     current: candidate.current,
     severity: candidate.severity,
+    ...(candidate.dashboardUrl ? { dashboardUrl: candidate.dashboardUrl } : {}),
   });
   const results = await Promise.all(
     recipients.map((to) =>
