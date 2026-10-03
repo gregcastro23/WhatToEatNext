@@ -7,6 +7,7 @@ import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
 import type { Recipe } from "@/types/recipe";
+import { recipeSourceJsonLd } from "@/utils/recipe/recipeSource";
 import RecipeClient from "./RecipeClient";
 import type { Metadata } from "next";
 
@@ -314,6 +315,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
     totalTime: isoDuration(totalMinutes),
     keywords: keywordParts.length > 0 ? keywordParts.join(", ") : undefined,
     recipeIngredient: ingredientList,
+    isBasedOn: recipe.adaptedFrom ? recipeSourceJsonLd(recipe.adaptedFrom) : undefined,
     recipeInstructions: instructionList.map((text) => ({
       "@type": "HowToStep",
       text,

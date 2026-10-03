@@ -37,6 +37,7 @@ const SOURCE_LABELS: Record<string, string> = {
   streak_bonus: 'Streak Bonus',
   admin: 'Admin Grant',
   transit_attunement: 'Sky Drop',
+  duel_yield: 'Jing Arena',
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────

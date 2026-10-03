@@ -57,11 +57,25 @@ export interface IngredientAlchemicalSummary {
 }
 
 // Unified Recipe interface - consolidates all previous recipe types
+/** The published recipe an authored static recipe was adapted from. */
+export interface RecipeSource {
+  title: string;
+  author: string;
+  publisher: string;
+  url: string;
+  /** ISO date the source was read. */
+  accessed: string;
+  /** What the adaptation changed or left out. */
+  notes?: string;
+}
+
 export interface Recipe {
   // Core identification
   id: string;
   name: string;
   description?: string;
+  /** Credit for a recipe adapted from a published one. */
+  adaptedFrom?: RecipeSource;
   cuisine?: string;
   image?: string;
   imageUrl?: string;

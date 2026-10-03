@@ -11,8 +11,11 @@ import { normalizeText } from "./text";
 import type { IngredientKeyResolver } from "./recipeIngredientIndex";
 import type { IngredientRecord } from "./types";
 
-/** The ingredient-index resolver's signature: text → index slug (not always a catalog key). */
-export type IndexSlugResolver = (text: string) => string | null;
+/**
+ * The ingredient-index resolver's signature: text → index slug. Index slugs
+ * are not all catalog cards, so the resolver is told which slugs to accept.
+ */
+export type IndexSlugResolver = (text: string, accepts: (slug: string) => boolean) => string | null;
 
 function addForms(map: Map<string, string>, text: string, key: string): void {
   const { folded, stemmed } = normalizeText(text);
@@ -47,13 +50,16 @@ export function buildIngredientKeyResolver(
   resolveIndexSlug: IndexSlugResolver,
 ): IngredientKeyResolver {
   const forms = exactFormMap(ingredients);
+  const cardOf = (slug: string): string | null => lookup(forms, slug.replace(/_/g, " "));
+  // A slug with no card ("ground_beef") is skipped, so the text can reach the card it names (beef).
+  const isCard = (slug: string): boolean => cardOf(slug) !== null;
   const memo = new Map<string, string | null>();
   return (text) => {
     const cached = memo.get(text);
     if (cached !== undefined) return cached;
     const direct = lookup(forms, text);
-    const slug = direct === null ? resolveIndexSlug(text) : null;
-    const key = direct ?? (slug === null ? null : lookup(forms, slug.replace(/_/g, " ")));
+    const slug = direct === null ? resolveIndexSlug(text, isCard) : null;
+    const key = direct ?? (slug === null ? null : cardOf(slug));
     memo.set(text, key);
     return key;
   };

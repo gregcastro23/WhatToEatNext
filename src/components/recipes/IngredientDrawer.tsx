@@ -550,7 +550,7 @@ export function IngredientDrawer({
                 )}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {nut.calories != null && (
-                    <NutriStat label="Calories" value={nut.calories} color="text-amber-400" />
+                    <NutriStat label="Calories" value={Math.round(nut.calories)} color="text-amber-400" />
                   )}
                   {nut.macros?.protein != null && (
                     <NutriStat

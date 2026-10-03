@@ -42,8 +42,6 @@ export const UserInsightsSchema = z.object({
     medianMinutesToComplete: z.number().nullable(),
   }),
   tiers: z.object({
-    free: z.number(),
-    premium: z.number(),
     admin: z.number(),
     visitors: z.number().exactOptional(),
     accountHolders: z.number().exactOptional(),

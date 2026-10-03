@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { createPortal } from "react-dom";
 import CelestialEquilibrium from "@/components/CelestialEquilibrium";
 import type { ElementalProperties } from "@/types/recipe";
 
@@ -48,8 +49,11 @@ export default function RecipeRitualModal({
   const backgroundClass = getTransitBackground(dominantTransit);
   const isDarkBg = dominantTransit !== null;
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
+  // Portalled to <body>: the planner's meal slot and day card have a
+  // backdrop-filter, which makes them the containing block for `fixed`, so
+  // inline the overlay filled only the slot. z-[70] clears the phone tab bar (z 65).
+  return createPortal(
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-[70] flex justify-center items-center">
       <div
         className={`rounded-lg p-6 max-w-sm w-full shadow-xl ${backgroundClass}`}
       >
@@ -122,6 +126,7 @@ export default function RecipeRitualModal({
           Close
         </button>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

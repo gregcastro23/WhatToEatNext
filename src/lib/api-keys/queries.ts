@@ -8,24 +8,25 @@
  * audit trail and the user can still see "revoked" keys until pruned.
  */
 
+import { isOperatorAccount } from "@/lib/auth/adminEmails";
 import { executeQuery } from "@/lib/database";
-import { subscriptionService } from "@/services/subscriptionService";
+import { userDatabase } from "@/services/userDatabaseService";
 import { generateApiKey, type MintedKey } from "./keyMint";
 
 const DEFAULT_SCOPES = ["mcp:invoke"] as const;
 
 /**
- * Map the user's subscription tier to the api_keys.rate_limit_tier
- * value to mint with. Free users land on the `apprentice` per-key cap,
- * premium users on `alchemist`. Falls through to the legacy
- * `authenticated` default when the subscription lookup fails so a
- * transient DB hiccup doesn't block key minting.
+ * The api_keys.rate_limit_tier to mint with. Operators (admin role plus an
+ * allowlisted email) get the `alchemist` per-key cap; every other account
+ * gets `apprentice`. The subscription tier is retired and plays no part
+ * (owner ruling 2026-09-28). Falls through to the legacy `authenticated`
+ * default when the user lookup fails, so a transient DB hiccup doesn't block
+ * key minting.
  */
 export async function defaultRateLimitTier(userId: string): Promise<string> {
   try {
-    const sub = await subscriptionService.getUserSubscription(userId);
-    if (sub?.tier === "premium") return "alchemist";
-    if (sub?.tier === "free") return "apprentice";
+    const user = await userDatabase.getUserById(userId);
+    if (user) return isOperatorAccount(user) ? "alchemist" : "apprentice";
   } catch {
     // fall through
   }

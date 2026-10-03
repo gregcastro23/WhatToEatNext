@@ -136,6 +136,13 @@ export const BaseSchema = z.object({
   error: z.string().nullable(),
   blockNumber: z.string().nullable(),
   esmsContract: z.string().nullable(),
+  contractCheck: z.object({
+    status: z.enum(["ready", "not-configured", "invalid-address", "rpc-error", "rpc-chain-mismatch", "contract-missing", "read-failed"]),
+    address: z.string().nullable(),
+    expectedChainId: z.number(),
+    rpcChainId: z.number().nullable(),
+    message: z.string(),
+  }),
   recipeRegistry: z.string().nullable(),
   recipeNftEnabled: z.boolean(),
   wallets: z.array(

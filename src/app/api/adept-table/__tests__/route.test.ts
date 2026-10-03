@@ -12,6 +12,13 @@ jest.mock("@/lib/rateLimit", () => ({
   rateLimit: jest.fn().mockResolvedValue({ allowed: true }),
 }));
 
+// The ESMS charge has its own suite (chargesOnDelivery.test.ts); here it
+// always settles so the computation itself stays under test.
+jest.mock("@/lib/economy/featureCharge", () => ({
+  quoteFeature: async () => ({ feature: "alchemicalMidpoint", exempt: false }),
+  collectOrRefuse: async () => null,
+}));
+
 jest.mock("@/services/groupNatalChartService", () => ({
   calculateCompositeNatalChart: jest.fn().mockReturnValue({
     id: "composite-1",

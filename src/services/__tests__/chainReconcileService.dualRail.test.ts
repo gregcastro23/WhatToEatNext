@@ -12,8 +12,10 @@ jest.mock("@/lib/database", () => ({
 const mockReadEsmsBalancesMany = jest.fn();
 const mockReadEsmsClaimed = jest.fn();
 const mockEsmsOnchainConfigured = jest.fn();
+const mockProbeEsmsContract = jest.fn();
 jest.mock("@/lib/esms-chain/contract", () => ({
   esmsOnchainConfigured: () => mockEsmsOnchainConfigured(),
+  probeEsmsContract: () => mockProbeEsmsContract(),
   readEsmsBalancesMany: (wallets: string[]) => mockReadEsmsBalancesMany(wallets),
   readEsmsClaimed: (claimId: string) => mockReadEsmsClaimed(claimId),
   readEsmsRedeemed: jest.fn(),
@@ -36,6 +38,7 @@ jest.mock("@/lib/recipe-nft/minter", () => ({
 
 import {
   checkWalletInvariants,
+  healBurnedPurchases,
   settleStaleClaims,
 } from "@/services/chainReconcileService";
 import { esmsOnchainClaimService } from "@/services/esmsOnchainClaimService";
@@ -45,6 +48,26 @@ import { parseUnits } from "viem";
 describe("chainReconcileService - Dual-Rail Ledger Isolation", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+
+  it("reports one configuration failure before scanning shop pairs when the contract is absent", async () => {
+    mockEsmsOnchainConfigured.mockReturnValue(true);
+    mockProbeEsmsContract.mockResolvedValue({
+      status: "contract-missing",
+      message: "No ESMS contract code at 0x124E on eip155:8453",
+    });
+
+    const result = await healBurnedPurchases(40);
+
+    expect(result).toMatchObject({
+      pairsChecked: 0,
+      healed: 0,
+      failures: 1,
+      preflight: "contract-missing",
+    });
+    expect(result.firstError).toContain("No ESMS contract code");
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
+    expect(mockProbeEsmsContract).toHaveBeenCalledTimes(1);
   });
 
   describe("checkWalletInvariants", () => {

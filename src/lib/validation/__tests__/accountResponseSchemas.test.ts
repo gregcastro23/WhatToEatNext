@@ -4,11 +4,13 @@
  * paths that send `null`), serialized, and parsed by the client schema.
  */
 
+import { safeReadJson } from "@/lib/api/json";
 import {
   AgentSyncStatusResponseSchema,
   ApiKeyListResponseSchema,
   ApiKeyMintResponseSchema,
   AuthSessionsResponseSchema,
+  CelestialLabBalanceResponseSchema,
   EconomyBalanceResponseSchema,
   OnchainClaimPostResponseSchema,
   OnchainEsmsStatusSchema,
@@ -64,16 +66,53 @@ describe("security page: /api/internal/agent-sync/status", () => {
 });
 
 describe("/api/economy/balance", () => {
-  it("accepts the full EconomyBalanceResponse and keeps the four axes", () => {
-    const parsed = EconomyBalanceResponseSchema.safeParse(
-      wire({
-        success: true,
-        balances: { ...amounts, lastDailyClaimAt: null, lastDailyClaimAgentsAt: null, updatedAt: "2026-09-24T00:00:00Z" },
-        streak: { currentStreak: 3, longestStreak: 9 },
-        canClaimDaily: false,
-      }),
-    );
+  const fullAuthenticatedPayload = {
+    success: true,
+    balances: {
+      ...amounts,
+      lastDailyClaimAt: null,
+      lastDailyClaimAgentsAt: null,
+      updatedAt: "2026-09-24T00:00:00Z",
+    },
+    streak: {
+      currentStreak: 3,
+      longestStreak: 9,
+      lastActivityDate: "2026-09-23T00:00:00Z",
+      streakFrozenUntil: null,
+      updatedAt: "2026-09-24T00:00:00Z",
+    },
+    canClaimDaily: true,
+  };
+
+  const serverToServerPayload = {
+    balances: amounts,
+  };
+
+  it("accepts the server-to-server balances-only payload in EconomyBalanceResponseSchema", () => {
+    const parsed = EconomyBalanceResponseSchema.safeParse(wire(serverToServerPayload));
+    expect(parsed.success).toBe(true);
     expect(parsed.data?.balances).toEqual(amounts);
+  });
+
+  it("accepts the full EconomyBalanceResponse in EconomyBalanceResponseSchema and keeps the four axes", () => {
+    const parsed = EconomyBalanceResponseSchema.safeParse(wire(fullAuthenticatedPayload));
+    expect(parsed.success).toBe(true);
+    expect(parsed.data?.balances).toEqual(amounts);
+  });
+
+  it("round-trips the authenticated Celestial Lab balance payload with full metadata", () => {
+    const parsed = CelestialLabBalanceResponseSchema.safeParse(wire(fullAuthenticatedPayload));
+    expect(parsed.success).toBe(true);
+    expect(parsed.data?.success).toBe(true);
+    expect(parsed.data?.balances.spirit).toBe(amounts.spirit);
+    expect(parsed.data?.balances.lastDailyClaimAt).toBeNull();
+    expect(parsed.data?.streak.currentStreak).toBe(3);
+    expect(parsed.data?.canClaimDaily).toBe(true);
+  });
+
+  it("rejects server-to-server balances payload in CelestialLabBalanceResponseSchema (missing required success, streak, canClaimDaily)", () => {
+    const parsed = CelestialLabBalanceResponseSchema.safeParse(wire(serverToServerPayload));
+    expect(parsed.success).toBe(false);
   });
 
   it("rejects balances sent as numeric strings", () => {
@@ -81,6 +120,33 @@ describe("/api/economy/balance", () => {
       wire({ success: true, balances: { spirit: "1.5", essence: "2", matter: "0", substance: "0" } }),
     );
     expect(parsed.success).toBe(false);
+  });
+
+  it("preserves previous state on unreadable refresh responses via safeReadJson", async () => {
+    // Simulate existing state
+    let stateBalances = fullAuthenticatedPayload.balances;
+    let stateCanClaim = fullAuthenticatedPayload.canClaimDaily;
+
+    // Simulate an unreadable response (e.g. 500 error or malformed body)
+    const mockErrorResponse = new Response(JSON.stringify({ error: "gateway timeout" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const parsedData = await safeReadJson(mockErrorResponse, null, {
+      parse: (d) => CelestialLabBalanceResponseSchema.parse(d),
+    });
+
+    // When parsing fails or response is unreadable, safeReadJson returns null.
+    // The consumer guards with `if (data && data.success)`, so state updates are bypassed.
+    if (parsedData && parsedData.success) {
+      stateBalances = parsedData.balances;
+      stateCanClaim = parsedData.canClaimDaily;
+    }
+
+    // Assert that previous state was preserved untouched
+    expect(stateBalances).toEqual(fullAuthenticatedPayload.balances);
+    expect(stateCanClaim).toBe(true);
   });
 });
 

@@ -61,10 +61,9 @@ interface UserProfile {
   stats?: AlchemicalProfile;
   // Multi-chart cosmic identities
   savedCharts?: SavedChart[];
-  // Token Economy & Premium State
+  // Token Economy State
   tokenEconomy?: {
     balances: { spirit: number; essence: number; matter: number; substance: number };
-    isPremium: boolean;
     streakCount: number;
     lastDailyClaimAt: string | null;
   };

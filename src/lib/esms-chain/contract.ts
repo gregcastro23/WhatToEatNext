@@ -4,7 +4,7 @@
  * ledger stays authoritative; on-chain is a claim/mirror.
  */
 
-import { createPublicClient, http, type Address } from 'viem'
+import { createPublicClient, http, isAddress, type Address } from 'viem'
 import { base, baseSepolia } from 'viem/chains'
 import { readRpcUrl } from '@/lib/rpcUrl'
 
@@ -111,6 +111,77 @@ export function esmsRpcUrl(): string | undefined {
 
 export function esmsPublicClient() {
   return createPublicClient({ chain: esmsChain(), transport: http(esmsRpcUrl()) })
+}
+
+export type EsmsContractStatus =
+  | 'ready'
+  | 'not-configured'
+  | 'invalid-address'
+  | 'rpc-error'
+  | 'rpc-chain-mismatch'
+  | 'contract-missing'
+  | 'read-failed'
+
+export interface EsmsContractCheck {
+  status: EsmsContractStatus
+  address: string | null
+  expectedChainId: number
+  rpcChainId: number | null
+  message: string
+}
+
+interface EsmsProbeClient {
+  getChainId(): Promise<number>
+  getBytecode(args: { address: Address }): Promise<`0x${string}` | undefined>
+  readContract(args: {
+    address: Address
+    abi: typeof ESMS_ABI
+    functionName: 'redeemedOrders'
+    args: readonly [`0x${string}`]
+  }): Promise<boolean>
+}
+
+/** Check the actual RPC chain, deployed bytecode, and the shop audit read. */
+export async function probeEsmsContract(client: EsmsProbeClient = esmsPublicClient()): Promise<EsmsContractCheck> {
+  const expectedChainId = esmsChain().id
+  const address = process.env.ESMS_CONTRACT_ADDRESS ?? null
+  const result = (status: EsmsContractStatus, message: string, rpcChainId: number | null = null): EsmsContractCheck => ({
+    status, address, expectedChainId, rpcChainId, message,
+  })
+
+  let rpcChainId: number
+  try {
+    rpcChainId = await client.getChainId()
+  } catch {
+    return result('rpc-error', `ESMS RPC did not return a chain ID for eip155:${expectedChainId}`)
+  }
+  if (rpcChainId !== expectedChainId) {
+    return result('rpc-chain-mismatch', `ESMS RPC reports eip155:${rpcChainId}; configured chain is eip155:${expectedChainId}`, rpcChainId)
+  }
+  if (!address) return result('not-configured', 'ESMS_CONTRACT_ADDRESS is not set', rpcChainId)
+  if (!isAddress(address)) return result('invalid-address', 'ESMS_CONTRACT_ADDRESS is not a valid EVM address', rpcChainId)
+
+  let code: `0x${string}` | undefined
+  try {
+    code = await client.getBytecode({ address })
+  } catch {
+    return result('rpc-error', `Could not read ESMS contract code at ${address} on eip155:${rpcChainId}`, rpcChainId)
+  }
+  if (!code || code === '0x') {
+    return result('contract-missing', `No ESMS contract code at ${address} on eip155:${rpcChainId}; check ESMS_CONTRACT_ADDRESS and NEXT_PUBLIC_ESMS_CHAIN`, rpcChainId)
+  }
+
+  try {
+    await client.readContract({
+      address,
+      abi: ESMS_ABI,
+      functionName: 'redeemedOrders',
+      args: [`0x${'0'.repeat(64)}`],
+    })
+  } catch {
+    return result('read-failed', `ESMS contract at ${address} on eip155:${rpcChainId} did not answer redeemedOrders(bytes32)`, rpcChainId)
+  }
+  return result('ready', `ESMS redeemedOrders is readable at ${address} on eip155:${rpcChainId}`, rpcChainId)
 }
 
 export interface OnchainEsms { spirit: bigint; essence: bigint; matter: bigint; substance: bigint }

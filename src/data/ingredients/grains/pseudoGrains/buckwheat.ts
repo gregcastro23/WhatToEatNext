@@ -20,7 +20,7 @@ const rawBuckwheat = {
     nutritionalProfile: {
       serving_size: "1/4 cup dry (43g)",
       calories: 140,
-      macros: { protein: 5.0, carbs: 31.0, fat: 1.0, fiber: 4.0, sugar: 1.0, sodium: 0.005 },
+      macros: { protein: 5.0, carbs: 31.0, fat: 1.0, fiber: 4.0, sugar: 1.0, sodium: 4.7 }, // sodium mg: FDC 170685, 11 mg/100 g x 43 g (was 0.005)
       vitamins: { niacin: 0.12, B6: 0.08 },
       minerals: { manganese: 0.38, magnesium: 0.23, copper: 0.15, phosphorus: 0.10 },
       source: "USDA FoodData Central",

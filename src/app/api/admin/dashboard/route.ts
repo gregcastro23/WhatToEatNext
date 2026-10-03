@@ -229,9 +229,8 @@ async function assembleTelemetryCore() {
         "ingredients",
         "SELECT COUNT(*)::integer AS count FROM ingredients",
       ),
-      // Only Stripe-backed subs are paying customers; provisioned/agent
-      // accounts (no stripe_subscription_id) are not revenue. Falls back to
-      // null on failure, matching the safeCount() degradation pattern.
+      // Only Stripe-backed subs are paying customers. Falls back to null on
+      // failure, matching the safeCount() degradation pattern.
       getSubscriptionRevenueBreakdown()
         .then((b): number | null => b.paidSubs)
         .catch(() => null),

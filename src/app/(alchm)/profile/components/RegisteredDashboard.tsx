@@ -127,7 +127,7 @@ const RegisteredOverviewTab: React.FC<DashboardProps & { userName: string; email
       userName={userName}
       email={email}
       natalChart={natalChart}
-      tier="holder"
+      isOperator={false}
       onEditProfile={onEditBirthData}
       onOpenSettings={onOpenSettings}
     />
@@ -216,7 +216,7 @@ const RegisteredTabContent: React.FC<DashboardProps & {
             <div className="glass-card-premium rounded-3xl p-1 border-white/8 overflow-hidden">
               <UserDashboard
                 session={session}
-                profileData={props.profileData}
+                isOperator={false}
                 natalChart={natalChart}
                 preferences={preferences}
                 onEditBirthData={onEditBirthData}

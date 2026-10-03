@@ -8,6 +8,7 @@
 
 import type { ElementalProperties } from "./alchemy";
 import type { StandardZodiacSignType } from "./astrology";
+import type { FoodSource } from "./foodSource";
 import type { MealType } from "./menuPlanner";
 import type { NutritionalSummary } from "./nutrition";
 
@@ -15,17 +16,8 @@ export type FoodDiaryNutrition = {
   [K in keyof NutritionalSummary]?: number;
 };
 
-/**
- * Food entry source type - where the food data comes from
- */
-export type FoodSource =
-  | "recipe" // From app recipes
-  | "custom" // User-entered custom food
-  | "restaurant" // Logged from restaurant discovery
-  | "barcode" // Scanned barcode (future)
-  | "search" // FDC database search
-  | "quick" // Quick-add common foods
-  | "favorite"; // From user favorites
+/** Where the food data comes from. See `./foodSource`. */
+export type { FoodSource } from "./foodSource";
 
 /**
  * Rating for food entries (1-5 stars with half-star increments)
@@ -206,6 +198,15 @@ export interface UpdateFoodDiaryEntryInput {
 /**
  * Daily food diary summary
  */
+/**
+ * How many of a day's entries carry a value for a nutrient. A total over fewer
+ * than all of them is a lower bound; over none of them there is no total.
+ */
+export interface EntryCoverage {
+  entries: number;
+  withValue: number;
+}
+
 export interface DailyFoodDiarySummary {
   date: Date;
   entries: FoodDiaryEntry[];
@@ -216,6 +217,11 @@ export interface DailyFoodDiarySummary {
     snack: FoodDiaryEntry[];
   };
   totalNutrition: NutritionalSummary;
+  /** Coverage of the totals the dashboard marks: potassium and saturated fat. */
+  nutrientCoverage?: {
+    potassium: EntryCoverage;
+    saturatedFat: EntryCoverage;
+  };
   nutritionGoals?: NutritionalSummary;
   goalProgress: {
     calories: number; // Percentage 0-100+

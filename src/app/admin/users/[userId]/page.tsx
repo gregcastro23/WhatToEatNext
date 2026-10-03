@@ -64,7 +64,6 @@ interface Balances {
 }
 
 interface Subscription {
-  tier: string;
   status: string;
   currentPeriodEnd: string | null;
 }
@@ -513,13 +512,6 @@ export default function AdminUserDeepDivePage() {
           {subscription ? (
             <>
               <div className="flex items-center gap-2 mb-2">
-                <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${
-                  subscription.tier === "premium"
-                    ? "bg-purple-100 text-purple-800"
-                    : "bg-gray-100 text-gray-800"
-                }`}>
-                  {subscription.tier}
-                </span>
                 <span className={`text-xs font-mono ${
                   subscription.status === "active" ? "text-emerald-700" : "text-amber-700"
                 }`}>
@@ -533,7 +525,7 @@ export default function AdminUserDeepDivePage() {
               )}
             </>
           ) : (
-            <p className="text-sm text-gray-400">Free tier</p>
+            <p className="text-sm text-gray-400">No Stripe subscription</p>
           )}
         </div>
       </div>

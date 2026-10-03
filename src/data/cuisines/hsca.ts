@@ -1,5 +1,6 @@
 // src/data/cuisines/hsca.ts
 import type { Cuisine } from "@/types/cuisine";
+import derivedProfiles from "./derivedProfiles.json";
 
 export const cuisine: Cuisine = {
   id: "hsca",
@@ -7487,114 +7488,6 @@ export const cuisine: Cuisine = {
         "substitutions": [
           {
             "originalIngredient": "water",
-            "substituteOptions": [
-              "sea salt",
-              "chickpea miso"
-            ]
-          }
-        ]
-      },
-      {
-        "name": "Rich Almond Milk (for Almond Fruit Tart)",
-        "description": null,
-        "details": {
-          "cuisine": "HSCA",
-          "prepTimeMinutes": 15,
-          "cookTimeMinutes": 15,
-          "baseServingSize": 2,
-          "spiceLevel": "None",
-          "season": [
-            "all"
-          ]
-        },
-        "ingredients": [
-          {
-            "amount": 1.5,
-            "unit": "cups",
-            "name": "blanched almonds",
-            "notes": ""
-          },
-          {
-            "amount": 3,
-            "unit": "cups",
-            "name": "boiling water",
-            "notes": ""
-          },
-          {
-            "amount": 0.75,
-            "unit": "teaspoon",
-            "name": "vanilla extract",
-            "notes": ""
-          }
-        ],
-        "instructions": [
-          "Combine almonds and water in blender or VitaMix. Process for few minutes until well-homogenized.",
-          "Strain almond milk through fine sieve or nut milk bag. Add vanilla. Set aside 2 cups for almond cream recipe (recipe following)."
-        ],
-        "mealType": [],
-        "classifications": {
-          "mealType": [],
-          "cookingMethods": [
-            "steaming",
-            "simmering",
-            "raw"
-          ]
-        },
-        "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.4833333333333334,
-          "Earth": 0.21666666666666667,
-          "Air": 0.16666666666666666
-        },
-        "astrologicalAffinities": {
-          "planets": [
-            "Moon",
-            "Neptune"
-          ],
-          "signs": [
-            "Cancer",
-            "Pisces"
-          ],
-          "lunarPhases": [
-            "First Quarter"
-          ]
-        },
-        "nutritionPerServing": {
-          "calories": 280,
-          "proteinG": 8,
-          "carbsG": 25,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 343,
-          "sugarG": 5,
-          "vitamins": [
-            "Vitamin A",
-            "Vitamin C",
-            "Folate"
-          ],
-          "minerals": [
-            "Calcium",
-            "Iron",
-            "Magnesium"
-          ]
-        },
-        "alchemicalProperties": {
-          "Spirit": 0.43,
-          "Essence": 1,
-          "Matter": 0.89,
-          "Substance": 0.72
-        },
-        "thermodynamicProperties": {
-          "heat": 0.0168,
-          "entropy": 0.1116,
-          "reactivity": 1.6187,
-          "gregsEnergy": -0.1639,
-          "kalchm": 0.9776,
-          "monica": 1.618
-        },
-        "substitutions": [
-          {
-            "originalIngredient": "blanched almonds",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -81042,12 +80935,7 @@ export const cuisine: Cuisine = {
     "winter": []
   }
 },
-  elementalProperties: {
-    Fire: 0.25,
-    Earth: 0.35,
-    Water: 0.25,
-    Air: 0.15,
-  },
+  elementalProperties: derivedProfiles.cuisines.HSCA.elementalProperties,
   astrologicalInfluences: ["Moon", "Saturn", "Venus"],
 };
 

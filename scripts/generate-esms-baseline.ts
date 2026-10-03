@@ -69,7 +69,11 @@ export function sampleSect(
     > = {};
     for (const body of BODIES) {
       const longitude = rnd() * 360;
-      const sign = SIGNS[Math.floor(longitude / 30)];
+      const signIndex = Math.floor(longitude / 30);
+      const sign = SIGNS[signIndex];
+      if (!sign) {
+        throw new Error(`Invalid sign index ${signIndex} for longitude ${longitude}`);
+      }
       aspectPositions[body] = { sign, exactLongitude: longitude };
     }
 

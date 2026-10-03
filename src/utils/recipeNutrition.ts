@@ -9,6 +9,9 @@
 // Legacy dishes may use `nutritionalProfile` or `nutrition`. This helper
 // accepts all three and produces a single canonical object.
 
+import type { DailyValueFractions } from "./dailyValueFractions";
+import { setStated } from "./nutrientCompleteness";
+
 /**
  * Flat nutrition shape consumed by NutritionTrackingService.extractMealNutrition.
  * Only the fields we actually read from recipes are declared here; anything
@@ -20,11 +23,25 @@ export interface NormalizedRecipeNutrition {
   carbs: number;
   fat: number;
   fiber: number;
-  sugar: number;
-  sodium: number;
+  /**
+   * Sugar (g), sodium (mg) and saturated fat (g), like cholesterol (mg) and
+   * potassium: present only when every ingredient in the total states them,
+   * or, for an authored recipe, when it states them. Absent is not 0.
+   */
+  sugar?: number;
+  sodium?: number;
   saturatedFat?: number;
+  cholesterol?: number;
 
-  // Micronutrients — included when available on the source.
+  /**
+   * Vitamins and minerals from ingredient data, as fractions of a Daily
+   * Value. See `./dailyValueFractions`.
+   */
+  dailyValue?: DailyValueFractions;
+
+  // Amounts in mg / µg. Ingredient data never fills these: its vitamins and
+  // minerals are Daily Value fractions (`dailyValue`). Potassium is the
+  // exception: mg, and only when every ingredient in the total carries it.
   vitaminA?: number;
   vitaminC?: number;
   vitaminD?: number;
@@ -211,8 +228,6 @@ export function normalizeRecipeNutrition(
     carbs: 0,
     fat: 0,
     fiber: 0,
-    sugar: 0,
-    sodium: 0,
   };
 
   // --- Source 1: canonical AlchemicalRecipe.nutritionPerServing -----------
@@ -223,13 +238,9 @@ export function normalizeRecipeNutrition(
     out.carbs = num(perServing.carbsG ?? perServing.carbs);
     out.fat = num(perServing.fatG ?? perServing.fat);
     out.fiber = num(perServing.fiberG ?? perServing.fiber);
-    out.sugar = num(perServing.sugarG ?? perServing.sugar);
-    out.sodium = num(perServing.sodiumMg ?? perServing.sodium);
-    if (perServing.saturatedFatG != null || perServing.saturatedFat != null) {
-      out.saturatedFat = num(
-        perServing.saturatedFatG ?? perServing.saturatedFat,
-      );
-    }
+    setStated(out, "sugar", perServing.sugarG, perServing.sugar);
+    setStated(out, "sodium", perServing.sodiumMg, perServing.sodium);
+    setStated(out, "saturatedFat", perServing.saturatedFatG, perServing.saturatedFat);
     const vitServing = sanitizeMicroList(perServing.vitamins);
     if (vitServing !== undefined) out.vitamins = vitServing;
     const minServing = sanitizeMicroList(perServing.minerals);
@@ -244,9 +255,9 @@ export function normalizeRecipeNutrition(
     out.carbs = num(flat.carbs ?? flat.carbsG);
     out.fat = num(flat.fat ?? flat.fatG);
     out.fiber = num(flat.fiber ?? flat.fiberG);
-    out.sugar = num(flat.sugar ?? flat.sugarG);
-    out.sodium = num(flat.sodium ?? flat.sodiumMg);
-    if (flat.saturatedFat != null) out.saturatedFat = num(flat.saturatedFat);
+    setStated(out, "sugar", flat.sugar, flat.sugarG);
+    setStated(out, "sodium", flat.sodium, flat.sodiumMg);
+    setStated(out, "saturatedFat", flat.saturatedFat);
     if (out.vitamins === undefined) {
       const v = sanitizeMicroList(flat.vitamins);
       if (v !== undefined) out.vitamins = v;
@@ -269,11 +280,9 @@ export function normalizeRecipeNutrition(
       out.carbs = num(macros.carbs);
       out.fat = num(macros.fat);
       out.fiber = num(macros.fiber);
-      if (macros.sugar != null) out.sugar = num(macros.sugar);
-      if (macros.sodium != null) out.sodium = num(macros.sodium);
-      if (macros.saturatedFat != null) {
-        out.saturatedFat = num(macros.saturatedFat);
-      }
+      setStated(out, "sugar", macros.sugar);
+      setStated(out, "sodium", macros.sodium);
+      setStated(out, "saturatedFat", macros.saturatedFat);
     }
     if (out.vitamins === undefined) {
       const v = sanitizeMicroList(profile.vitamins);

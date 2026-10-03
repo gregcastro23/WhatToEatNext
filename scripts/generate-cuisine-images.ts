@@ -49,7 +49,8 @@ async function run() {
   }
 
   for (const key of keys) {
-    const name = CUISINES_METADATA[key].name || key;
+    const meta = CUISINES_METADATA[key];
+    const name = meta?.name || key;
     if (existingImages[key]) {
       console.log(`[${name}] Already has image URL: ${existingImages[key]}. Skipping.`);
       continue;

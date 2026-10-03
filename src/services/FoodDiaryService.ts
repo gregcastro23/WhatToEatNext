@@ -35,6 +35,18 @@ import type {
 import type { MealType } from "@/types/menuPlanner";
 import type { NutritionalSummary } from "@/types/nutrition";
 import { createEmptyNutritionalSummary } from "@/types/nutrition";
+import { entryCoverage, storableNutrition } from "@/utils/foodDiary/diaryNutrients";
+import {
+  DELETE_ENTRY_SQL,
+  INSERT_ENTRY_SQL,
+  UPDATE_ENTRY_SQL,
+  insertEntryParams,
+  isPersistableUserId,
+  newEntryId,
+  rowNutrition,
+  updateEntryParams,
+  type NutritionRow,
+} from "./foodDiaryQueries";
 import { getNutritionTrackingService } from "./NutritionTrackingService";
 import { reportQuestEventBestEffort } from "./questEventReporter";
 import { tokenEconomy } from "./TokenEconomyService";
@@ -71,7 +83,7 @@ const QUICK_FOOD_CATEGORY_MAP: Record<QuickFoodCategory, string[]> = {
 
 type FoodDiaryDbScalar = Date | string | number | boolean | null | undefined;
 
-interface FoodDiaryEntryRow {
+interface FoodDiaryEntryRow extends NutritionRow {
   id: string;
   user_id: string;
   food_name: string;
@@ -86,13 +98,6 @@ interface FoodDiaryEntryRow {
   serving_grams?: FoodDiaryDbScalar;
   serving_description?: string | null;
   quantity?: FoodDiaryDbScalar;
-  calories?: FoodDiaryDbScalar;
-  protein?: FoodDiaryDbScalar;
-  carbs?: FoodDiaryDbScalar;
-  fat?: FoodDiaryDbScalar;
-  fiber?: FoodDiaryDbScalar;
-  sugar?: FoodDiaryDbScalar;
-  sodium?: FoodDiaryDbScalar;
   nutrition_confidence?: FoodDiaryEntry["nutritionConfidence"] | null;
   elemental_fire?: FoodDiaryDbScalar;
   elemental_water?: FoodDiaryDbScalar;
@@ -2603,7 +2608,7 @@ class FoodDiaryService {
     await this.ensureInitialized();
     const db = await getDbModule();
 
-    const entryId = `entry_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    const entryId = newEntryId();
     const now = new Date();
 
     // Calculate nutrition if not provided
@@ -2625,6 +2630,7 @@ class FoodDiaryService {
     } else if (input.foodSource === "custom" && !input.nutrition) {
       nutritionConfidence = "low";
     }
+    nutrition = storableNutrition(input.foodSource, nutrition);
 
     // Get astrological context
     const astrologicalContext = await this.captureAstrologicalContext();
@@ -2646,76 +2652,20 @@ class FoodDiaryService {
       ...(input.elementalProperties !== undefined ? { elementalProperties: input.elementalProperties } : {}),
       ...(input.notes !== undefined ? { notes: input.notes } : {}),
       ...(input.tags !== undefined ? { tags: input.tags } : {}),
+      ...(input.price !== undefined ? { price: input.price } : {}),
+      ...(input.store !== undefined ? { store: input.store } : {}),
+      ...(input.quality !== undefined ? { quality: input.quality } : {}),
       isFavorite: false,
       ...(astrologicalContext !== undefined ? { astrologicalContext } : {}),
       createdAt: now,
       updatedAt: now,
     };
 
-    // Try PostgreSQL first
-    if (db) {
-      try {
-        await db.executeQuery(
-          `INSERT INTO food_diary_entries (
-            id, user_id, food_name, food_source, source_id, brand_name,
-            date, meal_type, time, serving_amount, serving_unit, serving_grams,
-            serving_description, quantity, calories, protein, carbs, fat, fiber,
-            sugar, sodium, nutrition_confidence, elemental_fire, elemental_water,
-            elemental_earth, elemental_air, notes, tags, price, store, quality, is_favorite,
-            astrological_context, created_at, updated_at
-          ) VALUES (
-            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,
-            $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26,
-            $27, $28, $29, $30, $31, $32, $33, $34, $35
-          )`,
-          [
-            entryId,
-            userId,
-            input.foodName,
-            input.foodSource,
-            input.sourceId ?? null,
-            input.brandName ?? null,
-            input.date,
-            input.mealType,
-            input.time,
-            input.serving.amount,
-            input.serving.unit,
-            input.serving.grams || null,
-            input.serving.description ?? null,
-            input.quantity,
-            nutrition.calories ?? null,
-            nutrition.protein ?? null,
-            nutrition.carbs ?? null,
-            nutrition.fat ?? null,
-            nutrition.fiber ?? null,
-            nutrition.sugar ?? null,
-            nutrition.sodium ?? null,
-            nutritionConfidence,
-            input.elementalProperties?.Fire ?? null,
-            input.elementalProperties?.Water ?? null,
-            input.elementalProperties?.Earth ?? null,
-            input.elementalProperties?.Air ?? null,
-            input.notes ?? null,
-            input.tags ?? [],
-            input.price ?? null,
-            input.store ?? null,
-            input.quality ?? null,
-            false,
-            JSON.stringify(astrologicalContext),
-            now,
-            now,
-          ],
-        );
-        _logger.info("Food diary entry created in PostgreSQL", {
-          userId,
-          entryId,
-        });
-      } catch (error) {
-        _logger.error(
-          "PostgreSQL entry creation failed, using in-memory:",
-          error,
-        );
-      }
+    // A failed write is an error, not an entry kept in one server instance's
+    // memory: that is how every entry since 2026-04-30 was lost.
+    if (db && isPersistableUserId(userId)) {
+      await db.executeQuery(INSERT_ENTRY_SQL, insertEntryParams(entry));
+      _logger.info("Food diary entry created in PostgreSQL", { userId, entryId });
     }
 
     // Always update in-memory cache
@@ -2813,13 +2763,6 @@ class FoodDiaryService {
    * Convert database row to FoodDiaryEntry
    */
   private rowToFoodDiaryEntry(row: FoodDiaryEntryRow): FoodDiaryEntry {
-    const calories = toOptionalNumber(row.calories);
-    const protein = toOptionalNumber(row.protein);
-    const carbs = toOptionalNumber(row.carbs);
-    const fat = toOptionalNumber(row.fat);
-    const fiber = toOptionalNumber(row.fiber);
-    const sugar = toOptionalNumber(row.sugar);
-    const sodium = toOptionalNumber(row.sodium);
     const rating = toOptionalNumber(row.rating) as FoodRating | undefined;
     const price = toOptionalNumber(row.price);
     const astrologicalContext = parseAstrologicalContext(row.astrological_context);
@@ -2841,15 +2784,7 @@ class FoodDiaryService {
         ...(row.serving_description != null ? { description: row.serving_description } : {}),
       },
       quantity: toNumber(row.quantity, 1),
-      nutrition: {
-        ...(calories !== undefined ? { calories } : {}),
-        ...(protein !== undefined ? { protein } : {}),
-        ...(carbs !== undefined ? { carbs } : {}),
-        ...(fat !== undefined ? { fat } : {}),
-        ...(fiber !== undefined ? { fiber } : {}),
-        ...(sugar !== undefined ? { sugar } : {}),
-        ...(sodium !== undefined ? { sodium } : {}),
-      },
+      nutrition: rowNutrition(row),
       nutritionConfidence: row.nutrition_confidence ?? "medium",
       ...(row.elemental_fire != null
         ? {
@@ -2883,7 +2818,8 @@ class FoodDiaryService {
     userId: string,
     input: UpdateFoodDiaryEntryInput,
   ): Promise<FoodDiaryEntry | null> {
-    const entry = this.entries.get(input.id);
+    // A stored entry is usually not in this server instance's memory.
+    const entry = this.entries.get(input.id) ?? (await this.getEntry(input.id));
     if (entry?.userId !== userId) {
       return null;
     }
@@ -2926,50 +2862,9 @@ class FoodDiaryService {
     this.invalidateCache(userId);
     this.saveToStorage();
 
-    // PostgreSQL Persistence
     const db = await getDbModule();
-    if (db) {
-      try {
-        await db.executeQuery(
-          `UPDATE food_diary_entries
-           SET serving_amount = $1, serving_unit = $2, serving_grams = $3,
-               serving_description = $4, quantity = $5, calories = $6,
-               protein = $7, carbs = $8, fat = $9, fiber = $10,
-               sugar = $11, sodium = $12, rating = $13, mood_tags = $14,
-               notes = $15, would_eat_again = $16, is_favorite = $17,
-               tags = $18, price = $19, store = $20, quality = $21,
-               updated_at = $22
-           WHERE id = $23 AND user_id = $24`,
-          [
-            entry.serving.amount,
-            entry.serving.unit,
-            entry.serving.grams || null,
-            entry.serving.description ?? null,
-            entry.quantity,
-            entry.nutrition.calories ?? null,
-            entry.nutrition.protein ?? null,
-            entry.nutrition.carbs ?? null,
-            entry.nutrition.fat ?? null,
-            entry.nutrition.fiber ?? null,
-            entry.nutrition.sugar ?? null,
-            entry.nutrition.sodium ?? null,
-            entry.rating ?? null,
-            entry.moodTags ?? [],
-            entry.notes ?? null,
-            entry.wouldEatAgain ?? null,
-            entry.isFavorite,
-            entry.tags ?? [],
-            entry.price ?? null,
-            entry.store ?? null,
-            entry.quality ?? null,
-            entry.updatedAt,
-            entry.id,
-            userId,
-          ],
-        );
-      } catch (error) {
-        _logger.warn("PostgreSQL updateEntry failed:", error);
-      }
+    if (db && isPersistableUserId(userId)) {
+      await db.executeQuery(UPDATE_ENTRY_SQL, updateEntryParams(entry));
     }
 
     _logger.info("Food diary entry updated", { userId, entryId: input.id });
@@ -2980,31 +2875,23 @@ class FoodDiaryService {
    * Delete an entry
    */
   async deleteEntry(userId: string, entryId: string): Promise<boolean> {
-    const entry = this.entries.get(entryId);
-    if (entry?.userId !== userId) {
-      return false;
-    }
-
-    this.entries.delete(entryId);
-    this.removeFromUserIndex(userId, entryId);
-    this.invalidateCache(userId);
-    this.saveToStorage();
-
-    // PostgreSQL Persistence
     const db = await getDbModule();
-    if (db) {
-      try {
-        await db.executeQuery(
-          `DELETE FROM food_diary_entries WHERE id = $1 AND user_id = $2`,
-          [entryId, userId],
-        );
-      } catch (error) {
-        _logger.warn("PostgreSQL deleteEntry failed:", error);
-      }
+    const inMemory = this.entries.get(entryId)?.userId === userId;
+    if (inMemory) {
+      this.entries.delete(entryId);
+      this.removeFromUserIndex(userId, entryId);
+    }
+    this.invalidateCache(userId);
+
+    let deleted = inMemory;
+    if (db && isPersistableUserId(userId)) {
+      // The row's user_id is the ownership check; the entry need not be in memory.
+      const result = await db.executeQuery(DELETE_ENTRY_SQL, [entryId, userId]);
+      deleted = (result.rowCount ?? 0) > 0;
     }
 
-    _logger.info("Food diary entry deleted", { userId, entryId });
-    return true;
+    if (deleted) _logger.info("Food diary entry deleted", { userId, entryId });
+    return deleted;
   }
 
   /**
@@ -3037,8 +2924,8 @@ class FoodDiaryService {
     await this.ensureInitialized();
     const db = await getDbModule();
 
-    // Try PostgreSQL first
-    if (db) {
+    // Try PostgreSQL first. A guest owns no rows ("guest" is not a user id).
+    if (db && isPersistableUserId(userId)) {
       try {
         let query = `SELECT * FROM food_diary_entries WHERE user_id = $1`;
         const params: unknown[] = [userId];
@@ -3937,6 +3824,10 @@ class FoodDiaryService {
         snack: entries.filter((e) => e.mealType === "snack"),
       },
       totalNutrition: createEmptyNutritionalSummary(),
+      nutrientCoverage: {
+        potassium: entryCoverage(entries, "potassium"),
+        saturatedFat: entryCoverage(entries, "saturatedFat"),
+      },
       goalProgress: { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 },
       moodSummary: {} as Record<MoodTag, number>,
       elementalBalance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
@@ -4454,9 +4345,11 @@ class FoodDiaryService {
   }
 
   private invalidateCache(userId: string): void {
-    // Clear all cached summaries for this user
-    userCache.delete(`daily_summary_${userId}`);
-    userCache.delete(`weekly_summary_${userId}`);
+    // Summaries are cached per day and per week (`daily_summary_<user>_<date>`).
+    // Deleting the bare `daily_summary_<user>` key cleared nothing, so a logged
+    // entry did not reach the dashboard until the 5-minute TTL ran out.
+    const user = userId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    userCache.invalidatePattern(new RegExp(`^(daily|weekly)_summary_${user}_`));
   }
 
   private loadFromStorage(): void {
