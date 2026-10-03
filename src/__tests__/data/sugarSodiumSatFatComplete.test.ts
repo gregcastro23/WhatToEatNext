@@ -7,7 +7,9 @@
  *   chicken egg (50 g)   sugar 0.2, sodium 71, sat fat 1.6
  *   butter (14 g)        sugar 0,   sodium 91, sat fat 7.3
  *   all-purpose flour    no sugar, sodium or sat fat at all
- *   salt (1.5 g)         sodium 0.25: not mg (salt is ~39% sodium)
+ *   salt (1.5 g)         sodium 581.4 (FDC 173468, Salt, table: 38758 mg/100 g)
+ *   black salt (1.5 g)   sodium 0.2: not mg, and no USDA record to correct it from
+ *   gochujang (18 g)     sodium 0.15: not mg, and no USDA record to correct it from
  *   kosher salt (3 g)    sodium 1120
  *   baking soda (4.6 g)  sodium 1259, no calories
  * and the 200 recipes `getServerRecipes` computes from their ingredients.
@@ -81,14 +83,18 @@ describe("derived zeros: sugars are part of carbohydrate, saturated fat part of 
 });
 
 describe("a sodium between 0 and 1 is not a value in mg", () => {
-  it("salt (0.25 for 1.5 g), and soy sauce (0.38 for a tablespoon) leave sodium absent", () => {
-    expect(total(EGG, line("salt", 1.5)).sodium).toBeUndefined();
-    expect(total(EGG, line("soy sauce", 18)).sodium).toBeUndefined();
+  it("black salt (0.2 for 1.5 g) and gochujang (0.15 for a tablespoon) leave sodium absent", () => {
+    expect(total(EGG, line("black salt", 1.5)).sodium).toBeUndefined();
+    expect(total(EGG, line("gochujang", 18)).sodium).toBeUndefined();
   });
 
   it("an exact 0 is still a value, and a real salt adds its mg", () => {
     expect(total(EGG, line("olive oil", 14)).sodium).toBeCloseTo(142, 10);
     expect(total(EGG, line("kosher salt", 3)).sodium).toBeCloseTo(142 + 1120, 10);
+  });
+
+  it("salt, once corrected from FDC 173468, is 581.4 mg in 1.5 g, not 0.25", () => {
+    expect(total(EGG, line("salt", 1.5)).sodium).toBeCloseTo(142 + 581.4, 10);
   });
 });
 
@@ -105,6 +111,18 @@ describe("a line with no calories still adds its sodium", () => {
   });
 });
 
+describe("a count is not a mass", () => {
+  it("'1 piece' of salt leaves sodium absent; it is not 50 g of salt", () => {
+    const n = total(EGG, line("salt", 1, "piece"));
+    expect(n.sodium).toBeUndefined();
+    expect(n.sugar).toBeCloseTo(0.4, 10); // salt's sugar is 0 at any mass
+  });
+
+  it("a teaspoon of salt is a mass: 6 g, measured", () => {
+    expect(total(EGG, line("salt", 1, "tsp")).sodium).toBeCloseTo(142 + 581.4 * 4, 6); // 6 g is four 1.5 g servings
+  });
+});
+
 describe("the catalog's computed recipes", () => {
   let catalog: Recipe[] = [];
   beforeAll(async () => {
@@ -117,6 +135,18 @@ describe("the catalog's computed recipes", () => {
     expect(kofta?.nutrition?.sugar).toBeUndefined();
     expect(kofta?.nutrition?.sodium).toBeUndefined();
     expect(kofta?.nutrition?.saturatedFat).toBeUndefined();
+  });
+
+  it("Scrambled Eggs, whose salt is '1 piece', publishes no sodium (it read 4,949 mg)", () => {
+    const eggs = catalog.find((r) => r.id === "hsca-breakfast-all-scrambled-eggs");
+    expect(eggs?.ingredients.find((i) => i.name === "salt")?.unit).toBe("piece");
+    expect(eggs?.nutrition?.calories).toBeGreaterThan(0);
+    expect(eggs?.nutrition?.sodium).toBeUndefined();
+  });
+
+  it("Chicken Under a Brick (0.5 teaspoon sea salt) publishes the salt's sodium", () => {
+    const chicken = catalog.find((r) => r.id === "hsca-dinner-all-chicken-under-a-brick");
+    expect(chicken?.nutrition?.sodium).toBeGreaterThan(1000); // 0.5 tsp = 3 g of salt = 1,163 mg
   });
 
   it("Butter Poppyseed Sauce (butter, poppy seeds) publishes sugar and sodium", () => {
