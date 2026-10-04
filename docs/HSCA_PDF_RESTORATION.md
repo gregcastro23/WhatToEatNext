@@ -23,7 +23,7 @@ data were kept wherever the PDF agreed.
 | Invented methods (not in the PDF) | 2 |
 | Sub-recipes folded into their parent | 4 |
 | PDF recipes absent from the source | 36 |
-| Recipes missing footnotes, variations or credits | 49 (48 now: #921 removed one) |
+| Recipes missing footnotes or variations | 37 |
 
 No recipe carries the generator's literal fallback ("Prepare according to clean holistic macrobiotic
 guidelines."), and the live API shows the same methods the source has (498 live HSCA recipes, all
@@ -96,10 +96,10 @@ Not added, because the data already has them: the repeated Gluten-Free Flour Ble
 of Chocolate Chip Cookies (p.164, followed by an unrelated nutrition handout), Almond Pastry Cream,
 Miso Marinade, Hiziki Caviar and Tofu Sour Cream (second copies), and section headings.
 
-### 48 recipes: footnotes, variations and credits
+### 37 recipes: footnotes and variations
 
-The PDF prints notes under a method ("Seasonal variation: ...", "Note: ...", "Variations: ...") and,
-for some recipes, a credit. They were appended as final method lines in the PDF's wording. (A second transcription of Rich Almond
+The PDF prints notes under a method ("Seasonal variation: ...", "Note: ...", "Variations: ..."). They were
+appended as final method lines in the PDF's wording. (A second transcription of Rich Almond
 Milk (for Almond Fruit Tart) carried the same note; #921 removed that duplicate.)
 
 - Crème Anglaise (Stirred Custard)
@@ -110,16 +110,9 @@ Milk (for Almond Fruit Tart) carried the same note; #921 removed that duplicate.
 - BOILED NOODLES – SHOCK METHOD
 - RICH ALMOND MILK (FOR ALMOND-FRUIT TART)
 - RICH ALMOND MILK
-- KABOCHA SQUASH PIE
 - CHOCOLATE-ALMOND GANACHE
 - ALMOND “CREAM” SAUCE
-- OLIVE TAPENADE
-- PUMPKIN, SAGE, AND PECAN RAVIOLI
-- WHITE BEAN AND GARLIC SAUCE
-- BASIL-WALNUT PESTO
-- Herb Ravioli with Porcini Mushroom Pesto and Tofu "Ricotta"
 - Flaky Biscuits
-- Ravioli with Beet Stuffing
 - ROASTED RED PEPPER CHICKPEA PURÉE
 - Seitan Bordelaise
 - SEITAN STEW
@@ -136,12 +129,8 @@ Milk (for Almond Fruit Tart) carried the same note; #921 removed that duplicate.
 - Tapenade
 - CURRANT SCONES
 - POACHED CHICKEN AND ROASTED ASPARAGUS
-- Vegan Dough with Water
-- BEET PASTA
-- SAFFRON PASTA
 - Velouté
 - Stuffed Squid, Sicilian Style
-- Gluten-Free, Egg-Free Mini Pizzas
 - HANDMADE GARLIC MAYONNAISE
 - LIGHT LEMON TART
 - ICHIBAN DASHI
@@ -151,8 +140,8 @@ Milk (for Almond Fruit Tart) carried the same note; #921 removed that duplicate.
 - TEMPEH SCALOPPINI
 - SCRAMBLED EGGS
 
-Credits are kept as a final "Source:" line, because this branch has no `adaptedFrom` field. Attribution
-lines for The Voluptuous Vegan (Myra Kornfeld) include the PDF's own copyright wording.
+The PDF also prints source credits under some recipes (for example The Voluptuous Vegan, The Pasta Bible,
+Peter Berley). By decision they are not carried into the method or the data.
 
 ## Checked and found correct
 

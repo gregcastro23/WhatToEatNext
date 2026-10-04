@@ -13485,8 +13485,7 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Drain soaked beans. Cover with 6 cups water and pressure cook about 8 minutes for navy beans, or 10 minutes for Great Northern beans. Season with salt to taste. Let beans sit in cooking liquid a few minutes to absorb salt. Drain beans, reserving cooking liquid. Alternately, on stove top, simmer partially covered about an hour and a half, until beans are soft. Season with salt to taste. Let beans sit in cooking liquid a few minutes to absorb salt. Drain beans, reserving cooking liquid.",
           "Warm olive oil in 12-inch sauté pan. Add onions and cook over medium-low heat for about 7 minutes, until onions soften and start to brown. Add garlic and cook a few more minutes until fragrant. Add cooked beans and 2 1/2 cups of bean cooking liquid. (If using canned beans, add 2 1/2 cups water.)",
-          "Tie herbs together with string and add to pot along with bay leaf. Cover, bring to boil over medium heat, reduce heat and simmer, partially covered, for 15 minutes to allow flavors to marry. Add lemon juice and salt and pepper to taste. Remove bay leaf and tied herbs.",
-          "Source: Copyright © The Voluptuous Vegan by Myra Kornfeld. All rights reserved."
+          "Tie herbs together with string and add to pot along with bay leaf. Cover, bring to boil over medium heat, reduce heat and simmer, partially covered, for 15 minutes to allow flavors to marry. Add lemon juice and salt and pepper to taste. Remove bay leaf and tied herbs."
         ],
         "mealType": [],
         "classifications": {
@@ -13611,8 +13610,7 @@ export const cuisine: Cuisine = {
           }
         ],
         "instructions": [
-          "Combine all ingredients in food processor and blend until smooth. Stop now and again to scrape down sides with spoon or spatula.",
-          "Source: Copyright © The Voluptuous Vegan by Myra Kornfeld. All rights reserved."
+          "Combine all ingredients in food processor and blend until smooth. Stop now and again to scrape down sides with spoon or spatula."
         ],
         "mealType": [],
         "classifications": {
@@ -13878,8 +13876,7 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Preheat oven to 350°F. Toast walnuts on sheet tray for 10 minutes. Remove from oven and transfer to strainer. Rub walnuts against strainer over bowl to loosen some of skins. Whatever readily comes off is enough.",
           "Transfer walnuts from strainer and add 3/4 cup to food processor. Add remaining ingredients.",
-          "Process everything until smooth. Chop by hand remaining 1/2 cup of walnuts into pieces. Reserve for garnish.",
-          "Source: Copyright © The Voluptuous Vegan by Myra Kornfeld. All rights reserved."
+          "Process everything until smooth. Chop by hand remaining 1/2 cup of walnuts into pieces. Reserve for garnish."
         ],
         "mealType": [],
         "classifications": {
@@ -44580,8 +44577,7 @@ export const cuisine: Cuisine = {
           "Using tablespoon, spoon batter onto cookie sheet, making 6-8 pizzas per sheet. With circular motion, spread each circle out with spoon to about 2 inches in diameter.",
           "Cover with inverted baking sheet, and let rise 40-45 minutes. Preheat oven to 375° F.",
           "Bake each mini pizza 10 minutes without toppings.",
-          "Remove trays from oven, and garnish pizzas with toppings of choice. Dribble remaining oil over each mini pizza. Bake another 10 minutes to cook fillings and melt cheese, if using.",
-          "Source: Adapted from a recipe by Betty Hagman in The Gluten-Free Gourmet."
+          "Remove trays from oven, and garnish pizzas with toppings of choice. Dribble remaining oil over each mini pizza. Bake another 10 minutes to cook fillings and melt cheese, if using."
         ],
         "classifications": {
           "mealType": [
@@ -50323,8 +50319,7 @@ export const cuisine: Cuisine = {
           "Using tablespoon, dollop batter onto baking sheets, making 6-8 mini pizzas per sheet tray. With circular motion, spread each circle out with spoon to about 2 inches in diameter.",
           "Cover with inverted baking sheet, and let rise 40-45 minutes. Preheat oven to 375°F.",
           "Bake each mini pizza 10 minutes without toppings.",
-          "Remove trays from oven, and garnish pizzas with toppings of choice. Dribble remaining oil over each mini pizza. Bake another 10 minutes to cook fillings and melt cheese, if using.",
-          "Source: Adapted from a recipe by Betty Hagman in The Gluten-Free Gourmet."
+          "Remove trays from oven, and garnish pizzas with toppings of choice. Dribble remaining oil over each mini pizza. Bake another 10 minutes to cook fillings and melt cheese, if using."
         ],
         "classifications": {
           "mealType": [
@@ -51264,8 +51259,7 @@ export const cuisine: Cuisine = {
           "Turn dough onto work surface; knead until dough is smooth, 1 to 2 minutes. Cover with plastic wrap and set aside for at least 15 minutes and up to 2 hours to relax.",
           "Sift flour onto work surface (or bowl) in mound and make hollow in middle. Pour saffron-egg mixture into hollow. With fork, start to mix in flour from edge.",
           "Gradually incorporate most of flour until viscous paste begins to form. Put fork to one side and, using both hands, heap remaining flour from outside over paste in middle. Work flour into paste. If paste does not absorb all flour, and if ingredients cannot be easily worked, add a little water.",
-          "Work in water with both thumbs, then press dough into ball and work in rest of flour. Knead dough by pushing out dough with heels of hands, then form it into ball again. Repeat this kneading action until dough has firm but slightly elastic consistency and no longer changes shape when you remove your hands. Cover with plastic wrap and rest minimum of fifteen minutes.",
-          "Source: The Complete Book of Pasta."
+          "Work in water with both thumbs, then press dough into ball and work in rest of flour. Knead dough by pushing out dough with heels of hands, then form it into ball again. Repeat this kneading action until dough has firm but slightly elastic consistency and no longer changes shape when you remove your hands. Cover with plastic wrap and rest minimum of fifteen minutes."
         ],
         "classifications": {
           "mealType": [
@@ -51614,8 +51608,7 @@ export const cuisine: Cuisine = {
           "Method - By Hand:",
           "Sift flour onto work surface (or bowl) in mound and make hollow in middle. Break eggs into hollow and add beet puree. With fork, start to mix in flour from edge.",
           "Gradually incorporate most of flour until viscous paste begins to form. Put fork to one side and, using both hands, heap remaining flour from outside over paste in middle. Work flour into paste. If paste does not absorb all flour, and if ingredients cannot be easily worked, add a little water.",
-          "Work in water with both thumbs, then press dough into ball and work in rest of flour. Knead dough by pushing out dough with heels of hands, then form it into ball again. Repeat this kneading action until dough has firm but slightly elastic consistency and no longer changes shape when you remove your hands. Cover with plastic wrap and rest minimum of fifteen minutes.",
-          "Source: The Complete Book of Pasta."
+          "Work in water with both thumbs, then press dough into ball and work in rest of flour. Knead dough by pushing out dough with heels of hands, then form it into ball again. Repeat this kneading action until dough has firm but slightly elastic consistency and no longer changes shape when you remove your hands. Cover with plastic wrap and rest minimum of fifteen minutes."
         ],
         "classifications": {
           "mealType": [
@@ -51852,8 +51845,7 @@ export const cuisine: Cuisine = {
         ],
         "instructions": [
           "Combine flours and salt in food processor. With machine running, add just enough hot water to make stiff dough that forms a ball. Make sure to add water slowly (over at least 30 seconds) to ensure you don’t add too much water. Dough should not be tacky or sticky.",
-          "Remove dough from food processor and knead on lightly floured work surface until smooth and elastic, about 1 minute. Wrap in plastic wrap and let sit at least 15 minutes. (The dough can be tightly wrapped in plastic wrap for several hours.)",
-          "Source: The Complete Book of Pasta."
+          "Remove dough from food processor and knead on lightly floured work surface until smooth and elastic, about 1 minute. Wrap in plastic wrap and let sit at least 15 minutes. (The dough can be tightly wrapped in plastic wrap for several hours.)"
         ],
         "classifications": {
           "mealType": [
@@ -52006,8 +51998,7 @@ export const cuisine: Cuisine = {
           "Cover beets with water and simmer until tender. Peel and puree in food processor.",
           "Toast fennel seeds in sauté pan. Remove to spice grinder or mortar and pestle and grind.",
           "Heat butter in 8-inch sauté pan, and sauté shallots until translucent. Add breadcrumbs and sauté until golden, stirring constantly. Add shallot-breadcrumb mixture to beet puree and stir in fennel, ginger, salt and pepper. Stir in egg yolk.",
-          "Form ravioli: Roll out pasta dough thinly and cut out disks about 2 1/4 inches in diameter. Put a little stuffing in middle of each dish and brush edge with egg white or water. Fold each disc over into half-moon shape and press edges firmly together to seal. Cook ravioli in boiling salted water until they rise to the surface.",
-          "Source: Adapted from The Pasta Bible."
+          "Form ravioli: Roll out pasta dough thinly and cut out disks about 2 1/4 inches in diameter. Put a little stuffing in middle of each dish and brush edge with egg white or water. Fold each disc over into half-moon shape and press edges firmly together to seal. Cook ravioli in boiling salted water until they rise to the surface."
         ],
         "classifications": {
           "mealType": [
@@ -52186,8 +52177,7 @@ export const cuisine: Cuisine = {
           "Combine mushrooms, garlic, pine nuts, olive oil, salt and black pepper in food processor and process until smooth. Add chives and pulse to combine. Taste for seasoning.",
           "Roll out dough and fill ravioli according to directions (see procedures in Pasta Lecture/Demo), spooning in 1/2 teaspoon of tofu cheese first, then adding heaping 1/2 teaspoon of mushroom pesto on top. Cover with second sheet of dough to encase filling. Ravioli can be frozen, if desired, at this point.",
           "Cook ravioli in 12-inch sauté pan filled with 2-inches of simmering water for 3 to 5 minutes, depending on dryness of your pasta and whether or not they were frozen.",
-          "Use slotted spoon to gently lift ravioli out of water. Drain briefly for a moment, then serve immediately.",
-          "Source: Copyright © The Voluptuous Vegan by Myra Kornfeld. All rights reserved."
+          "Use slotted spoon to gently lift ravioli out of water. Drain briefly for a moment, then serve immediately."
         ],
         "classifications": {
           "mealType": [
@@ -52324,8 +52314,7 @@ export const cuisine: Cuisine = {
           "Warm oil in 10-inch sauté pan. Add onions and sauté until caramelized, about 10 minutes. Add pecans and sauté few minutes more. Add squash, mixing until heated through. Stir in sage leaves, and season with salt and pepper to taste. Remove from heat.",
           "Roll out dough; fill and form raviolis.",
           "Bring 12-inch sauté pan filled with 2 inches of water to simmer. Add raviolis and cook 3 to 5 minutes, depending on dryness of pasta and whether or not they were frozen.",
-          "Use slotted spoon to gently lift raviolis out of water. Drain briefly for a moment, then serve immediately.",
-          "Source: Copyright © The Voluptuous Vegan by Myra Kornfeld. All rights reserved."
+          "Use slotted spoon to gently lift raviolis out of water. Drain briefly for a moment, then serve immediately."
         ],
         "classifications": {
           "mealType": [
@@ -73771,8 +73760,7 @@ export const cuisine: Cuisine = {
           "Discard squash seeds and pulp (or save seeds for toasting). Scoop and reserve 2 cups of squash from its skin for this recipe.",
           "Prepare an ice bath.",
           "Puree squash, maple crystals, spices, and salt in food processor until smooth. Transfer mixture to 2 1/2 quart pot and slowly whisk in milk and cream. Simmer over medium heat, stirring constantly, until mixture thickens, about 3-5 minutes. Remove pot from heat and place in ice bath for 10 minutes before slowly whisking in eggs.",
-          "Pour filling into pie shell and bake for 30-40 minutes or until filling is lightly cracked around edges and center jiggles slightly. Cool for 1 hour before slicing.",
-          "Source: Adapted from a recipe by Peter Berley."
+          "Pour filling into pie shell and bake for 30-40 minutes or until filling is lightly cracked around edges and center jiggles slightly. Cool for 1 hour before slicing."
         ],
         "classifications": {
           "mealType": [
