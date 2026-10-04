@@ -135,7 +135,7 @@ export const PulseSchema = z.object({
   agents: z
     .object({
       live: z.boolean(),
-      totalAgents: z.number(),
+      totalAgents: z.number().nullable(),
       paReachable: z.boolean(),
       creditVerdict: z.enum(["OK", "IDLE", "STALLED", "INCIDENT", "UNKNOWN"]),
       debitVerdict: z.enum(["OK", "IDLE", "INCIDENT", "UNKNOWN"]),

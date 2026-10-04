@@ -119,6 +119,7 @@ export const CreateFoodDiaryEntrySchema = z.object({
   serving: ServingSizeSchema,
   quantity: z.number().positive(),
   nutrition: z.record(z.string(), z.unknown()).optional(),
+  nutritionConfidence: z.enum(["high", "medium", "low"]).optional(),
   elementalProperties: ElementalPropertiesSchema.optional(),
   notes: z.string().optional(),
   tags: z.array(z.string()).optional(),

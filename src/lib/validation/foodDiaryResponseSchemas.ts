@@ -60,7 +60,14 @@ type _ServingDrift = AssertTrue<ServerSatisfies<ServingSize, z.infer<typeof Food
 type _ServingReader = AssertTrue<ServerSatisfies<z.infer<typeof FoodDiaryServingSchema>, ServingSize>>;
 
 export const FoodDiaryNutritionSchema = z.custom<FoodDiaryNutrition>(
-  (val): val is FoodDiaryNutrition => typeof val === "object" && val !== null,
+  (val): val is FoodDiaryNutrition =>
+    typeof val === "object" &&
+    val !== null &&
+    !Array.isArray(val) &&
+    Object.values(val).every(
+      (v) => v === undefined || (typeof v === "number" && !Number.isNaN(v)),
+    ),
+  { message: "Expected valid nutrition object with numeric values" },
 );
 
 // ─── Core Entry ────────────────────────────────────────────────────────────

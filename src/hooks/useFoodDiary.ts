@@ -315,7 +315,7 @@ export function useFoodDiary(): UseFoodDiaryReturn {
               },
               quantity: parsedInput.data.quantity,
               nutrition: parsedInput.data.nutrition ?? {},
-              nutritionConfidence: "medium",
+              nutritionConfidence: parsedInput.data.nutritionConfidence ?? "medium",
               ...(parsedInput.data.elementalProperties ? { elementalProperties: parsedInput.data.elementalProperties } : {}),
               ...(parsedInput.data.notes ? { notes: parsedInput.data.notes } : {}),
               isFavorite: false,

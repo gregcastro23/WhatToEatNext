@@ -81,7 +81,7 @@ describe("buildOmnibarModel", () => {
   it("xqzv: D5 next steps instead of a dead end, and no 'see all' into nothing", () => {
     const m = model("xqzv");
     expect(sectionIds(m)).toEqual(["none"]);
-    expect(m.sections[0]?.rows.map((r) => r.href)).toEqual(["/recipe-generator", "/recipes", "/ingredients"]);
+    expect(m.sections[0]?.rows.map((r) => r.href)).toEqual(["/cosmic-recipe", "/recipes", "/ingredients"]);
   });
 
   it("loading and error keep local pages and 'see all' while the server is away", () => {

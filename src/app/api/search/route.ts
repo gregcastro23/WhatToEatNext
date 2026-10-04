@@ -15,6 +15,7 @@ import { searchOmnibar } from "@/lib/search/omnibar";
 import { toOmnibarResponse } from "@/lib/search/serialize";
 import { SearchQuerySchema } from "@/lib/validation/searchSchemas";
 
+export const dynamic = "force-dynamic";
 export const revalidate = 300;
 export const runtime = "nodejs";
 

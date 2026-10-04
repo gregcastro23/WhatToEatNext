@@ -300,6 +300,7 @@ export const AdminAgentsSchema = z.object({
 export type AdminAgentsView = z.infer<typeof AdminAgentsSchema>;
 
 type _AdminAgentsDrift = AssertTrue<ServerSatisfies<AdminAgentsPayload, AdminAgentsView>>;
+type _AdminAgentsExact = AssertTrue<ServerSatisfies<AdminAgentsView, AdminAgentsPayload>>;
 
 export const AdminAgentsResponseSchema = AdminAgentsSchema.extend({
   success: z.literal(true),

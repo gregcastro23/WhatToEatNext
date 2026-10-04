@@ -69,13 +69,12 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 /**
- * Per-attempt deadline for the upstream Planetary Agents call.
- * Under Vercel maxDuration = 60s, budgeting 25s per attempt allows WTEN to
- * execute 1 retry with structured feedback if the first attempt times out or
- * hits a blocking verification finding, leaving 10s of headroom for DB operations
- * and response settlement.
+ * Upstream Planetary Agents generation deadline.
+ * [MEASURED 2026-09-24, prod] p50 ~24s, p95 ~31s. 45s accommodates normal
+ * generation variance and fits within Vercel's 60s maxDuration with 15s
+ * headroom for DB updates and response settlement.
  */
-const PA_TIMEOUT_MS = 25_000;
+const PA_TIMEOUT_MS = 45_000;
 const MAX_RECIPE_ATTEMPTS = 2;
 
 const birthDataSchema = z
@@ -205,6 +204,7 @@ async function handlePost(request: NextRequest) {
      */
     refund: { spirit: number; essence: number; matter: number; substance: number };
   } | null = null;
+  let refundExecuted = false;
   // Surfaced on the 200 so the client can show what was spent and swapped.
   let payment: PaymentMetadata | null =
     access.mode === "auth" ? { charged: false, autoSwap: null } : null;
@@ -447,9 +447,6 @@ async function handlePost(request: NextRequest) {
     // PA backend at api.agents.alchm.kitchen owns recipe generation since
     // the PA-side rebuild: it handles the alchemical-chef persona, prompt
     // construction, provider-native JSON mode, Pydantic validation, one
-    // PA backend at api.agents.alchm.kitchen owns recipe generation since
-    // the PA-side rebuild: it handles the alchemical-chef persona, prompt
-    // construction, provider-native JSON mode, Pydantic validation, one
     // auto-retry on malformed output, and a 60s prompt-hash cache. WTEN
     // forwards the structured grounding fields it has computed and gets
     // back a validated CosmicRecipeResponse.
@@ -467,6 +464,7 @@ async function handlePost(request: NextRequest) {
       issues?: unknown[];
     } | null = null;
     const allEncounteredFindings: string[] = [];
+    const pipelineStartTime = Date.now();
 
     for (let attempt = 1; attempt <= MAX_RECIPE_ATTEMPTS; attempt++) {
       attemptsCount = attempt;
@@ -510,9 +508,10 @@ async function handlePost(request: NextRequest) {
             message: upstreamDetail ?? "Failed to generate recipe via agents network",
             timedOut: false,
           };
-          if (attempt < MAX_RECIPE_ATTEMPTS) {
+          // Under Vercel 60s limit, only retry if sufficient time remains (elapsed < 14s)
+          if (attempt < MAX_RECIPE_ATTEMPTS && Date.now() - pipelineStartTime < 14_000) {
             logger.warn(
-              `[generate-cosmic-recipe] Upstream error on attempt ${attempt} (${agentResponse.status}), retrying with structured feedback...`,
+              `[generate-cosmic-recipe] Upstream error on attempt ${attempt} (${agentResponse.status}), retrying...`,
             );
             continue;
           }
@@ -534,13 +533,13 @@ async function handlePost(request: NextRequest) {
               .slice(0, 5)
               .map((i) => ({ path: i.path.join("."), message: i.message })),
           };
-          if (attempt < MAX_RECIPE_ATTEMPTS) {
+          if (attempt < MAX_RECIPE_ATTEMPTS && Date.now() - pipelineStartTime < 14_000) {
             continue;
           }
           break;
         }
 
-        // Run WTEN Deterministic Culinary Verification & Local Repair Gate
+        // Run WTEN Deterministic Culinary Verification Gate
         const outcome = verifyAndRepairCosmicRecipe(validation.data, {
           requestedDiet: diet,
           disallowedIngredients: effectiveDisallowed,
@@ -553,13 +552,19 @@ async function handlePost(request: NextRequest) {
         if (outcome.valid) {
           ({ recipe } = outcome);
           verificationOutcome = outcome;
-          break; // Verified and repaired successfully!
+          break; // Verified successfully!
         }
 
-        logger.warn(
-          `[generate-cosmic-recipe] Attempt ${attempt} failed verification gate with ${outcome.blockingFindings.length} blocking finding(s):`,
-          outcome.blockingFindings,
-        );
+        if (attempt < MAX_RECIPE_ATTEMPTS && Date.now() - pipelineStartTime < 14_000) {
+          logger.warn(
+            `[generate-cosmic-recipe] Attempt ${attempt} failed verification gate with ${outcome.blockingFindings.length} blocking finding(s), retrying:`,
+            outcome.blockingFindings,
+          );
+          // Construct structured feedback for retry
+          const correctionSummary = outcome.blockingFindings.map((f) => f.message).join(" ");
+          retryFeedbackPrompt = `${enrichedPrompt}\n\n[Correction Required]: Previous recipe attempt failed culinary verification: ${correctionSummary}. Please ensure USDA food safety temperatures, realistic household quantities, and strict dietary restriction compliance.`;
+          continue;
+        }
 
         lastUpstreamError = {
           status: 502,
@@ -568,19 +573,16 @@ async function handlePost(request: NextRequest) {
           issues: outcome.blockingFindings.map((f) => ({ path: f.path, message: f.message })),
         };
 
-        if (attempt < MAX_RECIPE_ATTEMPTS) {
-          // Construct structured feedback for retry
-          const correctionSummary = outcome.blockingFindings.map((f) => f.message).join(" ");
-          retryFeedbackPrompt = `${enrichedPrompt}\n\n[Correction Required]: Previous recipe attempt failed culinary verification: ${correctionSummary}. Please ensure USDA food safety temperatures, realistic household quantities, and strict dietary restriction compliance.`;
-          continue;
-        }
+        logger.error(
+          `[generate-cosmic-recipe] Verification gate exhausted on attempt ${attempt} with ${outcome.blockingFindings.length} blocking finding(s):`,
+          outcome.blockingFindings,
+        );
+        break;
       } catch (error) {
         logger.error(`[generate-cosmic-recipe] Error calling planetary agents API on attempt ${attempt}:`, error);
         // Name check WITHOUT `instanceof Error`. `AbortSignal.timeout` rejects
         // with a DOMException; Node 22 makes that an Error subclass, but a
         // different realm (jest's node environment, a bundler shim) does not.
-        // NOTE: Any exit prior to setting delivered = true will trigger an automatic,
-        // idempotent refund in the finally block below.
         const timedOut =
           typeof error === "object" &&
           error !== null &&
@@ -593,9 +595,11 @@ async function handlePost(request: NextRequest) {
             : "Internal server error contacting agents network",
           timedOut,
         };
-        if (attempt < MAX_RECIPE_ATTEMPTS) {
+        // If an attempt timed out (it consumed 45s), do NOT retry: another attempt would
+        // exceed Vercel's 60s hard kill. Only retry fast non-timeout errors if time permits.
+        if (!timedOut && attempt < MAX_RECIPE_ATTEMPTS && Date.now() - pipelineStartTime < 14_000) {
           logger.warn(
-            `[generate-cosmic-recipe] Attempt ${attempt} failed with ${timedOut ? "timeout" : "error"}, retrying...`,
+            `[generate-cosmic-recipe] Attempt ${attempt} failed with error, retrying...`,
           );
           continue;
         }
@@ -618,6 +622,30 @@ async function handlePost(request: NextRequest) {
         message: "Internal server error contacting agents network",
         timedOut: false,
       };
+
+      // Perform refund BEFORE constructing response so the refund note is factually accurate
+      if (spend && !refundExecuted) {
+        refundExecuted = true;
+        try {
+          await tokenEconomy.creditMultipleTokensDetailed(
+            spend.userId,
+            [
+              { tokenType: "Spirit", amount: spend.refund.spirit },
+              { tokenType: "Essence", amount: spend.refund.essence },
+              { tokenType: "Matter", amount: spend.refund.matter },
+              { tokenType: "Substance", amount: spend.refund.substance },
+            ],
+            "cosmic_recipe_refund",
+            {
+              sourceId: spend.groupId,
+              idempotencyKey: `cosmic_recipe_refund:${spend.groupId}`,
+              description: `Refund - cosmic recipe generation failed (${spend.groupId})`,
+            }
+          );
+        } catch (refundErr) {
+          logger.error("[generate-cosmic-recipe] Immediate refund execution failed:", refundErr);
+        }
+      }
 
       return new Response(
         JSON.stringify({
@@ -708,7 +736,7 @@ async function handlePost(request: NextRequest) {
     return okResponse;
 
   } finally {
-    if (spend && !delivered) {
+    if (spend && !delivered && !refundExecuted) {
       try {
         // Credit the EXACT basket that was debited — net of any auto-swap that
         // funded it, so the user ends where they started: the coins the bridge

@@ -81,42 +81,90 @@ export const TEMPERATURE_DANGER_ZONE = {
   source: "USDA FSIS Food Safety Fact Sheet: The Danger Zone",
 } as const;
 
+export interface EvaluateStepTemperatureOptions {
+  isInternalDoneness?: boolean;
+  isCoolingOrChilling?: boolean;
+  isSugarOrCandy?: boolean;
+}
+
 /**
  * Check whether a step specifies an unsafe low temperature for a protein category,
- * or an impossible/excessive kitchen temperature (> 350°C / 662°F).
+ * or an impossible/excessive kitchen temperature (> 1000°F).
  */
 export function evaluateStepTemperature(
   methodKey: string,
   temperatureF?: number,
   targetProtein?: string,
+  options?: EvaluateStepTemperatureOptions,
 ): { safe: boolean; reason?: string } {
   if (temperatureF === undefined) return { safe: true };
 
-  // Hard physical impossibility / excessive fire hazard
-  if (temperatureF > 600) {
+  // Steps that cool, chill, or refrigerate operate in safe cold storage (<40°F) or ambient
+  if (options?.isCoolingOrChilling) {
+    return { safe: true };
+  }
+
+  // Hard physical impossibility / excessive fire hazard (>1000°F exceeds high-heat tandoor and wood-fired pizza ovens)
+  if (temperatureF > 1000) {
     return {
       safe: false,
-      reason: `Temperature ${temperatureF}°F exceeds safe culinary envelope (>600°F is a flash fire / severe char hazard).`,
+      reason: `Temperature ${temperatureF}°F exceeds physical kitchen safety envelope (>1000°F exceeds wood-fired pizza and tandoor ovens).`,
     };
   }
 
-  // Liquid boiling in water cannot exceed 212°F (100°C) at standard sea level
+  // Liquid boiling in water cannot exceed 212°F (100°C) at standard sea level,
+  // EXCEPT for concentrated sugar solutions (candy, caramel, toffee) which exhibit boiling point elevation up to 320°F.
   const boilingMethods = new Set(["boiling", "simmering", "poaching", "steaming"]);
-  if (boilingMethods.has(methodKey) && temperatureF > 220) {
-    return {
-      safe: false,
-      reason: `Liquid water cannot exceed 212°F (100°C) at ambient pressure for method ${methodKey}.`,
-    };
+  if (boilingMethods.has(methodKey)) {
+    const maxBoilThreshold = options?.isSugarOrCandy ? 320 : 220;
+    if (temperatureF > maxBoilThreshold) {
+      return {
+        safe: false,
+        reason: options?.isSugarOrCandy
+          ? `Sugar syrup boiling cannot exceed 320°F for method ${methodKey}.`
+          : `Liquid water cannot exceed 212°F (100°C) at ambient pressure for method ${methodKey}.`,
+      };
+    }
   }
 
-  // Protein internal safety
-  if (targetProtein) {
+  // Protein internal safety: only applies when step specifies an internal target doneness temperature
+  // (e.g. "cook until internal temperature reaches X"), not oven air/ambient temps (e.g. "bake at 375°F").
+  if (targetProtein && options?.isInternalDoneness && methodKey !== "sous_vide") {
     const lower = targetProtein.toLowerCase();
-    if (lower.includes("chicken") || lower.includes("turkey") || lower.includes("poultry")) {
-      if (temperatureF < 165 && methodKey !== "sous_vide") {
+
+    // 1. Poultry
+    if (lower.includes("chicken") || lower.includes("turkey") || lower.includes("poultry") || lower.includes("duck")) {
+      if (temperatureF < 165) {
         return {
           safe: false,
-          reason: `Target temperature ${temperatureF}°F is below USDA minimum safe internal temperature of 165°F (74°C) for poultry.`,
+          reason: `Internal doneness temperature ${temperatureF}°F is below USDA minimum safe internal temperature of 165°F (74°C) for poultry (9 CFR § 381.150).`,
+        };
+      }
+    }
+    // 2. Ground meat
+    else if (lower.includes("ground") || lower.includes("burger") || lower.includes("patty") || lower.includes("sausage")) {
+      if (temperatureF < 160) {
+        return {
+          safe: false,
+          reason: `Internal doneness temperature ${temperatureF}°F is below USDA minimum safe internal temperature of 160°F (71°C) for ground meat (9 CFR § 318.23).`,
+        };
+      }
+    }
+    // 3. Whole cuts of meat (beef, pork, lamb, veal)
+    else if (lower.includes("beef") || lower.includes("pork") || lower.includes("lamb") || lower.includes("veal") || lower.includes("steak") || lower.includes("roast") || lower.includes("chop")) {
+      if (temperatureF < 145) {
+        return {
+          safe: false,
+          reason: `Internal doneness temperature ${temperatureF}°F is below USDA minimum safe internal temperature of 145°F (63°C) for whole cuts (FDA Food Code 2022 § 3-401.11).`,
+        };
+      }
+    }
+    // 4. Finfish and shellfish
+    else if (lower.includes("fish") || lower.includes("salmon") || lower.includes("tuna") || lower.includes("cod") || lower.includes("shrimp") || lower.includes("seafood")) {
+      if (temperatureF < 145) {
+        return {
+          safe: false,
+          reason: `Internal doneness temperature ${temperatureF}°F is below FDA minimum safe internal temperature of 145°F (63°C) for fish and shellfish (FDA Food Code 2022 § 3-401.11).`,
         };
       }
     }

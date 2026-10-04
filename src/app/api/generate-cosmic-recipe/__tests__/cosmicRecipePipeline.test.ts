@@ -1,42 +1,42 @@
 /**
  * @jest-environment node
  *
- * Resilient Cosmic Recipe Pipeline Test Suite.
- *
- * Verifies Target 6:
- * 1. Retry with structured feedback on gate-blocking finding.
- * 2. Injected PA failures (timeout, 502, schema drift) retry cleanly.
- * 3. Exactly single debit across retries.
- * 4. Success after retry never refunds.
- * 5. Exhaustion of retries refunds exactly once.
- * 6. Live telemetry tracks pipeline attempts, retries, repairs, and gate findings.
+ * Tests for the Resilient Cosmic Recipe Pipeline in /api/generate-cosmic-recipe:
+ * 1. Fast verification gate blocking finding triggers structured retry within budget.
+ * 2. Upstream TimeoutError (45s) does NOT retry to protect Vercel 60s hard kill, and refunds immediately.
+ * 3. Upstream fast 502 triggers retry and delivers on attempt 2.
+ * 4. Repeated gate failures refund exactly once and do not increment daily limits.
  *
  * @file src/app/api/generate-cosmic-recipe/__tests__/cosmicRecipePipeline.test.ts
  */
+
+import { NextRequest } from "next/server";
+import { VALID_RECIPE } from "./helpers/validCosmicRecipe";
+
+const DEBIT_GROUP_ID = "grp_test_pipeline_debit_1";
 
 const purchaseShopItem = jest.fn();
 const creditMultipleTokensDetailed = jest.fn();
 const getShopItem = jest.fn();
 
-import { NextRequest } from "next/server";
-import { installFetchMock } from "@/__tests__/helpers/fetchMock";
-import { VALID_RECIPE } from "./helpers/validCosmicRecipe";
-
 jest.mock("@/services/TokenEconomyService", () => ({
   tokenEconomy: {
-    purchaseShopItem: (...a: unknown[]) => purchaseShopItem(...a),
-    creditMultipleTokensDetailed: (...a: unknown[]) =>
-      creditMultipleTokensDetailed(...a),
-    getShopItem: (...a: unknown[]) => getShopItem(...a),
+    getShopItem: (...args: unknown[]) => getShopItem(...args),
+    purchaseShopItem: (...args: unknown[]) => purchaseShopItem(...args),
+    creditMultipleTokensDetailed: (...args: unknown[]) =>
+      creditMultipleTokensDetailed(...args),
   },
+  refundBasketAfterSwap: jest.fn(
+    (costs: { spirit: number; essence: number; matter: number; substance: number }) => ({
+      ...costs,
+    }),
+  ),
 }));
 
-// Auth'd user mode
 jest.mock("@/lib/auth/demoAccess", () => ({
   gateDemoOrAuth: async () => ({ mode: "auth", userId: "pipeline-user-1" }),
 }));
 
-// User has already generated 1 recipe today -> chargeable
 jest.mock("@/lib/database", () => ({
   executeQuery: async () => ({ rows: [{ recipes_generated: 1 }] }),
 }));
@@ -47,25 +47,23 @@ jest.mock("@/lib/economy/livePricing", () => ({
     multiplier: 1,
   }),
   applyPersonalizedPricing: () => ({
-    spirit: 5,
-    essence: 5,
-    matter: 5,
-    substance: 5,
+    spirit: 7.5,
+    essence: 7.5,
+    matter: 7.5,
+    substance: 7.5,
   }),
 }));
 
-jest.mock("@/services/questEventReporter", () => ({
-  reportQuestEventBestEffort: async () => undefined,
+jest.mock("@/lib/serviceUrls", () => ({
+  getServiceUrl: jest.fn().mockReturnValue("https://api.agents.alchm.kitchen"),
 }));
 
-jest.mock("@/services/FoodDiaryService", () => ({
-  foodDiaryService: { getEntries: async () => [] },
-}));
-
-const DEBIT_GROUP_ID = "debit-grp-pipeline-123";
+function installFetchMock(mock: jest.Mock): void {
+  (global as unknown as { fetch: unknown }).fetch = mock;
+}
 
 function makeRequest(body: Record<string, unknown> = {}): NextRequest {
-  return new NextRequest("https://alchm.kitchen/api/generate-cosmic-recipe", {
+  return new NextRequest("http://localhost:3000/api/generate-cosmic-recipe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt: "cosmic chicken skillet", ...body }),
@@ -83,7 +81,7 @@ describe("Resilient Cosmic Recipe Pipeline", () => {
     );
     resetRecipePipelineTelemetry();
     jest.spyOn(console, "warn").mockImplementation(() => {});
-    jest.spyOn(console, "error").mockImplementation(() => {});
+    // jest.spyOn(console, "error").mockImplementation(() => {});
 
     getShopItem.mockResolvedValue({ isActive: true });
     purchaseShopItem.mockResolvedValue({
@@ -95,7 +93,7 @@ describe("Resilient Cosmic Recipe Pipeline", () => {
 
   afterEach(() => jest.restoreAllMocks());
 
-  it("retries on gate-blocking unsafe temperature, succeeds on attempt 2 with structured feedback, debits once, and never refunds", async () => {
+  it("retries on fast gate-blocking unsafe temperature, succeeds on attempt 2 with structured feedback, debits once, and never refunds", async () => {
     const unsafeRecipe = JSON.parse(JSON.stringify(VALID_RECIPE));
     unsafeRecipe.ingredients = [
       { name: "chicken breast", quantity: "1", unit: "lb", optional: false, substitutions: [] },
@@ -174,36 +172,30 @@ describe("Resilient Cosmic Recipe Pipeline", () => {
     expect(stats.finalFailures).toBe(0);
   });
 
-  it("retries when attempt 1 times out (TimeoutError), delivers on attempt 2, and does not refund", async () => {
+  it("does not retry when attempt 1 times out (TimeoutError) to protect Vercel 60s limit, and refunds immediately", async () => {
     const timeoutErr = new Error("The operation was aborted due to timeout");
     timeoutErr.name = "TimeoutError";
 
-    const fetchMock = jest
-      .fn()
-      .mockRejectedValueOnce(timeoutErr)
-      .mockResolvedValueOnce(
-        new Response(JSON.stringify(VALID_RECIPE), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }),
-      );
-
+    const fetchMock = jest.fn().mockRejectedValueOnce(timeoutErr);
     installFetchMock(fetchMock);
 
     const mod = await import("@/app/api/generate-cosmic-recipe/route");
     const res = await mod.POST(makeRequest());
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(504);
     const body = await res.json();
-    expect(body.success).toBe(true);
-    expect(body.attempts).toBe(2);
+    expect(body.error).toContain("timed out");
+    expect(body.refunded).toBe(true);
+    expect(body.attempts).toBe(1);
 
-    expect(fetchMock).toHaveBeenCalledTimes(2);
+    // Only 1 attempt made: avoids double 45s attempt that would exceed 60s
+    expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(purchaseShopItem).toHaveBeenCalledTimes(1);
-    expect(creditMultipleTokensDetailed).not.toHaveBeenCalled();
+    // Refund executed immediately
+    expect(creditMultipleTokensDetailed).toHaveBeenCalledTimes(1);
   });
 
-  it("retries when attempt 1 returns 502, delivers on attempt 2, and does not refund", async () => {
+  it("retries when attempt 1 returns fast 502, delivers on attempt 2, and does not refund", async () => {
     const fetchMock = jest
       .fn()
       .mockResolvedValueOnce(new Response(JSON.stringify({ detail: "upstream flake" }), { status: 502 }))

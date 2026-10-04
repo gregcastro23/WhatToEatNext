@@ -1,16 +1,20 @@
 /**
  * @jest-environment node
  *
- * Golden Test Suite for the WTEN Culinary Verification & Local Repair Gate.
+ * Golden Test Suite for the WTEN Deterministic Culinary Verification Gate.
  *
- * Tests the deterministic culinary authority gate against:
- * 1. Known-good recipes (passes, normalizes units, derives diet tags, recomputes nutrition).
- * 2. Unsafe food temperatures (USDA FSIS poultry < 165°F, liquid water > 212°F, flash fire > 600°F).
- * 3. Impossible or non-positive quantities and household batch overflows (>10kg).
- * 4. Dietary & allergen violations (vegan recipe containing poultry/dairy, gluten in gluten-free).
- * 5. Disallowed ingredients matching user restrictions.
- * 6. Primary ingredient unverified in catalog vs advisory minor uncataloged ingredients.
- * 7. Local deterministic repair without model invocation.
+ * Verifies:
+ * 1. Unit normalization and fractional parsing.
+ * 2. Plant-based ingredients with animal substrings (eggplant, butternut squash, champagne vinegar)
+ *    correctly classify as vegan and vegetarian.
+ * 3. Gluten sources (spaghetti, soy sauce, udon, seitan) are flagged on gluten-free requests
+ *    and NEVER falsely tagged gluten-free.
+ * 4. Safe culinary envelopes: wood-fired pizza (850°F), candy syrup boiling (245°F),
+ *    refrigerated chilling (40°F), and Celsius internal doneness (74°C = 165.2°F).
+ * 5. Low internal poultry temperature (145°F internal) is flagged as BLOCKING.
+ * 6. Non-positive and excessive quantities (>10kg).
+ * 7. Disallowed ingredients.
+ * 8. Advisory reporting: unknown cooking methods and missing nutrition do NOT block or invent fake data.
  *
  * @file src/lib/cooking/__tests__/recipeVerificationGate.test.ts
  */
@@ -47,7 +51,7 @@ describe("verifyAndRepairCosmicRecipe", () => {
   const createBaseRecipe = (): CosmicRecipe =>
     cosmicRecipeSchema.parse(VALID_RECIPE);
 
-  it("passes a known-good recipe and derives diet tags and nutrition", () => {
+  it("passes known-good plant recipes and normalizes units without inventing fake tags", () => {
     const recipe = createBaseRecipe();
     recipe.ingredients = [
       {
@@ -72,10 +76,159 @@ describe("verifyAndRepairCosmicRecipe", () => {
     // Unit normalization repair: "tablespoons" -> "tbsp"
     expect(outcome.recipe.ingredients[1]?.unit).toBe("tbsp");
     expect(outcome.repaired).toBe(true);
-    // Nutrition recomputed
     expect(outcome.audit.resolvedIngredientsCount).toBeGreaterThanOrEqual(1);
-    expect(outcome.audit.derivedDietTags).toContain("vegan");
-    expect(outcome.audit.derivedDietTags).toContain("gluten-free");
+    // Does NOT inject unverified tags into delivered recipe
+    expect(outcome.recipe.tags.diet).toEqual(recipe.tags.diet);
+  });
+
+  it("correctly classifies eggplant, butternut squash, and champagne vinegar as vegan", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "eggplant",
+        quantity: "1",
+        unit: "piece",
+        optional: false,
+        substitutions: [],
+      },
+      {
+        name: "butternut squash",
+        quantity: "1",
+        unit: "lb",
+        optional: false,
+        substitutions: [],
+      },
+      {
+        name: "champagne vinegar",
+        quantity: "1",
+        unit: "tbsp",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "vegan" });
+    expect(outcome.valid).toBe(true);
+    expect(outcome.blockingFindings).toHaveLength(0);
+  });
+
+  it("flags gluten-containing ingredients (spaghetti, soy sauce, seitan, udon) when gluten-free is requested", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "spaghetti",
+        quantity: "200",
+        unit: "g",
+        optional: false,
+        substitutions: [],
+      },
+      {
+        name: "soy sauce",
+        quantity: "2",
+        unit: "tbsp",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "gluten-free" });
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "ALLERGEN_VIOLATION_GLUTEN")).toBe(true);
+  });
+
+  it("permits wood-fired pizza ovens operating at 850°F", () => {
+    const recipe = createBaseRecipe();
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Bake pizza in a wood-fired oven at 850°F for 90 seconds.",
+        time_minutes: 2,
+        cooking_method: "bake",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(true);
+    expect(outcome.blockingFindings).toHaveLength(0);
+  });
+
+  it("permits candy syrup boiling at 245°F", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "sugar",
+        quantity: "1",
+        unit: "cup",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Boil sugar syrup until thermometer reads 245°F (firm ball stage).",
+        time_minutes: 8,
+        cooking_method: "boiling",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(true);
+    expect(outcome.blockingFindings).toHaveLength(0);
+  });
+
+  it("permits chilling chicken in refrigerator to 40°F without false positive", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "chicken breast",
+        quantity: "1",
+        unit: "lb",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Chill marinated chicken breast in refrigerator to 40°F before grilling.",
+        time_minutes: 30,
+        cooking_method: "prep",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(true);
+    expect(outcome.blockingFindings).toHaveLength(0);
+  });
+
+  it("recognizes Celsius internal temperature for poultry (74°C = 165.2°F)", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "chicken breast",
+        quantity: "1",
+        unit: "lb",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Roast chicken breast until internal temperature reaches 74°C.",
+        time_minutes: 25,
+        cooking_method: "roast",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(true);
+    expect(outcome.blockingFindings).toHaveLength(0);
   });
 
   it("flags unsafe low internal temperature for poultry as BLOCKING", () => {
@@ -213,7 +366,6 @@ describe("verifyAndRepairCosmicRecipe", () => {
     ];
 
     const outcome = verifyAndRepairCosmicRecipe(recipe);
-    // Advisory findings do NOT invalidate the recipe
     expect(outcome.valid).toBe(true);
     expect(outcome.blockingFindings).toHaveLength(0);
     const advisory = outcome.advisoryFindings.find(
@@ -222,7 +374,7 @@ describe("verifyAndRepairCosmicRecipe", () => {
     expect(advisory).toBeDefined();
   });
 
-  it("deterministically repairs missing nutrition and syncs verified diet tags", () => {
+  it("reports missing nutrition as ADVISORY without inventing fabricated values", () => {
     const recipe = createBaseRecipe();
     recipe.nutrition = { calories: 0, protein: 0, carbohydrates: 0, fat: 0 };
     recipe.ingredients = [
@@ -234,13 +386,12 @@ describe("verifyAndRepairCosmicRecipe", () => {
         substitutions: [],
       },
     ];
-    recipe.tags.diet = []; // missing tags
 
     const outcome = verifyAndRepairCosmicRecipe(recipe);
     expect(outcome.valid).toBe(true);
-    expect(outcome.repaired).toBe(true);
-    expect(outcome.recipe.nutrition.calories).toBeGreaterThan(0);
-    expect(outcome.recipe.tags.diet).toContain("vegan");
-    expect(outcome.recipe.tags.diet).toContain("dairy-free");
+    const advisory = outcome.advisoryFindings.find((f) => f.code === "MISSING_NUTRITION");
+    expect(advisory).toBeDefined();
+    // Does NOT mutate original calories to fake numbers
+    expect(outcome.recipe.nutrition.calories).toBe(0);
   });
 });

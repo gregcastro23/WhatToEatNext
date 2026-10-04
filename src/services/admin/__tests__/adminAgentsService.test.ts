@@ -12,6 +12,12 @@ jest.mock("@/services/admin/asolHealthService", () => ({
   getAsolHealthOverview: jest.fn(),
 }));
 
+jest.mock("@/services/asolContractProbeService", () => ({
+  asolContractProbe: {
+    executeProbe: jest.fn(),
+  },
+}));
+
 jest.mock("@/services/cronHeartbeatService", () => {
   const actual = jest.requireActual("@/services/cronHeartbeatService");
   return {
@@ -22,14 +28,15 @@ jest.mock("@/services/cronHeartbeatService", () => {
 
 import { executeQuery } from "@/lib/database/connection";
 import { getAsolHealthOverview } from "@/services/admin/asolHealthService";
+import { asolContractProbe } from "@/services/asolContractProbeService";
 import { getCronHeartbeats } from "@/services/cronHeartbeatService";
 import {
   getAdminAgentsOverview,
-  type AdminAgentsPayload,
 } from "@/services/admin/adminAgentsService";
 
 const mockExecuteQuery = jest.mocked(executeQuery);
 const mockGetAsolHealthOverview = jest.mocked(getAsolHealthOverview);
+const mockExecuteProbe = jest.mocked(asolContractProbe.executeProbe);
 const mockGetCronHeartbeats = jest.mocked(getCronHeartbeats);
 
 describe("adminAgentsService", () => {
@@ -45,6 +52,28 @@ describe("adminAgentsService", () => {
   });
 
   function setupDefaultMocks() {
+    mockExecuteProbe.mockResolvedValue({
+      success: true,
+      timestamp: "2026-10-03T12:00:00Z",
+      durationMs: 45,
+      checks: {
+        agentRosterAuth: { passed: true, status: 200 },
+        syncStatusAuth: { passed: true, status: 200 },
+        vesselAuth: { passed: true, status: 200 },
+        checkSharedAuth: { passed: true, status: 200 },
+        negativeControls: {
+          passed: true,
+          allRejectedWith401: true,
+          statuses: {
+            "agent-roster": 401,
+            "sync-status": 401,
+            vessel: 401,
+            "check-shared": 401,
+          },
+        },
+      },
+    });
+
     mockGetAsolHealthOverview.mockResolvedValue({
       generatedAt: "2026-10-03T12:00:00Z",
       totalReceived: 50,
@@ -71,16 +100,16 @@ describe("adminAgentsService", () => {
       entries: [
         {
           name: "agents-daily-yield",
-          schedule: "0 0 * * *",
+          schedule: "30 0 * * *",
           expectedIntervalMinutes: 1440,
-          lastRun: "2026-10-03T00:00:00Z",
+          lastRun: "2026-10-03T00:30:00Z",
           lastStatus: "success",
           state: "ok",
         },
         {
           name: "prewarm-agent-recipes",
-          schedule: "0 */4 * * *",
-          expectedIntervalMinutes: 240,
+          schedule: "0 * * * *",
+          expectedIntervalMinutes: 60,
           lastRun: "2026-10-03T08:00:00Z",
           lastStatus: "success",
           state: "ok",
@@ -89,12 +118,6 @@ describe("adminAgentsService", () => {
       live: true,
     });
 
-    // Mock DB queries in order:
-    // 1. roster stats
-    // 2. creditSignals
-    // 3. debitSignals
-    // 4. actionMetrics
-    // 5. recipePipelineOutcomes
     mockExecuteQuery.mockImplementation(async (sql: string | { text: string }) => {
       const q = typeof sql === "string" ? sql : sql.text;
 
@@ -174,7 +197,7 @@ describe("adminAgentsService", () => {
         };
       }
 
-      if (q.includes("cosmic_recipe_refund:%")) {
+      if (q.includes("cosmic_recipe_refund")) {
         return {
           command: "SELECT",
           rowCount: 1,
@@ -207,7 +230,6 @@ describe("adminAgentsService", () => {
 
     const overview = await getAdminAgentsOverview({
       fetchFn: mockFetch,
-      skipProbe: true,
     });
 
     expect(overview.live).toBe(true);
@@ -225,6 +247,7 @@ describe("adminAgentsService", () => {
 
     expect(overview.actions.cronHeartbeats).toHaveLength(2);
     expect(overview.actions.cronHeartbeats[0]?.state).toBe("ok");
+    expect(mockExecuteProbe).toHaveBeenCalledTimes(1);
   });
 
   it("handles degraded state: ASOL service unreachable", async () => {
@@ -236,7 +259,6 @@ describe("adminAgentsService", () => {
 
     const overview = await getAdminAgentsOverview({
       fetchFn: mockFetch,
-      skipProbe: true,
     });
 
     expect(overview.connectivity.services[0]?.reachable).toBe(false);
@@ -245,6 +267,7 @@ describe("adminAgentsService", () => {
   });
 
   it("handles degraded state: database failure / no rows", async () => {
+    setupDefaultMocks();
     mockGetAsolHealthOverview.mockResolvedValue({
       generatedAt: "2026-10-03T12:00:00Z",
       totalReceived: 0,
@@ -280,7 +303,6 @@ describe("adminAgentsService", () => {
 
     const overview = await getAdminAgentsOverview({
       fetchFn: mockFetch,
-      skipProbe: true,
     });
 
     expect(overview.live).toBe(false);
@@ -291,6 +313,14 @@ describe("adminAgentsService", () => {
     expect(overview.actions.debitPath.live).toBe(false);
     expect(overview.actions.debitPath.verdict).toBe("UNKNOWN");
     expect(overview.actions.recipePipeline.live).toBe(false);
+
+    // Fallback crons match vercel.json exactly
+    const yieldCron = overview.actions.cronHeartbeats.find((c) => c.name === "agents-daily-yield");
+    const prewarmCron = overview.actions.cronHeartbeats.find((c) => c.name === "prewarm-agent-recipes");
+    expect(yieldCron?.schedule).toBe("30 0 * * *");
+    expect(yieldCron?.expectedIntervalMinutes).toBe(1440);
+    expect(prewarmCron?.schedule).toBe("0 * * * *");
+    expect(prewarmCron?.expectedIntervalMinutes).toBe(60);
   });
 
   it("handles degraded state: cron heartbeat stale or failing", async () => {
@@ -300,16 +330,16 @@ describe("adminAgentsService", () => {
       entries: [
         {
           name: "agents-daily-yield",
-          schedule: "0 0 * * *",
+          schedule: "30 0 * * *",
           expectedIntervalMinutes: 1440,
-          lastRun: "2026-10-01T00:00:00Z",
+          lastRun: "2026-10-01T00:30:00Z",
           lastStatus: "failure",
           state: "failing",
         },
         {
           name: "prewarm-agent-recipes",
-          schedule: "0 */4 * * *",
-          expectedIntervalMinutes: 240,
+          schedule: "0 * * * *",
+          expectedIntervalMinutes: 60,
           lastRun: null,
           lastStatus: null,
           state: "never",
@@ -324,7 +354,6 @@ describe("adminAgentsService", () => {
 
     const overview = await getAdminAgentsOverview({
       fetchFn: mockFetch,
-      skipProbe: true,
     });
 
     const yieldCron = overview.actions.cronHeartbeats.find((c) => c.name === "agents-daily-yield");

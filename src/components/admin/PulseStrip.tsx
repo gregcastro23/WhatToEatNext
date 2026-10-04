@@ -73,14 +73,14 @@ function AgentsTiles({ a }: { a: PulseView["agents"] }): React.JSX.Element {
     ? "warn"
     : "ok";
   const sub = a
-    ? `${a.paReachable ? "PA online" : "PA unreachable"} · cr: ${a.creditVerdict} · deb: ${a.debitVerdict}`
+    ? `${a.paReachable ? "Agents online" : "Agents unreachable"} · cr: ${a.creditVerdict} · deb: ${a.debitVerdict}`
     : "agents read failed";
   return (
     <>
       <Stat
         href="/admin/agents"
         label="Agents"
-        value={a ? `${fmtInt(a.totalAgents)} registered` : null}
+        value={a ? (a.totalAgents !== null ? `${fmtInt(a.totalAgents)} registered` : "roster unread") : null}
         sub={sub}
         tone={tone}
       />

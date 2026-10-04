@@ -12,6 +12,7 @@
 import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { getAsolHealthOverview } from "@/services/admin/asolHealthService";
 import { getBaseProgress, type BaseProgress } from "@/services/admin/baseProgressService";
 import { deployIdentity, getCodeHealthPulse, type CodeHealthPulse, type DeployIdentity } from "@/services/admin/codeHealthService";
@@ -81,7 +82,7 @@ export interface BasePulse {
 
 export interface AgentsPulse {
   live: boolean;
-  totalAgents: number;
+  totalAgents: number | null;
   paReachable: boolean;
   creditVerdict: CreditPathVerdict;
   debitVerdict: DebitPathVerdict;
@@ -173,10 +174,15 @@ function mapOrNull<T, U>(value: T | null, fn: (v: T) => U): U | null {
 }
 
 async function getAgentsPulse(): Promise<AgentsPulse> {
-  const [rosterRes, creditSignals, debitSignals, asolHealth] = await Promise.all([
+  const [rosterRes, creditSignals, debitSignals, asolHealth, reachabilityRes] = await Promise.all([
     executeQuery<{ count: number }>(
       "SELECT COUNT(*)::int AS count FROM users WHERE is_agent = true",
-    ).catch(() => ({ rows: [] })),
+    )
+      .then((res) => (res.rows[0]?.count !== undefined ? Number(res.rows[0].count) : null))
+      .catch((err) => {
+        _logger.error("[adminPulseService] roster query failed:", err);
+        return null;
+      }),
     fetchCreditPathSignals().catch(() => ({
       live: false,
       calls24h: 0,
@@ -192,17 +198,20 @@ async function getAgentsPulse(): Promise<AgentsPulse> {
       lastDebitAgeMs: null,
     })),
     getAsolHealthOverview().catch(() => null),
+    fetch(`${getServiceUrlSafe("planetaryAgentsApi")}/health`, {
+      signal: AbortSignal.timeout(2_000),
+    })
+      .then((r) => r.status < 500)
+      .catch(() => false),
   ]);
 
   const credit = classifyCreditPath(creditSignals);
   const debit = classifyDebitPath(debitSignals);
-  const [rosterRow] = rosterRes.rows;
-  const totalAgents = Number(rosterRow?.count ?? 0);
 
   return {
     live: creditSignals.live || debitSignals.live || asolHealth !== null,
-    totalAgents,
-    paReachable: asolHealth !== null,
+    totalAgents: rosterRes,
+    paReachable: reachabilityRes,
     creditVerdict: credit.verdict,
     debitVerdict: debit.verdict,
     activeDeliveryEvents24h: asolHealth?.totalReceived ?? 0,
