@@ -25,6 +25,17 @@ const COURSE_FIT: Readonly<Record<TimeOfDay, Readonly<Record<CourseKey, number>>
 /** Largest nudge the table's elemental bias may give one dish, in log-odds. */
 const TABLE_NUDGE_CAP = 0.6;
 
+/**
+ * The quiz recommends for right now, so a recipe that takes far longer than
+ * an evening starts behind: −0.6 log-odds per doubling beyond 90 minutes,
+ * capped at −2 (a 3-day ferment). Answers that seek effort or "no rush"
+ * outweigh it; a stated time limit replaces it with a hard rule.
+ */
+export function slowRecipeLogOdds(minutes: number | null): number {
+  if (minutes === null || minutes <= 90) return 0;
+  return Math.max(-2, -0.6 * Math.log2(minutes / 90));
+}
+
 export function allowedByRules(dish: QuizDish, rules: QuizRules, limits: HardLimits): boolean {
   if (rules.diet && !dish.diets.includes(rules.diet)) return false;
   if (rules.allergens.some((allergen) => dish.allergens.includes(allergen))) return false;
@@ -40,7 +51,7 @@ function timePenalty(dish: QuizDish, maxMinutes: number | null): number {
 
 export function priorLogOdds(dish: QuizDish, moment: QuizMoment): number {
   const fits = dish.courses.map((course) => COURSE_FIT[moment.timeOfDay][course]);
-  let prior = fits.length ? Math.max(...fits) : 0;
+  let prior = (fits.length ? Math.max(...fits) : 0) + slowRecipeLogOdds(dish.minutes);
   if (dish.seasons.includes(moment.season)) prior += 0.2;
   else if (dish.seasons.length > 0) prior -= 0.2;
   const bias = moment.elementalBias;

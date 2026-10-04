@@ -1,5 +1,6 @@
 import { FEATURE_KEYS } from "@/lib/quiz/catalogContract";
 import { ingredientGroup } from "@/lib/quiz/dishLexicon";
+import { DISH_CHOICE_PREFIX } from "./dynamic";
 import { answerLogLikelihood, offeredChoices } from "./effects";
 import { FAMILY_LABELS, FEATURE_WORDS } from "./phrases";
 import { dishesInPlay, posterior, type PosteriorInput } from "./posterior";
@@ -72,7 +73,9 @@ function groupPhrase(choice: QuizChoice, dish: QuizDish): string | null {
 
 function otherPhrase(choice: QuizChoice, dish: QuizDish): string {
   if ((choice.effect.families?.[dish.family] ?? 0) > 0) return `It's ${FAMILY_LABELS[dish.family] ?? dish.family}.`;
-  if (choice.effect.like) return "It's the dish you picked in the duel, or its close cousin.";
+  if (choice.effect.like) {
+    return choice.id === `${DISH_CHOICE_PREFIX}${dish.id}` ? "You picked it in the duel." : "It's close to the dish you picked in the duel.";
+  }
   if ((choice.effect.excludeGroups ?? []).length) return "None of your hard nos.";
   return "It fits what you chose.";
 }
@@ -152,14 +155,17 @@ export function quizOutcome(input: PosteriorInput): QuizOutcome | null {
   if (also) alternates.push({ tag: "Also right for you", scored: also });
   const taken = new Set([hero.dish.id, ...alternates.map(({ scored }) => scored.dish.id)]);
   const wild = wildcard(ranked, taken, hero.dish);
-  if (wild) alternates.push({ tag: "The wildcard", scored: wild });
+  if (wild) {
+    alternates.push({ tag: "The wildcard", scored: wild });
+    taken.add(wild.dish.id);
+  }
   return {
     hero,
     alternates,
     reasons: reasonsFor(hero.dish, ranked, input.questions, input.answers, input.rules),
     profile: cravingProfile(ranked, input.dishes),
     inPlay: dishesInPlay(ranked),
-    runnersUp: ranked.slice(1, 8),
+    runnersUp: ranked.slice(1, 10).filter(({ dish }) => !taken.has(dish.id)).slice(0, 7),
     skyNote: skyNoteFor(input.questions, input.answers),
     servings: servingsFrom(input.questions, input.answers),
   };

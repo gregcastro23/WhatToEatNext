@@ -1,6 +1,7 @@
 .surface {
   position: relative;
   min-height: 480px;
+  min-width: 0;
   isolation: isolate;
 }
 .preview > div {
@@ -75,6 +76,7 @@
 }
 .primaryButton,
 .secondaryButton {
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -128,6 +130,10 @@
   display: flex;
   align-items: center;
   width: 100%;
+  /* A grid item's automatic minimum is its min-content width, which for
+     nowrap copy is the whole line: without this the bar widened the hero's
+     column past the viewport on phones. */
+  min-width: 0;
   height: 76px;
   gap: 14px;
   padding: 12px 18px;
@@ -855,7 +861,10 @@
     padding: 4px;
   }
   .leader {
-    max-width: 45%;
+    max-width: 44%;
+  }
+  .leaders .leader:last-child {
+    display: none;
   }
 
   .keyboardHint {

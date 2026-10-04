@@ -1,5 +1,5 @@
 import { answerLogLikelihood, choiceUtility, hardLimits } from "../engine/effects";
-import { dishesInPlay, posterior, priorLogOdds } from "../engine/posterior";
+import { dishesInPlay, posterior, priorLogOdds, slowRecipeLogOdds } from "../engine/posterior";
 import { quizOutcome } from "../engine/result";
 import type { QuizMoment, QuizQuestion } from "../engine/types";
 import { dish, MOMENT, NO_RULES } from "./helpers/quizFixtures";
@@ -81,6 +81,13 @@ describe("posterior", () => {
     expect(priorLogOdds(dessert, MOMENT)).toBeLessThan(0);
   });
 
+  it("starts very slow recipes behind, capped", () => {
+    expect(slowRecipeLogOdds(null)).toBe(0);
+    expect(slowRecipeLogOdds(90)).toBe(0);
+    expect(slowRecipeLogOdds(180)).toBeCloseTo(-0.6, 10);
+    expect(slowRecipeLogOdds(72 * 60)).toBe(-2);
+  });
+
   it("caps the table's elemental nudge", () => {
     const fiery = dish("fiery", { elements: { Fire: 1, Water: 0, Earth: 0, Air: 0 } });
     const bias = { ...MOMENT, elementalBias: { Fire: 1, Water: 0, Earth: 0, Air: 0 } };
@@ -99,6 +106,8 @@ describe("outcome", () => {
     });
     expect(outcome?.hero.dish.id).toMatch(/^soup/);
     expect(outcome?.alternates.length).toBeGreaterThan(0);
+    const shown = new Set([outcome?.hero.dish.id, ...(outcome?.alternates ?? []).map(({ scored }) => scored.dish.id)]);
+    expect(outcome?.runnersUp.some(({ dish: d }) => shown.has(d.id))).toBe(false);
     expect(outcome?.reasons[0]).toEqual(
       expect.objectContaining({ answer: "A steaming bowl", because: "It is a spoonable, brothy bowl." }),
     );

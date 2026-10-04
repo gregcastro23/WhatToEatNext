@@ -46,7 +46,7 @@ flowchart TD
 ## Choosing the next question
 
 1. **Posterior.** log P(dish) = prior + Σ log P(answer | dish).
-   - The prior covers course fit to the time of day, season, and the table nudge.
+   - The prior covers course fit to the time of day, season, the table nudge, and a "right now" penalty for very slow recipes: −0.6 log-odds per doubling beyond 90 minutes, capped at −2, so a 3-day ferment doesn't top a 10-minute quiz unless the diner asks for effort or "no rush".
    - Single-choice answers use a softmax over the options offered (λ = 0.7).
    - An option's utility for a dish is Σ lean × (2·feature − 1), plus terms for ingredient groups, cuisine family and course.
    - Diet, allergens, "hard nos" and time limits are hard filters.
@@ -68,7 +68,13 @@ flowchart TD
 - after 5 questions, 23/24 ranked it #1 and 24/24 had it in the top five;
 - with answers ignored (λ = 0), the same check fails.
 
-On the real catalog, 40 simulated diners reached a median rank of 1 after 10 questions, with 39/40 in the top 10.
+On the real 918-dish catalog, 40 simulated diners (evening, no dietary rules; measured 2026-10-04):
+
+| Questions | Median rank | Ranked #1 | Top 10 | Top 50 |
+| --- | --- | --- | --- | --- |
+| 5 | 7 | 8/40 | 25/40 | 34/40 |
+| 10 | 1 | 28/40 | 38/40 | 40/40 |
+| 15 | 1 | 39/40 | 40/40 | 40/40 |
 
 ## The question bank and its research basis
 

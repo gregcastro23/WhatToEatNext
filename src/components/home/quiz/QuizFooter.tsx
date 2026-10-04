@@ -26,7 +26,7 @@ function ResultFooter(): React.JSX.Element {
       <span className={styles.footerGroup}>
         {answeredCount(quiz.state) < MAX_QUESTIONS && (
           <button type="button" className={styles.secondaryButton} onClick={() => quiz.more(5)}>
-            Not quite? Ask me 5 more
+            Ask me 5 more
           </button>
         )}
         <button type="button" className={styles.secondaryButton} onClick={quiz.restart}>

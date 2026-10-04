@@ -12,7 +12,7 @@ export function pick(
 }
 
 export function neutral(id: string, label: string, sub: string): QuizChoice {
-  return { id, emoji: "·", label, sub, effect: {}, neutral: true };
+  return { id, emoji: "🤷", label, sub, effect: {}, neutral: true };
 }
 
 /** A multi-select "none of these" that clears the other picks. */

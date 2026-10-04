@@ -91,7 +91,7 @@ it("reveals early, offers five more, and goes back to setup from the first quest
   await waitFor(() => expect(within(stage).getByText("Question 3 of 10")).toBeTruthy());
   fireEvent.click(within(stage).getByRole("button", { name: /Reveal now/ }));
   expect(await within(stage).findByText("Your dish, right now")).toBeTruthy();
-  fireEvent.click(within(stage).getByRole("button", { name: /Ask me 5 more/ }));
+  fireEvent.click(within(stage).getByRole("button", { name: "Ask me 5 more" }));
   // Resumes at the question "Reveal now" left unanswered, now out of 2 + 5.
   await waitFor(() => expect(within(stage).getByText("Question 3 of 7")).toBeTruthy());
   for (let step = 0; step < 3; step += 1) fireEvent.keyDown(stage, { key: "Backspace" });
