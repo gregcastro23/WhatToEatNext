@@ -18,8 +18,14 @@
  * recipes must be appended to the source, never inserted. Names are checked, and
  * any mismatch stops the run rather than guessing.
  *
- *   bun scripts/syncHscaCuisine.ts          write the file
- *   bun scripts/syncHscaCuisine.ts --check  report what would change; exit 1 if any
+ * An ingredient list that differs from what the builder would produce counts as a
+ * source change, so a dish patched by hand in hsca.ts (or one parsed before a parser
+ * fix) is reported as "rebuilt" too. The run lists every dish it touches; review
+ * that list, and use --only to apply one.
+ *
+ *   bun scripts/syncHscaCuisine.ts                 write the file
+ *   bun scripts/syncHscaCuisine.ts --check         report what would change; exit 1 if any
+ *   bun scripts/syncHscaCuisine.ts --only="NAME"   touch only the dish with that name
  */
 import fs from "fs";
 import path from "path";
@@ -83,7 +89,7 @@ function update(tree: MealTree, existing: Dish, built: HscaBuiltDish, tally: Tal
   tally.instructions.push(built.dish.name);
 }
 
-function sync(tree: MealTree, recipes: RawRecipe[]): Tally {
+function sync(tree: MealTree, recipes: RawRecipe[], only: string | undefined): Tally {
   const tally: Tally = { instructions: [], rebuilt: [], added: [] };
   const seen: Record<string, number> = {};
   for (const recipe of recipes) {
@@ -91,6 +97,7 @@ function sync(tree: MealTree, recipes: RawRecipe[]): Tally {
     const { bucket: mealType } = fileHscaRecipe({ name: nameOf(recipe), title: recipe.title, categories: recipe.categories });
     const position = (seen[mealType] = (seen[mealType] ?? -1) + 1);
     const existing = tree[mealType]?.all?.[position];
+    if (only !== undefined && built.dish.name !== only) continue;
     if (!existing) {
       place(tree, built);
       tally.added.push(built.dish.name);
@@ -114,9 +121,14 @@ function main(): void {
   if (JSON.stringify(tree, null, 2) !== literal) throw new Error("dishes literal does not round-trip through JSON");
 
   const recipes: RawRecipe[] = JSON.parse(fs.readFileSync(path.join(process.cwd(), "recipes_database.json"), "utf8"));
-  const tally = sync(tree, recipes);
+  const only = process.argv.find((arg) => arg.startsWith("--only="))?.slice("--only=".length);
+  const tally = sync(tree, recipes, only);
   const total = tally.instructions.length + tally.rebuilt.length + tally.added.length;
   console.log(`${recipes.length} source recipes: ${tally.instructions.length} with new instructions, ${tally.rebuilt.length} rebuilt, ${tally.added.length} added`);
+  const groups: Array<[string, string[]]> = [["instructions", tally.instructions], ["rebuilt", tally.rebuilt], ["added", tally.added]];
+  for (const [label, names] of groups) {
+    for (const name of names) console.log(`  ${label}: ${name}`);
+  }
   if (total === 0) return;
   if (check) {
     process.exitCode = 1;

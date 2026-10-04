@@ -147,14 +147,14 @@ describe("reverse index: a recipe line is filed under its head ingredient", () =
     //   generic     6 →   7  "garbanzo flour" → flour (the corn/oat flour class)
     //   modifier   41 →  44  "honey-mustard yogurt" (a parent's reference line),
     //                        "pistachio nuts", "potato starch flour"
-    //   unresolved 265 → 276 six ingredients with no catalog card (aqua faba, burdock
-    //                        root, cous-cous, marjoram leaf, roquefort cheese, and the
-    //                        "muhammara" reference) and five range or comma splits
-    //                        ("2-3 tablespoons ...", "skinless, boneless ...")
+    //   unresolved 259 → 270 stays under 273: six ingredients with no catalog card (aqua
+    //                        faba, burdock root, cous-cous, marjoram leaf, roquefort
+    //                        cheese, the "muhammara" reference) and five range or comma
+    //                        splits ("2-3 tablespoons ...", "skinless, boneless ...")
     expect(summary.flagged["unit-word"]).toBe(0);
     expect(summary.flagged.generic).toBeLessThanOrEqual(7);
     expect(summary.flagged.modifier).toBeLessThanOrEqual(44);
-    expect(summary.unresolved).toBeLessThanOrEqual(276);
+    expect(summary.unresolved).toBeLessThanOrEqual(273);
   });
 
   it("hero recipe counts follow the head: lemon and garlic, not juice and cloves", () => {

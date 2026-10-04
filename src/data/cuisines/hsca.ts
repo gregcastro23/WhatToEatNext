@@ -284,8 +284,8 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 1,
-            "unit": "g",
-            "name": "allon water",
+            "unit": "gallon",
+            "name": "water",
             "notes": ""
           },
           {
@@ -375,7 +375,7 @@ export const cuisine: Cuisine = {
         },
         "substitutions": [
           {
-            "originalIngredient": "allon water",
+            "originalIngredient": "water",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -629,8 +629,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 4,
-            "unit": "g",
-            "name": "ranny smith apples",
+            "unit": "piece",
+            "name": "granny smith apples",
             "notes": "washed"
           },
           {
@@ -2802,8 +2802,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "ranny smith apple",
+            "unit": "piece",
+            "name": "granny smith apple",
             "notes": "peeled and grated"
           },
           {
@@ -3978,8 +3978,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "bag",
-            "name": "uettes",
+            "unit": "piece",
+            "name": "baguettes",
             "notes": "cut into 1/2\" slices and toasted"
           },
           {
@@ -4112,8 +4112,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "arlic clove",
+            "unit": "clove",
+            "name": "garlic",
             "notes": "sliced thin"
           },
           {
@@ -4250,8 +4250,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "slice",
-            "name": "d tomato",
+            "unit": "piece",
+            "name": "sliced tomato",
             "notes": ""
           },
           {
@@ -8779,8 +8779,8 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 1,
-            "unit": "g",
-            "name": "allon water",
+            "unit": "gallon",
+            "name": "water",
             "notes": ""
           },
           {
@@ -8870,7 +8870,7 @@ export const cuisine: Cuisine = {
         },
         "substitutions": [
           {
-            "originalIngredient": "allon water",
+            "originalIngredient": "water",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -10909,8 +10909,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": ""
           },
           {
@@ -13447,8 +13447,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 8,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": "thinly sliced"
           },
           {
@@ -13587,8 +13587,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "arlic clove",
+            "unit": "clove",
+            "name": "garlic",
             "notes": ""
           },
           {
@@ -13707,8 +13707,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": "minced"
           },
           {
@@ -13840,8 +13840,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "arlic clove",
+            "unit": "clove",
+            "name": "garlic",
             "notes": ""
           },
           {
@@ -13980,8 +13980,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": ""
           },
           {
@@ -20286,8 +20286,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil for frying",
+            "unit": "piece",
+            "name": "canola oil for frying",
             "notes": "1/4 cup"
           },
           {
@@ -20949,8 +20949,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil for frying",
+            "unit": "piece",
+            "name": "canola oil for frying",
             "notes": "2/3 cup"
           },
           {
@@ -21155,8 +21155,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil for frying",
+            "unit": "piece",
+            "name": "canola oil for frying",
             "notes": "1/4 - 1/2 cup"
           },
           {
@@ -24587,8 +24587,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "arlic clove",
+            "unit": "clove",
+            "name": "garlic",
             "notes": "minced"
           },
           {
@@ -25769,8 +25769,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "arlic clove",
+            "unit": "clove",
+            "name": "garlic",
             "notes": "sliced"
           },
           {
@@ -28750,8 +28750,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil or coconut oil for deep-frying",
+            "unit": "piece",
+            "name": "canola oil or coconut oil for deep-frying",
             "notes": ""
           },
           {
@@ -28875,8 +28875,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "g",
-            "name": "allons water",
+            "unit": "gallons",
+            "name": "water",
             "notes": ""
           },
           {
@@ -29828,8 +29828,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": "sliced"
           },
           {
@@ -52121,8 +52121,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": "peeled"
           },
           {
@@ -53113,8 +53113,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "allon water",
+            "unit": "gallon",
+            "name": "water",
             "notes": ""
           },
           {
@@ -53963,8 +53963,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "round pepper",
+            "unit": "piece",
+            "name": "ground pepper",
             "notes": "to taste"
           },
           {
@@ -55556,9 +55556,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "arnish: 1 scallion",
-            "notes": "cut into thin diagonal"
+            "unit": "piece",
+            "name": "scallion",
+            "notes": "garnish; cut into thin diagonal"
           }
         ],
         "instructions": [
@@ -56443,8 +56443,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 4,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": "sliced"
           },
           {
@@ -59005,8 +59005,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "rilled seitan cubes",
+            "unit": "piece",
+            "name": "grilled seitan cubes",
             "notes": "from step 1"
           },
           {
@@ -59611,8 +59611,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil to pan fry",
+            "unit": "piece",
+            "name": "canola oil to pan fry",
             "notes": ""
           }
         ],
@@ -62649,10 +62649,10 @@ export const cuisine: Cuisine = {
             "notes": "soaked, drained and rinsed"
           },
           {
-            "amount": 1,
-            "unit": "g",
-            "name": "allon + 2 quarts water",
-            "notes": ""
+            "amount": 1.5,
+            "unit": "gallon",
+            "name": "water",
+            "notes": "1 gallon + 2 quarts"
           },
           {
             "amount": 4,
@@ -63969,8 +63969,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.5,
-            "unit": "g",
-            "name": "allon salted water",
+            "unit": "gallon",
+            "name": "salted water",
             "notes": ""
           },
           {
@@ -82159,8 +82159,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 16,
-            "unit": "slice",
-            "name": "d almonds for garnish",
+            "unit": "piece",
+            "name": "sliced almonds for garnish",
             "notes": ""
           }
         ],
@@ -82653,8 +82653,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "bag",
-            "name": "uette",
+            "unit": "piece",
+            "name": "baguette",
             "notes": "sliced and toasted"
           },
           {
@@ -83297,8 +83297,8 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 4,
-            "unit": "g",
-            "name": "ranny smith apples",
+            "unit": "piece",
+            "name": "granny smith apples",
             "notes": "peeled, cored, cut in into 1/8-inch slices"
           },
           {
@@ -83441,7 +83441,7 @@ export const cuisine: Cuisine = {
         },
         "substitutions": [
           {
-            "originalIngredient": "ranny smith apples",
+            "originalIngredient": "granny smith apples",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -83495,8 +83495,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "ranny smith apple",
+            "unit": "piece",
+            "name": "granny smith apple",
             "notes": "peeled, cored and thinly sliced"
           },
           {
@@ -85004,8 +85004,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil for ramekins",
+            "unit": "piece",
+            "name": "canola oil for ramekins",
             "notes": ""
           },
           {
@@ -85154,8 +85154,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil for ramekins",
+            "unit": "piece",
+            "name": "canola oil for ramekins",
             "notes": ""
           },
           {
@@ -85786,8 +85786,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "round cinnamon for garnish",
+            "unit": "piece",
+            "name": "ground cinnamon for garnish",
             "notes": ""
           }
         ],
@@ -85808,10 +85808,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24571428571428572,
-          "Water": 0.3078571428571429,
-          "Earth": 0.28500000000000003,
-          "Air": 0.16142857142857142
+          "Fire": 0.23357142857142854,
+          "Water": 0.3092857142857142,
+          "Earth": 0.2978571428571429,
+          "Air": 0.15928571428571428
         },
         "astrologicalAffinities": {
           "planets": [
@@ -85832,7 +85832,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 273,
+          "sodiumMg": 274,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -85846,18 +85846,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.45,
-          "Essence": 4.85,
-          "Matter": 4.32,
-          "Substance": 3.95
+          "Spirit": 3.33,
+          "Essence": 4.81,
+          "Matter": 4.45,
+          "Substance": 4.03
         },
         "thermodynamicProperties": {
-          "heat": 0.0621,
-          "entropy": 0.2895,
-          "reactivity": 2.4148,
-          "gregsEnergy": -0.6369,
-          "kalchm": 1.2008,
-          "monica": 1.4413
+          "heat": 0.0564,
+          "entropy": 0.2815,
+          "reactivity": 2.2465,
+          "gregsEnergy": -0.5761,
+          "kalchm": 0.4969,
+          "monica": -0.3667
         },
         "substitutions": [
           {

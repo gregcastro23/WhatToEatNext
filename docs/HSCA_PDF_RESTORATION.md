@@ -173,11 +173,20 @@ These looked wrong in a first pass and are not:
 moves the elements, ESMS and thermodynamics of about 300 recipes. `scripts/syncHscaCuisine.ts` updates
 only what changed (instructions, rebuilt ingredient lists, new recipes) and reports the rest as unchanged:
 
-    bun scripts/syncHscaCuisine.ts --check   # exit 1 if the file is behind the source
-    bun scripts/syncHscaCuisine.ts           # write it
+    bun scripts/syncHscaCuisine.ts --check         # list what would change; exit 1 if anything would
+    bun scripts/syncHscaCuisine.ts                 # write it
+    bun scripts/syncHscaCuisine.ts --only="NAME"   # touch one dish
 
-Both scripts build a dish with `scripts/lib/hscaDish.ts`. The refactor out of the generator was checked
-byte-for-byte: the generator writes an identical file before and after. `src/__tests__/data/hscaRestoration.test.ts`
+An ingredient list that differs from the builder's output counts as a source change. That also catches a
+dish patched by hand in `hsca.ts`: #937 corrected 36 lines that way (a leading word read as a unit), and 14
+of those dishes still differ from a fresh parse ("1 clove garlic" against "1 garlic clove"). `--check`
+therefore exits 1 today for those 14 and none from this change; review the list before writing, and use
+`--only` rather than overwriting them.
+
+Both scripts build a dish with `scripts/lib/hscaDish.ts`, which carries #937's whole-word unit fix. That
+fix also changed one dish added here: Rice Pudding had read "ground cinnamon" as 1 g of "round cinnamon".
+The refactor out of the generator was checked byte-for-byte: the generator writes an identical file before
+and after. `src/__tests__/data/hscaRestoration.test.ts`
 fails when the two files disagree, when a placeholder method appears, or when a sub-recipe is folded back in.
 
 ## What else moved, and why
@@ -185,18 +194,17 @@ fails when the two files disagree, when a placeholder method appears, or when a 
 Adding recipes changes numbers that other files derive from the catalog:
 
 - **HSCA's cuisine profile** (`bun run generate:cuisine-profiles`): the mean over its dishes now counts 534
-  dishes, up from 498, and shifts Fire 0.2283→0.228, Water 0.2912→0.2903, Earth 0.3051→0.306, Air 0.1754→0.1758.
+  dishes, up from 498, and shifts Fire 0.2283→0.2279, Water 0.2912→0.2903, Earth 0.3051→0.306, Air 0.1754→0.1758.
   `derivedProfiles.json`, `backend/.../cuisines.json` and `backend/.../cuisines/HSCA.json` were regenerated;
   no other cuisine moved. The recommender reads this profile, so HSCA's ranking shifts by that much.
 - **Meal filing** (`hscaMealFiling.ts` and its test): 568 recipes now file as breakfast 61, dessert 141,
   lunch 206, dinner 80, plus 80 with no signal; 195 claim no meal (80 no-signal, 20 drinks, 95 sauces).
   Master's documented 532-recipe figures were reproduced exactly by the same replay before the new ones were measured.
-- **Four search ratchets** in `corpus.test.ts`, each raised by the measured amount and named: typo-recovery
+- **Three search ratchets** in `corpus.test.ts`, each raised by the measured amount and named: typo-recovery
   misses 3→4 ("leon" is now also inside "napoleons" in the new Tomato "Cream" Sauce title), generic cards
-  6→7 ("garbanzo flour"), modifier cards 41→44 ("honey-mustard yogurt", "pistachio nuts", "potato starch
-  flour") and unresolved lines 265→276 (six ingredients the catalog has no card for: aqua faba, burdock root,
-  cous-cous, marjoram leaf, roquefort cheese and the "muhammara" reference; plus five range or comma splits).
-  These are new lines, not regressions in the resolver.
+  6→7 ("garbanzo flour") and modifier cards 41→44 ("honey-mustard yogurt", "pistachio nuts", "potato starch
+  flour"). Unresolved lines go 259→270, which stays under the existing 273 (six ingredients the catalog
+  has no card for, plus five range or comma splits). These are new lines, not regressions in the resolver.
 - **`scripts/lib/diffAssertions.ts`**: the diff gate crashed (ENOBUFS) on this change, because `git diff`
   of `hsca.ts` exceeds Node's 1 MB default. Its buffer is raised; the gate's rules are unchanged.
 
@@ -210,7 +218,8 @@ On `master` @ `8bd7be6a` plus this change:
 - Full jest: 541 of 541 suites, 5,581 tests pass.
 - `typecheck`, `lint` (0 errors), `check:scripts` (0 errors), `lint:scripts` (0 errors), `lint:debt`,
   `audit:dead-modules`, `check:read-json`, `check:bare-json` and `check:diff-assertions` pass.
-- `bun scripts/syncHscaCuisine.ts --check` exits 0: the catalog is in step with the source.
+- `bun scripts/syncHscaCuisine.ts --check` lists only the 14 hand-patched dishes from #937; none of the
+  dishes this change adds or corrects.
 - The audit behind these numbers was run against the PDF's OCR and page images, not the PDF text, so it
   can be repeated with any OCR; the tooling is not committed.
 
