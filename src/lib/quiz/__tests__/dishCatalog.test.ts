@@ -1,6 +1,6 @@
 import { getServerRecipes } from "@/actions/recipes";
 import { decodeDish, encodeDish, quizCatalogSchema } from "../catalogContract";
-import { adventureScores, buildQuizCatalog, isMealWorthy } from "../dishCatalog";
+import { adventureScores, buildQuizCatalog, displayName, isMealWorthy } from "../dishCatalog";
 import { computeFeatures, readDishText, type RecipeSource } from "../dishFeatures";
 import { groupsNamedBy } from "../dishLexicon";
 import { allergensNamedBy, dietsOf } from "../dishSafety";
@@ -72,6 +72,14 @@ describe("diets and allergens", () => {
 });
 
 describe("catalog assembly", () => {
+  it("title-cases all-caps titles for display and leaves others alone", () => {
+    expect(displayName("CRUCIFEROUS SALAD WITH SHERRY VINAIGRETTE")).toBe("Cruciferous Salad with Sherry Vinaigrette");
+    expect(displayName("\"CHEESE\" MEDALLIONS")).toBe("\"Cheese\" Medallions");
+    expect(displayName("Authentic Phở Bò")).toBe("Authentic Phở Bò");
+    expect(displayName("BLT")).toBe("BLT");
+    expect(displayName("GREAT NORTHERN BEAN AND ROASTED GARLIC PURÉE")).toBe("Great Northern Bean and Roasted Garlic Purée");
+  });
+
   it("ranks adventure as a within-catalog percentile", () => {
     const scores = adventureScores([new Set(["rice", "salt"]), new Set(["rice", "salt"]), new Set(["rice", "teff", "berbere"])]);
     expect(scores[2]).toBe(1);

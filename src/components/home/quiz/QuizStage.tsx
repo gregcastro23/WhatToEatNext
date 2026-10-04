@@ -1,5 +1,4 @@
 "use client";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { RecipeQueueProvider } from "@/contexts/RecipeQueueContext";
 import { offeredChoices } from "./engine/effects";
@@ -12,12 +11,6 @@ import { QuizQuestionCard } from "./QuizQuestionCard";
 import { QuizResultView } from "./QuizResultView";
 import { QuizSetup } from "./QuizSetup";
 import { useQuizBrain, type QuizBrain } from "./useQuizBrain";
-
-export const questionSlideVariants: Variants = {
-  enter: (direction: number) => ({ x: direction * 24, opacity: 0 }),
-  center: { x: 0, opacity: 1 },
-  exit: (direction: number) => ({ x: direction * -24, opacity: 0 }),
-};
 
 function isTyping(target: EventTarget | null): boolean {
   return (
@@ -74,15 +67,17 @@ export function QuizStage(): React.JSX.Element | null {
   const quiz = useQuiz();
   const brain = useQuizBrain(quiz);
   const { state } = quiz;
-  const reducedMotion = useReducedMotion();
   const stageRef = useRef<HTMLElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const viewId = state.phase === "asking" ? (currentQuestion(state)?.id ?? "pending") : state.phase;
   useQuizKeys(stageRef);
+  // Move focus to each new view's heading, or it falls to <body> and the
+  // keyboard shortcuts stop. brain.status: a resumed question renders only
+  // once the catalog arrives, without a view change.
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = 0;
     stageRef.current?.querySelector<HTMLElement>("[data-quiz-heading]")?.focus({ preventScroll: true });
-  }, [viewId]);
+  }, [viewId, brain.status]);
   if (!state.isOpen) return null;
   return (
     <RecipeQueueProvider>
@@ -97,18 +92,15 @@ export function QuizStage(): React.JSX.Element | null {
         </header>
         {state.phase === "asking" && <QuizPulse brain={brain} />}
         <div className={styles.stageBody} ref={bodyRef}>
-          <AnimatePresence initial={false} mode="wait" custom={state.direction}>
-            <motion.div
-              key={viewId}
-              custom={state.direction}
-              {...(!reducedMotion ? { variants: questionSlideVariants, exit: "exit" } : {})}
-              initial={reducedMotion ? false : "enter"}
-              animate="center"
-              transition={{ duration: reducedMotion ? 0 : 0.16 }}
-            >
-              <StageBody brain={brain} />
-            </motion.div>
-          </AnimatePresence>
+          {/*
+            CSS, not framer-motion: AnimatePresence mode="wait" holds the new
+            view until the exit animation's requestAnimationFrame callbacks
+            run, and rAF stops in hidden or non-compositing pages, so the
+            result could never mount. A keyed CSS entrance can't block content.
+          */}
+          <div key={viewId} className={styles.view} data-direction={state.direction}>
+            <StageBody brain={brain} />
+          </div>
         </div>
         <QuizFooter brain={brain} />
       </section>

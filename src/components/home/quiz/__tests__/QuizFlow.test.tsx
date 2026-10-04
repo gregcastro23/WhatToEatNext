@@ -36,11 +36,6 @@ jest.mock("@/contexts/RecipeQueueContext", () => ({
   RecipeQueueProvider: ({ children }: { children: ReactNode }) => <>{children}</>,
   useRecipeQueue: () => ({ addToQueue: jest.fn(), isInQueue: () => false }),
 }));
-jest.mock("framer-motion", () => ({
-  AnimatePresence: ({ children }: { children: ReactNode }) => <>{children}</>,
-  motion: { div: ({ children }: { children: ReactNode }) => <div>{children}</div> },
-  useReducedMotion: () => true,
-}));
 
 beforeEach(() => {
   localStorage.clear();

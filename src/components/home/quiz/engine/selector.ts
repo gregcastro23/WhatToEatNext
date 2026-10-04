@@ -92,28 +92,38 @@ function pacingOf(asked: readonly QuizQuestion[], target: number): Pacing {
   };
 }
 
-/** Pacing multiplier: 0 means "not now". */
-export function pacingWeight(question: QuizQuestion, pacing: Pacing): number {
-  const { step, target } = pacing;
-  if (question.format === "sky") {
-    const cap = target <= 6 ? 1 : target <= 12 ? 2 : 3;
-    if (step === 0 || pacing.skyAsked >= cap) return 0;
-    return pacing.skyAsked === 0 ? 3 : 0.8;
-  }
-  if (question.format === "duel") {
-    const ok = step >= 3 && !pacing.recentFormats.includes("duel") && pacing.countOf("duel") < Math.ceil(target / 5);
-    return ok ? 1.1 : 0;
-  }
-  if (question.format === "rapid") {
-    const ok = step >= 2 && !pacing.recentFormats.includes("rapid") && pacing.countOf("rapid") < Math.ceil(target / 6);
-    return ok ? 1 : 0;
-  }
+function skyWeight({ step, target, skyAsked }: Pacing): number {
+  const cap = target <= 6 ? 1 : target <= 12 ? 2 : 3;
+  if (step === 0 || skyAsked >= cap) return 0;
+  return skyAsked === 0 ? 3 : 0.8;
+}
+
+function duelWeight(pacing: Pacing): number {
+  const { step, target, recentFormats, countOf } = pacing;
+  if (step < 3 || recentFormats.includes("duel") || countOf("duel") >= Math.ceil(target / 5)) return 0;
+  // Real dishes head to head is the quiz's showpiece: make sure one appears.
+  return countOf("duel") === 0 && step >= 4 ? 2.4 : 1.1;
+}
+
+function rapidWeight({ step, target, recentFormats, countOf }: Pacing): number {
+  return step >= 2 && !recentFormats.includes("rapid") && countOf("rapid") < Math.ceil(target / 6) ? 1 : 0;
+}
+
+function bankWeight(question: QuizQuestion, pacing: Pacing): number {
   let weight = pacing.facets.has(question.facet) ? 0.3 : 1;
   if (question.format === pacing.lastFormat) weight *= 0.6;
   // Keep the mix varied: each recent use of this format costs 15%.
   weight *= 0.85 ** pacing.recentFive.filter((format) => format === question.format).length;
-  if (question.facet === "dislikes" && step >= 2 && step <= 5) weight *= 2.5;
+  if (question.facet === "dislikes" && pacing.step >= 2 && pacing.step <= 5) weight *= 2.5;
   return weight;
+}
+
+/** Pacing multiplier: 0 means "not now". */
+export function pacingWeight(question: QuizQuestion, pacing: Pacing): number {
+  if (question.format === "sky") return skyWeight(pacing);
+  if (question.format === "duel") return duelWeight(pacing);
+  if (question.format === "rapid") return rapidWeight(pacing);
+  return bankWeight(question, pacing);
 }
 
 /** Strips bank-only fields so the asked question is plain, storable data. */

@@ -35,6 +35,23 @@ const BEVERAGE_END =
 const COMPONENT_END =
   /\b(vinaigrette|dressing|sauce|syrup|stock|broth|marinade|seasoning|spice mix|spice blend|glaze|frosting|icing|dough|crust|paste|butter|oil|ghee|chutney|salsa|dip|relish|jam|compote|gravy|brine|rub|cream|pesto|aioli|mayonnaise|vinegar|base|filling|topping|sprinkles|croutons|pickles?|medallions|cheese|yogurt|ketchup|mustard|spread|crumbs)$/;
 
+const MINOR_WORDS = new Set(["and", "with", "of", "in", "on", "for", "the", "a", "or", "to", "de", "al", "la", "en"]);
+
+/**
+ * Display casing only: some HSCA titles arrive in capitals ("CRUCIFEROUS
+ * SALAD"). Those are title-cased; any name with lowercase letters is kept.
+ */
+export function displayName(name: string): string {
+  const trimmed = name.trim().replace(/\s+/g, " ");
+  const letters = trimmed.replace(/[^A-Za-z]/g, "");
+  if (letters.length < 4 || letters !== letters.toUpperCase()) return trimmed;
+  return trimmed
+    .toLowerCase()
+    .replace(/\p{L}[\p{L}']*/gu, (word, offset: number) =>
+      offset > 0 && MINOR_WORDS.has(word) ? word : word.charAt(0).toUpperCase() + word.slice(1),
+    );
+}
+
 function bareName(name: string): string {
   return normalizeText(name)
     .replace(/\([^)]*\)/g, " ")
@@ -172,7 +189,7 @@ function assembleDish(recipe: RecipeSource, text: DishText, groups: string[]): Q
   const seasons = typeof recipe.season === "string" ? [recipe.season] : [...(recipe.season ?? [])];
   return {
     id: recipe.id,
-    name: recipe.name.trim(),
+    name: displayName(recipe.name),
     cuisine,
     family: FAMILY_BY_CUISINE[cuisine] ?? "fusion",
     emoji: emojiFor(recipe.name, groups, text.courses.includes("dessert")),

@@ -1,113 +1,117 @@
-# Adaptive meal quiz
+# The homepage quiz: "What are you actually hungry for?"
 
-The homepage's `LiveHero` now mounts a configurable culinary quiz. Quick Craft retains the four familiar palate questions. Deep Dive adds dietary boundaries, preparation constraints, context and four independent ESMS preference dimensions, with 8, 12, 16 or 20 questions. No dependency was added.
+`LiveHero` mounts a quiz that finds a **real recipe** for this moment. The diner chooses how many questions to answer (3–30). Each next question is the one expected to tell us the most, given every answer so far and the live sky. The result is one of the 918 meal-worthy recipes in the static catalog, along with the reasons it was chosen.
 
-## Architecture
+No account is needed. Answers stay in the browser (`localStorage`) unless the diner chooses the AI variation.
+
+## How it works
 
 ```mermaid
 flowchart TD
-  Hero[LiveHero: table, local time, sourced sky, optional weather] --> Provider[QuizProvider / useQuizEngine]
-  Bank[Typed question bank and branch conditions] --> Machine[Pure reducer + answer reconciliation]
-  Machine --> Provider
-  Storage[Versioned local draft / legacy migration] <--> Provider
-  Provider --> Bar[QuizBar + stable QuizSurface]
-  Bar --> Stage[Lazy QuizStage / Framer Motion]
-  Stage --> Questions[Keyboard accessible question cards]
-  Provider --> Score[Pure preference scoring + deterministic meal]
-  Score --> Result[QuizResultView]
-  Result --> Cart[Grocery cart: measured ingredients]
-  Result --> Queue[Recipe queue: full recipe]
-  Result --> Builder[Recipe builder: selections + full brief]
-  Result --> AI[Explicit generation via existing cosmic recipe API]
+  Catalog[GET /api/quiz/catalog<br/>static, built at deploy] --> Brain[useQuizBrain]
+  Sky[computeSky: astronomy-engine<br/>Moon sign, phase, aspect, retrogrades] --> Brain
+  Hero[LiveHero context: time, season, table, planetary hour] --> Brain
+  Brain --> Posterior[posterior: P of each dish given the answers]
+  Posterior --> Selector[nextQuestion: max expected information gain + pacing]
+  Bank[29 hand-written questions] --> Selector
+  Generated[duels + rapid-fire, built from the live field] --> Selector
+  SkyQ[sky questions] --> Selector
+  Selector --> Session[session reducer + v3 draft in localStorage]
+  Posterior --> Result[quizOutcome: hero, alternates, reasons, profile]
+  Result --> Actions[recipe page · cart · queue · builder · AI variation]
 ```
 
-All implementation files are in `src/components/home/quiz`. `types.ts` defines the public types; `quizQuestions.ts` is the ordered configuration; `quizMachine.ts` owns progress, `quizPersistence.ts` validates and migrates drafts; `quizScoring.ts` composes a measured meal; `quizIntegrations.ts` translates it for existing site services, and `quizGeneratedRecipes.ts` validates generated recipe responses. The question registry composes separate core and context banks. The original four-answer module, `firstMeal.ts`, was removed once nothing imported it; its saved answers still migrate through `migrateLegacyQuiz`.
+| Layer | Files |
+| --- | --- |
+| Dish catalog (server) | `src/lib/quiz/`: `catalogContract.ts` (wire format and zod schema), `dishFeatures.ts`, `featureLexicon.ts`, `dishLexicon.ts`, `dishSafety.ts`, `dishCatalog.ts`, `serverCatalog.ts` |
+| Routes | `src/app/api/quiz/catalog/route.ts` (force-static, CDN-cached); `src/app/api/quiz/dish/[id]/route.ts` (the full recipe for cart and queue, rate-limited) |
+| Engine (client, pure) | `src/components/home/quiz/engine/`: `effects.ts`, `posterior.ts`, `selector.ts`, `dynamic.ts`, `sky.ts`, `skyQuestions.ts`, `moonLore.ts`, `bank/*`, `result.ts`, `session.ts`, `persistence.ts`, `rng.ts` |
+| UI | `QuizProvider` (light: state and persistence only), `QuizBar`, `QuizSurface`, and the lazily loaded `QuizStage`. The stage renders `QuizSetup`, `QuizPulse`, `QuizQuestionCard` with `QuizFormats`, `QuizResultView`, `QuizResultActions`, `QuizAiRecipe` and `QuizFooter`. |
 
-## Configuration contract
+## Where every value comes from
 
-The source of truth is `QuizQuestion` in `types.ts`:
+- **Dishes.** The catalog is built from `getServerRecipes()`, keeping only meal-worthy recipes. A recipe qualifies if it has at least three ingredients and instructions, and it isn't a drink or a sub-recipe component such as "Sherry Vinaigrette" or "Spelt Bread (for …)". Of 1,078 static recipes, 918 qualify.
+- **Features.** There are 16, each in [0, 1]: warmth, spice, richness, crunch, tender, brothy, fresh, umami, sweet, hearty, effort, adventure, smoky, aromatic, handheld and green. All of them are **COMPUTED** from the recipe's own text:
+  - term tables are matched against ingredient names (`featureLexicon.ts` `INGREDIENT_TERMS`) and against the dish name (`NAME_TERMS`);
+  - cooking methods come from the authored method list and the instruction text (`METHOD_PATTERNS`, `METHOD_EFFECTS`), except for HSCA, whose authored method lists are placeholders, so its methods come from the instructions only (the measurement is in `dishFeatures.ts`);
+  - summed term weights pass through a saturating curve, 1 − e^(−x/k);
+  - `spice` is the larger of the authored spice level and a chili-term count;
+  - `effort` combines time on a log scale, step count and craft techniques;
+  - `adventure` is the dish's percentile of ingredient rarity within this catalog (the mean IDF of its three rarest tokens).
+- **Diets.** These come from the repo's own `classifyIngredientDiet`. A dish counts as vegan or vegetarian only if no ingredient is non-compliant or unknown.
+- **Allergens.** These are name-term flags in `dishSafety.ts`, tuned to flag rather than miss. They are used only to **exclude** dishes, never to certify a dish as safe, and the UI tells the diner to check labels.
+- **The sky.** It is computed in the browser with astronomy-engine (`accurateAstronomy.ts`). The quiz never claims the sky changes anyone's appetite. Each sky question names the traditional reading and asks how it lands for *this* diner. That answer is the diner's preference and is scored like any other.
+- **The table.** LiveHero's elemental bias nudges the prior toward dishes whose `elementalProperties` match it, capped at ±0.6 log-odds. This is what "tuned to your table" means.
 
-```ts
-interface QuizQuestion {
-  id: string;
-  prompt: string | ((context: QuizContext, answers: QuizAnswers) => string);
-  subprompt?: string;
-  category: "palate" | "context" | "preparation" | "dietary" | "esms";
-  tier: 1 | 2 | 3 | 4 | 5;
-  selection: "single" | "multiple";
-  options: readonly QuizOption[];
-  condition?: QuizCondition;
-  isQuickQuestion?: boolean;
-}
-```
+## Choosing the next question
 
-Stable question and option IDs are stored, never array indices. Each option carries labels, explanatory copy, separate elemental and ESMS weights, optional eligibility conditions, and an optional `exclusive` flag. Conditions receive typed context and the current answer record. Prompts can use the same inputs. `getActiveQuestions` applies question conditions before selecting the requested depth; `getQuestionOptions` filters each question's options.
+1. **Posterior.** log P(dish) = prior + Σ log P(answer | dish).
+   - The prior covers course fit to the time of day, season, and the table nudge.
+   - Single-choice answers use a softmax over the options offered (λ = 0.7).
+   - An option's utility for a dish is Σ lean × (2·feature − 1), plus terms for ingredient groups, cuisine family and course.
+   - Diet, allergens, "hard nos" and time limits are hard filters.
+2. **Expected information gain.** For each candidate question, compute H(field) − E[H(field | answer)] over the likeliest 240 dishes.
+3. **Pacing.** This shapes the gain so the quiz feels varied rather than greedy:
+   - a facet already asked is down-weighted (×0.3), and so is a repeat of the previous question's format;
+   - one sky question comes early (question 2–4), capped at 1, 2 or 3 sky questions by quiz length;
+   - a dish duel can appear from question 4 and is boosted until one has been asked (on the fixture catalog, 20 seeds per length: 20/20 sessions of 6 or more questions include one, 18/20 at 5, none at 3–4, because a duel needs a field narrowed by earlier answers);
+   - rapid-fire rounds are spaced at least three questions apart;
+   - "hard nos" is asked early;
+   - a seeded jitter (one mulberry32 seed per session) means no two sessions run alike, while a restored session still asks the same next question.
+4. **Generated questions.**
+   - A **dish duel** pits the two front-runners that differ most, weighted by how likely both still are.
+   - **Rapid-fire** asks about the four ingredient groups whose presence splits the field closest to 50/50 (highest binary entropy), at most two of any one kind.
 
-To extend the bank, add an entry with a unique ID, declare any dependencies using conditions, and add its interpretation to the scoring or downstream adapter if it changes recipe behavior. Keep dependencies earlier than their dependents. Conditional questions must retain at least one available option on every active path. The current bank branches protein choices based on diet and exclusions; backward edits remove incompatible saved protein answers.
+**Measured accuracy.** On a 60-dish synthetic catalog, simulated diners answered the way their secret dish would:
 
-| Track              | Questions                                              |
-| ------------------ | ------------------------------------------------------ |
-| Quick / first four | Hunger, heat, flavor, pace                             |
-| Deep 8             | Above + diet, allergens, protein, meal moment          |
-| Deep 12            | Above + texture, time, equipment, sky preference       |
-| Deep 16            | Above + season, weather preference, servings, spice    |
-| Deep 20            | Above + Spirit, Essence, Matter, Substance preferences |
+- after 10 questions, 24/24 ranked their dish #1;
+- after 5 questions, 23/24 ranked it #1 and 24/24 had it in the top five;
+- with answers ignored (λ = 0), the same check fails.
 
-Diet and allergens precede protein so even the shortest Deep Dive can enforce those boundaries. Switching to Quick preserves known dietary restrictions and the longer draft. Preference points are calculated only from the active track; the complete valid answer record remains available for handoffs.
+On the real catalog, 40 simulated diners reached a median rank of 1 after 10 questions, with 39/40 in the top 10.
 
-## State and persistence
+## The question bank and its research basis
 
-React Context wraps a pure reducer; consumers use `useQuiz()` with no progress props threaded through the UI. States are `idle`, `questions` and `result`, with visibility tracked separately. Actions cover hydration, start, close, select, next, back, restart, mode, depth and context reconciliation.
+- **Motives.** Steptoe et al. (1995), the Food Choice Questionnaire: sensory appeal, mood, convenience, health, familiarity. These drive "What's behind this hunger?", nourish↔treat, effort and time.
+- **Mood and comfort food.** Comfort food is tied to mood and to memories of being cared for. These drive the scenes, memories and colors.
+- **Texture.** Jeltema, Beckley & Vahalik (2015) describe four mouth behaviors: crunchers, chewers, smooshers and suckers (shown in the quiz as "savorers"). Rolls, Rowe & Rolls (1982) found texture and temperature shape appeal alongside taste.
+- **Sensory-specific satiety.** Rolls et al.: "What have you had way too much of lately?" steers away from recent foods.
+- **Sky.** The Moon sign (12 readings, in `moonLore.ts`), the lunar phase, the tightest aspect among the Sun, Moon, Mercury, Venus, Mars, Jupiter and Saturn, a personal-planet retrograde, and the planetary hour.
 
-- Next is guarded until the current question has a valid selection.
-- Back follows the currently active path, so branching never relies on stale history.
-- Mode/depth changes retain valid answers and route to an unanswered question when needed.
-- Reconciliation sanitizes all answers, including inactive saved answers, after context or upstream changes.
-- Result status is derived from completion, never trusted from persisted data.
-- `alchm:quiz:v2` saves a versioned local draft. Both previous four-answer storage keys migrate. Corrupt or inaccessible storage falls back to an in-memory session.
+Formats are card choice, multi-select, versus tiles, five-stop sliders, rapid-fire reactions (😍 / 🙂 / 🙅 per ingredient), dish duels and sky cards. Every question has a neutral or skip path.
 
-## Context and data provenance
+To add a question, add a `BankQuestion` to one of the `bank/*.ts` files. Give it a unique id, a facet, and `ChoiceEffect`s using the shared feature keys. Mark it `opener` if it makes a good first question. `quizSelection.test.ts` checks that ids are unique and that at least two options remain for every diet.
 
-`LiveHero` accepts `quizContext?: Partial<QuizContext>` for sourced weather, lunar phase, season or other caller overrides. Its default context uses local time, the existing table composite, authentication, planetary hour and available sign positions. The default season convention is Northern Hemisphere; a location-aware caller can override it. Weather is optional and no location permission is requested.
+## Result
 
-The existing `/api/alchm-quantities` response is schema-validated; degraded data is not presented as a measured quiz input. Three distinct concepts remain separate:
+- **Hero dish.** The real recipe's name, cuisine, time, servings and diet badge.
+- **"Why this, why now."** The three answers that most favored the hero over the average contender, each phrased through the feature or ingredient that carried the effect.
+- **Alternates.** "Also right for you" is picked by maximal marginal relevance. "The wildcard" is the likeliest adventurous dish from a different cuisine family. Either can be featured in place of the hero.
+- **Context.** A craving profile, a sky note, runners-up linking to their recipe pages, and a plain statement of how the match was made.
+- **Actions.**
+  - Open the recipe page. Static ids 308-redirect to the canonical page; 30 of 30 sampled ids resolved on production.
+  - Shop the real measured ingredients, scaled to the diner's company or table.
+  - Save to the queue.
+  - Refine in the recipe builder.
+  - An opt-in AI variation through `/api/generate-cosmic-recipe`. It keeps a request lock, abort on unmount, a 90 s timeout and an idempotency key, and validates the result against the diner's rules.
 
-1. Elemental preference percentages describe the diner's answers, with a small table influence. They sum to 100.
-2. ESMS preference points come directly from the final four questions. They are neither token balances nor physical measurements.
-3. Optional `planetaryESMS` carries sourced sky quantities unchanged into the generation brief. It never becomes preference points.
+## State, persistence and accessibility
 
-The offline recipe's elemental vector comes from resolved ingredient catalog signatures, with explicit provenance. AI elemental values retain their generated provenance; no thermodynamic accuracy claim is made by this UI.
-
-## Site integrations
-
-| Action    | Behavior                                                                                                              |
-| --------- | --------------------------------------------------------------------------------------------------------------------- |
-| Reveal    | Immediate, deterministic measured recipe with servings, preparation assumptions and instructions; no API required     |
-| Shop      | Adds actual quantities through `GroceryCartContext`, preserving base servings; repeated clicks open the existing cart |
-| Save      | Adds the complete recipe through `RecipeQueueContext`, using recipe identity to avoid duplicate entries               |
-| Refine    | Atomically seeds `RecipeBuilderContext`, then opens `/recipe-builder`                                                 |
-| Explore   | Opens the recipe collection using the suggested cuisine                                                               |
-| AI recipe | Explicit POST to `/api/generate-cosmic-recipe`, using the existing demo/auth/payment behavior                         |
-
-The builder consumes ingredients, cuisine, cooking method, diet, allergen exclusions and maximum preparation time through its existing recommendation endpoint. The full quiz brief is retained and visible in the builder. Equipment, servings, texture and ESMS preference dimensions are recorded in that brief; the catalog matcher does not currently interpret all of them. The quiz's AI action receives all dimensions directly.
-
-The offline meal composer currently offers Mediterranean-inspired bowls, skillets, soups and tray bakes with protein, flavor, seasonal vegetable and preparation variations. It uses explicitly ready-cooked staples and adjusts the method to available equipment and time. The AI path provides broader variation.
-
-AI request handling includes a request lock, abort on unmount or changed brief, a 90-second timeout, an idempotency key retained across uncertain transport failures, and a validated session cache. Equivalent context rerenders do not cancel a pending request. Response validation rejects unusable measurements, empty content, obvious dietary conflicts, inconsistent serving counts, excess time and recognized unavailable equipment. Keyword checks are conservative and cannot certify allergen safety. Errors leave the original meal available. Cancelling the client request does not promise cancellation or refund of server work.
-
-## Interaction and accessibility
-
-The original hero preview reserves the surface height while hidden and inert during the quiz. The stage overlays that space; questions and long results scroll internally. Header, progress and footer remain available. Quick/Deep controls reserve a consistent row height.
-
-Framer Motion handles directional slide/fade transitions and progress. Reduced-motion users get immediate changes. Question headings receive focus on entry; closing restores the trigger. The stage is a nonmodal dialog and does not trap keyboard focus.
-
-- Number keys select visible options (1–9 where present).
-- Enter continues after selection.
-- Left/Backspace return to the previous question; Escape closes.
-- Single-choice cards implement radio arrow/Home/End navigation and a roving tab stop.
-- Multiple-choice cards expose checkbox semantics, including exclusive “none” selections.
-- Input fields, modified shortcuts and repeated keys are ignored by quiz-level shortcuts.
+- **Storage.** `alchm:quiz:v3` stores the phase, length, seed, rules, every asked question (generated ones included) and the answers, and is validated with zod on load. Dietary rules from the old `alchm:quiz:v2` draft carry forward once.
+- **Navigation.** "Reveal now" appears after two answers. "Ask me 5 more" resumes at any question left unanswered. Going back from the first question returns to setup.
+- **Keyboard and focus.** Number keys pick, Enter continues, ←/Backspace go back, and Escape closes. Single-choice options are radio groups with arrow-key roving. Focus moves to each new view's heading.
+- **Transitions are CSS, not framer-motion.** `AnimatePresence mode="wait"` blocks the next view on requestAnimationFrame, which stops in hidden or non-compositing pages. In that state the result never mounted.
 
 ## Verification
 
-Run `bun run test --runInBand src/components/home/quiz/__tests__` for the reducer, persistence, constraint, handoff and keyboard tests. Run `bun run typecheck`, `bun run verify:static`, and the full Jest suite for repository checks. Browser verification should cover opening/closing, Quick completion, changing Deep depth, dietary branching, keyboard focus, a narrow viewport and the unchanged outer surface bounds across transitions.
+Run the suites with:
+
+```bash
+bun run test src/lib/quiz src/components/home/quiz
+```
+
+- `dishCatalog.test.ts`: features, meal-worthiness, diets, allergens, and a full build of the real catalog with golden spot checks.
+- `quizScoring.test.ts`: likelihoods, hard rules, priors and outcomes.
+- `quizSelection.test.ts`: openers, variety, sky pacing and accuracy.
+- `quizSession.test.ts`: the reducer, persistence, the sky, and Moon-lore coverage.
+- `QuizFlow.test.tsx`: setup to result, shopping, revealing early, five more questions, and going back.

@@ -282,6 +282,24 @@
   white-space: nowrap;
   border: 0;
 }
+.view {
+  animation: quiz-enter-forward 0.18s ease-out both;
+}
+.view[data-direction="-1"] {
+  animation-name: quiz-enter-back;
+}
+@keyframes quiz-enter-forward {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+@keyframes quiz-enter-back {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
 .ghostButton {
   min-height: 44px;
   padding: 10px 12px;

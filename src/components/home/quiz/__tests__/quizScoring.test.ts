@@ -100,7 +100,7 @@ describe("outcome", () => {
     expect(outcome?.hero.dish.id).toMatch(/^soup/);
     expect(outcome?.alternates.length).toBeGreaterThan(0);
     expect(outcome?.reasons[0]).toEqual(
-      expect.objectContaining({ answer: "A steaming bowl", because: expect.stringMatching(/^It /) }),
+      expect.objectContaining({ answer: "A steaming bowl", because: "It is a spoonable, brothy bowl." }),
     );
   });
 

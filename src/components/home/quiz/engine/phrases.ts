@@ -4,7 +4,7 @@ import type { FeatureKey } from "./types";
 export const FEATURE_WORDS: Readonly<
   Record<FeatureKey, { label: string; high: string; low: string }>
 > = {
-  warmth: { label: "Warm", high: "served hot", low: "served cool" },
+  warmth: { label: "Warm", high: "is served hot", low: "is served cool" },
   spice: { label: "Chili heat", high: "carries real chili heat", low: "keeps the heat gentle" },
   richness: { label: "Rich", high: "is rich and indulgent", low: "stays light on fat" },
   crunch: { label: "Crunch", high: "has proper crunch", low: "skips the crunch" },
