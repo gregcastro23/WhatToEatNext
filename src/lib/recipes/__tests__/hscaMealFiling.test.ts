@@ -41,11 +41,11 @@ describe("fileHscaRecipe over the real source", () => {
     expect(filingOf(name).meals).toEqual(meals);
   });
 
-  it("claims no meal for 182 recipes: 76 with no signal, 19 drinks, 87 sauces", () => {
+  it("claims no meal for 195 recipes: 80 with no signal, 20 drinks, 95 sauces", () => {
     const filings = source.map((r) => ({ recipe: r, filing: fileHscaRecipe({ ...r, name: nameOf(r) }) }));
     const unclaimed = filings.filter(({ filing }) => filing.meals.length === 0);
-    expect(unclaimed.length).toBe(182);
-    expect(unclaimed.filter(({ filing }) => filing.bucket === "breakfast").length).toBe(19);
+    expect(unclaimed.length).toBe(195);
+    expect(unclaimed.filter(({ filing }) => filing.bucket === "breakfast").length).toBe(20);
     expect(filings.filter(({ filing }) => filing.meals.length === 2).map(({ recipe }) => nameOf(recipe))).toContain("CRÊPES SUZETTE");
   });
 });

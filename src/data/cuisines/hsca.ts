@@ -3256,7 +3256,8 @@ export const cuisine: Cuisine = {
           "Combine almonds and water in blender or Vitamix. Process for a few minutes until well-homogenized.",
           "Rinse piece of cheesecloth (double thickness) with cold water and wring thoroughly.",
           "Pour small amount of almond mixture through sieve or chinois lined with prepared cheesecloth, wringing and squeezing cheesecloth to extract as much liquid from pulp as possible. Discard each batch of almond pulp when no more liquid can be extracted. Rinse cheesecloth well in cold water and proceed with next batch, repeating this process until all of almond mixture has been 'milked.'",
-          "Strain almond milk through sieve. Add vanilla."
+          "Strain almond milk through sieve. Add vanilla.",
+          "Note: For even richer milk, soak blanched almonds in water for 20-30 minutes before blending."
         ],
         "mealType": [],
         "classifications": {
@@ -4285,9 +4286,20 @@ export const cuisine: Cuisine = {
           }
         ],
         "instructions": [
-          "Assemble the sandwich by spreading avocado spread or Nayonaise on sliced Spelt Bread.",
-          "Layer with Fried Tempeh, sliced tomato, mustard, ketchup, and sauerkraut.",
-          "Garnish with pickles and serve immediately."
+          "Fried Tempeh (recipe follows):",
+          "In 2 1/2 quart saucepan, combine marinade ingredients. Cover pan, bring to boil.",
+          "Add tempeh slices, lower heat, and simmer uncovered 30-40 minutes.",
+          "Drain tempeh and pat dry.",
+          "In 12-inch sauté pan, heat oil. Brown tempeh slices on both sides. Drain on paper towel.",
+          "Spelt Bread (recipe follows):",
+          "In small bowl, combine water and maple syrup then gently sprinkle yeast on top. Allow to sit until foamy.",
+          "Stir in oil, some of the flour, and salt until well combined. Gradually add more flour while stirring until dough is firm and workable.",
+          "Turn out dough onto lightly floured surface and knead to form sturdy and pliable dough. Transfer to large, lightly oiled bowl and cover tightly with plastic wrap. Let rise in warm place until doubled in size (about 1 hour).",
+          "Fold and turn dough, and rise again (about 30 minutes). Divide into two balls. Shape dough and transfer to lightly oiled loaf pans, score if desired. Cover with damp towels and rise again in warm place (about 20 minutes).",
+          "While bread is rising, pre-heat oven to 375° F. Bake bread until well-browned and finished (inner temp of 200° F). Remove from pan and cool on racks before slicing.",
+          "Ketchup (recipe below):",
+          "In blender, combine raisins (with soaking liquid), tomato puree, garlic, water, paprika, cayenne, cinnamon, and salt. Blend until all ingredients are combined.",
+          "In 2 1/2 quart saucepan, on high heat, heat oil. Slowly add tomato mixture. Lower heat and simmer 40 minutes. Add Worcestershire sauce and lemon juice. Simmer 5 minutes more. Adjust seasonings."
         ],
         "classifications": {
           "mealType": [
@@ -4296,7 +4308,8 @@ export const cuisine: Cuisine = {
           "cookingMethods": [
             "steaming",
             "simmering",
-            "raw"
+            "raw",
+            "baking"
           ]
         },
         "elementalProperties": {
@@ -5224,10 +5237,20 @@ export const cuisine: Cuisine = {
           }
         ],
         "instructions": [
-          "Place a warm Chickpea Crêpe flat on a clean surface or plate.",
-          "Spoon a generous portion of the Curried Chickpea and vegetable filling down the center of the crêpe.",
-          "Fold or roll the crêpe to neatly enclose the filling.",
-          "Garnish with Mango Sauce drizzle and fresh herbs. Serve warm."
+          "Chickpea Crêpe (recipe below):",
+          "In large bowl, sift flours, salt, and pepper.",
+          "Add water, herbs and oil to flour mixture and blend with whisk until smooth. (May also be processed in blender.)",
+          "Let batter rest at room temperature at least 30 minutes. If necessary, thin batter with more water to maintain consistency of light cream.",
+          "Prepare crêpe pan by oiling lightly. Pour approximately 1/4 cup of batter into pan, tipping pan so batter thins covers pan. Cook 30 seconds, until crêpe is golden brown on bottom. Flip, cook another 30 seconds.",
+          "Curried Chickpea Filling (recipe follows):",
+          "In pressure cooker, combine chickpeas, water, cumin, salt, and bay leaves.",
+          "Bring pot to pressure, lower heat, and cook 30 minutes. Drain beans, set aside, and reserve bean liquid if using in place of stock.",
+          "In 12-inch sauté pan, heat oil. Add onions. Lower heat and cook until onions begin to soften and become translucent. Add curry. Cook 2-3 minutes more.",
+          "Add carrots and potatoes, stirring often to prevent sticking. Cook 5-6 minutes. Add garlic and salt. Cook 2-3 minutes more. Add stock or bean liquid reserved from chickpeas.",
+          "Add coconut milk and chickpeas. Simmer 3-4 minutes more. Add spinach. Cook until spinach becomes tender (about 1-2 minutes). Adjust seasonings. If mixture looks too thick, add bit more stock or bean liquid.",
+          "Mango Sauce, for garnish (recipe follows):",
+          "In blender, combine mango, tomatoes, tomato juices, shallot, canola oil, lime juice, and salt. Blend until creamy.",
+          "Adjust seasonings. Garnish sauce with jalapeño and cilantro."
         ],
         "classifications": {
           "mealType": [
@@ -7422,7 +7445,8 @@ export const cuisine: Cuisine = {
           "In 2 1/2 quart saucepan, bring water to boil. Add almonds and remove pot from flame. Let sit covered for 20-30 minutes.",
           "Transfer almonds and water to Vitamix. Process for few minutes until well homogenized.",
           "Strain milk through nut bag or chinois lined with 2 layers of moistened cheesecloth. Reserve almond pulp and set aside.",
-          "Add vanilla and salt. Whisk to combine."
+          "Add vanilla and salt. Whisk to combine.",
+          "Note: Save any pulp from almond milk for Nut Pulp Crisps recipe."
         ],
         "mealType": [],
         "classifications": {
@@ -7893,7 +7917,8 @@ export const cuisine: Cuisine = {
           "Heat butter in small sauté pan.",
           "When fat is just hot enough to make drop of water sizzle, pour in eggs.",
           "Cook over low heat, stirring gently with spatula from time to time as eggs coagulate. Lift portions of coagulated egg so that uncooked egg can run underneath. Too much stirring breaks up eggs into very small particles. Do not let eggs brown. Keep heat low.",
-          "When eggs are set but still soft and moist, remove from heat. Turn out onto plate or into steam table pan."
+          "When eggs are set but still soft and moist, remove from heat. Turn out onto plate or into steam table pan.",
+          "Additions to scrambled eggs: Flavor variations may be created by adding any of the following ingredients to scrambled eggs before serving: chopped parsley and/or other herbs; organic grated cheese (Cheddar, Swiss, parmesan); sautéed, diced onion and/or green pepper; diced smoked salmon."
         ],
         "classifications": {
           "mealType": [
@@ -7960,6 +7985,519 @@ export const cuisine: Cuisine = {
         "substitutions": [
           {
             "originalIngredient": "eggs",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "SWEET VEGAN CRÊPES",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 16,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2.5,
+            "unit": "cups",
+            "name": "cashew milk",
+            "notes": "or more if needed (recipe below)"
+          },
+          {
+            "amount": 1.5,
+            "unit": "cups",
+            "name": "all-purpose flour",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "canola oil",
+            "notes": "plus more for pan"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "baking powder",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch sea salt",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Combine all ingredients in blender. Let batter sit for 30 minutes in refrigerator."
+        ],
+        "classifications": {
+          "mealType": [
+            "breakfast"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2066666666666667,
+          "Water": 0.215,
+          "Earth": 0.36000000000000004,
+          "Air": 0.21833333333333335
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 280,
+          "proteinG": 10,
+          "carbsG": 27,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 236,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.22,
+          "Essence": 1.25,
+          "Matter": 1.85,
+          "Substance": 1.77
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0477,
+          "entropy": 0.3489,
+          "reactivity": 1.2941,
+          "gregsEnergy": -0.4037,
+          "kalchm": 0.1965,
+          "monica": -0.1917
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "cashew milk",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CASHEW MILK (FOR SWEET VEGAN CRÊPES)",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 3,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "cups",
+            "name": "cashews",
+            "notes": "soaked"
+          },
+          {
+            "amount": 4,
+            "unit": "cups",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "vanilla",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Puree mixture in VitaMix or blender. Strain through chinois or strainer lined with wet cheesecloth."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.11666666666666665,
+          "Water": 0.48333333333333334,
+          "Earth": 0.25,
+          "Air": 0.15000000000000002
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 280,
+          "proteinG": 9,
+          "carbsG": 25,
+          "fatG": 6,
+          "fiberG": 4,
+          "sodiumMg": 343,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 0.39,
+          "Essence": 0.96,
+          "Matter": 0.96,
+          "Substance": 0.81
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0127,
+          "entropy": 0.1199,
+          "reactivity": 1.3657,
+          "gregsEnergy": -0.1511,
+          "kalchm": 0.8216,
+          "monica": -0.563
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "cashews",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "GLUTEN-FREE AND VEGAN WAFFLES",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1.75,
+            "unit": "cups",
+            "name": "high-protein gluten-free flour mix",
+            "notes": "recipe below"
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "baking powder",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "ground cinnamon",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "melted oil",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "vanilla extract",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "almond milk",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "aqua faba",
+            "notes": "from canned chickpeas"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "small amount of oil to brush or spray onto waffle iron",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Pre-heat waffle iron.",
+          "In large bowl whisk together flours, baking powder, salt, maple crystals, and cinnamon.",
+          "In separate bowl, whisk oil, vanilla extract, and almond milk.",
+          "Make well in center of dry ingredients. Pour in liquid ingredients and whisk to combine.",
+          "In stand mixer, beat aqua faba until stiff peaks are achieved; fold into batter until barely blended.",
+          "Lightly grease waffle iron. For each waffle pour about 1/2-3/4 cup batter onto griddle.",
+          "Cook about 5-6 minutes per batch (longer cooking than egg waffles)."
+        ],
+        "classifications": {
+          "mealType": [
+            "breakfast"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2485714285714286,
+          "Water": 0.24428571428571427,
+          "Earth": 0.3285714285714286,
+          "Air": 0.17857142857142855
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 280,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 248,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.27,
+          "Essence": 2.54,
+          "Matter": 2.83,
+          "Substance": 2.57
+        },
+        "thermodynamicProperties": {
+          "heat": 0.069,
+          "entropy": 0.3356,
+          "reactivity": 1.8406,
+          "gregsEnergy": -0.5486,
+          "kalchm": 0.3194,
+          "monica": -0.2612
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "high-protein gluten-free flour mix",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FRITTATA",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 4,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "-3 tablespoons filling of choice (e.g.",
+            "notes": "onions, garlic, peppers, tomato, cheese, mushrooms, etc.)"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch pepper",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "-2 tablespoons oil to coat pan",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "eggs",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "In medium bowl whisk together filling(s), salt, and pepper with eggs.",
+          "Heat oil in sauté pan.",
+          "Pour in egg mixture.",
+          "Cook over medium-low heat until bottom is set.",
+          "Slide pan under preheated broiler for 1 or 2 minutes until lightly browned and set or, in alternative, transfer pan to 400°F oven for approximately 5 minutes."
+        ],
+        "classifications": {
+          "mealType": [
+            "breakfast"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.25,
+          "Water": 0.26666666666666666,
+          "Earth": 0.3333333333333333,
+          "Air": 0.15
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 280,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 257,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.32,
+          "Essence": 1.54,
+          "Matter": 1.55,
+          "Substance": 1.48
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0638,
+          "entropy": 0.2951,
+          "reactivity": 1.8214,
+          "gregsEnergy": -0.4737,
+          "kalchm": 0.796,
+          "monica": -1.1399
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "-3 tablespoons filling of choice (e.g.",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -13809,7 +14347,9 @@ export const cuisine: Cuisine = {
           "In blender, soak almonds in 1 cup hot water for at least 15 minutes. Process until smooth, gradually adding remaining cup of water. Strain through fine mesh sieve and return almond milk to blender.",
           "In 2 1/2 quart sauce pan, sweat onion in oil with salt until completely soft. Add garlic and cook a few minutes longer, being careful not to brown vegetables.",
           "Add sweated vegetables and miso to almond milk. Process until very smooth, adding salt and pepper to taste.",
-          "Transfer sauce back to sauce pan and heat slowly, whisking to break up lumps. Stir in lemon juice and serve immediately."
+          "Transfer sauce back to sauce pan and heat slowly, whisking to break up lumps. Stir in lemon juice and serve immediately.",
+          "Note: For tangier flavor, blend 1/2 small clove minced raw garlic into sauce, omitting garlic from step two.",
+          "Serving suggestion: Almond \"Cream\" Sauce is delicious served over pasta with lemon zest and freshly cracked pepper."
         ],
         "mealType": [],
         "classifications": {
@@ -14920,7 +15460,8 @@ export const cuisine: Cuisine = {
           "Combine rice in 2 1/2 quart pot with water and salt. Bring rice to boil, reduce heat, and simmer, covered, until grains are tender but still chewy (about 20-25 minutes). Drain rice.",
           "Combine all dressing ingredients except for oil in blender. Slowly drizzle oil into blender until emulsified. Pour half of dressing over still warm rice.",
           "When rice is completely cooled, combine with cranberries, walnuts, carrots, radishes, scallions, chives, and parsley. Season with salt and pepper, if needed.",
-          "Toss radicchio and arugula with remaining dressing, arrange on plate, and top with rice salad."
+          "Toss radicchio and arugula with remaining dressing, arrange on plate, and top with rice salad.",
+          "Seasonal variation: In Spring/Summer, replace dried cranberries with 1/4 cup rehydrated, drained, and chopped sun-dried tomatoes."
         ],
         "classifications": {
           "mealType": [
@@ -18175,7 +18716,8 @@ export const cuisine: Cuisine = {
           "In 1-gallon pot, bring poach ingredients – chicken stock, coconut milk, bay leaves, thyme, cilantro, salt, remaining 1/2 teaspoon curry powder, and pepper – to simmer. Add chicken, lower heat, cover pot, and poach 15 minutes or until chicken is tender and flesh is opaque.",
           "Remove pot from heat; let chicken remain in stock 20 to 25 minutes. Remove chicken from stock, cool, and cut into 1/3-inch thick diagonal slices. Set aside.",
           "In blender, combine dressing ingredients until creamy. Drain fennel and toss with 2-3 tablespoons of dressing.",
-          "On large plate, arrange mesclun, poached chicken, fennel, endive, onion, and asparagus. Drizzle dressing over salad ingredients and chicken. Garnish with cilantro."
+          "On large plate, arrange mesclun, poached chicken, fennel, endive, onion, and asparagus. Drizzle dressing over salad ingredients and chicken. Garnish with cilantro.",
+          "Seasonal variation: In Fall/Winter, substitute 1 small head of cauliflower for asparagus."
         ],
         "classifications": {
           "mealType": [
@@ -20855,48 +21397,17 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.5,
-            "unit": "cup",
-            "name": "cashews",
-            "notes": "soaked 4 hours to overnight (discard soaking liquid)"
-          },
-          {
-            "amount": 2,
-            "unit": "tablespoon",
-            "name": "lime juice",
-            "notes": "1-2 limes"
-          },
-          {
-            "amount": 2,
-            "unit": "tablespoons",
-            "name": "canola oil",
-            "notes": ""
-          },
-          {
-            "amount": 0.25,
-            "unit": "teaspoon",
-            "name": "sea salt of to taste",
-            "notes": ""
-          },
-          {
             "amount": 1,
             "unit": "piece",
-            "name": "scallion",
-            "notes": "trimmed, chopped"
-          },
-          {
-            "amount": 2,
-            "unit": "tablespoons",
-            "name": "water",
-            "notes": ""
+            "name": "cashew cream",
+            "notes": "recipe below"
           }
         ],
         "instructions": [
           "In 10-inch sauté pan, heat oil over medium flame. Add fennel and salt. Sweat until fennel is translucent. Add pears and sweat for an additional 3-5 minutes or until fennel and pears are barely tender.",
           "Add garlic and coriander; continue to sweat for another minute. Add vinegar and water. Simmer for about 5 minutes or until liquid has been absorbed. Season to taste. When cool, add chives and mix to combine. Set aside.",
           "In medium bowl, combine grated sweet potatoes, scallions, flour, arrowroot, salt, pepper, and garlic powder. Mix to combine. Form latkes using tablespoon measure. Heat canola oil in 12-inch straight-sided sauté pan over medium-high heat.",
-          "Fry latkes in batches until golden, about 2 minutes on each side. Drain on paper-lined half sheet pan to absorb any excess oil. Season with additional salt to taste. Serve topped with marmalade, cashew cream and fennel fronds.",
-          "Combine all ingredients in food processor until smooth and creamy. Season to taste."
+          "Fry latkes in batches until golden, about 2 minutes on each side. Drain on paper-lined half sheet pan to absorb any excess oil. Season with additional salt to taste. Serve topped with marmalade, cashew cream and fennel fronds."
         ],
         "classifications": {
           "mealType": [
@@ -20909,10 +21420,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.206,
-          "Water": 0.27399999999999997,
-          "Earth": 0.296,
-          "Air": 0.22400000000000003
+          "Fire": 0.21500000000000002,
+          "Water": 0.255,
+          "Earth": 0.3125,
+          "Air": 0.21750000000000003
         },
         "astrologicalAffinities": {
           "planets": [
@@ -20929,11 +21440,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 27,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 260,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 252,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -20947,18 +21458,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.23,
-          "Essence": 9.04,
-          "Matter": 8.5,
-          "Substance": 8.06
+          "Spirit": 6.19,
+          "Essence": 7.76,
+          "Matter": 7.43,
+          "Substance": 6.95
         },
         "thermodynamicProperties": {
-          "heat": 0.0751,
-          "entropy": 0.3577,
-          "reactivity": 2.5737,
-          "gregsEnergy": -0.8456,
-          "kalchm": 0.4469,
-          "monica": -0.4079
+          "heat": 0.073,
+          "entropy": 0.3492,
+          "reactivity": 2.4521,
+          "gregsEnergy": -0.7833,
+          "kalchm": 0.3038,
+          "monica": -0.2681
         },
         "substitutions": [
           {
@@ -24127,7 +24638,8 @@ export const cuisine: Cuisine = {
           }
         ],
         "instructions": [
-          "Combine all ingredients in food processor. Pulse to spreadable paste-like consistency."
+          "Combine all ingredients in food processor. Pulse to spreadable paste-like consistency.",
+          "Note: Tapenade may be prepared without anchovies or nori."
         ],
         "classifications": {
           "mealType": [
@@ -26816,7 +27328,8 @@ export const cuisine: Cuisine = {
           "Place cabbage in large bowl and sprinkle with salt. Squeeze and massage cabbage to release water. Continue to massage and squeeze until enough liquid has been released to create salty brine that covers cabbage by 1/4 inch. Add caraway seeds.",
           "Pack tightly into 2 quart wide-mouthed glass jar or ceramic crock (liquid brine must be above cabbage for healthy successful fermentation). If cabbage has not released enough juices to cover, add salted water to jar/crock in a ratio of 1 teaspoon sea salt per 1 cup water.",
           "Place plate or discover cabbage and press down to squeeze more brine to surface. Cover mouth of vessel with cheesecloth and secure to rim of lid with kitchen twine, rubber band, OR if using airlock lid, fill airlock and secure lid.",
-          "Store sauerkraut in dry place for 2 - 4 weeks at room temperature. Be sure to check water level, adding more salt water as needed to ensure the mixture is covered throughout fermentation process. Taste every few days and eat or refrigerate when desired tangy flavor is achieved."
+          "Store sauerkraut in dry place for 2 - 4 weeks at room temperature. Be sure to check water level, adding more salt water as needed to ensure the mixture is covered throughout fermentation process. Taste every few days and eat or refrigerate when desired tangy flavor is achieved.",
+          "Note: A cooler fermentation area will result in a slower fermentation with complex flavor notes. A warmer area will result in a faster fermentation that may lead to off flavors and cloudy brine."
         ],
         "mealType": [],
         "classifications": {
@@ -28124,7 +28637,9 @@ export const cuisine: Cuisine = {
           "Stuff squid bodies with mixture. Make sure not to overstuff as mixture expands during cooking. Use about 3 tablespoons per squid body. Secure squid body opening with one or two toothpicks. Place in pan large enough to accommodate squid in one even layer.",
           "Add wine, stock, tomato puree, bay leaves and salt. Cover pan and turn heat to low.",
           "Simmer until squid is tender, about 40-50 minutes. At 20-minute mark, turn squid over.",
-          "Remove from pan. Garnish with mint and lemon slices."
+          "Remove from pan. Garnish with mint and lemon slices.",
+          "Note: Great served at room temperature as antipasti selection or warm with sautéed Italian bitter greens.",
+          "Note: While stuffing squid, it is good idea to dip your hands into bowl of cold water, as mixture can be sticky."
         ],
         "classifications": {
           "mealType": [
@@ -31487,7 +32002,8 @@ export const cuisine: Cuisine = {
           "Combine chickpeas in pressure cooker with salt, cumin, and bay leaf. Add enough water to cover by 1 inch. Cover and bring to full pressure. Lower heat and cook for 15 minutes. Release pressure by running cold water over lid and drain beans, reserving cooking liquid.",
           "Discard bay leaf, and transfer beans to food processor.",
           "Add garlic, olive oil, lemon juice, bell pepper, and tahini. Process until smooth, adding bean liquid as necessary to form smooth, thick puree. Season with salt and pepper.",
-          "Garnish with paprika and serve with pita."
+          "Garnish with paprika and serve with pita.",
+          "Seasonal variation: In Winter/Fall, substitute two heads roasted garlic for roasted red pepper and remove chopped garlic."
         ],
         "classifications": {
           "mealType": [
@@ -32547,7 +33063,8 @@ export const cuisine: Cuisine = {
           "Lower heat and simmer, uncovered, for about 25-30 minutes or until beans are tender. Remove bay leaf and drain beans in colander.",
           "Whisk together remaining 1/2 teaspoon of salt, black pepper, mustard, lemon juice, and olive oil. Pour over warm beans.",
           "When beans have cooled, toss together with red peppers, red onion, olives, and basil.",
-          "Season with salt and pepper to taste."
+          "Season with salt and pepper to taste.",
+          "Seasonal variation: In Winter/Fall, substitute 1/4 teaspoon freshly chopped rosemary for basil."
         ],
         "classifications": {
           "mealType": [
@@ -33837,7 +34354,8 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Wipe kombu with towel, if it has salty residue. Place it in pot and cover with cold water. Let stand 30 minutes.",
           "Bring to boil, add bonito flakes and remove from heat.",
-          "Wait till bonito flakes sink to bottom of pot and strain through cheesecloth."
+          "Wait till bonito flakes sink to bottom of pot and strain through cheesecloth.",
+          "Note: Kombu and bonito flakes can be re-used once: just simmer 4-5 minutes and discard. This is called niban-dashi."
         ],
         "classifications": {
           "mealType": [
@@ -35715,7 +36233,8 @@ export const cuisine: Cuisine = {
           "In 10-inch sauté pan, combine flour and butter. Stir with wooden spoon for 2-3 minutes. Let roux cool.",
           "Slowly and gradually whisk 4 cups cooled milk into warm roux.",
           "Simmer sauce for approximately 20-25 minutes until thickened and reduced to nappé consistency.",
-          "Strain sauce through fine chinois. Add additional 1 cup milk on low flame, if needed."
+          "Strain sauce through fine chinois. Add additional 1 cup milk on low flame, if needed.",
+          "Note: Piqué is a bay leaf tacked with whole clove on peeled halved onion."
         ],
         "mealType": [],
         "classifications": {
@@ -35852,7 +36371,8 @@ export const cuisine: Cuisine = {
           "Slowly and gradually whisk cooled milk into warm roux.",
           "Simmer sauce for approximately 20-30 minutes until thickened and reduced to nappé consistency.",
           "Strain sauce through fine chinois.",
-          "Add cheese and whisk until cheese is totally melted and incorporated into sauce."
+          "Add cheese and whisk until cheese is totally melted and incorporated into sauce.",
+          "Note: Piqué is a bay leaf tacked with whole clove to peeled halved onion."
         ],
         "mealType": [],
         "classifications": {
@@ -35968,7 +36488,8 @@ export const cuisine: Cuisine = {
           "In 12-inch sauté pan, melt butter over medium-low flame. Sprinkle in flour and stir for about 3-4 minutes.",
           "Slowly whisk in stock 1/2 cup at a time, waiting for sauce to thicken between each addition, until sauce is smooth.",
           "Lower heat and simmer about 35-40 minutes or until sauce achieves nappé consistency.",
-          "Adjust seasonings to taste."
+          "Adjust seasonings to taste.",
+          "Note: Reserve 2 cups of this sauce for Sauce Supreme (see below)."
         ],
         "mealType": [],
         "classifications": {
@@ -40863,7 +41384,8 @@ export const cuisine: Cuisine = {
           "Put garlic paste in bowl together with egg yolks and mustard; whisk until smooth.",
           "Slowly add oil (no more than one teaspoon at a time) to egg yolk mixture, whisking until well incorporated before adding more oil.",
           "As mixture begins to thicken, oil can be added somewhat more rapidly (no more than one tablespoon at a time).",
-          "When all oil has been incorporated, whisk in lemon juice."
+          "When all oil has been incorporated, whisk in lemon juice.",
+          "Note: If using extra virgin oil, use mild-flavored oil. Most Italian olive oils have too robust a flavor and leave bitter aftertaste on tongue. It is also helpful to use relatively small proportion of oil to egg yolk."
         ],
         "mealType": [],
         "classifications": {
@@ -43144,6 +43666,2994 @@ export const cuisine: Cuisine = {
             ]
           }
         ]
+      },
+      {
+        "name": "TOMATO VINAIGRETTE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 1,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "vine-ripe tomatoes",
+            "notes": "12 ounces; seeded, cored, and cut into quarters"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "diced red onion",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "vegetable stock",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "red wine vinegar",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "ground black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch of salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "fresh basil leaves",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Combine all ingredients in blender and puree until smooth."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2775,
+          "Water": 0.2525,
+          "Earth": 0.28500000000000003,
+          "Air": 0.185
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 251,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.82,
+          "Essence": 3.12,
+          "Matter": 2.88,
+          "Substance": 2.63
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0918,
+          "entropy": 0.3505,
+          "reactivity": 2.4736,
+          "gregsEnergy": -0.7752,
+          "kalchm": 2.4206,
+          "monica": 0.3545
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "vine-ripe tomatoes",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "TOMATO \"CREAM\" SAUCE (FOR VEGETABLE-POLENTA NAPOLEONS)",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 3,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "pounds",
+            "name": "ripe tomatoes",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "spanish onion",
+            "notes": "1/2 pound; medium dice"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "carrot",
+            "notes": "6 ounces; peeled and cut in 1/4-inch dice"
+          },
+          {
+            "amount": 4,
+            "unit": "cloves",
+            "name": "garlic",
+            "notes": "peeled and thinly sliced"
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "-3 cups vegetable stock",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "fresh basil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "fresh oregano",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "salt to taste",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Preheat broiler for 5-10 minutes. Adjust rack to highest position.",
+          "Broil tomatoes on sheet tray or sizzle platter, turning them often until their skins blister. Reserve tomato liquid collected in broiler pan.",
+          "Put tomatoes through food mill to remove skins and seeds. Combine tomato pulp and reserved liquid and set aside.",
+          "In 10-inch sauté pan, \"sauté\" onion, carrot, and garlic in 1/2 cup vegetable stock, stirring often. When all liquid has evaporated, ladle in another 1/2 cup stock. Repeat this procedure until vegetables are soft and just beginning to caramelize.",
+          "In blender, process tomatoes with their liquid and carrot-onion mixture until very smooth and creamy, about 2 to 3 minutes.",
+          "Transfer sauce to covered saucepan, and simmer sauce for 25 minutes. If sauce is too thick, thin with some vegetable stock. Stir in olive oil and fresh herbs. Simmer 5 minutes longer."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2911111111111111,
+          "Water": 0.21333333333333332,
+          "Earth": 0.3088888888888889,
+          "Air": 0.18666666666666668
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 235,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.13,
+          "Essence": 3.47,
+          "Matter": 3.47,
+          "Substance": 3.06
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0862,
+          "entropy": 0.3462,
+          "reactivity": 2.1965,
+          "gregsEnergy": -0.6744,
+          "kalchm": 1.1608,
+          "monica": 2.0589
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "ripe tomatoes",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MUHAMMARA",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 2,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "large red peppers",
+            "notes": "1 pound; roasted, skinned and seeded"
+          },
+          {
+            "amount": 3,
+            "unit": "cloves",
+            "name": "garlic",
+            "notes": "peeled"
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "pomegranate molasses",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "lemon juice",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "walnuts",
+            "notes": "toasted"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "plain breadcrumbs",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "ground black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "vegetable stock or water",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "sherry vinegar",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Combine peppers, garlic, pomegranate molasses, lemon juice, and walnuts in bowl of food processor and puree.",
+          "Add breadcrumbs, black pepper, olive oil, vegetable stock, and sherry vinegar. Puree until smooth. Serve with Mediterranean Roasted Black Cod."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.3055555555555556,
+          "Water": 0.2111111111111111,
+          "Earth": 0.3111111111111111,
+          "Air": 0.17222222222222222
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 234,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.79,
+          "Essence": 3.69,
+          "Matter": 3.44,
+          "Substance": 3.12
+        },
+        "thermodynamicProperties": {
+          "heat": 0.1207,
+          "entropy": 0.4136,
+          "reactivity": 2.6922,
+          "gregsEnergy": -0.9929,
+          "kalchm": 7.904,
+          "monica": 0.1784
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "large red peppers",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "HONEY-MUSTARD YOGURT",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 3,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "yogurt",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "dijon mustard",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "honey",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "In small bowl, whisk all ingredients together."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.3,
+          "Water": 0.31666666666666665,
+          "Earth": 0.26666666666666666,
+          "Air": 0.11666666666666668
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 24,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 277,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.2,
+          "Essence": 1.38,
+          "Matter": 1.34,
+          "Substance": 1.34
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0675,
+          "entropy": 0.306,
+          "reactivity": 2.0702,
+          "gregsEnergy": -0.566,
+          "kalchm": 0.886,
+          "monica": -2.2587
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "yogurt",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FISH CONGEE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 10,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 8,
+            "unit": "cups",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "white basmati rice",
+            "notes": "soaked overnight"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "long grain brown rice",
+            "notes": "soaked overnight"
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "pound",
+            "name": "burdock root",
+            "notes": "thin diagonal slice"
+          },
+          {
+            "amount": 0.25,
+            "unit": "pound",
+            "name": "carrot",
+            "notes": "small dice"
+          },
+          {
+            "amount": 0.5,
+            "unit": "pound",
+            "name": "onion",
+            "notes": "small dice"
+          },
+          {
+            "amount": 1,
+            "unit": "pound",
+            "name": "white fish fillet (sole",
+            "notes": "flounder, sea bass OR red snapper)"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "toasted sesame oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "-2 tablespoons tamari",
+            "notes": "or more to taste"
+          },
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "finely sliced scallions",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "sheets nori",
+            "notes": "cut in thin strips"
+          }
+        ],
+        "instructions": [
+          "In 1-gallon pot, combine water, white basmati rice, long grain brown rice, and salt. Bring to boil for 2-3 minutes. Add burdock, carrot, and onion. Lower flame, cover and allow to simmer, stirring frequently, until rice is creamy and lightly thickened (1 to 1 1/2 hours).",
+          "Cut fillet in 2-inch pieces. Add to soup 3 minutes before end of cooking, or until just tender.",
+          "Turn off flame; add toasted sesame oil, tamari, and scallions.",
+          "Ladle into bowls; garnish with nori strips.",
+          "Note: Scissors work best for cutting the nori."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.15833333333333333,
+          "Water": 0.31249999999999994,
+          "Earth": 0.3708333333333333,
+          "Air": 0.15833333333333327
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 275,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.66,
+          "Essence": 3.78,
+          "Matter": 4.89,
+          "Substance": 4.21
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0377,
+          "entropy": 0.284,
+          "reactivity": 1.4177,
+          "gregsEnergy": -0.365,
+          "kalchm": 0.0021,
+          "monica": -0.0418
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "water",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "HIGH-PROTEIN GLUTEN-FREE FLOUR MIX",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 1,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "garbanzo flour",
+            "notes": ""
+          },
+          {
+            "amount": 7,
+            "unit": "tablespoons",
+            "name": "brown rice flour",
+            "notes": ""
+          },
+          {
+            "amount": 7,
+            "unit": "tablespoons",
+            "name": "potato starch flour",
+            "notes": ""
+          },
+          {
+            "amount": 7,
+            "unit": "tablespoons",
+            "name": "tapioca starch flour",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Note: for this recipe use 1 3/4 cups flour (discard extra tablespoon)."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.1,
+          "Water": 0.2,
+          "Earth": 0.5,
+          "Air": 0.2
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 13,
+          "carbsG": 26,
+          "fatG": 6,
+          "fiberG": 6,
+          "sodiumMg": 230,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 0.56,
+          "Essence": 0.68,
+          "Matter": 1.64,
+          "Substance": 1.36
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0154,
+          "entropy": 0.2427,
+          "reactivity": 0.593,
+          "gregsEnergy": -0.1285,
+          "kalchm": 0.1626,
+          "monica": -0.1193
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "garbanzo flour",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "GLUTEN-FREE MINI PIZZAS",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 10,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil for greasing sheet trays",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "lukewarm water",
+            "notes": ""
+          },
+          {
+            "amount": 2.25,
+            "unit": "teaspoons",
+            "name": "dry yeast",
+            "notes": "1 packet"
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "rice flour",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "tapioca flour",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "xanthan gum",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "fennel seed",
+            "notes": "optional"
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "egg",
+            "notes": ""
+          },
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "olive oil",
+            "notes": "divided"
+          }
+        ],
+        "instructions": [
+          "Line 2 half-sheet trays with Silpats or parchment generously brushed with olive oil.",
+          "In small bowl, dissolve maple crystals in water and add yeast. Cover with plastic wrap and set aside.",
+          "In separate small bowl, whisk together rice flour, tapioca flour, xanthan gum, fennel, and salt. Set aside.",
+          "In stand mixer, blend egg, 1 tablespoon of oil, and yeast-maple crystal water. Add flour mix and beat on high for 2 minutes.",
+          "Using tablespoon, spoon batter onto cookie sheet, making 6-8 pizzas per sheet. With circular motion, spread each circle out with spoon to about 2 inches in diameter.",
+          "Cover with inverted baking sheet, and let rise 40-45 minutes. Preheat oven to 375° F.",
+          "Bake each mini pizza 10 minutes without toppings.",
+          "Remove trays from oven, and garnish pizzas with toppings of choice. Dribble remaining oil over each mini pizza. Bake another 10 minutes to cook fillings and melt cheese, if using."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.19090909090909092,
+          "Water": 0.2590909090909091,
+          "Earth": 0.35000000000000003,
+          "Air": 0.2
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 254,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.51,
+          "Essence": 3.6,
+          "Matter": 4.32,
+          "Substance": 3.86
+        },
+        "thermodynamicProperties": {
+          "heat": 0.04,
+          "entropy": 0.2925,
+          "reactivity": 1.5729,
+          "gregsEnergy": -0.4201,
+          "kalchm": 0.0099,
+          "monica": -0.0579
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "extra virgin olive oil for greasing sheet trays",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "COBB SALAD",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "red wine vinegar",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "dijon mustard",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "rice syrup",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch freshly ground black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "roquefort cheese",
+            "notes": "2 ounces"
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped chives",
+            "notes": "1/2 ounce"
+          },
+          {
+            "amount": 4,
+            "unit": "ounces",
+            "name": "duck bacon",
+            "notes": "5 slices; roasted at 375° F for 10 minutes"
+          },
+          {
+            "amount": 2,
+            "unit": "cups",
+            "name": "chicken stock",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "bay leaf",
+            "notes": ""
+          },
+          {
+            "amount": 3,
+            "unit": "sprigs",
+            "name": "thyme",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "pound",
+            "name": "skinless",
+            "notes": "boneless chicken breast (1 small)"
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "large eggs",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "pound",
+            "name": "romaine lettuce",
+            "notes": "1 head; bite-size pieces"
+          },
+          {
+            "amount": 3,
+            "unit": "ounces",
+            "name": "arugula",
+            "notes": "bite-size pieces"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "avocado",
+            "notes": "medium dice (drizzled with juice of 1/2 lemon)"
+          },
+          {
+            "amount": 0.5,
+            "unit": "pint",
+            "name": "cherry tomatoes",
+            "notes": "halved lengthwise"
+          }
+        ],
+        "instructions": [
+          "In blender, combine all dressing ingredients until creamy. Season to taste and set aside.",
+          "Sear bacon in 10-inch sauté pan on medium-low heat until crisp on both sides. Transfer to paper towels to drain excess fat. Cool, crumble, and set bacon aside.",
+          "Combine chicken stock, salt, bay leaf, and thyme in 2 1/2 quart saucepan and bring to boil. Add chicken, lower heat, and poach until tender and flesh is opaque. Transfer chicken to plate and cool to room temperature. Cut into medium dice. Set aside.",
+          "Combine eggs in 2 1/2 quart pot, cover with 1 inch of water, cover pot, and bring to boil. Turn off heat and allow eggs to remain in hot water for about 8 minutes. Shock eggs in cold water. When cool enough to handle, peel and chop eggs into medium dice.",
+          "Combine romaine and arugula. Arrange bacon, chicken, eggs, avocado, and tomatoes over greens. Drizzle with dressing and serve."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.28235294117647064,
+          "Water": 0.24117647058823521,
+          "Earth": 0.2676470588235294,
+          "Air": 0.20882352941176466
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Sun",
+            "Mars"
+          ],
+          "signs": [
+            "Aries",
+            "Leo"
+          ],
+          "lunarPhases": [
+            "Full Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 246,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 6.25,
+          "Essence": 6.66,
+          "Matter": 5.78,
+          "Substance": 5.65
+        },
+        "thermodynamicProperties": {
+          "heat": 0.1107,
+          "entropy": 0.4241,
+          "reactivity": 3.1586,
+          "gregsEnergy": -1.2289,
+          "kalchm": 63.9104,
+          "monica": 0.0936
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "red wine vinegar",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CASHEW CREAM",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 1,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "cashews",
+            "notes": "soaked 4 hours to overnight (discard soaking liquid)"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "lime juice",
+            "notes": "1-2 limes"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "canola oil",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "sea salt or to taste",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "scallion",
+            "notes": "trimmed, chopped"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "water",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Combine all ingredients in food processor until smooth and creamy. Season to taste."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.15,
+          "Water": 0.38333333333333336,
+          "Earth": 0.25000000000000006,
+          "Air": 0.2166666666666667
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 303,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.66,
+          "Essence": 2.4,
+          "Matter": 1.69,
+          "Substance": 1.61
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0648,
+          "entropy": 0.2428,
+          "reactivity": 3.0088,
+          "gregsEnergy": -0.6658,
+          "kalchm": 3.6288,
+          "monica": 0.1717
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "cashews",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CREAM OF ASPARAGUS SOUP",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 4,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "pounds",
+            "name": "asparagus",
+            "notes": "bottoms trimmed"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "cups",
+            "name": "thinly sliced leeks",
+            "notes": "about 2 medium"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "rolled oats",
+            "notes": ""
+          },
+          {
+            "amount": 4,
+            "unit": "piece",
+            "name": "-5 cups of water or vegetable stock",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "bouquet garni (2 sprigs parsley",
+            "notes": "1 sprig thyme and 1 bay leaf)"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "freshly ground black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "-3 teaspoons fresh lemon juice",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "butter",
+            "notes": "optional"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "chopped parsley for garnish",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Trim tips of asparagus spears and set aside. Cut remainder of stems into 1-inch pieces. Prepare ice bath.",
+          "In small saucepan, bring 2 1/2 cups of salted water to boil. Blanch asparagus tips until tender (1-2 minutes); shock tips in ice water. Reserve cooking liquid (about 2 cups). Set aside tips for garnish.",
+          "Warm oil in 1-gallon sauce pan. Add leeks with pinch of salt and sweat over medium-low heat for 7 to 10 minutes or until soft but not brown. Add oats, asparagus stems, reserved cooking liquid with enough water or stock to equal 4 cups. Add bouquet garni and bring to boil. Lower heat and simmer, partially covered for about 30 minutes or until oats are soft.",
+          "Remove bouquet garni and discard. Puree soup in blender until very smooth.",
+          "Return soup to pot; thin if desired with water or stock. Adjust seasonings with salt, pepper and lemon juice. Add butter if desired for richer consistency.",
+          "Pour soup into bowls and garnish with chopped parsley and reserved tips."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.20454545454545456,
+          "Water": 0.2636363636363636,
+          "Earth": 0.2990909090909091,
+          "Air": 0.23272727272727273
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 255,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.26,
+          "Essence": 3.96,
+          "Matter": 3.92,
+          "Substance": 3.66
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0701,
+          "entropy": 0.3384,
+          "reactivity": 2.2398,
+          "gregsEnergy": -0.6878,
+          "kalchm": 0.4487,
+          "monica": -0.3832
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "asparagus",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CREAMY SWEET POTATO BISQUE WITH CASHEW CRÈME FRAICHE AND CANDIED PECANS",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 7,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "coconut oil",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "onions",
+            "notes": "medium dice"
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "garlic powder",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "smoked paprika",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "ground cumin",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "pounds",
+            "name": "sweet potatoes",
+            "notes": "peeled and diced"
+          },
+          {
+            "amount": 6,
+            "unit": "cups",
+            "name": "vegetable stock",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "coconut milk",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "brown rice vinegar",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "cashews",
+            "notes": "soaked 4 hours to overnight (discard soaking liquid)"
+          },
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "brown rice vinegar",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "canola oil",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": "or to taste"
+          },
+          {
+            "amount": 1,
+            "unit": "clove",
+            "name": "garlic",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "water",
+            "notes": "or enough to blend"
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "pecans",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "tablespoons",
+            "name": "rice syrup",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "smoked paprika",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "cayenne pepper",
+            "notes": "or to taste"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "container purple microgreens",
+            "notes": "for garnish"
+          }
+        ],
+        "instructions": [
+          "For sweet potato bisque: In 1-gallon pot, heat coconut oil over medium flame. Add onion, salt, garlic powder, smoked paprika, and cumin. Sweat until onions are translucent. Add sweet potatoes and stock to pot. Raise heat bring and bring to boil. Reduce heat and simmer with lid ajar until potatoes are tender.",
+          "Puree soup in blender until creamy. Return soup to pot. Re-heat and whisk in coconut milk. Season to taste, adding in vinegar.",
+          "For cashew crème fraiche: Combine all ingredients in food processor until smooth and creamy. Season to taste.",
+          "For candied pecans: Preheat oven to 350° F. Line half sheet tray with parchment paper.",
+          "In small saucepan, heat syrup and maple crystals. Add salt, smoked paprika, and cayenne.",
+          "Combine nuts with syrup in small bowl. Transfer to sheet tray and bake 5 to 7 minutes. Cool in refrigerator until cold enough to crack."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2608695652173913,
+          "Water": 0.24130434782608695,
+          "Earth": 0.32782608695652166,
+          "Air": 0.17
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 247,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 6.21,
+          "Essence": 6.82,
+          "Matter": 8.46,
+          "Substance": 7.74
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0684,
+          "entropy": 0.3924,
+          "reactivity": 1.8794,
+          "gregsEnergy": -0.669,
+          "kalchm": 0.0001,
+          "monica": -0.0387
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "coconut oil",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "PEANUT SAUCE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 4,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "peanuts",
+            "notes": "roasted"
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "chopped garlic",
+            "notes": "1 large clove"
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "tamari",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "toasted sesame oil",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "coconut sugar",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "lime juice",
+            "notes": "1 lime"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "cayenne",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "coconut milk",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "maple syrup",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sea salt to taste",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Puree peanuts and water in VitaMix to paste consistency. Add garlic, tamari, oil, sugar, lime juice, cayenne, coconut milk, and maple syrup. Puree until smooth. Add salt to taste."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.28363636363636363,
+          "Water": 0.3227272727272727,
+          "Earth": 0.28,
+          "Air": 0.11363636363636363
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 23,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 279,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.56,
+          "Essence": 3.98,
+          "Matter": 3.75,
+          "Substance": 3.37
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0913,
+          "entropy": 0.3474,
+          "reactivity": 2.4671,
+          "gregsEnergy": -0.7658,
+          "kalchm": 2.6301,
+          "monica": 0.321
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "peanuts",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CEVICHE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 12,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "pound",
+            "name": "sea scallops",
+            "notes": "cut into quarters"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "jalapeno pepper",
+            "notes": "brunoise"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "red pepper",
+            "notes": "brunoise"
+          },
+          {
+            "amount": 0.5,
+            "unit": "piece",
+            "name": "small red onion",
+            "notes": "2 ounces; minced"
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "ripe tomatoes",
+            "notes": "seeded and cut into small dice"
+          },
+          {
+            "amount": 1,
+            "unit": "clove",
+            "name": "garlic",
+            "notes": "minced"
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "rice syrup",
+            "notes": "optional"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped cilantro",
+            "notes": "1/4 ounce"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped parsley",
+            "notes": "1/4 ounce"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "lime juice",
+            "notes": "8-10 limes"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "lemon juice",
+            "notes": "4 lemons"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "avocado",
+            "notes": "peeled and cut into 16 slices and tossed with lemon juice"
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "-3 tablespoons chopped parsley",
+            "notes": "1/4 ounce"
+          }
+        ],
+        "instructions": [
+          "In large bowl, combine scallops, jalapeno, red pepper, onion, tomato, garlic, rice syrup, cilantro, parsley, salt, pepper and citrus juices. Toss gently but thoroughly, being certain scallops are well coated with citrus juices.",
+          "Cover and refrigerate for at least 30-60 minutes, or until scallops lose their translucent appearance. Stir occasionally.",
+          "Serve in individual chilled bowls or glasses garnished with avocado slices and parsley."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.23533333333333337,
+          "Water": 0.298,
+          "Earth": 0.21933333333333332,
+          "Air": 0.24733333333333335
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 8,
+          "carbsG": 27,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 269,
+          "sugarG": 6,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 5.79,
+          "Essence": 6.27,
+          "Matter": 4.28,
+          "Substance": 4.1
+        },
+        "thermodynamicProperties": {
+          "heat": 0.1413,
+          "entropy": 0.4119,
+          "reactivity": 4.4385,
+          "gregsEnergy": -1.6868,
+          "kalchm": 15841.0229,
+          "monica": 0.0393
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "sea scallops",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BLACKENING SPICE MIX",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 4,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "paprika",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "ground coriander",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "ground cumin",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "ground thyme",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "ground rosemary",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Combine all ingredients."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.3528571428571428,
+          "Water": 0.11142857142857143,
+          "Earth": 0.29000000000000004,
+          "Air": 0.24571428571428572
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Sun",
+            "Mars"
+          ],
+          "signs": [
+            "Aries",
+            "Leo"
+          ],
+          "lunarPhases": [
+            "Full Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 195,
+          "sugarG": 6,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.52,
+          "Essence": 1.57,
+          "Matter": 1.74,
+          "Substance": 1.65
+        },
+        "thermodynamicProperties": {
+          "heat": 0.2059,
+          "entropy": 0.6721,
+          "reactivity": 2.8477,
+          "gregsEnergy": -1.708,
+          "kalchm": 3.4809,
+          "monica": 0.4809
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "black pepper",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BLACK BEAN SALAD",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 5,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "black beans",
+            "notes": "soaked, drained, and rinsed"
+          },
+          {
+            "amount": 4,
+            "unit": "cups",
+            "name": "filtered water",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "ground cumin",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "ground fennel",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "bay leaf",
+            "notes": ""
+          },
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "lime juice",
+            "notes": "1 1/2 limes"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 3,
+            "unit": "piece",
+            "name": "red radishes",
+            "notes": "small dice"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "minced scallions",
+            "notes": "3"
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "chopped tarragon",
+            "notes": "1/2 ounce"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "salt and pepper to taste",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Combine beans, water, 1/2 teaspoon salt, cumin, fennel, and bay leaf in 1-gallon pot and bring to boil over high heat.",
+          "Lower heat and simmer for 25-30 minutes or until beans are tender. Remove bay leaf and drain beans in colander.",
+          "Whisk together lime juice, remaining 1/2 teaspoon salt, and olive oil. Pour over warm beans.",
+          "When beans have cooled, toss together with radish, scallions, and tarragon.",
+          "Season to taste with salt and pepper."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.16416666666666668,
+          "Water": 0.2941666666666667,
+          "Earth": 0.31916666666666665,
+          "Air": 0.22249999999999995
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 27,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 268,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.34,
+          "Essence": 4.31,
+          "Matter": 4.34,
+          "Substance": 3.94
+        },
+        "thermodynamicProperties": {
+          "heat": 0.062,
+          "entropy": 0.3118,
+          "reactivity": 2.0923,
+          "gregsEnergy": -0.5903,
+          "kalchm": 0.2349,
+          "monica": -0.1948
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "black beans",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "VEGAN \"MORNAY\" SAUCE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 3,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "coconut oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "ounce",
+            "name": "shallot",
+            "notes": "1 small; minced"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "ounce",
+            "name": "oat flour",
+            "notes": "1 tablespoon + 1 teaspoon"
+          },
+          {
+            "amount": 4,
+            "unit": "cups",
+            "name": "fresh almond milk",
+            "notes": "cooled (see following recipe)"
+          },
+          {
+            "amount": 3,
+            "unit": "sprigs",
+            "name": "fresh thyme",
+            "notes": ".01 ounce"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "bay leaf",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch nutmeg",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "chickpea miso",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "umeboshi paste",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "dijon mustard",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "lemon juice",
+            "notes": "or more to taste"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "worcestershire sauce",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sea salt and freshly white pepper to taste",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "In 1-gallon sauce pan, heat oil over medium flame. Sweat shallots with salt until translucent.",
+          "Add flour and cook over low heat, stirring constantly for about 5 minutes.",
+          "Slowly whisk in 4 cups of almond milk. Add thyme, bay leaf, and nutmeg.",
+          "Simmer for about 20 minutes, stirring often.",
+          "In blender, combine miso, umeboshi paste, mustard, and water and blend until creamy. Add this mixture to sauce and slowly whisk to combine.",
+          "Simmer until sauce is nappé consistency, about 15 minutes.",
+          "Strain sauce through chinois. Add lemon juice and Worcestershire sauce. Season to taste."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.20666666666666667,
+          "Water": 0.27799999999999997,
+          "Earth": 0.3013333333333333,
+          "Air": 0.21399999999999997
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 261,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 4.16,
+          "Essence": 5.02,
+          "Matter": 5.33,
+          "Substance": 4.75
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0687,
+          "entropy": 0.3345,
+          "reactivity": 2.0571,
+          "gregsEnergy": -0.6194,
+          "kalchm": 0.1012,
+          "monica": -0.1315
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "coconut oil",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BORSCHT",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 10,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 12,
+            "unit": "ounces",
+            "name": "onion",
+            "notes": "1 large; medium dice"
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "minced garlic",
+            "notes": "3 large cloves"
+          },
+          {
+            "amount": 4,
+            "unit": "ounces",
+            "name": "carrot",
+            "notes": "1 small; 1/2-inch quarter moon slices"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "rib celery",
+            "notes": "medium dice"
+          },
+          {
+            "amount": 6,
+            "unit": "ounces",
+            "name": "red cabbage",
+            "notes": "finely shredded"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "apple cider vinegar",
+            "notes": ""
+          },
+          {
+            "amount": 18,
+            "unit": "ounces",
+            "name": "beets",
+            "notes": "3-4 medium; peeled, medium dice"
+          },
+          {
+            "amount": 2,
+            "unit": "quarts",
+            "name": "vegetable stock",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "apple juice",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "lemon juice",
+            "notes": "1 lemon"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sea salt and freshly ground black pepper to taste",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped fresh dill",
+            "notes": "1/2 ounce; for garnish"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "tofu sour cream for garnish",
+            "notes": "recipe below"
+          }
+        ],
+        "instructions": [
+          "In 1-gallon pot, heat oil over medium flame. Sweat onion with salt until translucent.",
+          "Add garlic, carrot, celery, red cabbage, and vinegar. Continue sweating until cabbage wilts.",
+          "Add beets and stock. Simmer partially covered, 30 minutes, or until all vegetables are tender.",
+          "Add apple juice and lemon juice.",
+          "Season with salt and pepper. Garnish with dill and Tofu Sour Cream (recipe below)."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2,
+          "Water": 0.2633333333333333,
+          "Earth": 0.36666666666666664,
+          "Air": 0.16999999999999998
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 255,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 4.22,
+          "Essence": 5.83,
+          "Matter": 6.07,
+          "Substance": 5.35
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0548,
+          "entropy": 0.2962,
+          "reactivity": 1.9444,
+          "gregsEnergy": -0.5211,
+          "kalchm": 0.0283,
+          "monica": -0.0752
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "extra virgin olive oil",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CREAM OF CARROT SOUP WITH ARBORIO RICE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "large onion",
+            "notes": "12 ounces; medium dice"
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "pounds",
+            "name": "carrots",
+            "notes": "peeled, 1/2-inch rounds"
+          },
+          {
+            "amount": 5,
+            "unit": "piece",
+            "name": "-6 cups stock",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "arborio rice",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "lemon juice",
+            "notes": "1/2 lemon"
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "ginger juice",
+            "notes": "1/2 ounce"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped dill",
+            "notes": "1/2 ounce; for garnish"
+          }
+        ],
+        "instructions": [
+          "In 1-gallon pot, heat oil over medium flame. Add onions and salt. Sweat until onions are softened (about 5-8 minutes). Stir often to prevent browning.",
+          "Add carrots, cover pot, and sweat over low heat for 5-6 minutes. Stir to prevent browning.",
+          "Add stock and rice to pot. Raise heat and bring soup to boil. Reduce heat and simmer with lid ajar, 25 minutes, or until carrots and rice are very tender.",
+          "Blend soup until creamy, adding additional stock to achieve desired consistency.",
+          "Return soup to pot. Re-heat and season to taste with lemon and ginger juices.",
+          "Garnish with dill."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2666666666666666,
+          "Water": 0.23888888888888887,
+          "Earth": 0.3166666666666667,
+          "Air": 0.17777777777777778
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 246,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.24,
+          "Essence": 3.58,
+          "Matter": 3.52,
+          "Substance": 3.13
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0879,
+          "entropy": 0.348,
+          "reactivity": 2.2602,
+          "gregsEnergy": -0.6987,
+          "kalchm": 1.4527,
+          "monica": 0.8278
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "extra virgin olive oil",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BABA GHANOUSH",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 1,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "pound",
+            "name": "eggplant",
+            "notes": "1 medium"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "tahini",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "clove",
+            "name": "of garlic",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "lemon juice",
+            "notes": "1/2 large lemon"
+          },
+          {
+            "amount": 0.375,
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Cook eggplant on top of stove over medium-low flame, turning often with tongs until skin is completely charred and flesh is fork tender (about 15 minutes).",
+          "Transfer eggplant to covered bowl and let sweat for 15 minutes.",
+          "Let eggplant cool, cut in half, and scoop out flesh or peel off charred skin.",
+          "In food processor, blend flesh with tahini, garlic, lemon juice, and salt. Adjust seasonings for desired taste."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.24000000000000005,
+          "Water": 0.24,
+          "Earth": 0.32,
+          "Air": 0.19999999999999998
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 246,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.87,
+          "Essence": 2.1,
+          "Matter": 2.02,
+          "Substance": 1.65
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0834,
+          "entropy": 0.2884,
+          "reactivity": 1.9696,
+          "gregsEnergy": -0.4847,
+          "kalchm": 1.6194,
+          "monica": 0.5105
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "eggplant",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
       }
     ],
     "spring": [
@@ -43687,64 +47197,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 2,
+            "amount": 1,
             "unit": "piece",
-            "name": "large red peppers",
-            "notes": "1 pound; roasted, skinned and seeded"
-          },
-          {
-            "amount": 3,
-            "unit": "cloves",
-            "name": "garlic",
-            "notes": "peeled"
-          },
-          {
-            "amount": 1,
-            "unit": "tablespoon",
-            "name": "pomegranate molasses",
-            "notes": ""
-          },
-          {
-            "amount": 1,
-            "unit": "tablespoon",
-            "name": "lemon juice",
-            "notes": ""
-          },
-          {
-            "amount": 1,
-            "unit": "cup",
-            "name": "walnuts",
-            "notes": "toasted"
-          },
-          {
-            "amount": 0.25,
-            "unit": "cup",
-            "name": "plain breadcrumbs",
-            "notes": ""
-          },
-          {
-            "amount": 0.25,
-            "unit": "teaspoon",
-            "name": "ground black pepper",
-            "notes": ""
-          },
-          {
-            "amount": 1.5,
-            "unit": "tablespoons",
-            "name": "extra virgin olive oil",
-            "notes": ""
-          },
-          {
-            "amount": 2,
-            "unit": "tablespoons",
-            "name": "vegetable stock or water",
-            "notes": ""
-          },
-          {
-            "amount": 1.5,
-            "unit": "teaspoons",
-            "name": "sherry vinegar",
-            "notes": ""
+            "name": "muhammara",
+            "notes": "recipe below"
           }
         ],
         "instructions": [
@@ -43753,9 +47209,7 @@ export const cuisine: Cuisine = {
           "When spices are cool, powder them in coffee grinder and add allspice and sumac.",
           "Divide black cod into six portions and sprinkle spice mixture on both sides of fish. Season with salt and pepper.",
           "Transfer fish to parchment-lined half sheet pan. Lightly brush fish with oil.",
-          "Roast fish for about 7-8 minutes or until inside of fish is opaque. Remove from oven and set aside. Serve with Muhammara (recipe below).",
-          "Combine peppers, garlic, pomegranate molasses, lemon juice, and walnuts in bowl of food processor and puree.",
-          "Add breadcrumbs, black pepper, olive oil, vegetable stock, and sherry vinegar. Puree until smooth. Serve with Mediterranean Roasted Black Cod."
+          "Roast fish for about 7-8 minutes or until inside of fish is opaque. Remove from oven and set aside. Serve with Muhammara (recipe below)."
         ],
         "classifications": {
           "mealType": [
@@ -43768,10 +47222,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31176470588235294,
-          "Water": 0.20882352941176474,
-          "Earth": 0.2911764705882353,
-          "Air": 0.1882352941176471
+          "Fire": 0.30625,
+          "Water": 0.2,
+          "Earth": 0.275,
+          "Air": 0.21875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -43789,10 +47243,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 234,
+          "sodiumMg": 230,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -43806,18 +47260,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.97,
-          "Essence": 5.87,
-          "Matter": 6.04,
-          "Substance": 5.74
+          "Spirit": 2.82,
+          "Essence": 2.88,
+          "Matter": 2.88,
+          "Substance": 2.76
         },
         "thermodynamicProperties": {
-          "heat": 0.1063,
-          "entropy": 0.4462,
-          "reactivity": 2.5751,
-          "gregsEnergy": -1.0428,
-          "kalchm": 1.1772,
-          "monica": 2.4822
+          "heat": 0.0948,
+          "entropy": 0.4042,
+          "reactivity": 2.4157,
+          "gregsEnergy": -0.8815,
+          "kalchm": 1.1293,
+          "monica": 3.001
         },
         "substitutions": [
           {
@@ -43910,22 +47364,16 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.5,
-            "unit": "cup",
-            "name": "yogurt",
-            "notes": ""
-          },
-          {
-            "amount": 2,
-            "unit": "tablespoons",
-            "name": "dijon mustard",
-            "notes": ""
+            "amount": 1,
+            "unit": "piece",
+            "name": "honey-mustard yogurt",
+            "notes": "recipe below"
           },
           {
             "amount": 1,
-            "unit": "tablespoon",
-            "name": "honey",
-            "notes": ""
+            "unit": "piece",
+            "name": "baby bok choy and red cabbage slaw",
+            "notes": "see following recipe"
           }
         ],
         "instructions": [
@@ -43934,8 +47382,7 @@ export const cuisine: Cuisine = {
           "Transfer mixture to bowl. Fold in chives, salt, and pepper scallops and shrimp. Divide mixture into eight 1/3-cup portions.",
           "Form sausages 4 inches long and 1 1/2 inch thick. Roll each tightly first in parchment (8-inch x 6-inch sheets) and then in foil (8-inch x 6-inch sheets), twisting ends, and poach in simmering water for 9-10 minutes.",
           "Unwrap sausage and cool slightly. Slice each sausage once on bias in middle.",
-          "Lightly brush non-stick pan with olive oil. Arrange sausages in pan so as not to crowd them. Brown them lightly on all sides. Serve with dollop of Honey-Mustard Yogurt and side of Baby Bok Choy and Red Cabbage Slaw (recipes following).",
-          "In small bowl, whisk all ingredients together."
+          "Lightly brush non-stick pan with olive oil. Arrange sausages in pan so as not to crowd them. Brown them lightly on all sides. Serve with dollop of Honey-Mustard Yogurt and side of Baby Bok Choy and Red Cabbage Slaw (recipes following)."
         ],
         "classifications": {
           "mealType": [
@@ -43948,10 +47395,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24999999999999997,
-          "Water": 0.2923076923076923,
-          "Earth": 0.2615384615384615,
-          "Air": 0.19615384615384615
+          "Fire": 0.20384615384615387,
+          "Water": 0.33076923076923076,
+          "Earth": 0.2653846153846154,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
@@ -43970,9 +47417,9 @@ export const cuisine: Cuisine = {
           "calories": 380,
           "proteinG": 9,
           "carbsG": 26,
-          "fatG": 8,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 267,
+          "sodiumMg": 282,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -43986,18 +47433,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.28,
-          "Essence": 6.5,
-          "Matter": 5.29,
-          "Substance": 5.39
+          "Spirit": 4.37,
+          "Essence": 6.02,
+          "Matter": 4.81,
+          "Substance": 5.03
         },
         "thermodynamicProperties": {
-          "heat": 0.0869,
-          "entropy": 0.3743,
-          "reactivity": 3.2241,
-          "gregsEnergy": -1.1199,
-          "kalchm": 21.3354,
-          "monica": 0.1135
+          "heat": 0.069,
+          "entropy": 0.3407,
+          "reactivity": 3.1378,
+          "gregsEnergy": -1,
+          "kalchm": 4.8092,
+          "monica": 0.2029
         },
         "substitutions": [
           {
@@ -45791,7 +49238,8 @@ export const cuisine: Cuisine = {
           "Transfer dough to lightly floured table and gently roll out to shape of rectangle, about 1/4 inch thick. With long edge facing you, fold in both short ends to meet in middle. Fold dough forward in half and very gently roll together to 3/4 inch or no thinner than 1/2-inch square. This folding technique will provide flaky layers if not over-worked and too flat.",
           "Cut biscuits with lightly floured cookie cutter or sharp knife and transfer to sheet tray. If desired, brush tops with melted butter.",
           "Bake for about 6 minutes and rotate pan in oven to ensure even browning. Continue baking for about another 10 minutes or until golden brown on top and slightly firm to touch.",
-          "Transfer to rack and cool."
+          "Transfer to rack and cool.",
+          "Note: Brushing with coconut oil in place of butter is not recommended."
         ],
         "mealType": [],
         "classifications": {
@@ -48281,7 +51729,8 @@ export const cuisine: Cuisine = {
         ],
         "instructions": [
           "Blend tofu, olive oil, water, and salt in blender under smooth.",
-          "In food processor, pulse flour for few seconds to aerate it. Add tofu mixture and process 30 seconds. Squeeze dough into ball. Remove dough to lightly floured work surface and knead for 1 minute, or until smooth. Wrap in plastic wrap and let sit at least 15 minutes."
+          "In food processor, pulse flour for few seconds to aerate it. Add tofu mixture and process 30 seconds. Squeeze dough into ball. Remove dough to lightly floured work surface and knead for 1 minute, or until smooth. Wrap in plastic wrap and let sit at least 15 minutes.",
+          "Variations: Add 1/4 cup of fresh chopped herbs to flour; add chili paste instead of water and/or color olive oil with annatto seeds to produce a red dough; warm water and mix in 1/4 teaspoon of saffron threads; add 1/4 cup well-wrung spinach puree instead of water; add 1/4 cup beet puree instead of water."
         ],
         "classifications": {
           "mealType": [
@@ -49933,7 +53382,8 @@ export const cuisine: Cuisine = {
           "Cut each package of tempeh in two. Bring marinade to boil, add tempeh, lower heat, and simmer covered for 45 minutes. Drain tempeh and pat dry, reserving marinade (there should be 1 cup plus 2 tablespoons).",
           "Whisk together vegetable marinade ingredients in mixing bowl. Add all vegetables to marinade and let sit for 20-30 minutes, stirring often. Remove vegetables with slotted spoon (set aside marinade for later use).",
           "Cut tempeh into 24 cubes and toss with oil. Preheat grill while preparing kebobs. Use one piece of each vegetable and two pieces of tempeh for each skewer. Grill kebobs few minutes on each side until grill marks form and vegetables are tender.",
-          "Bring reserved tempeh marinade to boil in 2 1/2 quart saucepan; whisk in dissolved arrowroot, stirring constantly until sauce comes back to boil and becomes clear. Use sauce for kebobs."
+          "Bring reserved tempeh marinade to boil in 2 1/2 quart saucepan; whisk in dissolved arrowroot, stirring constantly until sauce comes back to boil and becomes clear. Use sauce for kebobs.",
+          "Note: Kebobs can be baked in 450° F. oven for 20-30 minutes as an alternative to grilling. Brush them occasionally with vegetable marinade as they cook."
         ],
         "classifications": {
           "mealType": [
@@ -49942,7 +53392,8 @@ export const cuisine: Cuisine = {
           "cookingMethods": [
             "steaming",
             "simmering",
-            "raw"
+            "raw",
+            "baking"
           ]
         },
         "elementalProperties": {
@@ -50380,7 +53831,8 @@ export const cuisine: Cuisine = {
           "Add sliced mushrooms and garlic, reduce heat to low, and cook covered until mushrooms release juices and become tender.",
           "Add fresh herbs; simmer until liquid thickens (needs to be saucy).",
           "Remove from heat and stir in lemon juice and salt to taste.",
-          "Garnish with parsley and serve."
+          "Garnish with parsley and serve.",
+          "Note: Serve with rice, noodles or sautéed greens."
         ],
         "classifications": {
           "mealType": [
@@ -50695,7 +54147,8 @@ export const cuisine: Cuisine = {
           "Have large pot set up with boiling, salted water and strainer or basket that can be easily lifted out.",
           "In 8-inch sauté pan, heat approximately 1/2 cup of Bolognese sauce.",
           "Drop one serving pasta (about 4 ounces) in strainer or basket and place in boiling water. Heat through about one minute. Drain pasta.",
-          "Combine pasta with sauce and toss to coat. Plate pasta and pour over any sauce left in pan. Garnish plate and serve."
+          "Combine pasta with sauce and toss to coat. Plate pasta and pour over any sauce left in pan. Garnish plate and serve.",
+          "Note: Broccoli should be used as garnish: about 2-3 pieces depending on size."
         ],
         "classifications": {
           "mealType": [
@@ -54645,7 +58098,8 @@ export const cuisine: Cuisine = {
           "At a certain point, it will seem as though dough is falling apart. After several minutes of rinsing and kneading, however, gluten will start to tighten again. Continue to knead dough until it has firm, tight, and rubbery texture.",
           "Pull pieces of gluten into small billiard-size balls. Drop gluten into stock, one piece at a time, stirring occasionally to prevent sticking.",
           "Simmer seitan for 1 ½ to 2 hours, depending on size of pieces.",
-          "For improved flavor and firmer texture, cool seitan to room temperature in broth. Store in refrigerator, submerged in broth, or freeze."
+          "For improved flavor and firmer texture, cool seitan to room temperature in broth. Store in refrigerator, submerged in broth, or freeze.",
+          "Note: The amount of shoyu added to broth depends on how and if stock will be used in recipes. If planning to reduce broth as part of a sauce, do not make it too salty."
         ],
         "classifications": {
           "mealType": [
@@ -54839,7 +58293,8 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In 1-gallon pot, heat olive oil over medium flame and sweat onion until softened. Add celery, burdock, carrots, and daikon. Sweat until vegetables begin to soften, about 5-7 minutes. Add mushrooms and sweat until tender, about 1 minute.",
           "Add squash and stock to just cover vegetables, about 6 cups. Cover pot and bring to boil. Lower heat and add bay leaves, seitan, and tamari. Cover and simmer 20 minutes, stirring occasionally, until all vegetables are tender and squash has started to break down. Add green beans and simmer until beans are just tender.",
-          "Add kuzu slurry and simmer until mixture slightly thickens. Stir in ginger juice. Season to taste with salt and pepper. Garnish with scallions."
+          "Add kuzu slurry and simmer until mixture slightly thickens. Stir in ginger juice. Season to taste with salt and pepper. Garnish with scallions.",
+          "Seasonal variation: In Spring/Summer replace green beans with 1 small zucchini (7 ounces), cut into 1-inch roll cut."
         ],
         "classifications": {
           "mealType": [
@@ -55170,7 +58625,8 @@ export const cuisine: Cuisine = {
           "Dredge seitan in flour and shake off any excess.",
           "In 10-inch sauté pan over medium-high flame, heat oil and sear seitan until lightly caramelized on both sides. Remove seitan from pan and set aside. Add shallots to pan and sauté until caramelized.",
           "Add seitan back to pan with stock, red wine, shiitake mushrooms, and thyme. Simmer until liquid is reduced to nappé consistency.",
-          "Season to taste with salt and pepper."
+          "Season to taste with salt and pepper.",
+          "Note: Can replace red wine with Marsala wine."
         ],
         "classifications": {
           "mealType": [
@@ -55728,7 +59184,8 @@ export const cuisine: Cuisine = {
           "Place cabbage in large bowl and sprinkle with salt. Squeeze and massage cabbage to release water. Continue to massage and squeeze until enough liquid has been released to create salty brine that covers cabbage by 1/4 inch. Add ginger and turmeric.",
           "Pack tightly into 2 quart wide-mouthed glass jar or ceramic crock (liquid brine must be above cabbage for healthy successful fermentation). If cabbage has not released enough juices to cover, add salted water to jar/crock in a ratio of 1 teaspoon sea salt per 1 cup water.",
           "Place plate or discover cabbage and press down to squeeze more brine to the surface. Cover mouth of vessel with cheesecloth and secure to rim of lid with kitchen twine, rubber band, OR if using airlock lid, fill airlock and secure lid.",
-          "Store sauerkraut in dry place for 2 - 4 weeks at room temperature. Be sure to check water level, adding more salt water as needed to ensure the mixture is covered throughout fermentation process. Taste every few days and eat or refrigerate when desired tangy flavor is achieved."
+          "Store sauerkraut in dry place for 2 - 4 weeks at room temperature. Be sure to check water level, adding more salt water as needed to ensure the mixture is covered throughout fermentation process. Taste every few days and eat or refrigerate when desired tangy flavor is achieved.",
+          "Note: A cooler fermentation area will result in a slower fermentation with complex flavor notes. A warmer area will result in a faster fermentation that may lead to off flavors and cloudy brine."
         ],
         "mealType": [],
         "classifications": {
@@ -57286,56 +60743,13 @@ export const cuisine: Cuisine = {
             "unit": "piece",
             "name": "skewers",
             "notes": ""
-          },
-          {
-            "amount": 0.3333333333333333,
-            "unit": "teaspoon",
-            "name": "black pepper",
-            "notes": ""
-          },
-          {
-            "amount": 2,
-            "unit": "teaspoons",
-            "name": "paprika",
-            "notes": ""
-          },
-          {
-            "amount": 1,
-            "unit": "teaspoon",
-            "name": "sea salt",
-            "notes": ""
-          },
-          {
-            "amount": 1,
-            "unit": "teaspoon",
-            "name": "ground coriander",
-            "notes": ""
-          },
-          {
-            "amount": 1,
-            "unit": "teaspoon",
-            "name": "ground cumin",
-            "notes": ""
-          },
-          {
-            "amount": 0.5,
-            "unit": "teaspoon",
-            "name": "ground thyme",
-            "notes": ""
-          },
-          {
-            "amount": 0.5,
-            "unit": "teaspoon",
-            "name": "ground rosemary",
-            "notes": ""
           }
         ],
         "instructions": [
           "In shallow pan or plate, distribute Blackening Spice Mix evenly.",
           "Skewer shrimp, 3 to skewer.",
           "Roll skewered shrimp in spice mix. Heat griddle grill.",
-          "Grill shrimp about 1 1/2-2 minutes on each side until shrimp is opaque.",
-          "Combine all ingredients for Blackening Spice Mix."
+          "Grill shrimp about 1 1/2-2 minutes on each side until shrimp is opaque."
         ],
         "classifications": {
           "mealType": [
@@ -57348,10 +60762,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.32125,
-          "Water": 0.16,
-          "Earth": 0.26625,
-          "Air": 0.2525
+          "Fire": 0.325,
+          "Water": 0.275,
+          "Earth": 0.125,
+          "Air": 0.275
         },
         "astrologicalAffinities": {
           "planets": [
@@ -57368,11 +60782,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 7,
           "carbsG": 28,
           "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 214,
+          "fiberG": 3,
+          "sodiumMg": 260,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -57386,18 +60800,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.22,
-          "Essence": 2.83,
-          "Matter": 2.58,
-          "Substance": 2.5
+          "Spirit": 0.88,
+          "Essence": 1.19,
+          "Matter": 0.72,
+          "Substance": 0.8
         },
         "thermodynamicProperties": {
-          "heat": 0.142,
-          "entropy": 0.4928,
-          "reactivity": 3.0637,
-          "gregsEnergy": -1.3678,
-          "kalchm": 7.1949,
-          "monica": 0.2262
+          "heat": 0.0768,
+          "entropy": 0.299,
+          "reactivity": 4.3239,
+          "gregsEnergy": -1.2162,
+          "kalchm": 1.6645,
+          "monica": 0.552
         },
         "substitutions": [
           {
@@ -57586,7 +61000,8 @@ export const cuisine: Cuisine = {
           "Add noodles and stir to separate them.",
           "Cover pot. Bring to rolling boil. Add 1/2 cup cold water and stir noodles.",
           "Bring to rolling boil again. Add 1/2 cup cold water and stir noodles. Bring to rolling boil a third time. Add 1/2 cup cold water and stir noodles. Bring to rolling boil again. Remove from heat and let stand 2 to 3 minutes. Noodles are done when they are the same color inside and out.",
-          "Drain and rinse in cold water until noodles are cooled."
+          "Drain and rinse in cold water until noodles are cooled.",
+          "Note: This method of shocking noodles involves bringing noodles to rolling boil (noodles almost foam out of the pan) and adding cold water three times. The cold water temporarily halts cooking of outside of noodles so inside of noodles can become soft (without overcooking outside). Noodles cooked by shocking will be cooked uniformly throughout."
         ],
         "classifications": {
           "mealType": [
@@ -57705,7 +61120,8 @@ export const cuisine: Cuisine = {
           "Heat 10-inch sauté pan over medium-high flame and add kasha.",
           "Using wooden spoon, stir constantly, toasting until buckwheat is dry.",
           "Turn off heat under pan and add stock. Quickly cover to avoid sputtering.",
-          "Bring back to boil and reduce to simmer for 10 to 15 minutes until all water is absorbed."
+          "Bring back to boil and reduce to simmer for 10 to 15 minutes until all water is absorbed.",
+          "Note: The above kasha recipe is ideal for side dish yielding a light fluffy texture. Do not use for kasha potato loaf."
         ],
         "mealType": [],
         "classifications": {
@@ -59432,7 +62848,8 @@ export const cuisine: Cuisine = {
           "In medium stockpot, heat oil. Add bones and mirepoix and sweat for 10 to 15 minutes.",
           "Add 2 1/2 quarts water, bouquet garni, vinegar and wine, if using.",
           "Bring to boil, lower heat, and simmer for 30-40 minutes.",
-          "Strain stock, pressing firmly to extract as much liquid as possible, though fine mesh strainer or cheesecloth-lined chinois."
+          "Strain stock, pressing firmly to extract as much liquid as possible, though fine mesh strainer or cheesecloth-lined chinois.",
+          "Note: Bouquet garni is 1 bay leaf, 3 or 4 parsley stems, 1 sprig fresh thyme, 8 peppercorns."
         ],
         "classifications": {
           "mealType": [
@@ -59536,7 +62953,8 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In small stockpot, soak mushrooms in 2 quarts water for 30 minutes.",
           "Add kombu and bring to boil. Lower flame and simmer 5 minutes.",
-          "Strain stock through fine chinois, pressing firmly to extract as much liquid as possible."
+          "Strain stock through fine chinois, pressing firmly to extract as much liquid as possible.",
+          "Note: Strained mushrooms and kombu can be sliced and used in soup, and other dishes."
         ],
         "mealType": [],
         "classifications": {
@@ -60690,6 +64108,892 @@ export const cuisine: Cuisine = {
         "substitutions": [
           {
             "originalIngredient": "soba noodles",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FOCACCIA",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 1,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "dry yeast",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "rice syrup or honey",
+            "notes": ""
+          },
+          {
+            "amount": 0.6666666666666666,
+            "unit": "cup",
+            "name": "lukewarm filtered water",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "hi gluten flour",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "cooked or baked potato",
+            "notes": "mashed"
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "warm water",
+            "notes": ""
+          },
+          {
+            "amount": 4,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "semolina flour",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "-3 cups unbleached white flour or 1/2 white and 1/2 whole wheat bread flour",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "For the sponge: In medium bowl, mix sponge ingredients (yeast, rice syrup or honey, lukewarm water, and hi gluten flour) with whisk. Cover with plastic wrap and let rise for 20-30 minutes in warm place.",
+          "For the crust: Add potato, water, oil and salt to bowl with sponge. Add flour in 1/2 cup increments.",
+          "Remove dough from bowl, form dough into ball and knead on a floured work surface. Dough should be soft and a little sticky. Knead 8-10 minutes.",
+          "Place dough in lightly oiled bowl, cover with plastic, and place in warm place until doubled in size - about 1 hour. Punch down, transfer to parchment-lined sheet pan and let rise 15 to 20 minutes more.",
+          "Preheat oven to 475° F.",
+          "Transfer focaccia to pan. Dimple surface of focaccia with fingers before adding toppings.",
+          "Bake for 20 to 25 minutes."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.13500000000000004,
+          "Water": 0.36000000000000004,
+          "Earth": 0.355,
+          "Air": 0.15
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 380,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 294,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.4,
+          "Essence": 3.06,
+          "Matter": 4.4,
+          "Substance": 3.75
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0136,
+          "entropy": 0.2404,
+          "reactivity": 1.1303,
+          "gregsEnergy": -0.2581,
+          "kalchm": 0.0005,
+          "monica": -0.03
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "dry yeast",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "GNOCCHI",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "pounds",
+            "name": "russet potatoes",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "egg",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "up to 1 1/2 cups unbleached flour",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Note: For lightest possible gnocchi, potatoes must be baked.",
+          "Preheat oven to 400° F.",
+          "Prick flesh of potatoes with fork and bake until tender, about 1 hour.",
+          "Peel potatoes while still warm and put in medium bowl. Mash potatoes and add egg and salt. Add flour in increments, working it in to bind potato mixture. Add just enough flour to hold dough together. Roll out a few test gnocchi.",
+          "Bring pot of salted water to simmer. Add gnocchi. When gnocchi rise to top, count to ten before removing and testing for consistency. If gnocchi are fragile and fall apart, add more flour and make another test batch. When you have right consistency, finish rolling out gnocchi.",
+          "Cook gnocchi as described above. You can sauce gnocchi or cook gnocchi and then sauté them in clarified butter for delicious variation. You can cook gnocchi and toss with olive oil and hold them in refrigerator up to overnight before sautéing them.",
+          "Variations: Add one of the below with the potatoes: diced herbs; chopped garlic; cooked and chopped Swiss chard."
+        ],
+        "classifications": {
+          "mealType": [
+            "dinner"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.13749999999999998,
+          "Water": 0.3125,
+          "Earth": 0.4125,
+          "Air": 0.1375
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 380,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 275,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 0.64,
+          "Essence": 1.15,
+          "Matter": 2.17,
+          "Substance": 2.05
+        },
+        "thermodynamicProperties": {
+          "heat": 0.011,
+          "entropy": 0.2842,
+          "reactivity": 0.9101,
+          "gregsEnergy": -0.2476,
+          "kalchm": 0.0377,
+          "monica": -0.083
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "russet potatoes",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "COUS-COUS",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 4,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "cous-cous",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "extra virgin olive or melted coconut oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "boiling water",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "In small sauté pan, roast cous-cous in oil until there is a nutty aroma (2 to 3 minutes).",
+          "Pour water over cous-cous. Cover cous-cous with lid and steam for 5-10 minutes until all liquid is absorbed.",
+          "Fluff with fork and serve."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.06666666666666667,
+          "Water": 0.46666666666666673,
+          "Earth": 0.3333333333333333,
+          "Air": 0.13333333333333333
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 380,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 6,
+          "fiberG": 5,
+          "sodiumMg": 337,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 0.64,
+          "Essence": 1.46,
+          "Matter": 1.69,
+          "Substance": 1.38
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0139,
+          "entropy": 0.1497,
+          "reactivity": 1.1445,
+          "gregsEnergy": -0.1575,
+          "kalchm": 0.3449,
+          "monica": -0.1293
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "cous-cous",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "POLENTA",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 8,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "polenta",
+            "notes": ""
+          },
+          {
+            "amount": 4,
+            "unit": "cups",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "white wine vinegar or 1 1/2 teaspoons white balsamic vinegar or 1 1/2 teaspoons sherry vinegar",
+            "notes": "dark balsamic discolors the polenta"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "rosemary",
+            "notes": "optional"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "oregano",
+            "notes": "optional"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "garlic powder",
+            "notes": "optional"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "a pinch of chili flakes",
+            "notes": "optional"
+          }
+        ],
+        "instructions": [
+          "Optional: toast polenta in sauté pan over medium flame, stirring constantly until it has nut-like fragrance, about 3 to 4 minutes. Remove polenta from pan and let cool to room temperature.",
+          "In 3-quart saucepan, mix polenta, salt, pepper, and water, whisking until smooth. Place pan over heat, bring mixture to boil, stirring constantly, until thickened, using medium-high flame.",
+          "Simmer 20 to 30 minutes, stirring constantly, until mixture is thick enough so wooden spoon can stand in it.",
+          "Season with flavoring options of choice."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.3277777777777777,
+          "Water": 0.2,
+          "Earth": 0.2722222222222222,
+          "Air": 0.19999999999999998
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Sun",
+            "Mars"
+          ],
+          "signs": [
+            "Aries",
+            "Leo"
+          ],
+          "lunarPhases": [
+            "Full Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 380,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 230,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.34,
+          "Essence": 2.57,
+          "Matter": 2.57,
+          "Substance": 2.31
+        },
+        "thermodynamicProperties": {
+          "heat": 0.1707,
+          "entropy": 0.5283,
+          "reactivity": 2.8823,
+          "gregsEnergy": -1.3519,
+          "kalchm": 8.1165,
+          "monica": 0.224
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "polenta",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "RISOTTO",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "onion",
+            "notes": "1/2 pound; minced"
+          },
+          {
+            "amount": 4,
+            "unit": "cloves",
+            "name": "garlic",
+            "notes": "minced"
+          },
+          {
+            "amount": 2,
+            "unit": "cups",
+            "name": "short grain brown rice",
+            "notes": "soaked and rinsed"
+          },
+          {
+            "amount": 4,
+            "unit": "cups",
+            "name": "stock",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "pounds",
+            "name": "asparagus",
+            "notes": "trimmed and cut into 1-inch diagonals"
+          },
+          {
+            "amount": 0.125,
+            "unit": "teaspoon",
+            "name": "saffron",
+            "notes": "dissolved in a little stock"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "white wine",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "-1 1/2 teaspoons salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pepper to taste",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "In pressure cooker, heat oil over medium flame. Sauté onion, then garlic in oil until translucent.",
+          "Add rice and sauté few minutes more.",
+          "Add stock and bring pot to pressure. Pressure cook risotto for 35 minutes.",
+          "While rice is cooking, prepare an ice bath, bring 1 quart water to boil, and add 1/2 teaspoon salt. Blanch asparagus for 1 minute, and shock in ice water. Drain and set asparagus aside.",
+          "Remove pressure cooker from heat, and allow pressure to come down. Open pressure cooker and add saffron, wine, and salt. Cook uncovered for 5-10 minutes more, stirring often, and adding stock if necessary.",
+          "Add blanched asparagus just before serving."
+        ],
+        "classifications": {
+          "mealType": [
+            "dinner"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.3,
+          "Water": 0.23000000000000004,
+          "Earth": 0.29500000000000004,
+          "Air": 0.17500000000000002
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Sun",
+            "Mars"
+          ],
+          "signs": [
+            "Aries",
+            "Leo"
+          ],
+          "lunarPhases": [
+            "Full Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 380,
+          "proteinG": 9,
+          "carbsG": 25,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 242,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.84,
+          "Essence": 3.87,
+          "Matter": 3.54,
+          "Substance": 3.18
+        },
+        "thermodynamicProperties": {
+          "heat": 0.1164,
+          "entropy": 0.3967,
+          "reactivity": 2.7203,
+          "gregsEnergy": -0.9628,
+          "kalchm": 9.486,
+          "monica": 0.1573
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "extra virgin olive oil",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CASSOULET",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "great northern beans",
+            "notes": "soaked overnight, drained, and rinsed"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "-inch piece kombu",
+            "notes": ""
+          },
+          {
+            "amount": 4,
+            "unit": "piece",
+            "name": "-6 cups brown stock",
+            "notes": "saved from Stock Practicum"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sachet - 1 sprig rosemary",
+            "notes": "1 bay leaf, 4 peppercorns"
+          },
+          {
+            "amount": 8,
+            "unit": "ounces",
+            "name": "carrots",
+            "notes": "1 medium; 1/4-inch diagonal slices"
+          },
+          {
+            "amount": 8,
+            "unit": "ounces",
+            "name": "parsnips",
+            "notes": "1 large; 1/4-inch diagonal slices"
+          },
+          {
+            "amount": 6,
+            "unit": "tablespoons",
+            "name": "olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 4,
+            "unit": "ounces",
+            "name": "onion",
+            "notes": "1 small; sauté slice"
+          },
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "minced garlic",
+            "notes": "3 large cloves"
+          },
+          {
+            "amount": 4,
+            "unit": "ounces",
+            "name": "plum tomatoes",
+            "notes": "4; seeded, medium dice"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sea salt and pepper to taste",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped parsley",
+            "notes": "1 ounce"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "fresh thyme leaves",
+            "notes": "chopped (2 sprigs)"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "marjoram leaf",
+            "notes": "chopped (1 sprig)"
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "whole wheat bread crumbs mixed with 3 tablespoons olive oil",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Preheat oven to 375° F.",
+          "Combine beans in pot with salt, kombu, Brown Stock, and sachet. Cover and cook at simmer until beans are soft (approximately 45 minutes).",
+          "Toss carrots and parsnips in bowl with 3 tablespoons olive oil, transfer to parchment-lined sheet tray, and roast until browned (about 20 to 25 minutes). Sprinkle with salt and set aside.",
+          "In 10-inch sauté pan, caramelize onions with 2 tablespoons of oil. When softened and browned, add garlic and cook few minutes more. Add tomatoes and remaining oil. Sauté until tomatoes are soft. Set aside.",
+          "When beans are tender, add tomatoes and onions to pot. Simmer 5 minutes more. Strain bean mixture, reserving bean liquid. Reduce liquid over heat until nappé consistency is achieved (should lightly coat back of spoon). Add reduction back into bean/tomato mixture and season with salt and pepper.",
+          "In small bowl, combine parsley, thyme, and marjoram with breadcrumbs and olive oil.",
+          "In 2-quart casserole dish, layer alternately beans and roasted vegetables. Top with breadcrumb mixture. Bake uncovered for 20 to 30 minutes until browned."
+        ],
+        "classifications": {
+          "mealType": [
+            "dinner"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.234375,
+          "Water": 0.259375,
+          "Earth": 0.32312499999999994,
+          "Air": 0.183125
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 380,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 254,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 4.86,
+          "Essence": 5.97,
+          "Matter": 6.23,
+          "Substance": 5.99
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0659,
+          "entropy": 0.3647,
+          "reactivity": 2.2191,
+          "gregsEnergy": -0.7434,
+          "kalchm": 0.0231,
+          "monica": -0.0889
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "great northern beans",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -63411,7 +67715,8 @@ export const cuisine: Cuisine = {
           "Add lemon juice and zest.",
           "Pour mixture into shallow bowl or pan and cool completely. Whisk frequently so that it does not 'set up.'",
           "When mixture is cooled, pour into pre-baked and cooled tart crust.",
-          "Refrigerate tart to set filling."
+          "Refrigerate tart to set filling.",
+          "Note: There may be lemon filling left after filling tart. Let it set totally and blend it in food processor for creamy smooth pudding."
         ],
         "classifications": {
           "mealType": [
@@ -64358,7 +68663,8 @@ export const cuisine: Cuisine = {
           "Add wet to dry until just combined.",
           "Fold out onto table and form semi-flattened log.",
           "Cut log into triangles and bake on parchment for 10 minutes.",
-          "Serve warm."
+          "Serve warm.",
+          "Note: If using rice flour add more liquid (about 2 tablespoons)."
         ],
         "classifications": {
           "mealType": [
@@ -68703,7 +73009,8 @@ export const cuisine: Cuisine = {
           "In 2 1/2 quart pot, bring almond milk to boil and pour over chocolate, whisking vigorously, until chocolate melts and mixture is smooth.",
           "Let ganache cool to room temperature.",
           "Beat with stand mixer fitted with the paddle attachment for several minutes, until ganache becomes lighter and somewhat thicker.",
-          "Chill ganache in refrigerator until it acquires spreadable consistency."
+          "Chill ganache in refrigerator until it acquires spreadable consistency.",
+          "Variation: Add 1/4 to 1 teaspoon flavored extract to finished ganache."
         ],
         "classifications": {
           "mealType": [
@@ -68985,7 +73292,8 @@ export const cuisine: Cuisine = {
           "In medium bowl, whisk egg whites, agave, vinegar, salt, and cream of tartar. Place bowl over 2 1/2 quart pot of boiling water. Make sure water underneath bowl is rapidly boiling.",
           "Whisk mixture for about 10 minutes (mixture will become white and frothy).",
           "Remove from heat and add vanilla extract.",
-          "Using hand mixer, whip at medium-high speed until light and fluffy, about 4-5 minutes."
+          "Using hand mixer, whip at medium-high speed until light and fluffy, about 4-5 minutes.",
+          "Note: If doubling recipe, frosting can be whipped in stand mixer."
         ],
         "classifications": {
           "mealType": [
@@ -70696,7 +75004,8 @@ export const cuisine: Cuisine = {
           "Whisk in nut butter, extracts, and brandy. Add arrowroot slurry. Mix on medium low heat until mixture thickens slightly. Remove from heat and cool.",
           "Pour walnut mixture into tart shell. Place top dough over filling, trim and seal edges. Cut a few steam vents.",
           "Bake for 30-40 minutes until crust is firm and golden.",
-          "Cool before serving (about 25 minutes)."
+          "Cool before serving (about 25 minutes).",
+          "Note: If cashew butter is very thick, loosen it up with 1-2 tablespoons of water or nut milk."
         ],
         "classifications": {
           "mealType": [
@@ -77848,7 +82157,8 @@ export const cuisine: Cuisine = {
           "In medium bowl whisk almond meal, sorghum flour, arrowroot flour, ground ginger, and black pepper.",
           "In separate small bowl, whisk together oil, rice syrup, maple syrup, vanilla, water, and salt.",
           "Pour syrup mixture into nut/flour mixture. Batter should be consistency of heavy cream. If it is too thick, add more water, 1 tablespoon at a time, until you have proper consistency.",
-          "Using teaspoon measure, drop batter onto sheets (5-6 cookies a sheet). Decorate each cookie with one sliced almond. Bake 15-20 minutes or until cookies are golden. Cool before removing from sheet pan."
+          "Using teaspoon measure, drop batter onto sheets (5-6 cookies a sheet). Decorate each cookie with one sliced almond. Bake 15-20 minutes or until cookies are golden. Cool before removing from sheet pan.",
+          "Note: Cookies hold shape better on Silpat."
         ],
         "classifications": {
           "mealType": [
@@ -80170,7 +84480,8 @@ export const cuisine: Cuisine = {
           "Set 6 ramekins in water bath reaching halfway up their sides. Add enough caramel* to cover bottom of ramekin. Carefully pour in custard.",
           "Bake approximately 60-90 minutes. Water should be almost simmering as custard cooks. Do not let it boil as this makes the custard grainy.",
           "To test for doneness, insert thin-bladed knife about an inch or two from the center. Custard is done if knife comes out clean. Center may not be completely set, but it will continue to cook in its own heat after removal from the oven.",
-          "Chill completely and un-mold right before service."
+          "Chill completely and un-mold right before service.",
+          "Crème Caramel: In small saucepan, simmer 1 cup maple crystals and 1/4 cup water, swirling to dissolve sugar until mixture caramelizes. Cover pan and boil over medium heat until bubbles are thick. Line bottoms of ramekins with hot caramel, tilting to spread evenly."
         ],
         "classifications": {
           "mealType": [
@@ -80288,7 +84599,8 @@ export const cuisine: Cuisine = {
           "Heat cream or milk and vanilla to scalding (just below simmering) in double boiler.",
           "In medium bowl, beat together egg yolks and maple crystals. Slowly pour hot cream/milk into egg mixture while whisking constantly (this raises the temperature of the eggs gradually and helps prevent curdling).",
           "Heat mixture slowly in double boiler, stirring constantly to prevent curdling. Sauce is cooked when it lightly coats the back of a spoon instead of running off like milk, or when it reaches 185°F. Never let the temperatures go above 190°F.",
-          "When done, remove sauce from heat. Cool sauce by setting pan or bowl in ice water. Stir occasionally to cool evenly."
+          "When done, remove sauce from heat. Cool sauce by setting pan or bowl in ice water. Stir occasionally to cool evenly.",
+          "Note: If sauce accidentally curdles, it is sometimes possible to save it. Immediately stir in 1-2 tablespoons cold milk, transfer sauce to blender, and process at high speed."
         ],
         "classifications": {
           "mealType": [
@@ -80921,6 +85233,1120 @@ export const cuisine: Cuisine = {
         "substitutions": [
           {
             "originalIngredient": "coconut milk",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "GLUTEN-FREE CHOCOLATE CAKE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 9,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.6666666666666666,
+            "unit": "cup",
+            "name": "pitted dates",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "maple syrup",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "vanilla extract",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "large eggs",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "stick unsalted butter",
+            "notes": "melted + 1 tablespoon solid butter for greasing Bundt pan"
+          },
+          {
+            "amount": 0.3333333333333333,
+            "unit": "cup",
+            "name": "gluten-free flour blend",
+            "notes": "recipe below"
+          },
+          {
+            "amount": 0.3333333333333333,
+            "unit": "cup",
+            "name": "sorghum flour",
+            "notes": ""
+          },
+          {
+            "amount": 0.6666666666666666,
+            "unit": "cup",
+            "name": "cocoa powder",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "baking powder",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch of sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "good quality chocolate for melting",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "walnuts",
+            "notes": "roasted and chopped"
+          }
+        ],
+        "instructions": [
+          "Preheat oven to 350° F. Grease 9 1/2-inch Bundt pan with butter and dust with cocoa powder.",
+          "In food processor, blend dates with maple syrup.",
+          "When dates are thoroughly blended, add vanilla, eggs and melted butter. Mix to combine.",
+          "In medium bowl, sift together flours, cocoa powder, baking powder and salt. Whisk well to incorporate. Add to date-syrup mixture in food processor. Mix to combine.",
+          "Pour batter into baking pan, filling no more than 2/3 up side of cake pan. Any extra cake batter can be used for muffins. Do not overfill pan. Bake for 30-35 minutes. Allow cake to cool completely.",
+          "Double-melt chocolate and drizzle over cake. Sprinkle with walnuts."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.21272727272727268,
+          "Water": 0.23090909090909092,
+          "Earth": 0.4027272727272727,
+          "Air": 0.1536363636363636
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 242,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.49,
+          "Essence": 3.54,
+          "Matter": 4.87,
+          "Substance": 4.48
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0334,
+          "entropy": 0.322,
+          "reactivity": 1.4001,
+          "gregsEnergy": -0.4175,
+          "kalchm": 0.0005,
+          "monica": -0.0392
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "pitted dates",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CHOCOLATE CHIP COOKIES",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 18,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "butter",
+            "notes": "1 stick; softened"
+          },
+          {
+            "amount": 6,
+            "unit": "tablespoons",
+            "name": "brown sugar",
+            "notes": ""
+          },
+          {
+            "amount": 6,
+            "unit": "tablespoons",
+            "name": "white sugar",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "egg",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "vanilla extract",
+            "notes": ""
+          },
+          {
+            "amount": 1.25,
+            "unit": "cup",
+            "name": "unbleached white all-purpose flour",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "baking soda",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "chocolate chips",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Preheat oven to 350° F (300° F in convection oven). Line 2 sheet trays with parchment paper.",
+          "Cream together butter, brown sugar, and white sugar in stand mixer, until sugars are completed incorporated and mixture is light and fluffy.",
+          "Add egg and vanilla. Mix to incorporate.",
+          "In separate bowl, sift together flour, baking soda and salt.",
+          "Add flour mixture to butter/sugar/egg mixture in 1/2 cup increments until flour is completely incorporated. Fold in chocolate chips.",
+          "Using 1-ounce scoop, drop cookies onto baking sheet at 2-inch intervals.",
+          "Cook 10-12 minutes or until golden at edges. Let cool."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2055555555555556,
+          "Water": 0.22777777777777775,
+          "Earth": 0.4277777777777778,
+          "Air": 0.1388888888888889
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 241,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.84,
+          "Essence": 2.41,
+          "Matter": 3.75,
+          "Substance": 3.37
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0322,
+          "entropy": 0.3187,
+          "reactivity": 1.1839,
+          "gregsEnergy": -0.3452,
+          "kalchm": 0.003,
+          "monica": -0.0502
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "butter",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CREAM CHEESE FROSTING",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 5,
+            "unit": "piece",
+            "name": "eight-ounce packages of organic cream cheese",
+            "notes": "softened"
+          },
+          {
+            "amount": 10,
+            "unit": "ounces",
+            "name": "butter",
+            "notes": "2 1/2 sticks; softened"
+          },
+          {
+            "amount": 2,
+            "unit": "cups",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "vanilla extract",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch sea salt",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "In stand mixer, on low speed, beat cream cheese with butter until smooth.",
+          "Gradually beat in maple crystals, vanilla extract, and salt until well blended.",
+          "Chill to set up."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.225,
+          "Water": 0.25,
+          "Earth": 0.4,
+          "Air": 0.125
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 250,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.03,
+          "Essence": 1.54,
+          "Matter": 2,
+          "Substance": 1.8
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0297,
+          "entropy": 0.2488,
+          "reactivity": 1.1808,
+          "gregsEnergy": -0.264,
+          "kalchm": 0.174,
+          "monica": -0.1279
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "eight-ounce packages of organic cream cheese",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "RICE PUDDING",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2.5,
+            "unit": "cups",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "vanilla bean",
+            "notes": "pulp scraped and pods reserved"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "cinnamon stick",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "short grain brown rice",
+            "notes": "rinsed"
+          },
+          {
+            "amount": 1,
+            "unit": "quart",
+            "name": "rich almond milk",
+            "notes": "recipe preceding"
+          },
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "maple syrup",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "rice syrup",
+            "notes": ""
+          },
+          {
+            "amount": 0.3333333333333333,
+            "unit": "cup",
+            "name": "currants",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "orange zest",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "orange juice",
+            "notes": "2 oranges"
+          },
+          {
+            "amount": 0.3333333333333333,
+            "unit": "cup",
+            "name": "walnuts",
+            "notes": "toasted, chopped"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "ground cinnamon for garnish",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "In 1-gallon pot, bring water, vanilla pulp and pod, cinnamon stick, and sea salt to boil. Add rice and cover. Reduce heat to low simmer and slowly cook, covered, until rice absorbs all water, about 30 minutes. Remove rice from heat and let rest, covered, without stirring, for 15 minutes. Rice should not be fully cooked, as it will continue to cook in almond milk mixture.",
+          "Add almond milk, maple crystals, maple syrup, and rice syrup. Simmer, uncovered, over medium heat about 30-40 minutes. Stir mixture often to release starch from rice. This will allow pudding to become thick and creamy. Occasionally taste for doneness and continue to cook accordingly.",
+          "Add currants, zest, and juice. Remove cinnamon stick, and transfer pudding to bowl to cool.",
+          "Chill pudding in refrigerator. Garnish with walnuts and cinnamon just before serving."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.23357142857142854,
+          "Water": 0.3092857142857142,
+          "Earth": 0.2978571428571429,
+          "Air": 0.15928571428571428
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 9,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 274,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.33,
+          "Essence": 4.81,
+          "Matter": 4.45,
+          "Substance": 4.03
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0564,
+          "entropy": 0.2815,
+          "reactivity": 2.2465,
+          "gregsEnergy": -0.5761,
+          "kalchm": 0.4969,
+          "monica": -0.3667
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "water",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CHECKERBOARD COOKIES",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 24,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "+ 2 tablespoons cold butter",
+            "notes": "1 stick"
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "egg",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "vanilla extract",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "cups",
+            "name": "unbleached all-purpose flour",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "baking powder",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "all-purpose flour for dusting",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "extra egg white for brushing",
+            "notes": ""
+          },
+          {
+            "amount": 4,
+            "unit": "tablespoons",
+            "name": "butter",
+            "notes": "softened"
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "egg",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "baking powder",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "almond extract",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "unbleached all-purpose flour",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "cocoa powder",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "all-purpose flour for dusting",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "For vanilla dough: Preheat oven to 350° F. Line 2 half-sheet trays with parchment paper.",
+          "In stand mixer, beat together butter, maple crystals, and salt until light and fluffy with paddle attachment. Add egg and vanilla and continue to mix until well combined.",
+          "Whisk together flour and baking powder in separate small bowl. Add flour mixture to butter mixture in mixer until combined. Wrap dough in plastic and refrigerate 10 minutes to firm up while making chocolate dough.",
+          "For chocolate dough: In stand mixer, beat together butter, maple crystals, and salt until well combined. Add egg, baking powder, and almond extract. Continue to mix until smooth.",
+          "Whisk together flour and cocoa powder in separate small bowl. Gradually sift flour/cocoa mixture into butter mixture and mix just until combined. Wrap dough in plastic and refrigerate at least 10 minutes until firm.",
+          "For assembly: Divide vanilla dough into 5 equal pieces. Divide chocolate dough into 4 equal pieces.",
+          "On parchment, using flour as necessary for dusting, roll out each piece dough to 1/4 inch. Make 3 stacks of rolled dough, brushing each layer with egg white: 1) vanilla/chocolate/vanilla; 2) chocolate/vanilla/chocolate; 3) vanilla/chocolate/vanilla.",
+          "Using bench scraper, square off sides of each stack of dough. Freeze 3 stacks of dough until hard. Using sharp knife, cut lengthwise rectangles of each dough, brush them with egg white, and stack rectangles in same order as listed above. Cut crosswise at 1/4 inch intervals across rectangle stacks to form cookies. Trimmed scraps of dough can be bundled together and re-rolled, frozen and stamped with cookie cutter shapes to make marbleized cookies.",
+          "Transfer to sheet trays. Brush tops with egg white. Bake 6-10 minutes or until golden at edges. Remove from pans to racks to cool."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.19888888888888892,
+          "Water": 0.235,
+          "Earth": 0.37277777777777776,
+          "Air": 0.19333333333333336
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 11,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 244,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 4.25,
+          "Essence": 5.27,
+          "Matter": 6.89,
+          "Substance": 6.54
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0476,
+          "entropy": 0.3737,
+          "reactivity": 1.6823,
+          "gregsEnergy": -0.581,
+          "kalchm": 0,
+          "monica": 1.618
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "+ 2 tablespoons cold butter",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "VEGAN BAKLAVA",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 50,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "pound",
+            "name": "pistachio nuts",
+            "notes": "finely chopped"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "-2 tablespoons cinnamon",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "coconut oil",
+            "notes": "melted"
+          },
+          {
+            "amount": 1,
+            "unit": "pound",
+            "name": "phyllo",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "rice syrup",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "maple syrup",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "cinnamon stick",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "rind of 1/2 lemon and juice",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Preheat oven to 300°F.",
+          "For phyllo: In bowl, mix nuts and cinnamon. Set aside.",
+          "In half-sheet pan lined with parchment paper, individually oil and layer 6-7 sheets of phyllo. Edges of phyllo sheets will overhang bottom of sheet pan slightly, but they will be trimmed later.",
+          "Spread portion of nut mixture (approximately 1/3-1/2 cups) over top of phyllo, enough to cover surface. Add another sheet of brushed phyllo and cover with more nuts; repeat this process until all nuts are gone.",
+          "Top baklava with 6 more layers of oil-brushed phyllo. Trim excess phyllo from sides of pan, so phyllo fits pan exactly.",
+          "Cut baklava into eighths lengthwise. Then make diagonal crosswise cuts, at 2-inch intervals.",
+          "Bake baklava 30 minutes at 300°F in standard oven (fan in convection oven causes phyllo to blow away). Bake additional 30 minutes at 350°F, until golden brown.",
+          "For syrup: While baklava bakes, bring all syrup ingredients to simmer in 2-quart saucepan. Cook syrup uncovered until reduced to 2 cups.",
+          "Remove baklava from oven. Pour hot syrup over warm phyllo and let sit at least 30 minutes."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.255,
+          "Water": 0.2575,
+          "Earth": 0.2925,
+          "Air": 0.195
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 253,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.15,
+          "Essence": 2.59,
+          "Matter": 2.91,
+          "Substance": 2.58
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0602,
+          "entropy": 0.311,
+          "reactivity": 1.7703,
+          "gregsEnergy": -0.4903,
+          "kalchm": 0.2362,
+          "monica": -0.1919
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "pistachio nuts",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BERRY-GRAPE KANTEN",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "cups",
+            "name": "white grape juice",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "+ 1 1/2 heaping teaspoons agar flakes",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "ginger juice",
+            "notes": "1/2 ounce piece of ginger"
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "lemon zest",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "agave syrup",
+            "notes": ""
+          },
+          {
+            "amount": 9,
+            "unit": "ounces",
+            "name": "green grapes",
+            "notes": "sliced in half lengthwise"
+          },
+          {
+            "amount": 4,
+            "unit": "ounces",
+            "name": "strawberries",
+            "notes": "small dice"
+          }
+        ],
+        "instructions": [
+          "In 2 1/2 quart pot, combine grape juice and agar flakes. Soak agar for 5 minutes.",
+          "Bring agar-juice mixture to boil over medium heat, whisking frequently. Lower flame and simmer 5 minutes or until agar is completely dissolved.",
+          "Add ginger juice, lemon zest, and agave syrup to juice mixture. Simmer 2 minutes more.",
+          "Divide and arrange grapes and strawberries equally among individual ramekins.",
+          "Slowly pour juice mixture over grapes and strawberries in ramekins. Let mixture stand until no more steam rises. Transfer kanten to refrigerator until firmed up, about 30 minutes.",
+          "Serve kanten as is from ramekins."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2571428571428571,
+          "Water": 0.3785714285714286,
+          "Earth": 0.1857142857142857,
+          "Air": 0.17857142857142858
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 8,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 3,
+          "sodiumMg": 301,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.68,
+          "Essence": 3.7,
+          "Matter": 2.04,
+          "Substance": 1.92
+        },
+        "thermodynamicProperties": {
+          "heat": 0.1027,
+          "entropy": 0.2759,
+          "reactivity": 5.0063,
+          "gregsEnergy": -1.2788,
+          "kalchm": 118.6216,
+          "monica": 0.0535
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "white grape juice",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"

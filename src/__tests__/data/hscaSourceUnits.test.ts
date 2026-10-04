@@ -10,6 +10,10 @@
  * `[MEASURED 2026-10-03]` master c27e4136 had 36 such lines (35 source lines;
  * one recipe is listed under two seasons).
  *
+ * `[MEASURED 2026-10-03]` 575 dishes and 5,382 lines once 36 recipes missing from the
+ * source were restored from the PDF (539 and 5,048 before; the four parents that
+ * had swallowed a sub-recipe lost lines to it).
+ *
  * @file src/__tests__/data/hscaSourceUnits.test.ts
  */
 import fs from "fs";
@@ -69,9 +73,9 @@ function linesAt(dishName: string, index: number): Array<Dish["ingredients"][num
 
 describe("every committed HSCA line agrees with its source line", () => {
   it("pairs every dish with the source recipe it was imported from", () => {
-    expect(dishes.length).toBe(539);
+    expect(dishes.length).toBe(575);
     expect(dishes.filter((d) => sourcesOf(d).length === 0).map((d) => d.name)).toEqual([]);
-    expect(dishes.reduce((n, d) => n + d.ingredients.length, 0)).toBe(5048);
+    expect(dishes.reduce((n, d) => n + d.ingredients.length, 0)).toBe(5382);
   });
 
   it("states a unit only where the source line has it as a whole word", () => {
