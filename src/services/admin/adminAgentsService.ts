@@ -11,6 +11,7 @@
  * @file src/services/admin/adminAgentsService.ts
  */
 
+import { getRecipePipelineTelemetryStats } from "@/lib/cooking/recipePipelineTelemetry";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
@@ -331,6 +332,7 @@ async function getAgentCronHeartbeats(): Promise<AgentCronHeartbeat[]> {
 }
 
 async function getRecipePipelineOutcomes(): Promise<RecipePipelineOutcomes> {
+  const telemetry = getRecipePipelineTelemetryStats();
   try {
     const result = await executeQuery<{
       refunds: number;
@@ -354,21 +356,21 @@ async function getRecipePipelineOutcomes(): Promise<RecipePipelineOutcomes> {
     );
     const [row] = result.rows;
     return {
-      attempts: Number(row?.attempts ?? 0),
-      repairs: 0,
-      retries: 0,
-      refunds: Number(row?.refunds ?? 0),
-      finalFailures: Number(row?.final_failures ?? 0),
+      attempts: Math.max(Number(row?.attempts ?? 0), telemetry.attempts),
+      repairs: telemetry.repairs,
+      retries: telemetry.retries,
+      refunds: Math.max(Number(row?.refunds ?? 0), telemetry.refunds),
+      finalFailures: Math.max(Number(row?.final_failures ?? 0), telemetry.finalFailures),
       live: true,
     };
   } catch (err) {
     _logger.warn("[adminAgentsService] recipe pipeline outcomes query failed:", err);
     return {
-      attempts: 0,
-      repairs: 0,
-      retries: 0,
-      refunds: 0,
-      finalFailures: 0,
+      attempts: telemetry.attempts,
+      repairs: telemetry.repairs,
+      retries: telemetry.retries,
+      refunds: telemetry.refunds,
+      finalFailures: telemetry.finalFailures,
       live: false,
     };
   }

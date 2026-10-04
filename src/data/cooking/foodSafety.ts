@@ -1,0 +1,126 @@
+/**
+ * Documented food-safety internal temperatures and safe handling standards.
+ *
+ * Sources:
+ * - USDA Food Safety and Inspection Service (FSIS): "Safe Minimum Internal
+ *   Temperature Chart" (revised 2020), 9 CFR § 318.23 / 9 CFR § 381.150.
+ * - U.S. FDA Food Code (2022), § 3-401.11 ("Cooking Raw Animal Foods").
+ * - McGee, Harold. *On Food and Cooking: The Science and Lore of the Kitchen*
+ *   (Scribner, 2004), Chapter 3 (Meat & Poultry Pathogen Thermal Death Times).
+ *
+ * @file src/data/cooking/foodSafety.ts
+ */
+
+export interface SafeInternalTemperature {
+  category: string;
+  foodType: string;
+  minTempC: number;
+  minTempF: number;
+  restMinutes?: number;
+  source: string;
+  notes?: string;
+}
+
+export const SAFE_INTERNAL_TEMPERATURES: readonly SafeInternalTemperature[] = [
+  {
+    category: "poultry",
+    foodType: "all poultry (whole, parts, ground, stuffing)",
+    minTempC: 73.9,
+    minTempF: 165,
+    source: "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(3)",
+    notes: "Instantaneous 7-log10 lethality for Salmonella and Campylobacter.",
+  },
+  {
+    category: "ground-meat",
+    foodType: "ground beef, pork, lamb, veal",
+    minTempC: 71.1,
+    minTempF: 160,
+    source: "USDA FSIS / 9 CFR § 318.23",
+    notes: "Lethality for Shiga-toxin producing E. coli (STEC).",
+  },
+  {
+    category: "whole-meat",
+    foodType: "steaks, chops, roasts of beef, pork, veal, lamb",
+    minTempC: 62.8,
+    minTempF: 145,
+    restMinutes: 3,
+    source: "USDA FSIS (2011 revised policy) / FDA Food Code 2022 § 3-401.11(A)(1)",
+    notes: "Mandatory 3-minute post-cooking rest time to allow internal thermal equilibrium.",
+  },
+  {
+    category: "finfish",
+    foodType: "fish, shellfish, crustaceans",
+    minTempC: 62.8,
+    minTempF: 145,
+    source: "FDA Food Code 2022 § 3-401.11(A)(1)",
+    notes: "Until flesh is opaque and flakes readily with a fork.",
+  },
+  {
+    category: "eggs",
+    foodType: "egg dishes, quiches, casseroles",
+    minTempC: 71.1,
+    minTempF: 160,
+    source: "USDA FSIS / FDA Food Code 2022 § 3-401.11",
+    notes: "Raw eggs cooked until yolk and white are completely firm.",
+  },
+  {
+    category: "reheating",
+    foodType: "leftovers, casseroles, sauces",
+    minTempC: 73.9,
+    minTempF: 165,
+    source: "USDA FSIS Safe Food Handling Guidelines",
+  },
+] as const;
+
+export const TEMPERATURE_DANGER_ZONE = {
+  minTempC: 4.4,
+  maxTempC: 60.0,
+  minTempF: 40,
+  maxTempF: 140,
+  maxHours: 2,
+  source: "USDA FSIS Food Safety Fact Sheet: The Danger Zone",
+} as const;
+
+/**
+ * Check whether a step specifies an unsafe low temperature for a protein category,
+ * or an impossible/excessive kitchen temperature (> 350°C / 662°F).
+ */
+export function evaluateStepTemperature(
+  methodKey: string,
+  temperatureF?: number,
+  targetProtein?: string,
+): { safe: boolean; reason?: string } {
+  if (temperatureF === undefined) return { safe: true };
+
+  // Hard physical impossibility / excessive fire hazard
+  if (temperatureF > 600) {
+    return {
+      safe: false,
+      reason: `Temperature ${temperatureF}°F exceeds safe culinary envelope (>600°F is a flash fire / severe char hazard).`,
+    };
+  }
+
+  // Liquid boiling in water cannot exceed 212°F (100°C) at standard sea level
+  const boilingMethods = new Set(["boiling", "simmering", "poaching", "steaming"]);
+  if (boilingMethods.has(methodKey) && temperatureF > 220) {
+    return {
+      safe: false,
+      reason: `Liquid water cannot exceed 212°F (100°C) at ambient pressure for method ${methodKey}.`,
+    };
+  }
+
+  // Protein internal safety
+  if (targetProtein) {
+    const lower = targetProtein.toLowerCase();
+    if (lower.includes("chicken") || lower.includes("turkey") || lower.includes("poultry")) {
+      if (temperatureF < 165 && methodKey !== "sous_vide") {
+        return {
+          safe: false,
+          reason: `Target temperature ${temperatureF}°F is below USDA minimum safe internal temperature of 165°F (74°C) for poultry.`,
+        };
+      }
+    }
+  }
+
+  return { safe: true };
+}
