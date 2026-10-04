@@ -253,8 +253,9 @@ describe("Phase 44 Target 4 — Food Diary Response Schemas", () => {
       expect(FoodDiaryServingUnitSchema.parse("g")).toBe("g");
     });
 
-    it("falls back gracefully when food source is a legacy DB value", () => {
-      expect(FoodDiaryFoodSourceSchema.parse("manual")).toBe("custom");
+    it("falls back gracefully when food source is an unknown value and preserves manual", () => {
+      expect(FoodDiaryFoodSourceSchema.parse("manual")).toBe("manual");
+      expect(FoodDiaryFoodSourceSchema.parse("unknown_legacy_val")).toBe("custom");
       expect(FoodDiaryFoodSourceSchema.parse("recipe")).toBe("recipe");
       expect(FoodDiaryFoodSourceSchema.parse("restaurant")).toBe("restaurant");
     });

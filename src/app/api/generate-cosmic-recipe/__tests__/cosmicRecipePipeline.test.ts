@@ -58,9 +58,7 @@ jest.mock("@/lib/serviceUrls", () => ({
   getServiceUrl: jest.fn().mockReturnValue("https://api.agents.alchm.kitchen"),
 }));
 
-function installFetchMock(mock: jest.Mock): void {
-  (global as unknown as { fetch: unknown }).fetch = mock;
-}
+import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 function makeRequest(body: Record<string, unknown> = {}): NextRequest {
   return new NextRequest("http://localhost:3000/api/generate-cosmic-recipe", {

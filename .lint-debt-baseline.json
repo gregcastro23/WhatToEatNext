@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1278,
+  "trackedTotal": 1267,
   "casts": {
     "total": 158,
     "asAny": 38,
@@ -8,14 +8,14 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 2883,
+    "total": 2881,
     "asAny": 37,
     "chained": 120,
-    "single": 2726,
-    "production": 2292,
+    "single": 2724,
+    "production": 2290,
     "test": 591,
     "asConst": 575,
-    "nonNull": 585
+    "nonNull": 583
   },
   "looseOptionality": {
     "total": 184,
@@ -41,7 +41,7 @@
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 209,
+      "total": 204,
       "verifiedSafe": 0,
       "semantic": 290,
       "unclassified": 5,
@@ -49,15 +49,15 @@
     }
   },
   "declined": {
-    "total": 4783,
+    "total": 4740,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1303,
-      "@typescript-eslint/explicit-module-boundary-types": 646,
-      "complexity": 294,
+      "@typescript-eslint/explicit-function-return-type": 1297,
+      "@typescript-eslint/explicit-module-boundary-types": 641,
+      "complexity": 291,
       "max-depth": 83,
-      "max-lines": 512,
-      "max-lines-per-function": 1577,
-      "no-void": 368
+      "max-lines": 506,
+      "max-lines-per-function": 1555,
+      "no-void": 367
     },
     "note": "Declined rules pool, pinned at the LIVE measurement — no headroom. Ceilings above live are undetectable slack: the gate only fails when the pool EXCEEDS this total, so every granted unit is a regression the ratchet cannot see. An earlier revision carried 21 such units (4924 recorded vs 4903 live, incl. no-void 385 vs 374). Maintain this block with `bun run lint:debt:ratchet`, never by hand."
   },
@@ -79,7 +79,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 795,
+      "count": 784,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -103,7 +103,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 209,
+      "count": 204,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
