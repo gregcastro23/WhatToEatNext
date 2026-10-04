@@ -20,8 +20,9 @@
  *
  * An ingredient list that differs from what the builder would produce counts as a
  * source change, so a dish patched by hand in hsca.ts (or one parsed before a parser
- * fix) is reported as "rebuilt" too. The run lists every dish it touches; review
- * that list, and use --only to apply one.
+ * fix) is reported as "rebuilt" too. A rebuilt dish is replaced WHOLESALE, --only
+ * included, so a hand patch is lost: check the list this prints, and where a
+ * "rebuilt" dish is one you patched by hand, leave it (or restore it afterwards).
  *
  *   bun scripts/syncHscaCuisine.ts                 write the file
  *   bun scripts/syncHscaCuisine.ts --check         report what would change; exit 1 if any

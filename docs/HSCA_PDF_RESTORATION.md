@@ -169,8 +169,8 @@ only what changed (instructions, rebuilt ingredient lists, new recipes) and repo
 An ingredient list that differs from the builder's output counts as a source change. That also catches a
 dish patched by hand in `hsca.ts`: #937 corrected 36 lines that way (a leading word read as a unit), and 14
 of those dishes still differ from a fresh parse ("1 clove garlic" against "1 garlic clove"). `--check`
-therefore exits 1 today for those 14 and none from this change; review the list before writing, and use
-`--only` rather than overwriting them.
+therefore exits 1 today for those 14 and none from this change. A rebuilt dish is replaced wholesale, `--only`
+included, so never run it on one of those 14; review the list before writing.
 
 Both scripts build a dish with `scripts/lib/hscaDish.ts`, which carries #937's whole-word unit fix. That
 fix also changed one dish added here: Rice Pudding had read "ground cinnamon" as 1 g of "round cinnamon".
