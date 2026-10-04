@@ -1,6 +1,6 @@
 {
-  "total": 81,
-  "production": 72,
+  "total": 80,
+  "production": 71,
   "test": 9,
   "byFile": {
     "src/__tests__/api/syncCreditDailyGuard.test.ts": 3,
@@ -13,7 +13,6 @@
     "src/app/api/agent-forge/ignite/route.ts": 2,
     "src/app/api/alchm-quantities/route.ts": 1,
     "src/app/api/economy/shop/purchase/__tests__/shopPurchaseOneTimeGuard.test.ts": 3,
-    "src/app/api/generate-cosmic-recipe/route.ts": 1,
     "src/app/api/generate-tilt-skillet-plan/route.ts": 1,
     "src/app/api/health/__tests__/healthReportsDatabaseOutage.test.ts": 1,
     "src/app/api/instacart/recipe/route.ts": 1,

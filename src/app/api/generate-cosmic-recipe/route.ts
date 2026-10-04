@@ -23,6 +23,11 @@
 import { z } from "zod";
 import { isOperatorAccount } from "@/lib/auth/adminEmails";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
+import { recordRecipePipelineEvent } from "@/lib/cooking/recipePipelineTelemetry";
+import {
+  verifyAndRepairCosmicRecipe,
+  type RecipeVerificationOutcome,
+} from "@/lib/cooking/recipeVerificationGate";
 import {
   applyPersonalizedPricing,
   getPersonalizedPricingContext,
@@ -64,19 +69,14 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 /**
- * Deadline for the upstream Planetary Agents call.
- *
- * The fetch below had NO timeout: it was bounded only by `maxDuration`, so a
- * slow PA held a 60s Vercel function open and the platform killed it with no
- * catchable error, no status, and no chance to record anything.
- *
- * [MEASURED 2026-08-19] PA's POST /api/generate-recipe answered 200 in
- * 23.0s / 24.7s / 24.8s / 30.8s across four samples, while PA's /health
- * answered in 0.35s — the cost is the LLM generation, not reachability.
- * 45s sits above that band so a healthy-but-slow generation still completes,
- * and below `maxDuration` so we return an honest 504 instead of being killed.
+ * Per-attempt deadline for the upstream Planetary Agents call.
+ * Under Vercel maxDuration = 60s, budgeting 25s per attempt allows WTEN to
+ * execute 1 retry with structured feedback if the first attempt times out or
+ * hits a blocking verification finding, leaving 10s of headroom for DB operations
+ * and response settlement.
  */
-const PA_TIMEOUT_MS = 45_000;
+const PA_TIMEOUT_MS = 25_000;
+const MAX_RECIPE_ATTEMPTS = 2;
 
 const birthDataSchema = z
   .object({
@@ -447,114 +447,192 @@ async function handlePost(request: NextRequest) {
     // PA backend at api.agents.alchm.kitchen owns recipe generation since
     // the PA-side rebuild: it handles the alchemical-chef persona, prompt
     // construction, provider-native JSON mode, Pydantic validation, one
+    // PA backend at api.agents.alchm.kitchen owns recipe generation since
+    // the PA-side rebuild: it handles the alchemical-chef persona, prompt
+    // construction, provider-native JSON mode, Pydantic validation, one
     // auto-retry on malformed output, and a 60s prompt-hash cache. WTEN
     // forwards the structured grounding fields it has computed and gets
     // back a validated CosmicRecipeResponse.
     const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
 
-    let recipe: z.infer<typeof cosmicRecipeSchema>;
-    try {
-      const agentResponse = await fetch(`${agentBaseUrl}/api/generate-recipe`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // Covers the body read as well as the headers: AbortSignal.timeout stays
-        // armed until the response is fully consumed, unlike a manual
-        // clearTimeout in a finally block.
-        signal: AbortSignal.timeout(PA_TIMEOUT_MS),
-        body: JSON.stringify({
-          prompt: enrichedPrompt,
-          dominantElement,
-          cuisine: cuisineEntry?.cuisine ?? undefined,
-          topIngredients,
-          birthData,
-          dietPreference: diet ?? "omnivore",
-          alchemicalState: esms,
-          thermodynamicProperties: alchemized?.thermodynamicProperties,
-          disallowedIngredients: disallowedIngredients ?? undefined,
-          userId: userId ?? undefined,
-        }),
-      });
+    let recipe: z.infer<typeof cosmicRecipeSchema> | null = null;
+    let verificationOutcome: RecipeVerificationOutcome | null = null;
+    let attemptsCount = 0;
+    let retryFeedbackPrompt = enrichedPrompt;
+    const effectiveDisallowed = disallowedIngredients ? [...disallowedIngredients] : [];
+    let lastUpstreamError: {
+      status: number;
+      message: string;
+      timedOut: boolean;
+      issues?: unknown[];
+    } | null = null;
+    const allEncounteredFindings: string[] = [];
 
-      if (!agentResponse.ok) {
-        const upstreamBody = (await agentResponse
-          .json()
-          .catch(() => ({}))) as Record<string, unknown>;
-        const upstreamDetail =
-          typeof upstreamBody.detail === "string"
-            ? upstreamBody.detail
-            : typeof upstreamBody.message === "string"
-              ? upstreamBody.message
-              : null;
-        return new Response(
-          JSON.stringify({
-            error: "Failed to generate recipe via agents network",
-            upstreamStatus: agentResponse.status,
-            upstreamDetail,
+    for (let attempt = 1; attempt <= MAX_RECIPE_ATTEMPTS; attempt++) {
+      attemptsCount = attempt;
+      try {
+        const agentResponse = await fetch(`${agentBaseUrl}/api/generate-recipe`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          // Covers the body read as well as the headers: AbortSignal.timeout stays
+          // armed until the response is fully consumed.
+          signal: AbortSignal.timeout(PA_TIMEOUT_MS),
+          body: JSON.stringify({
+            prompt: retryFeedbackPrompt,
+            dominantElement,
+            cuisine: cuisineEntry?.cuisine ?? undefined,
+            topIngredients,
+            birthData,
+            dietPreference: diet ?? "omnivore",
+            alchemicalState: esms,
+            thermodynamicProperties: alchemized?.thermodynamicProperties,
+            disallowedIngredients: effectiveDisallowed.length > 0 ? effectiveDisallowed : undefined,
+            userId: userId ?? undefined,
           }),
-          {
-            // PA's recipe orchestrator returns 502 on retry exhaustion; we
-            // forward that as-is. A 404 from PA means the new endpoint
-            // isn't deployed yet — surface as 502 so the client gets a
-            // uniform "upstream not ready" signal instead of a misleading
-            // "not found".
-            status: agentResponse.status === 404 ? 502 : agentResponse.status,
-            headers: { "Content-Type": "application/json" },
-          },
-        );
-      }
+        });
 
-      // PA already validates its response against a Pydantic mirror of
-      // cosmicRecipeSchema before sending. We do a defensive Zod parse
-      // here so any future drift between the two schemas surfaces at the
-      // WTEN edge instead of leaking malformed data to the client.
-      const parsed = (await agentResponse.json()) as unknown;
-      const validation = cosmicRecipeSchema.safeParse(parsed);
-      if (!validation.success) {
-        logger.error(
-          "[generate-cosmic-recipe] PA returned recipe that failed local schema check:",
-          validation.error.issues.slice(0, 5),
-        );
-        return new Response(
-          JSON.stringify({
-            error: "Recipe schema drift between PA and WTEN",
+        if (!agentResponse.ok) {
+          const upstreamRaw: unknown = await agentResponse.json().catch(() => null);
+          const upstreamDetail =
+            typeof upstreamRaw === "object" &&
+            upstreamRaw !== null &&
+            "detail" in upstreamRaw &&
+            typeof upstreamRaw.detail === "string"
+              ? upstreamRaw.detail
+              : typeof upstreamRaw === "object" &&
+                  upstreamRaw !== null &&
+                  "message" in upstreamRaw &&
+                  typeof upstreamRaw.message === "string"
+                ? upstreamRaw.message
+                : null;
+          lastUpstreamError = {
+            status: agentResponse.status === 404 ? 502 : agentResponse.status,
+            message: upstreamDetail ?? "Failed to generate recipe via agents network",
+            timedOut: false,
+          };
+          if (attempt < MAX_RECIPE_ATTEMPTS) {
+            logger.warn(
+              `[generate-cosmic-recipe] Upstream error on attempt ${attempt} (${agentResponse.status}), retrying with structured feedback...`,
+            );
+            continue;
+          }
+          break;
+        }
+
+        const parsed: unknown = await agentResponse.json();
+        const validation = cosmicRecipeSchema.safeParse(parsed);
+        if (!validation.success) {
+          logger.error(
+            `[generate-cosmic-recipe] PA returned recipe that failed local schema check on attempt ${attempt}:`,
+            validation.error.issues.slice(0, 5),
+          );
+          lastUpstreamError = {
+            status: 502,
+            message: "Recipe schema drift between PA and WTEN",
+            timedOut: false,
             issues: validation.error.issues
               .slice(0, 5)
               .map((i) => ({ path: i.path.join("."), message: i.message })),
-          }),
-          { status: 502, headers: { "Content-Type": "application/json" } },
+          };
+          if (attempt < MAX_RECIPE_ATTEMPTS) {
+            continue;
+          }
+          break;
+        }
+
+        // Run WTEN Deterministic Culinary Verification & Local Repair Gate
+        const outcome = verifyAndRepairCosmicRecipe(validation.data, {
+          requestedDiet: diet,
+          disallowedIngredients: effectiveDisallowed,
+        });
+
+        for (const finding of outcome.blockingFindings) {
+          allEncounteredFindings.push(finding.code);
+        }
+
+        if (outcome.valid) {
+          ({ recipe } = outcome);
+          verificationOutcome = outcome;
+          break; // Verified and repaired successfully!
+        }
+
+        logger.warn(
+          `[generate-cosmic-recipe] Attempt ${attempt} failed verification gate with ${outcome.blockingFindings.length} blocking finding(s):`,
+          outcome.blockingFindings,
         );
-      }
-      recipe = validation.data;
-    } catch (error) {
-      logger.error("[generate-cosmic-recipe] Error calling planetary agents API:", error);
-      // A deadline breach is an UPSTREAM failure, not a WTEN crash. Reporting it
-      // as 504 rather than 500 keeps `serverErrorRate` and the route-health panel
-      // pointing at the service that actually owns the latency.
-      //
-      // NOTE: the ESMS debit above happens BEFORE this call, and this exit —
-      // like the existing non-ok exit — returns without refunding it. That
-      // "charged but no recipe" hole predates this change; the deadline makes it
-      // reachable more often and it needs closing on its own.
-      // Name check WITHOUT `instanceof Error`. `AbortSignal.timeout` rejects
-      // with a DOMException; Node 22 makes that an Error subclass, but a
-      // different realm (jest's node environment, a bundler shim) does not, and
-      // there the instanceof silently returns false and every upstream timeout
-      // gets misreported as a WTEN 500. `[MEASURED 2026-08-19]` real Node
-      // v22.23.1: `instanceof Error` true; jest node env: false. The `.name` is
-      // "TimeoutError" in both.
-      const timedOut =
-        typeof error === "object" &&
-        error !== null &&
-        (error as { name?: unknown }).name === "TimeoutError";
-      return new Response(
-        JSON.stringify({
-          error: timedOut
+
+        lastUpstreamError = {
+          status: 502,
+          message: "Recipe failed culinary verification gate after retries",
+          timedOut: false,
+          issues: outcome.blockingFindings.map((f) => ({ path: f.path, message: f.message })),
+        };
+
+        if (attempt < MAX_RECIPE_ATTEMPTS) {
+          // Construct structured feedback for retry
+          const correctionSummary = outcome.blockingFindings.map((f) => f.message).join(" ");
+          retryFeedbackPrompt = `${enrichedPrompt}\n\n[Correction Required]: Previous recipe attempt failed culinary verification: ${correctionSummary}. Please ensure USDA food safety temperatures, realistic household quantities, and strict dietary restriction compliance.`;
+          continue;
+        }
+      } catch (error) {
+        logger.error(`[generate-cosmic-recipe] Error calling planetary agents API on attempt ${attempt}:`, error);
+        // Name check WITHOUT `instanceof Error`. `AbortSignal.timeout` rejects
+        // with a DOMException; Node 22 makes that an Error subclass, but a
+        // different realm (jest's node environment, a bundler shim) does not.
+        // NOTE: Any exit prior to setting delivered = true will trigger an automatic,
+        // idempotent refund in the finally block below.
+        const timedOut =
+          typeof error === "object" &&
+          error !== null &&
+          "name" in error &&
+          error.name === "TimeoutError";
+        lastUpstreamError = {
+          status: timedOut ? 504 : 500,
+          message: timedOut
             ? "Agents network timed out generating the recipe"
             : "Internal server error contacting agents network",
-          ...(timedOut ? { upstreamTimeoutMs: PA_TIMEOUT_MS } : {}),
+          timedOut,
+        };
+        if (attempt < MAX_RECIPE_ATTEMPTS) {
+          logger.warn(
+            `[generate-cosmic-recipe] Attempt ${attempt} failed with ${timedOut ? "timeout" : "error"}, retrying...`,
+          );
+          continue;
+        }
+        break;
+      }
+    }
+
+    if (!recipe || !verificationOutcome) {
+      recordRecipePipelineEvent({
+        attempts: attemptsCount,
+        repaired: false,
+        retried: attemptsCount > 1,
+        refunded: spend !== null,
+        finalFailure: true,
+        gateFindings: allEncounteredFindings,
+      });
+
+      const err = lastUpstreamError ?? {
+        status: 500,
+        message: "Internal server error contacting agents network",
+        timedOut: false,
+      };
+
+      return new Response(
+        JSON.stringify({
+          error: err.message,
+          upstreamStatus: err.status,
+          ...(err.timedOut ? { upstreamTimeoutMs: PA_TIMEOUT_MS } : {}),
+          ...(err.issues ? { issues: err.issues } : {}),
+          attempts: attemptsCount,
+          refunded: spend !== null,
+          ...(spend
+            ? { refundNote: "Any tokens charged for this generation have been refunded." }
+            : {}),
         }),
         {
-          status: timedOut ? 504 : 500,
+          status: err.status,
           headers: { "Content-Type": "application/json" },
         },
       );
@@ -581,6 +659,15 @@ async function handlePost(request: NextRequest) {
       }
     }
 
+    recordRecipePipelineEvent({
+      attempts: attemptsCount,
+      repaired: verificationOutcome.repaired,
+      retried: attemptsCount > 1,
+      refunded: false,
+      finalFailure: false,
+      gateFindings: verificationOutcome.advisoryFindings.map((f) => f.code),
+    });
+
     // Spread the recipe at the top level so the existing client
     // (CosmicRecipeGenerator → data.title / data.short_description / ...)
     // continues to work. The `success: true` sentinel is what the
@@ -589,6 +676,13 @@ async function handlePost(request: NextRequest) {
       success: true,
       ...recipe,
       recipesGeneratedToday: updatedCount,
+      verification: {
+        verified: true,
+        repaired: verificationOutcome.repaired,
+        audit: verificationOutcome.audit,
+        advisoryFindings: verificationOutcome.advisoryFindings,
+      },
+      attempts: attemptsCount,
       // How this generation was paid, including any auto-swap legs. Absent
       // for demo users, who pay nothing.
       ...(payment ? { payment } : {}),
