@@ -1,10 +1,10 @@
 {
   "name": "HSCA",
   "elementalProperties": {
-    "Fire": 0.2283,
-    "Water": 0.2912,
-    "Earth": 0.3051,
-    "Air": 0.1754
+    "Fire": 0.228,
+    "Water": 0.2903,
+    "Earth": 0.306,
+    "Air": 0.1758
   },
   "description": "Holistic Health and Macrobiotic clean cuisine focusing on energetic harmony and elemental balance.",
   "id": "hsca",
@@ -49,6 +49,6 @@
   "astrologicalInfluences": [],
   "elementalProfileBasis": {
     "method": "recipe-mean",
-    "recipes": 498
+    "recipes": 534
   }
 }
