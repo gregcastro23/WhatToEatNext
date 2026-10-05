@@ -238,8 +238,13 @@ corrected and 36 inserted in one transaction, taking `recipes` from 1,077 to 1,1
   servings, `main`, difficulty 2, all four seasons).
 - Black Cod and Sweet Potato Latkes lost their nutrition (their shortened ingredient lists cannot back a
   plausible total); Seafood Sausage was recomputed and Blackened Shrimp gained some.
-- Not touched: the live `read_model.ingredients` lines that #937 fixed in `hsca.ts` (the unit-prefix read,
-  "g ranny") are still wrong in the existing rows; new rows use the fixed parser.
+- The unit-prefix lines #937 fixed in `hsca.ts` (the importer read "g" out of "Granny", "can" out of "Canola";
+  "g ranny") were repaired in the existing rows on 2026-10-05 with `scripts/repairHscaUnitPrefixInDb.ts`: 33 rows,
+  one line each, each becoming the line `hsca.ts` serves. A row is touched only when every line that differs from
+  `hsca.ts` is exactly that misread. Only what the repair changes was rewritten: the ingredient lines, and
+  `elemental_properties` / `alchemical_quantities` on the 19 rows where today's code computes a different result
+  from the repaired names. `nutritional_profile` was not touched: today's nutrition code returns nothing for most of
+  these rows on their old lines too, so recomputing it would have cleared numbers the repair did not invalidate.
 
 ## Not done
 
