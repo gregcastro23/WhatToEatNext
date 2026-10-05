@@ -146,7 +146,10 @@ describe("the catalog's computed recipes", () => {
 
   it("Chicken Under a Brick (0.5 teaspoon sea salt) publishes the salt's sodium", () => {
     const chicken = catalog.find((r) => r.id === "hsca-dinner-all-chicken-under-a-brick");
-    expect(chicken?.nutrition?.sodium).toBeGreaterThan(1000); // 0.5 tsp = 3 g of salt = 1,163 mg
+    // 0.5 tsp = 3 g of salt = 1,163 mg, shared by the recipe's servings. [MEASURED 2026-10-05] its yield
+    // says 2 servings (the importer once read the "1" of "1/2 chicken" as 1), so a serving carries 833 mg.
+    expect(chicken?.numberOfServings).toBe(2);
+    expect((chicken?.nutrition?.sodium ?? 0) * (chicken?.numberOfServings ?? 1)).toBeGreaterThan(1000);
   });
 
   it("Butter Poppyseed Sauce (butter, poppy seeds) publishes sugar and sodium", () => {

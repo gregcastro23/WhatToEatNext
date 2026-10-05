@@ -17,6 +17,10 @@ import {
   calculateKalchm,
   calculateMonica,
 } from "../../src/data/unified/alchemicalCalculations";
+import { servingsFromYield } from "./hscaYield";
+
+/** Every live HSCA row carries 4 servings until its yield says otherwise. */
+export const PLACEHOLDER_SERVINGS = 4;
 
 export interface RawRecipe {
   id: string;
@@ -427,14 +431,9 @@ export function buildHscaDish(r: RawRecipe) {
   const prepTimeMinutes = parseTimeMinutes(r.prepTime);
   const cookTimeMinutes = parseTimeMinutes(r.cookTime);
 
-  // Yield parse
-  let servings = 4;
-  if (r.yield_amount && typeof r.yield_amount === "string") {
-    const servMatch = r.yield_amount.match(/(\d+)/);
-    if (servMatch && servMatch[1]) {
-      servings = parseInt(servMatch[1], 10);
-    }
-  }
+  // Servings: only what the yield says (hscaYield.ts). It used to be the first integer of any
+  // yield, so "3 cups" was 3 servings and "9-inch tart" 9. Otherwise the archive-wide placeholder 4.
+  const servings = servingsFromYield(r.yield_amount) ?? PLACEHOLDER_SERVINGS;
 
   // Nutrition fallback calculation
   // Holistic recipes: generally 150-400 calories per serving, low saturated fat, high fiber

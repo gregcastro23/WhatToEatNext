@@ -28,7 +28,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 10,
           "cookTimeMinutes": 15,
-          "baseServingSize": 7,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "summer",
@@ -155,7 +155,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 5,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "autumn",
@@ -390,7 +390,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -510,7 +510,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -614,7 +614,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -723,7 +723,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -843,7 +843,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -1714,7 +1714,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 24,
+          "baseServingSize": 6,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -1869,7 +1869,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 40,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -2175,7 +2175,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 18,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -2322,7 +2322,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -2459,7 +2459,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -2608,7 +2608,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -2745,7 +2745,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -2920,7 +2920,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -3226,7 +3226,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -3337,7 +3337,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -3644,7 +3644,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -3770,7 +3770,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -4073,7 +4073,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -4229,7 +4229,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -4381,7 +4381,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -4510,7 +4510,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -4798,7 +4798,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -4940,7 +4940,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -5210,7 +5210,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 10,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -5331,7 +5331,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 11,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -5472,7 +5472,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 10,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -5611,7 +5611,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 4,
+          "baseServingSize": 9,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -5801,7 +5801,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 32,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -5974,7 +5974,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 38,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -6294,7 +6294,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -6442,7 +6442,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -6618,7 +6618,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 12,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -6771,7 +6771,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 15,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -6928,7 +6928,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 14,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -7063,7 +7063,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -7236,7 +7236,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -7409,7 +7409,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -7641,7 +7641,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -7769,7 +7769,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -7999,7 +7999,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -8125,7 +8125,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -8232,7 +8232,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -8514,7 +8514,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 10,
           "cookTimeMinutes": 15,
-          "baseServingSize": 7,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "summer",
@@ -8643,7 +8643,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 10,
           "cookTimeMinutes": 15,
-          "baseServingSize": 7,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "summer",
@@ -8887,7 +8887,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 5,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "autumn",
@@ -9009,7 +9009,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 5,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "autumn",
@@ -9133,7 +9133,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 10,
           "cookTimeMinutes": 10,
-          "baseServingSize": 2,
+          "baseServingSize": 6,
           "spiceLevel": "None",
           "season": [
             "spring",
@@ -9511,7 +9511,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 16,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -9864,7 +9864,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -10055,7 +10055,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 16,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -10209,7 +10209,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -10316,7 +10316,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -10570,7 +10570,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -11036,7 +11036,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 24,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -11199,7 +11199,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -11346,7 +11346,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -11485,7 +11485,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -11643,7 +11643,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -11789,7 +11789,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -12208,7 +12208,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -12383,7 +12383,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -12543,7 +12543,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -12691,7 +12691,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -13262,7 +13262,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -13565,7 +13565,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -13817,7 +13817,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -13956,7 +13956,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -14281,7 +14281,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -14559,7 +14559,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -14716,7 +14716,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -14862,7 +14862,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -15001,7 +15001,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -15102,7 +15102,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -15203,7 +15203,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -16805,7 +16805,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -19726,7 +19726,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -19888,7 +19888,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 24,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -20178,7 +20178,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -20382,7 +20382,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -20738,7 +20738,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -20901,7 +20901,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 20,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -21047,7 +21047,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 32,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -21275,7 +21275,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 25,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -21488,7 +21488,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 25,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -21698,7 +21698,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -21864,7 +21864,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -22043,7 +22043,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -22222,7 +22222,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -22351,7 +22351,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -22498,7 +22498,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 10,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -22743,7 +22743,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -22891,7 +22891,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -23040,7 +23040,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -23232,7 +23232,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -23380,7 +23380,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 48,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -23566,7 +23566,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 23,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -23730,7 +23730,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -24147,7 +24147,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -24285,7 +24285,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -24438,7 +24438,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -24563,7 +24563,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -24720,7 +24720,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -24867,7 +24867,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -25026,7 +25026,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -25426,7 +25426,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -25575,7 +25575,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -25727,7 +25727,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -25889,7 +25889,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -26026,7 +26026,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -26151,7 +26151,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -27546,7 +27546,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 4,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -27703,7 +27703,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -28084,7 +28084,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -28203,7 +28203,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -28500,7 +28500,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 10,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -28857,7 +28857,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 25,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -28966,7 +28966,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -29091,7 +29091,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -29228,7 +29228,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -29368,7 +29368,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -29506,7 +29506,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -29667,7 +29667,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -29798,7 +29798,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -29929,7 +29929,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -30127,7 +30127,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -30277,7 +30277,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -30397,7 +30397,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -30535,7 +30535,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -30660,7 +30660,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -31251,7 +31251,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -31428,7 +31428,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -31591,7 +31591,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -31767,7 +31767,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -31918,7 +31918,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -32084,7 +32084,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -32243,7 +32243,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -32402,7 +32402,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -32593,7 +32593,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 7,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -32782,7 +32782,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 7,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -32972,7 +32972,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -33145,7 +33145,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -33740,7 +33740,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -33859,7 +33859,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -34009,7 +34009,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -34159,7 +34159,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -34325,7 +34325,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -34436,7 +34436,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -34928,7 +34928,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -35071,7 +35071,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -35381,7 +35381,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -35547,7 +35547,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -35714,7 +35714,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -35856,7 +35856,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -36009,7 +36009,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 7,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -36183,7 +36183,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -36314,7 +36314,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -36452,7 +36452,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -36569,7 +36569,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -36672,7 +36672,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -36819,7 +36819,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -36946,7 +36946,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -37069,7 +37069,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -37186,7 +37186,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -37338,7 +37338,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -37467,7 +37467,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -37596,7 +37596,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -37725,7 +37725,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -37854,7 +37854,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -37995,7 +37995,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -38118,7 +38118,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -38281,7 +38281,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -38415,7 +38415,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -38592,7 +38592,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -38737,7 +38737,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -38885,7 +38885,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -39034,7 +39034,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -39230,7 +39230,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -39379,7 +39379,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -39516,7 +39516,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -39647,7 +39647,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -39856,7 +39856,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -40075,7 +40075,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -40212,7 +40212,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -40733,7 +40733,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 7,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -40887,7 +40887,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 7,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -41037,7 +41037,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -41186,7 +41186,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -41335,7 +41335,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -41465,7 +41465,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -41951,7 +41951,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -42056,7 +42056,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -42566,7 +42566,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -42887,7 +42887,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -43674,7 +43674,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 12,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -43811,7 +43811,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -43959,7 +43959,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 6,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -44109,7 +44109,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -44382,7 +44382,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -44495,7 +44495,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 10,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -44867,7 +44867,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -45153,7 +45153,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 7,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -45542,7 +45542,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -45855,7 +45855,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -46021,7 +46021,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -46206,7 +46206,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 10,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -46390,7 +46390,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -46539,7 +46539,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -46664,7 +46664,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 10,
           "cookTimeMinutes": 10,
-          "baseServingSize": 2,
+          "baseServingSize": 6,
           "spiceLevel": "None",
           "season": [
             "spring",
@@ -46798,7 +46798,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 10,
           "cookTimeMinutes": 10,
-          "baseServingSize": 2,
+          "baseServingSize": 6,
           "spiceLevel": "None",
           "season": [
             "spring",
@@ -46936,7 +46936,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -47141,7 +47141,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 6,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -47290,7 +47290,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -47463,7 +47463,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -47594,7 +47594,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -48036,7 +48036,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -48225,7 +48225,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -48370,7 +48370,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -48515,7 +48515,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -48660,7 +48660,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -48795,7 +48795,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -48920,7 +48920,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -49174,7 +49174,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -49599,7 +49599,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -49741,7 +49741,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -49926,7 +49926,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -50084,7 +50084,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -50230,7 +50230,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -50401,7 +50401,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -52396,7 +52396,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -52503,7 +52503,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -52745,7 +52745,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -52906,7 +52906,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 15,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -53267,7 +53267,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -53913,7 +53913,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 10,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -54557,7 +54557,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -54667,7 +54667,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -54805,7 +54805,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 6,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -54912,7 +54912,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -55025,7 +55025,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 10,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -55140,7 +55140,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -55816,7 +55816,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -55999,7 +55999,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -56200,7 +56200,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -56827,7 +56827,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 2,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -56944,7 +56944,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -57266,7 +57266,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 2,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -57386,7 +57386,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 15,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -58021,7 +58021,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -58375,7 +58375,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -58707,7 +58707,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 20,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -58907,7 +58907,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 20,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -59265,7 +59265,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 4,
+          "baseServingSize": 6,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -60098,7 +60098,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -61792,7 +61792,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -61951,7 +61951,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -62442,7 +62442,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -62618,7 +62618,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -62800,7 +62800,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -62930,7 +62930,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -63034,7 +63034,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -63617,7 +63617,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -64122,7 +64122,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -64660,7 +64660,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -65016,7 +65016,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -65168,7 +65168,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -65434,7 +65434,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 6,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -65686,7 +65686,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -65910,7 +65910,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -66811,7 +66811,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -66997,7 +66997,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -67172,7 +67172,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 36,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -67508,7 +67508,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 10,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -67640,7 +67640,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -67798,7 +67798,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 14,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -67937,7 +67937,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -68111,7 +68111,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -68249,7 +68249,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -68431,7 +68431,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 15,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -68593,7 +68593,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 10,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -68746,7 +68746,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -68896,7 +68896,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -69017,7 +69017,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 24,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -69143,7 +69143,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -69304,7 +69304,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -69488,7 +69488,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 10,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -69636,7 +69636,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 24,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -69786,7 +69786,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 24,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -69942,7 +69942,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -70120,7 +70120,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -70281,7 +70281,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 12,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -70465,7 +70465,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 10,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -70613,7 +70613,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 24,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -70763,7 +70763,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 24,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -70919,7 +70919,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -71097,7 +71097,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -71277,7 +71277,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -71439,7 +71439,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -71619,7 +71619,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -71793,7 +71793,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -71915,7 +71915,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -72095,7 +72095,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -72213,7 +72213,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -72388,7 +72388,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -72556,7 +72556,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -72698,7 +72698,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -72984,7 +72984,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 5,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -73374,7 +73374,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -73524,7 +73524,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -73681,7 +73681,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -73842,7 +73842,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -74031,7 +74031,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -74165,7 +74165,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -74313,7 +74313,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -74454,7 +74454,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -74601,7 +74601,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -74729,7 +74729,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -74911,7 +74911,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -75087,7 +75087,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -75227,7 +75227,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -75430,7 +75430,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -75654,7 +75654,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 10,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -75871,7 +75871,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -76027,7 +76027,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -76143,7 +76143,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -76274,7 +76274,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -76412,7 +76412,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -76710,7 +76710,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -76852,7 +76852,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -77024,7 +77024,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -77157,7 +77157,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -77287,7 +77287,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -77430,7 +77430,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -77703,7 +77703,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 8,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -77850,7 +77850,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 10,
+          "baseServingSize": 20,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -78004,7 +78004,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -78297,7 +78297,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -78422,7 +78422,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -78545,7 +78545,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -78678,7 +78678,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -78795,7 +78795,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -78906,7 +78906,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -79036,7 +79036,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -79200,7 +79200,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 3,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -79320,7 +79320,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 40,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -79445,7 +79445,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 40,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -79582,7 +79582,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 2,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -80103,7 +80103,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -80247,7 +80247,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 8,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -80371,7 +80371,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 24,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -80548,7 +80548,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 25,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -80710,7 +80710,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 20,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -80852,7 +80852,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 24,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -80989,7 +80989,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 40,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -81132,7 +81132,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 20,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -81270,7 +81270,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 81,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -81462,7 +81462,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 15,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -81606,7 +81606,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 30,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -81759,7 +81759,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 25,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -81902,7 +81902,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 20,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -82072,7 +82072,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 16,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -82240,7 +82240,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 30,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -82404,7 +82404,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 35,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -82572,7 +82572,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -82742,7 +82742,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -83105,7 +83105,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 32,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -83444,7 +83444,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 18,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -83621,7 +83621,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -83855,7 +83855,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -84434,7 +84434,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 6,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -84563,7 +84563,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 1,
+          "baseServingSize": 6,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -85247,7 +85247,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 9,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -85415,7 +85415,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 18,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -85565,7 +85565,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -85687,7 +85687,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 6,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -85864,7 +85864,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 24,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"
@@ -86071,7 +86071,7 @@ export const cuisine: Cuisine = {
           "cuisine": "HSCA",
           "prepTimeMinutes": 15,
           "cookTimeMinutes": 15,
-          "baseServingSize": 50,
+          "baseServingSize": 4,
           "spiceLevel": "None",
           "season": [
             "all"

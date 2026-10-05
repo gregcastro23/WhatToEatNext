@@ -77,6 +77,7 @@ const sourceSchema = z.array(
   z.object({
     name: z.string().optional(),
     title: z.string(),
+    yield_amount: z.string().nullish(),
     ingredients: z.array(z.string()),
     instructions: z.array(z.string()),
   }),

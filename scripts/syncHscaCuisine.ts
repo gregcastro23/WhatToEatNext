@@ -10,6 +10,7 @@
  *
  *   - instructions changed, ingredients the same: the instructions (and the
  *     cooking methods read from them) are replaced in every copy of the dish;
+ *   - only the stated servings changed: `details.baseServingSize` is patched, nothing else;
  *   - ingredients changed: the dish is rebuilt, so its alchemy matches them;
  *   - recipe not in the file yet: its dish is built and appended.
  *
@@ -42,6 +43,7 @@ const DISHES_CLOSE = ",\n  elementalProperties: derivedProfiles";
 
 interface Tally {
   instructions: string[];
+  servings: string[];
   rebuilt: string[];
   added: string[];
 }
@@ -80,18 +82,20 @@ function update(tree: MealTree, existing: Dish, built: HscaBuiltDish, tally: Tal
     tally.rebuilt.push(built.dish.name);
     return;
   }
+  // Same ingredients: patch only what changed, so values computed from the ingredients stay put.
   for (const [list, at] of copies) {
     list[at] = {
       ...existing,
       instructions: built.dish.instructions,
+      details: { ...existing.details, baseServingSize: built.dish.details.baseServingSize },
       classifications: { ...existing.classifications, cookingMethods: built.dish.classifications.cookingMethods },
     };
   }
-  tally.instructions.push(built.dish.name);
+  (same(existing.instructions, built.dish.instructions) ? tally.servings : tally.instructions).push(built.dish.name);
 }
 
 function sync(tree: MealTree, recipes: RawRecipe[], only: string | undefined): Tally {
-  const tally: Tally = { instructions: [], rebuilt: [], added: [] };
+  const tally: Tally = { instructions: [], servings: [], rebuilt: [], added: [] };
   const seen: Record<string, number> = {};
   for (const recipe of recipes) {
     const built = buildHscaDish(recipe);
@@ -104,7 +108,11 @@ function sync(tree: MealTree, recipes: RawRecipe[], only: string | undefined): T
       tally.added.push(built.dish.name);
     } else if (existing.name !== built.dish.name) {
       throw new Error(`${mealType}/all[${position}] is "${existing.name}", but the source recipe there is "${built.dish.name}"`);
-    } else if (!same(existing.instructions, built.dish.instructions) || !same(existing.ingredients, built.dish.ingredients)) {
+    } else if (
+      !same(existing.instructions, built.dish.instructions) ||
+      !same(existing.ingredients, built.dish.ingredients) ||
+      existing.details.baseServingSize !== built.dish.details.baseServingSize
+    ) {
       update(tree, existing, built, tally);
     }
   }
@@ -124,9 +132,11 @@ function main(): void {
   const recipes: RawRecipe[] = JSON.parse(fs.readFileSync(path.join(process.cwd(), "recipes_database.json"), "utf8"));
   const only = process.argv.find((arg) => arg.startsWith("--only="))?.slice("--only=".length);
   const tally = sync(tree, recipes, only);
-  const total = tally.instructions.length + tally.rebuilt.length + tally.added.length;
-  console.log(`${recipes.length} source recipes: ${tally.instructions.length} with new instructions, ${tally.rebuilt.length} rebuilt, ${tally.added.length} added`);
-  const groups: Array<[string, string[]]> = [["instructions", tally.instructions], ["rebuilt", tally.rebuilt], ["added", tally.added]];
+  const total = tally.instructions.length + tally.servings.length + tally.rebuilt.length + tally.added.length;
+  console.log(
+    `${recipes.length} source recipes: ${tally.instructions.length} with new instructions, ${tally.servings.length} with new servings, ${tally.rebuilt.length} rebuilt, ${tally.added.length} added`,
+  );
+  const groups: Array<[string, string[]]> = [["instructions", tally.instructions], ["servings", tally.servings], ["rebuilt", tally.rebuilt], ["added", tally.added]];
   for (const [label, names] of groups) {
     for (const name of names) console.log(`  ${label}: ${name}`);
   }

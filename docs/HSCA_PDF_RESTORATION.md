@@ -293,6 +293,32 @@ What the parser still does not read, on purpose:
 - **"or" alternatives** (about 115 lines) stay inside the name, and two ingredients on one line ("salt and
   pepper", 72 lines) stay one line.
 
+## Servings
+
+The dish builder took the first integer of every yield as the serving count: "3 cups" was 3 servings, "9-inch
+tart" 9, "Two 8-inch cakes" 8, "1 quart" 1, and "1/2 chicken (2 servings)" 1 (the "1" of "1/2"). The live rows
+ignored the yield altogether and carry a placeholder 4. Of the 568 yields, 174 actually say servings ("6-8
+servings", "Serves 8", "2 cups (8 servings)", "Six 1/2-cup servings"); 200 give a volume, 152 an item count or a
+pan, and 39 nothing.
+
+`scripts/lib/hscaYield.ts` reads a serving count only where the yield states one (the number next to
+"servings" or "portions", or after "Serves"; a range takes its lower bound), and everything else keeps the
+placeholder 4. The builder uses it, `syncHscaCuisine.ts` now notices a serving change and patches only
+`details.baseServingSize` (a servings-only change does not rebuild the dish, so nothing computed from the
+ingredients moves), and 372 dishes changed that way.
+
+`scripts/repairHscaServingsInDb.ts` did the same for the live rows: 143 rows got their stated servings in the
+column and in `read_model`, and on the 98 of them that carry stored nutrition every per-serving value was
+multiplied by 4 / servings (exact, no engine, nothing cleared or invented). A row is matched to its source
+record by its stored ingredients and its stored method both being exactly that record's, and is changed only
+while it still carries the placeholder in both places. The other 362 rows state no servings and keep 4.
+
+Prep and cook times were left alone: the source states them for 4 of 568 recipes, so there is nothing to derive.
+
+The dish builder also stamps every dish with a `nutritionPerServing` that is not measured: a flat 250, 280, 320
+or 380 kcal by meal, with macros from the dish's element values. The static loader prefers computed nutrition
+when it can substantiate a total and falls back to this one otherwise. It is untouched here.
+
 ## Not done
 
 - **The 36 new live rows have no description or image.** Every older row has both; the columns are
