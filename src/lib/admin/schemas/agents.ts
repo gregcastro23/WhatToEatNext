@@ -198,9 +198,7 @@ export const ServiceReachabilitySchema = z.object({
 });
 
 export const ContractProbeCheckSchema = z.object({
-  passed: z.boolean(),
-  status: z.number(),
-  message: z.string().exactOptional(),
+  passed: z.boolean(), status: z.number(), message: z.string().exactOptional(),
 });
 
 export const NegativeControlsSchema = z.object({
@@ -244,12 +242,7 @@ export const AgentCronHeartbeatSchema = z.object({
 });
 
 export const RecipePipelineOutcomesSchema = z.object({
-  attempts: z.number(),
-  repairs: z.number(),
-  retries: z.number(),
-  refunds: z.number(),
-  finalFailures: z.number(),
-  live: z.boolean(),
+  attempts: z.number(), repairs: z.number(), retries: z.number(), refunds: z.number(), finalFailures: z.number(), live: z.boolean(),
 });
 
 export const CreditPathHealthSchema = z.object({
@@ -274,9 +267,7 @@ export const DebitPathHealthSchema = z.object({
 });
 
 export const AgentRosterStatsSchema = z.object({
-  totalAgents: z.number(),
-  activeAgents24h: z.number(),
-  live: z.boolean(),
+  totalAgents: z.number(), activeAgents24h: z.number(), live: z.boolean(),
 });
 
 export const AdminAgentsSchema = z.object({

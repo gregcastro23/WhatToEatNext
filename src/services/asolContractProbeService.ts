@@ -61,7 +61,10 @@ const checkSharedResponseSchema = z.object({
 export class AsolContractProbeService {
   private readonly defaultBaseUrl: string;
 
-  constructor(defaultBaseUrl = "http://localhost:3000") {
+  constructor(
+    defaultBaseUrl = process.env.NEXT_PUBLIC_APP_URL ??
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"),
+  ) {
     this.defaultBaseUrl = defaultBaseUrl.replace(/\/+$/, "");
   }
 

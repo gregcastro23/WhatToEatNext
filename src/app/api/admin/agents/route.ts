@@ -32,10 +32,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const statusParam = searchParams.get("status");
     const status = statusParam === "failed" ? "failed" : "all";
 
+    const { origin } = request.nextUrl;
     const payload = await memoize(
-      `admin:agents:${status}`,
+      `admin:agents:${status}:${origin}`,
       CACHE_TTL_MS,
-      () => getAdminAgentsOverview({ status }),
+      () => getAdminAgentsOverview({ status, baseUrl: origin }),
     );
 
     return NextResponse.json({ success: true, ...payload });

@@ -13,73 +13,32 @@
  */
 
 import type { CosmicRecipe } from "@/data/featuredRecipe";
-import { classifyIngredientDiet } from "@/utils/ingredientDietaryClassification";
+import { checkDisallowed, validateDietaryCompliance } from "./recipeGateDiet";
 import {
-  isKnownGlutenSource,
   normalizeUnit,
   parseFractionalQuantity,
   resolveSingleIngredient,
   type ResolvedIngredientResult,
 } from "./recipeGateHelpers";
 import { validateSingleStep } from "./recipeGateSteps";
+import type {
+  GateFinding,
+  GateAudit,
+  RecipeVerificationOutcome,
+  VerifyCosmicRecipeOptions,
+} from "./recipeGateTypes";
 
+export * from "./recipeGateTypes";
+export * from "./recipeGateDiet";
 export * from "./recipeGateHelpers";
 export * from "./recipeGateSteps";
 export type { CosmicRecipe } from "@/data/featuredRecipe";
-
-export interface GateFinding {
-  code: string;
-  message: string;
-  path?: string;
-  severity: "blocking" | "advisory";
-}
-
-export interface GateAudit {
-  resolvedIngredientsCount: number;
-  unresolvedIngredients: string[];
-  totalEstimatedGrams: number;
-  nonCompliantDietItems: string[];
-  identifiedGlutenSources: string[];
-}
-
-export interface RecipeVerificationOutcome {
-  valid: boolean;
-  repaired: boolean;
-  blockingFindings: GateFinding[];
-  advisoryFindings: GateFinding[];
-  recipe: CosmicRecipe;
-  audit: GateAudit;
-}
-
-export interface VerifyCosmicRecipeOptions {
-  requestedDiet?: string | undefined;
-  disallowedIngredients?: string[] | undefined;
-}
 
 interface IngredientValidationState {
   repaired: boolean;
   totalEstimatedGrams: number;
   unresolvedIngredients: string[];
   resolvedCatalogEntries: ResolvedIngredientResult[];
-}
-
-function checkDisallowed(
-  name: string,
-  index: number,
-  disallowedList: string[],
-  blockingFindings: GateFinding[],
-): void {
-  const lowerName = name.toLowerCase();
-  for (const disallowed of disallowedList) {
-    if (lowerName.includes(disallowed.trim().toLowerCase())) {
-      blockingFindings.push({
-        code: "DISALLOWED_INGREDIENT_FOUND",
-        message: `Recipe contains disallowed ingredient "${name}" matching restriction "${disallowed}".`,
-        path: `ingredients.${index}.name`,
-        severity: "blocking",
-      });
-    }
-  }
 }
 
 function recordIngredientResolution(
@@ -140,68 +99,18 @@ function validateSingleIngredient(
 
   recordIngredientResolution(ing, index, entry, state, blockingFindings, advisoryFindings);
 
-  if (gramWeight > 10000) {
+  if (gramWeight > 15000) {
     blockingFindings.push({
       code: "EXCESSIVE_QUANTITY",
-      message: `Quantity for "${ing.name}" (~${Math.round(gramWeight)}g) exceeds household batch limit (10 kg).`,
+      message: `Quantity for "${ing.name}" (~${Math.round(gramWeight)}g) exceeds household batch limit (15 kg).`,
       path: `ingredients.${index}.quantity`,
       severity: "blocking",
     });
   }
 
   if (options?.disallowedIngredients && options.disallowedIngredients.length > 0) {
-    checkDisallowed(ing.name, index, options.disallowedIngredients, blockingFindings);
+    checkDisallowed(ing.name, index, options.disallowedIngredients, entry, blockingFindings);
   }
-}
-
-function validateDietaryCompliance(
-  resolvedCatalogEntries: ResolvedIngredientResult[],
-  currentDietTags: string[],
-  requestedDiet: string,
-  blockingFindings: GateFinding[],
-): { nonCompliantDietItems: string[]; identifiedGlutenSources: string[] } {
-  const nonCompliantDietItems: string[] = [];
-  const identifiedGlutenSources: string[] = [];
-
-  const checkVegan = currentDietTags.includes("vegan") || requestedDiet === "vegan";
-  const checkVegetarian =
-    checkVegan || currentDietTags.includes("vegetarian") || requestedDiet === "vegetarian";
-  const checkGlutenFree =
-    currentDietTags.includes("gluten-free") || requestedDiet === "gluten-free";
-
-  for (const { ingredient } of resolvedCatalogEntries) {
-    const classification = classifyIngredientDiet({ name: ingredient.name });
-
-    if (checkVegan && classification.isVegan === "non-compliant") {
-      nonCompliantDietItems.push(`${ingredient.name} (${classification.basis})`);
-      blockingFindings.push({
-        code: "DIET_VIOLATION_VEGAN",
-        message: `Recipe labeled or requested as vegan contains non-vegan ingredient "${ingredient.name}".`,
-        path: "tags.diet",
-        severity: "blocking",
-      });
-    } else if (checkVegetarian && classification.isVegetarian === "non-compliant") {
-      nonCompliantDietItems.push(`${ingredient.name} (${classification.basis})`);
-      blockingFindings.push({
-        code: "DIET_VIOLATION_VEGETARIAN",
-        message: `Recipe labeled or requested as vegetarian contains meat/flesh ingredient "${ingredient.name}".`,
-        path: "tags.diet",
-        severity: "blocking",
-      });
-    }
-
-    if (checkGlutenFree && isKnownGlutenSource(ingredient.name)) {
-      identifiedGlutenSources.push(ingredient.name);
-      blockingFindings.push({
-        code: "ALLERGEN_VIOLATION_GLUTEN",
-        message: `Recipe labeled or requested as gluten-free contains gluten source "${ingredient.name}".`,
-        path: "tags.diet",
-        severity: "blocking",
-      });
-    }
-  }
-
-  return { nonCompliantDietItems, identifiedGlutenSources };
 }
 
 function validateNutritionalContent(
@@ -216,6 +125,20 @@ function validateNutritionalContent(
       severity: "advisory",
     });
   }
+}
+
+function buildAudit(
+  state: IngredientValidationState,
+  nonCompliantDietItems: string[],
+  identifiedGlutenSources: string[],
+): GateAudit {
+  return {
+    resolvedIngredientsCount: state.resolvedCatalogEntries.filter((r) => r.entry !== null).length,
+    unresolvedIngredients: state.unresolvedIngredients,
+    totalEstimatedGrams: Math.round(state.totalEstimatedGrams),
+    nonCompliantDietItems,
+    identifiedGlutenSources,
+  };
 }
 
 export function verifyAndRepairCosmicRecipe(
@@ -239,12 +162,14 @@ export function verifyAndRepairCosmicRecipe(
 
   const currentDietTags = recipe.tags.diet.map((d) => d.toLowerCase());
   const requestedDiet = options?.requestedDiet?.toLowerCase() ?? "";
-  const { nonCompliantDietItems, identifiedGlutenSources } = validateDietaryCompliance(
-    state.resolvedCatalogEntries,
-    currentDietTags,
-    requestedDiet,
-    blockingFindings,
-  );
+  const { nonCompliantDietItems, identifiedGlutenSources, uncertifiedDietClaims } =
+    validateDietaryCompliance(
+      state.resolvedCatalogEntries,
+      currentDietTags,
+      requestedDiet,
+      blockingFindings,
+      advisoryFindings,
+    );
 
   recipe.steps.forEach((step, idx) => {
     validateSingleStep(step, idx, recipe.ingredients, blockingFindings, advisoryFindings);
@@ -252,18 +177,18 @@ export function verifyAndRepairCosmicRecipe(
 
   validateNutritionalContent(recipe.nutrition.calories, advisoryFindings);
 
+  const verified =
+    blockingFindings.length === 0 &&
+    !uncertifiedDietClaims &&
+    state.unresolvedIngredients.length === 0;
+
   return {
     valid: blockingFindings.length === 0,
+    verified,
     repaired: state.repaired,
     blockingFindings,
     advisoryFindings,
     recipe,
-    audit: {
-      resolvedIngredientsCount: state.resolvedCatalogEntries.filter((r) => r.entry !== null).length,
-      unresolvedIngredients: state.unresolvedIngredients,
-      totalEstimatedGrams: Math.round(state.totalEstimatedGrams),
-      nonCompliantDietItems,
-      identifiedGlutenSources,
-    },
+    audit: buildAudit(state, nonCompliantDietItems, identifiedGlutenSources),
   };
 }

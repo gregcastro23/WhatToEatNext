@@ -11,6 +11,7 @@
  * @file src/services/admin/adminAgentsService.ts
  */
 
+import { getWebhookSignatureModeInfo } from "@/lib/hooks/standardWebhooks";
 import type { AsolHealthOverview } from "@/services/admin/asolHealthService";
 import { getAsolHealthOverview } from "@/services/admin/asolHealthService";
 import type { CreditPathHealth, CreditPathSignals } from "@/services/agentCreditPathHealth";
@@ -51,6 +52,8 @@ export {
   runContractProbe,
 };
 
+import { _logger } from "@/lib/logger";
+
 interface ConnectivityGroupResult {
   services: ServiceReachability[];
   contractProbe: ContractProbeSummary;
@@ -69,12 +72,36 @@ interface ActionsGroupResult {
 async function fetchConnectivityGroup(
   fetchFn: typeof fetch,
   status?: "failed" | "all",
+  baseUrl?: string,
 ): Promise<ConnectivityGroupResult> {
   const [serviceApi, serviceUi, contractProbe, inboundDelivery] = await Promise.all([
     probeService("planetaryAgentsApi", "/health", fetchFn),
     probeService("agentsUi", "", fetchFn),
-    runContractProbe(fetchFn),
-    getAsolHealthOverview(status ? { status } : undefined),
+    runContractProbe(fetchFn, baseUrl),
+    getAsolHealthOverview(status ? { status } : undefined).catch((err) => {
+      _logger.error("[adminAgentsService] inbound webhook health read failed:", err);
+      return {
+        generatedAt: new Date().toISOString(),
+        totalReceived: 0,
+        totalProcessed: 0,
+        totalInFlight: 0,
+        totalLiveInFlight: 0,
+        totalStaleLocks: 0,
+        totalFailed: 0,
+        totalDuplicates: 0,
+        overallP95LatencyMs: null,
+        sources: [],
+        recentEvents: [],
+        feedStatus: {
+          lastEmit: null,
+          signatureMode: "unknown",
+          signatureModeInfo: getWebhookSignatureModeInfo(),
+          internalSecretConfigured: Boolean(process.env.INTERNAL_API_SECRET),
+          syncSecretConfigured: Boolean(process.env.ASOL_SYNC_SECRET),
+          hookSecretConfigured: Boolean(process.env.SVIX_SECRET),
+        },
+      };
+    }),
   ]);
   return { services: [serviceApi, serviceUi], contractProbe, inboundDelivery };
 }
@@ -105,7 +132,7 @@ export async function getAdminAgentsOverview(
   const fetchFn = options?.fetchFn ?? fetch;
   const [roster, connectivity, actions] = await Promise.all([
     getAgentRosterStats(),
-    fetchConnectivityGroup(fetchFn, options?.status),
+    fetchConnectivityGroup(fetchFn, options?.status, options?.baseUrl),
     fetchActionsGroup(),
   ]);
 

@@ -61,7 +61,10 @@ export function parseFractionalQuantity(qtyStr: string): number {
 }
 
 export function normalizeUnit(rawUnit: string): string {
-  const lower = rawUnit.toLowerCase().trim();
+  const trimmed = rawUnit.trim();
+  if (trimmed === "T" || trimmed === "T.") return "tbsp";
+  if (trimmed === "t" || trimmed === "t.") return "tsp";
+  const lower = trimmed.toLowerCase();
   return UNIT_CANONICAL_MAP[lower] ?? lower;
 }
 
@@ -74,10 +77,21 @@ export const GLUTEN_CONTAINING_TERMS: RegExp[] = [
   /\brye\b/i,
   /\bbarley\b/i,
   /\bbread\b/i,
+  /\bbreadcrumbs\b/i,
+  /\bcroutons?\b/i,
+  /\bpanko\b/i,
   /\bpasta\b/i,
   /\bspaghetti\b/i,
+  /\blinguine\b/i,
+  /\bfettuccine\b/i,
+  /\btagliatelle\b/i,
+  /\brigatoni\b/i,
+  /\bfusilli\b/i,
+  /\blasagn[ae]\b/i,
   /\bpenne\b/i,
   /\bmacaroni\b/i,
+  /\borzo\b/i,
+  /\bgnocchi\b/i,
   /\bnoodles?\b/i,
   /\budon\b/i,
   /\bramen\b/i,
@@ -86,6 +100,9 @@ export const GLUTEN_CONTAINING_TERMS: RegExp[] = [
   /\bcouscous\b/i,
   /\bbulgur\b/i,
   /\bfarro\b/i,
+  /\bbeer\b/i,
+  /\bmalt\b/i,
+  /\bmalt\s+vinegar\b/i,
 ];
 
 export function isKnownGlutenSource(ingredientName: string): boolean {
@@ -144,19 +161,41 @@ export function resolveSingleIngredient(
   return { entry, gramWeight };
 }
 
+export interface ParsedStepTemperature {
+  temperatureF: number;
+  isInternalDoneness: boolean;
+}
+
+export function parseStepTemperatures(instruction: string): ParsedStepTemperature[] {
+  const results: ParsedStepTemperature[] = [];
+  const tempRegex = /(\d{2,4})\s*(?:°\s*([CcFf])|degrees?\s*([CcFf])|([CcFf])\b|°(?!\s*[Cc]))/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = tempRegex.exec(instruction)) !== null) {
+    const rawVal = parseInt(match[1] ?? "0", 10);
+    const unitChar = (match[2] ?? match[3] ?? match[4] ?? "F").toUpperCase();
+    const tempF = unitChar === "C" ? Math.round((rawVal * 9) / 5 + 32) : rawVal;
+
+    const startPos = Math.max(0, match.index - 40);
+    const endPos = Math.min(instruction.length, match.index + match[0].length + 40);
+    const localSnippet = instruction.slice(startPos, endPos).toLowerCase();
+
+    const isInternalDoneness =
+      localSnippet.includes("internal") ||
+      localSnippet.includes("thermometer") ||
+      localSnippet.includes("center reaches") ||
+      localSnippet.includes("probe reads") ||
+      localSnippet.includes("thickest part");
+
+    results.push({ temperatureF: tempF, isInternalDoneness });
+  }
+
+  return results;
+}
+
 export function parseStepTemperature(instruction: string): number | undefined {
-  const celsiusMatch = instruction.match(/(\d{2,3})\s*(?:°\s*[Cc]|degrees?\s*[Cc]|C\b)/);
-  if (celsiusMatch) {
-    const c = parseInt(celsiusMatch[1] ?? "0", 10);
-    return Math.round((c * 9) / 5 + 32);
-  }
-
-  const fahrenheitMatch = instruction.match(/(\d{2,3})\s*(?:°\s*[Ff]|degrees?\s*[Ff]|F\b|°(?!\s*[Cc]))/);
-  if (fahrenheitMatch) {
-    return parseInt(fahrenheitMatch[1] ?? "0", 10);
-  }
-
-  return undefined;
+  const all = parseStepTemperatures(instruction);
+  return all[0]?.temperatureF;
 }
 
 export function findStepProteinTarget(

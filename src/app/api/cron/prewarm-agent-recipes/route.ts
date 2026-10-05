@@ -15,6 +15,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { isAuthorizedCron } from "@/app/api/cron/_lib/cronAuth";
 import { _logger } from "@/lib/logger";
+import { withObservability } from "@/lib/observability/withObservability";
 import { prewarmAgentRecipes } from "@/services/agentRecipePrewarm";
 import { recordCronRun } from "@/services/cronHeartbeatService";
 
@@ -29,7 +30,7 @@ export const maxDuration = 60;
  */
 const HEARTBEAT_RESERVE_MS = 12_000;
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
+async function handleGet(request: NextRequest): Promise<NextResponse> {
   if (!isAuthorizedCron(request)) {
     return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
   }
@@ -62,3 +63,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     );
   }
 }
+
+export const GET = withObservability(
+  { routeName: "/api/cron/prewarm-agent-recipes" },
+  handleGet,
+);
+

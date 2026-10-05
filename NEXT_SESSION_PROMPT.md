@@ -1,27 +1,26 @@
-# Next session — post-Phase 43 reliability and type-safety targets
+# Next session — post-Phase 44 culinary authority, verification gate, and observability targets
 
-Phase 43 is complete in [PR #933](https://github.com/gregcastro23/WhatToEatNext/pull/933). Read `docs/PHASE_43_CLOSEOUT.md` and check the PR's latest status before beginning. Work from an updated `master` after the PR merges, or explicitly state why a follow-up must branch from the PR. Do not repeat the completed optionality, cast, assertion, or scripts campaigns.
+Phase 44 is complete on branch `phase-44-culinary-authority` (base `origin/master` at `60309daf`). Read `docs/PHASE_44_CLOSEOUT.md` and check the PR's latest status before beginning. Work from an updated `master` after the PR merges.
 
-The committed Phase 43 ceilings are 106 domain loose-optionality sites, 89 wire sites, 85 production bare JSON casts (94 total), zero scripts typecheck errors, 2,827 single assertion sites, and 1,293 tracked lint warnings. Re-measure against the actual starting tree before changing a baseline; these numbers are context, not permission to spend headroom.
+## 1. Post-Phase 44 Culinary Authority & Verification Gate Context
 
-## 1. First implementation target: make agent creation truly idempotent
+Phase 44 established WTEN's deterministic culinary verification gate (`src/lib/cooking/recipeVerificationGate.ts`), robust food safety and physical limits (`src/data/cooking/foodSafety.ts`), single settlement in `/api/generate-cosmic-recipe`, and unified admin diagnostics at `/admin/agents`:
 
-`src/app/api/agents/unified/route.ts` now scopes `clientRequestId` lookup to `createdByUserId`, but the lookup and the three inserts (`users`, `user_profiles`, `token_balances`) are separate operations. Two concurrent requests can both miss the lookup and create agents; failure after the first insert can leave a partial agent that a retry cannot find through the current join. This is the highest-value follow-up because a lost 2xx response already causes the client to retry with the same ID.
+- **Food Safety & Thermal Physics:** Adheres to USDA FSIS (9 CFR § 381.150 for poultry, 9 CFR § 318.17/23 for cooked beef) and U.S. FDA Food Code 2022 § 3-401.11. Step temperature validation checks all temperatures in a step, eliminates sous vide blanket exemptions, enforces the 212°F water boiling limit (320°F for sugar/candy), handles 4-digit oven temps, and supports household batches up to 15 kg (allowing a 24 lb turkey).
+- **Dietary & Allergen Verification:** Uses multi-restriction parsing (`"Vegetarian, Gluten-Free"`), checks ingredient catalog taxonomy (ensuring dairy items like quark, burrata, and pecorino are flagged as non-vegan), maps quiz allergen category keys (`eggs`, `fish`, `dairy`, `shellfish`, `peanuts`, `tree-nuts`, `soy`, `sesame`) via `allergensNamedBy`, and truthfully sets `verification.verified: false` whenever dietary claims (like gluten-free) lack certified manufacturer attestations.
+- **Pipeline Budget & Single Settlement:** `/api/generate-cosmic-recipe` enforces a strict 45-second upstream budget (`MAX_UPSTREAM_BUDGET_MS = 45_000`, `MIN_RETRY_TIMEOUT_MS = 15_000`) measured from request start to protect against Vercel's 60s hard kill. Settlement happens strictly in `finally`, reversing debits with genuine idempotent credits (`cosmic_recipe_refund:<groupId>`) and logging explicit alerts if a refund fails.
+- **Admin Honesty & Route Observability:** All monitored routes (`/api/economy/swap`, `/api/cron/agents-daily-yield`, `/api/cron/prewarm-agent-recipes`) are wrapped with `withObservability`. Admin queries use correct schema columns (`users.last_login_at`, `token_transactions.source_type`, and `COUNT(DISTINCT transaction_group_id)`). UI cards display `"—"` rather than deceptive `"0"` or green badges when services are offline or verdicts are UNKNOWN.
 
-Design a database-enforced uniqueness boundary for `(creator, clientRequestId)` and make the creation writes atomic. Inspect the migration runner and existing rows before choosing a partial unique index on `users.profile` or a dedicated idempotency table. Plan the rollout so the constraint exists before code relies on it. On a uniqueness conflict, read and return the completed original agent rather than surfacing a generic 500. Decide and document what a replay with the same ID but different input means. Preserve behavior for requests without a client ID.
+## 2. Next Implementation Targets
 
-Acceptance evidence: two simultaneous requests by one creator return one agent ID and leave one complete set of rows; replay after a lost response returns that ID; the same request ID from another creator is independent; an injected failure rolls back all related writes; malformed input cannot retrieve a previous agent. Prefer a database-backed concurrency test over a mock that only checks SQL strings. If a database test cannot run locally, keep the migration and concurrency claim explicitly unverified.
+1. **Client-side Verification Badge & Allergen Guidance:**
+   - The `/api/generate-cosmic-recipe` response provides `verification: { verified: boolean, repaired: boolean, audit: GateAudit, advisoryFindings: GateFinding[] }`.
+   - Update `CosmicRecipeGenerator` and recipe presentation cards to render culinary verification badges, audit details, and clear diner advisories when claims cannot be certified without manufacturer package inspection.
 
-## 2. Next type-safety target: replace opaque response validation with real contracts
+2. **ASOL Contract Heartbeat & Inbound Delivery Monitoring:**
+   - Expand the `/admin/agents` contract probe and webhook audit.
+   - Ensure inbound delivery health from ASOL continues to handle degraded database states and distinct transaction groups cleanly.
 
-Five predicate-less `z.custom<T>()` sites still act as casts at response boundaries: `PremiumContext.tsx` (subscription), `useFoodDiary.ts` (entries and entry), and `useTables.ts` (list and detail). Start with one coherent producer-to-consumer slice, read every success, degraded, and error response, and validate only fields that the consumer actually needs. Add compile-time producer/reader compatibility checks where an authoritative server type exists, plus runtime tests for real response shapes and malformed 2xx payloads. Preserve prior good read state and uncertain mutation handling; do not replace the casts with `z.unknown()`, a permissive `z.custom`, or an unchecked assertion.
-
-The subscription route currently emits `tier: "standard"`, which is outside the existing union. Audit the product meaning of that tier before changing entitlement behavior or narrowing the schema. For food diary, inspect stored `food_source`, `meal_type`, and serving-unit values before using enums. For tables, inspect `composite_snapshot` and the fields each reader consumes. If a contract needs a product or data decision, leave that site deferred with evidence and complete a safe slice instead.
-
-## 3. Investigate the unresolved Monica chat endpoint
-
-`src/app/(alchm)/philosophers-stone/page.tsx` still calls `/api/monica-agent`, while Phase 43 found no local Next route or documented rewrite for that path. Trace the actual deployed request and intended provider before changing code. If the endpoint is absent, make its user-facing failure explicit and propose or implement the smallest supported route/consumer repair with a verified response contract. Do not invent a schema from the old cast or silently redirect it to `/api/agents/unified` without checking semantics.
-
-## Working rules and completion
-
-Keep the first session focused on target 1; take target 2 or 3 only if the primary change is complete and verified. Treat the house-stellium `"Fire"`/`fire` mismatch as a separate scoring decision, not a type-only cleanup. For response work, distinguish a server rejection from an unreadable 2xx mutation result. Run focused tests, `bun run verify:static`, and the relevant build/integration checks. Ratchet baselines only after measuring the final merged tree. Record remaining risks and actual gate deltas in a closeout note.
+3. **Catalog Dietary Attestation Expansion:**
+   - As documented in `ingredientDietaryClassification.ts`, positive allergen/diet attestations require record-level data.
+   - Extend the ingredient catalog pipeline to support explicit positive allergen attestations for common pantry staples.

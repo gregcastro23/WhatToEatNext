@@ -394,4 +394,132 @@ describe("verifyAndRepairCosmicRecipe", () => {
     // Does NOT mutate original calories to fake numbers
     expect(outcome.recipe.nutrition.calories).toBe(0);
   });
+
+  it("normalizes uppercase T to tbsp rather than tsp", () => {
+    expect(normalizeUnit("T")).toBe("tbsp");
+    expect(normalizeUnit("T.")).toBe("tbsp");
+    expect(normalizeUnit("t")).toBe("tsp");
+    expect(normalizeUnit("t.")).toBe("tsp");
+  });
+
+  it("does not let 'chilli' or 'chili' bypass poultry temperature checks", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "chicken thigh", quantity: "1", unit: "lb", optional: false, substitutions: [] },
+      { name: "chilli powder", quantity: "1", unit: "tsp", optional: false, substitutions: [] },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Season chicken with chilli powder and bake to 140°F internal temp.",
+        time_minutes: 20,
+        cooking_method: "bake",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "UNSAFE_TEMPERATURE")).toBe(true);
+  });
+
+  it("evaluates all temperatures in a step, catching unsafe internal doneness after oven preheat temp", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "chicken breast", quantity: "1", unit: "lb", optional: false, substitutions: [] },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Preheat oven to 425°F. Roast chicken breast to internal 155°F.",
+        time_minutes: 25,
+        cooking_method: "bake",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "UNSAFE_TEMPERATURE")).toBe(true);
+  });
+
+  it("does not exempt sous vide from minimum food safety temperatures", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "chicken breast", quantity: "1", unit: "lb", optional: false, substitutions: [] },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Cook chicken in a sous vide bath at 120°F for 1 hour.",
+        time_minutes: 60,
+        cooking_method: "sous_vide",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "UNSAFE_TEMPERATURE")).toBe(true);
+  });
+
+  it("parses multi-restriction requestedDiet string (Vegetarian, Gluten-Free)", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "bacon", quantity: "4", unit: "slice", optional: false, substitutions: [] },
+      { name: "spaghetti", quantity: "8", unit: "oz", optional: false, substitutions: [] },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Vegetarian, Gluten-Free" });
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "DIET_VIOLATION_VEGETARIAN")).toBe(true);
+    expect(outcome.blockingFindings.some((f) => f.code === "ALLERGEN_VIOLATION_GLUTEN")).toBe(true);
+  });
+
+  it("flags quark, burrata, and pecorino as non-vegan using catalog taxonomy", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "burrata", quantity: "4", unit: "oz", optional: false, substitutions: [] },
+      { name: "pecorino", quantity: "2", unit: "tbsp", optional: false, substitutions: [] },
+      { name: "quark", quantity: "4", unit: "oz", optional: false, substitutions: [] },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "vegan" });
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "DIET_VIOLATION_VEGAN")).toBe(true);
+  });
+
+  it("matches quiz allergen category keys in disallowedIngredients", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "salmon fillet", quantity: "1", unit: "piece", optional: false, substitutions: [] },
+      { name: "egg yolk", quantity: "2", unit: "piece", optional: false, substitutions: [] },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe, {
+      disallowedIngredients: ["fish", "eggs"],
+    });
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.filter((f) => f.code.startsWith("DISALLOWED"))).toHaveLength(2);
+  });
+
+  it("allows 24 lb turkey under 15 kg household batch limit, but blocks >15 kg", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "turkey", quantity: "24", unit: "lb", optional: false, substitutions: [] },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    // 24 lb = ~10.88 kg <= 15 kg
+    expect(outcome.blockingFindings.some((f) => f.code === "EXCESSIVE_QUANTITY")).toBe(false);
+
+    const excessiveRecipe = createBaseRecipe();
+    excessiveRecipe.ingredients = [
+      { name: "turkey", quantity: "35", unit: "lb", optional: false, substitutions: [] },
+    ];
+    const excessiveOutcome = verifyAndRepairCosmicRecipe(excessiveRecipe);
+    // 35 lb = ~15.87 kg > 15 kg
+    expect(excessiveOutcome.blockingFindings.some((f) => f.code === "EXCESSIVE_QUANTITY")).toBe(true);
+  });
 });
+

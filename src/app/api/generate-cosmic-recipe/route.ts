@@ -70,11 +70,13 @@ export const maxDuration = 60;
 
 /**
  * Upstream Planetary Agents generation deadline.
- * [MEASURED 2026-09-24, prod] p50 ~24s, p95 ~31s. 45s accommodates normal
- * generation variance and fits within Vercel's 60s maxDuration with 15s
- * headroom for DB updates and response settlement.
+ * [MEASURED 2026-08-19] (n=4: 23.0, 24.7, 24.8, 30.8 s). 45s accommodates
+ * generation variance and fits within Vercel's 60s maxDuration with headroom
+ * for DB updates and response settlement.
  */
 const PA_TIMEOUT_MS = 45_000;
+const MAX_UPSTREAM_BUDGET_MS = 45_000;
+const MIN_RETRY_TIMEOUT_MS = 15_000;
 const MAX_RECIPE_ATTEMPTS = 2;
 
 const birthDataSchema = z
@@ -142,6 +144,7 @@ function insufficientTokensMessage(
 }
 
 async function handlePost(request: NextRequest) {
+  const requestStartTime = Date.now();
   // Auth'd users → token economy (Spirit/Essence per cosmic recipe) is the throttle.
   // Anonymous → 2 demo cosmic recipes per IP per day, then sign-in nudge.
   const access = await gateDemoOrAuth(request, {
@@ -204,7 +207,6 @@ async function handlePost(request: NextRequest) {
      */
     refund: { spirit: number; essence: number; matter: number; substance: number };
   } | null = null;
-  let refundExecuted = false;
   // Surfaced on the 200 so the client can show what was spent and swapped.
   let payment: PaymentMetadata | null =
     access.mode === "auth" ? { charged: false, autoSwap: null } : null;
@@ -464,17 +466,25 @@ async function handlePost(request: NextRequest) {
       issues?: unknown[];
     } | null = null;
     const allEncounteredFindings: string[] = [];
-    const pipelineStartTime = Date.now();
 
     for (let attempt = 1; attempt <= MAX_RECIPE_ATTEMPTS; attempt++) {
       attemptsCount = attempt;
+      const budgetLeft = MAX_UPSTREAM_BUDGET_MS - (Date.now() - requestStartTime);
+      if (budgetLeft < MIN_RETRY_TIMEOUT_MS) {
+        logger.warn(
+          `[generate-cosmic-recipe] Insufficient budget remaining (${budgetLeft}ms < ${MIN_RETRY_TIMEOUT_MS}ms) for attempt ${attempt}`,
+        );
+        break;
+      }
+      const attemptTimeoutMs = Math.min(PA_TIMEOUT_MS, budgetLeft);
+
       try {
         const agentResponse = await fetch(`${agentBaseUrl}/api/generate-recipe`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           // Covers the body read as well as the headers: AbortSignal.timeout stays
           // armed until the response is fully consumed.
-          signal: AbortSignal.timeout(PA_TIMEOUT_MS),
+          signal: AbortSignal.timeout(attemptTimeoutMs),
           body: JSON.stringify({
             prompt: retryFeedbackPrompt,
             dominantElement,
@@ -508,10 +518,10 @@ async function handlePost(request: NextRequest) {
             message: upstreamDetail ?? "Failed to generate recipe via agents network",
             timedOut: false,
           };
-          // Under Vercel 60s limit, only retry if sufficient time remains (elapsed < 14s)
-          if (attempt < MAX_RECIPE_ATTEMPTS && Date.now() - pipelineStartTime < 14_000) {
+          const remainingAfterErr = MAX_UPSTREAM_BUDGET_MS - (Date.now() - requestStartTime);
+          if (attempt < MAX_RECIPE_ATTEMPTS && remainingAfterErr >= MIN_RETRY_TIMEOUT_MS) {
             logger.warn(
-              `[generate-cosmic-recipe] Upstream error on attempt ${attempt} (${agentResponse.status}), retrying...`,
+              `[generate-cosmic-recipe] Upstream error on attempt ${attempt} (${agentResponse.status}), retrying with ${remainingAfterErr}ms budget...`,
             );
             continue;
           }
@@ -533,7 +543,8 @@ async function handlePost(request: NextRequest) {
               .slice(0, 5)
               .map((i) => ({ path: i.path.join("."), message: i.message })),
           };
-          if (attempt < MAX_RECIPE_ATTEMPTS && Date.now() - pipelineStartTime < 14_000) {
+          const remainingAfterDrift = MAX_UPSTREAM_BUDGET_MS - (Date.now() - requestStartTime);
+          if (attempt < MAX_RECIPE_ATTEMPTS && remainingAfterDrift >= MIN_RETRY_TIMEOUT_MS) {
             continue;
           }
           break;
@@ -555,9 +566,10 @@ async function handlePost(request: NextRequest) {
           break; // Verified successfully!
         }
 
-        if (attempt < MAX_RECIPE_ATTEMPTS && Date.now() - pipelineStartTime < 14_000) {
+        const remainingAfterGate = MAX_UPSTREAM_BUDGET_MS - (Date.now() - requestStartTime);
+        if (attempt < MAX_RECIPE_ATTEMPTS && remainingAfterGate >= MIN_RETRY_TIMEOUT_MS) {
           logger.warn(
-            `[generate-cosmic-recipe] Attempt ${attempt} failed verification gate with ${outcome.blockingFindings.length} blocking finding(s), retrying:`,
+            `[generate-cosmic-recipe] Attempt ${attempt} failed verification gate with ${outcome.blockingFindings.length} blocking finding(s), retrying with ${remainingAfterGate}ms budget:`,
             outcome.blockingFindings,
           );
           // Construct structured feedback for retry
@@ -595,11 +607,10 @@ async function handlePost(request: NextRequest) {
             : "Internal server error contacting agents network",
           timedOut,
         };
-        // If an attempt timed out (it consumed 45s), do NOT retry: another attempt would
-        // exceed Vercel's 60s hard kill. Only retry fast non-timeout errors if time permits.
-        if (!timedOut && attempt < MAX_RECIPE_ATTEMPTS && Date.now() - pipelineStartTime < 14_000) {
+        const remainingAfterCatch = MAX_UPSTREAM_BUDGET_MS - (Date.now() - requestStartTime);
+        if (!timedOut && attempt < MAX_RECIPE_ATTEMPTS && remainingAfterCatch >= MIN_RETRY_TIMEOUT_MS) {
           logger.warn(
-            `[generate-cosmic-recipe] Attempt ${attempt} failed with error, retrying...`,
+            `[generate-cosmic-recipe] Attempt ${attempt} failed with error, retrying with ${remainingAfterCatch}ms budget...`,
           );
           continue;
         }
@@ -623,30 +634,6 @@ async function handlePost(request: NextRequest) {
         timedOut: false,
       };
 
-      // Perform refund BEFORE constructing response so the refund note is factually accurate
-      if (spend && !refundExecuted) {
-        refundExecuted = true;
-        try {
-          await tokenEconomy.creditMultipleTokensDetailed(
-            spend.userId,
-            [
-              { tokenType: "Spirit", amount: spend.refund.spirit },
-              { tokenType: "Essence", amount: spend.refund.essence },
-              { tokenType: "Matter", amount: spend.refund.matter },
-              { tokenType: "Substance", amount: spend.refund.substance },
-            ],
-            "cosmic_recipe_refund",
-            {
-              sourceId: spend.groupId,
-              idempotencyKey: `cosmic_recipe_refund:${spend.groupId}`,
-              description: `Refund - cosmic recipe generation failed (${spend.groupId})`,
-            }
-          );
-        } catch (refundErr) {
-          logger.error("[generate-cosmic-recipe] Immediate refund execution failed:", refundErr);
-        }
-      }
-
       return new Response(
         JSON.stringify({
           error: err.message,
@@ -655,9 +642,6 @@ async function handlePost(request: NextRequest) {
           ...(err.issues ? { issues: err.issues } : {}),
           attempts: attemptsCount,
           refunded: spend !== null,
-          ...(spend
-            ? { refundNote: "Any tokens charged for this generation have been refunded." }
-            : {}),
         }),
         {
           status: err.status,
@@ -705,7 +689,7 @@ async function handlePost(request: NextRequest) {
       ...recipe,
       recipesGeneratedToday: updatedCount,
       verification: {
-        verified: true,
+        verified: verificationOutcome.verified,
         repaired: verificationOutcome.repaired,
         audit: verificationOutcome.audit,
         advisoryFindings: verificationOutcome.advisoryFindings,
@@ -736,7 +720,7 @@ async function handlePost(request: NextRequest) {
     return okResponse;
 
   } finally {
-    if (spend && !delivered && !refundExecuted) {
+    if (spend && !delivered) {
       try {
         // Credit the EXACT basket that was debited — net of any auto-swap that
         // funded it, so the user ends where they started: the coins the bridge

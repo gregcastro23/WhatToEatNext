@@ -71,6 +71,8 @@ function AgentsTiles({ a }: { a: PulseView["agents"] }): React.JSX.Element {
     ? "bad"
     : a.creditVerdict === "STALLED"
     ? "warn"
+    : a.creditVerdict === "UNKNOWN" && a.debitVerdict === "UNKNOWN"
+    ? "neutral"
     : "ok";
   const sub = a
     ? `${a.paReachable ? "Agents online" : "Agents unreachable"} · cr: ${a.creditVerdict} · deb: ${a.debitVerdict}`

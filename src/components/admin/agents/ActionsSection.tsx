@@ -35,13 +35,13 @@ function CreditPathCard({
           <Pill tone={tone}>{creditPath.verdict}</Pill>
         </div>
         <div className="text-2xl font-bold text-gray-900 mt-2">
-          {fmtInt(creditPath.credits24h)} credits
+          {creditPath.verdict === "UNKNOWN" ? "—" : `${fmtInt(creditPath.credits24h)} credits`}
         </div>
         <p className="text-xs text-gray-600 mt-1">{creditPath.summary}</p>
       </div>
       <div className="text-[11px] text-gray-400 mt-3 pt-2 border-t border-gray-100 flex items-center justify-between">
-        <span>24h calls: {fmtInt(creditPath.calls24h)}</span>
-        <span>7d prior: {fmtInt(creditPath.priorCredits7d)}</span>
+        <span>24h calls: {creditPath.verdict === "UNKNOWN" ? "—" : fmtInt(creditPath.calls24h)}</span>
+        <span>7d prior: {creditPath.verdict === "UNKNOWN" ? "—" : fmtInt(creditPath.priorCredits7d)}</span>
       </div>
     </div>
   );
@@ -69,12 +69,12 @@ function DebitPathCard({
           <Pill tone={tone}>{debitPath.verdict}</Pill>
         </div>
         <div className="text-2xl font-bold text-gray-900 mt-2">
-          {fmtInt(debitPath.debits24h)} debits
+          {debitPath.verdict === "UNKNOWN" ? "—" : `${fmtInt(debitPath.debits24h)} debits`}
         </div>
         <p className="text-xs text-gray-600 mt-1">{debitPath.summary}</p>
       </div>
       <div className="text-[11px] text-gray-400 mt-3 pt-2 border-t border-gray-100 flex items-center justify-between">
-        <span>24h traffic: {fmtInt(debitPath.agentTraffic24h)}</span>
+        <span>24h traffic: {debitPath.verdict === "UNKNOWN" ? "—" : fmtInt(debitPath.agentTraffic24h)}</span>
         <span>source: {debitPath.trafficSource ?? "default"}</span>
       </div>
     </div>
@@ -98,15 +98,17 @@ function RecipePipelineCard({
           </Pill>
         </div>
         <div className="text-2xl font-bold text-gray-900 mt-2 flex items-baseline gap-2">
-          <span>{fmtInt(pipeline.attempts)} attempts</span>
+          <span>{pipeline.live ? `${fmtInt(pipeline.attempts)} attempts` : "—"}</span>
           <span className="text-xs text-gray-500">24h</span>
         </div>
         <p className="text-xs text-gray-500 mt-1">
-          Repairs: {pipeline.repairs} · Retries: {pipeline.retries} · Refunds: {pipeline.refunds}
+          {pipeline.live
+            ? `Repairs: ${pipeline.repairs} · Retries: ${pipeline.retries} · Refunds: ${pipeline.refunds}`
+            : "Awaiting telemetry read"}
         </p>
       </div>
       <div className="text-[11px] text-gray-400 mt-3 pt-2 border-t border-gray-100 flex items-center justify-between">
-        <span>Failures (5xx): {pipeline.finalFailures}</span>
+        <span>Failures (5xx): {pipeline.live ? pipeline.finalFailures : "—"}</span>
         <span>Gated by ASOL & WTEN</span>
       </div>
     </div>

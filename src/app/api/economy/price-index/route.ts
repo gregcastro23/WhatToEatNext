@@ -29,7 +29,7 @@ import { _logger } from "@/lib/logger";
 import { redisCached } from "@/lib/redis";
 import { circulatingSupplySql } from "@/services/tokenEconomyQueries";
 
-export const revalidate = 30;
+export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const SUPPLY_CACHE_TTL_SECONDS = 60;

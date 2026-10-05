@@ -29,10 +29,10 @@ function RosterCard({ roster }: { roster: AdminAgentsView["roster"] | undefined 
           </Pill>
         </div>
         <div className="text-3xl font-extrabold text-gray-900 mt-2">
-          {roster ? fmtInt(roster.totalAgents) : "—"}
+          {roster?.live ? fmtInt(roster.totalAgents) : "—"}
         </div>
         <p className="text-xs text-gray-500 mt-1">
-          {roster ? `${fmtInt(roster.activeAgents24h)} active in last 24h` : "Awaiting database read"}
+          {roster?.live ? `${fmtInt(roster.activeAgents24h)} active in last 24h` : "Awaiting database read"}
         </p>
       </div>
       <div className="text-[11px] text-gray-400 mt-3 pt-2 border-t border-gray-100">

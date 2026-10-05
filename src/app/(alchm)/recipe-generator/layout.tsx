@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
  * (canonicals.test.ts).
  */
 export const metadata: Metadata = {
-  alternates: { canonical: "/cosmic-recipe" },
+  alternates: { canonical: "/recipe-generator" },
 };
 
 export default function RecipeGeneratorLayout({ children }: { children: ReactNode }): ReactNode {

@@ -87,6 +87,78 @@ export interface EvaluateStepTemperatureOptions {
   isSugarOrCandy?: boolean;
 }
 
+interface ProteinThreshold {
+  pattern: RegExp;
+  minTemp: number;
+  label: string;
+  citation: string;
+}
+
+const PROTEIN_SAFETY_RULES: readonly ProteinThreshold[] = [
+  {
+    pattern: /\b(chicken|turkey|poultry|duck)\b/i,
+    minTemp: 165,
+    label: "poultry",
+    citation: "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(3) safe minimum of 165°F (74°C)",
+  },
+  {
+    pattern: /\b(ground|burger|patty|sausage)\b/i,
+    minTemp: 160,
+    label: "ground meat",
+    citation: "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(2) safe minimum of 160°F (71°C)",
+  },
+  {
+    pattern: /\b(beef|pork|lamb|veal|steak|roast|chop)\b/i,
+    minTemp: 145,
+    label: "whole cuts",
+    citation: "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(1) safe minimum of 145°F (63°C)",
+  },
+  {
+    pattern: /\b(fish|salmon|tuna|cod|shrimp|seafood)\b/i,
+    minTemp: 145,
+    label: "fish and shellfish",
+    citation: "FDA Food Code 2022 § 3-401.11(A)(1) safe minimum of 145°F (63°C)",
+  },
+];
+
+function checkProteinInternalSafety(
+  targetProtein: string,
+  temperatureF: number,
+): { safe: boolean; reason?: string } {
+  for (const rule of PROTEIN_SAFETY_RULES) {
+    if (rule.pattern.test(targetProtein)) {
+      if (temperatureF < rule.minTemp) {
+        return {
+          safe: false,
+          reason: `Internal doneness temperature ${temperatureF}°F is below ${rule.citation} for ${rule.label}.`,
+        };
+      }
+      return { safe: true };
+    }
+  }
+  return { safe: true };
+}
+
+function checkBoilingMethodSafety(
+  methodKey: string,
+  temperatureF: number,
+  isSugarOrCandy?: boolean,
+): { safe: boolean; reason?: string } {
+  const boilingMethods = new Set(["boiling", "simmering", "poaching", "steaming"]);
+  if (!boilingMethods.has(methodKey)) return { safe: true };
+
+  const maxBoilThreshold = isSugarOrCandy ? 320 : 212;
+  if (temperatureF > maxBoilThreshold) {
+    return {
+      safe: false,
+      reason: isSugarOrCandy
+        ? `Sugar syrup boiling cannot exceed 320°F for method ${methodKey}.`
+        : `Liquid water cannot exceed 212°F (100°C) at ambient pressure for method ${methodKey}.`,
+    };
+  }
+  return { safe: true };
+}
+
 /**
  * Check whether a step specifies an unsafe low temperature for a protein category,
  * or an impossible/excessive kitchen temperature (> 1000°F).
@@ -97,14 +169,10 @@ export function evaluateStepTemperature(
   targetProtein?: string,
   options?: EvaluateStepTemperatureOptions,
 ): { safe: boolean; reason?: string } {
-  if (temperatureF === undefined) return { safe: true };
-
-  // Steps that cool, chill, or refrigerate operate in safe cold storage (<40°F) or ambient
-  if (options?.isCoolingOrChilling) {
+  if (temperatureF === undefined || options?.isCoolingOrChilling) {
     return { safe: true };
   }
 
-  // Hard physical impossibility / excessive fire hazard (>1000°F exceeds high-heat tandoor and wood-fired pizza ovens)
   if (temperatureF > 1000) {
     return {
       safe: false,
@@ -112,62 +180,11 @@ export function evaluateStepTemperature(
     };
   }
 
-  // Liquid boiling in water cannot exceed 212°F (100°C) at standard sea level,
-  // EXCEPT for concentrated sugar solutions (candy, caramel, toffee) which exhibit boiling point elevation up to 320°F.
-  const boilingMethods = new Set(["boiling", "simmering", "poaching", "steaming"]);
-  if (boilingMethods.has(methodKey)) {
-    const maxBoilThreshold = options?.isSugarOrCandy ? 320 : 220;
-    if (temperatureF > maxBoilThreshold) {
-      return {
-        safe: false,
-        reason: options?.isSugarOrCandy
-          ? `Sugar syrup boiling cannot exceed 320°F for method ${methodKey}.`
-          : `Liquid water cannot exceed 212°F (100°C) at ambient pressure for method ${methodKey}.`,
-      };
-    }
-  }
+  const boilVerdict = checkBoilingMethodSafety(methodKey, temperatureF, options?.isSugarOrCandy);
+  if (!boilVerdict.safe) return boilVerdict;
 
-  // Protein internal safety: only applies when step specifies an internal target doneness temperature
-  // (e.g. "cook until internal temperature reaches X"), not oven air/ambient temps (e.g. "bake at 375°F").
-  if (targetProtein && options?.isInternalDoneness && methodKey !== "sous_vide") {
-    const lower = targetProtein.toLowerCase();
-
-    // 1. Poultry
-    if (lower.includes("chicken") || lower.includes("turkey") || lower.includes("poultry") || lower.includes("duck")) {
-      if (temperatureF < 165) {
-        return {
-          safe: false,
-          reason: `Internal doneness temperature ${temperatureF}°F is below USDA minimum safe internal temperature of 165°F (74°C) for poultry (9 CFR § 381.150).`,
-        };
-      }
-    }
-    // 2. Ground meat
-    else if (lower.includes("ground") || lower.includes("burger") || lower.includes("patty") || lower.includes("sausage")) {
-      if (temperatureF < 160) {
-        return {
-          safe: false,
-          reason: `Internal doneness temperature ${temperatureF}°F is below USDA minimum safe internal temperature of 160°F (71°C) for ground meat (9 CFR § 318.23).`,
-        };
-      }
-    }
-    // 3. Whole cuts of meat (beef, pork, lamb, veal)
-    else if (lower.includes("beef") || lower.includes("pork") || lower.includes("lamb") || lower.includes("veal") || lower.includes("steak") || lower.includes("roast") || lower.includes("chop")) {
-      if (temperatureF < 145) {
-        return {
-          safe: false,
-          reason: `Internal doneness temperature ${temperatureF}°F is below USDA minimum safe internal temperature of 145°F (63°C) for whole cuts (FDA Food Code 2022 § 3-401.11).`,
-        };
-      }
-    }
-    // 4. Finfish and shellfish
-    else if (lower.includes("fish") || lower.includes("salmon") || lower.includes("tuna") || lower.includes("cod") || lower.includes("shrimp") || lower.includes("seafood")) {
-      if (temperatureF < 145) {
-        return {
-          safe: false,
-          reason: `Internal doneness temperature ${temperatureF}°F is below FDA minimum safe internal temperature of 145°F (63°C) for fish and shellfish (FDA Food Code 2022 § 3-401.11).`,
-        };
-      }
-    }
+  if (targetProtein && options?.isInternalDoneness) {
+    return checkProteinInternalSafety(targetProtein, temperatureF);
   }
 
   return { safe: true };

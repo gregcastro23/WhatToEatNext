@@ -9,7 +9,7 @@ import { METHOD_PHYSICS } from "@/data/cooking/methodPhysics";
 import type { CosmicRecipe } from "@/data/featuredRecipe";
 import {
   findStepProteinTarget,
-  parseStepTemperature,
+  parseStepTemperatures,
 } from "./recipeGateHelpers";
 
 export interface StepGateFinding {
@@ -31,14 +31,12 @@ function detectStepContext(
   ingredients: CosmicRecipe["ingredients"],
 ): StepThermalContext {
   const isCoolingOrChilling =
-    instructionLower.includes("chill") ||
-    instructionLower.includes("refrigerat") ||
-    instructionLower.includes("ice bath") ||
-    instructionLower.includes("cool down") ||
-    instructionLower.includes("cool to") ||
-    instructionLower.includes("freezer");
+    /\b(chill|chilled|chilling|cooling|cool\s+down|cool\s+to|refrigerat\w*|ice\s+bath|freeze|freezer)\b/i.test(
+      instructionLower,
+    );
 
   const isInternalDoneness =
+    rawMethod === "sous_vide" ||
     instructionLower.includes("internal") ||
     instructionLower.includes("thermometer") ||
     instructionLower.includes("center reaches") ||
@@ -62,6 +60,62 @@ function detectStepContext(
   return { isCoolingOrChilling, isInternalDoneness, isSugarOrCandy };
 }
 
+function checkCookingMethodProfile(
+  rawMethod: string,
+  cookingMethod: string,
+  stepNumber: number,
+  idx: number,
+  advisoryFindings: StepGateFinding[],
+): void {
+  const physicsProfile = METHOD_PHYSICS[rawMethod];
+  if (!physicsProfile && rawMethod !== "no_cook" && rawMethod !== "mix" && rawMethod !== "prep") {
+    advisoryFindings.push({
+      code: "UNKNOWN_COOKING_METHOD",
+      message: `Cooking method "${cookingMethod}" in step ${stepNumber} is not formally profiled in the physics registry.`,
+      path: `steps.${idx}.cooking_method`,
+      severity: "advisory",
+    });
+  }
+}
+
+function checkStepThermalSafety(
+  rawMethod: string,
+  stepNumber: number,
+  idx: number,
+  instruction: string,
+  ingredients: CosmicRecipe["ingredients"],
+  blockingFindings: StepGateFinding[],
+): void {
+  const parsedTemps = parseStepTemperatures(instruction);
+  const instructionLower = instruction.toLowerCase();
+  const proteinTarget = findStepProteinTarget(instructionLower, ingredients);
+  const baseContext = detectStepContext(instructionLower, rawMethod, ingredients);
+
+  for (const { temperatureF, isInternalDoneness } of parsedTemps) {
+    const stepContext: StepThermalContext = {
+      ...baseContext,
+      isInternalDoneness: isInternalDoneness || baseContext.isInternalDoneness,
+    };
+
+    const safetyVerdict = evaluateStepTemperature(
+      rawMethod,
+      temperatureF,
+      proteinTarget,
+      stepContext,
+    );
+
+    if (!safetyVerdict.safe) {
+      blockingFindings.push({
+        code: "UNSAFE_TEMPERATURE",
+        message: `Step ${stepNumber}: ${safetyVerdict.reason}`,
+        path: `steps.${idx}.instruction`,
+        severity: "blocking",
+      });
+      break;
+    }
+  }
+}
+
 export function validateSingleStep(
   step: CosmicRecipe["steps"][number],
   idx: number,
@@ -70,37 +124,8 @@ export function validateSingleStep(
   advisoryFindings: StepGateFinding[],
 ): void {
   const rawMethod = step.cooking_method.trim().toLowerCase().replace(/[\s-]+/g, "_");
-  const physicsProfile = METHOD_PHYSICS[rawMethod];
-
-  if (!physicsProfile && rawMethod !== "no_cook" && rawMethod !== "mix" && rawMethod !== "prep") {
-    advisoryFindings.push({
-      code: "UNKNOWN_COOKING_METHOD",
-      message: `Cooking method "${step.cooking_method}" in step ${step.step_number} is not formally profiled in the physics registry.`,
-      path: `steps.${idx}.cooking_method`,
-      severity: "advisory",
-    });
-  }
-
-  const parsedTempF = parseStepTemperature(step.instruction);
-  const instructionLower = step.instruction.toLowerCase();
-  const proteinTarget = findStepProteinTarget(instructionLower, ingredients);
-  const context = detectStepContext(instructionLower, rawMethod, ingredients);
-
-  const safetyVerdict = evaluateStepTemperature(
-    rawMethod,
-    parsedTempF,
-    proteinTarget,
-    context,
-  );
-
-  if (!safetyVerdict.safe) {
-    blockingFindings.push({
-      code: "UNSAFE_TEMPERATURE",
-      message: `Step ${step.step_number}: ${safetyVerdict.reason}`,
-      path: `steps.${idx}.instruction`,
-      severity: "blocking",
-    });
-  }
+  checkCookingMethodProfile(rawMethod, step.cooking_method, step.step_number, idx, advisoryFindings);
+  checkStepThermalSafety(rawMethod, step.step_number, idx, step.instruction, ingredients, blockingFindings);
 
   if (step.time_minutes < 0) {
     blockingFindings.push({

@@ -102,6 +102,7 @@ export interface AdminAgentsPayload {
 export interface AdminAgentsOptions {
   status?: "failed" | "all";
   fetchFn?: typeof fetch;
+  baseUrl?: string;
 }
 
 export const MONITORED_AGENT_ACTIONS = [

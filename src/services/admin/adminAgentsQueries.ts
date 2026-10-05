@@ -80,7 +80,7 @@ export async function getAgentRosterStats(): Promise<AgentRosterStats> {
     }>(
       `SELECT
          COUNT(*)::int AS total_agents,
-         COUNT(*) FILTER (WHERE last_login > NOW() - INTERVAL '24 hours')::int AS active_agents
+         COUNT(*) FILTER (WHERE last_login_at > NOW() - INTERVAL '24 hours')::int AS active_agents
        FROM users
        WHERE is_agent = true`,
     );
@@ -181,7 +181,7 @@ export async function getAgentCronHeartbeats(): Promise<AgentCronHeartbeat[]> {
       expectedIntervalMinutes: 1440,
       lastRun: null,
       lastStatus: null,
-      state: "failing",
+      state: "never",
     },
     {
       name: "prewarm-agent-recipes",
@@ -189,7 +189,7 @@ export async function getAgentCronHeartbeats(): Promise<AgentCronHeartbeat[]> {
       expectedIntervalMinutes: 60,
       lastRun: null,
       lastStatus: null,
-      state: "failing",
+      state: "never",
     },
   ];
 }
@@ -203,9 +203,9 @@ export async function getRecipePipelineOutcomes(): Promise<RecipePipelineOutcome
       final_failures: number;
     }>(
       `SELECT
-         (SELECT COUNT(*)::int
+         (SELECT COUNT(DISTINCT transaction_group_id)::int
             FROM token_transactions
-           WHERE (transaction_type = 'cosmic_recipe_refund'
+           WHERE (source_type = 'cosmic_recipe_refund'
                OR idempotency_key LIKE 'cosmic_recipe_refund:%'
                OR description LIKE 'Refund - cosmic recipe%')
              AND created_at > NOW() - INTERVAL '24 hours') AS refunds,
@@ -243,11 +243,13 @@ export async function getRecipePipelineOutcomes(): Promise<RecipePipelineOutcome
 
 export async function runContractProbe(
   fetchFn?: typeof fetch,
+  baseUrl?: string,
 ): Promise<ContractProbeSummary> {
   try {
-    const report: AsolContractProbeReport = await asolContractProbe.executeProbe(
-      fetchFn ? { fetchFn } : undefined,
-    );
+    const report: AsolContractProbeReport = await asolContractProbe.executeProbe({
+      ...(fetchFn ? { fetchFn } : {}),
+      ...(baseUrl ? { baseUrl } : {}),
+    });
     return {
       success: report.success,
       timestamp: report.timestamp,

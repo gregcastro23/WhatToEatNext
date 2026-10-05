@@ -26,12 +26,19 @@ jest.mock("@/services/TokenEconomyService", () => ({
     creditMultipleTokensDetailed: (...args: unknown[]) =>
       creditMultipleTokensDetailed(...args),
   },
-  refundBasketAfterSwap: jest.fn(
-    (costs: { spirit: number; essence: number; matter: number; substance: number }) => ({
-      ...costs,
-    }),
-  ),
 }));
+
+jest.mock("@/lib/economy/swappingBridge", () => {
+  const actual = jest.requireActual("@/lib/economy/swappingBridge");
+  return {
+    ...actual,
+    refundBasketAfterSwap: jest.fn(
+      (costs: { spirit: number; essence: number; matter: number; substance: number }) => ({
+        ...costs,
+      }),
+    ),
+  };
+});
 
 jest.mock("@/lib/auth/demoAccess", () => ({
   gateDemoOrAuth: async () => ({ mode: "auth", userId: "pipeline-user-1" }),
@@ -79,14 +86,18 @@ describe("Resilient Cosmic Recipe Pipeline", () => {
     );
     resetRecipePipelineTelemetry();
     jest.spyOn(console, "warn").mockImplementation(() => {});
-    // jest.spyOn(console, "error").mockImplementation(() => {});
 
     getShopItem.mockResolvedValue({ isActive: true });
     purchaseShopItem.mockResolvedValue({
       success: true,
       transactionGroupId: DEBIT_GROUP_ID,
     });
-    creditMultipleTokensDetailed.mockResolvedValue({ status: "applied" });
+    creditMultipleTokensDetailed.mockResolvedValue({
+      status: "credited",
+      written: 4,
+      requested: 4,
+      balances: null,
+    });
   });
 
   afterEach(() => jest.restoreAllMocks());
@@ -270,4 +281,55 @@ describe("Resilient Cosmic Recipe Pipeline", () => {
     expect(stats.finalFailures).toBe(1);
     expect(stats.retries).toBe(1);
   });
+
+  it("handles failed refund correctly and alerts without throwing 500 override", async () => {
+    creditMultipleTokensDetailed.mockResolvedValueOnce({
+      status: "failed",
+      code: "40001",
+      constraint: null,
+      message: "serialization failure",
+    });
+
+    const timeoutErr = new Error("The operation was aborted due to timeout");
+    timeoutErr.name = "TimeoutError";
+
+    const fetchMock = jest.fn().mockRejectedValueOnce(timeoutErr);
+    installFetchMock(fetchMock);
+
+    const mod = await import("@/app/api/generate-cosmic-recipe/route");
+    const res = await mod.POST(makeRequest());
+
+    expect(res.status).toBe(504);
+    const body = await res.json();
+    expect(body.error).toContain("timed out");
+    expect(creditMultipleTokensDetailed).toHaveBeenCalledTimes(1);
+  });
+
+  it("terminates retry loop and settles refund when remaining budget is below MIN_RETRY_TIMEOUT_MS", async () => {
+    let callCount = 0;
+    const fetchMock = jest.fn().mockImplementation(() => {
+      callCount++;
+      return new Response(JSON.stringify({ detail: "upstream flake" }), { status: 502 });
+    });
+
+    const startTime = 1_000_000;
+    let elapsed = 0;
+    jest.spyOn(Date, "now").mockImplementation(() => {
+      const current = startTime + elapsed;
+      if (callCount > 0) {
+        elapsed = 32_000;
+      }
+      return current;
+    });
+
+    installFetchMock(fetchMock);
+
+    const mod = await import("@/app/api/generate-cosmic-recipe/route");
+    const res = await mod.POST(makeRequest());
+
+    expect(res.status).toBe(502);
+    expect(callCount).toBe(1);
+    expect(creditMultipleTokensDetailed).toHaveBeenCalledTimes(1);
+  });
 });
+
