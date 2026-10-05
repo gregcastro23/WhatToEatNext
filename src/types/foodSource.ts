@@ -23,6 +23,7 @@ export const FOOD_SOURCES = literals(
   "search", // FDC database search
   "quick", // Quick-add common foods
   "favorite", // From user favorites
+  "manual", // User manual entry
 );
 
 export type FoodSource = (typeof FOOD_SOURCES)[number];

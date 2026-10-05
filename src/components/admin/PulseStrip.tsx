@@ -64,6 +64,39 @@ function ChainTiles({ s, b }: { s: PulseView["solana"]; b: PulseView["base"] }):
   );
 }
 
+function AgentsTiles({ a }: { a: PulseView["agents"] }): React.JSX.Element {
+  const tone = !a
+    ? "neutral"
+    : a.creditVerdict === "INCIDENT" || a.debitVerdict === "INCIDENT" || !a.paReachable
+    ? "bad"
+    : a.creditVerdict === "STALLED"
+    ? "warn"
+    : a.creditVerdict === "UNKNOWN" && a.debitVerdict === "UNKNOWN"
+    ? "neutral"
+    : "ok";
+  const sub = a
+    ? `${a.paReachable ? "Agents online" : "Agents unreachable"} · cr: ${a.creditVerdict} · deb: ${a.debitVerdict}`
+    : "agents read failed";
+  return (
+    <>
+      <Stat
+        href="/admin/agents"
+        label="Agents"
+        value={a ? (a.totalAgents !== null ? `${fmtInt(a.totalAgents)} registered` : "roster unread") : null}
+        sub={sub}
+        tone={tone}
+      />
+      <Stat
+        href="/admin/agents"
+        label="Agent sync"
+        value={a ? `Credit: ${a.creditVerdict}` : null}
+        sub={a ? `Debit: ${a.debitVerdict} · ${fmtInt(a.activeDeliveryEvents24h)} webhooks` : "sync bridge unread"}
+        tone={tone}
+      />
+    </>
+  );
+}
+
 function PulseHeader({ data, error }: { data: PulseView | null; error: string | null }): React.JSX.Element {
   return (
     <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
@@ -82,12 +115,13 @@ export default function PulseStrip(): React.JSX.Element {
   return (
     <section aria-label="Live pulse">
       <PulseHeader data={data} error={error} />
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         <TrafficTiles t={data?.traffic ?? null} />
         <GrowthTiles g={data?.growth ?? null} />
         <RevenueTiles r={data?.revenue ?? null} />
         <CodeTiles c={data?.code ?? null} />
         <ChainTiles s={data?.solana ?? null} b={data?.base ?? null} />
+        <AgentsTiles a={data?.agents ?? null} />
       </div>
     </section>
   );

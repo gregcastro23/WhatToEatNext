@@ -8,7 +8,7 @@ import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { getAccuratePlanetaryPositions, getSignFromLongitude } from "@/utils/astrology/positions";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 export const runtime = "nodejs";
 
 const ZODIAC_SIGNS = ["aries","taurus","gemini","cancer","leo","virgo","libra","scorpio","sagittarius","capricorn","aquarius","pisces"] as const;

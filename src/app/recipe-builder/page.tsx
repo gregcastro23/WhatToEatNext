@@ -340,10 +340,10 @@ export default function RecipeBuilderPage() {
               Cosmic Recipe
             </Link>
             <Link
-              href="/recipe-generator"
+              href="/recipes"
               className="px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 transition-colors text-sm text-purple-700 font-medium border border-purple-200"
             >
-              Recipe Generator
+              All Recipes
             </Link>
             <Link
               href="/"

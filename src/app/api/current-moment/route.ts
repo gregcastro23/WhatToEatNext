@@ -7,7 +7,7 @@ import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 export const runtime = "nodejs";
 
 const CURRENT_MOMENT_LIMIT = { window: 60_000, max: 60, bucket: "current-moment" };
@@ -53,15 +53,24 @@ export async function GET(request: Request) {
     else if (month >= 8 && month <= 10) season = "autumn";
     else season = "winter";
 
-    return NextResponse.json({
-      success: true,
-      timestamp: now.toISOString(),
-      positions,
-      dominantElement: dominant,
-      elementalBalance: elementCounts,
-      timeOfDay,
-      season,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        timestamp: now.toISOString(),
+        positions,
+        dominantElement: dominant,
+        elementalBalance: elementCounts,
+        timeOfDay,
+        season,
+      },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600",
+          Deprecation: "true",
+          Link: '</api/astrology>; rel="successor-version"',
+        },
+      },
+    );
   } catch (error) {
     _logger.error("[current-moment] Error:", error);
     return NextResponse.json({ success: false, error: "Failed to compute current moment" }, { status: 500 });

@@ -119,6 +119,7 @@ export const CreateFoodDiaryEntrySchema = z.object({
   serving: ServingSizeSchema,
   quantity: z.number().positive(),
   nutrition: z.record(z.string(), z.unknown()).optional(),
+  nutritionConfidence: z.enum(["high", "medium", "low"]).optional(),
   elementalProperties: ElementalPropertiesSchema.optional(),
   notes: z.string().optional(),
   tags: z.array(z.string()).optional(),
@@ -1407,12 +1408,6 @@ export const AgentGroupChatRequestSchema = z.object({
   source: z.string().optional(),
 });
 export type AgentGroupChatRequest = z.infer<typeof AgentGroupChatRequestSchema>;
-
-export const UnifiedAgentRequestSchema = z.object({
-  action: z.string(),
-  parameters: z.record(z.string(), z.unknown()).optional(),
-});
-export type UnifiedAgentRequest = z.infer<typeof UnifiedAgentRequestSchema>;
 
 // ─── Batch 3: External Integrations & Lab Inbound Request Schemas ───────────
 

@@ -348,6 +348,11 @@ const nextConfig = {
         destination: "/menu-planner",
         permanent: true,
       },
+      {
+        source: "/recipe-generator",
+        destination: "/cosmic-recipe",
+        permanent: false,
+      },
       // The tier concept is retired, but these two were never upsell pages —
       // /premium was the ESMS Vault (still linked from the footer as "ESMS
       // Vault") and /premium-table is the Alchemical Midpoint feature. Renamed
