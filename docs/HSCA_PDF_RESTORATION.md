@@ -238,13 +238,60 @@ corrected and 36 inserted in one transaction, taking `recipes` from 1,077 to 1,1
   servings, `main`, difficulty 2, all four seasons).
 - Black Cod and Sweet Potato Latkes lost their nutrition (their shortened ingredient lists cannot back a
   plausible total); Seafood Sausage was recomputed and Blackened Shrimp gained some.
-- The unit-prefix lines #937 fixed in `hsca.ts` (the importer read "g" out of "Granny", "can" out of "Canola";
-  "g ranny") were repaired in the existing rows on 2026-10-05 with `scripts/repairHscaUnitPrefixInDb.ts`: 33 rows,
-  one line each, each becoming the line `hsca.ts` serves. A row is touched only when every line that differs from
-  `hsca.ts` is exactly that misread. Only what the repair changes was rewritten: the ingredient lines, and
-  `elemental_properties` / `alchemical_quantities` on the 19 rows where today's code computes a different result
-  from the repaired names. `nutritional_profile` was not touched: today's nutrition code returns nothing for most of
-  these rows on their old lines too, so recomputing it would have cleared numbers the repair did not invalidate.
+- The ingredient lines the importer misread (below) were repaired in the existing rows in two runs on
+  2026-10-05: 33 rows with #937's unit-prefix misread, then 295 rows with the rest (the 33 included, since
+  their lines changed again), each by a script that refuses to touch a line that is not exactly the old
+  parser's output.
+
+## Parse errors from the first importer
+
+The ingredient parser was a plain regex reader of a leading number and a unit, and the archive writes much
+more than that. Measured over all 5,342 source ingredient lines on 2026-10-05, it mangled 518 lines in 308
+recipes, and 478 lines in 295 of the 534 live rows:
+
+| What the source says | What the first parser made of it |
+| --- | --- |
+| `¾ cup flour`, `1 ½ cups apple juice` (67 lines, 17 recipes) | 1 piece named "¾ cup flour" |
+| `8-10 sheets rice paper`, `2 to 3 tablespoons shoyu`, `1 1/2-2 cups water` (136 lines) | 8 pieces of "-10 sheets rice paper", unit and name corrupted |
+| `14-ounce can tomatoes`, `1 (14 oz.) can coconut milk`, `2-8 ounce packages tempeh` | 14 pieces of "-ounce can tomatoes", the size read as the count |
+| `Salt to taste`, `Canola oil for frying` | the ingredients "salt to taste" and "canola oil for frying" |
+| `1/4 cup of oil`, `2 pinches of sea salt` | the ingredient "of oil" |
+| `toasted, chopped walnuts`, `skinless, boneless chicken breast` | the ingredient "toasted", with "chopped walnuts" as a note |
+| `1 tablespoon + 1 1/2 teaspoons yeast`, `1 gallon + 2 quarts water` | the second quantity left in the name, the amount short by as much as 40% |
+| `1/4 cup (2 ounces), Worcestershire sauce`, `Garnish: 1 scallion` | an empty name; a label as the ingredient |
+| `4 Granny Smith apples`, `Canola oil`, `garlic cloves` (#937) | 4 g of "ranny smith apples", a can of "ola oil" |
+
+`scripts/lib/hscaDish.ts` now reads all of these. Whatever it sets aside lands in `notes`, so no word of the
+source line is dropped; a range keeps its lower bound as the amount (as it did by accident before) and both
+bounds in the notes; "N unit + M unit" is added up when both are volumes. Lines the first parser read
+correctly parse byte-for-byte as before (a parity test pins 14 of them). The first parser is kept, frozen, in
+`scripts/lib/hscaLegacyParse.ts`: it is the witness for the database repair, not something to build with.
+
+Because the parser now reads #937's three hand-patched exceptions (garlic cloves, the "Garnish:" label, "1
+gallon + 2 quarts" as 1.5 gallons), `hsca.ts` is again wholly parser-derived: `bun scripts/syncHscaCuisine.ts
+--check` exits 0 with nothing rebuilt. 312 dishes were rebuilt to get there; only their ingredients and the
+values computed from them changed (nutrition per serving on 200 of them, elements on about 210). The search
+corpus ratchets tightened: generic cards 7 to 5, unresolved lines 270 to 248.
+
+`scripts/repairHscaParsedLinesInDb.ts` repaired the live rows. A stored line is replaced only when it equals
+what the legacy parser made of its source line, and it becomes what the corrected parser makes of it; every
+one of the 534 live rows was either already correct or matched that way on every line it changed (none was
+skipped). It rewrote `elemental_properties` on 140 rows and `alchemical_quantities` on 62, only where today's
+code computes a different result from the repaired names. It did **not** rewrite `nutritional_profile`: 45
+rows would change (for example a dumpling recipe from 616 to 1,489 kcal "a serving"), but those totals divide
+by the placeholder 4 servings every row carries, so a corrected line can move a total a long way without
+making it truer. `--nutrition` writes them.
+
+What the parser still does not read, on purpose:
+
+- **"Pinch" and "dash"** (about 150 lines): `pinches?` never matched "pinch", so "Pinch of sea salt" is 1 piece
+  named "pinch of sea salt". Making it a unit needs a gram weight in `unitConversion.ts` first: a caloric
+  ingredient in a unit with no weight makes the recipe's computed nutrition disappear.
+- **"2 cloves"** (3 lines, beside cinnamon sticks and cardamom pods) is the spice. The unit swallows the whole
+  line, leaving an empty name; naming it "cloves" would weigh it as a 50 g piece.
+- **"optional"** (40 lines): the notes say it, but every line is stored `optional: false`.
+- **"or" alternatives** (about 115 lines) stay inside the name, and two ingredients on one line ("salt and
+  pepper", 72 lines) stay one line.
 
 ## Not done
 
@@ -253,5 +300,3 @@ corrected and 36 inserted in one transaction, taking `recipes` from 1,077 to 1,1
 - **Ingredient quantities in the existing data were not re-verified line by line.** They were compared
   by ingredient name (all agree apart from the folded-in lines above); a quantity the PDF prints as a
   small fraction could still differ.
-- **Range amounts parse badly** ("2-3 tablespoons" becomes amount 2, unit piece), as they already do
-  throughout the archive; the 36 new recipes inherit that.

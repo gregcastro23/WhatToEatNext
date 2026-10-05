@@ -151,10 +151,13 @@ describe("reverse index: a recipe line is filed under its head ingredient", () =
     //                        faba, burdock root, cous-cous, marjoram leaf, roquefort
     //                        cheese, the "muhammara" reference) and five range or comma
     //                        splits ("2-3 tablespoons ...", "skinless, boneless ...")
+    // [MEASURED 2026-10-05] after the importer's parser was corrected and hsca.ts rebuilt
+    // (ranges, Unicode fractions, "of ...", "to taste", size patterns, adjective lists), over
+    // 2,675 distinct lines: generic 7 → 5, modifier 44 → 44, unresolved 270 → 248.
     expect(summary.flagged["unit-word"]).toBe(0);
-    expect(summary.flagged.generic).toBeLessThanOrEqual(7);
+    expect(summary.flagged.generic).toBeLessThanOrEqual(5);
     expect(summary.flagged.modifier).toBeLessThanOrEqual(44);
-    expect(summary.unresolved).toBeLessThanOrEqual(273);
+    expect(summary.unresolved).toBeLessThanOrEqual(248);
   });
 
   it("hero recipe counts follow the head: lemon and garlic, not juice and cloves", () => {
