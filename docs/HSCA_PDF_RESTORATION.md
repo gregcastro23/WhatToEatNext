@@ -212,12 +212,39 @@ On `master` @ `8bd7be6a` plus this change:
 - The audit behind these numbers was run against the PDF's OCR and page images, not the PDF text, so it
   can be repeated with any OCR; the tooling is not committed.
 
+## The live database
+
+The app serves `/recipes/[recipeId]` from Postgres, so the source change reached users only once the
+`recipes` table was brought in step. That was done on 2026-10-04 with `scripts/syncHscaRecipesToDb.ts`
+(logic in `scripts/lib/hscaDbSync.ts`, computed fields in `scripts/lib/hscaComputed.ts`): 43 existing rows
+corrected and 36 inserted in one transaction, taking `recipes` from 1,077 to 1,113 rows, HSCA from 498 to
+534, and the live catalog from 1,063 to 1,099.
+
+- A changed source record is matched to a live row by name and by BOTH stored copies of the method
+  (`instructions` and `read_model.instructions`) equalling the old source method; all 43 matched exactly one
+  row. The source has 532 records for 498 live names, so a duplicate-titled record has no live row.
+- The tool runs as a dry run (a `READ ONLY` transaction) by default; `--rehearse` does every write and check
+  and rolls back; `--commit` needs `--backup=<file>` and `--confirm-host=<host>`. It refuses to commit unless
+  every written row reads back as intended, the row counts moved by exactly the number inserted, and a
+  checksum of every other row is unchanged. A re-run after the commit finds every change already applied.
+- Four parents had their ingredient list rewritten; for them, and for the 36 new rows, `elemental_properties`,
+  `alchemical_quantities` and `nutritional_profile` were computed with copies of the repo's backfill
+  functions. The copies agree with the originals on 538 ingredient lists (0 differences). They do not
+  reproduce the values already stored on the other rows: those were written in batches against an ingredient
+  catalog that has since changed (elemental shares agree to within 0.10 on 487 of 498 rows), so the 40 rows
+  hold what the backfills compute today.
+- `contexts[].lunar` is left empty on the new rows. The stored phases do not follow the dominant element and
+  nothing reads them. Defaults are the placeholders every existing HSCA row shares (30/30 minutes, 4
+  servings, `main`, difficulty 2, all four seasons).
+- Black Cod and Sweet Potato Latkes lost their nutrition (their shortened ingredient lists cannot back a
+  plausible total); Seafood Sausage was recomputed and Blackened Shrimp gained some.
+- Not touched: the live `read_model.ingredients` lines that #937 fixed in `hsca.ts` (the unit-prefix read,
+  "g ranny") are still wrong in the existing rows; new rows use the fixed parser.
+
 ## Not done
 
-- **The live database still has the old text.** The app serves `/recipes/[recipeId]` from Postgres, which
-  holds none of these corrections and none of the 36 recipes; the static catalog's new recipes are
-  absent from live search until ingested. The writer that ingested the original 533 is not in this repo,
-  so a backfill needs it identified first, and a read-only production measurement before any write.
+- **The 36 new live rows have no description or image.** Every older row has both; the columns are
+  nullable and the app's row mapper omits them, but nothing here generates either.
 - **Ingredient quantities in the existing data were not re-verified line by line.** They were compared
   by ingredient name (all agree apart from the folded-in lines above); a quantity the PDF prints as a
   small fraction could still differ.
