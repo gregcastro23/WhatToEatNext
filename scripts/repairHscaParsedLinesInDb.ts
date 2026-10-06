@@ -12,10 +12,10 @@
  *     ... --rehearse                                           does every write and check, then ROLLS BACK
  *     ... --commit --backup=<file> --confirm-host=<host:port>   the same, then COMMITs
  *
- * A stored line is replaced only when it is exactly what the frozen legacy parser made of its
- * source line, and it becomes what the corrected parser makes of it, which is the line hsca.ts
+ * A stored line is replaced only when it is exactly what an earlier revision of the parser made of
+ * its source line, and it becomes what the current parser makes of it, which is the line hsca.ts
  * holds (lib/hscaParseRepair.ts). An edited line, or a row that fits no record, is reported and
- * left alone.
+ * left alone. It can be re-run after each parser change: the revisions it recognises are listed there.
  *
  * Only what the repair changes is rewritten. The ingredient lines are. `elemental_properties` and
  * `alchemical_quantities` are rewritten only where today's code computes a different result from
@@ -51,7 +51,7 @@ import {
   type PgClient,
 } from "./lib/hscaDbIo";
 import { canonical, liveIngredients, nameOf, type ReadModel, type SourceRecipe } from "./lib/hscaDbSync";
-import { choosePlan, legacyLiveIngredients, type RepairPlan } from "./lib/hscaParseRepair";
+import { choosePlan, legacyLiveIngredients, previousLiveIngredients, type RepairPlan } from "./lib/hscaParseRepair";
 
 type Planned = { row: LiveRow; plan: RepairPlan };
 type Repairing = {
@@ -78,7 +78,7 @@ function sourceByName(source: readonly SourceRecipe[]): Map<string, SourceRecipe
 function planRows(rows: readonly LiveRow[], sources: Map<string, SourceRecipe[]>): Planned[] {
   return rows.map((row) => {
     const pairs = (sources.get(row.name.toLowerCase()) ?? []).map((recipe) => ({
-      legacy: legacyLiveIngredients(recipe.ingredients),
+      revisions: [legacyLiveIngredients(recipe.ingredients), previousLiveIngredients(recipe.ingredients)],
       corrected: liveIngredients(recipe.ingredients),
     }));
     return { row, plan: choosePlan(row.read_model?.ingredients, pairs) };
@@ -102,6 +102,17 @@ function repairing(planned: readonly Planned[], index: ElementalIndex, withNutri
     if (withNutrition && nutritionWould !== undefined) readModel.nutritional_profile = nutritionWould;
     return [{ row, plan, readModel, nutritionalProfile: withNutrition ? nutritionWould : undefined, nutritionWould, elementalChanged, esmsChanged }];
   });
+}
+
+/** The largest change in any element's share between two stored elemental_properties values. */
+function elementalShift(before: unknown, after: unknown): number {
+  const read = (value: unknown, key: string): number =>
+    value !== null && typeof value === "object" && key in value && typeof (value as Record<string, unknown>)[key] === "number" ? Number((value as Record<string, unknown>)[key]) : 0;
+  return Math.max(...["fire", "water", "earth", "air"].map((key) => Math.abs(read(before, key) - read(after, key))));
+}
+
+function quantile(sorted: readonly number[], q: number): number {
+  return sorted[Math.min(sorted.length - 1, Math.floor(q * sorted.length))] ?? 0;
 }
 
 function calories(profile: unknown): string {
@@ -196,6 +207,8 @@ async function main(): Promise<void> {
     const lineCount = repairs.reduce((n, r) => n + r.plan.repairs.length, 0);
     console.log(`live: ${counts.all} recipes, ${rows.length} Hsca; ${planned.filter((p) => p.plan.kind === "clean").length} clean, ${repairs.length} to repair (${lineCount} lines), ${skipped.length} skipped`);
     console.log(`also rewritten: elemental on ${repairs.filter((r) => r.elementalChanged).length} rows, ESMS on ${repairs.filter((r) => r.esmsChanged).length}, nutrition on ${repairs.filter((r) => r.nutritionalProfile !== undefined).length} (${repairs.filter((r) => r.nutritionWould !== undefined).length} would change; pass --nutrition to write them)`);
+    const shifts = repairs.filter((r) => r.elementalChanged).map((r) => elementalShift(r.row.read_model?.elemental_properties, r.readModel.elemental_properties)).sort((a, b) => a - b);
+    if (shifts.length > 0) console.log(`elemental shares move by: median ${quantile(shifts, 0.5).toFixed(4)}, p90 ${quantile(shifts, 0.9).toFixed(4)}, max ${(shifts.at(-1) ?? 0).toFixed(4)} (largest change in any one element, over ${shifts.length} rows)`);
     describe(repairs, flag("lines"));
     for (const line of skipped) console.log(`  SKIP    ${line}`);
 

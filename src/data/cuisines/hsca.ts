@@ -1153,8 +1153,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch cayenne pepper",
-            "notes": ""
+            "name": "cayenne pepper",
+            "notes": "pinch"
           },
           {
             "amount": 8,
@@ -1179,10 +1179,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.305,
-          "Water": 0.41250000000000003,
-          "Earth": 0.15,
-          "Air": 0.1325
+          "Fire": 0.2375,
+          "Water": 0.42500000000000004,
+          "Earth": 0.1625,
+          "Air": 0.175
         },
         "astrologicalAffinities": {
           "planets": [
@@ -1200,11 +1200,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 7,
-          "carbsG": 24,
-          "fatG": 9,
+          "carbsG": 25,
+          "fatG": 8,
           "fiberG": 3,
-          "sodiumMg": 315,
-          "sugarG": 4,
+          "sodiumMg": 320,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -1217,18 +1217,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.35,
-          "Essence": 1.77,
-          "Matter": 0.93,
-          "Substance": 0.85
+          "Spirit": 1.26,
+          "Essence": 1.75,
+          "Matter": 0.98,
+          "Substance": 0.87
         },
         "thermodynamicProperties": {
-          "heat": 0.1063,
-          "entropy": 0.2495,
-          "reactivity": 5.1086,
-          "gregsEnergy": -1.1683,
-          "kalchm": 5.0602,
-          "monica": 0.141
+          "heat": 0.0864,
+          "entropy": 0.2209,
+          "reactivity": 4.3474,
+          "gregsEnergy": -0.8741,
+          "kalchm": 4.102,
+          "monica": 0.1424
         },
         "substitutions": [
           {
@@ -2996,8 +2996,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch nutmeg",
-            "notes": ""
+            "name": "nutmeg",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -6646,8 +6646,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 3,
@@ -6704,8 +6704,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.14444444444444443,
-          "Water": 0.36888888888888893,
-          "Earth": 0.3633333333333334,
+          "Water": 0.38,
+          "Earth": 0.3522222222222222,
           "Air": 0.12333333333333332
         },
         "astrologicalAffinities": {
@@ -6727,7 +6727,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 298,
+          "sodiumMg": 302,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -6742,17 +6742,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.2,
-          "Essence": 2.33,
-          "Matter": 3.24,
-          "Substance": 2.88
+          "Essence": 2.38,
+          "Matter": 3.2,
+          "Substance": 2.87
         },
         "thermodynamicProperties": {
           "heat": 0.0169,
-          "entropy": 0.246,
-          "reactivity": 1.1811,
-          "gregsEnergy": -0.2737,
-          "kalchm": 0.0094,
-          "monica": -0.0496
+          "entropy": 0.2438,
+          "reactivity": 1.2301,
+          "gregsEnergy": -0.283,
+          "kalchm": 0.0115,
+          "monica": -0.0515
         },
         "substitutions": [
           {
@@ -6944,8 +6944,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 3,
@@ -6996,8 +6996,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.2285714285714286,
-          "Water": 0.27142857142857146,
-          "Earth": 0.3428571428571429,
+          "Water": 0.28571428571428575,
+          "Earth": 0.3285714285714286,
           "Air": 0.15714285714285717
         },
         "astrologicalAffinities": {
@@ -7019,7 +7019,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 259,
+          "sodiumMg": 264,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7034,17 +7034,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.82,
-          "Essence": 2.89,
-          "Matter": 3.25,
-          "Substance": 3.15
+          "Essence": 2.94,
+          "Matter": 3.21,
+          "Substance": 3.14
         },
         "thermodynamicProperties": {
           "heat": 0.0332,
-          "entropy": 0.2918,
-          "reactivity": 1.684,
-          "gregsEnergy": -0.4581,
-          "kalchm": 0.0373,
-          "monica": -0.0827
+          "entropy": 0.2896,
+          "reactivity": 1.7549,
+          "gregsEnergy": -0.4749,
+          "kalchm": 0.0461,
+          "monica": -0.088
         },
         "substitutions": [
           {
@@ -7133,8 +7133,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -7169,8 +7169,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.31818181818181823,
-          "Water": 0.17272727272727273,
-          "Earth": 0.3909090909090909,
+          "Water": 0.18181818181818182,
+          "Earth": 0.38181818181818183,
           "Air": 0.11818181818181818
         },
         "astrologicalAffinities": {
@@ -7192,7 +7192,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 9,
           "fiberG": 5,
-          "sodiumMg": 219,
+          "sodiumMg": 223,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7207,17 +7207,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 3.9,
-          "Essence": 3.85,
-          "Matter": 4.76,
-          "Substance": 4.23
+          "Essence": 3.9,
+          "Matter": 4.71,
+          "Substance": 4.22
         },
         "thermodynamicProperties": {
-          "heat": 0.0837,
-          "entropy": 0.3947,
-          "reactivity": 1.8118,
-          "gregsEnergy": -0.6314,
-          "kalchm": 0.0483,
-          "monica": -0.115
+          "heat": 0.0839,
+          "entropy": 0.3937,
+          "reactivity": 1.8659,
+          "gregsEnergy": -0.6508,
+          "kalchm": 0.0633,
+          "monica": -0.1264
         },
         "substitutions": [
           {
@@ -7306,8 +7306,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -7342,8 +7342,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.31818181818181823,
-          "Water": 0.17272727272727273,
-          "Earth": 0.3909090909090909,
+          "Water": 0.18181818181818182,
+          "Earth": 0.38181818181818183,
           "Air": 0.11818181818181818
         },
         "astrologicalAffinities": {
@@ -7365,7 +7365,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 9,
           "fiberG": 5,
-          "sodiumMg": 219,
+          "sodiumMg": 223,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7380,17 +7380,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 3.9,
-          "Essence": 3.85,
-          "Matter": 4.76,
-          "Substance": 4.23
+          "Essence": 3.9,
+          "Matter": 4.71,
+          "Substance": 4.22
         },
         "thermodynamicProperties": {
-          "heat": 0.0837,
-          "entropy": 0.3947,
-          "reactivity": 1.8118,
-          "gregsEnergy": -0.6314,
-          "kalchm": 0.0483,
-          "monica": -0.115
+          "heat": 0.0839,
+          "entropy": 0.3937,
+          "reactivity": 1.8659,
+          "gregsEnergy": -0.6508,
+          "kalchm": 0.0633,
+          "monica": -0.1264
         },
         "substitutions": [
           {
@@ -7437,8 +7437,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -7459,8 +7459,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.125,
-          "Water": 0.41250000000000003,
-          "Earth": 0.3125,
+          "Water": 0.43750000000000006,
+          "Earth": 0.2875,
           "Air": 0.15
         },
         "astrologicalAffinities": {
@@ -7478,11 +7478,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 315,
+          "fiberG": 4,
+          "sodiumMg": 325,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7497,17 +7497,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 0.53,
-          "Essence": 1.15,
-          "Matter": 1.37,
+          "Essence": 1.2,
+          "Matter": 1.33,
           "Substance": 1.1
         },
         "thermodynamicProperties": {
-          "heat": 0.0147,
-          "entropy": 0.1452,
-          "reactivity": 1.0674,
-          "gregsEnergy": -0.1403,
-          "kalchm": 0.4907,
-          "monica": -0.1847
+          "heat": 0.0146,
+          "entropy": 0.1443,
+          "reactivity": 1.208,
+          "gregsEnergy": -0.1597,
+          "kalchm": 0.5478,
+          "monica": -0.2197
         },
         "substitutions": [
           {
@@ -7554,8 +7554,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -7574,8 +7574,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.0875,
-          "Water": 0.4375,
-          "Earth": 0.32,
+          "Water": 0.4625,
+          "Earth": 0.29500000000000004,
           "Air": 0.155
         },
         "astrologicalAffinities": {
@@ -7593,11 +7593,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 25,
           "fatG": 6,
-          "fiberG": 5,
-          "sodiumMg": 325,
+          "fiberG": 4,
+          "sodiumMg": 335,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7612,17 +7612,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 0.45,
-          "Essence": 1.16,
-          "Matter": 1.38,
-          "Substance": 1.13
+          "Essence": 1.21,
+          "Matter": 1.34,
+          "Substance": 1.12
         },
         "thermodynamicProperties": {
           "heat": 0.01,
-          "entropy": 0.139,
-          "reactivity": 1.0547,
-          "gregsEnergy": -0.1366,
-          "kalchm": 0.4631,
-          "monica": -0.1682
+          "entropy": 0.1361,
+          "reactivity": 1.1846,
+          "gregsEnergy": -0.1512,
+          "kalchm": 0.5232,
+          "monica": -0.197
         },
         "substitutions": [
           {
@@ -8039,8 +8039,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -8058,8 +8058,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.2066666666666667,
-          "Water": 0.215,
-          "Earth": 0.36000000000000004,
+          "Water": 0.2316666666666667,
+          "Earth": 0.3433333333333333,
           "Air": 0.21833333333333335
         },
         "astrologicalAffinities": {
@@ -8081,7 +8081,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 236,
+          "sodiumMg": 243,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -8096,17 +8096,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.22,
-          "Essence": 1.25,
-          "Matter": 1.85,
-          "Substance": 1.77
+          "Essence": 1.3,
+          "Matter": 1.81,
+          "Substance": 1.76
         },
         "thermodynamicProperties": {
           "heat": 0.0477,
-          "entropy": 0.3489,
-          "reactivity": 1.2941,
-          "gregsEnergy": -0.4037,
-          "kalchm": 0.1965,
-          "monica": -0.1917
+          "entropy": 0.3444,
+          "reactivity": 1.3846,
+          "gregsEnergy": -0.4291,
+          "kalchm": 0.2265,
+          "monica": -0.2087
         },
         "substitutions": [
           {
@@ -8404,14 +8404,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch pepper",
-            "notes": ""
+            "name": "pepper",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -9557,8 +9557,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -9581,10 +9581,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27499999999999997,
-          "Water": 0.23124999999999996,
-          "Earth": 0.31875,
-          "Air": 0.17499999999999996
+          "Fire": 0.275,
+          "Water": 0.24375000000000002,
+          "Earth": 0.30625,
+          "Air": 0.175
         },
         "astrologicalAffinities": {
           "planets": [
@@ -9604,8 +9604,8 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 5,
-          "sodiumMg": 243,
+          "fiberG": 4,
+          "sodiumMg": 248,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -9620,17 +9620,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.83,
-          "Essence": 2.48,
-          "Matter": 2.94,
-          "Substance": 2.63
+          "Essence": 2.54,
+          "Matter": 2.9,
+          "Substance": 2.62
         },
         "thermodynamicProperties": {
-          "heat": 0.105,
-          "entropy": 0.4218,
-          "reactivity": 1.9997,
-          "gregsEnergy": -0.7384,
-          "kalchm": 0.5962,
-          "monica": -0.714
+          "heat": 0.1048,
+          "entropy": 0.4175,
+          "reactivity": 2.0905,
+          "gregsEnergy": -0.768,
+          "kalchm": 0.7412,
+          "monica": -1.2267
         },
         "substitutions": [
           {
@@ -9749,8 +9749,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           },
           {
             "amount": 1.5,
@@ -10119,8 +10119,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of ground black pepper",
-            "notes": ""
+            "name": "ground black pepper",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -10749,8 +10749,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "dash apple cider vinegar",
-            "notes": ""
+            "name": "apple cider vinegar",
+            "notes": "dash"
           },
           {
             "amount": 1,
@@ -10784,10 +10784,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2107142857142857,
-          "Water": 0.29642857142857143,
-          "Earth": 0.30357142857142855,
-          "Air": 0.18928571428571428
+          "Fire": 0.20357142857142857,
+          "Water": 0.28928571428571426,
+          "Earth": 0.3142857142857142,
+          "Air": 0.19285714285714287
         },
         "astrologicalAffinities": {
           "planets": [
@@ -10806,9 +10806,9 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 10,
           "carbsG": 26,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 269,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 266,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -10822,18 +10822,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.2,
-          "Essence": 5.73,
-          "Matter": 5.94,
-          "Substance": 5.54
+          "Spirit": 4.16,
+          "Essence": 5.67,
+          "Matter": 6.01,
+          "Substance": 5.57
         },
         "thermodynamicProperties": {
-          "heat": 0.0546,
-          "entropy": 0.3216,
-          "reactivity": 2.0864,
-          "gregsEnergy": -0.6163,
-          "kalchm": 0.0176,
-          "monica": -0.0731
+          "heat": 0.0533,
+          "entropy": 0.3208,
+          "reactivity": 2.0162,
+          "gregsEnergy": -0.5936,
+          "kalchm": 0.0103,
+          "monica": -0.0643
         },
         "substitutions": [
           {
@@ -12224,8 +12224,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -12316,8 +12316,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.20076923076923076,
-          "Water": 0.27999999999999997,
-          "Earth": 0.32846153846153847,
+          "Water": 0.28769230769230764,
+          "Earth": 0.32076923076923075,
           "Air": 0.19076923076923077
         },
         "astrologicalAffinities": {
@@ -12339,7 +12339,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 262,
+          "sodiumMg": 265,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -12354,17 +12354,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 3.52,
-          "Essence": 4.78,
-          "Matter": 4.42,
-          "Substance": 4
+          "Essence": 4.83,
+          "Matter": 4.38,
+          "Substance": 3.99
         },
         "thermodynamicProperties": {
           "heat": 0.0634,
-          "entropy": 0.2959,
-          "reactivity": 2.2793,
-          "gregsEnergy": -0.611,
-          "kalchm": 0.8137,
-          "monica": -1.3003
+          "entropy": 0.2945,
+          "reactivity": 2.3441,
+          "gregsEnergy": -0.6268,
+          "kalchm": 1.0465,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -14463,8 +14463,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -14492,8 +14492,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.15833333333333333,
-          "Water": 0.26666666666666666,
-          "Earth": 0.44999999999999996,
+          "Water": 0.2833333333333334,
+          "Earth": 0.43333333333333335,
           "Air": 0.125
         },
         "astrologicalAffinities": {
@@ -14514,8 +14514,8 @@ export const cuisine: Cuisine = {
           "proteinG": 12,
           "carbsG": 24,
           "fatG": 7,
-          "fiberG": 6,
-          "sodiumMg": 257,
+          "fiberG": 5,
+          "sodiumMg": 263,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -14530,17 +14530,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 0.9,
-          "Essence": 1.63,
-          "Matter": 2.7,
-          "Substance": 2.35
+          "Essence": 1.68,
+          "Matter": 2.66,
+          "Substance": 2.33
         },
         "thermodynamicProperties": {
           "heat": 0.0148,
-          "entropy": 0.2502,
-          "reactivity": 0.9172,
-          "gregsEnergy": -0.2148,
-          "kalchm": 0.0185,
-          "monica": -0.0587
+          "entropy": 0.2456,
+          "reactivity": 0.9596,
+          "gregsEnergy": -0.2209,
+          "kalchm": 0.0224,
+          "monica": -0.0606
         },
         "substitutions": [
           {
@@ -14605,8 +14605,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch cinnamon",
-            "notes": ""
+            "name": "cinnamon",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -14896,8 +14896,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -15576,8 +15576,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -15749,8 +15749,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -15838,10 +15838,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2733333333333333,
-          "Water": 0.24333333333333337,
-          "Earth": 0.32,
-          "Air": 0.1633333333333333
+          "Fire": 0.26666666666666666,
+          "Water": 0.24000000000000007,
+          "Earth": 0.3233333333333333,
+          "Air": 0.16999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -15862,8 +15862,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 247,
-          "sugarG": 4,
+          "sodiumMg": 246,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -15876,18 +15876,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.71,
-          "Essence": 5.1,
-          "Matter": 5.84,
-          "Substance": 5.43
+          "Spirit": 5.1,
+          "Essence": 5.49,
+          "Matter": 5.88,
+          "Substance": 5.38
         },
         "thermodynamicProperties": {
-          "heat": 0.0762,
-          "entropy": 0.3912,
-          "reactivity": 2.0513,
-          "gregsEnergy": -0.7264,
-          "kalchm": 0.0205,
-          "monica": -0.0911
+          "heat": 0.0853,
+          "entropy": 0.3866,
+          "reactivity": 2.2154,
+          "gregsEnergy": -0.7712,
+          "kalchm": 0.1634,
+          "monica": -0.1922
         },
         "substitutions": [
           {
@@ -15994,8 +15994,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "drizzle of extra virgin olive oil",
-            "notes": ""
+            "name": "extra virgin olive oil",
+            "notes": "drizzle"
           }
         ],
         "instructions": [
@@ -16014,10 +16014,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2874999999999999,
-          "Water": 0.25833333333333336,
-          "Earth": 0.21666666666666667,
-          "Air": 0.23750000000000004
+          "Fire": 0.2653846153846154,
+          "Water": 0.2576923076923077,
+          "Earth": 0.21923076923076923,
+          "Air": 0.2576923076923077
         },
         "astrologicalAffinities": {
           "planets": [
@@ -16035,7 +16035,7 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
-          "carbsG": 27,
+          "carbsG": 28,
           "fatG": 8,
           "fiberG": 4,
           "sodiumMg": 253,
@@ -16052,18 +16052,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.29,
-          "Essence": 5.43,
-          "Matter": 4.28,
-          "Substance": 3.91
+          "Spirit": 5.65,
+          "Essence": 5.78,
+          "Matter": 4.29,
+          "Substance": 3.88
         },
         "thermodynamicProperties": {
-          "heat": 0.1366,
-          "entropy": 0.4185,
-          "reactivity": 3.6084,
-          "gregsEnergy": -1.3735,
-          "kalchm": 629.5832,
-          "monica": 0.0591
+          "heat": 0.1484,
+          "entropy": 0.4235,
+          "reactivity": 3.9634,
+          "gregsEnergy": -1.5303,
+          "kalchm": 4519.6807,
+          "monica": 0.0459
         },
         "substitutions": [
           {
@@ -16140,8 +16140,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -16325,8 +16325,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 7,
@@ -16415,8 +16415,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -16438,8 +16438,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.24062499999999998,
-          "Water": 0.296875,
-          "Earth": 0.25,
+          "Water": 0.30312500000000003,
+          "Earth": 0.24375000000000002,
           "Air": 0.21250000000000002
         },
         "astrologicalAffinities": {
@@ -16461,7 +16461,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 269,
+          "sodiumMg": 271,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -16476,17 +16476,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 6.32,
-          "Essence": 6.8,
-          "Matter": 5.34,
-          "Substance": 4.9
+          "Essence": 6.85,
+          "Matter": 5.29,
+          "Substance": 4.89
         },
         "thermodynamicProperties": {
-          "heat": 0.1263,
-          "entropy": 0.398,
-          "reactivity": 3.5325,
-          "gregsEnergy": -1.2796,
-          "kalchm": 2848.1407,
-          "monica": 0.0455
+          "heat": 0.1264,
+          "entropy": 0.3974,
+          "reactivity": 3.6239,
+          "gregsEnergy": -1.3136,
+          "kalchm": 3865.552,
+          "monica": 0.0439
         },
         "substitutions": [
           {
@@ -16692,8 +16692,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -16737,10 +16737,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16,
-          "Water": 0.33,
-          "Earth": 0.37,
-          "Air": 0.14000000000000004
+          "Fire": 0.15,
+          "Water": 0.325,
+          "Earth": 0.3500000000000001,
+          "Air": 0.17500000000000004
         },
         "astrologicalAffinities": {
           "planets": [
@@ -16757,12 +16757,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 11,
-          "carbsG": 24,
+          "proteinG": 10,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 282,
-          "sugarG": 4,
+          "sodiumMg": 280,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -16775,18 +16775,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.35,
-          "Essence": 2.22,
-          "Matter": 2.61,
-          "Substance": 2.21
+          "Spirit": 1.3,
+          "Essence": 2.17,
+          "Matter": 2.63,
+          "Substance": 2.27
         },
         "thermodynamicProperties": {
-          "heat": 0.0298,
-          "entropy": 0.2208,
-          "reactivity": 1.3275,
-          "gregsEnergy": -0.2633,
-          "kalchm": 0.1248,
-          "monica": -0.0953
+          "heat": 0.0273,
+          "entropy": 0.2301,
+          "reactivity": 1.3187,
+          "gregsEnergy": -0.2761,
+          "kalchm": 0.0924,
+          "monica": -0.0879
         },
         "substitutions": [
           {
@@ -17136,8 +17136,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -17328,8 +17328,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -17569,8 +17569,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch red pepper flakes",
-            "notes": ""
+            "name": "red pepper flakes",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -17603,10 +17603,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.225,
-          "Water": 0.27857142857142864,
-          "Earth": 0.28928571428571426,
-          "Air": 0.2071428571428571
+          "Fire": 0.2178571428571429,
+          "Water": 0.2750000000000001,
+          "Earth": 0.2928571428571428,
+          "Air": 0.21428571428571427
         },
         "astrologicalAffinities": {
           "planets": [
@@ -17627,7 +17627,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 261,
+          "sodiumMg": 260,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -17641,18 +17641,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.09,
-          "Essence": 5.25,
-          "Matter": 5.2,
-          "Substance": 4.8
+          "Spirit": 4.67,
+          "Essence": 6.09,
+          "Matter": 5.29,
+          "Substance": 4.71
         },
         "thermodynamicProperties": {
-          "heat": 0.0653,
-          "entropy": 0.3284,
-          "reactivity": 2.2402,
-          "gregsEnergy": -0.6703,
-          "kalchm": 0.1948,
-          "monica": -0.1829
+          "heat": 0.0768,
+          "entropy": 0.3088,
+          "reactivity": 2.6068,
+          "gregsEnergy": -0.7283,
+          "kalchm": 8.0727,
+          "monica": 0.1338
         },
         "substitutions": [
           {
@@ -17693,8 +17693,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -17741,8 +17741,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -17805,8 +17805,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.23888888888888887,
-          "Water": 0.29444444444444434,
-          "Earth": 0.26777777777777784,
+          "Water": 0.29999999999999993,
+          "Earth": 0.26222222222222225,
           "Air": 0.1988888888888889
         },
         "astrologicalAffinities": {
@@ -17828,7 +17828,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 268,
+          "sodiumMg": 270,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -17843,17 +17843,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 5.46,
-          "Essence": 5.85,
-          "Matter": 5.7,
-          "Substance": 5.21
+          "Essence": 5.9,
+          "Matter": 5.66,
+          "Substance": 5.2
         },
         "thermodynamicProperties": {
           "heat": 0.0973,
-          "entropy": 0.3889,
-          "reactivity": 2.5653,
-          "gregsEnergy": -0.9003,
-          "kalchm": 2.9493,
-          "monica": 0.3245
+          "entropy": 0.3875,
+          "reactivity": 2.6188,
+          "gregsEnergy": -0.9176,
+          "kalchm": 3.881,
+          "monica": 0.2584
         },
         "substitutions": [
           {
@@ -17930,8 +17930,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch red pepper flakes",
-            "notes": ""
+            "name": "red pepper flakes",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -18163,8 +18163,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch dried ginger",
-            "notes": ""
+            "name": "dried ginger",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -18240,10 +18240,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.35944444444444446,
-          "Water": 0.1877777777777778,
-          "Earth": 0.2822222222222222,
-          "Air": 0.1705555555555556
+          "Fire": 0.3484210526315789,
+          "Water": 0.1936842105263158,
+          "Earth": 0.2910526315789474,
+          "Air": 0.16684210526315793
         },
         "astrologicalAffinities": {
           "planets": [
@@ -18264,7 +18264,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 225,
+          "sodiumMg": 227,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -18278,18 +18278,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 8.01,
-          "Essence": 7.13,
-          "Matter": 6.38,
-          "Substance": 6.24
+          "Spirit": 7.89,
+          "Essence": 7.05,
+          "Matter": 6.53,
+          "Substance": 6.4
         },
         "thermodynamicProperties": {
-          "heat": 0.1546,
-          "entropy": 0.5283,
-          "reactivity": 3.4725,
-          "gregsEnergy": -1.68,
-          "kalchm": 1674.6229,
-          "monica": 0.0652
+          "heat": 0.1465,
+          "entropy": 0.5225,
+          "reactivity": 3.2906,
+          "gregsEnergy": -1.5728,
+          "kalchm": 377.3427,
+          "monica": 0.0806
         },
         "substitutions": [
           {
@@ -18360,8 +18360,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 0.75,
@@ -18563,8 +18563,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 6,
@@ -18611,8 +18611,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 3,
@@ -18695,8 +18695,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -18730,10 +18730,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2811538461538461,
-          "Water": 0.2361538461538461,
-          "Earth": 0.24807692307692308,
-          "Air": 0.23461538461538461
+          "Fire": 0.26285714285714284,
+          "Water": 0.24249999999999997,
+          "Earth": 0.24392857142857147,
+          "Air": 0.2507142857142857
         },
         "astrologicalAffinities": {
           "planets": [
@@ -18751,10 +18751,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 27,
+          "carbsG": 28,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 244,
+          "sodiumMg": 247,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -18768,18 +18768,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 9.97,
-          "Essence": 8.93,
-          "Matter": 8.26,
-          "Substance": 8.26
+          "Spirit": 10.32,
+          "Essence": 9.24,
+          "Matter": 8.14,
+          "Substance": 8.15
         },
         "thermodynamicProperties": {
-          "heat": 0.1453,
-          "entropy": 0.537,
-          "reactivity": 3.42,
-          "gregsEnergy": -1.6914,
-          "kalchm": 1993.3514,
-          "monica": 0.0651
+          "heat": 0.1545,
+          "entropy": 0.5421,
+          "reactivity": 3.6775,
+          "gregsEnergy": -1.8393,
+          "kalchm": 35120.9555,
+          "monica": 0.0478
         },
         "substitutions": [
           {
@@ -19266,8 +19266,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 6,
@@ -19427,8 +19427,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -19485,10 +19485,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18866666666666665,
-          "Water": 0.34466666666666673,
-          "Earth": 0.2486666666666667,
-          "Air": 0.21800000000000003
+          "Fire": 0.17866666666666667,
+          "Water": 0.35800000000000004,
+          "Earth": 0.2353333333333333,
+          "Air": 0.228
         },
         "astrologicalAffinities": {
           "planets": [
@@ -19509,7 +19509,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 288,
+          "sodiumMg": 293,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -19523,18 +19523,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.56,
-          "Essence": 4.95,
-          "Matter": 4.67,
-          "Substance": 4.44
+          "Spirit": 4.49,
+          "Essence": 5.78,
+          "Matter": 4.51,
+          "Substance": 4.17
         },
         "thermodynamicProperties": {
-          "heat": 0.0575,
-          "entropy": 0.3113,
-          "reactivity": 2.3598,
-          "gregsEnergy": -0.6771,
-          "kalchm": 0.252,
-          "monica": -0.2082
+          "heat": 0.0865,
+          "entropy": 0.3177,
+          "reactivity": 3.1605,
+          "gregsEnergy": -0.9177,
+          "kalchm": 62.5497,
+          "monica": 0.0702
         },
         "substitutions": [
           {
@@ -19599,8 +19599,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 0.75,
@@ -19658,10 +19658,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2708333333333333,
-          "Water": 0.24583333333333332,
-          "Earth": 0.32499999999999996,
-          "Air": 0.1583333333333333
+          "Fire": 0.2576923076923077,
+          "Water": 0.24230769230769234,
+          "Earth": 0.3269230769230769,
+          "Air": 0.17307692307692307
         },
         "astrologicalAffinities": {
           "planets": [
@@ -19682,8 +19682,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 248,
-          "sugarG": 4,
+          "sodiumMg": 247,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -19696,18 +19696,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.91,
-          "Essence": 4.21,
-          "Matter": 4.83,
-          "Substance": 4.57
+          "Spirit": 4.24,
+          "Essence": 5.01,
+          "Matter": 5.01,
+          "Substance": 4.55
         },
         "thermodynamicProperties": {
-          "heat": 0.0747,
-          "entropy": 0.3927,
-          "reactivity": 2.0342,
-          "gregsEnergy": -0.7241,
-          "kalchm": 0.0421,
-          "monica": -0.1124
+          "heat": 0.077,
+          "entropy": 0.3458,
+          "reactivity": 2.2447,
+          "gregsEnergy": -0.6993,
+          "kalchm": 0.4635,
+          "monica": -0.4051
         },
         "substitutions": [
           {
@@ -19784,8 +19784,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -19916,8 +19916,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -20404,8 +20404,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": "to taste"
+            "name": "sea salt",
+            "notes": "pinch; to taste"
           },
           {
             "amount": 1,
@@ -20463,8 +20463,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.21250000000000002,
-          "Water": 0.23125,
-          "Earth": 0.34375,
+          "Water": 0.24375000000000002,
+          "Earth": 0.33125,
           "Air": 0.21250000000000002
         },
         "astrologicalAffinities": {
@@ -20486,7 +20486,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 243,
+          "sodiumMg": 248,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -20501,17 +20501,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.62,
-          "Essence": 3.25,
-          "Matter": 3.29,
-          "Substance": 2.79
+          "Essence": 3.29,
+          "Matter": 3.25,
+          "Substance": 2.78
         },
         "thermodynamicProperties": {
-          "heat": 0.0675,
-          "entropy": 0.2911,
-          "reactivity": 1.9202,
-          "gregsEnergy": -0.4916,
-          "kalchm": 0.6528,
-          "monica": -0.6002
+          "heat": 0.0676,
+          "entropy": 0.29,
+          "reactivity": 1.9934,
+          "gregsEnergy": -0.5106,
+          "kalchm": 0.7933,
+          "monica": -1.1061
         },
         "substitutions": [
           {
@@ -20784,8 +20784,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of sea salt and freshly ground black pepper",
-            "notes": "to taste"
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "pinch; to taste"
           },
           {
             "amount": 2,
@@ -20833,31 +20833,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3291666666666667,
-          "Water": 0.15833333333333335,
-          "Earth": 0.28750000000000003,
-          "Air": 0.225
+          "Fire": 0.2791666666666667,
+          "Water": 0.18333333333333332,
+          "Earth": 0.3208333333333333,
+          "Air": 0.21666666666666665
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 27,
-          "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 213,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 223,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -20871,18 +20871,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.04,
-          "Essence": 4.59,
-          "Matter": 4.02,
-          "Substance": 3.78
+          "Spirit": 4.29,
+          "Essence": 4.44,
+          "Matter": 4.31,
+          "Substance": 3.96
         },
         "thermodynamicProperties": {
-          "heat": 0.1495,
-          "entropy": 0.4859,
-          "reactivity": 3.2845,
-          "gregsEnergy": -1.4464,
-          "kalchm": 92.4831,
-          "monica": 0.0973
+          "heat": 0.1025,
+          "entropy": 0.3995,
+          "reactivity": 2.5161,
+          "gregsEnergy": -0.9027,
+          "kalchm": 3.063,
+          "monica": 0.3205
         },
         "substitutions": [
           {
@@ -23110,8 +23110,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 0.3333333333333333,
@@ -23600,8 +23600,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1.3333333333333333,
@@ -23663,8 +23663,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.18636363636363634,
-          "Water": 0.23636363636363641,
-          "Earth": 0.38636363636363635,
+          "Water": 0.2454545454545455,
+          "Earth": 0.3772727272727273,
           "Air": 0.19090909090909092
         },
         "astrologicalAffinities": {
@@ -23686,7 +23686,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 245,
+          "sodiumMg": 248,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -23701,17 +23701,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.56,
-          "Essence": 2.97,
-          "Matter": 4.31,
-          "Substance": 3.75
+          "Essence": 3.02,
+          "Matter": 4.27,
+          "Substance": 3.74
         },
         "thermodynamicProperties": {
           "heat": 0.047,
-          "entropy": 0.3312,
-          "reactivity": 1.3404,
-          "gregsEnergy": -0.397,
-          "kalchm": 0.0036,
-          "monica": -0.0526
+          "entropy": 0.3292,
+          "reactivity": 1.3795,
+          "gregsEnergy": -0.4072,
+          "kalchm": 0.0046,
+          "monica": -0.0548
         },
         "substitutions": [
           {
@@ -24889,8 +24889,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -24959,8 +24959,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.1681818181818182,
-          "Water": 0.35000000000000003,
-          "Earth": 0.27909090909090906,
+          "Water": 0.35909090909090907,
+          "Earth": 0.27,
           "Air": 0.20272727272727273
         },
         "astrologicalAffinities": {
@@ -24982,7 +24982,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 290,
+          "sodiumMg": 294,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -24997,17 +24997,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 3.04,
-          "Essence": 4.54,
-          "Matter": 4.39,
-          "Substance": 3.96
+          "Essence": 4.59,
+          "Matter": 4.35,
+          "Substance": 3.95
         },
         "thermodynamicProperties": {
           "heat": 0.0492,
-          "entropy": 0.2735,
-          "reactivity": 2.0975,
-          "gregsEnergy": -0.5245,
-          "kalchm": 0.1835,
-          "monica": -0.1475
+          "entropy": 0.2721,
+          "reactivity": 2.1603,
+          "gregsEnergy": -0.5385,
+          "kalchm": 0.2353,
+          "monica": -0.1723
         },
         "substitutions": [
           {
@@ -25200,8 +25200,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -25218,30 +25218,30 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.19999999999999998,
-          "Water": 0.3333333333333333,
-          "Earth": 0.3666666666666667,
+          "Water": 0.3666666666666667,
+          "Earth": 0.3333333333333333,
           "Air": 0.10000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 23,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 283,
+          "sodiumMg": 297,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -25256,16 +25256,16 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 0.71,
-          "Essence": 1.23,
-          "Matter": 1.11,
-          "Substance": 1
+          "Essence": 1.28,
+          "Matter": 1.07,
+          "Substance": 0.99
         },
         "thermodynamicProperties": {
           "heat": 0.0317,
-          "entropy": 0.1682,
-          "reactivity": 1.4575,
-          "gregsEnergy": -0.2134,
-          "kalchm": 0.9009,
+          "entropy": 0.1649,
+          "reactivity": 1.6793,
+          "gregsEnergy": -0.2452,
+          "kalchm": 1.0104,
           "monica": 1.618
         },
         "substitutions": [
@@ -26066,8 +26066,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -26084,30 +26084,30 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.2833333333333333,
-          "Water": 0.2833333333333334,
-          "Earth": 0.30833333333333335,
+          "Water": 0.30000000000000004,
+          "Earth": 0.2916666666666667,
           "Air": 0.12500000000000003
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 24,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 263,
+          "sodiumMg": 270,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -26122,17 +26122,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.13,
-          "Essence": 2.25,
-          "Matter": 2.31,
-          "Substance": 1.95
+          "Essence": 2.3,
+          "Matter": 2.27,
+          "Substance": 1.94
         },
         "thermodynamicProperties": {
           "heat": 0.0884,
-          "entropy": 0.3178,
-          "reactivity": 1.9806,
-          "gregsEnergy": -0.5411,
-          "kalchm": 1.22,
-          "monica": 1.3739
+          "entropy": 0.3151,
+          "reactivity": 2.0994,
+          "gregsEnergy": -0.5732,
+          "kalchm": 1.4619,
+          "monica": 0.719
         },
         "substitutions": [
           {
@@ -26767,8 +26767,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -26797,8 +26797,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 6,
@@ -26828,8 +26828,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.23928571428571427,
-          "Water": 0.24285714285714285,
-          "Earth": 0.30357142857142855,
+          "Water": 0.24999999999999997,
+          "Earth": 0.29642857142857143,
           "Air": 0.21428571428571433
         },
         "astrologicalAffinities": {
@@ -26847,11 +26847,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 247,
+          "sodiumMg": 250,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -26866,17 +26866,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 4.97,
-          "Essence": 5.72,
-          "Matter": 5.57,
-          "Substance": 5.28
+          "Essence": 5.78,
+          "Matter": 5.54,
+          "Substance": 5.27
         },
         "thermodynamicProperties": {
-          "heat": 0.0824,
-          "entropy": 0.376,
-          "reactivity": 2.4772,
-          "gregsEnergy": -0.8491,
-          "kalchm": 0.6657,
-          "monica": -0.8423
+          "heat": 0.0822,
+          "entropy": 0.3734,
+          "reactivity": 2.5261,
+          "gregsEnergy": -0.861,
+          "kalchm": 0.8747,
+          "monica": -2.5459
         },
         "substitutions": [
           {
@@ -26947,8 +26947,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch crushed red pepper flakes",
-            "notes": ""
+            "name": "crushed red pepper flakes",
+            "notes": "pinch"
           },
           {
             "amount": 6,
@@ -28540,8 +28540,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "splash of white wine for deglazing",
-            "notes": ""
+            "name": "white wine for deglazing",
+            "notes": "splash"
           },
           {
             "amount": 0.25,
@@ -28612,8 +28612,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -28652,10 +28652,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20000000000000004,
-          "Water": 0.3052631578947369,
-          "Earth": 0.26315789473684204,
-          "Air": 0.23157894736842102
+          "Fire": 0.215,
+          "Water": 0.295,
+          "Earth": 0.25999999999999995,
+          "Air": 0.22999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -28674,9 +28674,9 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 9,
           "carbsG": 27,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 272,
+          "sodiumMg": 268,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -28690,18 +28690,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.3,
-          "Essence": 7.76,
-          "Matter": 6.39,
-          "Substance": 6.02
+          "Spirit": 6.8,
+          "Essence": 7.81,
+          "Matter": 6.29,
+          "Substance": 6.04
         },
         "thermodynamicProperties": {
-          "heat": 0.0903,
-          "entropy": 0.3509,
-          "reactivity": 3.08,
-          "gregsEnergy": -0.9905,
-          "kalchm": 126.1395,
-          "monica": 0.0665
+          "heat": 0.1057,
+          "entropy": 0.3856,
+          "reactivity": 3.3542,
+          "gregsEnergy": -1.1878,
+          "kalchm": 779.2728,
+          "monica": 0.0532
         },
         "substitutions": [
           {
@@ -28994,8 +28994,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "dash hot sauce",
-            "notes": ""
+            "name": "hot sauce",
+            "notes": "dash"
           },
           {
             "amount": 2,
@@ -29023,10 +29023,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31999999999999995,
-          "Water": 0.25,
-          "Earth": 0.24000000000000005,
-          "Air": 0.19
+          "Fire": 0.33333333333333337,
+          "Water": 0.20833333333333331,
+          "Earth": 0.23333333333333336,
+          "Air": 0.225
         },
         "astrologicalAffinities": {
           "planets": [
@@ -29044,10 +29044,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 250,
+          "sodiumMg": 233,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -29061,18 +29061,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.59,
-          "Essence": 1.59,
-          "Matter": 1.46,
-          "Substance": 1.46
+          "Spirit": 2.15,
+          "Essence": 1.93,
+          "Matter": 1.36,
+          "Substance": 1.35
         },
         "thermodynamicProperties": {
-          "heat": 0.0977,
-          "entropy": 0.3829,
-          "reactivity": 2.5567,
-          "gregsEnergy": -0.8813,
-          "kalchm": 1.4472,
-          "monica": 0.9325
+          "heat": 0.1681,
+          "entropy": 0.4744,
+          "reactivity": 4.0867,
+          "gregsEnergy": -1.7708,
+          "kalchm": 8.0966,
+          "monica": 0.2072
         },
         "substitutions": [
           {
@@ -30011,14 +30011,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch nutmeg",
-            "notes": ""
+            "name": "nutmeg",
+            "notes": "pinch"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch cayenne pepper",
-            "notes": ""
+            "name": "cayenne pepper",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -30059,10 +30059,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.36882352941176466,
-          "Water": 0.12647058823529414,
-          "Earth": 0.2882352941176471,
-          "Air": 0.2164705882352942
+          "Fire": 0.35294117647058826,
+          "Water": 0.12941176470588237,
+          "Earth": 0.2911764705882353,
+          "Air": 0.22647058823529417
         },
         "astrologicalAffinities": {
           "planets": [
@@ -30080,10 +30080,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 201,
+          "sodiumMg": 202,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -30097,18 +30097,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.75,
-          "Essence": 5.1,
-          "Matter": 5.19,
-          "Substance": 4.78
+          "Spirit": 6.66,
+          "Essence": 5.08,
+          "Matter": 5.23,
+          "Substance": 4.8
         },
         "thermodynamicProperties": {
-          "heat": 0.1854,
-          "entropy": 0.5986,
-          "reactivity": 3.1528,
-          "gregsEnergy": -1.7019,
-          "kalchm": 176.6137,
-          "monica": 0.1043
+          "heat": 0.1791,
+          "entropy": 0.5868,
+          "reactivity": 3.0638,
+          "gregsEnergy": -1.6188,
+          "kalchm": 110.2565,
+          "monica": 0.1124
         },
         "substitutions": [
           {
@@ -30143,8 +30143,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch cayenne",
-            "notes": ""
+            "name": "cayenne",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -30449,8 +30449,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "dash hot sauce",
-            "notes": ""
+            "name": "hot sauce",
+            "notes": "dash"
           }
         ],
         "instructions": [
@@ -30467,10 +30467,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.375,
-          "Water": 0.20625,
-          "Earth": 0.25000000000000006,
-          "Air": 0.16874999999999998
+          "Fire": 0.3625,
+          "Water": 0.19999999999999998,
+          "Earth": 0.25625000000000003,
+          "Air": 0.18125
         },
         "astrologicalAffinities": {
           "planets": [
@@ -30489,9 +30489,9 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 9,
           "carbsG": 25,
-          "fatG": 10,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 233,
+          "sodiumMg": 230,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -30505,18 +30505,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.52,
-          "Essence": 3.13,
-          "Matter": 2.95,
-          "Substance": 2.83
+          "Spirit": 3.91,
+          "Essence": 3.52,
+          "Matter": 2.98,
+          "Substance": 2.78
         },
         "thermodynamicProperties": {
-          "heat": 0.1378,
-          "entropy": 0.4814,
-          "reactivity": 2.9695,
-          "gregsEnergy": -1.2918,
-          "kalchm": 6.4618,
-          "monica": 0.2331
+          "heat": 0.1568,
+          "entropy": 0.479,
+          "reactivity": 3.4002,
+          "gregsEnergy": -1.4721,
+          "kalchm": 39.051,
+          "monica": 0.1181
         },
         "substitutions": [
           {
@@ -33351,8 +33351,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -33768,8 +33768,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1.5,
@@ -33792,30 +33792,30 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.31,
-          "Water": 0.22000000000000003,
-          "Earth": 0.31,
+          "Water": 0.24000000000000005,
+          "Earth": 0.29,
           "Air": 0.16
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "New Moon"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 238,
+          "sodiumMg": 246,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -33830,17 +33830,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.45,
-          "Essence": 1.95,
-          "Matter": 1.84,
-          "Substance": 1.66
+          "Essence": 2,
+          "Matter": 1.8,
+          "Substance": 1.65
         },
         "thermodynamicProperties": {
           "heat": 0.0583,
-          "entropy": 0.2668,
-          "reactivity": 1.9104,
-          "gregsEnergy": -0.4514,
-          "kalchm": 0.8849,
-          "monica": -1.9325
+          "entropy": 0.2638,
+          "reactivity": 2.0614,
+          "gregsEnergy": -0.4856,
+          "kalchm": 1.0416,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -35754,8 +35754,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch red pepper flakes",
-            "notes": ""
+            "name": "red pepper flakes",
+            "notes": "pinch"
           },
           {
             "amount": 4,
@@ -36223,8 +36223,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch ground nutmeg",
-            "notes": ""
+            "name": "ground nutmeg",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -36354,8 +36354,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch ground nutmeg",
-            "notes": ""
+            "name": "ground nutmeg",
+            "notes": "pinch"
           },
           {
             "amount": 4,
@@ -36718,8 +36718,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch nutmeg",
-            "notes": ""
+            "name": "nutmeg",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -36980,8 +36980,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch white pepper",
-            "notes": ""
+            "name": "white pepper",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -37097,8 +37097,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch white pepper",
-            "notes": ""
+            "name": "white pepper",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -37214,8 +37214,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -37270,10 +37270,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.165,
-          "Water": 0.31999999999999995,
-          "Earth": 0.35500000000000004,
-          "Air": 0.16
+          "Fire": 0.16500000000000004,
+          "Water": 0.33,
+          "Earth": 0.3450000000000001,
+          "Air": 0.16000000000000003
         },
         "astrologicalAffinities": {
           "planets": [
@@ -37294,7 +37294,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 278,
+          "sodiumMg": 282,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -37309,17 +37309,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.3,
-          "Essence": 3.73,
-          "Matter": 4.15,
-          "Substance": 3.78
+          "Essence": 3.77,
+          "Matter": 4.11,
+          "Substance": 3.77
         },
         "thermodynamicProperties": {
           "heat": 0.0341,
-          "entropy": 0.2682,
-          "reactivity": 1.6579,
-          "gregsEnergy": -0.4106,
-          "kalchm": 0.0165,
-          "monica": -0.0603
+          "entropy": 0.2672,
+          "reactivity": 1.7069,
+          "gregsEnergy": -0.422,
+          "kalchm": 0.0204,
+          "monica": -0.0635
         },
         "substitutions": [
           {
@@ -37906,8 +37906,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "dash hot sauce",
-            "notes": "or more to taste"
+            "name": "hot sauce",
+            "notes": "dash; or more to taste"
           }
         ],
         "instructions": [
@@ -38949,8 +38949,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch red pepper flakes",
-            "notes": ""
+            "name": "red pepper flakes",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -38966,31 +38966,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3525,
-          "Water": 0.185,
-          "Earth": 0.27875,
-          "Air": 0.18374999999999997
+          "Fire": 0.277,
+          "Water": 0.248,
+          "Earth": 0.288,
+          "Air": 0.187
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
           "carbsG": 26,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 224,
+          "sodiumMg": 249,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -39004,18 +39004,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.29,
-          "Essence": 3.25,
-          "Matter": 3.07,
-          "Substance": 2.85
+          "Spirit": 3.74,
+          "Essence": 4.08,
+          "Matter": 3.35,
+          "Substance": 3.07
         },
         "thermodynamicProperties": {
-          "heat": 0.1136,
-          "entropy": 0.4151,
-          "reactivity": 2.6486,
-          "gregsEnergy": -0.9859,
-          "kalchm": 3.7443,
-          "monica": 0.282
+          "heat": 0.1117,
+          "entropy": 0.3707,
+          "reactivity": 3.0398,
+          "gregsEnergy": -1.0152,
+          "kalchm": 23.9673,
+          "monica": 0.1051
         },
         "substitutions": [
           {
@@ -40240,8 +40240,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch black pepper",
-            "notes": ""
+            "name": "black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 3,
@@ -40404,8 +40404,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch cracked red pepper flakes",
-            "notes": ""
+            "name": "cracked red pepper flakes",
+            "notes": "pinch"
           },
           {
             "amount": 8,
@@ -42909,8 +42909,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -43021,8 +43021,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.1888888888888889,
-          "Water": 0.3388888888888889,
-          "Earth": 0.32222222222222224,
+          "Water": 0.3444444444444445,
+          "Earth": 0.31666666666666665,
           "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
@@ -43044,7 +43044,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 286,
+          "sodiumMg": 288,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -43059,17 +43059,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 3.67,
-          "Essence": 5.4,
-          "Matter": 6.14,
-          "Substance": 5.52
+          "Essence": 5.45,
+          "Matter": 6.1,
+          "Substance": 5.51
         },
         "thermodynamicProperties": {
           "heat": 0.0423,
-          "entropy": 0.2955,
-          "reactivity": 1.7546,
-          "gregsEnergy": -0.4763,
-          "kalchm": 0.0012,
-          "monica": -0.0404
+          "entropy": 0.2943,
+          "reactivity": 1.7902,
+          "gregsEnergy": -0.4846,
+          "kalchm": 0.0016,
+          "monica": -0.042
         },
         "substitutions": [
           {
@@ -43720,8 +43720,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -44693,8 +44693,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -46043,8 +46043,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -46073,8 +46073,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch nutmeg",
-            "notes": ""
+            "name": "nutmeg",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -46139,9 +46139,9 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.20666666666666667,
-          "Water": 0.27799999999999997,
-          "Earth": 0.3013333333333333,
-          "Air": 0.21399999999999997
+          "Water": 0.2846666666666667,
+          "Earth": 0.29466666666666663,
+          "Air": 0.214
         },
         "astrologicalAffinities": {
           "planets": [
@@ -46158,11 +46158,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 261,
+          "sodiumMg": 264,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -46177,17 +46177,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 4.16,
-          "Essence": 5.02,
-          "Matter": 5.33,
-          "Substance": 4.75
+          "Essence": 5.07,
+          "Matter": 5.29,
+          "Substance": 4.74
         },
         "thermodynamicProperties": {
           "heat": 0.0687,
-          "entropy": 0.3345,
-          "reactivity": 2.0571,
-          "gregsEnergy": -0.6194,
-          "kalchm": 0.1012,
-          "monica": -0.1315
+          "entropy": 0.3331,
+          "reactivity": 2.1049,
+          "gregsEnergy": -0.6325,
+          "kalchm": 0.1317,
+          "monica": -0.1482
         },
         "substitutions": [
           {
@@ -47616,8 +47616,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -49208,8 +49208,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of cinnamon",
-            "notes": "optional"
+            "name": "cinnamon",
+            "notes": "pinch; optional"
           },
           {
             "amount": 8,
@@ -51717,8 +51717,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -51744,8 +51744,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.12,
-          "Water": 0.38,
-          "Earth": 0.36,
+          "Water": 0.4,
+          "Earth": 0.33999999999999997,
           "Air": 0.13999999999999999
         },
         "astrologicalAffinities": {
@@ -51767,7 +51767,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 6,
           "fiberG": 5,
-          "sodiumMg": 302,
+          "sodiumMg": 310,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -51782,17 +51782,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 0.73,
-          "Essence": 1.73,
-          "Matter": 2.16,
-          "Substance": 1.83
+          "Essence": 1.78,
+          "Matter": 2.12,
+          "Substance": 1.82
         },
         "thermodynamicProperties": {
           "heat": 0.0126,
-          "entropy": 0.1827,
-          "reactivity": 1.1107,
-          "gregsEnergy": -0.1903,
-          "kalchm": 0.1286,
-          "monica": -0.0835
+          "entropy": 0.1802,
+          "reactivity": 1.191,
+          "gregsEnergy": -0.202,
+          "kalchm": 0.1516,
+          "monica": -0.0899
         },
         "substitutions": [
           {
@@ -52632,8 +52632,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -52677,10 +52677,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1571428571428572,
-          "Water": 0.32857142857142857,
-          "Earth": 0.3714285714285714,
-          "Air": 0.14285714285714288
+          "Fire": 0.15,
+          "Water": 0.35,
+          "Earth": 0.3614285714285714,
+          "Air": 0.1385714285714286
         },
         "astrologicalAffinities": {
           "planets": [
@@ -52697,11 +52697,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 281,
+          "sodiumMg": 290,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -52715,18 +52715,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.17,
-          "Essence": 1.96,
-          "Matter": 2.83,
-          "Substance": 2.61
+          "Spirit": 1.1,
+          "Essence": 2.03,
+          "Matter": 2.78,
+          "Substance": 2.59
         },
         "thermodynamicProperties": {
-          "heat": 0.0205,
-          "entropy": 0.2729,
-          "reactivity": 1.188,
-          "gregsEnergy": -0.3037,
-          "kalchm": 0.0193,
-          "monica": -0.0648
+          "heat": 0.0181,
+          "entropy": 0.2611,
+          "reactivity": 1.2366,
+          "gregsEnergy": -0.3048,
+          "kalchm": 0.0232,
+          "monica": -0.0655
         },
         "substitutions": [
           {
@@ -52761,8 +52761,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch saffron",
-            "notes": ""
+            "name": "saffron",
+            "notes": "pinch"
           },
           {
             "amount": 14,
@@ -52838,10 +52838,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22454545454545458,
-          "Water": 0.3563636363636363,
-          "Earth": 0.19545454545454546,
-          "Air": 0.22363636363636363
+          "Fire": 0.21545454545454548,
+          "Water": 0.35181818181818175,
+          "Earth": 0.19999999999999998,
+          "Air": 0.23272727272727273
         },
         "astrologicalAffinities": {
           "planets": [
@@ -52862,7 +52862,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 293,
+          "sodiumMg": 291,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -52876,18 +52876,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.83,
-          "Essence": 5.13,
-          "Matter": 3.25,
-          "Substance": 3.72
+          "Spirit": 4.22,
+          "Essence": 5.53,
+          "Matter": 3.28,
+          "Substance": 3.66
         },
         "thermodynamicProperties": {
-          "heat": 0.0888,
-          "entropy": 0.3586,
-          "reactivity": 4.6374,
-          "gregsEnergy": -1.5742,
-          "kalchm": 123.1722,
-          "monica": 0.0705
+          "heat": 0.1016,
+          "entropy": 0.3572,
+          "reactivity": 5.1203,
+          "gregsEnergy": -1.7273,
+          "kalchm": 981.0283,
+          "monica": 0.049
         },
         "substitutions": [
           {
@@ -55880,8 +55880,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch cayenne",
-            "notes": ""
+            "name": "cayenne",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -56855,8 +56855,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -57757,8 +57757,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch red pepper flakes",
-            "notes": ""
+            "name": "red pepper flakes",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -58409,8 +58409,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -58457,8 +58457,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -58492,9 +58492,9 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.24642857142857147,
-          "Water": 0.20357142857142857,
-          "Earth": 0.35,
-          "Air": 0.2
+          "Water": 0.2214285714285714,
+          "Earth": 0.3178571428571429,
+          "Air": 0.21428571428571427
         },
         "astrologicalAffinities": {
           "planets": [
@@ -58515,7 +58515,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 231,
+          "sodiumMg": 239,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -58529,18 +58529,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.8,
-          "Essence": 4.92,
-          "Matter": 5.76,
-          "Substance": 5.08
+          "Spirit": 4.88,
+          "Essence": 5.09,
+          "Matter": 5.52,
+          "Substance": 4.95
         },
         "thermodynamicProperties": {
-          "heat": 0.0847,
-          "entropy": 0.3879,
-          "reactivity": 1.9606,
-          "gregsEnergy": -0.6758,
-          "kalchm": 0.0511,
-          "monica": -0.1159
+          "heat": 0.0897,
+          "entropy": 0.3895,
+          "reactivity": 2.1825,
+          "gregsEnergy": -0.7605,
+          "kalchm": 0.2648,
+          "monica": -0.2622
         },
         "substitutions": [
           {
@@ -59037,8 +59037,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.3333333333333333,
@@ -59049,8 +59049,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "splash hot sauce",
-            "notes": ""
+            "name": "hot sauce",
+            "notes": "splash"
           }
         ],
         "instructions": [
@@ -59075,8 +59075,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.21272727272727268,
-          "Water": 0.27590909090909094,
-          "Earth": 0.3204545454545454,
+          "Water": 0.2804545454545455,
+          "Earth": 0.31590909090909086,
           "Air": 0.19090909090909094
         },
         "astrologicalAffinities": {
@@ -59098,7 +59098,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 260,
+          "sodiumMg": 262,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -59113,17 +59113,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 6.34,
-          "Essence": 8.62,
-          "Matter": 8.26,
-          "Substance": 7.05
+          "Essence": 8.67,
+          "Matter": 8.22,
+          "Substance": 7.04
         },
         "thermodynamicProperties": {
           "heat": 0.0659,
-          "entropy": 0.2946,
-          "reactivity": 2.2324,
-          "gregsEnergy": -0.5918,
-          "kalchm": 0.3938,
-          "monica": -0.2845
+          "entropy": 0.2938,
+          "reactivity": 2.2657,
+          "gregsEnergy": -0.5998,
+          "kalchm": 0.5379,
+          "monica": -0.4269
         },
         "substitutions": [
           {
@@ -63243,8 +63243,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -63268,10 +63268,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.35333333333333333,
-          "Water": 0.11333333333333334,
-          "Earth": 0.39666666666666667,
-          "Air": 0.13666666666666666
+          "Fire": 0.3533333333333333,
+          "Water": 0.12999999999999998,
+          "Earth": 0.38,
+          "Air": 0.13666666666666663
         },
         "astrologicalAffinities": {
           "planets": [
@@ -63292,7 +63292,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 9,
           "fiberG": 5,
-          "sodiumMg": 195,
+          "sodiumMg": 202,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -63307,17 +63307,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.36,
-          "Essence": 2.21,
-          "Matter": 2.69,
-          "Substance": 2.33
+          "Essence": 2.26,
+          "Matter": 2.65,
+          "Substance": 2.32
         },
         "thermodynamicProperties": {
           "heat": 0.0918,
-          "entropy": 0.3807,
-          "reactivity": 1.6834,
-          "gregsEnergy": -0.5491,
-          "kalchm": 0.4258,
-          "monica": -0.382
+          "entropy": 0.3777,
+          "reactivity": 1.7667,
+          "gregsEnergy": -0.5755,
+          "kalchm": 0.5138,
+          "monica": -0.4892
         },
         "substitutions": [
           {
@@ -63651,8 +63651,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch black pepper",
-            "notes": ""
+            "name": "black pepper",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -64572,8 +64572,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "a pinch of chili flakes",
-            "notes": "optional"
+            "name": "chili flakes",
+            "notes": "pinch; optional"
           }
         ],
         "instructions": [
@@ -65798,8 +65798,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -65843,8 +65843,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.17857142857142858,
-          "Water": 0.2452380952380952,
-          "Earth": 0.35714285714285704,
+          "Water": 0.24999999999999994,
+          "Earth": 0.3523809523809523,
           "Air": 0.21904761904761907
         },
         "astrologicalAffinities": {
@@ -65866,7 +65866,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 248,
+          "sodiumMg": 250,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -65881,17 +65881,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 5.01,
-          "Essence": 6.89,
-          "Matter": 7.06,
-          "Substance": 6.15
+          "Essence": 6.94,
+          "Matter": 7.02,
+          "Substance": 6.14
         },
         "thermodynamicProperties": {
           "heat": 0.0574,
-          "entropy": 0.2975,
-          "reactivity": 2.0092,
-          "gregsEnergy": -0.5403,
-          "kalchm": 0.0274,
-          "monica": -0.0748
+          "entropy": 0.2965,
+          "reactivity": 2.0442,
+          "gregsEnergy": -0.5487,
+          "kalchm": 0.0367,
+          "monica": -0.0812
         },
         "substitutions": [
           {
@@ -66257,8 +66257,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -66283,22 +66283,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3283333333333333,
-          "Water": 0.205,
-          "Earth": 0.32,
-          "Air": 0.14666666666666667
+          "Fire": 0.3116666666666667,
+          "Water": 0.2133333333333333,
+          "Earth": 0.345,
+          "Air": 0.13
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
@@ -66307,7 +66307,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 9,
           "fiberG": 5,
-          "sodiumMg": 232,
+          "sodiumMg": 235,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -66321,18 +66321,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.96,
-          "Essence": 2.1,
-          "Matter": 2.3,
-          "Substance": 2.14
+          "Spirit": 1.98,
+          "Essence": 2.59,
+          "Matter": 2.38,
+          "Substance": 2.2
         },
         "thermodynamicProperties": {
-          "heat": 0.0759,
-          "entropy": 0.3525,
-          "reactivity": 1.8942,
-          "gregsEnergy": -0.5918,
-          "kalchm": 0.5134,
-          "monica": -0.4686
+          "heat": 0.0651,
+          "entropy": 0.2904,
+          "reactivity": 2.1046,
+          "gregsEnergy": -0.5461,
+          "kalchm": 1.0192,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -66712,8 +66712,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -67680,8 +67680,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -67730,10 +67730,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19,
-          "Water": 0.37500000000000006,
-          "Earth": 0.27999999999999997,
-          "Air": 0.155
+          "Fire": 0.16499999999999998,
+          "Water": 0.395,
+          "Earth": 0.275,
+          "Air": 0.165
         },
         "astrologicalAffinities": {
           "planets": [
@@ -67754,7 +67754,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 300,
+          "sodiumMg": 308,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -67768,18 +67768,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.91,
-          "Essence": 3.19,
-          "Matter": 3.11,
-          "Substance": 2.86
+          "Spirit": 2.62,
+          "Essence": 4.1,
+          "Matter": 3.16,
+          "Substance": 2.79
         },
         "thermodynamicProperties": {
-          "heat": 0.0371,
-          "entropy": 0.2458,
-          "reactivity": 1.9322,
-          "gregsEnergy": -0.4378,
-          "kalchm": 0.2024,
-          "monica": -0.1418
+          "heat": 0.0582,
+          "entropy": 0.2338,
+          "reactivity": 2.684,
+          "gregsEnergy": -0.5694,
+          "kalchm": 6.1111,
+          "monica": 0.1172
         },
         "substitutions": [
           {
@@ -67820,8 +67820,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.625,
@@ -67870,8 +67870,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.2,
-          "Water": 0.30833333333333335,
-          "Earth": 0.34166666666666656,
+          "Water": 0.32499999999999996,
+          "Earth": 0.32499999999999996,
           "Air": 0.15
         },
         "astrologicalAffinities": {
@@ -67893,7 +67893,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 273,
+          "sodiumMg": 280,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -67908,17 +67908,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.75,
-          "Essence": 1.98,
-          "Matter": 2.56,
+          "Essence": 2.03,
+          "Matter": 2.52,
           "Substance": 2.46
         },
         "thermodynamicProperties": {
-          "heat": 0.051,
-          "entropy": 0.3407,
-          "reactivity": 1.5668,
-          "gregsEnergy": -0.4828,
-          "kalchm": 0.1014,
-          "monica": -0.1346
+          "heat": 0.0509,
+          "entropy": 0.3394,
+          "reactivity": 1.6559,
+          "gregsEnergy": -0.5111,
+          "kalchm": 0.1192,
+          "monica": -0.1451
         },
         "substitutions": [
           {
@@ -68145,8 +68145,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -68283,8 +68283,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -68363,10 +68363,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17428571428571432,
-          "Water": 0.2921428571428571,
-          "Earth": 0.35928571428571426,
-          "Air": 0.17428571428571427
+          "Fire": 0.1671428571428572,
+          "Water": 0.3028571428571428,
+          "Earth": 0.3628571428571429,
+          "Air": 0.16714285714285712
         },
         "astrologicalAffinities": {
           "planets": [
@@ -68387,7 +68387,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 267,
+          "sodiumMg": 271,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -68401,18 +68401,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.55,
-          "Essence": 3.55,
-          "Matter": 5.07,
-          "Substance": 4.68
+          "Spirit": 2.64,
+          "Essence": 4.59,
+          "Matter": 5.05,
+          "Substance": 4.71
         },
         "thermodynamicProperties": {
-          "heat": 0.0327,
-          "entropy": 0.3312,
-          "reactivity": 1.3961,
-          "gregsEnergy": -0.4296,
-          "kalchm": 0.0002,
-          "monica": -0.0361
+          "heat": 0.0304,
+          "entropy": 0.275,
+          "reactivity": 1.7191,
+          "gregsEnergy": -0.4425,
+          "kalchm": 0.0027,
+          "monica": -0.0435
         },
         "substitutions": [
           {
@@ -68465,8 +68465,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -68526,8 +68526,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.17272727272727273,
-          "Water": 0.26818181818181813,
-          "Earth": 0.35454545454545455,
+          "Water": 0.2772727272727273,
+          "Earth": 0.34545454545454546,
           "Air": 0.20454545454545459
         },
         "astrologicalAffinities": {
@@ -68549,7 +68549,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 257,
+          "sodiumMg": 261,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -68564,17 +68564,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.95,
-          "Essence": 3.67,
-          "Matter": 3.96,
-          "Substance": 3.35
+          "Essence": 3.72,
+          "Matter": 3.92,
+          "Substance": 3.34
         },
         "thermodynamicProperties": {
           "heat": 0.0626,
-          "entropy": 0.2936,
-          "reactivity": 1.8016,
-          "gregsEnergy": -0.4663,
-          "kalchm": 0.215,
-          "monica": -0.1684
+          "entropy": 0.2919,
+          "reactivity": 1.8602,
+          "gregsEnergy": -0.4804,
+          "kalchm": 0.2713,
+          "monica": -0.198
         },
         "substitutions": [
           {
@@ -69332,8 +69332,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -70309,8 +70309,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -72247,8 +72247,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch ground cloves",
-            "notes": ""
+            "name": "ground cloves",
+            "notes": "pinch"
           },
           {
             "amount": 4,
@@ -72358,18 +72358,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.57,
-          "Essence": 4.17,
-          "Matter": 4.45,
-          "Substance": 4.29
+          "Spirit": 3.95,
+          "Essence": 5.07,
+          "Matter": 4.56,
+          "Substance": 4.21
         },
         "thermodynamicProperties": {
-          "heat": 0.069,
-          "entropy": 0.3698,
-          "reactivity": 2.154,
-          "gregsEnergy": -0.7276,
-          "kalchm": 0.0913,
-          "monica": -0.1411
+          "heat": 0.074,
+          "entropy": 0.3211,
+          "reactivity": 2.501,
+          "gregsEnergy": -0.7292,
+          "kalchm": 1.9854,
+          "monica": 0.4251
         },
         "substitutions": [
           {
@@ -72602,8 +72602,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -72630,10 +72630,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1875,
-          "Water": 0.35625,
-          "Earth": 0.3125,
-          "Air": 0.14375000000000002
+          "Fire": 0.15,
+          "Water": 0.38749999999999996,
+          "Earth": 0.31,
+          "Air": 0.15250000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -72651,10 +72651,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 293,
+          "fiberG": 4,
+          "sodiumMg": 305,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -72668,18 +72668,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.38,
-          "Essence": 2.58,
-          "Matter": 2.91,
-          "Substance": 2.68
+          "Spirit": 2.02,
+          "Essence": 3.5,
+          "Matter": 2.94,
+          "Substance": 2.59
         },
         "thermodynamicProperties": {
-          "heat": 0.024,
-          "entropy": 0.241,
-          "reactivity": 1.5336,
-          "gregsEnergy": -0.3456,
-          "kalchm": 0.0572,
-          "monica": -0.0788
+          "heat": 0.042,
+          "entropy": 0.2127,
+          "reactivity": 2.1997,
+          "gregsEnergy": -0.4258,
+          "kalchm": 1.1848,
+          "monica": 1.1415
         },
         "substitutions": [
           {
@@ -72744,8 +72744,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -72773,10 +72773,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1875,
-          "Water": 0.35,
-          "Earth": 0.31875000000000003,
-          "Air": 0.14375000000000002
+          "Fire": 0.17500000000000002,
+          "Water": 0.38749999999999996,
+          "Earth": 0.31,
+          "Air": 0.1275
         },
         "astrologicalAffinities": {
           "planets": [
@@ -72796,8 +72796,8 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 24,
           "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 290,
+          "fiberG": 4,
+          "sodiumMg": 305,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -72811,18 +72811,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.38,
-          "Essence": 2.55,
-          "Matter": 2.92,
-          "Substance": 2.69
+          "Spirit": 1.62,
+          "Essence": 3.56,
+          "Matter": 3.04,
+          "Substance": 2.63
         },
         "thermodynamicProperties": {
-          "heat": 0.0241,
-          "entropy": 0.244,
-          "reactivity": 1.5083,
-          "gregsEnergy": -0.344,
-          "kalchm": 0.0519,
-          "monica": -0.0771
+          "heat": 0.0263,
+          "entropy": 0.18,
+          "reactivity": 1.9971,
+          "gregsEnergy": -0.3333,
+          "kalchm": 0.5372,
+          "monica": -0.2686
         },
         "substitutions": [
           {
@@ -72887,8 +72887,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 6,
@@ -72917,8 +72917,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.2,
-          "Water": 0.2875,
-          "Earth": 0.3975,
+          "Water": 0.3,
+          "Earth": 0.385,
           "Air": 0.115
         },
         "astrologicalAffinities": {
@@ -72940,7 +72940,7 @@ export const cuisine: Cuisine = {
           "carbsG": 23,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 265,
+          "sodiumMg": 270,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -72955,17 +72955,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.32,
-          "Essence": 2.3,
-          "Matter": 3.17,
-          "Substance": 2.76
+          "Essence": 2.35,
+          "Matter": 3.13,
+          "Substance": 2.75
         },
         "thermodynamicProperties": {
           "heat": 0.0219,
-          "entropy": 0.2485,
-          "reactivity": 1.1618,
-          "gregsEnergy": -0.2668,
-          "kalchm": 0.0153,
-          "monica": -0.0549
+          "entropy": 0.2462,
+          "reactivity": 1.2117,
+          "gregsEnergy": -0.2765,
+          "kalchm": 0.0187,
+          "monica": -0.0573
         },
         "substitutions": [
           {
@@ -73272,8 +73272,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch teaspoon sea salt",
-            "notes": ""
+            "name": "teaspoon sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -73390,8 +73390,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -73456,10 +73456,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16666666666666666,
-          "Water": 0.35,
-          "Earth": 0.3444444444444444,
-          "Air": 0.1388888888888889
+          "Fire": 0.16111111111111112,
+          "Water": 0.3666666666666666,
+          "Earth": 0.33666666666666667,
+          "Air": 0.13555555555555554
         },
         "astrologicalAffinities": {
           "planets": [
@@ -73480,7 +73480,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 290,
+          "sodiumMg": 297,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -73494,18 +73494,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.43,
-          "Essence": 2.39,
-          "Matter": 3.08,
-          "Substance": 2.63
+          "Spirit": 1.36,
+          "Essence": 2.46,
+          "Matter": 3.04,
+          "Substance": 2.6
         },
         "thermodynamicProperties": {
-          "heat": 0.026,
-          "entropy": 0.2371,
-          "reactivity": 1.2658,
-          "gregsEnergy": -0.2741,
-          "kalchm": 0.0329,
-          "monica": -0.0634
+          "heat": 0.0235,
+          "entropy": 0.2249,
+          "reactivity": 1.3015,
+          "gregsEnergy": -0.2692,
+          "kalchm": 0.0395,
+          "monica": -0.064
         },
         "substitutions": [
           {
@@ -73564,8 +73564,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -73613,10 +73613,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20400000000000001,
-          "Water": 0.284,
-          "Earth": 0.348,
-          "Air": 0.164
+          "Fire": 0.20399999999999996,
+          "Water": 0.294,
+          "Earth": 0.33799999999999997,
+          "Air": 0.16399999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -73637,7 +73637,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 264,
+          "sodiumMg": 268,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -73652,17 +73652,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.93,
-          "Essence": 2.7,
-          "Matter": 3.69,
-          "Substance": 3.26
+          "Essence": 2.75,
+          "Matter": 3.65,
+          "Substance": 3.25
         },
         "thermodynamicProperties": {
           "heat": 0.0345,
-          "entropy": 0.2925,
-          "reactivity": 1.3365,
-          "gregsEnergy": -0.3564,
-          "kalchm": 0.0089,
-          "monica": -0.0565
+          "entropy": 0.2903,
+          "reactivity": 1.3836,
+          "gregsEnergy": -0.3672,
+          "kalchm": 0.011,
+          "monica": -0.0588
         },
         "substitutions": [
           {
@@ -73715,14 +73715,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch fresh grated nutmeg",
-            "notes": ""
+            "name": "fresh grated nutmeg",
+            "notes": "pinch"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch ground cloves",
-            "notes": ""
+            "name": "ground cloves",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -74476,8 +74476,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 4,
@@ -74534,8 +74534,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.1285714285714286,
-          "Water": 0.4428571428571428,
-          "Earth": 0.27142857142857146,
+          "Water": 0.4571428571428572,
+          "Earth": 0.2571428571428572,
           "Air": 0.15714285714285717
         },
         "astrologicalAffinities": {
@@ -74557,7 +74557,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 327,
+          "sodiumMg": 333,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -74572,17 +74572,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.73,
-          "Essence": 3.56,
-          "Matter": 2.74,
-          "Substance": 2.39
+          "Essence": 3.61,
+          "Matter": 2.7,
+          "Substance": 2.38
         },
         "thermodynamicProperties": {
           "heat": 0.0329,
-          "entropy": 0.1778,
-          "reactivity": 2.3836,
-          "gregsEnergy": -0.3908,
-          "kalchm": 1.8671,
-          "monica": 0.2626
+          "entropy": 0.1763,
+          "reactivity": 2.5089,
+          "gregsEnergy": -0.4094,
+          "kalchm": 2.3093,
+          "monica": 0.195
         },
         "substitutions": [
           {
@@ -74641,8 +74641,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -74662,8 +74662,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.18333333333333335,
-          "Water": 0.25833333333333336,
-          "Earth": 0.39166666666666666,
+          "Water": 0.275,
+          "Earth": 0.375,
           "Air": 0.1666666666666667
         },
         "astrologicalAffinities": {
@@ -74685,7 +74685,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 253,
+          "sodiumMg": 260,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -74700,17 +74700,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.02,
-          "Essence": 1.25,
-          "Matter": 2.11,
-          "Substance": 2.04
+          "Essence": 1.3,
+          "Matter": 2.07,
+          "Substance": 2.02
         },
         "thermodynamicProperties": {
-          "heat": 0.0278,
-          "entropy": 0.3273,
-          "reactivity": 1.1014,
-          "gregsEnergy": -0.3327,
-          "kalchm": 0.0652,
-          "monica": -0.1106
+          "heat": 0.0279,
+          "entropy": 0.3207,
+          "reactivity": 1.1622,
+          "gregsEnergy": -0.3448,
+          "kalchm": 0.0769,
+          "monica": -0.1157
         },
         "substitutions": [
           {
@@ -74811,8 +74811,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -74843,9 +74843,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.225,
-          "Water": 0.2535714285714286,
-          "Earth": 0.3321428571428571,
+          "Fire": 0.2107142857142857,
+          "Water": 0.26071428571428573,
+          "Earth": 0.33928571428571425,
           "Air": 0.18928571428571428
         },
         "astrologicalAffinities": {
@@ -74867,7 +74867,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 251,
+          "sodiumMg": 254,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -74881,18 +74881,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.96,
-          "Essence": 3.5,
-          "Matter": 4.72,
+          "Spirit": 3.37,
+          "Essence": 4.43,
+          "Matter": 4.79,
           "Substance": 4.55
         },
         "thermodynamicProperties": {
-          "heat": 0.048,
-          "entropy": 0.3811,
-          "reactivity": 1.6402,
-          "gregsEnergy": -0.577,
-          "kalchm": 0.0013,
-          "monica": -0.0529
+          "heat": 0.0538,
+          "entropy": 0.3333,
+          "reactivity": 1.9701,
+          "gregsEnergy": -0.6028,
+          "kalchm": 0.0245,
+          "monica": -0.0825
         },
         "substitutions": [
           {
@@ -74951,8 +74951,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -75019,10 +75019,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1863636363636364,
-          "Water": 0.3654545454545454,
-          "Earth": 0.3018181818181818,
-          "Air": 0.14636363636363636
+          "Fire": 0.2041666666666667,
+          "Water": 0.35166666666666674,
+          "Earth": 0.2808333333333334,
+          "Air": 0.16333333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -75039,11 +75039,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 10,
-          "carbsG": 24,
+          "proteinG": 9,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 296,
+          "sodiumMg": 291,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -75057,18 +75057,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.35,
-          "Essence": 3.6,
-          "Matter": 3.99,
-          "Substance": 3.66
+          "Spirit": 3.08,
+          "Essence": 4.48,
+          "Matter": 3.9,
+          "Substance": 3.51
         },
         "thermodynamicProperties": {
-          "heat": 0.0382,
-          "entropy": 0.2783,
-          "reactivity": 1.741,
-          "gregsEnergy": -0.4463,
-          "kalchm": 0.026,
-          "monica": -0.0702
+          "heat": 0.0592,
+          "entropy": 0.2693,
+          "reactivity": 2.4068,
+          "gregsEnergy": -0.589,
+          "kalchm": 1.5969,
+          "monica": 0.5228
         },
         "substitutions": [
           {
@@ -75133,8 +75133,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch salt and pepper",
-            "notes": ""
+            "name": "salt and pepper",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -75159,31 +75159,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20833333333333334,
-          "Water": 0.35833333333333334,
-          "Earth": 0.3333333333333333,
-          "Air": 0.10000000000000002
+          "Fire": 0.19285714285714287,
+          "Water": 0.33571428571428574,
+          "Earth": 0.3714285714285714,
+          "Air": 0.1
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 23,
-          "fatG": 8,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 293,
+          "sodiumMg": 284,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -75197,18 +75197,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.95,
-          "Essence": 3.45,
-          "Matter": 3.34,
-          "Substance": 3.2
+          "Spirit": 1.8,
+          "Essence": 3.3,
+          "Matter": 3.57,
+          "Substance": 3.39
         },
         "thermodynamicProperties": {
-          "heat": 0.0331,
-          "entropy": 0.2518,
-          "reactivity": 1.9363,
-          "gregsEnergy": -0.4545,
-          "kalchm": 0.1136,
-          "monica": -0.1079
+          "heat": 0.0268,
+          "entropy": 0.2574,
+          "reactivity": 1.6596,
+          "gregsEnergy": -0.4005,
+          "kalchm": 0.0251,
+          "monica": -0.0655
         },
         "substitutions": [
           {
@@ -75700,8 +75700,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 3,
@@ -75760,14 +75760,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch ground cloves",
-            "notes": ""
+            "name": "ground cloves",
+            "notes": "pinch"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1.75,
@@ -75804,8 +75804,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.26666666666666666,
-          "Water": 0.25,
-          "Earth": 0.35000000000000003,
+          "Water": 0.2611111111111111,
+          "Earth": 0.3388888888888889,
           "Air": 0.13333333333333333
         },
         "astrologicalAffinities": {
@@ -75827,7 +75827,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 250,
+          "sodiumMg": 254,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -75842,17 +75842,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 5.44,
-          "Essence": 6.55,
-          "Matter": 7.47,
-          "Substance": 6.73
+          "Essence": 6.65,
+          "Matter": 7.39,
+          "Substance": 6.7
         },
         "thermodynamicProperties": {
           "heat": 0.0643,
-          "entropy": 0.3508,
-          "reactivity": 1.9286,
-          "gregsEnergy": -0.6122,
-          "kalchm": 0.0018,
-          "monica": -0.0502
+          "entropy": 0.3479,
+          "reactivity": 1.9898,
+          "gregsEnergy": -0.628,
+          "kalchm": 0.0033,
+          "monica": -0.0552
         },
         "substitutions": [
           {
@@ -75911,8 +75911,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -75959,10 +75959,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20400000000000001,
-          "Water": 0.284,
-          "Earth": 0.348,
-          "Air": 0.164
+          "Fire": 0.20399999999999996,
+          "Water": 0.294,
+          "Earth": 0.33799999999999997,
+          "Air": 0.16399999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -75983,7 +75983,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 264,
+          "sodiumMg": 268,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -75998,17 +75998,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.93,
-          "Essence": 2.7,
-          "Matter": 3.69,
-          "Substance": 3.26
+          "Essence": 2.75,
+          "Matter": 3.65,
+          "Substance": 3.25
         },
         "thermodynamicProperties": {
           "heat": 0.0345,
-          "entropy": 0.2925,
-          "reactivity": 1.3365,
-          "gregsEnergy": -0.3564,
-          "kalchm": 0.0089,
-          "monica": -0.0565
+          "entropy": 0.2903,
+          "reactivity": 1.3836,
+          "gregsEnergy": -0.3672,
+          "kalchm": 0.011,
+          "monica": -0.0588
         },
         "substitutions": [
           {
@@ -76446,8 +76446,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -76483,8 +76483,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.12857142857142856,
-          "Water": 0.4357142857142858,
-          "Earth": 0.3214285714285714,
+          "Water": 0.45,
+          "Earth": 0.3071428571428571,
           "Air": 0.11428571428571427
         },
         "astrologicalAffinities": {
@@ -76505,8 +76505,8 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 23,
           "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 324,
+          "fiberG": 4,
+          "sodiumMg": 330,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -76521,17 +76521,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 0.96,
-          "Essence": 2.27,
-          "Matter": 2.6,
-          "Substance": 2.4
+          "Essence": 2.32,
+          "Matter": 2.56,
+          "Substance": 2.39
         },
         "thermodynamicProperties": {
           "heat": 0.0142,
-          "entropy": 0.2119,
-          "reactivity": 1.4123,
-          "gregsEnergy": -0.2852,
-          "kalchm": 0.0631,
-          "monica": -0.0731
+          "entropy": 0.2097,
+          "reactivity": 1.49,
+          "gregsEnergy": -0.2983,
+          "kalchm": 0.0761,
+          "monica": -0.0777
         },
         "substitutions": [
           {
@@ -76590,8 +76590,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -76642,10 +76642,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18181818181818182,
-          "Water": 0.3590909090909091,
-          "Earth": 0.309090909090909,
-          "Air": 0.15
+          "Fire": 0.17727272727272728,
+          "Water": 0.3772727272727272,
+          "Earth": 0.3090909090909091,
+          "Air": 0.13636363636363635
         },
         "astrologicalAffinities": {
           "planets": [
@@ -76663,10 +76663,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 24,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 294,
+          "sodiumMg": 301,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -76680,18 +76680,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.19,
-          "Essence": 3.9,
-          "Matter": 4.26,
-          "Substance": 3.98
+          "Spirit": 2.2,
+          "Essence": 4.38,
+          "Matter": 4.57,
+          "Substance": 4.33
         },
         "thermodynamicProperties": {
-          "heat": 0.0288,
-          "entropy": 0.2655,
-          "reactivity": 1.7259,
-          "gregsEnergy": -0.4295,
-          "kalchm": 0.0096,
-          "monica": -0.0536
+          "heat": 0.0245,
+          "entropy": 0.2546,
+          "reactivity": 1.8049,
+          "gregsEnergy": -0.435,
+          "kalchm": 0.0062,
+          "monica": -0.0474
         },
         "substitutions": [
           {
@@ -76738,8 +76738,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1.25,
@@ -76784,10 +76784,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16874999999999998,
-          "Water": 0.33749999999999997,
-          "Earth": 0.36874999999999997,
-          "Air": 0.125
+          "Fire": 0.1875,
+          "Water": 0.33125000000000004,
+          "Earth": 0.3625,
+          "Air": 0.11875000000000001
         },
         "astrologicalAffinities": {
           "planets": [
@@ -76804,11 +76804,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 285,
+          "sodiumMg": 283,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -76822,18 +76822,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.31,
-          "Essence": 2.23,
-          "Matter": 2.98,
-          "Substance": 2.83
+          "Spirit": 1.38,
+          "Essence": 2.24,
+          "Matter": 2.93,
+          "Substance": 2.8
         },
         "thermodynamicProperties": {
-          "heat": 0.0222,
-          "entropy": 0.2791,
-          "reactivity": 1.3247,
-          "gregsEnergy": -0.3476,
-          "kalchm": 0.0173,
-          "monica": -0.0647
+          "heat": 0.0251,
+          "entropy": 0.2848,
+          "reactivity": 1.3764,
+          "gregsEnergy": -0.3669,
+          "kalchm": 0.0228,
+          "monica": -0.0705
         },
         "substitutions": [
           {
@@ -76880,8 +76880,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.75,
@@ -76916,8 +76916,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -76956,10 +76956,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16923076923076924,
-          "Water": 0.35384615384615387,
-          "Earth": 0.3423076923076923,
-          "Air": 0.1346153846153846
+          "Fire": 0.16153846153846155,
+          "Water": 0.3961538461538462,
+          "Earth": 0.28923076923076924,
+          "Air": 0.15307692307692308
         },
         "astrologicalAffinities": {
           "planets": [
@@ -76976,11 +76976,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 10,
-          "carbsG": 24,
+          "proteinG": 9,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 5,
-          "sodiumMg": 292,
+          "fiberG": 4,
+          "sodiumMg": 308,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -76994,18 +76994,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.22,
-          "Essence": 3.97,
-          "Matter": 5.11,
-          "Substance": 4.68
+          "Spirit": 2.68,
+          "Essence": 4.66,
+          "Matter": 4.67,
+          "Substance": 4.33
         },
         "thermodynamicProperties": {
-          "heat": 0.0233,
-          "entropy": 0.2812,
-          "reactivity": 1.4385,
-          "gregsEnergy": -0.3813,
-          "kalchm": 0.0002,
-          "monica": -0.0311
+          "heat": 0.0343,
+          "entropy": 0.259,
+          "reactivity": 1.9457,
+          "gregsEnergy": -0.4697,
+          "kalchm": 0.024,
+          "monica": -0.0647
         },
         "substitutions": [
           {
@@ -77064,8 +77064,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -77089,10 +77089,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2357142857142857,
-          "Water": 0.29999999999999993,
-          "Earth": 0.2857142857142857,
-          "Air": 0.17857142857142858
+          "Fire": 0.2,
+          "Water": 0.3166666666666667,
+          "Earth": 0.3083333333333334,
+          "Air": 0.17500000000000004
         },
         "astrologicalAffinities": {
           "planets": [
@@ -77109,11 +77109,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
-          "fatG": 8,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 270,
+          "sodiumMg": 277,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -77127,18 +77127,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.49,
-          "Essence": 1.8,
-          "Matter": 2.03,
-          "Substance": 2.01
+          "Spirit": 1.99,
+          "Essence": 2.7,
+          "Matter": 2.18,
+          "Substance": 1.92
         },
         "thermodynamicProperties": {
-          "heat": 0.0522,
-          "entropy": 0.3255,
-          "reactivity": 1.8047,
-          "gregsEnergy": -0.5353,
-          "kalchm": 0.3047,
-          "monica": -0.2496
+          "heat": 0.0693,
+          "entropy": 0.2546,
+          "reactivity": 2.4399,
+          "gregsEnergy": -0.5521,
+          "kalchm": 3.0035,
+          "monica": 0.2057
         },
         "substitutions": [
           {
@@ -77488,8 +77488,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -77514,10 +77514,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20625000000000002,
-          "Water": 0.31875000000000003,
-          "Earth": 0.35625,
-          "Air": 0.11875000000000001
+          "Fire": 0.23333333333333334,
+          "Water": 0.3055555555555556,
+          "Earth": 0.35,
+          "Air": 0.11111111111111113
         },
         "astrologicalAffinities": {
           "planets": [
@@ -77535,10 +77535,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 24,
-          "fatG": 7,
+          "carbsG": 23,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 278,
+          "sodiumMg": 272,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -77552,18 +77552,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.94,
-          "Essence": 3.44,
-          "Matter": 3.59,
-          "Substance": 3.35
+          "Spirit": 1.98,
+          "Essence": 3.39,
+          "Matter": 3.61,
+          "Substance": 3.42
         },
         "thermodynamicProperties": {
-          "heat": 0.0305,
-          "entropy": 0.2534,
-          "reactivity": 1.7324,
-          "gregsEnergy": -0.4085,
-          "kalchm": 0.0449,
-          "monica": -0.076
+          "heat": 0.0318,
+          "entropy": 0.2676,
+          "reactivity": 1.7389,
+          "gregsEnergy": -0.4336,
+          "kalchm": 0.0351,
+          "monica": -0.0744
         },
         "substitutions": [
           {
@@ -77610,8 +77610,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 3,
@@ -77636,8 +77636,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.2899999999999999,
-          "Water": 0.27,
-          "Earth": 0.326,
+          "Water": 0.29000000000000004,
+          "Earth": 0.30600000000000005,
           "Air": 0.11400000000000002
         },
         "astrologicalAffinities": {
@@ -77658,8 +77658,8 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 23,
           "fatG": 8,
-          "fiberG": 5,
-          "sodiumMg": 258,
+          "fiberG": 4,
+          "sodiumMg": 266,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -77674,17 +77674,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.42,
-          "Essence": 1.34,
-          "Matter": 1.58,
+          "Essence": 1.39,
+          "Matter": 1.54,
           "Substance": 1.53
         },
         "thermodynamicProperties": {
-          "heat": 0.0789,
-          "entropy": 0.3603,
-          "reactivity": 1.7405,
-          "gregsEnergy": -0.5482,
-          "kalchm": 0.6168,
-          "monica": -0.6519
+          "heat": 0.0786,
+          "entropy": 0.3583,
+          "reactivity": 1.8988,
+          "gregsEnergy": -0.6017,
+          "kalchm": 0.6977,
+          "monica": -0.8803
         },
         "substitutions": [
           {
@@ -77761,8 +77761,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -77783,8 +77783,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.15222222222222223,
-          "Water": 0.3744444444444445,
-          "Earth": 0.29555555555555557,
+          "Water": 0.3855555555555556,
+          "Earth": 0.28444444444444444,
           "Air": 0.17777777777777778
         },
         "astrologicalAffinities": {
@@ -77806,7 +77806,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 300,
+          "sodiumMg": 304,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -77821,17 +77821,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.84,
-          "Essence": 2.9,
-          "Matter": 2.84,
-          "Substance": 2.54
+          "Essence": 2.95,
+          "Matter": 2.8,
+          "Substance": 2.53
         },
         "thermodynamicProperties": {
           "heat": 0.0409,
-          "entropy": 0.2408,
-          "reactivity": 1.8758,
-          "gregsEnergy": -0.4107,
-          "kalchm": 0.3255,
-          "monica": -0.1951
+          "entropy": 0.2388,
+          "reactivity": 1.9648,
+          "gregsEnergy": -0.4282,
+          "kalchm": 0.3993,
+          "monica": -0.2374
         },
         "substitutions": [
           {
@@ -77872,8 +77872,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 3.3333333333333335,
@@ -77937,8 +77937,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.19,
-          "Water": 0.4,
-          "Earth": 0.29000000000000004,
+          "Water": 0.41,
+          "Earth": 0.28,
           "Air": 0.12
         },
         "astrologicalAffinities": {
@@ -77960,7 +77960,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 310,
+          "sodiumMg": 314,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -77975,17 +77975,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.29,
-          "Essence": 4.42,
-          "Matter": 3.66,
-          "Substance": 3.3
+          "Essence": 4.47,
+          "Matter": 3.62,
+          "Substance": 3.29
         },
         "thermodynamicProperties": {
           "heat": 0.0355,
-          "entropy": 0.2104,
-          "reactivity": 2.2997,
-          "gregsEnergy": -0.4484,
-          "kalchm": 0.8005,
-          "monica": -0.8762
+          "entropy": 0.2091,
+          "reactivity": 2.3845,
+          "gregsEnergy": -0.463,
+          "kalchm": 1.0158,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -78032,8 +78032,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 6,
@@ -78062,8 +78062,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground nutmeg",
-            "notes": ""
+            "name": "freshly ground nutmeg",
+            "notes": "pinch"
           },
           {
             "amount": 0.25,
@@ -78094,10 +78094,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21363636363636365,
-          "Water": 0.34090909090909094,
-          "Earth": 0.26818181818181813,
-          "Air": 0.17727272727272725
+          "Fire": 0.18181818181818182,
+          "Water": 0.34545454545454546,
+          "Earth": 0.2863636363636364,
+          "Air": 0.18636363636363634
         },
         "astrologicalAffinities": {
           "planets": [
@@ -78115,10 +78115,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 9,
-          "carbsG": 25,
-          "fatG": 8,
+          "carbsG": 26,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 286,
+          "sodiumMg": 288,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -78132,18 +78132,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.17,
-          "Essence": 3.19,
-          "Matter": 3.8,
-          "Substance": 3.64
+          "Spirit": 2.94,
+          "Essence": 4.08,
+          "Matter": 3.47,
+          "Substance": 3.16
         },
         "thermodynamicProperties": {
-          "heat": 0.0365,
-          "entropy": 0.3123,
-          "reactivity": 1.7116,
-          "gregsEnergy": -0.4981,
-          "kalchm": 0.0123,
-          "monica": -0.0662
+          "heat": 0.0653,
+          "entropy": 0.2793,
+          "reactivity": 2.5133,
+          "gregsEnergy": -0.6367,
+          "kalchm": 2.597,
+          "monica": 0.2654
         },
         "substitutions": [
           {
@@ -78184,8 +78184,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -78229,8 +78229,8 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19285714285714284,
-          "Water": 0.32857142857142857,
+          "Fire": 0.17142857142857143,
+          "Water": 0.35,
           "Earth": 0.3,
           "Air": 0.17857142857142858
         },
@@ -78253,7 +78253,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 281,
+          "sodiumMg": 290,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -78267,18 +78267,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.41,
-          "Essence": 2.11,
-          "Matter": 2.48,
-          "Substance": 2.34
+          "Spirit": 1.73,
+          "Essence": 2.56,
+          "Matter": 2.53,
+          "Substance": 2.33
         },
         "thermodynamicProperties": {
-          "heat": 0.0338,
-          "entropy": 0.2766,
-          "reactivity": 1.5647,
-          "gregsEnergy": -0.399,
-          "kalchm": 0.1128,
-          "monica": -0.1168
+          "heat": 0.0444,
+          "entropy": 0.2575,
+          "reactivity": 1.8928,
+          "gregsEnergy": -0.4429,
+          "kalchm": 0.3811,
+          "monica": -0.2426
         },
         "substitutions": [
           {
@@ -78325,8 +78325,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -78354,10 +78354,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12999999999999998,
-          "Water": 0.45999999999999996,
-          "Earth": 0.22999999999999998,
-          "Air": 0.17999999999999997
+          "Fire": 0.13,
+          "Water": 0.48,
+          "Earth": 0.21000000000000002,
+          "Air": 0.18
         },
         "astrologicalAffinities": {
           "planets": [
@@ -78378,7 +78378,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 334,
+          "sodiumMg": 342,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -78393,17 +78393,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.27,
-          "Essence": 2.31,
-          "Matter": 1.29,
-          "Substance": 1.16
+          "Essence": 2.36,
+          "Matter": 1.25,
+          "Substance": 1.15
         },
         "thermodynamicProperties": {
           "heat": 0.0514,
-          "entropy": 0.1634,
-          "reactivity": 3.703,
-          "gregsEnergy": -0.5538,
-          "kalchm": 5.6799,
-          "monica": 0.0861
+          "entropy": 0.1614,
+          "reactivity": 4.1212,
+          "gregsEnergy": -0.6138,
+          "kalchm": 6.6216,
+          "monica": 0.0788
         },
         "substitutions": [
           {
@@ -78456,8 +78456,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -78477,10 +78477,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19999999999999998,
-          "Water": 0.3625,
-          "Earth": 0.2875,
-          "Air": 0.15
+          "Fire": 0.21999999999999997,
+          "Water": 0.35999999999999993,
+          "Earth": 0.2799999999999999,
+          "Air": 0.13999999999999996
         },
         "astrologicalAffinities": {
           "planets": [
@@ -78498,10 +78498,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 9,
-          "carbsG": 25,
-          "fatG": 7,
+          "carbsG": 24,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 295,
+          "sodiumMg": 294,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -78515,18 +78515,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.02,
-          "Essence": 1.4,
-          "Matter": 1.49,
-          "Substance": 1.27
+          "Spirit": 0.99,
+          "Essence": 1.38,
+          "Matter": 1.52,
+          "Substance": 1.37
         },
         "thermodynamicProperties": {
-          "heat": 0.0439,
-          "entropy": 0.2167,
-          "reactivity": 1.5215,
-          "gregsEnergy": -0.2858,
-          "kalchm": 0.666,
-          "monica": -0.4622
+          "heat": 0.0403,
+          "entropy": 0.2334,
+          "reactivity": 1.5306,
+          "gregsEnergy": -0.3169,
+          "kalchm": 0.5309,
+          "monica": -0.327
         },
         "substitutions": [
           {
@@ -78579,14 +78579,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch freshly ground black pepper",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -78611,8 +78611,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.27428571428571424,
-          "Water": 0.2885714285714286,
-          "Earth": 0.2685714285714286,
+          "Water": 0.3028571428571429,
+          "Earth": 0.25428571428571434,
           "Air": 0.16857142857142857
         },
         "astrologicalAffinities": {
@@ -78634,7 +78634,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 265,
+          "sodiumMg": 271,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -78649,17 +78649,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.97,
-          "Essence": 1.92,
-          "Matter": 2,
-          "Substance": 2.02
+          "Essence": 1.97,
+          "Matter": 1.96,
+          "Substance": 2.01
         },
         "thermodynamicProperties": {
           "heat": 0.089,
-          "entropy": 0.4023,
-          "reactivity": 2.2996,
-          "gregsEnergy": -0.8362,
-          "kalchm": 0.8038,
-          "monica": -1.6649
+          "entropy": 0.3986,
+          "reactivity": 2.4469,
+          "gregsEnergy": -0.8862,
+          "kalchm": 0.9505,
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -78934,8 +78934,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -78968,9 +78968,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16666666666666666,
-          "Water": 0.3666666666666667,
-          "Earth": 0.25,
+          "Fire": 0.13333333333333336,
+          "Water": 0.38333333333333336,
+          "Earth": 0.2666666666666667,
           "Air": 0.21666666666666667
         },
         "astrologicalAffinities": {
@@ -78992,7 +78992,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 297,
+          "sodiumMg": 303,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -79006,18 +79006,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.12,
-          "Essence": 1.7,
-          "Matter": 1.71,
+          "Spirit": 1.53,
+          "Essence": 2.63,
+          "Matter": 1.78,
           "Substance": 1.55
         },
         "thermodynamicProperties": {
-          "heat": 0.0382,
-          "entropy": 0.2301,
-          "reactivity": 1.7587,
-          "gregsEnergy": -0.3665,
-          "kalchm": 0.5668,
-          "monica": -0.3671
+          "heat": 0.0506,
+          "entropy": 0.1878,
+          "reactivity": 2.8342,
+          "gregsEnergy": -0.4816,
+          "kalchm": 4.4289,
+          "monica": 0.1142
         },
         "substitutions": [
           {
@@ -79064,8 +79064,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 2.5,
@@ -79106,8 +79106,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -79132,10 +79132,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2090909090909091,
-          "Water": 0.27727272727272734,
-          "Earth": 0.3590909090909091,
-          "Air": 0.15454545454545457
+          "Fire": 0.19545454545454544,
+          "Water": 0.2954545454545454,
+          "Earth": 0.3481818181818182,
+          "Air": 0.16090909090909092
         },
         "astrologicalAffinities": {
           "planets": [
@@ -79154,9 +79154,9 @@ export const cuisine: Cuisine = {
           "calories": 320,
           "proteinG": 10,
           "carbsG": 25,
-          "fatG": 8,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 261,
+          "sodiumMg": 268,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -79170,18 +79170,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.09,
-          "Essence": 3.5,
-          "Matter": 4.8,
-          "Substance": 4.47
+          "Spirit": 2.41,
+          "Essence": 4.01,
+          "Matter": 4.74,
+          "Substance": 4.38
         },
         "thermodynamicProperties": {
-          "heat": 0.024,
-          "entropy": 0.3057,
-          "reactivity": 1.3805,
-          "gregsEnergy": -0.3981,
-          "kalchm": 0.0002,
-          "monica": -0.0339
+          "heat": 0.0301,
+          "entropy": 0.284,
+          "reactivity": 1.5923,
+          "gregsEnergy": -0.422,
+          "kalchm": 0.0021,
+          "monica": -0.043
         },
         "substitutions": [
           {
@@ -80149,8 +80149,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -80179,10 +80179,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22499999999999998,
-          "Water": 0.28125,
-          "Earth": 0.33749999999999997,
-          "Air": 0.15625
+          "Fire": 0.24374999999999997,
+          "Water": 0.275,
+          "Earth": 0.33125,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -80203,7 +80203,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 263,
+          "sodiumMg": 260,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -80217,18 +80217,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.86,
-          "Essence": 2.47,
-          "Matter": 3,
-          "Substance": 2.94
+          "Spirit": 1.93,
+          "Essence": 2.48,
+          "Matter": 2.95,
+          "Substance": 2.91
         },
         "thermodynamicProperties": {
-          "heat": 0.0416,
-          "entropy": 0.3285,
-          "reactivity": 1.6481,
-          "gregsEnergy": -0.4998,
-          "kalchm": 0.046,
-          "monica": -0.0985
+          "heat": 0.0457,
+          "entropy": 0.3369,
+          "reactivity": 1.7184,
+          "gregsEnergy": -0.5332,
+          "kalchm": 0.0622,
+          "monica": -0.1117
         },
         "substitutions": [
           {
@@ -80275,8 +80275,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 6,
@@ -80304,21 +80304,21 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.18,
-          "Water": 0.34,
-          "Earth": 0.35,
+          "Water": 0.36,
+          "Earth": 0.33,
           "Air": 0.13000000000000003
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
@@ -80327,7 +80327,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 286,
+          "sodiumMg": 294,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -80342,17 +80342,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.35,
-          "Essence": 1.93,
-          "Matter": 2.27,
-          "Substance": 2.19
+          "Essence": 1.98,
+          "Matter": 2.23,
+          "Substance": 2.18
         },
         "thermodynamicProperties": {
           "heat": 0.0357,
-          "entropy": 0.2789,
-          "reactivity": 1.5309,
-          "gregsEnergy": -0.3912,
-          "kalchm": 0.149,
-          "monica": -0.1342
+          "entropy": 0.2759,
+          "reactivity": 1.6288,
+          "gregsEnergy": -0.4137,
+          "kalchm": 0.1773,
+          "monica": -0.1468
         },
         "substitutions": [
           {
@@ -80405,8 +80405,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.6666666666666666,
@@ -80447,14 +80447,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch cloves",
-            "notes": ""
+            "name": "cloves",
+            "notes": "pinch"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -80481,8 +80481,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.23,
-          "Water": 0.2469230769230769,
-          "Earth": 0.34923076923076923,
+          "Water": 0.2623076923076923,
+          "Earth": 0.33384615384615385,
           "Air": 0.17384615384615387
         },
         "astrologicalAffinities": {
@@ -80504,7 +80504,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 249,
+          "sodiumMg": 255,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -80519,17 +80519,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 3.06,
-          "Essence": 4.13,
-          "Matter": 4.59,
-          "Substance": 4.13
+          "Essence": 4.23,
+          "Matter": 4.51,
+          "Substance": 4.11
         },
         "thermodynamicProperties": {
           "heat": 0.0508,
-          "entropy": 0.3054,
-          "reactivity": 1.7881,
-          "gregsEnergy": -0.4953,
-          "kalchm": 0.0281,
-          "monica": -0.0775
+          "entropy": 0.3022,
+          "reactivity": 1.8881,
+          "gregsEnergy": -0.5198,
+          "kalchm": 0.046,
+          "monica": -0.0894
         },
         "substitutions": [
           {
@@ -80612,8 +80612,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -80643,8 +80643,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.21272727272727276,
-          "Water": 0.2172727272727273,
-          "Earth": 0.3481818181818182,
+          "Water": 0.22636363636363638,
+          "Earth": 0.3390909090909091,
           "Air": 0.22181818181818186
         },
         "astrologicalAffinities": {
@@ -80666,7 +80666,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 237,
+          "sodiumMg": 241,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -80681,17 +80681,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.48,
-          "Essence": 2.69,
-          "Matter": 3.72,
-          "Substance": 3.34
+          "Essence": 2.74,
+          "Matter": 3.68,
+          "Substance": 3.33
         },
         "thermodynamicProperties": {
           "heat": 0.0558,
-          "entropy": 0.3576,
-          "reactivity": 1.4915,
-          "gregsEnergy": -0.4776,
-          "kalchm": 0.0183,
-          "monica": -0.08
+          "entropy": 0.3552,
+          "reactivity": 1.541,
+          "gregsEnergy": -0.4916,
+          "kalchm": 0.0227,
+          "monica": -0.0843
         },
         "substitutions": [
           {
@@ -80756,8 +80756,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -80785,8 +80785,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.21875000000000003,
-          "Water": 0.21250000000000002,
-          "Earth": 0.4,
+          "Water": 0.22500000000000003,
+          "Earth": 0.3875,
           "Air": 0.16875
         },
         "astrologicalAffinities": {
@@ -80808,7 +80808,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 235,
+          "sodiumMg": 240,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -80823,17 +80823,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.71,
-          "Essence": 2.09,
-          "Matter": 2.77,
-          "Substance": 2.54
+          "Essence": 2.15,
+          "Matter": 2.73,
+          "Substance": 2.53
         },
         "thermodynamicProperties": {
-          "heat": 0.0444,
-          "entropy": 0.3156,
-          "reactivity": 1.3798,
-          "gregsEnergy": -0.3911,
-          "kalchm": 0.0651,
-          "monica": -0.1038
+          "heat": 0.0443,
+          "entropy": 0.3116,
+          "reactivity": 1.4482,
+          "gregsEnergy": -0.407,
+          "kalchm": 0.0799,
+          "monica": -0.1112
         },
         "substitutions": [
           {
@@ -81646,8 +81646,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -81692,8 +81692,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.21111111111111114,
-          "Water": 0.20555555555555557,
-          "Earth": 0.4277777777777778,
+          "Water": 0.21666666666666665,
+          "Earth": 0.4166666666666667,
           "Air": 0.15555555555555559
         },
         "astrologicalAffinities": {
@@ -81715,7 +81715,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 232,
+          "sodiumMg": 237,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -81730,17 +81730,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.05,
-          "Essence": 2.06,
-          "Matter": 3.58,
+          "Essence": 2.12,
+          "Matter": 3.54,
           "Substance": 3.21
         },
         "thermodynamicProperties": {
-          "heat": 0.0457,
-          "entropy": 0.3704,
-          "reactivity": 1.1743,
-          "gregsEnergy": -0.3892,
-          "kalchm": 0.0048,
-          "monica": -0.0621
+          "heat": 0.0455,
+          "entropy": 0.368,
+          "reactivity": 1.2211,
+          "gregsEnergy": -0.4039,
+          "kalchm": 0.0058,
+          "monica": -0.0642
         },
         "substitutions": [
           {
@@ -81972,8 +81972,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.75,
@@ -82005,8 +82005,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.1783333333333333,
-          "Water": 0.23249999999999996,
-          "Earth": 0.41916666666666663,
+          "Water": 0.24083333333333326,
+          "Earth": 0.41083333333333333,
           "Air": 0.17
         },
         "astrologicalAffinities": {
@@ -82028,7 +82028,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 243,
+          "sodiumMg": 246,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -82043,15 +82043,15 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.33,
-          "Essence": 3.03,
-          "Matter": 4.8,
+          "Essence": 3.08,
+          "Matter": 4.76,
           "Substance": 4.33
         },
         "thermodynamicProperties": {
           "heat": 0.0324,
-          "entropy": 0.3369,
-          "reactivity": 1.2288,
-          "gregsEnergy": -0.3816,
+          "entropy": 0.3361,
+          "reactivity": 1.2635,
+          "gregsEnergy": -0.3924,
           "kalchm": 0.0002,
           "monica": -0.0365
         },
@@ -82106,8 +82106,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch ground black pepper",
-            "notes": ""
+            "name": "ground black pepper",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -82142,8 +82142,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 16,
@@ -82173,8 +82173,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.2416666666666667,
-          "Water": 0.2541666666666667,
-          "Earth": 0.34166666666666673,
+          "Water": 0.2625,
+          "Earth": 0.3333333333333333,
           "Air": 0.1625
         },
         "astrologicalAffinities": {
@@ -82196,7 +82196,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 252,
+          "sodiumMg": 255,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -82211,17 +82211,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 3.3,
-          "Essence": 3.59,
-          "Matter": 4.52,
-          "Substance": 3.95
+          "Essence": 3.64,
+          "Matter": 4.49,
+          "Substance": 3.94
         },
         "thermodynamicProperties": {
-          "heat": 0.0666,
-          "entropy": 0.3507,
-          "reactivity": 1.6725,
-          "gregsEnergy": -0.5198,
-          "kalchm": 0.0243,
-          "monica": -0.0836
+          "heat": 0.0665,
+          "entropy": 0.348,
+          "reactivity": 1.7115,
+          "gregsEnergy": -0.5291,
+          "kalchm": 0.0301,
+          "monica": -0.0882
         },
         "substitutions": [
           {
@@ -82274,14 +82274,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch ground nutmeg",
-            "notes": ""
+            "name": "ground nutmeg",
+            "notes": "pinch"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch red pepper flakes",
-            "notes": ""
+            "name": "red pepper flakes",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -82794,8 +82794,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -82836,8 +82836,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -82878,8 +82878,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.14705882352941177,
-          "Water": 0.3588235294117648,
-          "Earth": 0.29647058823529404,
+          "Water": 0.3705882352941177,
+          "Earth": 0.28470588235294114,
           "Air": 0.19764705882352943
         },
         "astrologicalAffinities": {
@@ -82901,7 +82901,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 294,
+          "sodiumMg": 298,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -82916,17 +82916,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 3.9,
-          "Essence": 6.43,
-          "Matter": 5.88,
-          "Substance": 5.56
+          "Essence": 6.53,
+          "Matter": 5.8,
+          "Substance": 5.54
         },
         "thermodynamicProperties": {
           "heat": 0.0435,
-          "entropy": 0.2747,
-          "reactivity": 2.2978,
-          "gregsEnergy": -0.5879,
-          "kalchm": 0.0685,
-          "monica": -0.0954
+          "entropy": 0.2726,
+          "reactivity": 2.3969,
+          "gregsEnergy": -0.6099,
+          "kalchm": 0.1201,
+          "monica": -0.1201
         },
         "substitutions": [
           {
@@ -83145,8 +83145,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 3,
@@ -83208,10 +83208,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21666666666666667,
-          "Water": 0.25416666666666665,
-          "Earth": 0.375,
-          "Air": 0.15416666666666667
+          "Fire": 0.2166666666666667,
+          "Water": 0.26250000000000007,
+          "Earth": 0.3666666666666667,
+          "Air": 0.1541666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -83232,7 +83232,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 252,
+          "sodiumMg": 255,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -83247,17 +83247,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.34,
-          "Essence": 3.08,
-          "Matter": 4.39,
-          "Substance": 3.86
+          "Essence": 3.13,
+          "Matter": 4.35,
+          "Substance": 3.85
         },
         "thermodynamicProperties": {
           "heat": 0.0376,
-          "entropy": 0.3117,
-          "reactivity": 1.3211,
-          "gregsEnergy": -0.3742,
-          "kalchm": 0.0019,
-          "monica": -0.0452
+          "entropy": 0.3098,
+          "reactivity": 1.359,
+          "gregsEnergy": -0.3833,
+          "kalchm": 0.0024,
+          "monica": -0.0468
         },
         "substitutions": [
           {
@@ -83655,8 +83655,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -83788,8 +83788,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.16190476190476194,
-          "Water": 0.3785714285714286,
-          "Earth": 0.2761904761904761,
+          "Water": 0.38333333333333336,
+          "Earth": 0.27142857142857135,
           "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
@@ -83811,7 +83811,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 301,
+          "sodiumMg": 303,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -83826,17 +83826,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 4.5,
-          "Essence": 7.63,
-          "Matter": 7.11,
-          "Substance": 6.49
+          "Essence": 7.68,
+          "Matter": 7.08,
+          "Substance": 6.48
         },
         "thermodynamicProperties": {
           "heat": 0.0416,
-          "entropy": 0.2634,
-          "reactivity": 2.2141,
-          "gregsEnergy": -0.5416,
-          "kalchm": 0.0221,
-          "monica": -0.0642
+          "entropy": 0.2622,
+          "reactivity": 2.2469,
+          "gregsEnergy": -0.5475,
+          "kalchm": 0.029,
+          "monica": -0.0688
         },
         "substitutions": [
           {
@@ -84030,8 +84030,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -84090,8 +84090,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 2,
@@ -84148,10 +84148,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24347826086956517,
-          "Water": 0.2652173913043479,
-          "Earth": 0.31739130434782603,
-          "Air": 0.1739130434782609
+          "Fire": 0.2434782608695652,
+          "Water": 0.27391304347826095,
+          "Earth": 0.30869565217391304,
+          "Air": 0.17391304347826092
         },
         "astrologicalAffinities": {
           "planets": [
@@ -84171,8 +84171,8 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 5,
-          "sodiumMg": 256,
+          "fiberG": 4,
+          "sodiumMg": 260,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -84187,17 +84187,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 6.51,
-          "Essence": 7.14,
-          "Matter": 8.22,
-          "Substance": 7.85
+          "Essence": 7.23,
+          "Matter": 8.14,
+          "Substance": 7.83
         },
         "thermodynamicProperties": {
           "heat": 0.0739,
-          "entropy": 0.4095,
-          "reactivity": 2.1285,
-          "gregsEnergy": -0.7978,
-          "kalchm": 0.0007,
-          "monica": -0.0516
+          "entropy": 0.4078,
+          "reactivity": 2.1872,
+          "gregsEnergy": -0.818,
+          "kalchm": 0.0013,
+          "monica": -0.0563
         },
         "substitutions": [
           {
@@ -85311,8 +85311,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 0.5,
@@ -85347,10 +85347,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21272727272727268,
-          "Water": 0.23090909090909092,
-          "Earth": 0.4027272727272727,
-          "Air": 0.1536363636363636
+          "Fire": 0.2127272727272727,
+          "Water": 0.24000000000000002,
+          "Earth": 0.3936363636363636,
+          "Air": 0.15363636363636363
         },
         "astrologicalAffinities": {
           "planets": [
@@ -85371,7 +85371,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 242,
+          "sodiumMg": 246,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -85386,17 +85386,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.49,
-          "Essence": 3.54,
-          "Matter": 4.87,
-          "Substance": 4.48
+          "Essence": 3.59,
+          "Matter": 4.83,
+          "Substance": 4.47
         },
         "thermodynamicProperties": {
           "heat": 0.0334,
-          "entropy": 0.322,
-          "reactivity": 1.4001,
-          "gregsEnergy": -0.4175,
-          "kalchm": 0.0005,
-          "monica": -0.0392
+          "entropy": 0.3202,
+          "reactivity": 1.4365,
+          "gregsEnergy": -0.4266,
+          "kalchm": 0.0006,
+          "monica": -0.04
         },
         "substitutions": [
           {
@@ -85467,8 +85467,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch salt",
-            "notes": ""
+            "name": "salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -85599,8 +85599,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           }
         ],
         "instructions": [
@@ -85620,8 +85620,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.225,
-          "Water": 0.25,
-          "Earth": 0.4,
+          "Water": 0.27499999999999997,
+          "Earth": 0.375,
           "Air": 0.125
         },
         "astrologicalAffinities": {
@@ -85643,7 +85643,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 250,
+          "sodiumMg": 260,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -85658,17 +85658,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.03,
-          "Essence": 1.54,
-          "Matter": 2,
-          "Substance": 1.8
+          "Essence": 1.59,
+          "Matter": 1.96,
+          "Substance": 1.79
         },
         "thermodynamicProperties": {
           "heat": 0.0297,
-          "entropy": 0.2488,
-          "reactivity": 1.1808,
-          "gregsEnergy": -0.264,
-          "kalchm": 0.174,
-          "monica": -0.1279
+          "entropy": 0.2455,
+          "reactivity": 1.272,
+          "gregsEnergy": -0.2826,
+          "kalchm": 0.2032,
+          "monica": -0.1394
         },
         "substitutions": [
           {
@@ -85886,8 +85886,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -85940,8 +85940,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "pinch"
           },
           {
             "amount": 1,
@@ -86004,8 +86004,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.19333333333333338,
-          "Water": 0.24055555555555552,
-          "Earth": 0.3672222222222222,
+          "Water": 0.2516666666666666,
+          "Earth": 0.3561111111111111,
           "Air": 0.1988888888888889
         },
         "astrologicalAffinities": {
@@ -86023,11 +86023,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 246,
+          "sodiumMg": 251,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -86042,17 +86042,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 4.35,
-          "Essence": 5.02,
-          "Matter": 6.74,
-          "Substance": 6.44
+          "Essence": 5.12,
+          "Matter": 6.66,
+          "Substance": 6.42
         },
         "thermodynamicProperties": {
           "heat": 0.0525,
-          "entropy": 0.3953,
-          "reactivity": 1.6972,
-          "gregsEnergy": -0.6185,
-          "kalchm": 0,
-          "monica": 1.618
+          "entropy": 0.3924,
+          "reactivity": 1.7571,
+          "gregsEnergy": -0.637,
+          "kalchm": 0.0001,
+          "monica": -0.0394
         },
         "substitutions": [
           {

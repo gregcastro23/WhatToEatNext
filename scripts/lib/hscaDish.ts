@@ -116,7 +116,20 @@ function joinAdjectiveList(text: string): string {
   return joined;
 }
 
-export function parseIngredientString(ingStr: string) {
+export interface ParseOptions {
+  /**
+   * Read "pinch of sea salt" as sea salt with the note "pinch". False reproduces the parser as it stood
+   * before that, which made "pinch of sea salt" the ingredient: it is the witness for repairing rows
+   * written then (hscaParseRepair.ts), not something to build with.
+   */
+  readPinch?: boolean;
+}
+
+/** An amount the line states in words instead of a measure; the ingredient follows. */
+const WORD_AMOUNT = /^(?:(?:a|one)\s+)?(pinch|dash|splash|drizzle)(?![a-z])\s*(?:of\s+)?/i;
+
+export function parseIngredientString(ingStr: string, options: ParseOptions = {}) {
+  const readPinch = options.readPinch ?? true;
   let amount = 1;
   let unit = "piece";
   const front: string[] = [];
@@ -216,6 +229,13 @@ export function parseIngredientString(ingStr: string) {
     firstUnitText = unitMatch[1];
     matchedUnit = unit;
     rest = unitMatch[2] ?? "";
+  }
+
+  // "Pinch of sea salt" has no measure: the pinch is a note and sea salt is the ingredient.
+  const wordAmount = readPinch && matchedUnit === "" ? rest.match(WORD_AMOUNT) : null;
+  if (wordAmount?.[1]) {
+    front.push(wordAmount[1].toLowerCase());
+    rest = rest.slice(wordAmount[0].length);
   }
 
   // What may follow the unit: "of", a parenthetical size, a second quantity ("plus 1 teaspoon").
