@@ -79,58 +79,117 @@ interface QuickGenerateProps {
   onGenerate: (mealType: MealType) => void;
   isGenerating: boolean;
   planetaryInfo: ReturnType<typeof getPlanetaryDayCharacteristics>;
+  planetaryHour?: string | null;
   lunarPhase: string;
   isPersonalized: boolean;
 }
+
+const DEFAULT_ELEMENT_STYLE = {
+  badge: "border-orange-500/30 bg-orange-500/10 text-orange-300",
+  text: "text-orange-400",
+  glow: "shadow-[0_0_15px_rgba(249,115,22,0.15)]",
+};
+
+const ELEMENT_STYLES: Record<string, { badge: string; text: string; glow: string }> = {
+  Fire: {
+    badge: "border-orange-500/30 bg-orange-500/10 text-orange-300",
+    text: "text-orange-400",
+    glow: "shadow-[0_0_15px_rgba(249,115,22,0.15)]",
+  },
+  Water: {
+    badge: "border-sky-500/30 bg-sky-500/10 text-sky-300",
+    text: "text-sky-400",
+    glow: "shadow-[0_0_15px_rgba(56,189,248,0.15)]",
+  },
+  Earth: {
+    badge: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
+    text: "text-emerald-400",
+    glow: "shadow-[0_0_15px_rgba(52,211,153,0.15)]",
+  },
+  Air: {
+    badge: "border-indigo-500/30 bg-indigo-500/10 text-indigo-300",
+    text: "text-indigo-400",
+    glow: "shadow-[0_0_15px_rgba(129,140,248,0.15)]",
+  },
+};
 
 function QuickGenerateBar({
   onGenerate,
   isGenerating,
   planetaryInfo,
+  planetaryHour,
   lunarPhase,
   isPersonalized,
 }: QuickGenerateProps) {
+  const style = ELEMENT_STYLES[planetaryInfo.element] ?? DEFAULT_ELEMENT_STYLE;
+
   return (
-    <div className="bg-white rounded-xl shadow-md p-4 border border-gray-100">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        {/* Planetary Status */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">{getElementIcon(planetaryInfo.element)}</span>
+    <div className={`glass-card-premium rounded-2xl p-4 sm:p-5 border border-white/10 ${style.glow} transition-all`}>
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        {/* Celestial Telemetry Strip */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-3">
+            <span
+              className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl border ${style.badge}`}
+              aria-hidden
+            >
+              {getElementIcon(planetaryInfo.element)}
+            </span>
             <div>
-              <p className="text-sm font-semibold text-gray-800">
-                {planetaryInfo.planet} Day
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-semibold text-white tracking-wide">
+                  {planetaryInfo.planet} Day
+                </p>
+                {planetaryHour && (
+                  <span className="t-mono text-[10px] text-white/50 px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/10">
+                    {planetaryHour}
+                  </span>
+                )}
+              </div>
+              <p className={`text-xs font-medium ${style.text}`}>
+                {planetaryInfo.element} Element Energy
               </p>
-              <p className="text-xs text-gray-500">{planetaryInfo.element} Energy</p>
             </div>
           </div>
 
-          {lunarPhase && (
-            <div className="flex items-center gap-1.5 px-2.5 py-1 bg-purple-50 rounded-lg">
-              <span className="text-xs">🌙</span>
-              <span className="text-xs text-purple-700 font-medium">{lunarPhase}</span>
-            </div>
-          )}
+          <div className="flex items-center gap-2">
+            {lunarPhase && (
+              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-purple-950/40 border border-purple-500/25 rounded-lg text-purple-200">
+                <span className="text-xs" aria-hidden>🌙</span>
+                <span className="t-mono text-[11px] font-medium capitalize">{lunarPhase}</span>
+              </div>
+            )}
 
-          {isPersonalized && (
-            <div className="flex items-center gap-1 px-2 py-1 bg-indigo-50 rounded-lg">
-              <span className="text-xs">✨</span>
-              <span className="text-xs text-indigo-700 font-medium">Chart active</span>
-            </div>
-          )}
+            {isPersonalized ? (
+              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-950/40 border border-amber-500/25 rounded-lg text-amber-200">
+                <span className="text-xs" aria-hidden>✨</span>
+                <span className="t-mono text-[11px] font-medium">Chart Active</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5 px-2.5 py-1 bg-white/[0.04] border border-white/10 rounded-lg text-white/60">
+                <span className="text-xs" aria-hidden>🔮</span>
+                <span className="t-mono text-[11px]">Sky Baseline</span>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Quick Generate Buttons */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500 hidden sm:inline">Quick Generate:</span>
+        {/* Quick Synthesis Buttons */}
+        <div className="flex flex-wrap items-center gap-2 pt-2 lg:pt-0 border-t lg:border-t-0 border-white/5">
+          <span className="t-label text-[10px] text-white/50 tracking-wider hidden sm:inline mr-1">
+            Quick Synthesis:
+          </span>
           {(["breakfast", "lunch", "dinner", "snack"] as MealType[]).map((meal) => (
             <button
               key={meal}
+              type="button"
               onClick={() => onGenerate(meal)}
               disabled={isGenerating}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-gradient-to-r from-amber-50 to-orange-50 text-amber-700 border border-amber-200 hover:from-amber-100 hover:to-orange-100 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed capitalize"
+              className="px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all bg-white/[0.05] hover:bg-white/[0.12] active:scale-95 text-white/90 hover:text-white border border-white/15 hover:border-amber-400/40 hover:shadow-[0_0_12px_rgba(251,191,36,0.2)] disabled:opacity-40 disabled:cursor-not-allowed capitalize cursor-pointer flex items-center gap-1.5"
+              title={`Synthesize a ${meal} using live celestial alignments (5 Spirit · 5 Essence)`}
             >
-              {meal}
+              <span>{meal}</span>
+              <span className="text-[10px] opacity-60">✨</span>
             </button>
           ))}
         </div>
@@ -138,6 +197,7 @@ function QuickGenerateBar({
     </div>
   );
 }
+
 
 // ===== Main Page =====
 
@@ -301,66 +361,80 @@ export default function RecipeBuilderPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50 to-orange-50">
-      <div className="mx-auto max-w-4xl px-4 py-8 space-y-6">
+    <div className="relative text-[#f2edff] py-6 sm:py-10">
+      <div className="mx-auto max-w-4xl px-4 space-y-7">
+        {/* Natal Chart Setup Banner (if not connected) */}
         {!isPersonalized && (
-          <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-100 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm animate-in fade-in slide-in-from-top-2 duration-500">
-            <div className="flex items-center gap-3">
-              <div className="text-2xl">✨</div>
-              <p className="text-sm text-amber-800 font-medium">
-                Unlock <span className="font-bold">Natal Chart Integration</span> for deeper alchemical alignment scores and personalized cosmic recipes.
-              </p>
+          <div className="p-4 sm:p-5 glass-card-premium rounded-2xl border border-amber-500/30 bg-gradient-to-r from-purple-950/40 via-amber-950/20 to-purple-950/40 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg animate-in fade-in slide-in-from-top-2 duration-500">
+            <div className="flex items-center gap-3.5">
+              <span className="text-2xl" aria-hidden>✨</span>
+              <div>
+                <p className="text-sm font-semibold text-amber-200">
+                  Harmonize with Your Celestial Blueprint
+                </p>
+                <p className="text-xs text-amber-300/80 mt-0.5">
+                  Connect your Natal Chart to unlock personalized alchemical resonance scores and custom transits.
+                </p>
+              </div>
             </div>
-            <button 
-              onClick={() => window.dispatchEvent(new Event('open-signin-modal'))}
-              className="whitespace-nowrap px-4 py-2 bg-white text-orange-700 text-xs font-bold rounded-lg border border-orange-200 shadow-sm hover:bg-orange-50 transition-all"
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event("open-signin-modal"))}
+              className="whitespace-nowrap px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-stone-950 text-xs font-bold rounded-xl shadow-md hover:from-amber-400 hover:to-orange-400 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
             >
-              Connect Your Chart
+              Connect Natal Chart
             </button>
           </div>
         )}
 
-        {/* Header */}
-        <div className="flex items-center justify-between">
+        {/* Hero Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-white/5">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-amber-600 to-orange-600 bg-clip-text text-transparent">
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="t-tag px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300">
+                Crucible &bull; Alchemical Synthesis
+              </span>
+            </div>
+            <h1 className="t-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-100 via-amber-100 to-orange-200">
               Recipe Builder
             </h1>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-xs sm:text-sm text-white/60 mt-1 max-w-xl">
               {isPersonalized
-                ? "Personalized recipes aligned with your birth chart & the cosmos"
-                : "Cosmically-aligned recipes based on planetary positions"}
+                ? "Formulate bespoke recipes dynamically aligned with your natal chart and planetary transits."
+                : "Synthesize cosmically-aligned recipes from live planetary harmonics and kitchen ingredients."}
             </p>
           </div>
-          <div className="flex items-center gap-2">
+
+          <div className="flex items-center gap-2 shrink-0">
             <Link
               href="/cosmic-recipe"
-              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 transition-colors text-sm text-purple-700 font-semibold border border-purple-200"
+              className="px-3.5 py-1.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 hover:text-purple-200 text-xs font-medium border border-purple-500/25 transition-all hover:shadow-[0_0_12px_rgba(168,85,247,0.2)]"
             >
               Cosmic Recipe
             </Link>
             <Link
               href="/recipes"
-              className="px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 transition-colors text-sm text-purple-700 font-medium border border-purple-200"
+              className="px-3.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white/80 hover:text-white text-xs font-medium border border-white/10 transition-all"
             >
               All Recipes
             </Link>
             <Link
               href="/"
-              className="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-sm text-gray-600"
+              className="px-3.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white/60 hover:text-white text-xs transition-all"
             >
               Home
             </Link>
           </div>
         </div>
 
-        {/* Quick Generate Bar */}
+        {/* Quick Synthesis Bar */}
         <QuickGenerateBar
           onGenerate={(mealType) => {
             void handleQuickGenerate(mealType);
           }}
           isGenerating={isGenerating}
           planetaryInfo={planetaryDayInfo}
+          planetaryHour={astroState.currentPlanetaryHour}
           lunarPhase={astroState.lunarPhase || ""}
           isPersonalized={isPersonalized}
         />
@@ -380,36 +454,38 @@ export default function RecipeBuilderPage() {
         />
 
         {generationError && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3">
-            <p className="text-sm text-red-700">{generationError}</p>
+          <div className="rounded-2xl border border-red-500/30 bg-red-950/40 px-4 py-3 text-red-200 text-xs flex items-center gap-2">
+            <span aria-hidden>⚠️</span>
+            <span>{generationError}</span>
           </div>
         )}
 
         {/* Recipe Carousel / Results */}
         {hasGenerated && (
-          <div className="bg-white rounded-2xl shadow-md overflow-hidden">
-            <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+          <div className="glass-card-premium rounded-3xl border border-white/10 shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-500">
+            <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
               <div>
-                <h3 className="font-bold text-gray-800">
+                <h3 className="t-display text-xl font-medium text-white">
                   {suggestions.length > 0
-                    ? `${suggestions.length} Recipe${suggestions.length !== 1 ? "s" : ""} Found`
-                    : "No Recipes Found"}
+                    ? `${suggestions.length} Alchemical Formulation${suggestions.length !== 1 ? "s" : ""} Synthesized`
+                    : "No Recipes Synthesized"}
                 </h3>
-                <p className="text-xs text-gray-500 mt-0.5">
+                <p className="t-mono text-[11px] text-white/50 mt-0.5">
                   {lastGeneratedFrom === "quick"
-                    ? `Via quick generate · ${isPersonalized ? "personalized" : "planetary"} alignment`
-                    : `Via builder preferences · ${isPersonalized ? "personalized" : "planetary"} alignment`}
+                    ? `Quick synthesis · ${isPersonalized ? "natal chart" : "planetary"} resonance`
+                    : `Crucible parameters · ${isPersonalized ? "natal chart" : "planetary"} resonance`}
                 </p>
               </div>
               <button
+                type="button"
                 onClick={handleClear}
-                className="text-xs text-gray-400 hover:text-red-500 transition-colors px-2 py-1 rounded hover:bg-red-50"
+                className="text-xs text-white/40 hover:text-red-400 hover:bg-red-950/30 transition-colors px-3 py-1.5 rounded-lg border border-transparent hover:border-red-500/20 cursor-pointer"
               >
-                Clear
+                Clear Results
               </button>
             </div>
 
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <RecipeSuggestionCarousel
                 suggestions={suggestions}
                 currentIndex={carouselIndex}
@@ -426,7 +502,7 @@ export default function RecipeBuilderPage() {
 
         {/* Loading state before first generation */}
         {isGenerating && !hasGenerated && (
-          <div className="bg-white rounded-2xl shadow-md p-8">
+          <div className="glass-card-premium rounded-3xl border border-white/10 p-8 shadow-2xl">
             <RecipeSuggestionCarousel
               suggestions={[]}
               currentIndex={0}
@@ -438,22 +514,22 @@ export default function RecipeBuilderPage() {
 
         {/* Sign-in nudge for personalization */}
         {!isPersonalized && !hasGenerated && (
-          <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-100 p-4">
-            <div className="flex items-start gap-3">
-              <span className="text-2xl">🔮</span>
+          <div className="glass-card-premium rounded-2xl border border-purple-500/25 bg-gradient-to-r from-purple-950/40 via-indigo-950/20 to-purple-950/40 p-5 shadow-lg">
+            <div className="flex items-start gap-4">
+              <span className="text-3xl" aria-hidden>🔮</span>
               <div>
-                <p className="text-sm font-semibold text-purple-800">
-                  Unlock Personalized Recipes
+                <p className="text-sm font-semibold text-purple-200">
+                  Elevate to Natal Alchemical Precision
                 </p>
-                <p className="text-xs text-purple-600 mt-0.5">
-                  Sign in and add your birth chart to get recipes perfectly aligned
-                  with your cosmic constitution.
+                <p className="text-xs text-purple-300/80 mt-1 max-w-xl leading-relaxed">
+                  Sign in and add your birth chart data. The crucible factors your natal sun, moon, and rising alignments into every ingredient pairing and planetary hour recommendation.
                 </p>
                 <Link
                   href="/profile"
-                  className="inline-block mt-2 px-3 py-1 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-700 transition-colors"
+                  className="inline-flex items-center gap-1.5 mt-3 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-medium shadow-md transition-all hover:scale-[1.02]"
                 >
-                  Set up your chart →
+                  <span>Configure Natal Profile</span>
+                  <span aria-hidden>&rarr;</span>
                 </Link>
               </div>
             </div>

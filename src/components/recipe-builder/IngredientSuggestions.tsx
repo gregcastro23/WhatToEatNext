@@ -243,17 +243,23 @@ export default function IngredientSuggestions({
   const planetName = planetKey ? planetKey[0] : null;
 
   return (
-    <div className={`rounded-xl border border-indigo-200 bg-gradient-to-r from-indigo-50 to-purple-50 p-3 ${className}`}>
-      <div className="mb-2">
-        <p className="text-xs text-indigo-700 font-medium">
-          Pairs well with {lastSelected.name}
-          {planetName && (
-            <span className="text-indigo-500">
-              {" "}
-              ({planetName} energy)
-            </span>
-          )}
-        </p>
+    <div className={`glass-card-premium rounded-2xl border border-indigo-500/25 bg-gradient-to-r from-indigo-950/25 via-purple-950/20 to-indigo-950/25 p-4 shadow-lg ${className}`}>
+      <div className="flex items-center justify-between mb-2.5">
+        <div className="flex items-center gap-2">
+          <span className="text-sm" aria-hidden>⚡</span>
+          <p className="text-xs font-semibold text-indigo-300">
+            Alchemical Synergy &bull; Harmonizing with &quot;{lastSelected.name}&quot;
+            {planetName && (
+              <span className="text-indigo-400/80 font-normal">
+                {" "}
+                ({planetName} · {lastDominant.element})
+              </span>
+            )}
+          </p>
+        </div>
+        <span className="t-mono text-[10px] text-indigo-400/50 hidden sm:inline">
+          harmonic pairings
+        </span>
       </div>
       <div className="flex flex-wrap gap-1.5">
         {suggestions.map((s) => {
@@ -261,27 +267,30 @@ export default function IngredientSuggestions({
           return (
             <button
               key={s.ingredient.name}
+              type="button"
               onClick={() => !isAlready && handleAdd(s.ingredient)}
               disabled={isAlready}
               className={`
-                inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-all
+                inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-medium transition-all
                 ${isAlready
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-white text-indigo-700 border border-indigo-200 hover:bg-indigo-100 hover:border-indigo-300 cursor-pointer"
+                  ? "bg-white/[0.03] text-white/30 border border-white/5 cursor-default opacity-50"
+                  : "bg-white/[0.05] hover:bg-indigo-500/20 text-white/90 hover:text-white border border-white/10 hover:border-indigo-400/40 hover:shadow-[0_0_10px_rgba(99,102,241,0.2)] cursor-pointer active:scale-95"
                 }
               `}
               title={s.reason}
             >
               <span>{s.ingredient.name}</span>
-              {!isAlready && (
-                <span className="text-indigo-400">+</span>
+              {!isAlready ? (
+                <span className="text-indigo-400 font-bold">+</span>
+              ) : (
+                <span className="text-white/30 text-[10px]">✓</span>
               )}
             </button>
           );
         })}
       </div>
-      <p className="text-xs text-indigo-400 mt-1.5">
-        Click to add. Suggestions based on elemental harmony and category balance.
+      <p className="t-mono text-[10px] text-indigo-300/60 mt-2">
+        Click to incorporate. Pairings dynamically balance elemental harmony and nutritional structure.
       </p>
     </div>
   );

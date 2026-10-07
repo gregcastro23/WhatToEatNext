@@ -2,6 +2,7 @@
 
 /**
  * Generate Recipe Button
+ *
  * Gathers user selections from RecipeBuilderContext and planetary data,
  * then generates multiple recipe suggestions via the full recommendation
  * pipeline (planetary alignment + natal-chart personalization when signed in).
@@ -10,7 +11,8 @@
  * @file src/components/recipe-builder/GenerateRecipeButton.tsx
  */
 
-import React, { useCallback } from "react";
+import { Sparkles, Loader2, Coins, Flame } from "lucide-react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import { useUser } from "@/contexts/UserContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
@@ -23,6 +25,13 @@ import {
 } from "@/utils/menuPlanner/recommendationBridge";
 
 const logger = createLogger("GenerateRecipeButton");
+
+const SYNTHESIS_STEPS = [
+  "Consulting celestial transits...",
+  "Balancing elemental crucibles...",
+  "Harmonizing flavor signatures...",
+  "Synthesizing cosmic recipes...",
+];
 
 interface GenerateRecipeButtonProps {
   onGenerated: (results: RecommendedMeal[]) => void;
@@ -42,6 +51,18 @@ export default function GenerateRecipeButton({
   const builder = useRecipeBuilder();
   const astroHook = useAstrologicalState();
   const { currentUser } = useUser();
+  const [synthesisStepIndex, setSynthesisStepIndex] = useState(0);
+
+  useEffect(() => {
+    if (!isGenerating) {
+      setSynthesisStepIndex(0);
+      return;
+    }
+    const timer = setInterval(() => {
+      setSynthesisStepIndex((prev) => (prev + 1) % SYNTHESIS_STEPS.length);
+    }, 1800);
+    return () => clearInterval(timer);
+  }, [isGenerating]);
 
   const hasAnySelection =
     builder.mealType !== null ||
@@ -196,68 +217,70 @@ export default function GenerateRecipeButton({
   ]);
 
   return (
-    <div className={className}>
+    <div className={`space-y-3 ${className}`}>
       <button
         onClick={() => {
           void handleGenerate();
         }}
         disabled={!canGenerate || isGenerating}
         className={`
-          w-full py-3.5 px-6 rounded-xl font-bold text-sm transition-all
+          relative w-full py-4 px-6 rounded-2xl font-semibold text-sm transition-all duration-300 overflow-hidden
           ${
             canGenerate && !isGenerating
-              ? "bg-gradient-to-r from-purple-600 to-orange-500 text-white hover:from-purple-700 hover:to-orange-600 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
-              : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              ? "bg-gradient-to-r from-purple-600 via-indigo-600 to-amber-500 text-white shadow-[0_0_28px_rgba(168,85,247,0.35)] hover:shadow-[0_0_38px_rgba(168,85,247,0.55)] hover:scale-[1.01] active:scale-[0.99] border border-white/20 group"
+              : "bg-white/5 border border-white/10 text-muted-foreground/60 cursor-not-allowed"
           }
         `}
       >
+        {/* Subtle animated gradient sweep overlay when active */}
+        {canGenerate && !isGenerating && (
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
+            aria-hidden
+          />
+        )}
+
         {isGenerating ? (
-          <span className="flex items-center justify-center gap-2">
-            <svg
-              className="animate-spin h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-              />
-            </svg>
-            Consulting the cosmos...
-          </span>
+          <div className="flex items-center justify-center gap-3">
+            <Loader2 className="h-5 w-5 animate-spin text-amber-300" />
+            <span className="font-mono tracking-wide text-amber-200">
+              {SYNTHESIS_STEPS[synthesisStepIndex]}
+            </span>
+          </div>
         ) : (
-          <span className="flex items-center justify-center gap-2">
-            ✨ Generate Recipes
+          <div className="flex items-center justify-center gap-2.5">
+            <Sparkles className="h-4 w-4 text-amber-300" />
+            <span className="tracking-wide">Generate Recipes</span>
             {currentUser?.natalChart && (
-              <span className="text-xs opacity-80 font-normal">
-                (personalized)
+              <span className="inline-flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-2 py-0.5 text-[11px] font-mono text-amber-200">
+                <Flame className="h-2.5 w-2.5 text-amber-400" />
+                Personalized
               </span>
             )}
-          </span>
+          </div>
         )}
       </button>
 
-      {!canGenerate && (
-        <p className="text-xs text-gray-400 text-center mt-2">
-          Add at least one preference (meal type, ingredients, cuisines,
-          methods, flavors, or dietary filters)
-        </p>
-      )}
+      {/* Helper & Token status row */}
+      <div className="flex flex-wrap items-center justify-between gap-2 px-1 text-[11px] font-mono">
+        <div className="flex items-center gap-1.5 text-muted-foreground">
+          <Coins className="h-3 w-3 text-amber-400/70" />
+          <span>Cost: 5 Spirit · 5 Essence</span>
+        </div>
 
-      {currentUser?.natalChart && canGenerate && !isGenerating && (
-        <p className="text-xs text-center mt-2 text-purple-500">
-          ✨ Your birth chart will personalize these recommendations
-        </p>
-      )}
+        {currentUser?.natalChart && canGenerate && !isGenerating && (
+          <span className="text-purple-300 flex items-center gap-1">
+            <Sparkles className="h-2.5 w-2.5 text-amber-300" />
+            Natal resonance active
+          </span>
+        )}
+
+        {!canGenerate && (
+          <span className="text-muted-foreground/70">
+            Select ingredients or preferences to begin
+          </span>
+        )}
+      </div>
     </div>
   );
 }

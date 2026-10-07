@@ -8,6 +8,7 @@
  * @file src/components/recipe-builder/IngredientSearchBar.tsx
  */
 
+import { Search } from "lucide-react";
 import React, {
   useState,
   useMemo,
@@ -20,6 +21,7 @@ import React, {
 } from "react";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import type { SelectedIngredient } from "@/contexts/RecipeBuilderContext";
+import { usePantry } from "@/hooks/usePantry";
 import { getAllIngredients } from "@/utils/foodRecommender";
 import { createLogger } from "@/utils/logger";
 import { fuzzyScore } from "@/utils/searchNormalize";
@@ -29,17 +31,33 @@ const logger = createLogger("IngredientSearchBar");
 // Element colors for visual cards
 const ELEMENT_COLORS: Record<
   string,
-  { bg: string; text: string; bar: string }
+  { bg: string; text: string; bar: string; border: string }
 > = {
-  Fire: { bg: "bg-orange-50", text: "text-orange-700", bar: "bg-orange-400" },
-  Water: { bg: "bg-blue-50", text: "text-blue-700", bar: "bg-blue-400" },
-  Earth: { bg: "bg-amber-50", text: "text-amber-700", bar: "bg-amber-500" },
-  Air: { bg: "bg-sky-50", text: "text-sky-700", bar: "bg-sky-400" },
+  Fire: {
+    bg: "bg-orange-500/15",
+    text: "text-orange-300",
+    bar: "bg-orange-500",
+    border: "border-orange-500/30",
+  },
+  Water: {
+    bg: "bg-sky-500/15",
+    text: "text-sky-300",
+    bar: "bg-sky-400",
+    border: "border-sky-500/30",
+  },
+  Earth: {
+    bg: "bg-emerald-500/15",
+    text: "text-emerald-300",
+    bar: "bg-emerald-400",
+    border: "border-emerald-500/30",
+  },
+  Air: {
+    bg: "bg-indigo-500/15",
+    text: "text-indigo-300",
+    bar: "bg-indigo-400",
+    border: "border-indigo-500/30",
+  },
 };
-
-// Search matching is delegated to the shared `fuzzyScore` util in
-// `@/utils/searchNormalize` so every search bar in the app behaves
-// identically.
 
 /**
  * Elemental property bar visualization
@@ -58,19 +76,19 @@ const ElementalBar: React.FC<ElementalBarProps> = ({ element, value }) => {
 
   return (
     <div
-      className="flex items-center gap-1.5 text-xs"
+      className="flex items-center gap-1.5 text-[11px]"
       title={`${element}: ${pct}%`}
     >
-      <span className={`${colors.text} w-8 font-medium`}>
+      <span className={`${colors.text} w-6 font-medium text-[10px]`}>
         {element.slice(0, 2)}
       </span>
-      <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+      <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
         <div
           className={`h-full ${colors.bar} rounded-full transition-all`}
           style={{ width: `${pct}%` }}
         />
       </div>
-      <span className="text-gray-400 w-7 text-right">{pct}%</span>
+      <span className="t-mono text-white/40 w-6 text-right text-[10px]">{pct}%</span>
     </div>
   );
 };
@@ -86,12 +104,14 @@ interface IngredientCardProps {
     elementalProperties?: Record<string, number>;
   };
   isSelected: boolean;
+  isInPantry?: boolean;
   onAdd: () => void;
 }
 
 const IngredientCard: React.FC<IngredientCardProps> = ({
   ingredient,
   isSelected,
+  isInPantry = false,
   onAdd,
 }) => {
   const elementalProps = ingredient.elementalProperties ?? {};
@@ -111,11 +131,11 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
   return (
     <div
       className={`
-        flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-all cursor-pointer
+        flex items-center gap-3 px-3.5 py-2.5 rounded-xl border transition-all cursor-pointer
         ${
           isSelected
-            ? "border-purple-300 bg-purple-50 opacity-60"
-            : "border-gray-200 hover:border-purple-200 hover:bg-gray-50"
+            ? "border-purple-400/40 bg-purple-950/30 opacity-60"
+            : "border-white/10 hover:border-white/20 bg-white/[0.03] hover:bg-white/[0.07]"
         }
       `}
       onClick={isSelected ? undefined : onAdd}
@@ -133,8 +153,8 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
       {/* Left: Dominant element indicator */}
       {dominant && dominantColor && (
         <div
-          className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${dominantColor.bg} ${dominantColor.text}`}
-          title={`Dominant: ${dominant}`}
+          className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold border ${dominantColor.bg} ${dominantColor.text} ${dominantColor.border}`}
+          title={`Dominant Element: ${dominant}`}
         >
           {dominant.slice(0, 2)}
         </div>
@@ -142,17 +162,24 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 
       {/* Center: Name & category */}
       <div className="flex-1 min-w-0">
-        <div className="font-medium text-sm text-gray-800 truncate">
-          {ingredient.name}
+        <div className="flex items-center gap-2">
+          <span className="font-medium text-sm text-white truncate">
+            {ingredient.name}
+          </span>
+          {isInPantry && (
+            <span className="t-mono text-[9px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              📦 Pantry
+            </span>
+          )}
         </div>
         {ingredient.category && (
-          <div className="text-xs text-gray-500 truncate">
+          <div className="t-label text-[10px] text-white/50 truncate mt-0.5">
             {ingredient.category}
           </div>
         )}
         {ingredient.description && (
           <div
-            className="text-[10px] text-gray-400 mt-0.5 line-clamp-1"
+            className="text-[11px] text-white/40 mt-0.5 line-clamp-1"
             title={ingredient.description
               .replace(/\*\*(.*?)\*\*/g, "$1")
               .replace(/\*(.*?)\*/g, "$1")}
@@ -165,7 +192,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
       </div>
 
       {/* Right: Mini elemental bars */}
-      <div className="hidden sm:flex flex-col gap-0.5 w-28">
+      <div className="hidden sm:flex flex-col gap-0.5 w-24">
         {["Fire", "Water", "Earth", "Air"].map((el) => {
           const val = elementalProps[el];
           if (typeof val !== "number" || val <= 0) return null;
@@ -175,26 +202,28 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
 
       {/* Add button */}
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           if (!isSelected) onAdd();
         }}
         disabled={isSelected}
         className={`
-          ml-2 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold transition-all
+          ml-2 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold transition-all cursor-pointer
           ${
             isSelected
-              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-              : "bg-purple-600 text-white hover:bg-purple-700 hover:scale-110"
+              ? "bg-white/10 text-white/40 cursor-not-allowed"
+              : "bg-purple-600 text-white hover:bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.4)] hover:scale-110 active:scale-95"
           }
         `}
-        title={isSelected ? "Already added" : "Add to recipe"}
+        title={isSelected ? "Already in crucible" : "Add to crucible"}
       >
-        {isSelected ? "\u2713" : "+"}
+        {isSelected ? "✓" : "+"}
       </button>
     </div>
   );
 };
+
 
 // ===== Main Component =====
 
@@ -208,12 +237,14 @@ export default function IngredientSearchBar({
   maxResults = 20,
 }: IngredientSearchBarProps) {
   const { addIngredient, hasIngredient } = useRecipeBuilder();
+  const { hasItem: hasPantryItem } = usePantry();
   const resultsListId = useId();
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
 
   // Load all ingredients once
   const allIngredients = useMemo(() => {
@@ -329,7 +360,7 @@ export default function IngredientSearchBar({
             }
           }}
           placeholder="Search ingredients... (e.g., tomato, basil, chicken)"
-          className="w-full px-4 py-3 pl-10 rounded-xl border-2 border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none text-sm transition-all bg-white"
+          className="w-full px-4 py-3.5 pl-11 pr-10 rounded-2xl border border-white/15 focus:border-purple-400/80 focus:ring-2 focus:ring-purple-500/20 outline-none text-sm transition-all bg-white/[0.04] text-white placeholder-white/40 glass-card-premium shadow-inner"
           aria-label="Search ingredients"
           aria-controls={resultsListId}
           aria-expanded={!!showResults}
@@ -337,56 +368,48 @@ export default function IngredientSearchBar({
           aria-autocomplete="list"
         />
         {/* Search icon */}
-        <svg
-          className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
         {/* Clear button */}
         {query && (
           <button
+            type="button"
             onClick={() => {
               setQuery("");
               inputRef.current?.focus();
             }}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 p-1 cursor-pointer"
+            aria-label="Clear search"
           >
-            \u2715
+            ✕
           </button>
         )}
       </div>
 
       {/* Category filter chips */}
       {isFocused && (
-        <div className="flex flex-wrap gap-1.5 mt-2">
+        <div className="flex flex-wrap gap-1.5 mt-2.5">
           <button
+            type="button"
             onClick={() => setSelectedCategory(null)}
-            className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
               selectedCategory === null
-                ? "bg-purple-600 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                ? "bg-purple-600/30 text-purple-200 border border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.3)]"
+                : "bg-white/[0.04] text-white/70 border border-white/10 hover:border-white/25 hover:bg-white/[0.08] hover:text-white"
             }`}
           >
-            All
+            All Categories
           </button>
           {categories.map((cat) => (
             <button
               key={cat}
+              type="button"
               onClick={() =>
                 setSelectedCategory(selectedCategory === cat ? null : cat)
               }
-              className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
+              className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
                 selectedCategory === cat
-                  ? "bg-purple-600 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-purple-600/30 text-purple-200 border border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.3)]"
+                  : "bg-white/[0.04] text-white/70 border border-white/10 hover:border-white/25 hover:bg-white/[0.08] hover:text-white"
               }`}
             >
               {cat}
@@ -399,24 +422,24 @@ export default function IngredientSearchBar({
       {showResults && (
         <div
           id={resultsListId}
-          className="absolute z-50 w-full mt-2 bg-white rounded-xl border-2 border-gray-200 shadow-xl max-h-80 overflow-y-auto"
+          className="absolute z-50 w-full mt-2 glass-card-premium backdrop-blur-2xl bg-[#0e0c16]/98 rounded-2xl border border-white/15 shadow-2xl max-h-80 overflow-y-auto p-2 space-y-1"
           role="listbox"
         >
           {filteredIngredients.length === 0 ? (
-            <div className="p-4 text-sm text-gray-500 text-center">
-              No ingredients found for &quot;{query}&quot;
+            <div className="p-4 text-xs text-white/50 text-center">
+              No matching ingredients discovered for &quot;{query}&quot;
             </div>
           ) : (
-            <div className="p-2 space-y-1">
-              <div className="px-2 py-1 text-xs text-gray-400">
-                {filteredIngredients.length} result
-                {filteredIngredients.length !== 1 ? "s" : ""}
+            <div className="p-1 space-y-1.5">
+              <div className="px-2.5 py-1 text-[11px] text-white/40 t-mono">
+                {filteredIngredients.length} ingredient{filteredIngredients.length !== 1 ? "s" : ""} indexed
               </div>
               {filteredIngredients.map((ing) => (
                 <IngredientCard
                   key={ing.name}
                   ingredient={ing}
                   isSelected={hasIngredient(ing.name)}
+                  isInPantry={hasPantryItem(ing.name)}
                   onAdd={() => handleAdd(ing)}
                 />
               ))}
@@ -427,3 +450,4 @@ export default function IngredientSearchBar({
     </div>
   );
 }
+
