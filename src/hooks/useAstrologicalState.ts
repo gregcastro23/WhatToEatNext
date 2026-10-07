@@ -10,6 +10,7 @@ import {
   type LunarPhaseWithSpaces,
   type ZodiacSignType,
 } from "@/types";
+import { deriveDomElementsFromPositions } from "@/utils/astrology/signElement";
 import { logger } from "@/utils/logger";
 
 interface AstroState {
@@ -242,20 +243,27 @@ export function useAstrologicalState(): AstrologyHookData {
         const currentZodiac =
           typeof sunSign === "string" ? sunSign.toLowerCase() : "";
 
+        const domElements = deriveDomElementsFromPositions(memoizedPlanetaryPositions);
+
         logger.debug("Updating astrological state: ", {
           currentZodiac,
           activePlanets,
+          domElements,
           time: new Date().toISOString(),
         });
 
-        setAstroState((prev) => {
+        setAstroState((prev): AstroState => {
           // Skip update if nothing changed to prevent unnecessary re-renders
           if (
             prev.currentZodiac === currentZodiac &&
             JSON.stringify(prev.activePlanets) ===
               JSON.stringify(activePlanets) &&
             JSON.stringify(prev.currentPlanetaryAlignment) ===
-              JSON.stringify(memoizedPlanetaryPositions)
+              JSON.stringify(memoizedPlanetaryPositions) &&
+            prev.domElements.Fire === domElements.Fire &&
+            prev.domElements.Water === domElements.Water &&
+            prev.domElements.Earth === domElements.Earth &&
+            prev.domElements.Air === domElements.Air
           ) {
             logger.debug("Skipping astro state update as nothing changed");
             return prev;
@@ -266,6 +274,7 @@ export function useAstrologicalState(): AstrologyHookData {
             currentZodiac,
             currentPlanetaryAlignment: memoizedPlanetaryPositions,
             activePlanets,
+            domElements,
             loading: false,
           };
         });

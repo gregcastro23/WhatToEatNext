@@ -139,11 +139,19 @@ interface AstroSource {
 }
 
 export function toRequestAstroState(astro: AstroSource): AstrologicalState {
+  const sum =
+    astro.domElements.Fire +
+    astro.domElements.Water +
+    astro.domElements.Earth +
+    astro.domElements.Air;
   return {
     currentZodiac: astro.currentZodiac,
     lunarPhase: astro.lunarPhase,
     activePlanets: astro.activePlanets,
-    domElements: astro.domElements,
+    domElements:
+      sum > 0
+        ? astro.domElements
+        : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     ...(astro.currentPlanetaryHour ? { currentPlanetaryHour: astro.currentPlanetaryHour } : {}),
   };
 }

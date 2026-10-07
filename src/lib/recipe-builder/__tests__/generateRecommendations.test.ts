@@ -9,6 +9,7 @@ import {
   isRecommendedMeal,
   openFailureRemedy,
   requestRecommendations,
+  toRequestAstroState,
   toUserContext,
   type GenerationRequest,
 } from "../generateRecommendations";
@@ -132,5 +133,33 @@ describe("isRecommendedMeal / toUserContext", () => {
   it("personalizes only with a natal chart", () => {
     expect(toUserContext(null)).toBeUndefined();
     expect(toUserContext({})).toBeUndefined();
+  });
+
+  describe("toRequestAstroState", () => {
+    it("passes through live non-zero domElements", () => {
+      const live = {
+        currentZodiac: "aries",
+        lunarPhase: "waxing crescent" as const,
+        activePlanets: ["Mars"],
+        domElements: { Fire: 0.5, Water: 0.2, Earth: 0.2, Air: 0.1 },
+        currentPlanetaryHour: "Mars",
+      };
+      const res = toRequestAstroState(live);
+      expect(res.domElements).toEqual({ Fire: 0.5, Water: 0.2, Earth: 0.2, Air: 0.1 });
+      expect(res.currentPlanetaryHour).toBe("Mars");
+    });
+
+    it("falls back to even 0.25 split when domElements is all zeros", () => {
+      const cold = {
+        currentZodiac: "aries",
+        lunarPhase: "waxing crescent" as const,
+        activePlanets: [],
+        domElements: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+        currentPlanetaryHour: null,
+      };
+      const res = toRequestAstroState(cold);
+      expect(res.domElements).toEqual({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+      expect(res.currentPlanetaryHour).toBeUndefined();
+    });
   });
 });
