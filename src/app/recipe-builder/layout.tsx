@@ -12,7 +12,7 @@ export default function RecipeBuilderLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}): React.JSX.Element {
   return <AlchmRouteFrame>{children}</AlchmRouteFrame>;
 }
 

@@ -25,6 +25,7 @@ import { usePantry } from "@/hooks/usePantry";
 import { getAllIngredients } from "@/utils/foodRecommender";
 import { createLogger } from "@/utils/logger";
 import { fuzzyScore } from "@/utils/searchNormalize";
+import { FOCUS_RING } from "./focusRing";
 
 const logger = createLogger("IngredientSearchBar");
 
@@ -131,7 +132,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
   return (
     <div
       className={`
-        flex items-center gap-3 px-3.5 py-2.5 rounded-xl border transition-all cursor-pointer
+        flex items-center gap-3 px-3.5 py-2.5 rounded-xl border transition-all cursor-pointer ${FOCUS_RING}
         ${
           isSelected
             ? "border-purple-400/40 bg-purple-950/30 opacity-60"
@@ -209,7 +210,7 @@ const IngredientCard: React.FC<IngredientCardProps> = ({
         }}
         disabled={isSelected}
         className={`
-          ml-2 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold transition-all cursor-pointer
+          ml-2 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold transition-all cursor-pointer ${FOCUS_RING}
           ${
             isSelected
               ? "bg-white/10 text-white/40 cursor-not-allowed"
@@ -235,7 +236,7 @@ interface IngredientSearchBarProps {
 export default function IngredientSearchBar({
   className = "",
   maxResults = 20,
-}: IngredientSearchBarProps) {
+}: IngredientSearchBarProps): React.JSX.Element {
   const { addIngredient, hasIngredient } = useRecipeBuilder();
   const { hasItem: hasPantryItem } = usePantry();
   const resultsListId = useId();
@@ -328,7 +329,7 @@ export default function IngredientSearchBar({
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    function handleClickOutside(event: MouseEvent): void {
       if (
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
@@ -337,7 +338,7 @@ export default function IngredientSearchBar({
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return (): void => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const showResults =
@@ -377,7 +378,7 @@ export default function IngredientSearchBar({
               setQuery("");
               inputRef.current?.focus();
             }}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 p-1 cursor-pointer"
+            className={`absolute right-3.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 p-1 cursor-pointer rounded ${FOCUS_RING}`}
             aria-label="Clear search"
           >
             ✕
@@ -391,7 +392,8 @@ export default function IngredientSearchBar({
           <button
             type="button"
             onClick={() => setSelectedCategory(null)}
-            className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
+            aria-pressed={selectedCategory === null}
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${FOCUS_RING} ${
               selectedCategory === null
                 ? "bg-purple-600/30 text-purple-200 border border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.3)]"
                 : "bg-white/[0.04] text-white/70 border border-white/10 hover:border-white/25 hover:bg-white/[0.08] hover:text-white"
@@ -406,7 +408,8 @@ export default function IngredientSearchBar({
               onClick={() =>
                 setSelectedCategory(selectedCategory === cat ? null : cat)
               }
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
+              aria-pressed={selectedCategory === cat}
+              className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${FOCUS_RING} ${
                 selectedCategory === cat
                   ? "bg-purple-600/30 text-purple-200 border border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.3)]"
                   : "bg-white/[0.04] text-white/70 border border-white/10 hover:border-white/25 hover:bg-white/[0.08] hover:text-white"

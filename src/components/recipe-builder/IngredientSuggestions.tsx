@@ -13,6 +13,7 @@ import type { SelectedIngredient } from "@/contexts/RecipeBuilderContext";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import { getAllIngredients } from "@/utils/foodRecommender";
 import type { EnhancedIngredient } from "@/utils/foodRecommender";
+import { FOCUS_RING } from "./focusRing";
 
 // Category groupings for pairing logic
 const PROTEIN_CATEGORIES = new Set([
@@ -200,7 +201,7 @@ interface IngredientSuggestionsProps {
 
 export default function IngredientSuggestions({
   className = "",
-}: IngredientSuggestionsProps) {
+}: IngredientSuggestionsProps): React.JSX.Element | null {
   const { selectedIngredients, addIngredient, hasIngredient } =
     useRecipeBuilder();
 
@@ -221,7 +222,7 @@ export default function IngredientSuggestions({
     return null;
   }
 
-  const handleAdd = (ing: EnhancedIngredient) => {
+  const handleAdd = (ing: EnhancedIngredient): void => {
     addIngredient({
       name: ing.name,
       ...(ing.category ? { category: ing.category } : {}),
@@ -271,7 +272,7 @@ export default function IngredientSuggestions({
               onClick={() => !isAlready && handleAdd(s.ingredient)}
               disabled={isAlready}
               className={`
-                inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-medium transition-all
+                inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-medium transition-all ${FOCUS_RING}
                 ${isAlready
                   ? "bg-white/[0.03] text-white/30 border border-white/5 cursor-default opacity-50"
                   : "bg-white/[0.05] hover:bg-indigo-500/20 text-white/90 hover:text-white border border-white/10 hover:border-indigo-400/40 hover:shadow-[0_0_10px_rgba(99,102,241,0.2)] cursor-pointer active:scale-95"
