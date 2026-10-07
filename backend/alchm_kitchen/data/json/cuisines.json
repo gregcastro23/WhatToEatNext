@@ -758,10 +758,10 @@
   "HSCA": {
     "name": "HSCA",
     "elementalProperties": {
-      "Fire": 0.225,
-      "Water": 0.2904,
-      "Earth": 0.3076,
-      "Air": 0.177
+      "Fire": 0.2241,
+      "Water": 0.2921,
+      "Earth": 0.3064,
+      "Air": 0.1774
     },
     "description": "Holistic Health and Macrobiotic clean cuisine focusing on energetic harmony and elemental balance.",
     "id": "hsca",

@@ -284,14 +284,27 @@ making it truer. `--nutrition` writes them.
 
 What the parser still does not read, on purpose:
 
-- **"Pinch" and "dash"** (about 150 lines): `pinches?` never matched "pinch", so "Pinch of sea salt" is 1 piece
-  named "pinch of sea salt". Making it a unit needs a gram weight in `unitConversion.ts` first: a caloric
-  ingredient in a unit with no weight makes the recipe's computed nutrition disappear.
+- **A word-number size** ("5 eight-ounce packages of organic cream cheese", the only one in the archive)
+  keeps "eight-ounce" in the name; the size reader knows numeric sizes.
 - **"2 cloves"** (3 lines, beside cinnamon sticks and cardamom pods) is the spice. The unit swallows the whole
   line, leaving an empty name; naming it "cloves" would weigh it as a 50 g piece.
 - **"optional"** (40 lines): the notes say it, but every line is stored `optional: false`.
 - **"or" alternatives** (about 115 lines) stay inside the name, and two ingredients on one line ("salt and
   pepper", 72 lines) stay one line.
+
+## "Pinch of ..." and its kin
+
+About 150 lines read "Pinch of sea salt", "Dash of tamari", "Splash of lemon juice" or "Drizzle of olive oil",
+and the first parser made each of them the ingredient "pinch of sea salt". `parseIngredientString` now reads
+the word as a note (`sea salt`, notes `pinch`) and leaves the unit as `piece`; a counted pinch ("2 pinches of
+sea salt") was already a unit. It does not make "pinch" a unit: the gram table in `unitConversion.ts` has no
+weight for one, and a caloric ingredient in a unit with no weight makes the recipe's computed nutrition
+disappear (`accountsForRecipe`), so that needs its own decision. The name is what changes.
+
+139 dishes were rebuilt and 132 live rows repaired the same way as before (`repairHscaParsedLinesInDb.ts` now
+recognises the lines of either earlier parser revision; the second is `parseIngredientString(line, {
+readPinch: false })`). Elemental shares moved by a median 0.026 on the 102 rows where the cleaner name
+resolves differently (p90 0.06, max 0.14), and nothing in nutrition was touched.
 
 ## Servings
 

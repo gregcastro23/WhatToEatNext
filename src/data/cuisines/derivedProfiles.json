@@ -139,10 +139,10 @@
     "HSCA": {
       "recipes": 534,
       "elementalProperties": {
-        "Fire": 0.225,
-        "Water": 0.2904,
-        "Earth": 0.3076,
-        "Air": 0.177
+        "Fire": 0.2241,
+        "Water": 0.2921,
+        "Earth": 0.3064,
+        "Air": 0.1774
       }
     }
   }
