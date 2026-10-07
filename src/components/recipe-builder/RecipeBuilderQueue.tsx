@@ -1,48 +1,25 @@
 "use client";
 
 /**
- * Recipe Builder Queue
- * Displays selected cuisines, ingredients, and cooking methods as removable chips,
- * along with a real-time category summary and clear-all functionality.
+ * Recipe Builder Queue - The Alchemical Crucible
+ * Displays every builder selection as removable chips, a category summary,
+ * a clear-all action, and the live elemental quad-spectrum balance of the
+ * queued ingredients.
  *
  * @file src/components/recipe-builder/RecipeBuilderQueue.tsx
  */
 
-import React from "react";
+import React, { useMemo } from "react";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
+import { computeElementalBalance } from "./crucible/elementalBalance";
+import ElementalBalanceGauge from "./crucible/ElementalBalanceGauge";
+import QueueChipGroup from "./crucible/QueueChipGroup";
+import { buildQueueGroups } from "./crucible/queueGroups";
+import { FOCUS_RING } from "./focusRing";
 
-// ===== Chip Component =====
-
-interface SelectionChipProps {
-  label: string;
-  category: "cuisine" | "ingredient" | "method";
-  onRemove: () => void;
+function plural(count: number, noun: string): string {
+  return `${count} ${noun}${count === 1 ? "" : "s"}`;
 }
-
-const SelectionChip: React.FC<SelectionChipProps> = ({ label, category, onRemove }) => {
-  const colorMap = {
-    cuisine: "bg-purple-100 text-purple-800 border-purple-200",
-    ingredient: "bg-green-100 text-green-800 border-green-200",
-    method: "bg-orange-100 text-orange-800 border-orange-200",
-  };
-
-  return (
-    <span
-      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium border transition-all hover:shadow-sm ${colorMap[category]}`}
-    >
-      {label}
-      <button
-        onClick={onRemove}
-        className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center hover:bg-black hover:bg-opacity-10 transition-colors"
-        aria-label={`Remove ${label}`}
-      >
-        &times;
-      </button>
-    </span>
-  );
-};
-
-// ===== Category Summary =====
 
 interface CategorySummaryProps {
   cuisineCount: number;
@@ -50,38 +27,47 @@ interface CategorySummaryProps {
   methodCount: number;
 }
 
-const CategorySummary: React.FC<CategorySummaryProps> = ({ cuisineCount, ingredientCount, methodCount }) => {
+function CategorySummary({
+  cuisineCount,
+  ingredientCount,
+  methodCount,
+}: CategorySummaryProps): React.JSX.Element | null {
   const total = cuisineCount + ingredientCount + methodCount;
-
   if (total === 0) return null;
 
+  const parts = [
+    { count: ingredientCount, noun: "ingredient", text: "text-emerald-300", dot: "bg-emerald-400" },
+    { count: cuisineCount, noun: "cuisine", text: "text-purple-300", dot: "bg-purple-400" },
+    { count: methodCount, noun: "method", text: "text-amber-300", dot: "bg-amber-400" },
+  ].filter((part) => part.count > 0);
+
   return (
-    <div className="flex items-center gap-3 text-xs text-gray-500">
-      <span className="font-medium text-gray-700">{total} item{total !== 1 ? "s" : ""}</span>
-      <span className="text-gray-300">|</span>
-      {cuisineCount > 0 && (
-        <span className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-purple-400" />
-          {cuisineCount} cuisine{cuisineCount !== 1 ? "s" : ""}
+    <div className="flex flex-wrap items-center gap-3 text-xs text-white/60">
+      <span className="font-semibold text-white t-mono">{plural(total, "item")} queued</span>
+      <span className="text-white/20" aria-hidden>&bull;</span>
+      {parts.map((part) => (
+        <span key={part.noun} className={`flex items-center gap-1.5 ${part.text}`}>
+          <span className={`w-1.5 h-1.5 rounded-full ${part.dot}`} aria-hidden />
+          {plural(part.count, part.noun)}
         </span>
-      )}
-      {ingredientCount > 0 && (
-        <span className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-green-400" />
-          {ingredientCount} ingredient{ingredientCount !== 1 ? "s" : ""}
-        </span>
-      )}
-      {methodCount > 0 && (
-        <span className="flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-orange-400" />
-          {methodCount} method{methodCount !== 1 ? "s" : ""}
-        </span>
-      )}
+      ))}
     </div>
   );
-};
+}
 
-// ===== Main Queue Component =====
+function EmptyCrucible({ className }: { className: string }): React.JSX.Element {
+  return (
+    <div
+      className={`glass-card-premium rounded-2xl border border-dashed border-white/10 p-6 sm:p-8 text-center ${className}`}
+    >
+      <div className="text-3xl mb-2 opacity-50" aria-hidden>🌌</div>
+      <p className="text-sm font-semibold text-white/90">The Alchemical Crucible is Empty</p>
+      <p className="text-xs text-white/50 mt-1 max-w-sm mx-auto leading-relaxed">
+        Search ingredients, select pantry staples, or choose cuisine traditions and cooking methods above to begin formulating your recipe.
+      </p>
+    </div>
+  );
+}
 
 interface RecipeBuilderQueueProps {
   className?: string;
@@ -89,201 +75,44 @@ interface RecipeBuilderQueueProps {
 
 export default function RecipeBuilderQueue({
   className = "",
-}: RecipeBuilderQueueProps) {
-  const {
-    mealType,
-    flavors,
-    dietaryPreferences,
-    allergies,
-    selectedCuisines,
-    selectedIngredients,
-    selectedCookingMethods,
-    setMealType,
-    removeFlavor,
-    removeDietaryPreference,
-    removeAllergy,
-    removeCuisine,
-    removeIngredient,
-    removeCookingMethod,
-    clearQueue,
-    totalItems,
-  } = useRecipeBuilder();
+}: RecipeBuilderQueueProps): React.JSX.Element {
+  const builder = useRecipeBuilder();
+  const { selectedIngredients, selectedCuisines, selectedCookingMethods, clearQueue } = builder;
+  const balance = useMemo(() => computeElementalBalance(selectedIngredients), [selectedIngredients]);
+  const groups = buildQueueGroups(builder);
 
-  const hasAnything =
-    Boolean(mealType) ||
-    flavors.length > 0 ||
-    dietaryPreferences.length > 0 ||
-    allergies.length > 0 ||
-    totalItems > 0;
-
-  if (!hasAnything) {
-    return (
-      <div className={`rounded-xl border-2 border-dashed border-gray-200 p-6 text-center ${className}`}>
-        <div className="text-3xl mb-2 opacity-30">&#x2615;</div>
-        <p className="text-sm text-gray-500">Your recipe builder is empty</p>
-        <p className="text-xs text-gray-400 mt-1">
-          Search for ingredients and select cuisine or cooking method preferences to begin
-        </p>
-      </div>
-    );
-  }
+  if (groups.length === 0) return <EmptyCrucible className={className} />;
 
   return (
-    <div className={`rounded-xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 via-white to-orange-50 p-4 ${className}`}>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="font-bold text-sm text-purple-900">Recipe Builder Queue</h3>
+    <section
+      aria-label="Alchemical Crucible"
+      className={`glass-card-premium rounded-2xl border border-purple-500/25 bg-gradient-to-br from-[#120e24] to-[#0a0714] p-5 sm:p-6 shadow-2xl relative overflow-hidden ${className}`}
+    >
+      <div className="flex items-center justify-between mb-3.5 pb-3 border-b border-white/5">
+        <div className="flex items-center gap-2">
+          <span className="text-base" aria-hidden>⚗️</span>
+          <h3 className="t-display text-lg font-medium text-white tracking-wide">Alchemical Crucible</h3>
+        </div>
         <button
+          type="button"
           onClick={clearQueue}
-          className="text-xs text-gray-500 hover:text-red-600 transition-colors px-2 py-1 rounded hover:bg-red-50"
+          className={`text-xs text-white/40 hover:text-red-400 hover:bg-red-950/20 px-2.5 py-1 rounded-lg border border-transparent hover:border-red-500/20 transition-all cursor-pointer ${FOCUS_RING}`}
         >
-          Clear All
+          Clear Crucible
         </button>
       </div>
 
-      {/* Category Summary */}
       <CategorySummary
         cuisineCount={selectedCuisines.length}
         ingredientCount={selectedIngredients.length}
         methodCount={selectedCookingMethods.length}
       />
 
-      {/* Meal Type */}
-      {mealType && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Meal Type</div>
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 border border-indigo-200">
-            {mealType}
-            <button
-              onClick={() => setMealType(null)}
-              className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center hover:bg-black hover:bg-opacity-10"
-              aria-label="Clear meal type"
-            >
-              &times;
-            </button>
-          </span>
-        </div>
-      )}
+      {balance && <ElementalBalanceGauge balance={balance} />}
 
-      {/* Flavors */}
-      {flavors.length > 0 && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Flavors</div>
-          <div className="flex flex-wrap gap-1.5">
-            {flavors.map((flavor) => (
-              <span
-                key={flavor}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-pink-100 text-pink-800 border border-pink-200"
-              >
-                {flavor}
-                <button
-                  onClick={() => removeFlavor(flavor)}
-                  className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center hover:bg-black hover:bg-opacity-10"
-                >
-                  &times;
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Dietary */}
-      {dietaryPreferences.length > 0 && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Dietary</div>
-          <div className="flex flex-wrap gap-1.5">
-            {dietaryPreferences.map((pref) => (
-              <span
-                key={pref}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-teal-100 text-teal-800 border border-teal-200"
-              >
-                {pref}
-                <button
-                  onClick={() => removeDietaryPreference(pref)}
-                  className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center hover:bg-black hover:bg-opacity-10"
-                >
-                  &times;
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Allergies */}
-      {allergies.length > 0 && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Allergies</div>
-          <div className="flex flex-wrap gap-1.5">
-            {allergies.map((allergy) => (
-              <span
-                key={allergy}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200"
-              >
-                {allergy}
-                <button
-                  onClick={() => removeAllergy(allergy)}
-                  className="ml-0.5 w-4 h-4 rounded-full flex items-center justify-center hover:bg-black hover:bg-opacity-10"
-                >
-                  &times;
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Cuisines */}
-      {selectedCuisines.length > 0 && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Cuisines</div>
-          <div className="flex flex-wrap gap-1.5">
-            {selectedCuisines.map((cuisine) => (
-              <SelectionChip
-                key={cuisine}
-                label={cuisine}
-                category="cuisine"
-                onRemove={() => removeCuisine(cuisine)}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Ingredients */}
-      {selectedIngredients.length > 0 && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Ingredients</div>
-          <div className="flex flex-wrap gap-1.5">
-            {selectedIngredients.map((ing) => (
-              <SelectionChip
-                key={ing.name}
-                label={ing.name}
-                category="ingredient"
-                onRemove={() => removeIngredient(ing.name)}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Cooking Methods */}
-      {selectedCookingMethods.length > 0 && (
-        <div className="mt-3">
-          <div className="text-xs font-medium text-gray-500 mb-1">Cooking Methods</div>
-          <div className="flex flex-wrap gap-1.5">
-            {selectedCookingMethods.map((method) => (
-              <SelectionChip
-                key={method}
-                label={method}
-                category="method"
-                onRemove={() => removeCookingMethod(method)}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+      {groups.map((group) => (
+        <QueueChipGroup key={group.title} group={group} />
+      ))}
+    </section>
   );
 }

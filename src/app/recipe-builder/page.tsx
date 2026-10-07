@@ -16,18 +16,17 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useMemo } from "react";
 import GenerateRecipeButton from "@/components/recipe-builder/GenerateRecipeButton";
+import QuickGenerateBar from "@/components/recipe-builder/QuickGenerateBar";
+import {
+  useRecipeGeneration,
+  type RecipeGeneration,
+} from "@/components/recipe-builder/useRecipeGeneration";
 import { useUser } from "@/contexts/UserContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
-import type { MealType, DayOfWeek } from "@/types/menuPlanner";
-import { saveRecipeToStore } from "@/utils/generatedRecipeStore";
+import { currentDayOfWeek } from "@/lib/recipe-builder/generateRecommendations";
 import { createLogger } from "@/utils/logger";
-import {
-  type RecommendedMeal,
-  type AstrologicalState,
-  type UserPersonalizationContext,
-} from "@/utils/menuPlanner/recommendationBridge";
 import { getPlanetaryDayCharacteristics } from "@/utils/planetaryDayRecommendations";
 
 const RecipeBuilderPanel = dynamic(
@@ -43,422 +42,187 @@ const CosmicAlignmentPreview = dynamic(
 
 const logger = createLogger("RecipeBuilder");
 
-// ===== Deduplication =====
+const NAV_LINK =
+  "px-3.5 py-1.5 rounded-xl text-xs transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400";
 
-function deduplicateRecipes(recipes: RecommendedMeal[]): RecommendedMeal[] {
-  const seen = new Set<string>();
-  return recipes.filter((r) => {
-    const normalized = r.recipe.name
-      .toLowerCase()
-      .replace(/\s*\(monica enhanced\)\s*/gi, "")
-      .replace(/\s*[-_]?\s*(copy|duplicate)\s*\d*\s*$/gi, "")
-      .replace(/[^a-z0-9\s]/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
-    if (seen.has(normalized)) return false;
-    seen.add(normalized);
-    return true;
-  });
-}
-
-// ===== Element icon helper =====
-
-const getElementIcon = (element: string) => {
-  switch (element) {
-    case "Fire": return "🔥";
-    case "Water": return "💧";
-    case "Earth": return "🌍";
-    case "Air": return "💨";
-    default: return "⚡";
-  }
-};
-
-// ===== Quick Generate Bar =====
-
-interface QuickGenerateProps {
-  onGenerate: (mealType: MealType) => void;
-  isGenerating: boolean;
-  planetaryInfo: ReturnType<typeof getPlanetaryDayCharacteristics>;
-  lunarPhase: string;
-  isPersonalized: boolean;
-}
-
-function QuickGenerateBar({
-  onGenerate,
-  isGenerating,
-  planetaryInfo,
-  lunarPhase,
-  isPersonalized,
-}: QuickGenerateProps) {
+function NatalChartBanner(): React.JSX.Element {
   return (
-    <div className="bg-white rounded-xl shadow-md p-4 border border-gray-100">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        {/* Planetary Status */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">{getElementIcon(planetaryInfo.element)}</span>
-            <div>
-              <p className="text-sm font-semibold text-gray-800">
-                {planetaryInfo.planet} Day
-              </p>
-              <p className="text-xs text-gray-500">{planetaryInfo.element} Energy</p>
-            </div>
-          </div>
-
-          {lunarPhase && (
-            <div className="flex items-center gap-1.5 px-2.5 py-1 bg-purple-50 rounded-lg">
-              <span className="text-xs">🌙</span>
-              <span className="text-xs text-purple-700 font-medium">{lunarPhase}</span>
-            </div>
-          )}
-
-          {isPersonalized && (
-            <div className="flex items-center gap-1 px-2 py-1 bg-indigo-50 rounded-lg">
-              <span className="text-xs">✨</span>
-              <span className="text-xs text-indigo-700 font-medium">Chart active</span>
-            </div>
-          )}
+    <div className="p-4 sm:p-5 glass-card-premium rounded-2xl border border-amber-500/30 bg-gradient-to-r from-purple-950/40 via-amber-950/20 to-purple-950/40 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg animate-in fade-in slide-in-from-top-2 duration-500">
+      <div className="flex items-center gap-3.5">
+        <span className="text-2xl" aria-hidden>✨</span>
+        <div>
+          <p className="text-sm font-semibold text-amber-200">Harmonize with Your Celestial Blueprint</p>
+          <p className="text-xs text-amber-300/80 mt-0.5">
+            Connect your Natal Chart to unlock personalized alchemical resonance scores and custom transits.
+          </p>
         </div>
+      </div>
+      <button
+        type="button"
+        onClick={() => window.dispatchEvent(new Event("open-signin-modal"))}
+        className="whitespace-nowrap px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-stone-950 text-xs font-bold rounded-xl shadow-md hover:from-amber-400 hover:to-orange-400 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+      >
+        Connect Natal Chart
+      </button>
+    </div>
+  );
+}
 
-        {/* Quick Generate Buttons */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500 hidden sm:inline">Quick Generate:</span>
-          {(["breakfast", "lunch", "dinner", "snack"] as MealType[]).map((meal) => (
-            <button
-              key={meal}
-              onClick={() => onGenerate(meal)}
-              disabled={isGenerating}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all bg-gradient-to-r from-amber-50 to-orange-50 text-amber-700 border border-amber-200 hover:from-amber-100 hover:to-orange-100 hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed capitalize"
-            >
-              {meal}
-            </button>
-          ))}
+function PageHero({ isPersonalized }: { isPersonalized: boolean }): React.JSX.Element {
+  return (
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-white/5">
+      <div>
+        <div className="flex items-center gap-2 mb-1.5">
+          <span className="t-tag px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-300">
+            Crucible &bull; Alchemical Synthesis
+          </span>
+        </div>
+        <h1 className="t-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-100 via-amber-100 to-orange-200">
+          Recipe Builder
+        </h1>
+        <p className="text-xs sm:text-sm text-white/60 mt-1 max-w-xl">
+          {isPersonalized
+            ? "Formulate bespoke recipes dynamically aligned with your natal chart and planetary transits."
+            : "Synthesize cosmically-aligned recipes from live planetary harmonics and kitchen ingredients."}
+        </p>
+      </div>
+      <nav aria-label="Recipe pages" className="flex items-center gap-2 shrink-0">
+        <Link
+          href="/cosmic-recipe"
+          className={`${NAV_LINK} bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 hover:text-purple-200 font-medium border border-purple-500/25 hover:shadow-[0_0_12px_rgba(168,85,247,0.2)]`}
+        >
+          Cosmic Recipe
+        </Link>
+        <Link
+          href="/recipes"
+          className={`${NAV_LINK} bg-white/[0.04] hover:bg-white/[0.08] text-white/80 hover:text-white font-medium border border-white/10`}
+        >
+          All Recipes
+        </Link>
+        <Link href="/" className={`${NAV_LINK} bg-white/[0.04] hover:bg-white/[0.08] text-white/60 hover:text-white`}>
+          Home
+        </Link>
+      </nav>
+    </div>
+  );
+}
+
+function ResultsPanel({
+  generation,
+  isPersonalized,
+}: {
+  generation: RecipeGeneration;
+  isPersonalized: boolean;
+}): React.JSX.Element {
+  const { suggestions, lastGeneratedFrom } = generation;
+  const count = suggestions.length;
+  const resonance = isPersonalized ? "natal chart" : "planetary";
+
+  return (
+    <section
+      aria-label="Synthesized recipes"
+      className="glass-card-premium rounded-3xl border border-white/10 shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-3 duration-500"
+    >
+      <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+        <div>
+          <h2 className="t-display text-xl font-medium text-white">
+            {count > 0
+              ? `${count} Alchemical Formulation${count !== 1 ? "s" : ""} Synthesized`
+              : "No Recipes Synthesized"}
+          </h2>
+          <p className="t-mono text-[11px] text-white/50 mt-0.5">
+            {lastGeneratedFrom === "quick" ? "Quick synthesis" : "Crucible parameters"} · {resonance} resonance
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={generation.clear}
+          className="text-xs text-white/40 hover:text-red-400 hover:bg-red-950/30 transition-colors px-3 py-1.5 rounded-lg border border-transparent hover:border-red-500/20 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+        >
+          Clear Results
+        </button>
+      </div>
+      <div className="p-4 sm:p-6">
+        <RecipeSuggestionCarousel
+          suggestions={suggestions}
+          currentIndex={generation.carouselIndex}
+          onIndexChange={generation.setCarouselIndex}
+          isLoading={generation.isGenerating}
+          isPersonalized={isPersonalized}
+          onSaveToQueue={(meal) => logger.info(`Queued recipe: ${meal.recipe.name}`)}
+        />
+      </div>
+    </section>
+  );
+}
+
+function PersonalizationNudge(): React.JSX.Element {
+  return (
+    <div className="glass-card-premium rounded-2xl border border-purple-500/25 bg-gradient-to-r from-purple-950/40 via-indigo-950/20 to-purple-950/40 p-5 shadow-lg">
+      <div className="flex items-start gap-4">
+        <span className="text-3xl" aria-hidden>🔮</span>
+        <div>
+          <p className="text-sm font-semibold text-purple-200">Elevate to Natal Alchemical Precision</p>
+          <p className="text-xs text-purple-300/80 mt-1 max-w-xl leading-relaxed">
+            Sign in and add your birth chart data. The crucible factors your natal sun, moon, and rising alignments into every ingredient pairing and planetary hour recommendation.
+          </p>
+          <Link
+            href="/profile"
+            className="inline-flex items-center gap-1.5 mt-3 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-medium shadow-md transition-all hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-300"
+          >
+            <span>Configure Natal Profile</span>
+            <span aria-hidden>&rarr;</span>
+          </Link>
         </div>
       </div>
     </div>
   );
 }
 
-// ===== Main Page =====
-
-export default function RecipeBuilderPage() {
+export default function RecipeBuilderPage(): React.JSX.Element {
   const astroState = useAstrologicalState();
   const { currentUser } = useUser();
-
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [suggestions, setSuggestions] = useState<RecommendedMeal[]>([]);
-  const [carouselIndex, setCarouselIndex] = useState(0);
-  const [hasGenerated, setHasGenerated] = useState(false);
-  const [lastGeneratedFrom, setLastGeneratedFrom] = useState<"builder" | "quick" | null>(null);
-  const [generationError, setGenerationError] = useState<string | null>(null);
-
-  // Current day for planetary characteristics
-  const currentDay = useMemo(() => new Date().getDay() as DayOfWeek, []);
-  const planetaryDayInfo = useMemo(() => getPlanetaryDayCharacteristics(currentDay), [currentDay]);
-
-  // Is the user signed in with a natal chart?
-  const isPersonalized = !!currentUser?.natalChart;
-
-  // AstrologicalState for generateDayRecommendations
-  const convertedAstroState: AstrologicalState = useMemo(
-    () => ({
-      currentZodiac: astroState.currentZodiac || "aries",
-      lunarPhase: astroState.lunarPhase || "full",
-      activePlanets: astroState.activePlanets || [],
-      domElements: astroState.domElements || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-      ...(astroState.currentPlanetaryHour ? { currentPlanetaryHour: astroState.currentPlanetaryHour } : {}),
-    }),
-    [astroState],
-  );
-
-  // User personalization context (if signed in)
-  const userContext: UserPersonalizationContext | undefined = useMemo(() => {
-    if (!currentUser?.natalChart) return undefined;
-    return {
-      natalChart: currentUser.natalChart,
-      prioritizeHarmony: true,
-      ...(currentUser.stats ? { stats: currentUser.stats } : {}),
-    };
-  }, [currentUser]);
-
-  // Persist recipes to store whenever suggestions change
-  useEffect(() => {
-    suggestions.forEach((rec) => {
-      if (rec.recipe?.id) saveRecipeToStore(rec.recipe);
-    });
-  }, [suggestions]);
-
-  // Reset carousel index when new suggestions arrive
-  const handleSuggestionsUpdate = useCallback((newSuggestions: RecommendedMeal[]) => {
-    const deduped = deduplicateRecipes(newSuggestions);
-    setSuggestions(deduped);
-    setCarouselIndex(0);
-    setHasGenerated(true);
-    logger.info(`Showing ${deduped.length} unique recipe suggestions`);
-  }, []);
-
-  // ---- Quick Generate ----
-  const handleQuickGenerate = useCallback(
-    async (mealType: MealType) => {
-      setIsGenerating(true);
-      setLastGeneratedFrom("quick");
-      setGenerationError(null);
-      try {
-        const payload = {
-          dayOfWeek: currentDay,
-          astroState: convertedAstroState,
-          options: {
-            mealTypes: [mealType],
-            dietaryRestrictions: [],
-            preferredCuisines: [],
-            excludeIngredients: [],
-            useCurrentPlanetary: true,
-            maxRecipesPerMeal: 10,
-            userContext,
-          },
-        };
-
-        let res = await fetch("/api/recommendations/generate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify(payload),
-        });
-        let data = await res.json();
-
-        // One free retry for timeout within server-issued 5-minute window.
-        if (!res.ok && res.status === 504 && data?.retry?.token) {
-          res = await fetch("/api/recommendations/generate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({
-              ...payload,
-              retryToken: data.retry.token,
-            }),
-          });
-          data = await res.json();
-        }
-
-        if (!res.ok || !data?.success) {
-          if (res.status === 402) {
-            if (typeof window !== "undefined") {
-              window.dispatchEvent(new Event("open-token-shop"));
-            }
-            setGenerationError("Insufficient tokens. Each generation costs 5 Spirit + 5 Essence.");
-            handleSuggestionsUpdate([]);
-            return;
-          }
-          if (res.status === 401) {
-            if (typeof window !== "undefined") {
-              window.dispatchEvent(new Event("open-signin-modal"));
-            }
-            setGenerationError("Please sign in to generate recipes.");
-            handleSuggestionsUpdate([]);
-            return;
-          }
-          if (res.status === 504) {
-            setGenerationError("Generation timed out. Please retry.");
-            handleSuggestionsUpdate([]);
-            return;
-          }
-          throw new Error(data?.message || "Quick generate failed");
-        }
-
-        const recommendations = (data.recommendations || []) as RecommendedMeal[];
-        handleSuggestionsUpdate(recommendations);
-      } catch (err) {
-        logger.error("Quick generate failed:", err);
-        setGenerationError("Quick generate failed. Please try again in a moment.");
-        handleSuggestionsUpdate([]);
-      } finally {
-        setIsGenerating(false);
-      }
-    },
-    [currentDay, convertedAstroState, userContext, handleSuggestionsUpdate],
-  );
-
-  // ---- Builder Generate (from GenerateRecipeButton) ----
-  const handleBuilderGenerated = useCallback(
-    (results: RecommendedMeal[]) => {
-      setLastGeneratedFrom("builder");
-      handleSuggestionsUpdate(results);
-    },
-    [handleSuggestionsUpdate],
-  );
-
-  const handleGeneratingChange = useCallback((val: boolean) => {
-    if (val) setGenerationError(null);
-    setIsGenerating(val);
-  }, []);
-
-  const handleClear = useCallback(() => {
-    setSuggestions([]);
-    setHasGenerated(false);
-    setLastGeneratedFrom(null);
-    setCarouselIndex(0);
-    setGenerationError(null);
-  }, []);
+  const generation = useRecipeGeneration();
+  const { isGenerating, hasGenerated, generationError, quickGenerate } = generation;
+  const planetaryDayInfo = useMemo(() => getPlanetaryDayCharacteristics(currentDayOfWeek()), []);
+  const isPersonalized = Boolean(currentUser?.natalChart);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50 to-orange-50">
-      <div className="mx-auto max-w-4xl px-4 py-8 space-y-6">
-        {!isPersonalized && (
-          <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-100 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm animate-in fade-in slide-in-from-top-2 duration-500">
-            <div className="flex items-center gap-3">
-              <div className="text-2xl">✨</div>
-              <p className="text-sm text-amber-800 font-medium">
-                Unlock <span className="font-bold">Natal Chart Integration</span> for deeper alchemical alignment scores and personalized cosmic recipes.
-              </p>
-            </div>
-            <button 
-              onClick={() => window.dispatchEvent(new Event('open-signin-modal'))}
-              className="whitespace-nowrap px-4 py-2 bg-white text-orange-700 text-xs font-bold rounded-lg border border-orange-200 shadow-sm hover:bg-orange-50 transition-all"
-            >
-              Connect Your Chart
-            </button>
-          </div>
-        )}
-
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-amber-600 to-orange-600 bg-clip-text text-transparent">
-              Recipe Builder
-            </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              {isPersonalized
-                ? "Personalized recipes aligned with your birth chart & the cosmos"
-                : "Cosmically-aligned recipes based on planetary positions"}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/cosmic-recipe"
-              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 transition-colors text-sm text-purple-700 font-semibold border border-purple-200"
-            >
-              Cosmic Recipe
-            </Link>
-            <Link
-              href="/recipes"
-              className="px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 transition-colors text-sm text-purple-700 font-medium border border-purple-200"
-            >
-              All Recipes
-            </Link>
-            <Link
-              href="/"
-              className="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-sm text-gray-600"
-            >
-              Home
-            </Link>
-          </div>
-        </div>
-
-        {/* Quick Generate Bar */}
+    <div className="relative text-[#f2edff] py-6 sm:py-10">
+      <div className="mx-auto max-w-4xl px-4 space-y-7">
+        {!isPersonalized && <NatalChartBanner />}
+        <PageHero isPersonalized={isPersonalized} />
         <QuickGenerateBar
           onGenerate={(mealType) => {
-            void handleQuickGenerate(mealType);
+            quickGenerate(mealType).catch((err: unknown) => logger.error("Quick generate failed:", err));
           }}
           isGenerating={isGenerating}
           planetaryInfo={planetaryDayInfo}
-          lunarPhase={astroState.lunarPhase || ""}
+          planetaryHour={astroState.currentPlanetaryHour}
+          lunarPhase={astroState.lunarPhase}
           isPersonalized={isPersonalized}
         />
-
-        {/* Main Builder Panel */}
         <RecipeBuilderPanel />
-
-        {/* Cosmic Alignment Preview (live-indexed grounding) */}
         <CosmicAlignmentPreview />
-
-        {/* Generate Button (from builder selections) */}
         <GenerateRecipeButton
-          onGenerated={handleBuilderGenerated}
-          onGeneratingChange={handleGeneratingChange}
-          onError={setGenerationError}
+          onGenerated={generation.onBuilderGenerated}
+          onGeneratingChange={generation.onGeneratingChange}
+          onError={generation.setGenerationError}
           isGenerating={isGenerating}
         />
-
         {generationError && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3">
-            <p className="text-sm text-red-700">{generationError}</p>
+          <div role="alert" className="rounded-2xl border border-red-500/30 bg-red-950/40 px-4 py-3 text-red-200 text-xs flex items-center gap-2">
+            <span aria-hidden>⚠️</span>
+            <span>{generationError}</span>
           </div>
         )}
-
-        {/* Recipe Carousel / Results */}
-        {hasGenerated && (
-          <div className="bg-white rounded-2xl shadow-md overflow-hidden">
-            <div className="p-4 border-b border-gray-100 flex items-center justify-between">
-              <div>
-                <h3 className="font-bold text-gray-800">
-                  {suggestions.length > 0
-                    ? `${suggestions.length} Recipe${suggestions.length !== 1 ? "s" : ""} Found`
-                    : "No Recipes Found"}
-                </h3>
-                <p className="text-xs text-gray-500 mt-0.5">
-                  {lastGeneratedFrom === "quick"
-                    ? `Via quick generate · ${isPersonalized ? "personalized" : "planetary"} alignment`
-                    : `Via builder preferences · ${isPersonalized ? "personalized" : "planetary"} alignment`}
-                </p>
-              </div>
-              <button
-                onClick={handleClear}
-                className="text-xs text-gray-400 hover:text-red-500 transition-colors px-2 py-1 rounded hover:bg-red-50"
-              >
-                Clear
-              </button>
-            </div>
-
-            <div className="p-6">
-              <RecipeSuggestionCarousel
-                suggestions={suggestions}
-                currentIndex={carouselIndex}
-                onIndexChange={setCarouselIndex}
-                isLoading={isGenerating}
-                isPersonalized={isPersonalized}
-                onSaveToQueue={(meal) => {
-                  logger.info(`Queued recipe: ${meal.recipe.name}`);
-                }}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Loading state before first generation */}
+        {hasGenerated && <ResultsPanel generation={generation} isPersonalized={isPersonalized} />}
         {isGenerating && !hasGenerated && (
-          <div className="bg-white rounded-2xl shadow-md p-8">
-            <RecipeSuggestionCarousel
-              suggestions={[]}
-              currentIndex={0}
-              onIndexChange={() => {}}
-              isLoading
-            />
+          <div className="glass-card-premium rounded-3xl border border-white/10 p-8 shadow-2xl">
+            <RecipeSuggestionCarousel suggestions={[]} currentIndex={0} onIndexChange={() => undefined} isLoading />
           </div>
         )}
-
-        {/* Sign-in nudge for personalization */}
-        {!isPersonalized && !hasGenerated && (
-          <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-100 p-4">
-            <div className="flex items-start gap-3">
-              <span className="text-2xl">🔮</span>
-              <div>
-                <p className="text-sm font-semibold text-purple-800">
-                  Unlock Personalized Recipes
-                </p>
-                <p className="text-xs text-purple-600 mt-0.5">
-                  Sign in and add your birth chart to get recipes perfectly aligned
-                  with your cosmic constitution.
-                </p>
-                <Link
-                  href="/profile"
-                  className="inline-block mt-2 px-3 py-1 rounded-lg bg-purple-600 text-white text-xs font-medium hover:bg-purple-700 transition-colors"
-                >
-                  Set up your chart →
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
+        {!isPersonalized && !hasGenerated && <PersonalizationNudge />}
       </div>
     </div>
   );
