@@ -13,6 +13,7 @@ import type { LiveAlchemical, LiveElemental } from "./hscaComputed";
 
 export interface SourceRecipe {
   name?: string | undefined;
+  yield_amount?: string | null | undefined;
   title: string;
   ingredients: string[];
   instructions: string[];

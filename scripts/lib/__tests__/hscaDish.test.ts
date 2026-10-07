@@ -127,11 +127,34 @@ describe("parseIngredientString: what the first parser got wrong", () => {
     expect(parsed("Canola oil for ramekins")).toEqual([1, "piece", "canola oil", "for ramekins"]);
   });
 
-  it("leaves alone what it cannot read without a decision: pinch, whole cloves", () => {
-    // A pinch needs a gram weight in unitConversion.ts before it can be a unit: a caloric
-    // ingredient in a unit with no weight makes the recipe's nutrition disappear.
-    expect(parsed("Pinch of sea salt")).toEqual([1, "piece", "pinch of sea salt", ""]);
-    // "2 cloves" beside cinnamon sticks and cardamom pods is the spice, not garlic.
+  describe("a pinch has no measure: it is a note, and the ingredient is what follows", () => {
+    it.each<Case>([
+      ["Pinch of sea salt", 1, "piece", "sea salt", "pinch"],
+      ["Pinch salt", 1, "piece", "salt", "pinch"],
+      ["a pinch of chili flakes (optional)", 1, "piece", "chili flakes", "pinch; optional"],
+      ["Pinch of sea salt and freshly ground black pepper to taste", 1, "piece", "sea salt and freshly ground black pepper", "pinch; to taste"],
+      ["Pinch sea salt or to taste", 1, "piece", "sea salt", "pinch; to taste"],
+      ["Dash of tamari", 1, "piece", "tamari", "dash"],
+      ["Splash of lemon juice", 1, "piece", "lemon juice", "splash"],
+      ["Drizzle of olive oil", 1, "piece", "olive oil", "drizzle"],
+      ["1 pinch cayenne", 1, "piece", "cayenne", "pinch"],
+    ])("%s", (line, amount, unit, name, notes) => {
+      expect(parsed(line)).toEqual([amount, unit, name, notes]);
+    });
+
+    it("a counted pinch is still a unit", () => {
+      expect(parsed("2 pinches of sea salt")).toEqual([2, "pinches", "sea salt", ""]);
+    });
+
+    it("readPinch: false is the witness for rows written before this: the pinch stays in the name", () => {
+      const old = parseIngredientString("Pinch of sea salt", { readPinch: false });
+      expect([old.amount, old.unit, old.rawName, old.notes]).toEqual([1, "piece", "pinch of sea salt", ""]);
+    });
+  });
+
+  it("leaves alone what it cannot read without a decision: the whole spice cloves", () => {
+    // "2 cloves" beside cinnamon sticks and cardamom pods is the spice, not garlic; naming it would
+    // weigh it as a 50 g piece. The unit swallows the whole line, leaving an empty name.
     expect(parsed("2 cloves")).toEqual([2, "cloves", "", ""]);
   });
 });

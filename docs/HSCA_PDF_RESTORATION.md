@@ -284,14 +284,53 @@ making it truer. `--nutrition` writes them.
 
 What the parser still does not read, on purpose:
 
-- **"Pinch" and "dash"** (about 150 lines): `pinches?` never matched "pinch", so "Pinch of sea salt" is 1 piece
-  named "pinch of sea salt". Making it a unit needs a gram weight in `unitConversion.ts` first: a caloric
-  ingredient in a unit with no weight makes the recipe's computed nutrition disappear.
+- **A word-number size** ("5 eight-ounce packages of organic cream cheese", the only one in the archive)
+  keeps "eight-ounce" in the name; the size reader knows numeric sizes.
 - **"2 cloves"** (3 lines, beside cinnamon sticks and cardamom pods) is the spice. The unit swallows the whole
   line, leaving an empty name; naming it "cloves" would weigh it as a 50 g piece.
 - **"optional"** (40 lines): the notes say it, but every line is stored `optional: false`.
 - **"or" alternatives** (about 115 lines) stay inside the name, and two ingredients on one line ("salt and
   pepper", 72 lines) stay one line.
+
+## "Pinch of ..." and its kin
+
+About 150 lines read "Pinch of sea salt", "Dash of tamari", "Splash of lemon juice" or "Drizzle of olive oil",
+and the first parser made each of them the ingredient "pinch of sea salt". `parseIngredientString` now reads
+the word as a note (`sea salt`, notes `pinch`) and leaves the unit as `piece`; a counted pinch ("2 pinches of
+sea salt") was already a unit. It does not make "pinch" a unit: the gram table in `unitConversion.ts` has no
+weight for one, and a caloric ingredient in a unit with no weight makes the recipe's computed nutrition
+disappear (`accountsForRecipe`), so that needs its own decision. The name is what changes.
+
+139 dishes were rebuilt and 132 live rows repaired the same way as before (`repairHscaParsedLinesInDb.ts` now
+recognises the lines of either earlier parser revision; the second is `parseIngredientString(line, {
+readPinch: false })`). Elemental shares moved by a median 0.026 on the 102 rows where the cleaner name
+resolves differently (p90 0.06, max 0.14), and nothing in nutrition was touched.
+
+## Servings
+
+The dish builder took the first integer of every yield as the serving count: "3 cups" was 3 servings, "9-inch
+tart" 9, "Two 8-inch cakes" 8, "1 quart" 1, and "1/2 chicken (2 servings)" 1 (the "1" of "1/2"). The live rows
+ignored the yield altogether and carry a placeholder 4. Of the 568 yields, 174 actually say servings ("6-8
+servings", "Serves 8", "2 cups (8 servings)", "Six 1/2-cup servings"); 200 give a volume, 152 an item count or a
+pan, and 39 nothing.
+
+`scripts/lib/hscaYield.ts` reads a serving count only where the yield states one (the number next to
+"servings" or "portions", or after "Serves"; a range takes its lower bound), and everything else keeps the
+placeholder 4. The builder uses it, `syncHscaCuisine.ts` now notices a serving change and patches only
+`details.baseServingSize` (a servings-only change does not rebuild the dish, so nothing computed from the
+ingredients moves), and 372 dishes changed that way.
+
+`scripts/repairHscaServingsInDb.ts` did the same for the live rows: 143 rows got their stated servings in the
+column and in `read_model`, and on the 98 of them that carry stored nutrition every per-serving value was
+multiplied by 4 / servings (exact, no engine, nothing cleared or invented). A row is matched to its source
+record by its stored ingredients and its stored method both being exactly that record's, and is changed only
+while it still carries the placeholder in both places. The other 362 rows state no servings and keep 4.
+
+Prep and cook times were left alone: the source states them for 4 of 568 recipes, so there is nothing to derive.
+
+The dish builder also stamps every dish with a `nutritionPerServing` that is not measured: a flat 250, 280, 320
+or 380 kcal by meal, with macros from the dish's element values. The static loader prefers computed nutrition
+when it can substantiate a total and falls back to this one otherwise. It is untouched here.
 
 ## Not done
 

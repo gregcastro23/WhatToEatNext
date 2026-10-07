@@ -154,10 +154,11 @@ describe("reverse index: a recipe line is filed under its head ingredient", () =
     // [MEASURED 2026-10-05] after the importer's parser was corrected and hsca.ts rebuilt
     // (ranges, Unicode fractions, "of ...", "to taste", size patterns, adjective lists), over
     // 2,675 distinct lines: generic 7 → 5, modifier 44 → 44, unresolved 270 → 248.
+    // [MEASURED 2026-10-05] "Pinch of ..." read as a note (2,646 distinct lines): unresolved 248 → 247.
     expect(summary.flagged["unit-word"]).toBe(0);
     expect(summary.flagged.generic).toBeLessThanOrEqual(5);
     expect(summary.flagged.modifier).toBeLessThanOrEqual(44);
-    expect(summary.unresolved).toBeLessThanOrEqual(248);
+    expect(summary.unresolved).toBeLessThanOrEqual(247);
   });
 
   it("hero recipe counts follow the head: lemon and garlic, not juice and cloves", () => {

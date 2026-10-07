@@ -17,6 +17,10 @@ import {
   calculateKalchm,
   calculateMonica,
 } from "../../src/data/unified/alchemicalCalculations";
+import { servingsFromYield } from "./hscaYield";
+
+/** Every live HSCA row carries 4 servings until its yield says otherwise. */
+export const PLACEHOLDER_SERVINGS = 4;
 
 export interface RawRecipe {
   id: string;
@@ -112,7 +116,20 @@ function joinAdjectiveList(text: string): string {
   return joined;
 }
 
-export function parseIngredientString(ingStr: string) {
+export interface ParseOptions {
+  /**
+   * Read "pinch of sea salt" as sea salt with the note "pinch". False reproduces the parser as it stood
+   * before that, which made "pinch of sea salt" the ingredient: it is the witness for repairing rows
+   * written then (hscaParseRepair.ts), not something to build with.
+   */
+  readPinch?: boolean;
+}
+
+/** An amount the line states in words instead of a measure; the ingredient follows. */
+const WORD_AMOUNT = /^(?:(?:a|one)\s+)?(pinch|dash|splash|drizzle)(?![a-z])\s*(?:of\s+)?/i;
+
+export function parseIngredientString(ingStr: string, options: ParseOptions = {}) {
+  const readPinch = options.readPinch ?? true;
   let amount = 1;
   let unit = "piece";
   const front: string[] = [];
@@ -212,6 +229,13 @@ export function parseIngredientString(ingStr: string) {
     firstUnitText = unitMatch[1];
     matchedUnit = unit;
     rest = unitMatch[2] ?? "";
+  }
+
+  // "Pinch of sea salt" has no measure: the pinch is a note and sea salt is the ingredient.
+  const wordAmount = readPinch && matchedUnit === "" ? rest.match(WORD_AMOUNT) : null;
+  if (wordAmount?.[1]) {
+    front.push(wordAmount[1].toLowerCase());
+    rest = rest.slice(wordAmount[0].length);
   }
 
   // What may follow the unit: "of", a parenthetical size, a second quantity ("plus 1 teaspoon").
@@ -427,14 +451,9 @@ export function buildHscaDish(r: RawRecipe) {
   const prepTimeMinutes = parseTimeMinutes(r.prepTime);
   const cookTimeMinutes = parseTimeMinutes(r.cookTime);
 
-  // Yield parse
-  let servings = 4;
-  if (r.yield_amount && typeof r.yield_amount === "string") {
-    const servMatch = r.yield_amount.match(/(\d+)/);
-    if (servMatch && servMatch[1]) {
-      servings = parseInt(servMatch[1], 10);
-    }
-  }
+  // Servings: only what the yield says (hscaYield.ts). It used to be the first integer of any
+  // yield, so "3 cups" was 3 servings and "9-inch tart" 9. Otherwise the archive-wide placeholder 4.
+  const servings = servingsFromYield(r.yield_amount) ?? PLACEHOLDER_SERVINGS;
 
   // Nutrition fallback calculation
   // Holistic recipes: generally 150-400 calories per serving, low saturated fat, high fiber

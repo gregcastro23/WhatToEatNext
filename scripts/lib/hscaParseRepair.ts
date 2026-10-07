@@ -5,13 +5,16 @@
  * apples"). The parser was corrected and hsca.ts rebuilt; the rows already in Postgres kept the
  * old lines. No database access here.
  *
- * A stored line is replaced only when it is exactly what the frozen legacy parser
- * (hscaLegacyParse.ts) made of its source line, and it becomes the line hsca.ts now holds. A line
- * that is neither, or a row whose line count differs, means the row was edited or is not this
- * record, and the row is left alone.
+ * A stored line is replaced only when it is exactly what an EARLIER REVISION of the parser made of its
+ * source line, and it becomes the line the current parser makes (which is the line hsca.ts holds). The
+ * revisions are the first parser, frozen in hscaLegacyParse.ts, and the one before "pinch of" was
+ * read as a note (parseIngredientString with readPinch: false). A line that is neither current nor
+ * any revision's, or a row whose line count differs, means the row was edited or is not this record,
+ * and the row is left alone.
  */
 import { z } from "zod";
 import { legacyParseIngredientString } from "./hscaLegacyParse";
+import { parseIngredientString } from "./hscaDish";
 import { canonical, type LiveIngredient } from "./hscaDbSync";
 
 /** A line of a dish in hsca.ts. */
@@ -51,23 +54,37 @@ export function legacyLiveIngredients(lines: readonly string[]): LiveIngredient[
   });
 }
 
-/** The plan for one stored ingredient list against one source's legacy parse and one hsca.ts dish. */
-export function planRepair(stored: unknown, legacy: readonly LiveIngredient[], corrected: readonly DishLine[]): RepairPlan {
+/** What the parser made of each source line before it read "pinch of" as a note (the second revision). */
+export function previousLiveIngredients(lines: readonly string[]): LiveIngredient[] {
+  return lines.map((line) => {
+    const parsed = parseIngredientString(line, { readPinch: false });
+    return { name: parsed.rawName, unit: parsed.unit, notes: parsed.notes, amount: parsed.amount, optional: false };
+  });
+}
+
+/**
+ * The plan for one stored ingredient list against what each earlier parser revision made of one source
+ * (`revisions`, one list of lines per revision) and what the current parser makes of it.
+ */
+export function planRepair(
+  stored: unknown,
+  revisions: ReadonlyArray<readonly LiveIngredient[]>,
+  corrected: readonly DishLine[],
+): RepairPlan {
   const parsed = storedLines.safeParse(stored);
   if (!parsed.success) return { kind: "skip", reason: "stored ingredients are not the usual {name, unit, notes, amount, optional} lines" };
   const lines = parsed.data;
-  if (lines.length !== legacy.length || lines.length !== corrected.length) {
-    return { kind: "skip", reason: `line counts differ: stored ${lines.length}, source ${legacy.length}, hsca.ts ${corrected.length}` };
+  if (lines.length !== corrected.length || revisions.some((revision) => revision.length !== lines.length)) {
+    return { kind: "skip", reason: `line counts differ: stored ${lines.length}, hsca.ts ${corrected.length}, revisions ${revisions.map((r) => r.length).join("/")}` };
   }
   const repairs: LineRepair[] = [];
   for (const [index, line] of lines.entries()) {
-    const old = legacy[index];
     const target = corrected[index];
-    if (old === undefined || target === undefined) return { kind: "skip", reason: `no line ${index} to compare` };
+    if (target === undefined) return { kind: "skip", reason: `no line ${index} to compare` };
     const to = liveLine(target);
     if (canonical(line) === canonical(to)) continue;
-    if (canonical(line) !== canonical(old)) {
-      return { kind: "skip", reason: `line ${index} is neither the corrected line nor the old parser's output: ${canonical(line)}` };
+    if (!revisions.some((revision) => canonical(revision[index]) === canonical(line))) {
+      return { kind: "skip", reason: `line ${index} is neither the corrected line nor an earlier parser's output: ${canonical(line)}` };
     }
     repairs.push({ index, from: line, to });
   }
@@ -77,14 +94,14 @@ export function planRepair(stored: unknown, legacy: readonly LiveIngredient[], c
 }
 
 /**
- * The plan for a row, given every (legacy parse, hsca.ts dish) pair its name fits. Two records can
- * share a name; the row is repaired only when every pair that fits agrees.
+ * The plan for a row, given every (earlier revisions' parses, current parse) pair its name fits. Two
+ * records can share a name; the row is repaired only when every pair that fits agrees.
  */
 export function choosePlan(
   stored: unknown,
-  pairs: ReadonlyArray<{ legacy: readonly LiveIngredient[]; corrected: readonly DishLine[] }>,
+  pairs: ReadonlyArray<{ revisions: ReadonlyArray<readonly LiveIngredient[]>; corrected: readonly DishLine[] }>,
 ): RepairPlan {
-  const plans = pairs.map((pair) => planRepair(stored, pair.legacy, pair.corrected));
+  const plans = pairs.map((pair) => planRepair(stored, pair.revisions, pair.corrected));
   const usable = plans.filter((plan) => plan.kind !== "skip");
   const [first] = usable;
   if (first === undefined) return plans[0] ?? { kind: "skip", reason: "no source record and hsca.ts dish of this name" };
