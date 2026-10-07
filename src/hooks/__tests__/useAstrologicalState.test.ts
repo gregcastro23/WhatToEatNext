@@ -9,7 +9,7 @@ jest.mock("@/contexts/AlchemicalContext/hooks", () => ({
   useAlchemical: jest.fn(),
 }));
 
-const mockUseAlchemical = useAlchemical as jest.Mock;
+const mockUseAlchemical = jest.mocked(useAlchemical);
 
 describe("useAstrologicalState hook", () => {
   beforeEach(() => {
