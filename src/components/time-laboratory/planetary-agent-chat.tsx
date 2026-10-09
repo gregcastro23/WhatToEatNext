@@ -525,39 +525,42 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
   )
 }
 
-// Mock function for generating agent responses - replace with actual AI integration
+// Live agent response integration with Planetary Agents pipeline
 async function generateAgentResponse(
   userMessage: string,
   agent: PlanetaryAgent,
   context: ConversationContext,
   initialContext?: InitialAgentContext
 ): Promise<AgentResponse> {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000))
+  try {
+    const res = await fetch('/api/agents/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userMessage,
+        agent,
+        context,
+        initialContext,
+      }),
+    })
+    if (res.ok) {
+      return (await res.json()) as AgentResponse
+    }
+  } catch (err) {
+    console.error('Failed to contact live agent chat route:', err)
+  }
 
-  const responses = [
-    `Ah, ${userMessage}. From my perspective as a ${agent.element} intelligence aligned with ${agent.planetaryRuler}, I see this question touching upon the fundamental currents of cosmic energy. The current planetary alignments suggest a period of ${agent.element.toLowerCase()} intensification.`,
-    `Your inquiry resonates deeply with the ${agent.planetaryRuler} archetype. In this moment of ${initialContext?.degree ?? 0}° ${initialContext?.sign ?? 'cosmic'} activation, I perceive opportunities for growth through ${agent.element.toLowerCase()} wisdom.`,
-    `The celestial dance reveals patterns that answer your question. As ${agent.name}, I can share that the ${agent.element} element currently flows with ${agent.activationStrength}% potency, offering guidance for your path.`,
-    `From the vantage point of ${agent.dignity} dignity, I observe that your question aligns with the deeper rhythms of the cosmos. The planetary intelligence of ${agent.planetaryRuler} suggests embracing ${agent.element.toLowerCase()} qualities.`,
-  ]
-
-  const content = responses.at(Math.floor(Math.random() * responses.length)) ?? responses[0] ?? ''
-
+  // Resilient alchemical fallback if network connection wavers
   return {
-    content,
+    content: `As ${agent.name} (${agent.dignity} dignity, ${agent.activationStrength}% potency), I perceive the ${agent.element} currents aligning with your inquiry: "${userMessage}". Let us transmute these celestial vectors into living insight.`,
     astrologicalContext: {
       currentPlanets: {
-        Sun: { sign: initialContext?.sign ?? 'Leo' },
-        Moon: { sign: 'Cancer' },
-        Mercury: { sign: 'Virgo' },
-        Venus: { sign: 'Libra' },
-        Mars: { sign: 'Aries' },
+        [agent.planetaryRuler]: { sign: initialContext?.sign ?? 'Aries' },
       },
-      transitInfluence: `${agent.element} energy amplification at ${initialContext?.degree ?? 0}°`,
+      transitInfluence: `${agent.element} resonance at exact degree ${initialContext?.degree ?? 0}°`,
     },
     newConsciousnessLevel: context.currentConsciousness,
-    evolutionGain: Math.random() * 0.1,
+    evolutionGain: 0.05,
     insights: [`Understanding of ${agent.element} energy patterns`],
   }
 }

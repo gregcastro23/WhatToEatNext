@@ -478,7 +478,7 @@ export const MultiAgentConversation: React.FC<MultiAgentConversationProps> = ({
   )
 }
 
-// Mock functions for generating responses - replace with actual AI integration
+// Live council response integration with Planetary Agents pipeline
 async function generateMultiAgentResponses(
   userMessage: string,
   agentIds: string[],
@@ -492,44 +492,35 @@ async function generateMultiAgentResponses(
     consensusWeight: number
   }>
 > {
+  try {
+    const res = await fetch('/api/agents/council-chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userMessage,
+        agentIds,
+        availableAgents,
+        mode,
+      }),
+    })
+    if (res.ok) {
+      const data = await res.json()
+      if (Array.isArray(data.responses) && data.responses.length > 0) {
+        return data.responses
+      }
+    }
+  } catch (err) {
+    console.error('Failed to contact live council chat route:', err)
+  }
+
+  // Resilient fallback if connection drops
   const selectedAgents = availableAgents.filter(agent => agentIds.includes(agent.id))
-
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 2000))
-
-  return selectedAgents.map(agent => {
-    const perspectives = {
-      Fire: 'passionate, dynamic action and courage',
-      Water: 'intuitive, emotional depth and healing',
-      Air: 'intellectual, communicative clarity and logic',
-      Earth: 'practical, grounded stability and manifestation',
-      Spirit: 'transcendent, mystical wisdom and unity',
-    }
-
-    const baseResponse = `From my ${agent.element} perspective as ${agent.name}, I see this matter through the lens of ${perspectives[agent.element] || 'cosmic wisdom'}.`
-
-    let content = baseResponse
-    let weight = agent.activationStrength / 100
-
-    // Mode-specific variations
-    if (mode === 'debate') {
-      const debateStyles = ['challenging', 'supporting', 'nuancing', 'expanding']
-      const style = debateStyles[Math.floor(Math.random() * debateStyles.length)]
-      content += ` I ${style} this viewpoint by noting that ${agent.planetaryRuler}'s influence suggests ${Math.random() > 0.5 ? 'caution' : 'boldness'} in this matter.`
-    } else if (mode === 'consensus') {
-      weight = Math.max(weight, 0.7) // Higher weight for consensus
-      content += ` My ${agent.consciousnessLevel.toLowerCase()} consciousness aligns this with the greater cosmic harmony.`
-    }
-
-    return {
-      agentId: agent.id,
-      agentName: agent.name,
-      content:
-        `${content 
-        } The planetary currents flow with ${agent.activationStrength}% intensity through my domain.`,
-      consensusWeight: weight,
-    }
-  })
+  return selectedAgents.map(agent => ({
+    agentId: agent.id,
+    agentName: agent.name,
+    content: `From my ${agent.element} perspective as ${agent.name}: "${userMessage}" resonates through ${agent.planetaryRuler}'s celestial domain. The planetary currents flow with ${agent.activationStrength}% intensity.`,
+    consensusWeight: agent.activationStrength / 100,
+  }))
 }
 
 function generateConsensusSummary(
@@ -540,16 +531,9 @@ function generateConsensusSummary(
     consensusWeight: number
   }>
 ): string {
+  if (responses.length === 0) return 'The council has no active participants.'
   const avgWeight = responses.reduce((sum, r) => sum + r.consensusWeight, 0) / responses.length
-
-  const consensusStatements = [
-    `The council reaches ${avgWeight > 0.8 ? 'strong' : avgWeight > 0.6 ? 'moderate' : 'tentative'} consensus.`,
-    `Collectively, we perceive alignment between ${responses.map(r => r.agentName).join(', ')} perspectives.`,
-    `The planetary intelligences harmonize on this matter with ${Math.round(avgWeight * 100)}% agreement.`,
-    `Our unified cosmic wisdom reveals a path forward that integrates all elemental perspectives.`,
-  ]
-
-  return consensusStatements[Math.floor(Math.random() * consensusStatements.length)] ?? consensusStatements[0] ?? ''
+  return `The Council of Active Planetary Degrees harmonizes on this inquiry with ${Math.round(avgWeight * 100)}% elemental resonance across ${responses.map(r => r.agentName).join(', ')}.`
 }
 
 export default MultiAgentConversation
