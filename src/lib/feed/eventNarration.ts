@@ -103,13 +103,16 @@ export function narrateFeedEvent(
       const recipeName = getString(metadata, "recipeName");
       const recipeId =
         getString(metadata, "recipeId") ?? getString(metadata, "recipe_id");
-      const href = recipeId ? `/generated-recipe/${recipeId}` : undefined;
+      const isCatalog = getString(metadata, "source") === "catalog_review";
+      const href = recipeId
+        ? (isCatalog ? `/recipes/${recipeId}` : `/generated-recipe/${recipeId}`)
+        : undefined;
       return {
         icon: "🍽️",
         action: recipeName
-          ? `transmuted ingredients into ${recipeName}.`
+          ? (isCatalog ? `reviewed ${recipeName} and shared a culinary reflection.` : `transmuted ingredients into ${recipeName}.`)
           : "transmuted ingredients into a new recipe.",
-        label: recipeName ? `Created recipe: ${recipeName}` : "Created a recipe",
+        label: recipeName ? (isCatalog ? `Reviewed: ${recipeName}` : `Created recipe: ${recipeName}`) : "Created a recipe",
         href,
       };
     }
