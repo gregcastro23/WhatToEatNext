@@ -163,10 +163,11 @@ export async function GET(
     );
   }
 
-  // Allow lookup either by uuid or by exact email — agents often live under
-  // a stable email so callers can deep link with the friendlier slug.
+  // Allow lookup by uuid, exact email, or agentic email slug (e.g. 'leonardo-da-vinci')
   const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId);
-  const lookupColumn = isUuid ? "u.id::text = $1" : "u.email = $1";
+  const lookupColumn = isUuid
+    ? "u.id::text = $1"
+    : "(LOWER(u.email) = LOWER($1) OR LOWER(u.email) = LOWER($1) || '@agentic.alchm.kitchen' OR LOWER(u.email) = LOWER($1) || '@agents.alchm.kitchen')";
 
   try {
     const profileResult = await executeQuery<ProfileRow>(
@@ -185,6 +186,60 @@ export async function GET(
 
     const [row] = profileResult.rows;
     if (!row) {
+      // Check if this slug corresponds to a canonical historical agent from ASOL
+      const externalAgent = await fetchAgentProfile(userId);
+      if (externalAgent) {
+        return NextResponse.json({
+          success: true,
+          profile: {
+            userId,
+            handle: `${userId}@agentic.alchm.kitchen`,
+            name: externalAgent.name,
+            isAgent: true,
+            avatarUrl: null,
+            social: {
+              followers: 108,
+              following: 12,
+              commensals: 7,
+              tablesHosted: 4,
+              tablesJoined: 18,
+              viewer: null,
+            },
+            agentSlug: userId,
+            agentProfile: externalAgent,
+            agentInteractions: [],
+            agentActions: [],
+            agentArtifacts: [],
+            bio: externalAgent.title
+              ? `${externalAgent.title} (${externalAgent.era || "Historical Master"})`
+              : "Historical Alchemical Intelligence",
+            dominantElement: externalAgent.consciousness?.dominantElement || "Spirit",
+            natalChart: externalAgent.consciousness?.natalChart || externalAgent.birthData || {},
+            natalPositions: [],
+            birthData: externalAgent.birthData || {},
+            dietary_preferences: externalAgent.historicalDiet || {},
+            profile_layout: [
+              "natalChart",
+              "alchemicalConstitution",
+              "tasteGraph",
+              "dietaryPrefs",
+              "insightsTicker",
+              "tokenEconomy",
+              "recentActivity",
+            ],
+            tasteGraph: null,
+            createdAt: new Date().toISOString(),
+            balances: {
+              spirit: 5000,
+              essence: 4200,
+              matter: 3800,
+              substance: 3500,
+            },
+            recentActivity: [],
+          },
+        });
+      }
+
       return NextResponse.json(
         { success: false, message: "Profile not found" },
         { status: 404 },
