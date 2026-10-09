@@ -42,6 +42,7 @@ interface ConversationContext {
   evolutionPoints: number
   insightsGained: string[]
   currentConsciousness: string
+  sessionId?: string | undefined
 }
 
 interface InitialAgentContext {
@@ -62,6 +63,9 @@ interface AgentResponse {
   newConsciousnessLevel: string
   evolutionGain: number
   insights: string[]
+  sessionId?: string | undefined
+  isDormant?: boolean | undefined
+  status?: string | undefined
 }
 
 // Types for the chat system
@@ -316,12 +320,13 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
     setIsTyping(true)
 
     try {
-      // Simulate agent response with astrological context
+      // Live agent response with astrological context and stable session continuity
       const response = await generateAgentResponse(
         inputMessage,
         agent,
         conversationContext,
-        initialContext
+        initialContext,
+        _userId
       )
 
       const agentMessage: ChatMessage = {
@@ -341,12 +346,13 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
 
       setMessages(prev => [...prev, agentMessage])
 
-      // Update conversation context
-      const newContext = {
+      // Update conversation context with retained sessionId
+      const newContext: ConversationContext = {
         messageCount: conversationContext.messageCount + 1,
         evolutionPoints: conversationContext.evolutionPoints + response.evolutionGain,
         insightsGained: [...conversationContext.insightsGained, ...response.insights],
         currentConsciousness: response.newConsciousnessLevel,
+        sessionId: response.sessionId || conversationContext.sessionId,
       }
 
       setConversationContext(newContext)
@@ -379,7 +385,7 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
     } finally {
       setIsTyping(false)
     }
-  }, [inputMessage, isTyping, agent, conversationContext, initialContext, onAgentEvolution])
+  }, [inputMessage, isTyping, agent, conversationContext, initialContext, onAgentEvolution, _userId])
 
   const handleKeyPress = useCallback(
     (e: React.KeyboardEvent) => {
@@ -530,7 +536,8 @@ async function generateAgentResponse(
   userMessage: string,
   agent: PlanetaryAgent,
   context: ConversationContext,
-  initialContext?: InitialAgentContext
+  initialContext?: InitialAgentContext,
+  userId?: string
 ): Promise<AgentResponse> {
   try {
     const res = await fetch('/api/agents/chat', {
@@ -541,6 +548,9 @@ async function generateAgentResponse(
         agent,
         context,
         initialContext,
+        sessionId: context.sessionId,
+        userId: userId || 'demo-user',
+        date: initialContext?.date ? initialContext.date.toISOString() : undefined,
       }),
     })
     if (res.ok) {
@@ -562,6 +572,8 @@ async function generateAgentResponse(
     newConsciousnessLevel: context.currentConsciousness,
     evolutionGain: 0.05,
     insights: [`Understanding of ${agent.element} energy patterns`],
+    status: 'degraded',
+    ...(context.sessionId ? { sessionId: context.sessionId } : {}),
   }
 }
 

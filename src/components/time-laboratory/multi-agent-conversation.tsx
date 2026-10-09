@@ -203,6 +203,7 @@ export const MultiAgentConversation: React.FC<MultiAgentConversationProps> = ({
     'consensus'
   )
   const [showAgentSelector, setShowAgentSelector] = useState(false)
+  const [sessionId, setSessionId] = useState<string>(() => `wten-council-${Date.now()}`)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -266,12 +267,19 @@ export const MultiAgentConversation: React.FC<MultiAgentConversationProps> = ({
 
     try {
       // Generate responses from selected agents
-      const responses = await generateMultiAgentResponses(
+      const result = await generateMultiAgentResponses(
         inputMessage.trim(),
         selectedAgents,
         availableAgents,
-        conversationMode
+        conversationMode,
+        sessionId
       )
+
+      if (result.sessionId && result.sessionId !== sessionId) {
+        setSessionId(result.sessionId)
+      }
+
+      const { responses } = result
 
       // Add responses with slight delays for natural conversation flow
       for (let i = 0; i < responses.length; i++) {
@@ -296,7 +304,7 @@ export const MultiAgentConversation: React.FC<MultiAgentConversationProps> = ({
       if (conversationMode === 'consensus' && responses.length > 1) {
         await new Promise(resolve => setTimeout(resolve, 1000))
 
-        const consensus = generateConsensusSummary(responses)
+        const consensus = result.summary || generateConsensusSummary(responses)
         const consensusMessage: ConversationMessage = {
           id: `consensus-${Date.now()}`,
           agentId: 'council',
@@ -322,7 +330,7 @@ export const MultiAgentConversation: React.FC<MultiAgentConversationProps> = ({
     } finally {
       setIsGenerating(false)
     }
-  }, [inputMessage, isGenerating, selectedAgents, availableAgents, conversationMode])
+  }, [inputMessage, isGenerating, selectedAgents, availableAgents, conversationMode, sessionId])
 
   const selectedAgentObjects = availableAgents.filter(agent => selectedAgents.includes(agent.id))
 
@@ -483,15 +491,18 @@ async function generateMultiAgentResponses(
   userMessage: string,
   agentIds: string[],
   availableAgents: PlanetaryAgent[],
-  mode: string
-): Promise<
-  Array<{
+  mode: string,
+  sessionId?: string
+): Promise<{
+  responses: Array<{
     agentId: string
     agentName: string
     content: string
     consensusWeight: number
   }>
-> {
+  summary?: string | undefined
+  sessionId?: string | undefined
+}> {
   try {
     const res = await fetch('/api/agents/council-chat', {
       method: 'POST',
@@ -501,12 +512,17 @@ async function generateMultiAgentResponses(
         agentIds,
         availableAgents,
         mode,
+        sessionId,
       }),
     })
     if (res.ok) {
       const data = await res.json()
       if (Array.isArray(data.responses) && data.responses.length > 0) {
-        return data.responses
+        return {
+          responses: data.responses,
+          summary: data.summary,
+          sessionId: data.sessionId || sessionId,
+        }
       }
     }
   } catch (err) {
@@ -515,12 +531,17 @@ async function generateMultiAgentResponses(
 
   // Resilient fallback if connection drops
   const selectedAgents = availableAgents.filter(agent => agentIds.includes(agent.id))
-  return selectedAgents.map(agent => ({
+  const turns = selectedAgents.map(agent => ({
     agentId: agent.id,
     agentName: agent.name,
     content: `From my ${agent.element} perspective as ${agent.name}: "${userMessage}" resonates through ${agent.planetaryRuler}'s celestial domain. The planetary currents flow with ${agent.activationStrength}% intensity.`,
     consensusWeight: agent.activationStrength / 100,
   }))
+
+  return {
+    responses: turns,
+    ...(sessionId ? { sessionId } : {}),
+  }
 }
 
 function generateConsensusSummary(

@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getServiceUrlSafe } from "@/lib/serviceUrls";
+import { NextResponse } from "next/server";
+import { planetaryAgentsGateway } from "@/lib/agents/planetaryAgentsGateway";
 import { createLogger } from "@/utils/logger";
+import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -10,65 +11,49 @@ const logger = createLogger("PlanetaryAgentChat");
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { userMessage, agent, context, initialContext } = body;
+    const { userMessage, agent, context, initialContext, sessionId, userId, culinaryContext } = body;
 
     const agentId = agent?.id || initialContext?.agentId || "planetary-sun-aries-0";
     const message = userMessage || "Greetings";
+    const effectiveSessionId = sessionId || context?.sessionId;
+    const effectiveUserId = userId || "demo-user";
+    const date = initialContext?.date || context?.date || body.date;
 
-    const paApi = getServiceUrlSafe("planetaryAgentsApi");
+    const effectiveCulinaryContext = culinaryContext || {
+      ingredients: body.ingredients || context?.ingredients,
+      dietPreference: body.dietPreference || context?.dietPreference,
+      cuisine: body.cuisine || context?.cuisine,
+      selectedRecipeId: body.selectedRecipeId || context?.selectedRecipeId,
+    };
 
-    let responseText = "";
-    let metadata: Record<string, unknown> = {};
-
-    try {
-      const paRes = await fetch(`${paApi}/api/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          agentId,
-          message,
-          sessionId: context?.sessionId || `wten-chat-${agentId}-${Date.now()}`,
-          context: {
-            element: agent?.element,
-            dignity: agent?.dignity,
-            planetaryRuler: agent?.planetaryRuler,
-            degree: initialContext?.degree ?? agent?.exactDegree,
-            sign: initialContext?.sign,
-          },
-        }),
-      });
-
-      if (paRes.ok) {
-        const data = await paRes.json();
-        responseText = data.text || "";
-        metadata = data.metadata || {};
-      } else {
-        logger.warn(`PA chat responded with ${paRes.status}, falling back to voiced response`);
-      }
-    } catch (fetchErr) {
-      logger.warn("PA backend unavailable for chat, using voiced alchemical response", fetchErr);
-    }
-
-    if (!responseText) {
-      const elementName = agent?.element || "Spirit";
-      const ruler = agent?.planetaryRuler || "Planetary Intelligence";
-      const dignity = agent?.dignity || "peregrine";
-      const strength = agent?.activationStrength ?? 85;
-
-      responseText = `As ${agent?.name || "Planetary Intelligence"} (${dignity} dignity, ${strength}% potency), I perceive the celestial currents of ${elementName} aligning with your inquiry: "${message}". In this sacred space, let us transmute these cosmic vectors into culinary wisdom.`;
-    }
+    const result = await planetaryAgentsGateway.chatWithAgent({
+      agentId,
+      userMessage: message,
+      sessionId: effectiveSessionId,
+      userId: effectiveUserId,
+      date,
+      agent: {
+        name: agent?.name,
+        element: agent?.element,
+        dignity: agent?.dignity,
+        planetaryRuler: agent?.planetaryRuler,
+        exactDegree: initialContext?.degree ?? agent?.exactDegree,
+        activationStrength: agent?.activationStrength,
+      },
+      culinaryContext: effectiveCulinaryContext,
+    });
 
     return NextResponse.json({
-      content: responseText,
-      astrologicalContext: metadata.astrologicalContext || {
-        currentPlanets: {
-          [agent?.planetaryRuler || "Sun"]: { sign: initialContext?.sign || "Aries" },
-        },
-        transitInfluence: `${agent?.element || "Cosmic"} resonance at exact degree ${initialContext?.degree ?? 0}°`,
-      },
-      newConsciousnessLevel: metadata.consciousnessLevel || context?.currentConsciousness || "Active",
-      evolutionGain: 0.05,
-      insights: (metadata.insights as string[]) || [`Understanding of ${agent?.element || "elemental"} energy patterns`],
+      content: result.content,
+      sessionId: result.sessionId,
+      agentId: result.agentId,
+      astrologicalContext: result.astrologicalContext,
+      metadata: result.metadata,
+      newConsciousnessLevel: result.newConsciousnessLevel,
+      evolutionGain: result.evolutionGain,
+      insights: result.insights,
+      isDormant: result.isDormant,
+      status: result.status,
     });
   } catch (error) {
     logger.error("Error in planetary agent chat:", error);

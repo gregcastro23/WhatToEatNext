@@ -13,6 +13,7 @@ interface LiveAgentItem {
   icon: string;
   strength: number;
   esmsBalance: number;
+  isHistorical?: boolean;
 }
 
 const PLANET_ICONS: Record<string, string> = {
@@ -26,6 +27,7 @@ const PLANET_ICONS: Record<string, string> = {
   Uranus: '♅',
   Neptune: '♆',
   Pluto: '♇',
+  Chiron: '🗝️',
 };
 
 const PLANET_ROLES: Record<string, string> = {
@@ -39,11 +41,49 @@ const PLANET_ROLES: Record<string, string> = {
   Uranus: 'Unconventional Pairings & Innovation',
   Neptune: 'Subtle Flavors & Dream Aromatics',
   Pluto: 'Deep Fermentation & Transformation',
+  Chiron: 'Culinary Healing & Restorative Broths',
 };
+
+const HISTORICAL_COUNCIL: LiveAgentItem[] = [
+  {
+    id: 'leonardo-da-vinci',
+    name: 'Leonardo da Vinci',
+    role: 'Tuscan Vegetarianism & Culinary Invention',
+    status: 'Perpetual',
+    element: 'Spirit',
+    icon: '⚜️',
+    strength: 100,
+    esmsBalance: 5000,
+    isHistorical: true,
+  },
+  {
+    id: 'socrates',
+    name: 'Socrates',
+    role: 'Socratic Dietetics & Moderation Philosophy',
+    status: 'Perpetual',
+    element: 'Air',
+    icon: '🏛️',
+    strength: 95,
+    esmsBalance: 4200,
+    isHistorical: true,
+  },
+  {
+    id: 'carl-jung',
+    name: 'Carl Jung',
+    role: 'Alchemical Archetypes & Deep Psychology',
+    status: 'Perpetual',
+    element: 'Water',
+    icon: '🔮',
+    strength: 94,
+    esmsBalance: 3800,
+    isHistorical: true,
+  },
+];
 
 export function AgentsPane() {
   const [agents, setAgents] = useState<LiveAgentItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUsingHistoricalCouncil, setIsUsingHistoricalCouncil] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -55,34 +95,39 @@ export function AgentsPane() {
         if (Array.isArray(rawActivations) && rawActivations.length > 0) {
           const mapped: LiveAgentItem[] = rawActivations.map((a: any, idx: number) => {
             const planet = a.planetaryRuler || a.agent?.name?.split(' ')[0] || 'Sun';
+            const strengthVal = Math.round((a.strength ?? a.activationStrength ?? 0.85) * 100);
+            const balance = a.esmsBalance ?? Math.round(1500 + ((strengthVal / 100) * 1000));
+
             return {
-              id: a.agent?.id || `agent-${idx}`,
-              name: a.agent?.name || `${planet} Degree Agent`,
-              role: PLANET_ROLES[planet] || `${planet} Degree Intelligence`,
+              id: a.agent?.id || a.id || `agent-${idx}`,
+              name: a.agent?.name || a.name || `${planet} Degree Agent`,
+              role: PLANET_ROLES[planet] || a.role || `${planet} Degree Intelligence`,
               status: 'Active',
               element: a.element || 'Fire',
               icon: PLANET_ICONS[planet] || '✨',
-              strength: Math.round((a.strength ?? 0.85) * 100),
-              esmsBalance: 1250 + ((idx * 375) % 1500),
+              strength: strengthVal,
+              esmsBalance: balance,
             };
           });
           setAgents(mapped);
+          setIsUsingHistoricalCouncil(false);
         } else {
-          // Fallback if network call returns empty
-          setAgents([
-            { id: 'sun', name: 'Sun in Libra 15°', role: PLANET_ROLES.Sun ?? 'Solar Transit Vitality', status: 'Active', element: 'Air', icon: '☀️', strength: 95, esmsBalance: 2500 },
-            { id: 'moon', name: 'Moon in Cancer 8°', role: PLANET_ROLES.Moon ?? 'Lunar Yield Harvesting', status: 'Active', element: 'Water', icon: '🌙', strength: 90, esmsBalance: 1850 },
-            { id: 'mercury', name: 'Mercury in Virgo 22°', role: PLANET_ROLES.Mercury ?? 'Recipe Intelligence', status: 'Active', element: 'Earth', icon: '☿️', strength: 92, esmsBalance: 2100 },
-          ]);
+          // If no transits are active or during synchronization, display historical council patrons
+          setAgents(HISTORICAL_COUNCIL);
+          setIsUsingHistoricalCouncil(true);
         }
       } catch (err) {
         console.error('Failed to load active planetary agents:', err);
+        if (mounted) {
+          setAgents(HISTORICAL_COUNCIL);
+          setIsUsingHistoricalCouncil(true);
+        }
       } finally {
         if (mounted) setIsLoading(false);
       }
     }
 
-    loadActiveAgents();
+    void loadActiveAgents();
     return () => {
       mounted = false;
     };
@@ -96,13 +141,16 @@ export function AgentsPane() {
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
             <span className="text-purple-400 text-2xl">⚡</span>
-            <h2 className="text-2xl font-black text-white uppercase tracking-tighter">Active Degree Agents Network</h2>
+            <h2 className="text-2xl font-black text-white uppercase tracking-tighter">
+              {isUsingHistoricalCouncil ? 'Perpetual Historical Council' : 'Active Degree Agents Network'}
+            </h2>
           </div>
           <p className="text-white/60 text-sm max-w-xl leading-relaxed mb-8">
-            Planetary degree agents activate exclusively when transiting planets enter their exact degrees.
-            All active agents hold live ESMS balances, review catalog recipes, and participate in community feeds.
+            {isUsingHistoricalCouncil
+              ? 'Our historical master alchemists stand perpetually active on alchm.kitchen, reviewing catalog recipes, offering dietary philosophies, and engaging in community discourse.'
+              : 'Planetary degree agents activate exclusively when transiting planets enter their exact celestial degrees. Active agents hold verified ESMS essence, review catalog recipes, and participate in community feeds.'}
           </p>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
             <a 
               href="https://agents.alchm.kitchen" 
               target="_blank" 
@@ -112,7 +160,7 @@ export function AgentsPane() {
               Launch Agents Dashboard
             </a>
             <button className="px-6 py-3 glass-base text-white/60 rounded-full font-black text-xs uppercase tracking-[0.2em] border border-white/8 hover:text-white transition-all">
-              Live Degree Monitor ({agents.length} Active)
+              {isUsingHistoricalCouncil ? 'Historical Council' : 'Live Degree Monitor'} ({agents.length} Active)
             </button>
           </div>
         </div>
@@ -134,7 +182,9 @@ export function AgentsPane() {
               <div className="flex justify-between items-start mb-4">
                 <div className="text-3xl">{agent.icon}</div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest bg-green-500/20 text-green-400">
+                  <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest ${
+                    agent.isHistorical ? 'bg-amber-500/20 text-amber-300' : 'bg-green-500/20 text-green-400'
+                  }`}>
                     {agent.status}
                   </span>
                   <span className="text-[9px] font-mono text-amber-300">
@@ -149,7 +199,9 @@ export function AgentsPane() {
                   <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
                   <span className="text-[9px] font-bold text-white/40 uppercase tracking-widest">{agent.element}</span>
                 </div>
-                <span className="text-[9px] font-semibold text-purple-300">{agent.strength}% Resonance</span>
+                <span className="text-[9px] font-semibold text-purple-300">
+                  {agent.isHistorical ? '100% Wisdom Potency' : `${agent.strength}% Resonance`}
+                </span>
               </div>
             </motion.div>
           ))}
@@ -167,12 +219,18 @@ export function AgentsPane() {
             </div>
             <div>
               <p className="text-xs text-white/80 font-medium">Kitchen-Agent SSO & Degree Synastry Active</p>
-              <p className="text-[9px] text-white/30 uppercase tracking-widest">Shared .alchm.kitchen session • Exact Planetary Degree Gate</p>
+              <p className="text-[9px] text-white/30 uppercase tracking-widest">
+                {isUsingHistoricalCouncil
+                  ? 'Historical Council Active • Catalog Recipe Reviewers'
+                  : 'Shared .alchm.kitchen session • Exact Planetary Degree Gate'}
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[10px] font-bold text-green-400 uppercase tracking-widest">Live Sync</span>
+            <span className="text-[10px] font-bold text-green-400 uppercase tracking-widest">
+              {isUsingHistoricalCouncil ? 'Perpetual Council' : 'Live Sync'}
+            </span>
           </div>
         </div>
       </div>
