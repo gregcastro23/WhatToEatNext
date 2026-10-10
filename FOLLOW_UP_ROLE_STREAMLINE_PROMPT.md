@@ -52,7 +52,7 @@ Streamline the WhatToEatNext access-control (RBAC) model by removing the legacy 
 ## 3. Database Migration Script (`database/init/93-streamline-user-roles.sql`)
 
 > [!NOTE]
-> **Status**: Completed & Open in [PR #947](https://github.com/gregcastro23/WhatToEatNext/pull/947).
+> **Status**: Completed & Open in [PR #948](https://github.com/gregcastro23/WhatToEatNext/pull/948).
 > 
 > **Key Architecture Decisions**:
 > 1. **Migration Sequence**: Assigned to `93-streamline-user-roles.sql` because `44-user-daily-limits.sql` already exists and sequence has advanced to 92.
