@@ -1,7 +1,7 @@
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import type { CraftedAgentProfile } from "./craftedAgentTypes";
 
-const AGENTS_BASE_URL = getServiceUrlSafe("planetaryAgentsApi");
+const AGENTS_BASE_URL = getServiceUrlSafe("agentsUi");
 
 export interface AgentInteraction {
   id: string;

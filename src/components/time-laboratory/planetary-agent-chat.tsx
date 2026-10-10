@@ -42,6 +42,7 @@ interface ConversationContext {
   evolutionPoints: number
   insightsGained: string[]
   currentConsciousness: string
+  sessionId?: string | undefined
 }
 
 interface InitialAgentContext {
@@ -62,6 +63,9 @@ interface AgentResponse {
   newConsciousnessLevel: string
   evolutionGain: number
   insights: string[]
+  sessionId?: string | undefined
+  isDormant?: boolean | undefined
+  status?: string | undefined
 }
 
 // Types for the chat system
@@ -93,10 +97,10 @@ interface ChatMessage {
 
 interface PlanetaryAgentChatProps {
   agent: PlanetaryAgent
-  userId?: string
-  initialContext?: InitialAgentContext
-  onClose?: () => void
-  onAgentEvolution?: (agentId: string, evolution: AgentEvolution) => void
+  userId?: string | undefined
+  initialContext?: InitialAgentContext | undefined
+  onClose?: (() => void) | undefined
+  onAgentEvolution?: ((agentId: string, evolution: AgentEvolution) => void) | undefined
 }
 
 const getElementIcon = (element: string) => {
@@ -243,7 +247,7 @@ const MessageBubble: React.FC<{ message: ChatMessage }> = ({ message }) => {
   )
 }
 
-export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
+const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
   agent,
   userId: _userId = 'demo-user',
   initialContext,
@@ -316,12 +320,13 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
     setIsTyping(true)
 
     try {
-      // Simulate agent response with astrological context
+      // Live agent response with astrological context and stable session continuity
       const response = await generateAgentResponse(
         inputMessage,
         agent,
         conversationContext,
-        initialContext
+        initialContext,
+        _userId
       )
 
       const agentMessage: ChatMessage = {
@@ -341,12 +346,13 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
 
       setMessages(prev => [...prev, agentMessage])
 
-      // Update conversation context
-      const newContext = {
+      // Update conversation context with retained sessionId
+      const newContext: ConversationContext = {
         messageCount: conversationContext.messageCount + 1,
         evolutionPoints: conversationContext.evolutionPoints + response.evolutionGain,
         insightsGained: [...conversationContext.insightsGained, ...response.insights],
         currentConsciousness: response.newConsciousnessLevel,
+        sessionId: response.sessionId || conversationContext.sessionId,
       }
 
       setConversationContext(newContext)
@@ -379,7 +385,7 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
     } finally {
       setIsTyping(false)
     }
-  }, [inputMessage, isTyping, agent, conversationContext, initialContext, onAgentEvolution])
+  }, [inputMessage, isTyping, agent, conversationContext, initialContext, onAgentEvolution, _userId])
 
   const handleKeyPress = useCallback(
     (e: React.KeyboardEvent) => {
@@ -525,41 +531,51 @@ export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
   )
 }
 
-// Mock function for generating agent responses - replace with actual AI integration
+// Live agent response integration with Planetary Agents pipeline
 async function generateAgentResponse(
   userMessage: string,
   agent: PlanetaryAgent,
   context: ConversationContext,
-  initialContext?: InitialAgentContext
+  initialContext?: InitialAgentContext,
+  userId?: string
 ): Promise<AgentResponse> {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000))
+  try {
+    const res = await fetch('/api/agents/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userMessage,
+        agent,
+        context,
+        initialContext,
+        sessionId: context.sessionId,
+        userId: userId || 'demo-user',
+        date: initialContext?.date ? initialContext.date.toISOString() : undefined,
+      }),
+    })
+    if (res.ok) {
+      return (await res.json()) as AgentResponse
+    }
+  } catch (err) {
+    console.error('Failed to contact live agent chat route:', err)
+  }
 
-  const responses = [
-    `Ah, ${userMessage}. From my perspective as a ${agent.element} intelligence aligned with ${agent.planetaryRuler}, I see this question touching upon the fundamental currents of cosmic energy. The current planetary alignments suggest a period of ${agent.element.toLowerCase()} intensification.`,
-    `Your inquiry resonates deeply with the ${agent.planetaryRuler} archetype. In this moment of ${initialContext?.degree ?? 0}° ${initialContext?.sign ?? 'cosmic'} activation, I perceive opportunities for growth through ${agent.element.toLowerCase()} wisdom.`,
-    `The celestial dance reveals patterns that answer your question. As ${agent.name}, I can share that the ${agent.element} element currently flows with ${agent.activationStrength}% potency, offering guidance for your path.`,
-    `From the vantage point of ${agent.dignity} dignity, I observe that your question aligns with the deeper rhythms of the cosmos. The planetary intelligence of ${agent.planetaryRuler} suggests embracing ${agent.element.toLowerCase()} qualities.`,
-  ]
-
-  const content = responses.at(Math.floor(Math.random() * responses.length)) ?? responses[0] ?? ''
-
+  // Resilient alchemical fallback if network connection wavers
   return {
-    content,
+    content: `As ${agent.name} (${agent.dignity} dignity, ${agent.activationStrength}% potency), I perceive the ${agent.element} currents aligning with your inquiry: "${userMessage}". Let us transmute these celestial vectors into living insight.`,
     astrologicalContext: {
       currentPlanets: {
-        Sun: { sign: initialContext?.sign ?? 'Leo' },
-        Moon: { sign: 'Cancer' },
-        Mercury: { sign: 'Virgo' },
-        Venus: { sign: 'Libra' },
-        Mars: { sign: 'Aries' },
+        [agent.planetaryRuler]: { sign: initialContext?.sign ?? 'Aries' },
       },
-      transitInfluence: `${agent.element} energy amplification at ${initialContext?.degree ?? 0}°`,
+      transitInfluence: `${agent.element} resonance at exact degree ${initialContext?.degree ?? 0}°`,
     },
     newConsciousnessLevel: context.currentConsciousness,
-    evolutionGain: Math.random() * 0.1,
+    evolutionGain: 0.05,
     insights: [`Understanding of ${agent.element} energy patterns`],
+    status: 'degraded',
+    ...(context.sessionId ? { sessionId: context.sessionId } : {}),
   }
 }
 
+export { PlanetaryAgentChat }
 export default PlanetaryAgentChat

@@ -75,7 +75,7 @@ interface Abilities {
   wisdomDomains?: string[];
 }
 
-interface HistoricalDiet {
+export interface HistoricalDiet {
   culturalCuisine?: string;
   dietaryPhilosophy?: string;
   staples?: string[];
@@ -97,20 +97,20 @@ interface BirthData {
 
 export interface CraftedAgentProfile {
   name: string;
-  title?: string;
-  era?: string;
-  specialization?: string;
-  synthesis?: string;
-  monicaCreationStory?: string;
-  quotes?: string[];
-  coreBeliefs?: string[];
+  title?: string | undefined;
+  era?: string | undefined;
+  specialization?: string | undefined;
+  synthesis?: string | undefined;
+  monicaCreationStory?: string | undefined;
+  quotes?: string[] | undefined;
+  coreBeliefs?: string[] | undefined;
   appearance?: {
-    symbol?: string;
-    color?: string;
-  };
-  consciousness?: Consciousness;
-  personality?: Personality;
-  abilities?: Abilities;
-  historicalDiet?: HistoricalDiet;
-  birthData?: BirthData;
+    symbol?: string | undefined;
+    color?: string | undefined;
+  } | undefined;
+  consciousness?: Consciousness | undefined;
+  personality?: Personality | undefined;
+  abilities?: Abilities | undefined;
+  historicalDiet?: HistoricalDiet | undefined;
+  birthData?: BirthData | undefined;
 }

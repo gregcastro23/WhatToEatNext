@@ -32,7 +32,7 @@ import { _logger } from "@/lib/logger";
 import { getCachedAgentRecipes, type CachedAgentRecipe } from "@/services/agentRecipePrewarm";
 
 /** Content event types that represent a historical agent's culinary activity. */
-const CONTENT_EVENT_TYPES = ["insight", "lab_entry", "recipe_generation", "made_it"];
+const CONTENT_EVENT_TYPES = ["insight", "lab_entry", "recipe_generation", "recipe_review", "made_it"];
 
 const ESMS_TAGS: EsmsTag[] = ["Spirit", "Essence", "Matter", "Substance"];
 const ELEMENTS: FeedElement[] = ["Fire", "Water", "Earth", "Air"];

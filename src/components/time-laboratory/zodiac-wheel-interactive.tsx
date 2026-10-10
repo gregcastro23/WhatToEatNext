@@ -529,11 +529,14 @@ export const ZodiacWheelInteractive: React.FC<ZodiacWheelInteractiveProps> = ({
               </div>
             ) : (
               <div className="text-center py-8">
-                <Star className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-purple-200 mb-2">Select a Degree</h3>
-                <p className="text-purple-400 text-sm">
-                  Click on any degree in the zodiac wheel to explore the planetary agent activated
-                  at that position.
+                <Star className="w-12 h-12 text-purple-400/40 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-purple-200 mb-2">
+                  {selectedDegree !== undefined ? `Degree ${selectedDegree}° is Dormant` : 'Select a Degree'}
+                </h3>
+                <p className="text-purple-400 text-sm max-w-xs mx-auto">
+                  {selectedDegree !== undefined
+                    ? 'No planet is currently transiting this exact degree. Degree agents activate only when their matching planet arrives.'
+                    : 'Click on any degree in the zodiac wheel to explore the active planetary agents.'}
                 </p>
               </div>
             )}
