@@ -69,7 +69,7 @@ async function main() {
 
         await executeQuery(`
           INSERT INTO users (email, password_hash, role, is_active, is_agent, profile, preferences, email_verified, login_count)
-          VALUES ($1, $2, 'ALCHEMIST', true, true, $3, $4, true, 0)
+          VALUES ($1, $2, 'USER', true, true, $3, $4, true, 0)
         `, [
           email,
           mockPasswordHash,
@@ -82,7 +82,7 @@ async function main() {
         // Update existing agent user
         await executeQuery(`
           UPDATE users 
-          SET profile = $1, preferences = $2, is_agent = true, role = 'ALCHEMIST', is_active = true
+          SET profile = $1, preferences = $2, is_agent = true, role = 'USER', is_active = true
           WHERE email = $3
         `, [
           JSON.stringify(userProfile),
