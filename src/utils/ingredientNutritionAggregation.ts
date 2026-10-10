@@ -10,7 +10,8 @@
 // A total is returned only when it accounts for the recipe: every resolved
 // ingredient can be weighed, and unresolved ingredients are a small, known
 // share of its mass (see `./nutritionCompleteness`). Otherwise it returns
-// `null` rather than a misleadingly partial total.
+// `null` rather than a misleadingly partial total. A frying fat counts only as
+// the fat the fried food absorbs (see `./fryingFat`).
 
 import type { Recipe } from "@/types/recipe";
 import {
@@ -18,6 +19,7 @@ import {
   readDailyValueFractions,
   scaleDailyValueFractions,
 } from "./dailyValueFractions";
+import { absorbedFatGrams, findFryingMedium, type FryingLine } from "./fryingFat";
 import { resolveIngredientByName } from "./ingredientResolution";
 import {
   foldCompleteOnly,
@@ -81,6 +83,8 @@ interface IngredientLike {
    * back to the water approximation, which is frequently wrong by several fold.
    */
   name?: string;
+  /** The catalog's filing ("oil" for oils, ghee and lard): how a frying fat is recognised. */
+  category?: string;
 }
 
 interface NutritionalMacros {
@@ -244,6 +248,8 @@ interface WeighedContribution {
   nutrition: NormalizedRecipeNutrition | null;
   /** The complete-only fields `nutrition` must state; all of them when omitted. */
   gapKeys?: readonly CompleteOnlyKey[];
+  /** The catalog ingredient, when the line resolved to one with a profile. */
+  found?: IngredientLike;
 }
 
 /**
@@ -274,8 +280,33 @@ function weighLine(ing: Recipe["ingredients"][number]): WeighedContribution {
     const massKnown = grams !== null && !isCountUnit(unit);
     return { line: { kind: "zero", grams }, nutrition: macrolessNutrition(found, grams, massKnown), gapKeys: MACROLESS_KEYS };
   }
-  if (grams === null) return { line: { kind: "unweighable" }, nutrition: null };
-  return { line: { kind: "counted", grams }, nutrition: computeIngredientNutrition(found, grams, "g") };
+  if (grams === null) return { line: { kind: "unweighable" }, nutrition: null, found };
+  return { line: { kind: "counted", grams }, nutrition: computeIngredientNutrition(found, grams, "g"), found };
+}
+
+type Ingredients = Recipe["ingredients"];
+
+/**
+ * Count a frying fat as the fat the food absorbs, not the bath it was fried
+ * in (see `./fryingFat`). The food fried is every other line of known mass.
+ */
+function absorbFryingFat(ingredients: Ingredients, weighed: WeighedContribution[], instructions: readonly string[]): void {
+  const lines: FryingLine[] = weighed.map((w, i) => ({
+    text: `${ingredients[i]?.name ?? ""} ${ingredients[i]?.notes ?? ""}`,
+    fat: w.found?.category === "oil",
+    grams: w.line.kind === "unweighable" ? null : w.line.grams,
+  }));
+  const medium = findFryingMedium(lines, instructions);
+  const fat = medium ? weighed[medium.index] : undefined;
+  if (!medium || !fat?.found) return;
+  const friedGrams = lines.reduce((sum, line, i) => (i === medium.index ? sum : sum + (line.grams ?? 0)), 0);
+  const listed = lines[medium.index]?.grams ?? null;
+  const absorbed = absorbedFatGrams(listed, friedGrams, medium.method);
+  weighed[medium.index] = {
+    line: { kind: "counted", grams: absorbed },
+    nutrition: absorbed > 0 ? computeIngredientNutrition(fat.found, absorbed, "g") : null,
+    found: fat.found,
+  };
 }
 
 /**
@@ -287,20 +318,17 @@ function weighLine(ing: Recipe["ingredients"][number]): WeighedContribution {
 export function computeRecipeNutritionFromIngredients(
   recipe: Pick<Recipe, "ingredients" | "numberOfServings"> & {
     servings?: number;
+    instructions?: readonly string[];
   },
 ): NormalizedRecipeNutrition | null {
-  const { ingredients } = recipe;
-  if (!Array.isArray(ingredients) || ingredients.length === 0) return null;
+  if (!Array.isArray(recipe.ingredients) || recipe.ingredients.length === 0) return null;
+  const ingredients = recipe.ingredients.filter((ing) => ing.name);
+  const weighed = ingredients.map(weighLine);
+  absorbFryingFat(ingredients, weighed, recipe.instructions ?? []);
 
   const total = emptyNutrition();
-  const lines: WeighedLine[] = [];
-  for (const ing of ingredients) {
-    if (!ing.name) continue;
-    const { line, nutrition, gapKeys } = weighLine(ing);
-    lines.push(line);
-    if (nutrition) addNutrition(total, nutrition, gapKeys);
-  }
-  if (!accountsForRecipe(lines)) return null;
+  for (const { nutrition, gapKeys } of weighed) if (nutrition) addNutrition(total, nutrition, gapKeys);
+  if (!accountsForRecipe(weighed.map(({ line }) => line))) return null;
 
   const servings = recipe.numberOfServings ?? recipe.servings ?? DEFAULT_RECIPE_SERVINGS;
   return scaleNutrition(total, 1 / Math.max(1, servings));
