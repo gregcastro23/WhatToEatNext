@@ -19,7 +19,7 @@ from .connection import Base
 # ==========================================
 
 # Modified user_role_enum
-user_role_enum = ENUM('ALCHEMIST', 'GRAND_MASTER', name='user_role', create_type=False) # create_type=False because we'll handle creation via migration
+user_role_enum = ENUM('USER', 'ADMIN', name='user_role', create_type=False) # create_type=False because we'll handle creation via migration (database/init/93)
 planet_type_enum = ENUM('Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', name='planet_type')
 zodiac_sign_enum = ENUM('Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces', name='zodiac_sign')
 lunar_phase_enum = ENUM('New Moon', 'Waxing Crescent', 'First Quarter', 'Waxing Gibbous', 'Full Moon', 'Waning Gibbous', 'Last Quarter', 'Waning Crescent', name='lunar_phase')
@@ -39,7 +39,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
     # Modified from 'roles' ARRAY(String) to 'role' ENUM
-    role: Mapped[str] = mapped_column(user_role_enum, nullable=False, server_default='ALCHEMIST')
+    role: Mapped[str] = mapped_column(user_role_enum, nullable=False, server_default='USER')
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     is_agent: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, server_default='false')
     email_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
