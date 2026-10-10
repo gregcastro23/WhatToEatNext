@@ -97,10 +97,10 @@ interface ChatMessage {
 
 interface PlanetaryAgentChatProps {
   agent: PlanetaryAgent
-  userId?: string
-  initialContext?: InitialAgentContext
-  onClose?: () => void
-  onAgentEvolution?: (agentId: string, evolution: AgentEvolution) => void
+  userId?: string | undefined
+  initialContext?: InitialAgentContext | undefined
+  onClose?: (() => void) | undefined
+  onAgentEvolution?: ((agentId: string, evolution: AgentEvolution) => void) | undefined
 }
 
 const getElementIcon = (element: string) => {
@@ -247,7 +247,7 @@ const MessageBubble: React.FC<{ message: ChatMessage }> = ({ message }) => {
   )
 }
 
-export const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
+const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
   agent,
   userId: _userId = 'demo-user',
   initialContext,
@@ -577,4 +577,5 @@ async function generateAgentResponse(
   }
 }
 
+export { PlanetaryAgentChat }
 export default PlanetaryAgentChat

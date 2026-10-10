@@ -4,6 +4,7 @@ import { _logger } from "@/lib/logger";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 
 export const PLANETARY_AGENTS_URL = getServiceUrlSafe("planetaryAgentsApi");
+export { planetaryAgentsGateway } from "@/lib/agents/planetaryAgentsGateway";
 
 export async function fetchAgentForDegree(degree: number, date?: Date) {
   if (typeof window === "undefined") {

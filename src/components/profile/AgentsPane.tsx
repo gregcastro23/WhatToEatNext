@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { fetchAgentsForDate } from '@/lib/planetaryAgentsClient';
 
@@ -174,36 +175,37 @@ export function AgentsPane() {
       ) : (
         <div className="grid md:grid-cols-3 gap-6">
           {agents.map((agent) => (
-            <motion.div 
-              key={agent.id}
-              whileHover={{ y: -4 }}
-              className="glass-card-premium rounded-2xl p-6 border-white/8 hover:border-purple-500/30 transition-all"
-            >
-              <div className="flex justify-between items-start mb-4">
-                <div className="text-3xl">{agent.icon}</div>
-                <div className="flex flex-col items-end gap-1">
-                  <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest ${
-                    agent.isHistorical ? 'bg-amber-500/20 text-amber-300' : 'bg-green-500/20 text-green-400'
-                  }`}>
-                    {agent.status}
-                  </span>
-                  <span className="text-[9px] font-mono text-amber-300">
-                    {agent.esmsBalance.toLocaleString()} ESMS
+            <Link key={agent.id} href={`/profile/${agent.id}`} className="block">
+              <motion.div 
+                whileHover={{ y: -4 }}
+                className="glass-card-premium rounded-2xl p-6 border-white/8 hover:border-purple-500/30 transition-all cursor-pointer h-full"
+              >
+                <div className="flex justify-between items-start mb-4">
+                  <div className="text-3xl">{agent.icon}</div>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest ${
+                      agent.isHistorical ? 'bg-amber-500/20 text-amber-300' : 'bg-green-500/20 text-green-400'
+                    }`}>
+                      {agent.status}
+                    </span>
+                    <span className="text-[9px] font-mono text-amber-300">
+                      {agent.esmsBalance.toLocaleString()} ESMS
+                    </span>
+                  </div>
+                </div>
+                <h3 className="text-white font-bold mb-1 text-sm">{agent.name}</h3>
+                <p className="text-white/50 text-[10px] uppercase tracking-wider mb-4">{agent.role}</p>
+                <div className="flex items-center justify-between pt-2 border-t border-white/5">
+                  <div className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                    <span className="text-[9px] font-bold text-white/40 uppercase tracking-widest">{agent.element}</span>
+                  </div>
+                  <span className="text-[9px] font-semibold text-purple-300">
+                    {agent.isHistorical ? '100% Wisdom Potency' : `${agent.strength}% Resonance`}
                   </span>
                 </div>
-              </div>
-              <h3 className="text-white font-bold mb-1 text-sm">{agent.name}</h3>
-              <p className="text-white/50 text-[10px] uppercase tracking-wider mb-4">{agent.role}</p>
-              <div className="flex items-center justify-between pt-2 border-t border-white/5">
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-                  <span className="text-[9px] font-bold text-white/40 uppercase tracking-widest">{agent.element}</span>
-                </div>
-                <span className="text-[9px] font-semibold text-purple-300">
-                  {agent.isHistorical ? '100% Wisdom Potency' : `${agent.strength}% Resonance`}
-                </span>
-              </div>
-            </motion.div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       )}

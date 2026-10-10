@@ -38,6 +38,7 @@ export const databaseConfig = {
   // Database connection
   databaseUrl:
     process.env.DATABASE_URL ??
+    process.env.DATABASE_PUBLIC_URL ??
     "postgresql://user:pass@localhost:5432/alchm_kitchen",
 
   // Individual connection parameters (fallback if DATABASE_URL not provided).

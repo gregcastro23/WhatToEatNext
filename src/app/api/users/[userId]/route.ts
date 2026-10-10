@@ -10,7 +10,7 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
-import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
+import type { CraftedAgentProfile, HistoricalDiet } from "@/lib/agents/craftedAgentTypes";
 import {
   agentSlugFromEmail,
   fetchAgentProfile,
@@ -172,7 +172,7 @@ export async function GET(
   try {
     const profileResult = await executeQuery<ProfileRow>(
       `SELECT u.id AS user_id, u.email, COALESCE(u.is_agent, false) AS is_agent,
-              up.name, up.bio, up.natal_chart, up.natal_positions,
+              COALESCE(up.name, u.name) AS name, up.bio, up.natal_chart, up.natal_positions,
               up.dominant_element, up.birth_data, up.dietary_preferences, up.profile_layout,
               COALESCE(up.avatar_url, u.image) AS avatar_url,
               up.share_identity,
@@ -180,6 +180,9 @@ export async function GET(
          FROM users u
          LEFT JOIN user_profiles up ON up.user_id = u.id
         WHERE ${lookupColumn}
+        ORDER BY (LOWER(u.email) LIKE '%@agentic.alchm.kitchen') DESC,
+                 (up.name IS NOT NULL) DESC,
+                 (up.dietary_preferences IS NOT NULL) DESC
         LIMIT 1`,
       [userId],
     );
@@ -350,7 +353,7 @@ export async function GET(
     const natalChart = parseJsonField<Record<string, unknown>>(row.natal_chart, {});
     const natalPositions = parseJsonField<unknown[]>(row.natal_positions, []);
     const birthData = parseJsonField<Record<string, unknown>>(row.birth_data, {});
-    const dietaryPreferences = parseJsonField<Record<string, unknown>>(row.dietary_preferences, {});
+    const dietaryPreferences = parseJsonField<HistoricalDiet>(row.dietary_preferences, {});
     const profileLayout = parseJsonField<unknown[]>(row.profile_layout, ["natalChart", "alchemicalConstitution", "tasteGraph", "dietaryPrefs", "insightsTicker", "tokenEconomy", "recentActivity"]);
 
     // For agent users, pull the rich CraftedAgent profile, interactions,
@@ -374,6 +377,36 @@ export async function GET(
       if (interactionsRes.status === "fulfilled") agentInteractions = interactionsRes.value;
       if (actionsRes.status === "fulfilled") agentActions = actionsRes.value;
       if (artifactsRes.status === "fulfilled") agentArtifacts = artifactsRes.value;
+
+      if (!agentProfile && row.is_agent) {
+        const diet = dietaryPreferences && Object.keys(dietaryPreferences).length > 0
+          ? dietaryPreferences
+          : undefined;
+        agentProfile = {
+          name: row.name ?? (slug ? slug.split("-").map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)).join(" ") : "Historical Agent"),
+          title: (row.bio?.includes("(") ? row.bio.split("(")[0]?.trim() : row.bio) || "Historical Alchemist",
+          era: (row.bio?.includes("(") ? row.bio.match(/\(([^)]+)\)/)?.[1] : "Historical Era") || "Historical Master",
+          appearance: {
+            color: row.dominant_element === "Fire" ? "#ef4444" : row.dominant_element === "Water" ? "#3b82f6" : row.dominant_element === "Air" ? "#10b981" : "#a855f7",
+            symbol: "⚗️",
+          },
+          consciousness: {
+            dominantElement: (row.dominant_element as any) || "Fire",
+            level: "Master",
+            natalChart: natalChart as any,
+          },
+          historicalDiet: diet,
+          personality: {
+            core: {
+              essence: row.bio || "Perpetual seeker of alchemical wisdom",
+              expression: "Living culinary and philosophical mastery",
+              emotion: "Serene contemplation",
+            },
+          },
+        };
+      } else if (agentProfile && !agentProfile.historicalDiet && dietaryPreferences && Object.keys(dietaryPreferences).length > 0) {
+        agentProfile.historicalDiet = dietaryPreferences;
+      }
     }
 
     return NextResponse.json({

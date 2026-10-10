@@ -117,6 +117,31 @@ export function narrateFeedEvent(
       };
     }
 
+    case "recipe_review": {
+      const recipeName =
+        getString(metadata, "recipeName") ??
+        getString(metadata, "title") ??
+        getString(metadata, "dishName");
+      const recipeId =
+        getString(metadata, "recipeId") ?? getString(metadata, "recipe_id");
+      const rating = getNumber(metadata, "rating");
+      const reviewText =
+        getString(metadata, "review") ??
+        getString(metadata, "comment") ??
+        getString(metadata, "reflection");
+      const ratingStr = rating ? ` (${rating}★)` : "";
+      const reviewExcerpt = reviewText ? `: "${truncate(reviewText, 80)}"` : ".";
+      const href = recipeId ? `/recipes/${recipeId}` : undefined;
+      return {
+        icon: "📜",
+        action: recipeName
+          ? `critiqued ${recipeName}${ratingStr} and shared an alchemical tip${reviewExcerpt}`
+          : `shared an alchemical recipe critique${reviewExcerpt}`,
+        label: recipeName ? `Critique: ${recipeName}` : "Recipe critique",
+        href,
+      };
+    }
+
     case "insight": {
       const title = getString(metadata, "insightTitle");
       return {
