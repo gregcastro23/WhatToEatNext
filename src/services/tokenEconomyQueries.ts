@@ -734,6 +734,31 @@ export function transactionCountSql(userId: string): BuiltQuery {
   };
 }
 
+/**
+ * What an ESMS → Pentacles conversion debited, per axis. sync-debit writes one
+ * `<key>:<TokenType>` row per axis under the key `pentacle_conv:<quoteId>`, and
+ * a `pentacle_conversion_refund` may return at most these amounts
+ * (`src/lib/economy/pentacleRefundGuard.ts`). The keys are matched exactly,
+ * not with LIKE: `_` is a LIKE wildcard and the quote id comes from the caller.
+ */
+export function pentacleConversionDebitsSql(opts: {
+  userId: string;
+  quoteId: string;
+}): BuiltQuery {
+  const p = new QueryParams();
+  const user = p.add(opts.userId);
+  const keys = p.add(TOKEN_TYPES.map((t) => `pentacle_conv:${opts.quoteId}:${t}`));
+  return {
+    sql: `SELECT token_type, (-SUM(amount))::text AS debited
+            FROM token_transactions
+           WHERE user_id = ${user}
+             AND idempotency_key = ANY(${keys}::text[])
+             AND amount < 0
+           GROUP BY token_type`,
+    values: p.values,
+  };
+}
+
 /** The purchasable item behind a slug. Filters `is_active` because an inactive
  *  item must not be buyable — distinct from `shopItemDetailSql`, which reads an
  *  item for display regardless of its active state. */

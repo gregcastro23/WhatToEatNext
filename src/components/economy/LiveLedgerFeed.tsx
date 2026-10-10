@@ -38,6 +38,8 @@ const SOURCE_LABELS: Record<string, string> = {
   admin: 'Admin Grant',
   transit_attunement: 'Sky Drop',
   duel_yield: 'Jing Arena',
+  pentacle_conversion: 'Pentacles Conversion',
+  pentacle_conversion_refund: 'Pentacles Refund',
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────
