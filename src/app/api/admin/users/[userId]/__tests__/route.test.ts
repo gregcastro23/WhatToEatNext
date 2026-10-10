@@ -182,4 +182,33 @@ describe("PATCH /api/admin/users/[userId]", () => {
     expect(data.success).toBe(true);
     expect(mockUpdateUserRole).toHaveBeenCalledWith(TARGET_ID, "admin");
   });
+
+  // RBAC is strictly USER / ADMIN: the retired labels are no longer in the
+  // users.role enum (database/init/93), so letting one through would turn an
+  // operator's click into a 500 from the ::user_role cast.
+  it.each(["ALCHEMIST", "GRAND_MASTER", "alchemist", "grand_master"])(
+    "400s on retired role %s and never writes it",
+    async (retired) => {
+      mockGetUserById.mockResolvedValueOnce(makeTargetUser());
+
+      const res = await PATCH(makePatchRequest(TARGET_ID, { role: retired }), {
+        params: Promise.resolve({ userId: TARGET_ID }),
+      });
+      expect(res.status).toBe(400);
+      const data = await res.json();
+      expect(data.message).toBe("Invalid role. Allowed: USER, ADMIN");
+      expect(mockUpdateUserRole).not.toHaveBeenCalled();
+    },
+  );
+
+  it("200s when setting a regular user's role to USER", async () => {
+    mockGetUserById.mockResolvedValueOnce(makeTargetUser());
+    mockUpdateUserRole.mockResolvedValueOnce(true);
+
+    const res = await PATCH(makePatchRequest(TARGET_ID, { role: "user" }), {
+      params: Promise.resolve({ userId: TARGET_ID }),
+    });
+    expect(res.status).toBe(200);
+    expect(mockUpdateUserRole).toHaveBeenCalledWith(TARGET_ID, "user");
+  });
 });

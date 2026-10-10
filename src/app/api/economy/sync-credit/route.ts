@@ -122,7 +122,7 @@ async function handlePost(req: NextRequest) {
       // Auto-provision agentic user (non-yield sources only)
       userResult = await executeQuery<{ id: string }>(
         `INSERT INTO users (email, password_hash, role, is_active, email_verified, is_agent, profile, preferences, login_count, created_at, updated_at)
-         VALUES ($1, 'AGENT_NO_LOGIN', 'ALCHEMIST'::user_role, true, true, true, $2, '{}'::jsonb, 0, now(), now())
+         VALUES ($1, 'AGENT_NO_LOGIN', 'USER'::user_role, true, true, true, $2, '{}'::jsonb, 0, now(), now())
          ON CONFLICT (email) DO UPDATE SET is_agent = true
          RETURNING id`,
         [userEmail.toLowerCase(), JSON.stringify({ email: userEmail, isAgent: true })]

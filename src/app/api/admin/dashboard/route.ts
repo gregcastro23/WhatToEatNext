@@ -520,7 +520,7 @@ export async function GET(request: NextRequest) {
         role: "ARCHITECT",
         badge: `ALCH-${(adminDbUser?.id ?? "").slice(0, 6).toUpperCase() || "0001"}`,
         initial: (adminName[0] || "A").toUpperCase(),
-        tier: authResult.user.roles.includes("admin") ? "ROOT" : "ALCHEMIST",
+        tier: authResult.user.roles.includes("admin") ? "ROOT" : "USER",
         joined: adminJoined,
         location: adminLocation,
         onCall: true,

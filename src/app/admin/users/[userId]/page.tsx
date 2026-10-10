@@ -12,8 +12,9 @@ import {
 } from "@/lib/validation/adminUserResponseSchemas";
 import GrantTokensModal from "../_components/GrantTokensModal";
 
-// users.role enum labels accepted by PATCH /api/admin/users/[userId].
-const ROLE_OPTIONS = ["USER", "ADMIN", "ALCHEMIST", "GRAND_MASTER"] as const;
+// users.role enum labels accepted by PATCH /api/admin/users/[userId]. RBAC is
+// strictly USER / ADMIN; agents are USER with is_agent = true.
+const ROLE_OPTIONS = ["USER", "ADMIN"] as const;
 
 type Status = "success" | "failure" | "info";
 type Category =
