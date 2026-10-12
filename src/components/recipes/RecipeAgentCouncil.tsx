@@ -1,12 +1,12 @@
-import { z } from "zod";
-import { readJson } from "@/lib/api/json";
-import { _logger } from "@/lib/logger";
 "use client";
 
 import { ArrowRight, Check, Loader2, Sparkles } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
+import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
+import { readJson } from "@/lib/api/json";
+import { _logger } from "@/lib/logger";
 import type { CommunityTip } from "@/lib/validation/socialResponseSchemas";
 
 interface HistoricalCouncilAgent {
