@@ -19,8 +19,11 @@ import type {
 } from "@/types/natalChart";
 import type { CompanionSuggestion } from "@/types/apiResponses";
 
-/** One row of the route's `users ⟕ user_profiles` query. */
-export interface AgentDbRow {
+/**
+ * One row of the route's `users ⟕ user_profiles` query. A type alias rather than
+ * an interface so it is assignable to pg's `QueryResultRow` index signature.
+ */
+export type AgentDbRow = {
   user_id: string;
   email: string;
   profile: unknown;
@@ -30,7 +33,7 @@ export interface AgentDbRow {
   monica_constant: string | null;
   birth_data: unknown;
   natal_chart: unknown;
-}
+};
 
 const NO_BIO = "Planetary sage guiding alchemical balance.";
 

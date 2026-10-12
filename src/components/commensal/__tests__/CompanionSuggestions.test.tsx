@@ -138,7 +138,9 @@ describe("one bad row among good ones", () => {
 
     const invites = screen.getAllByRole("button", { name: "Invite to Table" });
     expect(invites).toHaveLength(2);
-    fireEvent.click(invites[0] as HTMLElement);
+    const [first] = invites;
+    if (first === undefined) throw new Error("expected an invite button");
+    fireEvent.click(first);
     expect(onInvite).toHaveBeenCalledTimes(1);
     expect(onInvite).toHaveBeenCalledWith(freud.userId, freud.name, freud.birthData, null);
   });

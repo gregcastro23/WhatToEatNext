@@ -47,6 +47,7 @@ jest.mock("@/services/commensalDatabaseService", () => ({
 }));
 
 import { NextRequest } from "next/server";
+import type { QueryResult, QueryResultRow } from "pg";
 import { executeQuery } from "@/lib/database";
 import { fetchAgentsForDate } from "@/lib/planetaryAgentsClient";
 import { isCompanionsResponse, isCompanionSuggestion } from "@/types/apiResponses";
@@ -118,9 +119,14 @@ const FEED = [
   { actor_id: placeholderAgentRow().user_id, last_action_at: "2026-10-11T09:00:00.000Z" },
 ];
 
+/** A complete pg result, so the mock needs no cast to stand in for `executeQuery`. */
+function resultOf(rows: QueryResultRow[]): QueryResult {
+  return { rows, command: "SELECT", rowCount: rows.length, oid: 0, fields: [] };
+}
+
 function serve(rows: AgentDbRow[], feed = FEED): void {
   jest.mocked(executeQuery).mockImplementation((query: string) =>
-    Promise.resolve(query.includes("feed_events") ? { rows: feed } : { rows }),
+    Promise.resolve(resultOf(query.includes("feed_events") ? feed : rows)),
   );
 }
 
