@@ -251,10 +251,16 @@ export async function GET(_req: NextRequest): Promise<NextResponse> {
   const activeAgents = activations
     .map((act: PlanetaryActivation) => {
       const actAgentId = String(act.id ?? act.agent?.id ?? "").toLowerCase();
-      // Match by email slug (prefix before @)
-      const matchedLocal = hydratedAgents.find(
-        (agent) => localPart(agent.email).toLowerCase() === actAgentId,
-      );
+      const strippedActId = actAgentId.replace(/^planetary-/, "");
+      // Match by email slug (prefix before @), tolerating planetary- prefix
+      const matchedLocal = hydratedAgents.find((agent) => {
+        const localSlug = localPart(agent.email).toLowerCase();
+        return (
+          localSlug === actAgentId ||
+          localSlug === strippedActId ||
+          localSlug.replace(/^planetary-/, "") === strippedActId
+        );
+      });
 
       if (!matchedLocal) return null;
 
