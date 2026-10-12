@@ -38,15 +38,18 @@ jobs:
           # identical and both signals independent (fail-fast is false).
           - name: Verify
             command: bun run verify:static
+            fetch-depth: 0
           - name: Build
             command: bun run build
+            fetch-depth: 1
           - name: Test
             command: bun run test --passWithNoTests
+            fetch-depth: 1
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
-          fetch-depth: ${{ matrix.name == 'Verify' && 0 || 1 }}
+          fetch-depth: ${{ matrix.fetch-depth }}
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
       - name: Setup Bun
