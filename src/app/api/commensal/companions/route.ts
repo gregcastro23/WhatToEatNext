@@ -14,7 +14,13 @@ import { _logger } from "@/lib/logger";
 import { fetchAgentsForDate } from "@/lib/planetaryAgentsClient";
 import { rateLimit } from "@/lib/rateLimit";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
-import type { BirthData, NatalChart } from "@/types/natalChart";
+import { isNatalChart, type CompanionSuggestion } from "@/types/apiResponses";
+import { isElementType, type ElementType } from "@/types/constants";
+import type { NatalChart } from "@/types/natalChart";
+import {
+  readFirstStoredBirth,
+  type StoredBirth,
+} from "@/utils/astrology/storedBirthData";
 import { safeJsonParse } from "@/utils/typeGuards";
 
 /** The local part of an email — everything before the first "@". */
@@ -38,29 +44,12 @@ interface LocalAgentRow {
   natal_chart: unknown;
 }
 
-interface CompanionView {
-  userId: string;
-  email: string;
-  name: string;
-  bio: string;
-  dominantElement: string;
-  monicaConstant: number | null;
-  /**
-   * Either a real `BirthData` (the saved-companion path, which comes back
-   * already typed from `commensalDatabase`) or `user_profiles.birth_data`
-   * parsed straight out of Postgres and NOT shape-checked here.
-   *
-   * The raw branch cannot be narrowed to `BirthData` at this layer: the column
-   * is `JSONB DEFAULT '{}'` (`database/init/12-fix-schema-health.sql:82`), and
-   * `{}` is truthy, so it survives the `!birthData` guard in `hydrateAgentRow`
-   * and reaches the response with none of `dateTime`/`latitude`/`longitude`.
-   * The shape is enforced where a failure is recoverable — client-side, by
-   * `isCompanionsResponse` in `@/types/apiResponses`.
-   */
-  birthData: BirthData | Record<string, unknown>;
-  /** Same provenance split as {@link CompanionView.birthData}; `natal_chart` is `JSONB DEFAULT '{}'` too. */
-  natalChart: NatalChart | Record<string, unknown> | null;
-}
+/**
+ * The wire row itself, so the route cannot drift from the contract the client
+ * enforces. `birthData` is `null` for an agent with no birth record we can stand
+ * behind (see `readStoredBirthData`); it is never the column's `{}` default.
+ */
+type CompanionView = CompanionSuggestion;
 
 // `fetchAgentsForDate` (in @/lib/planetaryAgentsClient) has an inferred
 // `Promise<any>` return type (it proxies an external API's JSON response),
@@ -105,39 +94,66 @@ function errorSummary(error: unknown): string {
   return "unavailable";
 }
 
-function extractBirthData(row: LocalAgentRow, profile: Record<string, unknown>): Record<string, unknown> | null {
-  const chartFromProfile = parseObject(profile.natalChart) ?? parseObject(profile.natal_chart);
-  return (
-    parseObject(row.birth_data) ??
-    parseObject(profile.birthData) ??
-    parseObject(profile.birth_data) ??
-    (chartFromProfile?.birthData ? parseObject(chartFromProfile.birthData) : null)
-  );
+/**
+ * Every place an agent's birth record may live, in precedence order. Each is
+ * read in turn by `readFirstStoredBirth`, so an empty `{}` in the first cannot
+ * hide a real record in a later one.
+ */
+function birthCandidates(
+  row: LocalAgentRow,
+  profile: Record<string, unknown>,
+): unknown[] {
+  const chartFromProfile =
+    parseObject(profile.natalChart) ?? parseObject(profile.natal_chart);
+  return [
+    parseObject(row.birth_data),
+    parseObject(profile.birthData),
+    parseObject(profile.birth_data),
+    parseObject(chartFromProfile?.birthData),
+  ];
 }
 
-function extractNatalChart(row: LocalAgentRow, profile: Record<string, unknown>): Record<string, unknown> | null {
-  return (
-    parseObject(row.natal_chart) ??
-    parseObject(profile.natalChart) ??
-    parseObject(profile.natal_chart)
-  );
+/** The first stored chart that satisfies the contract; the legacy shapes do not, and are not guessed at. */
+function firstUsableChart(
+  row: LocalAgentRow,
+  profile: Record<string, unknown>,
+): NatalChart | null {
+  const candidates = [
+    parseObject(row.natal_chart),
+    parseObject(profile.natalChart),
+    parseObject(profile.natal_chart),
+  ];
+  for (const candidate of candidates) {
+    if (isNatalChart(candidate)) return candidate;
+  }
+  return null;
 }
 
-function hydrateAgentRow(row: LocalAgentRow): CompanionView | null {
-  const profile = parseObject(row.profile) ?? {};
-  const birthData = extractBirthData(row, profile);
-  const natalChart = extractNatalChart(row, profile);
+function asElement(value: unknown): ElementType | null {
+  return typeof value === "string" && isElementType(value) ? value : null;
+}
+
+/** The stored element if it is one of the four; otherwise the chart's. Never a default. */
+function readElement(
+  row: LocalAgentRow,
+  chart: NatalChart | null,
+): ElementType | null {
+  return asElement(row.dominant_element) ?? chart?.dominantElement ?? null;
+}
+
+function hydrateAgentRow(
+  row: LocalAgentRow,
+  profile: Record<string, unknown>,
+  birth: StoredBirth,
+): CompanionView | null {
   const email = typeof row.email === "string" ? row.email : "";
+  if (!email) return null;
 
-  if (!email || !birthData) return null;
-
-  const chartObj = parseObject(natalChart);
-  const dominantElement =
-    typeof row.dominant_element === "string" && row.dominant_element
-      ? row.dominant_element
-      : typeof chartObj?.dominantElement === "string"
-        ? chartObj.dominantElement
-        : "Fire";
+  // No birth, no chart: a chart stored beside a birth we cannot stand behind
+  // describes a different moment than the one we would show.
+  const birthData = birth.kind === "birth" ? birth.birthData : null;
+  const natalChart =
+    birthData === null ? null : firstUsableChart(row, profile);
 
   return {
     userId: row.user_id,
@@ -147,13 +163,34 @@ function hydrateAgentRow(row: LocalAgentRow): CompanionView | null {
       row.bio ??
       (typeof profile.bio === "string" ? profile.bio : undefined) ??
       "Planetary sage guiding alchemical balance.",
-    dominantElement,
+    dominantElement: readElement(row, natalChart),
     monicaConstant: row.monica_constant
       ? parseFloat(row.monica_constant)
       : null,
     birthData,
-    natalChart: natalChart ?? null,
+    natalChart,
   };
+}
+
+/**
+ * Hydrate the roster, counting the rows whose stored birth record is present
+ * but cannot be read — the one class worth an operator's attention. An empty
+ * record, a placeholder and an unsupported year are expected and are not counted.
+ */
+function hydrateAgents(rows: readonly LocalAgentRow[]): {
+  agents: CompanionView[];
+  unreadable: number;
+} {
+  const agents: CompanionView[] = [];
+  let unreadable = 0;
+  for (const row of rows) {
+    const profile = parseObject(row.profile) ?? {};
+    const birth = readFirstStoredBirth(birthCandidates(row, profile));
+    if (birth.kind === "none" && birth.reason === "unreadable") unreadable += 1;
+    const agent = hydrateAgentRow(row, profile, birth);
+    if (agent !== null) agents.push(agent);
+  }
+  return { agents, unreadable };
 }
 
 // Unauthenticated and fans out to the external PA API — moderate per-IP cap.
@@ -211,10 +248,14 @@ export async function GET(_req: NextRequest): Promise<NextResponse> {
       }),
   ]);
 
-  // Parse and normalize birth data + charts with defensive fallback structures.
-  const hydratedAgents = localAgents
-    .map(hydrateAgentRow)
-    .filter((agent): agent is CompanionView => agent !== null);
+  // Read each agent's stored birth record for what it can honestly carry.
+  const { agents: hydratedAgents, unreadable } = hydrateAgents(localAgents);
+  if (unreadable > 0) {
+    _logger.error(
+      "[companions] Agent rows whose stored birth data cannot be read (listed without a chart):",
+      unreadable,
+    );
+  }
 
   // Historical activity is optional. If it is unavailable, the roster and
   // saved companions remain fully usable.
@@ -264,12 +305,19 @@ export async function GET(_req: NextRequest): Promise<NextResponse> {
 
       if (!matchedLocal) return null;
 
+      // The gateway names the element of THIS activation. A degree agent's row
+      // stores none, and the old "Fire" default contradicted the gateway (Mercury
+      // in Scorpio listed as Fire), so the stored value wins only when present.
+      const activationElement =
+        asElement(act.element) ?? matchedLocal.dominantElement;
+
       return {
         ...matchedLocal,
+        dominantElement: matchedLocal.dominantElement ?? activationElement,
         activation: {
           strength: typeof act.strength === "number" ? act.strength : 1.0,
           dignity: act.dignity ?? "peregrine",
-          element: act.element ?? matchedLocal.dominantElement,
+          element: activationElement,
           planetaryRuler: act.planetaryRuler ?? "Sun",
           description: act.description ?? act.agent?.description ?? matchedLocal.bio,
         },
@@ -290,10 +338,12 @@ export async function GET(_req: NextRequest): Promise<NextResponse> {
       return timeB - timeA;
     });
 
-  // Category 3: Cosmic Agent Roster (All synchronized charts)
-  const cosmicRoster = [...hydratedAgents].sort((a, b) =>
-    a.name.localeCompare(b.name),
-  );
+  // Category 3: Cosmic Agent Roster (synchronized charts). An agent with no
+  // birth data has no chart to seat at a table — ~2,800 degree and moon-phase
+  // agents among them — so it is not on the roster.
+  const cosmicRoster = hydratedAgents
+    .filter((a) => a.birthData !== null)
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   // Custom and linked companions are also optional. Auth or persistence issues
   // should never hide the manual Add Commensal workflow.

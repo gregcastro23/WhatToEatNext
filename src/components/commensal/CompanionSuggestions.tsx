@@ -12,8 +12,13 @@ import {
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { _logger } from "@/lib/logger";
-import { isCompanionsResponse } from "@/types";
-import type { BirthData, CompanionSuggestion, NatalChart } from "@/types";
+import { parseCompanionsResponse } from "@/types";
+import type {
+  BirthData,
+  CompanionSuggestion,
+  NatalChart,
+  ParsedCompanionsResponse,
+} from "@/types";
 
 interface CompanionSuggestionsProps {
   onInvite: (
@@ -50,6 +55,107 @@ const ELEMENT_GLOW: Record<string, string> = {
   Earth: "shadow-[0_0_15px_-3px_rgba(34,197,94,0.15)]",
 };
 
+const NEUTRAL_BORDER = "border-white/10 hover:border-white/20";
+
+/** An unknown element gets a neutral card, not a guessed one. */
+function elementStyle(element: CompanionSuggestion["dominantElement"]): {
+  border: string;
+  glow: string;
+  icon: React.ReactNode;
+  label: string;
+} {
+  const unknown = <Sparkles className="w-3 h-3 text-purple-300" />;
+  if (element === null) {
+    return { border: NEUTRAL_BORDER, glow: "", icon: unknown, label: "Element unknown" };
+  }
+  return {
+    border: ELEMENT_BORDER[element] ?? NEUTRAL_BORDER,
+    glow: ELEMENT_GLOW[element] ?? "",
+    icon: ELEMENT_ICON[element] ?? unknown,
+    label: element,
+  };
+}
+
+/**
+ * Row by row: one malformed companion must not blank the panel. Only a broken
+ * envelope (not an object, a list that is not a list) is a contract failure.
+ */
+function readCompanions(rawData: unknown): ParsedCompanionsResponse {
+  const parsed = parseCompanionsResponse(rawData);
+  if (parsed === null) {
+    throw new Error("Companion response did not match the expected contract");
+  }
+  if (parsed.dropped > 0) {
+    _logger.error("Companions dropped for malformed chart data", parsed.dropped);
+  }
+  return parsed;
+}
+
+const BUTTON_BASE = "w-full py-1.5 rounded-lg text-xs font-bold transition-all";
+const BUTTON_MUTED =
+  "bg-white/5 border border-white/10 text-purple-100/40 cursor-not-allowed";
+
+function inviteState(
+  hasChart: boolean,
+  invited: boolean,
+  tableFull: boolean,
+): { label: string; title: string | null; className: string } {
+  if (!hasChart) {
+    return {
+      label: "No natal chart",
+      title:
+        "No birth chart is on file for this agent, so it cannot be seated at a table.",
+      className: BUTTON_MUTED,
+    };
+  }
+  if (invited) {
+    return {
+      label: "Invited to Table",
+      title: null,
+      className:
+        "bg-green-500/10 text-green-300 border border-green-500/20 cursor-default",
+    };
+  }
+  return {
+    label: "Invite to Table",
+    title: tableFull ? "A table seats twelve." : null,
+    className: tableFull
+      ? BUTTON_MUTED
+      : "bg-white/5 hover:bg-white/10 border border-white/10 text-purple-100 hover:text-white",
+  };
+}
+
+interface InviteButtonProps {
+  agent: CompanionSuggestion;
+  invited: boolean;
+  tableFull: boolean;
+  onInvite: CompanionSuggestionsProps["onInvite"];
+}
+
+/** An agent with no birth data cannot be seated: there is no chart to seat. */
+function InviteButton({
+  agent,
+  invited,
+  tableFull,
+  onInvite,
+}: InviteButtonProps): React.ReactElement {
+  const { birthData } = agent;
+  const state = inviteState(birthData !== null, invited, tableFull);
+  return (
+    <button
+      onClick={() => {
+        if (birthData === null) return;
+        onInvite(agent.userId, agent.name, birthData, agent.natalChart);
+      }}
+      disabled={birthData === null || invited || tableFull}
+      title={state.title ?? undefined}
+      className={`${BUTTON_BASE} ${state.className}`}
+    >
+      {state.label}
+    </button>
+  );
+}
+
 export function CompanionSuggestions({
   onInvite,
   activeGuests,
@@ -67,6 +173,7 @@ export function CompanionSuggestions({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [degraded, setDegraded] = useState(false);
+  const [dropped, setDropped] = useState(0);
   const [activeTab, setActiveTab] = useState<
     "moment" | "feed" | "roster" | "saved"
   >("moment");
@@ -79,18 +186,15 @@ export function CompanionSuggestions({
         setLoading(true);
         setError(null);
         setDegraded(false);
+        setDropped(0);
         const res = await fetch("/api/commensal/companions", {
           signal: controller.signal,
         });
         const rawData: unknown = await res
           .json()
           .catch(() => ({ success: false }));
-        if (!isCompanionsResponse(rawData)) {
-          throw new Error(
-            "Companion response did not match the expected contract",
-          );
-        }
-        const data = rawData;
+        const parsed = readCompanions(rawData);
+        const data = parsed.response;
         if (!res.ok) {
           throw new Error(
             data.success
@@ -105,6 +209,7 @@ export function CompanionSuggestions({
           setCosmicRoster(data.cosmicRoster);
           setSavedCompanions(data.savedCompanions);
           setDegraded(data.degraded === true);
+          setDropped(parsed.dropped);
 
           if (data.savedCompanions.length > 0) {
             setActiveTab("saved");
@@ -153,6 +258,14 @@ export function CompanionSuggestions({
         <div className="px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-400/20 text-[11px] text-amber-100">
           Some companion sources are temporarily unavailable. You can still add
           saved or manual charts and build the dinner party.
+        </div>
+      )}
+
+      {dropped > 0 && !error && (
+        <div className="px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-400/20 text-[11px] text-amber-100">
+          {dropped === 1
+            ? "1 companion couldn't be shown — its chart data was unreadable."
+            : `${dropped} companions couldn't be shown — their chart data was unreadable.`}
         </div>
       )}
 
@@ -238,15 +351,12 @@ export function CompanionSuggestions({
                 g.id === agent.userId ||
                 g.name.toLowerCase() === agent.name.toLowerCase(),
             );
-            const borderClass =
-              ELEMENT_BORDER[agent.dominantElement] ||
-              "border-white/10 hover:border-white/20";
-            const glowClass = ELEMENT_GLOW[agent.dominantElement] || "";
+            const style = elementStyle(agent.dominantElement);
 
             return (
               <div
                 key={agent.userId}
-                className={`glass-card-premium rounded-xl p-3.5 border transition-all ${borderClass} ${glowClass} flex flex-col justify-between space-y-3`}
+                className={`glass-card-premium rounded-xl p-3.5 border transition-all ${style.border} ${style.glow} flex flex-col justify-between space-y-3`}
               >
                 <div>
                   <div className="flex items-start justify-between">
@@ -261,11 +371,9 @@ export function CompanionSuggestions({
                       )}
                     </div>
                     <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/5 border border-white/5">
-                      {ELEMENT_ICON[agent.dominantElement] ?? (
-                        <Sparkles className="w-3 h-3 text-purple-300" />
-                      )}
+                      {style.icon}
                       <span className="text-[10px] font-semibold text-purple-200">
-                        {agent.dominantElement}
+                        {style.label}
                       </span>
                     </div>
                   </div>
@@ -302,31 +410,12 @@ export function CompanionSuggestions({
                   )}
                 </div>
 
-                <button
-                  onClick={() =>
-                    onInvite(
-                      agent.userId,
-                      agent.name,
-                      agent.birthData,
-                      agent.natalChart,
-                    )
-                  }
-                  disabled={isAlreadyInvited || inviteDisabled}
-                  title={
-                    !isAlreadyInvited && inviteDisabled
-                      ? "A table seats twelve."
-                      : undefined
-                  }
-                  className={`w-full py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    isAlreadyInvited
-                      ? "bg-green-500/10 text-green-300 border border-green-500/20 cursor-default"
-                      : inviteDisabled
-                        ? "bg-white/5 border border-white/10 text-purple-100/40 cursor-not-allowed"
-                        : "bg-white/5 hover:bg-white/10 border border-white/10 text-purple-100 hover:text-white"
-                  }`}
-                >
-                  {isAlreadyInvited ? "Invited to Table" : "Invite to Table"}
-                </button>
+                <InviteButton
+                  agent={agent}
+                  invited={isAlreadyInvited}
+                  tableFull={inviteDisabled}
+                  onInvite={onInvite}
+                />
               </div>
             );
           })
