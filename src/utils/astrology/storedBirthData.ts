@@ -87,6 +87,12 @@ export type StoredBirth = BirthFound | NoBirth;
 
 const LEGACY_DATE = /^(\d{4})-(\d{2})-(\d{2})(?:T|$)/;
 const LEGACY_TIME = /^(\d{2}):(\d{2})(?::(\d{2}))?$/;
+/**
+ * ISO 8601 expanded years (`-000469-06-20…` is 470 BC): valid dates, and
+ * MEASURED in one live row (`socrates@agents.alchm.kitchen`) — but by
+ * construction outside the 0100–9999 the zone pipeline handles.
+ */
+const EXPANDED_YEAR_DATE = /^[+-]\d{6}-\d{2}-\d{2}(?:T|$)/;
 
 function none(reason: NoBirthReason): NoBirth {
   return { kind: "none", reason };
@@ -170,7 +176,11 @@ function withInstant(
 }
 
 function readLegacy(stored: Record<string, unknown>): StoredBirth {
-  const dateTime = wallClockLabel(stored.date, stored.time);
+  const { date } = stored;
+  if (typeof date === "string" && EXPANDED_YEAR_DATE.test(date)) {
+    return none("unsupported-year");
+  }
+  const dateTime = wallClockLabel(date, stored.time);
   const place = readPlace(stored.location);
   if (dateTime === null || place === null) return none("unreadable");
   const { latitude, longitude } = place;

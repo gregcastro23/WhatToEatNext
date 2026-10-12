@@ -27,9 +27,11 @@ import {
   legacyWireRow,
   moonPhaseRow,
   placeholderAgentRow,
+  socratesLegacyRow,
   socratesRow,
   validCompanion,
   validNatalChart,
+  yearOnlyRow,
   type AgentDbRow,
 } from "../helpers/companionFixtures";
 
@@ -55,6 +57,8 @@ const REJECTED: ReadonlyArray<readonly [string, () => AgentDbRow]> = [
   ["an @agents legacy twin (ISO date, object location)", adamSmithLegacyRow],
   ["a year-1 / (0,0) placeholder", homerRow],
   ["a year-1 row with a real place", socratesRow],
+  ["a 470 BC row (ISO expanded year)", socratesLegacyRow],
+  ["a year-only birth filed at (0, 0)", yearOnlyRow],
 ];
 
 describe("positive control: a hand-built valid companion", () => {

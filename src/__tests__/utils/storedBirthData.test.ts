@@ -22,7 +22,9 @@ import {
   freudRow,
   homerRow,
   placeholderAgentRow,
+  socratesLegacyRow,
   socratesRow,
+  yearOnlyRow,
 } from "../helpers/companionFixtures";
 
 function birthOf(result: StoredBirth) {
@@ -149,6 +151,25 @@ describe("not a birth, whatever else the record says", () => {
     expect(readStoredBirthData(socratesRow().birth_data)).toEqual({
       kind: "none",
       reason: "unsupported-year",
+    });
+  });
+
+  it("refuses an ISO expanded year (470 BC) as unsupported, not as unreadable", () => {
+    // MEASURED: socrates@agents.alchm.kitchen holds exactly this. "Unreadable" would
+    // log an operator error on every request for a date that is merely out of range.
+    expect(readStoredBirthData(socratesLegacyRow().birth_data)).toEqual({
+      kind: "none",
+      reason: "unsupported-year",
+    });
+    expect(
+      readStoredBirthData(legacy("+010000-01-01", "12:00", { lat: 41.9, lon: 12.5 })),
+    ).toEqual({ kind: "none", reason: "unsupported-year" });
+  });
+
+  it("refuses a known birth YEAR filed as Jan 1 noon at (0, 0, 'Unknown')", () => {
+    expect(readStoredBirthData(yearOnlyRow().birth_data)).toEqual({
+      kind: "none",
+      reason: "placeholder",
     });
   });
 

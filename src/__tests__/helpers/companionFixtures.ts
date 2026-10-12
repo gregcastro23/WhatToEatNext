@@ -214,6 +214,37 @@ export function socratesRow(): AgentDbRow {
   });
 }
 
+/** The legacy twin of {@link socratesRow}: an ISO expanded year (470 BC), real place. */
+export function socratesLegacyRow(): AgentDbRow {
+  const birth = {
+    date: "-000469-06-20T12:00:00.000Z",
+    time: "12:00",
+    location: { lat: 37.9838, lon: 23.7275, name: "Athens, Greece" },
+  };
+  return row({
+    user_id: "00000000-0000-4000-8000-0000000000c3",
+    email: "socrates@agents.alchm.kitchen",
+    name: "socrates",
+    birth_data: birth,
+    natal_chart: { birthData: birth },
+  });
+}
+
+/** `YYYY-01-01 12:00` at `{0, 0, "Unknown"}`: a known birth YEAR, nothing else (10 rows). */
+export function yearOnlyRow(): AgentDbRow {
+  return row({
+    user_id: "00000000-0000-4000-8000-0000000000c4",
+    email: "michelangelo@agentic.alchm.kitchen",
+    name: "Michelangelo",
+    birth_data: {
+      date: "1475-01-01",
+      time: "12:00",
+      location: locationString(0, 0, "Unknown"),
+    },
+    natal_chart: legacyChart(10, 100),
+  });
+}
+
 const PLANETS: readonly Planet[] = [
   "Sun",
   "Moon",

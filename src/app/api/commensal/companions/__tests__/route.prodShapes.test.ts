@@ -61,8 +61,10 @@ import {
   legacyWireRow,
   moonPhaseRow,
   placeholderAgentRow,
+  socratesLegacyRow,
   socratesRow,
   validNatalChart,
+  yearOnlyRow,
   type AgentDbRow,
 } from "../../../../../__tests__/helpers/companionFixtures";
 import { GET } from "../route";
@@ -91,6 +93,8 @@ function productionRoster(): AgentDbRow[] {
     adamSmithLegacyRow(),
     homerRow(),
     socratesRow(),
+    socratesLegacyRow(),
+    yearOnlyRow(),
     placeholderAgentRow(),
   ];
 }

@@ -15,7 +15,9 @@ import {
   freudRow,
   homerRow,
   placeholderAgentRow,
+  socratesLegacyRow,
   socratesRow,
+  yearOnlyRow,
 } from "../helpers/companionFixtures";
 
 jest.mock("@/utils/astrology/birthTimezone", () => {
@@ -39,6 +41,8 @@ describe("what is never sent to the pipeline", () => {
   it.each([
     ["the year-1 'unknown date' (Homer, at 0,0)", homerRow().birth_data],
     ["the year-1 'unknown date' with a real place (Socrates)", socratesRow().birth_data],
+    ["an ISO expanded year (470 BC)", socratesLegacyRow().birth_data],
+    ["a year-only birth at (0, 0)", yearOnlyRow().birth_data],
     ["the agent sentinel", placeholderAgentRow().birth_data],
     ["a (0, 0) pin", { date: "1856-05-06", time: "18:30", location: { lat: 0, lon: 0 } }],
     ["a year-99 date", { date: "0099-06-01", time: "12:00", location: { lat: 41.9, lon: 12.5 } }],
