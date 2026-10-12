@@ -123,11 +123,13 @@ export {
   isPreferenceActionResponse,
   isProfileFeedResponse,
   isTableRitualResponse,
+  parseCompanionsResponse,
 } from "./apiResponses";
 export type {
   CompanionSuggestion,
   CompletedQuestResponse,
   CompanionsResponse,
+  ParsedCompanionsResponse,
   PreferenceActionResponse,
   ProfileFeedEvent,
   ProfileFeedResponse,

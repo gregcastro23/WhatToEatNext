@@ -117,7 +117,7 @@ export type TableRitualResponse =
 export interface CompanionActivation {
   strength: number;
   dignity: string;
-  element: ElementType;
+  element: ElementType | null;
   planetaryRuler: string;
   description: string;
 }
@@ -127,9 +127,16 @@ export interface CompanionSuggestion {
   email: string;
   name: string;
   bio: string;
-  dominantElement: ElementType;
+  /** `null` is "unknown". It is never defaulted: a card must not claim an element nothing supports. */
+  dominantElement: ElementType | null;
   monicaConstant: number | null;
-  birthData: BirthData;
+  /**
+   * `null` means the agent has no birth data we can stand behind — a degree or
+   * moon-phase agent, or a placeholder record. It can be shown, but it has no
+   * chart to seat at a table. Never `{}`: {@link isBirthData} stays strict.
+   */
+  birthData: BirthData | null;
+  /** Always `null` when {@link CompanionSuggestion.birthData} is `null`. */
   natalChart: NatalChart | null;
   activation?: CompanionActivation;
   lastActionAt?: string | null;
@@ -206,7 +213,7 @@ function isRecipe(value: unknown): value is Recipe {
   );
 }
 
-function isBirthData(value: unknown): value is BirthData {
+export function isBirthData(value: unknown): value is BirthData {
   if (!isRecord(value)) return false;
 
   const locationIsValid =
@@ -245,7 +252,7 @@ function isPlanetInfo(value: unknown): boolean {
   );
 }
 
-function isNatalChart(value: unknown): value is NatalChart {
+export function isNatalChart(value: unknown): value is NatalChart {
   return (
     isRecord(value) &&
     (value.id === undefined || typeof value.id === "string") &&
@@ -302,7 +309,41 @@ function isCompositeNatalChart(value: unknown): value is CompositeNatalChart {
   );
 }
 
-function isCompanionSuggestion(value: unknown): value is CompanionSuggestion {
+function isCompanionActivation(value: unknown): value is CompanionActivation {
+  return (
+    isRecord(value) &&
+    typeof value.strength === "number" &&
+    typeof value.dignity === "string" &&
+    isNullableElement(value.element) &&
+    typeof value.planetaryRuler === "string" &&
+    typeof value.description === "string"
+  );
+}
+
+/** Unknown is a legitimate element; a value that is not one of the four is not. */
+function isNullableElement(value: unknown): value is ElementType | null {
+  return value === null || (typeof value === "string" && isElementType(value));
+}
+
+/**
+ * A companion with no birth data has no chart either; one with birth data may
+ * carry a chart or leave it for the server to compute. `birthData` must still
+ * satisfy the strict {@link isBirthData} — `{}` is not "no birth data", it is
+ * a malformed row.
+ */
+function hasConsistentChart(birthData: unknown, natalChart: unknown): boolean {
+  if (birthData === null) return natalChart === null;
+  return isBirthData(birthData) && (natalChart === null || isNatalChart(natalChart));
+}
+
+/**
+ * The per-row contract. Exported so a consumer can judge one row at a time:
+ * the response guard is all-or-nothing, and one malformed row in ~3,000 must
+ * not be able to blank a panel.
+ */
+export function isCompanionSuggestion(
+  value: unknown,
+): value is CompanionSuggestion {
   if (!isRecord(value)) return false;
 
   const { activation } = value;
@@ -311,48 +352,89 @@ function isCompanionSuggestion(value: unknown): value is CompanionSuggestion {
     typeof value.email === "string" &&
     typeof value.name === "string" &&
     typeof value.bio === "string" &&
-    typeof value.dominantElement === "string" &&
-    isElementType(value.dominantElement) &&
+    isNullableElement(value.dominantElement) &&
     (value.monicaConstant === null ||
       typeof value.monicaConstant === "number") &&
-    isBirthData(value.birthData) &&
-    (value.natalChart === null || isNatalChart(value.natalChart)) &&
-    (activation === undefined ||
-      (isRecord(activation) &&
-        typeof activation.strength === "number" &&
-        typeof activation.dignity === "string" &&
-        typeof activation.element === "string" &&
-        isElementType(activation.element) &&
-        typeof activation.planetaryRuler === "string" &&
-        typeof activation.description === "string")) &&
+    hasConsistentChart(value.birthData, value.natalChart) &&
+    (activation === undefined || isCompanionActivation(activation)) &&
     (value.lastActionAt === undefined ||
       value.lastActionAt === null ||
       typeof value.lastActionAt === "string")
   );
 }
 
-function isCompanionArray(value: unknown): value is CompanionSuggestion[] {
-  return Array.isArray(value) && value.every(isCompanionSuggestion);
+export interface ParsedCompanionsResponse {
+  response: CompanionsResponse;
+  /** Rows {@link isCompanionSuggestion} rejected, across all four lists. */
+  dropped: number;
 }
 
+interface KeptCompanions {
+  kept: CompanionSuggestion[];
+  dropped: number;
+}
+
+function keepCompanions(value: unknown): KeptCompanions | null {
+  if (!Array.isArray(value)) return null;
+  const kept = value.filter(isCompanionSuggestion);
+  return { kept, dropped: value.length - kept.length };
+}
+
+/**
+ * Read a companions response, keeping every row that satisfies the per-row
+ * contract and counting the rest. Returns `null` only when the ENVELOPE is
+ * wrong — not an object, a list that is not a list, a non-boolean `degraded` —
+ * because that is a contract break no row-level filter can repair.
+ */
+export function parseCompanionsResponse(
+  value: unknown,
+): ParsedCompanionsResponse | null {
+  if (!isRecord(value)) return null;
+  const { success, message, degraded } = value;
+  if (success !== true) {
+    const wellFormed =
+      (success === undefined || success === false) &&
+      (message === undefined || typeof message === "string");
+    if (!wellFormed) return null;
+    return {
+      response:
+        typeof message === "string"
+          ? { success: false, message }
+          : { success: false },
+      dropped: 0,
+    };
+  }
+  if (degraded !== undefined && typeof degraded !== "boolean") return null;
+
+  const active = keepCompanions(value.activeAgents);
+  const historical = keepCompanions(value.historicalAgents);
+  const roster = keepCompanions(value.cosmicRoster);
+  const saved = keepCompanions(value.savedCompanions);
+  if (!active || !historical || !roster || !saved) return null;
+
+  return {
+    response: {
+      success: true,
+      activeAgents: active.kept,
+      historicalAgents: historical.kept,
+      cosmicRoster: roster.kept,
+      savedCompanions: saved.kept,
+      ...(degraded === undefined ? {} : { degraded }),
+    },
+    dropped: active.dropped + historical.dropped + roster.dropped + saved.dropped,
+  };
+}
+
+/**
+ * The strict contract: true only when EVERY row is valid. Use it to assert that
+ * a producer's output is clean; a consumer that must survive a bad row uses
+ * {@link parseCompanionsResponse}.
+ */
 export function isCompanionsResponse(
   value: unknown,
 ): value is CompanionsResponse {
-  if (!isRecord(value)) return false;
-  if (value.success !== true) {
-    return (
-      (value.success === undefined || value.success === false) &&
-      (value.message === undefined || typeof value.message === "string")
-    );
-  }
-
-  return (
-    isCompanionArray(value.activeAgents) &&
-    isCompanionArray(value.historicalAgents) &&
-    isCompanionArray(value.cosmicRoster) &&
-    isCompanionArray(value.savedCompanions) &&
-    (value.degraded === undefined || typeof value.degraded === "boolean")
-  );
+  const parsed = parseCompanionsResponse(value);
+  return parsed !== null && parsed.dropped === 0;
 }
 
 function isProfileFeedEvent(value: unknown): value is ProfileFeedEvent {
