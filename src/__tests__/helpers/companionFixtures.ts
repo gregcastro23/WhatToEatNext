@@ -57,8 +57,10 @@ function locationString(lat: number, lon: number, name: string): string {
 
 /**
  * The legacy hand-authored chart (`planets` is an OBJECT, `ascendant` a number).
- * Two units share the column: Freud's 315 is an absolute longitude, Avicenna's 8
- * a degree within the sign — which is why none of it is converted.
+ * The column mixes units: Freud's 315 can only be an absolute longitude, while
+ * Avicenna's 8 reads as degrees within the sign (his house-1 planet is in
+ * Aquarius, not Aries). It also stores no ascendant sign, modality, balances or
+ * alchemical properties — which is why none of it is converted.
  */
 function legacyChart(ascendant: number, midheaven: number): Record<string, unknown> {
   const placement = { sign: "Taurus", house: 2, degree: 16, retrograde: false };

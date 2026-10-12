@@ -36,10 +36,12 @@
  *   clock, exactly as for an unmigrated row.
  * - For a birth before standard time (nearly all of this roster) tzdata answers
  *   with the zone's LMT — the mean solar time of the zone's reference city, not
- *   of the birthplace. MEASURED on 8 rows that is 7–21 minutes from the
- *   birthplace's own LMT, against 37–365 minutes for reading the wall clock as
- *   UTC. It is the pipeline's published basis, not a refinement of it. The
- *   Julian/Gregorian question for dates before 1582 is not addressed either.
+ *   of the birthplace. MEASURED on 7 pre-1900 rows (Avicenna, Kepler, Freud,
+ *   Tesla, Einstein, Jung, Twain; true LMT = longitude × 4 min) the pipeline's
+ *   offset is 0.2–21 minutes from the birthplace's own LMT, against 35–365
+ *   minutes for reading the wall clock as UTC. It is the pipeline's published
+ *   basis, not a refinement of it. The Julian/Gregorian question for dates
+ *   before 1582 is not addressed either.
  * - Not a birth, whatever else the record says: the agent sentinel instant, a
  *   (0, 0) pin and the retired Fallback NY pin (each named by the repo itself —
  *   see `birthTimezone.ts`), and any year below {@link MIN_SUPPORTED_YEAR}.
