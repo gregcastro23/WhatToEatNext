@@ -1,3 +1,4 @@
+import type { NextRequest } from "next/server";
 /**
  * GET /api/sauces/lineage?root=<id>
  *
@@ -81,7 +82,7 @@ function findRoot(
   return null;
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(request, {
     window: 60_000,
     max: 60,

@@ -133,6 +133,33 @@ class FeedDatabaseService {
         [actorId, eventType, JSON.stringify(stampedPayload)]
       );
 
+      // Dual-write recipe reviews & cooking reflections into user_recipe_interactions
+      // so historical agents' voiced reviews immediately surface under Community Tips
+      // on recipe views and appear in community engagement metrics.
+      const rawRecipeId = stampedPayload.recipeId ?? stampedPayload.recipe_id;
+      const targetRecipeId = typeof rawRecipeId === "string" ? rawRecipeId : undefined;
+      const rawReview = stampedPayload.review ?? stampedPayload.comment ?? stampedPayload.description;
+      const reviewText = typeof rawReview === "string" ? rawReview.trim() : undefined;
+      if (targetRecipeId && reviewText && reviewText.length > 0) {
+        const rawRating = typeof stampedPayload.rating === "number" ? stampedPayload.rating : 5;
+        const rating = Math.min(5, Math.max(1, Math.round(rawRating)));
+        const madeIt = stampedPayload.madeIt !== false && stampedPayload.made_it !== false;
+        try {
+          await executeQuery(
+            `INSERT INTO user_recipe_interactions (user_id, recipe_id, made_it, rating, review)
+             VALUES ($1, $2, $3, $4, $5)
+             ON CONFLICT (user_id, recipe_id) DO UPDATE SET
+               made_it = EXCLUDED.made_it,
+               rating = EXCLUDED.rating,
+               review = EXCLUDED.review,
+               updated_at = CURRENT_TIMESTAMP`,
+            [actorId, targetRecipeId, madeIt, rating, reviewText]
+          );
+        } catch (interactionError) {
+          _logger.warn("[feed] failed to mirror recipe review to user_recipe_interactions:", interactionError);
+        }
+      }
+
       // Secure Webhook Ingestion to Planetary Agents
       if (!skipWebhook) {
         if (user) {

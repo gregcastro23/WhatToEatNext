@@ -33,7 +33,10 @@ function displayName(row: TipRow): string {
   if (row.author_name?.trim()) return row.author_name.trim();
   if (row.author_email) {
     const [local = row.author_email] = row.author_email.split("@");
-    return local.charAt(0).toUpperCase() + local.slice(1);
+    return local
+      .split(/[-_]/)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
   }
   return "Anonymous cook";
 }
@@ -46,10 +49,11 @@ export async function GET(
 
   try {
     const result = await executeQuery<TipRow>(
-      `SELECT u.name AS author_name, u.email AS author_email,
+      `SELECT COALESCE(up.name, u.name) AS author_name, u.email AS author_email,
               uri.rating, uri.review, uri.updated_at
        FROM user_recipe_interactions uri
        JOIN users u ON u.id = uri.user_id
+       LEFT JOIN user_profiles up ON up.user_id = u.id
        WHERE uri.recipe_id = $1
          AND uri.rating >= 4
          AND uri.review IS NOT NULL

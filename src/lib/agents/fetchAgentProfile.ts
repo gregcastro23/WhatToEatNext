@@ -1,7 +1,9 @@
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import type { CraftedAgentProfile } from "./craftedAgentTypes";
 
-const AGENTS_BASE_URL = getServiceUrlSafe("planetaryAgentsApi");
+const AGENTS_BASE_URL = getServiceUrlSafe("agentsUi");
 
 export interface AgentInteraction {
   id: string;
@@ -23,7 +25,7 @@ export interface AgentAction {
   id: string;
   type: string;
   createdAt: string;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   links: {
     chatThread?: string;
     recipe?: string;
@@ -37,6 +39,22 @@ export interface AgentArtifact {
   createdAt: string;
   summary: string;
   alchmKitchenPath?: string;
+}
+
+interface AgentProfileResponse {
+  agent?: CraftedAgentProfile;
+}
+
+interface AgentInteractionsResponse {
+  interactions?: AgentInteraction[];
+}
+
+interface AgentActionsResponse {
+  actions?: AgentAction[];
+}
+
+interface AgentArtifactsResponse {
+  artifacts?: AgentArtifact[];
 }
 
 export function agentSlugFromEmail(email: string): string {
@@ -53,8 +71,8 @@ export async function fetchAgentProfile(
       next: { revalidate: 86_400 },
     });
     if (!res.ok) return null;
-    const data = await res.json();
-    return (data?.agent ?? data ?? null) as CraftedAgentProfile | null;
+    const data = await readJson(res, { parse: (x) => z.custom<AgentProfileResponse>((val) => typeof val === "object" && val !== null).parse(x) });
+    return data.agent ?? null;
   } catch {
     return null;
   }
@@ -73,8 +91,8 @@ export async function fetchAgentInteractions(
       next: { revalidate: 60 },
     });
     if (!res.ok) return [];
-    const data = await res.json();
-    return (data?.interactions ?? data ?? []) as AgentInteraction[];
+    const data = await readJson(res, { parse: (x) => z.custom<AgentInteractionsResponse>((val) => typeof val === "object" && val !== null).parse(x) });
+    return data.interactions ?? [];
   } catch {
     return [];
   }
@@ -93,8 +111,8 @@ export async function fetchAgentActions(
       next: { revalidate: 60 },
     });
     if (!res.ok) return [];
-    const data = await res.json();
-    return (data?.actions ?? data ?? []) as AgentAction[];
+    const data = await readJson(res, { parse: (x) => z.custom<AgentActionsResponse>((val) => typeof val === "object" && val !== null).parse(x) });
+    return data.actions ?? [];
   } catch {
     return [];
   }
@@ -113,8 +131,8 @@ export async function fetchAgentArtifacts(
       next: { revalidate: 60 },
     });
     if (!res.ok) return [];
-    const data = await res.json();
-    return (data?.artifacts ?? data ?? []) as AgentArtifact[];
+    const data = await readJson(res, { parse: (x) => z.custom<AgentArtifactsResponse>((val) => typeof val === "object" && val !== null).parse(x) });
+    return data.artifacts ?? [];
   } catch {
     return [];
   }

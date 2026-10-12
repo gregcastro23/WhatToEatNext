@@ -18,15 +18,12 @@ import { LunarTableStrip } from "@/components/feed/LunarTableStrip";
 import { TableMemoryCard } from "@/components/feed/TableMemoryCard";
 import { TransitInviteBanner } from "@/components/feed/TransitInviteBanner";
 import { useLiveFeedEvents } from "@/hooks/useLiveFeedEvents";
+import { readJson, parseEach } from "@/lib/api/json";
 import { firePractice } from "@/lib/economy/practiceClient";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
 import { fetchHistoricalAgentFeed } from "@/lib/feed/historicalAgentFeedSource";
 import { _logger } from "@/lib/logger";
-import { TOKEN_TYPES } from "@/types/economy";
-import type { TokenType } from "@/types/economy";
-import type { TableMemoryPayload } from "@/types/table";
-import { readJson, parseEach } from "@/lib/api/json";
 import {
   type FeedEventWire,
   FeedEnvelopeSchema,
@@ -34,11 +31,15 @@ import {
   FeedReactionsResponseSchema,
   AgentsEnvelopeSchema,
   AgentSummarySchema,
+  type AgentSummaryWire,
   TransactionsEnvelopeSchema,
   NetworkTransactionSchema,
   SwapRatesApiResponseSchema,
   SwapActionResponseSchema,
 } from "@/lib/validation/feedResponseSchemas";
+import { TOKEN_TYPES } from "@/types/economy";
+import type { TokenType } from "@/types/economy";
+import type { TableMemoryPayload } from "@/types/table";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -51,16 +52,7 @@ function isUuidEventId(id: string): boolean {
   return UUID_RE.test(id);
 }
 
-interface AgentSummary {
-  userId: string;
-  handle: string;
-  name: string;
-  bio: string | null;
-  dominantElement: string | null;
-  monicaConstant: number | null;
-  lastActionAt: string | null;
-  actionCount: number;
-}
+type AgentSummary = AgentSummaryWire;
 
 interface NetworkTransaction {
   id: string;
@@ -82,30 +74,6 @@ interface SwapRate {
 }
 
 interface SwapRateContext {
-  rulingHourPlanet: string;
-  rulingDayPlanet: string;
-  rates: SwapRate[];
-  generatedAt: string;
-  validUntil: string;
-}
-
-interface FeedApiResponse {
-  success: boolean;
-  events?: FeedEvent[];
-}
-
-interface AgentsApiResponse {
-  success: boolean;
-  agents?: AgentSummary[];
-}
-
-interface TransactionsApiResponse {
-  success: boolean;
-  transactions?: NetworkTransaction[];
-}
-
-interface SwapRatesApiResponse {
-  success: boolean;
   rulingHourPlanet: string;
   rulingDayPlanet: string;
   rates: SwapRate[];
@@ -851,7 +819,7 @@ function getFeedCardEngagement(
 
 function HumanFeedRow({ event }: { event: FeedEvent }): React.JSX.Element {
   const narration = getEventNarration(event);
-  const actorHref = `/profile/${event.actorId}`;
+  const actorHref = `/profile/${event.actorSlug ?? event.actorId}`;
   const viewerKindsMap = React.useContext(ViewerKindsContext);
   // Engagement UI mounts only on Postgres-backed rows (real UUIDs); the live
   // SpacetimeDB store prepends synthetic `stdb-…` ids that carry no reactions.
@@ -1040,7 +1008,7 @@ function AgentsTab({
           {visibleAgents.map((agent) => (
             <Link
               key={agent.userId}
-              href={`/profile/${agent.userId}`}
+              href={`/profile/${agent.slug ?? agent.userId}`}
               className="glass-card-premium rounded-2xl p-5 border-white/8 hover:border-purple-500/35 transition-all flex flex-col gap-3 group"
             >
               <div className="flex items-start justify-between">
@@ -1050,7 +1018,7 @@ function AgentsTab({
                 {agent.dominantElement && (
                   <span
                     className={`text-[8px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full border border-white/10 bg-white/5 ${
-                      ELEMENT_TINT[agent.dominantElement] || "text-white/60"
+                      ELEMENT_TINT[agent.dominantElement] ?? "text-white/60"
                     }`}
                   >
                     {agent.dominantElement}

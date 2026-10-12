@@ -22,10 +22,7 @@ function parseJsonField<T>(value: unknown, fallback: T): T {
   return value as T;
 }
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: Promise<{ userId: string }> },
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ userId: string }> }): Promise<NextResponse> {
   const { userId } = await params;
   if (!userId) {
     return NextResponse.json(
