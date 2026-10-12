@@ -71,7 +71,7 @@ function main(): void {
 
   const result = spawnSync(
     eslintBin,
-    ["--config", "eslint.config.mjs", "--cache", ...filesToLint],
+    ["--config", "eslint.config.mjs", "--cache", "--no-warn-ignored", ...filesToLint],
     {
       stdio: "inherit",
     },
