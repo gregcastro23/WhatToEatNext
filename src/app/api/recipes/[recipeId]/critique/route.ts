@@ -10,6 +10,7 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+import { z } from "zod";
 import { planetaryAgentsGateway } from "@/lib/agents/planetaryAgentsGateway";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
@@ -17,6 +18,12 @@ import { feedDatabase } from "@/services/feedDatabaseService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+const RecipeCritiquePayloadSchema = z.object({
+  agentSlug: z.string().optional(),
+  focus: z.string().optional(),
+  recipeName: z.string().optional(),
+}).passthrough();
 
 interface RecipeRow {
   id: string;
@@ -31,7 +38,7 @@ interface AgentLookupRow {
   name: string | null;
   dominant_element: string | null;
   bio: string | null;
-  dietary_preferences: any;
+  dietary_preferences: Record<string, unknown> | null;
 }
 
 const HISTORICAL_LORE_CRITIQUES: Record<string, (recipeName: string, cuisine?: string) => string> = {
@@ -60,16 +67,20 @@ export async function POST(
   const { recipeId } = await params;
 
   try {
-    const body = (await req.json().catch(() => ({}))) as {
-      agentSlug?: string;
-      focus?: string;
-      recipeName?: string;
-    };
+    const body = await req.json().catch(() => ({}));
+    const parseResult = RecipeCritiquePayloadSchema.safeParse(body);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { success: false, message: "Invalid request body", errors: parseResult.error.flatten() },
+        { status: 400 },
+      );
+    }
+    const validatedBody = parseResult.data;
 
-    const agentSlug = (body.agentSlug ?? "leonardo-da-vinci").toLowerCase().trim();
+    const agentSlug = (validatedBody.agentSlug ?? "leonardo-da-vinci").toLowerCase().trim();
 
     // 1. Resolve Recipe
-    let recipeName = body.recipeName ?? "Alchemical Dish";
+    let recipeName = validatedBody.recipeName ?? "Alchemical Dish";
     let cuisine = "Classical";
 
     const recipeResult = await executeQuery<RecipeRow>(
@@ -80,10 +91,10 @@ export async function POST(
       [recipeId],
     );
 
-    if (recipeResult.rows.length > 0) {
-      const r = recipeResult.rows[0]!;
-      recipeName = r.name || recipeName;
-      cuisine = r.cuisine || cuisine;
+    const [r] = recipeResult.rows;
+    if (r) {
+      recipeName = r.name;
+      cuisine = r.cuisine ?? cuisine;
     }
 
     // 2. Resolve Agent User
@@ -103,14 +114,15 @@ export async function POST(
       [agentSlug],
     );
 
-    if (agentResult.rows.length === 0) {
+    const [agent] = agentResult.rows;
+    if (!agent) {
       return NextResponse.json(
         { success: false, message: `Historical agent "${agentSlug}" not found` },
         { status: 404 },
       );
     }
 
-    const agent = agentResult.rows[0]!;
+    
     const cleanName = agent.name ?? agentSlug.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");
     const diet = agent.dietary_preferences ?? {};
 
@@ -121,7 +133,7 @@ export async function POST(
     try {
       const gatewayRes = await planetaryAgentsGateway.chatWithAgent({
         agentId: agentSlug,
-        userMessage: `As ${cleanName}, please provide an authentic 2-3 sentence culinary critique and pairing tip for "${recipeName}". Emphasize your historical dietary philosophy (${diet.dietaryPhilosophy || "alchemical nourishment"}) and cultural perspective (${diet.culturalCuisine || cuisine}).`,
+        userMessage: `As ${cleanName}, please provide an authentic 2-3 sentence culinary critique and pairing tip for "${recipeName}". Emphasize your historical dietary philosophy (${diet.dietaryPhilosophy ?? "alchemical nourishment"}) and cultural perspective (${diet.culturalCuisine ?? cuisine}).`,
         culinaryContext: {
           selectedRecipeId: recipeId,
           cuisine,
@@ -142,8 +154,9 @@ export async function POST(
         critiqueText = loreGenerator(recipeName, cuisine);
       } else {
         const element = agent.dominant_element ?? "Fire";
-        const philosophy = diet.dietaryPhilosophy
-          ? ` As I have always observed: "${diet.dietaryPhilosophy.slice(0, 120)}..."`
+        const rawPhil = typeof diet.dietaryPhilosophy === "string" ? diet.dietaryPhilosophy : undefined;
+        const philosophy = rawPhil
+          ? ` As I have always observed: "${rawPhil.slice(0, 120)}..."`
           : "";
         critiqueText = `In observing "${recipeName}", the ${element} element harmonizes the culinary transformation.${philosophy} A balanced preparation that honors both bodily constitution and culinary heritage.`;
       }

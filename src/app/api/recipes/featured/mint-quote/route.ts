@@ -1,3 +1,4 @@
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { featuredRecipe } from "@/data/featuredRecipe";
 import { _logger } from "@/lib/logger";
@@ -13,7 +14,7 @@ export const runtime = "nodejs";
  * cost, and the premium chart-weighted redistribution preview. The
  * authenticated mint route personalizes this with the user's natal chart.
  */
-export async function GET() {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const quote = await buildMintQuote(featuredRecipe);
     return NextResponse.json(quote);

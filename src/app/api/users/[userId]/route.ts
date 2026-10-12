@@ -214,13 +214,13 @@ export async function GET(
             agentActions: [],
             agentArtifacts: [],
             bio: externalAgent.title
-              ? `${externalAgent.title} (${externalAgent.era || "Historical Master"})`
+              ? `${externalAgent.title} (${externalAgent.era ?? "Historical Master"})`
               : "Historical Alchemical Intelligence",
-            dominantElement: externalAgent.consciousness?.dominantElement || "Spirit",
-            natalChart: externalAgent.consciousness?.natalChart || externalAgent.birthData || {},
+            dominantElement: externalAgent.consciousness?.dominantElement ?? "Spirit",
+            natalChart: externalAgent.consciousness?.natalChart ?? externalAgent.birthData ?? {},
             natalPositions: [],
-            birthData: externalAgent.birthData || {},
-            dietary_preferences: externalAgent.historicalDiet || {},
+            birthData: externalAgent.birthData ?? {},
+            dietary_preferences: externalAgent.historicalDiet ?? {},
             profile_layout: [
               "natalChart",
               "alchemicalConstitution",
@@ -379,32 +379,32 @@ export async function GET(
       if (artifactsRes.status === "fulfilled") agentArtifacts = artifactsRes.value;
 
       if (!agentProfile && row.is_agent) {
-        const diet = dietaryPreferences && Object.keys(dietaryPreferences).length > 0
+        const diet = Object.keys(dietaryPreferences).length > 0
           ? dietaryPreferences
           : undefined;
         agentProfile = {
           name: row.name ?? (slug ? slug.split("-").map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)).join(" ") : "Historical Agent"),
-          title: (row.bio?.includes("(") ? row.bio.split("(")[0]?.trim() : row.bio) || "Historical Alchemist",
-          era: (row.bio?.includes("(") ? row.bio.match(/\(([^)]+)\)/)?.[1] : "Historical Era") || "Historical Master",
+          title: (row.bio?.includes("(") ? row.bio.split("(")[0]?.trim() : row.bio) ?? "Historical Alchemist",
+          era: (row.bio?.includes("(") ? row.bio.match(/\(([^)]+)\)/)?.[1] : "Historical Era") ?? "Historical Master",
           appearance: {
             color: row.dominant_element === "Fire" ? "#ef4444" : row.dominant_element === "Water" ? "#3b82f6" : row.dominant_element === "Air" ? "#10b981" : "#a855f7",
             symbol: "⚗️",
           },
           consciousness: {
-            dominantElement: (row.dominant_element as any) || "Fire",
+            dominantElement: row.dominant_element ?? "Fire",
             level: "Master",
-            natalChart: natalChart as any,
+            natalChart: natalChart,
           },
-          historicalDiet: diet,
+          ...(diet ? { historicalDiet: diet } : {}),
           personality: {
             core: {
-              essence: row.bio || "Perpetual seeker of alchemical wisdom",
+              essence: row.bio ?? "Perpetual seeker of alchemical wisdom",
               expression: "Living culinary and philosophical mastery",
               emotion: "Serene contemplation",
             },
           },
         };
-      } else if (agentProfile && !agentProfile.historicalDiet && dietaryPreferences && Object.keys(dietaryPreferences).length > 0) {
+      } else if (agentProfile && !agentProfile.historicalDiet && Object.keys(dietaryPreferences).length > 0) {
         agentProfile.historicalDiet = dietaryPreferences;
       }
     }

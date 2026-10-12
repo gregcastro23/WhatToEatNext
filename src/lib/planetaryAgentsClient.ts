@@ -10,7 +10,7 @@ export async function fetchAgentForDegree(degree: number, date?: Date) {
   if (typeof window === "undefined") {
     try {
       const { planetaryAgentsGateway } = await import("@/lib/agents/planetaryAgentsGateway");
-      return await planetaryAgentsGateway.fetchAgentForDegree(degree, date || new Date());
+      return await planetaryAgentsGateway.fetchAgentForDegree(degree, date ?? new Date());
     } catch (err) {
       _logger.error(`Failed to fetch agent for degree ${degree} on server:`, err);
       return null;
@@ -32,7 +32,7 @@ export async function fetchAllDegreeAgents(date?: Date) {
   if (typeof window === "undefined") {
     try {
       const { planetaryAgentsGateway } = await import("@/lib/agents/planetaryAgentsGateway");
-      const res = await planetaryAgentsGateway.fetchDegreesMap(date || new Date());
+      const res = await planetaryAgentsGateway.fetchDegreesMap(date ?? new Date());
       return res.degrees;
     } catch (err) {
       _logger.error("Failed to fetch degree agents on server:", err);
@@ -74,7 +74,7 @@ export async function fetchAgentsForDate(date: Date = new Date(), limit = 20) {
   }
 }
 
-export async function fetchAgentReactions(context: any) {
+export async function fetchAgentReactions(context: Record<string, unknown>) {
   try {
     const res = await fetch(`${PLANETARY_AGENTS_URL}/api/agents/reactions`, {
       method: "POST",

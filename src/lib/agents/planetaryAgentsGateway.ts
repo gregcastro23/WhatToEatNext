@@ -1,3 +1,31 @@
+import { z } from "zod";
+
+function toActiveDegreeAgent(a: RawActivationEntry | undefined): ActiveDegreeAgent | undefined {
+  if (!a) return undefined;
+  const exactDegree = a.exactDegree ?? a.agent?.degree;
+  const strVal = a.strength;
+  const out: ActiveDegreeAgent = {
+    id: a.agent?.id ?? a.id ?? "",
+    name: a.agent?.name ?? a.name ?? "",
+  };
+  if (typeof exactDegree === "number") out.exactDegree = exactDegree;
+  if (typeof a.absoluteDegree === "number") out.absoluteDegree = a.absoluteDegree;
+  if (typeof strVal === "number") {
+    out.strength = strVal;
+    out.activationStrength = Math.round(strVal * 100);
+  }
+  if (a.dignity) out.dignity = a.dignity;
+  if (a.element) out.element = a.element;
+  if (a.planetaryRuler) out.planetaryRuler = a.planetaryRuler;
+  if (a.sign) out.sign = a.sign;
+  if (a.role) out.role = a.role;
+  if (typeof a.esmsBalance === "number") out.esmsBalance = a.esmsBalance;
+  if (a.config) out.config = a.config;
+  if (a.consciousnessState) out.consciousnessState = a.consciousnessState;
+  return out;
+}
+
+import { readJson } from "@/lib/api/json";
 /**
  * Planetary Agents Gateway Module
  *
@@ -120,6 +148,77 @@ export interface CouncilChatResult {
   status: "live" | "degraded";
 }
 
+interface RawActivationAgent {
+  id?: string;
+  name?: string;
+  degree?: number;
+}
+
+interface RawActivationEntry {
+  id?: string;
+  name?: string;
+  exactDegree?: number;
+  absoluteDegree?: number;
+  strength?: number;
+  dignity?: string;
+  element?: string;
+  planetaryRuler?: string;
+  sign?: string;
+  role?: string;
+  esmsBalance?: number;
+  config?: Record<string, unknown>;
+  consciousnessState?: {
+    level?: string;
+    powerLevel?: number;
+  };
+  agent?: RawActivationAgent;
+}
+
+interface RawActivationsApiResponse {
+  activations?: RawActivationEntry[];
+}
+
+interface RawDegreeApiResponse {
+  active?: boolean;
+  degree?: number;
+  agent?: RawActivationEntry;
+  message?: string;
+}
+
+interface RawFastApiChatMetadata {
+  provider?: string;
+  model?: string;
+  tier?: string;
+  rag_used?: boolean;
+  mcp?: Record<string, unknown>;
+  astrologicalContext?: Record<string, unknown>;
+  consciousnessLevel?: string;
+  evolutionGain?: number;
+  insights?: string[];
+}
+
+interface RawFastApiChatResponse {
+  text?: string;
+  sessionId?: string;
+  agentId?: string;
+  ai_generated?: boolean;
+  insights?: string[];
+  metadata?: RawFastApiChatMetadata;
+}
+
+interface RawCouncilTurn {
+  agentId: string;
+  name?: string;
+  text?: string;
+  consensusWeight?: number;
+  element?: string;
+}
+
+interface RawFastApiCouncilResponse {
+  sessionId?: string;
+  responses?: RawCouncilTurn[];
+}
+
 const NEXT_TIMEOUT_MS = 4500;
 const CHAT_TIMEOUT_MS = 8000;
 
@@ -151,23 +250,10 @@ class PlanetaryAgentsGateway {
       });
 
       if (res.ok) {
-        const data = await res.json();
-        const list = Array.isArray(data?.activations) ? data.activations : [];
+        const data = await readJson(res, { parse: (x) => z.custom<RawActivationsApiResponse>((val) => typeof val === "object" && val !== null).parse(x) });
+        const list = Array.isArray(data.activations) ? data.activations : [];
         return {
-          activations: list.map((a: any) => ({
-            id: a.agent?.id || a.id,
-            name: a.agent?.name || a.name,
-            exactDegree: a.exactDegree ?? a.agent?.degree,
-            absoluteDegree: a.absoluteDegree,
-            strength: a.strength,
-            activationStrength: Math.round((a.strength ?? 0.85) * 100),
-            dignity: a.dignity,
-            element: a.element,
-            planetaryRuler: a.planetaryRuler,
-            sign: a.sign,
-            config: a.config,
-            consciousnessState: a.consciousnessState,
-          })),
+          activations: list.map((a) => toActiveDegreeAgent(a)).filter((a): a is ActiveDegreeAgent => a !== undefined),
           status: "live",
           date: dateStr,
         };
@@ -201,9 +287,9 @@ class PlanetaryAgentsGateway {
       });
 
       if (res.ok) {
-        const data = await res.json();
+        const data = await readJson(res, { parse: (x) => z.custom<DegreeActivationMap>((val) => typeof val === "object" && val !== null).parse(x) });
         return {
-          degrees: (data || {}) as DegreeActivationMap,
+          degrees: data,
           status: "live",
         };
       }
@@ -223,7 +309,7 @@ class PlanetaryAgentsGateway {
   async fetchAgentForDegree(degree: number, date: Date = new Date()): Promise<{
     active: boolean;
     degree: number;
-    agent?: any;
+    agent?: ActiveDegreeAgent;
     message?: string;
   }> {
     const nextHost = this.getNextHost();
@@ -237,7 +323,15 @@ class PlanetaryAgentsGateway {
       });
 
       if (res.ok) {
-        return await res.json();
+        const data = await readJson(res, { parse: (x) => z.custom<RawDegreeApiResponse>((val) => typeof val === "object" && val !== null).parse(x) });
+        const mappedAgent = toActiveDegreeAgent(data.agent);
+
+        return {
+          active: data.active ?? true,
+          degree: data.degree ?? degree,
+          ...(mappedAgent ? { agent: mappedAgent } : {}),
+          ...(data.message ? { message: data.message } : {}),
+        };
       }
     } catch (err) {
       _logger.warn(`[PlanetaryAgentsGateway] fetchAgentForDegree(${degree}) failed:`, err);
@@ -363,28 +457,29 @@ class PlanetaryAgentsGateway {
       });
 
       if (paRes.ok) {
-        const data = await paRes.json();
-        const meta = data.metadata || {};
+        const data = await readJson(paRes, { parse: (x) => z.custom<RawFastApiChatResponse>((val) => typeof val === "object" && val !== null).parse(x) });
+        const meta = data.metadata;
+        const insightsList = meta?.insights ?? data.insights ?? [];
         return {
-          content: data.text || "",
-          sessionId: data.sessionId || sessionId,
-          agentId: data.agentId || agentId,
-          astrologicalContext: meta.astrologicalContext || {
+          content: data.text ?? "",
+          sessionId: data.sessionId ?? sessionId,
+          agentId: data.agentId ?? agentId,
+          astrologicalContext: meta?.astrologicalContext ?? {
             planetaryRuler: agent?.planetaryRuler,
             element: agent?.element,
             degree: agent?.exactDegree,
           },
           metadata: {
-            provider: meta.provider,
-            model: meta.model,
-            tier: meta.tier,
-            ragUsed: meta.rag_used,
-            mcp: meta.mcp,
             aiGenerated: data.ai_generated ?? true,
+            ...(meta?.provider ? { provider: meta.provider } : {}),
+            ...(meta?.model ? { model: meta.model } : {}),
+            ...(meta?.tier ? { tier: meta.tier } : {}),
+            ...(typeof meta?.rag_used === "boolean" ? { ragUsed: meta.rag_used } : {}),
+            ...(meta?.mcp ? { mcp: meta.mcp } : {}),
           },
-          newConsciousnessLevel: meta.consciousnessLevel || "Active",
-          evolutionGain: meta.evolutionGain ?? 0.05,
-          insights: (meta.insights as string[]) || (data.insights as string[]) || [],
+          newConsciousnessLevel: meta?.consciousnessLevel ?? "Active",
+          evolutionGain: meta?.evolutionGain ?? 0.05,
+          insights: insightsList,
           status: "live",
         };
       } else {
@@ -395,13 +490,13 @@ class PlanetaryAgentsGateway {
     }
 
     // 3. Graceful degradation: voiced alchemical perspective
-    const elementName = agent?.element || "Spirit";
-    const ruler = agent?.planetaryRuler || "Planetary Intelligence";
-    const dignity = agent?.dignity || "peregrine";
+    const elementName = agent?.element ?? "Spirit";
+    const ruler = agent?.planetaryRuler ?? "Planetary Intelligence";
+    const dignity = agent?.dignity ?? "peregrine";
     const strength = agent?.activationStrength ?? 85;
 
     return {
-      content: `As ${agent?.name || "Planetary Intelligence"} (${dignity} dignity, ${strength}% potency), I perceive the celestial currents of ${elementName} aligning with your inquiry: "${userMessage}". In this sacred space, let us transmute these cosmic vectors into culinary wisdom.`,
+      content: `As ${agent?.name ?? "Planetary Intelligence"} (${dignity} dignity, ${strength}% potency), I perceive the celestial currents of ${elementName} aligning with your inquiry: "${userMessage}". In this sacred space, let us transmute these cosmic vectors into culinary wisdom.`,
       sessionId,
       agentId,
       astrologicalContext: {
@@ -439,7 +534,7 @@ class PlanetaryAgentsGateway {
     for (const a of availableAgents) {
       if (a.id) {
         systemPromptOverrides[a.id.toLowerCase().trim()] =
-          `You are ${a.name}, an active planetary intelligence in the ${a.element || "Cosmic"} domain ruled by ${a.planetaryRuler || "the cosmos"}. Speak in 2-3 concise sentences addressing the culinary question with elemental wisdom.`;
+          `You are ${a.name}, an active planetary intelligence in the ${a.element ?? "Cosmic"} domain ruled by ${a.planetaryRuler ?? "the cosmos"}. Speak in 2-3 concise sentences addressing the culinary question with elemental wisdom.`;
       }
     }
 
@@ -463,21 +558,24 @@ class PlanetaryAgentsGateway {
       });
 
       if (paRes.ok) {
-        const data = await paRes.json();
-        if (Array.isArray(data.responses) && data.responses.length > 0) {
-          const turns = data.responses.map((r: any) => ({
+        const data = await readJson(paRes, { parse: (x) => z.custom<RawFastApiCouncilResponse>((val) => typeof val === "object" && val !== null).parse(x) });
+        const responsesList = data.responses;
+        if (Array.isArray(responsesList) && responsesList.length > 0) {
+          const turns = responsesList.map((r) => ({
             agentId: r.agentId,
-            agentName: r.name || r.agentId,
-            content: r.text || "",
+            agentName: r.name ?? r.agentId,
+            content: r.text ?? "",
             consensusWeight: r.consensusWeight ?? 0.85,
-            element: r.element,
+            ...(r.element ? { element: r.element } : {}),
           }));
 
-          const avgWeight = turns.reduce((sum: number, t: any) => sum + t.consensusWeight, 0) / turns.length;
-          const summary = `The Council of Active Degrees harmonizes on this matter with ${Math.round(avgWeight * 100)}% elemental resonance across ${turns.map((t: any) => t.agentName).join(", ")}.`;
+          const totalWeight = turns.reduce((sum, t) => sum + t.consensusWeight, 0);
+          const avgWeight = totalWeight / turns.length;
+          const agentNames = turns.map((t) => t.agentName).join(", ");
+          const summary = `The Council of Active Degrees harmonizes on this matter with ${Math.round(avgWeight * 100)}% elemental resonance across ${agentNames}.`;
 
           return {
-            sessionId: data.sessionId || sessionId,
+            sessionId: data.sessionId ?? sessionId,
             responses: turns,
             summary,
             status: "live",
@@ -491,16 +589,13 @@ class PlanetaryAgentsGateway {
     // Synthesis fallback
     const selected = availableAgents.filter((a) => agentIds.includes(a.id));
     const turns = selected.map((agent) => {
-      const element = agent.element || "Spirit";
+      const element = agent.element ?? "Spirit";
       const strength = agent.activationStrength ?? 80;
-      let styleNote = "";
-      if (mode === "debate") {
-        styleNote = `I challenge the conventional view: ${agent.planetaryRuler}'s current placement cautions against rush.`;
-      } else if (mode === "consensus") {
-        styleNote = `Our elemental harmonies unite in recommending balanced culinary transmutation.`;
-      } else {
-        styleNote = `The planetary currents flow with ${strength}% intensity through my domain.`;
-      }
+      const styleNote = mode === "debate"
+        ? `I challenge the conventional view: ${agent.planetaryRuler ?? "the celestial ruler"}'s current placement cautions against rush.`
+        : mode === "consensus"
+          ? "Our elemental harmonies unite in recommending balanced culinary transmutation."
+          : `The planetary currents flow with ${strength}% intensity through my domain.`;
 
       return {
         agentId: agent.id,
@@ -511,14 +606,14 @@ class PlanetaryAgentsGateway {
       };
     });
 
-    const avgWeight = turns.length > 0
-      ? turns.reduce((sum, r) => sum + r.consensusWeight, 0) / turns.length
-      : 0.8;
+    const totalWeight = turns.reduce((sum, r) => sum + r.consensusWeight, 0);
+    const avgWeight = turns.length > 0 ? totalWeight / turns.length : 0.8;
+    const agentNames = turns.map((t) => t.agentName).join(", ");
 
     return {
       sessionId,
       responses: turns,
-      summary: `The Council harmonizes with ${Math.round(avgWeight * 100)}% elemental resonance across ${turns.map((t) => t.agentName).join(", ")}.`,
+      summary: `The Council harmonizes with ${Math.round(avgWeight * 100)}% elemental resonance across ${agentNames}.`,
       status: "degraded",
     };
   }

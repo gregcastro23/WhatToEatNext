@@ -1,3 +1,4 @@
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { resolveAsin, getStandardizedQuantity } from "@/data/amazon";
 import { executeQuery } from "@/lib/database/connection";
@@ -10,10 +11,7 @@ interface IngredientAsin {
   default_quantity: number;
 }
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ recipeId: string }> },
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ recipeId: string }> }): Promise<NextResponse> {
   try {
   const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "amazon-cart" });
   if (!rl.allowed) return rl.response!;

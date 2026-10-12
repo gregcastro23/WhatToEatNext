@@ -43,7 +43,7 @@ interface ConversationMessage {
   content: string
   timestamp: Date
   type: 'user' | 'agent'
-  astrologicalContext?: any
+  astrologicalContext?: Record<string, unknown>
   consensusWeight?: number // For group decisions
 }
 
@@ -55,7 +55,7 @@ interface MultiAgentConversationProps {
   maxAgents?: number
 }
 
-const getElementIcon = (element: string) => {
+const getElementIcon = (element: string): string => {
   const icons = {
     Fire: '🔥',
     Water: '💧',
@@ -66,7 +66,7 @@ const getElementIcon = (element: string) => {
   return icons[element as keyof typeof icons] || '⭐'
 }
 
-const getElementColor = (element: string) => {
+const getElementColor = (element: string): string => {
   const colors = {
     Fire: 'bg-red-500/20 border-red-500/50',
     Water: 'bg-blue-500/20 border-blue-500/50',
@@ -304,7 +304,7 @@ export const MultiAgentConversation: React.FC<MultiAgentConversationProps> = ({
       if (conversationMode === 'consensus' && responses.length > 1) {
         await new Promise(resolve => setTimeout(resolve, 1000))
 
-        const consensus = result.summary || generateConsensusSummary(responses)
+        const consensus = result.summary ?? generateConsensusSummary(responses)
         const consensusMessage: ConversationMessage = {
           id: `consensus-${Date.now()}`,
           agentId: 'council',
@@ -354,7 +354,11 @@ export const MultiAgentConversation: React.FC<MultiAgentConversationProps> = ({
           <div className="flex items-center gap-2">
             <Select
               value={conversationMode}
-              onValueChange={(value: any) => setConversationMode(value)}
+              onValueChange={(value) => {
+                if (value === 'individual' || value === 'consensus' || value === 'debate') {
+                  setConversationMode(value)
+                }
+              }}
             >
               <SelectTrigger className="cosmic-select w-32">
                 <SelectValue />
@@ -500,8 +504,8 @@ async function generateMultiAgentResponses(
     content: string
     consensusWeight: number
   }>
-  summary?: string | undefined
-  sessionId?: string | undefined
+  summary?: string
+  sessionId?: string
 }> {
   try {
     const res = await fetch('/api/agents/council-chat', {
@@ -516,17 +520,28 @@ async function generateMultiAgentResponses(
       }),
     })
     if (res.ok) {
-      const data = await res.json()
+      const data: {
+        responses?: Array<{
+          agentId: string
+          agentName: string
+          content: string
+          consensusWeight: number
+          element?: string
+        }>
+        summary?: string
+        sessionId?: string
+      } = await res.json()
+      const finalSession = data.sessionId ?? sessionId;
       if (Array.isArray(data.responses) && data.responses.length > 0) {
         return {
           responses: data.responses,
-          summary: data.summary,
-          sessionId: data.sessionId || sessionId,
+          ...(data.summary ? { summary: data.summary } : {}),
+          ...(finalSession ? { sessionId: finalSession } : {}),
         }
       }
     }
   } catch (err) {
-    console.error('Failed to contact live council chat route:', err)
+    _logger.error('Failed to contact live council chat route:', err)
   }
 
   // Resilient fallback if connection drops

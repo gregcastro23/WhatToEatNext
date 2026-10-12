@@ -1,3 +1,6 @@
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
+import { _logger } from "@/lib/logger";
 "use client";
 
 import { ArrowRight, Check, Loader2, Sparkles } from "lucide-react";
@@ -15,7 +18,7 @@ interface HistoricalCouncilAgent {
   symbol: string;
 }
 
-const CANONICAL_COUNCIL: HistoricalCouncilAgent[] = [
+const CANONICAL_COUNCIL: [HistoricalCouncilAgent, ...HistoricalCouncilAgent[]] = [
   {
     slug: "leonardo-da-vinci",
     name: "Leonardo da Vinci",
@@ -76,8 +79,8 @@ const CANONICAL_COUNCIL: HistoricalCouncilAgent[] = [
 
 interface RecipeAgentCouncilProps {
   recipeId: string;
-  recipeName?: string | undefined;
-  onCritiqueGenerated?: ((tip: CommunityTip) => void) | undefined;
+  recipeName?: string;
+  onCritiqueGenerated?: (tip: CommunityTip) => void;
 }
 
 export function RecipeAgentCouncil({
@@ -85,7 +88,7 @@ export function RecipeAgentCouncil({
   recipeName,
   onCritiqueGenerated,
 }: RecipeAgentCouncilProps): React.JSX.Element {
-  const [selectedAgent, setSelectedAgent] = useState<HistoricalCouncilAgent>(CANONICAL_COUNCIL[0]!);
+  const [selectedAgent, setSelectedAgent] = useState<HistoricalCouncilAgent>(CANONICAL_COUNCIL[0]);
   const [loading, setLoading] = useState(false);
   const [activeCritique, setActiveCritique] = useState<{
     author: string;
@@ -113,13 +116,22 @@ export function RecipeAgentCouncil({
         throw new Error(`Failed to request critique (${res.status})`);
       }
 
-      const data = await res.json();
+      interface CritiqueResponse {
+        success?: boolean;
+        review?: {
+          author?: string;
+          dominantElement?: string;
+          tip: string;
+          postedAt?: string;
+        };
+      }
+      const data = await readJson(res, { parse: (x) => z.custom<CritiqueResponse>((val) => typeof val === "object" && val !== null).parse(x) });
       if (data.success && data.review) {
         const critiqueObj = {
-          author: data.review.author || agent.name,
+          author: data.review.author ?? agent.name,
           agentSlug: agent.slug,
           tip: data.review.tip,
-          dominantElement: data.review.dominantElement || agent.element,
+          dominantElement: data.review.dominantElement ?? agent.element,
         };
         setActiveCritique(critiqueObj);
 
@@ -128,12 +140,12 @@ export function RecipeAgentCouncil({
             author: critiqueObj.author,
             rating: 5,
             tip: critiqueObj.tip,
-            postedAt: data.review.postedAt || new Date().toISOString(),
+            postedAt: data.review.postedAt ?? new Date().toISOString(),
           });
         }
       }
     } catch (err) {
-      console.error("[RecipeAgentCouncil] critique request failed:", err);
+      _logger.error("[RecipeAgentCouncil] critique request failed:", err);
     } finally {
       setLoading(false);
     }

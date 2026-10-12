@@ -43,8 +43,8 @@ interface AgentProfileProps {
   interactions?: AgentInteraction[];
   actions?: AgentAction[];
   artifacts?: AgentArtifact[];
-  userId?: string | undefined;
-  viewer?: { follows: boolean; followedBy: boolean; isCommensal: boolean } | null | undefined;
+  userId?: string;
+  viewer?: { follows: boolean; followedBy: boolean; isCommensal: boolean } | null;
 }
 
 interface ElementColorConfig {
@@ -92,11 +92,11 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
   const chatUrl = agentChatUrl(slug);
   const galleryUrl = `${asolUiUrl}/gallery/chat/${encodeURIComponent(slug)}`;
 
-  const dominantElement = agent.consciousness?.dominantElement || "Fire";
+  const dominantElement = agent.consciousness?.dominantElement ?? "Fire";
   const elementStyle: ElementColorConfig =
     ELEMENT_COLORS[dominantElement] ?? DEFAULT_ELEMENT_COLOR;
 
-  const firstName = agent.name.split(" ")[0] || agent.name;
+  const firstName = agent.name.split(" ")[0] ?? agent.name;
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto pb-12">
@@ -117,7 +117,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
                   borderColor: `${accent}66`,
                 }}
               >
-                {agent.appearance?.symbol || agent.name.charAt(0)}
+                {agent.appearance?.symbol ?? agent.name.charAt(0)}
               </div>
 
               <div className="space-y-1.5">
@@ -125,18 +125,16 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
                   <h1 className="text-2xl md:text-3xl font-serif font-bold text-white tracking-tight">
                     {agent.name}
                   </h1>
-                  {dominantElement && (
-                    <Badge
-                      variant="outline"
-                      className={`${elementStyle.bg} ${elementStyle.text} ${elementStyle.border} text-xs font-medium uppercase tracking-wider`}
-                    >
-                      {dominantElement === "Fire" && <Flame className="w-3 h-3 mr-1 inline" />}
-                      {dominantElement === "Water" && <Droplets className="w-3 h-3 mr-1 inline" />}
-                      {dominantElement === "Air" && <Wind className="w-3 h-3 mr-1 inline" />}
-                      {dominantElement === "Earth" && <Mountain className="w-3 h-3 mr-1 inline" />}
-                      {dominantElement}
-                    </Badge>
-                  )}
+                  <Badge
+                    variant="outline"
+                    className={`${elementStyle.bg} ${elementStyle.text} ${elementStyle.border} text-xs font-medium uppercase tracking-wider`}
+                  >
+                    {dominantElement === "Fire" && <Flame className="w-3 h-3 mr-1 inline" />}
+                    {dominantElement === "Water" && <Droplets className="w-3 h-3 mr-1 inline" />}
+                    {dominantElement === "Air" && <Wind className="w-3 h-3 mr-1 inline" />}
+                    {dominantElement === "Earth" && <Mountain className="w-3 h-3 mr-1 inline" />}
+                    {dominantElement}
+                  </Badge>
                   <Badge variant="outline" className="bg-purple-500/10 text-purple-300 border-purple-500/30 text-xs font-semibold">
                     <Bot className="w-3 h-3 mr-1 inline" />
                     Historical Agent
@@ -189,7 +187,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
           {/* Token Balances strip */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
             {TOKEN_CHIPS.map((chip) => {
-              const val = balances[chip.key] ?? 0;
+              const val = balances[chip.key];
               return (
                 <div
                   key={chip.key}
@@ -397,7 +395,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
       </div>
 
       {/* ── Core Beliefs or Quotes (if present) ── */}
-      {((agent.quotes && agent.quotes.length > 0) || (agent.coreBeliefs && agent.coreBeliefs.length > 0)) && (
+      {((agent.quotes?.length ?? 0) > 0 || (agent.coreBeliefs?.length ?? 0) > 0) && (
         <Card className="glass-card-premium border-white/10 bg-black/40 backdrop-blur-md">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-serif text-white flex items-center gap-2">
@@ -456,7 +454,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
                     background: `linear-gradient(135deg, ${accent}66, ${accent}cc)`,
                   }}
                 >
-                  {agent.appearance?.symbol || agent.name.charAt(0)}
+                  {agent.appearance?.symbol ?? agent.name.charAt(0)}
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold text-white flex items-center gap-2">
@@ -465,7 +463,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
                       Live
                     </Badge>
                   </h3>
-                  <p className="text-[10px] text-white/40 font-mono">Time Laboratory · {agent.title || "Perpetual Steward"}</p>
+                  <p className="text-[10px] text-white/40 font-mono">Time Laboratory · {agent.title ?? "Perpetual Steward"}</p>
                 </div>
               </div>
               <button
@@ -481,14 +479,14 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
                 agent={{
                   id: slug,
                   name: agent.name,
-                  description: agent.title || agent.personality?.core?.essence || "Historical Alchemist",
-                  planetaryRuler: agent.consciousness?.dominantElement || "Sun",
-                  element: (dominantElement as any) || "Fire",
-                  consciousnessLevel: agent.consciousness?.level || "Master",
+                  description: agent.title ?? agent.personality?.core?.essence ?? "Historical Alchemist",
+                  planetaryRuler: agent.consciousness?.dominantElement ?? "Sun",
+                  element: (dominantElement === "Water" || dominantElement === "Air" || dominantElement === "Earth" || dominantElement === "Spirit") ? dominantElement : "Fire",
+                  consciousnessLevel: agent.consciousness?.level ?? "Master",
                   activationStrength: 100,
                   dignity: "Perpetual",
                 }}
-                userId={userId}
+                {...(userId ? { userId } : {})}
                 onClose={() => setIsChatOpen(false)}
               />
             </div>

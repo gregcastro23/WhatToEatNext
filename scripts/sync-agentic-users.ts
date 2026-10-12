@@ -38,16 +38,22 @@ interface RawBirthData {
   location?: RawBirthLocation | string;
 }
 
+interface RawEsmsElements {
+  Spirit?: number;
+  Essence?: number;
+  Matter?: number;
+  Substance?: number;
+  spirit?: number;
+  essence?: number;
+  matter?: number;
+  substance?: number;
+}
+
 interface RawConsciousness {
   natalChart?: unknown;
   dominantElement?: string;
   level?: string;
-  alchemicalElements?: {
-    spirit?: number;
-    essence?: number;
-    matter?: number;
-    substance?: number;
-  };
+  alchemicalElements?: RawEsmsElements;
 }
 
 interface RawDiet {
@@ -60,6 +66,19 @@ interface RawDiet {
   foodLore?: string;
 }
 
+interface RawPersonality {
+  core?: {
+    essence?: string;
+  };
+}
+
+interface RawAlchemicalState {
+  metadata?: {
+    dominantElement?: string;
+  };
+  esms?: RawEsmsElements;
+}
+
 interface RawAgent {
   id: string;
   agentId?: string;
@@ -70,10 +89,10 @@ interface RawAgent {
   specialization?: string;
   birthData?: RawBirthData;
   consciousness?: RawConsciousness;
-  personality?: unknown;
+  personality?: RawPersonality;
   abilities?: unknown;
   historicalDiet?: RawDiet;
-  alchemicalState?: unknown;
+  alchemicalState?: RawAlchemicalState;
   contextBlueprint?: unknown;
 }
 
@@ -86,7 +105,7 @@ interface DietProfileResponse {
     era?: string;
     birthData?: RawBirthData;
     historicalDiet?: RawDiet;
-    alchemicalState?: unknown;
+    alchemicalState?: RawAlchemicalState;
     contextBlueprint?: unknown;
   }>;
 }

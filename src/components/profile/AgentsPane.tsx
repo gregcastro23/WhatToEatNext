@@ -1,5 +1,7 @@
 'use client';
 
+import { _logger } from "@/lib/logger";
+
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
@@ -81,31 +83,46 @@ const HISTORICAL_COUNCIL: LiveAgentItem[] = [
   },
 ];
 
-export function AgentsPane() {
+export function AgentsPane(): React.ReactElement {
   const [agents, setAgents] = useState<LiveAgentItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isUsingHistoricalCouncil, setIsUsingHistoricalCouncil] = useState(false);
 
   useEffect(() => {
     let mounted = true;
-    async function loadActiveAgents() {
+    async function loadActiveAgents(): Promise<void> {
       try {
         const rawActivations = await fetchAgentsForDate(new Date());
         if (!mounted) return;
 
-        if (Array.isArray(rawActivations) && rawActivations.length > 0) {
-          const mapped: LiveAgentItem[] = rawActivations.map((a: any, idx: number) => {
-            const planet = a.planetaryRuler || a.agent?.name?.split(' ')[0] || 'Sun';
+        interface RawPaneActivation {
+          id?: string;
+          name?: string;
+          role?: string;
+          element?: string;
+          strength?: number;
+          activationStrength?: number;
+          esmsBalance?: number;
+          planetaryRuler?: string;
+          agent?: {
+            id?: string;
+            name?: string;
+          };
+        }
+        const activationsList: RawPaneActivation[] = Array.isArray(rawActivations) ? rawActivations : [];
+        if (activationsList.length > 0) {
+          const mapped: LiveAgentItem[] = activationsList.map((a, idx) => {
+            const planet = a.planetaryRuler ?? a.agent?.name?.split(' ')[0] ?? 'Sun';
             const strengthVal = Math.round((a.strength ?? a.activationStrength ?? 0.85) * 100);
             const balance = a.esmsBalance ?? Math.round(1500 + ((strengthVal / 100) * 1000));
 
             return {
-              id: a.agent?.id || a.id || `agent-${idx}`,
-              name: a.agent?.name || a.name || `${planet} Degree Agent`,
-              role: PLANET_ROLES[planet] || a.role || `${planet} Degree Intelligence`,
+              id: a.agent?.id ?? a.id ?? `agent-${idx}`,
+              name: a.agent?.name ?? a.name ?? `${planet} Degree Agent`,
+              role: PLANET_ROLES[planet] ?? a.role ?? `${planet} Degree Intelligence`,
               status: 'Active',
-              element: a.element || 'Fire',
-              icon: PLANET_ICONS[planet] || '✨',
+              element: a.element ?? 'Fire',
+              icon: PLANET_ICONS[planet] ?? '✨',
               strength: strengthVal,
               esmsBalance: balance,
             };
@@ -118,7 +135,7 @@ export function AgentsPane() {
           setIsUsingHistoricalCouncil(true);
         }
       } catch (err) {
-        console.error('Failed to load active planetary agents:', err);
+        _logger.error('Failed to load active planetary agents:', err);
         if (mounted) {
           setAgents(HISTORICAL_COUNCIL);
           setIsUsingHistoricalCouncil(true);
@@ -128,8 +145,8 @@ export function AgentsPane() {
       }
     }
 
-    void loadActiveAgents();
-    return () => {
+    loadActiveAgents().catch(() => {});
+    return (): void => {
       mounted = false;
     };
   }, []);

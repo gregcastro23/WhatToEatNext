@@ -378,7 +378,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
       {/* On-Demand Historical Agent Council Critique */}
       <RecipeAgentCouncil
         recipeId={recipeId}
-        recipeName={recipeName}
+        {...(recipeName ? { recipeName } : {})}
         onCritiqueGenerated={(newTip) => {
           setTips((prev) => [newTip, ...prev.filter((t) => t.author !== newTip.author)]);
         }}

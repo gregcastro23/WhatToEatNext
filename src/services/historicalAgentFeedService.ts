@@ -253,8 +253,7 @@ export function mapAgentToRecipePost(
   let recipeName: string;
   if (cached?.title) {
     // Real PA-LLM recipe (prewarmed by the cron) takes precedence.
-    recipeName = cached.title;
-    element = cached.element ?? element;
+    ({ title: recipeName, element } = cached);
   } else {
     recipeName = "a cosmic dish";
     try {

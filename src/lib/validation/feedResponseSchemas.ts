@@ -33,7 +33,7 @@ export interface AgentSummaryWire {
   monicaConstant: number | null;
   lastActionAt: string | null;
   actionCount: number;
-  slug?: string | undefined;
+  slug: string | null;
 }
 
 export interface NetworkTransactionWire {
@@ -108,7 +108,7 @@ export const AgentSummarySchema: z.ZodType<AgentSummaryWire> = z
     monicaConstant: z.number().nullable().optional().transform((v) => v ?? null),
     lastActionAt: z.string().nullable().optional().transform((v) => v ?? null),
     actionCount: z.number(),
-    slug: z.string().optional(),
+    slug: z.string().nullable().optional().transform((v) => v ?? null),
   });
 
 export const AgentsEnvelopeSchema = z

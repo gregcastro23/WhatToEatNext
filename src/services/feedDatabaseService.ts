@@ -136,9 +136,11 @@ class FeedDatabaseService {
       // Dual-write recipe reviews & cooking reflections into user_recipe_interactions
       // so historical agents' voiced reviews immediately surface under Community Tips
       // on recipe views and appear in community engagement metrics.
-      const targetRecipeId = (stampedPayload.recipeId || stampedPayload.recipe_id) as string | undefined;
-      const reviewText = (stampedPayload.review || stampedPayload.comment || stampedPayload.description) as string | undefined;
-      if (targetRecipeId && reviewText && typeof reviewText === "string" && reviewText.trim().length > 0) {
+      const rawRecipeId = stampedPayload.recipeId ?? stampedPayload.recipe_id;
+      const targetRecipeId = typeof rawRecipeId === "string" ? rawRecipeId : undefined;
+      const rawReview = stampedPayload.review ?? stampedPayload.comment ?? stampedPayload.description;
+      const reviewText = typeof rawReview === "string" ? rawReview.trim() : undefined;
+      if (targetRecipeId && reviewText && reviewText.length > 0) {
         const rawRating = typeof stampedPayload.rating === "number" ? stampedPayload.rating : 5;
         const rating = Math.min(5, Math.max(1, Math.round(rawRating)));
         const madeIt = stampedPayload.madeIt !== false && stampedPayload.made_it !== false;
@@ -151,7 +153,7 @@ class FeedDatabaseService {
                rating = EXCLUDED.rating,
                review = EXCLUDED.review,
                updated_at = CURRENT_TIMESTAMP`,
-            [actorId, String(targetRecipeId), madeIt, rating, reviewText.trim()]
+            [actorId, targetRecipeId, madeIt, rating, reviewText]
           );
         } catch (interactionError) {
           _logger.warn("[feed] failed to mirror recipe review to user_recipe_interactions:", interactionError);

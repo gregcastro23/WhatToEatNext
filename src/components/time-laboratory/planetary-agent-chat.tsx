@@ -1,3 +1,5 @@
+import { z } from "zod"
+import { readJson } from '@/lib/api/json'
 'use client'
 
 import {
@@ -42,7 +44,7 @@ interface ConversationContext {
   evolutionPoints: number
   insightsGained: string[]
   currentConsciousness: string
-  sessionId?: string | undefined
+  sessionId?: string 
 }
 
 interface InitialAgentContext {
@@ -63,9 +65,9 @@ interface AgentResponse {
   newConsciousnessLevel: string
   evolutionGain: number
   insights: string[]
-  sessionId?: string | undefined
-  isDormant?: boolean | undefined
-  status?: string | undefined
+  sessionId?: string 
+  isDormant?: boolean 
+  status?: string 
 }
 
 // Types for the chat system
@@ -97,13 +99,13 @@ interface ChatMessage {
 
 interface PlanetaryAgentChatProps {
   agent: PlanetaryAgent
-  userId?: string | undefined
-  initialContext?: InitialAgentContext | undefined
-  onClose?: (() => void) | undefined
-  onAgentEvolution?: ((agentId: string, evolution: AgentEvolution) => void) | undefined
+  userId?: string 
+  initialContext?: InitialAgentContext 
+  onClose?: (() => void) 
+  onAgentEvolution?: ((agentId: string, evolution: AgentEvolution) => void) 
 }
 
-const getElementIcon = (element: string) => {
+const getElementIcon = (element: string): React.ReactElement => {
   switch (element) {
     case 'Fire':
       return <Flame className="w-4 h-4 text-red-400" />
@@ -118,7 +120,7 @@ const getElementIcon = (element: string) => {
   }
 }
 
-const getElementColor = (element: string) => {
+const getElementColor = (element: string): string => {
   switch (element) {
     case 'Fire':
       return 'border-red-500/50 bg-red-500/10'
@@ -347,12 +349,13 @@ const PlanetaryAgentChat: React.FC<PlanetaryAgentChatProps> = ({
       setMessages(prev => [...prev, agentMessage])
 
       // Update conversation context with retained sessionId
+      const session = response.sessionId ?? conversationContext.sessionId;
       const newContext: ConversationContext = {
         messageCount: conversationContext.messageCount + 1,
         evolutionPoints: conversationContext.evolutionPoints + response.evolutionGain,
         insightsGained: [...conversationContext.insightsGained, ...response.insights],
         currentConsciousness: response.newConsciousnessLevel,
-        sessionId: response.sessionId || conversationContext.sessionId,
+        ...(session ? { sessionId: session } : {}),
       }
 
       setConversationContext(newContext)
@@ -549,15 +552,15 @@ async function generateAgentResponse(
         context,
         initialContext,
         sessionId: context.sessionId,
-        userId: userId || 'demo-user',
+        userId: userId ?? 'demo-user',
         date: initialContext?.date ? initialContext.date.toISOString() : undefined,
       }),
     })
     if (res.ok) {
-      return (await res.json()) as AgentResponse
+      return await readJson(res, { parse: (x) => z.custom<AgentResponse>((val) => typeof val === "object" && val !== null).parse(x) })
     }
   } catch (err) {
-    console.error('Failed to contact live agent chat route:', err)
+    _logger.error('Failed to contact live agent chat route:', err)
   }
 
   // Resilient alchemical fallback if network connection wavers

@@ -68,8 +68,12 @@ interface CompanionView {
 // below (`act.agent?.id`, `act.strength`, `act.dignity`, `act.element`,
 // `act.planetaryRuler`, `act.agent?.description`).
 interface PlanetaryActivation {
+  id?: string;
+  name?: string;
+  description?: string;
   agent?: {
     id?: string;
+    name?: string;
     description?: string;
   };
   strength?: number;
@@ -246,7 +250,7 @@ export async function GET(_req: NextRequest): Promise<NextResponse> {
   // Category 1: Present Moment Agents (aligned with active transits)
   const activeAgents = activations
     .map((act: PlanetaryActivation) => {
-      const actAgentId = String(act.agent?.id ?? "").toLowerCase();
+      const actAgentId = String(act.id ?? act.agent?.id ?? "").toLowerCase();
       // Match by email slug (prefix before @)
       const matchedLocal = hydratedAgents.find(
         (agent) => localPart(agent.email).toLowerCase() === actAgentId,
@@ -261,7 +265,7 @@ export async function GET(_req: NextRequest): Promise<NextResponse> {
           dignity: act.dignity ?? "peregrine",
           element: act.element ?? matchedLocal.dominantElement,
           planetaryRuler: act.planetaryRuler ?? "Sun",
-          description: act.agent?.description ?? matchedLocal.bio,
+          description: act.description ?? act.agent?.description ?? matchedLocal.bio,
         },
       };
     })

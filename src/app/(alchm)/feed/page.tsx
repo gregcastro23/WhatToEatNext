@@ -31,6 +31,7 @@ import {
   FeedReactionsResponseSchema,
   AgentsEnvelopeSchema,
   AgentSummarySchema,
+  type AgentSummaryWire,
   TransactionsEnvelopeSchema,
   NetworkTransactionSchema,
   SwapRatesApiResponseSchema,
@@ -51,17 +52,7 @@ function isUuidEventId(id: string): boolean {
   return UUID_RE.test(id);
 }
 
-interface AgentSummary {
-  userId: string;
-  handle: string;
-  name: string;
-  bio: string | null;
-  dominantElement: string | null;
-  monicaConstant: number | null;
-  lastActionAt: string | null;
-  actionCount: number;
-  slug?: string | undefined;
-}
+type AgentSummary = AgentSummaryWire;
 
 interface NetworkTransaction {
   id: string;
@@ -1027,7 +1018,7 @@ function AgentsTab({
                 {agent.dominantElement && (
                   <span
                     className={`text-[8px] uppercase tracking-widest font-bold px-2 py-0.5 rounded-full border border-white/10 bg-white/5 ${
-                      ELEMENT_TINT[agent.dominantElement] || "text-white/60"
+                      ELEMENT_TINT[agent.dominantElement] ?? "text-white/60"
                     }`}
                   >
                     {agent.dominantElement}
