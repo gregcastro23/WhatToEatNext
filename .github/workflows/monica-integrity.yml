@@ -46,8 +46,6 @@ jobs:
         with:
           fetch-depth: 1
       - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
       - name: Scan for invented monica fallbacks
         # Exits non-zero if any reader on the AGENT monica path falls back to a
         # numeric literal, or tests a monica for truthiness (falsy at a real 0,
@@ -200,8 +198,6 @@ jobs:
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
       - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
@@ -331,8 +327,6 @@ jobs:
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
       - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
       - name: Install dependencies
         run: bun install --frozen-lockfile
 

@@ -42,6 +42,7 @@ jobs:
           - name: Build
             command: bun run build
             fetch-depth: 1
+            cache-build: true
           - name: Test
             command: bun run test --passWithNoTests
             fetch-depth: 1
@@ -54,8 +55,14 @@ jobs:
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
+      - name: Cache Next.js build
+        if: matrix.cache-build == true
+        uses: actions/cache@v4
         with:
-          bun-version: latest
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-next-cache-${{ hashFiles('bun.lockb', 'bun.lock') }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-next-cache-${{ hashFiles('bun.lockb', 'bun.lock') }}-
       - name: Create env file
         run: |
           echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
@@ -82,8 +89,6 @@ jobs:
           fetch-depth: 1
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
       - name: Create env file
         run: |
           echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
@@ -137,8 +142,6 @@ jobs:
       # relative/`@/` with no npm package in it.
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
 
       - name: Install the pinned Rust toolchain
         run: |

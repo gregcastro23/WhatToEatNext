@@ -81,6 +81,7 @@ const config = {
   ],
   setupFiles: ["<rootDir>/tests/setup/jest.globals.ts"],
   setupFilesAfterEnv: ["<rootDir>/tests/setup/jest.setup.ts"],
+  sandboxInjectedGlobals: ["Math"],
 
   // Memory Management Configuration
   testTimeout: 30000, // 30s timeout for CI environment

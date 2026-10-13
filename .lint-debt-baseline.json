@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1233,
+  "trackedTotal": 1222,
   "casts": {
     "total": 158,
     "asAny": 38,
@@ -8,11 +8,11 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 2872,
+    "total": 2868,
     "asAny": 37,
     "chained": 120,
-    "single": 2715,
-    "production": 2281,
+    "single": 2711,
+    "production": 2277,
     "test": 591,
     "asConst": 575,
     "nonNull": 583
@@ -41,7 +41,7 @@
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 202,
+      "total": 199,
       "verifiedSafe": 0,
       "semantic": 290,
       "unclassified": 5,
@@ -49,10 +49,10 @@
     }
   },
   "declined": {
-    "total": 4686,
+    "total": 4680,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1273,
-      "@typescript-eslint/explicit-module-boundary-types": 631,
+      "@typescript-eslint/explicit-function-return-type": 1260,
+      "@typescript-eslint/explicit-module-boundary-types": 621,
       "complexity": 289,
       "max-depth": 83,
       "max-lines": 502,
@@ -71,7 +71,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 133,
+      "count": 129,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -79,11 +79,11 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 768,
+      "count": 766,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 45,
+      "count": 44,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
@@ -95,7 +95,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 109,
+      "count": 105,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
@@ -103,7 +103,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 202,
+      "count": 199,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
