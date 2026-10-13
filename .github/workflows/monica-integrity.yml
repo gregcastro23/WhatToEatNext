@@ -16,8 +16,11 @@
 name: Monica Integrity
 
 on:
+  # Feature branches are covered by the pull_request trigger; running push on
+  # every branch doubled every check, since the two land in different
+  # concurrency groups and neither cancels the other.
   push:
-    branches: ["**"]
+    branches: ["master"]
   pull_request:
     branches: ["**"]
   schedule:
@@ -43,8 +46,6 @@ jobs:
         with:
           fetch-depth: 1
       - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
       - name: Scan for invented monica fallbacks
         # Exits non-zero if any reader on the AGENT monica path falls back to a
         # numeric literal, or tests a monica for truthiness (falsy at a real 0,
@@ -189,20 +190,15 @@ jobs:
     runs-on: ubuntu-latest
     if: >-
       github.event_name == 'pull_request' &&
-      github.event.pull_request.head.repo.full_name == github.repository
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 1
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
       - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
@@ -331,13 +327,7 @@ jobs:
           fetch-depth: 1
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
       - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
       - name: Install dependencies
         run: bun install --frozen-lockfile
 

@@ -355,18 +355,41 @@ async function main(): Promise<void> {
         ]
       );
 
-      // 3. Upsert token_balances with live ESMS essence balances
-      await executeQuery(
-        `INSERT INTO token_balances (user_id, spirit, essence, matter, substance, updated_at)
-         VALUES ($1, $2, $3, $4, $5, now())
-         ON CONFLICT (user_id) DO UPDATE SET
-           spirit = CASE WHEN token_balances.spirit::numeric = 0 THEN EXCLUDED.spirit ELSE token_balances.spirit END,
-           essence = CASE WHEN token_balances.essence::numeric = 0 THEN EXCLUDED.essence ELSE token_balances.essence END,
-           matter = CASE WHEN token_balances.matter::numeric = 0 THEN EXCLUDED.matter ELSE token_balances.matter END,
-           substance = CASE WHEN token_balances.substance::numeric = 0 THEN EXCLUDED.substance ELSE token_balances.substance END,
-           updated_at = now()`,
-        [userId, spirit, essence, matter, substance]
+      // 3. Seed token_balances with live ESMS essence balances + immutable ledger
+      const balanceCheck = await executeQuery<{ user_id: string }>(
+        `SELECT user_id FROM token_balances WHERE user_id = $1`,
+        [userId],
       );
+
+      if (balanceCheck.rows.length === 0) {
+        // First-time initialization: insert token_balances and record in token_transactions
+        await executeQuery(
+          `INSERT INTO token_balances (user_id, spirit, essence, matter, substance, updated_at)
+           VALUES ($1, $2, $3, $4, $5, now())`,
+          [userId, spirit, essence, matter, substance],
+        );
+
+        const initialAxes: Array<{ type: string; amount: string }> = [
+          { type: "Spirit", amount: spirit },
+          { type: "Essence", amount: essence },
+          { type: "Matter", amount: matter },
+          { type: "Substance", amount: substance },
+        ];
+
+        for (const axis of initialAxes) {
+          if (parseFloat(axis.amount) > 0) {
+            await executeQuery(
+              `INSERT INTO token_transactions (
+                 transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key
+               ) VALUES (
+                 uuid_generate_v4(), $1, $2, $3::decimal, 'initial_grant', 'asol_esms_sync',
+                 'Historical agent ESMS balance seed', $4
+               ) ON CONFLICT (idempotency_key) DO NOTHING`,
+              [userId, axis.type, axis.amount, `init_grant_esms_sync:${userId}:${axis.type}`],
+            );
+          }
+        }
+      }
 
       // 4. Upsert user_streaks
       await executeQuery(
