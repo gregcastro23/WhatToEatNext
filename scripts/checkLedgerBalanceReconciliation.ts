@@ -166,7 +166,7 @@ if (unsound) {
 }
 if (problems.length > 0) {
   console.error(`\nFAILED (${problems.length}):\n${problems.map((p) => `  - ${p}`).join("\n")}\n`);
-  console.error("Repair with scripts/repairSpiritLedgerDrift.ts (dry run first) after confirming the CAUSE — a\nnew drift means a write path is bypassing the upsert, and repairing data without\nfixing that path just refills the same hole.\n");
+  console.error("Repair with scripts/repairSpiritLedgerDrift.ts or scripts/repairAgentLedgerDrift.ts (dry run first)\nafter confirming the CAUSE — a new drift means a write path is bypassing the upsert,\nand repairing data without fixing that path just refills the same hole.\n");
   process.exit(1);
 }
 console.log("\nPASS — every balance reconciles with its own ledger, on all four axes.\n");
