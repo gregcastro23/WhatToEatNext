@@ -20,6 +20,7 @@
 import crypto from "crypto";
 import { executeQuery, closeDatabase } from "../src/lib/database/connection";
 import { _logger } from "../src/lib/logger";
+import { AGENT_ESMS_SEED_SQL } from "./lib/agentEsmsSeed";
 
 const AGENTS_UI_URL =
   process.env.NEXT_PUBLIC_AGENTS_UI_URL ||
@@ -272,6 +273,12 @@ async function main(): Promise<void> {
     };
 
     try {
+      for (const amount of [spirit, essence, matter, substance]) {
+        if (!Number.isFinite(Number(amount)) || Number(amount) < 0) {
+          throw new Error("Agent ESMS seed quantities must be finite and nonnegative.");
+        }
+      }
+
       // 1. Upsert users table
       const userRes = await executeQuery<{ id: string }>(
         "SELECT id FROM users WHERE LOWER(email) = LOWER($1)",
@@ -355,40 +362,19 @@ async function main(): Promise<void> {
         ]
       );
 
-      // 3. Seed token_balances with live ESMS essence balances + immutable ledger
-      const balanceCheck = await executeQuery<{ user_id: string }>(
-        `SELECT user_id FROM token_balances WHERE user_id = $1`,
-        [userId],
+      // 3. Seed the ESMS balance and all ledger credits atomically.
+      const seedResult = await executeQuery<{
+        ledger_without_balance: boolean;
+        invalid_quantities: boolean;
+      }>(
+        AGENT_ESMS_SEED_SQL,
+        [userId, spirit, essence, matter, substance],
       );
-
-      if (balanceCheck.rows.length === 0) {
-        // First-time initialization: insert token_balances and record in token_transactions
-        await executeQuery(
-          `INSERT INTO token_balances (user_id, spirit, essence, matter, substance, updated_at)
-           VALUES ($1, $2, $3, $4, $5, now())`,
-          [userId, spirit, essence, matter, substance],
-        );
-
-        const initialAxes: Array<{ type: string; amount: string }> = [
-          { type: "Spirit", amount: spirit },
-          { type: "Essence", amount: essence },
-          { type: "Matter", amount: matter },
-          { type: "Substance", amount: substance },
-        ];
-
-        for (const axis of initialAxes) {
-          if (parseFloat(axis.amount) > 0) {
-            await executeQuery(
-              `INSERT INTO token_transactions (
-                 transaction_group_id, user_id, token_type, amount, source_type, source_id, description, idempotency_key
-               ) VALUES (
-                 uuid_generate_v4(), $1, $2, $3::decimal, 'initial_grant', 'asol_esms_sync',
-                 'Historical agent ESMS balance seed', $4
-               ) ON CONFLICT (idempotency_key) DO NOTHING`,
-              [userId, axis.type, axis.amount, `init_grant_esms_sync:${userId}:${axis.type}`],
-            );
-          }
-        }
+      if (seedResult.rows[0]?.ledger_without_balance) {
+        throw new Error(`Agent ${userId} has ledger entries without a balance; repair that drift before seeding.`);
+      }
+      if (seedResult.rows[0]?.invalid_quantities) {
+        throw new Error("Agent ESMS seed quantities must be finite and nonnegative.");
       }
 
       // 4. Upsert user_streaks

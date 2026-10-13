@@ -37,32 +37,9 @@
  * net to zero — so the comparison is per user, per axis.
  */
 import pg from "pg";
+import { readAgentLedgerDrift } from "./lib/agentLedgerRepair";
 
 const AXES = ["Spirit", "Essence", "Matter", "Substance"] as const;
-
-/** Per-user, per-axis comparison. `having` lets the control inject a fake drift. */
-const driftSql = (extraJoin = "", extraWhere = "TRUE") => `
-  WITH ledger AS (
-    SELECT user_id, token_type, sum(amount) AS total
-      FROM token_transactions GROUP BY 1, 2
-  ),
-  paired AS (
-    SELECT l.user_id, l.token_type, l.total AS ledger,
-           CASE lower(l.token_type)
-             WHEN 'spirit'    THEN b.spirit
-             WHEN 'essence'   THEN b.essence
-             WHEN 'matter'    THEN b.matter
-             WHEN 'substance' THEN b.substance
-           END AS balance
-      FROM token_balances b
-      JOIN ledger l ON l.user_id = b.user_id
-      ${extraJoin}
-     WHERE ${extraWhere}
-  )
-  SELECT user_id, token_type, ledger, balance, (ledger - balance) AS delta
-    FROM paired
-   WHERE balance IS NOT NULL
-     AND round(ledger::numeric, 6) <> round(balance::numeric, 6)`;
 
 const url = process.env.DATABASE_PUBLIC_URL || process.env.DATABASE_URL;
 if (!url) {
@@ -106,8 +83,8 @@ try {
   } else {
     const victimId = victim.rows[0].user_id;
     await client.query(`UPDATE token_balances SET spirit = spirit + 1.25 WHERE user_id = $1`, [victimId]);
-    const caught = await client.query(driftSql());
-    const sawIt = caught.rows.some(
+    const caught = await readAgentLedgerDrift(client);
+    const sawIt = caught.some(
       (r: { user_id: string; token_type: string }) => r.user_id === victimId && r.token_type === "Spirit",
     );
     if (sawIt) {
@@ -120,38 +97,35 @@ try {
   await client.query("ROLLBACK");
 
   // ── The check itself ────────────────────────────────────────────────────
-  const drift = await client.query(driftSql());
-  const rows = drift.rows as Array<{ user_id: string; token_type: string; ledger: string; balance: string; delta: string }>;
+  const rows = await readAgentLedgerDrift(client);
 
   for (const axis of AXES) {
-    const forAxis = rows.filter((r) => r.token_type === axis);
+    const forAxis = rows.filter((row) => !row.orphan && row.token_type === axis);
     if (forAxis.length === 0) {
       console.log(`✓ ${axis}: every balance equals its ledger`);
       continue;
     }
-    const net = forAxis.reduce((s, r) => s + Number(r.delta), 0);
-    console.error(`✗ ${axis}: ${forAxis.length} user(s) drift, net ${net.toFixed(4)}`);
-    for (const r of forAxis.slice(0, 5)) {
-      console.error(`    ${r.user_id.slice(0, 8)}  ledger ${Number(r.ledger).toFixed(4)}  balance ${Number(r.balance).toFixed(4)}  delta ${Number(r.delta).toFixed(4)}`);
+    console.error(`✗ ${axis}: ${forAxis.length} user(s) drift`);
+    for (const row of forAxis.slice(0, 5)) {
+      console.error(`    ${row.user_id.slice(0, 8)}  ledger ${row.ledger}  balance ${row.balance}  delta ${row.delta}`);
     }
     if (forAxis.length > 5) console.error(`    … ${forAxis.length - 5} more`);
-    problems.push(`${axis}: ${forAxis.length} users, net ${net.toFixed(4)}`);
+    problems.push(`${axis}: ${forAxis.length} users`);
   }
 
-  // A ledger row whose user has NO balance row is the same defect one step
-  // earlier — the credit never created the row it was supposed to create.
-  const orphans = await client.query(`
-    SELECT count(DISTINCT t.user_id) AS users, round(sum(t.amount)::numeric, 4) AS total
-      FROM token_transactions t
-      LEFT JOIN token_balances b ON b.user_id = t.user_id
-     WHERE b.user_id IS NULL`);
-  const orphanUsers = Number(orphans.rows[0].users);
-  if (orphanUsers > 0) {
-    console.error(`✗ ${orphanUsers} user(s) have ledger rows but NO token_balances row (${orphans.rows[0].total} tokens)`);
-    problems.push(`${orphanUsers} users with a ledger but no balance row`);
+  const orphanUsers = new Set(rows.filter((row) => row.orphan).map((row) => row.user_id));
+  if (orphanUsers.size > 0) {
+    console.error(`✗ ${orphanUsers.size} user(s) have ledger rows but NO token_balances row`);
+    problems.push(`${orphanUsers.size} users with a ledger but no balance row`);
   } else {
     console.log("✓ every user with a ledger row has a balance row");
   }
+  const unknownAxes = rows.filter((row) => !row.valid_axis);
+  if (unknownAxes.length > 0) {
+    console.error(`✗ ${unknownAxes.length} ledger pair(s) use unknown token axes`);
+    problems.push(`${unknownAxes.length} unknown token axes`);
+  }
+
 } catch (error) {
   await client.query("ROLLBACK").catch(() => {});
   console.error("✗ gate errored:", error instanceof Error ? error.message : error);
