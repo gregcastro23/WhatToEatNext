@@ -22,6 +22,7 @@ env:
 
 jobs:
   checks:
+    name: checks (${{ matrix.name }}, ${{ matrix.command }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
