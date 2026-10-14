@@ -48,6 +48,9 @@ export const FAIL_SQL = `UPDATE webhook_events
    SET status = 'failed', locked_at = NULL, latency_ms = $2, last_error = $3
  WHERE id = $1`;
 
+export const STORED_RESULT_SQL =
+  "SELECT result FROM webhook_events WHERE source = $1 AND event_id = $2 LIMIT 1";
+
 interface ClaimRow {
   id: string | number;
   attempts: number;

@@ -11,7 +11,7 @@
  * @file src/services/admin/adminAgentsService.ts
  */
 
-import { getWebhookSignatureModeInfo } from "@/lib/hooks/standardWebhooks";
+import { _logger } from "@/lib/logger";
 import type { AsolHealthOverview } from "@/services/admin/asolHealthService";
 import { getAsolHealthOverview } from "@/services/admin/asolHealthService";
 import type { CreditPathHealth, CreditPathSignals } from "@/services/agentCreditPathHealth";
@@ -52,12 +52,10 @@ export {
   runContractProbe,
 };
 
-import { _logger } from "@/lib/logger";
-
 interface ConnectivityGroupResult {
   services: ServiceReachability[];
   contractProbe: ContractProbeSummary;
-  inboundDelivery: AsolHealthOverview;
+  inboundDelivery: AsolHealthOverview | null;
 }
 
 interface ActionsGroupResult {
@@ -80,27 +78,7 @@ async function fetchConnectivityGroup(
     runContractProbe(fetchFn, baseUrl),
     getAsolHealthOverview(status ? { status } : undefined).catch((err) => {
       _logger.error("[adminAgentsService] inbound webhook health read failed:", err);
-      return {
-        generatedAt: new Date().toISOString(),
-        totalReceived: 0,
-        totalProcessed: 0,
-        totalInFlight: 0,
-        totalLiveInFlight: 0,
-        totalStaleLocks: 0,
-        totalFailed: 0,
-        totalDuplicates: 0,
-        overallP95LatencyMs: null,
-        sources: [],
-        recentEvents: [],
-        feedStatus: {
-          lastEmit: null,
-          signatureMode: "unknown",
-          signatureModeInfo: getWebhookSignatureModeInfo(),
-          internalSecretConfigured: Boolean(process.env.INTERNAL_API_SECRET),
-          syncSecretConfigured: Boolean(process.env.ASOL_SYNC_SECRET),
-          hookSecretConfigured: Boolean(process.env.SVIX_SECRET),
-        },
-      };
+      return null;
     }),
   ]);
   return { services: [serviceApi, serviceUi], contractProbe, inboundDelivery };
@@ -122,7 +100,7 @@ async function fetchActionsGroup(): Promise<ActionsGroupResult> {
     actionMetrics,
     cronHeartbeats,
     recipePipeline,
-    live: creditSignals.live && debitSignals.live && recipePipeline.live,
+    live: creditSignals.live && debitSignals.live && recipePipeline.live && actionMetrics.every((metric) => metric.calls24h !== null),
   };
 }
 
@@ -138,7 +116,7 @@ export async function getAdminAgentsOverview(
 
   return {
     generatedAt: new Date().toISOString(),
-    live: roster.live && actions.live,
+    live: roster.live && actions.live && connectivity.inboundDelivery !== null,
     roster,
     connectivity,
     actions: {

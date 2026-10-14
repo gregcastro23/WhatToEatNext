@@ -39,6 +39,7 @@
     "check:sql:auth": "bun scripts/checkAuthSqlParses.ts",
     "check:sql:agent-ledger": "bun scripts/checkAgentLedgerSql.mjs",
     "check:sql:cosmic-refund": "bun scripts/checkCosmicRefundSql.mjs",
+    "check:sql:admin-inbox": "bun scripts/checkAdminInboxSqlParses.ts",
     "audit:ingredients": "bun scripts/auditIngredients.ts",
     "cleanup:device-sessions": "bun scripts/cleanup-device-sessions.ts",
     "audit:ingredient-quality": "bun scripts/auditIngredientDataQuality.ts",

@@ -365,4 +365,12 @@ describe("adminAgentsService", () => {
     expect(yieldCron?.state).toBe("failing");
     expect(prewarmCron?.state).toBe("never");
   });
+  it("keeps unread inbound telemetry distinct from a measured zero", async () => {
+    setupDefaultMocks();
+    mockGetAsolHealthOverview.mockRejectedValue(new Error("DB unavailable"));
+    const overview = await getAdminAgentsOverview({ fetchFn: jest.fn().mockResolvedValue(new Response("{}")) });
+    expect(overview.connectivity.inboundDelivery).toBeNull();
+    expect(overview.live).toBe(false);
+  });
+
 });

@@ -227,10 +227,10 @@ export const AgentActionMetricSchema = z.object({
   action: z.string(),
   label: z.string(),
   path: z.string(),
-  calls24h: z.number(),
-  successes24h: z.number(),
-  failures24h: z.number(),
-  serverFailures24h: z.number(),
+  calls24h: z.number().nullable(),
+  successes24h: z.number().nullable(),
+  failures24h: z.number().nullable(),
+  serverFailures24h: z.number().nullable(),
   p50Ms: z.number().nullable(),
   p95Ms: z.number().nullable(),
   lastSeenAt: z.string().nullable(),
@@ -281,7 +281,7 @@ export const AdminAgentsSchema = z.object({
   connectivity: z.object({
     services: z.array(ServiceReachabilitySchema),
     contractProbe: ContractProbeSummarySchema,
-    inboundDelivery: AsolHealthOverviewSchema,
+    inboundDelivery: AsolHealthOverviewSchema.nullable(),
   }),
   actions: z.object({
     creditPath: CreditPathHealthSchema,

@@ -11,6 +11,7 @@ import {
   claimWebhookEvent,
   completeWebhookEvent,
   failWebhookEvent,
+  STORED_RESULT_SQL,
 } from "@/lib/hooks/inbox";
 import type { HookEvent, HookSource, InboxClaim } from "@/lib/hooks/types";
 
@@ -100,7 +101,7 @@ export async function fetchStoredResult(
 ): Promise<Record<string, unknown> | null> {
   try {
     const res = await executeQuery<{ result: unknown }>(
-      `SELECT result FROM webhook_events WHERE source = $1 AND event_id = $2 LIMIT 1`,
+      STORED_RESULT_SQL,
       [source, eventId],
     );
     const [row] = res.rows;
