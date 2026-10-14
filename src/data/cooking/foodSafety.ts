@@ -57,23 +57,24 @@ export const SAFE_INTERNAL_TEMPERATURES: readonly SafeInternalTemperature[] = [
     foodType: "fish, shellfish, crustaceans",
     minTempC: 62.8,
     minTempF: 145,
-    source: "USDA FSIS consumer chart / FDA Food Code 2022 § 3-401.11(A)(1)",
+    source: "USDA FSIS consumer chart (FDA Food Code 2022 § 3-401.11(A)(1) specifies 145°F for 15 seconds)",
     notes: "Until flesh is opaque and flakes readily with a fork.",
   },
   {
     category: "eggs",
-    foodType: "egg dishes, quiches, casseroles",
+    foodType: "egg dishes, quiches, frittatas",
     minTempC: 71.1,
     minTempF: 160,
     source: "USDA FSIS consumer chart / FoodSafety.gov (reviewed 2024-11-21)",
-    notes: "Egg dishes cooked to 160°F; raw eggs cooked until yolk and white are firm.",
+    notes: "Egg dishes (frittata, quiche) cooked to 160°F; raw eggs cooked until yolk and white are firm. Casseroles are categorized at 165°F.",
   },
   {
     category: "reheating",
     foodType: "leftovers, casseroles, sauces",
     minTempC: 73.9,
     minTempF: 165,
-    source: "USDA FSIS Safe Food Handling Guidelines",
+    source: "USDA FSIS Safe Food Handling Guidelines / FoodSafety.gov (reviewed 2024-11-21)",
+    notes: "Leftovers and casseroles reheated or cooked to 165°F.",
   },
 ] as const;
 
@@ -122,7 +123,7 @@ const PROTEIN_SAFETY_RULES: readonly ProteinThreshold[] = [
     pattern: /\b(fish|salmon|tuna|cod|shrimp|seafood)\b/i,
     minTemp: 145,
     label: "fish and shellfish",
-    citation: "USDA FSIS consumer chart / FDA Food Code 2022 § 3-401.11(A)(1) safe minimum of 145°F (63°C)",
+    citation: "USDA FSIS consumer safe minimum of 145°F (63°C)",
   },
 ];
 
