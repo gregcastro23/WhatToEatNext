@@ -88,7 +88,7 @@ export interface AdminAgentsPayload {
   connectivity: {
     services: ServiceReachability[];
     contractProbe: ContractProbeSummary;
-    inboundDelivery: AsolHealthOverview;
+    inboundDelivery: AsolHealthOverview | null;
   };
   actions: {
     creditPath: CreditPathHealth & CreditPathSignals;

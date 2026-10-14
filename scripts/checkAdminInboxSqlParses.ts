@@ -10,9 +10,9 @@
  *
  * This verification script:
  *   1. Imports the live SQL statements from `asolHealthQueries.ts`, `inbox.ts`,
- *      and `adminPulseService.ts` with ZERO regex scraping.
+ *      idempotency, and shared admin SQL with ZERO regex scraping.
  *   2. Proves the gate detects broken SQL using a failing control (undefined column).
- *   3. PREPAREs all 11 shipped statements against live PostgreSQL (parse + type analysis).
+ *   3. PREPAREs all 12 shipped statements against live PostgreSQL (parse + type analysis).
  *   4. Establishes session-local TEMP tables shadowing `webhook_events` and `users`,
  *      verifying `relnamespace = pg_my_temp_schema()` so writes never touch shared tables.
  *   5. Exercises the complete claim, conflict, duplicate, completion, failure,
@@ -41,13 +41,12 @@ import {
   FAIL_SQL,
   MARK_DUPLICATE_SQL,
   STALE_LOCK_SECONDS,
+  STORED_RESULT_SQL as IDEMPOTENCY_QUERY,
 } from "../src/lib/hooks/inbox";
-
-export const IDEMPOTENCY_QUERY =
-  "SELECT result FROM webhook_events WHERE source = $1 AND event_id = $2 LIMIT 1";
-
-export const ROSTER_QUERY =
-  "SELECT COUNT(*)::int AS count FROM users WHERE is_agent = true";
+import {
+  AGENT_ACTION_METRICS_SQL,
+  AGENT_PULSE_ROSTER_SQL as ROSTER_QUERY,
+} from "../src/services/admin/adminAgentSql";
 
 function resolveDatabaseUrl(): string | undefined {
   let url = process.env.DATABASE_PUBLIC_URL ?? process.env.DATABASE_URL;
@@ -92,7 +91,7 @@ export async function checkAdminInboxSql(client: pg.Client): Promise<number> {
   }
   console.log("✓ Control: PREPARE rejects invalid column query (code 42703)");
 
-  // ── 1. PREPARE all 11 shipped statements against PostgreSQL ───────────────
+  // ── 1. PREPARE all 12 shipped statements against PostgreSQL ───────────────
   const statements = [
     { name: "_stmt_overall", sql: OVERALL_HEALTH_24H_QUERY },
     { name: "_stmt_source", sql: SOURCE_HEALTH_24H_QUERY },
@@ -105,6 +104,7 @@ export async function checkAdminInboxSql(client: pg.Client): Promise<number> {
     { name: "_stmt_fail", sql: FAIL_SQL },
     { name: "_stmt_idempotency", sql: IDEMPOTENCY_QUERY },
     { name: "_stmt_roster", sql: ROSTER_QUERY },
+    { name: "_stmt_actions", sql: AGENT_ACTION_METRICS_SQL },
   ];
 
   for (const stmt of statements) {
@@ -140,15 +140,20 @@ export async function checkAdminInboxSql(client: pg.Client): Promise<number> {
       name text,
       is_agent boolean NOT NULL DEFAULT false
     );
+    CREATE TEMP TABLE request_log_entries (
+      path text NOT NULL, status integer NOT NULL,
+      latency_ms integer NOT NULL, at timestamptz NOT NULL DEFAULT now()
+    );
   `);
 
-  const isoCheck = await client.query<{ isolated: boolean }>(`
-    SELECT bool_and(relnamespace = pg_my_temp_schema()) AS isolated
+  const isoCheck = await client.query<{ count: number; isolated: boolean }>(`
+    SELECT count(*)::int AS count, bool_and(relnamespace = pg_my_temp_schema()) AS isolated
     FROM pg_class
-    WHERE oid IN (to_regclass('webhook_events'), to_regclass('users'))
+    WHERE oid IN (to_regclass('webhook_events'), to_regclass('users'), to_regclass('request_log_entries'))
   `);
+  assert.equal(isoCheck.rows[0]?.count, 3, "All three fixture relations must resolve");
   assert.equal(isoCheck.rows[0]?.isolated, true, "All fixture names must resolve to temporary tables");
-  console.log("✓ Isolation: verified TEMP tables shadow webhook_events and users in pg_my_temp_schema");
+  console.log("✓ Isolation: webhook_events, users, and request_log_entries resolve to pg_my_temp_schema");
 
   let passedScenarios = 0;
 
@@ -260,6 +265,17 @@ export async function checkAdminInboxSql(client: pg.Client): Promise<number> {
   assert.equal(rosterRes.rows[0]?.count, 1);
   passedScenarios += 1;
   console.log("PASS Scenario 8: ROSTER_QUERY accurately filters is_agent = true");
+
+  await client.query(`INSERT INTO pg_temp.request_log_entries(path,status,latency_ms)
+    VALUES ('/api/feed',200,10),('/api/feed',500,30),('/api/other',200,5)`);
+  const actions = await client.query(AGENT_ACTION_METRICS_SQL, [["/api/feed"]]);
+  assert.equal(actions.rows.length, 1);
+  assert.equal(actions.rows[0].total, 2);
+  assert.equal(actions.rows[0].successes, 1);
+  assert.equal(actions.rows[0].failures, 1);
+  assert.equal(actions.rows[0].server_failures, 1);
+  passedScenarios += 1;
+  console.log("PASS Scenario 9: shipped action metrics filter and aggregate the TEMP request log");
 
   console.log(`Admin/Inbox SQL: ${passedScenarios} isolated PostgreSQL scenarios passed.`);
   return passedScenarios;

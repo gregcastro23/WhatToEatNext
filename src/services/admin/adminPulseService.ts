@@ -34,6 +34,7 @@ import {
   type DebitPathVerdict,
 } from "@/services/agentDebitPathHealth";
 import type { CoverageStatus } from "@/services/stripeWebhookCoverageService";
+import { AGENT_PULSE_ROSTER_SQL } from "./adminAgentSql";
 
 export interface GrowthPulse {
   live: boolean;
@@ -176,7 +177,7 @@ function mapOrNull<T, U>(value: T | null, fn: (v: T) => U): U | null {
 export async function getAgentsPulse(): Promise<AgentsPulse> {
   const [rosterRes, creditSignals, debitSignals, asolHealth, reachabilityRes] = await Promise.all([
     executeQuery<{ count: number }>(
-      "SELECT COUNT(*)::int AS count FROM users WHERE is_agent = true",
+      AGENT_PULSE_ROSTER_SQL,
     )
       .then((res) => (res.rows[0]?.count !== undefined ? Number(res.rows[0].count) : null))
       .catch((err) => {

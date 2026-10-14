@@ -277,7 +277,7 @@ export const AdminAgentsSchema = z.object({
   connectivity: z.object({
     services: z.array(ServiceReachabilitySchema),
     contractProbe: ContractProbeSummarySchema,
-    inboundDelivery: AsolHealthOverviewSchema,
+    inboundDelivery: AsolHealthOverviewSchema.nullable(),
   }),
   actions: z.object({
     creditPath: CreditPathHealthSchema,
