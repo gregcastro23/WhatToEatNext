@@ -229,6 +229,14 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun run check:sql:agent-ledger
 
+      - name: Cosmic recipe refund settlement and replay are atomic and complete
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Session TEMP tables shadow all application names; refund commits
+        # affect only fixtures. No production balance or ledger is changed.
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun run check:sql:cosmic-refund
+
       - name: Transmutation Circle SQL parses against PostgreSQL
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # PREPAREs every statement in transmutationQueries.ts (writes nothing).

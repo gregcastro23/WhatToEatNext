@@ -91,8 +91,12 @@ async function callRoute(): Promise<Response> {
 }
 
 describe("cosmic recipe ESMS settlement", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.resetModules();
+    const { resetRecipePipelineTelemetry } = await import(
+      "@/lib/cooking/recipePipelineTelemetry"
+    );
+    resetRecipePipelineTelemetry();
     purchaseShopItem.mockReset();
     creditMultipleTokensDetailed.mockReset();
     getShopItem.mockReset();
@@ -239,5 +243,125 @@ describe("cosmic recipe ESMS settlement", () => {
     const res = await mod.POST(req);
     expect(res.status).toBe(409);
     expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("reports refundStatus: confirmed, refunded: true, and exact net amounts in response when credit succeeds", async () => {
+    creditMultipleTokensDetailed.mockResolvedValue({
+      status: "credited",
+      balances: null,
+      written: 4,
+      requested: 4,
+    });
+    installFetchMock(
+      jest.fn().mockResolvedValue(
+        new Response(JSON.stringify({ detail: "upstream boom" }), { status: 502 }),
+      ),
+    );
+
+    const res = await callRoute();
+    expect(res.status).toBe(502);
+    const body = await res.json();
+    expect(body.refunded).toBe(true);
+    expect(body.refundStatus).toBe("confirmed");
+    expect(body.refundAmounts).toEqual({
+      spirit: 7.5,
+      essence: 7.5,
+      matter: 7.5,
+      substance: 7.5,
+    });
+
+    const { getRecipePipelineTelemetryStats } = await import(
+      "@/lib/cooking/recipePipelineTelemetry"
+    );
+    const stats = getRecipePipelineTelemetryStats();
+    expect(stats.refunds).toBe(1);
+    expect(stats.finalFailures).toBe(1);
+  });
+
+  it("reports refundStatus: failed and refunded: false when credit transaction fails", async () => {
+    creditMultipleTokensDetailed.mockResolvedValue({
+      status: "failed",
+      code: "40001",
+      constraint: null,
+      message: "serialization failure",
+    });
+    installFetchMock(
+      jest.fn().mockResolvedValue(
+        new Response(JSON.stringify({ detail: "upstream timeout" }), { status: 504 }),
+      ),
+    );
+
+    const res = await callRoute();
+    expect(res.status).toBe(504);
+    const body = await res.json();
+    expect(body.refunded).toBe(false);
+    expect(body.refundStatus).toBe("failed");
+    expect(body.refundAmounts).toEqual({
+      spirit: 7.5,
+      essence: 7.5,
+      matter: 7.5,
+      substance: 7.5,
+    });
+
+    const { getRecipePipelineTelemetryStats } = await import(
+      "@/lib/cooking/recipePipelineTelemetry"
+    );
+    const stats = getRecipePipelineTelemetryStats();
+    expect(stats.refunds).toBe(0);
+    expect(stats.finalFailures).toBe(1);
+  });
+
+  it("reports refundStatus: failed and refunded: false when credit operation throws an error", async () => {
+    creditMultipleTokensDetailed.mockRejectedValue(
+      new Error("Database pool connection timeout"),
+    );
+    installFetchMock(
+      jest.fn().mockResolvedValue(
+        new Response(JSON.stringify({ detail: "upstream 502" }), { status: 502 }),
+      ),
+    );
+
+    const res = await callRoute();
+    expect(res.status).toBe(502);
+    const body = await res.json();
+    expect(body.refunded).toBe(false);
+    expect(body.refundStatus).toBe("failed");
+    expect(body.refundAmounts).toEqual({
+      spirit: 7.5,
+      essence: 7.5,
+      matter: 7.5,
+      substance: 7.5,
+    });
+
+    const { getRecipePipelineTelemetryStats } = await import(
+      "@/lib/cooking/recipePipelineTelemetry"
+    );
+    const stats = getRecipePipelineTelemetryStats();
+    expect(stats.refunds).toBe(0);
+    expect(stats.finalFailures).toBe(1);
+  });
+
+  it("reports refundStatus: confirmed and refunded: true on idempotent replay credit outcome", async () => {
+    creditMultipleTokensDetailed.mockResolvedValue({
+      status: "replayed",
+      balances: null,
+    });
+    installFetchMock(
+      jest.fn().mockResolvedValue(
+        new Response(JSON.stringify({ detail: "upstream fail" }), { status: 502 }),
+      ),
+    );
+
+    const res = await callRoute();
+    expect(res.status).toBe(502);
+    const body = await res.json();
+    expect(body.refunded).toBe(true);
+    expect(body.refundStatus).toBe("confirmed");
+
+    const { getRecipePipelineTelemetryStats } = await import(
+      "@/lib/cooking/recipePipelineTelemetry"
+    );
+    const stats = getRecipePipelineTelemetryStats();
+    expect(stats.refunds).toBe(1);
   });
 });
