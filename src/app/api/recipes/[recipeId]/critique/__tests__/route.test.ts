@@ -17,7 +17,8 @@ import { NextRequest } from "next/server";
 // Mock dependencies before importing route
 const mockGetUserIdFromRequest = jest.fn();
 jest.mock("@/lib/auth/validateRequest", () => ({
-  getUserIdFromRequest: (...args: unknown[]) => mockGetUserIdFromRequest(...args),
+  getUserIdFromRequest: (...args: unknown[]) =>
+    mockGetUserIdFromRequest(...args),
 }));
 
 const mockRateLimit = jest.fn();
@@ -122,21 +123,26 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
     body: Record<string, unknown> = {},
     headers: Record<string, string> = {},
   ): NextRequest {
-    return new NextRequest(`http://localhost:3000/api/recipes/${RECIPE_ID}/critique`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        ...headers,
+    return new NextRequest(
+      `http://localhost:3000/api/recipes/${RECIPE_ID}/critique`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          ...headers,
+        },
+        body: JSON.stringify(body),
       },
-      body: JSON.stringify(body),
-    });
+    );
   }
 
   it("1. Rejects unauthenticated callers with 401 Unauthorized", async () => {
     mockGetUserIdFromRequest.mockResolvedValue(null);
 
     const req = makeRequest({ agentSlug: "leonardo-da-vinci" });
-    const res = await POST(req, { params: Promise.resolve({ recipeId: RECIPE_ID }) });
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: RECIPE_ID }),
+    });
 
     expect(res.status).toBe(401);
     const data = await res.json();
@@ -155,7 +161,9 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
       { agentSlug: "leonardo-da-vinci" },
       { authorization: "Bearer super-secret-key-123" },
     );
-    const res = await POST(req, { params: Promise.resolve({ recipeId: RECIPE_ID }) });
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: RECIPE_ID }),
+    });
 
     expect(res.status).toBe(200);
     const data = await res.json();
@@ -170,7 +178,9 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
     });
 
     const req = makeRequest({ agentSlug: "leonardo-da-vinci" });
-    const res = await POST(req, { params: Promise.resolve({ recipeId: RECIPE_ID }) });
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: RECIPE_ID }),
+    });
 
     expect(res.status).toBe(429);
     expect(res.headers.get("retry-after")).toBe("45");
@@ -189,7 +199,9 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
     });
 
     const req = makeRequest({ agentSlug: "leonardo-da-vinci" });
-    const res = await POST(req, { params: Promise.resolve({ recipeId: "missing-recipe-id" }) });
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: "missing-recipe-id" }),
+    });
 
     expect(res.status).toBe(404);
     const data = await res.json();
@@ -214,7 +226,9 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
     });
 
     const req = makeRequest({ agentSlug: "unknown-agent-slug" });
-    const res = await POST(req, { params: Promise.resolve({ recipeId: RECIPE_ID }) });
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: RECIPE_ID }),
+    });
 
     expect(res.status).toBe(404);
     const data = await res.json();
@@ -225,7 +239,9 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
 
   it("6. Eliminates invented 5-star ratings and made_it claims from route & feed event payload", async () => {
     const req = makeRequest({ agentSlug: "leonardo-da-vinci" });
-    const res = await POST(req, { params: Promise.resolve({ recipeId: RECIPE_ID }) });
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: RECIPE_ID }),
+    });
 
     expect(res.status).toBe(200);
     const data = await res.json();
@@ -240,15 +256,17 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
     const [, eventType, metadata] = mockCreateEvent.mock.calls[0];
     expect(eventType).toBe("recipe_review");
     expect(metadata.rating).toBeUndefined();
-    expect(metadata.madeIt).toBe(false);
-    expect(metadata.made_it).toBe(false);
+    expect(metadata.madeIt).toBeUndefined();
+    expect(metadata.made_it).toBeUndefined();
     expect(metadata.recipeId).toBe(RECIPE_ID);
     expect(metadata.contentState).toBe("live");
   });
 
   it("7. Classifies and returns live contentState when gateway inference succeeds", async () => {
     const req = makeRequest({ agentSlug: "leonardo-da-vinci" });
-    const res = await POST(req, { params: Promise.resolve({ recipeId: RECIPE_ID }) });
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: RECIPE_ID }),
+    });
 
     expect(res.status).toBe(200);
     const data = await res.json();
@@ -265,7 +283,9 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
     });
 
     const req = makeRequest({ agentSlug: "leonardo-da-vinci" });
-    const res = await POST(req, { params: Promise.resolve({ recipeId: RECIPE_ID }) });
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: RECIPE_ID }),
+    });
 
     expect(res.status).toBe(200);
     const data = await res.json();
@@ -276,16 +296,22 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
   });
 
   it("9. Falls back to curated lore state and logs error when gateway chat fails/throws", async () => {
-    mockChatWithAgent.mockRejectedValue(new Error("FastAPI connection timeout"));
+    mockChatWithAgent.mockRejectedValue(
+      new Error("FastAPI connection timeout"),
+    );
 
     const req = makeRequest({ agentSlug: "leonardo-da-vinci" });
-    const res = await POST(req, { params: Promise.resolve({ recipeId: RECIPE_ID }) });
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: RECIPE_ID }),
+    });
 
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data.critique.contentState).toBe("curated");
     // Leonardo's curated lore
-    expect(data.critique.tip).toContain("The body should never be a tomb for other living creatures");
+    expect(data.critique.tip).toContain(
+      "The body should never be a tomb for other living creatures",
+    );
     expect(mockLogger.error).toHaveBeenCalledWith(
       expect.stringContaining("Gateway chat failed"),
       expect.any(Error),
@@ -296,29 +322,88 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
     mockCreateEvent.mockResolvedValue(false); // Persistence returned false
 
     const req = makeRequest({ agentSlug: "leonardo-da-vinci" });
-    const res = await POST(req, { params: Promise.resolve({ recipeId: RECIPE_ID }) });
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: RECIPE_ID }),
+    });
 
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data.success).toBe(true);
     expect(data.critique.tip).toBeTruthy();
     expect(data.critique.published).toBe(false);
+    expect(data.critique.persistedAt).toBeUndefined();
+    expect(data.review.postedAt).toBeUndefined();
   });
 
   it("11. Separates generation from publication: returns published=false if createEvent throws", async () => {
-    mockCreateEvent.mockRejectedValue(new Error("Database connection pool timeout"));
+    mockCreateEvent.mockRejectedValue(
+      new Error("Database connection pool timeout"),
+    );
 
     const req = makeRequest({ agentSlug: "leonardo-da-vinci" });
-    const res = await POST(req, { params: Promise.resolve({ recipeId: RECIPE_ID }) });
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: RECIPE_ID }),
+    });
 
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data.success).toBe(true);
     expect(data.critique.tip).toBeTruthy();
     expect(data.critique.published).toBe(false);
+    expect(data.critique.persistedAt).toBeUndefined();
+    expect(data.review.postedAt).toBeUndefined();
     expect(mockLogger.error).toHaveBeenCalledWith(
       expect.stringContaining("Failed to persist critique"),
       expect.any(Error),
+    );
+  });
+
+  it("rejects malformed JSON before recipe lookup, inference or publication", async () => {
+    const req = new NextRequest(
+      `https://example.test/api/recipes/${RECIPE_ID}/critique`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: "{broken",
+      },
+    );
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: RECIPE_ID }),
+    });
+    expect(res.status).toBe(400);
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
+    expect(mockChatWithAgent).not.toHaveBeenCalled();
+    expect(mockCreateEvent).not.toHaveBeenCalled();
+  });
+
+  it("uses the catalog recipe and authenticated rate-limit actor instead of body-supplied claims", async () => {
+    const req = makeRequest({
+      agentSlug: "leonardo-da-vinci",
+      recipeName: "Spoofed Dish",
+      userId: "spoofed-user",
+    });
+    const res = await POST(req, {
+      params: Promise.resolve({ recipeId: RECIPE_ID }),
+    });
+    expect(res.status).toBe(200);
+    expect(mockRateLimit).toHaveBeenCalledWith(
+      req,
+      expect.objectContaining({ identifier: "user-123", max: 10 }),
+    );
+    expect(mockChatWithAgent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        userMessage: expect.stringContaining("Roasted Winter Squash Bowl"),
+      }),
+    );
+    expect(mockCreateEvent).toHaveBeenCalledWith(
+      AGENT_ID,
+      "recipe_review",
+      expect.objectContaining({
+        recipeId: RECIPE_ID,
+        recipeName: "Roasted Winter Squash Bowl",
+      }),
+      false,
+      { share: true, explicit: true },
     );
   });
 });

@@ -133,9 +133,8 @@ class FeedDatabaseService {
         [actorId, eventType, JSON.stringify(stampedPayload)]
       );
 
-      // Dual-write recipe reviews & cooking reflections into user_recipe_interactions
-      // so historical agents' voiced reviews immediately surface under Community Tips
-      // on recipe views and appear in community engagement metrics.
+      // Mirror text without manufacturing a rating or cooking attestation.
+      // Catalog critiques must not overwrite an existing cook's interaction.
       const rawRecipeId = stampedPayload.recipeId ?? stampedPayload.recipe_id;
       const targetRecipeId = typeof rawRecipeId === "string" ? rawRecipeId : undefined;
       const rawReview = stampedPayload.review ?? stampedPayload.comment ?? stampedPayload.description;
@@ -147,16 +146,19 @@ class FeedDatabaseService {
             : null;
         const rating = rawRating !== null ? Math.min(5, Math.max(1, Math.round(rawRating))) : null;
         const madeIt = stampedPayload.madeIt === true || stampedPayload.made_it === true;
+        const hasMadeIt = typeof stampedPayload.madeIt === "boolean" || typeof stampedPayload.made_it === "boolean";
+        const isCatalogCritique = stampedPayload.source === "catalog_critique";
         try {
           await executeQuery(
             `INSERT INTO user_recipe_interactions (user_id, recipe_id, made_it, rating, review)
              VALUES ($1, $2, $3, $4, $5)
              ON CONFLICT (user_id, recipe_id) DO UPDATE SET
-               made_it = EXCLUDED.made_it,
-               rating = EXCLUDED.rating,
+               made_it = CASE WHEN $6 THEN EXCLUDED.made_it ELSE user_recipe_interactions.made_it END,
+               rating = COALESCE(EXCLUDED.rating, user_recipe_interactions.rating),
                review = EXCLUDED.review,
-               updated_at = CURRENT_TIMESTAMP`,
-            [actorId, targetRecipeId, madeIt, rating, reviewText]
+               updated_at = CURRENT_TIMESTAMP
+             WHERE NOT $7`,
+            [actorId, targetRecipeId, madeIt, rating, reviewText, hasMadeIt, isCatalogCritique]
           );
         } catch (interactionError) {
           _logger.warn("[feed] failed to mirror recipe review to user_recipe_interactions:", interactionError);

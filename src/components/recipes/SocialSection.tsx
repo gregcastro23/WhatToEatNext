@@ -59,6 +59,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
   const [hydrated, setHydrated] = useState(false);
   const [madeCount, setMadeCount] = useState<number>(0);
   const [tips, setTips] = useState<CommunityTip[]>([]);
+  const [tipsRefresh, setTipsRefresh] = useState(0);
   const [saving, setSaving] = useState(false);
   const [shareState, setShareState] = useState<"idle" | "sharing" | "shared">("idle");
 
@@ -167,7 +168,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
     return (): void => {
       cancelled = true;
     };
-  }, [recipeId]);
+  }, [recipeId, tipsRefresh]);
 
   async function persistRemote(next: LocalSocialState): Promise<void> {
     if (!isAuthed) return;
@@ -379,9 +380,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
       <RecipeAgentCouncil
         recipeId={recipeId}
         {...(recipeName ? { recipeName } : {})}
-        onCritiqueGenerated={(newTip) => {
-          setTips((prev) => [newTip, ...prev.filter((t) => t.author !== newTip.author)]);
-        }}
+        onCritiquePublished={() => setTipsRefresh((current) => current + 1)}
       />
 
       {/* Community tips — real feed from user_recipe_interactions */}
