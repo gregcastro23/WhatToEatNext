@@ -8,6 +8,7 @@ import type { ResolvedIngredientResult } from "@/lib/cooking/recipeGateHelpers";
 import type { GateFinding } from "@/lib/cooking/recipeGateTypes";
 import type { AllergenKey } from "@/lib/quiz/catalogContract";
 import { allergensNamedBy } from "@/lib/quiz/dishSafety";
+import { classifyIngredientDiet } from "@/utils/ingredientDietaryClassification";
 
 export const ALLERGEN_KEY_ALIASES: Record<string, AllergenKey> = {
   egg: "eggs",
@@ -73,9 +74,13 @@ export function matchesAllergenKey(
   );
 }
 
-export function isIngredientExemptFromDisallowed(lowerName: string, rawDisallowed: string): boolean {
+export function isIngredientExemptFromDisallowed(
+  lowerName: string,
+  rawDisallowed: string,
+): boolean {
   if (rawDisallowed === "egg" || rawDisallowed === "eggs") {
-    if (/\beggplants?\b/i.test(lowerName) || /\begg\s?plant\b/i.test(lowerName)) return true;
+    if (/\beggplants?\b/i.test(lowerName) || /\begg\s?plant\b/i.test(lowerName))
+      return true;
   }
   if (rawDisallowed === "ham") {
     if (/\bgraham\b/i.test(lowerName)) return true;
@@ -84,7 +89,9 @@ export function isIngredientExemptFromDisallowed(lowerName: string, rawDisallowe
     if (
       /\bbutter(nut|cup|head)\b/i.test(lowerName) ||
       /\bbutter\s+(bean|lettuce)s?\b/i.test(lowerName) ||
-      /\b(peanut|almond|cashew|apple|cocoa|shea|sunflower|seed)\s+butter\b/i.test(lowerName)
+      /\b(peanut|almond|cashew|apple|cocoa|shea|sunflower|seed)\s+butter\b/i.test(
+        lowerName,
+      )
     ) {
       return true;
     }
@@ -92,7 +99,10 @@ export function isIngredientExemptFromDisallowed(lowerName: string, rawDisallowe
   return false;
 }
 
-export function matchesDisallowedIngredient(lowerName: string, rawDisallowed: string): boolean {
+export function matchesDisallowedIngredient(
+  lowerName: string,
+  rawDisallowed: string,
+): boolean {
   if (isIngredientExemptFromDisallowed(lowerName, rawDisallowed)) {
     return false;
   }
@@ -110,12 +120,25 @@ export function checkDisallowed(
 ): void {
   const lowerName = name.toLowerCase().trim();
   const detectedAllergens = new Set<string>(allergensNamedBy([name]));
-  const category = (entry?.source?.category ?? entry?.unified?.category)?.toLowerCase();
+  const category = (
+    entry?.source?.category ?? entry?.unified?.category
+  )?.toLowerCase();
   const subcategory = (
-    (entry?.source && "subcategory" in entry.source && typeof entry.source.subcategory === "string"
+    (entry?.source &&
+    "subcategory" in entry.source &&
+    typeof entry.source.subcategory === "string"
       ? entry.source.subcategory
       : undefined) ?? entry?.unified?.subcategory
   )?.toLowerCase();
+  const classification = classifyIngredientDiet({
+    name,
+    ...(category ? { category } : {}),
+    ...(subcategory ? { subcategory } : {}),
+  });
+  const allergenCategory =
+    category === "dairy" && classification.isVegan === "compliant"
+      ? undefined
+      : category;
 
   for (const disallowed of disallowedList) {
     const rawDisallowed = disallowed.trim().toLowerCase();
@@ -131,7 +154,14 @@ export function checkDisallowed(
       continue;
     }
 
-    if (matchesAllergenKey(detectedAllergens, rawDisallowed, category, subcategory)) {
+    if (
+      matchesAllergenKey(
+        detectedAllergens,
+        rawDisallowed,
+        allergenCategory,
+        subcategory,
+      )
+    ) {
       blockingFindings.push({
         code: "DISALLOWED_ALLERGEN_FOUND",
         message: `Recipe contains ingredient "${name}" classified under disallowed allergen category "${disallowed}".`,

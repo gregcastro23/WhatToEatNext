@@ -4,10 +4,16 @@
  * @file src/lib/cooking/recipeGateDiet.ts
  */
 
-import { isKnownGlutenSource, type ResolvedIngredientResult } from "@/lib/cooking/recipeGateHelpers";
+import {
+  isKnownGlutenSource,
+  type ResolvedIngredientResult,
+} from "@/lib/cooking/recipeGateHelpers";
 import type { GateFinding } from "@/lib/cooking/recipeGateTypes";
 import { allergensNamedBy } from "@/lib/quiz/dishSafety";
-import { classifyIngredientDiet, type DietaryClassification } from "@/utils/ingredientDietaryClassification";
+import {
+  classifyIngredientDiet,
+  type DietaryClassification,
+} from "@/utils/ingredientDietaryClassification";
 
 export * from "./recipeGateAllergens";
 
@@ -22,11 +28,26 @@ export const EVALUATED_DIET_KEYS = new Set([
 
 export function normalizeDietToken(token: string): string {
   const t = token.toLowerCase().trim().replace(/_/g, "-");
-  if (t === "glutenfree" || t === "gf" || t === "gluten free" || t === "gluten-free") return "gluten-free";
-  if (t === "dairyfree" || t === "df" || t === "dairy free" || t === "dairy-free" || t === "non-dairy") return "dairy-free";
-  if (t === "nutfree" || t === "nut free" || t === "nut-free") return "nut-free";
+  if (
+    t === "glutenfree" ||
+    t === "gf" ||
+    t === "gluten free" ||
+    t === "gluten-free"
+  )
+    return "gluten-free";
+  if (
+    t === "dairyfree" ||
+    t === "df" ||
+    t === "dairy free" ||
+    t === "dairy-free" ||
+    t === "non-dairy"
+  )
+    return "dairy-free";
+  if (t === "nutfree" || t === "nut free" || t === "nut-free")
+    return "nut-free";
   if (t === "veg" || t === "vegetarian") return "vegetarian";
-  if (t === "plant-based" || t === "plant based" || t === "vegan") return "vegan";
+  if (t === "plant-based" || t === "plant based" || t === "vegan")
+    return "vegan";
   if (t === "pescetarian" || t === "pescatarian") return "pescatarian";
   return t;
 }
@@ -54,14 +75,18 @@ function checkDairyCompliance(
   nonCompliant: string[],
   blocking: GateFinding[],
 ): void {
+  const plantCompound = classification.isVegan === "compliant";
   const isDairy =
-    category === "dairy" ||
-    subcategory === "cheese" ||
-    subcategory === "milk" ||
-    subcategory === "yogurt" ||
+    (!plantCompound &&
+      (category === "dairy" ||
+        subcategory === "cheese" ||
+        subcategory === "milk" ||
+        subcategory === "yogurt")) ||
     allergensNamedBy([name]).includes("dairy") ||
     (classification.isVegan === "non-compliant" &&
-      /dairy|cheese|milk|butter|cream|whey|casein|gruy[eè]re|pecorino|parmesan|yogurt/i.test(classification.basis));
+      /dairy|cheese|milk|butter|cream|whey|casein|gruy[eè]re|pecorino|parmesan|yogurt/i.test(
+        classification.basis,
+      ));
   if (isDairy) {
     nonCompliant.push(`${name} (dairy)`);
     blocking.push({
@@ -85,7 +110,9 @@ function checkPescatarianCompliance(
     allergensNamedBy([name]).includes("fish") ||
     allergensNamedBy([name]).includes("shellfish") ||
     subcategory === "seafood" ||
-    /fish|seafood|salmon|tuna|cod|shrimp|crab|lobster|clams|scallops/i.test(classification.basis);
+    /fish|seafood|salmon|tuna|cod|shrimp|crab|lobster|clams|scallops/i.test(
+      classification.basis,
+    );
   if (!isSeafood) {
     nonCompliant.push(`${name} (${classification.basis})`);
     blocking.push({
@@ -114,9 +141,13 @@ function checkSingleIngredientDiet(
   glutenSources: string[],
   blocking: GateFinding[],
 ): void {
-  const category = (entry?.source?.category ?? entry?.unified?.category)?.toLowerCase();
+  const category = (
+    entry?.source?.category ?? entry?.unified?.category
+  )?.toLowerCase();
   const subcategory = (
-    (entry?.source && "subcategory" in entry.source && typeof entry.source.subcategory === "string"
+    (entry?.source &&
+    "subcategory" in entry.source &&
+    typeof entry.source.subcategory === "string"
       ? entry.source.subcategory
       : undefined) ?? entry?.unified?.subcategory
   )?.toLowerCase();
@@ -137,7 +168,10 @@ function checkSingleIngredientDiet(
       path: "tags.diet",
       severity: "blocking",
     });
-  } else if (checks.checkVegetarian && classification.isVegetarian === "non-compliant") {
+  } else if (
+    checks.checkVegetarian &&
+    classification.isVegetarian === "non-compliant"
+  ) {
     nonCompliant.push(`${name} (${classification.basis})`);
     blocking.push({
       code: "DIET_VIOLATION_VEGETARIAN",
@@ -158,10 +192,21 @@ function checkSingleIngredientDiet(
   }
 
   if (checks.checkDairyFree) {
-    checkDairyCompliance(name, category, subcategory, classification, nonCompliant, blocking);
+    checkDairyCompliance(
+      name,
+      category,
+      subcategory,
+      classification,
+      nonCompliant,
+      blocking,
+    );
   }
 
-  if (checks.checkNutFree && (allergensNamedBy([name]).includes("tree-nuts") || allergensNamedBy([name]).includes("peanuts"))) {
+  if (
+    checks.checkNutFree &&
+    (allergensNamedBy([name]).includes("tree-nuts") ||
+      allergensNamedBy([name]).includes("peanuts"))
+  ) {
     nonCompliant.push(`${name} (nuts)`);
     blocking.push({
       code: "ALLERGEN_VIOLATION_NUTS",
@@ -172,7 +217,13 @@ function checkSingleIngredientDiet(
   }
 
   if (checks.checkPescatarian) {
-    checkPescatarianCompliance(name, subcategory, classification, nonCompliant, blocking);
+    checkPescatarianCompliance(
+      name,
+      subcategory,
+      classification,
+      nonCompliant,
+      blocking,
+    );
   }
 }
 
@@ -189,28 +240,42 @@ function classifyDietaryCoverage(
   requestedDiet: string,
   currentDietTags: string[],
   advisoryFindings: GateFinding[],
-): { requestedRestrictions: string[]; evaluatedRestrictions: string[]; unevaluatedRestrictions: string[] } {
+): {
+  requestedRestrictions: string[];
+  evaluatedRestrictions: string[];
+  unevaluatedRestrictions: string[];
+} {
   const requestedRestrictions: string[] = [];
   const evaluatedRestrictions: string[] = [];
   const unevaluatedRestrictions: string[] = [];
 
   const rawTokens = requestedDiet
-    ? requestedDiet.toLowerCase().split(/[,;&/]|\band\b/).map((s) => s.trim()).filter(Boolean)
+    ? requestedDiet
+        .toLowerCase()
+        .split(/[,;&/]|\band\b/)
+        .map((s) => s.trim())
+        .filter(Boolean)
     : [];
 
   for (const rawToken of rawTokens) {
     const normalized = normalizeDietToken(rawToken);
-    if (!requestedRestrictions.includes(normalized)) requestedRestrictions.push(normalized);
+    if (!requestedRestrictions.includes(normalized))
+      requestedRestrictions.push(normalized);
     if (EVALUATED_DIET_KEYS.has(normalized)) {
-      if (!evaluatedRestrictions.includes(normalized)) evaluatedRestrictions.push(normalized);
+      if (!evaluatedRestrictions.includes(normalized))
+        evaluatedRestrictions.push(normalized);
     } else {
-      if (!unevaluatedRestrictions.includes(normalized)) unevaluatedRestrictions.push(normalized);
+      if (!unevaluatedRestrictions.includes(normalized))
+        unevaluatedRestrictions.push(normalized);
     }
   }
 
   for (const tag of currentDietTags) {
     const normalized = normalizeDietToken(tag);
-    if (EVALUATED_DIET_KEYS.has(normalized) && !evaluatedRestrictions.includes(normalized)) {
+    if (
+      EVALUATED_DIET_KEYS.has(normalized) &&
+      !evaluatedRestrictions.includes(normalized)
+    ) {
       evaluatedRestrictions.push(normalized);
     }
   }
@@ -224,7 +289,11 @@ function classifyDietaryCoverage(
     });
   }
 
-  return { requestedRestrictions, evaluatedRestrictions, unevaluatedRestrictions };
+  return {
+    requestedRestrictions,
+    evaluatedRestrictions,
+    unevaluatedRestrictions,
+  };
 }
 
 export function validateDietaryCompliance(
@@ -236,20 +305,25 @@ export function validateDietaryCompliance(
 ): DietaryComplianceOutcome {
   const nonCompliantDietItems: string[] = [];
   const identifiedGlutenSources: string[] = [];
-  const coverage = classifyDietaryCoverage(requestedDiet, currentDietTags, advisoryFindings);
+  const coverage = classifyDietaryCoverage(
+    requestedDiet,
+    currentDietTags,
+    advisoryFindings,
+  );
 
   const requestedSet = parseDietRequests(requestedDiet);
-  const checkVegan = currentDietTags.includes("vegan") || requestedSet.has("vegan");
+  const taggedSet = new Set(currentDietTags.map(normalizeDietToken));
+  const checkVegan = taggedSet.has("vegan") || requestedSet.has("vegan");
   const checkVegetarian =
-    checkVegan || currentDietTags.includes("vegetarian") || requestedSet.has("vegetarian");
+    checkVegan || taggedSet.has("vegetarian") || requestedSet.has("vegetarian");
   const checkGlutenFree =
-    currentDietTags.includes("gluten-free") || requestedSet.has("gluten-free");
+    taggedSet.has("gluten-free") || requestedSet.has("gluten-free");
   const checkDairyFree =
-    currentDietTags.includes("dairy-free") || requestedSet.has("dairy-free");
+    taggedSet.has("dairy-free") || requestedSet.has("dairy-free");
   const checkNutFree =
-    currentDietTags.includes("nut-free") || requestedSet.has("nut-free");
+    taggedSet.has("nut-free") || requestedSet.has("nut-free");
   const checkPescatarian =
-    currentDietTags.includes("pescatarian") || requestedSet.has("pescatarian");
+    taggedSet.has("pescatarian") || requestedSet.has("pescatarian");
 
   const checks: ActiveDietChecks = {
     checkVegan,
@@ -278,6 +352,30 @@ export function validateDietaryCompliance(
       code: "UNCERTIFIED_GLUTEN_FREE",
       message:
         "Gluten-free claims require certified manufacturer allergen attestations; gluten-free status cannot be verified.",
+      path: "tags.diet",
+      severity: "advisory",
+    });
+  }
+  // Text screening can identify a named allergen, but absence in the name is
+  // not manufacturer evidence of absence. Keep the existing gluten-free policy
+  // for the newly evaluated allergen-sensitive claims too.
+  for (const { active, restriction, code } of [
+    {
+      active: checkDairyFree,
+      restriction: "Dairy-free",
+      code: "UNCERTIFIED_DAIRY_FREE",
+    },
+    {
+      active: checkNutFree,
+      restriction: "Nut-free",
+      code: "UNCERTIFIED_NUT_FREE",
+    },
+  ]) {
+    if (!active) continue;
+    uncertifiedDietClaims = true;
+    advisoryFindings.push({
+      code,
+      message: `${restriction} claims require verified manufacturer allergen evidence; absence cannot be verified from recipe text.`,
       path: "tags.diet",
       severity: "advisory",
     });
