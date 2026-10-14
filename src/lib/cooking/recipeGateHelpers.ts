@@ -7,10 +7,8 @@
 import type { CosmicRecipe } from "@/data/featuredRecipe";
 import { countToMass } from "@/lib/cooking/countToMass";
 import { MEASURE_ML, volumeToMass } from "@/lib/cooking/volumetrics";
-import {
-  resolveCatalogIngredient,
-  type CatalogIngredient,
-} from "@/lib/ingredients/ingredientCatalog";
+import type { CatalogIngredient } from "@/lib/ingredients/ingredientCatalog";
+import { tryResolveFromCatalog } from "./recipeGateResolver";
 
 export const UNIT_CANONICAL_MAP: Record<string, string> = {
   tablespoon: "tbsp",
@@ -129,30 +127,7 @@ export interface ResolvedIngredientResult {
   gramWeight: number;
 }
 
-function tryResolveFromCatalog(rawName: string): CatalogIngredient | null {
-  const first = resolveCatalogIngredient(rawName);
-  if (first) return first.entry;
-
-  const simplified = rawName
-    .toLowerCase()
-    .replace(
-      /\b(fresh|dried|chopped|minced|diced|sliced|crushed|ground|toasted|cooked|large|medium|small)\b/g,
-      "",
-    )
-    .trim();
-  const second = resolveCatalogIngredient(simplified);
-  if (second) return second.entry;
-
-  const partSimplified = simplified
-    .replace(
-      /\b(breast|thigh|thighs|wing|wings|drumstick|drumsticks|fillet|filet|cutlet|steak|chops?|roast|tenderloin)\b/g,
-      "",
-    )
-    .trim();
-  if (!partSimplified) return null;
-  const third = resolveCatalogIngredient(partSimplified);
-  return third ? third.entry : null;
-}
+export * from "./recipeGateResolver";
 
 export function computeGramWeight(
   name: string,
