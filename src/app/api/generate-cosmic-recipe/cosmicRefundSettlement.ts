@@ -29,6 +29,7 @@ export interface CosmicRefundOutcome {
     matter: number;
     substance: number;
   } | null;
+  refundReference: { debitTransactionGroupId: string; idempotencyKey: string } | null;
   creditResult?: CreditResult;
   error?: string;
 }
@@ -62,7 +63,15 @@ function handleCreditFailure(
     refunded: false,
     refundStatus: "failed",
     refundAmounts: spend.refund,
+    refundReference: refundReference(spend),
     creditResult: outcome,
+  };
+}
+
+function refundReference(spend: SpendRecord) {
+  return {
+    debitTransactionGroupId: spend.groupId,
+    idempotencyKey: `cosmic_recipe_refund:${spend.groupId}`,
   };
 }
 
@@ -73,7 +82,8 @@ function handleCreditFailure(
  * 1. Only positive net axes generate ledger rows in TokenEconomyService.
  * 2. Uses the debit's groupId as the sourceId and idempotent key shape.
  * 3. Maps TokenEconomy CreditResult to explicit, truthful settlement states:
- *    - "credited" | "replayed" | "already_applied" -> "confirmed" (refunded: true)
+ *    - a complete "credited" result or "replayed" -> "confirmed"
+ *    - partial writes or an unrelated daily-yield outcome -> "pending"
  *    - "failed" -> "failed" (refunded: false)
  *    - throws / exceptions -> "failed" (refunded: false)
  */
@@ -85,6 +95,7 @@ export async function settleCosmicRecipeRefund(
       refunded: false,
       refundStatus: null,
       refundAmounts: null,
+      refundReference: null,
     };
   }
 
@@ -100,15 +111,26 @@ export async function settleCosmicRecipeRefund(
       },
     );
 
+    const requested = buildRefundCredits(spend.refund).filter(({ amount }) => amount > 0).length;
     if (
-      outcome.status === "credited" ||
-      outcome.status === "replayed" ||
+      (outcome.status === "credited" &&
+        (outcome.requested !== requested || outcome.written !== requested)) ||
       outcome.status === "already_applied"
     ) {
+      return {
+        refunded: false,
+        refundStatus: "pending",
+        refundAmounts: spend.refund,
+        refundReference: refundReference(spend),
+        creditResult: outcome,
+      };
+    }
+    if (outcome.status === "credited" || outcome.status === "replayed") {
       return {
         refunded: true,
         refundStatus: "confirmed",
         refundAmounts: spend.refund,
+        refundReference: refundReference(spend),
         creditResult: outcome,
       };
     }
@@ -120,6 +142,7 @@ export async function settleCosmicRecipeRefund(
       refunded: false,
       refundStatus: "failed",
       refundAmounts: spend.refund,
+      refundReference: refundReference(spend),
       error: error instanceof Error ? error.message : String(error),
     };
   }

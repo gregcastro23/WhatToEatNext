@@ -235,7 +235,10 @@ jobs:
         # affect only fixtures. No production balance or ledger is changed.
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
-        run: bun run check:sql:cosmic-refund
+          COSMIC_REFUND_TEST_DATABASE_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: |
+          bun run check:sql:cosmic-refund
+          bun run jest --runInBand src/app/api/generate-cosmic-recipe/__tests__/refunds.postgres.test.ts
 
       - name: Transmutation Circle SQL parses against PostgreSQL
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}

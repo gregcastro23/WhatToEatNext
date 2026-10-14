@@ -369,6 +369,8 @@ async function handlePost(request: NextRequest) {
   // Nothing between the debit and this `try` can throw past it:
   // reportQuestEventBestEffort swallows everything internally.
   let delivered = false;
+  let attemptsCount = 0;
+  const allEncounteredFindings: string[] = [];
   try {
 
     // Beyond this point, both auth and demo paths build the same prompt and call
@@ -452,7 +454,6 @@ async function handlePost(request: NextRequest) {
 
     let recipe: z.infer<typeof cosmicRecipeSchema> | null = null;
     let verificationOutcome: RecipeVerificationOutcome | null = null;
-    let attemptsCount = 0;
     let retryFeedbackPrompt = enrichedPrompt;
     const effectiveDisallowed = disallowedIngredients ? [...disallowedIngredients] : [];
     let lastUpstreamError: {
@@ -461,7 +462,6 @@ async function handlePost(request: NextRequest) {
       timedOut: boolean;
       issues?: unknown[];
     } | null = null;
-    const allEncounteredFindings: string[] = [];
 
     for (let attempt = 1; attempt <= MAX_RECIPE_ATTEMPTS; attempt++) {
       attemptsCount = attempt;
@@ -626,6 +626,7 @@ async function handlePost(request: NextRequest) {
         refunded: refundOutcome?.refunded ?? false,
         refundStatus: refundOutcome?.refundStatus ?? null,
         refundAmounts: refundOutcome?.refundAmounts ?? null,
+        refundReference: refundOutcome?.refundReference ?? null,
         finalFailure: true,
         gateFindings: allEncounteredFindings,
       });
@@ -646,6 +647,7 @@ async function handlePost(request: NextRequest) {
           refunded: refundOutcome?.refunded ?? false,
           refundStatus: refundOutcome?.refundStatus ?? null,
           ...(refundOutcome?.refundAmounts ? { refundAmounts: refundOutcome.refundAmounts } : {}),
+          ...(refundOutcome?.refundReference ? { refundReference: refundOutcome.refundReference } : {}),
         }),
         {
           status: err.status,
@@ -723,6 +725,28 @@ async function handlePost(request: NextRequest) {
     delivered = true;
     return okResponse;
 
+  } catch (error) {
+    logger.error("[generate-cosmic-recipe] generation failed after access/payment", error);
+    refundOutcome ??= await settleCosmicRecipeRefund(spend);
+    recordRecipePipelineEvent({
+      attempts: attemptsCount,
+      repaired: false,
+      retried: attemptsCount > 1,
+      refunded: refundOutcome.refunded,
+      refundStatus: refundOutcome.refundStatus,
+      refundAmounts: refundOutcome.refundAmounts,
+      refundReference: refundOutcome.refundReference,
+      finalFailure: true,
+      gateFindings: allEncounteredFindings,
+    });
+    return new Response(JSON.stringify({
+      error: "Recipe generation failed",
+      attempts: attemptsCount,
+      refunded: refundOutcome.refunded,
+      refundStatus: refundOutcome.refundStatus,
+      ...(refundOutcome.refundAmounts ? { refundAmounts: refundOutcome.refundAmounts } : {}),
+      ...(refundOutcome.refundReference ? { refundReference: refundOutcome.refundReference } : {}),
+    }), { status: 500, headers: { "Content-Type": "application/json" } });
   } finally {
     if (spend && !delivered && !refundOutcome) {
       await settleCosmicRecipeRefund(spend);
