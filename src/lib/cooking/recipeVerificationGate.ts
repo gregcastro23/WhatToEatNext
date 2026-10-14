@@ -97,7 +97,14 @@ function validateSingleIngredient(
   state.resolvedCatalogEntries.push({ ingredient: ing, entry, gramWeight });
   state.totalEstimatedGrams += gramWeight;
 
-  recordIngredientResolution(ing, index, entry, state, blockingFindings, advisoryFindings);
+  recordIngredientResolution(
+    ing,
+    index,
+    entry,
+    state,
+    blockingFindings,
+    advisoryFindings,
+  );
 
   if (gramWeight > 15000) {
     blockingFindings.push({
@@ -108,8 +115,17 @@ function validateSingleIngredient(
     });
   }
 
-  if (options?.disallowedIngredients && options.disallowedIngredients.length > 0) {
-    checkDisallowed(ing.name, index, options.disallowedIngredients, entry, blockingFindings);
+  if (
+    options?.disallowedIngredients &&
+    options.disallowedIngredients.length > 0
+  ) {
+    checkDisallowed(
+      ing.name,
+      index,
+      options.disallowedIngredients,
+      entry,
+      blockingFindings,
+    );
   }
 }
 
@@ -138,7 +154,9 @@ function buildAudit(
   },
 ): GateAudit {
   return {
-    resolvedIngredientsCount: state.resolvedCatalogEntries.filter((r) => r.entry !== null).length,
+    resolvedIngredientsCount: state.resolvedCatalogEntries.filter(
+      (r) => r.entry !== null,
+    ).length,
     unresolvedIngredients: state.unresolvedIngredients,
     totalEstimatedGrams: Math.round(state.totalEstimatedGrams),
     nonCompliantDietItems: dietOutcome.nonCompliantDietItems,
@@ -162,7 +180,14 @@ export function verifyAndRepairCosmicRecipe(
   };
 
   recipe.ingredients.forEach((ing, index) => {
-    validateSingleIngredient(ing, index, options, blockingFindings, advisoryFindings, state);
+    validateSingleIngredient(
+      ing,
+      index,
+      options,
+      blockingFindings,
+      advisoryFindings,
+      state,
+    );
   });
 
   const currentDietTags = recipe.tags.diet.map((d) => d.toLowerCase());
@@ -176,7 +201,13 @@ export function verifyAndRepairCosmicRecipe(
   );
 
   recipe.steps.forEach((step, idx) => {
-    validateSingleStep(step, idx, recipe.ingredients, blockingFindings, advisoryFindings);
+    validateSingleStep(
+      step,
+      idx,
+      recipe.ingredients,
+      blockingFindings,
+      advisoryFindings,
+    );
   });
 
   validateNutritionalContent(recipe.nutrition.calories, advisoryFindings);
@@ -185,7 +216,8 @@ export function verifyAndRepairCosmicRecipe(
     blockingFindings.length === 0 &&
     !dietOutcome.uncertifiedDietClaims &&
     state.unresolvedIngredients.length === 0 &&
-    dietOutcome.unevaluatedRestrictions.length === 0;
+    dietOutcome.unevaluatedRestrictions.length === 0 &&
+    !advisoryFindings.some((finding) => finding.code === "UNEVALUATED_THERMAL_PROCESS");
 
   return {
     valid: blockingFindings.length === 0,

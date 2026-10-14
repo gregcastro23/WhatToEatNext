@@ -91,6 +91,15 @@ export interface EvaluateStepTemperatureOptions {
   isInternalDoneness?: boolean;
   isCoolingOrChilling?: boolean;
   isSugarOrCandy?: boolean;
+  isOven?: boolean;
+  isPressure?: boolean;
+  isLiquid?: boolean;
+}
+
+export interface StepTemperatureVerdict {
+  safe: boolean;
+  reason?: string;
+  unevaluated?: boolean;
 }
 
 interface ProteinThreshold {
@@ -102,7 +111,7 @@ interface ProteinThreshold {
 
 const PROTEIN_SAFETY_RULES: readonly ProteinThreshold[] = [
   {
-    pattern: /\b(chicken|turkey|poultry|duck)\b/i,
+    pattern: /\b(chicken|turkey|poultry|duck|fowl|quail|hen)\b/i,
     minTemp: 165,
     label: "poultry",
     citation: "USDA FSIS consumer recommendation / FDA Food Code 2022 § 3-401.11(A)(3) safe minimum of 165°F (74°C)",
@@ -120,7 +129,8 @@ const PROTEIN_SAFETY_RULES: readonly ProteinThreshold[] = [
     citation: "USDA FSIS consumer safe minimum of 145°F (63°C) with 3-minute rest",
   },
   {
-    pattern: /\b(fish|salmon|tuna|cod|shrimp|seafood)\b/i,
+    pattern:
+      /\b(fish|salmon|tuna|cod|shrimp|seafood|halibut|trout|tilapia|sea bass|snapper|prawns?|crab|lobster|scallops?)\b/i,
     minTemp: 145,
     label: "fish and shellfish",
     citation: "USDA FSIS consumer safe minimum of 145°F (63°C)",
@@ -128,18 +138,22 @@ const PROTEIN_SAFETY_RULES: readonly ProteinThreshold[] = [
 ];
 
 function checkProteinInternalSafety(
-  targetProtein: string,
+  targetProtein: string | readonly string[],
   temperatureF: number,
-): { safe: boolean; reason?: string } {
-  for (const rule of PROTEIN_SAFETY_RULES) {
-    if (rule.pattern.test(targetProtein)) {
-      if (temperatureF < rule.minTemp) {
-        return {
-          safe: false,
-          reason: `Internal doneness temperature ${temperatureF}°F is below ${rule.citation} for ${rule.label}.`,
-        };
+): StepTemperatureVerdict {
+  const targets: readonly string[] =
+    typeof targetProtein === "string" ? [targetProtein] : targetProtein;
+  for (const protein of targets) {
+    for (const rule of PROTEIN_SAFETY_RULES) {
+      if (rule.pattern.test(protein)) {
+        if (temperatureF < rule.minTemp) {
+          return {
+            safe: false,
+            reason: `Internal doneness temperature ${temperatureF}°F is below ${rule.citation} for ${rule.label}.`,
+          };
+        }
+        break;
       }
-      return { safe: true };
     }
   }
   return { safe: true };
@@ -148,16 +162,45 @@ function checkProteinInternalSafety(
 function checkBoilingMethodSafety(
   methodKey: string,
   temperatureF: number,
-  isSugarOrCandy?: boolean,
-): { safe: boolean; reason?: string } {
-  const boilingMethods = new Set(["boiling", "simmering", "poaching", "steaming"]);
-  if (!boilingMethods.has(methodKey)) return { safe: true };
+  options?: EvaluateStepTemperatureOptions,
+): StepTemperatureVerdict {
+  if (options?.isOven) return { safe: true };
 
-  const maxBoilThreshold = isSugarOrCandy ? 320 : 212;
+  const isPressure =
+    options?.isPressure ||
+    methodKey === "pressure" ||
+    methodKey === "pressure_cook" ||
+    methodKey === "pressure_cooking" ||
+    methodKey === "instant_pot";
+
+  if (isPressure) {
+    return {
+      safe: true,
+      unevaluated: true,
+      reason:
+        "Pressure cooking requires a validated pressure/time process; recipe text does not establish that process.",
+    };
+  }
+
+  const boilingMethods = new Set([
+    "boiling",
+    "boil",
+    "simmering",
+    "simmer",
+    "poaching",
+    "poach",
+    "steaming",
+    "steam",
+  ]);
+  const isBoiling = boilingMethods.has(methodKey);
+  const isLiquid = options?.isLiquid ?? false;
+  if (!isBoiling && !isLiquid) return { safe: true };
+
+  const maxBoilThreshold = options?.isSugarOrCandy ? 320 : 212;
   if (temperatureF > maxBoilThreshold) {
     return {
       safe: false,
-      reason: isSugarOrCandy
+      reason: options?.isSugarOrCandy
         ? `Sugar syrup boiling cannot exceed 320°F for method ${methodKey}.`
         : `Liquid water cannot exceed 212°F (100°C) at ambient pressure for method ${methodKey}.`,
     };
@@ -172,10 +215,14 @@ function checkBoilingMethodSafety(
 export function evaluateStepTemperature(
   methodKey: string,
   temperatureF?: number,
-  targetProtein?: string,
+  targetProtein?: string | readonly string[],
   options?: EvaluateStepTemperatureOptions,
-): { safe: boolean; reason?: string } {
-  if (temperatureF === undefined || options?.isCoolingOrChilling) {
+): StepTemperatureVerdict {
+  if (temperatureF === undefined) {
+    return { safe: true };
+  }
+
+  if (options?.isCoolingOrChilling && !options.isInternalDoneness) {
     return { safe: true };
   }
 
@@ -186,12 +233,26 @@ export function evaluateStepTemperature(
     };
   }
 
-  const boilVerdict = checkBoilingMethodSafety(methodKey, temperatureF, options?.isSugarOrCandy);
+  const boilVerdict = checkBoilingMethodSafety(
+    methodKey,
+    temperatureF,
+    options,
+  );
   if (!boilVerdict.safe) return boilVerdict;
 
-  if (targetProtein && options?.isInternalDoneness) {
-    return checkProteinInternalSafety(targetProtein, temperatureF);
+  const hasProteins =
+    typeof targetProtein === "string"
+      ? targetProtein.length > 0
+      : targetProtein !== undefined && targetProtein.length > 0;
+
+  if (
+    hasProteins &&
+    options?.isInternalDoneness &&
+    targetProtein !== undefined
+  ) {
+    const internal = checkProteinInternalSafety(targetProtein, temperatureF);
+    if (!internal.safe) return internal;
   }
 
-  return { safe: true };
+  return boilVerdict;
 }
