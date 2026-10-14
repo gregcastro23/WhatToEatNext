@@ -76,8 +76,9 @@ export const GLUTEN_CONTAINING_TERMS: RegExp[] = [
   /\bspelt\b/i,
   /\brye\b/i,
   /\bbarley\b/i,
+  /\bkamut\b/i,
   /\bbread\b/i,
-  /\bbreadcrumbs\b/i,
+  /\bbreadcrumbs?\b/i,
   /\bcroutons?\b/i,
   /\bpanko\b/i,
   /\bpasta\b/i,
@@ -95,6 +96,9 @@ export const GLUTEN_CONTAINING_TERMS: RegExp[] = [
   /\bnoodles?\b/i,
   /\budon\b/i,
   /\bramen\b/i,
+  /\bpitas?\b/i,
+  /\bnaan\b/i,
+  /\bbagels?\b/i,
   /\bsoy\s+sauce\b/i,
   /\bteriyaki\b/i,
   /\bcouscous\b/i,
@@ -105,11 +109,22 @@ export const GLUTEN_CONTAINING_TERMS: RegExp[] = [
   /\bmalt\s+vinegar\b/i,
 ];
 
+export const GLUTEN_EXEMPT_TERMS: RegExp[] = [
+  /\bgluten[- ]free\b/i,
+  /\b(rice|almond|buckwheat|coconut|tapioca|chickpea|gram|besan|corn|potato|sorghum|teff|cassava|arrowroot)\s+flour\b/i,
+  /\b(rice|glass|cellophane|sweet\s+potato|kelp|shirataki)\s+noodles?\b/i,
+];
+
 export function isKnownGlutenSource(ingredientName: string): boolean {
-  const name = ingredientName.toLowerCase();
-  if (name.includes("flour") || name.includes("noodle") || name.includes("pasta") || name.includes("bread")) {
-    if (/\bgluten[- ]free\b/i.test(name)) return false;
-    if (/\brice\s+noodles?\b/i.test(name)) return false;
+  const name = ingredientName.toLowerCase().trim();
+  if (GLUTEN_EXEMPT_TERMS.some((rx) => rx.test(name))) {
+    if (
+      /\b(wheat|barley|rye|spelt|kamut|seitan|semolina)\b/i.test(name) &&
+      !/\bgluten[- ]free\b/i.test(name)
+    ) {
+      return true;
+    }
+    return false;
   }
   return GLUTEN_CONTAINING_TERMS.some((rx) => rx.test(name));
 }
