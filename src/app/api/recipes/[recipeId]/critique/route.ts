@@ -5,25 +5,31 @@
  * from a canonical historical agent (e.g. Leonardo da Vinci, Socrates, Carl Jung,
  * Cleopatra, Hildegard von Bingen, Isaac Newton, Aristotle, Paracelsus).
  *
- * Persists the reflection to `feed_events` (with dual-write to `user_recipe_interactions`)
- * so it permanently joins Community Tips on the recipe view.
+ * Publication confirms the feed event only. Unrated reflections do not become
+ * rated Community Tips or cooking attestations.
  */
 
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { planetaryAgentsGateway } from "@/lib/agents/planetaryAgentsGateway";
+import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database/connection";
+import { bearerMatches } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
+import { rateLimit } from "@/lib/rateLimit";
+import { RecipeCritiqueResponseSchema } from "@/lib/validation/recipeCritiqueResponse";
 import { feedDatabase } from "@/services/feedDatabaseService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const RecipeCritiquePayloadSchema = z.object({
-  agentSlug: z.string().optional(),
-  focus: z.string().optional(),
-  recipeName: z.string().optional(),
-}).passthrough();
+const RecipeCritiquePayloadSchema = z
+  .object({
+    agentSlug: z.string().optional(),
+    focus: z.string().optional(),
+    recipeName: z.string().optional(),
+  })
+  .passthrough();
 
 interface RecipeRow {
   id: string;
@@ -41,7 +47,10 @@ interface AgentLookupRow {
   dietary_preferences: Record<string, unknown> | null;
 }
 
-const HISTORICAL_LORE_CRITIQUES: Record<string, (recipeName: string, cuisine?: string) => string> = {
+const HISTORICAL_LORE_CRITIQUES: Record<
+  string,
+  (recipeName: string, cuisine?: string) => string
+> = {
   "leonardo-da-vinci": (name) =>
     `The body should never be a tomb for other living creatures. In "${name}", observe the mathematical harmony of botanical essences — when vegetables and pure oils are united with geometric balance, the dish nourishes both the inventive intellect and vital spirit.`,
   socrates: (name) =>
@@ -67,22 +76,71 @@ export async function POST(
   const { recipeId } = await params;
 
   try {
-    const body = await req.json().catch(() => ({}));
+    // 0. Authentication Check (NextAuth session, JWT token, or INTERNAL_API_SECRET bearer)
+    const authHeader = req.headers.get("authorization");
+    const isInternalService = bearerMatches(
+      authHeader,
+      process.env.INTERNAL_API_SECRET,
+    );
+    const userId = isInternalService
+      ? "internal-service"
+      : await getUserIdFromRequest(req);
+
+    if (!userId) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Authentication required to request critique",
+        },
+        { status: 401 },
+      );
+    }
+
+    // 0b. Actor Rate Limiting (10 requests per minute per actor)
+    const rl = await rateLimit(req, {
+      window: 60_000,
+      max: 10,
+      bucket: "recipe-critique",
+      identifier: userId,
+    });
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { success: false, message: "Rate limit exceeded for recipe critiques" },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": Math.ceil(rl.resetMs / 1000).toString(),
+          },
+        },
+      );
+    }
+
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json(
+        { success: false, message: "Invalid JSON request body" },
+        { status: 400 },
+      );
+    }
     const parseResult = RecipeCritiquePayloadSchema.safeParse(body);
     if (!parseResult.success) {
       return NextResponse.json(
-        { success: false, message: "Invalid request body", errors: parseResult.error.flatten() },
+        {
+          success: false,
+          message: "Invalid request body",
+          errors: parseResult.error.flatten(),
+        },
         { status: 400 },
       );
     }
     const validatedBody = parseResult.data;
+    const agentSlug = (validatedBody.agentSlug ?? "leonardo-da-vinci")
+      .toLowerCase()
+      .trim();
 
-    const agentSlug = (validatedBody.agentSlug ?? "leonardo-da-vinci").toLowerCase().trim();
-
-    // 1. Resolve Recipe
-    let recipeName = validatedBody.recipeName ?? "Alchemical Dish";
-    let cuisine = "Classical";
-
+    // 1. Authoritative Recipe Lookup
     const recipeResult = await executeQuery<RecipeRow>(
       `SELECT id, name, description, cuisine::text
        FROM recipes
@@ -92,12 +150,20 @@ export async function POST(
     );
 
     const [r] = recipeResult.rows;
-    if (r) {
-      recipeName = r.name;
-      cuisine = r.cuisine ?? cuisine;
+    if (!r) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: `Recipe "${recipeId}" not found in catalog`,
+        },
+        { status: 404 },
+      );
     }
 
-    // 2. Resolve Agent User
+    const recipeName = r.name;
+    const cuisine = r.cuisine ?? "Classical";
+
+    // 2. Authoritative Agent Lookup
     const agentResult = await executeQuery<AgentLookupRow>(
       `SELECT u.id, u.email, COALESCE(up.name, u.name) AS name, up.dominant_element,
               up.bio, up.dietary_preferences
@@ -117,17 +183,26 @@ export async function POST(
     const [agent] = agentResult.rows;
     if (!agent) {
       return NextResponse.json(
-        { success: false, message: `Historical agent "${agentSlug}" not found` },
+        {
+          success: false,
+          message: `Historical agent "${agentSlug}" not found`,
+        },
         { status: 404 },
       );
     }
 
-    
-    const cleanName = agent.name ?? agentSlug.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");
+    const cleanName =
+      agent.name ??
+      agentSlug
+        .split("-")
+        .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+        .join(" ");
     const diet = agent.dietary_preferences ?? {};
 
-    // 3. Generate Critique Reflection
+    // 3. Generate Critique Reflection with 3 distinct content states:
+    //    "live" | "gateway-degraded" | "curated"
     let critiqueText = "";
+    let contentState: "live" | "gateway-degraded" | "curated" = "curated";
 
     // Try live gateway reasoning first
     try {
@@ -140,59 +215,113 @@ export async function POST(
         },
       });
 
-      if (gatewayRes.content && gatewayRes.content.trim().length > 20) {
+      if (
+        gatewayRes.status === "live" &&
+        gatewayRes.content &&
+        gatewayRes.content.trim().length > 20
+      ) {
         critiqueText = gatewayRes.content.trim();
+        contentState = "live";
+      } else if (
+        gatewayRes.status === "degraded" &&
+        gatewayRes.content &&
+        gatewayRes.content.trim().length > 20
+      ) {
+        critiqueText = gatewayRes.content.trim();
+        contentState = "gateway-degraded";
+        _logger.error(
+          `[recipe-critique] Gateway chat returned degraded state for ${agentSlug}`,
+        );
       }
     } catch (gatewayErr) {
-      _logger.warn(`[recipe-critique] Gateway chat failed for ${agentSlug}, falling back to curated lore:`, gatewayErr);
+      _logger.error(
+        `[recipe-critique] Gateway chat failed for ${agentSlug}, falling back to curated lore:`,
+        gatewayErr,
+      );
     }
 
-    // Fallback to authentic dietary lore
+    // Fallback to authentic curated lore if live gateway was not available
     if (!critiqueText) {
+      contentState = "curated";
       const loreGenerator = HISTORICAL_LORE_CRITIQUES[agentSlug];
       if (loreGenerator) {
         critiqueText = loreGenerator(recipeName, cuisine);
       } else {
         const element = agent.dominant_element ?? "Fire";
-        const rawPhil = typeof diet.dietaryPhilosophy === "string" ? diet.dietaryPhilosophy : undefined;
+        const rawPhil =
+          typeof diet.dietaryPhilosophy === "string"
+            ? diet.dietaryPhilosophy
+            : undefined;
         const philosophy = rawPhil
           ? ` As I have always observed: "${rawPhil.slice(0, 120)}..."`
           : "";
         critiqueText = `In observing "${recipeName}", the ${element} element harmonizes the culinary transformation.${philosophy} A balanced preparation that honors both bodily constitution and culinary heritage.`;
       }
+      _logger.error(
+        `[recipe-critique] Used curated lore fallback for ${agentSlug}`,
+      );
     }
 
     // 4. Record to feed_events (Dual-writes into user_recipe_interactions)
-    await feedDatabase.createEvent(
-      agent.id,
-      "recipe_review",
-      {
-        recipeId,
-        recipeName,
-        rating: 5,
-        review: critiqueText,
-        source: "catalog_review",
-        agentSlug,
-        agentName: cleanName,
-        dominantElement: agent.dominant_element ?? "Spirit",
-        madeIt: true,
-        made_it: true,
-      },
-      false,
-      { share: true, explicit: true },
-    );
+    // Separates generated content from confirmed save/publication failure.
+    // Removes invented 5-star rating, madeIt: true, and made_it: true.
+    let published = false;
+    let persistedAt: string | undefined;
 
-    return NextResponse.json({
+    try {
+      published = await feedDatabase.createEvent(
+        agent.id,
+        "recipe_review",
+        {
+          recipeId,
+          recipeName,
+          review: critiqueText,
+          source: "catalog_critique",
+          agentSlug,
+          agentName: cleanName,
+          dominantElement: agent.dominant_element ?? "Spirit",
+          contentState,
+        },
+        false,
+        { share: true, explicit: true },
+      );
+      if (published) {
+        persistedAt = new Date().toISOString();
+      }
+    } catch (persistErr) {
+      _logger.error(
+        `[recipe-critique] Failed to persist critique to feed for recipe ${recipeId}:`,
+        persistErr,
+      );
+      published = false;
+    }
+
+    const responsePayload = {
       success: true,
-      review: {
+      critique: {
         author: cleanName,
-        rating: 5,
         tip: critiqueText,
         agentSlug,
         dominantElement: agent.dominant_element,
-        postedAt: new Date().toISOString(),
+        contentState,
+        published,
+        ...(persistedAt ? { persistedAt } : {}),
       },
-    });
+      review: {
+        author: cleanName,
+        tip: critiqueText,
+        agentSlug,
+        dominantElement: agent.dominant_element,
+        contentState,
+        published,
+        ...(persistedAt ? { postedAt: persistedAt } : {}),
+      },
+    };
+
+    // Validate response payload against contract
+    RecipeCritiqueResponseSchema.parse(responsePayload);
+
+    return NextResponse.json(responsePayload);
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     _logger.error(`[POST /api/recipes/${recipeId}/critique] failed:`, error);
