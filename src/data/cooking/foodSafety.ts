@@ -2,11 +2,16 @@
  * Documented food-safety internal temperatures and safe handling standards.
  *
  * Sources:
- * - USDA Food Safety and Inspection Service (FSIS): "Safe Minimum Internal
- *   Temperature Chart" (revised 2020), 9 CFR § 318.23 / 9 CFR § 381.150.
- * - U.S. FDA Food Code (2022), § 3-401.11 ("Cooking Raw Animal Foods").
- * - McGee, Harold. *On Food and Cooking: The Science and Lore of the Kitchen*
+ * - Numeric thresholds are drawn from USDA FSIS consumer guidance and
+ *   corroborated by FoodSafety.gov, last reviewed November 21, 2024.
+ * - U.S. FDA Food Code (2022, January 18, 2023 version), § 3-401.11 ("Cooking
+ *   Raw Animal Foods"), is a separate retail/foodservice model with time and
+ *   process qualifications.
+ * - Harold McGee, *On Food and Cooking: The Science and Lore of the Kitchen*
  *   (Scribner, 2004), Chapter 3 (Meat & Poultry Pathogen Thermal Death Times).
+ *
+ * The gate checks recipe text against selected flat floors; it does not
+ * validate a cooking process or certify regulatory compliance.
  *
  * @file src/data/cooking/foodSafety.ts
  */
@@ -27,16 +32,16 @@ export const SAFE_INTERNAL_TEMPERATURES: readonly SafeInternalTemperature[] = [
     foodType: "all poultry (whole, parts, ground, stuffing)",
     minTempC: 73.9,
     minTempF: 165,
-    source: "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(3)",
-    notes: "Instantaneous 7-log10 lethality for Salmonella and Campylobacter.",
+    source: "USDA FSIS consumer recommendation; FDA Food Code 2022 § 3-401.11(A)(3)",
+    notes: "USDA FSIS safe minimum internal temperature; FDA Food Code specifies instantaneous retail cooking criterion.",
   },
   {
     category: "ground-meat",
     foodType: "ground beef, pork, lamb, veal",
     minTempC: 71.1,
     minTempF: 160,
-    source: "USDA FSIS / 9 CFR § 318.23",
-    notes: "Lethality for Shiga-toxin producing E. coli (STEC).",
+    source: "USDA FSIS consumer Safe Minimum Internal Temperature Chart; corroborated by FoodSafety.gov (reviewed 2024-11-21)",
+    notes: "Consumer safe minimum internal temperature for ground meat.",
   },
   {
     category: "whole-meat",
@@ -44,31 +49,32 @@ export const SAFE_INTERNAL_TEMPERATURES: readonly SafeInternalTemperature[] = [
     minTempC: 62.8,
     minTempF: 145,
     restMinutes: 3,
-    source: "USDA FSIS (2011 revised policy) / FDA Food Code 2022 § 3-401.11(A)(1)",
-    notes: "Mandatory 3-minute post-cooking rest time to allow internal thermal equilibrium.",
+    source: "USDA FSIS consumer chart; FDA Food Code 2022 § 3-401.11(A)(1) is a separate retail framework",
+    notes: "145°F with at least 3 minutes' rest for whole cuts.",
   },
   {
     category: "finfish",
     foodType: "fish, shellfish, crustaceans",
     minTempC: 62.8,
     minTempF: 145,
-    source: "FDA Food Code 2022 § 3-401.11(A)(1)",
+    source: "USDA FSIS consumer chart (FDA Food Code 2022 § 3-401.11(A)(1) specifies 145°F for 15 seconds)",
     notes: "Until flesh is opaque and flakes readily with a fork.",
   },
   {
     category: "eggs",
-    foodType: "egg dishes, quiches, casseroles",
+    foodType: "egg dishes, quiches, frittatas",
     minTempC: 71.1,
     minTempF: 160,
-    source: "USDA FSIS / FDA Food Code 2022 § 3-401.11",
-    notes: "Raw eggs cooked until yolk and white are completely firm.",
+    source: "USDA FSIS consumer chart / FoodSafety.gov (reviewed 2024-11-21)",
+    notes: "Egg dishes (frittata, quiche) cooked to 160°F; raw eggs cooked until yolk and white are firm. Casseroles are categorized at 165°F.",
   },
   {
     category: "reheating",
     foodType: "leftovers, casseroles, sauces",
     minTempC: 73.9,
     minTempF: 165,
-    source: "USDA FSIS Safe Food Handling Guidelines",
+    source: "USDA FSIS Safe Food Handling Guidelines / FoodSafety.gov (reviewed 2024-11-21)",
+    notes: "Leftovers and casseroles reheated or cooked to 165°F.",
   },
 ] as const;
 
@@ -99,25 +105,25 @@ const PROTEIN_SAFETY_RULES: readonly ProteinThreshold[] = [
     pattern: /\b(chicken|turkey|poultry|duck)\b/i,
     minTemp: 165,
     label: "poultry",
-    citation: "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(3) safe minimum of 165°F (74°C)",
+    citation: "USDA FSIS consumer recommendation / FDA Food Code 2022 § 3-401.11(A)(3) safe minimum of 165°F (74°C)",
   },
   {
     pattern: /\b(ground|burger|patty|sausage)\b/i,
     minTemp: 160,
     label: "ground meat",
-    citation: "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(2) safe minimum of 160°F (71°C)",
+    citation: "USDA FSIS consumer safe minimum of 160°F (71°C)",
   },
   {
     pattern: /\b(beef|pork|lamb|veal|steak|roast|chop)\b/i,
     minTemp: 145,
     label: "whole cuts",
-    citation: "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(1) safe minimum of 145°F (63°C)",
+    citation: "USDA FSIS consumer safe minimum of 145°F (63°C) with 3-minute rest",
   },
   {
     pattern: /\b(fish|salmon|tuna|cod|shrimp|seafood)\b/i,
     minTemp: 145,
     label: "fish and shellfish",
-    citation: "FDA Food Code 2022 § 3-401.11(A)(1) safe minimum of 145°F (63°C)",
+    citation: "USDA FSIS consumer safe minimum of 145°F (63°C)",
   },
 ];
 

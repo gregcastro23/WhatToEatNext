@@ -12,7 +12,7 @@
  * 4. Safe culinary envelopes: wood-fired pizza (850°F), candy syrup boiling (245°F),
  *    refrigerated chilling (40°F), and Celsius internal doneness (74°C = 165.2°F).
  * 5. Low internal poultry temperature (145°F internal) is flagged as BLOCKING.
- * 6. Non-positive and excessive quantities (>10kg).
+ * 6. Non-positive and excessive quantities (>15kg).
  * 7. Disallowed ingredients.
  * 8. Advisory reporting: unknown cooking methods and missing nutrition do NOT block or invent fake data.
  *
@@ -27,6 +27,7 @@ import {
 } from "@/lib/cooking/recipeVerificationGate";
 import { VALID_RECIPE } from "@/app/api/generate-cosmic-recipe/__tests__/helpers/validCosmicRecipe";
 import { cosmicRecipeSchema } from "@/types/cosmicRecipeSchema";
+import { SAFE_INTERNAL_TEMPERATURES } from "@/data/cooking/foodSafety";
 
 describe("recipeVerificationGate unit helpers", () => {
   it("normalizes colloquial culinary units", () => {
@@ -259,6 +260,88 @@ describe("verifyAndRepairCosmicRecipe", () => {
     expect(tempFinding?.message).toContain("165°F");
   });
 
+  it("flags unsafe low internal temperature for ground meat with accurate consumer citation", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "ground beef",
+        quantity: "500",
+        unit: "g",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Cook ground beef patties until internal temperature reaches 145°F.",
+        time_minutes: 10,
+        cooking_method: "sear",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    const tempFinding = outcome.blockingFindings.find((f) => f.code === "UNSAFE_TEMPERATURE");
+    expect(tempFinding).toBeDefined();
+    expect(tempFinding?.message).toContain("USDA FSIS consumer safe minimum of 160°F (71°C)");
+    expect(tempFinding?.message).not.toContain("FDA Food Code 2022 § 3-401.11(A)(2)");
+  });
+
+  it("flags unsafe low internal temperature for fish with consumer safe minimum citation", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "salmon fillet",
+        quantity: "300",
+        unit: "g",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Cook salmon fillet until internal temperature reaches 130°F.",
+        time_minutes: 10,
+        cooking_method: "sear",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    const tempFinding = outcome.blockingFindings.find((f) => f.code === "UNSAFE_TEMPERATURE");
+    expect(tempFinding).toBeDefined();
+    expect(tempFinding?.message).toContain("USDA FSIS consumer safe minimum of 145°F (63°C)");
+    expect(tempFinding?.message).not.toContain("FDA Food Code 2022 § 3-401.11(A)(1)");
+  });
+
+  it("maintains truthful food-safety citations without conflating CFR standards or unsubstantiated pathogens", () => {
+    const poultry = SAFE_INTERNAL_TEMPERATURES.find((t) => t.category === "poultry");
+    expect(poultry).toBeDefined();
+    expect(poultry?.notes).not.toContain("Campylobacter");
+
+    const ground = SAFE_INTERNAL_TEMPERATURES.find((t) => t.category === "ground-meat");
+    expect(ground).toBeDefined();
+    expect(ground?.source).toContain("USDA FSIS consumer Safe Minimum Internal Temperature Chart");
+    expect(ground?.source).not.toContain("9 CFR § 318.23");
+
+    const eggs = SAFE_INTERNAL_TEMPERATURES.find((t) => t.category === "eggs");
+    expect(eggs).toBeDefined();
+    expect(eggs?.foodType).not.toContain("casseroles");
+    expect(eggs?.foodType).toContain("frittatas");
+
+    const reheating = SAFE_INTERNAL_TEMPERATURES.find((t) => t.category === "reheating");
+    expect(reheating).toBeDefined();
+    expect(reheating?.foodType).toContain("casseroles");
+
+    const fish = SAFE_INTERNAL_TEMPERATURES.find((t) => t.category === "finfish");
+    expect(fish).toBeDefined();
+    expect(fish?.source).toContain("15 seconds");
+  });
+
   it("flags physically impossible boiling liquid water temperature as BLOCKING", () => {
     const recipe = createBaseRecipe();
     recipe.steps = [
@@ -295,7 +378,7 @@ describe("verifyAndRepairCosmicRecipe", () => {
     expect(outcome.blockingFindings.some((f) => f.code === "IMPOSSIBLE_QUANTITY")).toBe(true);
   });
 
-  it("flags excessive quantity (>10kg) as BLOCKING", () => {
+  it("flags excessive quantity (>15kg) as BLOCKING", () => {
     const recipe = createBaseRecipe();
     recipe.ingredients = [
       {
