@@ -17,11 +17,6 @@ export const EXPLICIT_INGREDIENT_SYNONYMS: Readonly<Record<string, string>> = {
   "dijon mustard": "mustard",
   dijon: "mustard",
   "rice syrup": "brown_rice_syrup",
-  "lemon juice": "lemon",
-  "lime juice": "lime",
-  "ginger juice": "ginger",
-  "orange juice": "orange",
-  "whole wheat pastry flour": "flour",
   "parmigiano-reggiano": "parmesan",
   "parmigiano reggiano": "parmesan",
 };
@@ -57,7 +52,11 @@ export function depluralizeIngredientName(term: string): string[] {
   } else if (lastWord.endsWith("es") && lastWord.length > 3) {
     candidates.push(`${p}${lastWord.slice(0, -2)}`);
     candidates.push(`${p}${lastWord.slice(0, -1)}`);
-  } else if (lastWord.endsWith("s") && !lastWord.endsWith("ss") && lastWord.length > 2) {
+  } else if (
+    lastWord.endsWith("s") &&
+    !lastWord.endsWith("ss") &&
+    lastWord.length > 2
+  ) {
     candidates.push(`${p}${lastWord.slice(0, -1)}`);
   }
   return candidates;
@@ -78,7 +77,10 @@ function resolveSynonymOrCandidates(name: string): CatalogIngredient | null {
 
 function resolveStrippedPrefixes(name: string): CatalogIngredient | null {
   if (name.includes("gluten-free") || name.includes("gluten free")) return null;
-  const stripped = name.replace(PREPARATION_PREFIXES, " ").replace(/\s+/g, " ").trim();
+  const stripped = name
+    .replace(PREPARATION_PREFIXES, " ")
+    .replace(/\s+/g, " ")
+    .trim();
   if (!stripped || stripped === name) return null;
 
   const direct = resolveCatalogIngredient(stripped);
@@ -88,8 +90,12 @@ function resolveStrippedPrefixes(name: string): CatalogIngredient | null {
 }
 
 function resolveCutTerms(name: string): CatalogIngredient | null {
-  const target = name.replace(PREPARATION_PREFIXES, " ").replace(/\s+/g, " ").trim() || name;
-  const cutStripped = target.replace(CUT_TERMS, " ").replace(/\s+/g, " ").trim();
+  const target =
+    name.replace(PREPARATION_PREFIXES, " ").replace(/\s+/g, " ").trim() || name;
+  const cutStripped = target
+    .replace(CUT_TERMS, " ")
+    .replace(/\s+/g, " ")
+    .trim();
   if (!cutStripped || cutStripped === target) return null;
 
   const cutDirect = resolveCatalogIngredient(cutStripped);
@@ -102,7 +108,9 @@ function resolveCutTerms(name: string): CatalogIngredient | null {
   return null;
 }
 
-export function tryResolveFromCatalog(rawName: string): CatalogIngredient | null {
+export function tryResolveFromCatalog(
+  rawName: string,
+): CatalogIngredient | null {
   const clean = rawName.trim().toLowerCase();
   if (!clean) return null;
 

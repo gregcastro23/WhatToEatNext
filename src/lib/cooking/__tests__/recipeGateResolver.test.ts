@@ -32,7 +32,10 @@ describe("resolver normalization: depluralization", () => {
     expect(depluralizeIngredientName("carrots")).toEqual(["carrot"]);
     expect(depluralizeIngredientName("scallions")).toEqual(["scallion"]);
     expect(depluralizeIngredientName("strawberries")).toEqual(["strawberry"]);
-    expect(depluralizeIngredientName("tomatoes")).toEqual(["tomato", "tomatoe"]);
+    expect(depluralizeIngredientName("tomatoes")).toEqual([
+      "tomato",
+      "tomatoe",
+    ]);
   });
 
   it("does not strip double-s words like watercress or lemongrass", () => {
@@ -53,16 +56,24 @@ describe("resolver normalization: depluralization", () => {
 
 describe("resolver normalization: preparation and quality prefixes", () => {
   it("resolves extra virgin olive oil variants to olive_oil", () => {
-    expect(tryResolveFromCatalog("extra virgin olive oil")?.key).toBe("olive_oil");
-    expect(tryResolveFromCatalog("extra-virgin olive oil")?.key).toBe("olive_oil");
+    expect(tryResolveFromCatalog("extra virgin olive oil")?.key).toBe(
+      "olive_oil",
+    );
+    expect(tryResolveFromCatalog("extra-virgin olive oil")?.key).toBe(
+      "olive_oil",
+    );
     expect(tryResolveFromCatalog("virgin olive oil")?.key).toBe("olive_oil");
   });
 
   it("resolves pinch and ground prefixes to canonical cards", () => {
     expect(tryResolveFromCatalog("pinch sea salt")?.key).toBe("sea_salt");
     expect(tryResolveFromCatalog("pinch of sea salt")?.key).toBe("sea_salt");
-    expect(tryResolveFromCatalog("freshly ground black pepper")?.key).toBe("black_pepper");
-    expect(tryResolveFromCatalog("freshly-ground black pepper")?.key).toBe("black_pepper");
+    expect(tryResolveFromCatalog("freshly ground black pepper")?.key).toBe(
+      "black_pepper",
+    );
+    expect(tryResolveFromCatalog("freshly-ground black pepper")?.key).toBe(
+      "black_pepper",
+    );
   });
 
   it("resolves temperature and state qualifiers on water", () => {
@@ -95,19 +106,19 @@ describe("resolver normalization: explicit staple synonyms", () => {
     expect(tryResolveFromCatalog("dijon")?.key).toBe("mustard");
   });
 
-  it("resolves fruit and root juices to base cards", () => {
-    expect(tryResolveFromCatalog("lemon juice")?.key).toBe("lemon");
-    expect(tryResolveFromCatalog("lime juice")?.key).toBe("lime");
-    expect(tryResolveFromCatalog("ginger juice")?.key).toBe("ginger");
-    expect(tryResolveFromCatalog("orange juice")?.key).toBe("orange");
-  });
+  it.each(["lemon juice", "lime juice", "ginger juice", "orange juice"])(
+    "keeps the distinct juice form %s unresolved without a matching card",
+    (name) => {
+      expect(tryResolveFromCatalog(name)).toBeNull();
+    },
+  );
 
   it("resolves rice syrup to brown_rice_syrup", () => {
     expect(tryResolveFromCatalog("rice syrup")?.key).toBe("brown_rice_syrup");
   });
 
-  it("resolves whole wheat pastry flour to flour", () => {
-    expect(tryResolveFromCatalog("whole wheat pastry flour")?.key).toBe("flour");
+  it("does not substitute generic flour for whole wheat pastry flour", () => {
+    expect(tryResolveFromCatalog("whole wheat pastry flour")).toBeNull();
   });
 
   it("resolves parmigiano-reggiano to parmesan", () => {
@@ -118,7 +129,9 @@ describe("resolver normalization: explicit staple synonyms", () => {
 
 describe("resolver normalization: false-positive and safety controls", () => {
   it("does not falsely collapse apple cider vinegar into apple", () => {
-    expect(tryResolveFromCatalog("apple cider vinegar")?.key).toBe("apple_cider_vinegar");
+    expect(tryResolveFromCatalog("apple cider vinegar")?.key).toBe(
+      "apple_cider_vinegar",
+    );
   });
 
   it("preserves watercress and lemongrass as exact cards without improper trimming", () => {
@@ -137,7 +150,8 @@ describe("resolver normalization: false-positive and safety controls", () => {
 });
 
 describe("resolver gate integration: primary vs secondary unresolved rule", () => {
-  const createBaseRecipe = (): CosmicRecipe => cosmicRecipeSchema.parse(VALID_RECIPE);
+  const createBaseRecipe = (): CosmicRecipe =>
+    cosmicRecipeSchema.parse(VALID_RECIPE);
 
   it("emits blocking UNRESOLVED_PRIMARY_INGREDIENT when primary ingredient is unresolved", () => {
     const recipe = createBaseRecipe();
@@ -160,7 +174,11 @@ describe("resolver gate integration: primary vs secondary unresolved rule", () =
 
     const outcome = verifyAndRepairCosmicRecipe(recipe);
     expect(outcome.valid).toBe(false);
-    expect(outcome.blockingFindings.some((f) => f.code === "UNRESOLVED_PRIMARY_INGREDIENT")).toBe(true);
+    expect(
+      outcome.blockingFindings.some(
+        (f) => f.code === "UNRESOLVED_PRIMARY_INGREDIENT",
+      ),
+    ).toBe(true);
   });
 
   it("emits advisory UNRESOLVED_CATALOG_INGREDIENT when non-primary ingredient is unresolved", () => {
@@ -184,8 +202,16 @@ describe("resolver gate integration: primary vs secondary unresolved rule", () =
 
     const outcome = verifyAndRepairCosmicRecipe(recipe);
     expect(outcome.valid).toBe(true);
-    expect(outcome.blockingFindings.some((f) => f.code === "UNRESOLVED_PRIMARY_INGREDIENT")).toBe(false);
-    expect(outcome.advisoryFindings.some((f) => f.code === "UNRESOLVED_CATALOG_INGREDIENT")).toBe(true);
+    expect(
+      outcome.blockingFindings.some(
+        (f) => f.code === "UNRESOLVED_PRIMARY_INGREDIENT",
+      ),
+    ).toBe(false);
+    expect(
+      outcome.advisoryFindings.some(
+        (f) => f.code === "UNRESOLVED_CATALOG_INGREDIENT",
+      ),
+    ).toBe(true);
   });
 
   it("resolves primary ingredient when normalized via prefixes/plurals, passing gate without primary blocking", () => {
