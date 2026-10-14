@@ -17,11 +17,16 @@ jest.mock("@/lib/logger", () => ({
 import {
   boundedSummary,
   claimWebhookEvent,
+  completeWebhookEvent,
+  failWebhookEvent,
+  formatErrorProvenance,
   CLAIM_INSERT_SQL,
   CLAIM_RETRY_SQL,
+  COMPLETE_SQL,
+  FAIL_SQL,
   MARK_DUPLICATE_SQL,
 } from "@/lib/hooks/inbox";
-import type { HookEvent } from "@/lib/hooks/types";
+import type { HookEvent, InboxClaim } from "@/lib/hooks/types";
 
 const EVENT: HookEvent = {
   source: "stripe",
@@ -82,5 +87,79 @@ describe("boundedSummary", () => {
     expect(boundedSummary({ a: 1 })).toBe('{"a":1}');
     const big = boundedSummary({ blob: "x".repeat(10_000) });
     expect(JSON.parse(big)).toEqual({ truncated: true, bytes: 10_011 });
+  });
+});
+
+describe("formatErrorProvenance", () => {
+  it("captures stack trace when err is an Error", () => {
+    const err = new Error("Database deadlock");
+    const formatted = formatErrorProvenance(err);
+    expect(formatted.includes("Database deadlock")).toBe(true);
+    expect(formatted.includes("Error:")).toBe(true);
+  });
+
+  it("falls back to name: message when stack is empty", () => {
+    const err = new Error("Synthetic error");
+    err.stack = "";
+    expect(formatErrorProvenance(err)).toBe("Error: Synthetic error");
+  });
+
+  it("records string error reason verbatim up to limit", () => {
+    expect(formatErrorProvenance("rejected:422")).toBe("rejected:422");
+    expect(formatErrorProvenance("rejected:404")).toBe("rejected:404");
+    expect(formatErrorProvenance("rejected:500")).toBe("rejected:500");
+  });
+
+  it("formats non-error values as strings", () => {
+    expect(formatErrorProvenance(404)).toBe("404");
+  });
+});
+
+describe("failWebhookEvent", () => {
+  it("settles claimed event as failed with explicit rejection reason", async () => {
+    mockExecuteQuery.mockResolvedValueOnce(rows());
+    const claim: InboxClaim = { kind: "claimed", rowId: 99, attempt: 1, startedAt: Date.now() - 50 };
+    await failWebhookEvent(claim, "rejected:422");
+    expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+    expect(mockExecuteQuery.mock.calls[0]?.[0]).toBe(FAIL_SQL);
+    const args = mockExecuteQuery.mock.calls[0]?.[1];
+    expect(Array.isArray(args) && args[0]).toBe(99);
+    expect(Array.isArray(args) && args[2]).toBe("rejected:422");
+  });
+
+  it("settles claimed event with error stack provenance when Error is thrown", async () => {
+    mockExecuteQuery.mockResolvedValueOnce(rows());
+    const claim: InboxClaim = { kind: "claimed", rowId: 101, attempt: 1, startedAt: Date.now() - 100 };
+    const err = new Error("Unique constraint violation");
+    await failWebhookEvent(claim, err);
+    expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+    expect(mockExecuteQuery.mock.calls[0]?.[0]).toBe(FAIL_SQL);
+    const args = mockExecuteQuery.mock.calls[0]?.[1];
+    expect(Array.isArray(args) && args[0]).toBe(101);
+    expect(typeof (Array.isArray(args) && args[2]) === "string").toBe(true);
+    const recordedError = String(Array.isArray(args) && args[2]);
+    expect(recordedError.includes("Unique constraint violation")).toBe(true);
+  });
+
+  it("safely no-ops for non-claimed events (duplicate or unrecorded)", async () => {
+    const dupClaim: InboxClaim = { kind: "duplicate", status: "processed" };
+    await failWebhookEvent(dupClaim, "rejected:500");
+    const unrecClaim: InboxClaim = { kind: "unrecorded", startedAt: Date.now() };
+    await failWebhookEvent(unrecClaim, "rejected:500");
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
+  });
+});
+
+describe("completeWebhookEvent", () => {
+  it("marks a claimed event processed with bounded summary of result", async () => {
+    mockExecuteQuery.mockResolvedValueOnce(rows());
+    const claim: InboxClaim = { kind: "claimed", rowId: 88, attempt: 1, startedAt: Date.now() - 25 };
+    await completeWebhookEvent(claim, "processed", { success: true });
+    expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+    expect(mockExecuteQuery.mock.calls[0]?.[0]).toBe(COMPLETE_SQL);
+    const args = mockExecuteQuery.mock.calls[0]?.[1];
+    expect(Array.isArray(args) && args[0]).toBe(88);
+    expect(Array.isArray(args) && args[1]).toBe("processed");
+    expect(Array.isArray(args) && args[3]).toBe('{"success":true}');
   });
 });

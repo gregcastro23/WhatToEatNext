@@ -40,9 +40,14 @@ jest.mock("@/lib/redis", () => ({
 }));
 
 import {
+  CLAIM_RETRY_SQL,
+  FAIL_SQL,
+} from "@/lib/hooks/inbox";
+import {
   computeV1Signature,
   parseWebhookSecret,
 } from "@/lib/hooks/standardWebhooks";
+import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
 import { POST } from "../route";
 
 const TEST_SECRET = "test-internal-feed-secret";
@@ -262,5 +267,153 @@ describe("POST /api/feed idempotency", () => {
 
     delete process.env.ASOL_WEBHOOK_SIGNATURES;
     delete process.env.HOOK_SECRET_ASOL;
+  });
+
+  it("settles claim with rejected:422 when agent provision fails with AgentChartRequiredError", async () => {
+    // 1. claim insert succeeds
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 422, attempts: 1 }] });
+    // 2. user not found -> triggers auto-provision
+    mockGetUserByEmail.mockResolvedValueOnce(null);
+    // 3. ensurePlanetaryAgent throws AgentChartRequiredError
+    mockEnsurePlanetaryAgent.mockRejectedValueOnce(
+      new AgentChartRequiredError("sol@agentic.alchm.kitchen", "Sol"),
+    );
+    // 4. failWebhookEvent updates status='failed'
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const req = makeFeedRequest(
+      {
+        agentEmail: "sol@agentic.alchm.kitchen",
+        eventType: "recipe_generation",
+        metadataPayload: { title: "Chartless Recipe" },
+      },
+      "feed-422-key",
+    );
+
+    const res = await POST(req);
+    expect(res.status).toBe(422);
+
+    // Verify claim was failed with rejected:422
+    const failCall = mockExecuteQuery.mock.calls.find(
+      (c: unknown[]) => Array.isArray(c) && c[0] === FAIL_SQL,
+    );
+    expect(failCall).toBeDefined();
+    const args = Array.isArray(failCall) && Array.isArray(failCall[1]) ? failCall[1] : [];
+    expect(args[0]).toBe(422);
+    expect(args[2]).toBe("rejected:422");
+  });
+
+  it("settles claim with rejected:500 when agent provision fails unexpectedly", async () => {
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 500, attempts: 1 }] });
+    mockGetUserByEmail.mockResolvedValueOnce(null);
+    mockEnsurePlanetaryAgent.mockRejectedValueOnce(new Error("DB deadlock on user insert"));
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const req = makeFeedRequest(
+      {
+        agentEmail: "sol@agentic.alchm.kitchen",
+        eventType: "recipe_generation",
+      },
+      "feed-500-key",
+    );
+
+    const res = await POST(req);
+    expect(res.status).toBe(500);
+
+    const failCall = mockExecuteQuery.mock.calls.find(
+      (c: unknown[]) => Array.isArray(c) && c[0] === FAIL_SQL,
+    );
+    expect(failCall).toBeDefined();
+    const args = Array.isArray(failCall) && Array.isArray(failCall[1]) ? failCall[1] : [];
+    expect(args[0]).toBe(500);
+    expect(args[2]).toBe("rejected:500");
+  });
+
+  it("settles claim with rejected:404 when user is not flagged as an agent", async () => {
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 404, attempts: 1 }] });
+    // User exists but isAgent is false
+    mockGetUserByEmail.mockResolvedValueOnce({
+      id: "regular-user",
+      email: "user@example.com",
+      isAgent: false,
+    });
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const req = makeFeedRequest(
+      {
+        agentEmail: "user@example.com",
+        eventType: "recipe_generation",
+      },
+      "feed-404-key",
+    );
+
+    const res = await POST(req);
+    expect(res.status).toBe(404);
+
+    const failCall = mockExecuteQuery.mock.calls.find(
+      (c: unknown[]) => Array.isArray(c) && c[0] === FAIL_SQL,
+    );
+    expect(failCall).toBeDefined();
+    const args = Array.isArray(failCall) && Array.isArray(failCall[1]) ? failCall[1] : [];
+    expect(args[0]).toBe(404);
+    expect(args[2]).toBe("rejected:404");
+  });
+
+  it("settles claim with error stack provenance when event creation throws", async () => {
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 501, attempts: 1 }] });
+    mockCreateEvent.mockRejectedValueOnce(new Error("Database write crashed"));
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const req = makeFeedRequest(
+      {
+        agentEmail: "sol@agentic.alchm.kitchen",
+        eventType: "recipe_generation",
+      },
+      "feed-crash-key",
+    );
+
+    const res = await POST(req);
+    expect(res.status).toBe(500);
+
+    const failCall = mockExecuteQuery.mock.calls.find(
+      (c: unknown[]) => Array.isArray(c) && c[0] === FAIL_SQL,
+    );
+    expect(failCall).toBeDefined();
+    const args = Array.isArray(failCall) && Array.isArray(failCall[1]) ? failCall[1] : [];
+    expect(args[0]).toBe(501);
+    const recordedError = typeof args[2] === "string" ? args[2] : "";
+    expect(recordedError.includes("Database write crashed")).toBe(true);
+    expect(recordedError.includes("Error:")).toBe(true);
+  });
+
+  it("allows redelivery after failed claim: retry re-claims the event and succeeds", async () => {
+    // 1. insert fails with conflict
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+    // 2. retry update re-claims the failed event (status='failed') -> returns { id: 201, attempts: 2 }
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 201, attempts: 2 }] });
+    // 3. completeWebhookEvent updates status='processed'
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const req = makeFeedRequest(
+      {
+        agentEmail: "sol@agentic.alchm.kitchen",
+        eventType: "recipe_generation",
+        metadataPayload: { title: "Retried Elixir" },
+      },
+      "feed-failed-then-retried-key",
+    );
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(isRecord(data) && data.success).toBe(true);
+    // Verified retry ran the event creation
+    expect(mockCreateEvent).toHaveBeenCalledTimes(1);
+
+    // Verify CLAIM_RETRY_SQL was called
+    const retryCall = mockExecuteQuery.mock.calls.find(
+      (c: unknown[]) => Array.isArray(c) && c[0] === CLAIM_RETRY_SQL,
+    );
+    expect(retryCall).toBeDefined();
   });
 });

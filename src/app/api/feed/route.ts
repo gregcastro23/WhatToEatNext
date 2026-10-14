@@ -23,7 +23,8 @@ import {
   buildDeliverySummary,
   claimInboundEvent,
   completeWebhookEvent,
-  failWebhookEvent,
+  failInboundClaim,
+  rejectInboundClaim,
   resolveInboundDeliveryContext,
   type ClaimOutcome,
 } from "@/lib/hooks/idempotency";
@@ -313,6 +314,7 @@ export const POST = withObservability(
             provisionError.message,
           );
           rememberFeedEmit(eventType, normalizedEmail, 422);
+          await rejectInboundClaim(claimOutcome.claim, 422);
           return NextResponse.json(
             {
               error: "Agent is not classifiable",
@@ -325,6 +327,7 @@ export const POST = withObservability(
         }
         logger.error("[Feed API] ensurePlanetaryAgent failed for", normalizedEmail, provisionError);
         rememberFeedEmit(eventType, normalizedEmail, 500);
+        await rejectInboundClaim(claimOutcome.claim, 500);
         return NextResponse.json(
           {
             error: "Failed to provision agent",
@@ -338,6 +341,7 @@ export const POST = withObservability(
 
     if (!user?.isAgent) {
       rememberFeedEmit(eventType, normalizedEmail, 404);
+      await rejectInboundClaim(claimOutcome.claim, 404);
       return NextResponse.json(
         {
           error: "Invalid agent email",
@@ -415,9 +419,7 @@ export const POST = withObservability(
     rememberFeedEmit(incomingEventType, normalizedEmail, 200);
     return NextResponse.json(responsePayload);
   } catch (error) {
-    if (claimOutcome?.claim) {
-      await failWebhookEvent(claimOutcome.claim, error);
-    }
+    await failInboundClaim(claimOutcome?.claim, error);
     logger.error("[Feed Webhook] Error processing agent event:", error);
     rememberFeedEmit(eventType, agentEmail, 500);
     return NextResponse.json(
