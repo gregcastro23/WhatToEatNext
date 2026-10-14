@@ -604,5 +604,170 @@ describe("verifyAndRepairCosmicRecipe", () => {
     // 35 lb = ~15.87 kg > 15 kg
     expect(excessiveOutcome.blockingFindings.some((f) => f.code === "EXCESSIVE_QUANTITY")).toBe(true);
   });
+
+  describe("Phase 45 Slice A2: Evaluated restrictions, exclusion normalization, cheese & flour controls", () => {
+    describe("Recipe Builder exclusion key normalization & compound boundaries", () => {
+      it.each([
+        ["Tree Nuts", "walnuts"],
+        ["tree nut", "walnuts"],
+        ["nut allergy", "walnuts"],
+        ["avoidTreeNuts", "walnuts"],
+        ["tree-nuts", "walnuts"],
+      ])("blocks allergen when disallowed as %s with %s", (disallowed, ingName) => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: ingName, quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, {
+          disallowedIngredients: [disallowed],
+        });
+        expect(outcome.valid).toBe(false);
+        expect(outcome.blockingFindings.some((f) => f.code.startsWith("DISALLOWED_"))).toBe(true);
+      });
+
+      it("does not false-positive block plant compound ingredients on animal substrings", () => {
+        // "egg" should not block "eggplant"
+        const eggRecipe = createBaseRecipe();
+        eggRecipe.ingredients = [
+          { name: "eggplant", quantity: "1", unit: "piece", optional: false, substitutions: [] },
+        ];
+        const eggOutcome = verifyAndRepairCosmicRecipe(eggRecipe, {
+          disallowedIngredients: ["egg"],
+        });
+        expect(eggOutcome.blockingFindings.filter((f) => f.code === "DISALLOWED_INGREDIENT_FOUND")).toHaveLength(0);
+
+        // "ham" should not block "graham crackers"
+        const hamRecipe = createBaseRecipe();
+        hamRecipe.ingredients = [
+          { name: "graham crackers", quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const hamOutcome = verifyAndRepairCosmicRecipe(hamRecipe, {
+          disallowedIngredients: ["ham"],
+        });
+        expect(hamOutcome.blockingFindings.filter((f) => f.code === "DISALLOWED_INGREDIENT_FOUND")).toHaveLength(0);
+
+        // "butter" should not block "butternut squash"
+        const butterRecipe = createBaseRecipe();
+        butterRecipe.ingredients = [
+          { name: "butternut squash", quantity: "1", unit: "piece", optional: false, substitutions: [] },
+        ];
+        const butterOutcome = verifyAndRepairCosmicRecipe(butterRecipe, {
+          disallowedIngredients: ["butter"],
+        });
+        expect(butterOutcome.blockingFindings.filter((f) => f.code === "DISALLOWED_INGREDIENT_FOUND")).toHaveLength(0);
+      });
+    });
+
+    describe("Evaluated vs unevaluated restriction coverage contract", () => {
+      it("evaluates dairy-free and blocks dairy ingredients (heavy cream, parmesan, yogurt)", () => {
+        for (const dairy of ["heavy cream", "parmesan", "yogurt"]) {
+          const recipe = createBaseRecipe();
+          recipe.ingredients = [
+            { name: dairy, quantity: "100", unit: "g", optional: false, substitutions: [] },
+          ];
+          const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Dairy-Free" });
+          expect(outcome.valid).toBe(false);
+          expect(outcome.blockingFindings.some((f) => f.code.includes("DAIRY"))).toBe(true);
+        }
+      });
+
+      it("evaluates nut-free and blocks nuts (walnuts)", () => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: "walnuts", quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Nut-Free" });
+        expect(outcome.valid).toBe(false);
+        expect(outcome.blockingFindings.some((f) => f.code.includes("NUT"))).toBe(true);
+      });
+
+      it("evaluates pescatarian and blocks poultry/meat (chicken)", () => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: "chicken", quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Pescatarian" });
+        expect(outcome.valid).toBe(false);
+        expect(outcome.blockingFindings.some((f) => f.code.includes("PESCATARIAN") || f.code.includes("VEGETARIAN"))).toBe(true);
+      });
+
+      it("identifies unevaluated requested restrictions (keto, paleo, low-sodium), marks verified: false and emits advisory", () => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: "olive oil", quantity: "2", unit: "tbsp", optional: false, substitutions: [] },
+          { name: "salt", quantity: "1", unit: "tsp", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Keto" });
+        expect(outcome.valid).toBe(true);
+        expect(outcome.verified).toBe(false);
+        expect(outcome.audit.requestedRestrictions).toContain("keto");
+        expect(outcome.audit.unevaluatedRestrictions).toContain("keto");
+        expect(outcome.advisoryFindings.some((f) => f.code === "UNEVALUATED_DIETARY_RESTRICTION")).toBe(true);
+      });
+    });
+
+    describe("Per-item cheese positive & negative controls", () => {
+      it.each([
+        ["gruyere"],
+        ["gruyère"],
+        ["fontina"],
+        ["camembert"],
+      ])("blocks %s in vegan request as DIET_VIOLATION_VEGAN", (cheese) => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: cheese, quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Vegan" });
+        expect(outcome.valid).toBe(false);
+        expect(outcome.blockingFindings.some((f) => f.code === "DIET_VIOLATION_VEGAN")).toBe(true);
+      });
+
+      it("blocks pecorino even as a secondary ingredient in a vegan recipe", () => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: "salt", quantity: "1", unit: "tsp", optional: false, substitutions: [] },
+          { name: "pecorino", quantity: "50", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Vegan" });
+        expect(outcome.valid).toBe(false);
+        expect(outcome.blockingFindings.some((f) => f.code === "DIET_VIOLATION_VEGAN")).toBe(true);
+      });
+    });
+
+    describe("Flour and gluten source controls", () => {
+      it.each([
+        ["rice flour"],
+        ["almond flour"],
+        ["buckwheat flour"],
+        ["gluten-free soy sauce"],
+      ])("does NOT flag gluten violation for naturally gluten-free item %s", (gfItem) => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: "salt", quantity: "1", unit: "tsp", optional: false, substitutions: [] },
+          { name: gfItem, quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Gluten-Free" });
+        expect(outcome.blockingFindings.some((f) => f.code === "ALLERGEN_VIOLATION_GLUTEN")).toBe(false);
+      });
+
+      it.each([
+        ["pita"],
+        ["naan"],
+        ["bagel"],
+        ["kamut"],
+        ["breadcrumb"],
+      ])("blocks gluten-containing source %s in gluten-free request", (glutenItem) => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: "salt", quantity: "1", unit: "tsp", optional: false, substitutions: [] },
+          { name: glutenItem, quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Gluten-Free" });
+        expect(outcome.valid).toBe(false);
+        expect(outcome.blockingFindings.some((f) => f.code === "ALLERGEN_VIOLATION_GLUTEN")).toBe(true);
+      });
+    });
+  });
 });
+
 

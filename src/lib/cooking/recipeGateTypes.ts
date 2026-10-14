@@ -19,6 +19,9 @@ export interface GateAudit {
   totalEstimatedGrams: number;
   nonCompliantDietItems: string[];
   identifiedGlutenSources: string[];
+  requestedRestrictions: string[];
+  evaluatedRestrictions: string[];
+  unevaluatedRestrictions: string[];
 }
 
 export interface RecipeVerificationOutcome {

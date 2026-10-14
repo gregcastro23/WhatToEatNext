@@ -129,15 +129,23 @@ function validateNutritionalContent(
 
 function buildAudit(
   state: IngredientValidationState,
-  nonCompliantDietItems: string[],
-  identifiedGlutenSources: string[],
+  dietOutcome: {
+    nonCompliantDietItems: string[];
+    identifiedGlutenSources: string[];
+    requestedRestrictions: string[];
+    evaluatedRestrictions: string[];
+    unevaluatedRestrictions: string[];
+  },
 ): GateAudit {
   return {
     resolvedIngredientsCount: state.resolvedCatalogEntries.filter((r) => r.entry !== null).length,
     unresolvedIngredients: state.unresolvedIngredients,
     totalEstimatedGrams: Math.round(state.totalEstimatedGrams),
-    nonCompliantDietItems,
-    identifiedGlutenSources,
+    nonCompliantDietItems: dietOutcome.nonCompliantDietItems,
+    identifiedGlutenSources: dietOutcome.identifiedGlutenSources,
+    requestedRestrictions: dietOutcome.requestedRestrictions,
+    evaluatedRestrictions: dietOutcome.evaluatedRestrictions,
+    unevaluatedRestrictions: dietOutcome.unevaluatedRestrictions,
   };
 }
 
@@ -150,10 +158,7 @@ export function verifyAndRepairCosmicRecipe(
   const recipe: CosmicRecipe = structuredClone(inputRecipe);
 
   const state: IngredientValidationState = {
-    repaired: false,
-    totalEstimatedGrams: 0,
-    unresolvedIngredients: [],
-    resolvedCatalogEntries: [],
+    repaired: false, totalEstimatedGrams: 0, unresolvedIngredients: [], resolvedCatalogEntries: [],
   };
 
   recipe.ingredients.forEach((ing, index) => {
@@ -162,14 +167,13 @@ export function verifyAndRepairCosmicRecipe(
 
   const currentDietTags = recipe.tags.diet.map((d) => d.toLowerCase());
   const requestedDiet = options?.requestedDiet?.toLowerCase() ?? "";
-  const { nonCompliantDietItems, identifiedGlutenSources, uncertifiedDietClaims } =
-    validateDietaryCompliance(
-      state.resolvedCatalogEntries,
-      currentDietTags,
-      requestedDiet,
-      blockingFindings,
-      advisoryFindings,
-    );
+  const dietOutcome = validateDietaryCompliance(
+    state.resolvedCatalogEntries,
+    currentDietTags,
+    requestedDiet,
+    blockingFindings,
+    advisoryFindings,
+  );
 
   recipe.steps.forEach((step, idx) => {
     validateSingleStep(step, idx, recipe.ingredients, blockingFindings, advisoryFindings);
@@ -179,8 +183,9 @@ export function verifyAndRepairCosmicRecipe(
 
   const verified =
     blockingFindings.length === 0 &&
-    !uncertifiedDietClaims &&
-    state.unresolvedIngredients.length === 0;
+    !dietOutcome.uncertifiedDietClaims &&
+    state.unresolvedIngredients.length === 0 &&
+    dietOutcome.unevaluatedRestrictions.length === 0;
 
   return {
     valid: blockingFindings.length === 0,
@@ -189,6 +194,6 @@ export function verifyAndRepairCosmicRecipe(
     blockingFindings,
     advisoryFindings,
     recipe,
-    audit: buildAudit(state, nonCompliantDietItems, identifiedGlutenSources),
+    audit: buildAudit(state, dietOutcome),
   };
 }
