@@ -107,7 +107,12 @@ export const GLUTEN_CONTAINING_TERMS: RegExp[] = [
 
 export function isKnownGlutenSource(ingredientName: string): boolean {
   const name = ingredientName.toLowerCase();
-  if (name.includes("flour") || name.includes("noodle") || name.includes("pasta") || name.includes("bread")) {
+  if (
+    name.includes("flour") ||
+    name.includes("noodle") ||
+    name.includes("pasta") ||
+    name.includes("bread")
+  ) {
     if (/\bgluten[- ]free\b/i.test(name)) return false;
     if (/\brice\s+noodles?\b/i.test(name)) return false;
   }
@@ -126,20 +131,30 @@ function tryResolveFromCatalog(rawName: string): CatalogIngredient | null {
 
   const simplified = rawName
     .toLowerCase()
-    .replace(/\b(fresh|dried|chopped|minced|diced|sliced|crushed|ground|toasted|cooked|large|medium|small)\b/g, "")
+    .replace(
+      /\b(fresh|dried|chopped|minced|diced|sliced|crushed|ground|toasted|cooked|large|medium|small)\b/g,
+      "",
+    )
     .trim();
   const second = resolveCatalogIngredient(simplified);
   if (second) return second.entry;
 
   const partSimplified = simplified
-    .replace(/\b(breast|thigh|thighs|wing|wings|drumstick|drumsticks|fillet|filet|cutlet|steak|chops?|roast|tenderloin)\b/g, "")
+    .replace(
+      /\b(breast|thigh|thighs|wing|wings|drumstick|drumsticks|fillet|filet|cutlet|steak|chops?|roast|tenderloin)\b/g,
+      "",
+    )
     .trim();
   if (!partSimplified) return null;
   const third = resolveCatalogIngredient(partSimplified);
   return third ? third.entry : null;
 }
 
-export function computeGramWeight(name: string, qty: number, unit: string): number {
+export function computeGramWeight(
+  name: string,
+  qty: number,
+  unit: string,
+): number {
   if (unit === "g") return qty;
   if (unit === "kg") return qty * 1000;
   if (unit === "oz") return qty * 28.35;
@@ -168,30 +183,95 @@ export interface ParsedStepTemperature {
   isOven: boolean;
   isLiquid: boolean;
   isPressure: boolean;
+  clause: string;
+  precedingClause: string;
 }
 
-function extractClauseSnippet(instruction: string, matchIndex: number, matchLength: number): string {
-  const before = instruction.slice(0, matchIndex);
-  const boundaryBeforeRegex = /[.;!\n]|,\s*(?:then|and\s+then|before|after|while)\b/gi;
-  let lastBoundaryIndex = 0;
-  let bMatch: RegExpExecArray | null;
-  while ((bMatch = boundaryBeforeRegex.exec(before)) !== null) {
-    lastBoundaryIndex = bMatch.index + bMatch[0].length;
+function temperatureClause(
+  instruction: string,
+  matchIndex: number,
+): { text: string; offset: number; preceding: string } {
+  const boundaries =
+    /[;!\n]|(?<!\d)\.(?!\d)|,\s*(?:then|and\s+then|before|after|while)\b|\b(?:and\s+then|then|and)\s+(?=(?:preheat|bake|roast|broil|boil|simmer|steam|poach|chill|cool|refrigerate|cook)\b)/gi;
+  let start = 0;
+  let precedingStart = 0;
+  let end = instruction.length;
+  for (const boundary of instruction.matchAll(boundaries)) {
+    const index = boundary.index ?? 0;
+    if (index < matchIndex) {
+      precedingStart = start;
+      start = index + boundary[0].length;
+    } else {
+      end = index;
+      break;
+    }
   }
-  const clauseStart = Math.max(lastBoundaryIndex, matchIndex - 60);
-
-  const after = instruction.slice(matchIndex + matchLength);
-  const boundaryAfterMatch = /[.;!\n]|,\s*(?:then|and\s+then|before|after|while)\b/i.exec(after);
-  const clauseEnd = boundaryAfterMatch
-    ? matchIndex + matchLength + boundaryAfterMatch.index
-    : Math.min(instruction.length, matchIndex + matchLength + 60);
-
-  return instruction.slice(clauseStart, clauseEnd).toLowerCase();
+  return {
+    text: instruction.slice(start, end).toLowerCase(),
+    offset: matchIndex - start,
+    preceding: instruction.slice(precedingStart, start).toLowerCase(),
+  };
 }
 
-export function parseStepTemperatures(instruction: string): ParsedStepTemperature[] {
+function lastKeywordIndex(text: string, pattern: RegExp): number {
+  let result = -1;
+  for (const match of text.matchAll(pattern)) result = match.index ?? -1;
+  return result;
+}
+
+function temperaturePurpose(
+  before: string,
+  after: string,
+): {
+  isInternalDoneness: boolean;
+  isCoolingOrChilling: boolean;
+  isOven: boolean;
+  isLiquid: boolean;
+} {
+  const internal = lastKeywordIndex(
+    before,
+    /\b(internal|thermometer|center\s+reaches|probe\s+reads|thickest\s+part|doneness)\b/gi,
+  );
+  const oven = lastKeywordIndex(
+    before,
+    /\b(oven|bake|baking|baked|roast|roasting|roasted|preheat|broil|broiling)\b/gi,
+  );
+  const liquid = lastKeywordIndex(
+    before,
+    /\b(boil|boiling|simmer|simmering|poach|poaching|steam|steaming|water|broth|stock|soup|liquid)\b/gi,
+  );
+  const cooling = lastKeywordIndex(
+    before,
+    /\b(chill|chilled|chilling|cooling|cool\s+down|cool\s+to|refrigerat\w*|ice\s+bath|freeze|freezer)\b/gi,
+  );
+  const cooking = lastKeywordIndex(
+    before,
+    /\b(cook|cooking|roast|roasting|bake|baking|broil|boiling|boil|simmer|simmering|poach|steam|sear|fry)\b/gi,
+  );
+  const isCoolingOrChilling = cooling >= 0 && cooling > cooking;
+  const isInternalDoneness =
+    !isCoolingOrChilling &&
+    ((internal >= 0 && internal > oven && internal > liquid) ||
+      /^\s*internal\b/i.test(after));
+  const isOven =
+    !isCoolingOrChilling &&
+    !isInternalDoneness &&
+    (/^\s*oven\b/i.test(after) || (oven >= 0 && oven > liquid));
+  return {
+    isCoolingOrChilling,
+    isInternalDoneness,
+    isOven,
+    isLiquid:
+      !isCoolingOrChilling && !isInternalDoneness && !isOven && liquid >= 0,
+  };
+}
+
+export function parseStepTemperatures(
+  instruction: string,
+): ParsedStepTemperature[] {
   const results: ParsedStepTemperature[] = [];
-  const tempRegex = /(\d{2,4})\s*(?:°\s*([CcFf])|degrees?\s*([CcFf])|([CcFf])\b|°(?!\s*[Cc]))/g;
+  const tempRegex =
+    /(\d{2,4})\s*(?:°\s*([CcFf])|degrees?\s*([CcFf])|([CcFf])\b|°(?!\s*[Cc]))/g;
   let match: RegExpExecArray | null;
 
   while ((match = tempRegex.exec(instruction)) !== null) {
@@ -199,33 +279,20 @@ export function parseStepTemperatures(instruction: string): ParsedStepTemperatur
     const unitChar = (match[2] ?? match[3] ?? match[4] ?? "F").toUpperCase();
     const tempF = unitChar === "C" ? Math.round((rawVal * 9) / 5 + 32) : rawVal;
 
-    const localSnippet = extractClauseSnippet(instruction, match.index, match[0].length);
-
-    const isInternalDoneness =
-      /\b(internal|thermometer|center\s+reaches|probe\s+reads|thickest\s+part|doneness)\b/i.test(localSnippet);
-
-    const hasCoolingKeywords =
-      /\b(chill|chilled|chilling|cooling|cool\s+down|cool\s+to|refrigerat\w*|ice\s+bath|freeze|freezer)\b/i.test(
-        localSnippet,
-      );
-
-    const isCoolingOrChilling = hasCoolingKeywords && !isInternalDoneness;
-
-    const isOven = /\b(oven|bake|baking|baked|roast|roasting|roasted|preheat|broil|broiling)\b/i.test(localSnippet);
-
-    const isLiquid = /\b(boil|boiling|simmer|simmering|poach|poaching|steam|steaming|water|broth|stock|soup|liquid)\b/i.test(
-      localSnippet,
+    const clause = temperatureClause(instruction, match.index);
+    const before = clause.text.slice(0, clause.offset);
+    const after = clause.text.slice(clause.offset + match[0].length);
+    const purpose = temperaturePurpose(before, after);
+    const isPressure = /\b(pressure|instant\s+pot|autoclave|psi)\b/i.test(
+      clause.text,
     );
-
-    const isPressure = /\b(pressure|instant\s+pot|pressure\s+cook|autoclave|psi)\b/i.test(localSnippet);
 
     results.push({
       temperatureF: tempF,
-      isInternalDoneness,
-      isCoolingOrChilling,
-      isOven,
-      isLiquid,
+      ...purpose,
       isPressure,
+      clause: clause.text,
+      precedingClause: clause.preceding,
     });
   }
 
@@ -245,7 +312,6 @@ const PROTEIN_KEYWORDS: readonly string[] = [
   "fowl",
   "quail",
   "hen",
-  "ground",
   "burger",
   "patty",
   "sausage",
@@ -254,8 +320,6 @@ const PROTEIN_KEYWORDS: readonly string[] = [
   "lamb",
   "veal",
   "steak",
-  "roast",
-  "chop",
   "tenderloin",
   "sirloin",
   "brisket",
@@ -287,13 +351,13 @@ export function findStepProteinTargets(
   ingredients: CosmicRecipe["ingredients"],
   options?: FindProteinTargetOptions,
 ): string[] {
+  const mentions = (text: string, word: string): boolean =>
+    new RegExp(`\\b${word}\\b`, "i").test(text);
   const matches = ingredients.filter((ing) => {
-    const n = ing.name.toLowerCase();
-    const tokens = n.split(/[\s-]+/).filter((t) => t.length > 2);
-    const mentionedInStep =
-      instructionLower.includes(n) || tokens.some((t) => instructionLower.includes(t));
-    const isProtein = PROTEIN_KEYWORDS.some((kw) => n.includes(kw));
-    return mentionedInStep && isProtein;
+    const name = ing.name.toLowerCase();
+    return PROTEIN_KEYWORDS.some(
+      (word) => mentions(name, word) && mentions(instructionLower, word),
+    );
   });
 
   if (matches.length > 0) {
@@ -311,7 +375,7 @@ export function findStepProteinTargets(
   if (options?.fallbackToRecipeProteins) {
     const recipeProteins = ingredients.filter((ing) => {
       const n = ing.name.toLowerCase();
-      return PROTEIN_KEYWORDS.some((kw) => n.includes(kw));
+      return PROTEIN_KEYWORDS.some((word) => mentions(n, word));
     });
     return recipeProteins.map((m) => m.name);
   }

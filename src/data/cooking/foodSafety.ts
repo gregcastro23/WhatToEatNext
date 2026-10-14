@@ -44,8 +44,10 @@ export const SAFE_INTERNAL_TEMPERATURES: readonly SafeInternalTemperature[] = [
     minTempC: 62.8,
     minTempF: 145,
     restMinutes: 3,
-    source: "USDA FSIS (2011 revised policy) / FDA Food Code 2022 § 3-401.11(A)(1)",
-    notes: "Mandatory 3-minute post-cooking rest time to allow internal thermal equilibrium.",
+    source:
+      "USDA FSIS (2011 revised policy) / FDA Food Code 2022 § 3-401.11(A)(1)",
+    notes:
+      "Mandatory 3-minute post-cooking rest time to allow internal thermal equilibrium.",
   },
   {
     category: "finfish",
@@ -90,6 +92,12 @@ export interface EvaluateStepTemperatureOptions {
   isLiquid?: boolean;
 }
 
+export interface StepTemperatureVerdict {
+  safe: boolean;
+  reason?: string;
+  unevaluated?: boolean;
+}
+
 interface ProteinThreshold {
   pattern: RegExp;
   minTemp: number;
@@ -99,36 +107,42 @@ interface ProteinThreshold {
 
 const PROTEIN_SAFETY_RULES: readonly ProteinThreshold[] = [
   {
-    pattern: /\b(chicken|turkey|poultry|duck)\b/i,
+    pattern: /\b(chicken|turkey|poultry|duck|fowl|quail|hen)\b/i,
     minTemp: 165,
     label: "poultry",
-    citation: "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(3) safe minimum of 165°F (74°C)",
+    citation:
+      "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(3) safe minimum of 165°F (74°C)",
   },
   {
     pattern: /\b(ground|burger|patty|sausage)\b/i,
     minTemp: 160,
     label: "ground meat",
-    citation: "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(2) safe minimum of 160°F (71°C)",
+    citation:
+      "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(2) safe minimum of 160°F (71°C)",
   },
   {
     pattern: /\b(beef|pork|lamb|veal|steak|roast|chop)\b/i,
     minTemp: 145,
     label: "whole cuts",
-    citation: "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(1) safe minimum of 145°F (63°C)",
+    citation:
+      "USDA FSIS / FDA Food Code 2022 § 3-401.11(A)(1) safe minimum of 145°F (63°C)",
   },
   {
-    pattern: /\b(fish|salmon|tuna|cod|shrimp|seafood)\b/i,
+    pattern:
+      /\b(fish|salmon|tuna|cod|shrimp|seafood|halibut|trout|tilapia|sea bass|snapper|prawns?|crab|lobster|scallops?)\b/i,
     minTemp: 145,
     label: "fish and shellfish",
-    citation: "FDA Food Code 2022 § 3-401.11(A)(1) safe minimum of 145°F (63°C)",
+    citation:
+      "FDA Food Code 2022 § 3-401.11(A)(1) safe minimum of 145°F (63°C)",
   },
 ];
 
 function checkProteinInternalSafety(
   targetProtein: string | readonly string[],
   temperatureF: number,
-): { safe: boolean; reason?: string } {
-  const targets: readonly string[] = typeof targetProtein === "string" ? [targetProtein] : targetProtein;
+): StepTemperatureVerdict {
+  const targets: readonly string[] =
+    typeof targetProtein === "string" ? [targetProtein] : targetProtein;
   for (const protein of targets) {
     for (const rule of PROTEIN_SAFETY_RULES) {
       if (rule.pattern.test(protein)) {
@@ -149,7 +163,7 @@ function checkBoilingMethodSafety(
   methodKey: string,
   temperatureF: number,
   options?: EvaluateStepTemperatureOptions,
-): { safe: boolean; reason?: string } {
+): StepTemperatureVerdict {
   if (options?.isOven) return { safe: true };
 
   const isPressure =
@@ -160,13 +174,12 @@ function checkBoilingMethodSafety(
     methodKey === "instant_pot";
 
   if (isPressure) {
-    if (temperatureF > 250) {
-      return {
-        safe: false,
-        reason: "Pressure cooking liquid water cannot exceed 250°F (121°C) at typical kitchen operating pressure.",
-      };
-    }
-    return { safe: true };
+    return {
+      safe: true,
+      unevaluated: true,
+      reason:
+        "Pressure cooking requires a validated pressure/time process; recipe text does not establish that process.",
+    };
   }
 
   const boilingMethods = new Set([
@@ -204,7 +217,7 @@ export function evaluateStepTemperature(
   temperatureF?: number,
   targetProtein?: string | readonly string[],
   options?: EvaluateStepTemperatureOptions,
-): { safe: boolean; reason?: string } {
+): StepTemperatureVerdict {
   if (temperatureF === undefined) {
     return { safe: true };
   }
@@ -220,7 +233,11 @@ export function evaluateStepTemperature(
     };
   }
 
-  const boilVerdict = checkBoilingMethodSafety(methodKey, temperatureF, options);
+  const boilVerdict = checkBoilingMethodSafety(
+    methodKey,
+    temperatureF,
+    options,
+  );
   if (!boilVerdict.safe) return boilVerdict;
 
   const hasProteins =
@@ -228,9 +245,14 @@ export function evaluateStepTemperature(
       ? targetProtein.length > 0
       : targetProtein !== undefined && targetProtein.length > 0;
 
-  if (hasProteins && options?.isInternalDoneness && targetProtein !== undefined) {
-    return checkProteinInternalSafety(targetProtein, temperatureF);
+  if (
+    hasProteins &&
+    options?.isInternalDoneness &&
+    targetProtein !== undefined
+  ) {
+    const internal = checkProteinInternalSafety(targetProtein, temperatureF);
+    if (!internal.safe) return internal;
   }
 
-  return { safe: true };
+  return boilVerdict;
 }
