@@ -246,6 +246,13 @@ jobs:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkAuthSqlParses.ts
 
+      - name: Admin & Inbox SQL parses and executes against PostgreSQL
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Exercises PREPARE and session TEMP table isolation for admin and inbox SQL
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkAdminInboxSqlParses.ts
+
       - name: Agents leave the writer already classified
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
         # Diff-sensitive: it extracts the provisioning statements from the route

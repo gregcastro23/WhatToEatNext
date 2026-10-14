@@ -86,7 +86,7 @@ export interface AgentsPulse {
   paReachable: boolean;
   creditVerdict: CreditPathVerdict;
   debitVerdict: DebitPathVerdict;
-  activeDeliveryEvents24h: number;
+  activeDeliveryEvents24h: number | null;
 }
 
 export interface AdminPulse {
@@ -173,7 +173,7 @@ function mapOrNull<T, U>(value: T | null, fn: (v: T) => U): U | null {
   return value === null ? null : fn(value);
 }
 
-async function getAgentsPulse(): Promise<AgentsPulse> {
+export async function getAgentsPulse(): Promise<AgentsPulse> {
   const [rosterRes, creditSignals, debitSignals, asolHealth, reachabilityRes] = await Promise.all([
     executeQuery<{ count: number }>(
       "SELECT COUNT(*)::int AS count FROM users WHERE is_agent = true",
@@ -214,7 +214,7 @@ async function getAgentsPulse(): Promise<AgentsPulse> {
     paReachable: reachabilityRes,
     creditVerdict: credit.verdict,
     debitVerdict: debit.verdict,
-    activeDeliveryEvents24h: asolHealth?.totalReceived ?? 0,
+    activeDeliveryEvents24h: asolHealth !== null ? asolHealth.totalReceived : null,
   };
 }
 

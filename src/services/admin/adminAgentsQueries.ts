@@ -111,6 +111,7 @@ export async function getActionMetrics(): Promise<AgentActionMetric[]> {
   const paths = MONITORED_AGENT_ACTIONS.map((a) => a.path);
   const metricsMap = new Map<string, ActionMetricRow>();
 
+  let queryFailed = false;
   try {
     const result = await executeQuery<ActionMetricRow>(
       `SELECT
@@ -133,11 +134,26 @@ export async function getActionMetrics(): Promise<AgentActionMetric[]> {
       metricsMap.set(r.path, r);
     }
   } catch (err) {
+    queryFailed = true;
     _logger.error("[adminAgentsService] action metrics query failed:", err);
   }
 
   return MONITORED_AGENT_ACTIONS.map((def) => {
     const data = metricsMap.get(def.path);
+    if (queryFailed) {
+      return {
+        action: def.action,
+        label: def.label,
+        path: def.path,
+        calls24h: null,
+        successes24h: null,
+        failures24h: null,
+        serverFailures24h: null,
+        p50Ms: null,
+        p95Ms: null,
+        lastSeenAt: null,
+      };
+    }
     return {
       action: def.action,
       label: def.label,

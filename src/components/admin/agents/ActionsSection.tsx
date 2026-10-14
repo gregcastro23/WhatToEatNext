@@ -171,10 +171,10 @@ function ActionRow({ m }: { m: AdminAgentsView["actions"]["actionMetrics"][numbe
       <td className="py-2.5 font-mono text-[11px] text-gray-500 truncate max-w-[140px]" title={m.path}>
         {m.path}
       </td>
-      <td className="py-2.5 text-right font-mono text-gray-900">{fmtInt(m.calls24h)}</td>
-      <td className="py-2.5 text-right font-mono text-emerald-600">{fmtInt(m.successes24h)}</td>
-      <td className="py-2.5 text-right font-mono text-amber-600">{fmtInt(m.failures24h)}</td>
-      <td className="py-2.5 text-right font-mono text-rose-600">{fmtInt(m.serverFailures24h)}</td>
+      <td className="py-2.5 text-right font-mono text-gray-900">{m.calls24h !== null ? fmtInt(m.calls24h) : "—"}</td>
+      <td className="py-2.5 text-right font-mono text-emerald-600">{m.successes24h !== null ? fmtInt(m.successes24h) : "—"}</td>
+      <td className="py-2.5 text-right font-mono text-amber-600">{m.failures24h !== null ? fmtInt(m.failures24h) : "—"}</td>
+      <td className="py-2.5 text-right font-mono text-rose-600">{m.serverFailures24h !== null ? fmtInt(m.serverFailures24h) : "—"}</td>
       <td className="py-2.5 text-right font-mono text-gray-600">
         {m.p50Ms !== null ? `${m.p50Ms}ms` : "—"} / {m.p95Ms !== null ? `${m.p95Ms}ms` : "—"}
       </td>
