@@ -55,7 +55,10 @@ describe("adminAgentsService", () => {
     mockExecuteProbe.mockResolvedValue({
       success: true,
       timestamp: "2026-10-03T12:00:00Z",
-      durationMs: 45,
+      verdict: "healthy",
+      vantage: "wten-internal-receiver",
+      destination: "http://localhost:3000",
+      timeoutMs: 3000,
       checks: {
         agentRosterAuth: { passed: true, status: 200 },
         syncStatusAuth: { passed: true, status: 200 },

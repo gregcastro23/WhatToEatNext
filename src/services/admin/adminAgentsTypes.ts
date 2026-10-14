@@ -34,6 +34,10 @@ export interface NegativeControlsReport {
 
 export interface ContractProbeSummary {
   success: boolean;
+  verdict: "healthy" | "degraded" | "unreachable";
+  vantage: "wten-internal-receiver";
+  destination: string;
+  timeoutMs: number;
   timestamp: string;
   checks: {
     agentRosterAuth: ContractProbeCheckResult;

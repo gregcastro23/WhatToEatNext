@@ -209,6 +209,10 @@ export const NegativeControlsSchema = z.object({
 
 export const ContractProbeSummarySchema = z.object({
   success: z.boolean(),
+  verdict: z.enum(["healthy", "degraded", "unreachable"]),
+  vantage: z.literal("wten-internal-receiver"),
+  destination: z.string(),
+  timeoutMs: z.number().positive(),
   timestamp: z.string(),
   checks: z.object({
     agentRosterAuth: ContractProbeCheckSchema,

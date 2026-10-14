@@ -88,37 +88,88 @@ function ProbeCheckItem({ label, passed, status }: { label: string; passed: bool
   );
 }
 
-function ContractProbeCard({ probe }: { probe: NonNullable<AdminAgentsView["connectivity"]["contractProbe"]> }): React.ReactElement {
+export function ContractProbeCard({
+  probe,
+}: {
+  probe: NonNullable<AdminAgentsView["connectivity"]["contractProbe"]>;
+}): React.ReactElement {
   return (
     <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
         <div>
           <h3 className="text-sm font-semibold text-gray-800">
-            Boundary Contract Diagnostics & Negative Controls
+            WTEN Receiver Diagnostics
           </h3>
           <p className="text-xs text-gray-500">
-            Validates authorized endpoints and verifies 401 rejection on unauthenticated calls.
+            Checks WTEN receiver responses and unauthenticated rejection. ASOL
+            delivery, signing, queues, and retries are untested.
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Pill tone={probe.success ? "ok" : "bad"}>
-            {probe.success ? "All Contracts Verified" : "Contract Violation"}
+          <Pill
+            tone={
+              probe.verdict === "healthy"
+                ? "ok"
+                : probe.verdict === "degraded"
+                  ? "warn"
+                  : "bad"
+            }
+          >
+            {probe.verdict === "healthy"
+              ? "Receiver Healthy"
+              : probe.verdict === "degraded"
+                ? "Receiver Degraded"
+                : "Receiver Unreachable"}
           </Pill>
           <Pill tone={probe.checks.negativeControls.passed ? "ok" : "warn"}>
-            {probe.checks.negativeControls.passed ? "401 Negative Controls Confirmed" : "401 Controls Incomplete"}
+            {probe.checks.negativeControls.passed
+              ? "401 Negative Controls Confirmed"
+              : "401 Controls Incomplete"}
           </Pill>
         </div>
       </div>
 
+      <p className="text-xs text-gray-500 mb-3 break-all">
+        Vantage: {probe.vantage} · Destination: {probe.destination} · Timeout:{" "}
+        {probe.timeoutMs} ms
+      </p>
+      {Object.entries(probe.checks).map(([key, check]) =>
+        "message" in check && check.message ? (
+          <p key={key} className="text-xs text-amber-800 mb-1">
+            {check.message}
+          </p>
+        ) : null,
+      )}
+
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3 pt-2">
-        <ProbeCheckItem label="Agent Roster Auth" passed={probe.checks.agentRosterAuth.passed} status={probe.checks.agentRosterAuth.status} />
-        <ProbeCheckItem label="Sync Status Auth" passed={probe.checks.syncStatusAuth.passed} status={probe.checks.syncStatusAuth.status} />
-        <ProbeCheckItem label="Vessel Auth" passed={probe.checks.vesselAuth.passed} status={probe.checks.vesselAuth.status} />
-        <ProbeCheckItem label="Check Shared Auth" passed={probe.checks.checkSharedAuth.passed} status={probe.checks.checkSharedAuth.status} />
+        <ProbeCheckItem
+          label="Agent Roster Auth"
+          passed={probe.checks.agentRosterAuth.passed}
+          status={probe.checks.agentRosterAuth.status}
+        />
+        <ProbeCheckItem
+          label="Sync Status Auth"
+          passed={probe.checks.syncStatusAuth.passed}
+          status={probe.checks.syncStatusAuth.status}
+        />
+        <ProbeCheckItem
+          label="Vessel Auth"
+          passed={probe.checks.vesselAuth.passed}
+          status={probe.checks.vesselAuth.status}
+        />
+        <ProbeCheckItem
+          label="Check Shared Auth"
+          passed={probe.checks.checkSharedAuth.passed}
+          status={probe.checks.checkSharedAuth.status}
+        />
         <ProbeCheckItem
           label="Negative Controls"
           passed={probe.checks.negativeControls.passed}
-          status={probe.checks.negativeControls.allRejectedWith401 ? "401 On All" : "Partial"}
+          status={
+            probe.checks.negativeControls.allRejectedWith401
+              ? "401 On All"
+              : "Partial"
+          }
         />
       </div>
     </div>

@@ -252,6 +252,10 @@ export async function runContractProbe(
     });
     return {
       success: report.success,
+      verdict: report.verdict,
+      vantage: report.vantage,
+      destination: report.destination,
+      timeoutMs: report.timeoutMs,
       timestamp: report.timestamp,
       checks: {
         agentRosterAuth: report.checks.agentRosterAuth,
@@ -265,6 +269,10 @@ export async function runContractProbe(
     _logger.error("[adminAgentsService] contract probe execution failed:", err);
     return {
       success: false,
+      verdict: "unreachable",
+      vantage: "wten-internal-receiver",
+      destination: "unknown",
+      timeoutMs: 3000,
       timestamp: new Date().toISOString(),
       checks: {
         agentRosterAuth: { passed: false, status: 0, message: "Probe execution failed" },
