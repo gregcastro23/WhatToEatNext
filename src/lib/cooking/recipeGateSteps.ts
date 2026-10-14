@@ -8,7 +8,7 @@ import { evaluateStepTemperature } from "@/data/cooking/foodSafety";
 import { METHOD_PHYSICS } from "@/data/cooking/methodPhysics";
 import type { CosmicRecipe } from "@/data/featuredRecipe";
 import {
-  findStepProteinTarget,
+  findStepProteinTargets,
   parseStepTemperatures,
 } from "./recipeGateHelpers";
 
@@ -88,19 +88,29 @@ function checkStepThermalSafety(
 ): void {
   const parsedTemps = parseStepTemperatures(instruction);
   const instructionLower = instruction.toLowerCase();
-  const proteinTarget = findStepProteinTarget(instructionLower, ingredients);
+  const proteinTargets = findStepProteinTargets(instructionLower, ingredients, {
+    fallbackToRecipeProteins: rawMethod === "sous_vide",
+  });
   const baseContext = detectStepContext(instructionLower, rawMethod, ingredients);
 
-  for (const { temperatureF, isInternalDoneness } of parsedTemps) {
-    const stepContext: StepThermalContext = {
-      ...baseContext,
-      isInternalDoneness: isInternalDoneness || baseContext.isInternalDoneness,
+  for (const parsed of parsedTemps) {
+    const isInternal =
+      parsed.isInternalDoneness ||
+      (rawMethod === "sous_vide" && !parsed.isCoolingOrChilling);
+
+    const stepContext = {
+      isInternalDoneness: isInternal,
+      isCoolingOrChilling: parsed.isCoolingOrChilling,
+      isSugarOrCandy: baseContext.isSugarOrCandy,
+      isOven: parsed.isOven,
+      isPressure: parsed.isPressure,
+      isLiquid: parsed.isLiquid,
     };
 
     const safetyVerdict = evaluateStepTemperature(
       rawMethod,
-      temperatureF,
-      proteinTarget,
+      parsed.temperatureF,
+      proteinTargets,
       stepContext,
     );
 

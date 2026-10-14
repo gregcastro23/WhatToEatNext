@@ -164,6 +164,29 @@ export function resolveSingleIngredient(
 export interface ParsedStepTemperature {
   temperatureF: number;
   isInternalDoneness: boolean;
+  isCoolingOrChilling: boolean;
+  isOven: boolean;
+  isLiquid: boolean;
+  isPressure: boolean;
+}
+
+function extractClauseSnippet(instruction: string, matchIndex: number, matchLength: number): string {
+  const before = instruction.slice(0, matchIndex);
+  const boundaryBeforeRegex = /[.;!\n]|,\s*(?:then|and\s+then|before|after|while)\b/gi;
+  let lastBoundaryIndex = 0;
+  let bMatch: RegExpExecArray | null;
+  while ((bMatch = boundaryBeforeRegex.exec(before)) !== null) {
+    lastBoundaryIndex = bMatch.index + bMatch[0].length;
+  }
+  const clauseStart = Math.max(lastBoundaryIndex, matchIndex - 60);
+
+  const after = instruction.slice(matchIndex + matchLength);
+  const boundaryAfterMatch = /[.;!\n]|,\s*(?:then|and\s+then|before|after|while)\b/i.exec(after);
+  const clauseEnd = boundaryAfterMatch
+    ? matchIndex + matchLength + boundaryAfterMatch.index
+    : Math.min(instruction.length, matchIndex + matchLength + 60);
+
+  return instruction.slice(clauseStart, clauseEnd).toLowerCase();
 }
 
 export function parseStepTemperatures(instruction: string): ParsedStepTemperature[] {
@@ -176,18 +199,34 @@ export function parseStepTemperatures(instruction: string): ParsedStepTemperatur
     const unitChar = (match[2] ?? match[3] ?? match[4] ?? "F").toUpperCase();
     const tempF = unitChar === "C" ? Math.round((rawVal * 9) / 5 + 32) : rawVal;
 
-    const startPos = Math.max(0, match.index - 40);
-    const endPos = Math.min(instruction.length, match.index + match[0].length + 40);
-    const localSnippet = instruction.slice(startPos, endPos).toLowerCase();
+    const localSnippet = extractClauseSnippet(instruction, match.index, match[0].length);
 
     const isInternalDoneness =
-      localSnippet.includes("internal") ||
-      localSnippet.includes("thermometer") ||
-      localSnippet.includes("center reaches") ||
-      localSnippet.includes("probe reads") ||
-      localSnippet.includes("thickest part");
+      /\b(internal|thermometer|center\s+reaches|probe\s+reads|thickest\s+part|doneness)\b/i.test(localSnippet);
 
-    results.push({ temperatureF: tempF, isInternalDoneness });
+    const hasCoolingKeywords =
+      /\b(chill|chilled|chilling|cooling|cool\s+down|cool\s+to|refrigerat\w*|ice\s+bath|freeze|freezer)\b/i.test(
+        localSnippet,
+      );
+
+    const isCoolingOrChilling = hasCoolingKeywords && !isInternalDoneness;
+
+    const isOven = /\b(oven|bake|baking|baked|roast|roasting|roasted|preheat|broil|broiling)\b/i.test(localSnippet);
+
+    const isLiquid = /\b(boil|boiling|simmer|simmering|poach|poaching|steam|steaming|water|broth|stock|soup|liquid)\b/i.test(
+      localSnippet,
+    );
+
+    const isPressure = /\b(pressure|instant\s+pot|pressure\s+cook|autoclave|psi)\b/i.test(localSnippet);
+
+    results.push({
+      temperatureF: tempF,
+      isInternalDoneness,
+      isCoolingOrChilling,
+      isOven,
+      isLiquid,
+      isPressure,
+    });
   }
 
   return results;
@@ -198,25 +237,92 @@ export function parseStepTemperature(instruction: string): number | undefined {
   return all[0]?.temperatureF;
 }
 
+const PROTEIN_KEYWORDS: readonly string[] = [
+  "chicken",
+  "turkey",
+  "poultry",
+  "duck",
+  "fowl",
+  "quail",
+  "hen",
+  "ground",
+  "burger",
+  "patty",
+  "sausage",
+  "beef",
+  "pork",
+  "lamb",
+  "veal",
+  "steak",
+  "roast",
+  "chop",
+  "tenderloin",
+  "sirloin",
+  "brisket",
+  "ribs",
+  "mutton",
+  "fish",
+  "salmon",
+  "tuna",
+  "cod",
+  "shrimp",
+  "seafood",
+  "halibut",
+  "trout",
+  "tilapia",
+  "sea bass",
+  "snapper",
+  "prawn",
+  "crab",
+  "lobster",
+  "scallop",
+];
+
+export interface FindProteinTargetOptions {
+  fallbackToRecipeProteins?: boolean;
+}
+
+export function findStepProteinTargets(
+  instructionLower: string,
+  ingredients: CosmicRecipe["ingredients"],
+  options?: FindProteinTargetOptions,
+): string[] {
+  const matches = ingredients.filter((ing) => {
+    const n = ing.name.toLowerCase();
+    const tokens = n.split(/[\s-]+/).filter((t) => t.length > 2);
+    const mentionedInStep =
+      instructionLower.includes(n) || tokens.some((t) => instructionLower.includes(t));
+    const isProtein = PROTEIN_KEYWORDS.some((kw) => n.includes(kw));
+    return mentionedInStep && isProtein;
+  });
+
+  if (matches.length > 0) {
+    return matches.map((m) => m.name);
+  }
+
+  const directlyMentioned = PROTEIN_KEYWORDS.filter((kw) => {
+    const rx = new RegExp(`\\b${kw}\\b`, "i");
+    return rx.test(instructionLower);
+  });
+  if (directlyMentioned.length > 0) {
+    return directlyMentioned;
+  }
+
+  if (options?.fallbackToRecipeProteins) {
+    const recipeProteins = ingredients.filter((ing) => {
+      const n = ing.name.toLowerCase();
+      return PROTEIN_KEYWORDS.some((kw) => n.includes(kw));
+    });
+    return recipeProteins.map((m) => m.name);
+  }
+
+  return [];
+}
+
 export function findStepProteinTarget(
   instructionLower: string,
   ingredients: CosmicRecipe["ingredients"],
 ): string | undefined {
-  const hit = ingredients.find((i) => {
-    const n = i.name.toLowerCase();
-    const tokens = n.split(/[\s-]+/).filter((t) => t.length > 2);
-    const mentioned = instructionLower.includes(n) || tokens.some((t) => instructionLower.includes(t));
-    return (
-      mentioned &&
-      (n.includes("chicken") ||
-        n.includes("turkey") ||
-        n.includes("poultry") ||
-        n.includes("beef") ||
-        n.includes("pork") ||
-        n.includes("lamb") ||
-        n.includes("salmon") ||
-        n.includes("fish"))
-    );
-  });
-  return hit?.name;
+  const all = findStepProteinTargets(instructionLower, ingredients);
+  return all[0];
 }
