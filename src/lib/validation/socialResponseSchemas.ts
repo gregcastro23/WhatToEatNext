@@ -3,7 +3,7 @@ import { z } from "zod";
 export const CommunityTipSchema = z
   .object({
     author: z.string(),
-    rating: z.number(),
+    rating: z.number().nullable().optional(),
     tip: z.string(),
     postedAt: z.string(),
   })

@@ -123,24 +123,34 @@ export function RecipeAgentCouncil({
           dominantElement?: string;
           tip: string;
           postedAt?: string;
+          contentState?: "live" | "gateway-degraded" | "curated";
+          published?: boolean;
+        };
+        critique?: {
+          author?: string;
+          dominantElement?: string;
+          tip: string;
+          contentState?: "live" | "gateway-degraded" | "curated";
+          published?: boolean;
+          persistedAt?: string;
         };
       }
       const data = await readJson(res, { parse: (x) => z.custom<CritiqueResponse>((val) => typeof val === "object" && val !== null).parse(x) });
-      if (data.success && data.review) {
+      const tipData = data.critique ?? data.review;
+      if (data.success && tipData) {
         const critiqueObj = {
-          author: data.review.author ?? agent.name,
+          author: tipData.author ?? agent.name,
           agentSlug: agent.slug,
-          tip: data.review.tip,
-          dominantElement: data.review.dominantElement ?? agent.element,
+          tip: tipData.tip,
+          dominantElement: tipData.dominantElement ?? agent.element,
         };
         setActiveCritique(critiqueObj);
 
         if (onCritiqueGenerated) {
           onCritiqueGenerated({
             author: critiqueObj.author,
-            rating: 5,
             tip: critiqueObj.tip,
-            postedAt: data.review.postedAt ?? new Date().toISOString(),
+            postedAt: data.critique?.persistedAt ?? data.review?.postedAt ?? new Date().toISOString(),
           });
         }
       }

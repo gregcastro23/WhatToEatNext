@@ -141,9 +141,12 @@ class FeedDatabaseService {
       const rawReview = stampedPayload.review ?? stampedPayload.comment ?? stampedPayload.description;
       const reviewText = typeof rawReview === "string" ? rawReview.trim() : undefined;
       if (targetRecipeId && reviewText && reviewText.length > 0) {
-        const rawRating = typeof stampedPayload.rating === "number" ? stampedPayload.rating : 5;
-        const rating = Math.min(5, Math.max(1, Math.round(rawRating)));
-        const madeIt = stampedPayload.madeIt !== false && stampedPayload.made_it !== false;
+        const rawRating =
+          typeof stampedPayload.rating === "number" && Number.isFinite(stampedPayload.rating)
+            ? stampedPayload.rating
+            : null;
+        const rating = rawRating !== null ? Math.min(5, Math.max(1, Math.round(rawRating))) : null;
+        const madeIt = stampedPayload.madeIt === true || stampedPayload.made_it === true;
         try {
           await executeQuery(
             `INSERT INTO user_recipe_interactions (user_id, recipe_id, made_it, rating, review)

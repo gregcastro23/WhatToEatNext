@@ -405,9 +405,15 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
                       <span>{t.author}</span>
                       <span className="text-[10px] text-white/40 font-normal">→</span>
                     </Link>
-                    <span className="text-xs text-white/50 flex items-center gap-1">
-                      <span className="text-amber-400">{"\u2605"}</span> {t.rating}/5
-                    </span>
+                    {typeof t.rating === "number" && t.rating > 0 ? (
+                      <span className="text-xs text-white/50 flex items-center gap-1">
+                        <span className="text-amber-400">{"\u2605"}</span> {t.rating}/5
+                      </span>
+                    ) : (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300/80 border border-amber-500/20 font-medium">
+                        Alchemical Tip
+                      </span>
+                    )}
                   </div>
                   <p className="text-sm text-white/80 leading-relaxed">{t.tip}</p>
                 </li>
