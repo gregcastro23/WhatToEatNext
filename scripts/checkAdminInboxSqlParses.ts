@@ -17,6 +17,8 @@
  *      verifying `relnamespace = pg_my_temp_schema()` so writes never touch shared tables.
  *   5. Exercises the complete claim, conflict, duplicate, completion, failure,
  *      retry, and telemetry query lifecycle on the TEMP schema.
+ *   6. Pins every operation to one transaction/backend, then rolls it all back.
+ *      A one-time TEMP check is insufficient through transaction-mode PgBouncer.
  *
  * Usage:
  *   bun scripts/checkAdminInboxSqlParses.ts
@@ -74,8 +76,21 @@ function resolveDatabaseUrl(): string | undefined {
 }
 
 export async function checkAdminInboxSql(client: pg.Client): Promise<number> {
+  // BEGIN pins the server backend even under transaction-mode PgBouncer. All
+  // TEMP creation, resolution checks, and unqualified fixture statements must
+  // remain inside this boundary; ROLLBACK removes the fixture relations too.
+  await client.query("BEGIN");
+  try {
+    return await checkAdminInboxInTransaction(client);
+  } finally {
+    await client.query("ROLLBACK");
+  }
+}
+
+async function checkAdminInboxInTransaction(client: pg.Client): Promise<number> {
   // ── Control 1: PREPARE rejection on undefined column ───────────────────────
   let controlPassed = false;
+  await client.query("SAVEPOINT invalid_column_control");
   try {
     await client.query(
       "PREPARE _bad_ctrl AS SELECT nonexistent_column_xyz FROM webhook_events WHERE source = ANY($1::text[])",
@@ -85,6 +100,11 @@ export async function checkAdminInboxSql(client: pg.Client): Promise<number> {
     if (err && typeof err === "object" && "code" in err && err.code === "42703") {
       controlPassed = true;
     }
+  } finally {
+    // The intentional PostgreSQL error aborts the current transaction until
+    // this savepoint is restored. Keep the outer backend pin in force.
+    await client.query("ROLLBACK TO SAVEPOINT invalid_column_control");
+    await client.query("RELEASE SAVEPOINT invalid_column_control");
   }
   if (!controlPassed) {
     throw new Error("Failing control failed: PREPARE accepted invalid column query");
@@ -253,6 +273,12 @@ export async function checkAdminInboxSql(client: pg.Client): Promise<number> {
   const sigRes = await client.query(SIGNATURE_BREAKDOWN_QUERY, sourcesParam);
   assert.equal(sigRes.rowCount, 2);
 
+  // NOW() is constant inside the pinned transaction. Give the fixture receipts
+  // distinct times so this exercises DESC ordering rather than a timestamp tie.
+  await client.query(
+    "UPDATE pg_temp.webhook_events SET received_at = received_at - INTERVAL '1 second' WHERE id = $1",
+    [claimedId],
+  );
   const recentRes = await client.query(RECENT_EVENTS_QUERY, [sourcesParam[0], null]);
   assert.equal(recentRes.rowCount, 2);
   assert.equal(recentRes.rows[0]?.event_id, "evt-phase45-002");
