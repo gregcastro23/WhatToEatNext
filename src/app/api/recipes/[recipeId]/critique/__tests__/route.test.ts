@@ -111,6 +111,8 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
     // Default: Live gateway success
     mockChatWithAgent.mockResolvedValue({
       status: "live",
+      providerAgentId: "leonardo-da-vinci",
+      metadata: { aiGenerated: true },
       content:
         "In observing this preparation, observe the mathematical harmony of botanical essences. The roasted squash honors both vital spirit and inventive intellect.",
     });
@@ -406,4 +408,17 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
       { share: true, explicit: true },
     );
   });
+  it.each([false, undefined])("does not label unconfirmed provider inference as live (%s)", async (aiGenerated) => {
+    mockChatWithAgent.mockResolvedValue({status: "live", providerAgentId: "leonardo-da-vinci", metadata: {aiGenerated}, content: "A provider fallback reflection long enough to be shown."});
+    const response = await POST(makeRequest({agentSlug: "leonardo-da-vinci"}), {params: Promise.resolve({recipeId: RECIPE_ID})});
+    expect((await response.json()).critique.contentState).toBe("gateway-degraded");
+  });
+  it("uses curated lore when the provider did not confirm the requested actor", async () => {
+    mockChatWithAgent.mockResolvedValue({status: "live", providerAgentId: "socrates", metadata: {aiGenerated: true}, content: "A response from another agent should not be attributed to Leonardo."});
+    const response = await POST(makeRequest({agentSlug: "leonardo-da-vinci"}), {params: Promise.resolve({recipeId: RECIPE_ID})});
+    const body = await response.json();
+    expect(body.critique.contentState).toBe("curated");
+    expect(body.critique.tip).not.toContain("another agent");
+  });
+
 });

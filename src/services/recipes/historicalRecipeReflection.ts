@@ -23,11 +23,12 @@ async function gatewayReflection(context: ReflectionContext): Promise<Historical
       userMessage: `As ${context.agentName}, please provide an authentic 2-3 sentence culinary critique and pairing tip for "${context.recipeName}". Emphasize your historical dietary philosophy (${context.diet.dietaryPhilosophy ?? "alchemical nourishment"}) and cultural perspective (${context.diet.culturalCuisine ?? context.cuisine}).`,
       culinaryContext: { selectedRecipeId: context.recipeId, cuisine: context.cuisine },
     });
-    if ((response.status === "live" || response.status === "degraded") && response.content && response.content.trim().length > 20) {
+    if (response.status === "live" && response.providerAgentId !== context.agentSlug) return null;
+    if ((response.status === "live" || response.status === "degraded") && typeof response.content === "string" && response.content.trim().length > 20) {
       if (response.status === "degraded") {
         _logger.error(`[recipe-critique] Gateway chat returned degraded state for ${context.agentSlug}`);
       }
-      return { text: response.content.trim(), contentState: response.status === "live" ? "live" : "gateway-degraded" };
+      return { text: response.content.trim(), contentState: response.status === "live" && response.metadata.aiGenerated === true ? "live" : "gateway-degraded" };
     }
   } catch (error) {
     _logger.error(`[recipe-critique] Gateway chat failed for ${context.agentSlug}`, error);
