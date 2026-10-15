@@ -4,13 +4,11 @@
  * @file src/lib/cooking/recipeGateHelpers.ts
  */
 
-import type { CosmicRecipe } from "@/data/featuredRecipe";
 import { countToMass } from "@/lib/cooking/countToMass";
 import { MEASURE_ML, volumeToMass } from "@/lib/cooking/volumetrics";
-import {
-  resolveCatalogIngredient,
-  type CatalogIngredient,
-} from "@/lib/ingredients/ingredientCatalog";
+import type { CatalogIngredient } from "@/lib/ingredients/ingredientCatalog";
+import { tryResolveFromCatalog } from "./recipeGateResolver";
+import type { RecipeContentIngredient } from "./recipeGateTypes";
 
 export const UNIT_CANONICAL_MAP: Record<string, string> = {
   tablespoon: "tbsp",
@@ -76,8 +74,9 @@ export const GLUTEN_CONTAINING_TERMS: RegExp[] = [
   /\bspelt\b/i,
   /\brye\b/i,
   /\bbarley\b/i,
+  /\bkamut\b/i,
   /\bbread\b/i,
-  /\bbreadcrumbs\b/i,
+  /\bbreadcrumbs?\b/i,
   /\bcroutons?\b/i,
   /\bpanko\b/i,
   /\bpasta\b/i,
@@ -95,6 +94,9 @@ export const GLUTEN_CONTAINING_TERMS: RegExp[] = [
   /\bnoodles?\b/i,
   /\budon\b/i,
   /\bramen\b/i,
+  /\bpitas?\b/i,
+  /\bnaan\b/i,
+  /\bbagels?\b/i,
   /\bsoy\s+sauce\b/i,
   /\bteriyaki\b/i,
   /\bcouscous\b/i,
@@ -105,41 +107,33 @@ export const GLUTEN_CONTAINING_TERMS: RegExp[] = [
   /\bmalt\s+vinegar\b/i,
 ];
 
+export const GLUTEN_EXEMPT_TERMS: RegExp[] = [
+  /\bgluten[- ]free\s+(soy\s+sauce|flour|breadcrumbs?|bread|pasta|noodles?|spaghetti|linguine|fettuccine|tagliatelle|rigatoni|fusilli|lasagn[ae]|penne|macaroni|orzo|gnocchi|udon|ramen|pita|naan|bagels?)\b/gi,
+  /\b(rice|almond|buckwheat|coconut|tapioca|chickpea|gram|besan|corn|potato|sorghum|teff|cassava|arrowroot)\s+flour\b/gi,
+  /\b(rice|glass|cellophane|sweet\s+potato|kelp|shirataki)\s+noodles?\b/gi,
+];
+
 export function isKnownGlutenSource(ingredientName: string): boolean {
-  const name = ingredientName.toLowerCase();
-  if (name.includes("flour") || name.includes("noodle") || name.includes("pasta") || name.includes("bread")) {
-    if (/\bgluten[- ]free\b/i.test(name)) return false;
-    if (/\brice\s+noodles?\b/i.test(name)) return false;
+  let remaining = ingredientName.toLowerCase().trim();
+  for (const exempt of GLUTEN_EXEMPT_TERMS) {
+    remaining = remaining.replace(exempt, " ");
   }
-  return GLUTEN_CONTAINING_TERMS.some((rx) => rx.test(name));
+  return GLUTEN_CONTAINING_TERMS.some((rx) => rx.test(remaining));
 }
 
 export interface ResolvedIngredientResult {
-  ingredient: CosmicRecipe["ingredients"][number];
+  ingredient: RecipeContentIngredient;
   entry: CatalogIngredient | null;
   gramWeight: number;
 }
 
-function tryResolveFromCatalog(rawName: string): CatalogIngredient | null {
-  const first = resolveCatalogIngredient(rawName);
-  if (first) return first.entry;
+export * from "./recipeGateResolver";
 
-  const simplified = rawName
-    .toLowerCase()
-    .replace(/\b(fresh|dried|chopped|minced|diced|sliced|crushed|ground|toasted|cooked|large|medium|small)\b/g, "")
-    .trim();
-  const second = resolveCatalogIngredient(simplified);
-  if (second) return second.entry;
-
-  const partSimplified = simplified
-    .replace(/\b(breast|thigh|thighs|wing|wings|drumstick|drumsticks|fillet|filet|cutlet|steak|chops?|roast|tenderloin)\b/g, "")
-    .trim();
-  if (!partSimplified) return null;
-  const third = resolveCatalogIngredient(partSimplified);
-  return third ? third.entry : null;
-}
-
-export function computeGramWeight(name: string, qty: number, unit: string): number {
+export function computeGramWeight(
+  name: string,
+  qty: number,
+  unit: string,
+): number {
   if (unit === "g") return qty;
   if (unit === "kg") return qty * 1000;
   if (unit === "oz") return qty * 28.35;
@@ -152,71 +146,14 @@ export function computeGramWeight(name: string, qty: number, unit: string): numb
   return count?.grams ?? qty * 50;
 }
 
-export function resolveSingleIngredient(
-  ing: CosmicRecipe["ingredients"][number],
-): { entry: CatalogIngredient | null; gramWeight: number } {
+export function resolveSingleIngredient(ing: RecipeContentIngredient): {
+  entry: CatalogIngredient | null;
+  gramWeight: number;
+} {
   const entry = tryResolveFromCatalog(ing.name);
   const qty = parseFractionalQuantity(ing.quantity);
   const gramWeight = computeGramWeight(ing.name, qty, ing.unit);
   return { entry, gramWeight };
 }
 
-export interface ParsedStepTemperature {
-  temperatureF: number;
-  isInternalDoneness: boolean;
-}
-
-export function parseStepTemperatures(instruction: string): ParsedStepTemperature[] {
-  const results: ParsedStepTemperature[] = [];
-  const tempRegex = /(\d{2,4})\s*(?:°\s*([CcFf])|degrees?\s*([CcFf])|([CcFf])\b|°(?!\s*[Cc]))/g;
-  let match: RegExpExecArray | null;
-
-  while ((match = tempRegex.exec(instruction)) !== null) {
-    const rawVal = parseInt(match[1] ?? "0", 10);
-    const unitChar = (match[2] ?? match[3] ?? match[4] ?? "F").toUpperCase();
-    const tempF = unitChar === "C" ? Math.round((rawVal * 9) / 5 + 32) : rawVal;
-
-    const startPos = Math.max(0, match.index - 40);
-    const endPos = Math.min(instruction.length, match.index + match[0].length + 40);
-    const localSnippet = instruction.slice(startPos, endPos).toLowerCase();
-
-    const isInternalDoneness =
-      localSnippet.includes("internal") ||
-      localSnippet.includes("thermometer") ||
-      localSnippet.includes("center reaches") ||
-      localSnippet.includes("probe reads") ||
-      localSnippet.includes("thickest part");
-
-    results.push({ temperatureF: tempF, isInternalDoneness });
-  }
-
-  return results;
-}
-
-export function parseStepTemperature(instruction: string): number | undefined {
-  const all = parseStepTemperatures(instruction);
-  return all[0]?.temperatureF;
-}
-
-export function findStepProteinTarget(
-  instructionLower: string,
-  ingredients: CosmicRecipe["ingredients"],
-): string | undefined {
-  const hit = ingredients.find((i) => {
-    const n = i.name.toLowerCase();
-    const tokens = n.split(/[\s-]+/).filter((t) => t.length > 2);
-    const mentioned = instructionLower.includes(n) || tokens.some((t) => instructionLower.includes(t));
-    return (
-      mentioned &&
-      (n.includes("chicken") ||
-        n.includes("turkey") ||
-        n.includes("poultry") ||
-        n.includes("beef") ||
-        n.includes("pork") ||
-        n.includes("lamb") ||
-        n.includes("salmon") ||
-        n.includes("fish"))
-    );
-  });
-  return hit?.name;
-}
+export * from "./recipeGateThermalParsing";

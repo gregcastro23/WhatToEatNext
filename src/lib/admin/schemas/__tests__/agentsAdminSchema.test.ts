@@ -42,6 +42,10 @@ function makeValidPayload(): AdminAgentsView {
       ],
       contractProbe: {
         success: true,
+        verdict: "healthy",
+        vantage: "wten-internal-receiver",
+        destination: "http://localhost:3000",
+        timeoutMs: 3000,
         timestamp: "2026-10-03T12:00:00.000Z",
         checks: {
           agentRosterAuth: { passed: true, status: 200 },

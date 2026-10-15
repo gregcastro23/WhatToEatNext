@@ -8,12 +8,22 @@
  * @file src/lib/cooking/recipePipelineTelemetry.ts
  */
 
+export type RefundOutcomeStatus = "confirmed" | "failed" | "pending";
+
 export interface RecipePipelineEvent {
   timestamp: number;
   attempts: number;
   repaired: boolean;
   retried: boolean;
   refunded: boolean;
+  refundStatus?: RefundOutcomeStatus | null;
+  refundAmounts?: {
+    spirit: number;
+    essence: number;
+    matter: number;
+    substance: number;
+  } | null;
+  refundReference?: { debitTransactionGroupId: string; idempotencyKey: string } | null;
   finalFailure: boolean;
   gateFindings: string[];
 }

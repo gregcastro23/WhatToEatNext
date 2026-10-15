@@ -3,11 +3,14 @@
 import { ArrowRight, Check, Loader2, Sparkles } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
-import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
 import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
-import type { CommunityTip } from "@/lib/validation/socialResponseSchemas";
+import {
+  RecipeCritiqueReaderSchema,
+  type RecipeCritique,
+} from "@/lib/validation/recipeCritiqueResponse";
+import { SavedAdaptationButton } from "./SavedAdaptationButton";
 
 interface HistoricalCouncilAgent {
   slug: string;
@@ -18,134 +21,123 @@ interface HistoricalCouncilAgent {
   symbol: string;
 }
 
-const CANONICAL_COUNCIL: [HistoricalCouncilAgent, ...HistoricalCouncilAgent[]] = [
-  {
-    slug: "leonardo-da-vinci",
-    name: "Leonardo da Vinci",
-    title: "Ethical Vegetarian",
-    element: "Fire",
-    color: "#ef4444",
-    symbol: "⚗️",
-  },
-  {
-    slug: "socrates",
-    name: "Socrates",
-    title: "Dialectic Moderation",
-    element: "Air",
-    color: "#10b981",
-    symbol: "🏛️",
-  },
-  {
-    slug: "carl-jung",
-    name: "Carl Jung",
-    title: "Archetypal Soul",
-    element: "Fire",
-    color: "#f59e0b",
-    symbol: "🌀",
-  },
-  {
-    slug: "cleopatra",
-    name: "Cleopatra",
-    title: "Royal Botanicals",
-    element: "Water",
-    color: "#3b82f6",
-    symbol: "👑",
-  },
-  {
-    slug: "hildegard-of-bingen",
-    name: "Hildegard von Bingen",
-    title: "Viriditas Healing",
-    element: "Fire",
-    color: "#14b8a6",
-    symbol: "🌿",
-  },
-  {
-    slug: "isaac-newton",
-    name: "Isaac Newton",
-    title: "Thermal Precision",
-    element: "Earth",
-    color: "#8b5cf6",
-    symbol: "📐",
-  },
-  {
-    slug: "aristotle",
-    name: "Aristotle",
-    title: "The Golden Mean",
-    element: "Earth",
-    color: "#a855f7",
-    symbol: "⚖️",
-  },
-];
+const CANONICAL_COUNCIL: [HistoricalCouncilAgent, ...HistoricalCouncilAgent[]] =
+  [
+    {
+      slug: "leonardo-da-vinci",
+      name: "Leonardo da Vinci",
+      title: "Ethical Vegetarian",
+      element: "Fire",
+      color: "#ef4444",
+      symbol: "⚗️",
+    },
+    {
+      slug: "socrates",
+      name: "Socrates",
+      title: "Dialectic Moderation",
+      element: "Air",
+      color: "#10b981",
+      symbol: "🏛️",
+    },
+    {
+      slug: "carl-jung",
+      name: "Carl Jung",
+      title: "Archetypal Soul",
+      element: "Fire",
+      color: "#f59e0b",
+      symbol: "🌀",
+    },
+    {
+      slug: "cleopatra",
+      name: "Cleopatra",
+      title: "Royal Botanicals",
+      element: "Water",
+      color: "#3b82f6",
+      symbol: "👑",
+    },
+    {
+      slug: "hildegard-of-bingen",
+      name: "Hildegard von Bingen",
+      title: "Viriditas Healing",
+      element: "Fire",
+      color: "#14b8a6",
+      symbol: "🌿",
+    },
+    {
+      slug: "isaac-newton",
+      name: "Isaac Newton",
+      title: "Thermal Precision",
+      element: "Earth",
+      color: "#8b5cf6",
+      symbol: "📐",
+    },
+    {
+      slug: "aristotle",
+      name: "Aristotle",
+      title: "The Golden Mean",
+      element: "Earth",
+      color: "#a855f7",
+      symbol: "⚖️",
+    },
+  ];
 
 interface RecipeAgentCouncilProps {
   recipeId: string;
   recipeName?: string;
-  onCritiqueGenerated?: (tip: CommunityTip) => void;
+  onCritiquePublished?: () => void;
 }
 
 export function RecipeAgentCouncil({
   recipeId,
   recipeName,
-  onCritiqueGenerated,
+  onCritiquePublished,
 }: RecipeAgentCouncilProps): React.JSX.Element {
-  const [selectedAgent, setSelectedAgent] = useState<HistoricalCouncilAgent>(CANONICAL_COUNCIL[0]);
+  const [selectedAgent, setSelectedAgent] = useState<HistoricalCouncilAgent>(
+    CANONICAL_COUNCIL[0],
+  );
   const [loading, setLoading] = useState(false);
-  const [activeCritique, setActiveCritique] = useState<{
-    author: string;
-    agentSlug: string;
-    tip: string;
-    dominantElement?: string;
-  } | null>(null);
+  const [activeCritique, setActiveCritique] = useState<
+    (RecipeCritique & { symbol: string }) | null
+  >(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const requestCritique = async (agent: HistoricalCouncilAgent): Promise<void> => {
+  const requestCritique = async (
+    agent: HistoricalCouncilAgent,
+  ): Promise<void> => {
     setSelectedAgent(agent);
     setLoading(true);
-    setActiveCritique(null);
+    setError(null);
 
     try {
-      const res = await fetch(`/api/recipes/${encodeURIComponent(recipeId)}/critique`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          agentSlug: agent.slug,
-          recipeName,
-        }),
-      });
+      const res = await fetch(
+        `/api/recipes/${encodeURIComponent(recipeId)}/critique`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            agentSlug: agent.slug,
+            recipeName,
+          }),
+        },
+      );
 
       if (!res.ok) {
-        throw new Error(`Failed to request critique (${res.status})`);
+        setError(`The critique request was rejected (${res.status}).`);
+        return;
       }
 
-      interface CritiqueResponse {
-        success?: boolean;
-        review?: {
-          author?: string;
-          dominantElement?: string;
-          tip: string;
-          postedAt?: string;
-        };
-      }
-      const data = await readJson(res, { parse: (x) => z.custom<CritiqueResponse>((val) => typeof val === "object" && val !== null).parse(x) });
-      if (data.success && data.review) {
-        const critiqueObj = {
-          author: data.review.author ?? agent.name,
-          agentSlug: agent.slug,
-          tip: data.review.tip,
-          dominantElement: data.review.dominantElement ?? agent.element,
-        };
-        setActiveCritique(critiqueObj);
-
-        if (onCritiqueGenerated) {
-          onCritiqueGenerated({
-            author: critiqueObj.author,
-            rating: 5,
-            tip: critiqueObj.tip,
-            postedAt: data.review.postedAt ?? new Date().toISOString(),
-          });
-        }
+      const data = await readJson(res, {
+        parse: RecipeCritiqueReaderSchema.parse,
+      });
+      setActiveCritique({ ...data.critique, symbol: agent.symbol });
+      if (data.critique.published) {
+        onCritiquePublished?.();
       }
     } catch (err) {
       _logger.error("[RecipeAgentCouncil] critique request failed:", err);
+      setError(
+        "Critique confirmation is unavailable. Publication may have succeeded; check the activity feed before retrying.",
+      );
     } finally {
       setLoading(false);
     }
@@ -161,7 +153,10 @@ export function RecipeAgentCouncil({
           <div>
             <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <span>Historical Council Critique</span>
-              <Badge variant="outline" className="text-[9px] bg-purple-500/10 text-purple-300 border-purple-500/30 py-0">
+              <Badge
+                variant="outline"
+                className="text-[9px] bg-purple-500/10 text-purple-300 border-purple-500/30 py-0"
+              >
                 On-Demand
               </Badge>
             </h4>
@@ -180,7 +175,9 @@ export function RecipeAgentCouncil({
             <button
               key={agent.slug}
               type="button"
-              onClick={() => { requestCritique(agent).catch(() => {}); }}
+              onClick={() => {
+                requestCritique(agent).catch(() => {});
+              }}
               disabled={loading}
               className={`shrink-0 flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium border transition-all cursor-pointer disabled:opacity-50 ${
                 isSelected
@@ -190,8 +187,12 @@ export function RecipeAgentCouncil({
             >
               <span className="text-sm">{agent.symbol}</span>
               <div className="text-left">
-                <span className="block font-semibold leading-tight">{agent.name}</span>
-                <span className="block text-[9px] text-white/40">{agent.title}</span>
+                <span className="block font-semibold leading-tight">
+                  {agent.name}
+                </span>
+                <span className="block text-[9px] text-white/40">
+                  {agent.title}
+                </span>
               </div>
             </button>
           );
@@ -202,7 +203,10 @@ export function RecipeAgentCouncil({
       {loading && (
         <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-center gap-3 text-xs text-purple-200">
           <Loader2 className="w-4 h-4 animate-spin text-purple-400" />
-          <span>{selectedAgent.name} is examining the culinary essences of this dish...</span>
+          <span>
+            {selectedAgent.name} is examining the culinary essences of this
+            dish...
+          </span>
         </div>
       )}
 
@@ -211,13 +215,22 @@ export function RecipeAgentCouncil({
         <div className="p-4 rounded-xl bg-purple-950/30 border border-purple-500/30 space-y-2 animate-in fade-in duration-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-base">{selectedAgent.symbol}</span>
-              <span className="text-sm font-bold text-amber-300">{activeCritique.author}</span>
-              <Badge variant="outline" className="text-[9px] bg-white/5 border-white/10 text-white/60">
+              <span className="text-base">{activeCritique.symbol}</span>
+              <span className="text-sm font-bold text-amber-300">
+                {activeCritique.author}
+              </span>
+              <Badge
+                variant="outline"
+                className="text-[9px] bg-white/5 border-white/10 text-white/60"
+              >
                 {activeCritique.dominantElement}
               </Badge>
-              <span className="text-xs text-amber-400 flex items-center gap-0.5">
-                ★★★★★
+              <span className="text-[10px] text-purple-200">
+                {activeCritique.contentState === "live"
+                  ? "Live agent response"
+                  : activeCritique.contentState === "gateway-degraded"
+                    ? "Gateway degraded reflection"
+                    : "Curated reflection"}
               </span>
             </div>
             <Link
@@ -231,10 +244,19 @@ export function RecipeAgentCouncil({
           <p className="text-xs sm:text-sm text-white/90 leading-relaxed italic pl-1 border-l-2 border-purple-400/40">
             &ldquo;{activeCritique.tip}&rdquo;
           </p>
-          <p className="text-[10px] text-emerald-400 flex items-center gap-1 font-mono pt-1">
-            <Check className="w-3 h-3 inline" /> Dual-written to recipe Community Tips & feed events
+          <p className="text-[10px] text-white/60 flex items-center gap-1 font-mono pt-1">
+            {activeCritique.published && <Check className="w-3 h-3 inline" />}
+            {activeCritique.published
+              ? "Published to the activity feed"
+              : "Generated, not published"}
           </p>
         </div>
+      )}
+      {selectedAgent.slug === "leonardo-da-vinci" && <SavedAdaptationButton recipeId={recipeId} />}
+      {error && (
+        <p role="alert" className="text-xs text-amber-200">
+          {error}
+        </p>
       )}
     </div>
   );

@@ -16,6 +16,7 @@ import { _logger } from "@/lib/logger";
 import { questService } from "@/services/QuestService";
 import { recordInteraction } from "@/services/userInteractionsService";
 import { buildRecipeLearningPayload } from "@/utils/recipes/learningPayload";
+import { isReservedAdaptation } from "@/lib/recipes/savedAdaptationSchemas";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -147,6 +148,9 @@ export async function POST(request: NextRequest) {
     );
   }
   const body = parsed.data;
+  if (isReservedAdaptation(body.source, body.payload)) {
+    return NextResponse.json({ error: "Validated adaptations must be created through the saved-adaptation action; existing versions are immutable." }, { status: 400 });
+  }
 
   try {
     let wasExisting = false;
@@ -291,10 +295,17 @@ export async function DELETE(request: NextRequest) {
     );
   }
   try {
-    await executeQuery(
-      `DELETE FROM user_custom_recipes WHERE id = $1 AND user_id = $2`,
-      [id, userId],
+    const result = await executeQuery<{ immutable: boolean }>(
+      `WITH target AS (
+         SELECT source,payload FROM user_custom_recipes WHERE id=$1 AND user_id=$2
+       ), removed AS (
+         DELETE FROM user_custom_recipes WHERE id=$1 AND user_id=$2
+           AND COALESCE(source,'')<>$3 AND COALESCE(payload->>'kind','')<>$3
+         RETURNING id
+       ) SELECT EXISTS(SELECT 1 FROM target WHERE source=$3 OR payload->>'kind'=$3) AS immutable`,
+      [id, userId, "saved-adaptation"],
     );
+    if (result.rows[0]?.immutable) return NextResponse.json({ error: "Saved adaptation versions are immutable." }, { status: 409 });
     return NextResponse.json({ authenticated: true, removed: id });
   } catch (error) {
     _logger.error("[DELETE /api/users/me/recipes/custom]", error);

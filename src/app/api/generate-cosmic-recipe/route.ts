@@ -60,6 +60,11 @@ import {
 import { findTopIngredientsForElement } from "@/utils/ingredient/ingredientIndex";
 import { createLogger } from "@/utils/logger";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import {
+  settleCosmicRecipeRefund,
+  type SpendRecord,
+  type CosmicRefundOutcome,
+} from "./cosmicRefundSettlement";
 import type { NextRequest } from "next/server";
 
 const logger = createLogger("generate-cosmic-recipe");
@@ -196,17 +201,8 @@ async function handlePost(request: NextRequest) {
   // after it that does not deliver a recipe owes the user a refund. Recording
   // the spend here (rather than refunding at each exit) is what lets a single
   // `finally` settle every path, including throws.
-  let spend: {
-    userId: string;
-    groupId: string;
-    costs: { spirit: number; essence: number; matter: number; substance: number };
-    /**
-     * What a refund must credit to put the user back exactly where they were:
-     * the basket, net of any auto-swap that funded it. Equal to `costs` when
-     * nothing was swapped.
-     */
-    refund: { spirit: number; essence: number; matter: number; substance: number };
-  } | null = null;
+  let spend: SpendRecord | null = null;
+  let refundOutcome: CosmicRefundOutcome | null = null;
   // Surfaced on the 200 so the client can show what was spent and swapped.
   let payment: PaymentMetadata | null =
     access.mode === "auth" ? { charged: false, autoSwap: null } : null;
@@ -373,6 +369,8 @@ async function handlePost(request: NextRequest) {
   // Nothing between the debit and this `try` can throw past it:
   // reportQuestEventBestEffort swallows everything internally.
   let delivered = false;
+  let attemptsCount = 0;
+  const allEncounteredFindings: string[] = [];
   try {
 
     // Beyond this point, both auth and demo paths build the same prompt and call
@@ -456,7 +454,6 @@ async function handlePost(request: NextRequest) {
 
     let recipe: z.infer<typeof cosmicRecipeSchema> | null = null;
     let verificationOutcome: RecipeVerificationOutcome | null = null;
-    let attemptsCount = 0;
     let retryFeedbackPrompt = enrichedPrompt;
     const effectiveDisallowed = disallowedIngredients ? [...disallowedIngredients] : [];
     let lastUpstreamError: {
@@ -465,7 +462,6 @@ async function handlePost(request: NextRequest) {
       timedOut: boolean;
       issues?: unknown[];
     } | null = null;
-    const allEncounteredFindings: string[] = [];
 
     for (let attempt = 1; attempt <= MAX_RECIPE_ATTEMPTS; attempt++) {
       attemptsCount = attempt;
@@ -619,11 +615,18 @@ async function handlePost(request: NextRequest) {
     }
 
     if (!recipe || !verificationOutcome) {
+      if (spend) {
+        refundOutcome = await settleCosmicRecipeRefund(spend);
+      }
+
       recordRecipePipelineEvent({
         attempts: attemptsCount,
         repaired: false,
         retried: attemptsCount > 1,
-        refunded: spend !== null,
+        refunded: refundOutcome?.refunded ?? false,
+        refundStatus: refundOutcome?.refundStatus ?? null,
+        refundAmounts: refundOutcome?.refundAmounts ?? null,
+        refundReference: refundOutcome?.refundReference ?? null,
         finalFailure: true,
         gateFindings: allEncounteredFindings,
       });
@@ -641,7 +644,10 @@ async function handlePost(request: NextRequest) {
           ...(err.timedOut ? { upstreamTimeoutMs: PA_TIMEOUT_MS } : {}),
           ...(err.issues ? { issues: err.issues } : {}),
           attempts: attemptsCount,
-          refunded: spend !== null,
+          refunded: refundOutcome?.refunded ?? false,
+          refundStatus: refundOutcome?.refundStatus ?? null,
+          ...(refundOutcome?.refundAmounts ? { refundAmounts: refundOutcome.refundAmounts } : {}),
+          ...(refundOutcome?.refundReference ? { refundReference: refundOutcome.refundReference } : {}),
         }),
         {
           status: err.status,
@@ -719,56 +725,31 @@ async function handlePost(request: NextRequest) {
     delivered = true;
     return okResponse;
 
+  } catch (error) {
+    logger.error("[generate-cosmic-recipe] generation failed after access/payment", error);
+    refundOutcome ??= await settleCosmicRecipeRefund(spend);
+    recordRecipePipelineEvent({
+      attempts: attemptsCount,
+      repaired: false,
+      retried: attemptsCount > 1,
+      refunded: refundOutcome.refunded,
+      refundStatus: refundOutcome.refundStatus,
+      refundAmounts: refundOutcome.refundAmounts,
+      refundReference: refundOutcome.refundReference,
+      finalFailure: true,
+      gateFindings: allEncounteredFindings,
+    });
+    return new Response(JSON.stringify({
+      error: "Recipe generation failed",
+      attempts: attemptsCount,
+      refunded: refundOutcome.refunded,
+      refundStatus: refundOutcome.refundStatus,
+      ...(refundOutcome.refundAmounts ? { refundAmounts: refundOutcome.refundAmounts } : {}),
+      ...(refundOutcome.refundReference ? { refundReference: refundOutcome.refundReference } : {}),
+    }), { status: 500, headers: { "Content-Type": "application/json" } });
   } finally {
-    if (spend && !delivered) {
-      try {
-        // Credit the EXACT basket that was debited — net of any auto-swap that
-        // funded it, so the user ends where they started: the coins the bridge
-        // consumed come back and the ones it delivered are not credited twice.
-        // `refundBasketAfterSwap` is a pure credit (never negative on an axis),
-        // and equals the debited basket when nothing was swapped.
-        // `applyPersonalizedPricing` rounds to 2dp and the column is
-        // DECIMAL(12,4), so this reverses the debit with no rounding residual.
-        //
-        // Idempotency is the ledger's, not ours: token_transactions
-        // .idempotency_key is UNIQUE and creditTokensSql upserts the balance
-        // `FROM inserted`, so a replayed key inserts nothing and moves the
-        // balance by zero. Keying on the debit's transactionGroupId (not on
-        // user+date) matters because that index is GLOBAL.
-        //
-        // Awaited inside `finally` so the response waits for the credit to
-        // COMMIT — returning first and refunding after would lose it to a
-        // lambda freeze, which is the failure this whole change is about.
-        const outcome = await tokenEconomy.creditMultipleTokensDetailed(
-          spend.userId,
-          [
-            { tokenType: "Spirit", amount: spend.refund.spirit },
-            { tokenType: "Essence", amount: spend.refund.essence },
-            { tokenType: "Matter", amount: spend.refund.matter },
-            { tokenType: "Substance", amount: spend.refund.substance },
-          ],
-          "cosmic_recipe_refund",
-          {
-            sourceId: spend.groupId,
-            idempotencyKey: `cosmic_recipe_refund:${spend.groupId}`,
-            description: "Refund - cosmic recipe generation produced no recipe",
-          },
-        );
-        if (outcome.status === "failed") {
-          logger.error(
-            "[generate-cosmic-recipe] REFUND FAILED - user charged, no recipe",
-            {
-              userId: spend.userId,
-              transactionGroupId: spend.groupId,
-              code: outcome.code,
-            },
-          );
-        }
-      } catch (refundError) {
-        // A throw escaping `finally` would REPLACE the intended 504/502 with a
-        // 500 and lose the real status, so the refund is contained.
-        logger.error("refund threw", refundError);
-      }
+    if (spend && !delivered && !refundOutcome) {
+      await settleCosmicRecipeRefund(spend);
     }
   }
 

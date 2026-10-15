@@ -98,6 +98,8 @@ export interface AgentChatResult {
   content: string;
   sessionId: string;
   agentId: string;
+  /** The provider echo, kept separate from the legacy request-ID fallback. */
+  providerAgentId?: string;
   astrologicalContext: Record<string, unknown>;
   metadata: {
     provider?: string;
@@ -464,13 +466,14 @@ class PlanetaryAgentsGateway {
           content: data.text ?? "",
           sessionId: data.sessionId ?? sessionId,
           agentId: data.agentId ?? agentId,
+          ...(typeof data.agentId === "string" ? { providerAgentId: data.agentId } : {}),
           astrologicalContext: meta?.astrologicalContext ?? {
             planetaryRuler: agent?.planetaryRuler,
             element: agent?.element,
             degree: agent?.exactDegree,
           },
           metadata: {
-            aiGenerated: data.ai_generated ?? true,
+            aiGenerated: data.ai_generated === true,
             ...(meta?.provider ? { provider: meta.provider } : {}),
             ...(meta?.model ? { model: meta.model } : {}),
             ...(meta?.tier ? { tier: meta.tier } : {}),

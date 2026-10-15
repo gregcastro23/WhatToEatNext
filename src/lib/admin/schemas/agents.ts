@@ -13,6 +13,9 @@ import { AsolHealthOverviewSchema } from "@/lib/admin/schemas/asol";
 import type { AssertTrue, ServerSatisfies } from "@/lib/admin/schemas/drift";
 import type { AdminAgentsPayload } from "@/services/admin/adminAgentsService";
 import type { AgentSyncBatchResponse } from "@/types/adminAgentSync";
+import { ServiceReachabilitySchema, ContractProbeSummarySchema } from "./agentsConnectivity";
+
+export * from "./agentsConnectivity";
 
 // ─── Agent network — GET /api/admin/agents/network ────────────────────────
 
@@ -186,47 +189,14 @@ export const AgentSyncFailureSchema = z.object({ error: z.string().optional() })
 
 // ─── Unified Admin Agents — GET /api/admin/agents ─────────────────────────
 
-export const ServiceReachabilitySchema = z.object({
-  key: z.string(),
-  label: z.string(),
-  url: z.string(),
-  reachable: z.boolean(),
-  statusCode: z.number().nullable(),
-  latencyMs: z.number().nullable(),
-  error: z.string().exactOptional(),
-  checkedAt: z.string(),
-});
-
-export const ContractProbeCheckSchema = z.object({
-  passed: z.boolean(), status: z.number(), message: z.string().exactOptional(),
-});
-
-export const NegativeControlsSchema = z.object({
-  passed: z.boolean(),
-  allRejectedWith401: z.boolean(),
-  statuses: z.record(z.string(), z.number()),
-});
-
-export const ContractProbeSummarySchema = z.object({
-  success: z.boolean(),
-  timestamp: z.string(),
-  checks: z.object({
-    agentRosterAuth: ContractProbeCheckSchema,
-    syncStatusAuth: ContractProbeCheckSchema,
-    vesselAuth: ContractProbeCheckSchema,
-    checkSharedAuth: ContractProbeCheckSchema,
-    negativeControls: NegativeControlsSchema,
-  }),
-});
-
 export const AgentActionMetricSchema = z.object({
   action: z.string(),
   label: z.string(),
   path: z.string(),
-  calls24h: z.number(),
-  successes24h: z.number(),
-  failures24h: z.number(),
-  serverFailures24h: z.number(),
+  calls24h: z.number().nullable(),
+  successes24h: z.number().nullable(),
+  failures24h: z.number().nullable(),
+  serverFailures24h: z.number().nullable(),
   p50Ms: z.number().nullable(),
   p95Ms: z.number().nullable(),
   lastSeenAt: z.string().nullable(),
@@ -277,7 +247,7 @@ export const AdminAgentsSchema = z.object({
   connectivity: z.object({
     services: z.array(ServiceReachabilitySchema),
     contractProbe: ContractProbeSummarySchema,
-    inboundDelivery: AsolHealthOverviewSchema,
+    inboundDelivery: AsolHealthOverviewSchema.nullable(),
   }),
   actions: z.object({
     creditPath: CreditPathHealthSchema,

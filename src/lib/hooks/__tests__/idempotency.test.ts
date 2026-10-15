@@ -15,8 +15,10 @@ jest.mock("@/lib/database/connection", () => ({
 import {
   claimInboundEvent,
   extractIdempotencyKey,
+  failInboundClaim,
   fetchStoredResult,
   normalizeEventId,
+  rejectInboundClaim,
   resolveInboundDeliveryContext,
 } from "@/lib/hooks/idempotency";
 
@@ -204,6 +206,49 @@ describe("idempotency helpers", () => {
       const ctx = resolveInboundDeliveryContext(headers, {}, { valid: true });
       expect(ctx.effectiveKey).toBe("shared_key_789");
       expect(ctx.keyMismatch).toBe(false);
+    });
+  });
+
+  describe("rejectInboundClaim & failInboundClaim", () => {
+    it("rejectInboundClaim settles claimed event with rejected:<status>", async () => {
+      mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+      await rejectInboundClaim({ kind: "claimed", rowId: 55, attempt: 1, startedAt: Date.now() }, 422);
+      expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+      const args = mockExecuteQuery.mock.calls[0]?.[1];
+      expect(Array.isArray(args) && args[0]).toBe(55);
+      expect(Array.isArray(args) && args[2]).toBe("rejected:422");
+    });
+
+    it("rejectInboundClaim handles other HTTP statuses like 404 and 500", async () => {
+      mockExecuteQuery.mockResolvedValueOnce({ rows: [] }).mockResolvedValueOnce({ rows: [] });
+      await rejectInboundClaim({ kind: "claimed", rowId: 56, attempt: 1, startedAt: Date.now() }, 404);
+      await rejectInboundClaim({ kind: "claimed", rowId: 57, attempt: 1, startedAt: Date.now() }, 500);
+      expect(mockExecuteQuery).toHaveBeenCalledTimes(2);
+      const call1Args = mockExecuteQuery.mock.calls[0]?.[1];
+      const call2Args = mockExecuteQuery.mock.calls[1]?.[1];
+      expect(Array.isArray(call1Args) && call1Args[2]).toBe("rejected:404");
+      expect(Array.isArray(call2Args) && call2Args[2]).toBe("rejected:500");
+    });
+
+    it("failInboundClaim settles claimed event with Error stack provenance", async () => {
+      mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+      const err = new Error("Connection reset by peer");
+      await failInboundClaim({ kind: "claimed", rowId: 77, attempt: 1, startedAt: Date.now() }, err);
+      expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+      const args = mockExecuteQuery.mock.calls[0]?.[1];
+      expect(Array.isArray(args) && args[0]).toBe(77);
+      const text = String(Array.isArray(args) && args[2]);
+      expect(text.includes("Connection reset by peer")).toBe(true);
+    });
+
+    it("safely no-ops when claim is null, undefined, or unrecorded", async () => {
+      await rejectInboundClaim(null, 422);
+      await rejectInboundClaim(undefined, 500);
+      await rejectInboundClaim({ kind: "unrecorded", error: "missing", startedAt: Date.now() }, 422);
+      await failInboundClaim(null, new Error("skip"));
+      await failInboundClaim(undefined, new Error("skip"));
+      await failInboundClaim({ kind: "duplicate", status: "processed" }, new Error("skip"));
+      expect(mockExecuteQuery).not.toHaveBeenCalled();
     });
   });
 });

@@ -35,6 +35,40 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Refund proofs own COMMITs and require session-local fixtures. They must
+  # never inherit the application's potentially transaction-pooled database.
+  cosmic-refund-sql:
+    name: Cosmic refunds (disposable PostgreSQL)
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cosmic_refund_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      COSMIC_REFUND_TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/cosmic_refund_test
+    steps:
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Provision UUID extension in the disposable database
+        run: |
+          bun -e 'import pg from "pg"; const c = new pg.Client({ connectionString: process.env.COSMIC_REFUND_TEST_DATABASE_URL }); await c.connect(); try { await c.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`); } finally { await c.end(); }'
+      - name: Refund SQL and production settlement restore balances atomically
+        run: |
+          bun run check:sql:cosmic-refund
+          bun run jest --runInBand src/app/api/generate-cosmic-recipe/__tests__/refundTestDatabaseUrl.test.ts src/app/api/generate-cosmic-recipe/__tests__/refunds.postgres.test.ts
+
   # ---------------------------------------------------------------------------
   # Static. Runs everywhere, including forks — no secrets, so nothing to leak.
   # ---------------------------------------------------------------------------
@@ -245,6 +279,13 @@ jobs:
         env:
           DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
         run: bun scripts/checkAuthSqlParses.ts
+
+      - name: Admin & Inbox SQL parses and executes against PostgreSQL
+        if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}
+        # Exercises PREPARE and session TEMP table isolation for admin and inbox SQL
+        env:
+          DATABASE_PUBLIC_URL: ${{ secrets.DATABASE_PUBLIC_URL }}
+        run: bun scripts/checkAdminInboxSqlParses.ts
 
       - name: Agents leave the writer already classified
         if: ${{ !cancelled() && steps.db-secret.outcome == 'success' }}

@@ -19,6 +19,9 @@ export interface GateAudit {
   totalEstimatedGrams: number;
   nonCompliantDietItems: string[];
   identifiedGlutenSources: string[];
+  requestedRestrictions: string[];
+  evaluatedRestrictions: string[];
+  unevaluatedRestrictions: string[];
 }
 
 export interface RecipeVerificationOutcome {
@@ -29,6 +32,36 @@ export interface RecipeVerificationOutcome {
   advisoryFindings: GateFinding[];
   recipe: CosmicRecipe;
   audit: GateAudit;
+}
+
+/** Content available from saved recipes, without manufactured cosmic metadata. */
+export interface RecipeContentIngredient {
+  name: string;
+  quantity: string;
+  unit: string;
+  optional?: boolean;
+}
+
+export interface RecipeContentStep {
+  instruction: string;
+  step_number?: number;
+  cooking_method?: string;
+  time_minutes?: number;
+}
+
+export interface RecipeContent {
+  ingredients: RecipeContentIngredient[];
+  steps: RecipeContentStep[];
+  dietTags?: string[];
+  calories?: number;
+}
+
+export interface RecipeContentVerificationOutcome extends Omit<
+  RecipeVerificationOutcome,
+  "recipe"
+> {
+  content: RecipeContent;
+  notChecked: string[];
 }
 
 export interface VerifyCosmicRecipeOptions {

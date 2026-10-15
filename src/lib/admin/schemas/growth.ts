@@ -139,7 +139,7 @@ export const PulseSchema = z.object({
       paReachable: z.boolean(),
       creditVerdict: z.enum(["OK", "IDLE", "STALLED", "INCIDENT", "UNKNOWN"]),
       debitVerdict: z.enum(["OK", "IDLE", "INCIDENT", "UNKNOWN"]),
-      activeDeliveryEvents24h: z.number(),
+      activeDeliveryEvents24h: z.number().nullable(),
     })
     .nullable(),
 });

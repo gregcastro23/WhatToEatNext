@@ -6,11 +6,15 @@
 
 import { evaluateStepTemperature } from "@/data/cooking/foodSafety";
 import { METHOD_PHYSICS } from "@/data/cooking/methodPhysics";
-import type { CosmicRecipe } from "@/data/featuredRecipe";
 import {
-  findStepProteinTarget,
+  findStepProteinTargets,
   parseStepTemperatures,
+  type ParsedStepTemperature,
 } from "./recipeGateHelpers";
+import type {
+  RecipeContentIngredient,
+  RecipeContentStep,
+} from "./recipeGateTypes";
 
 export interface StepGateFinding {
   code: string;
@@ -28,7 +32,7 @@ interface StepThermalContext {
 function detectStepContext(
   instructionLower: string,
   rawMethod: string,
-  ingredients: CosmicRecipe["ingredients"],
+  ingredients: RecipeContentIngredient[],
 ): StepThermalContext {
   const isCoolingOrChilling =
     /\b(chill|chilled|chilling|cooling|cool\s+down|cool\s+to|refrigerat\w*|ice\s+bath|freeze|freezer)\b/i.test(
@@ -68,7 +72,12 @@ function checkCookingMethodProfile(
   advisoryFindings: StepGateFinding[],
 ): void {
   const physicsProfile = METHOD_PHYSICS[rawMethod];
-  if (!physicsProfile && rawMethod !== "no_cook" && rawMethod !== "mix" && rawMethod !== "prep") {
+  if (
+    !physicsProfile &&
+    rawMethod !== "no_cook" &&
+    rawMethod !== "mix" &&
+    rawMethod !== "prep"
+  ) {
     advisoryFindings.push({
       code: "UNKNOWN_COOKING_METHOD",
       message: `Cooking method "${cookingMethod}" in step ${stepNumber} is not formally profiled in the physics registry.`,
@@ -78,31 +87,75 @@ function checkCookingMethodProfile(
   }
 }
 
+function evaluateParsedStepTemperature(
+  parsed: ParsedStepTemperature,
+  rawMethod: string,
+  ingredients: RecipeContentIngredient[],
+  isSugarOrCandy: boolean,
+): ReturnType<typeof evaluateStepTemperature> {
+  let proteinTargets = findStepProteinTargets(parsed.clause, ingredients, {
+    fallbackToRecipeProteins: rawMethod === "sous_vide",
+  });
+  if (proteinTargets.length === 0) {
+    proteinTargets = findStepProteinTargets(
+      parsed.precedingClause,
+      ingredients,
+    );
+  }
+  const isInternal =
+    parsed.isInternalDoneness ||
+    (rawMethod === "sous_vide" && !parsed.isCoolingOrChilling);
+
+  const stepContext = {
+    isInternalDoneness: isInternal,
+    isCoolingOrChilling: parsed.isCoolingOrChilling,
+    isSugarOrCandy,
+    isOven: parsed.isOven,
+    isPressure: parsed.isPressure,
+    isLiquid: parsed.isLiquid,
+  };
+
+  return evaluateStepTemperature(
+    rawMethod,
+    parsed.temperatureF,
+    proteinTargets,
+    stepContext,
+  );
+}
+
 function checkStepThermalSafety(
   rawMethod: string,
   stepNumber: number,
   idx: number,
   instruction: string,
-  ingredients: CosmicRecipe["ingredients"],
+  ingredients: RecipeContentIngredient[],
   blockingFindings: StepGateFinding[],
+  advisoryFindings: StepGateFinding[],
 ): void {
   const parsedTemps = parseStepTemperatures(instruction);
   const instructionLower = instruction.toLowerCase();
-  const proteinTarget = findStepProteinTarget(instructionLower, ingredients);
-  const baseContext = detectStepContext(instructionLower, rawMethod, ingredients);
+  const baseContext = detectStepContext(
+    instructionLower,
+    rawMethod,
+    ingredients,
+  );
 
-  for (const { temperatureF, isInternalDoneness } of parsedTemps) {
-    const stepContext: StepThermalContext = {
-      ...baseContext,
-      isInternalDoneness: isInternalDoneness || baseContext.isInternalDoneness,
-    };
-
-    const safetyVerdict = evaluateStepTemperature(
+  for (const parsed of parsedTemps) {
+    const safetyVerdict = evaluateParsedStepTemperature(
+      parsed,
       rawMethod,
-      temperatureF,
-      proteinTarget,
-      stepContext,
+      ingredients,
+      baseContext.isSugarOrCandy,
     );
+
+    if (safetyVerdict.unevaluated) {
+      advisoryFindings.push({
+        code: "UNEVALUATED_THERMAL_PROCESS",
+        message: `Step ${stepNumber}: ${safetyVerdict.reason}`,
+        path: `steps.${idx}.instruction`,
+        severity: "advisory",
+      });
+    }
 
     if (!safetyVerdict.safe) {
       blockingFindings.push({
@@ -117,20 +170,41 @@ function checkStepThermalSafety(
 }
 
 export function validateSingleStep(
-  step: CosmicRecipe["steps"][number],
+  step: RecipeContentStep,
   idx: number,
-  ingredients: CosmicRecipe["ingredients"],
+  ingredients: RecipeContentIngredient[],
   blockingFindings: StepGateFinding[],
   advisoryFindings: StepGateFinding[],
 ): void {
-  const rawMethod = step.cooking_method.trim().toLowerCase().replace(/[\s-]+/g, "_");
-  checkCookingMethodProfile(rawMethod, step.cooking_method, step.step_number, idx, advisoryFindings);
-  checkStepThermalSafety(rawMethod, step.step_number, idx, step.instruction, ingredients, blockingFindings);
+  const stepNumber = step.step_number ?? idx + 1;
+  const rawMethod =
+    step.cooking_method
+      ?.trim()
+      .toLowerCase()
+      .replace(/[\s-]+/g, "_") ?? "";
+  if (step.cooking_method !== undefined) {
+    checkCookingMethodProfile(
+      rawMethod,
+      step.cooking_method,
+      stepNumber,
+      idx,
+      advisoryFindings,
+    );
+  }
+  checkStepThermalSafety(
+    rawMethod,
+    stepNumber,
+    idx,
+    step.instruction,
+    ingredients,
+    blockingFindings,
+    advisoryFindings,
+  );
 
-  if (step.time_minutes < 0) {
+  if (step.time_minutes !== undefined && step.time_minutes < 0) {
     blockingFindings.push({
       code: "IMPLAUSIBLE_STEP_TIME",
-      message: `Step ${step.step_number} has impossible negative time duration (${step.time_minutes} minutes).`,
+      message: `Step ${stepNumber} has impossible negative time duration (${step.time_minutes} minutes).`,
       path: `steps.${idx}.time_minutes`,
       severity: "blocking",
     });

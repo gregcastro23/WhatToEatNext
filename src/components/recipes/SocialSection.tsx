@@ -59,6 +59,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
   const [hydrated, setHydrated] = useState(false);
   const [madeCount, setMadeCount] = useState<number>(0);
   const [tips, setTips] = useState<CommunityTip[]>([]);
+  const [tipsRefresh, setTipsRefresh] = useState(0);
   const [saving, setSaving] = useState(false);
   const [shareState, setShareState] = useState<"idle" | "sharing" | "shared">("idle");
 
@@ -167,7 +168,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
     return (): void => {
       cancelled = true;
     };
-  }, [recipeId]);
+  }, [recipeId, tipsRefresh]);
 
   async function persistRemote(next: LocalSocialState): Promise<void> {
     if (!isAuthed) return;
@@ -379,9 +380,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
       <RecipeAgentCouncil
         recipeId={recipeId}
         {...(recipeName ? { recipeName } : {})}
-        onCritiqueGenerated={(newTip) => {
-          setTips((prev) => [newTip, ...prev.filter((t) => t.author !== newTip.author)]);
-        }}
+        onCritiquePublished={() => setTipsRefresh((current) => current + 1)}
       />
 
       {/* Community tips — real feed from user_recipe_interactions */}
@@ -405,9 +404,15 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
                       <span>{t.author}</span>
                       <span className="text-[10px] text-white/40 font-normal">→</span>
                     </Link>
-                    <span className="text-xs text-white/50 flex items-center gap-1">
-                      <span className="text-amber-400">{"\u2605"}</span> {t.rating}/5
-                    </span>
+                    {typeof t.rating === "number" && t.rating > 0 ? (
+                      <span className="text-xs text-white/50 flex items-center gap-1">
+                        <span className="text-amber-400">{"\u2605"}</span> {t.rating}/5
+                      </span>
+                    ) : (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300/80 border border-amber-500/20 font-medium">
+                        Alchemical Tip
+                      </span>
+                    )}
                   </div>
                   <p className="text-sm text-white/80 leading-relaxed">{t.tip}</p>
                 </li>

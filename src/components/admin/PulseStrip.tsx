@@ -90,7 +90,15 @@ function AgentsTiles({ a }: { a: PulseView["agents"] }): React.JSX.Element {
         href="/admin/agents"
         label="Agent sync"
         value={a ? `Credit: ${a.creditVerdict}` : null}
-        sub={a ? `Debit: ${a.debitVerdict} · ${fmtInt(a.activeDeliveryEvents24h)} webhooks` : "sync bridge unread"}
+        sub={
+          a
+            ? `Debit: ${a.debitVerdict} · ${
+                a.activeDeliveryEvents24h !== null
+                  ? `${fmtInt(a.activeDeliveryEvents24h)} webhooks`
+                  : "webhooks unread"
+              }`
+            : "sync bridge unread"
+        }
         tone={tone}
       />
     </>

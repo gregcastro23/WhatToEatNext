@@ -13,6 +13,7 @@ import {
   type AsolContractProbeReport,
 } from "@/services/asolContractProbeService";
 import { getCronHeartbeats } from "@/services/cronHeartbeatService";
+import { AGENT_ACTION_METRICS_SQL } from "./adminAgentSql";
 import {
   MONITORED_AGENT_ACTIONS,
   type AgentActionMetric,
@@ -111,21 +112,10 @@ export async function getActionMetrics(): Promise<AgentActionMetric[]> {
   const paths = MONITORED_AGENT_ACTIONS.map((a) => a.path);
   const metricsMap = new Map<string, ActionMetricRow>();
 
+  let queryFailed = false;
   try {
     const result = await executeQuery<ActionMetricRow>(
-      `SELECT
-         path,
-         COUNT(*)::int AS total,
-         COUNT(*) FILTER (WHERE status >= 200 AND status < 400)::int AS successes,
-         COUNT(*) FILTER (WHERE status >= 400)::int AS failures,
-         COUNT(*) FILTER (WHERE status >= 500)::int AS server_failures,
-         (PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY latency_ms))::int AS p50_ms,
-         (PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms))::int AS p95_ms,
-         MAX(at) AS last_seen
-       FROM request_log_entries
-       WHERE at > NOW() - INTERVAL '24 hours'
-         AND path = ANY($1::text[])
-       GROUP BY path`,
+      AGENT_ACTION_METRICS_SQL,
       [paths],
     );
 
@@ -133,11 +123,26 @@ export async function getActionMetrics(): Promise<AgentActionMetric[]> {
       metricsMap.set(r.path, r);
     }
   } catch (err) {
+    queryFailed = true;
     _logger.error("[adminAgentsService] action metrics query failed:", err);
   }
 
   return MONITORED_AGENT_ACTIONS.map((def) => {
     const data = metricsMap.get(def.path);
+    if (queryFailed) {
+      return {
+        action: def.action,
+        label: def.label,
+        path: def.path,
+        calls24h: null,
+        successes24h: null,
+        failures24h: null,
+        serverFailures24h: null,
+        p50Ms: null,
+        p95Ms: null,
+        lastSeenAt: null,
+      };
+    }
     return {
       action: def.action,
       label: def.label,
@@ -252,6 +257,10 @@ export async function runContractProbe(
     });
     return {
       success: report.success,
+      verdict: report.verdict,
+      vantage: report.vantage,
+      destination: report.destination,
+      timeoutMs: report.timeoutMs,
       timestamp: report.timestamp,
       checks: {
         agentRosterAuth: report.checks.agentRosterAuth,
@@ -265,6 +274,10 @@ export async function runContractProbe(
     _logger.error("[adminAgentsService] contract probe execution failed:", err);
     return {
       success: false,
+      verdict: "unreachable",
+      vantage: "wten-internal-receiver",
+      destination: "unknown",
+      timeoutMs: 3000,
       timestamp: new Date().toISOString(),
       checks: {
         agentRosterAuth: { passed: false, status: 0, message: "Probe execution failed" },

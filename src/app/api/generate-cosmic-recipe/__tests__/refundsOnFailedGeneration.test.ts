@@ -29,6 +29,7 @@
 const purchaseShopItem = jest.fn();
 const creditMultipleTokensDetailed = jest.fn();
 const getShopItem = jest.fn();
+const getEntries = jest.fn();
 
 import { NextRequest } from "next/server";
 import { installFetchMock } from "@/__tests__/helpers/fetchMock";
@@ -71,7 +72,7 @@ jest.mock("@/services/questEventReporter", () => ({
 }));
 
 jest.mock("@/services/FoodDiaryService", () => ({
-  foodDiaryService: { getEntries: async () => [] },
+  foodDiaryService: { getEntries: (...args: unknown[]) => getEntries(...args) },
 }));
 
 const DEBIT_GROUP = "grp-abc-123";
@@ -91,11 +92,16 @@ async function callRoute(): Promise<Response> {
 }
 
 describe("cosmic recipe ESMS settlement", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.resetModules();
+    const { resetRecipePipelineTelemetry } = await import(
+      "@/lib/cooking/recipePipelineTelemetry"
+    );
+    resetRecipePipelineTelemetry();
     purchaseShopItem.mockReset();
     creditMultipleTokensDetailed.mockReset();
     getShopItem.mockReset();
+    getEntries.mockReset().mockResolvedValue([]);
     jest.spyOn(console, "error").mockImplementation(() => {});
 
     getShopItem.mockResolvedValue({ isActive: true });
@@ -103,7 +109,7 @@ describe("cosmic recipe ESMS settlement", () => {
       success: true,
       transactionGroupId: DEBIT_GROUP,
     });
-    creditMultipleTokensDetailed.mockResolvedValue({ status: "applied" });
+    creditMultipleTokensDetailed.mockResolvedValue({ status: "credited", written: 4, requested: 4, balances: null });
   });
 
   afterEach(() => jest.restoreAllMocks());
@@ -239,5 +245,151 @@ describe("cosmic recipe ESMS settlement", () => {
     const res = await mod.POST(req);
     expect(res.status).toBe(409);
     expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("reports refundStatus: confirmed, refunded: true, and exact net amounts in response when credit succeeds", async () => {
+    creditMultipleTokensDetailed.mockResolvedValue({
+      status: "credited",
+      balances: null,
+      written: 4,
+      requested: 4,
+    });
+    installFetchMock(
+      jest.fn().mockResolvedValue(
+        new Response(JSON.stringify({ detail: "upstream boom" }), { status: 502 }),
+      ),
+    );
+
+    const res = await callRoute();
+    expect(res.status).toBe(502);
+    const body = await res.json();
+    expect(body.refunded).toBe(true);
+    expect(body.refundStatus).toBe("confirmed");
+    expect(body.refundAmounts).toEqual({
+      spirit: 7.5,
+      essence: 7.5,
+      matter: 7.5,
+      substance: 7.5,
+    });
+
+    const { getRecipePipelineTelemetryStats } = await import(
+      "@/lib/cooking/recipePipelineTelemetry"
+    );
+    const stats = getRecipePipelineTelemetryStats();
+    expect(stats.refunds).toBe(1);
+    expect(stats.finalFailures).toBe(1);
+  });
+
+  it("reports refundStatus: failed and refunded: false when credit transaction fails", async () => {
+    creditMultipleTokensDetailed.mockResolvedValue({
+      status: "failed",
+      code: "40001",
+      constraint: null,
+      message: "serialization failure",
+    });
+    installFetchMock(
+      jest.fn().mockResolvedValue(
+        new Response(JSON.stringify({ detail: "upstream timeout" }), { status: 504 }),
+      ),
+    );
+
+    const res = await callRoute();
+    expect(res.status).toBe(504);
+    const body = await res.json();
+    expect(body.refunded).toBe(false);
+    expect(body.refundStatus).toBe("failed");
+    expect(body.refundAmounts).toEqual({
+      spirit: 7.5,
+      essence: 7.5,
+      matter: 7.5,
+      substance: 7.5,
+    });
+
+    const { getRecipePipelineTelemetryStats } = await import(
+      "@/lib/cooking/recipePipelineTelemetry"
+    );
+    const stats = getRecipePipelineTelemetryStats();
+    expect(stats.refunds).toBe(0);
+    expect(stats.finalFailures).toBe(1);
+  });
+
+  it("reports refundStatus: failed and refunded: false when credit operation throws an error", async () => {
+    creditMultipleTokensDetailed.mockRejectedValue(
+      new Error("Database pool connection timeout"),
+    );
+    installFetchMock(
+      jest.fn().mockResolvedValue(
+        new Response(JSON.stringify({ detail: "upstream 502" }), { status: 502 }),
+      ),
+    );
+
+    const res = await callRoute();
+    expect(res.status).toBe(502);
+    const body = await res.json();
+    expect(body.refunded).toBe(false);
+    expect(body.refundStatus).toBe("failed");
+    expect(body.refundAmounts).toEqual({
+      spirit: 7.5,
+      essence: 7.5,
+      matter: 7.5,
+      substance: 7.5,
+    });
+
+    const { getRecipePipelineTelemetryStats } = await import(
+      "@/lib/cooking/recipePipelineTelemetry"
+    );
+    const stats = getRecipePipelineTelemetryStats();
+    expect(stats.refunds).toBe(0);
+    expect(stats.finalFailures).toBe(1);
+  });
+
+  it("reports refundStatus: confirmed and refunded: true on idempotent replay credit outcome", async () => {
+    creditMultipleTokensDetailed.mockResolvedValue({
+      status: "replayed",
+      balances: null,
+    });
+    installFetchMock(
+      jest.fn().mockResolvedValue(
+        new Response(JSON.stringify({ detail: "upstream fail" }), { status: 502 }),
+      ),
+    );
+
+    const res = await callRoute();
+    expect(res.status).toBe(502);
+    const body = await res.json();
+    expect(body.refunded).toBe(true);
+    expect(body.refundStatus).toBe("confirmed");
+
+    const { getRecipePipelineTelemetryStats } = await import(
+      "@/lib/cooking/recipePipelineTelemetry"
+    );
+    const stats = getRecipePipelineTelemetryStats();
+    expect(stats.refunds).toBe(1);
+  });
+
+  it("returns the actual refund receipt and telemetry for an unexpected post-debit failure", async () => {
+    getEntries.mockRejectedValue(new Error("Diary database unavailable"));
+    const res = await callRoute();
+    expect(res.status).toBe(500);
+    expect(await res.json()).toMatchObject({
+      refunded: true,
+      refundStatus: "confirmed",
+      refundReference: {
+        debitTransactionGroupId: DEBIT_GROUP,
+        idempotencyKey: `cosmic_recipe_refund:${DEBIT_GROUP}`,
+      },
+    });
+    expect(creditMultipleTokensDetailed).toHaveBeenCalledTimes(1);
+    const { getRecipePipelineTelemetryStats } = await import("@/lib/cooking/recipePipelineTelemetry");
+    expect(getRecipePipelineTelemetryStats()).toMatchObject({ refunds: 1, finalFailures: 1 });
+  });
+
+  it("does not certify a partial credit as a completed refund", async () => {
+    creditMultipleTokensDetailed.mockResolvedValue({ status: "credited", written: 2, requested: 4, balances: null });
+    installFetchMock(jest.fn().mockResolvedValue(new Response("{}", { status: 502 })));
+    const res = await callRoute();
+    expect(await res.json()).toMatchObject({ refunded: false, refundStatus: "pending" });
+    const { getRecipePipelineTelemetryStats } = await import("@/lib/cooking/recipePipelineTelemetry");
+    expect(getRecipePipelineTelemetryStats().refunds).toBe(0);
   });
 });

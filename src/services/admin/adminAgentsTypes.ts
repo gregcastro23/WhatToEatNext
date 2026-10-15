@@ -34,6 +34,10 @@ export interface NegativeControlsReport {
 
 export interface ContractProbeSummary {
   success: boolean;
+  verdict: "healthy" | "degraded" | "unreachable";
+  vantage: "wten-internal-receiver";
+  destination: string;
+  timeoutMs: number;
   timestamp: string;
   checks: {
     agentRosterAuth: ContractProbeCheckResult;
@@ -48,10 +52,10 @@ export interface AgentActionMetric {
   action: string;
   label: string;
   path: string;
-  calls24h: number;
-  successes24h: number;
-  failures24h: number;
-  serverFailures24h: number;
+  calls24h: number | null;
+  successes24h: number | null;
+  failures24h: number | null;
+  serverFailures24h: number | null;
   p50Ms: number | null;
   p95Ms: number | null;
   lastSeenAt: string | null;
@@ -88,7 +92,7 @@ export interface AdminAgentsPayload {
   connectivity: {
     services: ServiceReachability[];
     contractProbe: ContractProbeSummary;
-    inboundDelivery: AsolHealthOverview;
+    inboundDelivery: AsolHealthOverview | null;
   };
   actions: {
     creditPath: CreditPathHealth & CreditPathSignals;

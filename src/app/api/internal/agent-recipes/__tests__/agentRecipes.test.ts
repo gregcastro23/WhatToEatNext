@@ -14,6 +14,10 @@ jest.mock("@/lib/database/connection", () => ({
 
 import { NextRequest } from "next/server";
 import {
+  CLAIM_RETRY_SQL,
+  FAIL_SQL,
+} from "@/lib/hooks/inbox";
+import {
   computeV1Signature,
   parseWebhookSecret,
 } from "@/lib/hooks/standardWebhooks";
@@ -87,6 +91,15 @@ describe("POST /api/internal/agent-recipes", () => {
     );
     const res = await POST(req);
     expect(res.status).toBe(400);
+  });
+
+  it.each([
+    { source: "saved-adaptation", payload: {} },
+    { source: "generator", payload: { kind: "saved-adaptation" } },
+  ])("rejects forged validated adaptation provenance before claiming %#", async forged => {
+    const result = await POST(makeRecipeRequest({ userId: "canonical-agent", name: "Forged saved version", ...forged }, { authHeader: `Bearer ${TEST_INTERNAL_SECRET}`, idempotencyKey: "forged-version" }));
+    expect(result.status).toBe(400);
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
   });
 
   it("inserts new custom recipe and claims idempotency key", async () => {
@@ -280,6 +293,108 @@ describe("POST /api/internal/agent-recipes", () => {
     expect(isRecord(data) && data.error).toContain("unsigned");
 
     delete process.env.ASOL_WEBHOOK_SIGNATURES;
+  });
+
+  it("settles claim with rejected:500 when recipe insert returns no row", async () => {
+    // 1. claim insert succeeds
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 601, attempts: 1 }] });
+    // 2. insert returns empty rows
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+    // 3. failWebhookEvent updates status='failed'
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const req = makeRecipeRequest(
+      {
+        userId: "agent-user-id",
+        name: "Empty Return Stew",
+        payload: { ingredients: ["stardust"] },
+      },
+      {
+        authHeader: `Bearer ${TEST_INTERNAL_SECRET}`,
+        idempotencyKey: "recipe-norow-key",
+      },
+    );
+
+    const res = await POST(req);
+    expect(res.status).toBe(500);
+
+    const failCall = mockExecuteQuery.mock.calls.find(
+      (c: unknown[]) => Array.isArray(c) && c[0] === FAIL_SQL,
+    );
+    expect(failCall).toBeDefined();
+    const args = Array.isArray(failCall) && Array.isArray(failCall[1]) ? failCall[1] : [];
+    expect(args[0]).toBe(601);
+    expect(args[2]).toBe("rejected:500");
+  });
+
+  it("settles claim with error stack provenance when recipe insert throws", async () => {
+    // 1. claim insert succeeds
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 602, attempts: 1 }] });
+    // 2. insert throws
+    mockExecuteQuery.mockRejectedValueOnce(new Error("Disk quota exceeded"));
+    // 3. failWebhookEvent updates status='failed'
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const req = makeRecipeRequest(
+      {
+        userId: "agent-user-id",
+        name: "Throwing Recipe",
+        payload: { ingredients: ["saffron"] },
+      },
+      {
+        authHeader: `Bearer ${TEST_INTERNAL_SECRET}`,
+        idempotencyKey: "recipe-throw-key",
+      },
+    );
+
+    const res = await POST(req);
+    expect(res.status).toBe(500);
+
+    const failCall = mockExecuteQuery.mock.calls.find(
+      (c: unknown[]) => Array.isArray(c) && c[0] === FAIL_SQL,
+    );
+    expect(failCall).toBeDefined();
+    const args = Array.isArray(failCall) && Array.isArray(failCall[1]) ? failCall[1] : [];
+    expect(args[0]).toBe(602);
+    const recordedError = typeof args[2] === "string" ? args[2] : "";
+    expect(recordedError.includes("Disk quota exceeded")).toBe(true);
+    expect(recordedError.includes("Error:")).toBe(true);
+  });
+
+  it("allows redelivery after failed claim: retry re-claims the event and succeeds", async () => {
+    // 1. insert fails with conflict
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+    // 2. retry update re-claims the failed event (status='failed') -> returns { id: 601, attempts: 2 }
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 601, attempts: 2 }] });
+    // 3. recipe insert succeeds
+    mockExecuteQuery.mockResolvedValueOnce({
+      rows: [{ id: "recipe-uuid-retried", created_at: "2026-09-23T14:00:00Z" }],
+    });
+    // 4. completeWebhookEvent updates status='processed'
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const req = makeRecipeRequest(
+      {
+        userId: "agent-user-id",
+        name: "Retried Solar Stew",
+        payload: { ingredients: ["saffron"] },
+      },
+      {
+        authHeader: `Bearer ${TEST_INTERNAL_SECRET}`,
+        idempotencyKey: "recipe-retried-key",
+      },
+    );
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(isRecord(data) && data.success).toBe(true);
+    expect(isRecord(data) && data.id).toBe("recipe-uuid-retried");
+
+    const retryCall = mockExecuteQuery.mock.calls.find(
+      (c: unknown[]) => Array.isArray(c) && c[0] === CLAIM_RETRY_SQL,
+    );
+    expect(retryCall).toBeDefined();
   });
 });
 

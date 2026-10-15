@@ -20,7 +20,8 @@ import {
   buildDeliverySummary,
   claimInboundEvent,
   completeWebhookEvent,
-  failWebhookEvent,
+  failInboundClaim,
+  rejectInboundClaim,
   resolveInboundDeliveryContext,
 } from "@/lib/hooks/idempotency";
 import { inFlightConflict } from "@/lib/hooks/inFlightConflict";
@@ -31,6 +32,7 @@ import {
   verifyStandardWebhook,
 } from "@/lib/hooks/standardWebhooks";
 import { _logger } from "@/lib/logger";
+import { isReservedAdaptation } from "@/lib/recipes/savedAdaptationSchemas";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -127,6 +129,9 @@ export async function POST(request: NextRequest) {
     );
   }
   const body = parsed.data;
+  if (isReservedAdaptation(body.source, body.payload)) {
+    return NextResponse.json({ success: false, error: "Validated adaptation provenance is reserved for the saved-adaptation action." }, { status: 400 });
+  }
 
   const delivery = resolveInboundDeliveryContext(request.headers, rawBody, verification);
 
@@ -171,6 +176,7 @@ export async function POST(request: NextRequest) {
     );
     const [row] = result.rows;
     if (!row) {
+      await rejectInboundClaim(claimResult.claim, 500);
       return NextResponse.json(
         { success: false, error: "recipe insert returned no row" },
         { status: 500 },
@@ -186,9 +192,7 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json(responsePayload);
   } catch (error) {
-    if (claimResult.claim) {
-      await failWebhookEvent(claimResult.claim, error);
-    }
+    await failInboundClaim(claimResult.claim, error);
     _logger.error("[POST /api/internal/agent-recipes]", error);
     return NextResponse.json(
       { error: "Failed to author recipe" },
