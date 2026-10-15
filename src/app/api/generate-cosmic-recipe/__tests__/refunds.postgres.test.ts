@@ -7,6 +7,7 @@
  */
 import assert from "node:assert/strict";
 import { Client } from "pg";
+import { requireCosmicRefundTestDatabaseUrl } from "../../../../../scripts/lib/cosmicRefundTestDatabase";
 import { settleCosmicRecipeRefund, type SpendRecord } from "../cosmicRefundSettlement";
 
 let client: Client;
@@ -27,10 +28,8 @@ const spend: SpendRecord = { userId, groupId, costs: basket, refund: basket };
 suite("cosmic refunds on PostgreSQL (requires COSMIC_REFUND_TEST_DATABASE_URL)", () => {
   const originalDatabaseUrl = process.env.DATABASE_URL;
   beforeAll(async () => {
-    if (!url) throw new Error("Dedicated refund test database URL required");
-    const parsedUrl = new URL(url);
-    const local = ["localhost", "127.0.0.1", "[::1]"].includes(parsedUrl.hostname);
-    client = new Client({ connectionString: url, ssl: local ? false : { rejectUnauthorized: false } });
+    const connectionString = requireCosmicRefundTestDatabaseUrl(url);
+    client = new Client({ connectionString, ssl: false });
     await client.connect();
     await client.query(`CREATE TEMP TABLE users (id uuid PRIMARY KEY);
       CREATE TEMP TABLE token_balances (
