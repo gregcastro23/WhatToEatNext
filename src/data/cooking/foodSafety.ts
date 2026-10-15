@@ -167,7 +167,7 @@ function checkBoilingMethodSafety(
   if (options?.isOven) return { safe: true };
 
   const isPressure =
-    options?.isPressure ||
+    options?.isPressure === true ||
     methodKey === "pressure" ||
     methodKey === "pressure_cook" ||
     methodKey === "pressure_cooking" ||
