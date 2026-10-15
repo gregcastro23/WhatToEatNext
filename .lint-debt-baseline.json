@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1222,
+  "trackedTotal": 1219,
   "casts": {
     "total": 158,
     "asAny": 38,
@@ -41,7 +41,7 @@
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 199,
+      "total": 197,
       "verifiedSafe": 0,
       "semantic": 290,
       "unclassified": 5,
@@ -49,7 +49,7 @@
     }
   },
   "declined": {
-    "total": 4680,
+    "total": 4675,
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 1260,
       "@typescript-eslint/explicit-module-boundary-types": 621,
@@ -79,7 +79,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 766,
+      "count": 764,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -87,7 +87,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 122,
+      "count": 121,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
@@ -103,7 +103,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 199,
+      "count": 197,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
