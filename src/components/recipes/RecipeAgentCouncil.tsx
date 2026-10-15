@@ -10,6 +10,7 @@ import {
   RecipeCritiqueReaderSchema,
   type RecipeCritique,
 } from "@/lib/validation/recipeCritiqueResponse";
+import { SavedAdaptationButton } from "./SavedAdaptationButton";
 
 interface HistoricalCouncilAgent {
   slug: string;
@@ -251,6 +252,7 @@ export function RecipeAgentCouncil({
           </p>
         </div>
       )}
+      {selectedAgent.slug === "leonardo-da-vinci" && <SavedAdaptationButton recipeId={recipeId} />}
       {error && (
         <p role="alert" className="text-xs text-amber-200">
           {error}

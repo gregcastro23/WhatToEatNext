@@ -38,6 +38,7 @@ import {
 import { withObservability } from "@/lib/observability/withObservability";
 import { redisCached } from "@/lib/redis";
 import { FeedEventIngestSchema } from "@/lib/validation/apiSchemas";
+import { isReservedAdaptation } from "@/lib/recipes/savedAdaptationSchemas";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -228,6 +229,14 @@ export const POST = withObservability(
 
     agentEmail = incomingAgentEmail;
     eventType = incomingEventType;
+
+    if (incomingEventType === "recipe_adapted" || isReservedAdaptation(
+      typeof metadataPayload.source === "string" ? metadataPayload.source : undefined,
+      metadataPayload,
+    )) {
+      rememberFeedEmit(eventType, agentEmail, 400);
+      return NextResponse.json({ error: "Saved adaptation publication is reserved for validated stored versions." }, { status: 400 });
+    }
 
     // Skip chat event types entirely to maintain anonymity
     if (["agent_chat", "chat", "agent.chat"].includes(incomingEventType)) {

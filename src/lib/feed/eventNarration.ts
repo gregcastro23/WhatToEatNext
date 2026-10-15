@@ -117,6 +117,17 @@ export function narrateFeedEvent(
       };
     }
 
+    case "recipe_adapted": {
+      const original = getString(metadata, "recipeName");
+      const versionId = getString(metadata, "versionId");
+      return {
+        icon: "📝",
+        action: original ? `adapted ${original} and saved their version.` : "saved an adapted recipe version.",
+        label: original ? `Adapted: ${original}` : "Saved adaptation",
+        href: versionId ? `/recipes/versions/${encodeURIComponent(versionId)}` : undefined,
+      };
+    }
+
     case "recipe_review": {
       const recipeName =
         getString(metadata, "recipeName") ??

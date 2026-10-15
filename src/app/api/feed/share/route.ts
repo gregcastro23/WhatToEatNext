@@ -6,6 +6,7 @@ import { nextLunarTable } from "@/lib/feed/lunarTables";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { FeedShareRequestSchema } from "@/lib/validation/apiSchemas";
+import { isReservedAdaptation } from "@/lib/recipes/savedAdaptationSchemas";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { questService } from "@/services/QuestService";
 import type { NextRequest } from "next/server";
@@ -46,6 +47,9 @@ export async function POST(request: NextRequest) {
     }
 
     const { shareType, shareName, shareIdentity, payload } = parsed.data;
+    if (isReservedAdaptation(typeof payload?.source === "string" ? payload.source : undefined, payload)) {
+      return NextResponse.json({ success: false, message: "Saved adaptation provenance cannot be supplied by a generic share." }, { status: 400 });
+    }
 
     // Per-post identity choice: `shareIdentity` is canonical, legacy
     // `shareName` accepted as an alias. Absent = inherit the user's
@@ -70,7 +74,7 @@ export async function POST(request: NextRequest) {
     } else if (shareType === "preferences") {
       eventType = "share_preferences_feed";
       questEvent = "share_preferences_feed";
-    } else if (shareType === "cooked") {
+    } else {
       // Cooked-it dish card: chart-persona identity + transit line, computed
       // once at share time; photo (a data URL from /api/food-lab/upload) is
       // persisted to R2 so the feed row carries a URL, not base64. Posts made
@@ -86,7 +90,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const identity = await buildCookCardIdentity(user.profile?.natalChart ?? null);
+      const identity = await buildCookCardIdentity(user.profile.natalChart ?? null);
 
       let photoUrl: string | null = null;
       if (typeof payload?.photoDataUrl === "string") {

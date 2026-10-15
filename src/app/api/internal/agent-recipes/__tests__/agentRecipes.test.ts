@@ -93,6 +93,15 @@ describe("POST /api/internal/agent-recipes", () => {
     expect(res.status).toBe(400);
   });
 
+  it.each([
+    { source: "saved-adaptation", payload: {} },
+    { source: "generator", payload: { kind: "saved-adaptation" } },
+  ])("rejects forged validated adaptation provenance before claiming %#", async forged => {
+    const result = await POST(makeRecipeRequest({ userId: "canonical-agent", name: "Forged saved version", ...forged }, { authHeader: `Bearer ${TEST_INTERNAL_SECRET}`, idempotencyKey: "forged-version" }));
+    expect(result.status).toBe(400);
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
+  });
+
   it("inserts new custom recipe and claims idempotency key", async () => {
     // 1. webhook_events INSERT claim
     mockExecuteQuery.mockResolvedValueOnce({

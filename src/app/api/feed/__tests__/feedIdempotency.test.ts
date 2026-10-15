@@ -95,6 +95,17 @@ describe("POST /api/feed idempotency", () => {
     process.env.INTERNAL_API_SECRET = originalSecret;
   });
 
+  it.each([
+    { eventType: "recipe_adapted", metadataPayload: { versionId: "unsaved-version" } },
+    { eventType: "recipe_generation", metadataPayload: { source: "saved-adaptation" } },
+    { eventType: "insight", metadataPayload: { kind: "saved-adaptation" } },
+  ])("rejects unsaved adaptation claims before claiming or publishing %#", async event => {
+    const result = await POST(makeFeedRequest({ agentEmail: "sol@agentic.alchm.kitchen", ...event }, "forged-adaptation"));
+    expect(result.status).toBe(400);
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
+    expect(mockCreateEvent).not.toHaveBeenCalled();
+  });
+
   it("claims a first feed event delivery via webhook_events and creates the event", async () => {
     // 1. webhook_events INSERT claim
     mockExecuteQuery.mockResolvedValueOnce({
