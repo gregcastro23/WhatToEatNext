@@ -6,11 +6,14 @@
 
 import { evaluateStepTemperature } from "@/data/cooking/foodSafety";
 import { METHOD_PHYSICS } from "@/data/cooking/methodPhysics";
-import type { CosmicRecipe } from "@/data/featuredRecipe";
 import {
   findStepProteinTargets,
   parseStepTemperatures,
 } from "./recipeGateHelpers";
+import type {
+  RecipeContentIngredient,
+  RecipeContentStep,
+} from "./recipeGateTypes";
 
 export interface StepGateFinding {
   code: string;
@@ -28,7 +31,7 @@ interface StepThermalContext {
 function detectStepContext(
   instructionLower: string,
   rawMethod: string,
-  ingredients: CosmicRecipe["ingredients"],
+  ingredients: RecipeContentIngredient[],
 ): StepThermalContext {
   const isCoolingOrChilling =
     /\b(chill|chilled|chilling|cooling|cool\s+down|cool\s+to|refrigerat\w*|ice\s+bath|freeze|freezer)\b/i.test(
@@ -88,7 +91,7 @@ function checkStepThermalSafety(
   stepNumber: number,
   idx: number,
   instruction: string,
-  ingredients: CosmicRecipe["ingredients"],
+  ingredients: RecipeContentIngredient[],
   blockingFindings: StepGateFinding[],
   advisoryFindings: StepGateFinding[],
 ): void {
@@ -152,26 +155,30 @@ function checkStepThermalSafety(
 }
 
 export function validateSingleStep(
-  step: CosmicRecipe["steps"][number],
+  step: RecipeContentStep,
   idx: number,
-  ingredients: CosmicRecipe["ingredients"],
+  ingredients: RecipeContentIngredient[],
   blockingFindings: StepGateFinding[],
   advisoryFindings: StepGateFinding[],
 ): void {
-  const rawMethod = step.cooking_method
-    .trim()
-    .toLowerCase()
-    .replace(/[\s-]+/g, "_");
-  checkCookingMethodProfile(
-    rawMethod,
-    step.cooking_method,
-    step.step_number,
-    idx,
-    advisoryFindings,
-  );
+  const stepNumber = step.step_number ?? idx + 1;
+  const rawMethod =
+    step.cooking_method
+      ?.trim()
+      .toLowerCase()
+      .replace(/[\s-]+/g, "_") ?? "";
+  if (step.cooking_method !== undefined) {
+    checkCookingMethodProfile(
+      rawMethod,
+      step.cooking_method,
+      stepNumber,
+      idx,
+      advisoryFindings,
+    );
+  }
   checkStepThermalSafety(
     rawMethod,
-    step.step_number,
+    stepNumber,
     idx,
     step.instruction,
     ingredients,
@@ -179,10 +186,10 @@ export function validateSingleStep(
     advisoryFindings,
   );
 
-  if (step.time_minutes < 0) {
+  if (step.time_minutes !== undefined && step.time_minutes < 0) {
     blockingFindings.push({
       code: "IMPLAUSIBLE_STEP_TIME",
-      message: `Step ${step.step_number} has impossible negative time duration (${step.time_minutes} minutes).`,
+      message: `Step ${stepNumber} has impossible negative time duration (${step.time_minutes} minutes).`,
       path: `steps.${idx}.time_minutes`,
       severity: "blocking",
     });

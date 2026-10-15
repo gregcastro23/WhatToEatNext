@@ -4,11 +4,11 @@
  * @file src/lib/cooking/recipeGateHelpers.ts
  */
 
-import type { CosmicRecipe } from "@/data/featuredRecipe";
 import { countToMass } from "@/lib/cooking/countToMass";
 import { MEASURE_ML, volumeToMass } from "@/lib/cooking/volumetrics";
 import type { CatalogIngredient } from "@/lib/ingredients/ingredientCatalog";
 import { tryResolveFromCatalog } from "./recipeGateResolver";
+import type { RecipeContentIngredient } from "./recipeGateTypes";
 
 export const UNIT_CANONICAL_MAP: Record<string, string> = {
   tablespoon: "tbsp",
@@ -122,7 +122,7 @@ export function isKnownGlutenSource(ingredientName: string): boolean {
 }
 
 export interface ResolvedIngredientResult {
-  ingredient: CosmicRecipe["ingredients"][number];
+  ingredient: RecipeContentIngredient;
   entry: CatalogIngredient | null;
   gramWeight: number;
 }
@@ -146,9 +146,10 @@ export function computeGramWeight(
   return count?.grams ?? qty * 50;
 }
 
-export function resolveSingleIngredient(
-  ing: CosmicRecipe["ingredients"][number],
-): { entry: CatalogIngredient | null; gramWeight: number } {
+export function resolveSingleIngredient(ing: RecipeContentIngredient): {
+  entry: CatalogIngredient | null;
+  gramWeight: number;
+} {
   const entry = tryResolveFromCatalog(ing.name);
   const qty = parseFractionalQuantity(ing.quantity);
   const gramWeight = computeGramWeight(ing.name, qty, ing.unit);
@@ -327,7 +328,7 @@ export interface FindProteinTargetOptions {
 
 export function findStepProteinTargets(
   instructionLower: string,
-  ingredients: CosmicRecipe["ingredients"],
+  ingredients: RecipeContentIngredient[],
   options?: FindProteinTargetOptions,
 ): string[] {
   const mentions = (text: string, word: string): boolean =>
@@ -364,7 +365,7 @@ export function findStepProteinTargets(
 
 export function findStepProteinTarget(
   instructionLower: string,
-  ingredients: CosmicRecipe["ingredients"],
+  ingredients: RecipeContentIngredient[],
 ): string | undefined {
   const all = findStepProteinTargets(instructionLower, ingredients);
   return all[0];
