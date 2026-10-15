@@ -11,6 +11,7 @@
 import assert from "node:assert/strict";
 import pg from "pg";
 import { creditTokensSql } from "../src/services/tokenEconomyQueries.ts";
+import { requireCosmicRefundTestDatabaseUrl } from "./lib/cosmicRefundTestDatabase.ts";
 
 const USER_ID = "00000000-0000-0000-0000-000000000001";
 const DEBIT_GROUP = "11111111-1111-1111-1111-111111111111";
@@ -47,7 +48,7 @@ export async function checkCosmicRefundSql(client) {
   `);
 
   const isolation = await client.query(`
-    SELECT bool_and(relnamespace = pg_my_temp_schema()) AS isolated
+    SELECT count(*)::int AS count, bool_and(relnamespace = pg_my_temp_schema()) AS isolated
     FROM pg_class
     WHERE oid IN (
       to_regclass('users'),
@@ -55,6 +56,7 @@ export async function checkCosmicRefundSql(client) {
       to_regclass('token_transactions')
     )
   `);
+  assert.equal(isolation.rows[0].count, 3, "All three fixture relations must resolve");
   assert.equal(isolation.rows[0].isolated, true, "All fixture names must resolve to temporary tables");
 
   const countTx = async () =>
@@ -208,9 +210,8 @@ export async function checkCosmicRefundSql(client) {
 }
 
 if (import.meta.main) {
-  const url = process.env.DATABASE_PUBLIC_URL || process.env.DATABASE_URL;
-  if (!url) throw new Error("Cosmic refund SQL checks require DATABASE_PUBLIC_URL / DATABASE_URL");
-  const client = new pg.Client({ connectionString: url, ssl: { rejectUnauthorized: false } });
+  const url = requireCosmicRefundTestDatabaseUrl(process.env.COSMIC_REFUND_TEST_DATABASE_URL);
+  const client = new pg.Client({ connectionString: url, ssl: false });
   await client.connect();
   try {
     await checkCosmicRefundSql(client);
