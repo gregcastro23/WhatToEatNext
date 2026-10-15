@@ -16,83 +16,27 @@
  * @file src/services/asolContractProbeService.ts
  */
 
-import { z } from "zod";
+import {
+  rosterResponseSchema,
+  syncStatusResponseSchema,
+  vesselResponseSchema,
+  checkSharedResponseSchema,
+  readReceiverResponse,
+  receiverReport,
+  unreachableReceiverReport,
+  type EndpointProbeResult,
+  type NegativeControlsResult,
+  type AsolContractProbeReport,
+  type ProbeOptions,
+} from "./asolReceiverProbeContracts";
 
-export type ProbeVerdict = "healthy" | "degraded" | "unreachable";
-
-export interface EndpointProbeResult {
-  passed: boolean;
-  status: number;
-  message?: string;
-}
-
-export interface NegativeControlsResult {
-  passed: boolean;
-  allRejectedWith401: boolean;
-  statuses: Record<string, number>;
-}
-
-export interface AsolContractProbeReport {
-  success: boolean;
-  verdict: ProbeVerdict;
-  vantage: "wten-internal-receiver";
-  destination: string;
-  timeoutMs: number;
-  timestamp: string;
-  checks: {
-    agentRosterAuth: EndpointProbeResult;
-    syncStatusAuth: EndpointProbeResult;
-    vesselAuth: EndpointProbeResult;
-    checkSharedAuth: EndpointProbeResult;
-    negativeControls: NegativeControlsResult;
-  };
-}
-
-export interface ProbeOptions {
-  baseUrl?: string;
-  internalSecret?: string;
-  syncSecret?: string;
-  timeoutMs?: number;
-  fetchFn?: typeof fetch;
-}
-
-// Validate the receiver fields used to establish each diagnostic claim.
-const rosterResponseSchema = z
-  .object({
-    schemaVersion: z.literal(1),
-    count: z.number().int().nonnegative(),
-    agents: z.array(
-      z.object({ id: z.string().min(1), email: z.string().min(1) }),
-    ),
-  })
-  .refine((value) => value.count === value.agents.length);
-
-const syncStatusResponseSchema = z.object({
-  ok: z.literal(true),
-  idempotencyKey: z.string(),
-  applied: z.boolean(),
-});
-
-const vesselResponseSchema = z.object({
-  success: z.literal(true),
-  version: z.literal(1),
-  balances: z.object({
-    spirit: z.number().finite(),
-    essence: z.number().finite(),
-    matter: z.number().finite(),
-    substance: z.number().finite(),
-  }),
-});
-
-const userNotFoundSchema = z.object({
-  success: z.literal(false),
-  error: z.literal("user_not_found"),
-});
-
-const checkSharedResponseSchema = z.object({
-  success: z.literal(true),
-  sharedEmails: z.array(z.string()),
-});
+export type {
+  EndpointProbeResult,
+  NegativeControlsResult,
+  AsolContractProbeReport,
+  ProbeOptions,
+  ProbeVerdict,
+} from "./asolReceiverProbeContracts";
 
 export class AsolContractProbeService {
   public static readonly VANTAGE = "wten-internal-receiver" as const;
@@ -158,39 +102,27 @@ export class AsolContractProbeService {
   }
 
   private async probeEndpoint(
-    url: string,
+    path: string,
     init: RequestInit,
     schemaName: string,
     validateSchema: (json: unknown) => boolean,
-    fetchFn?: typeof fetch,
     options?: ProbeOptions,
   ): Promise<EndpointProbeResult> {
     try {
-      const res = await (fetchFn ?? fetch)(url, {
-        ...init,
-        signal: this.getTimeoutSignal(options),
-        redirect: "error",
-      });
-      if (res.status === 200) {
-        const valid = validateSchema(await res.json());
-        return {
-          passed: valid,
-          status: 200,
-          ...(valid
-            ? {}
-            : { message: `Invalid ${schemaName} schema response` }),
-        };
-      }
-      return {
-        passed: false,
-        status: res.status,
-        message: `Expected 200, got ${res.status}`,
-      };
-    } catch (err) {
+      const response = await (options?.fetchFn ?? fetch)(
+        this.resolveUrl(path, options),
+        {
+          ...init,
+          signal: this.getTimeoutSignal(options),
+          redirect: "error",
+        },
+      );
+      return await readReceiverResponse(response, schemaName, validateSchema);
+    } catch (error) {
       return {
         passed: false,
         status: 0,
-        message: err instanceof Error ? err.message : String(err),
+        message: error instanceof Error ? error.message : String(error),
       };
     }
   }
@@ -199,19 +131,8 @@ export class AsolContractProbeService {
     secret: string,
     options?: ProbeOptions,
   ): Promise<EndpointProbeResult> {
-    let url: string;
-    try {
-      url = this.resolveUrl("/api/internal/agent-roster", options);
-    } catch (err) {
-      return {
-        passed: false,
-        status: 0,
-        message: err instanceof Error ? err.message : String(err),
-      };
-    }
-
     return this.probeEndpoint(
-      url,
+      "/api/internal/agent-roster",
       {
         method: "GET",
         headers: {
@@ -221,7 +142,6 @@ export class AsolContractProbeService {
       },
       "roster",
       (json) => rosterResponseSchema.safeParse(json).success,
-      options?.fetchFn,
       options,
     );
   }
@@ -231,20 +151,8 @@ export class AsolContractProbeService {
     idempotencyKey = "probe-test-key",
     options?: ProbeOptions,
   ): Promise<EndpointProbeResult> {
-    let url: string;
-    try {
-      const path = `/api/economy/sync-status?idempotencyKey=${encodeURIComponent(idempotencyKey)}`;
-      url = this.resolveUrl(path, options);
-    } catch (err) {
-      return {
-        passed: false,
-        status: 0,
-        message: err instanceof Error ? err.message : String(err),
-      };
-    }
-
     return this.probeEndpoint(
-      url,
+      `/api/economy/sync-status?idempotencyKey=${encodeURIComponent(idempotencyKey)}`,
       {
         method: "GET",
         headers: { "X-Sync-Secret": secret, Accept: "application/json" },
@@ -254,7 +162,6 @@ export class AsolContractProbeService {
         const parsed = syncStatusResponseSchema.safeParse(json);
         return parsed.success && parsed.data.idempotencyKey === idempotencyKey;
       },
-      options?.fetchFn,
       options,
     );
   }
@@ -264,76 +171,16 @@ export class AsolContractProbeService {
     email = "probe@alchm.kitchen",
     options?: ProbeOptions,
   ): Promise<EndpointProbeResult> {
-    const fetchImpl = options?.fetchFn ?? fetch;
-    let url: string;
-    try {
-      url = this.resolveUrl(
-        `/api/economy/vessel?email=${encodeURIComponent(email)}`,
-        options,
-      );
-    } catch (err) {
-      return {
-        passed: false,
-        status: 0,
-        message: err instanceof Error ? err.message : String(err),
-      };
-    }
-
-    try {
-      const res = await fetchImpl(url, {
+    return this.probeEndpoint(
+      `/api/economy/vessel?email=${encodeURIComponent(email)}`,
+      {
         method: "GET",
         headers: { "X-Sync-Secret": secret, Accept: "application/json" },
-        signal: this.getTimeoutSignal(options),
-        redirect: "error",
-      });
-
-      if (res.status === 200) {
-        const valid = vesselResponseSchema.safeParse(await res.json()).success;
-        return {
-          passed: valid,
-          status: 200,
-          ...(valid ? {} : { message: "Invalid vessel schema response" }),
-        };
-      }
-
-      // A recognized missing user proves route/auth handling, not a readable vessel.
-      // Keep the overall probe degraded until a configured fixture ledger is read.
-      if (res.status === 404) {
-        try {
-          const isUserNotFound = userNotFoundSchema.safeParse(
-            await res.json(),
-          ).success;
-          if (isUserNotFound) {
-            return {
-              passed: false,
-              status: 404,
-              message:
-                "Authenticated, but probe user is missing; vessel ledger unverified",
-            };
-          }
-        } catch {
-          // not json
-        }
-        return {
-          passed: false,
-          status: 404,
-          message:
-            "Unexpected vessel 404: route missing or invalid error payload",
-        };
-      }
-
-      return {
-        passed: false,
-        status: res.status,
-        message: `Expected a readable vessel (200), got ${res.status}`,
-      };
-    } catch (err) {
-      return {
-        passed: false,
-        status: 0,
-        message: err instanceof Error ? err.message : String(err),
-      };
-    }
+      },
+      "vessel",
+      (json) => vesselResponseSchema.safeParse(json).success,
+      options,
+    );
   }
 
   public async probeCheckShared(
@@ -341,19 +188,8 @@ export class AsolContractProbeService {
     emails: string[] = ["probe@alchm.kitchen"],
     options?: ProbeOptions,
   ): Promise<EndpointProbeResult> {
-    let url: string;
-    try {
-      url = this.resolveUrl("/api/internal/users/check-shared", options);
-    } catch (err) {
-      return {
-        passed: false,
-        status: 0,
-        message: err instanceof Error ? err.message : String(err),
-      };
-    }
-
     return this.probeEndpoint(
-      url,
+      "/api/internal/users/check-shared",
       {
         method: "POST",
         headers: {
@@ -365,7 +201,6 @@ export class AsolContractProbeService {
       },
       "check-shared",
       (json) => checkSharedResponseSchema.safeParse(json).success,
-      options?.fetchFn,
       options,
     );
   }
@@ -373,111 +208,72 @@ export class AsolContractProbeService {
   public async runNegativeControls(
     options?: ProbeOptions,
   ): Promise<NegativeControlsResult> {
-    const fetchImpl = options?.fetchFn ?? fetch;
-    const statuses: Record<string, number> = {};
-    const signal = this.getTimeoutSignal(options);
-
     try {
-      const rosterUrl = this.resolveUrl("/api/internal/agent-roster", options);
-      const syncUrl = this.resolveUrl(
-        "/api/economy/sync-status?idempotencyKey=unauthed",
-        options,
-      );
-      const vesselUrl = this.resolveUrl(
-        "/api/economy/vessel?email=unauthed@alchm.kitchen",
-        options,
-      );
-      const sharedUrl = this.resolveUrl(
-        "/api/internal/users/check-shared",
-        options,
-      );
-
-      const [resRoster, resSync, resVessel, resShared] = await Promise.all([
-        fetchImpl(rosterUrl, { method: "GET", signal, redirect: "error" }),
-        fetchImpl(syncUrl, { method: "GET", signal, redirect: "error" }),
-        fetchImpl(vesselUrl, { method: "GET", signal, redirect: "error" }),
-        fetchImpl(sharedUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ emails: ["unauthed@alchm.kitchen"] }),
-          signal,
-          redirect: "error",
+      const fetchImpl = options?.fetchFn ?? fetch;
+      const signal = this.getTimeoutSignal(options);
+      const endpoints = [
+        { key: "agent-roster", path: "/api/internal/agent-roster" },
+        {
+          key: "sync-status",
+          path: "/api/economy/sync-status?idempotencyKey=unauthed",
+        },
+        {
+          key: "vessel",
+          path: "/api/economy/vessel?email=unauthed@alchm.kitchen",
+        },
+        { key: "check-shared", path: "/api/internal/users/check-shared" },
+      ];
+      const entries = await Promise.all(
+        endpoints.map(async ({ key, path }): Promise<[string, number]> => {
+          const init: RequestInit = {
+            method: "GET",
+            signal,
+            redirect: "error",
+          };
+          if (key === "check-shared") {
+            init.method = "POST";
+            init.headers = { "Content-Type": "application/json" };
+            init.body = JSON.stringify({ emails: ["unauthed@alchm.kitchen"] });
+          }
+          return [
+            key,
+            (await fetchImpl(this.resolveUrl(path, options), init)).status,
+          ];
         }),
-      ]);
-
-      statuses["agent-roster"] = resRoster.status;
-      statuses["sync-status"] = resSync.status;
-      statuses["vessel"] = resVessel.status;
-      statuses["check-shared"] = resShared.status;
-
-      const allRejectedWith401 =
-        resRoster.status === 401 &&
-        resSync.status === 401 &&
-        resVessel.status === 401 &&
-        resShared.status === 401;
-
+      );
+      const statuses = Object.fromEntries(entries);
+      const allRejectedWith401 = entries.every(([, status]) => status === 401);
       return { passed: allRejectedWith401, allRejectedWith401, statuses };
     } catch {
-      return { passed: false, allRejectedWith401: false, statuses };
+      return { passed: false, allRejectedWith401: false, statuses: {} };
     }
   }
 
   public async executeProbe(
     options?: ProbeOptions,
   ): Promise<AsolContractProbeReport> {
-    let destError: Error | null = null;
-    let resolvedOrigin = "unknown";
-    try {
-      resolvedOrigin = this.resolveDestination(options);
-    } catch (err) {
-      destError = err instanceof Error ? err : new Error(String(err));
-    }
-
-    if (destError !== null) {
-      return {
-        success: false,
-        verdict: "unreachable",
-        vantage: AsolContractProbeService.VANTAGE,
-        destination: "untrusted",
-        timeoutMs:
-          options?.timeoutMs ?? AsolContractProbeService.DEFAULT_TIMEOUT_MS,
-        timestamp: new Date().toISOString(),
-        checks: {
-          agentRosterAuth: {
-            passed: false,
-            status: 0,
-            message: destError.message,
-          },
-          syncStatusAuth: {
-            passed: false,
-            status: 0,
-            message: destError.message,
-          },
-          vesselAuth: { passed: false, status: 0, message: destError.message },
-          checkSharedAuth: {
-            passed: false,
-            status: 0,
-            message: destError.message,
-          },
-          negativeControls: {
-            passed: false,
-            allRejectedWith401: false,
-            statuses: {},
-          },
-        },
-      };
-    }
-
-    const destination = resolvedOrigin;
-
     const timeoutMs =
       options?.timeoutMs ?? AsolContractProbeService.DEFAULT_TIMEOUT_MS;
+    let destination: string;
+    try {
+      destination = this.resolveDestination(options);
+    } catch (error) {
+      return unreachableReceiverReport(
+        error instanceof Error ? error.message : String(error),
+        timeoutMs,
+      );
+    }
     const internalSecret =
       options?.internalSecret ?? process.env.INTERNAL_API_SECRET ?? "";
     const syncSecret =
       options?.syncSecret ?? process.env.ALCHM_KITCHEN_SYNC_SECRET ?? "";
-
-    const [roster, sync, vessel, shared, negative] = await Promise.all([
+    const [
+      agentRosterAuth,
+      syncStatusAuth,
+      vesselAuth,
+      checkSharedAuth,
+      negativeControls,
+    ] = await Promise.all([
       this.probeAgentRoster(internalSecret, options),
       this.probeSyncStatus(syncSecret, "probe-test-key", options),
       this.probeVessel(
@@ -488,32 +284,13 @@ export class AsolContractProbeService {
       this.probeCheckShared(syncSecret, ["probe@alchm.kitchen"], options),
       this.runNegativeControls(options),
     ]);
-
-    const allChecks = [roster, sync, vessel, shared];
-    const allUnreachable = allChecks.every((c) => c.status === 0);
-    const allPassed = allChecks.every((c) => c.passed) && negative.passed;
-
-    const verdict: ProbeVerdict = allPassed
-      ? "healthy"
-      : allUnreachable
-        ? "unreachable"
-        : "degraded";
-
-    return {
-      success: verdict === "healthy",
-      verdict,
-      vantage: AsolContractProbeService.VANTAGE,
-      destination,
-      timeoutMs,
-      timestamp: new Date().toISOString(),
-      checks: {
-        agentRosterAuth: roster,
-        syncStatusAuth: sync,
-        vesselAuth: vessel,
-        checkSharedAuth: shared,
-        negativeControls: negative,
-      },
-    };
+    return receiverReport(destination, timeoutMs, {
+      agentRosterAuth,
+      syncStatusAuth,
+      vesselAuth,
+      checkSharedAuth,
+      negativeControls,
+    });
   }
 }
 

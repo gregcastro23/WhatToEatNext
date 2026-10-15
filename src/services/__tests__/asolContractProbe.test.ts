@@ -22,6 +22,12 @@ function jsonResponse(data: unknown, status = 200): Response {
 }
 
 describe("AsolContractProbeService (B5)", () => {
+  it("keeps unreadable HTTP 200 responses distinct from unreachable transport", async () => {
+    const fetchFn = jest.fn().mockImplementation(async () => new Response("<html>not json</html>"));
+    const report = await new AsolContractProbeService().executeProbe({ fetchFn });
+    expect(report.verdict).toBe("degraded");
+    expect(report.checks.vesselAuth).toMatchObject({ passed: false, status: 200 });
+  });
   it.each([
     "https://another-project.vercel.app",
     "http://trusted-project.vercel.app",
