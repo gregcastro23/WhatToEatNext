@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
+import { uncoveredPentacleRefund } from "@/lib/economy/pentacleRefundGuard";
 import { safeEqual } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
@@ -225,6 +226,19 @@ async function handlePost(req: NextRequest) {
       { tokenType: "Matter" as const, amount: Math.max(0, Number(amounts.matter) || 0) },
       { tokenType: "Substance" as const, amount: Math.max(0, Number(amounts.substance) || 0) },
     ].filter(c => c.amount > 0);
+
+    // 4b. A Pentacles conversion refund returns ESMS that sync-debit took for
+    // the same quote. It may return no more than that debit, axis by axis, or
+    // it would mint.
+    if (resolvedSource === "pentacle_conversion_refund") {
+      const uncovered = await uncoveredPentacleRefund(userId, idempotencyKey, credits);
+      if (uncovered !== null) {
+        return NextResponse.json(
+          { ok: false, reason: "no_matching_debit", message: uncovered },
+          { status: 422 },
+        );
+      }
+    }
 
     // 5. Apply credits. `resolvedSource` (not a third copy of the `source ||
     // "agents_yield"` fallback) — the value that was GUARDED above must be the

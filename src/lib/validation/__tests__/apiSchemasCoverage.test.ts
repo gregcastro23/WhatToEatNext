@@ -230,14 +230,15 @@ describe("leaf and enum schemas", () => {
     expect(schemas.SyncTokenAmountsSchema.safeParse({ spirit: "3" }).success).toBe(true);
   });
 
-  it("TransactionSourceTypeSchema pins the canonical 23-member source set", () => {
+  it("TransactionSourceTypeSchema pins the canonical 25-member source set", () => {
     // The PA -> alchm sync-credit bridge sends `source`. Before this schema the
     // field was never validated, so an unlisted value passed straight through
     // to the DB; now it 400s. Pin the membership so drift is visible here
     // rather than as a cross-repo outage. (It was not enough on its own: the
     // agents app's Jing Arena `duel_yield` was 400'd for its whole life, 0 rows
     // in prod on 2026-09-28, because nothing compared this set to the sources
-    // the agents app actually sends.)
+    // the agents app actually sends. Its pentacle conversions were refused the
+    // same way until 2026-09-29; `yield_claim` stays out by owner ruling.)
     expect(schemas.TransactionSourceTypeSchema.options.slice().sort()).toEqual(
       [
         "admin",
@@ -252,6 +253,8 @@ describe("leaf and enum schemas", () => {
         "mint_refund",
         "onchain_claim",
         "onchain_claim_refund",
+        "pentacle_conversion",
+        "pentacle_conversion_refund",
         "practice_reward",
         "premium_purchase",
         "purchase",
