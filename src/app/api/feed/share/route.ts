@@ -106,11 +106,6 @@ export async function POST(request: NextRequest) {
         photoUrl,
         tableKey: table?.isOpen ? table.key : null,
       };
-    } else {
-      return NextResponse.json(
-        { success: false, message: `Invalid shareType: ${shareType}` },
-        { status: 400 }
-      );
     }
 
     // Build metadata payload. Identity is stamped by createEvent (v2 stamp +
