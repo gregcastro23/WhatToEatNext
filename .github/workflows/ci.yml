@@ -49,7 +49,7 @@ jobs:
             fetch-depth: 1
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: ${{ matrix.fetch-depth }}
       - name: Setup safe directory
@@ -58,7 +58,7 @@ jobs:
         uses: oven-sh/setup-bun@v2
       - name: Cache Next.js build
         if: matrix.cache-build == true
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ${{ github.workspace }}/.next/cache
           key: ${{ runner.os }}-next-cache-${{ hashFiles('bun.lockb', 'bun.lock') }}-${{ github.sha }}
@@ -85,7 +85,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
       - name: Setup Bun
@@ -119,7 +119,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 1
       # rust-toolchain.toml is the single source of truth for the version, and
