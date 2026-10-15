@@ -9,6 +9,7 @@ import { METHOD_PHYSICS } from "@/data/cooking/methodPhysics";
 import {
   findStepProteinTargets,
   parseStepTemperatures,
+  type ParsedStepTemperature,
 } from "./recipeGateHelpers";
 import type {
   RecipeContentIngredient,
@@ -86,6 +87,42 @@ function checkCookingMethodProfile(
   }
 }
 
+function evaluateParsedStepTemperature(
+  parsed: ParsedStepTemperature,
+  rawMethod: string,
+  ingredients: RecipeContentIngredient[],
+  isSugarOrCandy: boolean,
+): ReturnType<typeof evaluateStepTemperature> {
+  let proteinTargets = findStepProteinTargets(parsed.clause, ingredients, {
+    fallbackToRecipeProteins: rawMethod === "sous_vide",
+  });
+  if (proteinTargets.length === 0) {
+    proteinTargets = findStepProteinTargets(
+      parsed.precedingClause,
+      ingredients,
+    );
+  }
+  const isInternal =
+    parsed.isInternalDoneness ||
+    (rawMethod === "sous_vide" && !parsed.isCoolingOrChilling);
+
+  const stepContext = {
+    isInternalDoneness: isInternal,
+    isCoolingOrChilling: parsed.isCoolingOrChilling,
+    isSugarOrCandy,
+    isOven: parsed.isOven,
+    isPressure: parsed.isPressure,
+    isLiquid: parsed.isLiquid,
+  };
+
+  return evaluateStepTemperature(
+    rawMethod,
+    parsed.temperatureF,
+    proteinTargets,
+    stepContext,
+  );
+}
+
 function checkStepThermalSafety(
   rawMethod: string,
   stepNumber: number,
@@ -104,33 +141,11 @@ function checkStepThermalSafety(
   );
 
   for (const parsed of parsedTemps) {
-    let proteinTargets = findStepProteinTargets(parsed.clause, ingredients, {
-      fallbackToRecipeProteins: rawMethod === "sous_vide",
-    });
-    if (proteinTargets.length === 0) {
-      proteinTargets = findStepProteinTargets(
-        parsed.precedingClause,
-        ingredients,
-      );
-    }
-    const isInternal =
-      parsed.isInternalDoneness ||
-      (rawMethod === "sous_vide" && !parsed.isCoolingOrChilling);
-
-    const stepContext = {
-      isInternalDoneness: isInternal,
-      isCoolingOrChilling: parsed.isCoolingOrChilling,
-      isSugarOrCandy: baseContext.isSugarOrCandy,
-      isOven: parsed.isOven,
-      isPressure: parsed.isPressure,
-      isLiquid: parsed.isLiquid,
-    };
-
-    const safetyVerdict = evaluateStepTemperature(
+    const safetyVerdict = evaluateParsedStepTemperature(
+      parsed,
       rawMethod,
-      parsed.temperatureF,
-      proteinTargets,
-      stepContext,
+      ingredients,
+      baseContext.isSugarOrCandy,
     );
 
     if (safetyVerdict.unevaluated) {

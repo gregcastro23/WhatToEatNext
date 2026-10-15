@@ -13,19 +13,16 @@
  */
 
 import type { CosmicRecipe } from "@/data/featuredRecipe";
-import { checkDisallowed, validateDietaryCompliance } from "./recipeGateDiet";
+import { validateDietaryCompliance } from "./recipeGateDiet";
 import {
-  normalizeUnit,
-  parseFractionalQuantity,
-  resolveSingleIngredient,
-  type ResolvedIngredientResult,
-} from "./recipeGateHelpers";
+  validateIngredients,
+  type IngredientValidationState,
+} from "./recipeGateIngredients";
 import { validateSingleStep } from "./recipeGateSteps";
 import type {
   GateFinding,
   GateAudit,
   RecipeContent,
-  RecipeContentIngredient,
   RecipeContentVerificationOutcome,
   RecipeVerificationOutcome,
   VerifyCosmicRecipeOptions,
@@ -36,101 +33,6 @@ export * from "./recipeGateDiet";
 export * from "./recipeGateHelpers";
 export * from "./recipeGateSteps";
 export type { CosmicRecipe } from "@/data/featuredRecipe";
-
-interface IngredientValidationState {
-  repaired: boolean;
-  totalEstimatedGrams: number;
-  unresolvedIngredients: string[];
-  resolvedCatalogEntries: ResolvedIngredientResult[];
-}
-
-function recordIngredientResolution(
-  ing: RecipeContentIngredient,
-  index: number,
-  entry: ResolvedIngredientResult["entry"],
-  state: IngredientValidationState,
-  blockingFindings: GateFinding[],
-  advisoryFindings: GateFinding[],
-): void {
-  if (entry) return;
-
-  state.unresolvedIngredients.push(ing.name);
-  if (!ing.optional && index === 0) {
-    blockingFindings.push({
-      code: "UNRESOLVED_PRIMARY_INGREDIENT",
-      message: `Primary ingredient "${ing.name}" could not be verified in the kitchen catalog.`,
-      path: `ingredients.${index}.name`,
-      severity: "blocking",
-    });
-  } else {
-    advisoryFindings.push({
-      code: "UNRESOLVED_CATALOG_INGREDIENT",
-      message: `Ingredient "${ing.name}" is not mapped in the local verified database.`,
-      path: `ingredients.${index}.name`,
-      severity: "advisory",
-    });
-  }
-}
-
-function validateSingleIngredient(
-  ing: RecipeContentIngredient,
-  index: number,
-  options: VerifyCosmicRecipeOptions | undefined,
-  blockingFindings: GateFinding[],
-  advisoryFindings: GateFinding[],
-  state: IngredientValidationState,
-): void {
-  const stdUnit = normalizeUnit(ing.unit);
-  if (stdUnit !== ing.unit) {
-    ing.unit = stdUnit;
-    state.repaired = true;
-  }
-
-  const qty = parseFractionalQuantity(ing.quantity);
-  if (qty <= 0) {
-    blockingFindings.push({
-      code: "IMPOSSIBLE_QUANTITY",
-      message: `Ingredient "${ing.name}" has invalid or non-positive quantity: "${ing.quantity}".`,
-      path: `ingredients.${index}.quantity`,
-      severity: "blocking",
-    });
-  }
-
-  const { entry, gramWeight } = resolveSingleIngredient(ing);
-  state.resolvedCatalogEntries.push({ ingredient: ing, entry, gramWeight });
-  state.totalEstimatedGrams += gramWeight;
-
-  recordIngredientResolution(
-    ing,
-    index,
-    entry,
-    state,
-    blockingFindings,
-    advisoryFindings,
-  );
-
-  if (gramWeight > 15000) {
-    blockingFindings.push({
-      code: "EXCESSIVE_QUANTITY",
-      message: `Quantity for "${ing.name}" (~${Math.round(gramWeight)}g) exceeds household batch limit (15 kg).`,
-      path: `ingredients.${index}.quantity`,
-      severity: "blocking",
-    });
-  }
-
-  if (
-    options?.disallowedIngredients &&
-    options.disallowedIngredients.length > 0
-  ) {
-    checkDisallowed(
-      ing.name,
-      index,
-      options.disallowedIngredients,
-      entry,
-      blockingFindings,
-    );
-  }
-}
 
 function validateNutritionalContent(
   calories: number,
@@ -170,6 +72,22 @@ function buildAudit(
   };
 }
 
+function validateContentSteps(
+  content: RecipeContent,
+  blockingFindings: GateFinding[],
+  advisoryFindings: GateFinding[],
+): void {
+  content.steps.forEach((step, idx) => {
+    validateSingleStep(
+      step,
+      idx,
+      content.ingredients,
+      blockingFindings,
+      advisoryFindings,
+    );
+  });
+}
+
 function evaluateContent(
   content: RecipeContent,
   options?: VerifyCosmicRecipeOptions,
@@ -177,23 +95,12 @@ function evaluateContent(
   const blockingFindings: GateFinding[] = [];
   const advisoryFindings: GateFinding[] = [];
 
-  const state: IngredientValidationState = {
-    repaired: false,
-    totalEstimatedGrams: 0,
-    unresolvedIngredients: [],
-    resolvedCatalogEntries: [],
-  };
-
-  content.ingredients.forEach((ing, index) => {
-    validateSingleIngredient(
-      ing,
-      index,
-      options,
-      blockingFindings,
-      advisoryFindings,
-      state,
-    );
-  });
+  const state = validateIngredients(
+    content.ingredients,
+    options,
+    blockingFindings,
+    advisoryFindings,
+  );
 
   const currentDietTags = (content.dietTags ?? []).map((d) => d.toLowerCase());
   const requestedDiet = options?.requestedDiet?.toLowerCase() ?? "";
@@ -205,15 +112,7 @@ function evaluateContent(
     advisoryFindings,
   );
 
-  content.steps.forEach((step, idx) => {
-    validateSingleStep(
-      step,
-      idx,
-      content.ingredients,
-      blockingFindings,
-      advisoryFindings,
-    );
-  });
+  validateContentSteps(content, blockingFindings, advisoryFindings);
 
   if (content.calories !== undefined) {
     validateNutritionalContent(content.calories, advisoryFindings);

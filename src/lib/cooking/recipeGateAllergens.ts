@@ -111,15 +111,17 @@ export function matchesDisallowedIngredient(
   return regex.test(lowerName);
 }
 
-export function checkDisallowed(
+interface IngredientAllergenContext {
+  lowerName: string;
+  detectedAllergens: Set<string>;
+  category: string | undefined;
+  subcategory: string | undefined;
+}
+
+function ingredientAllergenContext(
   name: string,
-  index: number,
-  disallowedList: string[],
   entry: ResolvedIngredientResult["entry"],
-  blockingFindings: GateFinding[],
-): void {
-  const lowerName = name.toLowerCase().trim();
-  const detectedAllergens = new Set<string>(allergensNamedBy([name]));
+): IngredientAllergenContext {
   const category = (
     entry?.source?.category ?? entry?.unified?.category
   )?.toLowerCase();
@@ -135,39 +137,62 @@ export function checkDisallowed(
     ...(category ? { category } : {}),
     ...(subcategory ? { subcategory } : {}),
   });
-  const allergenCategory =
-    category === "dairy" && classification.isVegan === "compliant"
-      ? undefined
-      : category;
+  return {
+    lowerName: name.toLowerCase().trim(),
+    detectedAllergens: new Set<string>(allergensNamedBy([name])),
+    category:
+      category === "dairy" && classification.isVegan === "compliant"
+        ? undefined
+        : category,
+    subcategory,
+  };
+}
 
+function disallowedFinding(
+  name: string,
+  index: number,
+  disallowed: string,
+  context: IngredientAllergenContext,
+): GateFinding | undefined {
+  const rawDisallowed = disallowed.trim().toLowerCase();
+  if (!rawDisallowed) return;
+
+  if (matchesDisallowedIngredient(context.lowerName, rawDisallowed)) {
+    return {
+      code: "DISALLOWED_INGREDIENT_FOUND",
+      message: `Recipe contains disallowed ingredient "${name}" matching restriction "${disallowed}".`,
+      path: `ingredients.${index}.name`,
+      severity: "blocking",
+    };
+  }
+
+  if (
+    matchesAllergenKey(
+      context.detectedAllergens,
+      rawDisallowed,
+      context.category,
+      context.subcategory,
+    )
+  ) {
+    return {
+      code: "DISALLOWED_ALLERGEN_FOUND",
+      message: `Recipe contains ingredient "${name}" classified under disallowed allergen category "${disallowed}".`,
+      path: `ingredients.${index}.name`,
+      severity: "blocking",
+    };
+  }
+}
+
+export function checkDisallowed(
+  name: string,
+  index: number,
+  disallowedList: string[],
+  entry: ResolvedIngredientResult["entry"],
+  blockingFindings: GateFinding[],
+): void {
+  const context = ingredientAllergenContext(name, entry);
   for (const disallowed of disallowedList) {
-    const rawDisallowed = disallowed.trim().toLowerCase();
-    if (!rawDisallowed) continue;
-
-    if (matchesDisallowedIngredient(lowerName, rawDisallowed)) {
-      blockingFindings.push({
-        code: "DISALLOWED_INGREDIENT_FOUND",
-        message: `Recipe contains disallowed ingredient "${name}" matching restriction "${disallowed}".`,
-        path: `ingredients.${index}.name`,
-        severity: "blocking",
-      });
-      continue;
-    }
-
-    if (
-      matchesAllergenKey(
-        detectedAllergens,
-        rawDisallowed,
-        allergenCategory,
-        subcategory,
-      )
-    ) {
-      blockingFindings.push({
-        code: "DISALLOWED_ALLERGEN_FOUND",
-        message: `Recipe contains ingredient "${name}" classified under disallowed allergen category "${disallowed}".`,
-        path: `ingredients.${index}.name`,
-        severity: "blocking",
-      });
-    }
+    const finding = disallowedFinding(name, index, disallowed, context);
+    if (finding) blockingFindings.push(finding);
   }
 }
