@@ -68,11 +68,39 @@ function handleCreditFailure(
   };
 }
 
-function refundReference(spend: SpendRecord) {
+function refundReference(spend: SpendRecord): NonNullable<CosmicRefundOutcome["refundReference"]> {
   return {
     debitTransactionGroupId: spend.groupId,
     idempotencyKey: `cosmic_recipe_refund:${spend.groupId}`,
   };
+}
+
+function interpretCreditOutcome(spend: SpendRecord, outcome: CreditResult): CosmicRefundOutcome {
+  const requested = buildRefundCredits(spend.refund).filter(({ amount }) => amount > 0).length;
+  if (
+    (outcome.status === "credited" &&
+    (outcome.requested !== requested || outcome.written !== requested)) ||
+    outcome.status === "already_applied"
+  ) {
+    return {
+    refunded: false,
+    refundStatus: "pending",
+    refundAmounts: spend.refund,
+    refundReference: refundReference(spend),
+    creditResult: outcome,
+    };
+  }
+  if (outcome.status === "credited" || outcome.status === "replayed") {
+    return {
+    refunded: true,
+    refundStatus: "confirmed",
+    refundAmounts: spend.refund,
+    refundReference: refundReference(spend),
+    creditResult: outcome,
+    };
+  }
+
+  return handleCreditFailure(spend, outcome);
 }
 
 /**
@@ -111,31 +139,7 @@ export async function settleCosmicRecipeRefund(
       },
     );
 
-    const requested = buildRefundCredits(spend.refund).filter(({ amount }) => amount > 0).length;
-    if (
-      (outcome.status === "credited" &&
-        (outcome.requested !== requested || outcome.written !== requested)) ||
-      outcome.status === "already_applied"
-    ) {
-      return {
-        refunded: false,
-        refundStatus: "pending",
-        refundAmounts: spend.refund,
-        refundReference: refundReference(spend),
-        creditResult: outcome,
-      };
-    }
-    if (outcome.status === "credited" || outcome.status === "replayed") {
-      return {
-        refunded: true,
-        refundStatus: "confirmed",
-        refundAmounts: spend.refund,
-        refundReference: refundReference(spend),
-        creditResult: outcome,
-      };
-    }
-
-    return handleCreditFailure(spend, outcome);
+    return interpretCreditOutcome(spend, outcome);
   } catch (error) {
     logger.error("[generate-cosmic-recipe] refund threw", error);
     return {
