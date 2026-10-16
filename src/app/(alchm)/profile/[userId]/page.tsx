@@ -202,6 +202,7 @@ export default function PublicProfilePage() {
             interactions={profile.agentInteractions ?? []}
             actions={profile.agentActions ?? []}
             artifacts={profile.agentArtifacts ?? []}
+            recentActivity={profile.recentActivity}
             userId={profile.userId}
             viewer={social.viewer}
           />

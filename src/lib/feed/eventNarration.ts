@@ -119,12 +119,29 @@ export function narrateFeedEvent(
 
     case "recipe_adapted": {
       const original = getString(metadata, "recipeName");
+      const versionName = getString(metadata, "versionName");
       const versionId = getString(metadata, "versionId");
+      const versionPath = getString(metadata, "versionPath");
+      const href =
+        versionPath ??
+        (versionId
+          ? `/recipes/versions/${encodeURIComponent(versionId)}`
+          : undefined);
+      const displayLabel = versionName
+        ? `Adapted: ${versionName}`
+        : original
+          ? `Adapted: ${original}`
+          : "Saved adaptation";
+      const actionText = original
+        ? versionName
+          ? `adapted ${original} as ${versionName} and saved their version.`
+          : `adapted ${original} and saved their version.`
+        : "saved an adapted recipe version.";
       return {
         icon: "📝",
-        action: original ? `adapted ${original} and saved their version.` : "saved an adapted recipe version.",
-        label: original ? `Adapted: ${original}` : "Saved adaptation",
-        href: versionId ? `/recipes/versions/${encodeURIComponent(versionId)}` : undefined,
+        action: actionText,
+        label: displayLabel,
+        href,
       };
     }
 
@@ -135,7 +152,12 @@ export function narrateFeedEvent(
         getString(metadata, "dishName");
       const recipeId =
         getString(metadata, "recipeId") ?? getString(metadata, "recipe_id");
-      const rating = getNumber(metadata, "rating");
+      const isCatalogCritique =
+        getString(metadata, "source") === "catalog_critique";
+      // Catalog critiques and unrated agent reflections never carry cooking star ratings
+      const rating = !isCatalogCritique
+        ? getNumber(metadata, "rating")
+        : undefined;
       const reviewText =
         getString(metadata, "review") ??
         getString(metadata, "comment") ??
