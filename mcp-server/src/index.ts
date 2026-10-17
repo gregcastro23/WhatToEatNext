@@ -73,7 +73,7 @@ if (!hasExplicitBackend) {
 const server = new Server(
   {
     name: "alchm-mcp-server",
-    version: "1.1.2",
+    version: "1.2.0",
   },
   {
     capabilities: {
@@ -221,6 +221,135 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           },
         },
       },
+      {
+        name: "compute_triplicate_synastry",
+        description: `Evaluate celestial resonance and rebate bonus between two agents' natal charts and the current astronomical transit sky under the Triplicate Synastry Pricing Engine. Returns aspect closures, transit catalyst activations, beta resonance multiplier, and cooldown window key. ${META_DOC}`,
+        inputSchema: {
+          type: "object",
+          required: [
+            "makerId",
+            "takerId",
+            "makerNatal",
+            "takerNatal",
+            "giveToken",
+            "giveAmount",
+            "wantToken",
+            "wantAmount",
+          ],
+          properties: {
+            makerId: { type: "string", description: "Maker agent user ID" },
+            takerId: { type: "string", description: "Taker agent user ID" },
+            makerNatal: {
+              type: "object",
+              description: "Natal placements array or record for Maker agent",
+            },
+            takerNatal: {
+              type: "object",
+              description: "Natal placements array or record for Taker agent",
+            },
+            giveToken: {
+              type: "string",
+              enum: ["Spirit", "Essence", "Matter", "Substance"],
+              description: "Offered token axis",
+            },
+            giveAmount: {
+              type: "number",
+              description: "Offered token quantity (> 0)",
+            },
+            wantToken: {
+              type: "string",
+              enum: ["Spirit", "Essence", "Matter", "Substance"],
+              description: "Requested token axis",
+            },
+            wantAmount: {
+              type: "number",
+              description: "Requested token quantity (> 0)",
+            },
+            transitTime: {
+              type: "string",
+              description: "Optional ISO timestamp (default: now)",
+            },
+          },
+        },
+      },
+      {
+        name: "create_evidence_snapshot",
+        description: `Bundles live sky transits, ingredient scanning, and cosmic recipe candidates into a single JSON-RPC round-trip for external agent deliberation & EvidenceSnapshot caching. ${META_DOC}`,
+        inputSchema: {
+          type: "object",
+          properties: {
+            latitude: {
+              type: "number",
+              description: "Observer latitude (-90 to 90). Defaults to 40.7498 NYC",
+            },
+            longitude: {
+              type: "number",
+              description: "Observer longitude (-180 to 180). Defaults to -73.7976 NYC",
+            },
+            ingredients: {
+              type: "array",
+              items: { type: "string" },
+              description: "Optional pantry ingredients to alchemize",
+            },
+            prompt: {
+              type: "string",
+              description: "Flavor, intention, or recipe search prompt",
+            },
+            cuisine: {
+              type: "string",
+              description: "Target cuisine filter",
+            },
+            dietary: {
+              type: "array",
+              items: { type: "string" },
+              description: "Dietary restriction filters",
+            },
+            dominantElement: {
+              type: "string",
+              enum: ["Fire", "Water", "Earth", "Air"],
+              description: "Dominant cosmic element filter",
+            },
+          },
+        },
+      },
+      {
+        name: "submit_recipe_reflection",
+        description: `Enables external agents and Council deliberations to submit authentic culinary critiques and reflections into WTEN. Charges 0.4 ESMS (0.1 each axis) via _meta.apiKey, creates a recipe reflection record, mirrors to user_recipe_interactions, and publishes to feed_events. ${META_DOC}`,
+        inputSchema: {
+          type: "object",
+          required: ["recipeId", "reflection"],
+          properties: {
+            recipeId: {
+              type: "string",
+              description: "Target recipe UUID or identifier",
+            },
+            recipeName: {
+              type: "string",
+              description: "Optional human-readable recipe title",
+            },
+            reflection: {
+              type: "string",
+              description: "Culinary critique, pairing wisdom, or alchemical reflection text",
+            },
+            agentSlug: {
+              type: "string",
+              description: "Optional historical agent slug (e.g. 'leonardo-da-vinci')",
+            },
+            agentName: {
+              type: "string",
+              description: "Optional display name of historical agent persona",
+            },
+            dominantElement: {
+              type: "string",
+              description: "Optional elemental resonance (Fire, Water, Earth, Air, Spirit)",
+            },
+            source: {
+              type: "string",
+              description: "Provenance source identifier (default: 'mcp_reflection')",
+            },
+          },
+        },
+      },
     ],
   };
 });
@@ -265,7 +394,7 @@ async function main() {
   console.error("\n================ ALCHM.KITCHEN MCP SERVER STARTED ================");
   console.error("Engine: Bun v1.3.13 / Native TypeScript Support");
   console.error("Communication Protocol: Model Context Protocol (Stdio)");
-  console.error("Tools Loaded: get_live_sky_transits, alchemize_ingredients, generate_cosmic_recipe, compute_synastry_overlay, get_transit_natal_overlay");
+  console.error("Tools Loaded: get_live_sky_transits, alchemize_ingredients, generate_cosmic_recipe, compute_synastry_overlay, get_transit_natal_overlay, compute_triplicate_synastry, create_evidence_snapshot, submit_recipe_reflection");
   console.error(
     `Auth: ${process.env.MCP_USER_API_KEY ? "MCP_USER_API_KEY env" : "_meta.apiKey per call"}`,
   );

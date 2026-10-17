@@ -167,8 +167,13 @@ export const TOOL_COSTS: Record<
   { spirit: number; essence: number; matter: number; substance: number } | null
 > = {
   generate_cosmic_recipe: { spirit: 2.5, essence: 2.5, matter: 2.5, substance: 2.5 },
+  submit_recipe_reflection: { spirit: 0.1, essence: 0.1, matter: 0.1, substance: 0.1 },
   alchemize_ingredients: null,
   get_live_sky_transits: null,
+  compute_synastry_overlay: null,
+  get_transit_natal_overlay: null,
+  compute_triplicate_synastry: null,
+  create_evidence_snapshot: null,
 };
 
 export interface DebitOutcome {

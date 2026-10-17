@@ -241,53 +241,60 @@ class FeedDatabaseService {
           : null;
 
       try {
-        if (isAgentActor && stampedPayload.skipEconomyCharge !== true) {
-          const { agentEconomyActionService } = await import("./agentEconomyActionService");
-          const { RECIPE_REFLECTION_COST } = await import("@/types/economy");
+        const { recipeReflectionId: explicitReflectionId } = stampedPayload;
+        if (typeof explicitReflectionId === "string" && explicitReflectionId.length > 0) {
+          recipeReflectionId = explicitReflectionId;
+          recipeCommentStatus = "saved";
+          recipeCommentSaved = true;
+        } else {
+          if (isAgentActor && stampedPayload.skipEconomyCharge !== true) {
+            const { agentEconomyActionService } = await import("./agentEconomyActionService");
+            const { RECIPE_REFLECTION_COST } = await import("@/types/economy");
 
-          const debitRes = await agentEconomyActionService.debitActionInTx({
-            userId: actorId,
-            costs: RECIPE_REFLECTION_COST,
-            sourceType: "recipe_reflection",
-            sourceId: targetRecipeId,
-            description: `Recipe reflection on ${targetRecipeId}`,
-            idempotencyKey: deliveryId ? `reflection:${deliveryId}` : null,
-            autoSwap: stampedPayload.autoSwap !== false,
+            const debitRes = await agentEconomyActionService.debitActionInTx({
+              userId: actorId,
+              costs: RECIPE_REFLECTION_COST,
+              sourceType: "recipe_reflection",
+              sourceId: targetRecipeId,
+              description: `Recipe reflection on ${targetRecipeId}`,
+              idempotencyKey: deliveryId ? `reflection:${deliveryId}` : null,
+              autoSwap: stampedPayload.autoSwap !== false,
+              ...(client ? { client } : {}),
+            });
+
+            if (!debitRes.success) {
+              _logger.warn("[feed] agent has insufficient funds to post recipe reflection:", debitRes);
+              throw new Error(`Insufficient ESMS funds for recipe reflection: ${debitRes.reason}`);
+            }
+            reflectionEconomyReceipt = debitRes.receipt;
+          }
+
+          const { recipeReflectionsService } = await import("./recipeReflectionsService");
+          const reflection = await recipeReflectionsService.createReflection({
+            recipeId: targetRecipeId,
+            authorId: actorId,
+            ...(publicationId ? { publicationId } : {}),
+            ...(feedEventId ? { feedEventId } : {}),
+            ...(deliveryId ? { deliveryKey: deliveryId } : {}),
+            source: typeof stampedPayload.source === "string" ? stampedPayload.source : (isAgentActor ? "recipe_alteration" : "community_review"),
+            contentState: "proposed",
+            review: reviewText,
+            score: rawRating,
+            isAgent: isAgentActor,
+            instructionReviewRequired: stampedPayload.instructionReviewRequired !== false,
+            provenance: {
+              substitutions: Array.isArray(stampedPayload.substitutions) ? stampedPayload.substitutions : [],
+              recipePayload: stampedPayload.recipePayload,
+              unverifiedReadings: ["nutrition", "elemental", "esms", "planetary"],
+              ...(reflectionEconomyReceipt ? { economy: reflectionEconomyReceipt } : {}),
+            },
             ...(client ? { client } : {}),
           });
 
-          if (!debitRes.success) {
-            _logger.warn("[feed] agent has insufficient funds to post recipe reflection:", debitRes);
-            throw new Error(`Insufficient ESMS funds for recipe reflection: ${debitRes.reason}`);
-          }
-          reflectionEconomyReceipt = debitRes.receipt;
+          recipeReflectionId = reflection.id;
+          recipeCommentStatus = "saved";
+          recipeCommentSaved = true;
         }
-
-        const { recipeReflectionsService } = await import("./recipeReflectionsService");
-        const reflection = await recipeReflectionsService.createReflection({
-          recipeId: targetRecipeId,
-          authorId: actorId,
-          ...(publicationId ? { publicationId } : {}),
-          ...(feedEventId ? { feedEventId } : {}),
-          ...(deliveryId ? { deliveryKey: deliveryId } : {}),
-          source: typeof stampedPayload.source === "string" ? stampedPayload.source : (isAgentActor ? "recipe_alteration" : "community_review"),
-          contentState: "proposed",
-          review: reviewText,
-          score: rawRating,
-          isAgent: isAgentActor,
-          instructionReviewRequired: stampedPayload.instructionReviewRequired !== false,
-          provenance: {
-            substitutions: Array.isArray(stampedPayload.substitutions) ? stampedPayload.substitutions : [],
-            recipePayload: stampedPayload.recipePayload,
-            unverifiedReadings: ["nutrition", "elemental", "esms", "planetary"],
-            ...(reflectionEconomyReceipt ? { economy: reflectionEconomyReceipt } : {}),
-          },
-          ...(client ? { client } : {}),
-        });
-
-        recipeReflectionId = reflection.id;
-        recipeCommentStatus = "saved";
-        recipeCommentSaved = true;
       } catch (reflectionErr) {
         _logger.warn("[feed] failed to save recipe reflection record:", reflectionErr);
         recipeCommentStatus = "failed";

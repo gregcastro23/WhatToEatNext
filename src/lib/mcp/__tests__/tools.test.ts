@@ -91,14 +91,55 @@ jest.mock("@/services/RecipeService", () => ({
   },
 }));
 
+jest.mock("@/services/feedDatabaseService", () => ({
+  feedDatabase: {
+    createEvent: jest.fn().mockResolvedValue(true),
+  },
+}));
+
+jest.mock("@/lib/database/connection", () => ({
+  executeQuery: jest.fn().mockImplementation(async (sql: string) => {
+    if (sql.includes("recipe_reflections")) {
+      return {
+        rows: [
+          {
+            id: "reflection-123",
+            recipe_id: "recipe-cosmic-1",
+            author_id: "agent-123",
+            publication_id: null,
+            feed_event_id: null,
+            delivery_key: null,
+            source: "mcp_reflection",
+            content_state: "reviewed",
+            review: "reflection",
+            score: null,
+            is_agent: true,
+            instruction_review_required: true,
+            provenance: {},
+            created_at: "2026-10-17T12:00:00.000Z",
+            updated_at: "2026-10-17T12:00:00.000Z",
+            deleted_at: null,
+            hidden: false,
+          },
+        ],
+        rowCount: 1,
+      };
+    }
+    return {
+      rows: [{ id: "agent-123", name: "Leonardo da Vinci" }],
+      rowCount: 1,
+    };
+  }),
+}));
+
 jest.mock("@/lib/mcp/auth", () => ({
-  resolveCaller: jest.fn().mockResolvedValue({
-    userId: null,
+  resolveCaller: jest.fn().mockImplementation(async (args?: Record<string, unknown>) => ({
+    userId: typeof args?._meta === "object" && args?._meta !== null ? "user-456" : null,
     apiKeyId: null,
     caller: "test",
     isSynthetic: false,
     rateLimitTier: null,
-  }),
+  })),
   debitForTool: jest
     .fn()
     .mockResolvedValue({ applied: false, reason: "anonymous-caller", amounts: null }),
@@ -284,5 +325,127 @@ describe("invokeTool", () => {
     expect(result.errorMessage).toBe(
       "Failed to calculate natal chart. Please check birth data and try again. ← Astrologize API error: Unauthorized",
     );
+  });
+
+  it("compute_triplicate_synastry evaluates trine alignment with transit sky catalyst", async () => {
+    const result = await invokeTool("compute_triplicate_synastry", {
+      makerId: "maker-1",
+      takerId: "taker-1",
+      makerNatal: [
+        { planet: "Sun", sign: "Aries", degree: 15 },
+        { planet: "Mars", sign: "Leo", degree: 15 },
+      ],
+      takerNatal: [
+        { planet: "Moon", sign: "Sagittarius", degree: 15 },
+        { planet: "Venus", sign: "Aries", degree: 15 },
+      ],
+      giveToken: "Spirit",
+      giveAmount: 10,
+      wantToken: "Essence",
+      wantAmount: 10,
+      transitTime: "2026-10-17T12:00:00Z",
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.data).toBeDefined();
+    expect(result.data).toMatchObject({
+      qualifies: expect.any(Boolean),
+      windowKey: expect.stringMatching(/^triplicate_window:/),
+    });
+    expect(result.summary.qualifies).toBeDefined();
+  });
+
+  it("compute_triplicate_synastry rejects invalid token types", async () => {
+    const result = await invokeTool("compute_triplicate_synastry", {
+      makerId: "maker-1",
+      takerId: "taker-1",
+      makerNatal: {},
+      takerNatal: {},
+      giveToken: "InvalidToken",
+      giveAmount: 10,
+      wantToken: "Essence",
+      wantAmount: 10,
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.errorCode).toBe("INVALID_ARGS");
+    expect(result.errorMessage).toMatch(/Invalid 'giveToken'/);
+  });
+
+  it("create_evidence_snapshot bundles transits, ingredients, and recipes in parallel", async () => {
+    const result = await invokeTool("create_evidence_snapshot", {
+      latitude: 40.7128,
+      longitude: -74.006,
+      ingredients: ["tomato", "sage"],
+      prompt: "tomato",
+      cuisine: "Italian",
+      dominantElement: "Fire",
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.data).toMatchObject({
+      snapshotId: expect.any(String),
+      liveSky: expect.objectContaining({ dominantElement: "Fire" }),
+      alchemicalScan: expect.objectContaining({ ingredientCount: 2 }),
+      candidateRecipes: expect.objectContaining({ returnedCount: 1 }),
+      timestamp: expect.any(String),
+    });
+    expect(result.summary.hasAlchemicalScan).toBe(true);
+  });
+
+  it("submit_recipe_reflection persists reflection and mirrors to feed and interactions", async () => {
+    const result = await invokeTool("submit_recipe_reflection", {
+      recipeId: "recipe-cosmic-1",
+      recipeName: "Spicy Solar Broth",
+      reflection: "An exquisite balance of Fire and Earth, warming the humors.",
+      agentSlug: "leonardo-da-vinci",
+      agentName: "Leonardo da Vinci",
+      dominantElement: "Fire",
+      _meta: { apiKey: "test-key" },
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.data).toMatchObject({
+      recipeId: "recipe-cosmic-1",
+      authorId: "agent-123",
+      agentSlug: "leonardo-da-vinci",
+      agentName: "Leonardo da Vinci",
+      reflection: "An exquisite balance of Fire and Earth, warming the humors.",
+      published: true,
+    });
+    expect(result.summary.published).toBe(true);
+  });
+
+  it("submit_recipe_reflection returns INVALID_ARGS for missing recipeId or reflection", async () => {
+    const res1 = await invokeTool("submit_recipe_reflection", {
+      reflection: "Tasty dish",
+      _meta: { apiKey: "test-key" },
+    });
+    expect(res1.ok).toBe(false);
+    expect(res1.errorCode).toBe("INVALID_ARGS");
+
+    const res2 = await invokeTool("submit_recipe_reflection", {
+      recipeId: "r1",
+      reflection: "   ",
+      _meta: { apiKey: "test-key" },
+    });
+    expect(res2.ok).toBe(false);
+    expect(res2.errorCode).toBe("INVALID_ARGS");
+  });
+
+  it("submit_recipe_reflection returns QUOTA when balance is insufficient", async () => {
+    mockedDebit.mockResolvedValueOnce({
+      applied: false,
+      reason: "insufficient-spirit",
+      amounts: null,
+    });
+    const result = await invokeTool("submit_recipe_reflection", {
+      recipeId: "r1",
+      reflection: "Deep culinary critique.",
+      _meta: { apiKey: "low-balance-key" },
+    });
+    expect(result.ok).toBe(false);
+    expect(result.errorCode).toBe("QUOTA");
+    expect(result.errorMessage).toMatch(/insufficient-spirit/);
   });
 });

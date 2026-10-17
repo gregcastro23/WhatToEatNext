@@ -18,17 +18,35 @@
  * @file mcp-server/src/tools.ts
  */
 
+import { randomUUID } from "node:crypto";
+import { executeQuery } from "@/lib/database/connection";
+import { evaluateTriplicateSynastry } from "@/lib/economy/triplicatePricing";
 import { alchemicalService } from "@/services/AlchemicalService";
+import { feedDatabase } from "@/services/feedDatabaseService";
 import { ingredientService } from "@/services/IngredientService";
 import { calculateNatalChart } from "@/services/natalChartService";
+import { recipeReflectionsService } from "@/services/recipeReflectionsService";
 import { recipeService } from "@/services/RecipeService";
-import { debitForTool, resolveCaller, type DebitOutcome } from "./auth";
+import type { TokenType } from "@/types/economy";
+import { debitForTool, resolveCaller, type DebitOutcome, type ResolvedCaller } from "./auth";
 import { recordInvocation } from "./invocationLog";
 import { checkMcpRateLimit } from "./rateLimit";
 import {
   computeSynastryOverlay,
   getTransitNatalOverlay,
 } from "./synastryTools";
+
+function isRecord(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null && !Array.isArray(val);
+}
+
+function isTokenType(val: unknown): val is TokenType {
+  return val === "Spirit" || val === "Essence" || val === "Matter" || val === "Substance";
+}
+
+function isDominantElement(val: unknown): val is "Fire" | "Water" | "Earth" | "Air" {
+  return val === "Fire" || val === "Water" || val === "Earth" || val === "Air";
+}
 
 export interface ToolResult<T = unknown> {
   ok: boolean;
@@ -54,6 +72,38 @@ export interface CosmicRecipeArgs {
   cuisine?: string;
   dietary?: string[];
   dominantElement?: "Fire" | "Water" | "Earth" | "Air";
+}
+
+export interface TriplicateSynastryArgs {
+  makerId?: string;
+  takerId?: string;
+  makerNatal?: unknown;
+  takerNatal?: unknown;
+  giveToken?: string;
+  giveAmount?: number;
+  wantToken?: string;
+  wantAmount?: number;
+  transitTime?: string;
+}
+
+export interface EvidenceSnapshotArgs {
+  latitude?: number;
+  longitude?: number;
+  ingredients?: string[];
+  prompt?: string;
+  cuisine?: string;
+  dietary?: string[];
+  dominantElement?: "Fire" | "Water" | "Earth" | "Air";
+}
+
+export interface SubmitRecipeReflectionArgs {
+  recipeId?: string;
+  recipeName?: string;
+  reflection?: string;
+  agentSlug?: string;
+  agentName?: string;
+  dominantElement?: string;
+  source?: string;
 }
 
 /** Compute live planetary transits + elemental balance for a coordinate. */
@@ -298,6 +348,342 @@ export async function generateCosmicRecipe(
   };
 }
 
+/**
+ * Expose Triplicate Synastry evaluation over MCP.
+ * Evaluates natal A + natal B + transit sky harmonic resonance.
+ */
+function validateTriplicateArgs(args: TriplicateSynastryArgs): {
+  valid: true;
+  makerId: string;
+  takerId: string;
+  giveToken: TokenType;
+  wantToken: TokenType;
+  giveAmount: number;
+  wantAmount: number;
+} | {
+  valid: false;
+  errorMessage: string;
+  reason: string;
+} {
+  const { makerId, takerId, makerNatal, takerNatal, giveToken, giveAmount, wantToken, wantAmount } = args;
+
+  if (typeof makerId !== "string" || !makerId.trim()) {
+    return { valid: false, errorMessage: "Missing or invalid 'makerId' (must be a non-empty string)", reason: "invalid-makerId" };
+  }
+  if (typeof takerId !== "string" || !takerId.trim()) {
+    return { valid: false, errorMessage: "Missing or invalid 'takerId' (must be a non-empty string)", reason: "invalid-takerId" };
+  }
+  if (!isRecord(makerNatal) && !Array.isArray(makerNatal)) {
+    return { valid: false, errorMessage: "Missing or invalid 'makerNatal' (must be an object or array)", reason: "invalid-makerNatal" };
+  }
+  if (!isRecord(takerNatal) && !Array.isArray(takerNatal)) {
+    return { valid: false, errorMessage: "Missing or invalid 'takerNatal' (must be an object or array)", reason: "invalid-takerNatal" };
+  }
+  if (!isTokenType(giveToken)) {
+    return { valid: false, errorMessage: "Invalid 'giveToken' (must be 'Spirit', 'Essence', 'Matter', or 'Substance')", reason: "invalid-giveToken" };
+  }
+  if (typeof giveAmount !== "number" || !Number.isFinite(giveAmount) || giveAmount <= 0) {
+    return { valid: false, errorMessage: "Missing or invalid 'giveAmount' (must be a positive number)", reason: "invalid-giveAmount" };
+  }
+  if (!isTokenType(wantToken)) {
+    return { valid: false, errorMessage: "Invalid 'wantToken' (must be 'Spirit', 'Essence', 'Matter', or 'Substance')", reason: "invalid-wantToken" };
+  }
+  if (typeof wantAmount !== "number" || !Number.isFinite(wantAmount) || wantAmount <= 0) {
+    return { valid: false, errorMessage: "Missing or invalid 'wantAmount' (must be a positive number)", reason: "invalid-wantAmount" };
+  }
+
+  return {
+    valid: true,
+    makerId,
+    takerId,
+    giveToken,
+    wantToken,
+    giveAmount,
+    wantAmount,
+  };
+}
+
+/**
+ * Expose Triplicate Synastry evaluation over MCP.
+ * Evaluates natal A + natal B + transit sky harmonic resonance.
+ */
+export function computeTriplicateSynastry(
+  args: TriplicateSynastryArgs,
+): ToolResult {
+  const check = validateTriplicateArgs(args);
+  if (!check.valid) {
+    return {
+      ok: false,
+      data: null,
+      errorCode: "INVALID_ARGS",
+      errorMessage: check.errorMessage,
+      summary: { reason: check.reason },
+    };
+  }
+
+  const { makerId, takerId, giveToken, wantToken, giveAmount, wantAmount } = check;
+  const { makerNatal, takerNatal, transitTime } = args;
+
+  let date: Date | undefined;
+  if (typeof transitTime === "string") {
+    const parsed = new Date(transitTime);
+    if (!Number.isNaN(parsed.getTime())) {
+      date = parsed;
+    }
+  }
+
+  const evaluation = evaluateTriplicateSynastry({
+    makerId,
+    takerId,
+    makerNatal,
+    takerNatal,
+    giveToken,
+    giveAmount,
+    wantToken,
+    wantAmount,
+    ...(date ? { date } : {}),
+  });
+
+  const resonanceBonusPct = Math.round(evaluation.beta * 100);
+
+  const data = {
+    qualifies: evaluation.qualifies,
+    resonanceBonusPct,
+    aspectDescription: evaluation.aspectDescription,
+    transitCatalyst: evaluation.transitCatalyst,
+    primaryTransitPlanet: evaluation.primaryTransitPlanet,
+    aspectType: evaluation.aspectType,
+    elementalConcentration: evaluation.elementalConcentration,
+    windowKey: evaluation.windowKey,
+    makerRebateAmount: evaluation.makerRebateAmount,
+    takerRebateAmount: evaluation.takerRebateAmount,
+    beta: evaluation.beta,
+  };
+
+  return {
+    ok: true,
+    data,
+    summary: {
+      qualifies: evaluation.qualifies,
+      resonanceBonusPct,
+      windowKey: evaluation.windowKey,
+    },
+  };
+}
+
+/**
+ * Bundles live sky transits, ingredient scanning, and cosmic recipe candidates
+ * into a single JSON-RPC round-trip for external agent deliberation & caching.
+ */
+export async function createEvidenceSnapshot(
+  args: EvidenceSnapshotArgs,
+): Promise<ToolResult> {
+  const transitsArgs: TransitsArgs = {
+    ...(typeof args.latitude === "number" ? { latitude: args.latitude } : {}),
+    ...(typeof args.longitude === "number" ? { longitude: args.longitude } : {}),
+  };
+
+  const rawIngredients = args.ingredients;
+  const filteredIngredients = Array.isArray(rawIngredients)
+    ? rawIngredients.filter((i): i is string => typeof i === "string" && i.trim().length > 0)
+    : [];
+
+  const rawDietary = args.dietary;
+  const recipeArgs: CosmicRecipeArgs = {
+    ...(typeof args.prompt === "string" ? { prompt: args.prompt } : {}),
+    ...(typeof args.cuisine === "string" ? { cuisine: args.cuisine } : {}),
+    ...(Array.isArray(rawDietary)
+      ? { dietary: rawDietary.filter((d): d is string => typeof d === "string") }
+      : {}),
+    ...(isDominantElement(args.dominantElement)
+      ? { dominantElement: args.dominantElement }
+      : {}),
+  };
+
+  const [liveSkyResult, alchemicalResult, cosmicRecipeResult] = await Promise.all([
+    getLiveSkyTransits(transitsArgs),
+    filteredIngredients.length > 0
+      ? alchemizeIngredients({ ingredients: filteredIngredients })
+      : Promise.resolve(null),
+    generateCosmicRecipe(recipeArgs),
+  ]);
+
+  const snapshotId = randomUUID();
+  const timestamp = new Date().toISOString();
+
+  const data = {
+    snapshotId,
+    liveSky: liveSkyResult.data,
+    alchemicalScan: alchemicalResult ? alchemicalResult.data : null,
+    candidateRecipes: cosmicRecipeResult.data,
+    timestamp,
+  };
+
+  return {
+    ok: true,
+    data,
+    summary: {
+      snapshotId,
+      timestamp,
+      hasAlchemicalScan: alchemicalResult !== null,
+      liveSkyOk: liveSkyResult.ok,
+      recipesOk: cosmicRecipeResult.ok,
+    },
+  };
+}
+
+async function resolveReflectionAuthor(
+  agentSlug: string | undefined,
+  agentName: string | undefined,
+  caller: ResolvedCaller,
+): Promise<{ authorId: string | null; resolvedAgentName: string | null; isAgentAuthor: boolean }> {
+  let authorId = caller.userId;
+  let resolvedAgentName = typeof agentName === "string" ? agentName : null;
+  let isAgentAuthor = false;
+
+  if (typeof agentSlug === "string" && agentSlug.trim()) {
+    const slug = agentSlug.trim().toLowerCase();
+    try {
+      const agentRes = await executeQuery<{ id: string; name: string | null }>(
+        `SELECT u.id, COALESCE(up.name, u.name) AS name
+           FROM users u
+      LEFT JOIN user_profiles up ON up.user_id = u.id
+          WHERE u.is_agent = true AND (lower(u.email) = lower($1) || '@agentic.alchm.kitchen' OR u.id = $1)
+          LIMIT 1`,
+        [slug],
+      );
+      const [row] = agentRes.rows;
+      if (row) {
+        authorId = row.id;
+        if (!resolvedAgentName && row.name) {
+          resolvedAgentName = row.name;
+        }
+        isAgentAuthor = true;
+      }
+    } catch (err) {
+      process.stderr.write(`[mcp/submit_recipe_reflection] agent lookup failed: ${String(err)}\n`);
+    }
+  }
+
+  return { authorId, resolvedAgentName, isAgentAuthor };
+}
+
+function formatReflectionTimestamp(createdAt: unknown): string {
+  if (typeof createdAt === "string") return createdAt;
+  if (createdAt instanceof Date && !Number.isNaN(createdAt.getTime())) {
+    return createdAt.toISOString();
+  }
+  return new Date().toISOString();
+}
+
+/**
+ * Submits an authentic culinary critique/reflection from an external agent,
+ * persisting to recipe_reflections, dual-writing to user_recipe_interactions,
+ * and publishing to feed_events.
+ */
+export async function submitRecipeReflection(
+  args: SubmitRecipeReflectionArgs,
+  caller: ResolvedCaller,
+): Promise<ToolResult> {
+  const { recipeId, recipeName, reflection, agentSlug, agentName, dominantElement, source } = args;
+
+  if (typeof recipeId !== "string" || !recipeId.trim()) {
+    return {
+      ok: false,
+      data: null,
+      errorCode: "INVALID_ARGS",
+      errorMessage: "Missing or invalid 'recipeId' (must be a non-empty string)",
+      summary: { reason: "invalid-recipeId" },
+    };
+  }
+
+  if (typeof reflection !== "string" || !reflection.trim()) {
+    return {
+      ok: false,
+      data: null,
+      errorCode: "INVALID_ARGS",
+      errorMessage: "Missing or invalid 'reflection' (must be a non-empty string)",
+      summary: { reason: "invalid-reflection" },
+    };
+  }
+
+  const { authorId, resolvedAgentName, isAgentAuthor } = await resolveReflectionAuthor(agentSlug, agentName, caller);
+
+  if (!authorId) {
+    return {
+      ok: false,
+      data: null,
+      errorCode: "INVALID_ARGS",
+      errorMessage: "Cannot resolve author: caller is not authenticated and no valid agentSlug was provided",
+      summary: { reason: "unresolvable-author" },
+    };
+  }
+
+  const effectiveSource = typeof source === "string" && source.trim() ? source.trim() : "mcp_reflection";
+
+  // 1. Create durable reflection record
+  const createdReflection = await recipeReflectionsService.createReflection({
+    recipeId,
+    authorId,
+    source: effectiveSource,
+    contentState: "reviewed",
+    review: reflection.trim(),
+    isAgent: isAgentAuthor,
+    provenance: {
+      mcpCaller: caller.caller,
+      ...(agentSlug ? { agentSlug } : {}),
+      ...(caller.apiKeyId ? { apiKeyId: caller.apiKeyId } : {}),
+    },
+  });
+
+  // 2. Publish feed event & mirror to user_recipe_interactions
+  let published = false;
+  try {
+    published = await feedDatabase.createEvent(
+      authorId,
+      "recipe_review",
+      {
+        recipeId,
+        ...(recipeName ? { recipeName } : {}),
+        review: reflection.trim(),
+        source: effectiveSource,
+        ...(agentSlug ? { agentSlug } : {}),
+        ...(resolvedAgentName ? { agentName: resolvedAgentName } : {}),
+        ...(dominantElement ? { dominantElement } : {}),
+        recipeReflectionId: createdReflection.id,
+        contentState: "reviewed",
+        skipEconomyCharge: true, // 0.4 ESMS already settled via debitForTool
+      },
+      false,
+      { share: true, explicit: true },
+    );
+  } catch (err) {
+    process.stderr.write(`[mcp/submit_recipe_reflection] feed publication failed: ${String(err)}\n`);
+  }
+
+  const data = {
+    reflectionId: createdReflection.id,
+    recipeId,
+    authorId,
+    agentSlug: agentSlug ?? null,
+    agentName: resolvedAgentName,
+    reflection: reflection.trim(),
+    published,
+    timestamp: formatReflectionTimestamp(createdReflection.createdAt),
+  };
+
+  return {
+    ok: true,
+    data,
+    summary: {
+      reflectionId: createdReflection.id,
+      recipeId,
+      authorId,
+      published,
+    },
+  };
+}
+
 // ─── Dispatch + invocation wrapper ────────────────────────────────────
 
 export type ToolName =
@@ -305,7 +691,10 @@ export type ToolName =
   | "alchemize_ingredients"
   | "generate_cosmic_recipe"
   | "compute_synastry_overlay"
-  | "get_transit_natal_overlay";
+  | "get_transit_natal_overlay"
+  | "compute_triplicate_synastry"
+  | "create_evidence_snapshot"
+  | "submit_recipe_reflection";
 
 /**
  * Stringify an error and walk its `cause` chain so the root reason
@@ -327,6 +716,37 @@ function formatErrorWithCauseChain(err: unknown): string {
     }
   }
   return parts.length > 0 ? parts.join(" ← ") : "unknown";
+}
+
+function executeOtherTool(
+  name: ToolName,
+  args: Record<string, unknown>,
+  caller: ResolvedCaller,
+): Promise<ToolResult> | ToolResult {
+  switch (name) {
+    case "get_live_sky_transits":
+      return getLiveSkyTransits(args);
+    case "generate_cosmic_recipe":
+      return generateCosmicRecipe(args);
+    case "compute_synastry_overlay":
+      return computeSynastryOverlay(args);
+    case "get_transit_natal_overlay":
+      return getTransitNatalOverlay(args);
+    case "compute_triplicate_synastry":
+      return computeTriplicateSynastry(args);
+    case "create_evidence_snapshot":
+      return createEvidenceSnapshot(args);
+    case "submit_recipe_reflection":
+      return submitRecipeReflection(args, caller);
+    default:
+      return {
+        ok: false,
+        data: null,
+        errorCode: "NOT_FOUND",
+        errorMessage: `Unknown tool: ${name}`,
+        summary: { reason: "unknown-tool" },
+      };
+  }
 }
 
 /**
@@ -401,24 +821,10 @@ export async function invokeTool(
       };
     } else {
       tokensDebited = debit.amounts;
-      if (name === "get_live_sky_transits") {
-        result = await getLiveSkyTransits(args);
-      } else if (name === "alchemize_ingredients") {
+      if (name === "alchemize_ingredients") {
         result = await alchemizeIngredients(args as unknown as AlchemizeArgs);
-      } else if (name === "generate_cosmic_recipe") {
-        result = await generateCosmicRecipe(args);
-      } else if (name === "compute_synastry_overlay") {
-        result = await computeSynastryOverlay(args);
-      } else if (name === "get_transit_natal_overlay") {
-        result = await getTransitNatalOverlay(args);
       } else {
-        result = {
-          ok: false,
-          data: null,
-          errorCode: "NOT_FOUND",
-          errorMessage: `Unknown tool: ${name}`,
-          summary: { reason: "unknown-tool" },
-        };
+        result = await executeOtherTool(name, args, caller);
       }
     }
   } catch (err) {
