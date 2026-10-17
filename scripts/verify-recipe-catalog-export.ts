@@ -49,7 +49,7 @@ export interface VerificationSummary {
     partial: number;
     none: number;
   };
-  artifactPath?: string;
+  artifactPath?: string | undefined;
   errors: string[];
 }
 

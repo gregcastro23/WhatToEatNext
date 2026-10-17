@@ -43,7 +43,8 @@ export function boardSql(opts: { viewerId: string; limit: number }): BuiltQuery 
                  COALESCE(up.name, u.name) AS maker_name,
                  COALESCE(u.is_agent, false) AS maker_is_agent,
                  up.share_identity AS maker_share_identity,
-                 up.natal_positions AS maker_natal_positions
+                 up.natal_positions AS maker_natal,
+                 (SELECT vp.natal_positions FROM user_profiles vp WHERE vp.user_id = ${viewer})::jsonb AS viewer_natal
             FROM transmutation_offers o
             JOIN users u ON u.id = o.maker_id
             LEFT JOIN user_profiles up ON up.user_id = o.maker_id

@@ -38,7 +38,7 @@ export function isoOf(value: unknown): string | null {
   return null;
 }
 
-function tokenOf(value: unknown): TokenType {
+export function tokenOf(value: unknown): TokenType {
   const token = TOKEN_TYPES.find((t) => t === value);
   if (!token) throw new Error(`transmutation: unexpected token ${text(value)}`);
   return token;

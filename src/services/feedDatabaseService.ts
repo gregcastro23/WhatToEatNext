@@ -201,7 +201,7 @@ class FeedDatabaseService {
           ]);
 
       feedEventId = feedRes.rows[0]?.id;
-      feedPublished = Boolean(feedEventId);
+      feedPublished = Boolean(feedEventId) || (typeof feedRes.rowCount === "number" && feedRes.rowCount > 0);
     } catch (feedError) {
       _logger.error("Failed to insert feed event:", feedError);
       return {
