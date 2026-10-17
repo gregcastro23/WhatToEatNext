@@ -42,7 +42,8 @@ export function boardSql(opts: { viewerId: string; limit: number }): BuiltQuery 
     sql: `SELECT ${OFFER_COLUMNS_AS_O},
                  COALESCE(up.name, u.name) AS maker_name,
                  COALESCE(u.is_agent, false) AS maker_is_agent,
-                 up.share_identity AS maker_share_identity
+                 up.share_identity AS maker_share_identity,
+                 up.natal_positions AS maker_natal_positions
             FROM transmutation_offers o
             JOIN users u ON u.id = o.maker_id
             LEFT JOIN user_profiles up ON up.user_id = o.maker_id
@@ -114,5 +115,32 @@ export function circleActivitySql(): BuiltQuery {
             (SELECT count(*) FROM transmutation_offers
               WHERE status = 'open' AND expires_at > now())::int AS open_offers`,
     values: [],
+  };
+}
+
+/**
+ * Recently completed triplicate trades with maker rebate metadata.
+ */
+export function recentTriplicateTradesSql(limit = 5): BuiltQuery {
+  const p = new QueryParams();
+  const lim = p.add(limit);
+  return {
+    sql: `SELECT o.id, o.give_token, o.give_amount, o.want_token, o.want_amount, o.closed_at,
+                 COALESCE(mp.name, mu.name) AS maker_name,
+                 COALESCE(tp.name, tu.name) AS taker_name,
+                 tt.amount AS maker_rebate_amount,
+                 tt.description AS rebate_description
+            FROM transmutation_offers o
+            JOIN users mu ON mu.id = o.maker_id
+            LEFT JOIN user_profiles mp ON mp.user_id = o.maker_id
+            JOIN users tu ON tu.id = o.taker_id
+            LEFT JOIN user_profiles tp ON tp.user_id = o.taker_id
+            JOIN token_transactions tt
+              ON tt.source_id = o.id::text
+             AND tt.idempotency_key LIKE 'triplicate_window:%:maker'
+           WHERE o.status = 'filled'
+           ORDER BY o.closed_at DESC
+           LIMIT ${lim}`,
+    values: p.values,
   };
 }

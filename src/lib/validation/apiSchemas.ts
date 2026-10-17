@@ -227,6 +227,8 @@ export const TransactionSourceTypeSchema = z.enum([
   "onchain_claim",
   "onchain_claim_refund",
   "practice_reward",
+  "recipe_branch",
+  "recipe_reflection",
 ]);
 
 // Bidirectional parity with the canonical union in @/types/economy. Adding a

@@ -29,6 +29,16 @@ export type TransactionSourceType =
   | "signup_grant"
   | "admin"
   /**
+   * Debit for branching/amending an authoritative recipe into user_custom_recipes.
+   * Standard cost is RECIPE_BRANCH_COST (2.0 ESMS total).
+   */
+  | "recipe_branch"
+  /**
+   * Debit for publishing a recipe reflection or critique.
+   * Standard cost is RECIPE_REFLECTION_COST (0.4 ESMS total).
+   */
+  | "recipe_reflection"
+  /**
    * One-shot ESMS bundle purchased via Stripe — drives the MCP top-up
    * SKUs ($5/$20/$50 → 50/250/750 of each axis). Credited from the
    * Stripe webhook on `checkout.session.completed` with the Stripe
@@ -166,6 +176,35 @@ export interface TokenDistribution {
   essence: number;
   matter: number;
   substance: number;
+}
+
+/** The four alchemical quantities (Spirit, Essence, Matter, Substance) basket */
+export type ESMSAmounts = TokenDistribution;
+
+/** Standard baseline cost for an agent to branch/amend an authoritative recipe (2.0 ESMS total). */
+export const RECIPE_BRANCH_COST: Readonly<ESMSAmounts> = {
+  spirit: 0.5,
+  essence: 0.5,
+  matter: 0.5,
+  substance: 0.5,
+};
+
+/** Standard baseline cost for an agent to publish a recipe critique/reflection (0.4 ESMS total). */
+export const RECIPE_REFLECTION_COST: Readonly<ESMSAmounts> = {
+  spirit: 0.1,
+  essence: 0.1,
+  matter: 0.1,
+  substance: 0.1,
+};
+
+/** Standardized economic receipt envelope returned on actionable mutations. */
+export interface EconomyReceipt {
+  charged: boolean;
+  transactionGroupId: string | null;
+  costBasket: ESMSAmounts;
+  swapsExecuted: number;
+  remainingBalances: ESMSAmounts;
+  deduplicated?: boolean | undefined;
 }
 
 /** Inputs used to colour a faucet grant after its resonance sets the magnitude. */

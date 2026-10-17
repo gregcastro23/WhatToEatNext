@@ -20,6 +20,7 @@ import {
   type Holdings,
   type Needs,
 } from "@/lib/economy/transmutationMarket";
+import { evaluateTriplicateSynastry } from "@/lib/economy/triplicatePricing";
 import { tokenEconomy } from "@/services/TokenEconomyService";
 import * as board from "@/services/transmutationBoardQueries";
 import {
@@ -27,15 +28,19 @@ import {
   holdingsFromBalances,
   isoOf,
   joinedPartyOf,
+  text,
   parseOffer,
   rowsOf,
   type Row,
 } from "@/services/transmutationRecords";
 import { liveQuote, offerView } from "@/services/transmutationViews";
+import type { TokenType } from "@/types/economy";
 import type {
+  CircleBoardResonanceWindow,
   TransmutationBoardOffer,
   TransmutationCircleSnapshot,
   TransmutationOwnOffer,
+  TriplicateTradeSummary,
 } from "@/types/transmutation";
 
 const BOARD_LIMIT = 50;
@@ -90,12 +95,14 @@ function marketBlock(quote: OracleQuote | null): TransmutationCircleSnapshot["ma
 /** Everything the Circle view needs for one viewer. */
 export async function buildCircleSnapshot(viewerId: string): Promise<TransmutationCircleSnapshot> {
   const quote = liveQuote();
-  const [boardRows, mineRows, statsRows, pulseRows, balances] = await Promise.all([
+  const [boardRows, mineRows, statsRows, pulseRows, balances, recentTradeRows, viewerProfRows] = await Promise.all([
     rowsOf(board.boardSql({ viewerId, limit: BOARD_LIMIT })),
     rowsOf(board.makerOffersSql({ makerId: viewerId, limit: MINE_LIMIT })),
     rowsOf(board.tradeStatsSql(viewerId)),
     rowsOf(board.circleActivitySql()),
     tokenEconomy.getBalancesOrNull(viewerId),
+    rowsOf(board.recentTriplicateTradesSql(5)),
+    rowsOf({ sql: "SELECT natal_positions FROM user_profiles WHERE user_id = $1::uuid", values: [viewerId] }).catch((): Row[] => []),
   ]);
 
   const holdings = balances ? holdingsFromBalances(balances) : null;
@@ -103,6 +110,79 @@ export async function buildCircleSnapshot(viewerId: string): Promise<Transmutati
   const [statsRow] = statsRows;
   const [pulseRow] = pulseRows;
   const bonusDef = PRACTICES.transmutation_shared;
+
+  const toTokenType = (val: unknown): TokenType => {
+    if (val === "Spirit" || val === "Essence" || val === "Matter" || val === "Substance") {
+      return val;
+    }
+    return "Spirit";
+  };
+
+  const recentTrades: TriplicateTradeSummary[] = recentTradeRows.map((r) => {
+    const giveAmount = Number(r.give_amount) || 0;
+    const wantAmount = Number(r.want_amount) || 0;
+    const rebateAmount = Number(r.maker_rebate_amount) || 0;
+    const bonusPct = wantAmount > 0 ? Math.round((rebateAmount / wantAmount) * 100) : 0;
+    const rawDesc = text(r.rebate_description || "");
+    const viaMatch = rawDesc.match(/\bvia\s+(.+)\)\s*$/i);
+    const cleanAspect: string = (viaMatch ? viaMatch[1] : rawDesc) || "Triplicate Synastry Alignment";
+
+    return {
+      id: text(r.id),
+      timestamp: isoOf(r.closed_at) ?? new Date().toISOString(),
+      makerName: text(r.maker_name || "Alchemist"),
+      takerName: text(r.taker_name || "Alchemist"),
+      gaveToken: toTokenType(r.give_token),
+      gaveAmount: giveAmount,
+      receivedToken: toTokenType(r.want_token),
+      receivedAmount: wantAmount,
+      resonanceBonusPct: bonusPct,
+      aspectDescription: cleanAspect,
+    };
+  });
+
+  const viewerNatal = viewerProfRows[0]?.natal_positions;
+  const resonanceWindows: CircleBoardResonanceWindow[] = [];
+  if (viewerNatal) {
+    const seenWindows = new Set<string>();
+    for (const row of boardRows) {
+      if (!row.maker_natal_positions) continue;
+      try {
+        const evalRes = evaluateTriplicateSynastry({
+          makerId: text(row.maker_id),
+          takerId: viewerId,
+          makerNatal: row.maker_natal_positions,
+          takerNatal: viewerNatal,
+          giveToken: toTokenType(row.give_token),
+          giveAmount: Number(row.give_amount) || 1,
+          wantToken: toTokenType(row.want_token),
+          wantAmount: Number(row.want_amount) || 1,
+        });
+        if (evalRes.qualifies && !seenWindows.has(evalRes.windowKey)) {
+          seenWindows.add(evalRes.windowKey);
+          resonanceWindows.push({
+            windowKey: evalRes.windowKey,
+            expiresAt: new Date(Date.now() + 7200 * 1000).toISOString(),
+            makerId: text(row.maker_id) ?? "",
+            takerId: viewerId,
+            bonusPct: Math.round(evalRes.beta * 100),
+            harmonicAspect: evalRes.aspectDescription,
+            transitCatalyst: evalRes.transitCatalyst,
+            partnerId: text(row.maker_id) ?? "",
+            partnerName: text(row.maker_name) ?? "Partner",
+            partnerIsAgent: row.maker_is_agent === true,
+            aspectDescription: evalRes.aspectDescription,
+            complementaryAxes: {
+              give: toTokenType(row.give_token),
+              want: toTokenType(row.want_token),
+            },
+          });
+        }
+      } catch {
+        // graceful skip if chart data is non-standard
+      }
+    }
+  }
 
   return {
     board: boardRows.map((row) => toBoardOffer(row, viewerId, quote, holdings, needs)).sort(byRelevance),
@@ -125,5 +205,7 @@ export async function buildCircleSnapshot(viewerId: string): Promise<Transmutati
       minTradeValue: BONUS_MIN_TRADE_VALUE,
       perPartnerPerDay: 1,
     },
+    recentTrades,
+    activeResonanceWindows: resonanceWindows,
   };
 }
