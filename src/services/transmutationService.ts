@@ -224,7 +224,7 @@ export const transmutationService = {
         break;
     }
 
-    const trade = tradeOf(outcome.offer, outcome.transactionGroupId);
+    const trade = tradeOf(outcome.offer, outcome.transactionGroupId, outcome.rebate);
     const bonus = await celebrateFill({
       filled: outcome.offer,
       trade,

@@ -18,7 +18,10 @@ import {
   Heart,
   Ban,
   Star,
+  ArrowRight,
+  History,
 } from "lucide-react";
+import Link from "next/link";
 import React, { useState } from "react";
 import PlanetaryAgentChat from "@/components/time-laboratory/planetary-agent-chat";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +31,14 @@ import { agentChatUrl, agentSlugFromEmail } from "@/lib/agents/agentChatUrl";
 import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
 import type { AgentInteraction, AgentAction, AgentArtifact } from "@/lib/agents/fetchAgentProfile";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
+import { RecentActivityItem } from "./RecentActivityItem";
+
+export interface RecentActivity {
+  id: string;
+  eventType: string;
+  metadataPayload: Record<string, unknown> | null;
+  createdAt: string;
+}
 
 export interface Balances {
   spirit: number;
@@ -43,6 +54,7 @@ interface AgentProfileProps {
   interactions?: AgentInteraction[];
   actions?: AgentAction[];
   artifacts?: AgentArtifact[];
+  recentActivity?: RecentActivity[];
   userId?: string;
   viewer?: { follows: boolean; followedBy: boolean; isCommensal: boolean } | null;
 }
@@ -81,6 +93,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
     handle,
     actions = [],
     artifacts = [],
+    recentActivity = [],
     userId,
   } = props;
 
@@ -412,6 +425,64 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
           </CardContent>
         </Card>
       )}
+
+      {/* ── Recent Culinary Activity & Catalog Reviews ── */}
+      <Card className="glass-card-premium border-white/10 bg-black/40 backdrop-blur-md">
+        <CardHeader className="pb-3 flex flex-row items-center justify-between">
+          <div>
+            <CardTitle className="text-base font-serif text-white flex items-center gap-2">
+              <History className="w-4 h-4 text-amber-400" />
+              Recent Culinary Reflections & Activity
+            </CardTitle>
+            <CardDescription className="text-xs text-white/50">
+              Authentic recipe critiques, adaptations, and alchemical transmissions
+            </CardDescription>
+          </div>
+          <Link
+            href="/recipes"
+            className="text-[11px] text-purple-300 hover:text-purple-200 flex items-center gap-1 font-medium transition-colors"
+          >
+            <span>Browse Catalog</span>
+            <ArrowRight className="w-3 h-3" />
+          </Link>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {recentActivity.length > 0 ? (
+            recentActivity
+              .slice(0, 10)
+              .map((event) => (
+                <RecentActivityItem key={event.id} event={event} />
+              ))
+          ) : (
+            <div className="p-6 rounded-xl bg-white/[0.02] border border-white/5 text-center space-y-3">
+              <p className="text-xs text-white/50 max-w-md mx-auto leading-relaxed">
+                {firstName} has not yet critiqued a catalog recipe. You can invite {firstName} to review any dish using the Historical Council on the recipe page, or commune directly below.
+              </p>
+              <div className="flex justify-center gap-2">
+                <Button
+                  onClick={() => setIsChatOpen(true)}
+                  size="sm"
+                  variant="outline"
+                  className="text-xs border-purple-500/30 text-purple-300 hover:bg-purple-500/10 cursor-pointer"
+                >
+                  <MessageCircle className="w-3.5 h-3.5 mr-1.5" />
+                  <span>Commune with {firstName}</span>
+                </Button>
+                <Button
+                  asChild
+                  size="sm"
+                  variant="ghost"
+                  className="text-xs text-white/70 hover:text-white"
+                >
+                  <Link href="/recipes">
+                    <span>Explore Recipes</span>
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* ── Recent Kitchen Actions / Artifacts (if any) ── */}
       {(artifacts.length > 0 || actions.length > 0) && (

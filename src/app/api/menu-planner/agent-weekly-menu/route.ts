@@ -4,11 +4,26 @@
  * Planetary Agents can use this route to persist a completed weekly menu under
  * the corresponding @agentic.alchm.kitchen user and, when requested, publish a
  * compact `weekly_menu` event to the shared feed.
+ *
+ * Hardened for reliable agent integration:
+ * - Scoped publication identity and idempotency via `agentPublicationService`.
+ * - Semantic payload fingerprinting.
+ * - Strict 28-slot completeness and Sunday UTC midnight enforcement for completed published menus.
+ * - Authoritative recipe validation and forged adaptation provenance rejection.
+ * - Feed publication confirmation requirement: `success: true` strictly requires confirmed feed when requested.
+ * - In-flight 409 retry marker and 409 payload conflict marker.
+ *
+ * @file src/app/api/menu-planner/agent-weekly-menu/route.ts
  */
 
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { bearerMatches } from "@/lib/hooks/secureCompare";
+import { resolvePublicationDeliveryKey } from "@/lib/publications/deliveryKey";
+import { calculateSemanticFingerprint } from "@/lib/publications/semanticFingerprint";
+import type { DetailedPublicationReceipt } from "@/lib/publications/types";
+import { validateMenuRecipeReference } from "@/lib/recipes/recipeCatalogValidation";
 import { AgentWeeklyMenuRequestSchema } from "@/lib/validation/apiSchemas";
+import { agentPublicationService } from "@/services/agentPublicationService";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -16,7 +31,6 @@ import { getWeekEndDate } from "@/types/menuPlanner";
 import type { GroceryItem, MealSlot } from "@/types/menuPlanner";
 import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
 import { createLogger } from "@/utils/logger";
-import type { NextRequest } from "next/server";
 
 const logger = createLogger("agent-weekly-menu");
 
@@ -30,6 +44,8 @@ const MAX_SUMMARY_LENGTH = 280;
 const MAX_FEATURED_MEALS = 6;
 const MAX_GROCERY_ITEMS = 500;
 const MAX_INVENTORY_ITEMS = 500;
+
+const REQUIRED_MEAL_TYPES = ["breakfast", "lunch", "dinner", "snack"] as const;
 
 interface AgentWeeklyMenuBody {
   agentEmail?: unknown;
@@ -51,6 +67,8 @@ interface AgentWeeklyMenuBody {
   planetarySignature?: unknown;
   featuredMeals?: unknown;
   idempotencyKey?: unknown;
+  deliveryId?: unknown;
+  nutritionalTotals?: unknown;
 }
 
 interface FeaturedMeal {
@@ -66,6 +84,18 @@ function isAuthorizedInternalRequest(authHeader: string | null): boolean {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function isMealSlot(value: unknown): value is MealSlot {
+  return isRecord(value);
+}
+
+function isGroceryItem(value: unknown): value is GroceryItem {
+  return isRecord(value);
+}
+
+function isRequiredMealType(value: string): value is (typeof REQUIRED_MEAL_TYPES)[number] {
+  return value === "breakfast" || value === "lunch" || value === "dinner" || value === "snack";
 }
 
 function asString(value: unknown, maxLength?: number): string | undefined {
@@ -102,6 +132,16 @@ function parseWeekStart(value: unknown): Date | null {
   if (!raw) return null;
   const date = new Date(raw);
   return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function normalizeWeekStartDateToSundayUtc(date: Date): Date {
+  const d = new Date(date);
+  const day = d.getUTCDay(); // 0 is Sunday
+  if (day !== 0) {
+    d.setUTCDate(d.getUTCDate() - day);
+  }
+  d.setUTCHours(0, 0, 0, 0);
+  return d;
 }
 
 function parseWeeklyBudget(value: unknown): number | null {
@@ -143,7 +183,7 @@ function extractFeaturedMeals(
         if (!recipeName) return null;
         return {
           dayOfWeek: asFiniteNumber(item.dayOfWeek),
-          mealType: asString(item.mealType, 40),
+          mealType: asString(item.mealType, 40)?.toLowerCase(),
           recipeId: asString(item.recipeId, 120),
           recipeName,
         };
@@ -158,7 +198,7 @@ function extractFeaturedMeals(
       if (!recipeName) return null;
       return {
         dayOfWeek: asFiniteNumber(meal.dayOfWeek),
-        mealType: asString(meal.mealType, 40),
+        mealType: asString(meal.mealType, 40)?.toLowerCase(),
         recipeId: recipeIdFromMeal(meal),
         recipeName,
       };
@@ -173,7 +213,8 @@ function buildFeedMetadata(args: {
   weekStartDate: Date;
   meals: MealSlot[];
   groceryList: GroceryItem[];
-}) {
+  deliveryKey?: string;
+}): Record<string, unknown> {
   const title =
     asString(args.body.menuTitle, MAX_TITLE_LENGTH) ??
     asString(args.body.title, MAX_TITLE_LENGTH) ??
@@ -210,16 +251,16 @@ function buildFeedMetadata(args: {
     planetarySignature: isRecord(args.body.planetarySignature)
       ? args.body.planetarySignature
       : undefined,
-    idempotencyKey: asString(args.body.idempotencyKey, 160),
+    idempotencyKey: args.deliveryKey ?? asString(args.body.idempotencyKey, 160),
     source: "planetary_agents",
   };
 }
 
-function jsonError(message: string, status: number) {
-  return NextResponse.json({ success: false, error: message }, { status });
+function jsonError(message: string, status: number, details?: Record<string, unknown>): NextResponse {
+  return NextResponse.json({ success: false, error: message, ...details }, { status });
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   if (!isAuthorizedInternalRequest(request.headers.get("Authorization"))) {
     return jsonError("Unauthorized", 401);
   }
@@ -229,7 +270,7 @@ export async function GET(request: NextRequest) {
     agentEmail: searchParams.get("agentEmail"),
     agentSlug: searchParams.get("agentSlug"),
   });
-  const weekStartDate = parseWeekStart(searchParams.get("weekStartDate"));
+  const parsedStart = parseWeekStart(searchParams.get("weekStartDate"));
 
   if (!agentEmail) {
     return jsonError(
@@ -237,9 +278,11 @@ export async function GET(request: NextRequest) {
       400,
     );
   }
-  if (!weekStartDate) {
+  if (!parsedStart) {
     return jsonError("weekStartDate is required and must be a valid date", 400);
   }
+
+  const weekStartDate = normalizeWeekStartDateToSundayUtc(parsedStart);
 
   try {
     const user = await userDatabase.ensurePlanetaryAgent(
@@ -254,7 +297,6 @@ export async function GET(request: NextRequest) {
       menu,
     });
   } catch (error) {
-    // See the note in /api/feed: a refusal to provision is a 422, not an outage.
     if (error instanceof AgentChartRequiredError) {
       logger.warn("[agent-weekly-menu GET] refused agent", error.message);
       return jsonError(error.message, 422);
@@ -264,7 +306,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   if (!isAuthorizedInternalRequest(request.headers.get("Authorization"))) {
     return jsonError("Unauthorized", 401);
   }
@@ -276,6 +318,13 @@ export async function POST(request: NextRequest) {
     return jsonError("Invalid JSON body", 400);
   }
 
+  // 1. Resolve publication delivery key (handles header-only, body-only, or matching)
+  const keyResolution = resolvePublicationDeliveryKey(request.headers, rawBody);
+  if (keyResolution.error) {
+    return jsonError(keyResolution.error, keyResolution.statusCode ?? 400);
+  }
+  const { deliveryKey } = keyResolution;
+
   const parseResult = AgentWeeklyMenuRequestSchema.safeParse(rawBody);
   if (!parseResult.success) {
     return jsonError("Invalid request body", 400);
@@ -284,12 +333,7 @@ export async function POST(request: NextRequest) {
   const body: AgentWeeklyMenuBody = parseResult.data;
 
   const agentEmail = normalizeAgentEmail(body);
-  const weekStartDate = parseWeekStart(body.weekStartDate);
-  const meals = Array.isArray(body.meals) ? (body.meals as MealSlot[]) : [];
-  const groceryList = Array.isArray(body.groceryList)
-    ? (body.groceryList as GroceryItem[]).slice(0, MAX_GROCERY_ITEMS)
-    : [];
-  const inventory = parseStringArray(body.inventory, MAX_INVENTORY_ITEMS);
+  const rawWeekStartDate = parseWeekStart(body.weekStartDate);
   const status = (asString(body.status, 40) ?? "draft").toLowerCase();
   const shareToFeed = asBoolean(body.shareToFeed) === true;
 
@@ -299,11 +343,168 @@ export async function POST(request: NextRequest) {
       400,
     );
   }
-  if (!weekStartDate) {
+  if (!rawWeekStartDate) {
     return jsonError("weekStartDate is required and must be a valid date", 400);
   }
+
+  // 2. Draft vs Completed Publication Boundary
+  if (status === "draft" && shareToFeed) {
+    return jsonError("Draft menus cannot be published or shared to feed", 400);
+  }
+
+  const meals = Array.isArray(body.meals) ? body.meals.filter(isMealSlot) : [];
   if (meals.length === 0) {
     return jsonError("meals must contain at least one meal slot", 400);
+  }
+
+  const groceryList = Array.isArray(body.groceryList)
+    ? body.groceryList.filter(isGroceryItem).slice(0, MAX_GROCERY_ITEMS)
+    : [];
+  const inventory = parseStringArray(body.inventory, MAX_INVENTORY_ITEMS);
+
+  // 3. For completed published menus, enforce full 28-slot schedule, Sunday UTC midnight, and recipe provenance
+  const isPublishing = status === "completed" && shareToFeed;
+  let weekStartDate: Date;
+
+  if (isPublishing || status === "completed") {
+    // Week start must be on Sunday
+    if (rawWeekStartDate.getUTCDay() !== 0) {
+      return jsonError("weekStartDate for completed weekly menus must be a Sunday", 400);
+    }
+    // Normalize to Sunday midnight UTC
+    weekStartDate = normalizeWeekStartDateToSundayUtc(rawWeekStartDate);
+
+    // Validate 28 slots (7 days x 4 meals)
+    if (meals.length !== 28) {
+      return jsonError(
+        `Completed weekly menu must contain exactly 28 slots (found ${meals.length})`,
+        400,
+      );
+    }
+
+    const seenSlots = new Set<string>();
+    const slotMap = new Map<string, string>(); // key -> recipeId
+
+    for (const meal of meals) {
+      // Day validation: integer 0..6
+      const day = meal.dayOfWeek;
+      if (typeof day !== "number" || !Number.isInteger(day) || day < 0 || day > 6) {
+        return jsonError(`Invalid dayOfWeek '${day}': must be an integer between 0 and 6`, 400);
+      }
+
+      // Meal type validation
+      const type = meal.mealType.toLowerCase();
+      if (!isRequiredMealType(type)) {
+        return jsonError(`Invalid mealType '${meal.mealType}': must be breakfast, lunch, dinner, or snack`, 400);
+      }
+
+      const slotKey = `${day}-${type}`;
+      if (seenSlots.has(slotKey)) {
+        return jsonError(`Duplicate meal slot for day ${day} ${type}`, 400);
+      }
+      seenSlots.add(slotKey);
+
+      // Servings validation: bounded positive
+      const { servings } = meal;
+      if (typeof servings !== "number" || !Number.isFinite(servings) || servings <= 0 || servings > 100) {
+        return jsonError(`Invalid servings for day ${day} ${type}: must be positive number <= 100`, 400);
+      }
+
+      // Recipe validation
+      const recipeRef = isRecord(meal.recipe) ? meal.recipe : undefined;
+      const recipeCheck = await validateMenuRecipeReference(recipeRef ?? {});
+      if (!recipeCheck.valid) {
+        return jsonError(recipeCheck.error ?? "Invalid recipe reference", 400);
+      }
+
+      const recId = String(recipeRef?.id ?? "").trim();
+      slotMap.set(slotKey, recId);
+    }
+
+    // Ensure all 28 distinct combinations exist
+    for (let d = 0; d < 7; d++) {
+      for (const t of REQUIRED_MEAL_TYPES) {
+        if (!seenSlots.has(`${d}-${t}`)) {
+          return jsonError(`Missing required meal slot: day ${d} ${t}`, 400);
+        }
+      }
+    }
+
+    // Featured meals validation: must reference the recipe assigned to that day/slot
+    if (Array.isArray(body.featuredMeals) && body.featuredMeals.length > 0) {
+      for (const feat of body.featuredMeals) {
+        if (!isRecord(feat)) continue;
+        const fDay = asFiniteNumber(feat.dayOfWeek);
+        const fType = asString(feat.mealType, 40)?.toLowerCase();
+        const fRecipeId = asString(feat.recipeId, 120);
+
+        if (fDay === undefined || !fType || !fRecipeId) continue;
+        const assignedRecipeId = slotMap.get(`${fDay}-${fType}`);
+        if (assignedRecipeId && assignedRecipeId !== fRecipeId) {
+          return jsonError(
+            `Featured meal for day ${fDay} ${fType} references recipe '${fRecipeId}', but slot has '${assignedRecipeId}'`,
+            400,
+          );
+        }
+      }
+    }
+  } else {
+    // Draft / save-only: normalize start date time to midnight UTC
+    weekStartDate = normalizeWeekStartDateToSundayUtc(rawWeekStartDate);
+  }
+
+  // 4. Idempotency reservation and replay check
+  let publicationId: string | undefined;
+  if (deliveryKey) {
+    const semanticPayload = {
+      agentEmail,
+      weekStartDate: weekStartDate.toISOString(),
+      status,
+      shareToFeed,
+      title: asString(body.title) ?? asString(body.menuTitle),
+      summary: asString(body.summary) ?? asString(body.description),
+      planetaryFocus: asString(body.planetaryFocus),
+      dietaryFocus: asString(body.dietaryFocus),
+      meals: meals.map((m) => ({
+        dayOfWeek: m.dayOfWeek,
+        mealType: m.mealType,
+        servings: m.servings,
+        recipeId: isRecord(m.recipe) ? m.recipe.id : undefined,
+      })),
+      groceryList: groceryList.map((g) => ({
+        ingredient: isRecord(g) ? g.ingredient : undefined,
+      })),
+    };
+
+    const semanticFingerprint = calculateSemanticFingerprint(semanticPayload);
+    const prep = await agentPublicationService.preparePublication({
+      principalId: "internal_api_secret",
+      deliveryKey,
+      operation: "weekly_menu_publish",
+      semanticFingerprint,
+    });
+
+    if (prep.kind === "in_flight") {
+      return NextResponse.json(
+        { status: "in_flight", message: "Publication delivery is currently being processed" },
+        { status: 409, headers: { "Retry-After": "1" } },
+      );
+    }
+
+    if (prep.kind === "payload_conflict") {
+      return jsonError("PAYLOAD_CONFLICT: Delivery key previously used with different semantic content", 409, {
+        code: "PAYLOAD_CONFLICT",
+      });
+    }
+
+    if (prep.kind === "replayed") {
+      return NextResponse.json({
+        ...prep.receipt,
+        deduplicated: true,
+      });
+    }
+
+    ({ publicationId } = prep);
   }
 
   try {
@@ -311,6 +512,8 @@ export async function POST(request: NextRequest) {
       agentEmail,
       asString(body.agentDisplayName, MAX_TITLE_LENGTH),
     );
+
+    // Strips model-estimated nutritionalTotals before upsert
     const persisted = await menuPersistenceService.upsertMenu(user.id, {
       weekStartDate,
       meals,
@@ -321,6 +524,7 @@ export async function POST(request: NextRequest) {
 
     let feedShared = false;
     let feedMetadata: ReturnType<typeof buildFeedMetadata> | null = null;
+    let feedEventId: string | undefined;
 
     if (shareToFeed && status === "completed") {
       feedMetadata = buildFeedMetadata({
@@ -329,13 +533,99 @@ export async function POST(request: NextRequest) {
         weekStartDate,
         meals,
         groceryList,
+        ...(deliveryKey ? { deliveryKey } : {}),
       });
-      feedShared = await feedDatabase.createEvent(
-        user.id,
-        "weekly_menu",
-        feedMetadata,
-        true,
-      );
+
+      // Attempt feed event creation
+      let feedCreated = false;
+      if (typeof feedDatabase.publishFeedEvent === "function") {
+        const feedResult = await feedDatabase.publishFeedEvent(
+          user.id,
+          "weekly_menu",
+          feedMetadata,
+          true,
+        );
+        feedCreated = feedResult.feedPublished;
+        feedEventId = feedResult.eventId;
+      } else {
+        feedCreated = await feedDatabase.createEvent(
+          user.id,
+          "weekly_menu",
+          feedMetadata,
+          true,
+        );
+        feedEventId = undefined;
+      }
+
+      feedShared = feedCreated;
+
+      // RULE: When feed publication was requested, success: true strictly requires confirmed feed!
+      if (!feedShared) {
+        const failedReceipt: DetailedPublicationReceipt = {
+          success: false,
+          contractVersion: "1.0",
+          ...(deliveryKey ? { deliveryId: deliveryKey } : {}),
+          operation: "weekly_menu_publish",
+          agentEmail,
+          userId: user.id,
+          menu: { id: persisted.id, weekStartDate: weekStartDate.toISOString() },
+          feedPublished: false,
+          recipeCommentStatus: "not_requested",
+          legacyInteractionStatus: "not_requested",
+          outcomes: {
+            feed: { status: "failed", error: "Feed event persistence unconfirmed" },
+            menu: { status: "persisted", id: persisted.id },
+          },
+          completedAt: new Date().toISOString(),
+        };
+
+        if (publicationId) {
+          await agentPublicationService.failPublication(
+            publicationId,
+            "Feed publication failed after menu persistence",
+            failedReceipt,
+          );
+        }
+
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Menu was persisted but feed publication could not be confirmed",
+            agentEmail,
+            userId: user.id,
+            menu: persisted,
+            feedShared: false,
+            ...(deliveryKey ? { deliveryId: deliveryKey } : {}),
+            receipt: failedReceipt,
+          },
+          { status: 502 },
+        );
+      }
+    }
+
+    const receipt: DetailedPublicationReceipt = {
+      success: true,
+      contractVersion: "1.0",
+      ...(deliveryKey ? { deliveryId: deliveryKey } : {}),
+      operation: "weekly_menu_publish",
+      agentEmail,
+      userId: user.id,
+      menu: { id: persisted.id, weekStartDate: weekStartDate.toISOString() },
+      feedPublished: feedShared,
+      recipeCommentStatus: "not_requested",
+      legacyInteractionStatus: "not_requested",
+      ...(feedEventId ? { event: { id: feedEventId } } : {}),
+      outcomes: {
+        feed: shareToFeed
+          ? { status: "published", id: feedEventId }
+          : { status: "not_requested" },
+        menu: { status: "persisted", id: persisted.id },
+      },
+      completedAt: new Date().toISOString(),
+    };
+
+    if (publicationId) {
+      await agentPublicationService.completePublication(publicationId, receipt);
     }
 
     return NextResponse.json({
@@ -345,14 +635,22 @@ export async function POST(request: NextRequest) {
       menu: persisted,
       feedShared,
       feedMetadata,
+      deliveryId: deliveryKey ?? undefined,
+      receipt,
     });
   } catch (error) {
-    // See the note in /api/feed: a refusal to provision is a 422, not an outage.
     if (error instanceof AgentChartRequiredError) {
       logger.warn("[agent-weekly-menu POST] refused agent", error.message);
       return jsonError(error.message, 422);
     }
     logger.error("[agent-weekly-menu POST]", error);
+
+    if (publicationId) {
+      await agentPublicationService.failPublication(
+        publicationId,
+        error instanceof Error ? error.message : "Internal error",
+      );
+    }
     return jsonError("Failed to save agent weekly menu", 500);
   }
 }

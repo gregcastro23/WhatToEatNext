@@ -23,7 +23,7 @@ interface Params {
   params: Promise<{ id: string }>;
 }
 
-export async function POST(request: NextRequest, { params }: Params) {
+export async function POST(request: NextRequest, { params }: Params): Promise<NextResponse> {
   const userId = await getUserIdFromRequest(request);
   if (!userId) {
     return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });
