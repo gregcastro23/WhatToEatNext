@@ -110,7 +110,7 @@ function verifyAgentRecipeWebhook(
   return { verification, response: null };
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const headerAuthError = checkAgentRecipeHeaderAuth(request);
   if (headerAuthError) return headerAuthError;
 
@@ -188,7 +188,7 @@ export async function POST(request: NextRequest) {
         remainingBalances: { spirit: 0, essence: 0, matter: 0, substance: 0 },
       };
 
-      let isAgent = false;
+      let isAgent: boolean;
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       if (uuidRegex.test(body.userId)) {
         try {
@@ -223,7 +223,7 @@ export async function POST(request: NextRequest) {
           description: `Recipe branch: ${body.name}`,
           idempotencyKey: `branch:${delivery.effectiveKey}`,
           autoSwap: body.autoSwap ?? true,
-          client,
+          ...(client ? { client } : {}),
         });
 
         if (!debitRes.success) {
@@ -302,13 +302,13 @@ export async function POST(request: NextRequest) {
           return outcome;
         });
       } catch (err) {
-        if (err instanceof RollbackError) {
-          if (claimResult.claim) {
-            await rejectInboundClaim(claimResult.claim, err.status);
-          }
-          return NextResponse.json(err.body, { status: err.status });
+        if (!(err instanceof RollbackError)) {
+          throw err;
         }
-        throw err;
+        if (claimResult.claim) {
+          await rejectInboundClaim(claimResult.claim, err.status);
+        }
+        return NextResponse.json(err.body, { status: err.status });
       }
     } else {
       txOutcome = await runInTx();

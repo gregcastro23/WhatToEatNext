@@ -49,7 +49,7 @@ export interface VerificationSummary {
     partial: number;
     none: number;
   };
-  artifactPath?: string | undefined;
+  artifactPath?: string;
   errors: string[];
 }
 
@@ -76,7 +76,7 @@ export async function runCatalogVerification(
   while (true) {
     pagesFetched++;
     currentPage = await recipeCatalogExportService.getExportPage({
-      snapshotId: pinnedSnapshotId ?? undefined,
+      ...(pinnedSnapshotId ? { snapshotId: pinnedSnapshotId } : {}),
       cursor,
       limit: pageSize,
     });
@@ -218,7 +218,7 @@ export async function runCatalogVerification(
       partial: currentPage?.nutritionCoverage.partial ?? 0,
       none: currentPage?.nutritionCoverage.none ?? 0,
     },
-    artifactPath: success ? outputPath : undefined,
+    ...(success && outputPath ? { artifactPath: outputPath } : {}),
     errors,
   };
 }

@@ -27,11 +27,11 @@ export interface DebitActionInTxArgs {
   userId: string;
   costs: ESMSAmounts;
   sourceType: TransactionSourceType;
-  sourceId?: string | null | undefined;
+  sourceId?: string | null;
   description: string;
-  idempotencyKey?: string | null | undefined;
-  autoSwap?: boolean | undefined;
-  client?: PoolClient | undefined;
+  idempotencyKey?: string | null;
+  autoSwap?: boolean;
+  client?: PoolClient;
 }
 
 export interface InsufficientFundsDetails {
@@ -50,13 +50,30 @@ export type DebitActionResult =
       success: false;
       reason: "insufficient_funds";
       details: InsufficientFundsDetails;
-      receipt?: EconomyReceipt | undefined;
+      receipt?: EconomyReceipt;
     }
   | {
       success: false;
       reason: "user_not_found" | "error";
       error: string;
     };
+
+function applySwapLeg(
+  current: ESMSAmounts,
+  leg: { fromToken: string; toToken: string; fromAmount: number; toAmount: number },
+): void {
+  const fromKey = leg.fromToken.toLowerCase();
+  const toKey = leg.toToken.toLowerCase();
+  if (fromKey === "spirit") current.spirit -= leg.fromAmount;
+  if (fromKey === "essence") current.essence -= leg.fromAmount;
+  if (fromKey === "matter") current.matter -= leg.fromAmount;
+  if (fromKey === "substance") current.substance -= leg.fromAmount;
+
+  if (toKey === "spirit") current.spirit += leg.toAmount;
+  if (toKey === "essence") current.essence += leg.toAmount;
+  if (toKey === "matter") current.matter += leg.toAmount;
+  if (toKey === "substance") current.substance += leg.toAmount;
+}
 
 interface BalanceRow {
   spirit: string;
@@ -339,17 +356,7 @@ export class AgentEconomyActionService {
         } else {
           // In-memory swap update
           for (const leg of plan.legs) {
-            const fromKey = leg.fromToken.toLowerCase();
-            const toKey = leg.toToken.toLowerCase();
-            if (fromKey === "spirit") current.spirit -= leg.fromAmount;
-            if (fromKey === "essence") current.essence -= leg.fromAmount;
-            if (fromKey === "matter") current.matter -= leg.fromAmount;
-            if (fromKey === "substance") current.substance -= leg.fromAmount;
-
-            if (toKey === "spirit") current.spirit += leg.toAmount;
-            if (toKey === "essence") current.essence += leg.toAmount;
-            if (toKey === "matter") current.matter += leg.toAmount;
-            if (toKey === "substance") current.substance += leg.toAmount;
+            applySwapLeg(current, leg);
           }
         }
         swapsExecuted = plan.legs.length;

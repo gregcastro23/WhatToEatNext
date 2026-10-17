@@ -121,9 +121,9 @@ export interface TransmutationCircleSnapshot {
   };
   /** The standing incentive, stated so the UI never has to hard-code it. */
   bonus: { tokenType: TokenType; baseAmount: number; minTradeValue: number; perPartnerPerDay: 1 };
-  recentTrades?: TriplicateTradeSummary[] | undefined;
-  resonanceWindows?: CircleBoardResonanceWindow[] | undefined;
-  activeResonanceWindows?: CircleBoardResonanceWindow[] | undefined;
+  recentTrades?: TriplicateTradeSummary[];
+  resonanceWindows?: CircleBoardResonanceWindow[];
+  activeResonanceWindows?: CircleBoardResonanceWindow[];
 }
 
 export interface TransmutationTrade {

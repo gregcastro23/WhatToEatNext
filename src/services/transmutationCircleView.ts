@@ -29,6 +29,7 @@ import {
   isoOf,
   joinedPartyOf,
   text,
+  textOrNull,
   tokenOf,
   parseOffer,
   rowsOf,
@@ -100,6 +101,45 @@ export function extractAspectDescription(raw: string): string {
   return raw.trim() || "Triplicate Synastry Alignment";
 }
 
+function evaluateRowResonance(
+  row: Record<string, unknown>,
+  viewerId: string,
+): CircleBoardResonanceWindow | null {
+  if (!row.maker_natal || !row.viewer_natal) return null;
+  const makerId = text(row.maker_id);
+  if (!makerId || makerId === viewerId) return null;
+  const maker = joinedPartyOf(row, "maker");
+  const giveToken = tokenOf(row.give_token);
+  const wantToken = tokenOf(row.want_token);
+
+  const evalRes = evaluateTriplicateSynastry({
+    makerId,
+    takerId: viewerId,
+    makerNatal: row.maker_natal,
+    takerNatal: row.viewer_natal,
+    giveToken,
+    giveAmount: Number(row.give_amount) || 1,
+    wantToken,
+    wantAmount: Number(row.want_amount) || 1,
+  });
+  if (!evalRes.qualifies) return null;
+
+  return {
+    windowKey: evalRes.windowKey,
+    makerId,
+    takerId: viewerId,
+    partnerId: makerId,
+    partnerName: maker.name,
+    partnerIsAgent: maker.isAgent,
+    aspectDescription: evalRes.aspectDescription,
+    harmonicAspect: evalRes.aspectDescription,
+    transitCatalyst: evalRes.transitCatalyst,
+    bonusPct: Math.round(evalRes.beta * 100),
+    complementaryAxes: { give: wantToken, want: giveToken },
+    expiresAt: isoOf(row.expires_at) ?? new Date(Date.now() + 12 * 3_600_000).toISOString(),
+  };
+}
+
 function buildResonanceWindows(
   boardRows: Array<Record<string, unknown>>,
   viewerId: string,
@@ -107,51 +147,12 @@ function buildResonanceWindows(
   const byPartner = new Map<string, CircleBoardResonanceWindow>();
 
   for (const row of boardRows) {
-    if (!row.maker_natal || !row.viewer_natal) continue;
-    const makerId = text(row.maker_id);
-    if (!makerId || makerId === viewerId) continue;
-    const maker = joinedPartyOf(row, "maker");
-
-    const giveToken = tokenOf(row.give_token);
-    const wantToken = tokenOf(row.want_token);
-    const giveAmount = Number(row.give_amount) || 1;
-    const wantAmount = Number(row.want_amount) || 1;
-
-    const evalRes = evaluateTriplicateSynastry({
-      makerId,
-      takerId: viewerId,
-      makerNatal: row.maker_natal,
-      takerNatal: row.viewer_natal,
-      giveToken,
-      giveAmount,
-      wantToken,
-      wantAmount,
-    });
-
-    if (!evalRes.qualifies) continue;
-
-    const bonusPct = Math.round(evalRes.beta * 100);
-    const existing = byPartner.get(makerId);
-    if (!existing || bonusPct > existing.bonusPct) {
-      byPartner.set(makerId, {
-        windowKey: evalRes.windowKey,
-        makerId,
-        takerId: viewerId,
-        partnerId: makerId,
-        partnerName: maker.name,
-        partnerIsAgent: maker.isAgent,
-        aspectDescription: evalRes.aspectDescription,
-        harmonicAspect: evalRes.aspectDescription,
-        transitCatalyst: evalRes.transitCatalyst,
-        bonusPct,
-        complementaryAxes: {
-          give: wantToken,
-          want: giveToken,
-        },
-        expiresAt:
-          isoOf(row.expires_at) ??
-          new Date(Date.now() + 12 * 3_600_000).toISOString(),
-      });
+    const res = evaluateRowResonance(row, viewerId);
+    if (!res) continue;
+    const partnerId = res.partnerId ?? res.makerId;
+    const existing = byPartner.get(partnerId);
+    if (!existing || res.bonusPct > existing.bonusPct) {
+      byPartner.set(partnerId, res);
     }
   }
 
@@ -185,14 +186,14 @@ export async function buildCircleSnapshot(viewerId: string): Promise<Transmutati
     return {
       id: text(r.id),
       timestamp: isoOf(r.closed_at) ?? new Date().toISOString(),
-      makerName: text(r.maker_name) ?? "Alchemist",
-      takerName: text(r.taker_name) ?? "Alchemist",
+      makerName: textOrNull(r.maker_name) ?? "Alchemist",
+      takerName: textOrNull(r.taker_name) ?? "Alchemist",
       gaveToken: tokenOf(r.give_token),
       gaveAmount: giveAmount,
       receivedToken: tokenOf(r.want_token),
       receivedAmount: wantAmount,
       resonanceBonusPct: bonusPct,
-      aspectDescription: extractAspectDescription(text(r.rebate_description) ?? ""),
+      aspectDescription: extractAspectDescription(text(r.rebate_description)),
     };
   });
 

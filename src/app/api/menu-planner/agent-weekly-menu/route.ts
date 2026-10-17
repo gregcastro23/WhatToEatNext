@@ -16,9 +16,14 @@
  * @file src/app/api/menu-planner/agent-weekly-menu/route.ts
  */
 
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { bearerMatches } from "@/lib/hooks/secureCompare";
+import { resolvePublicationDeliveryKey } from "@/lib/publications/deliveryKey";
+import { calculateSemanticFingerprint } from "@/lib/publications/semanticFingerprint";
+import type { DetailedPublicationReceipt } from "@/lib/publications/types";
+import { validateMenuRecipeReference } from "@/lib/recipes/recipeCatalogValidation";
 import { AgentWeeklyMenuRequestSchema } from "@/lib/validation/apiSchemas";
+import { agentPublicationService } from "@/services/agentPublicationService";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { menuPersistenceService } from "@/services/menuPersistenceService";
 import { userDatabase } from "@/services/userDatabaseService";
@@ -26,12 +31,6 @@ import { getWeekEndDate } from "@/types/menuPlanner";
 import type { GroceryItem, MealSlot } from "@/types/menuPlanner";
 import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
 import { createLogger } from "@/utils/logger";
-import { resolvePublicationDeliveryKey } from "@/lib/publications/deliveryKey";
-import { calculateSemanticFingerprint } from "@/lib/publications/semanticFingerprint";
-import { agentPublicationService } from "@/services/agentPublicationService";
-import type { DetailedPublicationReceipt } from "@/lib/publications/types";
-import { validateMenuRecipeReference } from "@/lib/recipes/recipeCatalogValidation";
-import type { NextRequest } from "next/server";
 
 const logger = createLogger("agent-weekly-menu");
 
@@ -214,8 +213,8 @@ function buildFeedMetadata(args: {
   weekStartDate: Date;
   meals: MealSlot[];
   groceryList: GroceryItem[];
-  deliveryKey?: string | undefined;
-}) {
+  deliveryKey?: string;
+}): Record<string, unknown> {
   const title =
     asString(args.body.menuTitle, MAX_TITLE_LENGTH) ??
     asString(args.body.title, MAX_TITLE_LENGTH) ??
@@ -257,11 +256,11 @@ function buildFeedMetadata(args: {
   };
 }
 
-function jsonError(message: string, status: number, details?: Record<string, unknown>) {
+function jsonError(message: string, status: number, details?: Record<string, unknown>): NextResponse {
   return NextResponse.json({ success: false, error: message, ...details }, { status });
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   if (!isAuthorizedInternalRequest(request.headers.get("Authorization"))) {
     return jsonError("Unauthorized", 401);
   }
@@ -307,7 +306,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   if (!isAuthorizedInternalRequest(request.headers.get("Authorization"))) {
     return jsonError("Unauthorized", 401);
   }
@@ -365,7 +364,7 @@ export async function POST(request: NextRequest) {
 
   // 3. For completed published menus, enforce full 28-slot schedule, Sunday UTC midnight, and recipe provenance
   const isPublishing = status === "completed" && shareToFeed;
-  let weekStartDate = rawWeekStartDate;
+  let weekStartDate: Date;
 
   if (isPublishing || status === "completed") {
     // Week start must be on Sunday
@@ -394,7 +393,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Meal type validation
-      const type = (meal.mealType ?? "").toLowerCase();
+      const type = meal.mealType.toLowerCase();
       if (!isRequiredMealType(type)) {
         return jsonError(`Invalid mealType '${meal.mealType}': must be breakfast, lunch, dinner, or snack`, 400);
       }
@@ -434,20 +433,18 @@ export async function POST(request: NextRequest) {
     // Featured meals validation: must reference the recipe assigned to that day/slot
     if (Array.isArray(body.featuredMeals) && body.featuredMeals.length > 0) {
       for (const feat of body.featuredMeals) {
-        if (isRecord(feat)) {
-          const fDay = asFiniteNumber(feat.dayOfWeek);
-          const fType = asString(feat.mealType, 40)?.toLowerCase();
-          const fRecipeId = asString(feat.recipeId, 120);
+        if (!isRecord(feat)) continue;
+        const fDay = asFiniteNumber(feat.dayOfWeek);
+        const fType = asString(feat.mealType, 40)?.toLowerCase();
+        const fRecipeId = asString(feat.recipeId, 120);
 
-          if (fDay !== undefined && fType && fRecipeId) {
-            const assignedRecipeId = slotMap.get(`${fDay}-${fType}`);
-            if (assignedRecipeId && assignedRecipeId !== fRecipeId) {
-              return jsonError(
-                `Featured meal for day ${fDay} ${fType} references recipe '${fRecipeId}', but slot has '${assignedRecipeId}'`,
-                400,
-              );
-            }
-          }
+        if (fDay === undefined || !fType || !fRecipeId) continue;
+        const assignedRecipeId = slotMap.get(`${fDay}-${fType}`);
+        if (assignedRecipeId && assignedRecipeId !== fRecipeId) {
+          return jsonError(
+            `Featured meal for day ${fDay} ${fType} references recipe '${fRecipeId}', but slot has '${assignedRecipeId}'`,
+            400,
+          );
         }
       }
     }
@@ -500,16 +497,14 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    if (prep.kind === "replayed" && prep.receipt) {
+    if (prep.kind === "replayed") {
       return NextResponse.json({
         ...prep.receipt,
         deduplicated: true,
       });
     }
 
-    if (prep.kind === "proceed") {
-      ({ publicationId } = prep);
-    }
+    ({ publicationId } = prep);
   }
 
   try {
@@ -538,7 +533,7 @@ export async function POST(request: NextRequest) {
         weekStartDate,
         meals,
         groceryList,
-        deliveryKey: deliveryKey ?? undefined,
+        ...(deliveryKey ? { deliveryKey } : {}),
       });
 
       // Attempt feed event creation
@@ -550,8 +545,8 @@ export async function POST(request: NextRequest) {
           feedMetadata,
           true,
         );
-        feedCreated = feedResult?.feedPublished ?? false;
-        feedEventId = feedResult?.eventId;
+        feedCreated = feedResult.feedPublished;
+        feedEventId = feedResult.eventId;
       } else {
         feedCreated = await feedDatabase.createEvent(
           user.id,
@@ -569,7 +564,7 @@ export async function POST(request: NextRequest) {
         const failedReceipt: DetailedPublicationReceipt = {
           success: false,
           contractVersion: "1.0",
-          deliveryId: deliveryKey ?? undefined,
+          ...(deliveryKey ? { deliveryId: deliveryKey } : {}),
           operation: "weekly_menu_publish",
           agentEmail,
           userId: user.id,
@@ -600,7 +595,7 @@ export async function POST(request: NextRequest) {
             userId: user.id,
             menu: persisted,
             feedShared: false,
-            deliveryId: deliveryKey ?? undefined,
+            ...(deliveryKey ? { deliveryId: deliveryKey } : {}),
             receipt: failedReceipt,
           },
           { status: 502 },
@@ -611,7 +606,7 @@ export async function POST(request: NextRequest) {
     const receipt: DetailedPublicationReceipt = {
       success: true,
       contractVersion: "1.0",
-      deliveryId: deliveryKey ?? undefined,
+      ...(deliveryKey ? { deliveryId: deliveryKey } : {}),
       operation: "weekly_menu_publish",
       agentEmail,
       userId: user.id,
@@ -619,7 +614,7 @@ export async function POST(request: NextRequest) {
       feedPublished: feedShared,
       recipeCommentStatus: "not_requested",
       legacyInteractionStatus: "not_requested",
-      event: feedEventId ? { id: feedEventId } : undefined,
+      ...(feedEventId ? { event: { id: feedEventId } } : {}),
       outcomes: {
         feed: shareToFeed
           ? { status: "published", id: feedEventId }

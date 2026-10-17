@@ -11,26 +11,41 @@
  */
 
 import { randomUUID } from "node:crypto";
+import { z } from "zod";
 import { executeQuery } from "@/lib/database/connection";
 import { isBlockedBetween } from "@/lib/feed/commentEnforcement";
 import { _logger } from "@/lib/logger";
 import type { PoolClient } from "pg";
 
+const ProvenanceSchema = z.record(z.string(), z.unknown());
+
+function parseProvenance(value: unknown): Record<string, unknown> {
+  if (typeof value === "string") {
+    try {
+      const parsed: unknown = JSON.parse(value);
+      return ProvenanceSchema.safeParse(parsed).data ?? {};
+    } catch {
+      return {};
+    }
+  }
+  return ProvenanceSchema.safeParse(value).data ?? {};
+}
+
 export interface CreateReflectionParams {
   recipeId: string;
   authorId: string;
-  publicationId?: string | null | undefined;
-  feedEventId?: string | null | undefined;
-  deliveryKey?: string | null | undefined;
+  publicationId?: string | null;
+  feedEventId?: string | null;
+  deliveryKey?: string | null;
   source: string;
-  contentState?: "proposed" | "reviewed" | "published" | "archived" | undefined;
+  contentState?: "proposed" | "reviewed" | "published" | "archived";
   review: string;
-  score?: number | null | undefined;
-  isAgent?: boolean | undefined;
-  instructionReviewRequired?: boolean | undefined;
-  provenance?: Record<string, unknown> | undefined;
-  createdAt?: Date | string | undefined;
-  client?: PoolClient | undefined;
+  score?: number | null;
+  isAgent?: boolean;
+  instructionReviewRequired?: boolean;
+  provenance?: Record<string, unknown>;
+  createdAt?: Date | string;
+  client?: PoolClient;
 }
 
 export interface RecipeReflectionRecord {
@@ -55,11 +70,11 @@ export interface RecipeReflectionRecord {
 
 export interface ListReflectionsParams {
   recipeId: string;
-  viewerId?: string | null | undefined;
-  limit?: number | undefined;
-  cursor?: string | null | undefined;
-  authorType?: "all" | "agent" | "human" | undefined;
-  source?: string | undefined;
+  viewerId?: string | null;
+  limit?: number;
+  cursor?: string | null;
+  authorType?: "all" | "agent" | "human";
+  source?: string;
 }
 
 export interface FormattedRecipeReflection {
@@ -68,7 +83,7 @@ export interface FormattedRecipeReflection {
   author: {
     id: string;
     name: string;
-    slug?: string | undefined;
+    slug?: string;
     isAgent: boolean;
   };
   publicationId: string | null;
@@ -217,10 +232,7 @@ export class RecipeReflectionsService {
         score: row.score !== null ? Number(row.score) : null,
         isAgent: row.is_agent,
         instructionReviewRequired: row.instruction_review_required,
-        provenance:
-          typeof row.provenance === "string"
-            ? JSON.parse(row.provenance)
-            : row.provenance,
+        provenance: parseProvenance(row.provenance),
         createdAt: row.created_at,
         updatedAt: row.updated_at,
         deletedAt: row.deleted_at,
@@ -422,8 +434,8 @@ export class RecipeReflectionsService {
         recipeId: r.recipeId,
         author: {
           id: r.authorId,
-          name: r.author_name || (r.isAgent ? "Planetary Agent" : "Anonymous cook"),
-          slug: r.author_email ? r.author_email.split("@")[0] : undefined,
+          name: r.author_name ?? (r.isAgent ? "Planetary Agent" : "Anonymous cook"),
+          ...(r.author_email ? { slug: r.author_email.split("@")[0] } : {}),
           isAgent: r.isAgent,
         },
         publicationId: r.publicationId,
@@ -450,14 +462,15 @@ export class RecipeReflectionsService {
   }
 
   private formatReflectionRow(row: RawReflectionRow): FormattedRecipeReflection {
-    let displayName = row.author_name?.trim() || "Anonymous cook";
+    const rawName = row.author_name?.trim();
+    let displayName = rawName && rawName.length > 0 ? rawName : "Anonymous cook";
     let slug: string | undefined;
 
     if (row.is_agent && row.author_email) {
       const parts = row.author_email.split("@");
-      const localPart = parts[0] || "Agent";
+      const localPart = parts[0] && parts[0].length > 0 ? parts[0] : "Agent";
       slug = localPart;
-      displayName = row.author_name?.trim() || localPart;
+      displayName = rawName && rawName.length > 0 ? rawName : localPart;
     }
 
     return {
@@ -478,10 +491,7 @@ export class RecipeReflectionsService {
       score: row.score !== null ? Number(row.score) : null,
       isAgent: row.is_agent,
       instructionReviewRequired: row.instruction_review_required,
-      provenance:
-        typeof row.provenance === "string"
-          ? JSON.parse(row.provenance)
-          : row.provenance ?? {},
+      provenance: parseProvenance(row.provenance),
       createdAt: new Date(row.created_at).toISOString(),
       updatedAt: new Date(row.updated_at).toISOString(),
     };

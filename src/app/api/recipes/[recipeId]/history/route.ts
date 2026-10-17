@@ -13,18 +13,35 @@
  */
 
 import { NextResponse } from "next/server";
-import { recipeReflectionsService } from "@/services/recipeReflectionsService";
-import { _logger } from "@/lib/logger";
 import { auth } from "@/lib/auth/auth";
+import { _logger } from "@/lib/logger";
+import { recipeReflectionsService } from "@/services/recipeReflectionsService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+function parseHistoryQuery(url: string): {
+  cursor: string | null;
+  limit: number;
+  authorType: "all" | "agent" | "human";
+  source?: string;
+} {
+  const { searchParams } = new URL(url);
+  const cursor = searchParams.get("cursor");
+  const limitStr = searchParams.get("limit");
+  const authorTypeStr = searchParams.get("authorType")?.toLowerCase();
+  const source = searchParams.get("source") ?? undefined;
+  const parsed = limitStr ? parseInt(limitStr, 10) : NaN;
+  const limit = !Number.isNaN(parsed) && parsed > 0 ? Math.min(parsed, 50) : 20;
+  const authorType = authorTypeStr === "agent" || authorTypeStr === "human" ? authorTypeStr : "all";
+  return { cursor, limit, authorType, ...(source ? { source } : {}) };
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ recipeId: string }> },
-) {
+): Promise<NextResponse> {
   const { recipeId } = await params;
 
   if (!recipeId || typeof recipeId !== "string" || !recipeId.trim()) {
@@ -34,27 +51,10 @@ export async function GET(
     );
   }
 
-  const { searchParams } = new URL(request.url);
-  const cursor = searchParams.get("cursor");
-  const limitStr = searchParams.get("limit");
-  const authorTypeStr = searchParams.get("authorType")?.toLowerCase();
-  const source = searchParams.get("source") ?? undefined;
-
-  let limit = 20;
-  if (limitStr) {
-    const parsed = parseInt(limitStr, 10);
-    if (!Number.isNaN(parsed) && parsed > 0) {
-      limit = Math.min(parsed, 50);
-    }
-  }
-
-  let authorType: "all" | "agent" | "human" = "all";
-  if (authorTypeStr === "agent" || authorTypeStr === "human") {
-    authorType = authorTypeStr;
-  }
+  const { cursor, limit, authorType, source } = parseHistoryQuery(request.url);
 
   // Optional authenticated viewer for two-way block enforcement
-  let viewerId: string | null = null;
+  let viewerId: string | null;
   try {
     const session = await auth();
     viewerId = session?.user?.id ?? null;
@@ -69,7 +69,7 @@ export async function GET(
       limit,
       cursor,
       authorType,
-      source,
+      ...(source ? { source } : {}),
     });
 
     return NextResponse.json({

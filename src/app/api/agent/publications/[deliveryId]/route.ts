@@ -10,10 +10,11 @@
  */
 
 import { NextResponse } from "next/server";
-import { bearerMatches } from "@/lib/hooks/secureCompare";
-import { agentPublicationService } from "@/services/agentPublicationService";
 import { executeQuery } from "@/lib/database/connection";
+import { bearerMatches } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
+import type { AgentPublicationRow } from "@/lib/publications/types";
+import { agentPublicationService } from "@/services/agentPublicationService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -23,10 +24,43 @@ function isAuthorized(authHeader: string | null): boolean {
   return bearerMatches(authHeader, process.env.INTERNAL_API_SECRET);
 }
 
+function formatPublicationResponse(publication: AgentPublicationRow): Record<string, unknown> {
+  const receiptPayload = publication.receipt_payload;
+  const commentSaved =
+    publication.recipe_comment_status === "saved" || receiptPayload.recipeCommentSaved === true
+      ? true
+      : publication.recipe_comment_status === "not_requested"
+        ? undefined
+        : false;
+
+  return {
+    success: publication.status === "completed",
+    contractVersion: "1.0",
+    deliveryId: publication.delivery_key,
+    publicationId: publication.id,
+    principalId: publication.principal_id,
+    operation: publication.operation,
+    status: publication.status,
+    feedPublished: publication.feed_published,
+    feedEventId: publication.feed_event_id,
+    recipeCommentStatus: publication.recipe_comment_status,
+    ...(commentSaved !== undefined ? { recipeCommentSaved: commentSaved } : {}),
+    recipeReflectionId: publication.recipe_reflection_id,
+    menuId: publication.menu_id,
+    legacyInteractionStatus: publication.legacy_interaction_status,
+    event: receiptPayload.event ?? (publication.feed_event_id ? { id: publication.feed_event_id } : undefined),
+    recipeReflection: receiptPayload.recipeReflection ?? (publication.recipe_reflection_id ? { id: publication.recipe_reflection_id } : undefined),
+    menu: receiptPayload.menu ?? (publication.menu_id ? { id: publication.menu_id } : undefined),
+    receipt: publication.receipt_payload,
+    createdAt: publication.created_at,
+    updatedAt: publication.updated_at,
+  };
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ deliveryId: string }> },
-) {
+): Promise<NextResponse> {
   if (!isAuthorized(request.headers.get("Authorization"))) {
     return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
   }
@@ -56,36 +90,7 @@ export async function GET(
       );
     }
 
-    const receiptPayload = publication.receipt_payload;
-    const commentSaved =
-      publication.recipe_comment_status === "saved" || receiptPayload?.recipeCommentSaved === true
-        ? true
-        : publication.recipe_comment_status === "not_requested"
-          ? undefined
-          : false;
-
-    return NextResponse.json({
-      success: publication.status === "completed",
-      contractVersion: "1.0",
-      deliveryId: publication.delivery_key,
-      publicationId: publication.id,
-      principalId: publication.principal_id,
-      operation: publication.operation,
-      status: publication.status,
-      feedPublished: publication.feed_published,
-      feedEventId: publication.feed_event_id,
-      recipeCommentStatus: publication.recipe_comment_status,
-      ...(commentSaved !== undefined ? { recipeCommentSaved: commentSaved } : {}),
-      recipeReflectionId: publication.recipe_reflection_id,
-      menuId: publication.menu_id,
-      legacyInteractionStatus: publication.legacy_interaction_status,
-      event: receiptPayload.event ?? (publication.feed_event_id ? { id: publication.feed_event_id } : undefined),
-      recipeReflection: receiptPayload.recipeReflection ?? (publication.recipe_reflection_id ? { id: publication.recipe_reflection_id } : undefined),
-      menu: receiptPayload.menu ?? (publication.menu_id ? { id: publication.menu_id } : undefined),
-      receipt: publication.receipt_payload,
-      createdAt: publication.created_at,
-      updatedAt: publication.updated_at,
-    });
+    return NextResponse.json(formatPublicationResponse(publication));
   } catch (error) {
     _logger.error("[agent/publications GET] Error retrieving receipt:", error);
     return NextResponse.json(
@@ -98,7 +103,7 @@ export async function GET(
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ deliveryId: string }> },
-) {
+): Promise<NextResponse> {
   if (!isAuthorized(request.headers.get("Authorization"))) {
     return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
   }

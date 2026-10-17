@@ -45,6 +45,7 @@ import {
   text,
   type OfferRecord,
   type Participant,
+  type Row,
   type StoredStatus,
 } from "@/services/transmutationRecords";
 import { coins, quietly, liveQuote } from "@/services/transmutationViews";
@@ -70,6 +71,33 @@ export type FillOutcome =
     };
 
 interface Built { sql: string; values: unknown[] }
+
+function buildRebateLegs(
+  common: { sourceType: string; sourceId: string; transactionGroupId: string },
+  tag: string,
+  offer: OfferRecord,
+  takerId: string,
+  rebate: TriplicateEvaluation,
+): Built[] {
+  return [
+    creditTokensSql({
+      ...common,
+      userId: offer.makerId,
+      tokenType: offer.wantToken,
+      amount: rebate.makerRebateAmount,
+      description: `${tag}: celestial resonance rebate (+${Math.round(rebate.beta * 100)}% ${offer.wantToken} via ${rebate.aspectDescription})`,
+      idempotencyKey: `${rebate.windowKey}:maker`,
+    }),
+    creditTokensSql({
+      ...common,
+      userId: takerId,
+      tokenType: offer.giveToken,
+      amount: rebate.takerRebateAmount,
+      description: `${tag}: celestial resonance rebate (+${Math.round(rebate.beta * 100)}% ${offer.giveToken} via ${rebate.aspectDescription})`,
+      idempotencyKey: `${rebate.windowKey}:taker`,
+    }),
+  ];
+}
 
 /** The four balance moves of one fill, in the order they are written. */
 function fillLegs(offer: OfferRecord, takerId: string, transactionGroupId: string, rebate?: TriplicateEvaluation | null): Built[] {
@@ -109,33 +137,90 @@ function fillLegs(offer: OfferRecord, takerId: string, transactionGroupId: strin
   ];
 
   if (rebate?.qualifies) {
-    legs.push(
-      creditTokensSql({
-        ...common,
-        userId: offer.makerId,
-        tokenType: offer.wantToken,
-        amount: rebate.makerRebateAmount,
-        description: `${tag}: celestial resonance rebate (+${Math.round(rebate.beta * 100)}% ${offer.wantToken} via ${rebate.aspectDescription})`,
-        idempotencyKey: `${rebate.windowKey}:maker`,
-      }),
-      creditTokensSql({
-        ...common,
-        userId: takerId,
-        tokenType: offer.giveToken,
-        amount: rebate.takerRebateAmount,
-        description: `${tag}: celestial resonance rebate (+${Math.round(rebate.beta * 100)}% ${offer.giveToken} via ${rebate.aspectDescription})`,
-        idempotencyKey: `${rebate.windowKey}:taker`,
-      }),
-    );
+    legs.push(...buildRebateLegs(common, tag, offer, takerId, rebate));
   }
 
   return legs;
 }
 
+async function fetchNatalPositions(
+  run: (built: Built) => Promise<Row[]>,
+  userId: string,
+): Promise<unknown> {
+  const [row] = await run({
+    sql: "SELECT natal_positions FROM user_profiles WHERE user_id = $1::uuid",
+    values: [userId],
+  });
+  return row?.natal_positions;
+}
+
+function checkEquilibrium(
+  evalRes: TriplicateEvaluation,
+  locked: OfferRecord,
+  makerWallet: Holdings,
+  takerWallet: Holdings,
+): TriplicateEvaluation | null {
+  const quote = liveQuote();
+  if (!quote) return null;
+  const prog = checkEquilibriumProgress({
+    makerHoldings: makerWallet,
+    takerHoldings: takerWallet,
+    giveToken: locked.giveToken,
+    giveAmount: locked.giveAmount,
+    wantToken: locked.wantToken,
+    wantAmount: locked.wantAmount,
+    prices: quote.prices,
+  });
+  return prog.ok ? evalRes : null;
+}
+
+async function resolveTriplicateRebate(
+  run: (built: Built) => Promise<Row[]>,
+  locked: OfferRecord,
+  takerId: string,
+  makerWallet: Holdings,
+  takerWallet: Holdings,
+): Promise<TriplicateEvaluation | null> {
+  try {
+    const makerNatal = await fetchNatalPositions(run, locked.makerId);
+    const takerNatal = await fetchNatalPositions(run, takerId);
+    if (!makerNatal || !takerNatal) {
+      return null;
+    }
+
+    const evalRes = evaluateTriplicateSynastry({
+      makerId: locked.makerId,
+      takerId,
+      makerNatal,
+      takerNatal,
+      giveToken: locked.giveToken,
+      giveAmount: locked.giveAmount,
+      wantToken: locked.wantToken,
+      wantAmount: locked.wantAmount,
+    });
+    if (!evalRes.qualifies) {
+      return null;
+    }
+
+    const [cooldownRow] = await run({
+      sql: "SELECT 1 FROM token_transactions WHERE idempotency_key = $1 LIMIT 1",
+      values: [`${evalRes.windowKey}:maker`],
+    });
+    if (cooldownRow) {
+      return null;
+    }
+
+    return checkEquilibrium(evalRes, locked, makerWallet, takerWallet);
+  } catch {
+    return null;
+  }
+}
+
 /** Fill an offer: both wallets move in one transaction, or neither does. */
 export async function fillOfferAtomically(offerId: string, takerId: string): Promise<FillOutcome> {
   return withTransaction(async (client): Promise<FillOutcome> => {
-    const run = async (built: Built) => (await executeQuery(built.sql, built.values, { client })).rows;
+    const run = async (built: Built): Promise<Row[]> =>
+      (await executeQuery(built.sql, built.values, { client })).rows;
 
     const [lockedRow] = await run(sql.lockOfferSql(offerId));
     if (!lockedRow) return { kind: "gone" };
@@ -153,43 +238,13 @@ export async function fillOfferAtomically(offerId: string, takerId: string): Pro
     if (!makerWallet || !canCoverGive(locked, makerWallet)) return { kind: "maker_short" };
     if (!takerWallet || !canFill(locked, takerWallet)) return { kind: "taker_short" };
 
-    let rebate: TriplicateEvaluation | null = null;
-    try {
-      const [makerProf] = await run({ sql: "SELECT natal_positions FROM user_profiles WHERE user_id = $1::uuid", values: [locked.makerId] });
-      const [takerProf] = await run({ sql: "SELECT natal_positions FROM user_profiles WHERE user_id = $1::uuid", values: [takerId] });
-      if (makerProf?.natal_positions && takerProf?.natal_positions) {
-        const evalRes = evaluateTriplicateSynastry({
-          makerId: locked.makerId,
-          takerId,
-          makerNatal: makerProf.natal_positions,
-          takerNatal: takerProf.natal_positions,
-          giveToken: locked.giveToken,
-          giveAmount: locked.giveAmount,
-          wantToken: locked.wantToken,
-          wantAmount: locked.wantAmount,
-        });
-        if (evalRes.qualifies) {
-          const [cooldownRow] = await run({ sql: "SELECT 1 FROM token_transactions WHERE idempotency_key = $1 LIMIT 1", values: [`${evalRes.windowKey}:maker`] });
-          if (!cooldownRow) {
-            const quote = liveQuote();
-            if (quote) {
-              const prog = checkEquilibriumProgress({
-                makerHoldings: makerWallet,
-                takerHoldings: takerWallet,
-                giveToken: locked.giveToken,
-                giveAmount: locked.giveAmount,
-                wantToken: locked.wantToken,
-                wantAmount: locked.wantAmount,
-                prices: quote.prices,
-              });
-              if (prog.ok) rebate = evalRes;
-            }
-          }
-        }
-      }
-    } catch {
-      rebate = null;
-    }
+    const rebate = await resolveTriplicateRebate(
+      run,
+      locked,
+      takerId,
+      makerWallet,
+      takerWallet,
+    );
 
     const transactionGroupId = randomUUID();
     for (const leg of fillLegs(locked, takerId, transactionGroupId, rebate)) {
@@ -221,6 +276,28 @@ export function tradeOf(filled: OfferRecord, transactionGroupId: string, rebate?
 
 export type TradeBonus = { tokenType: string; amount: number; hint: string } | null;
 
+async function notifyMakerFilled(
+  maker: Participant,
+  taker: Participant,
+  filled: OfferRecord,
+  transactionGroupId: string,
+): Promise<void> {
+  if (maker.isAgent) return;
+  await quietly("fill notification", () =>
+    notificationDatabase.createNotification(
+      maker.id,
+      "transmutation_accepted",
+      "Your offer was filled",
+      `${partyOf(taker).name} traded with you: you gave ${coins(filled.giveAmount, filled.giveToken)} ` +
+        `and received ${coins(filled.wantAmount, filled.wantToken)}`,
+      {
+        ...(isRevealed(taker) ? { relatedUserId: taker.id } : {}),
+        metadata: { offerId: filled.id, transactionGroupId },
+      },
+    ),
+  );
+}
+
 /**
  * After a committed fill: the Circle bonus for each human party (once per
  * partner per day, never for dust, never for agents), the maker's bell, and the
@@ -243,25 +320,12 @@ export async function celebrateFill(args: {
       bonus = { tokenType: result.tokenType, amount: result.amount, hint: result.hint };
     }
   }
+
   if (earnsBonus && !maker.isAgent) {
     await practiceRewardService.recognize(maker.id, "transmutation_shared", taker.id);
   }
 
-  if (!maker.isAgent) {
-    await quietly("fill notification", () =>
-      notificationDatabase.createNotification(
-        maker.id,
-        "transmutation_accepted",
-        "Your offer was filled",
-        `${partyOf(taker).name} traded with you: you gave ${coins(filled.giveAmount, filled.giveToken)} ` +
-          `and received ${coins(filled.wantAmount, filled.wantToken)}`,
-        {
-          ...(isRevealed(taker) ? { relatedUserId: taker.id } : {}),
-          metadata: { offerId: filled.id, transactionGroupId: trade.transactionGroupId },
-        },
-      ),
-    );
-  }
+  await notifyMakerFilled(maker, taker, filled, trade.transactionGroupId);
 
   await quietly("trade feed event", () =>
     feedDatabase.createEvent(taker.id, "transmutation_trade", {

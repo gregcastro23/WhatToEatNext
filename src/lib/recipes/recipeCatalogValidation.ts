@@ -8,10 +8,14 @@
  * @file src/lib/recipes/recipeCatalogValidation.ts
  */
 
-import { isReservedAdaptation } from "@/lib/recipes/savedAdaptationSchemas";
-import { resolveRecipeRef } from "@/lib/recipes/recipeRefResolver";
-import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { getServerRecipes } from "@/actions/recipes";
+import { resolveRecipeRef } from "@/lib/recipes/recipeRefResolver";
+import { isReservedAdaptation } from "@/lib/recipes/savedAdaptationSchemas";
+import { LocalRecipeService } from "@/services/LocalRecipeService";
+
+function isRecord(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null && !Array.isArray(val);
+}
 
 export interface RecipeValidationResult {
   valid: boolean;
@@ -24,13 +28,10 @@ export interface RecipeValidationResult {
  * Validates whether a submitted recipe reference points to a known authoritative recipe
  * and does not forge saved-adaptation provenance.
  */
-export async function validateMenuRecipeReference(recipe: {
-  id?: unknown;
-  source?: unknown;
-  kind?: unknown;
-  payload?: unknown;
-}): Promise<RecipeValidationResult> {
-  if (!recipe || typeof recipe !== "object") {
+export async function validateMenuRecipeReference(
+  recipe: unknown,
+): Promise<RecipeValidationResult> {
+  if (!isRecord(recipe)) {
     return { valid: false, error: "Missing recipe specification in meal slot" };
   }
 
@@ -95,7 +96,7 @@ export async function isKnownAuthoritativeRecipe(recipeId: string): Promise<bool
     const staticRecipes = await getServerRecipes();
     const cleanLower = cleanId.toLowerCase();
     const found = staticRecipes.some(
-      (r) => String(r.id).toLowerCase() === cleanLower || r.name?.toLowerCase() === cleanLower,
+      (r) => String(r.id).toLowerCase() === cleanLower || r.name.toLowerCase() === cleanLower,
     );
     if (found) return true;
   } catch {

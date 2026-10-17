@@ -40,9 +40,9 @@ export interface ExportedNutrition {
 export interface ExportedRecipe {
   id: string;
   name: string;
-  cuisine?: string | undefined;
-  category?: string | undefined;
-  description?: string | undefined;
+  cuisine?: string;
+  category?: string;
+  description?: string;
   servings: number | null;
   prepTimeMinutes: number | null;
   cookTimeMinutes: number | null;
@@ -52,19 +52,17 @@ export interface ExportedRecipe {
     name: string;
     amount: number;
     unit: string;
-    optional?: boolean | undefined;
+    optional?: boolean;
   }>;
   instructions: string[];
   nutrition: ExportedNutrition;
-  elementalProperties?:
-    | {
-        Fire: number;
-        Water: number;
-        Earth: number;
-        Air: number;
-      }
-    | undefined;
-  alchemicalQuantities?: Record<string, number> | undefined;
+  elementalProperties?: {
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+  };
+  alchemicalQuantities?: Record<string, number>;
   sourceRevision: string;
   contentDigest: string;
 }
@@ -209,7 +207,7 @@ function transformRecipeForExport(recipe: Recipe): ExportedRecipe {
 
   // Elemental properties (Fire, Water, Earth, Air)
   let elementalProperties: ExportedRecipe["elementalProperties"] | undefined;
-  if (recipe.elementalProperties && isRecord(recipe.elementalProperties)) {
+  if (isRecord(recipe.elementalProperties)) {
     const ep = recipe.elementalProperties;
     const fireVal = typeof ep.Fire === "number" ? ep.Fire : typeof ep.fire === "number" ? ep.fire : 0;
     const waterVal = typeof ep.Water === "number" ? ep.Water : typeof ep.water === "number" ? ep.water : 0;
@@ -245,14 +243,16 @@ function transformRecipeForExport(recipe: Recipe): ExportedRecipe {
   const recipeBase: Omit<ExportedRecipe, "contentDigest"> = {
     id,
     name,
-    cuisine: typeof recipe.cuisine === "string" ? recipe.cuisine : undefined,
-    category: typeof recipe.category === "string" ? recipe.category : undefined,
-    description: typeof recipe.description === "string" ? recipe.description : undefined,
+    ...(typeof recipe.cuisine === "string" ? { cuisine: recipe.cuisine } : {}),
+    ...(typeof recipe.category === "string" ? { category: recipe.category } : {}),
+    ...(typeof recipe.description === "string" ? { description: recipe.description } : {}),
     servings: typeof recipe.servings === "number" ? recipe.servings : null,
     prepTimeMinutes: prepTime,
     cookTimeMinutes: cookTime,
     totalTimeMinutes: totalTime,
-    mealTypes: Array.isArray(recipe.mealTypes) ? recipe.mealTypes : [],
+    mealTypes: Array.isArray(recipe.mealTypes)
+      ? recipe.mealTypes.filter((m): m is string => typeof m === "string")
+      : [],
     ingredients,
     instructions,
     nutrition: {
@@ -266,8 +266,8 @@ function transformRecipeForExport(recipe: Recipe): ExportedRecipe {
       isLowerBound,
       servingsKnown: typeof recipe.servings === "number" && recipe.servings > 0,
     },
-    elementalProperties,
-    alchemicalQuantities,
+    ...(elementalProperties !== undefined ? { elementalProperties } : {}),
+    ...(alchemicalQuantities !== undefined ? { alchemicalQuantities } : {}),
     sourceRevision,
   };
 
@@ -302,9 +302,9 @@ export class RecipeCatalogExportService {
     }
 
     // 2. Load recipes and determine authoritative source state
-    let rawRecipes: Recipe[] = [];
-    let source: SnapshotSession["source"] = "live_database";
-    let sourceStatus: SnapshotSession["sourceStatus"] = "healthy";
+    let rawRecipes: Recipe[];
+    let source: SnapshotSession["source"];
+    let sourceStatus: SnapshotSession["sourceStatus"];
 
     try {
       rawRecipes = await LocalRecipeService.getAllRecipes();
@@ -390,9 +390,9 @@ export class RecipeCatalogExportService {
    * Retrieve a paginated slice from a pinned snapshot.
    */
   async getExportPage(params: {
-    snapshotId?: string | undefined;
-    cursor?: string | null | undefined;
-    limit?: number | undefined;
+    snapshotId?: string;
+    cursor?: string | null;
+    limit?: number;
   }): Promise<RecipeExportPage> {
     const { snapshotId, cursor, limit = DEFAULT_PAGE_SIZE } = params;
     const pageSize = Math.min(Math.max(1, limit), MAX_PAGE_SIZE);

@@ -13,9 +13,9 @@
  */
 
 import { NextResponse } from "next/server";
-import { recipeCatalogExportService } from "@/services/recipeCatalogExportService";
-import { _logger } from "@/lib/logger";
 import { bearerMatches } from "@/lib/hooks/secureCompare";
+import { _logger } from "@/lib/logger";
+import { recipeCatalogExportService } from "@/services/recipeCatalogExportService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +29,13 @@ function isAuthorized(authHeader: string | null): boolean {
   return bearerMatches(authHeader, process.env.INTERNAL_API_SECRET);
 }
 
-export async function GET(request: NextRequest) {
+function parseLimit(limitStr: string | null): number {
+  if (!limitStr) return 100;
+  const parsed = parseInt(limitStr, 10);
+  return !Number.isNaN(parsed) && parsed > 0 ? Math.min(parsed, 250) : 100;
+}
+
+export async function GET(request: NextRequest): Promise<NextResponse> {
   if (!isAuthorized(request.headers.get("Authorization"))) {
     return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
   }
@@ -37,19 +43,11 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const snapshotId = searchParams.get("snapshotId") ?? undefined;
   const cursor = searchParams.get("cursor");
-  const limitStr = searchParams.get("limit");
-
-  let limit = 100;
-  if (limitStr) {
-    const parsed = parseInt(limitStr, 10);
-    if (!Number.isNaN(parsed) && parsed > 0) {
-      limit = Math.min(parsed, 250);
-    }
-  }
+  const limit = parseLimit(searchParams.get("limit"));
 
   try {
     const page = await recipeCatalogExportService.getExportPage({
-      snapshotId,
+      ...(snapshotId ? { snapshotId } : {}),
       cursor,
       limit,
     });

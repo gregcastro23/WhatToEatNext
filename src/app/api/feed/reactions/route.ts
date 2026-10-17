@@ -23,7 +23,7 @@ export const runtime = "nodejs";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const MAX_EVENT_IDS = 100;
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const userId = await getUserIdFromRequest(request);
   // Anonymous → empty map (no per-viewer state, and no work for the DB).
   if (!userId) {

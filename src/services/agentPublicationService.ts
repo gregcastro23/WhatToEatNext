@@ -23,14 +23,35 @@ import type { PoolClient } from "pg";
 export const STALE_PUBLICATION_LOCK_SECONDS = 60;
 
 export type PreparePublicationOutcome =
-  | { kind: "proceed"; publicationId: string; client?: PoolClient | undefined }
-  | { kind: "replayed"; receipt: DetailedPublicationReceipt; publicationId?: string | undefined }
+  | { kind: "proceed"; publicationId: string; client?: PoolClient }
+  | { kind: "replayed"; receipt: DetailedPublicationReceipt; publicationId?: string }
   | { kind: "in_flight"; retryAfter: number }
   | {
       kind: "payload_conflict";
       code: "PAYLOAD_CONFLICT";
       message: string;
     };
+
+function updateMemoryStoreFailed(
+  store: Map<string, AgentPublicationRow>,
+  publicationId: string,
+  errorMessage: string,
+  receipt?: DetailedPublicationReceipt,
+): void {
+  for (const [key, row] of store.entries()) {
+    if (row.id === publicationId) {
+      row.status = "failed";
+      row.error_message = errorMessage;
+      if (receipt) {
+        row.receipt_payload = receipt;
+      }
+      row.locked_at = null;
+      row.updated_at = new Date().toISOString();
+      store.set(key, row);
+      break;
+    }
+  }
+}
 
 export class AgentPublicationService {
   private readonly memoryStore = new Map<string, AgentPublicationRow>();
@@ -88,7 +109,7 @@ export class AgentPublicationService {
             deliveryKey,
           ]);
 
-      const row = existing?.rows?.[0];
+      const [row] = existing.rows;
 
       if (row) {
         // Different actor claiming same key under same principal
@@ -143,7 +164,7 @@ export class AgentPublicationService {
           return {
             kind: "proceed",
             publicationId: row.id,
-            client,
+            ...(client ? { client } : {}),
           };
         }
 
@@ -161,7 +182,7 @@ export class AgentPublicationService {
         return {
           kind: "proceed",
           publicationId: row.id,
-          client,
+          ...(client ? { client } : {}),
         };
       }
 
@@ -195,7 +216,7 @@ export class AgentPublicationService {
       return {
         kind: "proceed",
         publicationId,
-        client,
+        ...(client ? { client } : {}),
       };
     } catch (_err) {
       // In-memory fallback for test environments without live DB
@@ -271,7 +292,7 @@ export class AgentPublicationService {
       return {
         kind: "proceed",
         publicationId: fallbackId,
-        client,
+        ...(client ? { client } : {}),
       };
     }
   }
@@ -284,23 +305,23 @@ export class AgentPublicationService {
       | string
       | {
           publicationId: string;
-          feedEventId?: string | null | undefined;
-          recipeReflectionId?: string | null | undefined;
-          menuId?: string | null | undefined;
+          feedEventId?: string | null;
+          recipeReflectionId?: string | null;
+          menuId?: string | null;
           feedPublished: boolean;
-          recipeCommentStatus?: RecipeCommentStatus | undefined;
-          legacyInteractionStatus?: LegacyInteractionStatus | undefined;
+          recipeCommentStatus?: RecipeCommentStatus;
+          legacyInteractionStatus?: LegacyInteractionStatus;
           receiptPayload: DetailedPublicationReceipt;
-          client?: PoolClient | undefined;
+          client?: PoolClient;
         },
-    legacyReceipt?: DetailedPublicationReceipt | undefined,
+    legacyReceipt?: DetailedPublicationReceipt,
   ): Promise<void> {
     let publicationId: string;
     let receiptPayload: DetailedPublicationReceipt;
-    let feedEventId: string | null = null;
-    let recipeReflectionId: string | null = null;
-    let menuId: string | null = null;
-    let feedPublished = false;
+    let feedEventId: string | null;
+    let recipeReflectionId: string | null;
+    let menuId: string | null;
+    let feedPublished: boolean;
     let recipeCommentStatus: RecipeCommentStatus = "not_requested";
     let legacyInteractionStatus: LegacyInteractionStatus = "not_requested";
     let client: PoolClient | undefined;
@@ -324,11 +345,15 @@ export class AgentPublicationService {
       menuId = receiptPayload.menu?.id ?? null;
       recipeReflectionId = receiptPayload.recipeReflectionId ?? null;
     } else {
-      ({ publicationId, receiptPayload, client } = publicationIdOrParams);
+      ({
+        publicationId,
+        receiptPayload,
+        client,
+        feedPublished,
+      } = publicationIdOrParams);
       feedEventId = publicationIdOrParams.feedEventId ?? receiptPayload.event?.id ?? null;
       recipeReflectionId = publicationIdOrParams.recipeReflectionId ?? receiptPayload.recipeReflection?.id ?? null;
       menuId = publicationIdOrParams.menuId ?? receiptPayload.menu?.id ?? null;
-      feedPublished = publicationIdOrParams.feedPublished ?? receiptPayload.feedPublished ?? false;
       recipeCommentStatus = publicationIdOrParams.recipeCommentStatus ?? "not_requested";
       legacyInteractionStatus = publicationIdOrParams.legacyInteractionStatus ?? "not_requested";
     }
@@ -417,19 +442,7 @@ export class AgentPublicationService {
     }
 
     // Update in-memory fallback
-    for (const [key, row] of this.memoryStore.entries()) {
-      if (row.id === publicationId) {
-        row.status = "failed";
-        row.error_message = errorMessage;
-        if (receipt) {
-          row.receipt_payload = receipt;
-        }
-        row.locked_at = null;
-        row.updated_at = new Date().toISOString();
-        this.memoryStore.set(key, row);
-        break;
-      }
-    }
+    updateMemoryStoreFailed(this.memoryStore, publicationId, errorMessage, receipt);
 
     const sql = `
       UPDATE agent_publications

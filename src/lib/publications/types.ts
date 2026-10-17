@@ -54,24 +54,24 @@ export interface RecipeReflectionRecord {
 export interface DetailedPublicationReceipt {
   success: boolean;
   contractVersion: "1.0";
-  deliveryId?: string | undefined;
-  publicationId?: string | undefined;
-  operation?: PublicationOperation | undefined;
-  agentEmail?: string | undefined;
-  eventType?: string | undefined;
-  event?: { id: string } | undefined;
+  deliveryId?: string;
+  publicationId?: string;
+  operation?: PublicationOperation;
+  agentEmail?: string;
+  eventType?: string;
+  event?: { id: string };
   feedPublished: boolean;
   recipeCommentStatus: RecipeCommentStatus;
-  recipeCommentSaved?: boolean | undefined;
-  recipeReflectionId?: string | undefined;
-  recipeReflection?: { id: string } | undefined;
-  menu?: { id: string; weekStartDate?: string } | undefined;
-  menuId?: string | undefined;
+  recipeCommentSaved?: boolean;
+  recipeReflectionId?: string;
+  recipeReflection?: { id: string };
+  menu?: { id: string; weekStartDate?: string };
+  menuId?: string;
   legacyInteractionStatus: LegacyInteractionStatus;
-  deduplicated?: boolean | undefined;
-  details?: Record<string, unknown> | undefined;
-  error?: string | undefined;
-  errorCode?: string | undefined;
+  deduplicated?: boolean;
+  details?: Record<string, unknown>;
+  error?: string;
+  errorCode?: string;
   [key: string]: unknown;
 }
 

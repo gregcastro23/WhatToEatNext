@@ -46,7 +46,7 @@ function displayName(row: TipRow): string {
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ recipeId: string }> },
-) {
+): Promise<NextResponse> {
   const { recipeId } = await params;
 
   if (!recipeId || typeof recipeId !== "string" || !recipeId.trim()) {

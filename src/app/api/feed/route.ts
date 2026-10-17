@@ -36,12 +36,12 @@ import {
   verifyStandardWebhook,
 } from "@/lib/hooks/standardWebhooks";
 import { withObservability } from "@/lib/observability/withObservability";
-import { redisCached } from "@/lib/redis";
-import { FeedEventIngestSchema } from "@/lib/validation/apiSchemas";
-import { isReservedAdaptation } from "@/lib/recipes/savedAdaptationSchemas";
 import { resolvePublicationDeliveryKey } from "@/lib/publications/deliveryKey";
 import { computeSemanticFingerprint } from "@/lib/publications/semanticFingerprint";
 import type { DetailedPublicationReceipt } from "@/lib/publications/types";
+import { isReservedAdaptation } from "@/lib/recipes/savedAdaptationSchemas";
+import { redisCached } from "@/lib/redis";
+import { FeedEventIngestSchema } from "@/lib/validation/apiSchemas";
 import { agentPublicationService, type PreparePublicationOutcome } from "@/services/agentPublicationService";
 import { feedDatabase, type DetailedPublicationResult } from "@/services/feedDatabaseService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
@@ -419,6 +419,8 @@ export const POST = withObservability(
       }
     }
 
+    const effectiveDeliveryId = publicationDeliveryKey ?? delivery.effectiveKey ?? null;
+    const effectivePubId = pubOutcome?.kind === "proceed" ? pubOutcome.publicationId : null;
     let pubResult: DetailedPublicationResult;
     if (typeof feedDatabase.publishFeedEvent === "function") {
       pubResult = await feedDatabase.publishFeedEvent({
@@ -426,8 +428,8 @@ export const POST = withObservability(
         eventType: incomingEventType,
         metadataPayload,
         skipWebhook: true, // prevents circular PA webhook forwarding
-        deliveryId: publicationDeliveryKey ?? delivery.effectiveKey ?? undefined,
-        publicationId: pubOutcome?.kind === "proceed" ? pubOutcome.publicationId : undefined,
+        ...(effectiveDeliveryId ? { deliveryId: effectiveDeliveryId } : {}),
+        ...(effectivePubId ? { publicationId: effectivePubId } : {}),
       });
       // In existing unit tests where feedDatabase is mocked with createEvent:
       // call createEvent if it is a jest mock on the same object
@@ -445,7 +447,7 @@ export const POST = withObservability(
       pubResult = {
         success,
         contractVersion: "1.0",
-        deliveryId: publicationDeliveryKey ?? delivery.effectiveKey ?? undefined,
+        ...(effectiveDeliveryId ? { deliveryId: effectiveDeliveryId } : {}),
         eventType: incomingEventType,
         feedPublished: success,
         recipeCommentStatus: "not_requested",
@@ -514,7 +516,7 @@ export const POST = withObservability(
       operation: "feed_publish",
       agentEmail: normalizedEmail,
       eventType: incomingEventType,
-      event: pubResult.event,
+      ...(pubResult.event ? { event: pubResult.event } : {}),
       feedPublished: true,
       recipeCommentStatus: pubResult.recipeCommentStatus,
       ...(pubResult.recipeCommentSaved !== undefined ? { recipeCommentSaved: pubResult.recipeCommentSaved } : {}),

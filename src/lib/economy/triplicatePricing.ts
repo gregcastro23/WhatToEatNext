@@ -20,6 +20,17 @@ import {
   type Holdings,
   toLedgerAmount,
 } from "@/lib/economy/transmutationMarket";
+import { TOKEN_TYPES, type TokenType } from "@/types/economy";
+import { signDegreeToLongitude } from "@/utils/aspectCalculator";
+import { getAccuratePlanetaryPositionsWithMeta } from "@/utils/astrology/positions";
+import {
+  calculateAlchemicalFromPlanetsDetailed,
+  type AlchemicalPlanetPositions,
+} from "@/utils/planetaryAlchemyMapping";
+
+function isRecord(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null && !Array.isArray(val);
+}
 
 function usablePrice(prices: Record<TokenType, number>, token: TokenType): number {
   const price = prices[token];
@@ -35,22 +46,15 @@ const AXIS: Record<TokenType, keyof Holdings> = {
   Matter: "matter",
   Substance: "substance",
 };
-import { TOKEN_TYPES, type TokenType } from "@/types/economy";
-import { signDegreeToLongitude } from "@/utils/aspectCalculator";
-import { getAccuratePlanetaryPositionsWithMeta } from "@/utils/astrology/positions";
-import {
-  calculateAlchemicalFromPlanetsDetailed,
-  type AlchemicalPlanetPositions,
-} from "@/utils/planetaryAlchemyMapping";
 
 export const MIN_RESONANCE_BONUS = 0.05; // 5% minimum hurdle to trigger celestial rebate
 export const MAX_RESONANCE_BONUS = 0.15; // 15% maximum capped celestial rebate
 
 export interface NatalPlacement {
-  planet?: string | undefined;
-  sign?: string | undefined;
-  degree?: number | undefined;
-  exactLongitude?: number | undefined;
+  planet?: string;
+  sign?: string;
+  degree?: number;
+  exactLongitude?: number;
 }
 
 export interface AspectClosure {
@@ -100,6 +104,20 @@ export function orbTightness(orb: number, maxOrb: number): number {
   return Math.cos(normalized) ** 2;
 }
 
+function toNatalPlacement(val: unknown): NatalPlacement | null {
+  if (!isRecord(val)) return null;
+  const planet = typeof val.planet === "string" ? val.planet : undefined;
+  const sign = typeof val.sign === "string" ? val.sign : undefined;
+  const degree = typeof val.degree === "number" ? val.degree : undefined;
+  const exactLongitude = typeof val.exactLongitude === "number" ? val.exactLongitude : undefined;
+  return {
+    ...(planet ? { planet } : {}),
+    ...(sign ? { sign } : {}),
+    ...(degree !== undefined ? { degree } : {}),
+    ...(exactLongitude !== undefined ? { exactLongitude } : {}),
+  };
+}
+
 /** Normalise arbitrary natal records into a map of absolute longitudes. */
 export function extractLongitudes(
   positions: NatalPlacement[] | Record<string, NatalPlacement> | unknown,
@@ -110,26 +128,23 @@ export function extractLongitudes(
   const entries: NatalPlacement[] = [];
   if (Array.isArray(positions)) {
     for (const item of positions) {
-      if (item && typeof item === "object") {
-        entries.push(item);
-      }
+      const placement = toNatalPlacement(item);
+      if (placement) entries.push(placement);
     }
-  } else if (positions && typeof positions === "object") {
+  } else if (isRecord(positions)) {
     for (const [planet, p] of Object.entries(positions)) {
-      if (p && typeof p === "object") {
-        const item: NatalPlacement = p;
+      const placement = toNatalPlacement(p);
+      if (placement) {
         entries.push({
-          planet: item.planet ?? planet,
-          sign: item.sign,
-          degree: item.degree,
-          exactLongitude: item.exactLongitude,
+          ...placement,
+          planet: placement.planet ?? planet,
         });
       }
     }
   }
 
   for (const entry of entries) {
-    if (!entry?.planet || !entry?.sign) continue;
+    if (!entry.planet || !entry.sign) continue;
     const sign = entry.sign.toLowerCase();
     let lon = entry.exactLongitude;
     if (typeof lon !== "number" || !Number.isFinite(lon)) {
@@ -138,6 +153,7 @@ export function extractLongitudes(
     }
     result[entry.planet] = { sign, longitude: ((lon % 360) + 360) % 360 };
   }
+
   return result;
 }
 
@@ -256,7 +272,7 @@ export function evaluateTriplicateSynastry(args: {
 
   const lonsT: Record<string, { sign: string; longitude: number }> = {};
   for (const [p, d] of Object.entries(liveSky)) {
-    if (d && typeof d.exactLongitude === "number") {
+    if (typeof d.exactLongitude === "number") {
       lonsT[p] = { sign: d.sign, longitude: d.exactLongitude };
     }
   }

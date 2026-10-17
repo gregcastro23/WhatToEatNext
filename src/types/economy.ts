@@ -204,7 +204,7 @@ export interface EconomyReceipt {
   costBasket: ESMSAmounts;
   swapsExecuted: number;
   remainingBalances: ESMSAmounts;
-  deduplicated?: boolean | undefined;
+  deduplicated?: boolean;
 }
 
 /** Inputs used to colour a faucet grant after its resonance sets the magnitude. */

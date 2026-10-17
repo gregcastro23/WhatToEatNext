@@ -75,31 +75,31 @@ interface FeedEventRow {
 export interface PublishFeedEventParams {
   actorId: string;
   eventType: string;
-  metadataPayload?: Record<string, unknown> | undefined;
-  skipWebhook?: boolean | undefined;
+  metadataPayload?: Record<string, unknown>;
+  skipWebhook?: boolean;
   identity?: Parameters<typeof buildIdentityStamp>[0];
-  deliveryId?: string | undefined;
-  publicationId?: string | undefined;
-  client?: import("pg").PoolClient | undefined;
+  deliveryId?: string;
+  publicationId?: string;
+  client?: import("pg").PoolClient;
 }
 
 export interface DetailedPublicationResult {
   success: boolean;
   contractVersion: "1.0";
-  deliveryId?: string | undefined;
-  publicationId?: string | undefined;
-  agentEmail?: string | undefined;
+  deliveryId?: string;
+  publicationId?: string;
+  agentEmail?: string;
   eventType: string;
-  event?: { id: string } | undefined;
-  eventId?: string | undefined;
+  event?: { id: string };
+  eventId?: string;
   feedPublished: boolean;
   recipeCommentStatus: "not_requested" | "pending" | "saved" | "failed" | "unknown";
-  recipeCommentSaved?: boolean | undefined;
-  recipeReflectionId?: string | undefined;
+  recipeCommentSaved?: boolean;
+  recipeReflectionId?: string;
   legacyInteractionStatus: "not_requested" | "saved" | "no_op" | "failed";
-  details?: Record<string, unknown> | undefined;
-  error?: string | undefined;
-  economy?: import("@/types/economy").EconomyReceipt | undefined;
+  details?: Record<string, unknown>;
+  error?: string;
+  economy?: import("@/types/economy").EconomyReceipt;
 }
 
 class FeedDatabaseService {
@@ -139,8 +139,8 @@ class FeedDatabaseService {
       return {
         success: false,
         contractVersion: "1.0",
-        deliveryId,
-        publicationId,
+        ...(deliveryId ? { deliveryId } : {}),
+        ...(publicationId ? { publicationId } : {}),
         eventType,
         feedPublished: false,
         recipeCommentStatus: "not_requested",
@@ -180,7 +180,7 @@ class FeedDatabaseService {
     }
 
     let feedEventId: string | undefined;
-    let feedPublished = false;
+    let feedPublished: boolean;
 
     try {
       const insertFeedSql = `
@@ -207,9 +207,9 @@ class FeedDatabaseService {
       return {
         success: false,
         contractVersion: "1.0",
-        deliveryId,
-        publicationId,
-        agentEmail: user?.email ?? undefined,
+        ...(deliveryId ? { deliveryId } : {}),
+        ...(publicationId ? { publicationId } : {}),
+        ...(user?.email ? { agentEmail: user.email } : {}),
         eventType,
         feedPublished: false,
         recipeCommentStatus: "not_requested",
@@ -230,8 +230,6 @@ class FeedDatabaseService {
     const reviewText = typeof rawReview === "string" ? rawReview.trim() : undefined;
 
     if (targetRecipeId && reviewText && reviewText.length > 0) {
-      recipeCommentStatus = "pending";
-
       const isAgentActor = user?.is_agent === true;
       const isCatalogCritique = stampedPayload.source === "catalog_critique";
       const isRecipeAlteration = stampedPayload.source === "recipe_alteration";
@@ -255,7 +253,7 @@ class FeedDatabaseService {
             description: `Recipe reflection on ${targetRecipeId}`,
             idempotencyKey: deliveryId ? `reflection:${deliveryId}` : null,
             autoSwap: stampedPayload.autoSwap !== false,
-            client,
+            ...(client ? { client } : {}),
           });
 
           if (!debitRes.success) {
@@ -269,9 +267,9 @@ class FeedDatabaseService {
         const reflection = await recipeReflectionsService.createReflection({
           recipeId: targetRecipeId,
           authorId: actorId,
-          publicationId,
-          feedEventId,
-          deliveryKey: deliveryId,
+          ...(publicationId ? { publicationId } : {}),
+          ...(feedEventId ? { feedEventId } : {}),
+          ...(deliveryId ? { deliveryKey: deliveryId } : {}),
           source: typeof stampedPayload.source === "string" ? stampedPayload.source : (isAgentActor ? "recipe_alteration" : "community_review"),
           contentState: "proposed",
           review: reviewText,
@@ -284,7 +282,7 @@ class FeedDatabaseService {
             unverifiedReadings: ["nutrition", "elemental", "esms", "planetary"],
             ...(reflectionEconomyReceipt ? { economy: reflectionEconomyReceipt } : {}),
           },
-          client,
+          ...(client ? { client } : {}),
         });
 
         recipeReflectionId = reflection.id;
@@ -386,15 +384,15 @@ class FeedDatabaseService {
     return {
       success: feedPublished,
       contractVersion: "1.0",
-      deliveryId,
-      publicationId,
-      agentEmail: user?.email ?? undefined,
+      ...(deliveryId ? { deliveryId } : {}),
+      ...(publicationId ? { publicationId } : {}),
+      ...(user?.email ? { agentEmail: user.email } : {}),
       eventType,
-      event: feedEventId ? { id: feedEventId } : undefined,
+      ...(feedEventId ? { event: { id: feedEventId } } : {}),
       feedPublished,
       recipeCommentStatus,
       ...(recipeCommentSaved !== undefined ? { recipeCommentSaved } : {}),
-      recipeReflectionId,
+      ...(recipeReflectionId ? { recipeReflectionId } : {}),
       legacyInteractionStatus,
       ...(reflectionEconomyReceipt ? { economy: reflectionEconomyReceipt } : {}),
     };
