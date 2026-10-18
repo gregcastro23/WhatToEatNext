@@ -48,7 +48,12 @@ jest.mock("@/services/IngredientService", () => ({
           name: "Sage",
           category: "herb",
           elementalProperties: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
-          alchemicalProperties: { Spirit: 0.32, Essence: 0.21, Matter: 0.24, Substance: 0.23 },
+          alchemicalProperties: {
+            Spirit: 0.32,
+            Essence: 0.21,
+            Matter: 0.24,
+            Substance: 0.23,
+          },
           planetaryRuler: "Jupiter",
         };
       }
@@ -93,7 +98,11 @@ jest.mock("@/services/RecipeService", () => ({
 
 jest.mock("@/services/feedDatabaseService", () => ({
   feedDatabase: {
-    createEvent: jest.fn().mockResolvedValue(true),
+    publishFeedEvent: jest.fn().mockResolvedValue({
+      success: true,
+      feedPublished: true,
+      legacyInteractionStatus: "saved",
+    }),
   },
 }));
 
@@ -126,23 +135,31 @@ jest.mock("@/lib/database/connection", () => ({
       };
     }
     return {
-      rows: [{ id: "agent-123", name: "Leonardo da Vinci" }],
+      rows: [{ id: "agent-123", name: "Leonardo da Vinci", is_agent: true }],
       rowCount: 1,
     };
   }),
 }));
 
 jest.mock("@/lib/mcp/auth", () => ({
-  resolveCaller: jest.fn().mockImplementation(async (args?: Record<string, unknown>) => ({
-    userId: typeof args?._meta === "object" && args?._meta !== null ? "user-456" : null,
-    apiKeyId: null,
-    caller: "test",
-    isSynthetic: false,
-    rateLimitTier: null,
-  })),
+  resolveCaller: jest
+    .fn()
+    .mockImplementation(async (args?: Record<string, unknown>) => ({
+      userId:
+        typeof args?._meta === "object" && args?._meta !== null
+          ? "agent-123"
+          : null,
+      apiKeyId:
+        typeof args?._meta === "object" && args?._meta !== null
+          ? "key-123"
+          : null,
+      caller: "test",
+      isSynthetic: false,
+      rateLimitTier: null,
+    })),
   debitForTool: jest
     .fn()
-    .mockResolvedValue({ applied: false, reason: "anonymous-caller", amounts: null }),
+    .mockResolvedValue({ applied: false, reason: "free-tool", amounts: null }),
   TOOL_COSTS: {},
 }));
 
@@ -156,9 +173,11 @@ jest.mock("@/lib/mcp/rateLimit", () => ({
   __resetMcpRateLimit: jest.fn(),
 }));
 
-import { debitForTool } from "@/lib/mcp/auth";
+import { executeQuery } from "@/lib/database/connection";
+import { resolveCaller, debitForTool } from "@/lib/mcp/auth";
 import { recordInvocation } from "@/lib/mcp/invocationLog";
 import { invokeTool } from "@/lib/mcp/tools";
+import { feedDatabase } from "@/services/feedDatabaseService";
 import { calculateNatalChart } from "@/services/natalChartService";
 
 const mockedDebit = debitForTool as jest.MockedFunction<typeof debitForTool>;
@@ -172,7 +191,7 @@ describe("invokeTool", () => {
     mockedDebit.mockClear();
     mockedDebit.mockResolvedValue({
       applied: false,
-      reason: "anonymous-caller",
+      reason: "free-tool",
       amounts: null,
     });
   });
@@ -277,10 +296,7 @@ describe("invokeTool", () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(mockedRecord).toHaveBeenCalledTimes(2);
     const calls = mockedRecord.mock.calls.map((c) => c[0].toolName);
-    expect(calls).toEqual([
-      "alchemize_ingredients",
-      "get_live_sky_transits",
-    ]);
+    expect(calls).toEqual(["alchemize_ingredients", "get_live_sky_transits"]);
   });
 
   it("passes a perf-mark + ISO timestamp pair as timing to recordInvocation", async () => {
@@ -359,8 +375,8 @@ describe("invokeTool", () => {
     const result = await invokeTool("compute_triplicate_synastry", {
       makerId: "maker-1",
       takerId: "taker-1",
-      makerNatal: {},
-      takerNatal: {},
+      makerNatal: [{ planet: "Sun", sign: "Aries", degree: 15 }],
+      takerNatal: [{ planet: "Moon", sign: "Leo", degree: 10 }],
       giveToken: "InvalidToken",
       giveAmount: 10,
       wantToken: "Essence",
@@ -369,7 +385,7 @@ describe("invokeTool", () => {
 
     expect(result.ok).toBe(false);
     expect(result.errorCode).toBe("INVALID_ARGS");
-    expect(result.errorMessage).toMatch(/Invalid 'giveToken'/);
+    expect(result.errorMessage).toMatch(/giveToken/);
   });
 
   it("create_evidence_snapshot bundles transits, ingredients, and recipes in parallel", async () => {
@@ -447,5 +463,226 @@ describe("invokeTool", () => {
     expect(result.ok).toBe(false);
     expect(result.errorCode).toBe("QUOTA");
     expect(result.errorMessage).toMatch(/insufficient-spirit/);
+  });
+  it("validates before resolving credentials or charging", async () => {
+    const resolve = jest.mocked(resolveCaller);
+    resolve.mockClear();
+    const result = await invokeTool("generate_cosmic_recipe", {
+      dietary: [42],
+    });
+    expect(result.errorCode).toBe("INVALID_ARGS");
+    expect(mockedDebit).not.toHaveBeenCalled();
+    expect(resolve).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ["get_live_sky_transits", { latitude: 91 }],
+    ["alchemize_ingredients", { ingredients: Array(101).fill("tomato") }],
+    ["get_live_sky_transits", { longitude: NaN }],
+    ["generate_cosmic_recipe", { prompt: "x".repeat(2001) }],
+  ])("rejects bounded input for %s", async (name, args) => {
+    const result = await invokeTool(name, args);
+    expect(result.errorCode).toBe("INVALID_ARGS");
+    expect(mockedDebit).not.toHaveBeenCalled();
+  });
+
+  it("rejects anonymous reflection writes before author lookup or debit", async () => {
+    jest.mocked(executeQuery).mockClear();
+    const result = await invokeTool("submit_recipe_reflection", {
+      recipeId: "r1",
+      reflection: "Nice soup",
+      agentSlug: "leonardo-da-vinci",
+    });
+    expect(result.errorCode).toBe("UNAUTHORIZED");
+    expect(executeQuery).not.toHaveBeenCalled();
+    expect(mockedDebit).not.toHaveBeenCalled();
+  });
+
+  it("refuses to attribute a reflection to a different key owner", async () => {
+    jest.mocked(executeQuery).mockResolvedValueOnce({
+      rows: [],
+      rowCount: 0,
+      command: "SELECT",
+      oid: 0,
+      fields: [],
+    });
+    const result = await invokeTool("submit_recipe_reflection", {
+      recipeId: "r1",
+      reflection: "Nice soup",
+      agentSlug: "someone-else",
+      _meta: { apiKey: "test-key" },
+    });
+    expect(result.errorCode).toBe("FORBIDDEN");
+    expect(mockedDebit).not.toHaveBeenCalled();
+  });
+
+  it("fails closed on billing outages for authenticated paid tools", async () => {
+    mockedDebit.mockResolvedValueOnce({
+      applied: false,
+      reason: "db-unavailable",
+      amounts: null,
+    });
+    const result = await invokeTool("generate_cosmic_recipe", {
+      _meta: { apiKey: "test-key" },
+    });
+    expect(result.errorCode).toBe("UNAVAILABLE");
+    expect(result.data).toBeNull();
+  });
+
+  it("retains correlation IDs in responses, backend calls and telemetry", async () => {
+    const result = await invokeTool("get_live_sky_transits", {
+      _meta: { correlationId: "pa:turn-42" },
+    });
+    expect(result.correlationId).toBe("pa:turn-42");
+    expect(calculateNatalChart).toHaveBeenLastCalledWith(
+      expect.any(Object),
+      expect.objectContaining({ correlationId: "pa:turn-42" }),
+    );
+    expect(mockedRecord).toHaveBeenLastCalledWith(
+      expect.any(Object),
+      expect.any(Object),
+      expect.objectContaining({
+        resultSummary: expect.objectContaining({ correlationId: "pa:turn-42" }),
+      }),
+    );
+  });
+
+  it("cancels before a charge when the request was already aborted", async () => {
+    const controller = new AbortController();
+    controller.abort();
+    const result = await invokeTool(
+      "generate_cosmic_recipe",
+      {},
+      { signal: controller.signal },
+    );
+    expect(result.errorCode).toBe("CANCELLED");
+    expect(mockedDebit).not.toHaveBeenCalled();
+  });
+
+  it("reports partial feed publication without claiming the interaction was mirrored", async () => {
+    jest.mocked(feedDatabase.publishFeedEvent).mockResolvedValueOnce({
+      success: false,
+      contractVersion: "1.0",
+      eventType: "recipe_review",
+      feedPublished: true,
+      recipeCommentStatus: "saved",
+      legacyInteractionStatus: "failed",
+    });
+    const result = await invokeTool("submit_recipe_reflection", {
+      recipeId: "r1",
+      reflection: "Nice soup",
+      _meta: { apiKey: "test-key" },
+    });
+    expect(result.ok).toBe(true);
+    expect(result.data).toMatchObject({
+      publicationReceipt: {
+        feedPublished: true,
+        legacyInteractionStatus: "failed",
+      },
+    });
+  });
+
+  it("prevents anonymous writes to another agent's natal cache", async () => {
+    const result = await invokeTool("compute_synastry_overlay", {
+      agentA: {
+        id: "one",
+        natalChart: { planets: { Sun: { sign: "aries", degree: 1 } } },
+      },
+      agentB: {
+        id: "two",
+        natalChart: { planets: { Sun: { sign: "leo", degree: 2 } } },
+      },
+      cacheStrategy: "write",
+    });
+    expect(result.errorCode).toBe("FORBIDDEN");
+    expect(mockedDebit).not.toHaveBeenCalled();
+  });
+
+  it("rejects unknown zodiac signs before natal calculations or billing", async () => {
+    const result = await invokeTool("compute_synastry_overlay", {
+      agentA: {
+        id: "one",
+        natalChart: { planets: { Sun: { sign: "not-a-zodiac", degree: 1 } } },
+      },
+      agentB: {
+        id: "two",
+        natalChart: { planets: { Sun: { sign: "leo", degree: 2 } } },
+      },
+    });
+    expect(result.errorCode).toBe("INVALID_ARGS");
+    expect(mockedDebit).not.toHaveBeenCalled();
+  });
+
+  it("rejects inherited property names as unsupported inputs", async () => {
+    const result = await invokeTool("get_live_sky_transits", {
+      constructor: "unexpected",
+    });
+    expect(result.errorCode).toBe("INVALID_ARGS");
+    expect(mockedDebit).not.toHaveBeenCalled();
+  });
+
+  it("accepts PA trace metadata and isolates it in the backend context", async () => {
+    const result = await invokeTool("get_live_sky_transits", {
+      _meta: {
+        requestId: "pa:request-1",
+        traceId: "trace_pa123",
+        evidenceSnapshotId: "ev_123",
+      },
+    });
+    expect(result.correlationId).toBe("pa:request-1");
+    expect(calculateNatalChart).toHaveBeenLastCalledWith(
+      expect.any(Object),
+      expect.objectContaining({
+        correlationId: "pa:request-1",
+        traceId: "trace_pa123",
+        evidenceSnapshotId: "ev_123",
+        caller: "test",
+      }),
+    );
+  });
+  it("keeps quantities out of the reflection dominantElement contract", async () => {
+    const result = await invokeTool("submit_recipe_reflection", {
+      recipeId: "r1",
+      reflection: "Nice soup",
+      dominantElement: "Spirit",
+      _meta: { apiKey: "test-key" },
+    });
+    expect(result.errorCode).toBe("INVALID_ARGS");
+    expect(mockedDebit).not.toHaveBeenCalled();
+  });
+
+  it("reads synastry caches without overwriting agent natal positions", async () => {
+    const previousDb = process.env.DATABASE_URL;
+    process.env.DATABASE_URL = "postgresql://test/test";
+    const dynamicDb = await import("@/lib/database/connection");
+    jest.mocked(dynamicDb.executeQuery).mockClear();
+    try {
+      const result = await invokeTool("compute_synastry_overlay", {
+        agentA: {
+          id: "one",
+          natalChart: { planets: { Sun: { sign: "aRiEs", degree: 1 } } },
+        },
+        agentB: {
+          id: "two",
+          natalChart: { planets: { Sun: { sign: "Leo", degree: 2 } } },
+        },
+        cacheStrategy: "read",
+      });
+      expect(result.ok).toBe(true);
+      expect(dynamicDb.executeQuery).toHaveBeenCalledWith(
+        expect.stringContaining("FROM synastry_scores"),
+        expect.any(Array),
+      );
+      expect(
+        jest
+          .mocked(executeQuery)
+          .mock.calls.some(([sql]) =>
+            sql.includes("INSERT INTO agent_natal_positions"),
+          ),
+      ).toBe(false);
+    } finally {
+      if (previousDb === undefined) delete process.env.DATABASE_URL;
+      else process.env.DATABASE_URL = previousDb;
+    }
   });
 });

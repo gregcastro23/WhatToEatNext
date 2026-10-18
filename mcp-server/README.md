@@ -3,83 +3,59 @@
 [![Listed on MCP Registry](https://img.shields.io/badge/MCP_Registry-io.github.gregcastro23%2Falchm--kitchen-blueviolet)](https://registry.modelcontextprotocol.io/servers/io.github.gregcastro23/alchm-kitchen)
 [![npm](https://img.shields.io/npm/v/@alchm/mcp-server)](https://www.npmjs.com/package/@alchm/mcp-server)
 
-An [MCP server](https://modelcontextprotocol.io) exposing five alchemical tools — live sky transits, ingredient ESMS analysis, cosmic recipe discovery, synastry overlays, and transit×natal overlays — to any LLM client that speaks MCP (Claude Desktop, Cursor, Google Antigravity, Claude Agent SDK, etc.).
+Version **1.3.0** exposes eight tools over **stdio**: live transits, curated ingredient analysis, recipe search, natal overlays, triplicate pricing, evidence snapshots and recipe reflections. It uses the maintained MCP TypeScript SDK v1 line and supports existing MCP initialization handshakes. It does not expose an HTTP/SSE server.
 
-## Install
+## Install or run
 
 ```bash
-# Bun (recommended)
 bunx @alchm/mcp-server
-
-# Node / npx
+# Node.js alternative (Node 18+)
 npx -y @alchm/mcp-server
+
+# From this repository
+bun install --cwd mcp-server
+bun run mcp-server/src/index.ts
+
+# Distributable Node bundle and standalone Bun sidecar
+bun run --cwd mcp-server build
+bun run --cwd mcp-server build:binary
 ```
 
-Or install globally:
-
-```bash
-bun add -g @alchm/mcp-server
-alchm-mcp-server
-```
+The bundle is `mcp-server/dist/index.js`; the sidecar is `mcp-server/bin/alchm-mcp`. The binary build disables working-directory dotenv/bunfig autoloading and repairs/verifies its ad-hoc signature on macOS. Building prepares local artifacts; publishing npm, registry metadata and sidecar releases are separate release steps.
 
 ## Tools
 
-| Tool | Cost | Description |
-| --- | --- | --- |
-| `get_live_sky_transits` | Free | Current planetary positions + elemental balance for any coordinate. |
-| `alchemize_ingredients` | Free | Spirit / Essence / Matter / Substance scores + thermodynamic indices for a list of ingredients. |
-| `generate_cosmic_recipe` | 7.5 of each ESMS (30 total) | Search the 579-recipe catalog by element, cuisine, dietary needs. |
-| `compute_synastry_overlay` | Free | Inter-aspect ledger between two natal charts — tension / harmony / intensification scores + a recommended stance. |
-| `get_transit_natal_overlay` | Free | Live sky × one agent's natal chart — which transiting planets activate which natal points, with continuous boost magnitude. |
+| Tool                          | Authenticated cost           | Behavior                                                                                                                                            |
+| ----------------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `get_live_sky_transits`       | Free                         | Current planetary positions and elemental balance for an observer.                                                                                  |
+| `alchemize_ingredients`       | Free                         | Curated elemental/ESMS data and thermodynamic indices for up to 100 ingredients. Missing ESMS quantities remain `null`.                             |
+| `generate_cosmic_recipe`      | 2.5 of each ESMS (10 total)  | Search the recipe catalog by keywords, element, cuisine and diet.                                                                                   |
+| `compute_synastry_overlay`    | Free                         | Inter-chart aspects, scores and stance. `cacheStrategy: "write"` updates the optional database cache and requires a matching internal probe secret. |
+| `get_transit_natal_overlay`   | Free                         | Sky-to-natal aspects and continuous per-element boosts for one agent.                                                                               |
+| `compute_triplicate_synastry` | Free                         | Quote resonance, potential rebates and a cooldown window key; does not execute a trade or pay a rebate.                                             |
+| `create_evidence_snapshot`    | 2.5 of each ESMS (10 total)  | Bundle transits, optional ingredients and recipe candidates in one call.                                                                            |
+| `submit_recipe_reflection`    | 0.1 of each ESMS (0.4 total) | Publish a reflection, record an interaction and attempt feed publication; requires an authenticated, non-synthetic caller.                          |
 
-`generate_cosmic_recipe` debits tokens only when called with a valid `_meta.apiKey`. Anonymous callers receive a `QUOTA` error rather than a free recipe. The other four tools are free.
+Anonymous callers can use read tools in demo mode. Recipe search and evidence snapshots debit authenticated callers; reflection publication requires authentication. Invalid supplied credentials are rejected. An operator must configure `DATABASE_URL` to validate API keys and apply billing. An API key alone does not connect this stdio process to a hosted authentication service.
 
-## Mint an API key
+Tool annotations identify paid calls and reflection publication as mutations. Repeating these calls can charge again, and repeating reflection publication creates another record. The catalog declares bounded inputs; validation runs before authentication, billing and handler work. Coordinates must be within latitude/longitude bounds, ingredient lists contain 1–100 strings, and natal charts/amounts/timestamps must match their published schema.
 
-End users mint, list, and revoke their own keys at [`/profile/api-keys`](https://alchm.kitchen/profile/api-keys). The plaintext is shown exactly once — paste it into the MCP client config immediately. The public onboarding doc lives at [`/docs/mcp`](https://alchm.kitchen/docs/mcp).
+Results include both `structuredContent` and the same JSON serialized in a text content block, with a `correlationId`. Failed evidence snapshots retain available data and component provenance under the error payload's `data` field. Tool failures set `isError: true` with a stable `errorCode` and `message`. Diagnostic output goes to stderr; stdout contains JSON-RPC messages only. SIGINT, SIGTERM and stdin closure perform a bounded one-second telemetry drain before exit.
 
-Keys are stored as `sha256(plaintext)` in the `api_keys` table; the only place the plaintext ever appears is the `POST /api/account/api-keys` response body.
-
-## Run from source
-
-```bash
-bun run mcp-server/src/index.ts
-```
-
-Optional env:
+## Configuration
 
 ```bash
-ALCHM_MCP_BACKEND_URL=https://alchm.kitchen  # alchm.kitchen host the chart/transit tools fetch /api/astrologize from
-DATABASE_URL=postgres://...           # enables token gate + invocation telemetry
-MCP_USER_API_KEY=sk_alchm_...         # single-user setups (Claude Desktop)
-INTERNAL_API_SECRET=...               # synthetic-probe exempt path (set by Vercel cron)
-SYNTHETIC_PROBE_USER_ID=<uuid>        # attribute synthetic-probe invocations to this user
+ALCHM_MCP_BACKEND_URL=https://alchm.kitchen
+MCP_USER_API_KEY=sk_alchm_...
+# ALCHM_MCP_USER_API_KEY is also accepted for sanitized Planetary Agents environments.
+DATABASE_URL=postgresql://...  # operator-only: key validation, billing, cache and telemetry
 ```
 
-### `ALCHM_MCP_BACKEND_URL` — where chart/transit tools fetch from
+Chart/transit requests POST to `<base>/api/astrologize`. Explicit `ALCHM_MCP_BACKEND_URL`, `NEXT_PUBLIC_SITE_URL`, `SITE_URL` or Vercel URL settings take precedence. Bundled/compiled artifacts default to `https://alchm.kitchen`; source runs default to `http://localhost:3000`. Source development therefore needs the local app running or an explicit reachable backend URL.
 
-`get_live_sky_transits` and `get_transit_natal_overlay` build a natal chart by
-POSTing to `<base>/api/astrologize`, a route served by the alchm.kitchen
-Next.js app. This server runs standalone (no co-located backend), so `<base>`
-is resolved as:
+Mint and revoke API keys at [`/profile/api-keys`](https://alchm.kitchen/profile/api-keys). Keys are stored as SHA-256 hashes; plaintext is shown once when created.
 
-1. **`ALCHM_MCP_BACKEND_URL`** (or `SITE_URL` / Vercel envs) — explicit, always wins.
-2. **Bundled artifacts** — the npm `dist/index.js` and the `bun build --compile`
-   binary (`bin/alchm-mcp`) default to **`https://alchm.kitchen`**, since an
-   end-user machine has no local backend.
-3. **From-source dev** (`bun run mcp-server/src/index.ts`) defaults to
-   **`http://localhost:3000`** — run `bun run dev` alongside, or set
-   `ALCHM_MCP_BACKEND_URL`, to point it elsewhere.
-
-When the backend is unreachable the tools fail loud with the attempted URL and
-this env var name, rather than a bare "fetch failed". Build the desktop sidecar
-binary with `bun run --cwd mcp-server build:binary` → `mcp-server/bin/alchm-mcp`.
-
-When `DATABASE_URL` is absent the server still runs — all calls become anonymous, the token gate skips, and invocations are not logged.
-
-## Per-call auth
-
-Every tool accepts an optional `_meta` field on its arguments:
+Every tool accepts `_meta` inside its arguments:
 
 ```json
 {
@@ -88,73 +64,48 @@ Every tool accepts an optional `_meta` field on its arguments:
     "prompt": "spicy",
     "cuisine": "thai",
     "_meta": {
-      "apiKey": "sk_alchm_live_xxx",
-      "caller": "claude-desktop"
+      "apiKey": "sk_alchm_live_REPLACE_ME",
+      "caller": "claude-desktop",
+      "correlationId": "dinner-plan-123"
     }
   }
 }
 ```
 
-- `_meta.apiKey` resolves to an `api_keys` row → bound user → ESMS debit happens against that user's balance.
-- `_meta.caller` is a free-form identifier (e.g. `"claude-desktop"`, `"cursor"`, `"pa-mcp"`) persisted on the invocation row.
+The environment key supplies a default for single-user installs. Legacy `_meta.authKey`, `_authKey` and `_apiKey` argument aliases remain supported. Synthetic probes supply `_meta.internalSecret` matching the server's `INTERNAL_API_SECRET`; `SYNTHETIC_PROBE_USER_ID` is optional attribution. Setting the server secret alone never authenticates an external call as a probe. Synthetic calls cannot publish reflections.
 
-If `MCP_USER_API_KEY` is set in the environment, it is used as the default `apiKey` for every call — convenient for single-user installs.
+## Connect Claude Desktop or Cursor
 
-## Connecting Claude Desktop
-
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or the equivalent on your platform:
+Use the same `mcpServers` configuration shape in Claude Desktop's `claude_desktop_config.json` or Cursor's `.cursor/mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "alchm-kitchen": {
-      "command": "bun",
-      "args": [
-        "run",
-        "/absolute/path/to/WhatToEatNext-master/mcp-server/src/index.ts"
-      ],
+      "command": "npx",
+      "args": ["-y", "@alchm/mcp-server"],
       "env": {
-        "DATABASE_URL": "postgres://...",
-        "MCP_USER_API_KEY": "sk_alchm_live_xxx"
+        "MCP_USER_API_KEY": "sk_alchm_live_REPLACE_ME"
       }
     }
   }
 }
 ```
 
-See `claude-desktop.config.example.json` in this directory for a copy-paste template.
+For a local source checkout use `"command": "bun"` and `"args": ["run", "/absolute/path/to/WhatToEatNext-master/mcp-server/src/index.ts"]`. Database configuration belongs to the operator running the server. See the source-run templates in [`claude-desktop.config.example.json`](./claude-desktop.config.example.json) and [`cursor.mcp.example.json`](./cursor.mcp.example.json).
 
-## Connecting Cursor
+## Verification and operations
 
-Add to `~/.cursor/mcp.json` or the project's `.cursor/mcp.json`:
-
-```json
-{
-  "mcpServers": {
-    "alchm-kitchen": {
-      "command": "bun",
-      "args": ["run", "/absolute/path/to/WhatToEatNext-master/mcp-server/src/index.ts"],
-      "env": {
-        "MCP_USER_API_KEY": "sk_alchm_live_xxx"
-      }
-    }
-  }
-}
+```bash
+bun run --cwd mcp-server typecheck
+bun run jest src/lib/mcp/__tests__/ --runInBand
+MCP_E2E=1 bun test mcp-server/src/__tests__/stdio.test.ts
+MCP_E2E=1 MCP_E2E_ENTRY=mcp-server/dist/index.js bun test mcp-server/src/__tests__/stdio.test.ts
+MCP_E2E=1 MCP_E2E_ENTRY=mcp-server/bin/alchm-mcp bun test mcp-server/src/__tests__/stdio.test.ts
 ```
 
-## Telemetry & Operations
+The stdio tests spawn real source/bundle/binary processes, initialize a session, send `notifications/initialized`, inspect all eight tools, call a local ingredient tool, and exercise validation and errors. They reject any non-JSON-RPC stdout line and do not require a live database or production backend.
 
-Every successful or failed tool call writes a row to `mcp_invocations` (Postgres). Surfaces:
+Database-backed invocations feed `mcp_invocations`, the admin MCP status surface, agent telemetry and the synthetic MCP probe. Telemetry is best effort; calls still work when logging is unavailable. Retention is seven days via the observability prune job. Per-key rate limits and a four-call process concurrency cap bound workload; calls receive a cancellation signal after 20 seconds and receive MCP cancellation signals. A timeout does not guarantee that already-started downstream side effects have rolled back.
 
-- **Admin dashboard** — `/admin` System Status panel now includes an `MCP Tool Surface` flow showing call rate, error rate, p95 latency, and the synthetic probe verdict.
-- **Agent Telemetry** — `mcpInvocationRate` joins `transmutationRate`, `spiritualEntropy`, and `agentHarmony` as a live metric on the High Alchemist dashboard.
-- **Synthetic probe** — `/api/cron/synthetic-mcp` exercises the tool layer every 30 minutes; failures downgrade the dashboard verdict to `INCIDENT` even with zero organic MCP traffic.
-
-## Testing
-
-- `bun test src/lib/mcp/__tests__/tools.test.ts` — unit tests for the tool handlers + auth gate.
-- `MCP_E2E=1 bun test mcp-server/src/__tests__/stdio.test.ts` — spawns the actual server and verifies the JSON-RPC handshake + `tools/list` + a `tools/call` round-trip.
-
-## Architecture
-
-See [`ARCHITECTURE.md`](./ARCHITECTURE.md) for the two-server topology (Alchm MCP + PA MCP) and the cross-server bridge that lets PA personas ground their responses in live alchm.kitchen state.
+See [`ARCHITECTURE.md`](./ARCHITECTURE.md) for ownership and data flow.

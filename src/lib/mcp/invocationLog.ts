@@ -15,19 +15,14 @@
 
 const isServerWithDB = (): boolean => !!process.env.DATABASE_URL;
 
-let dbModule:
-  | typeof import("@/lib/database/connection")
-  | null
-  | undefined = undefined;
+let dbModule: typeof import("@/lib/database/connection") | null | undefined =
+  undefined;
 
 async function getDb(): Promise<
   typeof import("@/lib/database/connection") | null
 > {
+  if (!isServerWithDB()) return null;
   if (dbModule !== undefined) return dbModule;
-  if (!isServerWithDB()) {
-    dbModule = null;
-    return null;
-  }
   try {
     dbModule = await import("@/lib/database/connection");
   } catch (err) {
@@ -55,7 +50,12 @@ export interface InvocationOutcome {
    * body or any secrets — the JSONB column is for triage, not replay.
    */
   resultSummary: Record<string, unknown>;
-  tokensDebited?: { spirit?: number; essence?: number; matter?: number; substance?: number } | null;
+  tokensDebited?: {
+    spirit?: number;
+    essence?: number;
+    matter?: number;
+    substance?: number;
+  } | null;
 }
 
 /**
@@ -71,8 +71,51 @@ export interface InvocationTiming {
   calledAtIso: string;
 }
 
+const pendingInvocations = new Set<Promise<void>>();
+
 /** Record one invocation. Never throws. */
-export async function recordInvocation(
+export function recordInvocation(
+  ctx: InvocationContext,
+  timing: InvocationTiming,
+  outcome: InvocationOutcome,
+): Promise<void> {
+  const write = writeInvocation(ctx, timing, outcome);
+  pendingInvocations.add(write);
+  write.then(
+    () => {
+      pendingInvocations.delete(write);
+    },
+    () => {
+      pendingInvocations.delete(write);
+    },
+  );
+  return write;
+}
+
+/** Wait for pending telemetry on shutdown, up to one shared timeout. */
+export async function drainMcpInvocations(timeoutMs = 1_000): Promise<void> {
+  if (pendingInvocations.size === 0) return;
+  const boundedTimeoutMs = Number.isFinite(timeoutMs)
+    ? Math.max(0, timeoutMs)
+    : 1_000;
+  let deadlineTimer: ReturnType<typeof setTimeout> | undefined;
+  const deadline = new Promise<void>((resolve) => {
+    deadlineTimer = setTimeout(resolve, boundedTimeoutMs);
+  });
+  try {
+    while (pendingInvocations.size > 0) {
+      const outcome = await Promise.race([
+        Promise.allSettled(pendingInvocations).then(() => "drained"),
+        deadline.then(() => "timed-out"),
+      ]);
+      if (outcome === "timed-out") return;
+    }
+  } finally {
+    clearTimeout(deadlineTimer);
+  }
+}
+
+async function writeInvocation(
   ctx: InvocationContext,
   timing: InvocationTiming,
   outcome: InvocationOutcome,
@@ -85,7 +128,10 @@ export async function recordInvocation(
     // Floor at 1 so the column stays a positive integer even when a warm-cache
     // call finishes in <0.5ms (which rounds to 0). Round because performance.now()
     // returns fractional ms.
-    const latencyMs = Math.max(1, Math.round(performance.now() - timing.startedAt));
+    const latencyMs = Math.max(
+      1,
+      Math.round(performance.now() - timing.startedAt),
+    );
     await db.executeQuery(
       `INSERT INTO mcp_invocations
          (tool_name, called_at, completed_at, latency_ms, success,
@@ -102,8 +148,8 @@ export async function recordInvocation(
         ctx.userId,
         ctx.apiKeyId,
         ctx.caller,
-        JSON.stringify(redactArguments(ctx.arguments)),
-        JSON.stringify(outcome.resultSummary ?? {}),
+        JSON.stringify(redactLogValue(ctx.arguments)),
+        JSON.stringify(redactLogValue(outcome.resultSummary ?? {})),
         outcome.errorMessage,
         outcome.tokensDebited ? JSON.stringify(outcome.tokensDebited) : null,
       ],
@@ -115,28 +161,36 @@ export async function recordInvocation(
   }
 }
 
-/**
- * Strip well-known auth fields before persisting. Keeps the JSONB blob
- * useful for triage without ever leaking secrets into the table.
- */
-function redactArguments(
-  args: Record<string, unknown>,
-): Record<string, unknown> {
-  const out: Record<string, unknown> = {};
-  for (const [k, v] of Object.entries(args)) {
-    if (k === "_authKey" || k === "_apiKey" || k.toLowerCase().includes("secret")) {
-      out[k] = "[redacted]";
-    } else if (k === "_meta" && v && typeof v === "object") {
-      const meta = v as Record<string, unknown>;
-      const safeMeta: Record<string, unknown> = {};
-      for (const [mk, mv] of Object.entries(meta)) {
-        if (mk === "apiKey" || mk === "authKey") safeMeta[mk] = "[redacted]";
-        else safeMeta[mk] = mv;
-      }
-      out[k] = safeMeta;
-    } else {
-      out[k] = v;
-    }
+const MAX_REDACTION_DEPTH = 12;
+
+function isSensitiveFieldKey(key: string): boolean {
+  const normalized = key.replace(/[^a-z0-9]/gi, "").toLowerCase();
+  // These fields describe the ESMS asset in a trade, not authentication.
+  if (normalized === "givetoken" || normalized === "wanttoken") return false;
+  return (
+    normalized === "reflection" ||
+    normalized === "review" ||
+    normalized === "apikey" ||
+    normalized === "authkey" ||
+    normalized.endsWith("token") ||
+    /secret|password|authorization|credential/.test(normalized)
+  );
+}
+
+/** Remove credential fields and review bodies without mutating structured telemetry. */
+function redactLogValue(value: unknown, depth = 0): unknown {
+  if (value === null || typeof value !== "object") return value;
+  // Also terminates cyclic objects and prevents excessive recursive traversal.
+  if (depth >= MAX_REDACTION_DEPTH) return "[redacted: depth limit]";
+  if (Array.isArray(value)) {
+    return value.map((entry: unknown) => redactLogValue(entry, depth + 1));
   }
-  return out;
+  return Object.fromEntries(
+    Object.entries(value).map(([key, entry]) => [
+      key,
+      isSensitiveFieldKey(key)
+        ? "[redacted]"
+        : redactLogValue(entry, depth + 1),
+    ]),
+  );
 }

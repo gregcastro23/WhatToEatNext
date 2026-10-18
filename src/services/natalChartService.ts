@@ -163,12 +163,34 @@ interface PositionWithLongitude {
   exactLongitude: number;
 }
 
+export interface NatalChartRequestOptions {
+  signal?: AbortSignal;
+  correlationId?: string;
+  traceId?: string;
+  caller?: string;
+  evidenceSnapshotId?: string;
+}
+
+function chartRequestOptions(request: NatalChartRequestOptions): Pick<RequestInit, "headers" | "signal"> {
+  return {
+    headers: {
+      "Content-Type": "application/json",
+      ...(request.correlationId ? { "X-Correlation-ID": request.correlationId, "X-Request-ID": request.correlationId } : {}),
+      ...(request.traceId ? { "X-Trace-ID": request.traceId } : {}),
+      ...(request.caller ? { "X-Invocation-Caller": request.caller } : {}),
+      ...(request.evidenceSnapshotId ? { "X-Evidence-Snapshot-ID": request.evidenceSnapshotId } : {}),
+    },
+    ...(request.signal ? { signal: request.signal } : {}),
+  };
+}
+
 /**
  * Call astrologize API with birth data.
  * Returns both zodiac sign and exact ecliptic longitude for sub-arcminute accuracy.
  */
 async function fetchPlanetaryPositions(
   birthData: BirthData,
+  request: NatalChartRequestOptions = {},
 ): Promise<Record<Planet, PositionWithLongitude>> {
   try {
     // The EPHEMERIS is queried at the true instant when the temporal migration
@@ -250,7 +272,7 @@ async function fetchPlanetaryPositions(
     try {
       response = await fetch(astrologizeUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        ...chartRequestOptions(request),
         body: JSON.stringify(payload),
       });
     } catch (cause) {
@@ -366,10 +388,11 @@ function calculateDominantModality(
  */
 export async function calculateNatalChart(
   birthData: BirthData,
+  request: NatalChartRequestOptions = {},
 ): Promise<NatalChart> {
   try {
     // Fetch planetary positions from astrologize API
-    const planetaryPositions = await fetchPlanetaryPositions(birthData);
+    const planetaryPositions = await fetchPlanetaryPositions(birthData, request);
 
     // Extract sign-only record for validation and alchemy calculations
     const signPositions: Record<Planet, ZodiacSignType> = {} as Record<Planet, ZodiacSignType>;

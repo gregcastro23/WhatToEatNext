@@ -21,6 +21,7 @@
  */
 
 import { calculateNatalChart } from "@/services/natalChartService";
+import { getMcpInvocationContext } from "./execution";
 import type { ToolResult } from "./tools";
 
 // ─── Constants ────────────────────────────────────────────────────────
@@ -273,11 +274,8 @@ let dbModule:
 async function getDb(): Promise<
   typeof import("@/lib/database/connection") | null
 > {
+  if (!isServerWithDB()) return null;
   if (dbModule !== undefined) return dbModule;
-  if (!isServerWithDB()) {
-    dbModule = null;
-    return null;
-  }
   try {
     dbModule = await import("@/lib/database/connection");
   } catch (err) {
@@ -492,11 +490,11 @@ export async function computeSynastryOverlay(
     }
   }
 
-  if (cacheStrategy !== "bypass") {
-    // Fire-and-forget — the upsert below blocks briefly but failure
-    // here must not block the duel.
-    upsertNatalPositions(agentA.id, pointsA).catch(() => {});
-    upsertNatalPositions(agentB.id, pointsB).catch(() => {});
+  if (cacheStrategy === "write") {
+    await Promise.all([
+      upsertNatalPositions(agentA.id, pointsA),
+      upsertNatalPositions(agentB.id, pointsB),
+    ]);
   }
 
   const stance = decideStance(scores);
@@ -579,7 +577,7 @@ export async function getTransitNatalOverlay(
       latitude: lat,
       longitude: lon,
       timezone: "UTC",
-    });
+    }, getMcpInvocationContext());
   } catch (err) {
     return {
       ok: false,
