@@ -21,6 +21,8 @@ import {
   type AgentAction,
   type AgentArtifact,
 } from "@/lib/agents/fetchAgentProfile";
+import { computeAgentProgression } from "@/lib/agents/levelingService";
+import { resolveAgentAppearance } from "@/lib/agents/vessel-appearance-manifest";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { followDatabase } from "@/services/followDatabaseService";
@@ -192,6 +194,35 @@ export async function GET(
       // Check if this slug corresponds to a canonical historical agent from ASOL
       const externalAgent = await fetchAgentProfile(userId);
       if (externalAgent) {
+        const appearance = resolveAgentAppearance(userId);
+        const progression = computeAgentProgression({
+          id: userId,
+          name: externalAgent.name,
+          consciousness: {
+            dominantElement: externalAgent.consciousness?.dominantElement,
+            natalChart:
+              typeof externalAgent.consciousness?.natalChart === "object" &&
+              externalAgent.consciousness?.natalChart !== null
+                ? (externalAgent.consciousness.natalChart as Record<string, unknown>)
+                : undefined,
+          },
+        });
+        const vessel = {
+          level: progression.vesselLevel,
+          totalXp: progression.totalXp,
+          xpToNextLevel: progression.xpToNextLevel,
+          levelBoost: progression.levelBoost,
+          baseOverall: progression.baseOverall,
+          trainedOverall: progression.trainedOverall,
+          currentOverall: progression.currentOverall,
+          transitDelta: progression.transitDelta,
+          progressionStatus: progression.progressionStatus,
+          archetype: progression.archetype,
+          stats: progression.stats,
+          statDeltas: progression.statDeltas,
+          appearance,
+        };
+
         return NextResponse.json({
           success: true,
           profile: {
@@ -210,6 +241,7 @@ export async function GET(
             },
             agentSlug: userId,
             agentProfile: externalAgent,
+            vessel,
             agentInteractions: [],
             agentActions: [],
             agentArtifacts: [],
@@ -393,7 +425,7 @@ export async function GET(
           consciousness: {
             dominantElement: row.dominant_element ?? "Fire",
             level: "Master",
-            natalChart: natalChart,
+            natalChart,
           },
           ...(diet ? { historicalDiet: diet } : {}),
           personality: {
@@ -407,6 +439,59 @@ export async function GET(
       } else if (agentProfile && !agentProfile.historicalDiet && Object.keys(dietaryPreferences).length > 0) {
         agentProfile.historicalDiet = dietaryPreferences;
       }
+    }
+
+    let vessel: {
+      level: number;
+      totalXp: number;
+      xpToNextLevel: number | null;
+      levelBoost: number;
+      baseOverall: number;
+      trainedOverall: number;
+      currentOverall: number;
+      transitDelta: number;
+      progressionStatus: "live" | "estimated" | "unavailable";
+      archetype: { title: string; primary: string; secondary: string };
+      stats: Record<string, number>;
+      statDeltas?: Record<string, number>;
+      appearance?: ReturnType<typeof resolveAgentAppearance>;
+    } | null = null;
+
+    if (row.is_agent) {
+      const appearance = resolveAgentAppearance(slug ?? realUserId);
+      const progression = computeAgentProgression({
+        id: slug ?? realUserId,
+        name: row.name ?? undefined,
+        consciousness: {
+          dominantElement: row.dominant_element ?? undefined,
+          natalChart:
+            typeof natalChart === "object" && natalChart !== null
+              ? natalChart
+              : undefined,
+          alchemicalElements: {
+            spirit: parseFloat(balance.spirit) || 0,
+            essence: parseFloat(balance.essence) || 0,
+            matter: parseFloat(balance.matter) || 0,
+            substance: parseFloat(balance.substance) || 0,
+          },
+        },
+      });
+
+      vessel = {
+        level: progression.vesselLevel,
+        totalXp: progression.totalXp,
+        xpToNextLevel: progression.xpToNextLevel,
+        levelBoost: progression.levelBoost,
+        baseOverall: progression.baseOverall,
+        trainedOverall: progression.trainedOverall,
+        currentOverall: progression.currentOverall,
+        transitDelta: progression.transitDelta,
+        progressionStatus: progression.progressionStatus,
+        archetype: progression.archetype,
+        stats: progression.stats,
+        statDeltas: progression.statDeltas,
+        appearance,
+      };
     }
 
     return NextResponse.json({
@@ -427,6 +512,7 @@ export async function GET(
           viewerId === realUserId ? row.share_identity !== false : undefined,
         agentSlug: slug,
         agentProfile,
+        vessel,
         agentInteractions,
         agentActions,
         agentArtifacts,

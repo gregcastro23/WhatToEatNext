@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import AgentProfileWeekCard from "@/components/menu-planner/redesign/AgentProfileWeekCard";
+import type { AgentVesselData } from "@/components/profile/AgentVesselCard";
 import type { DietaryPreferencesData } from "@/components/profile/blocks/types";
 import { CustomizeDrawer } from "@/components/profile/CustomizeDrawer";
 import { LiveAgentFeed } from "@/components/profile/LiveAgentFeed";
@@ -41,6 +42,7 @@ interface PublicProfile {
   isAgent: boolean;
   agentSlug: string | null;
   agentProfile: CraftedAgentProfile | null;
+  vessel?: AgentVesselData | null;
   agentInteractions?: AgentInteraction[];
   agentActions?: AgentAction[];
   agentArtifacts?: AgentArtifact[];
@@ -198,6 +200,7 @@ export default function PublicProfilePage() {
           <AgentProfile
             agent={profile.agentProfile!}
             balances={profile.balances}
+            vessel={profile.vessel}
             handle={profile.handle}
             interactions={profile.agentInteractions ?? []}
             actions={profile.agentActions ?? []}

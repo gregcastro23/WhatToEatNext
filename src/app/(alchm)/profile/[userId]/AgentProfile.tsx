@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
+import { AgentVesselCard, type AgentVesselData } from "@/components/profile/AgentVesselCard";
 import PlanetaryAgentChat from "@/components/time-laboratory/planetary-agent-chat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { agentChatUrl, agentSlugFromEmail } from "@/lib/agents/agentChatUrl";
 import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
 import type { AgentInteraction, AgentAction, AgentArtifact } from "@/lib/agents/fetchAgentProfile";
+import { computeAgentProgression } from "@/lib/agents/levelingService";
+import { resolveAgentAppearance } from "@/lib/agents/vessel-appearance-manifest";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { RecentActivityItem } from "./RecentActivityItem";
 
@@ -50,13 +53,14 @@ export interface Balances {
 interface AgentProfileProps {
   agent: CraftedAgentProfile;
   balances: Balances;
-  handle?: string | null;
-  interactions?: AgentInteraction[];
-  actions?: AgentAction[];
-  artifacts?: AgentArtifact[];
-  recentActivity?: RecentActivity[];
-  userId?: string;
-  viewer?: { follows: boolean; followedBy: boolean; isCommensal: boolean } | null;
+  handle?: string | null | undefined;
+  vessel?: AgentVesselData | null | undefined;
+  interactions?: AgentInteraction[] | undefined;
+  actions?: AgentAction[] | undefined;
+  artifacts?: AgentArtifact[] | undefined;
+  recentActivity?: RecentActivity[] | undefined;
+  userId?: string | undefined;
+  viewer?: { follows: boolean; followedBy: boolean; isCommensal: boolean } | null | undefined;
 }
 
 interface ElementColorConfig {
@@ -111,6 +115,42 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
 
   const firstName = agent.name.split(" ")[0] ?? agent.name;
 
+  const resolvedVessel: AgentVesselData = props.vessel ?? (() => {
+    const appearance = resolveAgentAppearance(slug);
+    const progression = computeAgentProgression({
+      id: slug,
+      name: agent.name,
+      consciousness: {
+        dominantElement,
+        natalChart:
+          typeof agent.consciousness?.natalChart === "object" && agent.consciousness?.natalChart !== null
+            ? (agent.consciousness.natalChart as Record<string, unknown>)
+            : undefined,
+        alchemicalElements: {
+          spirit: balances.spirit,
+          essence: balances.essence,
+          matter: balances.matter,
+          substance: balances.substance,
+        },
+      },
+    });
+    return {
+      level: progression.vesselLevel,
+      totalXp: progression.totalXp,
+      xpToNextLevel: progression.xpToNextLevel,
+      levelBoost: progression.levelBoost,
+      baseOverall: progression.baseOverall,
+      trainedOverall: progression.trainedOverall,
+      currentOverall: progression.currentOverall,
+      transitDelta: progression.transitDelta,
+      progressionStatus: progression.progressionStatus,
+      archetype: progression.archetype,
+      stats: progression.stats,
+      statDeltas: progression.statDeltas,
+      appearance,
+    };
+  })();
+
   return (
     <div className="space-y-8 max-w-5xl mx-auto pb-12">
       {/* ── Hero Profile Card ── */}
@@ -124,13 +164,22 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-start md:items-center gap-5">
               <div
-                className="w-20 h-20 md:w-24 md:h-24 rounded-2xl flex items-center justify-center text-3xl font-serif font-bold text-white shadow-lg border border-white/15 shrink-0"
+                className="w-20 h-20 md:w-24 md:h-24 rounded-2xl flex items-center justify-center text-3xl font-serif font-bold text-white shadow-lg border border-white/15 shrink-0 overflow-hidden relative"
                 style={{
                   background: `linear-gradient(135deg, ${accent}33, ${accent}88)`,
                   borderColor: `${accent}66`,
                 }}
               >
-                {agent.appearance?.symbol ?? agent.name.charAt(0)}
+                {resolvedVessel.appearance?.portraitSvgDataUri ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={resolvedVessel.appearance.portraitSvgDataUri}
+                    alt={`${agent.name} Cameo`}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span>{agent.appearance?.symbol ?? agent.name.charAt(0)}</span>
+                )}
               </div>
 
               <div className="space-y-1.5">
@@ -138,6 +187,18 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
                   <h1 className="text-2xl md:text-3xl font-serif font-bold text-white tracking-tight">
                     {agent.name}
                   </h1>
+                  <Badge
+                    variant="outline"
+                    className="bg-purple-500/20 text-purple-200 border-purple-500/40 text-xs font-bold font-mono"
+                  >
+                    LVL {resolvedVessel.level}
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    className="bg-cyan-500/10 text-cyan-300 border-cyan-500/30 text-xs font-mono font-bold"
+                  >
+                    {resolvedVessel.currentOverall} OVR
+                  </Badge>
                   <Badge
                     variant="outline"
                     className={`${elementStyle.bg} ${elementStyle.text} ${elementStyle.border} text-xs font-medium uppercase tracking-wider`}
@@ -217,6 +278,14 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
           </div>
         </CardHeader>
       </Card>
+
+      {/* ── Historical Alchemical Vessel & Cosmic Likeness Chamber ── */}
+      <AgentVesselCard
+        vessel={resolvedVessel}
+        agentName={agent.name}
+        dominantElement={dominantElement}
+        accentColor={accent}
+      />
 
       {/* ── Commune Action Banner ── */}
       <Card className="border-purple-500/20 bg-gradient-to-r from-purple-950/30 via-black/40 to-indigo-950/30 backdrop-blur-md">
