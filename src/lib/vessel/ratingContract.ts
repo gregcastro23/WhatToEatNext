@@ -179,13 +179,21 @@ export function computeOvr(
 export function computeRelativeAdvantage(
   ratings: Record<SacredStatKey, number>,
 ): Record<SacredStatKey, number> {
-  const res: Partial<Record<SacredStatKey, number>> = {};
+  const res: Record<SacredStatKey, number> = {
+    power: 0,
+    resonance: 0,
+    wisdom: 0,
+    charisma: 0,
+    intuition: 0,
+    adaptability: 0,
+    vitality: 0,
+  };
   for (const key of SACRED_STAT_KEYS) {
     const raw = clampStat(ratings[key] ?? 25);
     const base = ROSTER_BASELINE_RATINGS[key]?.baseline ?? 62;
     res[key] = Math.round((raw - base) * 10) / 10;
   }
-  return res as Record<SacredStatKey, number>;
+  return res;
 }
 
 function capitalize(s: string): string {

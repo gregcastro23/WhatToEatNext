@@ -50,6 +50,10 @@ export interface Balances {
   substance: number;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 interface AgentProfileProps {
   agent: CraftedAgentProfile;
   balances: Balances;
@@ -117,15 +121,13 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
 
   const resolvedVessel: AgentVesselData = props.vessel ?? (() => {
     const appearance = resolveAgentAppearance(slug);
+    const rawChart = agent.consciousness?.natalChart;
     const progression = computeAgentProgression({
       id: slug,
       name: agent.name,
       consciousness: {
         dominantElement,
-        natalChart:
-          typeof agent.consciousness?.natalChart === "object" && agent.consciousness?.natalChart !== null
-            ? (agent.consciousness.natalChart as Record<string, unknown>)
-            : undefined,
+        natalChart: isRecord(rawChart) ? rawChart : undefined,
         alchemicalElements: {
           spirit: balances.spirit,
           essence: balances.essence,

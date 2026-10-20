@@ -35,6 +35,10 @@ const _logger = createLogger("users-api");
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+function isRecord(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null && !Array.isArray(val);
+}
+
 interface ProfileRow {
   user_id: string;
   email: string;
@@ -195,16 +199,13 @@ export async function GET(
       const externalAgent = await fetchAgentProfile(userId);
       if (externalAgent) {
         const appearance = resolveAgentAppearance(userId);
+        const rawChart = externalAgent.consciousness?.natalChart;
         const progression = computeAgentProgression({
           id: userId,
           name: externalAgent.name,
           consciousness: {
             dominantElement: externalAgent.consciousness?.dominantElement,
-            natalChart:
-              typeof externalAgent.consciousness?.natalChart === "object" &&
-              externalAgent.consciousness?.natalChart !== null
-                ? (externalAgent.consciousness.natalChart as Record<string, unknown>)
-                : undefined,
+            natalChart: isRecord(rawChart) ? rawChart : undefined,
           },
         });
         const vessel = {

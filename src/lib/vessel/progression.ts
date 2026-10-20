@@ -122,10 +122,27 @@ const sum = (values: number[]) =>
   values.reduce((total, value) => total + value, 0);
 const isSacred = (key: VesselStatKey): key is SacredStatKey =>
   SACRED_STAT_KEYS.some((k) => k === key);
-const zeroDeltas = () =>
-  Object.fromEntries(
-    ALL_VESSEL_STAT_KEYS.map((key) => [key, 0]),
-  ) as VesselStats;
+const zeroDeltas = (): VesselStats => ({
+  power: 0,
+  resonance: 0,
+  wisdom: 0,
+  charisma: 0,
+  intuition: 0,
+  adaptability: 0,
+  vitality: 0,
+  solarAgency: 0,
+  lunarReceptivity: 0,
+  mercurialVelocity: 0,
+  venusianCoherence: 0,
+  martialImpetus: 0,
+  jovianExpansion: 0,
+  saturnianStructure: 0,
+  chironicAdaptation: 0,
+  uranianSurprisal: 0,
+  neptunianResonance: 0,
+  plutonicIntegration: 0,
+  kineticAlignment: 0,
+});
 
 function normalizedStat(key: VesselStatKey, value: number): number {
   return isSacred(key) ? (value - 25) / 74 : value / 100;
@@ -321,12 +338,10 @@ export function computeVesselProgression(
         isSacred(key) ? 99 : 100,
       ) - input.stats[key];
   }
-  const changed = Object.fromEntries(
-    ALL_VESSEL_STAT_KEYS.map((key) => [
-      key,
-      input.stats[key] + result.statDeltas[key],
-    ]),
-  ) as VesselStats;
+  const changed: VesselStats = zeroDeltas();
+  for (const key of ALL_VESSEL_STAT_KEYS) {
+    changed[key] = input.stats[key] + result.statDeltas[key];
+  }
   const transitDelta = clamp(overall(changed) - baseOverall, -8, 8);
   result.currentOverall = clamp(trainedOverall + transitDelta, 25, 99);
   return result;
