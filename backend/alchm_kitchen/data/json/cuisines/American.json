@@ -7,6 +7,7 @@
     "Air": 0.136
   },
   "description": "Diverse culinary influences reflecting the melting pot of American culture.",
+  "imageUrl": "/images/cuisines/american.png",
   "id": "american",
   "dishes": {
     "breakfast": {
@@ -46,9 +47,5 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": [],
-  "elementalProfileBasis": {
-    "method": "recipe-mean",
-    "recipes": 43
-  }
+  "astrologicalInfluences": []
 }

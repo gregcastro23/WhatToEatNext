@@ -38,7 +38,7 @@ function numberFrom(raw: string | null, fallback: number): number {
   return Number.isFinite(n) && n > 0 ? n : fallback;
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const viewerId = await getUserIdFromRequest(request); // may be null (anonymous)
   const { searchParams } = new URL(request.url);
   const eventIdRaw = searchParams.get("eventId");
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const userId = await getUserIdFromRequest(request);
   if (!userId) {
     return NextResponse.json({ success: false, message: "Authentication required" }, { status: 401 });

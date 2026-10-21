@@ -25,7 +25,10 @@ export function slugToCuisineKey(slug: string): string | null {
   return null;
 }
 
-export function getCuisineByDisplayName(displayName: string) {
+export function getCuisineByDisplayName(displayName: string): {
+  key: string;
+  meta: (typeof CUISINES_METADATA)[string] | undefined;
+} | null {
   const target = displayName.trim().toLowerCase();
   for (const key of Object.keys(CUISINES_METADATA)) {
     const meta = CUISINES_METADATA[key];

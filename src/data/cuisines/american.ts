@@ -1965,6 +1965,176 @@ export const american: Cuisine = {
             }
           ]
         },
+        {
+          "name": "Authentic Classic French Onion Dip",
+          "description": "An iconic mid-century American tavern and party masterpiece born from slow culinary alchemy. Mountains of thinly sliced yellow onions are patiently coaxed over gentle heat with butter and olive oil until the sugars break down into sweet, deeply browned, jammy Maillard complexity. Folded into cold, tangy cultured sour cream, rich mayonnaise, umami-laden Worcestershire sauce, and sharp fresh chives, the dip delivers an exquisite thermal and textural contrast between warm caramelized alliums and chilled velvety dairy.",
+          "details": {
+            "cuisine": "American",
+            "prepTimeMinutes": 15,
+            "cookTimeMinutes": 45,
+            "baseServingSize": 8,
+            "spiceLevel": "None",
+            "season": [
+              "all"
+            ]
+          },
+          "ingredients": [
+            {
+              "amount": 2,
+              "unit": "large",
+              "name": "yellow onions",
+              "notes": "Thinly sliced pole-to-pole (about 1.5 lbs / 700g) for even melting and caramelization."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "unsalted butter",
+              "notes": "Melted in the pan to infuse caramelized milk solids into the alliums."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "olive oil",
+              "notes": "Elevates the smoke point to prevent scorching during the extended Maillard transformation."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "kosher salt",
+              "notes": "Draws out moisture to accelerate osmotic breakdown of the onion cellular matrix."
+            },
+            {
+              "amount": 2,
+              "unit": "cloves",
+              "name": "garlic",
+              "notes": "Finely minced, added in the final 2 minutes of sautéing to avoid bitterness."
+            },
+            {
+              "amount": 1,
+              "unit": "tbsp",
+              "name": "Worcestershire sauce",
+              "notes": "Injects fermented tamarind, anchovy umami, and balancing savory acid."
+            },
+            {
+              "amount": 1,
+              "unit": "cup",
+              "name": "sour cream",
+              "notes": "Full-fat cultured sour cream for the definitive cooling lactic tang."
+            },
+            {
+              "amount": 0.5,
+              "unit": "cup",
+              "name": "mayonnaise",
+              "notes": "High-quality egg-emulsion matrix providing silky stability and rich mouthfeel."
+            },
+            {
+              "amount": 2,
+              "unit": "tbsp",
+              "name": "fresh chives",
+              "notes": "Finely minced for vibrant green color and sharp fresh allium top-notes."
+            },
+            {
+              "amount": 0.5,
+              "unit": "tsp",
+              "name": "onion powder",
+              "notes": "Reinforces foundational toasted onion aromatics throughout the dairy base."
+            },
+            {
+              "amount": 0.25,
+              "unit": "tsp",
+              "name": "garlic powder",
+              "notes": "Underpins the savory allium baseline."
+            },
+            {
+              "amount": 0.25,
+              "unit": "tsp",
+              "name": "black pepper",
+              "notes": "Freshly cracked for mild piperine warmth."
+            }
+          ],
+          "instructions": [
+            "Step 1: The Initial Sweat. Melt the unsalted butter and olive oil together in a heavy-bottomed skillet or Dutch oven over medium heat. Add the sliced yellow onions and kosher salt. Toss to coat evenly, cover with a tight lid, and sweat undisturbed for 10 minutes until the onions release their water, collapse, and turn translucent.",
+            "Step 2: The Maillard Caramelization (Crucial). Remove the lid and reduce the heat to medium-low. Cook the onions slowly for 35 to 40 minutes, stirring every few minutes. As golden fond accumulates on the bottom of the pan, deglaze with a tablespoon of water or broth to lift the caramelized sugars back into the onions. Continue until the onions collapse into a luscious, sweet, dark golden-mahogany jam.",
+            "Step 3: The Aromatic Bloom. Stir in the minced garlic and cook for 1 to 2 minutes until fragrant and softened without browning. Remove the pan from heat, splash in the Worcestershire sauce to deglaze the final fond, and transfer the caramelized onions to a shallow plate to cool completely to room temperature.",
+            "Step 4: The Emulsion Matrix. In a large mixing bowl, whisk together the cold sour cream, mayonnaise, onion powder, garlic powder, and freshly ground black pepper until completely smooth and emulsified.",
+            "Step 5: The Fold. Once the onions are thoroughly cooled (warm onions will melt and split the sour cream), fold them and the finely minced fresh chives into the creamy base until evenly distributed, reserving a pinch of chives for garnish.",
+            "Step 6: The Alchemical Maturation. Cover the bowl tightly and refrigerate for at least 2 hours (preferably overnight). This resting period allows the fat-soluble onion aromatics to infuse deeply into the dairy lipid matrix and firm the dip's structure.",
+            "Step 7: The Presentation. Transfer to a chilled serving bowl, sprinkle the reserved fresh chives over the top, and serve alongside thick-ridged potato chips, salted pretzels, or fresh crisp crudités."
+          ],
+          "classifications": {
+            "mealType": [
+              "appetizer",
+              "snack"
+            ],
+            "cookingMethods": [
+              "sautéing"
+            ]
+          },
+          "elementalProperties": {
+            "Fire": 0.32,
+            "Water": 0.2,
+            "Earth": 0.32,
+            "Air": 0.16
+          },
+          "astrologicalAffinities": {
+            "planets": [
+              "Moon",
+              "Venus",
+              "Saturn"
+            ],
+            "signs": [
+              "Taurus",
+              "Cancer"
+            ],
+            "lunarPhases": [
+              "Waxing Gibbous",
+              "Full Moon"
+            ]
+          },
+          "nutritionPerServing": {
+            "calories": 230,
+            "proteinG": 2,
+            "carbsG": 6,
+            "fatG": 22,
+            "fiberG": 1,
+            "sodiumMg": 310,
+            "sugarG": 3,
+            "vitamins": [
+              "Vitamin A",
+              "Vitamin C",
+              "Vitamin K"
+            ],
+            "minerals": [
+              "Calcium",
+              "Iron"
+            ]
+          },
+          alchemicalProperties: {"Spirit":5.56,"Essence":5.46,"Matter":5.71,"Substance":5.35},
+          thermodynamicProperties: {"heat":0.1048,"entropy":0.4366,"reactivity":2.4619,"gregsEnergy":-0.97,"kalchm":0.8925,"monica":-3.4645},
+          "substitutions": [
+            {
+              "originalIngredient": "sour cream",
+              "substituteOptions": [
+                "plain whole-milk Greek yogurt (for a high-protein, tangier profile)",
+                "crema Mexicana"
+              ]
+            },
+            {
+              "originalIngredient": "mayonnaise",
+              "substituteOptions": [
+                "labneh (for a rich, strained-yogurt texture)",
+                "avocado oil mayonnaise"
+              ]
+            },
+            {
+              "originalIngredient": "Worcestershire sauce",
+              "substituteOptions": [
+                "tamari with a splash of apple cider vinegar (vegetarian / gluten-free)",
+                "coconut aminos"
+              ]
+            }
+          ]
+        },
       ],
     },
     dinner: {
@@ -6200,6 +6370,39 @@ export const american: Cuisine = {
       preparationNotes:
         "Best when made fresh and allowed to rest for flavors to meld",
       technicalTips: "Use fresh herbs when possible for brightest flavor",
+    },
+    frenchOnionDip: {
+      name: "French Onion Dip",
+      description:
+        "Classic American tavern and party dip of slow-caramelized onions folded into tangy sour cream and mayonnaise",
+      base: "sour cream and mayonnaise",
+      keyIngredients: [
+        "caramelized yellow onions",
+        "sour cream",
+        "mayonnaise",
+        "garlic",
+        "Worcestershire sauce",
+        "fresh chives",
+      ],
+      culinaryUses: [
+        "vegetable dip",
+        "chip dip",
+        "sandwich spread",
+        "baked potato topping",
+      ],
+      variants: ["Classic", "Greek Yogurt (High-Protein)", "Smoked Garlic", "Shallot & Chive"],
+      elementalProperties: {
+        Fire: 0.32,
+        Earth: 0.32,
+        Water: 0.2,
+        Air: 0.16,
+      },
+      astrologicalInfluences: ["Moon", "Venus", "Saturn", "Taurus", "Cancer"],
+      seasonality: "all",
+      preparationNotes:
+        "Cool caramelized onions completely before folding into dairy to prevent thermal splitting",
+      technicalTips:
+        "Refrigerate for at least 2 hours before serving for flavor infusion and ideal dip viscosity",
     },
     hotSauce: {
       name: "Hot Sauce",

@@ -7,6 +7,7 @@
     "Air": 0.1422
   },
   "description": "Precision and seasonality with a focus on umami and fresh seafood.",
+  "imageUrl": "/images/cuisines/japanese.png",
   "id": "japanese",
   "dishes": {
     "breakfast": {
@@ -46,9 +47,5 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": [],
-  "elementalProfileBasis": {
-    "method": "recipe-mean",
-    "recipes": 45
-  }
+  "astrologicalInfluences": []
 }

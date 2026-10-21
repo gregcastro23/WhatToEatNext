@@ -18,8 +18,12 @@ import {
   Heart,
   Ban,
   Star,
+  ArrowRight,
+  History,
 } from "lucide-react";
+import Link from "next/link";
 import React, { useState } from "react";
+import { AgentVesselCard, type AgentVesselData } from "@/components/profile/AgentVesselCard";
 import PlanetaryAgentChat from "@/components/time-laboratory/planetary-agent-chat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,7 +31,17 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { agentChatUrl, agentSlugFromEmail } from "@/lib/agents/agentChatUrl";
 import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
 import type { AgentInteraction, AgentAction, AgentArtifact } from "@/lib/agents/fetchAgentProfile";
+import { computeAgentProgression } from "@/lib/agents/levelingService";
+import { resolveAgentAppearance } from "@/lib/agents/vessel-appearance-manifest";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
+import { RecentActivityItem } from "./RecentActivityItem";
+
+export interface RecentActivity {
+  id: string;
+  eventType: string;
+  metadataPayload: Record<string, unknown> | null;
+  createdAt: string;
+}
 
 export interface Balances {
   spirit: number;
@@ -36,13 +50,19 @@ export interface Balances {
   substance: number;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 interface AgentProfileProps {
   agent: CraftedAgentProfile;
   balances: Balances;
   handle?: string | null;
+  vessel?: AgentVesselData | null;
   interactions?: AgentInteraction[];
   actions?: AgentAction[];
   artifacts?: AgentArtifact[];
+  recentActivity?: RecentActivity[];
   userId?: string;
   viewer?: { follows: boolean; followedBy: boolean; isCommensal: boolean } | null;
 }
@@ -81,6 +101,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
     handle,
     actions = [],
     artifacts = [],
+    recentActivity = [],
     userId,
   } = props;
 
@@ -98,6 +119,40 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
 
   const firstName = agent.name.split(" ")[0] ?? agent.name;
 
+  const resolvedVessel: AgentVesselData = props.vessel ?? ((): AgentVesselData => {
+    const appearance = resolveAgentAppearance(slug);
+    const rawChart = agent.consciousness?.natalChart;
+    const progression = computeAgentProgression({
+      id: slug,
+      name: agent.name,
+      consciousness: {
+        dominantElement,
+        ...(isRecord(rawChart) ? { natalChart: rawChart } : {}),
+        alchemicalElements: {
+          spirit: balances.spirit,
+          essence: balances.essence,
+          matter: balances.matter,
+          substance: balances.substance,
+        },
+      },
+    });
+    return {
+      level: progression.vesselLevel,
+      totalXp: progression.totalXp,
+      xpToNextLevel: progression.xpToNextLevel,
+      levelBoost: progression.levelBoost,
+      baseOverall: progression.baseOverall,
+      trainedOverall: progression.trainedOverall,
+      currentOverall: progression.currentOverall,
+      transitDelta: progression.transitDelta,
+      progressionStatus: progression.progressionStatus,
+      archetype: progression.archetype,
+      stats: progression.stats,
+      statDeltas: progression.statDeltas,
+      appearance,
+    };
+  })();
+
   return (
     <div className="space-y-8 max-w-5xl mx-auto pb-12">
       {/* ── Hero Profile Card ── */}
@@ -111,13 +166,22 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-start md:items-center gap-5">
               <div
-                className="w-20 h-20 md:w-24 md:h-24 rounded-2xl flex items-center justify-center text-3xl font-serif font-bold text-white shadow-lg border border-white/15 shrink-0"
+                className="w-20 h-20 md:w-24 md:h-24 rounded-2xl flex items-center justify-center text-3xl font-serif font-bold text-white shadow-lg border border-white/15 shrink-0 overflow-hidden relative"
                 style={{
                   background: `linear-gradient(135deg, ${accent}33, ${accent}88)`,
                   borderColor: `${accent}66`,
                 }}
               >
-                {agent.appearance?.symbol ?? agent.name.charAt(0)}
+                {resolvedVessel.appearance?.portraitSvgDataUri ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={resolvedVessel.appearance.portraitSvgDataUri}
+                    alt={`${agent.name} Cameo`}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span>{agent.appearance?.symbol ?? agent.name.charAt(0)}</span>
+                )}
               </div>
 
               <div className="space-y-1.5">
@@ -125,6 +189,18 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
                   <h1 className="text-2xl md:text-3xl font-serif font-bold text-white tracking-tight">
                     {agent.name}
                   </h1>
+                  <Badge
+                    variant="outline"
+                    className="bg-purple-500/20 text-purple-200 border-purple-500/40 text-xs font-bold font-mono"
+                  >
+                    LVL {resolvedVessel.level}
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    className="bg-cyan-500/10 text-cyan-300 border-cyan-500/30 text-xs font-mono font-bold"
+                  >
+                    {resolvedVessel.currentOverall} OVR
+                  </Badge>
                   <Badge
                     variant="outline"
                     className={`${elementStyle.bg} ${elementStyle.text} ${elementStyle.border} text-xs font-medium uppercase tracking-wider`}
@@ -204,6 +280,14 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
           </div>
         </CardHeader>
       </Card>
+
+      {/* ── Historical Alchemical Vessel & Cosmic Likeness Chamber ── */}
+      <AgentVesselCard
+        vessel={resolvedVessel}
+        agentName={agent.name}
+        dominantElement={dominantElement}
+        accentColor={accent}
+      />
 
       {/* ── Commune Action Banner ── */}
       <Card className="border-purple-500/20 bg-gradient-to-r from-purple-950/30 via-black/40 to-indigo-950/30 backdrop-blur-md">
@@ -412,6 +496,64 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
           </CardContent>
         </Card>
       )}
+
+      {/* ── Recent Culinary Activity & Catalog Reviews ── */}
+      <Card className="glass-card-premium border-white/10 bg-black/40 backdrop-blur-md">
+        <CardHeader className="pb-3 flex flex-row items-center justify-between">
+          <div>
+            <CardTitle className="text-base font-serif text-white flex items-center gap-2">
+              <History className="w-4 h-4 text-amber-400" />
+              Recent Culinary Reflections & Activity
+            </CardTitle>
+            <CardDescription className="text-xs text-white/50">
+              Authentic recipe critiques, adaptations, and alchemical transmissions
+            </CardDescription>
+          </div>
+          <Link
+            href="/recipes"
+            className="text-[11px] text-purple-300 hover:text-purple-200 flex items-center gap-1 font-medium transition-colors"
+          >
+            <span>Browse Catalog</span>
+            <ArrowRight className="w-3 h-3" />
+          </Link>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {recentActivity.length > 0 ? (
+            recentActivity
+              .slice(0, 10)
+              .map((event) => (
+                <RecentActivityItem key={event.id} event={event} />
+              ))
+          ) : (
+            <div className="p-6 rounded-xl bg-white/[0.02] border border-white/5 text-center space-y-3">
+              <p className="text-xs text-white/50 max-w-md mx-auto leading-relaxed">
+                {firstName} has not yet critiqued a catalog recipe. You can invite {firstName} to review any dish using the Historical Council on the recipe page, or commune directly below.
+              </p>
+              <div className="flex justify-center gap-2">
+                <Button
+                  onClick={() => setIsChatOpen(true)}
+                  size="sm"
+                  variant="outline"
+                  className="text-xs border-purple-500/30 text-purple-300 hover:bg-purple-500/10 cursor-pointer"
+                >
+                  <MessageCircle className="w-3.5 h-3.5 mr-1.5" />
+                  <span>Commune with {firstName}</span>
+                </Button>
+                <Button
+                  asChild
+                  size="sm"
+                  variant="ghost"
+                  className="text-xs text-white/70 hover:text-white"
+                >
+                  <Link href="/recipes">
+                    <span>Explore Recipes</span>
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* ── Recent Kitchen Actions / Artifacts (if any) ── */}
       {(artifacts.length > 0 || actions.length > 0) && (

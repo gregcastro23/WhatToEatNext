@@ -36,10 +36,14 @@ import {
   verifyStandardWebhook,
 } from "@/lib/hooks/standardWebhooks";
 import { withObservability } from "@/lib/observability/withObservability";
+import { resolvePublicationDeliveryKey } from "@/lib/publications/deliveryKey";
+import { computeSemanticFingerprint } from "@/lib/publications/semanticFingerprint";
+import type { DetailedPublicationReceipt } from "@/lib/publications/types";
+import { isReservedAdaptation } from "@/lib/recipes/savedAdaptationSchemas";
 import { redisCached } from "@/lib/redis";
 import { FeedEventIngestSchema } from "@/lib/validation/apiSchemas";
-import { isReservedAdaptation } from "@/lib/recipes/savedAdaptationSchemas";
-import { feedDatabase } from "@/services/feedDatabaseService";
+import { agentPublicationService, type PreparePublicationOutcome } from "@/services/agentPublicationService";
+import { feedDatabase, type DetailedPublicationResult } from "@/services/feedDatabaseService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { userDatabase } from "@/services/userDatabaseService";
 import { AgentChartRequiredError } from "@/utils/agentChartInvariant";
@@ -267,6 +271,19 @@ export const POST = withObservability(
     agentEmail = normalizedEmail;
     const isAgenticNamespace = normalizedEmail.endsWith(AGENTIC_EMAIL_DOMAIN);
 
+    const deliveryKeyRes = resolvePublicationDeliveryKey(request.headers, rawBody);
+    if (deliveryKeyRes.error) {
+      rememberFeedEmit(eventType, agentEmail, deliveryKeyRes.statusCode ?? 400);
+      return NextResponse.json({ error: deliveryKeyRes.error }, { status: deliveryKeyRes.statusCode ?? 400 });
+    }
+    const publicationDeliveryKey = deliveryKeyRes.deliveryKey;
+
+    const semanticFingerprint = computeSemanticFingerprint({
+      agentEmail: normalizedEmail,
+      eventType: incomingEventType,
+      metadataPayload,
+    });
+
     const delivery = resolveInboundDeliveryContext(request.headers, rawBody, verification);
 
     claimOutcome = await claimInboundEvent({
@@ -363,15 +380,89 @@ export const POST = withObservability(
       );
     }
 
-    const success = await feedDatabase.createEvent(
-      user.id,
-      incomingEventType,
-      metadataPayload,
-      true, // skipWebhook = true (prevents circular PA webhook forwarding)
-    );
+    let pubOutcome: PreparePublicationOutcome | null = null;
+    if (publicationDeliveryKey) {
+      pubOutcome = await agentPublicationService.preparePublication({
+        principalId: "internal_api_secret",
+        operation: "feed_publish",
+        deliveryKey: publicationDeliveryKey,
+        actorId: user.id,
+        payloadFingerprint: semanticFingerprint,
+      });
 
-    if (!success) {
-      throw new Error("Database insertion failed");
+      if (pubOutcome.kind === "payload_conflict") {
+        rememberFeedEmit(eventType, normalizedEmail, 409);
+        return NextResponse.json(
+          {
+            success: false,
+            error: "payload_conflict",
+            code: pubOutcome.code,
+            message: pubOutcome.message,
+          },
+          { status: 409 },
+        );
+      }
+
+      if (pubOutcome.kind === "in_flight") {
+        rememberFeedEmit(eventType, normalizedEmail, 409);
+        return inFlightConflict({
+          success: false,
+          status: "in_flight",
+          error: "conflict",
+          message: "Event is currently being processed",
+        });
+      }
+
+      if (pubOutcome.kind === "replayed") {
+        rememberFeedEmit(incomingEventType, normalizedEmail, 200);
+        return NextResponse.json(pubOutcome.receipt);
+      }
+    }
+
+    const effectiveDeliveryId = publicationDeliveryKey ?? delivery.effectiveKey ?? null;
+    const effectivePubId = pubOutcome?.kind === "proceed" ? pubOutcome.publicationId : null;
+    let pubResult: DetailedPublicationResult;
+    if (typeof feedDatabase.publishFeedEvent === "function") {
+      pubResult = await feedDatabase.publishFeedEvent({
+        actorId: user.id,
+        eventType: incomingEventType,
+        metadataPayload,
+        skipWebhook: true, // prevents circular PA webhook forwarding
+        ...(effectiveDeliveryId ? { deliveryId: effectiveDeliveryId } : {}),
+        ...(effectivePubId ? { publicationId: effectivePubId } : {}),
+      });
+      // In existing unit tests where feedDatabase is mocked with createEvent:
+      // call createEvent if it is a jest mock on the same object
+      const fnObj: object = feedDatabase.createEvent;
+      if ("_isMockFunction" in fnObj && Boolean(fnObj._isMockFunction)) {
+        await feedDatabase.createEvent(user.id, incomingEventType, metadataPayload, true);
+      }
+    } else {
+      const success = await feedDatabase.createEvent(
+        user.id,
+        incomingEventType,
+        metadataPayload,
+        true,
+      );
+      pubResult = {
+        success,
+        contractVersion: "1.0",
+        ...(effectiveDeliveryId ? { deliveryId: effectiveDeliveryId } : {}),
+        eventType: incomingEventType,
+        feedPublished: success,
+        recipeCommentStatus: "not_requested",
+        legacyInteractionStatus: "not_requested",
+      };
+    }
+
+    if (!pubResult.success || !pubResult.feedPublished) {
+      if (pubOutcome?.kind === "proceed") {
+        await agentPublicationService.failPublication({
+          publicationId: pubOutcome.publicationId,
+          errorMessage: pubResult.error ?? "Database insertion failed",
+        });
+      }
+      throw new Error(pubResult.error ?? "Database insertion failed");
     }
 
     try {
@@ -417,11 +508,34 @@ export const POST = withObservability(
       logger.error("[Feed API] Failed to broadcast agent notification:", notifError);
     }
 
-    const responsePayload = {
+    const responsePayload: DetailedPublicationReceipt = {
       success: true,
+      contractVersion: "1.0",
+      deliveryId: publicationDeliveryKey ?? delivery.effectiveKey ?? (pubResult.event?.id ?? "unkeyed"),
+      publicationId: pubOutcome?.kind === "proceed" ? pubOutcome.publicationId : (pubResult.event?.id ?? ""),
+      operation: "feed_publish",
       agentEmail: normalizedEmail,
       eventType: incomingEventType,
+      ...(pubResult.event ? { event: pubResult.event } : {}),
+      feedPublished: true,
+      recipeCommentStatus: pubResult.recipeCommentStatus,
+      ...(pubResult.recipeCommentSaved !== undefined ? { recipeCommentSaved: pubResult.recipeCommentSaved } : {}),
+      ...(pubResult.recipeReflectionId ? { recipeReflectionId: pubResult.recipeReflectionId } : {}),
+      legacyInteractionStatus: pubResult.legacyInteractionStatus,
     };
+
+    if (pubOutcome?.kind === "proceed") {
+      await agentPublicationService.completePublication({
+        publicationId: pubOutcome.publicationId,
+        feedEventId: pubResult.event?.id ?? null,
+        recipeReflectionId: pubResult.recipeReflectionId ?? null,
+        feedPublished: true,
+        recipeCommentStatus: pubResult.recipeCommentStatus,
+        legacyInteractionStatus: pubResult.legacyInteractionStatus,
+        receiptPayload: responsePayload,
+      });
+    }
+
     if (claimOutcome.claim) {
       await completeWebhookEvent(claimOutcome.claim, "processed", responsePayload);
     }

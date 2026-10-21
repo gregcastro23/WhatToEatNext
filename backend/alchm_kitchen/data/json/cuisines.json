@@ -8,6 +8,7 @@
       "Air": 0.1026
     },
     "description": "Rich and diverse culinary traditions from across the African continent.",
+    "imageUrl": "/images/cuisines/african.png",
     "id": "african",
     "dishes": {
       "breakfast": {
@@ -47,11 +48,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 38
-    }
+    "astrologicalInfluences": []
   },
   "American": {
     "name": "American",
@@ -62,6 +59,7 @@
       "Air": 0.136
     },
     "description": "Diverse culinary influences reflecting the melting pot of American culture.",
+    "imageUrl": "/images/cuisines/american.png",
     "id": "american",
     "dishes": {
       "breakfast": {
@@ -101,11 +99,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 43
-    }
+    "astrologicalInfluences": []
   },
   "Chinese": {
     "name": "Chinese",
@@ -116,6 +110,7 @@
       "Air": 0.1372
     },
     "description": "Ancient culinary traditions with a focus on balance and wok hei.",
+    "imageUrl": "/images/cuisines/chinese.png",
     "id": "chinese",
     "dishes": {
       "breakfast": {
@@ -155,11 +150,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 43
-    }
+    "astrologicalInfluences": []
   },
   "French": {
     "name": "French",
@@ -170,6 +161,7 @@
       "Air": 0.1643
     },
     "description": "Classical techniques and a focus on high-quality ingredients and sauces.",
+    "imageUrl": "/images/cuisines/french.png",
     "id": "french",
     "dishes": {
       "breakfast": {
@@ -209,11 +201,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 35
-    }
+    "astrologicalInfluences": []
   },
   "Greek": {
     "name": "Greek",
@@ -224,6 +212,7 @@
       "Air": 0.1238
     },
     "description": "Mediterranean flavors with fresh herbs, olive oil, and seafood.",
+    "imageUrl": "/images/cuisines/greek.png",
     "id": "greek",
     "dishes": {
       "breakfast": {
@@ -263,11 +252,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 42
-    }
+    "astrologicalInfluences": []
   },
   "Indian": {
     "name": "Indian",
@@ -278,6 +263,7 @@
       "Air": 0.1256
     },
     "description": "Complex spice blends and traditional cooking methods like the tandoor.",
+    "imageUrl": "/images/cuisines/indian.png",
     "id": "indian",
     "dishes": {
       "breakfast": {
@@ -317,11 +303,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 39
-    }
+    "astrologicalInfluences": []
   },
   "Italian": {
     "name": "Italian",
@@ -332,6 +314,7 @@
       "Air": 0.155
     },
     "description": "Regional specialties with a focus on fresh pasta, tomatoes, and olive oil.",
+    "imageUrl": "/images/cuisines/italian.png",
     "id": "italian",
     "dishes": {
       "breakfast": {
@@ -371,11 +354,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 37
-    }
+    "astrologicalInfluences": []
   },
   "Japanese": {
     "name": "Japanese",
@@ -386,6 +365,7 @@
       "Air": 0.1422
     },
     "description": "Precision and seasonality with a focus on umami and fresh seafood.",
+    "imageUrl": "/images/cuisines/japanese.png",
     "id": "japanese",
     "dishes": {
       "breakfast": {
@@ -425,11 +405,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 45
-    }
+    "astrologicalInfluences": []
   },
   "Korean": {
     "name": "Korean",
@@ -440,6 +416,7 @@
       "Air": 0.1075
     },
     "description": "Bold flavors from fermentation and grilling.",
+    "imageUrl": "/images/cuisines/korean.png",
     "id": "korean",
     "dishes": {
       "breakfast": {
@@ -479,11 +456,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 40
-    }
+    "astrologicalInfluences": []
   },
   "Mexican": {
     "name": "Mexican",
@@ -494,6 +467,7 @@
       "Air": 0.1094
     },
     "description": "Vibrant flavors with a focus on chilies, corn, and traditional salsas.",
+    "imageUrl": "/images/cuisines/mexican.png",
     "id": "mexican",
     "dishes": {
       "breakfast": {
@@ -533,11 +507,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 39
-    }
+    "astrologicalInfluences": []
   },
   "MiddleEastern": {
     "name": "Middle Eastern",
@@ -548,6 +518,7 @@
       "Air": 0.0989
     },
     "description": "Aromatic spices, grains, and grilled meats with fresh vegetable salads.",
+    "imageUrl": "/images/cuisines/middle_eastern.png",
     "id": "middleeastern",
     "dishes": {
       "breakfast": {
@@ -587,11 +558,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 45
-    }
+    "astrologicalInfluences": []
   },
   "Russian": {
     "name": "Russian",
@@ -602,6 +569,7 @@
       "Air": 0.1205
     },
     "description": "Hearty soups, grains, and preserved foods suitable for cold climates.",
+    "imageUrl": "/images/cuisines/russian.png",
     "id": "russian",
     "dishes": {
       "breakfast": {
@@ -641,11 +609,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 39
-    }
+    "astrologicalInfluences": []
   },
   "Thai": {
     "name": "Thai",
@@ -656,6 +620,7 @@
       "Air": 0.114
     },
     "description": "Perfect balance of sour, sweet, salty, and spicy flavors.",
+    "imageUrl": "/images/cuisines/thai.png",
     "id": "thai",
     "dishes": {
       "breakfast": {
@@ -695,11 +660,7 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 41
-    }
+    "astrologicalInfluences": []
   },
   "Vietnamese": {
     "name": "Vietnamese",
@@ -710,6 +671,7 @@
       "Air": 0.1378
     },
     "description": "Fresh, light flavors with an emphasis on herbs and clear broths.",
+    "imageUrl": "/images/cuisines/vietnamese.png",
     "id": "vietnamese",
     "dishes": {
       "breakfast": {
@@ -749,22 +711,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 41
-    }
+    "astrologicalInfluences": []
   },
-  "HSCA": {
-    "name": "HSCA",
+  "Fusion": {
+    "name": "Fusion",
     "elementalProperties": {
-      "Fire": 0.225,
-      "Water": 0.2904,
-      "Earth": 0.3076,
-      "Air": 0.177
+      "Fire": 0.3967,
+      "Water": 0.1667,
+      "Earth": 0.35,
+      "Air": 0.0867
     },
-    "description": "Holistic Health and Macrobiotic clean cuisine focusing on energetic harmony and elemental balance.",
-    "id": "hsca",
+    "description": "Innovative culinary intersections bridging traditions across cultures through elemental harmony.",
+    "imageUrl": "/images/cuisines/fusion.png",
+    "id": "fusion",
     "dishes": {
       "breakfast": {
         "spring": [],
@@ -803,10 +762,6 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": [],
-    "elementalProfileBasis": {
-      "method": "recipe-mean",
-      "recipes": 534
-    }
+    "astrologicalInfluences": []
   }
 }

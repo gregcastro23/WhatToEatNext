@@ -7,6 +7,7 @@
     "Air": 0.0989
   },
   "description": "Aromatic spices, grains, and grilled meats with fresh vegetable salads.",
+  "imageUrl": "/images/cuisines/middle_eastern.png",
   "id": "middleeastern",
   "dishes": {
     "breakfast": {
@@ -46,9 +47,5 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": [],
-  "elementalProfileBasis": {
-    "method": "recipe-mean",
-    "recipes": 45
-  }
+  "astrologicalInfluences": []
 }

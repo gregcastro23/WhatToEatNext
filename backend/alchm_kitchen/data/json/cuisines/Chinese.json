@@ -7,6 +7,7 @@
     "Air": 0.1372
   },
   "description": "Ancient culinary traditions with a focus on balance and wok hei.",
+  "imageUrl": "/images/cuisines/chinese.png",
   "id": "chinese",
   "dishes": {
     "breakfast": {
@@ -46,9 +47,5 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": [],
-  "elementalProfileBasis": {
-    "method": "recipe-mean",
-    "recipes": 43
-  }
+  "astrologicalInfluences": []
 }

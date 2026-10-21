@@ -7,6 +7,7 @@
     "Air": 0.1238
   },
   "description": "Mediterranean flavors with fresh herbs, olive oil, and seafood.",
+  "imageUrl": "/images/cuisines/greek.png",
   "id": "greek",
   "dishes": {
     "breakfast": {
@@ -46,9 +47,5 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": [],
-  "elementalProfileBasis": {
-    "method": "recipe-mean",
-    "recipes": 42
-  }
+  "astrologicalInfluences": []
 }

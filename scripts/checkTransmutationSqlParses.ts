@@ -77,9 +77,10 @@ const statements: Statement[] = [
   { label: "makerOffers", builder: "makerOffersSql", sql: queries.makerOffersSql({ makerId: UUID, limit: 10 }).sql },
   { label: "tradeStats", builder: "tradeStatsSql", sql: queries.tradeStatsSql(UUID).sql },
   { label: "circleActivity", builder: "circleActivitySql", sql: queries.circleActivitySql().sql },
+  { label: "recentTriplicateTrades", builder: "recentTriplicateTradesSql", sql: queries.recentTriplicateTradesSql(5).sql },
 ];
 
-const EXPECTED_TOTAL = 16;
+const EXPECTED_TOTAL = 17;
 
 const client = new pg.Client({ connectionString: url, ssl: { rejectUnauthorized: false } });
 await client.connect();

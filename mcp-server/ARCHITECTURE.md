@@ -1,124 +1,55 @@
-# Alchm.kitchen MCP Server Architecture
+# Alchm.kitchen MCP architecture
 
-This document outlines the dual-database, multi-agent Model Context Protocol (MCP) architecture powering the data calculations, alchemical scoring, and cognitive persona layers of **Alchm.kitchen (Alchm)** and **Planetary Agents (PA)**.
-
----
-
-## 🗺️ Architectural Topology
-
-Our system implements a strict, enterprise-grade separation of concerns between user-facing transactions and agent-focused cognitive state, anchored by two separate databases and bridged by the Model Context Protocol.
+Version **1.3.0** keeps the kitchen server focused on culinary data, astronomical calculations and the existing recipe/economy workflows. Planetary Agents owns personas, memory and deliberation. Kitchen does not copy those tools or connect to the agents database.
 
 ```mermaid
-graph TD
-    User([External LLM / Cursor / Antigravity Agent]) -->|JSON-RPC| MCP_Client[Unified MCP Client]
-    
-    subgraph WTEN Web Surface [Data & Transaction Layer]
-        MCP_Client -->|stdio/SSE| Alchm_MCP[Alchm Data MCP Server]
-        Alchm_MCP -->|Query| DB_WTEN[(WTEN Postgres)]
-        Alchm_MCP -->|Compute| Ephemeris[Swiss Ephemeris]
-        
-        DB_WTEN -->|Stores| User_Profiles[User Profiles / ESMS Tokens]
-        DB_WTEN -->|Stores| Recipe_Catalog[579 Recipes & ASINs]
-    end
-    
-    subgraph Planetary Agents Standalone [Cognitive & Persona Layer]
-        MCP_Client -->|stdio/SSE| Agent_MCP[Planetary Agents MCP Server]
-        Agent_MCP -->|Query/Write| DB_PA[(PA Postgres)]
-        
-        DB_PA -->|Stores| Agent_Memories[Agent Short & Long-Term Memories]
-        DB_PA -->|Stores| Chat_Logs[Persona Contexts & Chat Logs]
-        
-        Agent_MCP -->|Socrates| Agent1[Socrates Persona]
-        Agent_MCP -->|Rumi| Agent2[Rumi Persona]
-        Agent_MCP -->|Galileo| Agent3[Galileo Persona]
-    end
-    
-    %% Inter-Server Bridge
-    Agent_MCP -.->|Queries Transits & Recipes| Alchm_MCP
+flowchart LR
+    Client[Claude / Cursor / Planetary Agents] -->|stdio JSON-RPC| Transport[MCP SDK v1 transport]
+    Transport --> Catalog[Shared eight-tool catalog]
+    Transport --> Invocation[Shared invocation boundary]
+    Probe[Synthetic probe] --> Invocation
+    Invocation --> Validation[Schema validation and workload bounds]
+    Validation --> Auth[Caller, rate limit and atomic token debit]
+    Auth --> Kitchen[Kitchen tool handlers]
+    Kitchen --> Local[Curated ingredients and recipes]
+    Kitchen --> Backend[Astrologize backend]
+    Kitchen --> WTEN[(WTEN Postgres)]
+    Invocation --> Log[Best-effort invocation telemetry]
+    Log --> WTEN
 ```
 
----
+The only MCP transport shipped here is stdio. The Node bundle and compiled Bun sidecar use the same handlers as source runs. Existing protocol initialization remains on the compatible SDK v1 line; this release does not migrate to the separate v2 package/protocol surface.
 
-## 🗄️ Database Separation
+## Code ownership
 
-1.  **WTEN Postgres (Transactional Web Anchor)**:
-    *   **Scope**: Manages user profiles, birth data, alchemical reserves (ESMS balances), Stripe subscriptions, daily limits, and Amazon Fresh shopping carts.
-    *   **Characteristics**: Highly optimized for transactional integrity, fast user hydration, and deterministic operations.
-2.  **PA Postgres (Cognitive Agent Anchor)**:
-    *   **Scope**: Manages agent long-term memory logs, conversational histories, vector memories, and historical character state files.
-    *   **Characteristics**: Isolated to prevent massive agent conversational logs from bloating or degrading performance on transactional user tables.
+| Module                                   | Responsibility                                                                    |
+| ---------------------------------------- | --------------------------------------------------------------------------------- |
+| `src/lib/mcp/catalog.ts`                 | Dependency-free tool names, version, descriptions and annotations. |
+| `src/lib/mcp/inputSchemas.ts`            | Shared input schemas used by discovery and runtime validation. |
+| `src/lib/mcp/validation.ts`              | Validate the catalog's JSON Schema subset before expensive/authenticated work.    |
+| `src/lib/mcp/execution.ts`               | Process concurrency, deadlines and cancellation context.                          |
+| `src/lib/mcp/tools.ts`                   | Shared invocation boundary and culinary handlers.                                 |
+| `src/lib/mcp/synastryTools.ts`           | Synastry aspects, cache and transit/natal overlays.                               |
+| `src/lib/mcp/auth.ts`                    | Credential resolution and ESMS billing policy.                                    |
+| `src/lib/mcp/rateLimit.ts`               | Per-key/anonymous process-local sliding windows.                                  |
+| `src/lib/mcp/invocationLog.ts`           | Sanitized, best-effort telemetry writes.                                          |
+| `mcp-server/src/index.ts`                | Stdio registration, structured/text envelopes and shutdown.                       |
+| `mcp-server/src/__tests__/stdio.test.ts` | Real-process protocol regression tests.                                           |
 
----
+The shared catalog contains eight tools: `get_live_sky_transits`, `alchemize_ingredients`, `generate_cosmic_recipe`, `compute_synastry_overlay`, `get_transit_natal_overlay`, `compute_triplicate_synastry`, `create_evidence_snapshot` and `submit_recipe_reflection`. Both stdio and in-process callers pass through `invokeTool`; the catalog and runtime validator cannot drift into separate input contracts.
 
-## 🛠️ Exposing the Alchm MCP Server Tools
+## Authentication and effects
 
-The `alchm-mcp-server` resides in `mcp-server/` and runs on Bun. It exposes three primary tools over the Stdio transport channel:
+Calls can carry `_meta.apiKey`/legacy argument aliases, or inherit `MCP_USER_API_KEY` (`ALCHM_MCP_USER_API_KEY` alias). Credentials require WTEN Postgres for validation; the production chart URL supplies astronomical calculation, not remote API-key authentication. Anonymous callers use read tools in demo mode. Reflection publication requires an authenticated non-synthetic user.
 
-### 1. `get_live_sky_transits`
-*   **Purpose**: Computes live planetary degrees and active elements.
-*   **Arguments**:
-    *   `latitude`: (optional) number
-    *   `longitude`: (optional) number
-*   **Output**: Current sky elements (Fire, Water, Earth, Air), dominant sign placements, and house degrees calculated using Swiss Ephemeris.
+Authenticated recipe searches and evidence snapshots cost 2.5 of each ESMS axis; reflections cost 0.1 of each axis. A failed debit prevents handler execution. Paid calls are marked non-read-only and non-idempotent because retrying may debit again. Synastry is marked non-read-only because its explicit write cache strategy changes persistent state; that strategy requires a matching internal probe secret, and read/bypass calls do not upsert natal records. Reflection publication can create a reflection, interaction and feed event; these writes are not a single all-or-nothing transaction.
 
-### 2. `alchemize_ingredients`
-*   **Purpose**: Computes the Spirit, Essence, Matter, and Substance (ESMS) balances of raw foods.
-*   **Arguments**:
-    *   `ingredients`: (required) array of strings (e.g. `["tomato", "basil"]`)
-*   **Output**: Individual ingredient scores, overall alchemical harmony ratings, and thermodynamic indices (heat, entropy, reactivity).
+Synthetic exemptions require an explicit matching `_meta.internalSecret`; merely configuring a server secret does not exempt external callers. Credentials and reflection text are not retained in invocation arguments. Correlation IDs connect a request to sanitized telemetry.
 
-### 3. `generate_cosmic_recipe`
-*   **Purpose**: Discovers cosmos-aligned dishes from our high-performance recipe catalog.
-*   **Arguments**:
-    *   `prompt`: (optional) string search keyword
-    *   `cuisine`: (optional) string
-    *   `dietary`: (optional) array of restrictions (`['vegetarian', 'vegan']`)
-    *   `dominantElement`: (optional) target element (`'Fire' | 'Water' | 'Earth' | 'Air'`)
-*   **Output**: High-fidelity recipes with complete ingredient quantities and alchemical properties.
+## Runtime and packaging
 
----
+Before dynamically importing application services, the entrypoint redirects console log/info/debug to stderr. This covers initialization logs as well as handler logs. Stdout is reserved for newline-delimited JSON-RPC. SIGINT, SIGTERM, SDK closure and stdin EOF share a guarded shutdown that drains pending telemetry for up to one second. Successful results and tool failures expose an object in `structuredContent` plus an identical serialized text object for existing clients.
 
-## 🔗 Running Locally
+Explicit backend URL settings win. Bundles/sidecars default to `https://alchm.kitchen`; raw source defaults to the developer's localhost app. The bundle includes the application calculation/catalog code and declares `pg` as a runtime dependency. The binary includes its runtime, disables dotenv/bunfig autoloading, and is ad-hoc signed and verified on macOS. Package version, catalog/server handshake version and registry metadata are synchronized at 1.3.0; build and protocol tests precede any publication.
 
-You can launch this server inside any LLM environment (Cursor, Claude Desktop, Google Antigravity SDK) using Bun:
-
-```bash
-bun run mcp-server/src/index.ts
-```
-
-Ensure the `DATABASE_URL` is set in your environment variables to connect directly to the WTEN database, or run without it to automatically fallback to local static assets.
-
-See **[`README.md`](./README.md)** for the full setup, per-call auth (`_meta.apiKey`), connector config templates for Claude Desktop / Cursor, and the operational telemetry exposed on the admin dashboard.
-
----
-
-## 🧱 Internal Code Layout
-
-The tool handlers, auth wrapper, and invocation logger live in `src/lib/mcp/` (Next.js app side) so the same code is exercised by:
-
-- **The stdio MCP server** (`mcp-server/src/index.ts`) — production surface for external LLM clients.
-- **The synthetic MCP probe** (`src/services/syntheticProbeService.ts` → `runMcpProbe()`) — cron-triggered health check that catches breakage at the handler layer even when no organic traffic flows.
-- **The unit tests** (`src/lib/mcp/__tests__/tools.test.ts`) — exercise handlers + auth gate without Bun.
-- **The integration test** (`mcp-server/src/__tests__/stdio.test.ts`, gated on `MCP_E2E=1`) — verifies the JSON-RPC transport.
-
-```
-src/lib/mcp/
-├── tools.ts          ← invokeTool() + 3 handlers; single source of truth
-├── auth.ts           ← _meta.apiKey resolution + ESMS token debit
-└── invocationLog.ts  ← fire-and-forget writes to mcp_invocations
-
-mcp-server/src/
-└── index.ts          ← stdio transport + MCP SDK registration; delegates to invokeTool
-```
-
-## 📊 Observability
-
-Every tool invocation writes one row to `mcp_invocations` (Postgres). That table feeds three surfaces:
-
-| Surface | What it shows | Source |
-| --- | --- | --- |
-| `/admin` → System Status → **MCP Tool Surface** flow | Call rate, error rate, p95 latency, synthetic-probe verdict (1h window) | `systemStatusService.probeMcp()` |
-| `/admin/dashboard` → Agent Telemetry → **mcpInvocationRate** | Live calls/hour as a 4th metric alongside transmutation/entropy/harmony | `agentTelemetryService.getAgentNetworkTelemetry()` |
-| `/api/cron/synthetic-mcp` | 30-min synthetic exercise of `get_live_sky_transits` + `generate_cosmic_recipe` | `syntheticProbeService.runMcpProbe()` |
-
-Retention is 7 days, swept by the existing `observability-prune` daily cron.
+The invocation boundary applies schema bounds, per-key rate limits, a four-call concurrency cap and a cancellation deadline of 20 seconds. Cancellation is forwarded from MCP request context. These are process-local controls, not distributed quotas or guarantees of rollback for downstream work already started. Database telemetry records calls for the admin surface and synthetic probe; telemetry failure does not change a tool's success.

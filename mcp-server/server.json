@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.gregcastro23/alchm-kitchen",
-  "description": "Live transits, ESMS ingredients, cosmic recipes, synastry & transit×natal overlays by alchm.kitchen",
-  "version": "1.1.2",
+  "description": "Eight kitchen tools: transits, ingredients, recipes, synastry, evidence snapshots and reflections.",
+  "version": "1.3.0",
   "repository": {
     "url": "https://github.com/gregcastro23/WhatToEatNext",
     "source": "github",
@@ -12,19 +12,33 @@
     {
       "registryType": "npm",
       "identifier": "@alchm/mcp-server",
-      "version": "1.1.2",
-      "transport": { "type": "stdio" },
+      "version": "1.3.0",
+      "transport": {
+        "type": "stdio"
+      },
       "environmentVariables": [
         {
           "name": "MCP_USER_API_KEY",
-          "description": "Your alchm.kitchen API key — mint one at https://alchm.kitchen/profile/api-keys. Optional; unlocks per-user quotas and invocation telemetry. The server runs anonymously without it.",
+          "description": "Optional alchm.kitchen API key. Requires operator DATABASE_URL for validation and billing. Anonymous read tools run in demo mode; reflection publication requires authentication.",
+          "isSecret": true,
+          "isRequired": false
+        },
+        {
+          "name": "ALCHM_MCP_USER_API_KEY",
+          "description": "Alias for MCP_USER_API_KEY, supported in sanitized Planetary Agents client environments.",
           "isSecret": true,
           "isRequired": false
         },
         {
           "name": "DATABASE_URL",
-          "description": "PostgreSQL connection string. Optional; enables the token gate and invocation logging. Omit for anonymous mode (all tools still function).",
+          "description": "Operator PostgreSQL connection string for API-key validation, ESMS billing, optional cache and telemetry. Without it, only anonymous demo reads are available.",
           "isSecret": true,
+          "isRequired": false
+        },
+        {
+          "name": "ALCHM_MCP_BACKEND_URL",
+          "description": "Backend origin serving /api/astrologize. Bundled artifacts default to https://alchm.kitchen; source runs default to http://localhost:3000.",
+          "isSecret": false,
           "isRequired": false
         }
       ]
