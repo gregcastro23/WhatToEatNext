@@ -317,7 +317,7 @@ export async function runCosmicRecipeProbe(options: {
     },
     baseUrl: options.baseUrl,
     bearerToken: options.bearerToken,
-    timeoutMs: options.timeoutMs ?? 15_000,
+    timeoutMs: options.timeoutMs ?? COSMIC_RECIPE_PROBE_TIMEOUT_MS,
     extractResponseSnapshot: (body) => ({
       success: body.success ?? null,
       hasData: body.data != null || body.id != null || body.title != null || body.recipe != null,
