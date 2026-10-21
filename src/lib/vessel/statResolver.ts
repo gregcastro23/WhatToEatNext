@@ -151,7 +151,7 @@ interface AlchemicalEnvironment {
   essence: number;
   matter: number;
   substance: number;
-  monica: number;
+  monica: number | null;
   resonanceScore: number;
 }
 
@@ -164,7 +164,7 @@ function getAlchemicalEnvironment(
     essence: elements?.essence ?? 0.5,
     matter: elements?.matter ?? 0.5,
     substance: elements?.substance ?? 0.5,
-    monica: source?.consciousness?.monicaConstant ?? 1.618,
+    monica: source?.consciousness?.monicaConstant ?? null,
     resonanceScore: source?.stats?.resonanceScore ?? 50,
   };
 }
@@ -174,7 +174,7 @@ function resolveSacred7(
   env: AlchemicalEnvironment,
 ): Record<SacredStatKey, number> {
   const s = source?.sacredStats;
-  const monicaBonus = env.monica > 3 ? 15 : 8;
+  const monicaBonus = env.monica !== null && env.monica > 3 ? 15 : 8;
 
   return {
     power: clampSacredStat(
@@ -265,9 +265,10 @@ function resolveOuterPlanetary6(
     p?.chironicAdaptation ??
       sacred.adaptability * 0.5 + sacred.intuition * 0.3 + 20,
   );
+  const mSurprisal = env.monica !== null ? (env.monica % 1) * 20 : 12;
   const uranianSurprisal = clampPlanetaryStat(
     p?.uranianSurprisal ??
-      sacred.adaptability * 0.5 + sacred.power * 0.3 + (env.monica % 1) * 20,
+      sacred.adaptability * 0.5 + sacred.power * 0.3 + mSurprisal,
   );
   const neptunianResonance = clampPlanetaryStat(
     p?.neptunianResonance ??
