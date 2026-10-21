@@ -49,9 +49,9 @@
     }
   },
   "declined": {
-    "total": 4665,
+    "total": 4664,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1235,
+      "@typescript-eslint/explicit-function-return-type": 1234,
       "@typescript-eslint/explicit-module-boundary-types": 601,
       "complexity": 289,
       "max-depth": 82,

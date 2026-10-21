@@ -26,6 +26,71 @@ export const runtime = "nodejs";
 /** A 20-byte EVM address (case-insensitive). */
 const EVM_ADDRESS = /^0x[0-9a-fA-F]{40}$/;
 
+interface MintRefundResult {
+  refunded: true;
+  netRefund: number;
+  refundAmounts: {
+    spirit: number;
+    essence: number;
+    matter: number;
+    substance: number;
+  };
+  perAxisRefund: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  };
+  refundReference: {
+    debitTransactionGroupId: string;
+    idempotencyKey: string;
+  };
+}
+
+async function executeMintRefund(
+  userId: string,
+  transactionGroupId: string,
+  refund: { spirit: number; essence: number; matter: number; substance: number },
+  description: string,
+): Promise<MintRefundResult> {
+  await tokenEconomy.creditMultipleTokens(
+    userId,
+    [
+      { tokenType: "Spirit", amount: refund.spirit },
+      { tokenType: "Essence", amount: refund.essence },
+      { tokenType: "Matter", amount: refund.matter },
+      { tokenType: "Substance", amount: refund.substance },
+    ],
+    "mint_refund",
+    {
+      sourceId: transactionGroupId,
+      description,
+      idempotencyKey: `mint_refund:${transactionGroupId}`,
+    },
+  );
+
+  return {
+    refunded: true,
+    netRefund: refund.spirit + refund.essence + refund.matter + refund.substance,
+    refundAmounts: {
+      spirit: refund.spirit,
+      essence: refund.essence,
+      matter: refund.matter,
+      substance: refund.substance,
+    },
+    perAxisRefund: {
+      Spirit: refund.spirit,
+      Essence: refund.essence,
+      Matter: refund.matter,
+      Substance: refund.substance,
+    },
+    refundReference: {
+      debitTransactionGroupId: transactionGroupId,
+      idempotencyKey: `mint_refund:${transactionGroupId}`,
+    },
+  };
+}
+
 /**
  * Mint a recipe as an NFT — backend-sponsored. The user spends ESMS (all four
  * coins, equal to the recipe's normalized fingerprint — a flat TARGET_ESMS per
@@ -163,11 +228,18 @@ export async function POST(request: NextRequest) {
   // Deployment-Protection-gated Vercel deployment URL) — a misconfigured env
   // must be a 503 now, not a dead contentURI forever.
   if (recipeNftEnabled() && !isPublicCommitmentBase(base)) {
+    const refundReceipt = await executeMintRefund(
+      userId,
+      purchase.transactionGroupId,
+      refund,
+      `Refund — site URL not configured for mint: ${recipe.title}`,
+    );
     return NextResponse.json(
       {
         error: "mint_unavailable",
         detail:
           "On-chain minting is enabled but no public site URL is configured (set NEXT_PUBLIC_SITE_URL). Refusing to commit a non-public contentURI on-chain.",
+        ...refundReceipt,
       },
       { status: 503 },
     );
@@ -203,28 +275,18 @@ export async function POST(request: NextRequest) {
   });
 
   if (chainResult.status === "failed") {
-    // Refund the debited tokens immediately since the mint failed on-chain
-    await tokenEconomy.creditMultipleTokens(
+    const refundReceipt = await executeMintRefund(
       userId,
-      [
-        { tokenType: "Spirit", amount: refund.spirit },
-        { tokenType: "Essence", amount: refund.essence },
-        { tokenType: "Matter", amount: refund.matter },
-        { tokenType: "Substance", amount: refund.substance },
-      ],
-      "mint_refund",
-      {
-        sourceId: purchase.transactionGroupId,
-        description: `Refund — mint failed on-chain: ${recipe.title}`,
-        idempotencyKey: `mint_refund:${purchase.transactionGroupId}`,
-      },
+      purchase.transactionGroupId,
+      refund,
+      `Refund — mint failed on-chain: ${recipe.title}`,
     );
 
     return NextResponse.json(
       {
         error: "mint_failed",
         reason: chainResult.reason,
-        refunded: true,
+        ...refundReceipt,
       },
       { status: 500 },
     );
@@ -295,33 +357,20 @@ export async function POST(request: NextRequest) {
   // write failed before any chain mint. Refund the debit (idempotent per debit)
   // to keep the off-chain spend exactly-once.
   if (!record) {
-    await tokenEconomy.creditMultipleTokens(
+    const refundReceipt = await executeMintRefund(
       userId,
-      [
-        { tokenType: "Spirit", amount: refund.spirit },
-        { tokenType: "Essence", amount: refund.essence },
-        { tokenType: "Matter", amount: refund.matter },
-        { tokenType: "Substance", amount: refund.substance },
-      ],
-      "mint_refund",
-      {
-        sourceId: purchase.transactionGroupId,
-        description: `Refund — mint not recorded: ${recipe.title}`,
-        // Key by the debit, NOT the content hash: token_transactions.idempotency_key
-        // is GLOBALLY unique, so multiple racers losing the same content_hash would
-        // share a content-keyed key and only the first would be refunded. The
-        // transaction group id is unique per debit, so every loser is refunded once.
-        idempotencyKey: `mint_refund:${purchase.transactionGroupId}`,
-      },
+      purchase.transactionGroupId,
+      refund,
+      `Refund — mint not recorded: ${recipe.title}`,
     );
     const dupe = await recipeNftMintService.findByContentHash(commitments.contentHash);
     if (dupe) {
       return NextResponse.json(
-        { error: "already_minted", mintId: dupe.id, status: dupe.status, refunded: true },
+        { error: "already_minted", mintId: dupe.id, status: dupe.status, ...refundReceipt },
         { status: 409 },
       );
     }
-    return NextResponse.json({ error: "mint_record_failed", refunded: true }, { status: 500 });
+    return NextResponse.json({ error: "mint_record_failed", ...refundReceipt }, { status: 500 });
   }
 
   return NextResponse.json({

@@ -626,6 +626,8 @@ async function handlePost(request: NextRequest) {
         refunded: refundOutcome?.refunded ?? false,
         refundStatus: refundOutcome?.refundStatus ?? null,
         refundAmounts: refundOutcome?.refundAmounts ?? null,
+        ...(refundOutcome?.netRefund !== undefined ? { netRefund: refundOutcome.netRefund } : {}),
+        perAxisRefund: refundOutcome?.perAxisRefund ?? null,
         refundReference: refundOutcome?.refundReference ?? null,
         finalFailure: true,
         gateFindings: allEncounteredFindings,
@@ -646,7 +648,9 @@ async function handlePost(request: NextRequest) {
           attempts: attemptsCount,
           refunded: refundOutcome?.refunded ?? false,
           refundStatus: refundOutcome?.refundStatus ?? null,
+          ...(refundOutcome?.netRefund !== undefined ? { netRefund: refundOutcome.netRefund } : {}),
           ...(refundOutcome?.refundAmounts ? { refundAmounts: refundOutcome.refundAmounts } : {}),
+          ...(refundOutcome?.perAxisRefund ? { perAxisRefund: refundOutcome.perAxisRefund } : {}),
           ...(refundOutcome?.refundReference ? { refundReference: refundOutcome.refundReference } : {}),
         }),
         {
@@ -735,6 +739,8 @@ async function handlePost(request: NextRequest) {
       refunded: refundOutcome.refunded,
       refundStatus: refundOutcome.refundStatus,
       refundAmounts: refundOutcome.refundAmounts,
+      netRefund: refundOutcome.netRefund,
+      perAxisRefund: refundOutcome.perAxisRefund,
       refundReference: refundOutcome.refundReference,
       finalFailure: true,
       gateFindings: allEncounteredFindings,
@@ -744,7 +750,9 @@ async function handlePost(request: NextRequest) {
       attempts: attemptsCount,
       refunded: refundOutcome.refunded,
       refundStatus: refundOutcome.refundStatus,
+      netRefund: refundOutcome.netRefund,
       ...(refundOutcome.refundAmounts ? { refundAmounts: refundOutcome.refundAmounts } : {}),
+      ...(refundOutcome.perAxisRefund ? { perAxisRefund: refundOutcome.perAxisRefund } : {}),
       ...(refundOutcome.refundReference ? { refundReference: refundOutcome.refundReference } : {}),
     }), { status: 500, headers: { "Content-Type": "application/json" } });
   } finally {
