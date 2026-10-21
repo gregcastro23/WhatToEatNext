@@ -11,12 +11,12 @@
       }
     },
     "American": {
-      "recipes": 43,
+      "recipes": 44,
       "elementalProperties": {
-        "Fire": 0.2372,
-        "Water": 0.2895,
-        "Earth": 0.3372,
-        "Air": 0.136
+        "Fire": 0.2391,
+        "Water": 0.2875,
+        "Earth": 0.3368,
+        "Air": 0.1366
       }
     },
     "Chinese": {

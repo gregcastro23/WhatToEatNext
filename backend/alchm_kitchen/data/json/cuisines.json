@@ -48,15 +48,19 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 38
+    }
   },
   "American": {
     "name": "American",
     "elementalProperties": {
-      "Fire": 0.2372,
-      "Water": 0.2895,
-      "Earth": 0.3372,
-      "Air": 0.136
+      "Fire": 0.2391,
+      "Water": 0.2875,
+      "Earth": 0.3368,
+      "Air": 0.1366
     },
     "description": "Diverse culinary influences reflecting the melting pot of American culture.",
     "imageUrl": "/images/cuisines/american.png",
@@ -99,7 +103,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 44
+    }
   },
   "Chinese": {
     "name": "Chinese",
@@ -150,7 +158,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 43
+    }
   },
   "French": {
     "name": "French",
@@ -201,7 +213,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 35
+    }
   },
   "Greek": {
     "name": "Greek",
@@ -252,7 +268,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 42
+    }
   },
   "Indian": {
     "name": "Indian",
@@ -303,7 +323,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 39
+    }
   },
   "Italian": {
     "name": "Italian",
@@ -354,7 +378,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 37
+    }
   },
   "Japanese": {
     "name": "Japanese",
@@ -405,7 +433,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 45
+    }
   },
   "Korean": {
     "name": "Korean",
@@ -456,7 +488,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 40
+    }
   },
   "Mexican": {
     "name": "Mexican",
@@ -507,7 +543,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 39
+    }
   },
   "MiddleEastern": {
     "name": "Middle Eastern",
@@ -558,7 +598,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 45
+    }
   },
   "Russian": {
     "name": "Russian",
@@ -609,7 +653,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 39
+    }
   },
   "Thai": {
     "name": "Thai",
@@ -660,7 +708,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 41
+    }
   },
   "Vietnamese": {
     "name": "Vietnamese",
@@ -711,7 +763,11 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 41
+    }
   },
   "Fusion": {
     "name": "Fusion",
@@ -762,6 +818,10 @@
     },
     "cookingTechniques": [],
     "regionalCuisines": {},
-    "astrologicalInfluences": []
+    "astrologicalInfluences": [],
+    "elementalProfileBasis": {
+      "method": "recipe-mean",
+      "recipes": 3
+    }
   }
 }
