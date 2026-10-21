@@ -54,34 +54,34 @@ export interface NatalPlacementInput {
 }
 
 export interface AgentStatSource {
-  sacredStats?: Partial<Record<SacredStatKey, number>> | undefined;
-  planetaryStats?: Partial<Record<(typeof PLANETARY_STAT_KEYS)[number], number>> | undefined;
+  sacredStats?: Partial<Record<SacredStatKey, number>>;
+  planetaryStats?: Partial<Record<(typeof PLANETARY_STAT_KEYS)[number], number>>;
   consciousness?: {
-    monicaConstant?: number | undefined;
+    monicaConstant?: number;
     alchemicalElements?: {
-      spirit?: number | undefined;
-      essence?: number | undefined;
-      matter?: number | undefined;
-      substance?: number | undefined;
-    } | undefined;
-    dominantElement?: string | undefined;
-    level?: string | undefined;
+      spirit?: number;
+      essence?: number;
+      matter?: number;
+      substance?: number;
+    };
+    dominantElement?: string;
+    level?: string;
     natalChart?: {
-      provenance?: string | undefined;
-      planets?: Record<string, NatalPlacementInput> | undefined;
-      houses?: { ASC?: number | undefined; MC?: number | undefined } | undefined;
-      ascendant?: number | undefined;
+      provenance?: string;
+      planets?: Record<string, NatalPlacementInput>;
+      houses?: { ASC?: number; MC?: number };
+      ascendant?: number;
       [key: string]: unknown;
-    } | undefined;
-  } | undefined;
+    };
+  };
   stats?: {
-    resonanceScore?: number | undefined;
-    evolutionStage?: number | undefined;
-    conversations?: number | undefined;
-    wisdomShared?: number | undefined;
-    evolutionPoints?: number | undefined;
+    resonanceScore?: number;
+    evolutionStage?: number;
+    conversations?: number;
+    wisdomShared?: number;
+    evolutionPoints?: number;
     [key: string]: unknown;
-  } | undefined;
+  };
 }
 
 export function clampSacredStat(val: unknown, fallback = 60): number {
@@ -146,116 +146,150 @@ export function resolveNatalLongitudes(
   return result;
 }
 
-export function resolve19Stats(source?: AgentStatSource): VesselStats {
-  const sacredSource = source?.sacredStats ?? {};
-  const planetarySource = source?.planetaryStats ?? {};
-  const elements = source?.consciousness?.alchemicalElements ?? {};
-  const spirit = elements.spirit ?? 0.5;
-  const essence = elements.essence ?? 0.5;
-  const matter = elements.matter ?? 0.5;
-  const substance = elements.substance ?? 0.5;
-  const monica = source?.consciousness?.monicaConstant ?? 1.618;
+interface AlchemicalEnvironment {
+  spirit: number;
+  essence: number;
+  matter: number;
+  substance: number;
+  monica: number;
+  resonanceScore: number;
+}
 
-  // 1. Resolve Sacred 7 [25, 99]
-  const power = clampSacredStat(
-    sacredSource.power ?? spirit * 45 + matter * 25 + 30,
-  );
-  const resonance = clampSacredStat(
-    sacredSource.resonance ??
-      essence * 50 + (source?.stats?.resonanceScore ?? 50) * 0.3 + 25,
-  );
-  const wisdom = clampSacredStat(
-    sacredSource.wisdom ?? substance * 45 + (monica > 3 ? 15 : 8) + 32,
-  );
-  const charisma = clampSacredStat(
-    sacredSource.charisma ?? spirit * 35 + essence * 35 + 28,
-  );
-  const intuition = clampSacredStat(
-    sacredSource.intuition ?? essence * 50 + substance * 20 + 30,
-  );
-  const adaptability = clampSacredStat(
-    sacredSource.adaptability ?? substance * 45 + essence * 25 + 30,
-  );
-  const vitality = clampSacredStat(
-    sacredSource.vitality ?? matter * 50 + spirit * 20 + 30,
-  );
+function getAlchemicalEnvironment(
+  source?: AgentStatSource,
+): AlchemicalEnvironment {
+  const elements = source?.consciousness?.alchemicalElements;
+  return {
+    spirit: elements?.spirit ?? 0.5,
+    essence: elements?.essence ?? 0.5,
+    matter: elements?.matter ?? 0.5,
+    substance: elements?.substance ?? 0.5,
+    monica: source?.consciousness?.monicaConstant ?? 1.618,
+    resonanceScore: source?.stats?.resonanceScore ?? 50,
+  };
+}
 
-  // 2. Resolve Planetary 12 [0, 100]
-  const solarAgency = clampPlanetaryStat(
-    planetarySource.solarAgency ?? power * 0.5 + spirit * 40 + 10,
-  );
-  const lunarReceptivity = clampPlanetaryStat(
-    planetarySource.lunarReceptivity ?? intuition * 0.5 + essence * 40 + 10,
-  );
-  const mercurialVelocity = clampPlanetaryStat(
-    planetarySource.mercurialVelocity ??
-      wisdom * 0.4 + adaptability * 0.4 + substance * 20,
-  );
-  const venusianCoherence = clampPlanetaryStat(
-    planetarySource.venusianCoherence ??
-      charisma * 0.5 + resonance * 0.3 + essence * 20,
-  );
-  const martialImpetus = clampPlanetaryStat(
-    planetarySource.martialImpetus ??
-      power * 0.6 + vitality * 0.2 + spirit * 20,
-  );
-  const jovianExpansion = clampPlanetaryStat(
-    planetarySource.jovianExpansion ??
-      wisdom * 0.5 + charisma * 0.3 + spirit * 20,
-  );
+function resolveSacred7(
+  source: AgentStatSource | undefined,
+  env: AlchemicalEnvironment,
+): Record<SacredStatKey, number> {
+  const s = source?.sacredStats;
+  const monicaBonus = env.monica > 3 ? 15 : 8;
+
+  return {
+    power: clampSacredStat(
+      s?.power ?? env.spirit * 45 + env.matter * 25 + 30,
+    ),
+    resonance: clampSacredStat(
+      s?.resonance ??
+        env.essence * 50 + env.resonanceScore * 0.3 + 25,
+    ),
+    wisdom: clampSacredStat(
+      s?.wisdom ?? env.substance * 45 + monicaBonus + 32,
+    ),
+    charisma: clampSacredStat(
+      s?.charisma ?? env.spirit * 35 + env.essence * 35 + 28,
+    ),
+    intuition: clampSacredStat(
+      s?.intuition ?? env.essence * 50 + env.substance * 20 + 30,
+    ),
+    adaptability: clampSacredStat(
+      s?.adaptability ?? env.substance * 45 + env.essence * 25 + 30,
+    ),
+    vitality: clampSacredStat(
+      s?.vitality ?? env.matter * 50 + env.spirit * 20 + 30,
+    ),
+  };
+}
+
+interface InnerPlanetary6 {
+  solarAgency: number;
+  lunarReceptivity: number;
+  mercurialVelocity: number;
+  venusianCoherence: number;
+  martialImpetus: number;
+  jovianExpansion: number;
+}
+
+interface OuterPlanetary6 {
+  saturnianStructure: number;
+  chironicAdaptation: number;
+  uranianSurprisal: number;
+  neptunianResonance: number;
+  plutonicIntegration: number;
+  kineticAlignment: number;
+}
+
+function resolveInnerPlanetary6(
+  p: AgentStatSource["planetaryStats"] | undefined,
+  sacred: Record<SacredStatKey, number>,
+  env: AlchemicalEnvironment,
+): InnerPlanetary6 {
+  return {
+    solarAgency: clampPlanetaryStat(
+      p?.solarAgency ?? sacred.power * 0.5 + env.spirit * 40 + 10,
+    ),
+    lunarReceptivity: clampPlanetaryStat(
+      p?.lunarReceptivity ?? sacred.intuition * 0.5 + env.essence * 40 + 10,
+    ),
+    mercurialVelocity: clampPlanetaryStat(
+      p?.mercurialVelocity ??
+        sacred.wisdom * 0.4 + sacred.adaptability * 0.4 + env.substance * 20,
+    ),
+    venusianCoherence: clampPlanetaryStat(
+      p?.venusianCoherence ??
+        sacred.charisma * 0.5 + sacred.resonance * 0.3 + env.essence * 20,
+    ),
+    martialImpetus: clampPlanetaryStat(
+      p?.martialImpetus ??
+        sacred.power * 0.6 + sacred.vitality * 0.2 + env.spirit * 20,
+    ),
+    jovianExpansion: clampPlanetaryStat(
+      p?.jovianExpansion ??
+        sacred.wisdom * 0.5 + sacred.charisma * 0.3 + env.spirit * 20,
+    ),
+  };
+}
+
+function resolveOuterPlanetary6(
+  p: AgentStatSource["planetaryStats"] | undefined,
+  sacred: Record<SacredStatKey, number>,
+  env: AlchemicalEnvironment,
+  innerSum: number,
+): OuterPlanetary6 {
   const saturnianStructure = clampPlanetaryStat(
-    planetarySource.saturnianStructure ??
-      vitality * 0.4 + wisdom * 0.4 + matter * 20,
+    p?.saturnianStructure ??
+      sacred.vitality * 0.4 + sacred.wisdom * 0.4 + env.matter * 20,
   );
   const chironicAdaptation = clampPlanetaryStat(
-    planetarySource.chironicAdaptation ??
-      adaptability * 0.5 + intuition * 0.3 + 20,
+    p?.chironicAdaptation ??
+      sacred.adaptability * 0.5 + sacred.intuition * 0.3 + 20,
   );
   const uranianSurprisal = clampPlanetaryStat(
-    planetarySource.uranianSurprisal ??
-      adaptability * 0.5 + power * 0.3 + (monica % 1) * 20,
+    p?.uranianSurprisal ??
+      sacred.adaptability * 0.5 + sacred.power * 0.3 + (env.monica % 1) * 20,
   );
   const neptunianResonance = clampPlanetaryStat(
-    planetarySource.neptunianResonance ??
-      resonance * 0.6 + intuition * 0.3 + 10,
+    p?.neptunianResonance ??
+      sacred.resonance * 0.6 + sacred.intuition * 0.3 + 10,
   );
   const plutonicIntegration = clampPlanetaryStat(
-    planetarySource.plutonicIntegration ??
-      power * 0.4 + vitality * 0.3 + matter * 30,
+    p?.plutonicIntegration ??
+      sacred.power * 0.4 + sacred.vitality * 0.3 + env.matter * 30,
   );
 
+  const fiveOuterSum =
+    saturnianStructure +
+    chironicAdaptation +
+    uranianSurprisal +
+    neptunianResonance +
+    plutonicIntegration;
+
   const kineticAlignment = clampPlanetaryStat(
-    planetarySource.kineticAlignment ??
-      Math.round(
-        (solarAgency +
-          lunarReceptivity +
-          mercurialVelocity +
-          venusianCoherence +
-          martialImpetus +
-          jovianExpansion +
-          saturnianStructure +
-          chironicAdaptation +
-          uranianSurprisal +
-          neptunianResonance +
-          plutonicIntegration) /
-          11,
-      ),
+    p?.kineticAlignment ?? Math.round((innerSum + fiveOuterSum) / 11),
   );
 
   return {
-    power,
-    resonance,
-    wisdom,
-    charisma,
-    intuition,
-    adaptability,
-    vitality,
-    solarAgency,
-    lunarReceptivity,
-    mercurialVelocity,
-    venusianCoherence,
-    martialImpetus,
-    jovianExpansion,
     saturnianStructure,
     chironicAdaptation,
     uranianSurprisal,
@@ -263,4 +297,29 @@ export function resolve19Stats(source?: AgentStatSource): VesselStats {
     plutonicIntegration,
     kineticAlignment,
   };
+}
+
+function resolvePlanetary12(
+  source: AgentStatSource | undefined,
+  sacred: Record<SacredStatKey, number>,
+  env: AlchemicalEnvironment,
+): Record<(typeof PLANETARY_STAT_KEYS)[number], number> {
+  const p = source?.planetaryStats;
+  const inner = resolveInnerPlanetary6(p, sacred, env);
+  const innerSum =
+    inner.solarAgency +
+    inner.lunarReceptivity +
+    inner.mercurialVelocity +
+    inner.venusianCoherence +
+    inner.martialImpetus +
+    inner.jovianExpansion;
+  const outer = resolveOuterPlanetary6(p, sacred, env, innerSum);
+  return { ...inner, ...outer };
+}
+
+export function resolve19Stats(source?: AgentStatSource): VesselStats {
+  const env = getAlchemicalEnvironment(source);
+  const sacred = resolveSacred7(source, env);
+  const planetary = resolvePlanetary12(source, sacred, env);
+  return { ...sacred, ...planetary };
 }

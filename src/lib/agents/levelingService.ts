@@ -59,35 +59,35 @@ export interface AgentProgressionProfile {
 }
 
 export interface AgentLikeInput extends AgentStatSource {
-  id?: string | undefined;
-  name?: string | undefined;
+  id?: string;
+  name?: string;
   personality?: {
-    evolutionStage?: number | undefined;
+    evolutionStage?: number;
     [key: string]: unknown;
-  } | undefined;
+  };
   consciousness?: {
-    monicaConstant?: number | undefined;
+    monicaConstant?: number;
     alchemicalElements?: {
-      spirit?: number | undefined;
-      essence?: number | undefined;
-      matter?: number | undefined;
-      substance?: number | undefined;
-    } | undefined;
-    dominantElement?: string | undefined;
-    level?: string | undefined;
+      spirit?: number;
+      essence?: number;
+      matter?: number;
+      substance?: number;
+    };
+    dominantElement?: string;
+    level?: string;
     natalChart?: {
-      provenance?: string | undefined;
-      planets?: Record<string, NatalPlacementInput> | undefined;
-      houses?: { ASC?: number | undefined; MC?: number | undefined } | undefined;
-      ascendant?: number | undefined;
+      provenance?: string;
+      planets?: Record<string, NatalPlacementInput>;
+      houses?: { ASC?: number; MC?: number };
+      ascendant?: number;
       [key: string]: unknown;
-    } | undefined;
-  } | undefined;
+    };
+  };
   birthData?: {
-    date?: string | undefined;
-    time?: string | undefined;
+    date?: string;
+    time?: string;
     location?: unknown;
-  } | undefined;
+  };
   [key: string]: unknown;
 }
 

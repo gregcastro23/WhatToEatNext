@@ -116,9 +116,9 @@ const ASPECT_RESPONSE: Record<AspectName, number> = {
   "Semi-Sextile": 0.25,
 };
 
-const clamp = (value: number, minimum: number, maximum: number) =>
+const clamp = (value: number, minimum: number, maximum: number): number =>
   Math.max(minimum, Math.min(maximum, value));
-const sum = (values: number[]) =>
+const sum = (values: number[]): number =>
   values.reduce((total, value) => total + value, 0);
 const isSacred = (key: VesselStatKey): key is SacredStatKey =>
   SACRED_STAT_KEYS.some((k) => k === key);
@@ -171,7 +171,7 @@ function parsePositions(
       (candidate) => candidate.toLowerCase() === name.trim().toLowerCase(),
     );
     if (!planet) continue;
-    if (parsed[planet] !== undefined || !Number.isFinite(position?.longitude)) {
+    if (parsed[planet] !== undefined || !Number.isFinite(position.longitude)) {
       reasons.push(`${label} has an invalid or duplicate ${planet} position.`);
       return null;
     }
@@ -192,9 +192,7 @@ function affinityOverlap(affinity: Affinity, signature: Affinity): number {
   );
 }
 
-export function computeVesselProgression(
-  input: VesselProgressionInput,
-): VesselProgression {
+function validateProgressionInput(input: VesselProgressionInput): void {
   if (
     !Number.isFinite(input.totalXp) ||
     input.totalXp < 0 ||
@@ -209,7 +207,7 @@ export function computeVesselProgression(
     throw new RangeError("now must be a valid timestamp");
   }
   for (const key of ALL_VESSEL_STAT_KEYS) {
-    const value = input.stats?.[key];
+    const value = input.stats[key];
     const minimum = isSacred(key) ? 25 : 0;
     const maximum = isSacred(key) ? 99 : 100;
     if (!Number.isFinite(value) || value < minimum || value > maximum) {
@@ -219,100 +217,60 @@ export function computeVesselProgression(
     }
   }
   if (
-    !input.character ||
     !SACRED_STAT_KEYS.includes(input.character.primary) ||
     !SACRED_STAT_KEYS.includes(input.character.secondary)
   ) {
     throw new RangeError("character must identify canonical Sacred stats");
   }
+}
 
-  const level = Math.min(100, 1 + Math.floor(Math.sqrt(input.totalXp / 100)));
-  const baseOverall = overall(input.stats);
-  const levelBoost = (12 * (level - 1)) / 99;
-  const trainedOverall = clamp(baseOverall + levelBoost, 25, 99);
-  const result: VesselProgression = {
-    version: VESSEL_PROGRESSION_VERSION,
-    level,
-    totalXp: input.totalXp,
-    xpToNextLevel: level === 100 ? null : 100 * level ** 2 - input.totalXp,
-    baseOverall,
-    trainedOverall,
-    currentOverall: null,
-    status: "unavailable",
-    asOf: null,
-    reasons: [],
-    statDeltas: zeroDeltas(),
-  };
-
-  if (
-    !input.natal ||
-    !["computed", "authored"].includes(input.natal.provenance)
-  ) {
-    result.reasons.push(
-      "An attributed natal chart is required; placeholder or unattributed DNA is unavailable.",
-    );
-    return result;
+function validateSkyTimestamp(
+  now: number,
+  sky: VesselProgressionInput["sky"],
+  reasons: string[],
+): string | null {
+  if (!sky || !["swiss-ephemeris", "vsop87-approximation"].includes(sky.source)) {
+    reasons.push("A sourced current sky snapshot is unavailable.");
+    return null;
   }
-  if (
-    !input.sky ||
-    !["swiss-ephemeris", "vsop87-approximation"].includes(input.sky.source)
-  ) {
-    result.reasons.push("A sourced current sky snapshot is unavailable.");
-    return result;
-  }
-  const skyTime = Date.parse(input.sky.asOf);
+  const skyTime = Date.parse(sky.asOf);
   if (!Number.isFinite(skyTime)) {
-    result.reasons.push("The sky snapshot has no valid observation time.");
-    return result;
+    reasons.push("The sky snapshot has no valid observation time.");
+    return null;
   }
-  result.asOf = new Date(skyTime).toISOString();
-  if (input.now - skyTime > MAX_SKY_AGE_MS || skyTime - input.now > 60_000) {
-    result.reasons.push(
+  if (now - skyTime > MAX_SKY_AGE_MS || skyTime - now > 60_000) {
+    reasons.push(
       "The sky snapshot is stale or does not describe the current time.",
     );
-    return result;
+    return null;
   }
+  return new Date(skyTime).toISOString();
+}
 
-  const natal = parsePositions(
-    input.natal.positions,
-    "Natal chart",
-    result.reasons,
-  );
-  const sky = parsePositions(input.sky.positions, "Sky snapshot", result.reasons);
-  if (!natal || !sky) return result;
-  const paired = PLANETS.filter(
-    (planet) => natal[planet] !== undefined && sky[planet] !== undefined,
-  );
-  if (!paired.length) {
-    result.reasons.push(
-      "No natal and current planetary positions can be compared.",
-    );
-    return result;
-  }
-  const missing = PLANETS.filter((planet) => !paired.includes(planet));
-  if (missing.length)
-    result.reasons.push(`Transit coverage unavailable for ${missing.join(", ")}.`);
-  if (input.natal.provenance === "authored")
-    result.reasons.push(
-      "Natal DNA is authored, not a verified ephemeris measurement.",
-    );
-  if (input.sky.source === "vsop87-approximation")
-    result.reasons.push("Current sky positions are approximate.");
-  result.status =
-    input.natal.provenance === "computed" &&
-    input.sky.source === "swiss-ephemeris" &&
-    missing.every((planet) => planet === "Chiron")
-      ? "live"
-      : "estimated";
-
+function calculateTransitResponses(
+  paired: Planet[],
+  natal: Partial<Record<Planet, number>>,
+  sky: Partial<Record<Planet, number>>,
+): Partial<Record<Planet, number>> {
   const responses: Partial<Record<Planet, number>> = {};
   for (const planet of paired) {
-    const aspect = detectAspect(natal[planet]!, sky[planet]!);
+    const natalPos = natal[planet];
+    const skyPos = sky[planet];
+    if (natalPos === undefined || skyPos === undefined) continue;
+    const aspect = detectAspect(natalPos, skyPos);
     responses[planet] = aspect
       ? ASPECT_RESPONSE[aspect.name] *
         Math.max(0, 1 - aspect.orb / aspect.definition.orb)
       : 0;
   }
+  return responses;
+}
+
+function applyTransitDeltas(
+  input: VesselProgressionInput,
+  responses: Partial<Record<Planet, number>>,
+  result: VesselProgression,
+): void {
   for (const key of ALL_VESSEL_STAT_KEYS) {
     const affinity = AFFINITIES[key];
     const totalAffinity = sum(Object.values(affinity));
@@ -342,7 +300,82 @@ export function computeVesselProgression(
   for (const key of ALL_VESSEL_STAT_KEYS) {
     changed[key] = input.stats[key] + result.statDeltas[key];
   }
-  const transitDelta = clamp(overall(changed) - baseOverall, -8, 8);
-  result.currentOverall = clamp(trainedOverall + transitDelta, 25, 99);
+  const transitDelta = clamp(overall(changed) - result.baseOverall, -8, 8);
+  result.currentOverall = clamp(result.trainedOverall + transitDelta, 25, 99);
+}
+
+export function computeVesselProgression(
+  input: VesselProgressionInput,
+): VesselProgression {
+  validateProgressionInput(input);
+
+  const level = Math.min(100, 1 + Math.floor(Math.sqrt(input.totalXp / 100)));
+  const baseOverall = overall(input.stats);
+  const levelBoost = (12 * (level - 1)) / 99;
+  const trainedOverall = clamp(baseOverall + levelBoost, 25, 99);
+  const result: VesselProgression = {
+    version: VESSEL_PROGRESSION_VERSION,
+    level,
+    totalXp: input.totalXp,
+    xpToNextLevel: level === 100 ? null : 100 * level ** 2 - input.totalXp,
+    baseOverall,
+    trainedOverall,
+    currentOverall: null,
+    status: "unavailable",
+    asOf: null,
+    reasons: [],
+    statDeltas: zeroDeltas(),
+  };
+
+  if (!["computed", "authored"].includes(input.natal.provenance)) {
+    result.reasons.push(
+      "An attributed natal chart is required; placeholder or unattributed DNA is unavailable.",
+    );
+    return result;
+  }
+
+  const validAsOf = validateSkyTimestamp(input.now, input.sky, result.reasons);
+  if (!validAsOf || !input.sky) {
+    return result;
+  }
+  result.asOf = validAsOf;
+
+  const natal = parsePositions(
+    input.natal.positions,
+    "Natal chart",
+    result.reasons,
+  );
+  const sky = parsePositions(input.sky.positions, "Sky snapshot", result.reasons);
+  if (!natal || !sky) return result;
+
+  const paired = PLANETS.filter(
+    (planet) => natal[planet] !== undefined && sky[planet] !== undefined,
+  );
+  if (!paired.length) {
+    result.reasons.push(
+      "No natal and current planetary positions can be compared.",
+    );
+    return result;
+  }
+
+  const missing = PLANETS.filter((planet) => !paired.includes(planet));
+  if (missing.length)
+    result.reasons.push(`Transit coverage unavailable for ${missing.join(", ")}.`);
+  if (input.natal.provenance === "authored")
+    result.reasons.push(
+      "Natal DNA is authored, not a verified ephemeris measurement.",
+    );
+  if (input.sky.source === "vsop87-approximation")
+    result.reasons.push("Current sky positions are approximate.");
+
+  result.status =
+    input.natal.provenance === "computed" &&
+    input.sky.source === "swiss-ephemeris" &&
+    missing.every((planet) => planet === "Chiron")
+      ? "live"
+      : "estimated";
+
+  const responses = calculateTransitResponses(paired, natal, sky);
+  applyTransitDeltas(input, responses, result);
   return result;
 }

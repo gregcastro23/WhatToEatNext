@@ -1,27 +1,27 @@
 {
-  "trackedTotal": 1218,
+  "trackedTotal": 1200,
   "casts": {
-    "total": 158,
+    "total": 157,
     "asAny": 38,
-    "asUnknownAs": 120,
-    "production": 126,
+    "asUnknownAs": 119,
+    "production": 125,
     "test": 32
   },
   "assertionSites": {
-    "total": 2864,
+    "total": 2857,
     "asAny": 37,
-    "chained": 120,
-    "single": 2707,
-    "production": 2274,
+    "chained": 119,
+    "single": 2701,
+    "production": 2267,
     "test": 590,
     "asConst": 575,
     "nonNull": 583
   },
   "looseOptionality": {
-    "total": 183,
-    "domain": 94,
+    "total": 179,
+    "domain": 90,
     "wire": 89,
-    "production": 183,
+    "production": 179,
     "test": 0,
     "wireAllowlist": [
       "src/types/yelp.ts",
@@ -41,7 +41,7 @@
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 197,
+      "total": 196,
       "verifiedSafe": 0,
       "semantic": 290,
       "unclassified": 5,
@@ -49,15 +49,15 @@
     }
   },
   "declined": {
-    "total": 4668,
+    "total": 4665,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1241,
-      "@typescript-eslint/explicit-module-boundary-types": 605,
+      "@typescript-eslint/explicit-function-return-type": 1235,
+      "@typescript-eslint/explicit-module-boundary-types": 601,
       "complexity": 289,
       "max-depth": 82,
       "max-lines": 502,
       "max-lines-per-function": 1543,
-      "no-void": 365
+      "no-void": 364
     },
     "note": "Declined rules pool, pinned at the LIVE measurement — no headroom. Ceilings above live are undetectable slack: the gate only fails when the pool EXCEEDS this total, so every granted unit is a regression the ratchet cannot see. An earlier revision carried 21 such units (4924 recorded vs 4903 live, incl. no-void 385 vs 374). Maintain this block with `bun run lint:debt:ratchet`, never by hand."
   },
@@ -71,7 +71,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 129,
+      "count": 127,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -79,7 +79,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 763,
+      "count": 758,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -87,7 +87,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 121,
+      "count": 117,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
@@ -95,15 +95,15 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 105,
+      "count": 101,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 19,
+      "count": 17,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 197,
+      "count": 196,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {
@@ -159,7 +159,7 @@
       "autoFixable": 0
     },
     "no-useless-assignment": {
-      "count": 32,
+      "count": 31,
       "autoFixable": 0
     },
     "no-void": {

@@ -533,7 +533,7 @@ export function createVesselPortraitSvg(profile: VesselAppearanceProfile): strin
     'buddha-ushnisha-topknot': `<circle cx="51" cy="14" r="7.5" fill="${hair}"/><circle cx="51" cy="8" r="2.5" fill="${trim}"/><path d="M34 36Q33 21 51 20Q69 21 68 36L60 32L51 25L42 32Z" fill="${hair}"/><circle cx="51" cy="38" r="2.2" fill="${trim}"/>`,
   }
 
-  const crownSvg = silhouette[style] || silhouette['astral-helm']
+  const crownSvg = silhouette[style] ?? silhouette['astral-helm']
 
   const collar =
     profile.garmentSilhouette.collarStyle === 'lace-tippet'
@@ -569,7 +569,7 @@ export function createVesselPortraitSvg(profile: VesselAppearanceProfile): strin
                       ? `<path d="M75 66L75 92" stroke="${trim}" stroke-width="2.5"/><path d="M76 68L92 73L76 79Z" fill="#3b82f6" stroke="${trim}" stroke-width="1.5"/><circle cx="82" cy="73" r="2" fill="#ffd700"/>`
                       : `<g fill="none" stroke="${trim}" stroke-width="2"><circle cx="81" cy="81" r="10"/><ellipse cx="81" cy="81" rx="4" ry="10"/><path d="M70 81L92 81M81 70L81 92"/></g>`
 
-  const relicLabel = VESSEL_RELIC_LABELS[profile.signatureRelic] || profile.signatureRelic
+  const relicLabel = VESSEL_RELIC_LABELS[profile.signatureRelic] ?? profile.signatureRelic
   const relicWrapper = `<g data-relic="${profile.signatureRelic}" aria-label="${relicLabel}">${relic}</g>`
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 104" role="img"><rect width="104" height="104" rx="52" fill="#111827"/><circle cx="52" cy="52" r="46" fill="#1d2839" stroke="${trim}" stroke-width="1.5"/><path d="M17 101L23 78Q29 66 44 64L59 64Q76 67 84 80L91 103Z" fill="${cloth}" stroke="${trim}" stroke-width="2"/><ellipse cx="51" cy="41" rx="16" ry="22" fill="${skin}"/><path d="M46 44L48 44M58 44L60 44M51 48L50 53L54 53M47 59Q52 62 57 58" stroke="#695044" stroke-width="1.4" fill="none"/>${crownSvg}${collar}${relicWrapper}</svg>`
@@ -647,6 +647,154 @@ function factionGarment(hex: string, seed: number): string {
     .join('')}`
 }
 
+function deriveCrownStyle(
+  era: VesselEra,
+  norm: string,
+  title: string,
+  medieval: boolean | undefined,
+): VesselCrownStyle {
+  if (era === 'ancient') {
+    return /king|emperor|caesar|alexander/i.test(norm)
+      ? 'laurel-wreath'
+      : /buddha|siddhartha/i.test(norm)
+        ? 'buddha-ushnisha-topknot'
+        : /cleopatra/i.test(norm)
+          ? 'cleopatra-nemes-uraeus'
+          : /philosophy|socrates|plato|aristotle/i.test(title + norm)
+            ? 'laurel-wreath'
+            : 'scholar-hood'
+  }
+  if (era === 'renaissance' || medieval) {
+    return /joan/i.test(norm)
+      ? 'joan-battle-bob'
+      : /shakespeare/i.test(norm)
+        ? 'shakespeare-ruff-ringlets'
+        : /da-vinci|leonardo|artist|sculpt/i.test(title + norm)
+          ? 'da-vinci-beret-beard'
+          : 'scholar-hood'
+  }
+  if (era === 'enlightenment') {
+    return 'newton-curls'
+  }
+  if (era === 'romantic') {
+    return /poet|dickinson/i.test(norm + title)
+      ? 'dickinson-parted-bun'
+      : /darwin/i.test(norm)
+        ? 'darwin-naturalist-beard'
+        : 'scholar-hood'
+  }
+  if (era === 'modern') {
+    return /curie|angelou|roosevelt|maathai|kahlo/i.test(norm)
+      ? norm === 'frida-kahlo'
+        ? 'kahlo-floral-braid'
+        : 'curie-edwardian-updo'
+      : /einstein/i.test(norm)
+        ? 'einstein-wild-halo'
+        : 'tesla-parted-mustache'
+  }
+  return /sovereign|solar|crown|lead/i.test(title) ? 'sovereign-crest' : 'astral-helm'
+}
+
+function deriveMantleStyle(
+  era: VesselEra,
+  norm: string,
+  medieval: boolean | undefined,
+): VesselMantleStyle {
+  if (era === 'ancient') {
+    return /buddha/i.test(norm) ? 'saffron-monk-robe' : 'scholar-robe'
+  }
+  if (era === 'renaissance' || medieval) {
+    return /joan/i.test(norm)
+      ? 'plate-armor-cuirass'
+      : /shakespeare/i.test(norm)
+        ? 'elizabethan-doublet'
+        : medieval
+          ? 'scholar-robe'
+          : 'renaissance-drape'
+  }
+  if (era === 'enlightenment') {
+    return 'enlightenment-coat'
+  }
+  if (era === 'romantic') {
+    return /dickinson/i.test(norm) ? 'victorian-shawl' : 'enlightenment-coat'
+  }
+  if (era === 'modern') {
+    return /curie/i.test(norm)
+      ? 'edwardian-high-dress'
+      : /kahlo/i.test(norm)
+        ? 'tehuana-huipil-shawl'
+        : /einstein/i.test(norm)
+          ? 'knit-professor-sweater'
+          : 'victorian-frock-coat'
+  }
+  return 'alchemical-vestments'
+}
+
+function deriveCollarStyle(
+  era: VesselEra,
+  norm: string,
+  medieval: boolean | undefined,
+): VesselCollarStyle {
+  if (era === 'enlightenment') {
+    return 'high-cravat'
+  }
+  if (era === 'renaissance') {
+    return /shakespeare/i.test(norm)
+      ? 'elizabethan-ruff'
+      : /joan/i.test(norm)
+        ? 'plate-gorget'
+        : !medieval
+          ? 'renaissance-collar'
+          : 'none'
+  }
+  if (era === 'romantic') {
+    return /dickinson/i.test(norm) ? 'lace-tippet' : 'high-cravat'
+  }
+  if (era === 'modern') {
+    return /curie/i.test(norm) ? 'lace-tippet' : /kahlo/i.test(norm) ? 'none' : 'wing-collar'
+  }
+  if (era === 'astral') {
+    return 'astral-gorget'
+  }
+  return 'none'
+}
+
+function deriveSignatureRelic(norm: string, title: string): VesselSignatureRelic {
+  if (/tesla|electric|energy/i.test(title + norm)) {
+    return 'tesla-induction-coil'
+  }
+  if (/einstein|relativity|space|physics/i.test(title + norm)) {
+    return 'relativity-geodesic-ring'
+  }
+  if (/curie|radium|chem/i.test(title + norm)) {
+    return 'radium-phial-luminary'
+  }
+  if (/kahlo|heart|paint/i.test(title + norm)) {
+    return 'retablo-sacred-heart'
+  }
+  if (/shakespeare|playwright|poet|writer|liter/i.test(title + norm)) {
+    return /dickinson|quill.*lantern/i.test(norm)
+      ? 'herbarium-quill-lantern'
+      : 'quill-and-first-folio'
+  }
+  if (/darwin|natural|biol|evolution/i.test(title + norm)) {
+    return 'beagle-naturalist-specimen'
+  }
+  if (/joan|knight|battle|war/i.test(title + norm)) {
+    return 'saintly-oriflamme-banner'
+  }
+  if (/math|prism|optic/i.test(title + norm)) {
+    return 'prism-octahedron'
+  }
+  if (/art|invent|polymath|leonardo/i.test(title + norm)) {
+    return 'vitruvian-gyroscope'
+  }
+  if (/poet|botan|mystic/i.test(title)) {
+    return 'herbarium-quill-lantern'
+  }
+  return 'solar-astrolabe'
+}
+
 export function deriveAppearance(
   agentId: string,
   faction?: number,
@@ -664,117 +812,10 @@ export function deriveAppearance(
   const trim = PLANET_COLORS[factionId] ?? PLANET_COLORS[0] ?? '#ff9800'
   const medieval = agent?.era === 'Medieval'
 
-  // Crown style derivation
-  let crownStyle: VesselCrownStyle = 'astral-helm'
-  if (era === 'ancient') {
-    crownStyle = /king|emperor|caesar|alexander/i.test(norm)
-      ? 'laurel-wreath'
-      : /buddha|siddhartha/i.test(norm)
-        ? 'buddha-ushnisha-topknot'
-        : /cleopatra/i.test(norm)
-          ? 'cleopatra-nemes-uraeus'
-          : /philosophy|socrates|plato|aristotle/i.test(title + norm)
-            ? 'laurel-wreath'
-            : 'scholar-hood'
-  } else if (era === 'renaissance' || medieval) {
-    crownStyle = /joan/i.test(norm)
-      ? 'joan-battle-bob'
-      : /shakespeare/i.test(norm)
-        ? 'shakespeare-ruff-ringlets'
-        : /da-vinci|leonardo|artist|sculpt/i.test(title + norm)
-          ? 'da-vinci-beret-beard'
-          : 'scholar-hood'
-  } else if (era === 'enlightenment') {
-    crownStyle = 'newton-curls'
-  } else if (era === 'romantic') {
-    crownStyle = /poet|dickinson/i.test(norm + title)
-      ? 'dickinson-parted-bun'
-      : /darwin/i.test(norm)
-        ? 'darwin-naturalist-beard'
-        : 'scholar-hood'
-  } else if (era === 'modern') {
-    crownStyle = /curie|angelou|roosevelt|maathai|kahlo/i.test(norm)
-      ? norm === 'frida-kahlo'
-        ? 'kahlo-floral-braid'
-        : 'curie-edwardian-updo'
-      : /einstein/i.test(norm)
-        ? 'einstein-wild-halo'
-        : 'tesla-parted-mustache'
-  } else if (era === 'astral') {
-    crownStyle = /sovereign|solar|crown|lead/i.test(title) ? 'sovereign-crest' : 'astral-helm'
-  }
-
-  // Garment style derivation
-  let mantleStyle: VesselMantleStyle = 'alchemical-vestments'
-  if (era === 'ancient') {
-    mantleStyle = /buddha/i.test(norm) ? 'saffron-monk-robe' : 'scholar-robe'
-  } else if (era === 'renaissance' || medieval) {
-    mantleStyle = /joan/i.test(norm)
-      ? 'plate-armor-cuirass'
-      : /shakespeare/i.test(norm)
-        ? 'elizabethan-doublet'
-        : medieval
-          ? 'scholar-robe'
-          : 'renaissance-drape'
-  } else if (era === 'enlightenment') {
-    mantleStyle = 'enlightenment-coat'
-  } else if (era === 'romantic') {
-    mantleStyle = /dickinson/i.test(norm) ? 'victorian-shawl' : 'enlightenment-coat'
-  } else if (era === 'modern') {
-    mantleStyle = /curie/i.test(norm)
-      ? 'edwardian-high-dress'
-      : /kahlo/i.test(norm)
-        ? 'tehuana-huipil-shawl'
-        : /einstein/i.test(norm)
-          ? 'knit-professor-sweater'
-          : 'victorian-frock-coat'
-  }
-
-  // Collar style derivation
-  let collarStyle: VesselCollarStyle = 'none'
-  if (era === 'enlightenment') {
-    collarStyle = 'high-cravat'
-  } else if (era === 'renaissance') {
-    collarStyle = /shakespeare/i.test(norm)
-      ? 'elizabethan-ruff'
-      : /joan/i.test(norm)
-        ? 'plate-gorget'
-        : !medieval
-          ? 'renaissance-collar'
-          : 'none'
-  } else if (era === 'romantic') {
-    collarStyle = /dickinson/i.test(norm) ? 'lace-tippet' : 'high-cravat'
-  } else if (era === 'modern') {
-    collarStyle = /curie/i.test(norm) ? 'lace-tippet' : /kahlo/i.test(norm) ? 'none' : 'wing-collar'
-  } else if (era === 'astral') {
-    collarStyle = 'astral-gorget'
-  }
-
-  // Signature relic derivation
-  let signatureRelic: VesselSignatureRelic = 'solar-astrolabe'
-  if (/tesla|electric|energy/i.test(title + norm)) {
-    signatureRelic = 'tesla-induction-coil'
-  } else if (/einstein|relativity|space|physics/i.test(title + norm)) {
-    signatureRelic = 'relativity-geodesic-ring'
-  } else if (/curie|radium|chem/i.test(title + norm)) {
-    signatureRelic = 'radium-phial-luminary'
-  } else if (/kahlo|heart|paint/i.test(title + norm)) {
-    signatureRelic = 'retablo-sacred-heart'
-  } else if (/shakespeare|playwright|poet|writer|liter/i.test(title + norm)) {
-    signatureRelic = /dickinson|quill.*lantern/i.test(norm)
-      ? 'herbarium-quill-lantern'
-      : 'quill-and-first-folio'
-  } else if (/darwin|natural|biol|evolution/i.test(title + norm)) {
-    signatureRelic = 'beagle-naturalist-specimen'
-  } else if (/joan|knight|battle|war/i.test(title + norm)) {
-    signatureRelic = 'saintly-oriflamme-banner'
-  } else if (/math|prism|optic/i.test(title + norm)) {
-    signatureRelic = 'prism-octahedron'
-  } else if (/art|invent|polymath|leonardo/i.test(title + norm)) {
-    signatureRelic = 'vitruvian-gyroscope'
-  } else if (/poet|botan|mystic/i.test(title)) {
-    signatureRelic = 'herbarium-quill-lantern'
-  }
+  const crownStyle = deriveCrownStyle(era, norm, title, medieval)
+  const mantleStyle = deriveMantleStyle(era, norm, medieval)
+  const collarStyle = deriveCollarStyle(era, norm, medieval)
+  const signatureRelic = deriveSignatureRelic(norm, title)
 
   return withPortrait({
     era,
@@ -802,10 +843,16 @@ export function deriveAppearance(
 
 /** All 71 registry entries plus the custom pilots */
 export const VESSEL_APPEARANCE_MANIFEST: Record<string, VesselAppearanceProfile> =
-  Object.fromEntries([
-    ...CANONICAL_ROSTER_71.map(agent => [agent.key, deriveAppearance(agent.key)]),
-    ...Object.entries(pilotDefinitions).map(([key, profile]) => [key, withPortrait(profile)]),
-  ])
+  ((): Record<string, VesselAppearanceProfile> => {
+    const manifest: Record<string, VesselAppearanceProfile> = {}
+    for (const agent of CANONICAL_ROSTER_71) {
+      manifest[agent.key] = deriveAppearance(agent.key)
+    }
+    for (const [key, profile] of Object.entries(pilotDefinitions)) {
+      manifest[key] = withPortrait(profile)
+    }
+    return manifest
+  })()
 
 /**
  * Resolve independent appearance profile values with pilot precedence and

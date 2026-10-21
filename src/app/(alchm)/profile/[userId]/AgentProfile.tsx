@@ -57,14 +57,14 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 interface AgentProfileProps {
   agent: CraftedAgentProfile;
   balances: Balances;
-  handle?: string | null | undefined;
-  vessel?: AgentVesselData | null | undefined;
-  interactions?: AgentInteraction[] | undefined;
-  actions?: AgentAction[] | undefined;
-  artifacts?: AgentArtifact[] | undefined;
-  recentActivity?: RecentActivity[] | undefined;
-  userId?: string | undefined;
-  viewer?: { follows: boolean; followedBy: boolean; isCommensal: boolean } | null | undefined;
+  handle?: string | null;
+  vessel?: AgentVesselData | null;
+  interactions?: AgentInteraction[];
+  actions?: AgentAction[];
+  artifacts?: AgentArtifact[];
+  recentActivity?: RecentActivity[];
+  userId?: string;
+  viewer?: { follows: boolean; followedBy: boolean; isCommensal: boolean } | null;
 }
 
 interface ElementColorConfig {
@@ -119,7 +119,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
 
   const firstName = agent.name.split(" ")[0] ?? agent.name;
 
-  const resolvedVessel: AgentVesselData = props.vessel ?? (() => {
+  const resolvedVessel: AgentVesselData = props.vessel ?? ((): AgentVesselData => {
     const appearance = resolveAgentAppearance(slug);
     const rawChart = agent.consciousness?.natalChart;
     const progression = computeAgentProgression({
@@ -127,7 +127,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
       name: agent.name,
       consciousness: {
         dominantElement,
-        natalChart: isRecord(rawChart) ? rawChart : undefined,
+        ...(isRecord(rawChart) ? { natalChart: rawChart } : {}),
         alchemicalElements: {
           spirit: balances.spirit,
           essence: balances.essence,

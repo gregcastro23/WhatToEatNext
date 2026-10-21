@@ -204,8 +204,10 @@ export async function GET(
           id: userId,
           name: externalAgent.name,
           consciousness: {
-            dominantElement: externalAgent.consciousness?.dominantElement,
-            natalChart: isRecord(rawChart) ? rawChart : undefined,
+            ...(externalAgent.consciousness?.dominantElement
+              ? { dominantElement: externalAgent.consciousness.dominantElement }
+              : {}),
+            ...(isRecord(rawChart) ? { natalChart: rawChart } : {}),
           },
         });
         const vessel = {
@@ -462,13 +464,12 @@ export async function GET(
       const appearance = resolveAgentAppearance(slug ?? realUserId);
       const progression = computeAgentProgression({
         id: slug ?? realUserId,
-        name: row.name ?? undefined,
+        ...(row.name ? { name: row.name } : {}),
         consciousness: {
-          dominantElement: row.dominant_element ?? undefined,
-          natalChart:
-            typeof natalChart === "object" && natalChart !== null
-              ? natalChart
-              : undefined,
+          ...(row.dominant_element
+            ? { dominantElement: row.dominant_element }
+            : {}),
+          ...(Object.keys(natalChart).length > 0 ? { natalChart } : {}),
           alchemicalElements: {
             spirit: parseFloat(balance.spirit) || 0,
             essence: parseFloat(balance.essence) || 0,

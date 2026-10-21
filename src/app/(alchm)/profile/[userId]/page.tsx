@@ -89,7 +89,7 @@ function formatPlacement(placement: NatalPosition): string | null {
   return `${placement.planet} ${degree}${sign}`.trim();
 }
 
-export default function PublicProfilePage() {
+export default function PublicProfilePage(): React.JSX.Element {
   const params = useParams<{ userId: string }>();
   const userId = params?.userId;
   const [profile, setProfile] = useState<PublicProfile | null>(null);
@@ -138,7 +138,7 @@ export default function PublicProfilePage() {
       }
     }
     load().catch(() => {});
-    return () => {
+    return (): void => {
       cancelled = true;
     };
   }, [userId]);
@@ -200,7 +200,7 @@ export default function PublicProfilePage() {
           <AgentProfile
             agent={profile.agentProfile!}
             balances={profile.balances}
-            vessel={profile.vessel}
+            vessel={profile.vessel ?? null}
             handle={profile.handle}
             interactions={profile.agentInteractions ?? []}
             actions={profile.agentActions ?? []}
@@ -224,7 +224,7 @@ export default function PublicProfilePage() {
                 agentSlug={profile.agentSlug}
                 avatarUrl={profile.avatarUrl}
                 dominantElement={profile.dominantElement}
-                natalPositions={profile.natalPositions ?? []}
+                natalPositions={profile.natalPositions}
                 bio={profile.bio}
                 createdAt={profile.createdAt}
                 isOwner={isOwner}

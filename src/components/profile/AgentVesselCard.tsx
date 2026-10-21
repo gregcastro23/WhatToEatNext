@@ -70,6 +70,126 @@ const PLANETARY_STAT_LABELS: Record<string, { label: string; body: string }> = {
   kineticAlignment: { label: "Kinetic Alignment", body: "All Bodies" },
 };
 
+function calculateProgressPercent(level: number, totalXp: number): number {
+  if (level >= 100) return 100;
+  const currentLevelFloor = 100 * (level - 1) ** 2;
+  const nextLevelCeil = 100 * level ** 2;
+  return Math.min(
+    100,
+    Math.max(
+      0,
+      Math.round(
+        ((totalXp - currentLevelFloor) /
+          Math.max(1, nextLevelCeil - currentLevelFloor)) *
+          100,
+      ),
+    ),
+  );
+}
+
+function CameoMedallion({
+  accentColor,
+  portraitSvgDataUri,
+  agentName,
+  level,
+}: {
+  accentColor: string;
+  portraitSvgDataUri: string | null;
+  agentName: string;
+  level: number;
+}): React.JSX.Element {
+  return (
+    <div className="relative shrink-0 group">
+      <div
+        className="w-28 h-28 md:w-32 md:h-32 rounded-3xl p-1 relative flex items-center justify-center shadow-2xl transition-all duration-300 group-hover:scale-105"
+        style={{
+          background: `linear-gradient(135deg, ${accentColor}88, rgba(255,255,255,0.1), ${accentColor}33)`,
+          boxShadow: `0 0 35px ${accentColor}33`,
+        }}
+      >
+        {portraitSvgDataUri ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={portraitSvgDataUri}
+            alt={`${agentName} Vessel Cameo`}
+            className="w-full h-full object-cover rounded-[22px] bg-[#0c0d18] border border-white/10"
+          />
+        ) : (
+          <div
+            className="w-full h-full rounded-[22px] flex items-center justify-center text-4xl font-serif font-bold text-white shadow-inner bg-[#0c0d18]"
+            style={{ color: accentColor }}
+          >
+            {agentName.charAt(0)}
+          </div>
+        )}
+        <div
+          className="absolute inset-0 rounded-3xl animate-pulse pointer-events-none opacity-40"
+          style={{ border: `1.5px solid ${accentColor}` }}
+        />
+      </div>
+
+      <div className="absolute -bottom-2 -right-2 px-2.5 py-1 rounded-full bg-black/90 border border-purple-500/50 shadow-lg flex items-center gap-1">
+        <span className="text-[10px] uppercase tracking-wider text-purple-300 font-bold font-mono">
+          LVL
+        </span>
+        <span className="text-xs font-bold text-white font-mono">{level}</span>
+      </div>
+    </div>
+  );
+}
+
+interface SilhouetteAttributesProps {
+  app: AgentVesselData["appearance"];
+  archetype: AgentVesselData["archetype"];
+  relicLabel: string;
+}
+
+function SilhouetteAttributes({
+  app,
+  archetype,
+  relicLabel,
+}: SilhouetteAttributesProps): React.JSX.Element {
+  return (
+    <div className="space-y-2 text-center sm:text-left">
+      <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5">
+        {app?.era && (
+          <Badge variant="outline" className="bg-amber-500/10 text-amber-300 border-amber-500/30 text-[10px] capitalize">
+            {app.era} Era
+          </Badge>
+        )}
+        <Badge variant="outline" className="bg-white/5 text-white/70 border-white/10 text-[10px]">
+          {archetype.primary} · {archetype.secondary}
+        </Badge>
+      </div>
+
+      <div className="space-y-1 text-xs">
+        {app?.headSilhouette.crownStyle && (
+          <p className="text-white/80 flex items-center justify-center sm:justify-start gap-1.5">
+            <Crown className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <span className="font-mono text-[11px] text-white/90 capitalize">
+              {app.headSilhouette.crownStyle.replace(/-/g, " ")}
+            </span>
+          </p>
+        )}
+        {app?.garmentSilhouette.mantleStyle && (
+          <p className="text-white/60 flex items-center justify-center sm:justify-start gap-1.5">
+            <Layers className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+            <span className="font-mono text-[11px] capitalize">
+              {app.garmentSilhouette.mantleStyle.replace(/-/g, " ")}
+            </span>
+          </p>
+        )}
+        {relicLabel && (
+          <p className="text-white/60 flex items-center justify-center sm:justify-start gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <span className="font-mono text-[11px] capitalize text-cyan-200/90">{relicLabel}</span>
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function AgentVesselCard({
   vessel,
   agentName,
@@ -87,23 +207,7 @@ export function AgentVesselCard({
   const relicKey = app?.signatureRelic ?? "";
   const relicLabel = VESSEL_RELIC_LABELS[relicKey] ?? relicKey.replace(/-/g, " ");
 
-  // XP progress calculation toward next level
-  const currentLevelFloor = 100 * (level - 1) ** 2;
-  const nextLevelCeil = 100 * level ** 2;
-  const progressPercent =
-    level >= 100
-      ? 100
-      : Math.min(
-          100,
-          Math.max(
-            0,
-            Math.round(
-              ((totalXp - currentLevelFloor) /
-                Math.max(1, nextLevelCeil - currentLevelFloor)) *
-                100,
-            ),
-          ),
-        );
+  const progressPercent = calculateProgressPercent(level, totalXp);
 
   const hasSurge = delta > 0.1;
   const hasTax = delta < -0.1;
@@ -154,88 +258,19 @@ export function AgentVesselCard({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           {/* Cameo Medallion (Left Rail) */}
           <div className="lg:col-span-5 flex flex-col sm:flex-row items-center sm:items-start lg:items-center gap-5 p-5 rounded-2xl bg-white/[0.03] border border-white/5">
-            {/* Medallion Frame */}
-            <div className="relative shrink-0 group">
-              <div
-                className="w-28 h-28 md:w-32 md:h-32 rounded-3xl p-1 relative flex items-center justify-center shadow-2xl transition-all duration-300 group-hover:scale-105"
-                style={{
-                  background: `linear-gradient(135deg, ${accentColor}88, rgba(255,255,255,0.1), ${accentColor}33)`,
-                  boxShadow: `0 0 35px ${accentColor}33`,
-                }}
-              >
-                {app?.portraitSvgDataUri ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={app.portraitSvgDataUri}
-                    alt={`${agentName} Vessel Cameo`}
-                    className="w-full h-full object-cover rounded-[22px] bg-[#0c0d18] border border-white/10"
-                  />
-                ) : (
-                  <div
-                    className="w-full h-full rounded-[22px] flex items-center justify-center text-4xl font-serif font-bold text-white shadow-inner bg-[#0c0d18]"
-                    style={{ color: accentColor }}
-                  >
-                    {agentName.charAt(0)}
-                  </div>
-                )}
-                {/* Orbital pulse ring */}
-                <div
-                  className="absolute inset-0 rounded-3xl animate-pulse pointer-events-none opacity-40"
-                  style={{ border: `1.5px solid ${accentColor}` }}
-                />
-              </div>
-
-              {/* Level pip on cameo */}
-              <div className="absolute -bottom-2 -right-2 px-2.5 py-1 rounded-full bg-black/90 border border-purple-500/50 shadow-lg flex items-center gap-1">
-                <span className="text-[10px] uppercase tracking-wider text-purple-300 font-bold font-mono">
-                  LVL
-                </span>
-                <span className="text-xs font-bold text-white font-mono">
-                  {vessel.level}
-                </span>
-              </div>
-            </div>
+            <CameoMedallion
+              accentColor={accentColor}
+              portraitSvgDataUri={app?.portraitSvgDataUri ?? null}
+              agentName={agentName}
+              level={vessel.level}
+            />
 
             {/* Silhouette Attributes */}
-            <div className="space-y-2 text-center sm:text-left">
-              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5">
-                {app?.era && (
-                  <Badge variant="outline" className="bg-amber-500/10 text-amber-300 border-amber-500/30 text-[10px] capitalize">
-                    {app.era} Era
-                  </Badge>
-                )}
-                <Badge variant="outline" className="bg-white/5 text-white/70 border-white/10 text-[10px]">
-                  {vessel.archetype.primary} · {vessel.archetype.secondary}
-                </Badge>
-              </div>
-
-              <div className="space-y-1 text-xs">
-                {app?.headSilhouette?.crownStyle && (
-                  <p className="text-white/80 flex items-center justify-center sm:justify-start gap-1.5">
-                    <Crown className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                    <span className="font-mono text-[11px] text-white/90 capitalize">
-                      {app.headSilhouette.crownStyle.replace(/-/g, " ")}
-                    </span>
-                  </p>
-                )}
-                {app?.garmentSilhouette?.mantleStyle && (
-                  <p className="text-white/60 flex items-center justify-center sm:justify-start gap-1.5">
-                    <Layers className="w-3.5 h-3.5 text-purple-400 shrink-0" />
-                    <span className="font-mono text-[11px] capitalize">
-                      {app.garmentSilhouette.mantleStyle.replace(/-/g, " ")}
-                    </span>
-                  </p>
-                )}
-                {relicLabel && (
-                  <p className="text-white/60 flex items-center justify-center sm:justify-start gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                    <span className="font-mono text-[11px] capitalize text-cyan-200/90">
-                      {relicLabel}
-                    </span>
-                  </p>
-                )}
-              </div>
-            </div>
+            <SilhouetteAttributes
+              app={app}
+              archetype={vessel.archetype}
+              relicLabel={relicLabel}
+            />
           </div>
 
           {/* Overall & Level Progression (Right Rail) */}

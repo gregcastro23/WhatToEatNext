@@ -381,12 +381,7 @@ export async function generateCosmicRecipe(
 
   if (domElem) {
     filtered = filtered.filter((r) => {
-      const props = r.elementalProperties || {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
-      };
+      const props = r.elementalProperties;
       let maxVal = -1;
       let activeDom = "Fire";
       for (const [el, val] of Object.entries(props)) {
@@ -400,12 +395,7 @@ export async function generateCosmicRecipe(
   }
 
   const finalRecipes = filtered.slice(0, 5).map((r) => {
-    const props = r.elementalProperties || {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
-      Air: 0.25,
-    };
+    const props = r.elementalProperties;
     return {
       id: r.id,
       name: r.name,

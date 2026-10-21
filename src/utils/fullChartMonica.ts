@@ -87,13 +87,20 @@ export interface NatalPositionRow {
  * No stored row takes this branch today (all 710 are 0); it exists so that
  * fixing the producer improves the data instead of being thrown away.
  */
+function isUnknownArray(val: unknown): val is unknown[] {
+  return Array.isArray(val);
+}
+
+function isRecord(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null && !Array.isArray(val);
+}
+
 export function normaliseNatalPositions(raw: unknown): unknown {
-  if (!Array.isArray(raw)) return raw;
-  return raw.map((entry) => {
-    if (!entry || typeof entry !== "object" || Array.isArray(entry)) return entry;
-    const row = entry as Record<string, unknown>;
-    if (!("longitude" in row)) return entry;
-    const { longitude, ...rest } = row;
+  if (!isUnknownArray(raw)) return raw;
+  return raw.map((entry: unknown): unknown => {
+    if (!isRecord(entry)) return entry;
+    if (!("longitude" in entry)) return entry;
+    const { longitude, ...rest } = entry;
     const lon = Number(longitude);
     const carriesMeaning =
       Number.isFinite(lon) && lon !== 0 && rest.position === undefined;

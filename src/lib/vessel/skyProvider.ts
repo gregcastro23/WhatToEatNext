@@ -33,23 +33,21 @@ export function getCurrentSkySnapshot(now = Date.now()): CurrentSkySnapshot {
   const positions: Record<string, { longitude: number }> = {};
 
   for (const [bodyName, data] of Object.entries(currentPositions)) {
-    if (data && typeof data === "object") {
-      let lon = data.exactLongitude;
-      if (typeof lon !== "number" || !Number.isFinite(lon)) {
-        // Fallback to sign + degree
-        const signIdx = SIGN_ORDER.findIndex(
-          (s) => s.toLowerCase() === (data.sign || "").toLowerCase(),
-        );
-        if (signIdx >= 0) {
-          lon = signIdx * 30 + (data.degree || 0);
-        }
+    let lon = data.exactLongitude;
+    if (typeof lon !== "number" || !Number.isFinite(lon)) {
+      // Fallback to sign + degree
+      const signIdx = SIGN_ORDER.findIndex(
+        (s) => s.toLowerCase() === (data.sign ?? "").toLowerCase(),
+      );
+      if (signIdx >= 0) {
+        lon = signIdx * 30 + (data.degree ?? 0);
       }
+    }
 
-      if (typeof lon === "number" && Number.isFinite(lon)) {
-        positions[bodyName] = {
-          longitude: (((lon % 360) + 360) % 360),
-        };
-      }
+    if (typeof lon === "number" && Number.isFinite(lon)) {
+      positions[bodyName] = {
+        longitude: (((lon % 360) + 360) % 360),
+      };
     }
   }
 

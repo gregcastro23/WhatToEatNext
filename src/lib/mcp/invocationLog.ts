@@ -149,7 +149,7 @@ async function writeInvocation(
         ctx.apiKeyId,
         ctx.caller,
         JSON.stringify(redactLogValue(ctx.arguments)),
-        JSON.stringify(redactLogValue(outcome.resultSummary ?? {})),
+        JSON.stringify(redactLogValue(outcome.resultSummary)),
         outcome.errorMessage,
         outcome.tokensDebited ? JSON.stringify(outcome.tokensDebited) : null,
       ],

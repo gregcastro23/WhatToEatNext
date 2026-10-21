@@ -163,7 +163,7 @@ export function computeOvr(
   options?: { divisor?: number },
 ): number {
   const sorted = SACRED_STAT_KEYS.map((k) =>
-    clampStat(ratings[k] ?? 25),
+    clampStat(ratings[k]),
   ).sort((a, b) => b - a);
 
   const top1 = sorted[0] ?? 25;
@@ -189,8 +189,8 @@ export function computeRelativeAdvantage(
     vitality: 0,
   };
   for (const key of SACRED_STAT_KEYS) {
-    const raw = clampStat(ratings[key] ?? 25);
-    const base = ROSTER_BASELINE_RATINGS[key]?.baseline ?? 62;
+    const raw = clampStat(ratings[key]);
+    const base = ROSTER_BASELINE_RATINGS[key].baseline;
     res[key] = Math.round((raw - base) * 10) / 10;
   }
   return res;
@@ -204,7 +204,7 @@ export function resolveArchetype(
   relativeAdvantage: Record<SacredStatKey, number>,
 ): VesselArchetype {
   const sorted = [...SACRED_STAT_KEYS].sort((a, b) => {
-    const delta = (relativeAdvantage[b] ?? 0) - (relativeAdvantage[a] ?? 0);
+    const delta = relativeAdvantage[b] - relativeAdvantage[a];
     if (delta !== 0) return delta;
     return SACRED_STAT_KEYS.indexOf(a) - SACRED_STAT_KEYS.indexOf(b);
   });
@@ -213,7 +213,7 @@ export function resolveArchetype(
   const secondary = sorted[1] ?? "wisdom";
   const key = `${primary}:${secondary}`;
   const title =
-    ARCHETYPE_TITLE_MATRIX[key] ||
+    ARCHETYPE_TITLE_MATRIX[key] ??
     `${capitalize(primary)}-${capitalize(secondary)} Specialist`;
 
   return { title, primary, secondary };
