@@ -370,6 +370,28 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    const perAxisRefund = {
+      Spirit: credits.find((c) => c.tokenType === "Spirit")?.amount ?? 0,
+      Essence: credits.find((c) => c.tokenType === "Essence")?.amount ?? 0,
+      Matter: credits.find((c) => c.tokenType === "Matter")?.amount ?? 0,
+      Substance: credits.find((c) => c.tokenType === "Substance")?.amount ?? 0,
+    };
+    const refundAmounts = {
+      spirit: perAxisRefund.Spirit,
+      essence: perAxisRefund.Essence,
+      matter: perAxisRefund.Matter,
+      substance: perAxisRefund.Substance,
+    };
+    const netRefund =
+      perAxisRefund.Spirit +
+      perAxisRefund.Essence +
+      perAxisRefund.Matter +
+      perAxisRefund.Substance;
+    const refundReference = {
+      sourceId: orderId,
+      idempotencyKey: `restaurant_refund:${orderId}`,
+    };
+
     return NextResponse.json<SettlementActionResponse>({
       success: true,
       action: "refund",
@@ -377,6 +399,10 @@ export async function POST(request: NextRequest) {
       credited: credits,
       balances,
       status: "refunded",
+      netRefund,
+      refundAmounts,
+      perAxisRefund,
+      refundReference,
     });
   } catch (error) {
     _logger.error(

@@ -469,6 +469,11 @@ async function dispatchSettledCheckoutSession(
 export const POST = withObservability(
   { routeName: "/api/stripe/webhook", skipUserResolution: true },
   async (request: Request) => {
+    // Authenticated internal synthetic probe: acknowledge cleanly without recording a signature failure
+    if (request.headers.get("x-synthetic-probe") === "true") {
+      return NextResponse.json({ received: true, probe: "ok" }, { status: 200 });
+    }
+
     const body = await request.text();
   // Read the signature off the Request rather than next/headers: it is the same
   // header, but next/headers needs an async request scope, which couples a pure

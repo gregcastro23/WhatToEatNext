@@ -1,340 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
-import { z } from "zod";
-import AdvancedMetricsPanel from "@/components/admin/AdvancedMetricsPanel";
+import React from "react";
 import ApiRouteHealthPanel from "@/components/admin/ApiRouteHealthPanel";
 import FaucetResonancePanel from "@/components/admin/FaucetResonancePanel";
 import LaunchReadinessPanel from "@/components/admin/LaunchReadinessPanel";
 import LiveActivityPanel from "@/components/admin/LiveActivityPanel";
-import OnboardingFunnelPanel from "@/components/admin/OnboardingFunnelPanel";
 import PulseStrip from "@/components/admin/PulseStrip";
 import ReliabilityPanel from "@/components/admin/ReliabilityPanel";
 import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
 import TodaysHighlightsPanel from "@/components/admin/TodaysHighlightsPanel";
-import { useHardenedPolling } from "@/hooks/useHardenedPolling";
-import { readJson } from "@/lib/api/json";
-import { _logger } from "@/lib/logger";
-
-interface RecentUser {
-  id: string;
-  email: string;
-  name: string;
-  createdAt: string;
-  dominantElement: string | null;
-  isActive: boolean;
-}
-
-interface TelemetryMetric {
-  /** Display-formatted value, e.g. "62.4%", "12 /hr", "0.43". */
-  value: string;
-  /** Raw numeric value behind the formatted string. */
-  raw: number;
-  /** true when computed from a real source; false when degraded to fallback. */
-  live: boolean;
-  /** Which real source feeds this metric. */
-  source: "database" | "ephemeris";
-}
-
-interface AgentTelemetry {
-  agentHarmony: TelemetryMetric;
-  transmutationRate: TelemetryMetric;
-  spiritualEntropy: TelemetryMetric;
-  mcpInvocationRate: TelemetryMetric;
-  generatedAt: string;
-  allLive: boolean;
-}
-
-interface PaIntegration {
-  endpoints: {
-    alchmNextApp: string;
-    paUi: string;
-    paBackend: string;
-    wtenLegacyBackend: string;
-  };
-  health: string;
-  /** null when the PA roster probe failed — unknown, not an empty roster. */
-  agentCount: number | null;
-  lastFeedEmit: {
-    eventType: string;
-    agentEmail: string;
-    responseCode: number;
-    timestamp: string;
-  } | null;
-  /** Live metaphysical telemetry; null when an older payload omits it. */
-  telemetry: AgentTelemetry | null;
-}
-
-
-const RecentUserSchema = z
-  .object({
-    id: z.string(),
-    email: z.string(),
-    name: z.string(),
-    createdAt: z.string(),
-    dominantElement: z.string().nullable(),
-    isActive: z.boolean(),
-  })
-  .passthrough();
-
-const TelemetryMetricSchema = z
-  .object({
-    value: z.string(),
-    raw: z.number(),
-    live: z.boolean(),
-    source: z.enum(["database", "ephemeris"]),
-  })
-  .passthrough();
-
-const AgentTelemetrySchema = z
-  .object({
-    agentHarmony: TelemetryMetricSchema,
-    transmutationRate: TelemetryMetricSchema,
-    spiritualEntropy: TelemetryMetricSchema,
-    mcpInvocationRate: TelemetryMetricSchema,
-    generatedAt: z.string(),
-    allLive: z.boolean(),
-  })
-  .passthrough();
-
-const PaIntegrationSchema = z
-  .object({
-    endpoints: z
-      .object({
-        alchmNextApp: z.string(),
-        paUi: z.string(),
-        paBackend: z.string(),
-        wtenLegacyBackend: z.string(),
-      })
-      .passthrough(),
-    health: z.string(),
-    agentCount: z.number().nullable(),
-    lastFeedEmit: z
-      .object({
-        eventType: z.string(),
-        agentEmail: z.string(),
-        responseCode: z.number(),
-        timestamp: z.string(),
-      })
-      .passthrough()
-      .nullable(),
-    telemetry: AgentTelemetrySchema.nullable(),
-  })
-  .passthrough();
-
 
 /**
- * Admin Dashboard - Overview of system statistics & integration observability
+ * Admin Dashboard - Lean operator overview of system state & high-level health
  */
 export default function AdminDashboardPage(): React.JSX.Element {
-  const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
-  // null = no fetch has completed yet; false = the fetch failed or the
-  // server-side user query degraded; true = the list is a live fact, so an
-  // empty list means genuinely no signups.
-  const [recentUsersLive, setRecentUsersLive] = useState<boolean | null>(null);
-  const [paIntegration, setPaIntegration] = useState<PaIntegration | null>(null);
-
-  // Sync state management
-  const [syncing, setSyncing] = useState(false);
-  const [syncEmail, setSyncEmail] = useState("");
-  const [syncResult, setSyncResult] = useState<{
-    success: boolean;
-    statusCode: number;
-    affectedCount: number;
-    failures: string[];
-    action: "SYNC ALL" | "SYNC ONE";
-    timestamp: string;
-  } | null>(null);
-
-  const fetchDashboardData = async (): Promise<{ ok: boolean }> => {
-    try {
-      const response = await fetch("/api/admin/dashboard");
-      if (!response.ok) {
-        setRecentUsersLive(false);
-        return { ok: false };
-      }
-      const AdminDashboardResponseSchema = z
-        .object({
-          success: z.boolean().optional(),
-          recentUsers: z.array(RecentUserSchema).optional(),
-          recentUsersLive: z.boolean().optional(),
-          paIntegration: PaIntegrationSchema.nullable().optional(),
-        })
-        .passthrough();
-
-      const data = await readJson(response, {
-        parse: (raw) => AdminDashboardResponseSchema.parse(raw),
-      });
-      if (data.success) {
-        setRecentUsers(Array.isArray(data.recentUsers) ? data.recentUsers : []);
-        // recentUsersLive is the server's own signal that the user query ran;
-        // without it an empty list is indistinguishable from a failure.
-        setRecentUsersLive(data.recentUsersLive === true);
-        setPaIntegration(data.paIntegration ?? null);
-        return { ok: true };
-      }
-      setRecentUsersLive(false);
-      return { ok: false };
-    } catch (_err) {
-      // Each sub-panel reports its own connection errors; the Recent Users
-      // card still needs the failure so emptiness is never presented as fact.
-      setRecentUsersLive(false);
-      return { ok: false };
-    }
-  };
-
-  // Live polling for the operator feed observability + telemetry panels:
-  // visibility-aware with error backoff. Replaces a single mount fetch.
-  useHardenedPolling(fetchDashboardData, { baseIntervalMs: 30_000 });
-
-  const PlanetarySyncResponseSchema = z.object({
-    success: z.boolean(),
-    statusCode: z.number().optional(),
-    affectedCount: z.number().optional(),
-    failures: z.array(z.string()).optional(),
-    timestamp: z.string().optional(),
-  }).passthrough();
-
-  const handleSyncAll = async (): Promise<void> => {
-    try {
-      setSyncing(true);
-      setSyncResult(null);
-      const res = await fetch("/api/admin/planetary-sync", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "sync-all" }),
-      });
-      const data = await readJson(res, {
-        parse: (raw) => PlanetarySyncResponseSchema.parse(raw),
-      });
-      setSyncResult({
-        success: data.success,
-        statusCode: data.statusCode ?? res.status,
-        affectedCount: data.affectedCount ?? 0,
-        failures: data.failures ?? [],
-        action: "SYNC ALL",
-        timestamp: data.timestamp ?? new Date().toISOString(),
-      });
-      // Refresh stats after sync
-      await fetchDashboardData();
-    } catch (err) {
-      setSyncResult({
-        success: false,
-        statusCode: 500,
-        affectedCount: 0,
-        failures: [err instanceof Error ? err.message : "Sync connection failed."],
-        action: "SYNC ALL",
-        timestamp: new Date().toISOString(),
-      });
-    } finally {
-      setSyncing(false);
-    }
-  };
-
-  const handleSyncOne = async (): Promise<void> => {
-    if (!syncEmail.trim()) {
-      setSyncResult({
-        success: false,
-        statusCode: 400,
-        affectedCount: 0,
-        failures: ["Please provide a valid agent email or ID to synchronize."],
-        action: "SYNC ONE",
-        timestamp: new Date().toISOString(),
-      });
-      return;
-    }
-    try {
-      setSyncing(true);
-      setSyncResult(null);
-      const res = await fetch("/api/admin/planetary-sync", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          action: "sync-one",
-          agentEmail: syncEmail.trim()
-        }),
-      });
-      const data = await readJson(res, {
-        parse: (raw) => PlanetarySyncResponseSchema.parse(raw),
-      });
-      setSyncResult({
-        success: data.success,
-        statusCode: data.statusCode ?? res.status,
-        affectedCount: data.affectedCount ?? 0,
-        failures: data.failures ?? [],
-        action: "SYNC ONE",
-        timestamp: data.timestamp ?? new Date().toISOString(),
-      });
-      // Refresh stats after sync
-      await fetchDashboardData();
-    } catch (err) {
-      setSyncResult({
-        success: false,
-        statusCode: 500,
-        affectedCount: 0,
-        failures: [err instanceof Error ? err.message : "Sync connection failed."],
-        action: "SYNC ONE",
-        timestamp: new Date().toISOString(),
-      });
-    } finally {
-      setSyncing(false);
-    }
-  };
-
-  const getElementColor = (element: string | null): string => {
-    switch (element?.toLowerCase()) {
-      case "fire":
-        return "text-red-600 bg-red-100";
-      case "water":
-        return "text-blue-600 bg-blue-100";
-      case "earth":
-        return "text-green-600 bg-green-100";
-      case "air":
-        return "text-yellow-600 bg-yellow-100";
-      default:
-        return "text-gray-600 bg-gray-100";
-    }
-  };
-
-  const getHealthBadge = (health: string | undefined): React.JSX.Element => {
-    switch (health?.toLowerCase()) {
-      case "healthy":
-      case "online":
-      case "ok":
-        return (
-          <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-emerald-800 bg-emerald-100">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            Online
-          </span>
-        );
-      case "unhealthy":
-        return (
-          <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-amber-800 bg-amber-100">
-            <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
-            Degraded
-          </span>
-        );
-      default:
-        return (
-          <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold text-rose-800 bg-rose-100">
-            <span className="h-2 w-2 rounded-full bg-rose-500 animate-ping" />
-            Offline
-          </span>
-        );
-    }
-  };
-
-  // Each panel manages its own loading state, so we no longer block the
-  // page on the legacy dashboard payload. The PA card + Recent Users
-  // card below render their own loading placeholders.
   return (
     <div className="space-y-6 sm:space-y-8">
       {/* Header */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Overview</h1>
         <p className="text-sm sm:text-base text-gray-600 mt-1">
-          Live state of alchm.kitchen — every number below is read from its source on this refresh.
+          Live operational state of alchm.kitchen — real-time source signals with Core vs. Async separation.
         </p>
       </div>
 
@@ -343,413 +30,92 @@ export default function AdminDashboardPage(): React.JSX.Element {
       <PulseStrip />
 
       {/* Launch readiness — settlement backlog + presence-only config for every
-          revenue / on-chain subsystem. First thing an operator should see: a
-          stuck restaurant order is a real-money hazard. Polls every 2 min. */}
+          revenue / on-chain subsystem. Polls every 2 min. */}
       <LaunchReadinessPanel variant="compact" />
 
-      {/* Today's headline counts — 24h vs prior 24h. The "did anything happen
-          today?" glance at the top of the dashboard. Polls every 60s. */}
+      {/* Today's headline counts — 24h vs prior 24h. Polls every 60s. */}
       <TodaysHighlightsPanel />
 
       {/* Live activity feed — merged stream of signups, sign-ins, onboardings,
           recipe views, food diary entries, token movements, and agent events.
-          The "what's happening right now" hero. Polls every 10s. */}
+          Polls every 10s. */}
       <LiveActivityPanel />
 
-      {/* System Status — per-flow health for every critical user-facing
-          surface plus external dependencies. Polls every 15s. */}
+      {/* System Status — per-flow health partitioned by Core User Path vs.
+          Async & Background Services, with incident snooze controls. Polls every 60s. */}
       <SystemStatusPanel />
 
-      {/* Reliability over time — the companion to System Status above. That
-          panel answers "what is happening now"; this one answers "is it
-          getting better or worse, and did the alert reach anyone". Reads the
-          hourly health snapshots, per-probe failure rates, and per-channel
-          alert delivery. Polls every 60s. */}
+      {/* Reliability over time — durable health history, per-probe failure
+          rates, and deduplicated alert delivery. Polls every 60s. */}
       <div className="mb-8">
         <ReliabilityPanel />
       </div>
 
-      {/* Onboarding flow watch — surfaces stuck users, recent errors,
-          and the 24h funnel so we always know if signup is working. */}
-      <OnboardingFunnelPanel />
-
       {/* Per-route API health — top endpoints by traffic with error +
-          latency badges. Catches a single route degrading. */}
+          latency badges. */}
       <ApiRouteHealthPanel />
 
-      {/* Untethered faucet watch — band occupancy and emission pace. The
-          [3,24] band shipped without a shadow period, so this is how a
-          drifted self-normalisation becomes visible (ADR-016). */}
+      {/* Untethered faucet watch — band occupancy and emission pace. */}
       <div className="mb-8">
         <FaucetResonancePanel />
       </div>
 
-      {/* Advanced metrics (auth events, abuse, observability, digest) */}
-      <div className="mb-8">
-        <AdvancedMetricsPanel />
-      </div>
-
-      {/* Grid: Planetary Agents Integration card */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-        
-        {/* Planetary Agents Card */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden flex flex-col justify-between">
-          <div className="bg-gradient-to-r from-indigo-900 via-purple-900 to-violet-900 px-6 py-4 flex justify-between items-center text-white">
-            <div>
-              <h2 className="text-lg font-bold">Planetary Agents Integration</h2>
-              <p className="text-xs text-indigo-200">Cross-project command & control center</p>
-            </div>
-            {getHealthBadge(paIntegration?.health)}
-          </div>
-
-          <div className="p-6 space-y-6 flex-1">
-            
-            {/* Endpoints Registry */}
-            <div>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">
-                Canonical Endpoint Registry
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <a
-                  href="https://alchm.kitchen"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="p-3 bg-gray-50 hover:bg-indigo-50 border border-gray-100 rounded-lg transition-colors group"
-                >
-                  <p className="text-xs text-gray-500 group-hover:text-indigo-600 font-medium">alchm Next App</p>
-                  <p className="text-sm font-semibold text-gray-700 truncate">https://alchm.kitchen</p>
-                </a>
-                <a
-                  href="https://agents.alchm.kitchen"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="p-3 bg-gray-50 hover:bg-indigo-50 border border-gray-100 rounded-lg transition-colors group"
-                >
-                  <p className="text-xs text-gray-500 group-hover:text-indigo-600 font-medium">Planetary Agents UI</p>
-                  <p className="text-sm font-semibold text-gray-700 truncate">https://agents.alchm.kitchen</p>
-                </a>
-                <a
-                  href="https://api.agents.alchm.kitchen"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="p-3 bg-gray-50 hover:bg-indigo-50 border border-gray-100 rounded-lg transition-colors group"
-                >
-                  <p className="text-xs text-gray-500 group-hover:text-indigo-600 font-medium">PA Backend API</p>
-                  <p className="text-sm font-semibold text-gray-700 truncate">https://api.agents.alchm.kitchen</p>
-                </a>
-                <a
-                  href="https://whattoeatnext-production.up.railway.app"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="p-3 bg-gray-50 hover:bg-indigo-50 border border-gray-100 rounded-lg transition-colors group"
-                >
-                  <p className="text-xs text-gray-500 group-hover:text-indigo-600 font-medium">WTEN Legacy Backend</p>
-                  <p className="text-sm font-semibold text-gray-700 truncate">whattoeatnext-production.up.railway.app</p>
-                </a>
-              </div>
-            </div>
-
-            {/* Sync Controls */}
-            <div className="border-t border-gray-100 pt-5">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-                <div>
-                  <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400">
-                    Planetary Agent Synchronizer
-                  </h3>
-                  <p className="text-xs text-gray-500">PA Backend Registered Agents: <span className="font-semibold text-gray-800">{paIntegration?.agentCount ?? "—"}</span></p>
-                </div>
-                <button
-                  onClick={() => { handleSyncAll().catch((err: unknown) => { _logger.error("Sync all failed:", err); }); }}
-                  disabled={syncing}
-                  className="px-4 py-2 bg-indigo-600 text-white text-xs font-bold rounded-lg hover:bg-indigo-700 active:scale-95 disabled:bg-gray-300 disabled:scale-100 transition"
-                >
-                  {syncing ? "SYNCING..." : "SYNC ALL AGENTS"}
-                </button>
-              </div>
-
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Enter agent email or ID (e.g., galileo@agentic.alchm.kitchen)"
-                  value={syncEmail}
-                  onChange={(e) => setSyncEmail(e.target.value)}
-                  disabled={syncing}
-                  className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-indigo-400 disabled:bg-gray-100 text-gray-800"
-                />
-                <button
-                  onClick={() => { handleSyncOne().catch((err: unknown) => { _logger.error("Sync one failed:", err); }); }}
-                  disabled={syncing}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-lg active:scale-95 disabled:bg-gray-300 disabled:scale-100 transition"
-                >
-                  SYNC ONE
-                </button>
-              </div>
-
-              {/* Sync Results Observability Log */}
-              {syncResult && (
-                <div className={`mt-4 p-4 rounded-lg text-xs font-mono space-y-2 border ${
-                  syncResult.success 
-                    ? "bg-emerald-50 border-emerald-200 text-emerald-950" 
-                    : "bg-rose-50 border-rose-200 text-rose-950"
-                }`}>
-                  <div className="flex justify-between font-bold border-b border-gray-200 pb-1.5">
-                    <span>⚡ LOG: {syncResult.action}</span>
-                    <span className={syncResult.success ? "text-emerald-700" : "text-rose-700"}>
-                      {syncResult.success ? "SUCCESS" : "FAILED"} (HTTP {syncResult.statusCode})
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 pt-1 text-gray-700">
-                    <p>Affected Records: <span className="font-semibold">{syncResult.affectedCount}</span></p>
-                    <p className="text-right">Time: {new Date(syncResult.timestamp).toLocaleTimeString()}</p>
-                  </div>
-                  {syncResult.failures.length > 0 && (
-                    <div className="pt-2">
-                      <p className="font-bold text-rose-700 mb-1">Failures List:</p>
-                      <ul className="list-disc list-inside space-y-1 text-rose-800">
-                        {syncResult.failures.map((fail, i) => (
-                          <li key={i}>{fail}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* Last Feed Emit Webhook Telemetry */}
-            <div className="border-t border-gray-100 pt-5">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">
-                Agent Webhook Observability (POST /api/feed)
-              </h3>
-              {paIntegration?.lastFeedEmit ? (
-                <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg font-mono text-xs space-y-2 text-gray-700">
-                  <div className="flex justify-between border-b border-gray-200 pb-1">
-                    <span className="font-semibold text-gray-900">Event: {paIntegration.lastFeedEmit.eventType}</span>
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                      paIntegration.lastFeedEmit.responseCode === 200 
-                        ? "bg-emerald-100 text-emerald-800" 
-                        : "bg-rose-100 text-rose-800"
-                    }`}>
-                      HTTP {paIntegration.lastFeedEmit.responseCode}
-                    </span>
-                  </div>
-                  <p>Agent: <span className="font-semibold text-gray-900">{paIntegration.lastFeedEmit.agentEmail}</span></p>
-                  <p>Received: <span className="font-semibold text-gray-900">
-                    {new Date(paIntegration.lastFeedEmit.timestamp).toLocaleString()}
-                  </span></p>
-                </div>
-              ) : (
-                <div className="p-4 bg-gray-50 border border-dashed border-gray-200 rounded-lg text-center text-xs text-gray-400">
-                  ⚡ Webhook listening. No feed emit events received yet.
-                </div>
-              )}
-            </div>
-
-          </div>
-
-          {/* Live Metaphysical Telemetry Panel */}
-          <TelemetryPanel telemetry={paIntegration?.telemetry ?? null} />
-        </div>
-
-        {/* Recent Users Card */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden flex flex-col">
-          <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
-            <div>
-              <h2 className="text-lg font-bold text-gray-800">Recent Users</h2>
-              <p className="text-xs text-gray-500">Latest user sign-ups and charts</p>
-            </div>
-            <div className="flex items-center gap-3">
-              {recentUsersLive === false && (
-                <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide text-amber-800 bg-amber-100">
-                  <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-                  Degraded
-                </span>
-              )}
-              <Link
-                href="/admin/users"
-                className="text-xs font-bold text-purple-600 hover:text-purple-800"
-              >
-                VIEW ALL →
-              </Link>
-            </div>
-          </div>
-          <div className="overflow-x-auto flex-1">
-            <table className="w-full">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    User
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Element
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Joined
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {recentUsers.length === 0 ? (
-                  <tr>
-                    <td colSpan={4} className="px-6 py-8 text-center">
-                      {recentUsersLive === null ? (
-                        <span className="text-gray-400">Loading users…</span>
-                      ) : recentUsersLive ? (
-                        <span className="text-gray-500">
-                          No human signups recorded yet
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-2 text-amber-700">
-                          <span className="h-2 w-2 rounded-full bg-amber-500" />
-                          User query degraded — recent signups unavailable
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                ) : (
-                  recentUsers.map((user) => (
-                    <tr key={user.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4">
-                        <div>
-                          <p className="font-medium text-gray-800">
-                            {user.name || "No name"}
-                          </p>
-                          <p className="text-sm text-gray-500">{user.email}</p>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        {user.dominantElement ? (
-                          <span
-                            className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${getElementColor(
-                              user.dominantElement,
-                            )}`}
-                          >
-                            {user.dominantElement}
-                          </span>
-                        ) : (
-                          <span className="text-gray-400 text-sm">—</span>
-                        )}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            user.isActive
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {user.isActive ? "Active" : "Inactive"}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">
-                        {new Date(user.createdAt).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function TelemetryMetricTile({
-  label,
-  metric,
-}: {
-  label: string;
-  metric: TelemetryMetric | undefined;
-}): React.JSX.Element {
-  const live = metric?.live ?? false;
-  return (
-    <div
-      className={`p-2 bg-white/60 border rounded-lg ${
-        live ? "border-emerald-100" : "border-amber-100"
-      }`}
-    >
-      <p
-        className={`text-[10px] font-medium uppercase ${
-          live ? "text-emerald-700" : "text-amber-700"
-        }`}
-      >
-        {label}
-      </p>
-      <p className="text-sm font-bold text-gray-900 mt-0.5">
-        {metric?.value ?? "—"}
-      </p>
-      <p className="mt-1 flex items-center justify-center gap-1 text-[9px] font-mono uppercase tracking-wide text-gray-400">
-        <span
-          className={`h-1.5 w-1.5 rounded-full ${
-            live ? "bg-emerald-500" : "bg-amber-400"
-          }`}
-        />
-        {metric?.source ?? "offline"}
-      </p>
-    </div>
-  );
-}
-
-/**
- * Live metaphysical telemetry — replaces the former "Simulated Telemetry"
- * fixture. Emerald "Live" badge when every metric resolved from its real
- * source, amber "Degraded" when a source fell back, neutral "Awaiting" before
- * the first payload arrives.
- */
-function TelemetryPanel({ telemetry }: { telemetry: AgentTelemetry | null }): React.JSX.Element {
-  const hasTelemetry = telemetry !== null;
-  const allLive = telemetry?.allLive ?? false;
-
-  const tone = !hasTelemetry
-    ? {
-        wrap: "bg-gray-50 border-gray-100",
-        badge: "text-gray-500 bg-gray-200",
-        dot: "bg-gray-400",
-        label: "Telemetry · Awaiting",
-      }
-    : allLive
-      ? {
-          wrap: "bg-emerald-50/70 border-emerald-100",
-          badge: "text-emerald-800 bg-emerald-100",
-          dot: "bg-emerald-500 animate-pulse",
-          label: "Live Telemetry",
-        }
-      : {
-          wrap: "bg-amber-50/70 border-amber-100",
-          badge: "text-amber-800 bg-amber-100",
-          dot: "bg-amber-500 animate-pulse",
-          label: "Telemetry · Degraded",
-        };
-
-  return (
-    <div className={`border-t p-4 ${tone.wrap}`}>
-      <div className="flex items-center justify-between mb-2">
-        <span
-          className={`flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-0.5 rounded-full ${tone.badge}`}
+      {/* Deep-Dive Operations Subsystems */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Link
+          href="/admin/onboarding"
+          className="p-5 bg-white rounded-xl shadow-lg border border-gray-100 hover:border-purple-300 hover:shadow-xl transition-all group"
         >
-          <span className={`h-2 w-2 rounded-full ${tone.dot}`} />
-          {tone.label}
-        </span>
-        <span className="text-[10px] text-gray-400 font-mono">
-          {hasTelemetry ? "db · ephemeris" : "—"}
-        </span>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xl">🧭</span>
+            <span className="text-xs font-bold text-purple-600 group-hover:translate-x-0.5 transition-transform">
+              EXPLORE →
+            </span>
+          </div>
+          <h3 className="font-bold text-gray-800 group-hover:text-purple-600 transition-colors">
+            User Onboarding Journey
+          </h3>
+          <p className="text-xs text-gray-500 mt-1">
+            24h funnel drop-offs, stuck users, and step completion telemetry.
+          </p>
+        </Link>
+
+        <Link
+          href="/admin/jobs"
+          className="p-5 bg-white rounded-xl shadow-lg border border-gray-100 hover:border-indigo-300 hover:shadow-xl transition-all group"
+        >
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xl">⏱️</span>
+            <span className="text-xs font-bold text-indigo-600 group-hover:translate-x-0.5 transition-transform">
+              EXPLORE →
+            </span>
+          </div>
+          <h3 className="font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">
+            Jobs, Crons & Probes
+          </h3>
+          <p className="text-xs text-gray-500 mt-1">
+            Synthetic probe timings, cron heartbeats, ledger reconciliation, and alert logs.
+          </p>
+        </Link>
+
+        <Link
+          href="/admin/agents"
+          className="p-5 bg-white rounded-xl shadow-lg border border-gray-100 hover:border-violet-300 hover:shadow-xl transition-all group"
+        >
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xl">🪐</span>
+            <span className="text-xs font-bold text-violet-600 group-hover:translate-x-0.5 transition-transform">
+              EXPLORE →
+            </span>
+          </div>
+          <h3 className="font-bold text-gray-800 group-hover:text-violet-600 transition-colors">
+            Planetary Agents & ASOL
+          </h3>
+          <p className="text-xs text-gray-500 mt-1">
+            Signed webhook ingestion, agent credit/debit balances, and boundary contracts.
+          </p>
+        </Link>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
-        <TelemetryMetricTile label="Agent Harmony" metric={telemetry?.agentHarmony} />
-        <TelemetryMetricTile label="Transmutation" metric={telemetry?.transmutationRate} />
-        <TelemetryMetricTile label="Spiritual Entropy" metric={telemetry?.spiritualEntropy} />
-        <TelemetryMetricTile label="MCP Invocations" metric={telemetry?.mcpInvocationRate} />
-      </div>
-      {telemetry && (
-        <p className="mt-2 text-center text-[9px] font-mono text-gray-400">
-          updated {new Date(telemetry.generatedAt).toLocaleTimeString()}
-        </p>
-      )}
     </div>
   );
 }

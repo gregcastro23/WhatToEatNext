@@ -23,6 +23,13 @@ export interface RecipePipelineEvent {
     matter: number;
     substance: number;
   } | null;
+  netRefund?: number;
+  perAxisRefund?: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  } | null;
   refundReference?: { debitTransactionGroupId: string; idempotencyKey: string } | null;
   finalFailure: boolean;
   gateFindings: string[];

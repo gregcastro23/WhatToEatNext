@@ -255,6 +255,12 @@ function run(sql: string, values: unknown[]): { rows: Array<Record<string, unkno
       rows: [{ trades_24h: all.filter((o) => o.status === "filled").length, open_offers: all.filter(live).length }],
     };
   }
+  if (/maker_rebate_amount/.test(sql)) {
+    return { rows: [] };
+  }
+  if (/FROM user_profiles WHERE user_id = \$1::uuid/.test(sql)) {
+    return { rows: [] };
+  }
   // ── wallets and ledger
   if (/FROM token_balances\s+WHERE user_id IN/.test(sql)) {
     const rows = [str(values[0]), str(values[1])]

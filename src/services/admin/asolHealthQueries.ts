@@ -5,6 +5,8 @@
  */
 
 import { executeQuery } from "@/lib/database/connection";
+import { isolateDiagnosticQuery } from "@/lib/database/queryIsolation";
+import type { PoolClient } from "pg";
 
 export const ASOL_SOURCES = [
   "asol-sync-event",
@@ -110,7 +112,10 @@ WHERE source = ANY($1::text[])
 ORDER BY received_at DESC
 LIMIT 25`;
 
-export async function fetchAsolHealthRows(filterStatus?: "failed" | "all"): Promise<{
+export async function fetchAsolHealthRows(
+  filterStatus?: "failed" | "all",
+  options?: { client?: PoolClient },
+): Promise<{
   overall: OverallRow | null;
   sourceRows: SourceRow[];
   signatureRows: SignatureTagRow[];
@@ -118,12 +123,36 @@ export async function fetchAsolHealthRows(filterStatus?: "failed" | "all"): Prom
 }> {
   const sourcesParam = [[...ASOL_SOURCES]];
   const statusParam = filterStatus === "failed" ? "failed" : null;
+  const client = options?.client;
+  const queryOpts = client ? { client } : {};
 
-  const [overallRes, sourceRes, sigRes, recentRes] = await Promise.all([
-    executeQuery<OverallRow>(OVERALL_HEALTH_24H_QUERY, sourcesParam),
-    executeQuery<SourceRow>(SOURCE_HEALTH_24H_QUERY, sourcesParam),
-    executeQuery<SignatureTagRow>(SIGNATURE_BREAKDOWN_QUERY, sourcesParam),
-    executeQuery<EventRow>(RECENT_EVENTS_QUERY, [sourcesParam[0], statusParam]),
+  // Primary overall query executes directly — database unreachable throws here
+  const overallRes = await executeQuery<OverallRow>(OVERALL_HEALTH_24H_QUERY, sourcesParam, queryOpts);
+
+  // Secondary diagnostic queries run behind isolated fault-tolerant boundaries
+  const defaultSourceRes: { rows: SourceRow[] } = { rows: [] };
+  const defaultSigRes: { rows: SignatureTagRow[] } = { rows: [] };
+  const defaultEventRes: { rows: EventRow[] } = { rows: [] };
+
+  const [sourceRes, sigRes, recentRes] = await Promise.all([
+    isolateDiagnosticQuery(
+      "asol_source_health",
+      () => executeQuery<SourceRow>(SOURCE_HEALTH_24H_QUERY, sourcesParam, queryOpts),
+      defaultSourceRes,
+      client,
+    ),
+    isolateDiagnosticQuery(
+      "asol_signature_breakdown",
+      () => executeQuery<SignatureTagRow>(SIGNATURE_BREAKDOWN_QUERY, sourcesParam, queryOpts),
+      defaultSigRes,
+      client,
+    ),
+    isolateDiagnosticQuery(
+      "asol_recent_events",
+      () => executeQuery<EventRow>(RECENT_EVENTS_QUERY, [sourcesParam[0], statusParam], queryOpts),
+      defaultEventRes,
+      client,
+    ),
   ]);
 
   return {

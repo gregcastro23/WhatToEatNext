@@ -188,7 +188,7 @@ export async function getLaunchReadiness(): Promise<LaunchReadinessReport> {
     ),
     subsystem(
       "onchain-esms",
-      "On-chain · ESMS economy",
+      "Base · ESMS economy",
       "Soulbound ESMS balances mirrored on Base.",
       [
         check("On-chain enabled", "NEXT_PUBLIC_ESMS_ONCHAIN_ENABLED", "flag"),
@@ -200,7 +200,7 @@ export async function getLaunchReadiness(): Promise<LaunchReadinessReport> {
     ),
     subsystem(
       "esms-spl-mirror",
-      "On-chain · ESMS SPL mirror (Solana)",
+      "Solana · ESMS SPL mirror",
       "Token-2022 mints of the four coins, deployed from AlchmAgentsSolana. " +
         "The price ticker links them only when this whole gate is green.",
       [
@@ -214,7 +214,7 @@ export async function getLaunchReadiness(): Promise<LaunchReadinessReport> {
     ),
     subsystem(
       "recipe-nft",
-      "On-chain · Recipe NFT minting",
+      "Recipe NFT · Minting on Base",
       "Spend ESMS to mint a recipe as an on-chain NFT.",
       [
         check("Minting enabled", "NEXT_PUBLIC_RECIPE_NFT_ENABLED", "flag"),

@@ -40,7 +40,7 @@ export function GET(): Promise<NextResponse> {
       },
       relatedEndpoints: {
         canonicalAgentSync:
-          "POST https://whattoeatnext-production.up.railway.app/api/internal/agent-sync (X-Sync-Secret: ALCHM_KITCHEN_SYNC_SECRET)",
+          "POST https://alchm.kitchen/api/internal/agent-sync (X-Sync-Secret: ALCHM_KITCHEN_SYNC_SECRET)",
         paAgentSync:
           "POST https://api.agents.alchm.kitchen/api/internal/agent-sync (X-Sync-Secret: INTERNAL_API_SECRET)",
       },

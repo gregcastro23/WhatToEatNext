@@ -27,6 +27,8 @@
     "eslint-plugin-react-hooks": "^5.1.0"
   },
   "scripts": {
+    "db:migrate": "bun scripts/migrate.ts",
+    "db:migrate:dry-run": "bun scripts/migrate.ts --dry-run",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "bash -c 'set -o pipefail; next build 2>&1 | tee .next-build.log && node ./scripts/check-route-sizes.cjs .next-build.log'",

@@ -281,16 +281,17 @@ export async function getAlertDelivery(
     const channelRes = await executeQuery(
       `SELECT
          ch.key AS channel,
-         COUNT(*)::int AS attempted,
-         COUNT(*) FILTER (WHERE ch.value->>'ok' = 'true')::int AS delivered,
-         COUNT(*) FILTER (WHERE ch.value->>'ok' = 'false')::int AS failed,
-         MAX(a.triggered_at) FILTER (WHERE ch.value->>'ok' = 'false')
+         COUNT(*) FILTER (WHERE COALESCE((ch.value->>'skipped')::boolean, false) = false)::int AS attempted,
+         COUNT(*) FILTER (WHERE ch.value->>'ok' = 'true' AND COALESCE((ch.value->>'skipped')::boolean, false) = false)::int AS delivered,
+         COUNT(*) FILTER (WHERE ch.value->>'ok' = 'false' AND COALESCE((ch.value->>'skipped')::boolean, false) = false)::int AS failed,
+         MAX(a.triggered_at) FILTER (WHERE ch.value->>'ok' = 'false' AND COALESCE((ch.value->>'skipped')::boolean, false) = false)
            AS last_failure_at,
          (ARRAY_AGG(ch.value->>'error' ORDER BY a.triggered_at DESC)
-            FILTER (WHERE ch.value->>'ok' = 'false'))[1] AS last_error
+            FILTER (WHERE ch.value->>'ok' = 'false' AND COALESCE((ch.value->>'skipped')::boolean, false) = false))[1] AS last_error
        FROM alert_events a
        CROSS JOIN LATERAL jsonb_each(a.dispatch) AS ch(key, value)
        WHERE a.triggered_at > now() - make_interval(days => $1)
+         AND COALESCE((a.dispatch->>'suppressed')::boolean, false) = false
          AND jsonb_typeof(ch.value) = 'object'
        GROUP BY ch.key
        ORDER BY failed DESC, attempted DESC`,

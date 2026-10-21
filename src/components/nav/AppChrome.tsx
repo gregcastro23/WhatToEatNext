@@ -33,6 +33,8 @@ function isChromelessSplash(pathname: string | null | undefined): boolean {
     pathname.startsWith("/login/") ||
     pathname === "/onboarding" ||
     pathname.startsWith("/onboarding/") ||
-    pathname.startsWith("/auth/")
+    pathname.startsWith("/auth/") ||
+    pathname === "/admin" ||
+    pathname.startsWith("/admin/")
   );
 }

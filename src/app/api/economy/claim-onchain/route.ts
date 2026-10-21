@@ -20,8 +20,6 @@ import { NextResponse } from "next/server";
 import { formatUnits } from "viem";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
-import { createLogger } from "@/utils/logger";
-
 import {
   esmsCaip2,
   esmsChain,
@@ -41,6 +39,7 @@ import {
   type EsmsOnchainClaim,
 } from "@/services/esmsOnchainClaimService";
 import { tokenEconomy } from "@/services/TokenEconomyService";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 import type { Address, Hex } from "viem";
 
@@ -285,8 +284,36 @@ export async function POST(request: NextRequest) {
         },
       );
       await esmsOnchainClaimService.markRefunded(pending.id, "claimMint reverted");
+      const netRefundPending =
+        pending.amounts.spirit +
+        pending.amounts.essence +
+        pending.amounts.matter +
+        pending.amounts.substance;
       return NextResponse.json(
-        { success: false, error: "The on-chain claim reverted; your tokens were returned.", code: "mint_reverted", refunded: true },
+        {
+          success: false,
+          error: "The on-chain claim reverted; your tokens were returned.",
+          code: "mint_reverted",
+          refunded: true,
+          netRefund: netRefundPending,
+          refundAmounts: {
+            spirit: pending.amounts.spirit,
+            essence: pending.amounts.essence,
+            matter: pending.amounts.matter,
+            substance: pending.amounts.substance,
+          },
+          perAxisRefund: {
+            Spirit: pending.amounts.spirit,
+            Essence: pending.amounts.essence,
+            Matter: pending.amounts.matter,
+            Substance: pending.amounts.substance,
+          },
+          refundReference: {
+            claimId: pending.id,
+            sourceId: pending.id,
+            idempotencyKey: `onchain_claim_refund:${pending.id}`,
+          },
+        },
         { status: 502 },
       );
     } catch (err) {
@@ -401,8 +428,33 @@ export async function POST(request: NextRequest) {
         },
       );
       await esmsOnchainClaimService.markRefunded(claim.id, "claimMint reverted");
+      const netRefundClaim =
+        amounts.spirit + amounts.essence + amounts.matter + amounts.substance;
       return NextResponse.json(
-        { success: false, error: "The on-chain claim reverted; your tokens were returned.", code: "mint_reverted", refunded: true },
+        {
+          success: false,
+          error: "The on-chain claim reverted; your tokens were returned.",
+          code: "mint_reverted",
+          refunded: true,
+          netRefund: netRefundClaim,
+          refundAmounts: {
+            spirit: amounts.spirit,
+            essence: amounts.essence,
+            matter: amounts.matter,
+            substance: amounts.substance,
+          },
+          perAxisRefund: {
+            Spirit: amounts.spirit,
+            Essence: amounts.essence,
+            Matter: amounts.matter,
+            Substance: amounts.substance,
+          },
+          refundReference: {
+            claimId: claim.id,
+            sourceId: claim.id,
+            idempotencyKey: `onchain_claim_refund:${claim.id}`,
+          },
+        },
         { status: 502 },
       );
     }

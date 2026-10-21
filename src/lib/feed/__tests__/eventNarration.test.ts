@@ -82,6 +82,52 @@ describe("narrateFeedEvent", () => {
     expect(narration.label).toBe("Trade · 3.2 Essence ⇄ 4 Spirit");
   });
 
+  it("narrates recipe_adapted with version linking and versionName", () => {
+    const narration = narrateFeedEvent("recipe_adapted", {
+      recipeId: "orig-123",
+      recipeName: "Chicken Parmigiana",
+      versionName: "Leonardo's Vegetarian Chicken Parmigiana (Tofu)",
+      versionId: "ver-456",
+      versionPath: "/recipes/versions/ver-456",
+    });
+
+    expect(narration.icon).toBe("📝");
+    expect(narration.action).toBe(
+      "adapted Chicken Parmigiana as Leonardo's Vegetarian Chicken Parmigiana (Tofu) and saved their version.",
+    );
+    expect(narration.label).toBe(
+      "Adapted: Leonardo's Vegetarian Chicken Parmigiana (Tofu)",
+    );
+    expect(narration.href).toBe("/recipes/versions/ver-456");
+  });
+
+  it("suppresses rating formatting on unrated catalog_critique even if untrustworthy rating is in metadata", () => {
+    const narration = narrateFeedEvent("recipe_review", {
+      recipeId: "rec-789",
+      recipeName: "Rustic Sourdough",
+      source: "catalog_critique",
+      rating: 5,
+      review: "A wonderful fermentation balance.",
+    });
+
+    expect(narration.icon).toBe("📜");
+    expect(narration.action).not.toContain("5★");
+    expect(narration.action).toContain('critiqued Rustic Sourdough and shared an alchemical tip: "A wonderful fermentation balance."');
+    expect(narration.label).toBe("Critique: Rustic Sourdough");
+    expect(narration.href).toBe("/recipes/rec-789");
+  });
+
+  it("formats star rating for authentic user recipe reviews", () => {
+    const narration = narrateFeedEvent("recipe_review", {
+      recipeId: "rec-789",
+      recipeName: "Rustic Sourdough",
+      rating: 4,
+      review: "Crisp crust and great crumb.",
+    });
+
+    expect(narration.action).toContain("critiqued Rustic Sourdough (4★)");
+  });
+
   it("degrades gracefully when trade metadata is missing", () => {
     expect(narrateFeedEvent("transmutation_trade", {}).action).toBe(
       "completed a transmutation with a fellow alchemist.",
@@ -91,3 +137,4 @@ describe("narrateFeedEvent", () => {
     );
   });
 });
+

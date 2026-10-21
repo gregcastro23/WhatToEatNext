@@ -4,6 +4,8 @@
  *
  * Returns top user-submitted reviews (rating ≥ 4, non-empty review),
  * joined with user display data, ordered by rating DESC, limited to 10.
+ *
+ * Distinguishes healthy empty results from unavailable/degraded service states.
  */
 
 import { NextResponse } from "next/server";
@@ -44,8 +46,12 @@ function displayName(row: TipRow): string {
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ recipeId: string }> },
-) {
+): Promise<NextResponse> {
   const { recipeId } = await params;
+
+  if (!recipeId || typeof recipeId !== "string" || !recipeId.trim()) {
+    return NextResponse.json({ tips: [], error: "recipeId is required" }, { status: 400 });
+  }
 
   try {
     const result = await executeQuery<TipRow>(
@@ -60,7 +66,7 @@ export async function GET(
          AND length(uri.review) > 0
        ORDER BY uri.rating DESC, uri.updated_at DESC
        LIMIT 10`,
-      [recipeId],
+      [recipeId.trim()],
     );
 
     const tips: CommunityTip[] = result.rows.map((row) => ({
@@ -70,9 +76,20 @@ export async function GET(
       postedAt: row.updated_at,
     }));
 
-    return NextResponse.json({ tips });
-  } catch (error) {
-    _logger.error("[GET /api/recipes/:id/community-tips]", error);
-    return NextResponse.json({ tips: [] as CommunityTip[] });
+    return NextResponse.json({
+      tips,
+      recipeId: recipeId.trim(),
+      totalTips: tips.length,
+    });
+  } catch (_error) {
+    const emptyTips: CommunityTip[] = [];
+    return NextResponse.json(
+      {
+        tips: emptyTips,
+        error: "Community tips query failed; service temporarily unavailable",
+        degraded: true,
+      },
+      { status: 503 },
+    );
   }
 }
