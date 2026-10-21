@@ -185,7 +185,7 @@ async function recordProbeResult(result: ProbeResult): Promise<void> {
         result.latencyMs,
         result.httpStatus,
         result.errorMessage,
-        JSON.stringify(result.responsePayload ?? {}),
+        JSON.stringify(result.responsePayload),
       ],
     );
   } catch (err) {

@@ -672,7 +672,7 @@ export async function hydrateAlertRingFromDb(): Promise<number> {
         severity: r.severity,
         title: r.title,
         message: r.message,
-        dispatch: r.dispatch ?? {},
+        dispatch: r.dispatch,
       })),
     );
     return result.rows.length;

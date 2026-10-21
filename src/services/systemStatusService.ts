@@ -556,7 +556,7 @@ async function probeOnboarding(latest: LatestProbeRow[]): Promise<FlowHealth> {
       signupsLast24h === 0
         ? "— (No signups in 24h)"
         : status === "OK"
-          ? `${onboardedLast24h}/${signupsLast24h} signups onboarded in 24h (${formatPct(completionRate ?? 1, 0)})`
+          ? `${onboardedLast24h}/${signupsLast24h} signups onboarded in 24h (${formatPct(completionRate, 0)})`
         : status === "DEGRADED"
           ? syntheticStale
             ? "Synthetic probe stale — cron may have stopped"
@@ -1115,7 +1115,7 @@ async function probeAgents(): Promise<FlowHealth> {
       severity: creditHealth.verdict === "INCIDENT" ? "error" : "warn",
     });
   }
-  if (stale && lastEmitAgeMs !== null) {
+  if (lastEmitAgeMs !== null && lastEmitAgeMs > 6 * ONE_HOUR) {
     issues.push({
       at: new Date(Date.now() - lastEmitAgeMs).toISOString(),
       message: `No PA feed emit in ${Math.round(lastEmitAgeMs / ONE_HOUR)}h — webhook silent`,
