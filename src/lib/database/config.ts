@@ -55,7 +55,7 @@ export const databaseConfig = {
   // Connection pool settings — kept small for serverless (each Vercel invocation
   // owns its own pool; 50 concurrent connections per instance would exhaust Railway).
   maxConnections: intFromEnv(process.env.DB_MAX_CONNECTIONS, 5),
-  idleTimeout: intFromEnv(process.env.DB_IDLE_TIMEOUT, 10000),
+  idleTimeout: intFromEnv(process.env.DB_IDLE_TIMEOUT, 30000),
   connectionTimeout: intFromEnv(process.env.DB_CONNECTION_TIMEOUT, 5000),
 
   // Per-statement cap. Pool-acquisition storms (cold start + cron storms) used

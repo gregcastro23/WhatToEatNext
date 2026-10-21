@@ -63,17 +63,56 @@ const STATUS_STYLE: Record<
 
 function formatRelative(iso: string): string {
   const ageMs = Date.now() - new Date(iso).getTime();
-  if (ageMs < 0) return "just now";
+  if (ageMs < 5_000) return "just now";
   if (ageMs < 60_000) return `${Math.round(ageMs / 1000)}s ago`;
   if (ageMs < 3_600_000) return `${Math.round(ageMs / 60_000)}m ago`;
   if (ageMs < 86_400_000) return `${Math.round(ageMs / 3_600_000)}h ago`;
   return `${Math.round(ageMs / 86_400_000)}d ago`;
 }
 
+const CORE_FLOW_IDS = new Set(["auth", "database", "recommendations", "onboarding"]);
+
 export default function SystemStatusPanel(): React.JSX.Element | null {
   const [data, setData] = React.useState<SystemStatusPayload | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [expandedFlow, setExpandedFlow] = React.useState<string | null>(null);
+  const [snoozeUntil, setSnoozeUntil] = React.useState<number | null>(null);
+
+  React.useEffect(() => {
+    try {
+      const stored = localStorage.getItem("admin_incident_snooze_until");
+      if (stored) {
+        const until = parseInt(stored, 10);
+        if (until > Date.now()) {
+          setSnoozeUntil(until);
+        } else {
+          localStorage.removeItem("admin_incident_snooze_until");
+        }
+      }
+    } catch {
+      // localStorage may fail in restricted/iframe environments
+    }
+  }, []);
+
+  const handleToggleSnooze = () => {
+    try {
+      if (snoozeUntil && snoozeUntil > Date.now()) {
+        localStorage.removeItem("admin_incident_snooze_until");
+        setSnoozeUntil(null);
+      } else {
+        const nextUntil = Date.now() + 60 * 60 * 1000; // 1 hour
+        localStorage.setItem("admin_incident_snooze_until", nextUntil.toString());
+        setSnoozeUntil(nextUntil);
+      }
+    } catch {
+      // ignore
+    }
+  };
+
+  const isSnoozed = Boolean(snoozeUntil && snoozeUntil > Date.now());
+  const snoozeMinutesLeft = snoozeUntil
+    ? Math.max(1, Math.round((snoozeUntil - Date.now()) / 60000))
+    : 0;
 
   const poll = React.useCallback(async (): Promise<{ ok: boolean }> => {
     try {
@@ -137,8 +176,13 @@ export default function SystemStatusPanel(): React.JSX.Element | null {
 
   if (!data) return null;
 
-  const overallStyle = STATUS_STYLE[data.overall];
+  const isIncident = data.overall === "INCIDENT";
+  const displayStatus = isSnoozed && isIncident ? "DEGRADED" : data.overall;
+  const overallStyle = STATUS_STYLE[displayStatus];
   const overallProv = combine(data.flows.map((f) => fromLiveFlag(f.live)));
+
+  const coreFlows = data.flows.filter((f) => CORE_FLOW_IDS.has(f.id));
+  const asyncFlows = data.flows.filter((f) => !CORE_FLOW_IDS.has(f.id));
 
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
@@ -163,25 +207,106 @@ export default function SystemStatusPanel(): React.JSX.Element | null {
             </p>
           </div>
         </div>
-        <span
-          className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${overallStyle.pill}`}
-        >
-          {overallStyle.label}
-        </span>
+        <div className="flex items-center gap-2 flex-wrap justify-end">
+          {data.coreOverall && (
+            <span
+              title="Core customer paths: auth, database, recommendations, onboarding"
+              className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${STATUS_STYLE[data.coreOverall].pill}`}
+            >
+              Core: {data.coreOverall}
+            </span>
+          )}
+          {data.asyncOverall && (
+            <span
+              title="Async background services: agents, economy, crons, probes"
+              className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${STATUS_STYLE[data.asyncOverall].pill}`}
+            >
+              Async: {data.asyncOverall}
+            </span>
+          )}
+          {isSnoozed ? (
+            <button
+              type="button"
+              onClick={handleToggleSnooze}
+              className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300 hover:bg-amber-200 transition"
+              title="Click to clear incident snooze"
+            >
+              Snoozed ({snoozeMinutesLeft}m) ✕
+            </button>
+          ) : (
+            isIncident && (
+              <button
+                type="button"
+                onClick={handleToggleSnooze}
+                className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-50 text-rose-800 border border-rose-300 hover:bg-rose-100 transition"
+                title="Acknowledge incident and snooze alerts for 1 hour"
+              >
+                Snooze Incident (1h)
+              </button>
+            )
+          )}
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${overallStyle.pill}`}
+          >
+            {isSnoozed && isIncident ? "SNOOZED" : overallStyle.label}
+          </span>
+        </div>
       </div>
 
-      {/* Flow grid */}
-      <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {data.flows.map((flow) => (
-          <FlowTile
-            key={flow.id}
-            flow={flow}
-            expanded={expandedFlow === flow.id}
-            onToggle={() =>
-              setExpandedFlow((curr) => (curr === flow.id ? null : flow.id))
-            }
-          />
-        ))}
+      {/* Core User Path */}
+      <div className="px-4 sm:px-6 pt-5 pb-2">
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500">
+            Core User Path (Customer Facing)
+          </h3>
+          {data.coreOverall && (
+            <span
+              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${STATUS_STYLE[data.coreOverall].pill}`}
+            >
+              {data.coreOverall}
+            </span>
+          )}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {coreFlows.map((flow) => (
+            <FlowTile
+              key={flow.id}
+              flow={flow}
+              expanded={expandedFlow === flow.id}
+              onToggle={() =>
+                setExpandedFlow((curr) => (curr === flow.id ? null : flow.id))
+              }
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Async & Background Services */}
+      <div className="px-4 sm:px-6 pt-5 pb-5 border-t border-gray-100">
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500">
+            Async & Background Services
+          </h3>
+          {data.asyncOverall && (
+            <span
+              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${STATUS_STYLE[data.asyncOverall].pill}`}
+            >
+              {data.asyncOverall}
+            </span>
+          )}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {asyncFlows.map((flow) => (
+            <FlowTile
+              key={flow.id}
+              flow={flow}
+              expanded={expandedFlow === flow.id}
+              onToggle={() =>
+                setExpandedFlow((curr) => (curr === flow.id ? null : flow.id))
+              }
+            />
+          ))}
+        </div>
       </div>
 
       {/* Dependency strip */}

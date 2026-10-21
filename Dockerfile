@@ -64,6 +64,10 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder --chown=nextjs:nodejs /app/next.config.js ./
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
 
+# Copy migration scripts and database initialization files for railway releaseCommand
+COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
+COPY --from=builder --chown=nextjs:nodejs /app/database ./database
+
 # Switch to non-root user
 USER nextjs
 

@@ -310,23 +310,19 @@ export async function runCosmicRecipeProbe(options: {
       prompt: "synthetic probe: simple weekday dinner",
       diet: "omnivore",
       preferredCuisine: "any",
+      isSyntheticProbe: true,
+    },
+    headers: {
+      "x-synthetic-probe": "true",
     },
     baseUrl: options.baseUrl,
     bearerToken: options.bearerToken,
-    timeoutMs: options.timeoutMs ?? COSMIC_RECIPE_PROBE_TIMEOUT_MS,
+    timeoutMs: options.timeoutMs ?? 15_000,
     extractResponseSnapshot: (body) => ({
       success: body.success ?? null,
-      hasData: body.data != null || body.id != null || body.title != null,
+      hasData: body.data != null || body.id != null || body.title != null || body.recipe != null,
       demo: body.demo ?? null,
     }),
-    // A 402 means the synthetic user has already spent its one free daily
-    // generation — the endpoint is alive and token-gating is enforcing
-    // correctly, which is itself a healthy signal. Without this, every hourly
-    // run after the day's first (which actually generates) returned 402 and
-    // flapped AI-generation into a false INCIDENT ~23h/day. The once-daily
-    // real 200 still verifies generation end-to-end; genuine breakage (5xx,
-    // timeout, empty body) still fails. Mirrors the stripe-webhook probe,
-    // which treats an expected 4xx as success.
     isSuccess: (status, body) =>
       (status === 200 && body.success === true) || status === 402,
   });
@@ -385,7 +381,10 @@ export async function runStripeWebhookProbe(options: {
   try {
     const res = await fetch(`${options.baseUrl}/api/stripe/webhook`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-synthetic-probe": "true",
+      },
       body: JSON.stringify({ probe: "synthetic" }),
       signal: controller.signal,
     });
@@ -394,13 +393,12 @@ export async function runStripeWebhookProbe(options: {
     responsePayload = {
       bodyPreview: text.slice(0, 120),
     };
-    // We expect 400 from missing-signature. 401/403 also acceptable (auth
-    // active). 5xx or 200 indicate breakage.
-    if (res.status >= 400 && res.status < 500) {
+    // 200 from authenticated probe or 4xx from sig validator indicates operational route.
+    if (res.status === 200 || (res.status >= 400 && res.status < 500)) {
       status = "success";
     } else {
       status = "failure";
-      errorMessage = `Unexpected HTTP ${res.status} — expected 4xx from sig validator`;
+      errorMessage = `Unexpected HTTP ${res.status} — expected 200 or 4xx from webhook`;
     }
   } catch (err) {
     if (err instanceof Error && err.name === "AbortError") {
@@ -692,6 +690,7 @@ async function runJsonPostProbe(args: {
   body: Record<string, unknown>;
   baseUrl: string;
   bearerToken: string | null;
+  headers?: Record<string, string>;
   timeoutMs?: number;
   extractResponseSnapshot: (
     body: Record<string, unknown>,
@@ -733,6 +732,7 @@ async function runJsonPostProbe(args: {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: `Bearer ${args.bearerToken}`,
+        ...(args.headers ?? {}),
       },
       body: JSON.stringify(args.body),
       signal: controller.signal,

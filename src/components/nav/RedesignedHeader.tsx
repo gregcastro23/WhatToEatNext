@@ -224,6 +224,10 @@ export function RedesignedHeader({ active }: RedesignedHeaderProps = {}): JSX.El
     };
   }, [openMenu]);
 
+  if (pathname === "/admin" || pathname?.startsWith("/admin/")) {
+    return <></>;
+  }
+
   const userInitial = session?.user?.name?.[0]?.toUpperCase() ?? "G";
   const userName = session?.user?.name ?? "Guest";
   const userId = session?.user?.id?.slice(0, 8).toUpperCase() ?? "VISITOR";

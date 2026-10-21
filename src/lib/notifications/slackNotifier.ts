@@ -26,6 +26,7 @@ export interface SlackAlertPayload {
 
 export interface SlackDispatchResult {
   ok: boolean;
+  skipped?: boolean;
   error?: string;
 }
 
@@ -43,16 +44,15 @@ const SEVERITY_COLOR: Record<"info" | "warn" | "error", string> = {
 };
 
 /**
- * Post an alert to the configured Slack webhook. Returns `{ ok: false }`
- * when the webhook URL isn't configured (silent skip — don't make the
- * caller branch on env state).
+ * Post an alert to the configured Slack webhook. Returns `{ ok: true, skipped: true }`
+ * when the webhook URL isn't configured (silent skip — don't report as delivery failure).
  */
 export async function sendSlackAlert(
   payload: SlackAlertPayload,
 ): Promise<SlackDispatchResult> {
   const webhookUrl = process.env.ALERT_SLACK_WEBHOOK_URL;
   if (!webhookUrl) {
-    return { ok: false, error: "ALERT_SLACK_WEBHOOK_URL not set" };
+    return { ok: true, skipped: true };
   }
 
   const fromEmoji = STATUS_EMOJI[payload.previous];
