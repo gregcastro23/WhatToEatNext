@@ -32,7 +32,14 @@ import { _logger } from "@/lib/logger";
 import { getCachedAgentRecipes, type CachedAgentRecipe } from "@/services/agentRecipePrewarm";
 
 /** Content event types that represent a historical agent's culinary activity. */
-const CONTENT_EVENT_TYPES = ["insight", "lab_entry", "recipe_generation", "recipe_review", "made_it"];
+const CONTENT_EVENT_TYPES = [
+  "insight",
+  "lab_entry",
+  "recipe_generation",
+  "recipe_review",
+  "recipe_adapted",
+  "made_it",
+];
 
 const ESMS_TAGS: EsmsTag[] = ["Spirit", "Essence", "Matter", "Substance"];
 const ELEMENTS: FeedElement[] = ["Fire", "Water", "Earth", "Air"];
@@ -171,12 +178,14 @@ export async function getHistoricalAgentEvents(
         WHERE COALESCE(u.is_agent, false) = true
           AND COALESCE(u.is_active, true) = true
           AND f.event_type = ANY($2::text[])
+          AND COALESCE(f.metadata_payload->>'mcpCatalog', 'true') <> 'false'
           AND (
                 (up.natal_positions IS NOT NULL AND up.natal_positions::text NOT IN ('[]', 'null', '{}'))
              OR (up.natal_chart     IS NOT NULL AND up.natal_chart::text     NOT IN ('{}', 'null'))
              OR (up.birth_data      IS NOT NULL AND up.birth_data::text      NOT IN ('{}', 'null'))
               )
-        ORDER BY f.created_at DESC
+        ORDER BY (f.event_type IN ('recipe_review', 'recipe_adapted', 'made_it', 'recipe_generation', 'lab_entry')) DESC,
+                 f.created_at DESC
         LIMIT $1`,
       [limit, CONTENT_EVENT_TYPES],
     );

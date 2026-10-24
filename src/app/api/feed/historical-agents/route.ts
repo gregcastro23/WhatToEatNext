@@ -21,7 +21,10 @@ import {
   filterHistoricalAgentFeed,
 } from "@/lib/feed/historicalAgentFeed";
 import { _logger } from "@/lib/logger";
-import { getHistoricalAgentRecipes } from "@/services/historicalAgentFeedService";
+import {
+  getHistoricalAgentEvents,
+  getHistoricalAgentRecipes,
+} from "@/services/historicalAgentFeedService";
 import { getPlanetaryResonanceFeed } from "@/services/planetaryResonanceService";
 
 export const dynamic = "force-dynamic";
@@ -34,12 +37,17 @@ export async function GET(request: Request): Promise<NextResponse> {
   const producerUrl = process.env.PA_HISTORICAL_FEED_URL;
 
   // No PA producer wired → serve real WTEN-internal content: live planetary
-  // resonance (degree agents, current sky) + historical agents' activity.
+  // resonance (degree agents, current sky) + historical agents' real activity +
+  // resonant historical recipes.
   if (!producerUrl) {
     try {
-      const recipes = await getHistoricalAgentRecipes(limit);
+      const recipeLimit = Math.max(1, Math.floor(limit / 3));
+      const [events, recipes] = await Promise.all([
+        getHistoricalAgentEvents(limit),
+        getHistoricalAgentRecipes(recipeLimit),
+      ]);
       const resonance = getPlanetaryResonanceFeed();
-      const items = filterHistoricalAgentFeed([...resonance, ...recipes])
+      const items = filterHistoricalAgentFeed([...resonance, ...events, ...recipes])
         .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
         .slice(0, limit);
       return NextResponse.json({ success: true, items, source: "internal" });

@@ -24,6 +24,7 @@ function resolveActivityHref(
   const versionId = typeof meta?.versionId === "string" ? meta.versionId : undefined;
   if (versionPath) return versionPath;
   if (versionId) return `/recipes/versions/${encodeURIComponent(versionId)}`;
+  if (meta?.mcpCatalog === false) return undefined;
   if (narrationHref) return narrationHref;
   const recipeId =
     (typeof meta?.recipeId === "string" && meta.recipeId) ||
@@ -152,6 +153,7 @@ export function RecentActivityItem({
     (typeof meta?.review === "string" && meta.review) ||
     (typeof meta?.comment === "string" && meta.comment) ||
     (typeof meta?.reflection === "string" && meta.reflection) ||
+    (typeof meta?.insightContent === "string" && meta.insightContent) ||
     undefined;
 
   return (
@@ -164,7 +166,11 @@ export function RecentActivityItem({
         badges={
           <ActivityBadges
             isAdapted={event.eventType === "recipe_adapted" || typeof meta?.versionId === "string"}
-            isCritique={event.eventType === "recipe_review" || meta?.source === "catalog_critique"}
+            isCritique={
+              event.eventType === "recipe_review" ||
+              meta?.source === "catalog_critique" ||
+              meta?.source === "catalog_review"
+            }
             isTransmuted={event.eventType === "recipe_generation"}
             contentState={typeof meta?.contentState === "string" ? meta.contentState : undefined}
           />
