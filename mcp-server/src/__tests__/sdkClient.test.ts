@@ -132,6 +132,20 @@ describeIf("MCP contract through the SDK client", () => {
     },
   );
 
+  it("searches the bundled recipe catalog outside a Next.js request", async () => {
+    // LocalRecipeService once lost the whole catalog here: its Next-only
+    // unstable_cache read threw, so every search returned zero recipes.
+    const result = await client.callTool({
+      name: "generate_cosmic_recipe",
+      arguments: { prompt: "soup" },
+    });
+    const payload = object(result.structuredContent);
+    expect(payload.returnedCount).toBeGreaterThan(0);
+    const recipes = payload.recipes;
+    if (!Array.isArray(recipes)) throw new Error("Missing recipes");
+    expect(typeof object(recipes[0]).name).toBe("string");
+  });
+
   it("reports anonymous demo billing on a paid read", async () => {
     const result = await client.callTool({
       name: "generate_cosmic_recipe",

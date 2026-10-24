@@ -89,7 +89,7 @@ const AUTH_DOC =
   "Optional arguments._meta.apiKey or MCP_USER_API_KEY (or ALCHM_MCP_USER_API_KEY) authenticates a caller; arguments._meta.caller identifies the client. Anonymous reads use demo mode. Credentials are validated only with the operator's DATABASE_URL configured.";
 
 const RETRY_DOC =
-  "Pass arguments._meta.idempotencyKey to retry safely: identical arguments replay the original settlement instead of charging again, and the result's billing field reports what happened.";
+  "Pass arguments._meta.idempotencyKey to retry safely: identical arguments within 24 hours replay the original settlement instead of charging again, and the result's billing field reports what happened.";
 
 export const TOOL_DEFINITIONS: ToolDefinition[] = [
   {

@@ -46,11 +46,11 @@ Paid reads are charged on delivery: the tool runs first, and only a successful r
 
 Without an idempotency key every call charges again and every reflection call stores another reflection. Pass `_meta.idempotencyKey` (1–200 characters from `A-Z a-z 0-9 . _ : ~ -`) to make a paid call safe to retry:
 
-- A retry with identical arguments is not charged again (`billing.status: "replayed"`). A recipe search or snapshot is recomputed; a reflection retry returns the stored reflection (`replayed: true`) and re-attempts a feed publication that previously failed.
-- Reusing a key with different arguments returns `CONFLICT`. Credentials and correlation fields in `_meta` are not part of the comparison.
-- Keys are scoped to the paying account and tool, and concurrent retries of one key wait for the first attempt and then replay it. The key is stored only as a hash in the ESMS ledger, which keeps it indefinitely.
+- A retry with identical arguments within 24 hours is not charged again (`billing.status: "replayed"`). A recipe search or snapshot is recomputed, so a replayed snapshot carries a new `snapshotId` and observation time; a reflection retry returns the stored reflection (`replayed: true`) and re-attempts a feed publication that previously failed, unless the reflection has since been moderated (hidden, deleted or rejected).
+- Reusing a key with different arguments, or after 24 hours, returns `CONFLICT`. Credentials and correlation fields in `_meta` are not part of the comparison.
+- Keys are scoped to the paying account and tool, and concurrent retries of one key wait for the first attempt and then replay it. The ESMS ledger stores the key only as a hash; invocation telemetry keeps the raw key with the call's other arguments for its seven-day retention.
 
-Paid tools report what happened in a `billing` field: `status` (`charged`, `replayed` or `not_charged`, with a `reason` such as `anonymous-caller`, `synthetic-probe-exempt` or `not-delivered`), the `amounts` debited by this call, and the echoed `idempotencyKey`.
+Once a paid call reaches settlement, its result reports what happened in a `billing` field (errors before that point, such as invalid arguments, authentication failures or `BUSY`, carry none): `status` (`charged`, `replayed` or `not_charged`, with a `reason` such as `anonymous-caller`, `synthetic-probe-exempt` or `not-delivered`), the `amounts` debited by this call, and the echoed `idempotencyKey`.
 
 ### Results
 

@@ -25,9 +25,9 @@ let mockDebit: jest.MockedFunction<
   typeof agentEconomyActionService.debitActionInTx
 >;
 let resolveCaller: typeof import("@/lib/mcp/auth").resolveCaller;
-let debitForTool: typeof import("@/lib/mcp/auth").debitForTool;
-let idempotencyLedgerKey: typeof import("@/lib/mcp/auth").idempotencyLedgerKey;
-let requestFingerprint: typeof import("@/lib/mcp/auth").requestFingerprint;
+let debitForTool: typeof import("@/lib/mcp/billing").debitForTool;
+let idempotencyLedgerKey: typeof import("@/lib/mcp/billing").idempotencyLedgerKey;
+let requestFingerprint: typeof import("@/lib/mcp/billing").requestFingerprint;
 // Construct an unconnected client to exercise identity handoff without a DB.
 const transactionClient: PoolClient = Object.assign(new Client(), {
   release: jest.fn(),
@@ -96,13 +96,14 @@ beforeEach(async () => {
   const database = await import("@/lib/database/connection");
   const economy = await import("@/services/agentEconomyActionService");
   const auth = await import("@/lib/mcp/auth");
+  const billing = await import("@/lib/mcp/billing");
   mockQuery = jest.mocked(database.executeQuery);
   mockTransaction = jest.mocked(database.withTransaction);
   mockDebit = jest.mocked(economy.agentEconomyActionService.debitActionInTx);
   resolveCaller = auth.resolveCaller;
-  debitForTool = auth.debitForTool;
-  idempotencyLedgerKey = auth.idempotencyLedgerKey;
-  requestFingerprint = auth.requestFingerprint;
+  debitForTool = billing.debitForTool;
+  idempotencyLedgerKey = billing.idempotencyLedgerKey;
+  requestFingerprint = billing.requestFingerprint;
   mockQuery.mockResolvedValue({
     rows: [{ id: "key-1", user_id: "user-1", rate_limit_tier: "alchemist" }],
     rowCount: 1,
@@ -446,7 +447,9 @@ describe("MCP transactional billing", () => {
 describe("MCP idempotent settlement", () => {
   const fingerprint = "f".repeat(32);
   const keyed = { idempotencyKey: "retry-1", fingerprint };
-  const ledgerRows = (rows: Array<{ source_id: string | null }>) => ({
+  const ledgerRows = (
+    rows: Array<{ source_id: string | null; expired?: boolean }>,
+  ) => ({
     rows,
     rowCount: rows.length,
     command: "SELECT",
@@ -455,7 +458,9 @@ describe("MCP idempotent settlement", () => {
   });
 
   /** Script the lock and the ledger probe; `prior` is what the ledger holds. */
-  function scriptLedger(prior: Array<{ source_id: string | null }>): void {
+  function scriptLedger(
+    prior: Array<{ source_id: string | null; expired?: boolean }>,
+  ): void {
     mockQuery.mockImplementation(async (sql: string) =>
       sql.includes("FROM token_transactions")
         ? ledgerRows(prior)
@@ -522,6 +527,7 @@ describe("MCP idempotent settlement", () => {
       ["Spirit", "Essence", "Matter", "Substance"].map(
         (axis) => `${ledgerKey}:${axis}`,
       ),
+      24,
     ]);
     expect(mockDebit).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -557,6 +563,22 @@ describe("MCP idempotent settlement", () => {
     ).resolves.toEqual({
       applied: false,
       reason: "idempotency-conflict",
+      amounts: null,
+    });
+    expect(mockDebit).not.toHaveBeenCalled();
+    expect(transactionEvents).toEqual(["BEGIN", "ROLLBACK"]);
+  });
+
+  it("refuses to replay a settlement older than the replay window", async () => {
+    scriptLedger([
+      { source_id: `generate_cosmic_recipe#${fingerprint}`, expired: true },
+    ]);
+
+    await expect(
+      debitForTool("generate_cosmic_recipe", authenticatedCaller, keyed),
+    ).resolves.toEqual({
+      applied: false,
+      reason: "idempotency-expired",
       amounts: null,
     });
     expect(mockDebit).not.toHaveBeenCalled();

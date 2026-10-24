@@ -327,26 +327,35 @@ const REDIS_TTL_SECONDS = 5 * 60; // 5 minutes — matches in-process TTL
 // /recipes/[recipeId], which relies on ISR (revalidate = 3600). Wrapping the
 // read in unstable_cache tells Next's Data Cache to own this read instead,
 // so it no longer forces the route to bail from static to dynamic mid-render.
-const readCatalogFromRedis = async (): Promise<Recipe[] | null> => {
+async function readCatalogFromRedis(): Promise<Recipe[] | null> {
   try {
     return await redisGet<Recipe[]>(REDIS_CATALOG_KEY);
   } catch (err) {
     logger.warn("Redis cache read failed, falling through to DB:", err);
     return null;
   }
-};
+}
 
-const getCachedCatalogFromRedisNext = unstable_cache(
+const getCachedCatalogFromNextRedis = unstable_cache(
   readCatalogFromRedis,
   ["recipe-catalog-redis-read"],
   { revalidate: REDIS_TTL_SECONDS },
 );
 
+/**
+ * unstable_cache needs Next's incremental cache, which exists only inside a
+ * Next.js request. Outside one (the standalone MCP server, scripts) it throws
+ * an invariant error; read Redis directly there instead, so the catalog still
+ * falls through to the database and the bundled recipes rather than vanishing.
+ * Any other error is Next's to handle (prerender control flow included).
+ */
 async function getCachedCatalogFromRedis(): Promise<Recipe[] | null> {
   try {
-    return await getCachedCatalogFromRedisNext();
-  } catch {
-    return readCatalogFromRedis();
+    return await getCachedCatalogFromNextRedis();
+  } catch (err) {
+    if (err instanceof Error && err.message.includes("incrementalCache missing"))
+      return readCatalogFromRedis();
+    throw err;
   }
 }
 

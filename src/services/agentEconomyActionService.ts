@@ -88,6 +88,9 @@ interface IdempotencyRow {
   [key: string]: unknown;
 }
 
+/** Ledger rows are keyed `<idempotencyKey>:<TokenType>`, one per debited axis. */
+const AXIS_TOKENS: readonly TokenType[] = ["Spirit", "Essence", "Matter", "Substance"];
+
 function isValidUuid(id: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
 }
@@ -172,12 +175,16 @@ export class AgentEconomyActionService {
         }
 
         try {
+          // Exact per-axis keys, not `LIKE '<key>:%'`: a prefix LIKE cannot use
+          // the idempotency index under a non-C collation, so it scanned the
+          // whole ledger. Swap legs (`<key>:swapN:*`) commit in the same
+          // transaction as these axis rows, so matching the axis rows suffices.
           const dupRes = await queryRunner<IdempotencyRow>(
             `SELECT transaction_group_id::text
                FROM token_transactions
-              WHERE idempotency_key LIKE $1
+              WHERE idempotency_key = ANY($1::text[])
               LIMIT 1`,
-            [`${idempotencyKey}:%`],
+            [AXIS_TOKENS.map((token) => `${idempotencyKey}:${token}`)],
           );
           const [dup] = dupRes.rows;
           if (dup) {
