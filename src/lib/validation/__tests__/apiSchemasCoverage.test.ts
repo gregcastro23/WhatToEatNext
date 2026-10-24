@@ -237,7 +237,8 @@ describe("leaf and enum schemas", () => {
     // rather than as a cross-repo outage. (It was not enough on its own: the
     // agents app's Jing Arena `duel_yield` was 400'd for its whole life, 0 rows
     // in prod on 2026-09-28, because nothing compared this set to the sources
-    // the agents app actually sends.)
+    // the agents app actually sends. Its pentacle conversions were refused the
+    // same way until 2026-09-29; `yield_claim` stays out by owner ruling.)
     expect(schemas.TransactionSourceTypeSchema.options.slice().sort()).toEqual(
       [
         "admin",
@@ -252,6 +253,8 @@ describe("leaf and enum schemas", () => {
         "mint_refund",
         "onchain_claim",
         "onchain_claim_refund",
+        "pentacle_conversion",
+        "pentacle_conversion_refund",
         "practice_reward",
         "premium_purchase",
         "purchase",
