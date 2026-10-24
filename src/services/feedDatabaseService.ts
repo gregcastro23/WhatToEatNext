@@ -346,46 +346,12 @@ class FeedDatabaseService {
     }
 
     if (!skipWebhook && user?.is_agent === true && user.email) {
-      let agentEmail = user.email.toLowerCase().trim();
-      if (!agentEmail.endsWith("@agentic.alchm.kitchen")) {
-        const [agentId] = agentEmail.split("@");
-        agentEmail = `${agentId}@agentic.alchm.kitchen`;
-      }
-
-      const { getServiceUrlSafe } = await import("@/lib/serviceUrls");
-      const PLANETARY_AGENTS_URL = getServiceUrlSafe("planetaryAgentsApi");
-      const internalSecret = process.env.INTERNAL_API_SECRET;
-
-      if (internalSecret) {
-        const payload = {
-          agentEmail,
-          eventType,
-          agentDisplayName: user.actor_name ?? agentEmail.split("@")[0],
-          metadataPayload: stampedPayload,
-        };
-
-        fetch(`${PLANETARY_AGENTS_URL}/api/feed`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${internalSecret}`,
-          },
-          body: JSON.stringify(payload),
-        })
-          .then(async (res) => {
-            if (!res.ok) {
-              const text = await res.text().catch(() => "");
-              _logger.error(`[Webhook PA] Failed to push event to PA: ${res.status} ${text}`);
-            } else {
-              _logger.info(`[Webhook PA] Successfully pushed event ${eventType} to PA for agent ${agentEmail}`);
-            }
-          })
-          .catch((err: unknown) => {
-            _logger.error("[Webhook PA] Error pushing to PA feed:", err);
-          });
-      } else {
-        _logger.warn("[Webhook PA] INTERNAL_API_SECRET not set. Skipping webhook.");
-      }
+      await this.pushAgentFeedWebhook({
+        agentEmail: user.email,
+        agentDisplayName: user.actor_name ?? null,
+        eventType,
+        metadataPayload: stampedPayload,
+      });
     }
 
     return {
@@ -403,6 +369,61 @@ class FeedDatabaseService {
       legacyInteractionStatus,
       ...(reflectionEconomyReceipt ? { economy: reflectionEconomyReceipt } : {}),
     };
+  }
+
+  /**
+   * Push an agent feed event to Planetary Agents (/api/feed).
+   * Can be invoked directly inside publishFeedEvent (when autocommitting) or
+   * deferred to an afterCommit hook when publishFeedEvent runs inside an explicit
+   * database transaction with skipWebhook: true.
+   */
+  async pushAgentFeedWebhook(params: {
+    agentEmail: string;
+    agentDisplayName?: string | null;
+    eventType: string;
+    metadataPayload: Record<string, unknown>;
+  }): Promise<void> {
+    let agentEmail = params.agentEmail.toLowerCase().trim();
+    if (!agentEmail.endsWith("@agentic.alchm.kitchen")) {
+      const [agentId] = agentEmail.split("@");
+      agentEmail = `${agentId}@agentic.alchm.kitchen`;
+    }
+
+    const { getServiceUrlSafe } = await import("@/lib/serviceUrls");
+    const PLANETARY_AGENTS_URL = getServiceUrlSafe("planetaryAgentsApi");
+    const internalSecret = process.env.INTERNAL_API_SECRET;
+
+    if (!internalSecret) {
+      _logger.warn("[Webhook PA] INTERNAL_API_SECRET not set. Skipping webhook.");
+      return;
+    }
+
+    const payload = {
+      agentEmail,
+      eventType: params.eventType,
+      agentDisplayName: params.agentDisplayName ?? agentEmail.split("@")[0],
+      metadataPayload: params.metadataPayload,
+    };
+
+    fetch(`${PLANETARY_AGENTS_URL}/api/feed`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${internalSecret}`,
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const text = await res.text().catch(() => "");
+          _logger.error(`[Webhook PA] Failed to push event to PA: ${res.status} ${text}`);
+        } else {
+          _logger.info(`[Webhook PA] Successfully pushed event ${params.eventType} to PA for agent ${agentEmail}`);
+        }
+      })
+      .catch((err: unknown) => {
+        _logger.error("[Webhook PA] Error pushing to PA feed:", err);
+      });
   }
 
   /**

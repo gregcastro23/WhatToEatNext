@@ -109,6 +109,7 @@ jest.mock("@/services/feedDatabaseService", () => ({
       event: { id: "feed-event-1" },
       legacyInteractionStatus: "saved",
     }),
+    pushAgentFeedWebhook: jest.fn().mockResolvedValue(undefined),
   },
 }));
 
@@ -271,6 +272,7 @@ describe("invokeTool", () => {
     mockTransaction.events.length = 0;
     mockTransaction.client.query.mockClear();
     jest.mocked(feedDatabase.publishFeedEvent).mockClear();
+    jest.mocked(feedDatabase.pushAgentFeedWebhook).mockClear();
     mockedDebit.mockResolvedValue({
       applied: false,
       reason: "free-tool",
@@ -851,6 +853,7 @@ describe("settlement", () => {
     mockTransaction.events.length = 0;
     mockTransaction.client.query.mockClear();
     jest.mocked(feedDatabase.publishFeedEvent).mockClear();
+    jest.mocked(feedDatabase.pushAgentFeedWebhook).mockClear();
   });
 
   it("charges a paid read only after it succeeds, and reports the charge", async () => {
@@ -1055,6 +1058,17 @@ describe("settlement", () => {
       "RELEASE SAVEPOINT mcp_reflection_feed",
       "COMMIT",
     ]);
+    expect(feedDatabase.pushAgentFeedWebhook).toHaveBeenCalledTimes(1);
+    expect(feedDatabase.pushAgentFeedWebhook).toHaveBeenCalledWith(
+      expect.objectContaining({
+        eventType: "recipe_review",
+        agentDisplayName: "Leonardo da Vinci",
+        metadataPayload: expect.objectContaining({
+          recipeReflectionId: "reflection-123",
+          contentState: "proposed",
+        }),
+      }),
+    );
     expect(result.data).toMatchObject({
       reflectionId: "reflection-123",
       contentState: "proposed",
@@ -1068,6 +1082,55 @@ describe("settlement", () => {
       amounts: REFLECTION_COST,
       idempotencyKey: "reflect-1",
     });
+  });
+
+  it("fires the Planetary Agents feed webhook strictly after COMMIT and skips it on savepoint rollback", async () => {
+    jest.mocked(feedDatabase.pushAgentFeedWebhook).mockImplementationOnce(async () => {
+      mockTransaction.events.push("PA_WEBHOOK_AFTER_COMMIT");
+    });
+    mockedDebit.mockResolvedValueOnce({
+      applied: true,
+      reason: null,
+      amounts: REFLECTION_COST,
+      ledgerKey: "mcp:aftercommit",
+    });
+    await invokeTool("submit_recipe_reflection", {
+      recipeId: "r1",
+      reflection: "Post-commit webhook ordering.",
+      agentSlug: "leonardo-da-vinci",
+      _meta: { apiKey: "k", idempotencyKey: "reflect-order" },
+    });
+    expect(mockTransaction.events).toEqual([
+      "BEGIN",
+      "SAVEPOINT mcp_reflection_feed",
+      "RELEASE SAVEPOINT mcp_reflection_feed",
+      "COMMIT",
+      "PA_WEBHOOK_AFTER_COMMIT",
+    ]);
+
+    // When the feed savepoint rolls back, the reflection still commits, but no webhook fires.
+    mockTransaction.events.length = 0;
+    jest.mocked(feedDatabase.pushAgentFeedWebhook).mockClear();
+    jest.mocked(feedDatabase.publishFeedEvent).mockRejectedValueOnce(new Error("feed down"));
+    mockedDebit.mockResolvedValueOnce({
+      applied: true,
+      reason: null,
+      amounts: REFLECTION_COST,
+      ledgerKey: "mcp:savepoint-fail",
+    });
+    const degraded = await invokeTool("submit_recipe_reflection", {
+      recipeId: "r1",
+      reflection: "Saved despite feed outage.",
+      _meta: { apiKey: "k", idempotencyKey: "reflect-degraded" },
+    });
+    expect(degraded.ok).toBe(true);
+    expect(mockTransaction.events).toEqual([
+      "BEGIN",
+      "SAVEPOINT mcp_reflection_feed",
+      "ROLLBACK TO SAVEPOINT mcp_reflection_feed",
+      "COMMIT",
+    ]);
+    expect(feedDatabase.pushAgentFeedWebhook).not.toHaveBeenCalled();
   });
 
   it("rolls the whole reflection back when its payment is refused", async () => {
@@ -1085,6 +1148,7 @@ describe("settlement", () => {
     expect(result.billing).toMatchObject({ status: "not_charged" });
     expect(reflectionInserts()).toHaveLength(0);
     expect(feedDatabase.publishFeedEvent).not.toHaveBeenCalled();
+    expect(feedDatabase.pushAgentFeedWebhook).not.toHaveBeenCalled();
     expect(mockTransaction.events).toEqual(["BEGIN", "ROLLBACK"]);
   });
 
@@ -1113,6 +1177,7 @@ describe("settlement", () => {
       expect(result.billing).toMatchObject({ status: "replayed", amounts: null });
       expect(reflectionInserts()).toHaveLength(0);
       expect(feedDatabase.publishFeedEvent).not.toHaveBeenCalled();
+      expect(feedDatabase.pushAgentFeedWebhook).not.toHaveBeenCalled();
     } finally {
       restore();
     }
@@ -1144,6 +1209,7 @@ describe("settlement", () => {
       });
       expect(reflectionInserts()).toHaveLength(0);
       expect(feedDatabase.publishFeedEvent).toHaveBeenCalledTimes(1);
+      expect(feedDatabase.pushAgentFeedWebhook).toHaveBeenCalledTimes(1);
       expect(
         mockTransaction.client.query.mock.calls.some(
           ([sql, params]) =>
