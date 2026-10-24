@@ -37,12 +37,15 @@ export async function GET(req: NextRequest) {
 
   try {
     const agents = await redisCached(
-      `community:agents:${limit}`,
+      `community:agents:v2:${limit}`,
       AGENTS_CACHE_TTL_SECONDS,
       async () => {
         const result = await executeQuery<AgentRow>(
           // §18o: monica_constant is single-body only; COALESCE the other two
           // constructions so an agent of any kind still surfaces its real value.
+          // Chart-bearing historical agents sort ahead of synthetic planetary/degree
+          // agents so the "View Network" directory (?limit=80) always includes all
+          // 71 canonical historical personas alongside active planetary agents.
           `SELECT u.id AS user_id,
                   u.email,
                   up.name,
@@ -58,7 +61,13 @@ export async function GET(req: NextRequest) {
               AND u.is_active = true
             GROUP BY u.id, u.email, up.name, up.bio, up.dominant_element,
                      up.monica_constant, up.monica_two_body, up.monica_full_chart
-            ORDER BY MAX(f.created_at) DESC NULLS LAST
+            ORDER BY BOOL_OR(
+                       (up.natal_positions IS NOT NULL AND up.natal_positions::text NOT IN ('[]', 'null', '{}'))
+                       OR (up.natal_chart IS NOT NULL AND up.natal_chart::text NOT IN ('[]', 'null', '{}'))
+                       OR (up.birth_data IS NOT NULL AND up.birth_data::text NOT IN ('{}', 'null'))
+                     ) DESC NULLS LAST,
+                     MAX(f.created_at) DESC NULLS LAST,
+                     up.name ASC NULLS LAST
             LIMIT $1`,
           [limit],
         );

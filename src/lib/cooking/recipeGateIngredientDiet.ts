@@ -7,9 +7,9 @@ import {
 } from "@/utils/ingredientDietaryClassification";
 import {
   isKnownGlutenSource,
-  type ResolvedIngredientResult,
-} from "./recipeGateHelpers";
-import type { ActiveDietChecks } from "./recipeGateDietCoverage";
+  type ActiveDietChecks,
+} from "./recipeGateDietCoverage";
+import type { ResolvedIngredientResult } from "./recipeGateHelpers";
 import type { GateFinding } from "./recipeGateTypes";
 
 function checkDairyCompliance(

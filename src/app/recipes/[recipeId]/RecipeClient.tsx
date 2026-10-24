@@ -22,8 +22,8 @@ import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import { _logger } from "@/lib/logger";
 import type { Recipe, IngredientAlchemicalSummary } from "@/types/recipe";
 import { adaptRecipe, type DietaryMode, type AdaptationResult } from "@/utils/dietaryAdaptation";
-import { analyzeTimeShortcuts, type TimeBudget, type TimeShortcutResult } from "@/utils/timeShortcuts";
 import { roundedCalories } from "@/utils/roundedCalories";
+import { analyzeTimeShortcuts, type TimeBudget, type TimeShortcutResult } from "@/utils/timeShortcuts";
 
 // ===== Constants =====
 
@@ -252,7 +252,71 @@ function getPairingRecommendations(recipe: Recipe): Record<string, string[]> | n
   return null;
 }
 
-function buildPlainTextRecipe(recipe: Recipe, servings: number): string {
+function resolveAdaptedRecipeState(
+  recipe: Recipe,
+  adaptation: AdaptationResult | null,
+): {
+  hasSwaps: boolean;
+  activeIngredients: Recipe["ingredients"];
+  activeTitle: string;
+  activeCartId: string;
+} {
+  if (adaptation && adaptation.swaps.length > 0) {
+    return {
+      hasSwaps: true,
+      activeIngredients: adaptation.adaptedIngredients,
+      activeTitle: `${recipe.name} (${adaptation.mode})`,
+      activeCartId: `${String(recipe.id)}:${adaptation.mode}`,
+    };
+  }
+  return {
+    hasSwaps: false,
+    activeIngredients: recipe.ingredients,
+    activeTitle: recipe.name,
+    activeCartId: String(recipe.id),
+  };
+}
+
+function AdaptedInstructionsNotice({
+  adaptation,
+}: {
+  adaptation: AdaptationResult | null;
+}): JSX.Element | null {
+  if (!adaptation || adaptation.swaps.length === 0) return null;
+  const swapSummary = adaptation.swaps
+    .map((s) => `${s.from.name} \u2192 ${s.to.name}`)
+    .join(", ");
+  return (
+    <div
+      role="note"
+      aria-label="Adapted instructions notice"
+      className="mb-4 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-200"
+    >
+      Preview adaptation active ({adaptation.mode}): substitute {swapSummary}{" "}
+      where referenced in the original steps below.
+    </div>
+  );
+}
+
+function OriginalReadingsNotice({
+  hasSwaps,
+}: {
+  hasSwaps: boolean;
+}): JSX.Element | null {
+  if (!hasSwaps) return null;
+  return (
+    <p className="mb-3 rounded border border-amber-500/20 bg-amber-500/5 px-2.5 py-1.5 text-xs text-amber-200/80">
+      Original recipe reading &mdash; preview swaps are not recomputed here.
+    </p>
+  );
+}
+
+function buildPlainTextRecipe(
+  recipe: Recipe,
+  servings: number,
+  ingredients: Recipe["ingredients"] = recipe.ingredients,
+  title: string = recipe.name,
+): string {
   const baseServings = getBaseServings(recipe);
   const scale = servings / baseServings;
   const times = getTimeMinutes(recipe);
@@ -262,7 +326,7 @@ function buildPlainTextRecipe(recipe: Recipe, servings: number): string {
 
   let text = "";
   text += `${"=".repeat(50)}\n`;
-  text += `${recipe.name}\n`;
+  text += `${title}\n`;
   text += `${"=".repeat(50)}\n\n`;
 
   if (recipe.description) {
@@ -280,7 +344,7 @@ function buildPlainTextRecipe(recipe: Recipe, servings: number): string {
   text += "\n";
 
   text += `--- INGREDIENTS (${servings} servings) ---\n\n`;
-  recipe.ingredients.forEach((ing) => {
+  ingredients.forEach((ing) => {
     const amount = ing.amount ? (Math.round(ing.amount * scale * 100) / 100) : "";
     text += `- ${amount} ${ing.unit} ${ing.name}`.trim();
     if (ing.notes) text += ` (${ing.notes})`;
@@ -755,17 +819,22 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   const baseServings = useMemo((): number => getBaseServings(recipe), [recipe]);
   const scale = servings / baseServings;
 
+  const { hasSwaps, activeIngredients, activeTitle, activeCartId } = useMemo(
+    () => resolveAdaptedRecipeState(recipe, adaptation),
+    [recipe, adaptation],
+  );
+
   const { addRecipe: addRecipeToGroceryCart, open: openGroceryCart } = useGroceryCart();
   const { showToast } = useToast();
   const [addedToCart, setAddedToCart] = useState(false);
   const [orderOpen, setOrderOpen] = useState(false);
 
   const handleAddToGroceryCart = useCallback(() => {
-    if (recipe.ingredients.length === 0) {
+    if (activeIngredients.length === 0) {
       showToast("This recipe has no ingredients to add.", "warning");
       return;
     }
-    const normalized = recipe.ingredients
+    const normalized = activeIngredients
       .filter((ing) => Boolean(ing.name))
       .map((ing) => ({
         name: ing.name,
@@ -776,8 +845,8 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
       }));
     addRecipeToGroceryCart(
       {
-        id: String(recipe.id),
-        name: recipe.name,
+        id: activeCartId,
+        name: activeTitle,
         baseServings,
         ingredients: normalized,
       },
@@ -790,10 +859,10 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
       "success",
       { action: { label: "View cart", onClick: openGroceryCart } },
     );
-  }, [recipe, baseServings, servings, addRecipeToGroceryCart, openGroceryCart, showToast]);
+  }, [activeIngredients, activeCartId, activeTitle, baseServings, servings, addRecipeToGroceryCart, openGroceryCart, showToast]);
 
   const handleCopyRecipe = useCallback(async (): Promise<void> => {
-    const text = buildPlainTextRecipe(recipe, servings);
+    const text = buildPlainTextRecipe(recipe, servings, activeIngredients, activeTitle);
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -815,7 +884,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
       }
       document.body.removeChild(textarea);
     }
-  }, [recipe, servings]);
+  }, [recipe, servings, activeIngredients, activeTitle]);
 
   // ===== Derived data =====
 
@@ -1106,6 +1175,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
 
             {/* Instructions */}
             <SectionCard title="Instructions" icon="&#x1F4DD;">
+              <AdaptedInstructionsNotice adaptation={adaptation} />
               <p className="text-xs text-white/40 mb-4">
                 Highlighted <span className="text-orange-300 underline decoration-dotted decoration-orange-400/50 underline-offset-4">techniques</span> open a deep-dive. Time phrases include a built-in timer.
               </p>
@@ -1292,6 +1362,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
 
             {/* Elemental Properties */}
             <SectionCard title="Elemental Properties" icon="&#x2697;">
+              <OriginalReadingsNotice hasSwaps={hasSwaps} />
               <div className="space-y-3">
                 {(["Fire", "Water", "Earth", "Air"] as const).map((element) => (
                   <ElementalBar
@@ -1353,6 +1424,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
             {/* Nutrition */}
             {nutrition && (
               <SectionCard title="Nutrition Per Serving" icon="&#x1F4CA;">
+                <OriginalReadingsNotice hasSwaps={hasSwaps} />
                 <NutritionVisualization nutrition={nutrition} />
               </SectionCard>
             )}
@@ -1514,8 +1586,8 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
             <OrderIngredientsModal
               open={orderOpen}
               onClose={() => setOrderOpen(false)}
-              title={recipe.name}
-              inputs={recipe.ingredients.map((ing) => ({
+              title={activeTitle}
+              inputs={activeIngredients.map((ing) => ({
                 name: ing.name,
                 amount: typeof ing.amount === "number" ? ing.amount : 1,
                 unit: ing.unit,
@@ -1524,14 +1596,14 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
               }))}
               scale={scale}
               source="recipe_detail"
-              listTarget={`recipe:${recipe.id}`}
+              listTarget={`recipe:${activeCartId}`}
             />
           </div>
         </div>
 
         {/* ===== Ingredient Drawer ===== */}
         {(() : JSX.Element => {
-          const sel = selectedIngredientIndex != null ? recipe.ingredients[selectedIngredientIndex] : null;
+          const sel = selectedIngredientIndex != null ? activeIngredients[selectedIngredientIndex] : null;
           const scaledAmount = sel?.amount ? Math.round(sel.amount * scale * 100) / 100 : undefined;
           return (
             <IngredientDrawer

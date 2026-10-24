@@ -113,9 +113,13 @@ export function narrateFeedEvent(
       const recipeId =
         getString(metadata, "recipeId") ?? getString(metadata, "recipe_id");
       const isCatalog = getString(metadata, "source") === "catalog_review";
-      const href = recipeId
-        ? (isCatalog ? `/recipes/${recipeId}` : `/generated-recipe/${recipeId}`)
-        : undefined;
+      const isUngrounded = metadata?.mcpCatalog === false;
+      const href =
+        recipeId && !isUngrounded
+          ? isCatalog
+            ? `/recipes/${recipeId}`
+            : `/generated-recipe/${recipeId}`
+          : undefined;
       return narration(
         "🍽️",
         recipeName
@@ -157,7 +161,8 @@ export function narrateFeedEvent(
       const recipeId =
         getString(metadata, "recipeId") ?? getString(metadata, "recipe_id");
       const isCatalogCritique =
-        getString(metadata, "source") === "catalog_critique";
+        getString(metadata, "source") === "catalog_critique" ||
+        getString(metadata, "source") === "catalog_review";
       // Catalog critiques and unrated agent reflections never carry cooking star ratings
       const rating = !isCatalogCritique
         ? getNumber(metadata, "rating")

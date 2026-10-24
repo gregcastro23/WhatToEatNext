@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { validateDietaryCompliance } from "@/lib/cooking/recipeGateDiet";
 import type { Recipe } from "@/types/recipe";
 import {
   adaptRecipe,
@@ -58,7 +59,7 @@ function readStoredPreferredMode(): DietaryMode | null {
   return null;
 }
 
-function savePreferredMode(mode: DietaryMode) {
+function savePreferredMode(mode: DietaryMode): void {
   if (typeof window === "undefined") return;
   try {
     const raw = window.localStorage.getItem(PREFERENCES_KEY);
@@ -85,7 +86,7 @@ interface Props {
   onModeChange: (mode: DietaryMode | null) => void;
 }
 
-export function DietaryAdaptationPanel({ recipe, activeMode, onModeChange }: Props) {
+export function DietaryAdaptationPanel({ recipe, activeMode, onModeChange }: Props): React.JSX.Element {
   const [preferredMode, setPreferredMode] = useState<DietaryMode | null>(null);
   const [suggestionDismissed, setSuggestionDismissed] = useState(false);
   const [savedRecently, setSavedRecently] = useState<DietaryMode | null>(null);
@@ -253,13 +254,59 @@ export function DietaryAdaptationPanel({ recipe, activeMode, onModeChange }: Pro
   );
 }
 
-function AdaptationBanner({ adaptation }: { adaptation: AdaptationResult }) {
+function AdaptationGateSummary({
+  adaptation,
+}: {
+  adaptation: AdaptationResult;
+}): React.JSX.Element {
+  const outcome = useMemo(() => {
+    const resolvedEntries = adaptation.adaptedIngredients.map((i) => ({
+      ingredient: {
+        name: i.name,
+        quantity: String(i.amount || 1),
+        unit: i.unit || "unit",
+        ...(i.optional !== undefined ? { optional: i.optional } : {}),
+      },
+      entry: null,
+      gramWeight: 0,
+    }));
+    return validateDietaryCompliance(resolvedEntries, [], adaptation.mode, [], []);
+  }, [adaptation.adaptedIngredients, adaptation.mode]);
+  const { evaluatedRestrictions, unevaluatedRestrictions, nonCompliantDietItems, identifiedGlutenSources } = outcome;
+  const remainingViolations = [
+    ...nonCompliantDietItems,
+    ...identifiedGlutenSources.map((src) => `${src} (gluten)`),
+  ];
+
+  return (
+    <div className="mt-2 space-y-1 text-xs text-white/70" aria-label="Culinary gate screening">
+      {evaluatedRestrictions.length > 0 && (
+        <p>Evaluated restrictions: {evaluatedRestrictions.join(", ")}.</p>
+      )}
+      {unevaluatedRestrictions.length > 0 && (
+        <p className="text-amber-200">
+          Unevaluated restriction ({unevaluatedRestrictions.join(", ")}): heuristic swap preview only; not certified by the culinary gate.
+        </p>
+      )}
+      {remainingViolations.length > 0 && (
+        <p className="text-rose-300">Remaining non-compliant items: {remainingViolations.join(", ")}.</p>
+      )}
+    </div>
+  );
+}
+
+function AdaptationBanner({
+  adaptation,
+}: {
+  adaptation: AdaptationResult;
+}): React.JSX.Element {
   const { mode, swaps, nutritionalDelta, elementalDelta, compatible } = adaptation;
 
   if (compatible) {
     return (
       <div className="mt-4 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-sm text-emerald-300">
         Recipe is already {mode}-compatible. No swaps needed.
+        <AdaptationGateSummary adaptation={adaptation} />
       </div>
     );
   }
@@ -268,6 +315,7 @@ function AdaptationBanner({ adaptation }: { adaptation: AdaptationResult }) {
     return (
       <div className="mt-4 p-3 rounded-lg bg-white/5 border border-white/10 text-sm text-white/60">
         No ingredients matched {mode} swap rules. Review the full ingredient list for manual adjustments.
+        <AdaptationGateSummary adaptation={adaptation} />
       </div>
     );
   }
@@ -327,6 +375,7 @@ function AdaptationBanner({ adaptation }: { adaptation: AdaptationResult }) {
           </div>
         )}
       </div>
+      <AdaptationGateSummary adaptation={adaptation} />
       <p className="text-xs text-white/50 mt-1.5 italic">
         Deltas are estimates. ESMS/planetary scores reflect the original recipe.
       </p>

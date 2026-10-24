@@ -30,44 +30,51 @@ The architectural bridge between **AlchmAgentsSolana (ASOL)** and **WhatToEatNex
 - **Recipe Review Mirroring**: `feedDatabaseService.ts` dual-writes agent reviews with `recipeId` and rating directly into `user_recipe_interactions`, rendering them under `GET /api/recipes/[recipeId]/community-tips` and `SocialSection.tsx`.
 - **Agents Pane**: `src/components/profile/AgentsPane.tsx` displays live active degree agents or falls back to the perpetual historical council with real roles and balances.
 
+### D. Authoritative ESMS Ledger & Canonical 71 Historical Roster Sync
+- **Scoped Idempotent Sync (`scripts/sync-agentic-users.ts`, PR #966)**:
+  - Synchronizes all **71** canonical historical NPC personas (`<slug>@agentic.alchm.kitchen`, excluding non-NPC `greg-castro-1991` by default) in PostgreSQL across `users`, `user_profiles` (`dietary_preferences`, `birth_data`, `natal_chart`, `natal_positions`, `monica_method = 'full-chart'`), `token_balances`, and `user_streaks`.
+  - Supports `--dry-run` (`-n`), `--only-missing`, `--slug=<slug>`, and `--include-non-npc`, preserving existing ledger history via atomic `AGENT_ESMS_SEED_SQL`.
+- **Cross-Service Rating & ESMS Ledger Parity (WTEN → ASOL → Pentacles `asol`)**:
+  - ASOL (`bd5db1c` on `main`, deployed at `https://agents.alchm.kitchen/api/agents/rating`) resolves WTEN's `DATABASE_PUBLIC_URL` fallback and returns `esmsSource: "database"` and `sky.source: "swiss-ephemeris"` for all **71 / 71** canonical historical NPCs (`0` fallback).
+  - Railway `pentacles-agent-ratings` sweeps publish all **71 / 71** live ratings into SpacetimeDB `asol` (`agent_rating` table: `published: 71, partial: 0, failed: 0, unmatched: 0`).
+
+### E. Historical Agent Profile Activity, Critiques & Community Roster
+- **Profile Recent Activity (`GET /api/users/[userId]`, `RecentActivityItem.tsx`, `eventNarration.ts`)**:
+  - Filters out legacy ungrounded `mcpCatalog = false` rows (`COALESCE(metadata_payload->>'mcpCatalog', 'true') <> 'false'`) and orders authentic culinary activity (`recipe_review`, `recipe_adapted`, `made_it`, `recipe_generation`, `lab_entry`, `weekly_menu`) ahead of bulk `insight` events.
+  - Renders saved adaptation links (`/recipes/versions/[versionId]`), catalog critique links (`/recipes/[recipeId]`), `insightContent` blockquotes, and provenance badges (`Live`, `Curated`, `Degraded`, `Saved Adaptation`, `Critique`, `Transmuted`).
+  - Suppresses unverified star ratings on `catalog_critique` / `catalog_review` events and suppresses broken recipe links when `mcpCatalog === false`.
+- **On-Demand Recipe Critiques & Saved Adaptations (`SocialSection.tsx`, `RecipeAgentCouncil.tsx`)**:
+  - `POST /api/recipes/[recipeId]/critique` and `POST /api/recipes/[recipeId]/adapt` record truthful provenance (`live`, `gateway_degraded`, `curated`) without fabricating 5-star ratings or `made_it` cooking claims, and persist chart- and diet-informed adaptations (`/recipes/versions/[versionId]`).
+- **Community & Historical Feed Endpoints (`GET /api/community/agents`, `GET /api/feed/historical-agents`, `GET /api/internal/agent-roster`)**:
+  - `GET /api/community/agents` (`community:agents:v2:${limit}`) prioritizes chart-bearing historical agents (`BOOL_OR(...) DESC NULLS LAST, MAX(f.created_at) DESC NULLS LAST, up.name ASC NULLS LAST`) so `?limit=80` on `/feed` ("View Network") returns all **71 / 71** canonical historical agents with `/profile/[slug]` links ahead of synthetic planetary/degree agents.
+  - `GET /api/feed/historical-agents` combines narrated `getHistoricalAgentEvents` (including `recipe_adapted` and `recipe_review`, excluding `mcpCatalog = false`), `getHistoricalAgentRecipes`, and `getPlanetaryResonanceFeed`.
+
+### F. Idempotent Catalog Critiques & Saved Adaptations Across All 71 Historical Personas (`scripts/seedHistoricalCatalogCritiques.ts`)
+- **Catalog Critique Seeding (`recipe_review`)**:
+  - Deterministic, diet-compliant seeding script (`bun scripts/seedHistoricalCatalogCritiques.ts`, supporting `--dry-run`, `--slug=<slug>`, `--per-agent=<count>`) populates **142** curated catalog critiques (`2` per agent across all **71** canonical historical NPCs) in `feed_events`.
+  - Every critique uses a real public catalog recipe (`mcpCatalog: true`, `source: "catalog_critique"`, `contentState: "curated"`, `rating: null`, `madeIt: false`), strictly respects each persona's `avoidedFoods` and vegetarian dietary philosophies, and mirrors into `user_recipe_interactions` (`helpful_tip`) so critiques appear on `/profile/[slug]`, `/feed`, and `/recipes/[recipeId]` community tips.
+- **Saved Historical Vegetarian Adaptations (`recipe_adapted` + `user_custom_recipes`)**:
+  - Seeds **12** schema-validated `SavedAdaptation` versions (`user_custom_recipes` with `source = 'saved-adaptation'` and deterministic UUIDv5 `versionId`s) and matching `recipe_adapted` events for historical vegetarian personas (`leonardo-da-vinci`, `albert-einstein`, `jean-jacques-rousseau-1712`, `benjamin-franklin`, `siddhartha-gautama-buddha`, `socrates`, `joan-of-arc`, `thomas-aquinas`, `voltaire-1694`, `mahatma-gandhi`, `murasaki-shikibu`, `lao-tzu`).
+
+### G. Phase 45 Culinary Gate, Settlement Truth & Adaptation Handoff Alignment
+- **Workstreams A & B (`PR #962`, `PR #963`, `docs/PHASE_45_CLOSEOUT.md`)**:
+  - Expanded `verifyRecipeContent` restriction coverage (`Dairy-Free`, `Nut-Free`, `Pescatarian`, `Tree Nuts` normalization), explicit catalog mappings, clause/protein thermal attribution, cosmic recipe failed-refund telemetry (`src/app/api/generate-cosmic-recipe/route.ts`), unknown admin health source representation, and inbound claim terminal settlement.
+- **Workstream C (`src/app/recipes/[recipeId]/RecipeClient.tsx`, `src/components/recipes/DietaryAdaptationPanel.tsx`)**:
+  - Active dietary adaptations on `/recipes/[recipeId]` now pass `activeIngredients`, `activeTitle`, and `activeCartId` (`${recipe.id}__adapted_${dietaryMode}`) to grocery cart handoff (`handleAddToGroceryCart`), `OrderIngredientsModal`, `IngredientDrawer`, and clipboard export (`handleCopyRecipe`).
+  - Displays explicit adaptation notices when instructions or elemental/alchemical/nutrition readings remain anchored to the original unadapted recipe, and runs `verifyRecipeContent` inside `DietaryAdaptationPanel` to surface evaluated vs. unevaluated restrictions and any remaining non-compliant items honestly.
+
 ---
 
-## 3. High-Priority Tasks for This Session
+## 3. High-Priority Tasks for Next Session
 
-### Task 1: Complete Historical Agent Database Sync
-- **Target**: Run and verify `scripts/sync-agentic-users.ts` (or `scripts/backfill-agent-sync.ts`).
-- **Objective**: Ensure all ~71 historical figures are persisted in the PostgreSQL database:
-  - `users`: `email = <slug>@agentic.alchm.kitchen`, `is_agent = true`, `role = USER` (or `ALCHEMIST`), `is_active = true`.
-  - `user_profiles`: Populated with `name`, `bio`, `dominant_element`, `historical_diet`, and `birth_data`/`natal_chart`.
-  - `token_balances`: Initialized with live ESMS essence balances.
-  - `user_streaks`: Initialized tracking streaks.
-- **Execution Command**:
-  ```bash
-  bun run scripts/sync-agentic-users.ts
-  ```
-
-### Task 2: Polish the Historical Agent Profile Page (`/profile/[userId]`)
-- **File**: `src/app/(alchm)/profile/[userId]/page.tsx`
+### Task 1: Expand Live LLM Critique & Council Activity Across Historical Personas
 - **Objective**:
-  - Verify that navigating to `/profile/leonardo-da-vinci` renders the full `<AgentProfile />` component.
-  - Ensure that the agent's historical dietary philosophy, cultural cuisine, avoided foods, and alchemical element badges display prominently.
-  - Ensure their recent activity feed displays authentic catalog recipe reviews (`made_it`, cooking reflections) linking to `/recipes/${recipeId}` rather than synthetic placeholders.
-  - Add a **"Commune with [Agent Name]"** action button on their profile that launches the chat drawer / Time Laboratory modal with that agent pre-selected.
+  - Monitor and optionally trigger live ASOL-backed critiques (`POST /api/recipes/[recipeId]/critique`) and council adaptations (`POST /api/recipes/[recipeId]/adapt`) so `contentState: "live"` interactions continue to accumulate alongside the curated baseline across `/profile/[slug]` and `/feed`.
+  - Ensure Redis caches (`community:agents:v2:*`) and SpacetimeDB `asol` rating sweeps remain synchronized as new `feed_events` are recorded.
 
-### Task 3: Enable On-Demand Agent Recipe Critique / Tip Generation
-- **Target**: Add an agent interaction point on the recipe page (`src/components/recipes/SocialSection.tsx` or a new `RecipeAgentCouncil.tsx` component).
+### Task 2: End-to-End Instruction & Nutrition Recomputation for Adapted Recipes
 - **Objective**:
-  - Allow a user viewing any catalog recipe to request a culinary critique or alchemical pairing tip from an active historical figure (e.g. Leonardo's vegetarian take, Socrates' moderation perspective, Jung's archetypal fermentation view).
-  - The generated review writes to `feed_events` (`recipe_generation` or `recipe_review`) and mirrors to `user_recipe_interactions` so it permanently becomes part of the community tips for that recipe.
-
-### Task 4: Verify Community & Network Roster Endpoints
-- **Endpoints**:
-  - `GET /api/community/agents`
-  - `GET /api/internal/agent-roster`
-  - `GET /api/feed/historical-agents`
-- **Objective**:
-  - Verify that all synced historical agents appear in the "View Network" drawer on `/feed`.
-  - Ensure each listing links directly to their public `/profile/[slug]` page.
+  - When a user or historical agent applies a dietary adaptation on `/recipes/[recipeId]` or saves a version on `/recipes/versions/[versionId]`, optionally recompute or annotate step-by-step instructions (replacing swapped ingredient references inline) and recompute elemental/nutrition totals from the adapted ingredient list so the original-reading fallback banner is no longer needed when full recomputation succeeds.
 
 ---
 
@@ -80,6 +87,8 @@ The architectural bridge between **AlchmAgentsSolana (ASOL)** and **WhatToEatNex
 
 ### Static Verification Gates
 Before committing or creating a PR on `WhatToEatNext-master`:
-1. `bun scripts/lintChanged.ts` (0 errors, 0 warnings)
+1. `bun run check:untracked && bun run check:route-validation && bun run check:read-json && bun run check:bare-json && bun run check:diff-assertions && bun run check:scripts`
 2. `bun run typecheck` (0 errors)
-3. `bun run test` (Verify unit tests pass)
+3. `bun run lint:changed` (0 errors)
+4. `bun run test` (or targeted `bunx jest --runTestsByPath ...` for modified suites)
+5. `bun scripts/auditAgentDataIntegrity.ts` (when touching agent profile / Monica / ledger data)

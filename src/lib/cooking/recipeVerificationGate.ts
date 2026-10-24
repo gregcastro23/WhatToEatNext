@@ -149,12 +149,21 @@ function contentNotChecked(content: RecipeContent): string[] {
   return notChecked;
 }
 
+function cloneRecipeContent(input: RecipeContent): RecipeContent {
+  return {
+    ...input,
+    ingredients: input.ingredients.map((i) => ({ ...i })),
+    steps: input.steps.map((s) => ({ ...s })),
+    ...(input.dietTags ? { dietTags: [...input.dietTags] } : {}),
+  };
+}
+
 /** Verify only authored content; missing measurements remain explicit, never zero-filled. */
 export function verifyRecipeContent(
   input: RecipeContent,
   options?: VerifyCosmicRecipeOptions,
 ): RecipeContentVerificationOutcome {
-  const content = structuredClone(input);
+  const content = cloneRecipeContent(input);
   const result = evaluateContent(content, options);
   const notChecked = contentNotChecked(content);
   for (const [field, count] of [
