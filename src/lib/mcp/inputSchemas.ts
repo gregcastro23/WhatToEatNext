@@ -1,7 +1,14 @@
 /** The JSON Schema subset enforced by validation.ts; no SDK dependency. */
 export interface JsonSchema {
   [key: string]: unknown;
-  type?: "object" | "array" | "string" | "number" | "integer" | "boolean";
+  type?:
+    | "object"
+    | "array"
+    | "string"
+    | "number"
+    | "integer"
+    | "boolean"
+    | "null";
   description?: string;
   properties?: Record<string, JsonSchema>;
   required?: string[];
@@ -40,6 +47,12 @@ const meta: JsonSchema = {
     requestId: text(128),
     traceId: text(128),
     evidenceSnapshotId: text(128),
+    idempotencyKey: {
+      ...text(200),
+      pattern: "^[A-Za-z0-9._:~-]+$",
+      description:
+        "Optional retry key for paid tools. Reusing it with identical arguments replays the original settlement instead of charging again; reusing it with different arguments is rejected.",
+    },
     internalSecret: credential,
   },
   additionalProperties: false,
@@ -246,7 +259,8 @@ export const TOOL_INPUT_SCHEMAS = {
     {
       recipeId: identifier,
       recipeName: text(300),
-      reflection: text(10000),
+      // recipe_reflections.review CHECK (char_length BETWEEN 1 AND 4000).
+      reflection: text(4000),
       agentSlug: text(100),
       agentName: text(200),
       dominantElement: element,

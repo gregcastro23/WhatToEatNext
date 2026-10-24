@@ -17,6 +17,8 @@
 
 import { createHash } from "node:crypto";
 import { safeEqual } from "@/lib/hooks/secureCompare";
+import { TOOL_COSTS, isToolName, type EsmsCost } from "./catalog";
+import type { PoolClient } from "pg";
 
 const isServerWithDB = (): boolean => !!process.env.DATABASE_URL;
 
@@ -185,52 +187,123 @@ export async function resolveCaller(
   }
 }
 
-/**
- * Per-axis ESMS cost for one MCP tool call. Matches the existing
- * shop_items rate for `unlock-cosmic-recipe` (database/init/90):
- * 2.5 of each axis = 10 total per cosmic recipe.
- *
- * Evidence snapshots include the same priced recipe search. Reflections
- * cost 0.1 per axis (0.4 total); the remaining calculations are free.
- */
-export const TOOL_COSTS: Record<
-  string,
-  { spirit: number; essence: number; matter: number; substance: number } | null
-> = {
-  generate_cosmic_recipe: {
-    spirit: 2.5,
-    essence: 2.5,
-    matter: 2.5,
-    substance: 2.5,
-  },
-  submit_recipe_reflection: {
-    spirit: 0.1,
-    essence: 0.1,
-    matter: 0.1,
-    substance: 0.1,
-  },
-  alchemize_ingredients: null,
-  get_live_sky_transits: null,
-  compute_synastry_overlay: null,
-  get_transit_natal_overlay: null,
-  compute_triplicate_synastry: null,
-  create_evidence_snapshot: {
-    spirit: 2.5,
-    essence: 2.5,
-    matter: 2.5,
-    substance: 2.5,
-  },
-};
+/** Per-tool ESMS prices live in the shared catalog alongside each tool's contract. */
+export { TOOL_COSTS } from "./catalog";
 
 export interface DebitOutcome {
+  /** True once payment for this request is settled, now or by a replayed original. */
   applied: boolean;
   reason: string | null;
-  amounts: {
-    spirit: number;
-    essence: number;
-    matter: number;
-    substance: number;
-  } | null;
+  /** Amounts debited by THIS invocation; null when free, exempt or replayed. */
+  amounts: EsmsCost | null;
+  /** An earlier call with the same idempotency key and arguments already paid. */
+  replayed?: boolean;
+  /** Scoped ledger key derived from the caller's idempotency key. */
+  ledgerKey?: string;
+}
+
+/** What makes one paid request distinguishable from another. */
+export interface PaymentRequest {
+  /** The caller's `_meta.idempotencyKey`; null charges every call. */
+  idempotencyKey: string | null;
+  /** `requestFingerprint()` of the call's arguments. */
+  fingerprint: string;
+}
+
+const UNKEYED_REQUEST: PaymentRequest = { idempotencyKey: null, fingerprint: "" };
+
+const LEDGER_AXES = ["Spirit", "Essence", "Matter", "Substance"] as const;
+
+/** Transport-only fields: credentials and correlation never change what a call buys. */
+const NON_SEMANTIC_ARGUMENTS = new Set(["_meta", "_authKey", "_apiKey"]);
+
+function canonicalJson(value: unknown): string {
+  if (Array.isArray(value)) {
+    return `[${value.map((item: unknown) => canonicalJson(item ?? null)).join(",")}]`;
+  }
+  if (isRecord(value)) {
+    const entries = Object.entries(value)
+      .filter(([, item]) => item !== undefined)
+      .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+      .map(([key, item]) => `${JSON.stringify(key)}:${canonicalJson(item)}`);
+    return `{${entries.join(",")}}`;
+  }
+  return JSON.stringify(value) ?? "null";
+}
+
+/** Order-independent hash of the arguments that determine what a call buys. */
+export function requestFingerprint(
+  toolName: string,
+  args: Record<string, unknown>,
+): string {
+  const semantic = Object.fromEntries(
+    Object.entries(args).filter(([key]) => !NON_SEMANTIC_ARGUMENTS.has(key)),
+  );
+  return createHash("sha256")
+    .update(`${toolName}\n${canonicalJson(semantic)}`)
+    .digest("hex")
+    .slice(0, 32);
+}
+
+/**
+ * The ledger key for one caller's idempotency key. Scoped to the paying
+ * account and tool, so one caller's key can never replay another's payment,
+ * and hashed so the stored key is fixed-length and free of the `%`/`_`
+ * wildcards the ledger's `LIKE '<key>:%'` probe would otherwise honor.
+ */
+export function idempotencyLedgerKey(
+  userId: string,
+  toolName: string,
+  idempotencyKey: string,
+): string {
+  const digest = createHash("sha256")
+    .update(`mcp-idempotency:v1\0${userId}\0${toolName}\0${idempotencyKey}`)
+    .digest("hex");
+  return `mcp:${digest.slice(0, 48)}`;
+}
+
+/** Keyed ledger rows record which request paid, so a reused key can be told apart. */
+function ledgerSourceId(toolName: string, request: PaymentRequest): string {
+  return request.idempotencyKey ? `${toolName}#${request.fingerprint}` : toolName;
+}
+
+class PaymentRefused extends Error {
+  constructor(readonly reason: string) {
+    super("MCP payment refused");
+  }
+}
+
+type DbModule = typeof import("@/lib/database/connection");
+
+/**
+ * Serialize retries of one key, then decide from the ledger whether this
+ * request already paid. Returns true for a replay of the same request.
+ */
+async function priorSettlement(
+  db: DbModule,
+  client: PoolClient,
+  ledgerKey: string,
+  sourceId: string,
+): Promise<boolean> {
+  // Transaction-scoped, so it is safe behind a transaction-mode pooler; a
+  // concurrent retry waits here until the first attempt commits or rolls back.
+  await db.executeQuery(
+    "SELECT pg_advisory_xact_lock(hashtextextended($1, 0))",
+    [ledgerKey],
+    { client },
+  );
+  const prior = await db.executeQuery<{ source_id: string | null }>(
+    `SELECT source_id
+       FROM token_transactions
+      WHERE idempotency_key = ANY($1::text[])
+      LIMIT 1`,
+    [LEDGER_AXES.map((axis) => `${ledgerKey}:${axis}`)],
+    { client },
+  );
+  const [row] = prior.rows;
+  if (!row) return false;
+  if (row.source_id !== sourceId) throw new PaymentRefused("idempotency-conflict");
+  return true;
 }
 
 /**
@@ -241,12 +314,18 @@ export interface DebitOutcome {
  *
  * Insufficient balance returns `applied: false` with a reason so the
  * tool can return a quota-style error to the caller.
+ *
+ * With `client`, settlement joins the caller's transaction so a paid write
+ * and its debit commit together; a refusal leaves that transaction for the
+ * caller to roll back. Without it, settlement runs in its own transaction.
  */
 export async function debitForTool(
   toolName: string,
   caller: ResolvedCaller,
+  request: PaymentRequest = UNKEYED_REQUEST,
+  client?: PoolClient,
 ): Promise<DebitOutcome> {
-  const cost = TOOL_COSTS[toolName] ?? null;
+  const cost = isToolName(toolName) ? TOOL_COSTS[toolName] : null;
   if (!cost) return { applied: false, reason: "free-tool", amounts: null };
   if (caller.isSynthetic) {
     return { applied: false, reason: "synthetic-probe-exempt", amounts: null };
@@ -263,37 +342,54 @@ export async function debitForTool(
   // ledger debits and any Swapping Bridge legs either commit together or roll back.
   const { agentEconomyActionService } =
     await import("@/services/agentEconomyActionService");
-  const refusal = { reason: "debit-failed" };
   const { userId } = caller;
-  try {
-    await db.withTransaction(async (client) => {
-      const debit = await agentEconomyActionService.debitActionInTx({
-        userId,
-        costs: cost,
-        sourceType:
-          toolName === "submit_recipe_reflection"
-            ? "recipe_reflection"
-            : "purchase",
-        sourceId: toolName,
-        description: `MCP ${toolName} via ${caller.caller}`,
-        autoSwap: true,
-        client,
-      });
-      if (!debit.success || !debit.receipt.charged) {
-        refusal.reason =
-          !debit.success && debit.reason === "insufficient_funds"
-            ? "insufficient-funds"
-            : "debit-failed";
-        // Throw even if the service caught a ledger error so withTransaction
-        // cannot commit earlier swap legs or balance updates on a refusal.
-        throw new Error("MCP payment refused");
-      }
+  const ledgerKey = request.idempotencyKey
+    ? idempotencyLedgerKey(userId, toolName, request.idempotencyKey)
+    : null;
+  const sourceId = ledgerSourceId(toolName, request);
+  const settle = async (tx: PoolClient): Promise<boolean> => {
+    if (ledgerKey && (await priorSettlement(db, tx, ledgerKey, sourceId)))
+      return true;
+    const debit = await agentEconomyActionService.debitActionInTx({
+      userId,
+      costs: cost,
+      sourceType:
+        toolName === "submit_recipe_reflection"
+          ? "recipe_reflection"
+          : "purchase",
+      sourceId,
+      description: `MCP ${toolName} via ${caller.caller}`,
+      ...(ledgerKey ? { idempotencyKey: ledgerKey } : {}),
+      autoSwap: true,
+      client: tx,
     });
-    return { applied: true, reason: null, amounts: cost };
-  } catch {
+    if (debit.success && debit.receipt.deduplicated === true) return true;
+    if (!debit.success || !debit.receipt.charged) {
+      // Throw even if the service caught a ledger error so withTransaction
+      // cannot commit earlier swap legs or balance updates on a refusal.
+      throw new PaymentRefused(
+        !debit.success && debit.reason === "insufficient_funds"
+          ? "insufficient-funds"
+          : "debit-failed",
+      );
+    }
+    return false;
+  };
+  try {
+    const replayed = client
+      ? await settle(client)
+      : await db.withTransaction(settle);
+    return {
+      applied: true,
+      reason: null,
+      amounts: replayed ? null : cost,
+      ...(replayed ? { replayed: true } : {}),
+      ...(ledgerKey ? { ledgerKey } : {}),
+    };
+  } catch (error) {
     return {
       applied: false,
-      reason: refusal.reason,
+      reason: error instanceof PaymentRefused ? error.reason : "debit-failed",
       amounts: null,
     };
   }
