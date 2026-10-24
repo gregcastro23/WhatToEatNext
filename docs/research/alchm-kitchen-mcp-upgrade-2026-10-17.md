@@ -174,3 +174,15 @@ The 1.3.0 items stand: publish the package and registry metadata, then update PA
 - With a transient database error inside a transaction, the economy service falls back to an empty in-memory balance and reports insufficient funds, so the caller sees `QUOTA` for a fault it should retry. Nothing is charged.
 - On the feed route, the agent reflection charge autocommits before the reflection insert, outside a transaction.
 - Resources, prompts, SDK v2 and remote HTTP/OAuth were not added; each still needs a named consumer.
+
+### Validation results (1.4.0)
+
+Final validation completed October 24, 2026, on Linux (Bun 1.4.2, Node 22, PostgreSQL 16.15).
+
+- **Full `bun run verify`:** `verify:static` passed every gate: the 284 gate tests, route/readJson/bare-cast/diff-assertion checks, application and script typechecks, lint, the lint-debt audit (the declined-rule pool fell from 4,665 to 4,663; no baseline increased) and the dead-module audit. The full Jest run had **6,048 passed / 53 skipped / 3 failed of 6,104**. All three failures are in `src/__tests__/cuisineDerivedProfiles.test.ts` and fail identically at the base commit `9f210d82a`: American dish data changed without `bun run generate:cuisine-profiles`. They are unrelated to MCP.
+- **MCP unit and settlement:** seven suites, **135 tests passed** with `MCP_TEST_DATABASE_URL` set. These cover settlement order, idempotency (key derivation, fingerprints, replay, conflict, expiry, joined transactions), the reflection transaction and savepoint, moderation-aware replay, output-contract conformance for every tool's success and error envelopes, and the 1.3.0 suites.
+- **Real PostgreSQL:** seven settlement tests ran against a disposable database holding every migration. They cover the ledger, replay and expiry, three concurrent retries settling once, unkeyed calls, the stored `proposed` reflection with its linked feed event, an unaffordable reflection leaving no rows, and recovery from a refused feed insert. Negative controls fail as expected: removing the advisory lock fails the concurrency test, and restoring `"reviewed"` fails both reflection-write tests.
+- **Real stdio protocol:** **21 tests each passed against source, the Node bundle and the compiled Bun sidecar** (63 in total): the original nine plus twelve through the official SDK client, which validates every result against its `outputSchema`. Corrupting one schema field makes that suite fail. The catalog regression test fails without the `LocalRecipeService` fix.
+- **Package:** typecheck passed; bundle and sidecar builds passed (the existing `astronomy-engine` default-export warning remains). macOS signing was not exercised on this Linux host.
+
+No npm or registry publication, production deployment, live database write, or external feed publication was performed.
