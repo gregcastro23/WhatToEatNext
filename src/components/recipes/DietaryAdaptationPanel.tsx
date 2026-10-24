@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { verifyRecipeContent } from "@/lib/cooking/recipeVerificationGate";
+import { validateDietaryCompliance } from "@/lib/cooking/recipeGateDiet";
 import type { Recipe } from "@/types/recipe";
 import {
   adaptRecipe,
@@ -249,29 +249,34 @@ export function DietaryAdaptationPanel({ recipe, activeMode, onModeChange }: Pro
         </div>
       )}
 
-      {adaptation && <AdaptationBanner adaptation={adaptation} recipe={recipe} />}
+      {adaptation && <AdaptationBanner adaptation={adaptation} />}
     </div>
   );
 }
 
 function AdaptationGateSummary({
-  recipe,
   adaptation,
 }: {
-  recipe: Recipe;
   adaptation: AdaptationResult;
 }): React.JSX.Element {
   const outcome = useMemo(() => {
-    const ingredients = adaptation.adaptedIngredients.map((i) => ({
-      name: i.name,
-      quantity: String(i.amount || 1),
-      unit: i.unit || "unit",
-      ...(i.optional !== undefined ? { optional: i.optional } : {}),
+    const resolvedEntries = adaptation.adaptedIngredients.map((i) => ({
+      ingredient: {
+        name: i.name,
+        quantity: String(i.amount || 1),
+        unit: i.unit || "unit",
+        ...(i.optional !== undefined ? { optional: i.optional } : {}),
+      },
+      entry: null,
+      gramWeight: 0,
     }));
-    const steps = recipe.instructions.map((instruction) => ({ instruction }));
-    return verifyRecipeContent({ ingredients, steps }, { requestedDiet: adaptation.mode });
-  }, [recipe.instructions, adaptation.adaptedIngredients, adaptation.mode]);
-  const { evaluatedRestrictions, unevaluatedRestrictions, nonCompliantDietItems, unresolvedIngredients } = outcome.audit;
+    return validateDietaryCompliance(resolvedEntries, [], adaptation.mode, [], []);
+  }, [adaptation.adaptedIngredients, adaptation.mode]);
+  const { evaluatedRestrictions, unevaluatedRestrictions, nonCompliantDietItems, identifiedGlutenSources } = outcome;
+  const remainingViolations = [
+    ...nonCompliantDietItems,
+    ...identifiedGlutenSources.map((src) => `${src} (gluten)`),
+  ];
 
   return (
     <div className="mt-2 space-y-1 text-xs text-white/70" aria-label="Culinary gate screening">
@@ -283,11 +288,8 @@ function AdaptationGateSummary({
           Unevaluated restriction ({unevaluatedRestrictions.join(", ")}): heuristic swap preview only; not certified by the culinary gate.
         </p>
       )}
-      {nonCompliantDietItems.length > 0 && (
-        <p className="text-rose-300">Remaining non-compliant items: {nonCompliantDietItems.join(", ")}.</p>
-      )}
-      {unresolvedIngredients.length > 0 && (
-        <p className="text-white/50">Unresolved catalog items: {unresolvedIngredients.join(", ")}.</p>
+      {remainingViolations.length > 0 && (
+        <p className="text-rose-300">Remaining non-compliant items: {remainingViolations.join(", ")}.</p>
       )}
     </div>
   );
@@ -295,10 +297,8 @@ function AdaptationGateSummary({
 
 function AdaptationBanner({
   adaptation,
-  recipe,
 }: {
   adaptation: AdaptationResult;
-  recipe: Recipe;
 }): React.JSX.Element {
   const { mode, swaps, nutritionalDelta, elementalDelta, compatible } = adaptation;
 
@@ -306,7 +306,7 @@ function AdaptationBanner({
     return (
       <div className="mt-4 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-sm text-emerald-300">
         Recipe is already {mode}-compatible. No swaps needed.
-        <AdaptationGateSummary recipe={recipe} adaptation={adaptation} />
+        <AdaptationGateSummary adaptation={adaptation} />
       </div>
     );
   }
@@ -315,7 +315,7 @@ function AdaptationBanner({
     return (
       <div className="mt-4 p-3 rounded-lg bg-white/5 border border-white/10 text-sm text-white/60">
         No ingredients matched {mode} swap rules. Review the full ingredient list for manual adjustments.
-        <AdaptationGateSummary recipe={recipe} adaptation={adaptation} />
+        <AdaptationGateSummary adaptation={adaptation} />
       </div>
     );
   }
@@ -375,7 +375,7 @@ function AdaptationBanner({
           </div>
         )}
       </div>
-      <AdaptationGateSummary recipe={recipe} adaptation={adaptation} />
+      <AdaptationGateSummary adaptation={adaptation} />
       <p className="text-xs text-white/50 mt-1.5 italic">
         Deltas are estimates. ESMS/planetary scores reflect the original recipe.
       </p>
