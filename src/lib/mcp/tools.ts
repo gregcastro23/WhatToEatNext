@@ -693,6 +693,7 @@ interface ReflectionAuthor {
   authorId: string;
   resolvedAgentName: string | null;
   isAgentAuthor: boolean;
+  agentEmail?: string | null;
 }
 
 async function resolveReflectionAuthor(
@@ -708,8 +709,9 @@ async function resolveReflectionAuthor(
     id: string;
     name: string | null;
     is_agent: boolean;
+    email?: string | null;
   }>(
-    `SELECT u.id, COALESCE(up.name, u.name) AS name, u.is_agent
+    `SELECT u.id, COALESCE(up.name, u.name) AS name, u.is_agent, u.email
        FROM users u
   LEFT JOIN user_profiles up ON up.user_id = u.id
       WHERE u.id = $1
@@ -724,6 +726,7 @@ async function resolveReflectionAuthor(
     authorId: row.id,
     resolvedAgentName: row.name,
     isAgentAuthor: row.is_agent === true,
+    agentEmail: row.email ?? null,
   };
 }
 
@@ -757,6 +760,7 @@ interface SettledReflection {
   record: RecipeReflectionRecord;
   replayed: boolean;
   publication: ReflectionPublication;
+  afterCommit?: () => void;
 }
 
 /** Carries a refused settlement out of the transaction so it rolls back. */
@@ -822,26 +826,32 @@ function reflectionFeedPayload(
   };
 }
 
+interface ReflectionPublicationOutcome {
+  publication: ReflectionPublication;
+  afterCommit?: () => void;
+}
+
 /**
  * Publish the saved reflection inside the settling transaction. The savepoint
  * keeps the reflection (and its paid debit) when publication fails: the feed
  * insert, the interaction mirror and the reflection's feed link land together
  * or not at all, and a retry with the same idempotency key tries again. The
- * Planetary Agents webhook is skipped, as on the feed route, so an event is
- * never pushed before this transaction commits or echoed back to its origin.
+ * Planetary Agents webhook is skipped inside the transaction and returned as
+ * an `afterCommit` callback so an event is never pushed before COMMIT succeeds.
  */
 async function publishReflectionInSavepoint(
   client: PoolClient,
   record: RecipeReflectionRecord,
   submission: ReflectionSubmission,
   author: ReflectionAuthor,
-): Promise<ReflectionPublication> {
+): Promise<ReflectionPublicationOutcome> {
   await client.query("SAVEPOINT mcp_reflection_feed");
   try {
+    const metadataPayload = reflectionFeedPayload(record, submission, author);
     const receipt = await feedDatabase.publishFeedEvent({
       actorId: author.authorId,
       eventType: "recipe_review",
-      metadataPayload: reflectionFeedPayload(record, submission, author),
+      metadataPayload,
       identity: { share: true, explicit: true },
       skipWebhook: true,
       client,
@@ -856,10 +866,31 @@ async function publishReflectionInSavepoint(
       [feedEventId, record.id],
     );
     await client.query("RELEASE SAVEPOINT mcp_reflection_feed");
+    const agentEmail =
+      receipt.agentEmail ??
+      author.agentEmail ??
+      (submission.agentSlug
+        ? `${submission.agentSlug.toLowerCase()}@agentic.alchm.kitchen`
+        : `${author.authorId}@agentic.alchm.kitchen`);
+    const afterCommit =
+      author.isAgentAuthor &&
+      typeof feedDatabase.pushAgentFeedWebhook === "function"
+        ? () => {
+            void feedDatabase.pushAgentFeedWebhook({
+              agentEmail,
+              agentDisplayName: author.resolvedAgentName,
+              eventType: "recipe_review",
+              metadataPayload,
+            });
+          }
+        : undefined;
     return {
-      feedPublished: true,
-      feedEventId,
-      legacyInteractionStatus: receipt.legacyInteractionStatus,
+      publication: {
+        feedPublished: true,
+        feedEventId,
+        legacyInteractionStatus: receipt.legacyInteractionStatus,
+      },
+      ...(afterCommit ? { afterCommit } : {}),
     };
   } catch (err) {
     await client.query("ROLLBACK TO SAVEPOINT mcp_reflection_feed");
@@ -867,10 +898,12 @@ async function publishReflectionInSavepoint(
       `[mcp/submit_recipe_reflection] feed publication failed: ${String(err)}\n`,
     );
     return {
-      feedPublished: false,
-      feedEventId: null,
-      legacyInteractionStatus: "failed",
-      error: "Feed publication failed; the reflection was saved",
+      publication: {
+        feedPublished: false,
+        feedEventId: null,
+        legacyInteractionStatus: "failed",
+        error: "Feed publication failed; the reflection was saved",
+      },
     };
   }
 }
@@ -881,21 +914,25 @@ function publishIfUnpublished(
   record: RecipeReflectionRecord,
   submission: ReflectionSubmission,
   author: ReflectionAuthor,
-): Promise<ReflectionPublication> | ReflectionPublication {
+): Promise<ReflectionPublicationOutcome> | ReflectionPublicationOutcome {
   if (record.feedEventId)
     return {
-      feedPublished: true,
-      feedEventId: record.feedEventId,
-      legacyInteractionStatus: "not_requested",
+      publication: {
+        feedPublished: true,
+        feedEventId: record.feedEventId,
+        legacyInteractionStatus: "not_requested",
+      },
     };
   // Deleting a feed event nulls feed_event_id (ON DELETE SET NULL), just as a
   // failed publication leaves it; a replay must not put moderated text back.
   if (record.hidden || record.deletedAt || record.contentState === "rejected")
     return {
-      feedPublished: false,
-      feedEventId: null,
-      legacyInteractionStatus: "not_requested",
-      error: "The reflection was moderated and is not republished",
+      publication: {
+        feedPublished: false,
+        feedEventId: null,
+        legacyInteractionStatus: "not_requested",
+        error: "The reflection was moderated and is not republished",
+      },
     };
   return publishReflectionInSavepoint(client, record, submission, author);
 }
@@ -939,8 +976,19 @@ async function settleReflection(
       },
       client,
     }));
-  const publication = await publishIfUnpublished(client, record, submission, author);
-  return { debit, record, replayed: prior !== null, publication };
+  const { publication, afterCommit } = await publishIfUnpublished(
+    client,
+    record,
+    submission,
+    author,
+  );
+  return {
+    debit,
+    record,
+    replayed: prior !== null,
+    publication,
+    ...(afterCommit ? { afterCommit } : {}),
+  };
 }
 
 function reflectionResult(
@@ -1010,6 +1058,7 @@ export async function submitRecipeReflection(
     const settled = await withTransaction((client) =>
       settleReflection(client, caller, author, submission, payment),
     );
+    settled.afterCommit?.();
     return reflectionResult(settled, submission, author, payment);
   } catch (err) {
     if (err instanceof SettlementRefusal) return err.result;

@@ -142,7 +142,7 @@ Date: October 24, 2026. Built on the 1.3.0 commit `7be623f9` (branch tip `9f210d
 ### What changed
 
 - **Reflection integrity.** New reflections are `proposed`, as on the feed route, and the service's TypeScript type now matches the database enum. The in-memory fallback stands in only when no database is configured; inside a transaction, or with `DATABASE_URL` set, a failed insert surfaces. The input limit matches the column's 4000-character CHECK, and text that is empty once control characters are stripped is rejected before any charge.
-- **Settlement on delivery.** Paid reads run first and settle only on success; a refused settlement withholds the result. A reflection's debit, row, feed event, interaction mirror and feed link share one transaction, with a savepoint so a failed publication rolls back alone while the paid reflection commits. Its Planetary Agents webhook is skipped, as on the feed route.
+- **Settlement on delivery.** Paid reads run first and settle only on success; a refused settlement withholds the result. A reflection's debit, row, feed event, interaction mirror and feed link share one transaction, with a savepoint so a failed publication rolls back alone while the paid reflection commits. Its Planetary Agents webhook is suppressed inside the savepoint (`skipWebhook: true`) and fired strictly after the settling transaction commits (`afterCommit`).
 - **Idempotent retries.** Optional `_meta.idempotencyKey` becomes a ledger key hashed from account, tool and key. Settlement takes a transaction-scoped advisory lock, probes the ledger by exact key, and records `<tool>#<argument fingerprint>` in `source_id`. A matching retry within 24 hours replays without charging; a mismatched or older reuse returns `CONFLICT`. A replayed reflection returns the stored row and re-attempts a failed publication unless the reflection has been moderated. The economy service's own replay probe now matches exact per-axis keys, so it uses the idempotency index instead of scanning the ledger.
 - **Typed results.** Every tool publishes a `title` and an `outputSchema` accepting its success payload or the shared error envelope (the TypeScript SDK client validates error results too). Paid results carry a `billing` receipt; `BUSY` carries `retryAfterSec`; prices live in the catalog beside each tool's contract; settlement moved from `auth.ts` to `billing.ts`.
 - **Validator.** `null` is a supported type, and an `undefined` property counts as absent, as in JSON. The in-process synthetic probe passes `internalSecret: process.env.INTERNAL_API_SECRET`, which is undefined when unset; 1.3.0 rejected that as `INVALID_ARGS`.
@@ -162,10 +162,10 @@ Their confirmed findings and outcomes:
 - Control-character-only text failed with `INTERNAL`: now `INVALID_ARGS` before charging.
 - Two README statements were inaccurate (when `billing` appears; where the raw key is kept): corrected.
 
-### Decisions left to the owner
+### Decisions resolved
 
-- **Free recipes inside a partial snapshot.** A partial snapshot is an error and is not charged, but its data includes the recipe candidates. This gives away nothing that anonymous demo mode does not, so it is unchanged; if demo mode is ever restricted, strip priced components from unsettled partial snapshots.
-- **No Planetary Agents webhook for MCP reflections.** 1.3.0 pushed agent-authored MCP reflections to PA's `/api/feed`. 1.4.0 publishes inside the settling transaction, where the push would precede the commit, so it skips the push, as the feed route does for PA-originated events. If PA relies on that push for reflections it did not originate, send it after the transaction commits instead.
+- **Free recipes inside a partial snapshot (retained for demo mode).** A partial snapshot is an error and is not charged, but its data includes the recipe candidates. This gives away nothing that anonymous demo mode does not, so it is retained; if demo mode is ever restricted, strip priced components from unsettled partial snapshots.
+- **Post-commit Planetary Agents webhook for MCP reflections (implemented).** 1.3.0 pushed agent-authored MCP reflections to PA's `/api/feed` before transaction settlement. 1.4.0 suppresses the webhook inside the database transaction savepoint (`skipWebhook: true`) and schedules `feedDatabase.pushAgentFeedWebhook(...)` in an `afterCommit` hook that runs only after `withTransaction` commits (`COMMIT` succeeded) and only when a feed event was newly published in that transaction.
 
 ### Remaining release and integration work
 
