@@ -26,6 +26,8 @@ let mockDebit: jest.MockedFunction<
 >;
 let resolveCaller: typeof import("@/lib/mcp/auth").resolveCaller;
 let debitForTool: typeof import("@/lib/mcp/auth").debitForTool;
+let idempotencyLedgerKey: typeof import("@/lib/mcp/auth").idempotencyLedgerKey;
+let requestFingerprint: typeof import("@/lib/mcp/auth").requestFingerprint;
 // Construct an unconnected client to exercise identity handoff without a DB.
 const transactionClient: PoolClient = Object.assign(new Client(), {
   release: jest.fn(),
@@ -99,6 +101,8 @@ beforeEach(async () => {
   mockDebit = jest.mocked(economy.agentEconomyActionService.debitActionInTx);
   resolveCaller = auth.resolveCaller;
   debitForTool = auth.debitForTool;
+  idempotencyLedgerKey = auth.idempotencyLedgerKey;
+  requestFingerprint = auth.requestFingerprint;
   mockQuery.mockResolvedValue({
     rows: [{ id: "key-1", user_id: "user-1", rate_limit_tier: "alchemist" }],
     rowCount: 1,
@@ -436,5 +440,181 @@ describe("MCP transactional billing", () => {
     });
     expect(mockTransaction).not.toHaveBeenCalled();
     expect(mockDebit).not.toHaveBeenCalled();
+  });
+});
+
+describe("MCP idempotent settlement", () => {
+  const fingerprint = "f".repeat(32);
+  const keyed = { idempotencyKey: "retry-1", fingerprint };
+  const ledgerRows = (rows: Array<{ source_id: string | null }>) => ({
+    rows,
+    rowCount: rows.length,
+    command: "SELECT",
+    oid: 0,
+    fields: [],
+  });
+
+  /** Script the lock and the ledger probe; `prior` is what the ledger holds. */
+  function scriptLedger(prior: Array<{ source_id: string | null }>): void {
+    mockQuery.mockImplementation(async (sql: string) =>
+      sql.includes("FROM token_transactions")
+        ? ledgerRows(prior)
+        : ledgerRows([]),
+    );
+  }
+
+  it("derives a fixed-length ledger key scoped to account, tool and key", () => {
+    const key = idempotencyLedgerKey("user-1", "generate_cosmic_recipe", "k");
+    expect(key).toMatch(/^mcp:[0-9a-f]{48}$/);
+    expect(idempotencyLedgerKey("user-1", "generate_cosmic_recipe", "k")).toBe(key);
+    expect(idempotencyLedgerKey("user-2", "generate_cosmic_recipe", "k")).not.toBe(key);
+    expect(idempotencyLedgerKey("user-1", "create_evidence_snapshot", "k")).not.toBe(key);
+    expect(idempotencyLedgerKey("user-1", "generate_cosmic_recipe", "k2")).not.toBe(key);
+    // LIKE wildcards in a caller key never reach the ledger's prefix probe.
+    expect(idempotencyLedgerKey("user-1", "generate_cosmic_recipe", "a_%")).toMatch(
+      /^mcp:[0-9a-f]{48}$/,
+    );
+  });
+
+  it("fingerprints semantic arguments independent of order and transport metadata", () => {
+    const base = requestFingerprint("generate_cosmic_recipe", {
+      prompt: "soup",
+      dietary: ["vegan"],
+    });
+    expect(base).toMatch(/^[0-9a-f]{32}$/);
+    expect(
+      requestFingerprint("generate_cosmic_recipe", {
+        dietary: ["vegan"],
+        prompt: "soup",
+        unset: undefined,
+        _apiKey: "secret",
+        _authKey: "secret",
+        _meta: { apiKey: "other", correlationId: "c", idempotencyKey: "k" },
+      }),
+    ).toBe(base);
+    expect(
+      requestFingerprint("generate_cosmic_recipe", { prompt: "stew", dietary: ["vegan"] }),
+    ).not.toBe(base);
+    expect(
+      requestFingerprint("create_evidence_snapshot", { prompt: "soup", dietary: ["vegan"] }),
+    ).not.toBe(base);
+  });
+
+  it("serializes a keyed request, probes the ledger exactly, then charges under the scoped key", async () => {
+    scriptLedger([]);
+    const ledgerKey = idempotencyLedgerKey("user-1", "generate_cosmic_recipe", "retry-1");
+
+    await expect(
+      debitForTool("generate_cosmic_recipe", authenticatedCaller, keyed),
+    ).resolves.toEqual({
+      applied: true,
+      reason: null,
+      amounts: recipeCost,
+      ledgerKey,
+    });
+
+    const [lock, probe] = mockQuery.mock.calls;
+    expect(lock?.[0]).toContain("pg_advisory_xact_lock");
+    expect(lock?.[1]).toEqual([ledgerKey]);
+    expect(lock?.[2]).toEqual({ client: transactionClient });
+    expect(probe?.[0]).toContain("idempotency_key = ANY");
+    expect(probe?.[1]).toEqual([
+      ["Spirit", "Essence", "Matter", "Substance"].map(
+        (axis) => `${ledgerKey}:${axis}`,
+      ),
+    ]);
+    expect(mockDebit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        idempotencyKey: ledgerKey,
+        sourceId: `generate_cosmic_recipe#${fingerprint}`,
+        client: transactionClient,
+      }),
+    );
+    expect(transactionEvents).toEqual(["BEGIN", "COMMIT"]);
+  });
+
+  it("replays a request the ledger already settled, without charging", async () => {
+    scriptLedger([{ source_id: `generate_cosmic_recipe#${fingerprint}` }]);
+
+    await expect(
+      debitForTool("generate_cosmic_recipe", authenticatedCaller, keyed),
+    ).resolves.toEqual({
+      applied: true,
+      reason: null,
+      amounts: null,
+      replayed: true,
+      ledgerKey: idempotencyLedgerKey("user-1", "generate_cosmic_recipe", "retry-1"),
+    });
+    expect(mockDebit).not.toHaveBeenCalled();
+    expect(transactionEvents).toEqual(["BEGIN", "COMMIT"]);
+  });
+
+  it("refuses a key already used for different arguments", async () => {
+    scriptLedger([{ source_id: `generate_cosmic_recipe#${"0".repeat(32)}` }]);
+
+    await expect(
+      debitForTool("generate_cosmic_recipe", authenticatedCaller, keyed),
+    ).resolves.toEqual({
+      applied: false,
+      reason: "idempotency-conflict",
+      amounts: null,
+    });
+    expect(mockDebit).not.toHaveBeenCalled();
+    expect(transactionEvents).toEqual(["BEGIN", "ROLLBACK"]);
+  });
+
+  it("treats a deduplicated service receipt as a replay", async () => {
+    scriptLedger([]);
+    mockDebit.mockResolvedValueOnce({
+      success: true,
+      receipt: {
+        charged: false,
+        deduplicated: true,
+        transactionGroupId: "transaction-0",
+        costBasket: recipeCost,
+        swapsExecuted: 0,
+        remainingBalances,
+      },
+    });
+
+    await expect(
+      debitForTool("generate_cosmic_recipe", authenticatedCaller, keyed),
+    ).resolves.toMatchObject({ applied: true, replayed: true, amounts: null });
+  });
+
+  it("joins a caller's transaction instead of opening its own", async () => {
+    await expect(
+      debitForTool(
+        "submit_recipe_reflection",
+        authenticatedCaller,
+        { idempotencyKey: null, fingerprint },
+        transactionClient,
+      ),
+    ).resolves.toEqual({ applied: true, reason: null, amounts: reflectionCost });
+    expect(mockTransaction).not.toHaveBeenCalled();
+    expect(mockDebit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        client: transactionClient,
+        sourceId: "submit_recipe_reflection",
+      }),
+    );
+    expect(mockDebit.mock.calls[0]?.[0]).not.toHaveProperty("idempotencyKey");
+  });
+
+  it("leaves a refused settlement in a caller's transaction for the caller to roll back", async () => {
+    mockDebit.mockResolvedValueOnce({
+      success: false,
+      reason: "error",
+      error: "ledger failed",
+    });
+    await expect(
+      debitForTool(
+        "submit_recipe_reflection",
+        authenticatedCaller,
+        { idempotencyKey: null, fingerprint },
+        transactionClient,
+      ),
+    ).resolves.toEqual({ applied: false, reason: "debit-failed", amounts: null });
+    expect(mockTransaction).not.toHaveBeenCalled();
   });
 });

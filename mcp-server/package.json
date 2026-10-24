@@ -1,6 +1,6 @@
 {
   "name": "@alchm/mcp-server",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "mcpName": "io.github.gregcastro23/alchm-kitchen",
   "description": "Alchm.kitchen MCP server \u2014 live planetary transits, ingredient ESMS analysis, cosmic recipe search, synastry overlays, triplicate synastry pricing, evidence snapshots, and recipe reflections.",
   "type": "module",
@@ -17,7 +17,7 @@
     "build:binary": "bun build src/index.ts --compile --outfile bin/alchm-mcp --define 'process.env.ALCHM_MCP_BUNDLED=\"1\"' --no-compile-autoload-dotenv --no-compile-autoload-bunfig && bun scripts/sign-binary.ts",
     "start": "bun run src/index.ts",
     "prepublishOnly": "bun run build",
-    "test:stdio": "MCP_E2E=1 bun test src/__tests__/stdio.test.ts",
+    "test:stdio": "MCP_E2E=1 bun test src/__tests__/stdio.test.ts src/__tests__/sdkClient.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
