@@ -2,6 +2,7 @@ import { unstable_cache } from "next/cache";
 import { after } from "next/server";
 import { getValidatedAssetUrl } from "@/lib/assets";
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { redisGet, redisSet, redisDel } from "@/lib/redis";
 import {
   RecipeNutritionSchema,
@@ -13,7 +14,6 @@ import type {
   RecipeIngredient,
 } from "@/types/recipe";
 import { publicCuisine } from "@/utils/internalCuisineCodes";
-import { _logger } from "@/lib/logger";
 import { logger } from "@/utils/logger";
 import { getAssetUrl } from "@/utils/urlUtils";
 
@@ -327,18 +327,28 @@ const REDIS_TTL_SECONDS = 5 * 60; // 5 minutes — matches in-process TTL
 // /recipes/[recipeId], which relies on ISR (revalidate = 3600). Wrapping the
 // read in unstable_cache tells Next's Data Cache to own this read instead,
 // so it no longer forces the route to bail from static to dynamic mid-render.
-const getCachedCatalogFromRedis = unstable_cache(
-  async (): Promise<Recipe[] | null> => {
-    try {
-      return await redisGet<Recipe[]>(REDIS_CATALOG_KEY);
-    } catch (err) {
-      logger.warn("Redis cache read failed, falling through to DB:", err);
-      return null;
-    }
-  },
+const readCatalogFromRedis = async (): Promise<Recipe[] | null> => {
+  try {
+    return await redisGet<Recipe[]>(REDIS_CATALOG_KEY);
+  } catch (err) {
+    logger.warn("Redis cache read failed, falling through to DB:", err);
+    return null;
+  }
+};
+
+const getCachedCatalogFromRedisNext = unstable_cache(
+  readCatalogFromRedis,
   ["recipe-catalog-redis-read"],
   { revalidate: REDIS_TTL_SECONDS },
 );
+
+async function getCachedCatalogFromRedis(): Promise<Recipe[] | null> {
+  try {
+    return await getCachedCatalogFromRedisNext();
+  } catch {
+    return readCatalogFromRedis();
+  }
+}
 
 /**
  * Defer a fire-and-forget write until after the response is sent, via

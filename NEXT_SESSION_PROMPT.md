@@ -49,43 +49,32 @@ The architectural bridge between **AlchmAgentsSolana (ASOL)** and **WhatToEatNex
   - `GET /api/community/agents` (`community:agents:v2:${limit}`) prioritizes chart-bearing historical agents (`BOOL_OR(...) DESC NULLS LAST, MAX(f.created_at) DESC NULLS LAST, up.name ASC NULLS LAST`) so `?limit=80` on `/feed` ("View Network") returns all **71 / 71** canonical historical agents with `/profile/[slug]` links ahead of synthetic planetary/degree agents.
   - `GET /api/feed/historical-agents` combines narrated `getHistoricalAgentEvents` (including `recipe_adapted` and `recipe_review`, excluding `mcpCatalog = false`), `getHistoricalAgentRecipes`, and `getPlanetaryResonanceFeed`.
 
+### F. Idempotent Catalog Critiques & Saved Adaptations Across All 71 Historical Personas (`scripts/seedHistoricalCatalogCritiques.ts`)
+- **Catalog Critique Seeding (`recipe_review`)**:
+  - Deterministic, diet-compliant seeding script (`bun scripts/seedHistoricalCatalogCritiques.ts`, supporting `--dry-run`, `--slug=<slug>`, `--per-agent=<count>`) populates **142** curated catalog critiques (`2` per agent across all **71** canonical historical NPCs) in `feed_events`.
+  - Every critique uses a real public catalog recipe (`mcpCatalog: true`, `source: "catalog_critique"`, `contentState: "curated"`, `rating: null`, `madeIt: false`), strictly respects each persona's `avoidedFoods` and vegetarian dietary philosophies, and mirrors into `user_recipe_interactions` (`helpful_tip`) so critiques appear on `/profile/[slug]`, `/feed`, and `/recipes/[recipeId]` community tips.
+- **Saved Historical Vegetarian Adaptations (`recipe_adapted` + `user_custom_recipes`)**:
+  - Seeds **12** schema-validated `SavedAdaptation` versions (`user_custom_recipes` with `source = 'saved-adaptation'` and deterministic UUIDv5 `versionId`s) and matching `recipe_adapted` events for historical vegetarian personas (`leonardo-da-vinci`, `albert-einstein`, `jean-jacques-rousseau-1712`, `benjamin-franklin`, `siddhartha-gautama-buddha`, `socrates`, `joan-of-arc`, `thomas-aquinas`, `voltaire-1694`, `mahatma-gandhi`, `murasaki-shikibu`, `lao-tzu`).
+
+### G. Phase 45 Culinary Gate, Settlement Truth & Adaptation Handoff Alignment
+- **Workstreams A & B (`PR #962`, `PR #963`, `docs/PHASE_45_CLOSEOUT.md`)**:
+  - Expanded `verifyRecipeContent` restriction coverage (`Dairy-Free`, `Nut-Free`, `Pescatarian`, `Tree Nuts` normalization), explicit catalog mappings, clause/protein thermal attribution, cosmic recipe failed-refund telemetry (`src/app/api/generate-cosmic-recipe/route.ts`), unknown admin health source representation, and inbound claim terminal settlement.
+- **Workstream C (`src/app/recipes/[recipeId]/RecipeClient.tsx`, `src/components/recipes/DietaryAdaptationPanel.tsx`)**:
+  - Active dietary adaptations on `/recipes/[recipeId]` now pass `activeIngredients`, `activeTitle`, and `activeCartId` (`${recipe.id}__adapted_${dietaryMode}`) to grocery cart handoff (`handleAddToGroceryCart`), `OrderIngredientsModal`, `IngredientDrawer`, and clipboard export (`handleCopyRecipe`).
+  - Displays explicit adaptation notices when instructions or elemental/alchemical/nutrition readings remain anchored to the original unadapted recipe, and runs `verifyRecipeContent` inside `DietaryAdaptationPanel` to surface evaluated vs. unevaluated restrictions and any remaining non-compliant items honestly.
+
 ---
 
 ## 3. High-Priority Tasks for Next Session
 
-### Task 1: Commit, Merge & Verify Production Deployment of Agent Profile & Roster Fixes
-- **Targets**:
-  - Merge WTEN [PR #966](https://github.com/gregcastro23/WhatToEatNext/pull/966) (`codex/authoritative-agent-ledger`, all 9 CI checks passing).
-  - Commit and push the Task 2 & Task 4 profile, narration, community directory, and historical feed changes:
-    - `src/app/api/community/agents/route.ts` & `src/app/api/community/agents/__tests__/route.test.ts`
-    - `src/app/api/feed/historical-agents/route.ts` & `src/app/api/feed/historical-agents/__tests__/route.test.ts`
-    - `src/services/historicalAgentFeedService.ts`
-    - `src/app/api/users/[userId]/route.ts`
-    - `src/lib/feed/eventNarration.ts`
-    - `src/app/(alchm)/profile/[userId]/RecentActivityItem.tsx` & `src/app/(alchm)/profile/[userId]/__tests__/AgentProfile.test.tsx`
-  - After deployment to `https://alchm.kitchen`, verify live responses on:
-    - `GET /api/community/agents?limit=80` (confirm all 71 historical agents appear first with valid `slug` values)
-    - `GET /api/feed/historical-agents?limit=40` (confirm `agent_event`, `recipe_post`, and `planetary_resonance` items)
-    - `GET /api/users/leonardo-da-vinci` and `/profile/leonardo-da-vinci`
-
-### Task 2: Populate Authentic Catalog Critiques & Saved Adaptations Across Historical Agents
-- **Context**:
-  - With the 1,429 legacy ungrounded July 2026 `recipe_generation` rows (`mcpCatalog: false`) filtered out of profile and historical feed queries, most historical agents currently have `insight` and `lab_entry` rows in `feed_events`, while only `leonardo-da-vinci` has a catalog `recipe_review` (`PAN-FRIED MILLET CROQUETTES`, `/recipes/bca4f37d-6604-4d97-ac56-8bc3e837a416`).
+### Task 1: Expand Live LLM Critique & Council Activity Across Historical Personas
 - **Objective**:
-  - Build or run a bounded, idempotent seeding workflow (with `--dry-run` support) using real catalog recipes and each agent's `historicalDiet` / natal chart so historical personas have authentic catalog `recipe_review` critiques (`source: "catalog_critique"`, `rating: null`, `madeIt: false`) and/or saved `recipe_adapted` versions (`/recipes/versions/[versionId]`) visible on `/profile/[slug]` and `/feed`.
-  - Respect each persona's `avoidedFoods` and dietary restrictions (e.g., vegetarian rules for Leonardo da Vinci and Pythagoras).
+  - Monitor and optionally trigger live ASOL-backed critiques (`POST /api/recipes/[recipeId]/critique`) and council adaptations (`POST /api/recipes/[recipeId]/adapt`) so `contentState: "live"` interactions continue to accumulate alongside the curated baseline across `/profile/[slug]` and `/feed`.
+  - Ensure Redis caches (`community:agents:v2:*`) and SpacetimeDB `asol` rating sweeps remain synchronized as new `feed_events` are recorded.
 
-### Task 3: Align Recipe View & Cart Handoff with Saved Adaptations (Phase 45 Workstream C)
-- **Reference**: `docs/PHASE_45_PROMPT_DRAFT_v2.md` (§6 Workstream C) and `docs/PHASE_45_PROMPT_UPDATE_AUDIT_2026-10-13.md` (§5–6).
+### Task 2: End-to-End Instruction & Nutrition Recomputation for Adapted Recipes
 - **Objective**:
-  - Ensure that when a user views or applies an adaptation on `/recipes/[recipeId]` (`RecipeClient.tsx`) or `/recipes/versions/[versionId]`, the displayed ingredients, instructions, grocery cart handoff, and alchemical compatibility readings align with the adapted version (or explicitly mark unadapted slices as unavailable/original).
-  - Verify edited recipes through the culinary gate and surface any unresolved dietary restrictions honestly.
-
-### Task 4: Phase 45 Workstreams A & B (Culinary Gate Truth & Settlement/Admin Truth)
-- **Reference**: `docs/PHASE_45_PROMPT_DRAFT_v2.md` (§4 Workstream A, §5 Workstream B).
-- **Objective**:
-  - **Workstream A (Culinary Gate)**: Add evaluated-restriction coverage (`Dairy-Free`, `Nut-Free`, `Pescatarian`, `Tree Nuts` key normalization), explicit catalog ingredient mappings, and clause/protein thermal attribution fixes before method aliases.
-  - **Workstream B (Settlement & Admin)**: Fix cosmic recipe failed-refund response/telemetry reporting (`src/app/api/generate-cosmic-recipe/route.ts`), represent unread admin health sources as unknown rather than fabricated zeros, and ensure terminal claim settlement on inbound feed/recipe routes.
+  - When a user or historical agent applies a dietary adaptation on `/recipes/[recipeId]` or saves a version on `/recipes/versions/[versionId]`, optionally recompute or annotate step-by-step instructions (replacing swapped ingredient references inline) and recompute elemental/nutrition totals from the adapted ingredient list so the original-reading fallback banner is no longer needed when full recomputation succeeds.
 
 ---
 

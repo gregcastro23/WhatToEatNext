@@ -30,6 +30,24 @@ import { getPlanetaryResonanceFeed } from "@/services/planetaryResonanceService"
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+async function buildInternalHistoricalFeed(limit: number): Promise<NextResponse> {
+  try {
+    const recipeLimit = Math.max(1, Math.floor(limit / 3));
+    const [events, recipes] = await Promise.all([
+      getHistoricalAgentEvents(limit),
+      getHistoricalAgentRecipes(recipeLimit),
+    ]);
+    const resonance = getPlanetaryResonanceFeed();
+    const items = filterHistoricalAgentFeed([...resonance, ...events, ...recipes])
+      .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+      .slice(0, limit);
+    return NextResponse.json({ success: true, items, source: "internal" });
+  } catch (error) {
+    _logger.error("[GET /api/feed/historical-agents] internal source error:", error);
+    return NextResponse.json({ success: true, items: [], source: "internal_error" });
+  }
+}
+
 export async function GET(request: Request): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
   const limit = Math.min(parseInt(searchParams.get("limit") ?? "40", 10), 100);
@@ -40,21 +58,7 @@ export async function GET(request: Request): Promise<NextResponse> {
   // resonance (degree agents, current sky) + historical agents' real activity +
   // resonant historical recipes.
   if (!producerUrl) {
-    try {
-      const recipeLimit = Math.max(1, Math.floor(limit / 3));
-      const [events, recipes] = await Promise.all([
-        getHistoricalAgentEvents(limit),
-        getHistoricalAgentRecipes(recipeLimit),
-      ]);
-      const resonance = getPlanetaryResonanceFeed();
-      const items = filterHistoricalAgentFeed([...resonance, ...events, ...recipes])
-        .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
-        .slice(0, limit);
-      return NextResponse.json({ success: true, items, source: "internal" });
-    } catch (error) {
-      _logger.error("[GET /api/feed/historical-agents] internal source error:", error);
-      return NextResponse.json({ success: true, items: [], source: "internal_error" });
-    }
+    return buildInternalHistoricalFeed(limit);
   }
 
   try {
