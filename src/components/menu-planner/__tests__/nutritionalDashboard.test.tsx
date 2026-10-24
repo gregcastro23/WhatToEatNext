@@ -7,7 +7,7 @@
  *   nutrition, and no advice is drawn from totals that do not exist.
  *
  * Real catalog rows through the real weekly calculator: Manakish and Kofta
- * publish nutrition, Falafel publishes none. Only the planner context is
+ * publish nutrition, Lentil Soup publishes none. Only the planner context is
  * replaced. Imports only modules that exist on master.
  */
 import { fireEvent, render, screen, within } from "@testing-library/react";
@@ -24,7 +24,7 @@ jest.mock("@/contexts/MenuPlannerContext", () => ({
 
 const MANAKISH = "middleeastern-breakfast-all-manakish-zaatar";
 const KOFTA = "middleeastern-lunch-all-authentic-kofta-kebab";
-const FALAFEL = "middleeastern-dinner-all-falafel";
+const LENTIL_SOUP = "middleeastern-dinner-all-lentil-soup-shorbat-adas";
 let catalog: Recipe[] = [];
 
 beforeAll(async () => {
@@ -75,10 +75,10 @@ afterEach(() => {
   mockMeals = [];
 });
 
-it("premise: Manakish and Kofta publish calories, Falafel publishes none", () => {
+it("premise: Manakish and Kofta publish calories, Lentil Soup publishes none", () => {
   expect(kcal(MANAKISH)).toBeGreaterThan(0);
   expect(kcal(KOFTA)).toBeGreaterThan(0);
-  expect(recipe(FALAFEL).nutrition?.calories).toBeUndefined();
+  expect(recipe(LENTIL_SOUP).nutrition?.calories).toBeUndefined();
 });
 
 it("opens as a dialog on <body>, focused on its close button; Escape closes it", () => {
@@ -110,7 +110,7 @@ it("keeps only the sections with a basis", () => {
 });
 
 it("a week with a meal that publishes no nutrition reads as lower bounds, marked partial", () => {
-  mockMeals = [monday(MANAKISH, "breakfast"), monday(KOFTA, "lunch"), monday(FALAFEL, "dinner")];
+  mockMeals = [monday(MANAKISH, "breakfast"), monday(KOFTA, "lunch"), monday(LENTIL_SOUP, "dinner")];
   render(<NutritionalDashboard isOpen onClose={jest.fn()} />);
   const sum = kcal(MANAKISH) + kcal(KOFTA);
   expect(screen.getByText(`≥${Math.round(sum)} kcal`)).toBeTruthy();
@@ -127,7 +127,7 @@ it("control: a week whose meals all publish nutrition is unmarked", () => {
 });
 
 it("a week whose meals publish no nutrition shows no totals and gives no macro advice", () => {
-  mockMeals = [monday(FALAFEL, "dinner")];
+  mockMeals = [monday(LENTIL_SOUP, "dinner")];
   render(<NutritionalDashboard isOpen onClose={jest.fn()} />);
   expect(screen.getAllByText("—").length).toBeGreaterThan(0);
   const macros = openSection(/Macronutrient Distribution/);

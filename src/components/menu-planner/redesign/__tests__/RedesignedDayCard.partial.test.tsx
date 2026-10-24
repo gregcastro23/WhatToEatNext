@@ -64,11 +64,11 @@ function kcalOf(id: string): number {
   return calories;
 }
 
-it("Manakish + Kofta + Falafel (no nutrition) reads as a lower bound, marked partial", () => {
+it("Manakish + Kofta + Lentil Soup (no nutrition) reads as a lower bound, marked partial", () => {
   renderDay([
     slot("middleeastern-breakfast-all-manakish-zaatar", "breakfast"),
     slot("middleeastern-lunch-all-authentic-kofta-kebab", "lunch"),
-    slot("middleeastern-dinner-all-falafel", "dinner"),
+    slot("middleeastern-dinner-all-lentil-soup-shorbat-adas", "dinner"),
   ]);
   const sum = Math.round(
     kcalOf("middleeastern-breakfast-all-manakish-zaatar") +
@@ -79,7 +79,7 @@ it("Manakish + Kofta + Falafel (no nutrition) reads as a lower bound, marked par
 });
 
 it("a day whose only meal publishes no nutrition shows no total", () => {
-  renderDay([slot("middleeastern-dinner-all-falafel", "dinner")]);
+  renderDay([slot("middleeastern-dinner-all-lentil-soup-shorbat-adas", "dinner")]);
   expect(screen.getByText("— KCAL")).toBeTruthy();
   expect(screen.getByText("no nutrition published for this meal")).toBeTruthy();
   expect(screen.queryByText("0 KCAL")).toBeNull();
