@@ -796,7 +796,7 @@ export async function runSeedHistoricalCatalogCritiques(
   );
 }
 
-if (import.meta.main) {
+if (process.argv[1]?.includes("seedHistoricalCatalogCritiques")) {
   const cliOptions = parseSeedCritiquesArgs(process.argv.slice(2));
   runSeedHistoricalCatalogCritiques(cliOptions)
     .then(async () => {
