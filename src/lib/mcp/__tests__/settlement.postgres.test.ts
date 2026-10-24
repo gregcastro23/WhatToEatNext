@@ -181,6 +181,20 @@ suite("MCP settlement against disposable PostgreSQL", () => {
     for (const row of rows) expect(row.idempotency_key).toMatch(/^mcp:[0-9a-f]{48}:(Spirit|Essence|Matter|Substance)$/);
   });
 
+  it("refuses to replay a settlement older than the replay window", async () => {
+    const first = await call(funded, "generate_cosmic_recipe", { prompt: "saffron" }, "search-old");
+    expect(first.billing).toMatchObject({ status: "charged" });
+    await db.query(
+      `UPDATE token_transactions SET created_at = now() - interval '25 hours'
+        WHERE user_id = $1 AND source_id LIKE 'generate_cosmic_recipe#%'`,
+      [funded.userId],
+    );
+    const before = await balance(funded.userId);
+    const late = await call(funded, "generate_cosmic_recipe", { prompt: "saffron" }, "search-old");
+    expect(late.errorCode).toBe("CONFLICT");
+    expect(await balance(funded.userId)).toEqual(before);
+  });
+
   it("settles concurrent retries of one key exactly once", async () => {
     const before = await balance(funded.userId);
     const results = await Promise.all(

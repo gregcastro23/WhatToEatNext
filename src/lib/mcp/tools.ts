@@ -26,18 +26,20 @@ import { ingredientService } from "@/services/IngredientService";
 import { calculateNatalChart } from "@/services/natalChartService";
 import {
   recipeReflectionsService,
+  sanitizeReview,
   type RecipeReflectionRecord,
 } from "@/services/recipeReflectionsService";
 import { recipeService } from "@/services/RecipeService";
 import type { TokenType } from "@/types/economy";
+import { resolveCaller, type ResolvedCaller } from "./auth";
 import {
+  IDEMPOTENCY_REPLAY_HOURS,
+  UNKEYED_PAYMENT,
   debitForTool,
   requestFingerprint,
-  resolveCaller,
   type DebitOutcome,
   type PaymentRequest,
-  type ResolvedCaller,
-} from "./auth";
+} from "./billing";
 import { TOOL_COSTS, isToolName, type ToolName } from "./catalog";
 import {
   buildEvidenceSnapshot,
@@ -740,6 +742,16 @@ interface ReflectionPublication {
   error?: string;
 }
 
+/** A validated submission, as it is stored and published. */
+interface ReflectionSubmission {
+  recipeId: string;
+  review: string;
+  source: string;
+  recipeName?: string;
+  agentSlug?: string;
+  dominantElement?: string;
+}
+
 interface SettledReflection {
   debit: DebitOutcome;
   record: RecipeReflectionRecord;
@@ -754,7 +766,61 @@ class SettlementRefusal extends Error {
   }
 }
 
-const UNKEYED_PAYMENT: PaymentRequest = { idempotencyKey: null, fingerprint: "" };
+function invalidReflection(field: "recipeId" | "reflection"): ToolResult {
+  return {
+    ok: false,
+    data: null,
+    errorCode: "INVALID_ARGS",
+    errorMessage: `Missing or invalid '${field}' (must be a non-empty string)`,
+    summary: { reason: `invalid-${field}` },
+  };
+}
+
+function parseReflectionSubmission(
+  args: SubmitRecipeReflectionArgs,
+): { submission: ReflectionSubmission } | { failure: ToolResult } {
+  const { recipeId, recipeName, reflection, agentSlug, dominantElement, source } =
+    args;
+  if (typeof recipeId !== "string" || !recipeId.trim())
+    return { failure: invalidReflection("recipeId") };
+  // Stored text is stripped of control characters; text that strips to
+  // nothing would otherwise fail the column CHECK after authorization.
+  if (typeof reflection !== "string" || !sanitizeReview(reflection))
+    return { failure: invalidReflection("reflection") };
+  return {
+    submission: {
+      recipeId,
+      review: reflection.trim(),
+      source:
+        typeof source === "string" && source.trim()
+          ? source.trim()
+          : "mcp_reflection",
+      ...(typeof recipeName === "string" ? { recipeName } : {}),
+      ...(typeof agentSlug === "string" ? { agentSlug } : {}),
+      ...(typeof dominantElement === "string" ? { dominantElement } : {}),
+    },
+  };
+}
+
+function reflectionFeedPayload(
+  record: RecipeReflectionRecord,
+  submission: ReflectionSubmission,
+  author: ReflectionAuthor,
+): Record<string, unknown> {
+  const { recipeName, agentSlug, dominantElement } = submission;
+  return {
+    recipeId: record.recipeId,
+    ...(recipeName ? { recipeName } : {}),
+    review: record.review,
+    source: record.source,
+    ...(agentSlug ? { agentSlug } : {}),
+    ...(author.resolvedAgentName ? { agentName: author.resolvedAgentName } : {}),
+    ...(dominantElement ? { dominantElement } : {}),
+    recipeReflectionId: record.id,
+    contentState: record.contentState,
+    skipEconomyCharge: true, // 0.4 ESMS settled in this transaction
+  };
+}
 
 /**
  * Publish the saved reflection inside the settling transaction. The savepoint
@@ -767,11 +833,7 @@ const UNKEYED_PAYMENT: PaymentRequest = { idempotencyKey: null, fingerprint: "" 
 async function publishReflectionInSavepoint(
   client: PoolClient,
   record: RecipeReflectionRecord,
-  input: {
-    recipeName?: string;
-    agentSlug?: string;
-    dominantElement?: string;
-  },
+  submission: ReflectionSubmission,
   author: ReflectionAuthor,
 ): Promise<ReflectionPublication> {
   await client.query("SAVEPOINT mcp_reflection_feed");
@@ -779,22 +841,7 @@ async function publishReflectionInSavepoint(
     const receipt = await feedDatabase.publishFeedEvent({
       actorId: author.authorId,
       eventType: "recipe_review",
-      metadataPayload: {
-        recipeId: record.recipeId,
-        ...(input.recipeName ? { recipeName: input.recipeName } : {}),
-        review: record.review,
-        source: record.source,
-        ...(input.agentSlug ? { agentSlug: input.agentSlug } : {}),
-        ...(author.resolvedAgentName
-          ? { agentName: author.resolvedAgentName }
-          : {}),
-        ...(input.dominantElement
-          ? { dominantElement: input.dominantElement }
-          : {}),
-        recipeReflectionId: record.id,
-        contentState: record.contentState,
-        skipEconomyCharge: true, // 0.4 ESMS settled in this transaction
-      },
+      metadataPayload: reflectionFeedPayload(record, submission, author),
       identity: { share: true, explicit: true },
       skipWebhook: true,
       client,
@@ -828,6 +875,107 @@ async function publishReflectionInSavepoint(
   }
 }
 
+/** Publish a reflection unless it already is, or moderation has removed it. */
+function publishIfUnpublished(
+  client: PoolClient,
+  record: RecipeReflectionRecord,
+  submission: ReflectionSubmission,
+  author: ReflectionAuthor,
+): Promise<ReflectionPublication> | ReflectionPublication {
+  if (record.feedEventId)
+    return {
+      feedPublished: true,
+      feedEventId: record.feedEventId,
+      legacyInteractionStatus: "not_requested",
+    };
+  // Deleting a feed event nulls feed_event_id (ON DELETE SET NULL), just as a
+  // failed publication leaves it; a replay must not put moderated text back.
+  if (record.hidden || record.deletedAt || record.contentState === "rejected")
+    return {
+      feedPublished: false,
+      feedEventId: null,
+      legacyInteractionStatus: "not_requested",
+      error: "The reflection was moderated and is not republished",
+    };
+  return publishReflectionInSavepoint(client, record, submission, author);
+}
+
+/** Debit, store (or find the replayed original) and publish, in `client`'s transaction. */
+async function settleReflection(
+  client: PoolClient,
+  caller: ResolvedCaller,
+  author: ReflectionAuthor,
+  submission: ReflectionSubmission,
+  payment: PaymentRequest,
+): Promise<SettledReflection> {
+  const name = "submit_recipe_reflection";
+  const debit = await debitForTool(name, caller, payment, client);
+  const refusal = paymentFailure(name, caller, debit);
+  if (refusal)
+    throw new SettlementRefusal({ ...refusal, billing: billingReceipt(debit, payment) });
+  const prior =
+    debit.replayed && debit.ledgerKey
+      ? await recipeReflectionsService.findByDeliveryKey(
+          author.authorId,
+          debit.ledgerKey,
+          client,
+        )
+      : null;
+  const record =
+    prior ??
+    (await recipeReflectionsService.createReflection({
+      recipeId: submission.recipeId,
+      authorId: author.authorId,
+      deliveryKey: debit.ledgerKey ?? null,
+      source: submission.source,
+      // Agent commentary awaits review, as on the feed route.
+      contentState: "proposed",
+      review: submission.review,
+      isAgent: author.isAgentAuthor,
+      provenance: {
+        mcpCaller: caller.caller,
+        ...(submission.agentSlug ? { agentSlug: submission.agentSlug } : {}),
+        ...(caller.apiKeyId ? { apiKeyId: caller.apiKeyId } : {}),
+      },
+      client,
+    }));
+  const publication = await publishIfUnpublished(client, record, submission, author);
+  return { debit, record, replayed: prior !== null, publication };
+}
+
+function reflectionResult(
+  { debit, record, replayed, publication }: SettledReflection,
+  submission: ReflectionSubmission,
+  author: ReflectionAuthor,
+  payment: PaymentRequest,
+): ToolResult {
+  return {
+    ok: true,
+    data: {
+      reflectionId: record.id,
+      recipeId: record.recipeId,
+      authorId: record.authorId,
+      agentSlug: submission.agentSlug ?? null,
+      agentName: author.resolvedAgentName,
+      reflection: record.review,
+      contentState: record.contentState,
+      published: publication.feedPublished,
+      publicationReceipt: publication,
+      replayed,
+      timestamp: formatReflectionTimestamp(record.createdAt),
+    },
+    billing: billingReceipt(debit, payment),
+    summary: {
+      reflectionId: record.id,
+      recipeId: record.recipeId,
+      authorId: record.authorId,
+      published: publication.feedPublished,
+      replayed,
+      legacyInteractionStatus: publication.legacyInteractionStatus,
+    },
+  };
+}
+
 /**
  * Submits an authentic culinary critique/reflection from an external agent.
  * The 0.4 ESMS debit and the `recipe_reflections` row commit in one
@@ -843,40 +991,11 @@ export async function submitRecipeReflection(
   authorizedAuthor?: ReflectionAuthor,
   payment: PaymentRequest = UNKEYED_PAYMENT,
 ): Promise<ToolResult> {
-  const {
-    recipeId,
-    recipeName,
-    reflection,
-    agentSlug,
-    dominantElement,
-    source,
-  } = args;
-
-  if (typeof recipeId !== "string" || !recipeId.trim()) {
-    return {
-      ok: false,
-      data: null,
-      errorCode: "INVALID_ARGS",
-      errorMessage:
-        "Missing or invalid 'recipeId' (must be a non-empty string)",
-      summary: { reason: "invalid-recipeId" },
-    };
-  }
-
-  if (typeof reflection !== "string" || !reflection.trim()) {
-    return {
-      ok: false,
-      data: null,
-      errorCode: "INVALID_ARGS",
-      errorMessage:
-        "Missing or invalid 'reflection' (must be a non-empty string)",
-      summary: { reason: "invalid-reflection" },
-    };
-  }
-
+  const parsed = parseReflectionSubmission(args);
+  if ("failure" in parsed) return parsed.failure;
+  const { submission } = parsed;
   const author =
-    authorizedAuthor ?? (await resolveReflectionAuthor(agentSlug, caller));
-
+    authorizedAuthor ?? (await resolveReflectionAuthor(args.agentSlug, caller));
   if (!author) {
     return {
       ok: false,
@@ -887,106 +1006,15 @@ export async function submitRecipeReflection(
       summary: { reason: "unresolvable-author" },
     };
   }
-
-  const effectiveSource =
-    typeof source === "string" && source.trim()
-      ? source.trim()
-      : "mcp_reflection";
-
-  let settled: SettledReflection;
   try {
-    settled = await withTransaction(async (client) => {
-      const debit = await debitForTool(
-        "submit_recipe_reflection",
-        caller,
-        payment,
-        client,
-      );
-      const refusal = paymentFailure("submit_recipe_reflection", caller, debit);
-      if (refusal)
-        throw new SettlementRefusal({
-          ...refusal,
-          billing: billingReceipt(debit, payment),
-        });
-      const prior =
-        debit.replayed && debit.ledgerKey
-          ? await recipeReflectionsService.findByDeliveryKey(
-              author.authorId,
-              debit.ledgerKey,
-              client,
-            )
-          : null;
-      const record =
-        prior ??
-        (await recipeReflectionsService.createReflection({
-          recipeId,
-          authorId: author.authorId,
-          deliveryKey: debit.ledgerKey ?? null,
-          source: effectiveSource,
-          // Agent commentary awaits review, as on the feed route.
-          contentState: "proposed",
-          review: reflection.trim(),
-          isAgent: author.isAgentAuthor,
-          provenance: {
-            mcpCaller: caller.caller,
-            ...(agentSlug ? { agentSlug } : {}),
-            ...(caller.apiKeyId ? { apiKeyId: caller.apiKeyId } : {}),
-          },
-          client,
-        }));
-      const publication: ReflectionPublication = record.feedEventId
-        ? {
-            feedPublished: true,
-            feedEventId: record.feedEventId,
-            legacyInteractionStatus: "not_requested",
-          }
-        : await publishReflectionInSavepoint(
-            client,
-            record,
-            {
-              ...(typeof recipeName === "string" ? { recipeName } : {}),
-              ...(typeof agentSlug === "string" ? { agentSlug } : {}),
-              ...(typeof dominantElement === "string"
-                ? { dominantElement }
-                : {}),
-            },
-            author,
-          );
-      return { debit, record, replayed: prior !== null, publication };
-    });
+    const settled = await withTransaction((client) =>
+      settleReflection(client, caller, author, submission, payment),
+    );
+    return reflectionResult(settled, submission, author, payment);
   } catch (err) {
     if (err instanceof SettlementRefusal) return err.result;
     throw err;
   }
-
-  const { debit, record, replayed, publication } = settled;
-  const data = {
-    reflectionId: record.id,
-    recipeId: record.recipeId,
-    authorId: record.authorId,
-    agentSlug: agentSlug ?? null,
-    agentName: author.resolvedAgentName,
-    reflection: record.review,
-    contentState: record.contentState,
-    published: publication.feedPublished,
-    publicationReceipt: publication,
-    replayed,
-    timestamp: formatReflectionTimestamp(record.createdAt),
-  };
-
-  return {
-    ok: true,
-    data,
-    billing: billingReceipt(debit, payment),
-    summary: {
-      reflectionId: record.id,
-      recipeId: record.recipeId,
-      authorId: record.authorId,
-      published: publication.feedPublished,
-      replayed,
-      legacyInteractionStatus: publication.legacyInteractionStatus,
-    },
-  };
 }
 
 // ─── Dispatch + invocation wrapper ────────────────────────────────────
@@ -1173,6 +1201,11 @@ function paymentFailure(
     return toolFailure(
       "CONFLICT",
       "This idempotency key was already used with different arguments; use a new key for a new request",
+    );
+  if (debit.reason === "idempotency-expired")
+    return toolFailure(
+      "CONFLICT",
+      `This idempotency key settled more than ${IDEMPOTENCY_REPLAY_HOURS} hours ago and can no longer be replayed; use a new key`,
     );
   const exempt =
     debit.reason === "free-tool" ||

@@ -51,7 +51,7 @@ const meta: JsonSchema = {
       ...text(200),
       pattern: "^[A-Za-z0-9._:~-]+$",
       description:
-        "Optional retry key for paid tools. Reusing it with identical arguments replays the original settlement instead of charging again; reusing it with different arguments is rejected.",
+        "Optional retry key for paid tools. Reusing it with identical arguments within 24 hours replays the original settlement instead of charging again; reusing it with different arguments, or later, is rejected.",
     },
     internalSecret: credential,
   },

@@ -209,12 +209,13 @@ jest.mock("@/lib/mcp/auth", () => ({
       isSynthetic: false,
       rateLimitTier: null,
     })),
+}));
+
+jest.mock("@/lib/mcp/billing", () => ({
+  ...jest.requireActual<typeof import("@/lib/mcp/billing")>("@/lib/mcp/billing"),
   debitForTool: jest
     .fn()
     .mockResolvedValue({ applied: false, reason: "free-tool", amounts: null }),
-  requestFingerprint: jest.requireActual<typeof import("@/lib/mcp/auth")>(
-    "@/lib/mcp/auth",
-  ).requestFingerprint,
 }));
 
 jest.mock("@/lib/mcp/rateLimit", () => ({
@@ -228,7 +229,8 @@ jest.mock("@/lib/mcp/rateLimit", () => ({
 }));
 
 import { executeQuery } from "@/lib/database/connection";
-import { resolveCaller, debitForTool } from "@/lib/mcp/auth";
+import { resolveCaller } from "@/lib/mcp/auth";
+import { debitForTool } from "@/lib/mcp/billing";
 import { TOOL_DEFINITIONS, TOOL_NAMES, type ToolName } from "@/lib/mcp/catalog";
 import { recordInvocation } from "@/lib/mcp/invocationLog";
 import {
@@ -1152,6 +1154,63 @@ describe("settlement", () => {
     } finally {
       restore();
     }
+  });
+
+  it("does not republish a moderated reflection on replay", async () => {
+    mockedDebit.mockResolvedValueOnce({
+      applied: true,
+      reason: null,
+      amounts: null,
+      replayed: true,
+      ledgerKey: "mcp:feedface",
+    });
+    // A moderator removed the feed event (ON DELETE SET NULL) and the reflection.
+    const restore = withStoredReflection({
+      ...STORED_REFLECTION,
+      feed_event_id: null,
+      content_state: "rejected",
+      hidden: true,
+    });
+    try {
+      const result = await invokeTool("submit_recipe_reflection", {
+        recipeId: "r1",
+        reflection: "Bright and balanced.",
+        _meta: { apiKey: "k", idempotencyKey: "reflect-1" },
+      });
+      expect(result.data).toMatchObject({
+        replayed: true,
+        published: false,
+        contentState: "rejected",
+        publicationReceipt: { feedPublished: false, feedEventId: null },
+      });
+      expect(feedDatabase.publishFeedEvent).not.toHaveBeenCalled();
+    } finally {
+      restore();
+    }
+  });
+
+  it("rejects reflection text that is empty once control characters are stripped", async () => {
+    const result = await invokeTool("submit_recipe_reflection", {
+      recipeId: "r1",
+      reflection: "\u0001\u0002",
+      ...AUTHENTICATED,
+    });
+    expect(result.errorCode).toBe("INVALID_ARGS");
+    expect(mockedDebit).not.toHaveBeenCalled();
+  });
+
+  it("refuses to replay an expired idempotency key", async () => {
+    mockedDebit.mockResolvedValueOnce({
+      applied: false,
+      reason: "idempotency-expired",
+      amounts: null,
+    });
+    const result = await invokeTool("generate_cosmic_recipe", {
+      _meta: { apiKey: "k", idempotencyKey: "retry-1" },
+    });
+    expect(result.errorCode).toBe("CONFLICT");
+    expect(result.errorMessage).toMatch(/24 hours/);
+    expect(result.data).toBeNull();
   });
 
   it("treats an undefined metadata field as absent", async () => {

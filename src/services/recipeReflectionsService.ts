@@ -158,7 +158,8 @@ function toReflectionRecord(row: RawReflectionRow): RecipeReflectionRecord {
   };
 }
 
-function sanitizeReview(text: string): string {
+/** The review text as stored: ASCII control characters removed, trimmed. */
+export function sanitizeReview(text: string): string {
   return text.replace(CONTROL_CHARS, "").trim();
 }
 
