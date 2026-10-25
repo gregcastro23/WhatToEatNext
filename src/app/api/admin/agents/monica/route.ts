@@ -19,6 +19,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
+import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { getServiceUrl } from "@/lib/serviceUrls";
 
 export const dynamic = "force-dynamic";
@@ -110,10 +112,79 @@ function normalizeTopPages(raw: unknown): MonicaTopPage[] {
     .slice(0, 10);
 }
 
+const WINDOW_HOURS: Record<MonicaWindow, number> = {
+  "1h": 1,
+  "24h": 24,
+  "7d": 168,
+};
+
+async function fetchFromWtenDb(window: MonicaWindow, paError: string): Promise<MonicaTelemetryPayload> {
+  try {
+    const hours = WINDOW_HOURS[window];
+    const [interactionsRes, ratingsRes, latencyRes, topPagesRes] = await Promise.all([
+      executeQuery<{ feed_cnt: string; mcp_cnt: string; help_cnt: string }>(
+        `SELECT
+           (SELECT COUNT(*) FROM feed_events WHERE created_at >= NOW() - ($1::int * INTERVAL '1 hour')) AS feed_cnt,
+           (SELECT COUNT(*) FROM mcp_invocations WHERE called_at >= NOW() - ($1::int * INTERVAL '1 hour')) AS mcp_cnt,
+           ((SELECT COUNT(*) FROM mcp_invocations WHERE called_at >= NOW() - ($1::int * INTERVAL '1 hour'))
+            + (SELECT COUNT(*) FROM feed_events WHERE created_at >= NOW() - ($1::int * INTERVAL '1 hour') AND event_type IN ('recipe_review', 'recipe_adapted', 'agent_chat', 'insight'))
+            + (SELECT COUNT(*) FROM user_interactions WHERE created_at >= NOW() - ($1::int * INTERVAL '1 hour'))) AS help_cnt`,
+        [hours],
+      ),
+      executeQuery<{ helpful_cnt: string; total_cnt: string }>(
+        `WITH rated AS (
+           SELECT score AS rating FROM recipe_reflections WHERE created_at >= NOW() - (GREATEST($1::int, 168) * INTERVAL '1 hour') AND score IS NOT NULL
+           UNION ALL
+           SELECT (metadata_payload->>'rating')::numeric AS rating FROM feed_events WHERE created_at >= NOW() - ($1::int * INTERVAL '1 hour') AND (metadata_payload->>'rating') ~ '^[0-9]+(\\.[0-9]+)?$'
+         ) SELECT COUNT(*) FILTER (WHERE rating >= 4) AS helpful_cnt, COUNT(*) AS total_cnt FROM rated`,
+        [hours],
+      ),
+      executeQuery<{ avg_ms: number | null }>(
+        `WITH samples AS (
+           SELECT latency_ms FROM mcp_invocations WHERE called_at >= NOW() - (GREATEST($1::int, 24) * INTERVAL '1 hour') AND latency_ms IS NOT NULL
+           UNION ALL
+           SELECT latency_ms FROM request_log_entries WHERE at >= NOW() - (GREATEST($1::int, 24) * INTERVAL '1 hour') AND path IN ('/api/generate-cosmic-recipe', '/api/personalized-recommendations', '/api/cuisines/recommend') AND latency_ms IS NOT NULL
+         ) SELECT AVG(latency_ms)::float AS avg_ms FROM samples`,
+        [hours],
+      ),
+      executeQuery<{ path: string; cnt: string }>(
+        `WITH paths AS (
+           SELECT path FROM page_views WHERE at >= NOW() - (GREATEST($1::int, 168) * INTERVAL '1 hour')
+           UNION ALL
+           SELECT path FROM request_log_entries WHERE at >= NOW() - (GREATEST($1::int, 24) * INTERVAL '1 hour') AND path NOT LIKE '/api/admin/%' AND path NOT LIKE '/api/auth/%'
+         ) SELECT path, COUNT(*) AS cnt FROM paths WHERE path IS NOT NULL AND path <> '' GROUP BY path ORDER BY COUNT(*) DESC LIMIT 8`,
+        [hours],
+      ),
+    ]);
+
+    const [iRow] = interactionsRes.rows;
+    const [rRow] = ratingsRes.rows;
+    const sampleSize = Number(rRow?.total_cnt ?? 0);
+    const avgMsRaw = latencyRes.rows[0]?.avg_ms;
+    const avgCompletionMs = avgMsRaw !== null && avgMsRaw !== undefined && Number.isFinite(Number(avgMsRaw)) ? Math.round(Number(avgMsRaw)) : null;
+
+    return {
+      window,
+      generatedAt: new Date().toISOString(),
+      helpfulnessScore: sampleSize > 0 ? Math.round((Number(rRow?.helpful_cnt ?? 0) / sampleSize) * 1000) / 1000 : null,
+      helpfulnessSampleSize: sampleSize,
+      avgCompletionMs,
+      totalInteractions: Number(iRow?.feed_cnt ?? 0) + Number(iRow?.mcp_cnt ?? 0),
+      contextualHelpRequests: Number(iRow?.help_cnt ?? 0),
+      topPages: topPagesRes.rows.map((r) => ({ path: r.path, count: Number(r.cnt) })),
+      live: true,
+      source: "wten-db",
+    };
+  } catch (dbErr) {
+    _logger.error("[admin/agents/monica] WTEN DB fallback failed", dbErr);
+    return emptyPayload(window, paError);
+  }
+}
+
 async function fetchFromPa(window: MonicaWindow): Promise<MonicaTelemetryPayload> {
   const secret = process.env.INTERNAL_API_SECRET;
   if (!secret) {
-    return emptyPayload(window, "INTERNAL_API_SECRET not configured");
+    return fetchFromWtenDb(window, "INTERNAL_API_SECRET not configured");
   }
   const base = paBaseUrl();
   const url = `${base}/api/internal/monica-telemetry?window=${encodeURIComponent(window)}`;
@@ -137,7 +208,7 @@ async function fetchFromPa(window: MonicaWindow): Promise<MonicaTelemetryPayload
 
     if (!res.ok) {
       const text = await res.text().catch(() => "");
-      return emptyPayload(
+      return fetchFromWtenDb(
         window,
         `PA responded ${res.status}: ${text.slice(0, 120)}`,
       );
@@ -185,7 +256,7 @@ async function fetchFromPa(window: MonicaWindow): Promise<MonicaTelemetryPayload
     };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    return emptyPayload(window, message);
+    return fetchFromWtenDb(window, message);
   } finally {
     clearTimeout(timer);
   }

@@ -10,7 +10,7 @@
  *
  * Without DATABASE_URL, credential-free reads use anonymous demo mode.
  * Explicit credentials cannot be verified and fail closed; writes require
- * an authenticated owner and settled payment.
+ * an authenticated owner and settled payment (see ./billing).
  *
  * @file mcp-server/src/auth.ts
  */
@@ -181,120 +181,6 @@ export async function resolveCaller(
       isSynthetic: false,
       rateLimitTier: null,
       authError: "UNAVAILABLE",
-    };
-  }
-}
-
-/**
- * Per-axis ESMS cost for one MCP tool call. Matches the existing
- * shop_items rate for `unlock-cosmic-recipe` (database/init/90):
- * 2.5 of each axis = 10 total per cosmic recipe.
- *
- * Evidence snapshots include the same priced recipe search. Reflections
- * cost 0.1 per axis (0.4 total); the remaining calculations are free.
- */
-export const TOOL_COSTS: Record<
-  string,
-  { spirit: number; essence: number; matter: number; substance: number } | null
-> = {
-  generate_cosmic_recipe: {
-    spirit: 2.5,
-    essence: 2.5,
-    matter: 2.5,
-    substance: 2.5,
-  },
-  submit_recipe_reflection: {
-    spirit: 0.1,
-    essence: 0.1,
-    matter: 0.1,
-    substance: 0.1,
-  },
-  alchemize_ingredients: null,
-  get_live_sky_transits: null,
-  compute_synastry_overlay: null,
-  get_transit_natal_overlay: null,
-  compute_triplicate_synastry: null,
-  create_evidence_snapshot: {
-    spirit: 2.5,
-    essence: 2.5,
-    matter: 2.5,
-    substance: 2.5,
-  },
-};
-
-export interface DebitOutcome {
-  applied: boolean;
-  reason: string | null;
-  amounts: {
-    spirit: number;
-    essence: number;
-    matter: number;
-    substance: number;
-  } | null;
-}
-
-/**
- * Debit the configured per-tool cost from the caller. Returns
- * `applied: false` when the call is free, the caller is anonymous, the
- * caller is the synthetic probe (we don't burn tokens on health checks),
- * or DB is unavailable.
- *
- * Insufficient balance returns `applied: false` with a reason so the
- * tool can return a quota-style error to the caller.
- */
-export async function debitForTool(
-  toolName: string,
-  caller: ResolvedCaller,
-): Promise<DebitOutcome> {
-  const cost = TOOL_COSTS[toolName] ?? null;
-  if (!cost) return { applied: false, reason: "free-tool", amounts: null };
-  if (caller.isSynthetic) {
-    return { applied: false, reason: "synthetic-probe-exempt", amounts: null };
-  }
-  if (!caller.userId) {
-    return { applied: false, reason: "anonymous-caller", amounts: null };
-  }
-  const db = await getDb();
-  if (!db) {
-    return { applied: false, reason: "db-unavailable", amounts: null };
-  }
-
-  // Reuse the culinary action service inside an actual transaction: the four
-  // ledger debits and any Swapping Bridge legs either commit together or roll back.
-  const { agentEconomyActionService } =
-    await import("@/services/agentEconomyActionService");
-  const refusal = { reason: "debit-failed" };
-  const { userId } = caller;
-  try {
-    await db.withTransaction(async (client) => {
-      const debit = await agentEconomyActionService.debitActionInTx({
-        userId,
-        costs: cost,
-        sourceType:
-          toolName === "submit_recipe_reflection"
-            ? "recipe_reflection"
-            : "purchase",
-        sourceId: toolName,
-        description: `MCP ${toolName} via ${caller.caller}`,
-        autoSwap: true,
-        client,
-      });
-      if (!debit.success || !debit.receipt.charged) {
-        refusal.reason =
-          !debit.success && debit.reason === "insufficient_funds"
-            ? "insufficient-funds"
-            : "debit-failed";
-        // Throw even if the service caught a ledger error so withTransaction
-        // cannot commit earlier swap legs or balance updates on a refusal.
-        throw new Error("MCP payment refused");
-      }
-    });
-    return { applied: true, reason: null, amounts: cost };
-  } catch {
-    return {
-      applied: false,
-      reason: refusal.reason,
-      amounts: null,
     };
   }
 }

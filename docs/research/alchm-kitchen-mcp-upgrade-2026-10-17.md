@@ -128,3 +128,61 @@ Final validation completed October 18, 2026.
 - Application and package TypeScript checks passed. Focused MCP/source lint passed with zero warnings. Both bundle and native sidecar builds passed; the existing `astronomy-engine` default-export compatibility warning remains.
 
 - Full `bun run verify:static` passed, including all 284 gate tests, application/script typechecks, lint, the lint-debt audit and dead-module audit. Lint debt decreased from 1,218 to 1,216; assertion sites decreased from 2,864 to 2,859; the declined-rule pool decreased from 4,668 to 4,666. No baseline was increased.
+
+## Implementation follow-through: 1.4.0
+
+Date: October 24, 2026. Built on the 1.3.0 commit `7be623f9` (branch tip `9f210d82a`). The 1.3.0 record above is unchanged; this section describes what 1.4.0 found and changed.
+
+### Defects found in 1.3.0
+
+- **Reflections were never stored.** The MCP handler wrote `contentState: "reviewed"`, but migration 94 only allows `proposed`, `verified` or `rejected`. `createReflection` caught the CHECK violation and returned an in-memory record with an invented id. Every authenticated 1.3.0 reflection was therefore charged 0.4 ESMS, reported `ok: true`, and left no row; its feed event pointed at a reflection that did not exist. [Reflection service](../../src/services/recipeReflectionsService.ts), [migration 94](../../database/init/94-agent-publications-and-recipe-reflections.sql).
+- **Paid reads charged before running.** A failed recipe search or a partial snapshot still cost 10 ESMS. The rest of the app charges on delivery. [Feature charges](../../src/lib/economy/featureCharge.ts).
+- **Recipe search was always empty in the standalone server** (this predates 1.3.0). `LocalRecipeService` reads its Redis cache through Next's `unstable_cache`, which throws outside a Next.js request; `RecipeService` turned that into an empty catalog. Authenticated callers were charged for zero recipes. [Recipe catalog](../../src/services/LocalRecipeService.ts).
+
+### What changed
+
+- **Reflection integrity.** New reflections are `proposed`, as on the feed route, and the service's TypeScript type now matches the database enum. The in-memory fallback stands in only when no database is configured; inside a transaction, or with `DATABASE_URL` set, a failed insert surfaces. The input limit matches the column's 4000-character CHECK, and text that is empty once control characters are stripped is rejected before any charge.
+- **Settlement on delivery.** Paid reads run first and settle only on success; a refused settlement withholds the result. A reflection's debit, row, feed event, interaction mirror and feed link share one transaction, with a savepoint so a failed publication rolls back alone while the paid reflection commits. Its Planetary Agents webhook is suppressed inside the savepoint (`skipWebhook: true`) and fired strictly after the settling transaction commits (`afterCommit`).
+- **Idempotent retries.** Optional `_meta.idempotencyKey` becomes a ledger key hashed from account, tool and key. Settlement takes a transaction-scoped advisory lock, probes the ledger by exact key, and records `<tool>#<argument fingerprint>` in `source_id`. A matching retry within 24 hours replays without charging; a mismatched or older reuse returns `CONFLICT`. A replayed reflection returns the stored row and re-attempts a failed publication unless the reflection has been moderated. The economy service's own replay probe now matches exact per-axis keys, so it uses the idempotency index instead of scanning the ledger.
+- **Typed results.** Every tool publishes a `title` and an `outputSchema` accepting its success payload or the shared error envelope (the TypeScript SDK client validates error results too). Paid results carry a `billing` receipt; `BUSY` carries `retryAfterSec`; prices live in the catalog beside each tool's contract; settlement moved from `auth.ts` to `billing.ts`.
+- **Validator.** `null` is a supported type, and an `undefined` property counts as absent, as in JSON. The in-process synthetic probe passes `internalSecret: process.env.INTERNAL_API_SECRET`, which is undefined when unset; 1.3.0 rejected that as `INVALID_ARGS`.
+
+Sources: [catalog](../../src/lib/mcp/catalog.ts), [output schemas](../../src/lib/mcp/outputSchemas.ts), [billing](../../src/lib/mcp/billing.ts), [invocation](../../src/lib/mcp/tools.ts), [validation](../../src/lib/mcp/validation.ts), [economy service](../../src/services/agentEconomyActionService.ts), [operator documentation](../../mcp-server/README.md).
+
+### Independent review
+
+Three read-only reviews ran against the change: PostgreSQL transaction and concurrency semantics, the published contract, and billing abuse. None found a path that charges a caller without storing the reflection, stores one without payment, replays or probes another account's key, or produces a payload that fails an advertised schema (checked with the SDK's ajv and Python `jsonschema` across success and error paths, the full recipe and ingredient catalogs, and real-database paths).
+
+Their confirmed findings and outcomes:
+
+- The empty standalone catalog (above): fixed, with an end-to-end regression test.
+- A keyed retry could buy fresh results indefinitely: replays are now limited to 24 hours.
+- A replay could republish a moderated reflection whose feed event had been deleted (`ON DELETE SET NULL`): moderated reflections are no longer republished.
+- The economy service's `LIKE '<key>:%'` replay probe scanned the whole ledger on every keyed call: replaced with an exact, index-backed probe.
+- Control-character-only text failed with `INTERNAL`: now `INVALID_ARGS` before charging.
+- Two README statements were inaccurate (when `billing` appears; where the raw key is kept): corrected.
+
+### Decisions resolved
+
+- **Free recipes inside a partial snapshot (retained for demo mode).** A partial snapshot is an error and is not charged, but its data includes the recipe candidates. This gives away nothing that anonymous demo mode does not, so it is retained; if demo mode is ever restricted, strip priced components from unsettled partial snapshots.
+- **Post-commit Planetary Agents webhook for MCP reflections (implemented).** 1.3.0 pushed agent-authored MCP reflections to PA's `/api/feed` before transaction settlement. 1.4.0 suppresses the webhook inside the database transaction savepoint (`skipWebhook: true`) and schedules `feedDatabase.pushAgentFeedWebhook(...)` in an `afterCommit` hook that runs only after `withTransaction` commits (`COMMIT` succeeded) and only when a feed event was newly published in that transaction.
+
+### Remaining release and integration work
+
+The 1.3.0 items stand: publish the package and registry metadata, then update PA's version pin and five-tool allowlist and pass its scoped credential. Not addressed here:
+
+- With a transient database error inside a transaction, the economy service falls back to an empty in-memory balance and reports insufficient funds, so the caller sees `QUOTA` for a fault it should retry. Nothing is charged.
+- On the feed route, the agent reflection charge autocommits before the reflection insert, outside a transaction.
+- Resources, prompts, SDK v2 and remote HTTP/OAuth were not added; each still needs a named consumer.
+
+### Validation results (1.4.0)
+
+Final validation completed October 24, 2026, on Linux (Bun 1.4.2, Node 22, PostgreSQL 16.15).
+
+- **Full `bun run verify`:** `verify:static` passed every gate: the 284 gate tests, route/readJson/bare-cast/diff-assertion checks, application and script typechecks, lint, the lint-debt audit (the declined-rule pool fell from 4,665 to 4,663; no baseline increased) and the dead-module audit. The full Jest run had **6,048 passed / 53 skipped / 3 failed of 6,104**. All three failures are in `src/__tests__/cuisineDerivedProfiles.test.ts` and fail identically at the base commit `9f210d82a`: American dish data changed without `bun run generate:cuisine-profiles`. They are unrelated to MCP.
+- **MCP unit and settlement:** seven suites, **135 tests passed** with `MCP_TEST_DATABASE_URL` set. These cover settlement order, idempotency (key derivation, fingerprints, replay, conflict, expiry, joined transactions), the reflection transaction and savepoint, moderation-aware replay, output-contract conformance for every tool's success and error envelopes, and the 1.3.0 suites.
+- **Real PostgreSQL:** seven settlement tests ran against a disposable database holding every migration. They cover the ledger, replay and expiry, three concurrent retries settling once, unkeyed calls, the stored `proposed` reflection with its linked feed event, an unaffordable reflection leaving no rows, and recovery from a refused feed insert. Negative controls fail as expected: removing the advisory lock fails the concurrency test, and restoring `"reviewed"` fails both reflection-write tests.
+- **Real stdio protocol:** **21 tests each passed against source, the Node bundle and the compiled Bun sidecar** (63 in total): the original nine plus twelve through the official SDK client, which validates every result against its `outputSchema`. Corrupting one schema field makes that suite fail. The catalog regression test fails without the `LocalRecipeService` fix.
+- **Package:** typecheck passed; bundle and sidecar builds passed (the existing `astronomy-engine` default-export warning remains). macOS signing was not exercised on this Linux host.
+
+No npm or registry publication, production deployment, live database write, or external feed publication was performed.

@@ -17,9 +17,13 @@ export function getRedisClient(): Redis | null {
   }
 
   try {
+    // Use `cache: "default"` instead of @upstash/redis's default `"no-store"` so
+    // Next.js 15's patched fetch does not throw DynamicServerError (`DYNAMIC_SERVER_USAGE`)
+    // when Redis reads/writes occur inside ISR routes like /recipes/[recipeId].
     _client = new Redis({
       url,
       token,
+      cache: "default",
     });
     return _client;
   } catch (err) {
