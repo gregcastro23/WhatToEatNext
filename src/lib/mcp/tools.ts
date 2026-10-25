@@ -876,12 +876,14 @@ async function publishReflectionInSavepoint(
       author.isAgentAuthor &&
       typeof feedDatabase.pushAgentFeedWebhook === "function"
         ? () => {
-            void feedDatabase.pushAgentFeedWebhook({
-              agentEmail,
-              agentDisplayName: author.resolvedAgentName,
-              eventType: "recipe_review",
-              metadataPayload,
-            });
+            feedDatabase
+              .pushAgentFeedWebhook({
+                agentEmail,
+                agentDisplayName: author.resolvedAgentName,
+                eventType: "recipe_review",
+                metadataPayload,
+              })
+              .catch(() => undefined);
           }
         : undefined;
     return {
@@ -948,15 +950,10 @@ async function settleReflection(
   const name = "submit_recipe_reflection";
   const debit = await debitForTool(name, caller, payment, client);
   const refusal = paymentFailure(name, caller, debit);
-  if (refusal)
-    throw new SettlementRefusal({ ...refusal, billing: billingReceipt(debit, payment) });
+  if (refusal) throw new SettlementRefusal({ ...refusal, billing: billingReceipt(debit, payment) });
   const prior =
     debit.replayed && debit.ledgerKey
-      ? await recipeReflectionsService.findByDeliveryKey(
-          author.authorId,
-          debit.ledgerKey,
-          client,
-        )
+      ? await recipeReflectionsService.findByDeliveryKey(author.authorId, debit.ledgerKey, client)
       : null;
   const record =
     prior ??
@@ -965,7 +962,6 @@ async function settleReflection(
       authorId: author.authorId,
       deliveryKey: debit.ledgerKey ?? null,
       source: submission.source,
-      // Agent commentary awaits review, as on the feed route.
       contentState: "proposed",
       review: submission.review,
       isAgent: author.isAgentAuthor,
@@ -976,19 +972,8 @@ async function settleReflection(
       },
       client,
     }));
-  const { publication, afterCommit } = await publishIfUnpublished(
-    client,
-    record,
-    submission,
-    author,
-  );
-  return {
-    debit,
-    record,
-    replayed: prior !== null,
-    publication,
-    ...(afterCommit ? { afterCommit } : {}),
-  };
+  const { publication, afterCommit } = await publishIfUnpublished(client, record, submission, author);
+  return { debit, record, replayed: prior !== null, publication, ...(afterCommit ? { afterCommit } : {}) };
 }
 
 function reflectionResult(

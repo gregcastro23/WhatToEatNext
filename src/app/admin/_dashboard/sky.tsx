@@ -171,28 +171,19 @@ const PLANETARY_HOUR_COLORS: Record<string, string> = {
 };
 
 function PlanetaryHourBar({ snapshot }: { snapshot: PlanetaryHourSnapshot }) {
-  // Empty segments (degraded state) — render a uniform muted strip so the
-  // bar doesn't collapse layout while the ephemeris recovers.
-  const segs = snapshot.segments.length > 0
-    ? snapshot.segments
-    : Array.from({ length: 24 }, (_, hour) => ({
-        hour,
-        symbol: "·",
-        planet: snapshot.dayRuler,
-        isLive: false,
-        isPast: false,
-      }));
+  const segs =
+    snapshot.segments.length > 0
+      ? snapshot.segments
+      : Array.from({ length: 24 }, (_, hour) => ({
+          hour,
+          symbol: "·",
+          planet: snapshot.dayRuler,
+          isLive: false,
+          isPast: false,
+        }));
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(24, 1fr)",
-        gap: 1.5,
-        alignItems: "stretch",
-        height: 22,
-      }}
-    >
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(24, 1fr)", gap: 1.5, alignItems: "stretch", height: 22 }}>
       {segs.map((s) => {
         const color = PLANETARY_HOUR_COLORS[s.symbol] ?? "var(--fg-mute)";
         return (
@@ -200,11 +191,7 @@ function PlanetaryHourBar({ snapshot }: { snapshot: PlanetaryHourSnapshot }) {
             key={s.hour}
             title={`${String(s.hour).padStart(2, "0")}:00 · ${s.planet}`}
             style={{
-              background: s.isLive
-                ? "var(--accent)"
-                : s.isPast
-                  ? `color-mix(in oklch, ${color}, transparent 70%)`
-                  : "rgba(255,255,255,0.04)",
+              background: s.isLive ? "var(--accent)" : s.isPast ? `color-mix(in oklch, ${color}, transparent 70%)` : "rgba(255,255,255,0.04)",
               border: `1px solid ${s.isLive ? "var(--accent)" : "var(--line)"}`,
               borderRadius: 2,
               display: "flex",
@@ -343,7 +330,7 @@ export function AstronomicalEngine({
 // ============================================================
 export function SEMSDistribution({
   data,
-}: { data?: SemsDistributionData | undefined } = {}) {
+}: { data?: SemsDistributionData } = {}): React.ReactElement {
   const isLive = Boolean(data?.live && data.recipeCount > 0);
   if (!isLive || !data) {
     return (
@@ -414,23 +401,8 @@ export function SEMSDistribution({
             const maxBin = Math.max(1, ...ax.bins);
             const color = axisColor[ax.key] ?? "var(--accent)";
             return (
-              <div
-                key={ax.key}
-                style={{
-                  border: "1px solid var(--line)",
-                  borderRadius: 6,
-                  padding: "6px 8px",
-                  background: "rgba(255,255,255,0.012)",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "baseline",
-                    marginBottom: 4,
-                  }}
-                >
+              <div key={ax.key} style={{ border: "1px solid var(--line)", borderRadius: 6, padding: "6px 8px", background: "rgba(255,255,255,0.012)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
                   <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "var(--fg)" }}>
                     <span className="el-dot" style={{ background: color, boxShadow: `0 0 6px ${color}` }} />
                     {ax.key}
@@ -439,15 +411,7 @@ export function SEMSDistribution({
                     μ <b style={{ color: "var(--fg)" }}>{ax.mean.toFixed(2)}</b> · σ {ax.stdDev.toFixed(2)} · [{ax.min.toFixed(1)}–{ax.max.toFixed(1)}]
                   </span>
                 </div>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(8, 1fr)",
-                    gap: 3,
-                    height: 18,
-                    alignItems: "end",
-                  }}
-                >
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(8, 1fr)", gap: 3, height: 18, alignItems: "end" }}>
                   {ax.bins.map((b, idx) => (
                     <div
                       key={idx}

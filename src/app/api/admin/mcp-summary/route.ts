@@ -1,13 +1,58 @@
 import { NextResponse } from "next/server";
+import { readJson } from "@/lib/api/json";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { getServiceUrl } from "@/lib/serviceUrls";
+import { McpNetworkSummarySchema } from "@/lib/validation/serviceResponseSchemas";
 import type { McpNetworkSummary, McpVerdict } from "@/services/mcpNetworkService";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+function roundNullable(val: number | null | undefined): number | null {
+  return val !== null && val !== undefined ? Math.round(Number(val)) : null;
+}
+
+function resolveProbeHealth(
+  probeRows: Array<{ called_at: Date; success: boolean }>,
+): {
+  probeVerdict: McpVerdict;
+  consecutiveFailures: number;
+  latestProbe: { called_at: Date; success: boolean } | undefined;
+} {
+  const [latestProbe] = probeRows;
+  let consecutiveFailures = 0;
+  for (const r of probeRows) {
+    if (!r.success) consecutiveFailures += 1;
+    else break;
+  }
+
+  let probeVerdict: McpVerdict = "UNKNOWN";
+  if (latestProbe) {
+    const ageMs = Date.now() - new Date(latestProbe.called_at).getTime();
+    if (consecutiveFailures >= 3) {
+      probeVerdict = "INCIDENT";
+    } else if (consecutiveFailures > 0 || ageMs > 60 * 60 * 1000) {
+      probeVerdict = "DEGRADED";
+    } else {
+      probeVerdict = "OK";
+    }
+  }
+  return { probeVerdict, consecutiveFailures, latestProbe };
+}
+
+function resolveOverallVerdict(
+  calls: number,
+  errorRate: number,
+  probeVerdict: McpVerdict,
+): McpVerdict {
+  if (calls === 0) return probeVerdict;
+  if (errorRate > 0.25 || probeVerdict === "INCIDENT") return "INCIDENT";
+  if (errorRate > 0.05 || probeVerdict === "DEGRADED") return "DEGRADED";
+  return "OK";
+}
 
 /**
  * Compute MCP telemetry directly from WTEN's Postgres database (`mcp_invocations`
@@ -121,37 +166,10 @@ async function buildLocalMcpSummary(
   const failures = Number(totRow?.failures ?? 0);
   const errorRate = calls > 0 ? failures / calls : 0;
 
-  // Compute synthetic probe health from trailing probe invocations
-  const { rows: probeRows } = probeRes;
-  const [latestProbe] = probeRows;
-  let consecutiveFailures = 0;
-  for (const r of probeRows) {
-    if (!r.success) consecutiveFailures += 1;
-    else break;
-  }
-
-  let probeVerdict: McpVerdict = "UNKNOWN";
-  if (latestProbe) {
-    const ageMs = Date.now() - new Date(latestProbe.called_at).getTime();
-    if (consecutiveFailures >= 3) {
-      probeVerdict = "INCIDENT";
-    } else if (consecutiveFailures > 0 || ageMs > 60 * 60 * 1000) {
-      probeVerdict = "DEGRADED";
-    } else {
-      probeVerdict = "OK";
-    }
-  }
-
-  let verdict: McpVerdict = probeVerdict;
-  if (calls > 0) {
-    if (errorRate > 0.25 || probeVerdict === "INCIDENT") {
-      verdict = "INCIDENT";
-    } else if (errorRate > 0.05 || probeVerdict === "DEGRADED") {
-      verdict = "DEGRADED";
-    } else {
-      verdict = "OK";
-    }
-  }
+  const { probeVerdict, consecutiveFailures, latestProbe } = resolveProbeHealth(
+    probeRes.rows,
+  );
+  const verdict = resolveOverallVerdict(calls, errorRate, probeVerdict);
 
   return {
     live: true,
@@ -163,27 +181,15 @@ async function buildLocalMcpSummary(
       success,
       failures,
       errorRate: Math.round(errorRate * 10000) / 10000,
-      p50LatencyMs:
-        totRow?.p50_ms !== null && totRow?.p50_ms !== undefined
-          ? Math.round(Number(totRow.p50_ms))
-          : null,
-      p95LatencyMs:
-        totRow?.p95_ms !== null && totRow?.p95_ms !== undefined
-          ? Math.round(Number(totRow.p95_ms))
-          : null,
-      p99LatencyMs:
-        totRow?.p99_ms !== null && totRow?.p99_ms !== undefined
-          ? Math.round(Number(totRow.p99_ms))
-          : null,
+      p50LatencyMs: roundNullable(totRow?.p50_ms),
+      p95LatencyMs: roundNullable(totRow?.p95_ms),
+      p99LatencyMs: roundNullable(totRow?.p99_ms),
     },
     byTool: byToolRes.rows.map((r) => ({
       tool: r.tool_name,
       calls: Number(r.calls),
       failures: Number(r.failures),
-      p95LatencyMs:
-        r.p95_ms !== null && r.p95_ms !== undefined
-          ? Math.round(Number(r.p95_ms))
-          : null,
+      p95LatencyMs: r.p95_ms !== null ? Math.round(Number(r.p95_ms)) : null,
     })),
     byAgent: byAgentRes.rows.map((r) => ({
       agentId: r.agent_id,
@@ -222,26 +228,19 @@ export async function GET(request: NextRequest) {
   if ("error" in authResult) return authResult.error;
 
   const { searchParams } = new URL(request.url);
-  const windowMinutesStr = searchParams.get("windowMinutes") ?? "60";
-  const windowMinutes = parseInt(windowMinutesStr, 10) || 60;
-
+  const windowMinutes = parseInt(searchParams.get("windowMinutes") ?? "60", 10) || 60;
   const secret = process.env.INTERNAL_API_SECRET;
   const base = getServiceUrl("planetaryAgentsApi");
 
   if (secret) {
     try {
-      const url = `${base}/api/admin/mcp-summary?windowMinutes=${windowMinutes}`;
-      const res = await fetch(url, {
+      const res = await fetch(`${base}/api/admin/mcp-summary?windowMinutes=${windowMinutes}`, {
         method: "GET",
-        headers: {
-          "X-Internal-Secret": secret,
-          Accept: "application/json",
-        },
+        headers: { "X-Internal-Secret": secret, Accept: "application/json" },
         signal: AbortSignal.timeout(3_500),
       });
-
       if (res.ok) {
-        const data = (await res.json()) as Partial<McpNetworkSummary>;
+        const data = await readJson(res, { parse: McpNetworkSummarySchema.nullable().parse });
         if (data && data.live !== false && data.totals && data.totals.calls > 0) {
           return NextResponse.json(data);
         }
@@ -252,16 +251,11 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const localSummary = await buildLocalMcpSummary(windowMinutes);
-    return NextResponse.json(localSummary);
+    return NextResponse.json(await buildLocalMcpSummary(windowMinutes));
   } catch (err) {
     _logger.error("[admin/mcp-summary] local DB fallback failed", err);
     return NextResponse.json(
-      {
-        live: false,
-        error: "pa_unreachable",
-        message: err instanceof Error ? err.message : String(err),
-      },
+      { live: false, error: "pa_unreachable", message: err instanceof Error ? err.message : String(err) },
       { status: 200 },
     );
   }

@@ -108,7 +108,11 @@ export async function getCosmicYield(): Promise<CosmicYieldData> {
            FROM token_transactions
            WHERE created_at > NOW() - INTERVAL '30 days'`,
         ),
-        executeQuery(
+        executeQuery<{
+          total?: number;
+          holder_count?: number;
+          gini?: number | null;
+        }>(
           `WITH bal AS (
              SELECT
                (spirit + essence + matter + substance)::float8 AS b,
@@ -163,11 +167,7 @@ export async function getCosmicYield(): Promise<CosmicYieldData> {
       ]);
 
     const flowRow = flowRes.rows[0] as { minted?: unknown; burned?: unknown } | undefined;
-    const circRow = circulationRes.rows[0] as {
-      total?: unknown;
-      holder_count?: unknown;
-      gini?: unknown;
-    } | undefined;
+    const [circRow] = circulationRes.rows;
     const minted = Number(flowRow?.minted ?? 0);
     const burned = Number(flowRow?.burned ?? 0);
     const sinkRows = sinksRes.rows as Array<{ source_type: string; amount: number }>;
@@ -233,11 +233,7 @@ export interface RequestSeriesData {
 export async function getRequestHourlySeries(): Promise<RequestSeriesData> {
   const windowHours = 24;
   try {
-    // Buckets keyed by UTC epoch rather than a driver-parsed timestamp: the
-    // `AT TIME ZONE 'UTC'` truncation pins hour boundaries regardless of the
-    // server's session timezone, and an epoch survives the round-trip without
-    // any Date-parsing ambiguity.
-    const res = await executeQuery(
+    const res = await executeQuery<{ bucket_epoch: number; requests: number; errors: number }>(
       `SELECT
          EXTRACT(EPOCH FROM date_trunc('hour', at AT TIME ZONE 'UTC'))::float8 AS bucket_epoch,
          COUNT(*)::int AS requests,
@@ -249,20 +245,13 @@ export async function getRequestHourlySeries(): Promise<RequestSeriesData> {
     );
 
     const byEpochMs = new Map<number, { requests: number; errors: number }>();
-    for (const row of res.rows as Array<{
-      bucket_epoch: number;
-      requests: number;
-      errors: number;
-    }>) {
+    for (const row of res.rows) {
       byEpochMs.set(Number(row.bucket_epoch) * 1000, {
         requests: Number(row.requests),
         errors: Number(row.errors),
       });
     }
 
-    // Zero-fill every hour so the trace always has 24 points. This runs only
-    // after the query succeeded, so a zero bucket is a measured "no logged
-    // traffic that hour", not a masked failure.
     const hourMs = 3_600_000;
     const currentHourMs = Math.floor(Date.now() / hourMs) * hourMs;
     const points: RequestSeriesPoint[] = [];
@@ -584,6 +573,40 @@ export interface PlatformPulse {
   deployFreshness: string;
 }
 
+async function hydratePlatformPulseFromDb(
+  totalReq: number,
+  errorRateRatio: number,
+  p95Ms: number,
+  deploySha: string | null,
+): Promise<{ totalReq: number; errorRateRatio: number; p95Ms: number; deploySha: string | null }> {
+  try {
+    const [durableRes, shaRes] = await Promise.all([
+      totalReq === 0
+        ? executeQuery<{ cnt: number; err_5xx: number; p95_ms: number | null }>(
+            `SELECT COUNT(*)::int AS cnt, COUNT(*) FILTER (WHERE status >= 500)::int AS err_5xx,
+                    PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms) FILTER (WHERE latency_ms IS NOT NULL) AS p95_ms
+             FROM request_log_entries WHERE at > NOW() - INTERVAL '24 hours'`,
+          )
+        : Promise.resolve({ rows: [] }),
+      !deploySha
+        ? executeQuery<{ commit_sha: string | null }>(
+            `SELECT commit_sha FROM code_health_snapshots WHERE commit_sha IS NOT NULL AND commit_sha <> 'unknown' ORDER BY measured_at DESC LIMIT 1`,
+          )
+        : Promise.resolve({ rows: [] }),
+    ]);
+    const [dRow] = durableRes.rows;
+    if (dRow && Number(dRow.cnt) > 0) {
+      totalReq = Number(dRow.cnt);
+      errorRateRatio = Number(dRow.err_5xx) / totalReq;
+      p95Ms = Math.round(Number(dRow.p95_ms ?? 0));
+    }
+    deploySha = deploySha ?? shaRes.rows[0]?.commit_sha ?? null;
+  } catch {
+    // Fall back to in-memory ring values
+  }
+  return { totalReq, errorRateRatio, p95Ms, deploySha };
+}
+
 /**
  * Live platform health for the dashboard's top-bar pulse strip. Latency and
  * error rate come from the in-memory request log (`summarizeRecent`), falling
@@ -591,92 +614,30 @@ export interface PlatformPulse {
  */
 export async function getPlatformPulse(): Promise<PlatformPulse> {
   const summary = summarizeRecent();
+  const dbHealthy = await checkDatabaseHealth().then((h) => h.healthy).catch(() => false);
+  const baseDeploySha = process.env.VERCEL_GIT_COMMIT_SHA ?? null;
+  const hydrated =
+    dbHealthy && (summary.count === 0 || !baseDeploySha)
+      ? await hydratePlatformPulseFromDb(summary.count, summary.errorRate, summary.p95LatencyMs, baseDeploySha)
+      : { totalReq: summary.count, errorRateRatio: summary.errorRate, p95Ms: summary.p95LatencyMs, deploySha: baseDeploySha };
 
-  let dbHealthy: boolean;
-  try {
-    const dbHealth = await checkDatabaseHealth();
-    dbHealthy = dbHealth.healthy;
-  } catch {
-    dbHealthy = false;
-  }
-
-  let totalReq = summary.count;
-  let errorRateRatio = summary.errorRate;
-  let p95Ms = summary.p95LatencyMs;
-  let deploySha = process.env.VERCEL_GIT_COMMIT_SHA ?? null;
-
-  if (dbHealthy && (totalReq === 0 || !deploySha)) {
-    try {
-      const [durableRes, shaRes] = await Promise.all([
-        totalReq === 0
-          ? executeQuery<{
-              cnt: number;
-              err_5xx: number;
-              p95_ms: number | null;
-            }>(
-              `SELECT
-                 COUNT(*)::int AS cnt,
-                 COUNT(*) FILTER (WHERE status >= 500)::int AS err_5xx,
-                 PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms)
-                   FILTER (WHERE latency_ms IS NOT NULL) AS p95_ms
-               FROM request_log_entries
-               WHERE at > NOW() - INTERVAL '24 hours'`,
-            )
-          : Promise.resolve({ rows: [] }),
-        !deploySha
-          ? executeQuery<{ commit_sha: string | null }>(
-              `SELECT commit_sha FROM code_health_snapshots
-               WHERE commit_sha IS NOT NULL AND commit_sha <> 'unknown'
-               ORDER BY measured_at DESC LIMIT 1`,
-            )
-          : Promise.resolve({ rows: [] }),
-      ]);
-      const [dRow] = durableRes.rows;
-      if (dRow && Number(dRow.cnt) > 0) {
-        totalReq = Number(dRow.cnt);
-        errorRateRatio = Number(dRow.err_5xx) / totalReq;
-        p95Ms = Math.round(Number(dRow.p95_ms ?? 0));
-      }
-      if (!deploySha && shaRes.rows[0]?.commit_sha) {
-        deploySha = shaRes.rows[0].commit_sha;
-      }
-    } catch {
-      // Fall back to in-memory ring values
-    }
-  }
-
-  const errRate = Number((errorRateRatio * 100).toFixed(2));
+  const errRate = Number((hydrated.errorRateRatio * 100).toFixed(2));
   const highErrors = errRate > 5;
-  const highLatency = p95Ms > 1000;
-
-  let activeIncidents = 0;
-  if (!dbHealthy) activeIncidents += 1;
-  if (highErrors) activeIncidents += 1;
-
-  let state: PlatformPulse["state"] = "NOMINAL";
-  if (!dbHealthy) state = "INCIDENT";
-  else if (highErrors || highLatency) state = "DEGRADED";
-
-  // Start at 100, deduct for each degraded signal.
-  let score = 100;
-  if (!dbHealthy) score -= 60;
-  score -= Math.min(30, errRate * 3);
-  if (highLatency) score -= 10;
-  score = Math.max(0, Number(score.toFixed(1)));
-
-  const availability =
-    totalReq > 0
-      ? Number(((1 - errorRateRatio) * 100).toFixed(3))
-      : 100;
+  const highLatency = hydrated.p95Ms > 1000;
+  const activeIncidents = (dbHealthy ? 0 : 1) + (highErrors ? 1 : 0);
+  const state: PlatformPulse["state"] = !dbHealthy ? "INCIDENT" : highErrors || highLatency ? "DEGRADED" : "NOMINAL";
+  const rawScore = 100 - (dbHealthy ? 0 : 60) - Math.min(30, errRate * 3) - (highLatency ? 10 : 0);
+  const score = Math.max(0, Number(rawScore.toFixed(1)));
+  const availability = hydrated.totalReq > 0 ? Number(((1 - hydrated.errorRateRatio) * 100).toFixed(3)) : 100;
 
   return {
     state,
     score,
     availability,
     activeIncidents,
-    p95: p95Ms,
+    p95: hydrated.p95Ms,
     errRate,
-    deployFreshness: deploySha ? `sha ${deploySha.slice(0, 7)}` : "—",
+    deployFreshness: hydrated.deploySha ? `sha ${hydrated.deploySha.slice(0, 7)}` : "—",
   };
 }
 
@@ -766,6 +727,30 @@ function formatAge(createdAt: Date): string {
   const diffHours = Math.floor(diffMins / 60);
   if (diffHours < 24) return `${diffHours}h`;
   return `${Math.floor(diffHours / 24)}d`;
+}
+
+function buildEngineEvaluation(evalRow?: {
+  total_recipes: number;
+  total_critiques: number;
+  critiqued_recipes: number;
+  verified_critiques: number;
+  proposed_critiques: number;
+  mean_rating: number | null;
+}): EngineEvaluationMetrics {
+  const totalRecipes = Number(evalRow?.total_recipes ?? 0);
+  const critiquedRecipes = Number(evalRow?.critiqued_recipes ?? 0);
+  return {
+    totalCritiques: Number(evalRow?.total_critiques ?? 0),
+    critiquedRecipes,
+    catalogCoveragePct:
+      totalRecipes > 0 ? Math.round((critiquedRecipes / totalRecipes) * 1000) / 10 : 0,
+    meanRating:
+      evalRow?.mean_rating !== null && evalRow?.mean_rating !== undefined
+        ? Number(evalRow.mean_rating)
+        : null,
+    verifiedCritiques: Number(evalRow?.verified_critiques ?? 0),
+    proposedCritiques: Number(evalRow?.proposed_critiques ?? 0),
+  };
 }
 
 export async function getEnginePerformance(): Promise<EnginePerformanceData> {
@@ -891,26 +876,12 @@ export async function getEnginePerformance(): Promise<EnginePerformanceData> {
 
     const stages: EngineStageMetric[] = stagesRes.rows.map((r) => ({
       stage: String(r.stage),
-      calls: Number(r.calls ?? 0),
-      p50Ms: r.p50_ms !== null && r.p50_ms !== undefined ? Number(r.p50_ms) : null,
-      p95Ms: r.p95_ms !== null && r.p95_ms !== undefined ? Number(r.p95_ms) : null,
+      calls: Number(r.calls),
+      p50Ms: r.p50_ms !== null ? Number(r.p50_ms) : null,
+      p95Ms: r.p95_ms !== null ? Number(r.p95_ms) : null,
     }));
 
-    const [evalRow] = evalRes.rows;
-    const totalRecipes = Number(evalRow?.total_recipes ?? 0);
-    const critiquedRecipes = Number(evalRow?.critiqued_recipes ?? 0);
-    const evaluation: EngineEvaluationMetrics = {
-      totalCritiques: Number(evalRow?.total_critiques ?? 0),
-      critiquedRecipes,
-      catalogCoveragePct:
-        totalRecipes > 0 ? Math.round((critiquedRecipes / totalRecipes) * 1000) / 10 : 0,
-      meanRating:
-        evalRow?.mean_rating !== null && evalRow?.mean_rating !== undefined
-          ? Number(evalRow.mean_rating)
-          : null,
-      verifiedCritiques: Number(evalRow?.verified_critiques ?? 0),
-      proposedCritiques: Number(evalRow?.proposed_critiques ?? 0),
-    };
+    const evaluation = buildEngineEvaluation(evalRes.rows[0]);
 
     return {
       clickToCookRate,
@@ -1122,8 +1093,6 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
 }
 
 export async function getPageTelemetry(): Promise<PageTelemetryData> {
-  // ANY failed count flips `live` — a count silently caught to 0 under
-  // `live: true` is indistinguishable from a measured empty table.
   let allLive = true;
   const countOf = (sql: string, label: string): Promise<number> =>
     executeQuery(sql)
@@ -1137,33 +1106,17 @@ export async function getPageTelemetry(): Promise<PageTelemetryData> {
   const [foodDiary, customRecipes, restaurants, commensals, mealPlans, natalCharts] =
     await Promise.all([
       countOf(
-        `SELECT (
-           (SELECT COUNT(*) FROM food_diary_entries)
-           + (SELECT COUNT(*) FROM user_interactions WHERE interaction_type = 'food_diary_entry')
-         )::integer AS count`,
+        "SELECT ((SELECT COUNT(*) FROM food_diary_entries) + (SELECT COUNT(*) FROM user_interactions WHERE interaction_type = 'food_diary_entry'))::integer AS count",
         "food_diary_entries",
       ),
       countOf(
-        `SELECT (
-           (SELECT COUNT(*) FROM recipes WHERE is_public = false)
-           + (SELECT COUNT(*) FROM user_custom_recipes)
-         )::integer AS count`,
+        "SELECT ((SELECT COUNT(*) FROM recipes WHERE is_public = false) + (SELECT COUNT(*) FROM user_custom_recipes))::integer AS count",
         "custom recipes",
       ),
       countOf("SELECT COUNT(*)::integer AS count FROM restaurants", "restaurants"),
       countOf("SELECT COUNT(*)::integer AS count FROM manual_companion_charts", "manual_companion_charts"),
-      countOf(
-        `SELECT (
-           (SELECT COUNT(*) FROM user_meal_plans)
-           + (SELECT COUNT(*) FROM weekly_menus)
-         )::integer AS count`,
-        "user_meal_plans",
-      ),
-      countOf(
-        `SELECT COUNT(*)::integer AS count FROM user_profiles
-         WHERE natal_chart IS NOT NULL AND natal_chart <> '{}'::jsonb`,
-        "natal charts",
-      ),
+      countOf("SELECT ((SELECT COUNT(*) FROM user_meal_plans) + (SELECT COUNT(*) FROM weekly_menus))::integer AS count", "user_meal_plans"),
+      countOf("SELECT COUNT(*)::integer AS count FROM user_profiles WHERE natal_chart IS NOT NULL AND natal_chart <> '{}'::jsonb", "natal charts"),
     ]);
 
   return {
@@ -1212,9 +1165,7 @@ export interface RecentAlertsData {
  * Returns `live: false` with an empty list when the table is missing or
  * the query fails — never throws.
  */
-export async function getRecentAlerts(
-  limit = 8,
-): Promise<RecentAlertsData> {
+export async function getRecentAlerts(limit = 8): Promise<RecentAlertsData> {
   try {
     const result = await executeQuery<{
       id: number;
@@ -1228,26 +1179,18 @@ export async function getRecentAlerts(
       suppressed: boolean | null;
       undelivered_channels: string[] | null;
     }>(
-      // `dispatch` holds one object per channel (`{"slack":{"ok":false,...}}`)
-      // alongside scalar bookkeeping keys such as `suppressed`. Expanding it
-      // lets us report which channels the alert failed to reach — reading
-      // only `suppressed` silently hid a channel that had never worked.
       `SELECT id, triggered_at, component, previous_status, current_status,
               severity, title, message,
               COALESCE((dispatch->>'suppressed')::boolean, false) AS suppressed,
               COALESCE(
                 ARRAY(
-                  SELECT ch.key
-                  FROM jsonb_each(dispatch) AS ch(key, value)
-                  WHERE jsonb_typeof(ch.value) = 'object'
-                    AND ch.value->>'ok' = 'false'
+                  SELECT ch.key FROM jsonb_each(dispatch) AS ch(key, value)
+                  WHERE jsonb_typeof(ch.value) = 'object' AND ch.value->>'ok' = 'false'
                   ORDER BY ch.key
                 ),
                 ARRAY[]::text[]
               ) AS undelivered_channels
-       FROM alert_events
-       ORDER BY triggered_at DESC
-       LIMIT $1`,
+       FROM alert_events ORDER BY triggered_at DESC LIMIT $1`,
       [limit],
     );
 
@@ -1660,22 +1603,13 @@ export interface PractitionerGeoData {
 
 export async function getPractitionerGeo(): Promise<PractitionerGeoData> {
   try {
-    const result = await executeQuery<{
-      lat: string;
-      lng: string;
-      tz: string | null;
-      count: number;
-    }>(
-      `SELECT
-         COALESCE((birth_data->>'latitude')::float8, 0) as lat,
-         COALESCE((birth_data->>'longitude')::float8, 0) as lng,
-         birth_data->>'timezone' as tz,
-         COUNT(*)::int as count
+    const result = await executeQuery<{ lat: string; lng: string; tz: string | null; count: number }>(
+      `SELECT COALESCE((birth_data->>'latitude')::float8, 0) as lat,
+              COALESCE((birth_data->>'longitude')::float8, 0) as lng,
+              birth_data->>'timezone' as tz, COUNT(*)::int as count
        FROM user_profiles
        WHERE birth_data IS NOT NULL AND birth_data->>'latitude' IS NOT NULL
-       GROUP BY lat, lng, tz
-       ORDER BY count DESC
-       LIMIT 30`
+       GROUP BY lat, lng, tz ORDER BY count DESC LIMIT 30`,
     );
 
     const byName = new Map<string, { latSum: number; lngSum: number; count: number }>();
@@ -1684,9 +1618,7 @@ export async function getPractitionerGeo(): Promise<PractitionerGeoData> {
       const lng = Number(row.lng);
       const cnt = Number(row.count);
       let name = row.tz ? row.tz.split("/").pop()?.replace(/_/g, " ") ?? "Unknown" : "Unknown";
-      if (name === "Unknown" && Math.abs(lat - 40.7) < 0.2 && Math.abs(lng - -74.0) < 0.3) {
-        name = "New York";
-      }
+      if (name === "Unknown" && Math.abs(lat - 40.7) < 0.2 && Math.abs(lng - -74.0) < 0.3) name = "New York";
       const prev = byName.get(name);
       if (prev) {
         prev.latSum += lat * cnt;
@@ -1707,10 +1639,7 @@ export async function getPractitionerGeo(): Promise<PractitionerGeoData> {
       .sort((a, b) => b.count - a.count)
       .slice(0, 10);
 
-    return {
-      regions,
-      live: true,
-    };
+    return { regions, live: true };
   } catch (error) {
     _logger.warn("[getPractitionerGeo] failed:", error);
     return { regions: [], live: false };
@@ -1734,8 +1663,6 @@ export interface CohortRetentionData {
 
 export async function getCohortRetention(): Promise<CohortRetentionData> {
   try {
-    // Standard cohort retention query over last 5 weeks.
-    // Note: user_interactions uses `timestamp`, not `created_at`.
     const result = await executeQuery<{
       cohort_week: string | Date;
       cohort_size: number;
@@ -1744,23 +1671,15 @@ export async function getCohortRetention(): Promise<CohortRetentionData> {
       w4_active: number;
     }>(
       `WITH cohorts AS (
-         SELECT
-           id AS user_id,
-           date_trunc('week', created_at) AS cohort_week,
-           created_at
-         FROM users
-         WHERE is_active = true
+         SELECT id AS user_id, date_trunc('week', created_at) AS cohort_week, created_at
+         FROM users WHERE is_active = true
        ),
        activity AS (
          SELECT user_id, created_at AS activity_time FROM token_transactions
-         UNION
-         SELECT user_id, created_at AS activity_time FROM user_interactions
-         UNION
-         SELECT actor_id AS user_id, created_at AS activity_time FROM feed_events WHERE actor_id IS NOT NULL
-         UNION
-         SELECT user_id, created_at AS activity_time FROM user_recipe_interactions
-         UNION
-         SELECT u.id AS user_id, a.created_at AS activity_time FROM auth_events a JOIN users u ON u.email = a.email
+         UNION SELECT user_id, created_at AS activity_time FROM user_interactions
+         UNION SELECT actor_id AS user_id, created_at AS activity_time FROM feed_events WHERE actor_id IS NOT NULL
+         UNION SELECT user_id, created_at AS activity_time FROM user_recipe_interactions
+         UNION SELECT u.id AS user_id, a.created_at AS activity_time FROM auth_events a JOIN users u ON u.email = a.email
        )
        SELECT
          c.cohort_week,
@@ -1768,11 +1687,8 @@ export async function getCohortRetention(): Promise<CohortRetentionData> {
          COUNT(DISTINCT CASE WHEN a.activity_time >= c.created_at + INTERVAL '1 day' AND a.activity_time < c.created_at + INTERVAL '7 days' THEN c.user_id END)::int AS w1_active,
          COUNT(DISTINCT CASE WHEN a.activity_time >= c.created_at + INTERVAL '7 days' AND a.activity_time < c.created_at + INTERVAL '14 days' THEN c.user_id END)::int AS w2_active,
          COUNT(DISTINCT CASE WHEN a.activity_time >= c.created_at + INTERVAL '14 days' AND a.activity_time < c.created_at + INTERVAL '30 days' THEN c.user_id END)::int AS w4_active
-       FROM cohorts c
-       LEFT JOIN activity a ON c.user_id = a.user_id
-       GROUP BY c.cohort_week
-       ORDER BY c.cohort_week DESC
-       LIMIT 5`
+       FROM cohorts c LEFT JOIN activity a ON c.user_id = a.user_id
+       GROUP BY c.cohort_week ORDER BY c.cohort_week DESC LIMIT 5`,
     );
 
     const cohorts: CohortRetentionEntry[] = result.rows.map((row) => ({
@@ -1783,10 +1699,7 @@ export async function getCohortRetention(): Promise<CohortRetentionData> {
       w4Active: Number(row.w4_active),
     }));
 
-    return {
-      cohorts,
-      live: true,
-    };
+    return { cohorts, live: true };
   } catch (error) {
     _logger.warn("[getCohortRetention] failed:", error);
     return { cohorts: [], live: false };
@@ -2048,10 +1961,11 @@ export async function getRouteHeatmap(): Promise<RouteHeatmapData> {
     const bucketMap = new Map<string, number[]>();
     for (const r of bucketsRes.rows) {
       const p = String(r.path);
-      if (!bucketMap.has(p)) {
-        bucketMap.set(p, Array.from({ length: 12 }, () => 0));
+      let arr = bucketMap.get(p);
+      if (!arr) {
+        arr = Array.from({ length: 12 }, () => 0);
+        bucketMap.set(p, arr);
       }
-      const arr = bucketMap.get(p)!;
       const idx = 11 - Number(r.slot);
       if (idx >= 0 && idx < 12) {
         arr[idx] = (arr[idx] ?? 0) + Number(r.cnt);
@@ -2064,7 +1978,7 @@ export async function getRouteHeatmap(): Promise<RouteHeatmapData> {
         path: p,
         buckets: bucketMap.get(p) ?? Array.from({ length: 12 }, () => 0),
         totalRequests: Number(r.total),
-        p95Ms: r.p95_ms !== null && r.p95_ms !== undefined ? Math.round(Number(r.p95_ms)) : null,
+        p95Ms: r.p95_ms !== null ? Math.round(Number(r.p95_ms)) : null,
         errors5xx: Number(r.err_5xx),
         errors4xx: Number(r.err_4xx),
       };
@@ -2085,7 +1999,7 @@ export async function getRouteHeatmap(): Promise<RouteHeatmapData> {
     for (const r of topRoutesRes.rows) {
       reqMap.set(String(r.path), {
         total: Number(r.total),
-        p95Ms: r.p95_ms !== null && r.p95_ms !== undefined ? Math.round(Number(r.p95_ms)) : null,
+        p95Ms: r.p95_ms !== null ? Math.round(Number(r.p95_ms)) : null,
         err5xx: Number(r.err_5xx),
       });
     }

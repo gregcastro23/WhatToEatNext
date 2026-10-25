@@ -106,9 +106,7 @@ export function ServiceMatrix({ systemStatus }: { systemStatus: SystemStatusPayl
                     <span style={{ color: "var(--fg)" }}>{it.name}</span>
                   </div>
                 </SvcCell>
-                <SvcCell>
-                  <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>{it.tier}</span>
-                </SvcCell>
+                <SvcCell><span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>{it.tier}</span></SvcCell>
                 <SvcCell>
                   <span
                     className="t-mono"
@@ -124,20 +122,13 @@ export function ServiceMatrix({ systemStatus }: { systemStatus: SystemStatusPayl
                     {it.status}
                   </span>
                 </SvcCell>
-                <SvcCell>
-                  <span style={{ color: "var(--fg-dim)", fontSize: 10.5 }}>{it.summary}</span>
-                </SvcCell>
+                <SvcCell><span style={{ color: "var(--fg-dim)", fontSize: 10.5 }}>{it.summary}</span></SvcCell>
                 <SvcCell>
                   {it.metrics && it.metrics.length > 0 ? (
                     <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                       {it.metrics.map((m) => (
-                        <span
-                          key={m.label}
-                          className="t-mono"
-                          style={{ fontSize: 9.5, color: "var(--fg-mute)" }}
-                        >
-                          {m.label}:&nbsp;
-                          <span style={{ color: "var(--fg-dim)" }}>{m.value}</span>
+                        <span key={m.label} className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+                          {m.label}:&nbsp;<span style={{ color: "var(--fg-dim)" }}>{m.value}</span>
                         </span>
                       ))}
                     </div>
@@ -253,23 +244,12 @@ export function LiveEventStream({
                   padding: "6px 14px",
                   fontFamily: "var(--f-mono)",
                   fontSize: 10.5,
-                  borderBottom:
-                    i === events.length - 1
-                      ? "none"
-                      : "1px solid color-mix(in oklch, var(--line), transparent 30%)",
+                  borderBottom: i === events.length - 1 ? "none" : "1px solid color-mix(in oklch, var(--line), transparent 30%)",
                   color: "var(--fg-dim)",
                 }}
               >
                 <span style={{ color: "var(--fg-mute)", fontSize: 9.5 }}>{time}</span>
-                <span
-                  style={{
-                    width: 4,
-                    height: 4,
-                    borderRadius: 999,
-                    background: dot,
-                    boxShadow: `0 0 6px ${dot}`,
-                  }}
-                />
+                <span style={{ width: 4, height: 4, borderRadius: 999, background: dot, boxShadow: `0 0 6px ${dot}` }} />
                 <span style={{ color: cat, fontSize: 9.5, letterSpacing: "0.08em" }}>
                   {e.category}.{e.type}
                 </span>
@@ -278,14 +258,7 @@ export function LiveEventStream({
                     {e.actor?.name ?? e.actor?.email ?? "system"}
                   </span>
                   <span style={{ color: "var(--fg-mute)" }}>·</span>
-                  <span
-                    style={{
-                      color: "var(--fg-dim)",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
+                  <span style={{ color: "var(--fg-dim)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {e.description}
                   </span>
                 </span>
@@ -1290,36 +1263,16 @@ export function CommensalPulse({ pageTelemetry }: { pageTelemetry?: PageTelemetr
   return (
     <Card
       title="Commensal Dining & Companions"
-      subtitle={
-        live
-          ? `${count.toLocaleString()} companion charts · ${mealPlans.toLocaleString()} meal plans`
-          : "page telemetry offline"
-      }
+      subtitle={live ? `${count.toLocaleString()} companion charts · ${mealPlans.toLocaleString()} meal plans` : "page telemetry offline"}
       right={
-        <span
-          className="t-mono"
-          style={{
-            fontSize: 9,
-            color: live ? "var(--el-earth)" : "var(--fg-mute)",
-            letterSpacing: "0.14em",
-          }}
-        >
+        <span className="t-mono" style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)", letterSpacing: "0.14em" }}>
           {live ? "● LIVE" : "○ STALE"}
         </span>
       }
     >
       {count === 0 ? (
-        <div
-          style={{
-            padding: "24px 12px",
-            textAlign: "center",
-            border: "1px dashed var(--line)",
-            borderRadius: 8,
-          }}
-        >
-          <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
-            No commensal sessions yet
-          </div>
+        <div style={{ padding: "24px 12px", textAlign: "center", border: "1px dashed var(--line)", borderRadius: 8 }}>
+          <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>No commensal sessions yet</div>
           <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
             ratings + party-state will populate once /commensal traffic begins
           </div>
@@ -1329,11 +1282,7 @@ export function CommensalPulse({ pageTelemetry }: { pageTelemetry?: PageTelemetr
           <MetricTile label="Commensals" v={count.toLocaleString()} sub="companion rows" />
           <MetricTile label="Meal plans" v={mealPlans.toLocaleString()} sub="saved plans" />
           <MetricTile label="Custom recipes" v={customRecipes.toLocaleString()} sub="user-created" />
-          <MetricTile
-            label="Restaurants"
-            v={(pageTelemetry?.restaurants ?? 0).toLocaleString()}
-            sub="user-saved"
-          />
+          <MetricTile label="Restaurants" v={(pageTelemetry?.restaurants ?? 0).toLocaleString()} sub="user-saved" />
         </div>
       )}
     </Card>

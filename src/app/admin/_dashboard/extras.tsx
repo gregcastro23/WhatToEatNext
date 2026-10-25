@@ -18,14 +18,14 @@ import { Card } from "./hero";
 // SUBDOMAIN MATRIX
 // ============================================================
 interface SubdomainMatrixProps {
-  pageTelemetry?: PageTelemetryData | undefined;
-  routeHeatmap?: RouteHeatmapData | undefined;
+  pageTelemetry?: PageTelemetryData;
+  routeHeatmap?: RouteHeatmapData;
 }
 
 export function SubdomainMatrix({
   pageTelemetry,
   routeHeatmap,
-}: SubdomainMatrixProps) {
+}: SubdomainMatrixProps): React.ReactElement {
   const tele = pageTelemetry ?? {
     foodDiary: 421,
     customRecipes: 89,
@@ -283,28 +283,30 @@ export function SubdomainMatrix({
 // API HEATMAP
 // ============================================================
 interface APIHeatmapProps {
-  db?: DatabaseObservabilityData | undefined;
-  routeHeatmap?: RouteHeatmapData | undefined;
+  db?: DatabaseObservabilityData;
+  routeHeatmap?: RouteHeatmapData;
 }
 
-export function APIHeatmap({ db, routeHeatmap }: APIHeatmapProps) {
-  const heatmapLive = Boolean(
-    routeHeatmap?.live && routeHeatmap.routes.length > 0,
-  );
+export function APIHeatmap({ db, routeHeatmap }: APIHeatmapProps): React.ReactElement {
+  const heatmapRoutes =
+    routeHeatmap?.live && routeHeatmap.routes.length > 0
+      ? routeHeatmap.routes
+      : [];
+  const heatmapLive = heatmapRoutes.length > 0;
   const maxBucketVal = heatmapLive
     ? Math.max(
         1,
-        ...routeHeatmap!.routes.flatMap((r) => r.buckets),
+        ...heatmapRoutes.flatMap((r) => r.buckets),
       )
     : 1;
   const total24h = heatmapLive
-    ? routeHeatmap!.routes.reduce(
+    ? heatmapRoutes.reduce(
         (s, r) => s + r.buckets.reduce((a, b) => a + b, 0),
         0,
       )
     : 0;
   const total7d = heatmapLive
-    ? routeHeatmap!.routes.reduce((s, r) => s + r.totalRequests, 0)
+    ? heatmapRoutes.reduce((s, r) => s + r.totalRequests, 0)
     : 0;
 
   return (
@@ -381,92 +383,37 @@ export function APIHeatmap({ db, routeHeatmap }: APIHeatmapProps) {
               ERR
             </span>
           </div>
-          {routeHeatmap.routes.slice(0, 8).map((r, i) => (
-            <div
-              key={r.path}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1.4fr repeat(12, 1fr) 54px 54px 48px",
-                gap: 3,
-                padding: "6px 8px",
-                alignItems: "center",
-                borderBottom:
-                  i === Math.min(7, routeHeatmap.routes.length - 1)
-                    ? "none"
-                    : "1px solid var(--line)",
-                fontFamily: "var(--f-mono)",
-                fontSize: 9.5,
-              }}
-            >
-              <span
+          {routeHeatmap.routes.slice(0, 8).map((r, i) => {
+            const p95 = r.p95Ms ?? 0;
+            const p95Color = p95 > 500 ? "var(--el-fire)" : p95 > 200 ? "var(--accent-2)" : "var(--fg)";
+            const errColor = r.errors5xx > 0 ? "var(--el-fire)" : r.errors4xx > 0 ? "var(--accent-2)" : "var(--fg-mute)";
+            return (
+              <div
+                key={r.path}
                 style={{
-                  color: "var(--fg)",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
+                  display: "grid", gridTemplateColumns: "1.4fr repeat(12, 1fr) 54px 54px 48px", gap: 3, padding: "6px 8px",
+                  alignItems: "center", borderBottom: i === Math.min(7, routeHeatmap.routes.length - 1) ? "none" : "1px solid var(--line)",
+                  fontFamily: "var(--f-mono)", fontSize: 9.5,
                 }}
-                title={r.path}
               >
-                {r.path}
-              </span>
-              {r.buckets.map((count, bIdx) => {
-                const intensity = count / maxBucketVal;
-                return (
+                <span style={{ color: "var(--fg)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={r.path}>{r.path}</span>
+                {r.buckets.map((count, bIdx) => (
                   <div
                     key={bIdx}
                     title={`${routeHeatmap.bucketLabels[bIdx]} UTC: ${count} requests`}
                     style={{
-                      height: 14,
-                      borderRadius: 2,
-                      background:
-                        count === 0
-                          ? "rgba(255,255,255,0.03)"
-                          : `color-mix(in oklch, var(--accent), transparent ${Math.round((1 - Math.max(0.2, intensity)) * 85)}%)`,
-                      border:
-                        count > 0
-                          ? "1px solid color-mix(in oklch, var(--accent), transparent 65%)"
-                          : "1px solid transparent",
+                      height: 14, borderRadius: 2,
+                      background: count === 0 ? "rgba(255,255,255,0.03)" : `color-mix(in oklch, var(--accent), transparent ${Math.round((1 - Math.max(0.2, count / maxBucketVal)) * 85)}%)`,
+                      border: count > 0 ? "1px solid color-mix(in oklch, var(--accent), transparent 65%)" : "1px solid transparent",
                     }}
                   />
-                );
-              })}
-              <span
-                className="t-num"
-                style={{ textAlign: "right", color: "var(--fg-dim)" }}
-              >
-                {r.totalRequests.toLocaleString()}
-              </span>
-              <span
-                className="t-num"
-                style={{
-                  textAlign: "right",
-                  color:
-                    r.p95Ms !== null && r.p95Ms > 500
-                      ? "var(--el-fire)"
-                      : r.p95Ms !== null && r.p95Ms > 200
-                        ? "var(--accent-2)"
-                        : "var(--fg)",
-                }}
-              >
-                {r.p95Ms !== null ? `${r.p95Ms}ms` : "—"}
-              </span>
-              <span
-                className="t-num"
-                style={{
-                  textAlign: "right",
-                  color:
-                    r.errors5xx > 0
-                      ? "var(--el-fire)"
-                      : r.errors4xx > 0
-                        ? "var(--accent-2)"
-                        : "var(--fg-mute)",
-                }}
-                title={`${r.errors5xx} 5xx · ${r.errors4xx} 4xx`}
-              >
-                {r.errors5xx + r.errors4xx}
-              </span>
-            </div>
-          ))}
+                ))}
+                <span className="t-num" style={{ textAlign: "right", color: "var(--fg-dim)" }}>{r.totalRequests.toLocaleString()}</span>
+                <span className="t-num" style={{ textAlign: "right", color: p95Color }}>{r.p95Ms !== null ? `${r.p95Ms}ms` : "—"}</span>
+                <span className="t-num" style={{ textAlign: "right", color: errColor }} title={`${r.errors5xx} 5xx · ${r.errors4xx} 4xx`}>{r.errors5xx + r.errors4xx}</span>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div
@@ -790,9 +737,9 @@ export function RecipeQualityInspector({
 // ============================================================
 // COSMIC YIELD ECONOMY
 // ============================================================
-export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }) {
+export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }): React.ReactElement {
   const maxSink = Math.max(1, ...data.sinks24h.map((s) => s.amount));
-  const sourcesRaw = data.sources24h ?? [];
+  const sourcesRaw = data.sources24h;
   const maxSource = Math.max(1, ...sourcesRaw.map((s) => s.amount));
   const maxFlow = Math.max(1, data.minted30d, data.burned30d);
   const [topHolder] = data.topHolders;
@@ -810,7 +757,7 @@ export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }) {
     v: Math.round(s.amount),
     p: s.amount / maxSource,
   }));
-  const flowDays = data.flowSeries?.live ? data.flowSeries.days : [];
+  const flowDays = data.flowSeries.live ? data.flowSeries.days : [];
   const maxDailyFlow =
     flowDays.length > 0
       ? Math.max(1, ...flowDays.map((d) => Math.max(d.minted, d.burned)))
@@ -989,57 +936,17 @@ export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }) {
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 {sources.map((s) => (
-                  <div
-                    key={s.k}
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 50px",
-                      alignItems: "center",
-                      gap: 8,
-                      fontSize: 10.5,
-                    }}
-                  >
+                  <div key={s.k} style={{ display: "grid", gridTemplateColumns: "1fr 50px", alignItems: "center", gap: 8, fontSize: 10.5 }}>
                     <div>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
                         <span style={{ color: "var(--fg-dim)" }}>{s.k}</span>
-                        <span className="t-num" style={{ color: "var(--el-earth)" }}>
-                          +{s.v.toLocaleString()}
-                        </span>
+                        <span className="t-num" style={{ color: "var(--el-earth)" }}>+{s.v.toLocaleString()}</span>
                       </div>
-                      <div
-                        style={{
-                          position: "relative",
-                          height: 3,
-                          background: "rgba(255,255,255,0.04)",
-                          borderRadius: 999,
-                          marginTop: 2,
-                          overflow: "hidden",
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: `${s.p * 100}%`,
-                            height: "100%",
-                            background: "var(--el-earth)",
-                          }}
-                        />
+                      <div style={{ position: "relative", height: 3, background: "rgba(255,255,255,0.04)", borderRadius: 999, marginTop: 2, overflow: "hidden" }}>
+                        <div style={{ width: `${s.p * 100}%`, height: "100%", background: "var(--el-earth)" }} />
                       </div>
                     </div>
-                    <span
-                      className="t-mono"
-                      style={{
-                        fontSize: 9,
-                        color: "var(--fg-mute)",
-                        textAlign: "right",
-                      }}
-                    >
-                      ESMS
-                    </span>
+                    <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", textAlign: "right" }}>ESMS</span>
                   </div>
                 ))}
               </div>
@@ -1050,63 +957,22 @@ export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }) {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             {sinks.length === 0 && (
-              <span
-                className="t-mono"
-                style={{ fontSize: 9, color: "var(--fg-mute)" }}
-              >
+              <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
                 no debits in last 24h
               </span>
             )}
             {sinks.map((s) => (
-              <div
-                key={s.k}
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 50px",
-                  alignItems: "center",
-                  gap: 8,
-                  fontSize: 10.5,
-                }}
-              >
+              <div key={s.k} style={{ display: "grid", gridTemplateColumns: "1fr 50px", alignItems: "center", gap: 8, fontSize: 10.5 }}>
                 <div>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
+                  <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <span style={{ color: "var(--fg-dim)" }}>{s.k}</span>
-                    <span className="t-num" style={{ color: "var(--fg)" }}>
-                      {s.v.toLocaleString()}
-                    </span>
+                    <span className="t-num" style={{ color: "var(--fg)" }}>{s.v.toLocaleString()}</span>
                   </div>
-                  <div
-                    style={{
-                      position: "relative",
-                      height: 3,
-                      background: "rgba(255,255,255,0.04)",
-                      borderRadius: 999,
-                      marginTop: 2,
-                      overflow: "hidden",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: `${s.p * 100}%`,
-                        height: "100%",
-                        background: "var(--accent)",
-                        boxShadow: "0 0 6px var(--accent)",
-                      }}
-                    />
+                  <div style={{ position: "relative", height: 3, background: "rgba(255,255,255,0.04)", borderRadius: 999, marginTop: 2, overflow: "hidden" }}>
+                    <div style={{ width: `${s.p * 100}%`, height: "100%", background: "var(--accent)", boxShadow: "0 0 6px var(--accent)" }} />
                   </div>
                 </div>
-                <span
-                  className="t-mono"
-                  style={{
-                    fontSize: 9,
-                    color: "var(--fg-mute)",
-                    textAlign: "right",
-                  }}
-                >
-                  ESMS
-                </span>
+                <span className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", textAlign: "right" }}>ESMS</span>
               </div>
             ))}
           </div>
@@ -1629,59 +1495,25 @@ export function ResourceUsage({ data }: { data?: ResourceUsageData }) {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {items.map((item) => (
-              <div
-                key={item.measurement}
-                style={{
-                  border: "1px solid var(--line)",
-                  borderRadius: 8,
-                  padding: "8px 10px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: 4,
-                  }}
-                >
-                  <span style={{ fontSize: 11, color: "var(--fg-dim)" }}>
-                    {item.resource}
-                  </span>
+              <div key={item.measurement} style={{ border: "1px solid var(--line)", borderRadius: 8, padding: "8px 10px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                  <span style={{ fontSize: 11, color: "var(--fg-dim)" }}>{item.resource}</span>
                   <span className="t-num" style={{ fontSize: 11 }}>
-                    {fmtUsage(item.mtdValue)} / {fmtUsage(item.projectedValue)}{" "}
-                    {item.unit}
+                    {fmtUsage(item.mtdValue)} / {fmtUsage(item.projectedValue)} {item.unit}
                   </span>
                 </div>
-                <div
-                  style={{
-                    position: "relative",
-                    height: 6,
-                    background: "rgba(255,255,255,0.03)",
-                    borderRadius: 3,
-                    overflow: "hidden",
-                  }}
-                >
+                <div style={{ position: "relative", height: 6, background: "rgba(255,255,255,0.03)", borderRadius: 3, overflow: "hidden" }}>
                   <div
                     style={{
                       width: `${Math.min(100, item.pct * 100)}%`,
                       height: "100%",
-                      background:
-                        item.pct > 0.8 ? "var(--el-fire)" : "var(--accent)",
+                      background: item.pct > 0.8 ? "var(--el-fire)" : "var(--accent)",
                       boxShadow: `0 0 8px ${item.pct > 0.8 ? "var(--el-fire)" : "var(--accent)"}`,
                     }}
                   />
                 </div>
-                <span
-                  className="t-mono"
-                  style={{
-                    fontSize: 8,
-                    color: "var(--fg-mute)",
-                    marginTop: 2,
-                    display: "block",
-                  }}
-                >
-                  {Math.round(item.pct * 100)}% of projected ·{" "}
-                  {item.measurement}
+                <span className="t-mono" style={{ fontSize: 8, color: "var(--fg-mute)", marginTop: 2, display: "block" }}>
+                  {Math.round(item.pct * 100)}% of projected · {item.measurement}
                 </span>
               </div>
             ))}
@@ -1826,54 +1658,20 @@ export function DatabaseStorage({ data }: { data: DatabaseObservabilityData }) {
               gap: 8,
               alignItems: "center",
               padding: "8px 0",
-              borderBottom:
-                i === tables.length - 1 ? "none" : "1px solid var(--line)",
+              borderBottom: i === tables.length - 1 ? "none" : "1px solid var(--line)",
               fontSize: 11,
             }}
           >
-            <Glyph
-              name="diamond"
-              size={12}
-              style={{ color: "var(--el-earth)" }}
-            />
+            <Glyph name="diamond" size={12} style={{ color: "var(--el-earth)" }} />
             <span style={{ color: "var(--fg)" }}>{t.name}</span>
-            <span
-              className="t-mono"
-              style={{
-                fontSize: 10,
-                color: "var(--fg-dim)",
-                textAlign: "right",
-              }}
-            >
+            <span className="t-mono" style={{ fontSize: 10, color: "var(--fg-dim)", textAlign: "right" }}>
               {t.rows.toLocaleString()} rows
             </span>
-            <span
-              className="t-mono"
-              style={{
-                fontSize: 10,
-                color: "var(--fg-dim)",
-                textAlign: "right",
-              }}
-            >
+            <span className="t-mono" style={{ fontSize: 10, color: "var(--fg-dim)", textAlign: "right" }}>
               {formatBytes(t.sizeBytes)}
             </span>
-            <div
-              style={{
-                position: "relative",
-                height: 4,
-                background: "rgba(255,255,255,0.04)",
-                borderRadius: 999,
-                overflow: "hidden",
-              }}
-            >
-              <div
-                style={{
-                  width: `${(t.sizeBytes / maxTableSize) * 100}%`,
-                  height: "100%",
-                  background: "var(--el-earth)",
-                  boxShadow: "0 0 6px var(--el-earth)",
-                }}
-              />
+            <div style={{ position: "relative", height: 4, background: "rgba(255,255,255,0.04)", borderRadius: 999, overflow: "hidden" }}>
+              <div style={{ width: `${(t.sizeBytes / maxTableSize) * 100}%`, height: "100%", background: "var(--el-earth)", boxShadow: "0 0 6px var(--el-earth)" }} />
             </div>
           </div>
         ))}

@@ -196,9 +196,9 @@ export interface AdminDashboardData {
   /** User login and activity cohort retention. */
   cohortRetention: CohortRetentionData;
   /** Live ESMS & elemental distribution across recipes + user_profiles. */
-  semsDistribution?: SemsDistributionData;
+  semsDistribution: SemsDistributionData;
   /** Live per-route hourly request heatmap + canonical route performance. */
-  routeHeatmap?: RouteHeatmapData;
+  routeHeatmap: RouteHeatmapData;
   /**
    * Generation metadata. `mockedFields` lists any panels still served
    * from explicitly-labelled illustrative values rather than a live source.

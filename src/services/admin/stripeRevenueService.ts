@@ -64,11 +64,13 @@ function unconfigured(base: Pick<StripeRevenuePayload, "generatedAt" | "configur
 
 function isAuthError(err: unknown): boolean {
   if (!err || typeof err !== "object") return false;
-  const e = err as { type?: string; code?: string; statusCode?: number };
+  const type = "type" in err ? err.type : undefined;
+  const code = "code" in err ? err.code : undefined;
+  const statusCode = "statusCode" in err ? err.statusCode : undefined;
   return (
-    e.type === "StripeAuthenticationError" ||
-    e.code === "api_key_expired" ||
-    e.statusCode === 401
+    type === "StripeAuthenticationError" ||
+    code === "api_key_expired" ||
+    statusCode === 401
   );
 }
 
