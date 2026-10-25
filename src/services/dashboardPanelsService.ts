@@ -58,10 +58,10 @@ export interface CosmicYieldData {
   sinks24h: CosmicYieldSink[];
   /** Credit mirror of sinks24h — decomposes inflow by source_type, exposing
    *  the PA sync-credit bridge, MCP top-ups, and grants as separate lines. */
-  sources24h?: CosmicYieldSink[];
+  sources24h: CosmicYieldSink[];
   /** Daily mint/burn over 30 days, computed live from the immutable ledger
    *  (GROUP BY day over created_at — no persisted aggregates needed). */
-  flowSeries?: { days: CosmicYieldFlowDay[]; live: boolean };
+  flowSeries: { days: CosmicYieldFlowDay[]; live: boolean };
   topHolders: CosmicYieldHolder[];
   /** Total accounts holding > 0 ESMS tokens */
   holderCount?: number;

@@ -733,7 +733,12 @@ export function RecipeQualityInspector({
 // ============================================================
 // COSMIC YIELD ECONOMY
 // ============================================================
-function prepareCosmicYieldMetrics(data: CosmicYieldData): {
+type CosmicYieldEconomyInput = Omit<CosmicYieldData, "sources24h" | "flowSeries"> & {
+  sources24h?: CosmicYieldData["sources24h"];
+  flowSeries?: CosmicYieldData["flowSeries"];
+};
+
+function prepareCosmicYieldMetrics(data: CosmicYieldEconomyInput): {
   maxFlow: number;
   topHolderShare: number | null;
   sinks: Array<{ k: string; v: number; p: number }>;
@@ -754,7 +759,7 @@ function prepareCosmicYieldMetrics(data: CosmicYieldData): {
   return { maxFlow, topHolderShare, sinks, sources, flowDays, maxDailyFlow };
 }
 
-export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }): React.ReactElement {
+export function CosmicYieldEconomy({ data }: { data: CosmicYieldEconomyInput }): React.ReactElement {
   const { maxFlow, topHolderShare, sinks, sources, flowDays, maxDailyFlow } = prepareCosmicYieldMetrics(data);
 
   return (
