@@ -287,36 +287,32 @@ interface APIHeatmapProps {
   routeHeatmap?: RouteHeatmapData;
 }
 
+function prepareHeatmapSummary(routeHeatmap?: RouteHeatmapData): {
+  heatmapLive: boolean;
+  maxBucketVal: number;
+  subtitle: string;
+} {
+  const routes = routeHeatmap?.live && routeHeatmap.routes.length > 0 ? routeHeatmap.routes : [];
+  if (routes.length === 0) {
+    return { heatmapLive: false, maxBucketVal: 1, subtitle: "per-route request volume × hour" };
+  }
+  const maxBucketVal = Math.max(1, ...routes.flatMap((r) => r.buckets));
+  const total24h = routes.reduce((s, r) => s + r.buckets.reduce((a, b) => a + b, 0), 0);
+  const total7d = routes.reduce((s, r) => s + r.totalRequests, 0);
+  return {
+    heatmapLive: true,
+    maxBucketVal,
+    subtitle: `${total24h.toLocaleString()} reqs (24h) · ${total7d.toLocaleString()} reqs (7d) · 2h buckets`,
+  };
+}
+
 export function APIHeatmap({ db, routeHeatmap }: APIHeatmapProps): React.ReactElement {
-  const heatmapRoutes =
-    routeHeatmap?.live && routeHeatmap.routes.length > 0
-      ? routeHeatmap.routes
-      : [];
-  const heatmapLive = heatmapRoutes.length > 0;
-  const maxBucketVal = heatmapLive
-    ? Math.max(
-        1,
-        ...heatmapRoutes.flatMap((r) => r.buckets),
-      )
-    : 1;
-  const total24h = heatmapLive
-    ? heatmapRoutes.reduce(
-        (s, r) => s + r.buckets.reduce((a, b) => a + b, 0),
-        0,
-      )
-    : 0;
-  const total7d = heatmapLive
-    ? heatmapRoutes.reduce((s, r) => s + r.totalRequests, 0)
-    : 0;
+  const { heatmapLive, maxBucketVal, subtitle } = prepareHeatmapSummary(routeHeatmap);
 
   return (
     <Card
       title="API Endpoint Heatmap"
-      subtitle={
-        heatmapLive
-          ? `${total24h.toLocaleString()} reqs (24h) · ${total7d.toLocaleString()} reqs (7d) · 2h buckets`
-          : "per-route request volume × hour"
-      }
+      subtitle={subtitle}
       right={
         <span
           className="t-mono"
@@ -737,31 +733,29 @@ export function RecipeQualityInspector({
 // ============================================================
 // COSMIC YIELD ECONOMY
 // ============================================================
-export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }): React.ReactElement {
+function prepareCosmicYieldMetrics(data: CosmicYieldData): {
+  maxFlow: number;
+  topHolderShare: number | null;
+  sinks: Array<{ k: string; v: number; p: number }>;
+  sources: Array<{ k: string; v: number; p: number }>;
+  flowDays: Array<{ date: string; minted: number; burned: number }>;
+  maxDailyFlow: number;
+} {
   const maxSink = Math.max(1, ...data.sinks24h.map((s) => s.amount));
-  const sourcesRaw = data.sources24h;
+  const sourcesRaw = data.sources24h ?? [];
   const maxSource = Math.max(1, ...sourcesRaw.map((s) => s.amount));
   const maxFlow = Math.max(1, data.minted30d, data.burned30d);
   const [topHolder] = data.topHolders;
-  const topHolderShare =
-    data.inCirculation > 0 && topHolder
-      ? (topHolder.balance / data.inCirculation) * 100
-      : null;
-  const sinks = data.sinks24h.map((s) => ({
-    k: s.source.replace(/_/g, " "),
-    v: Math.round(s.amount),
-    p: s.amount / maxSink,
-  }));
-  const sources = sourcesRaw.map((s) => ({
-    k: s.source.replace(/_/g, " "),
-    v: Math.round(s.amount),
-    p: s.amount / maxSource,
-  }));
-  const flowDays = data.flowSeries.live ? data.flowSeries.days : [];
-  const maxDailyFlow =
-    flowDays.length > 0
-      ? Math.max(1, ...flowDays.map((d) => Math.max(d.minted, d.burned)))
-      : 1;
+  const topHolderShare = data.inCirculation > 0 && topHolder ? (topHolder.balance / data.inCirculation) * 100 : null;
+  const sinks = data.sinks24h.map((s) => ({ k: s.source.replace(/_/g, " "), v: Math.round(s.amount), p: s.amount / maxSink }));
+  const sources = sourcesRaw.map((s) => ({ k: s.source.replace(/_/g, " "), v: Math.round(s.amount), p: s.amount / maxSource }));
+  const flowDays = data.flowSeries?.live ? data.flowSeries.days : [];
+  const maxDailyFlow = flowDays.length > 0 ? Math.max(1, ...flowDays.map((d) => Math.max(d.minted, d.burned))) : 1;
+  return { maxFlow, topHolderShare, sinks, sources, flowDays, maxDailyFlow };
+}
+
+export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }): React.ReactElement {
+  const { maxFlow, topHolderShare, sinks, sources, flowDays, maxDailyFlow } = prepareCosmicYieldMetrics(data);
 
   return (
     <Card
