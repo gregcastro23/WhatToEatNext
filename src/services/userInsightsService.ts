@@ -166,22 +166,44 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
          COUNT(*) FILTER (WHERE u.is_active = true)::int AS active,
          COUNT(*) FILTER (WHERE u.role = 'ADMIN')::int AS admins,
 
-         COUNT(*) FILTER (WHERE u.created_at >= NOW() - INTERVAL '24 hours')::int AS signups_24h,
-         COUNT(*) FILTER (WHERE u.created_at >= NOW() - INTERVAL '7 days')::int AS signups_7d,
-         COUNT(*) FILTER (WHERE u.created_at >= NOW() - INTERVAL '30 days')::int AS signups_30d,
+         COUNT(*) FILTER (WHERE COALESCE(u.is_agent, false) = false AND u.created_at >= NOW() - INTERVAL '24 hours')::int AS signups_24h,
+         COUNT(*) FILTER (WHERE COALESCE(u.is_agent, false) = false AND u.created_at >= NOW() - INTERVAL '7 days')::int AS signups_7d,
+         COUNT(*) FILTER (WHERE COALESCE(u.is_agent, false) = false AND u.created_at >= NOW() - INTERVAL '30 days')::int AS signups_30d,
 
-         COUNT(*) FILTER (WHERE u.last_login_at >= NOW() - INTERVAL '24 hours')::int AS active_24h,
-         COUNT(*) FILTER (WHERE u.last_login_at >= NOW() - INTERVAL '7 days')::int  AS active_7d,
-         COUNT(*) FILTER (WHERE u.last_login_at >= NOW() - INTERVAL '30 days')::int AS active_30d,
-         COUNT(*) FILTER (WHERE u.last_login_at IS NULL)::int AS never_logged_in,
          COUNT(*) FILTER (
-           WHERE u.last_login_at IS NOT NULL
+           WHERE COALESCE(u.is_agent, false) = false
+             AND (
+               u.last_login_at >= NOW() - INTERVAL '24 hours'
+               OR EXISTS (SELECT 1 FROM user_interactions ui WHERE ui.user_id = u.id AND ui.created_at >= NOW() - INTERVAL '24 hours')
+               OR EXISTS (SELECT 1 FROM token_transactions tt WHERE tt.user_id = u.id AND tt.created_at >= NOW() - INTERVAL '24 hours')
+             )
+         )::int AS active_24h,
+         COUNT(*) FILTER (
+           WHERE COALESCE(u.is_agent, false) = false
+             AND (
+               u.last_login_at >= NOW() - INTERVAL '7 days'
+               OR EXISTS (SELECT 1 FROM user_interactions ui WHERE ui.user_id = u.id AND ui.created_at >= NOW() - INTERVAL '7 days')
+               OR EXISTS (SELECT 1 FROM token_transactions tt WHERE tt.user_id = u.id AND tt.created_at >= NOW() - INTERVAL '7 days')
+             )
+         )::int AS active_7d,
+         COUNT(*) FILTER (
+           WHERE COALESCE(u.is_agent, false) = false
+             AND (
+               u.last_login_at >= NOW() - INTERVAL '30 days'
+               OR EXISTS (SELECT 1 FROM user_interactions ui WHERE ui.user_id = u.id AND ui.created_at >= NOW() - INTERVAL '30 days')
+               OR EXISTS (SELECT 1 FROM token_transactions tt WHERE tt.user_id = u.id AND tt.created_at >= NOW() - INTERVAL '30 days')
+             )
+         )::int AS active_30d,
+         COUNT(*) FILTER (WHERE COALESCE(u.is_agent, false) = false AND u.last_login_at IS NULL)::int AS never_logged_in,
+         COUNT(*) FILTER (
+           WHERE COALESCE(u.is_agent, false) = false
+             AND u.last_login_at IS NOT NULL
              AND u.last_login_at < NOW() - INTERVAL '30 days'
          )::int AS dormant_30d,
 
-         COUNT(*) FILTER (WHERE up.onboarding_completed = true)::int AS onboarded,
-         COUNT(*) FILTER (WHERE COALESCE(up.onboarding_completed, false) = false)::int AS pending_onboarding,
-         COUNT(*) FILTER (WHERE up.onboarding_completed_at >= NOW() - INTERVAL '7 days')::int AS onboarded_7d
+         COUNT(*) FILTER (WHERE COALESCE(u.is_agent, false) = false AND up.onboarding_completed = true)::int AS onboarded,
+         COUNT(*) FILTER (WHERE COALESCE(u.is_agent, false) = false AND COALESCE(up.onboarding_completed, false) = false)::int AS pending_onboarding,
+         COUNT(*) FILTER (WHERE COALESCE(u.is_agent, false) = false AND up.onboarding_completed_at >= NOW() - INTERVAL '7 days')::int AS onboarded_7d
        FROM users u
        LEFT JOIN user_profiles up ON up.user_id = u.id`,
     ), markDegraded),

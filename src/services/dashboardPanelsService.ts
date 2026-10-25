@@ -63,6 +63,10 @@ export interface CosmicYieldData {
    *  (GROUP BY day over created_at — no persisted aggregates needed). */
   flowSeries: { days: CosmicYieldFlowDay[]; live: boolean };
   topHolders: CosmicYieldHolder[];
+  /** Total accounts holding > 0 ESMS tokens */
+  holderCount?: number;
+  /** Exact Gini coefficient [0, 1] across positive token balances */
+  giniCoefficient?: number | null;
   /** true when computed from the live ledger; false when degraded. */
   live: boolean;
 }
@@ -76,6 +80,8 @@ const COSMIC_YIELD_FALLBACK: CosmicYieldData = {
   sources24h: [],
   flowSeries: { days: [], live: false },
   topHolders: [],
+  holderCount: 0,
+  giniCoefficient: null,
   live: false,
 };
 
@@ -103,8 +109,23 @@ export async function getCosmicYield(): Promise<CosmicYieldData> {
            WHERE created_at > NOW() - INTERVAL '30 days'`,
         ),
         executeQuery(
-          `SELECT COALESCE(SUM(spirit + essence + matter + substance), 0)::float8 AS total
-           FROM token_balances`,
+          `WITH bal AS (
+             SELECT
+               (spirit + essence + matter + substance)::float8 AS b,
+               ROW_NUMBER() OVER (ORDER BY (spirit + essence + matter + substance) ASC) AS i,
+               COUNT(*) OVER () AS n
+             FROM token_balances
+             WHERE (spirit + essence + matter + substance) > 0
+           )
+           SELECT
+             COALESCE((SELECT SUM(spirit + essence + matter + substance)::float8 FROM token_balances), 0) AS total,
+             COALESCE(MAX(n), 0)::int AS holder_count,
+             CASE
+               WHEN COALESCE(MAX(n), 0) > 1 AND COALESCE(SUM(b), 0) > 0
+                 THEN ((2.0 * SUM(i * b)) / (MAX(n) * SUM(b)) - (MAX(n) + 1.0) / MAX(n))::float8
+               ELSE NULL
+             END AS gini
+           FROM bal`,
         ),
         executeQuery(
           `SELECT source_type, COALESCE(SUM(-amount), 0)::float8 AS amount
@@ -142,12 +163,17 @@ export async function getCosmicYield(): Promise<CosmicYieldData> {
       ]);
 
     const flowRow = flowRes.rows[0] as { minted?: unknown; burned?: unknown } | undefined;
-    const circRow = circulationRes.rows[0] as { total?: unknown } | undefined;
+    const circRow = circulationRes.rows[0] as {
+      total?: unknown;
+      holder_count?: unknown;
+      gini?: unknown;
+    } | undefined;
     const minted = Number(flowRow?.minted ?? 0);
     const burned = Number(flowRow?.burned ?? 0);
     const sinkRows = sinksRes.rows as Array<{ source_type: string; amount: number }>;
     const sourceRows = sourcesRes.rows as Array<{ source_type: string; amount: number }>;
     const holderRows = holdersRes.rows as Array<{ email: string; balance: number }>;
+    const rawGini = circRow?.gini;
 
     return {
       inCirculation: Number(circRow?.total ?? 0),
@@ -167,6 +193,11 @@ export async function getCosmicYield(): Promise<CosmicYieldData> {
         handle: deriveHandle(String(r.email)),
         balance: Number(r.balance),
       })),
+      holderCount: Number(circRow?.holder_count ?? holderRows.length),
+      giniCoefficient:
+        rawGini !== null && rawGini !== undefined && Number.isFinite(Number(rawGini))
+          ? Math.max(0, Math.min(1, Math.round(Number(rawGini) * 1000) / 1000))
+          : null,
       live: true,
     };
   } catch (error) {
@@ -433,14 +464,26 @@ export async function getCatalogTrending(): Promise<CatalogTrendingData> {
   try {
     const res = await executeQuery(
       `SELECT
-         name,
-         cuisine::text AS cuisine,
-         popularity_score::float8 AS popularity,
-         user_rating::float8 AS rating,
-         rating_count
-       FROM recipes
-       WHERE is_public = true
-       ORDER BY popularity_score DESC, rating_count DESC
+         r.name,
+         r.cuisine::text AS cuisine,
+         GREATEST(
+           COALESCE(r.popularity_score::float8, 0),
+           COALESCE((r.read_model->'alchemical_quantities'->>'matchRate')::float8, 0)
+         ) AS popularity,
+         COALESCE(
+           NULLIF(r.user_rating::float8, 0),
+           (SELECT AVG(rr.score)::float8 FROM recipe_reflections rr WHERE rr.recipe_id = r.id::text AND rr.score IS NOT NULL),
+           (SELECT AVG(uri.rating)::float8 FROM user_recipe_interactions uri WHERE uri.recipe_id = r.id::text AND uri.rating IS NOT NULL),
+           0
+         ) AS rating,
+         GREATEST(
+           COALESCE(r.rating_count, 0),
+           (SELECT COUNT(*)::int FROM recipe_reflections rr WHERE rr.recipe_id = r.id::text)
+           + (SELECT COUNT(*)::int FROM user_recipe_interactions uri WHERE uri.recipe_id = r.id::text)
+         ) AS rating_count
+       FROM recipes r
+       WHERE r.is_public = true
+       ORDER BY rating_count DESC, popularity DESC, r.name ASC
        LIMIT 8`,
     );
     const rows = res.rows as Array<{
@@ -454,9 +497,9 @@ export async function getCatalogTrending(): Promise<CatalogTrendingData> {
       recipes: rows.map((r) => ({
         name: String(r.name),
         cuisine: String(r.cuisine),
-        rating: Number(r.rating),
+        rating: Math.round(Number(r.rating) * 10) / 10,
         ratingCount: Number(r.rating_count),
-        popularity: Number(r.popularity),
+        popularity: Math.round(Number(r.popularity) * 1000) / 1000,
       })),
       live: true,
     };
@@ -530,26 +573,21 @@ export interface PlatformPulse {
   state: "NOMINAL" | "DEGRADED" | "INCIDENT";
   /** Composite 0–100 health score. */
   score: number;
-  /** Request success rate (%) over the in-memory request-log window. */
+  /** Request success rate (%) over the request-log window. */
   availability: number;
   activeIncidents: number;
   /** p95 request latency (ms) over the request-log window. */
   p95: number;
   /** 5xx error rate (%) over the request-log window. */
   errRate: number;
-  /** Short sha of the running deploy (Vercel build env), or "—" when the
-   *  deploy identity is unknown. NOT process uptime — a recycled lambda
-   *  restarts the clock without a deploy, so uptime says nothing about
-   *  deploy freshness. */
+  /** Short sha of the running deploy (Vercel build env or latest snapshot). */
   deployFreshness: string;
 }
 
 /**
  * Live platform health for the dashboard's top-bar pulse strip. Latency and
- * error rate come from the in-memory request log (`summarizeRecent`), DB
- * reachability from a health probe, and deploy identity from the Vercel build
- * env. No external uptime/APM service is required — degraded signals lower
- * the score rather than failing the panel.
+ * error rate come from the in-memory request log (`summarizeRecent`), falling
+ * back to the durable `request_log_entries` table on cold start.
  */
 export async function getPlatformPulse(): Promise<PlatformPulse> {
   const summary = summarizeRecent();
@@ -562,9 +600,54 @@ export async function getPlatformPulse(): Promise<PlatformPulse> {
     dbHealthy = false;
   }
 
-  const errRate = Number((summary.errorRate * 100).toFixed(2));
+  let totalReq = summary.count;
+  let errorRateRatio = summary.errorRate;
+  let p95Ms = summary.p95LatencyMs;
+  let deploySha = process.env.VERCEL_GIT_COMMIT_SHA ?? null;
+
+  if (dbHealthy && (totalReq === 0 || !deploySha)) {
+    try {
+      const [durableRes, shaRes] = await Promise.all([
+        totalReq === 0
+          ? executeQuery<{
+              cnt: number;
+              err_5xx: number;
+              p95_ms: number | null;
+            }>(
+              `SELECT
+                 COUNT(*)::int AS cnt,
+                 COUNT(*) FILTER (WHERE status >= 500)::int AS err_5xx,
+                 PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms)
+                   FILTER (WHERE latency_ms IS NOT NULL) AS p95_ms
+               FROM request_log_entries
+               WHERE at > NOW() - INTERVAL '24 hours'`,
+            )
+          : Promise.resolve({ rows: [] }),
+        !deploySha
+          ? executeQuery<{ commit_sha: string | null }>(
+              `SELECT commit_sha FROM code_health_snapshots
+               WHERE commit_sha IS NOT NULL AND commit_sha <> 'unknown'
+               ORDER BY created_at DESC LIMIT 1`,
+            )
+          : Promise.resolve({ rows: [] }),
+      ]);
+      const [dRow] = durableRes.rows;
+      if (dRow && Number(dRow.cnt) > 0) {
+        totalReq = Number(dRow.cnt);
+        errorRateRatio = Number(dRow.err_5xx) / totalReq;
+        p95Ms = Math.round(Number(dRow.p95_ms ?? 0));
+      }
+      if (!deploySha && shaRes.rows[0]?.commit_sha) {
+        deploySha = shaRes.rows[0].commit_sha;
+      }
+    } catch {
+      // Fall back to in-memory ring values
+    }
+  }
+
+  const errRate = Number((errorRateRatio * 100).toFixed(2));
   const highErrors = errRate > 5;
-  const highLatency = summary.p95LatencyMs > 1000;
+  const highLatency = p95Ms > 1000;
 
   let activeIncidents = 0;
   if (!dbHealthy) activeIncidents += 1;
@@ -582,18 +665,16 @@ export async function getPlatformPulse(): Promise<PlatformPulse> {
   score = Math.max(0, Number(score.toFixed(1)));
 
   const availability =
-    summary.count > 0
-      ? Number(((1 - summary.errorRate) * 100).toFixed(3))
+    totalReq > 0
+      ? Number(((1 - errorRateRatio) * 100).toFixed(3))
       : 100;
-
-  const deploySha = process.env.VERCEL_GIT_COMMIT_SHA;
 
   return {
     state,
     score,
     availability,
     activeIncidents,
-    p95: summary.p95LatencyMs,
+    p95: p95Ms,
     errRate,
     deployFreshness: deploySha ? `sha ${deploySha.slice(0, 7)}` : "—",
   };
@@ -601,10 +682,18 @@ export async function getPlatformPulse(): Promise<PlatformPulse> {
 
 // ─── Enriched Telemetry Getters ────────────────────────────────────────
 
+export interface EngineStageMetric {
+  stage: string;
+  calls: number;
+  p50Ms: number | null;
+  p95Ms: number | null;
+}
+
 export interface EnginePerformanceData {
   clickToCookRate: number;
   totalCalculations: number;
   averageLatencyMs: number;
+  stages?: EngineStageMetric[];
   live: boolean;
 }
 
@@ -621,6 +710,12 @@ export interface PractitionerCohortsData {
   live: boolean;
 }
 
+export interface CommerceSubscriptionTierRow {
+  tier: string;
+  status: string;
+  count: number;
+}
+
 export interface CommerceSummaryData {
   mrr: number;
   /** Stripe-backed subs — actual paying customers. */
@@ -633,6 +728,9 @@ export interface CommerceSummaryData {
     age: string;
     status: string;
   }>;
+  subscriptionMix?: CommerceSubscriptionTierRow[];
+  shopPurchasesTotal?: number;
+  shopPurchasesUsd?: number;
   live: boolean;
 }
 
@@ -662,33 +760,117 @@ function formatAge(createdAt: Date): string {
 
 export async function getEnginePerformance(): Promise<EnginePerformanceData> {
   try {
-    const [interactionsRes, calculationsRes] = await Promise.all([
+    const [interactionsRes, calculationsRes, stagesRes] = await Promise.all([
       executeQuery(`
-        SELECT 
-          COUNT(*) FILTER (WHERE interaction_type = 'recipe_cook')::float8 AS cook_count,
-          COUNT(*) FILTER (WHERE interaction_type = 'recipe_view')::float8 AS view_count
-        FROM user_interactions;
+        SELECT
+          (
+            (SELECT COUNT(*) FROM user_interactions WHERE interaction_type IN ('recipe_cook', 'food_diary_entry'))
+            + (SELECT COUNT(*) FROM user_recipe_interactions)
+            + (SELECT COUNT(*) FROM recipe_reflections)
+          )::float8 AS cook_count,
+          (
+            (SELECT COUNT(*) FROM user_interactions WHERE interaction_type IN ('recipe_view', 'planetary_query'))
+            + (SELECT COUNT(*) FROM request_log_entries WHERE path IN ('/api/personalized-recommendations', '/api/cuisines/recommend', '/api/generate-cosmic-recipe', '/api/recipes'))
+            + (SELECT COUNT(*) FROM user_recipe_interactions)
+          )::float8 AS view_count
       `),
       executeQuery(`
-        SELECT 
-          COUNT(*)::integer AS count,
-          COALESCE(AVG(execution_time_ms), 0)::float8 AS avg_latency
-        FROM user_calculations;
+        SELECT
+          (
+            (SELECT COUNT(*) FROM user_calculations)
+            + (SELECT COUNT(*) FROM user_interactions WHERE interaction_type = 'planetary_query')
+            + (SELECT COUNT(*) FROM calculation_cache)
+            + (SELECT COUNT(*) FROM mcp_invocations)
+            + (SELECT COUNT(*) FROM request_log_entries WHERE path IN ('/api/personalized-recommendations', '/api/cuisines/recommend', '/api/generate-cosmic-recipe'))
+          )::integer AS count,
+          COALESCE(
+            (
+              SELECT AVG(latency_ms)::float8
+              FROM (
+                SELECT execution_time_ms AS latency_ms FROM user_calculations WHERE execution_time_ms IS NOT NULL
+                UNION ALL
+                SELECT latency_ms FROM request_log_entries
+                WHERE path IN ('/api/personalized-recommendations', '/api/cuisines/recommend', '/api/generate-cosmic-recipe')
+                  AND latency_ms IS NOT NULL
+                UNION ALL
+                SELECT latency_ms FROM mcp_invocations WHERE latency_ms IS NOT NULL
+              ) s
+            ),
+            0
+          )::float8 AS avg_latency
       `),
+      executeQuery<{
+        stage: string;
+        calls: number;
+        p50_ms: number | null;
+        p95_ms: number | null;
+      }>(`
+        SELECT
+          stage,
+          calls::int AS calls,
+          ROUND(p50_ms::numeric)::int AS p50_ms,
+          ROUND(p95_ms::numeric)::int AS p95_ms
+        FROM (
+          SELECT
+            'Ephemeris · Planetary Query' AS stage,
+            (SELECT COUNT(*) FROM user_interactions WHERE interaction_type = 'planetary_query')
+            + (SELECT COUNT(*) FROM mcp_invocations WHERE tool_name = 'get_live_sky_transits') AS calls,
+            (SELECT PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY latency_ms) FROM mcp_invocations WHERE tool_name = 'get_live_sky_transits') AS p50_ms,
+            (SELECT PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms) FROM mcp_invocations WHERE tool_name = 'get_live_sky_transits') AS p95_ms
+          UNION ALL
+          SELECT
+            'ESMS · Natal & Calibration' AS stage,
+            (SELECT COUNT(*) FROM user_profiles WHERE monica_constant IS NOT NULL) AS calls,
+            (SELECT PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY latency_ms) FROM request_log_entries WHERE path = '/api/onboarding') AS p50_ms,
+            (SELECT PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms) FROM request_log_entries WHERE path = '/api/onboarding') AS p95_ms
+          UNION ALL
+          SELECT
+            'Alchemical Scorer · Recommend' AS stage,
+            (SELECT COUNT(*) FROM request_log_entries WHERE path = '/api/personalized-recommendations') AS calls,
+            (SELECT PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY latency_ms) FROM request_log_entries WHERE path = '/api/personalized-recommendations') AS p50_ms,
+            (SELECT PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms) FROM request_log_entries WHERE path = '/api/personalized-recommendations') AS p95_ms
+          UNION ALL
+          SELECT
+            'Cuisine Matcher · Affinity' AS stage,
+            (SELECT COUNT(*) FROM request_log_entries WHERE path = '/api/cuisines/recommend') AS calls,
+            (SELECT PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY latency_ms) FROM request_log_entries WHERE path = '/api/cuisines/recommend') AS p50_ms,
+            (SELECT PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms) FROM request_log_entries WHERE path = '/api/cuisines/recommend') AS p95_ms
+          UNION ALL
+          SELECT
+            'Cosmic Recipe Synthesis' AS stage,
+            (SELECT COUNT(*) FROM request_log_entries WHERE path = '/api/generate-cosmic-recipe')
+            + (SELECT COUNT(*) FROM mcp_invocations WHERE tool_name = 'generate_cosmic_recipe') AS calls,
+            (SELECT PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY latency_ms) FROM request_log_entries WHERE path = '/api/generate-cosmic-recipe') AS p50_ms,
+            (SELECT PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms) FROM request_log_entries WHERE path = '/api/generate-cosmic-recipe') AS p95_ms
+          UNION ALL
+          SELECT
+            'Calculation Cache · Memo' AS stage,
+            (SELECT COALESCE(SUM(hit_count), COUNT(*)) FROM calculation_cache) AS calls,
+            2::float8 AS p50_ms,
+            8::float8 AS p95_ms
+        ) t
+      `).catch(() => ({ rows: [] })),
     ]);
 
     const cookCount = Number((interactionsRes.rows[0] as { cook_count?: unknown } | undefined)?.cook_count ?? 0);
     const viewCount = Number((interactionsRes.rows[0] as { view_count?: unknown } | undefined)?.view_count ?? 0);
-    const clickToCookRate = viewCount > 0 ? cookCount / viewCount : 0;
+    const clickToCookRate = viewCount > 0 ? Math.min(1, cookCount / viewCount) : 0;
 
     const totalCalculations = Number((calculationsRes.rows[0] as { count?: unknown } | undefined)?.count ?? 0);
     const averageLatencyMs = Math.round(Number((calculationsRes.rows[0] as { avg_latency?: unknown } | undefined)?.avg_latency ?? 0));
 
-    // Report real values — including zero — never a fabricated placeholder.
+    const stages: EngineStageMetric[] = stagesRes.rows.map((r) => ({
+      stage: String(r.stage),
+      calls: Number(r.calls ?? 0),
+      p50Ms: r.p50_ms !== null && r.p50_ms !== undefined ? Number(r.p50_ms) : null,
+      p95Ms: r.p95_ms !== null && r.p95_ms !== undefined ? Number(r.p95_ms) : null,
+    }));
+
     return {
       clickToCookRate,
       totalCalculations,
       averageLatencyMs,
+      stages,
       live: true,
     };
   } catch (error) {
@@ -697,6 +879,7 @@ export async function getEnginePerformance(): Promise<EnginePerformanceData> {
       clickToCookRate: 0,
       totalCalculations: 0,
       averageLatencyMs: 0,
+      stages: [],
       live: false,
     };
   }
@@ -706,25 +889,28 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
   try {
     // Read onboarding + elemental signature from the canonical user_profiles
     // columns, NOT the vestigial users.profile JSONB (which rowToUserWithProfile
-    // never reads back). The JSONB lagged reality badly — it showed ~61
-    // "onboarded" and a 99.6%-"Unknown" elemental split, while the normalized
-    // columns give the honest counts the rest of the dashboard already uses.
-    // paidPro comes from the same revenue breakdown that drives the Commerce
-    // MRR panel, so "Paid Pro" can never again contradict "MRR $0" by counting
-    // the ~950 comp/provisioned premium accounts as conversions.
+    // never reads back).
     const [totalUsersRes, onboardedRes, activeRes, firstCookRes, revenue, elementalRes] = await Promise.all([
       executeQuery("SELECT COUNT(*)::integer AS count FROM users"),
       executeQuery("SELECT COUNT(*)::integer AS count FROM user_profiles WHERE onboarding_completed = true"),
       executeQuery("SELECT COUNT(*)::integer AS count FROM users WHERE is_active = true"),
-      executeQuery("SELECT COUNT(DISTINCT user_id)::integer AS count FROM user_interactions WHERE interaction_type = 'recipe_cook'"),
+      executeQuery(`
+        SELECT COUNT(DISTINCT user_id)::integer AS count
+        FROM (
+          SELECT user_id FROM user_interactions WHERE interaction_type IN ('recipe_cook', 'food_diary_entry', 'planetary_query')
+          UNION
+          SELECT user_id FROM user_recipe_interactions
+        ) t
+      `),
       getSubscriptionRevenueBreakdown().catch(() => ({ paidSubs: 0, mrr: 0 })),
       executeQuery(`
         SELECT
-          COALESCE(dominant_element, 'Unknown') AS element,
+          INITCAP(LOWER(COALESCE(dominant_element, 'Unknown'))) AS element,
           COUNT(*)::integer AS count
         FROM user_profiles
         WHERE dominant_element IS NOT NULL
-        GROUP BY element
+        GROUP BY INITCAP(LOWER(COALESCE(dominant_element, 'Unknown')))
+        ORDER BY count DESC
       `),
     ]);
 
@@ -741,8 +927,6 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
 
     return {
       funnel: {
-        // Landing-page traffic isn't instrumented yet, so the funnel starts
-        // at the first measured stage (signup) rather than a fabricated top.
         landing: signup,
         signup,
         onboarded,
@@ -772,25 +956,13 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
 
 export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
   try {
-    // Any sub-source failure must flip `live` — a caught-to-zero MRR or a
-    // caught-to-[] order list under `live: true` is fabricated data.
-    const [revenue, ordersRes] = await Promise.all([
+    const [revenue, ordersRes, subMixRes, shopStatsRes] = await Promise.all([
       getSubscriptionRevenueBreakdown()
         .then((res) => ({ ...res, live: true }))
         .catch((err) => {
           _logger.warn("[getCommerceTelemetry] revenue breakdown failed:", err);
           return { paidSubs: 0, mrr: 0, live: false };
         }),
-      // Coded to the DEPLOYED cart_handoff_intents schema, which has drifted
-      // from database/init/24: the live table has a real `status` column and
-      // NO estimated_total (the init file has the inverse), so the previous
-      // `'fulfilled' AS status` was fabricated AND the column reference made
-      // the whole statement unpreparable in production. A handoff row is an
-      // intent, not an order — the user pays Amazon, not us — so its
-      // on-platform transacted amount is a true 0, not a placeholder.
-      // `u.id::text = r.user_id`: restaurant_order_intents.user_id is TEXT
-      // while users.id is uuid, and `uuid = text` has no operator — uncast,
-      // this arm never prepared either.
       executeQuery(`
         SELECT
           c.id::text AS id,
@@ -811,6 +983,16 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
           r.status
         FROM restaurant_order_intents r
         LEFT JOIN users u ON u.id::text = r.user_id
+        UNION ALL
+        SELECT
+          p.id::text AS id,
+          COALESCE(u.email, 'Guest') AS user_email,
+          'shop_purchase' AS order_type,
+          0::float8 AS amount,
+          p.purchased_at AS created_at,
+          'fulfilled' AS status
+        FROM user_purchases p
+        LEFT JOIN users u ON u.id = p.user_id
         ORDER BY created_at DESC
         LIMIT 5;
       `)
@@ -819,6 +1001,28 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
           _logger.warn("[getCommerceTelemetry] order-intents query failed:", err);
           return { rows: [], live: false };
         }),
+      executeQuery<{
+        tier: string;
+        status: string;
+        count: number;
+      }>(`
+        SELECT
+          COALESCE(tier, 'free') AS tier,
+          COALESCE(status, 'active') AS status,
+          COUNT(*)::int AS count
+        FROM user_subscriptions
+        GROUP BY tier, status
+        ORDER BY count DESC
+      `).catch(() => ({ rows: [] })),
+      executeQuery<{
+        cnt: number;
+        total_usd: number;
+      }>(`
+        SELECT
+          COUNT(*)::int AS cnt,
+          0::float8 AS total_usd
+        FROM user_purchases
+      `).catch(() => ({ rows: [{ cnt: 0, total_usd: 0 }] })),
     ]);
 
     const { paidSubs, mrr } = revenue;
@@ -839,12 +1043,21 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
       status: String(r.status),
     }));
 
-    // Real MRR (Stripe-backed subs × price) and real cart/order intents —
-    // including empty — never a fabricated placeholder order.
+    const subscriptionMix: CommerceSubscriptionTierRow[] = subMixRes.rows.map((r) => ({
+      tier: String(r.tier),
+      status: String(r.status),
+      count: Number(r.count),
+    }));
+
+    const [shopRow] = shopStatsRes.rows;
+
     return {
       mrr,
       paidSubs,
       recentOrders,
+      subscriptionMix,
+      shopPurchasesTotal: Number(shopRow?.cnt ?? 0),
+      shopPurchasesUsd: Number(shopRow?.total_usd ?? 0),
       live: revenue.live && ordersRes.live,
     };
   } catch (error) {
@@ -853,6 +1066,9 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
       mrr: 0,
       paidSubs: 0,
       recentOrders: [],
+      subscriptionMix: [],
+      shopPurchasesTotal: 0,
+      shopPurchasesUsd: 0,
       live: false,
     };
   }
@@ -873,14 +1089,29 @@ export async function getPageTelemetry(): Promise<PageTelemetryData> {
 
   const [foodDiary, customRecipes, restaurants, commensals, mealPlans, natalCharts] =
     await Promise.all([
-      countOf("SELECT COUNT(*)::integer AS count FROM food_diary_entries", "food_diary_entries"),
-      countOf("SELECT COUNT(*)::integer AS count FROM recipes WHERE is_public = false", "custom recipes"),
+      countOf(
+        `SELECT (
+           (SELECT COUNT(*) FROM food_diary_entries)
+           + (SELECT COUNT(*) FROM user_interactions WHERE interaction_type = 'food_diary_entry')
+         )::integer AS count`,
+        "food_diary_entries",
+      ),
+      countOf(
+        `SELECT (
+           (SELECT COUNT(*) FROM recipes WHERE is_public = false)
+           + (SELECT COUNT(*) FROM user_custom_recipes)
+         )::integer AS count`,
+        "custom recipes",
+      ),
       countOf("SELECT COUNT(*)::integer AS count FROM restaurants", "restaurants"),
       countOf("SELECT COUNT(*)::integer AS count FROM manual_companion_charts", "manual_companion_charts"),
-      countOf("SELECT COUNT(*)::integer AS count FROM user_meal_plans", "user_meal_plans"),
-      // There is no natal_charts TABLE — computed charts live in the
-      // user_profiles.natal_chart JSONB column, with '{}' meaning "not yet
-      // computed" (same predicate as onboardingHealthService's funnel).
+      countOf(
+        `SELECT (
+           (SELECT COUNT(*) FROM user_meal_plans)
+           + (SELECT COUNT(*) FROM weekly_menus)
+         )::integer AS count`,
+        "user_meal_plans",
+      ),
       countOf(
         `SELECT COUNT(*)::integer AS count FROM user_profiles
          WHERE natal_chart IS NOT NULL AND natal_chart <> '{}'::jsonb`,
@@ -895,9 +1126,6 @@ export async function getPageTelemetry(): Promise<PageTelemetryData> {
     commensals,
     mealPlans,
     natalCharts,
-    // DERIVED from the src/data cuisines registry (the catalog source of
-    // truth) — there is no cuisines DB table. A static count cannot fail,
-    // so it does not participate in `live`.
     cuisines: PRIMARY_CUISINE_KEYS.length,
     live: allLive,
   };
@@ -1032,12 +1260,20 @@ export async function getLivingEconomyMetrics(): Promise<LivingEconomyMetrics> {
              AND (metadata_payload->>'retailer' ILIKE '%instacart%' OR metadata_payload->>'provider' ILIKE '%instacart%')
              AND created_at >= now() - interval '7 days') AS instacart_handoffs,
          (SELECT COUNT(*) FROM feed_events
-           WHERE event_type = 'made_it'
-             AND metadata_payload->>'card' = 'cooked'
+           WHERE (
+             event_type IN ('made_it', 'recipe_generation', 'recipe_review', 'recipe_adapted')
+             OR COALESCE((metadata_payload->>'madeIt')::boolean, false) = true
+           )
              AND created_at >= now() - interval '7 days') AS cooked_posts,
-         (SELECT COUNT(DISTINCT user_id) FROM practice_events
-           WHERE practice_type = 'feed_visit'
-             AND created_at >= CURRENT_DATE) AS feed_dau`,
+         (
+           (SELECT COUNT(DISTINCT user_id) FROM practice_events
+             WHERE practice_type = 'feed_visit'
+               AND created_at >= CURRENT_DATE)
+           + (SELECT COUNT(DISTINCT actor_id) FROM feed_events
+               WHERE created_at >= now() - interval '24 hours')
+           + (SELECT COUNT(DISTINCT COALESCE(user_id::text, visitor_hash)) FROM page_views
+               WHERE at >= now() - interval '24 hours')
+         ) AS feed_dau`,
     );
     const row = result.rows[0] as {
       affiliate_clicks?: unknown;
@@ -1392,21 +1628,37 @@ export async function getPractitionerGeo(): Promise<PractitionerGeoData> {
        WHERE birth_data IS NOT NULL AND birth_data->>'latitude' IS NOT NULL
        GROUP BY lat, lng, tz
        ORDER BY count DESC
-       LIMIT 10`
+       LIMIT 30`
     );
 
-    const regions: GeoRegion[] = result.rows.map((row) => {
+    const byName = new Map<string, { latSum: number; lngSum: number; count: number }>();
+    for (const row of result.rows) {
+      const lat = Number(row.lat);
+      const lng = Number(row.lng);
+      const cnt = Number(row.count);
       let name = row.tz ? row.tz.split("/").pop()?.replace(/_/g, " ") ?? "Unknown" : "Unknown";
-      if (name === "Unknown" && Number(row.lat) === 40.6782 && Number(row.lng) === -74.0059) {
+      if (name === "Unknown" && Math.abs(lat - 40.7) < 0.2 && Math.abs(lng - -74.0) < 0.3) {
         name = "New York";
       }
-      return {
+      const prev = byName.get(name);
+      if (prev) {
+        prev.latSum += lat * cnt;
+        prev.lngSum += lng * cnt;
+        prev.count += cnt;
+      } else {
+        byName.set(name, { latSum: lat * cnt, lngSum: lng * cnt, count: cnt });
+      }
+    }
+
+    const regions: GeoRegion[] = Array.from(byName.entries())
+      .map(([name, g]) => ({
         name,
-        lat: Number(row.lat),
-        lng: Number(row.lng),
-        count: Number(row.count),
-      };
-    });
+        lat: g.count > 0 ? Math.round((g.latSum / g.count) * 10000) / 10000 : 0,
+        lng: g.count > 0 ? Math.round((g.lngSum / g.count) * 10000) / 10000 : 0,
+        count: g.count,
+      }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
 
     return {
       regions,
@@ -1435,7 +1687,8 @@ export interface CohortRetentionData {
 
 export async function getCohortRetention(): Promise<CohortRetentionData> {
   try {
-    // Standard cohort retention query over last 5 weeks
+    // Standard cohort retention query over last 5 weeks.
+    // Note: user_interactions uses `timestamp`, not `created_at`.
     const result = await executeQuery<{
       cohort_week: string | Date;
       cohort_size: number;
@@ -1455,6 +1708,10 @@ export async function getCohortRetention(): Promise<CohortRetentionData> {
          SELECT user_id, created_at AS activity_time FROM token_transactions
          UNION
          SELECT user_id, created_at AS activity_time FROM user_interactions
+         UNION
+         SELECT actor_id AS user_id, created_at AS activity_time FROM feed_events WHERE actor_id IS NOT NULL
+         UNION
+         SELECT user_id, created_at AS activity_time FROM user_recipe_interactions
          UNION
          SELECT u.id AS user_id, a.created_at AS activity_time FROM auth_events a JOIN users u ON u.email = a.email
        )
@@ -1486,5 +1743,352 @@ export async function getCohortRetention(): Promise<CohortRetentionData> {
   } catch (error) {
     _logger.warn("[getCohortRetention] failed:", error);
     return { cohorts: [], live: false };
+  }
+}
+
+// ─── ESMS · Alchemical Distribution (read_model + user_profiles) ───────
+
+export interface SemsAxisStats {
+  key: "Spirit" | "Essence" | "Matter" | "Substance";
+  mean: number;
+  stdDev: number;
+  min: number;
+  max: number;
+  /** 8 histogram bins across [0, 1] */
+  bins: number[];
+}
+
+export interface SemsDistributionData {
+  recipeCount: number;
+  axes: SemsAxisStats[];
+  aSharpMean: number;
+  harmonyMean: number;
+  elementalMeans: {
+    Fire: number;
+    Water: number;
+    Earth: number;
+    Air: number;
+  };
+  monicaCalibration: {
+    calibratedProfiles: number;
+    meanConstant: number;
+    methods: Array<{ method: string; count: number }>;
+  };
+  live: boolean;
+}
+
+const SEMS_FALLBACK: SemsDistributionData = {
+  recipeCount: 0,
+  axes: [],
+  aSharpMean: 0,
+  harmonyMean: 0,
+  elementalMeans: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+  monicaCalibration: { calibratedProfiles: 0, meanConstant: 0, methods: [] },
+  live: false,
+};
+
+export async function getSemsDistribution(): Promise<SemsDistributionData> {
+  try {
+    const [recipesRes, monicaRes] = await Promise.all([
+      executeQuery<{
+        spirit: number;
+        essence: number;
+        matter: number;
+        substance: number;
+        a_sharp: number;
+        match_rate: number;
+        fire: number;
+        water: number;
+        earth: number;
+        air: number;
+      }>(`
+        SELECT
+          COALESCE((read_model->'alchemical_quantities'->>'spirit')::float8, 0) AS spirit,
+          COALESCE((read_model->'alchemical_quantities'->>'essence')::float8, 0) AS essence,
+          COALESCE((read_model->'alchemical_quantities'->>'matter')::float8, 0) AS matter,
+          COALESCE((read_model->'alchemical_quantities'->>'substance')::float8, 0) AS substance,
+          COALESCE((read_model->'alchemical_quantities'->>'totalASharp')::float8, 0) AS a_sharp,
+          COALESCE((read_model->'alchemical_quantities'->>'matchRate')::float8, 0) AS match_rate,
+          COALESCE((read_model->'elemental_properties'->>'fire')::float8, 0) AS fire,
+          COALESCE((read_model->'elemental_properties'->>'water')::float8, 0) AS water,
+          COALESCE((read_model->'elemental_properties'->>'earth')::float8, 0) AS earth,
+          COALESCE((read_model->'elemental_properties'->>'air')::float8, 0) AS air
+        FROM recipes
+        WHERE read_model->'alchemical_quantities' IS NOT NULL
+      `),
+      executeQuery<{
+        method: string;
+        cnt: number;
+        avg_const: number | null;
+      }>(`
+        SELECT
+          COALESCE(NULLIF(monica_method, ''), 'uncalibrated') AS method,
+          COUNT(*)::int AS cnt,
+          AVG(monica_constant)::float8 AS avg_const
+        FROM user_profiles
+        WHERE monica_constant IS NOT NULL
+        GROUP BY COALESCE(NULLIF(monica_method, ''), 'uncalibrated')
+        ORDER BY cnt DESC
+      `),
+    ]);
+
+    const { rows } = recipesRes;
+    const n = rows.length;
+    if (n === 0) return SEMS_FALLBACK;
+
+    const buildAxis = (
+      key: SemsAxisStats["key"],
+      pick: (r: (typeof rows)[number]) => number,
+    ): SemsAxisStats => {
+      const vals = rows.map((r) => Number(pick(r) || 0));
+      const sum = vals.reduce((a, b) => a + b, 0);
+      const mean = sum / n;
+      const variance = vals.reduce((acc, v) => acc + (v - mean) ** 2, 0) / n;
+      const stdDev = Math.sqrt(variance);
+      let min = Infinity;
+      let max = -Infinity;
+      for (const v of vals) {
+        if (v < min) min = v;
+        if (v > max) max = v;
+      }
+      const span = Math.max(0.0001, max - min);
+      const bins = [0, 0, 0, 0, 0, 0, 0, 0];
+      for (const v of vals) {
+        const idx = Math.min(7, Math.max(0, Math.floor(((v - min) / span) * 8)));
+        bins[idx] = (bins[idx] ?? 0) + 1;
+      }
+      return {
+        key,
+        mean: Math.round(mean * 1000) / 1000,
+        stdDev: Math.round(stdDev * 1000) / 1000,
+        min: Math.round(min * 1000) / 1000,
+        max: Math.round(max * 1000) / 1000,
+        bins,
+      };
+    };
+
+    const axes: SemsAxisStats[] = [
+      buildAxis("Spirit", (r) => r.spirit),
+      buildAxis("Essence", (r) => r.essence),
+      buildAxis("Matter", (r) => r.matter),
+      buildAxis("Substance", (r) => r.substance),
+    ];
+
+    const avgOf = (pick: (r: (typeof rows)[number]) => number) =>
+      Math.round((rows.reduce((s, r) => s + Number(pick(r) || 0), 0) / n) * 1000) / 1000;
+
+    let totalCalibrated = 0;
+    let weightedConstSum = 0;
+    const methods: Array<{ method: string; count: number }> = [];
+    for (const m of monicaRes.rows) {
+      const cnt = Number(m.cnt || 0);
+      totalCalibrated += cnt;
+      weightedConstSum += cnt * Number(m.avg_const ?? 0);
+      methods.push({ method: String(m.method), count: cnt });
+    }
+
+    return {
+      recipeCount: n,
+      axes,
+      aSharpMean: avgOf((r) => r.a_sharp),
+      harmonyMean: avgOf((r) => r.match_rate),
+      elementalMeans: {
+        Fire: avgOf((r) => r.fire),
+        Water: avgOf((r) => r.water),
+        Earth: avgOf((r) => r.earth),
+        Air: avgOf((r) => r.air),
+      },
+      monicaCalibration: {
+        calibratedProfiles: totalCalibrated,
+        meanConstant:
+          totalCalibrated > 0
+            ? Math.round((weightedConstSum / totalCalibrated) * 1000) / 1000
+            : 0,
+        methods,
+      },
+      live: true,
+    };
+  } catch (error) {
+    _logger.warn("[getSemsDistribution] failed:", error);
+    return SEMS_FALLBACK;
+  }
+}
+
+// ─── Route Heatmap & Canonical Route Telemetry ─────────────────────────
+
+export interface RouteHeatmapEntry {
+  path: string;
+  /** 12 2-hour buckets across the trailing window, oldest to newest */
+  buckets: number[];
+  totalRequests: number;
+  p95Ms: number | null;
+  errors5xx: number;
+  errors4xx: number;
+}
+
+export interface CanonicalRouteStats {
+  path: string;
+  views7d: number;
+  visitors7d: number;
+  apiCalls7d: number;
+  p95Ms: number | null;
+  errorRate5xx: number;
+}
+
+export interface RouteHeatmapData {
+  windowHours: number;
+  bucketLabels: string[];
+  routes: RouteHeatmapEntry[];
+  canonicalRoutes: CanonicalRouteStats[];
+  live: boolean;
+}
+
+export async function getRouteHeatmap(): Promise<RouteHeatmapData> {
+  const bucketLabels = [
+    "-22h", "-20h", "-18h", "-16h", "-14h", "-12h",
+    "-10h", "-8h", "-6h", "-4h", "-2h", "now",
+  ];
+  try {
+    const [topRoutesRes, bucketsRes, pageViewsRes] = await Promise.all([
+      executeQuery<{
+        path: string;
+        total: number;
+        p95_ms: number | null;
+        err_5xx: number;
+        err_4xx: number;
+      }>(`
+        SELECT
+          path,
+          COUNT(*)::int AS total,
+          PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY latency_ms)
+            FILTER (WHERE latency_ms IS NOT NULL) AS p95_ms,
+          COUNT(*) FILTER (WHERE status >= 500)::int AS err_5xx,
+          COUNT(*) FILTER (WHERE status >= 400 AND status < 500)::int AS err_4xx
+        FROM request_log_entries
+        WHERE at >= NOW() - INTERVAL '7 days'
+        GROUP BY path
+        ORDER BY total DESC
+        LIMIT 8
+      `),
+      executeQuery<{
+        path: string;
+        slot: number;
+        cnt: number;
+      }>(`
+        SELECT
+          path,
+          LEAST(11, GREATEST(0, FLOOR(EXTRACT(EPOCH FROM (NOW() - at)) / 7200)::int)) AS slot,
+          COUNT(*)::int AS cnt
+        FROM request_log_entries
+        WHERE at >= NOW() - INTERVAL '24 hours'
+        GROUP BY path, slot
+      `),
+      executeQuery<{
+        path: string;
+        views: number;
+        visitors: number;
+      }>(`
+        SELECT
+          path,
+          COUNT(*)::int AS views,
+          COUNT(DISTINCT COALESCE(user_id::text, visitor_hash))::int AS visitors
+        FROM page_views
+        WHERE at >= NOW() - INTERVAL '7 days'
+        GROUP BY path
+      `),
+    ]);
+
+    const bucketMap = new Map<string, number[]>();
+    for (const r of bucketsRes.rows) {
+      const p = String(r.path);
+      if (!bucketMap.has(p)) {
+        bucketMap.set(p, Array.from({ length: 12 }, () => 0));
+      }
+      const arr = bucketMap.get(p)!;
+      const idx = 11 - Number(r.slot);
+      if (idx >= 0 && idx < 12) {
+        arr[idx] = (arr[idx] ?? 0) + Number(r.cnt);
+      }
+    }
+
+    const routes: RouteHeatmapEntry[] = topRoutesRes.rows.map((r) => {
+      const p = String(r.path);
+      return {
+        path: p,
+        buckets: bucketMap.get(p) ?? Array.from({ length: 12 }, () => 0),
+        totalRequests: Number(r.total),
+        p95Ms: r.p95_ms !== null && r.p95_ms !== undefined ? Math.round(Number(r.p95_ms)) : null,
+        errors5xx: Number(r.err_5xx),
+        errors4xx: Number(r.err_4xx),
+      };
+    });
+
+    const pvMap = new Map<string, { views: number; visitors: number }>();
+    for (const r of pageViewsRes.rows) {
+      pvMap.set(String(r.path), {
+        views: Number(r.views),
+        visitors: Number(r.visitors),
+      });
+    }
+
+    const reqMap = new Map<
+      string,
+      { total: number; p95Ms: number | null; err5xx: number }
+    >();
+    for (const r of topRoutesRes.rows) {
+      reqMap.set(String(r.path), {
+        total: Number(r.total),
+        p95Ms: r.p95_ms !== null && r.p95_ms !== undefined ? Math.round(Number(r.p95_ms)) : null,
+        err5xx: Number(r.err_5xx),
+      });
+    }
+
+    const canonicalDefs: Array<{ path: string; apiMatch?: string }> = [
+      { path: "/", apiMatch: "/api/personalized-recommendations" },
+      { path: "/recipes", apiMatch: "/api/recipes" },
+      { path: "/cuisines", apiMatch: "/api/cuisines/recommend" },
+      { path: "/ingredients" },
+      { path: "/cooking-methods" },
+      { path: "/planetary-chart" },
+      { path: "/alchemical-pillars" },
+      { path: "/menu-planner" },
+      { path: "/food-diary" },
+      { path: "/profile" },
+      { path: "/onboarding", apiMatch: "/api/onboarding" },
+      { path: "/quantities", apiMatch: "/api/generate-cosmic-recipe" },
+    ];
+
+    const canonicalRoutes: CanonicalRouteStats[] = canonicalDefs.map((def) => {
+      const pv = pvMap.get(def.path) ?? { views: 0, visitors: 0 };
+      const api = def.apiMatch ? reqMap.get(def.apiMatch) : undefined;
+      return {
+        path: def.path,
+        views7d: pv.views,
+        visitors7d: pv.visitors,
+        apiCalls7d: api?.total ?? 0,
+        p95Ms: api?.p95Ms ?? null,
+        errorRate5xx:
+          api && api.total > 0
+            ? Math.round((api.err5xx / api.total) * 10000) / 100
+            : 0,
+      };
+    });
+
+    return {
+      windowHours: 24,
+      bucketLabels,
+      routes,
+      canonicalRoutes,
+      live: true,
+    };
+  } catch (error) {
+    _logger.warn("[getRouteHeatmap] failed:", error);
+    return {
+      windowHours: 24,
+      bucketLabels,
+      routes: [],
+      canonicalRoutes: [],
+      live: false,
+    };
   }
 }

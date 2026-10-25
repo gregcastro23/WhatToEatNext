@@ -784,6 +784,7 @@ export function EngineHealth({ enginePerformance }: { enginePerformance?: Engine
     live: false,
   };
   const { live } = perf;
+  const stages = perf.stages ?? [];
   return (
     <Card
       title="Recommendation Engine · Performance & Metrics"
@@ -822,16 +823,91 @@ export function EngineHealth({ enginePerformance }: { enginePerformance?: Engine
           delta="total"
         />
       </div>
+
+      {stages.length > 0 && (
+        <div
+          style={{
+            marginTop: 10,
+            border: "1px solid var(--line)",
+            borderRadius: 8,
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1.4fr 0.7fr 0.6fr 0.6fr",
+              padding: "5px 10px",
+              borderBottom: "1px solid var(--line-hi)",
+              background: "rgba(255,255,255,0.02)",
+            }}
+          >
+            {["Pipeline Stage", "Calls", "p50", "p95"].map((h, i) => (
+              <span
+                key={h}
+                className="t-tag"
+                style={{ fontSize: 8, textAlign: i >= 1 ? "right" : "left" }}
+              >
+                {h}
+              </span>
+            ))}
+          </div>
+          {stages.map((s, idx) => (
+            <div
+              key={s.stage}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1.4fr 0.7fr 0.6fr 0.6fr",
+                padding: "6px 10px",
+                borderBottom:
+                  idx === stages.length - 1 ? "none" : "1px solid var(--line)",
+                fontFamily: "var(--f-mono)",
+                fontSize: 10,
+                alignItems: "center",
+              }}
+            >
+              <span style={{ color: "var(--fg)" }}>{s.stage}</span>
+              <span
+                className="t-num"
+                style={{ textAlign: "right", color: "var(--fg-dim)" }}
+              >
+                {s.calls.toLocaleString()}
+              </span>
+              <span
+                className="t-num"
+                style={{ textAlign: "right", color: "var(--fg-mute)" }}
+              >
+                {s.p50Ms !== null && s.p50Ms > 0 ? `${s.p50Ms}ms` : "—"}
+              </span>
+              <span
+                className="t-num"
+                style={{
+                  textAlign: "right",
+                  color:
+                    s.p95Ms !== null && s.p95Ms > 250
+                      ? "var(--accent-2)"
+                      : "var(--fg)",
+                }}
+              >
+                {s.p95Ms !== null && s.p95Ms > 0 ? `${s.p95Ms}ms` : "—"}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
       <div
         style={{
-          marginTop: 12,
-          padding: "10px 12px",
+          marginTop: 10,
+          padding: "8px 10px",
           border: "1px dashed var(--line)",
           borderRadius: 8,
         }}
       >
-        <div className="t-tag" style={{ marginBottom: 4 }}>OFFLINE EVAL · NOT WIRED</div>
-        <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+        <div className="t-tag" style={{ marginBottom: 3, fontSize: 8 }}>
+          OFFLINE EVAL · NOT WIRED
+        </div>
+        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
           NDCG@10 · MAP · canary harness · promote/rollback controls — add an
           eval pipeline + flag table to surface these here.
         </div>
@@ -947,6 +1023,8 @@ export function LivingEconomyPanel({ data }: { data?: { affiliateClicksWeek: num
 export function CommercePanel({ commerceSummary }: { commerceSummary?: CommerceSummaryData }): React.ReactElement {
   const summary = commerceSummary ?? { mrr: 0, paidSubs: 0, recentOrders: [], live: false };
   const { live } = summary;
+  const subMix = summary.subscriptionMix ?? [];
+  const totalSubs = subMix.reduce((acc, s) => acc + s.count, 0);
 
   const stateColor: Record<string, string> = {
     fulfilled: "var(--el-earth)",
@@ -988,20 +1066,88 @@ export function CommercePanel({ commerceSummary }: { commerceSummary?: CommerceS
               </span>
             </span>
           </div>
-          <div
-            style={{
-              marginTop: 12,
-              padding: "10px 12px",
-              border: "1px dashed var(--line)",
-              borderRadius: 8,
-            }}
-          >
-            <div className="t-tag" style={{ marginBottom: 4 }}>BILLING ANALYTICS · NOT WIRED</div>
-            <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
-              subscription mix · churn · LTV · free→pro — wire Stripe billing
-              analytics to surface these here.
+          {subMix.length > 0 ? (
+            <div
+              style={{
+                marginTop: 10,
+                padding: "8px 10px",
+                border: "1px solid var(--line)",
+                borderRadius: 8,
+                background: "rgba(255,255,255,0.015)",
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                <span className="t-tag" style={{ fontSize: 8 }}>
+                  SUBSCRIPTION MIX · {totalSubs.toLocaleString()} ACCOUNTS
+                </span>
+                <span className="t-mono" style={{ fontSize: 8.5, color: "var(--fg-mute)" }}>
+                  shop: {summary.shopPurchasesTotal ?? 0} (${(summary.shopPurchasesUsd ?? 0).toFixed(2)})
+                </span>
+              </div>
+              {subMix.map((s) => {
+                const pct = totalSubs > 0 ? (s.count / totalSubs) * 100 : 0;
+                const isPaid = s.tier.toLowerCase() === "premium" || s.tier.toLowerCase() === "pro";
+                return (
+                  <div key={`${s.tier}:${s.status}`}>
+                    <div
+                      className="t-mono"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontSize: 9.5,
+                        color: "var(--fg-dim)",
+                      }}
+                    >
+                      <span>
+                        <b style={{ color: isPaid ? "var(--accent)" : "var(--fg)" }}>
+                          {s.tier}
+                        </b>{" "}
+                        · {s.status}
+                      </span>
+                      <span className="t-num">
+                        {s.count.toLocaleString()} ({pct.toFixed(0)}%)
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        height: 4,
+                        marginTop: 2,
+                        background: "rgba(255,255,255,0.04)",
+                        borderRadius: 999,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: `${Math.max(3, pct)}%`,
+                          height: "100%",
+                          background: isPaid ? "var(--accent)" : "var(--el-water)",
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          </div>
+          ) : (
+            <div
+              style={{
+                marginTop: 12,
+                padding: "10px 12px",
+                border: "1px dashed var(--line)",
+                borderRadius: 8,
+              }}
+            >
+              <div className="t-tag" style={{ marginBottom: 4 }}>BILLING ANALYTICS · NOT WIRED</div>
+              <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+                subscription mix · churn · LTV · free→pro — wire Stripe billing
+                analytics to surface these here.
+              </div>
+            </div>
+          )}
         </div>
         <div>
           <div className="t-tag" style={{ marginBottom: 6 }}>ORDERS & CART INTENTS{live ? " · LIVE" : ""}</div>

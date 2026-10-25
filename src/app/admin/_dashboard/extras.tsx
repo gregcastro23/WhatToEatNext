@@ -9,6 +9,7 @@ import type {
   CatalogTrendingData,
   ResourceUsageData,
   PractitionerGeoData,
+  RouteHeatmapData,
 } from "@/services/dashboardPanelsService";
 import { Glyph } from "./atoms";
 import { Card } from "./hero";
@@ -17,10 +18,14 @@ import { Card } from "./hero";
 // SUBDOMAIN MATRIX
 // ============================================================
 interface SubdomainMatrixProps {
-  pageTelemetry?: PageTelemetryData;
+  pageTelemetry?: PageTelemetryData | undefined;
+  routeHeatmap?: RouteHeatmapData | undefined;
 }
 
-export function SubdomainMatrix({ pageTelemetry }: SubdomainMatrixProps) {
+export function SubdomainMatrix({
+  pageTelemetry,
+  routeHeatmap,
+}: SubdomainMatrixProps) {
   const tele = pageTelemetry ?? {
     foodDiary: 421,
     customRecipes: 89,
@@ -30,6 +35,12 @@ export function SubdomainMatrix({ pageTelemetry }: SubdomainMatrixProps) {
     live: false,
   };
 
+  const canonical = routeHeatmap?.live ? routeHeatmap.canonicalRoutes : [];
+  const findCanonical = (prefixes: string[]) =>
+    canonical.find((c) => prefixes.some((p) => c.path.startsWith(p)));
+  const totalReqs7d =
+    routeHeatmap?.routes.reduce((s, r) => s + r.totalRequests, 0) ?? 0;
+
   const routes = [
     {
       route: "/food-tracking",
@@ -37,14 +48,16 @@ export function SubdomainMatrix({ pageTelemetry }: SubdomainMatrixProps) {
       component: "<FoodDiary />",
       table: "food_diary_entries",
       rows: tele.foodDiary,
+      perf: findCanonical(["/food-tracking", "/food-diary"]),
       color: "var(--accent)",
     },
     {
       route: "/meal-plan",
       purpose: "calendar & planetary pacing",
       component: "<MealPlanner />",
-      table: "user_meal_plans",
+      table: "user_meal_plans · weekly_menus",
       rows: tele.mealPlans,
+      perf: findCanonical(["/meal-plan", "/menu-planner"]),
       color: "var(--accent-2)",
     },
     {
@@ -53,6 +66,7 @@ export function SubdomainMatrix({ pageTelemetry }: SubdomainMatrixProps) {
       component: "<RestaurantDiscovery />",
       table: "restaurants",
       rows: tele.restaurants,
+      perf: findCanonical(["/restaurants"]),
       color: "var(--el-fire)",
     },
     {
@@ -61,22 +75,43 @@ export function SubdomainMatrix({ pageTelemetry }: SubdomainMatrixProps) {
       component: "<CommensalPortal />",
       table: "manual_companion_charts",
       rows: tele.commensals,
+      perf: findCanonical(["/commensal"]),
       color: "var(--el-water)",
     },
     {
       route: "/recipe-builder",
       purpose: "planetary recipe formulation",
       component: "<RecipeComposer />",
-      table: "recipes",
+      table: "recipes · user_custom_recipes",
       rows: tele.customRecipes,
+      perf: findCanonical(["/recipe-builder", "/recipes", "/quantities"]),
       color: "var(--el-earth)",
     },
   ];
 
+  const topActivePages = canonical
+    .filter((c) => c.views7d > 0 || c.apiCalls7d > 0)
+    .slice(0, 5);
+
   return (
     <Card
       title="Canonical Route Telemetry"
-      subtitle="core pages · bindings and row counts; route performance is not instrumented"
+      subtitle={
+        routeHeatmap?.live
+          ? `core pages · DB row counts + live 7d request log (${totalReqs7d.toLocaleString()} reqs)`
+          : "core pages · bindings and row counts; route performance is not instrumented"
+      }
+      right={
+        <span
+          className="t-mono"
+          style={{
+            fontSize: 9,
+            color: tele.live ? "var(--el-earth)" : "var(--fg-mute)",
+          }}
+        >
+          {tele.live ? "● LIVE BINDINGS" : "○ FALLBACK"}
+        </span>
+      }
     >
       <div
         style={{
@@ -154,20 +189,92 @@ export function SubdomainMatrix({ pageTelemetry }: SubdomainMatrixProps) {
               </span>
             </span>
             <span
-              style={{ textAlign: "right", color: "var(--fg-mute)" }}
-              title="Latency telemetry is not captured for this route."
+              style={{
+                textAlign: "right",
+                color: r.perf?.p95Ms !== null && r.perf?.p95Ms !== undefined ? "var(--fg)" : "var(--fg-mute)",
+              }}
+              title={
+                r.perf
+                  ? `${r.perf.apiCalls7d} API calls · ${r.perf.views7d} views in 7d`
+                  : "No requests observed for this route in 7d window."
+              }
             >
-              —
+              {r.perf?.p95Ms !== null && r.perf?.p95Ms !== undefined ? `${r.perf.p95Ms}ms` : "—"}
             </span>
             <span
-              style={{ textAlign: "right", color: "var(--fg-mute)" }}
-              title="Per-route error telemetry is not captured here."
+              style={{
+                textAlign: "right",
+                color: r.perf && r.perf.apiCalls7d > 0
+                  ? r.perf.errorRate5xx > 0
+                    ? "var(--el-fire)"
+                    : "var(--el-earth)"
+                  : "var(--fg-mute)",
+              }}
+              title={
+                r.perf
+                  ? `${r.perf.errorRate5xx}% 5xx across ${r.perf.apiCalls7d} API calls`
+                  : "Per-route error telemetry not observed in 7d window."
+              }
             >
-              —
+              {r.perf && r.perf.apiCalls7d > 0 ? `${r.perf.errorRate5xx}%` : "—"}
             </span>
           </div>
         ))}
       </div>
+
+      {topActivePages.length > 0 && (
+        <div style={{ marginTop: 10 }}>
+          <div className="t-tag" style={{ fontSize: 8, marginBottom: 5 }}>
+            OBSERVED PAGE & ROUTE LATENCY · 7D REQUEST LOG
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+              gap: 6,
+            }}
+          >
+            {topActivePages.map((p) => (
+              <div
+                key={p.path}
+                className="t-mono"
+                style={{
+                  border: "1px solid var(--line)",
+                  borderRadius: 6,
+                  padding: "5px 8px",
+                  fontSize: 9.5,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  background: "rgba(255,255,255,0.015)",
+                }}
+              >
+                <span
+                  style={{
+                    color: "var(--fg)",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    maxWidth: "55%",
+                  }}
+                  title={p.path}
+                >
+                  {p.path}
+                </span>
+                <span style={{ color: "var(--fg-dim)", fontSize: 9 }}>
+                  {p.views7d > 0 ? `${p.views7d}v` : `${p.apiCalls7d}req`}
+                  {p.p95Ms !== null ? (
+                    <>
+                      {" · "}
+                      <b style={{ color: "var(--accent-2)" }}>{p.p95Ms}ms</b>
+                    </>
+                  ) : null}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </Card>
   );
 }
@@ -176,43 +283,213 @@ export function SubdomainMatrix({ pageTelemetry }: SubdomainMatrixProps) {
 // API HEATMAP
 // ============================================================
 interface APIHeatmapProps {
-  db?: DatabaseObservabilityData;
+  db?: DatabaseObservabilityData | undefined;
+  routeHeatmap?: RouteHeatmapData | undefined;
 }
 
-export function APIHeatmap({ db }: APIHeatmapProps) {
+export function APIHeatmap({ db, routeHeatmap }: APIHeatmapProps) {
+  const heatmapLive = Boolean(
+    routeHeatmap?.live && routeHeatmap.routes.length > 0,
+  );
+  const maxBucketVal = heatmapLive
+    ? Math.max(
+        1,
+        ...routeHeatmap!.routes.flatMap((r) => r.buckets),
+      )
+    : 1;
+  const total24h = heatmapLive
+    ? routeHeatmap!.routes.reduce(
+        (s, r) => s + r.buckets.reduce((a, b) => a + b, 0),
+        0,
+      )
+    : 0;
+  const total7d = heatmapLive
+    ? routeHeatmap!.routes.reduce((s, r) => s + r.totalRequests, 0)
+    : 0;
+
   return (
     <Card
       title="API Endpoint Heatmap"
-      subtitle="per-route request volume × hour"
+      subtitle={
+        heatmapLive
+          ? `${total24h.toLocaleString()} reqs (24h) · ${total7d.toLocaleString()} reqs (7d) · 2h buckets`
+          : "per-route request volume × hour"
+      }
       right={
         <span
           className="t-mono"
-          style={{ fontSize: 9, color: "var(--accent-2)" }}
+          style={{
+            fontSize: 9,
+            color: heatmapLive ? "var(--el-earth)" : "var(--accent-2)",
+          }}
         >
-          ◌ NOT INSTRUMENTED
+          {heatmapLive ? "● LIVE REQUEST LOG" : "◌ NOT INSTRUMENTED"}
         </span>
       }
     >
-      <div
-        style={{
-          padding: "18px 16px",
-          border: "1px dashed var(--line-hi)",
-          borderRadius: 8,
-          background: "rgba(255,255,255,0.012)",
-        }}
-      >
-        <div style={{ color: "var(--fg)", fontSize: 11, marginBottom: 4 }}>
-          Hourly route-volume telemetry is not being captured.
-        </div>
+      {heatmapLive && routeHeatmap ? (
         <div
-          className="t-mono"
-          style={{ color: "var(--fg-mute)", fontSize: 9.5, lineHeight: 1.6 }}
+          style={{
+            border: "1px solid var(--line)",
+            borderRadius: 8,
+            overflow: "hidden",
+          }}
         >
-          Persist route, status, latency, and hourly request counts before this
-          panel is used for capacity or reliability decisions. The codebase gap
-          is tracked in the control-plane work queue above.
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1.4fr repeat(12, 1fr) 54px 54px 48px",
+              gap: 3,
+              padding: "6px 8px",
+              borderBottom: "1px solid var(--line-hi)",
+              background: "rgba(255,255,255,0.02)",
+              alignItems: "center",
+            }}
+          >
+            <span className="t-tag" style={{ fontSize: 8 }}>
+              ENDPOINT
+            </span>
+            {routeHeatmap.bucketLabels.map((lbl, idx) => (
+              <span
+                key={idx}
+                className="t-mono"
+                style={{
+                  fontSize: 7.5,
+                  color: "var(--fg-mute)",
+                  textAlign: "center",
+                }}
+              >
+                {lbl}
+              </span>
+            ))}
+            <span
+              className="t-tag"
+              style={{ fontSize: 8, textAlign: "right" }}
+            >
+              7D
+            </span>
+            <span
+              className="t-tag"
+              style={{ fontSize: 8, textAlign: "right" }}
+            >
+              P95
+            </span>
+            <span
+              className="t-tag"
+              style={{ fontSize: 8, textAlign: "right" }}
+            >
+              ERR
+            </span>
+          </div>
+          {routeHeatmap.routes.slice(0, 8).map((r, i) => (
+            <div
+              key={r.path}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1.4fr repeat(12, 1fr) 54px 54px 48px",
+                gap: 3,
+                padding: "6px 8px",
+                alignItems: "center",
+                borderBottom:
+                  i === Math.min(7, routeHeatmap.routes.length - 1)
+                    ? "none"
+                    : "1px solid var(--line)",
+                fontFamily: "var(--f-mono)",
+                fontSize: 9.5,
+              }}
+            >
+              <span
+                style={{
+                  color: "var(--fg)",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+                title={r.path}
+              >
+                {r.path}
+              </span>
+              {r.buckets.map((count, bIdx) => {
+                const intensity = count / maxBucketVal;
+                return (
+                  <div
+                    key={bIdx}
+                    title={`${routeHeatmap.bucketLabels[bIdx]} UTC: ${count} requests`}
+                    style={{
+                      height: 14,
+                      borderRadius: 2,
+                      background:
+                        count === 0
+                          ? "rgba(255,255,255,0.03)"
+                          : `color-mix(in oklch, var(--accent), transparent ${Math.round((1 - Math.max(0.2, intensity)) * 85)}%)`,
+                      border:
+                        count > 0
+                          ? "1px solid color-mix(in oklch, var(--accent), transparent 65%)"
+                          : "1px solid transparent",
+                    }}
+                  />
+                );
+              })}
+              <span
+                className="t-num"
+                style={{ textAlign: "right", color: "var(--fg-dim)" }}
+              >
+                {r.totalRequests.toLocaleString()}
+              </span>
+              <span
+                className="t-num"
+                style={{
+                  textAlign: "right",
+                  color:
+                    r.p95Ms !== null && r.p95Ms > 500
+                      ? "var(--el-fire)"
+                      : r.p95Ms !== null && r.p95Ms > 200
+                        ? "var(--accent-2)"
+                        : "var(--fg)",
+                }}
+              >
+                {r.p95Ms !== null ? `${r.p95Ms}ms` : "—"}
+              </span>
+              <span
+                className="t-num"
+                style={{
+                  textAlign: "right",
+                  color:
+                    r.errors5xx > 0
+                      ? "var(--el-fire)"
+                      : r.errors4xx > 0
+                        ? "var(--accent-2)"
+                        : "var(--fg-mute)",
+                }}
+                title={`${r.errors5xx} 5xx · ${r.errors4xx} 4xx`}
+              >
+                {r.errors5xx + r.errors4xx}
+              </span>
+            </div>
+          ))}
         </div>
-      </div>
+      ) : (
+        <div
+          style={{
+            padding: "18px 16px",
+            border: "1px dashed var(--line-hi)",
+            borderRadius: 8,
+            background: "rgba(255,255,255,0.012)",
+          }}
+        >
+          <div style={{ color: "var(--fg)", fontSize: 11, marginBottom: 4 }}>
+            Hourly route-volume telemetry is not being captured.
+          </div>
+          <div
+            className="t-mono"
+            style={{ color: "var(--fg-mute)", fontSize: 9.5, lineHeight: 1.6 }}
+          >
+            Persist route, status, latency, and hourly request counts before
+            this panel is used for capacity or reliability decisions. The
+            codebase gap is tracked in the control-plane work queue above.
+          </div>
+        </div>
+      )}
 
       {/* Slow query hotspots telemetry */}
       <div
@@ -515,6 +792,8 @@ export function RecipeQualityInspector({
 // ============================================================
 export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }) {
   const maxSink = Math.max(1, ...data.sinks24h.map((s) => s.amount));
+  const sourcesRaw = data.sources24h ?? [];
+  const maxSource = Math.max(1, ...sourcesRaw.map((s) => s.amount));
   const maxFlow = Math.max(1, data.minted30d, data.burned30d);
   const [topHolder] = data.topHolders;
   const topHolderShare =
@@ -526,10 +805,21 @@ export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }) {
     v: Math.round(s.amount),
     p: s.amount / maxSink,
   }));
+  const sources = sourcesRaw.map((s) => ({
+    k: s.source.replace(/_/g, " "),
+    v: Math.round(s.amount),
+    p: s.amount / maxSource,
+  }));
+  const flowDays = data.flowSeries?.live ? data.flowSeries.days : [];
+  const maxDailyFlow =
+    flowDays.length > 0
+      ? Math.max(1, ...flowDays.map((d) => Math.max(d.minted, d.burned)))
+      : 1;
+
   return (
     <Card
       title="Cosmic Yield · internal economy"
-      subtitle={`${Math.round(data.inCirculation).toLocaleString()} ESMS in circulation · ${data.live ? "live ledger" : "ledger unavailable"}`}
+      subtitle={`${Math.round(data.inCirculation).toLocaleString()} ESMS in circulation${data.holderCount ? ` · ${data.holderCount.toLocaleString()} holders` : ""} · ${data.live ? "live ledger" : "ledger unavailable"}`}
       right={
         <span
           className="t-mono"
@@ -633,13 +923,128 @@ export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }) {
                 </div>
               </div>
             ))}
-            <div
-              className="t-mono"
-              style={{ color: "var(--fg-mute)", fontSize: 8, marginTop: 7 }}
-            >
-              Daily time-series telemetry is not yet persisted.
-            </div>
+            {flowDays.length > 0 ? (
+              <div style={{ marginTop: 8 }}>
+                <div
+                  className="t-mono"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: 8,
+                    color: "var(--fg-mute)",
+                    marginBottom: 3,
+                  }}
+                >
+                  <span>30D DAILY MINT / BURN</span>
+                  <span>
+                    {flowDays.filter((d) => d.minted > 0 || d.burned > 0).length}{" "}
+                    active days
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: `repeat(${flowDays.length}, 1fr)`,
+                    gap: 1.5,
+                    height: 22,
+                    alignItems: "end",
+                  }}
+                >
+                  {flowDays.map((d) => {
+                    const val = Math.max(d.minted, d.burned);
+                    const h = val > 0 ? Math.max(18, Math.round((val / maxDailyFlow) * 100)) : 8;
+                    const color =
+                      d.minted > 0
+                        ? "var(--el-earth)"
+                        : d.burned > 0
+                          ? "var(--el-fire)"
+                          : "rgba(255,255,255,0.05)";
+                    return (
+                      <div
+                        key={d.date}
+                        title={`${d.date}: +${Math.round(d.minted)} minted / -${Math.round(d.burned)} burned`}
+                        style={{
+                          height: `${h}%`,
+                          background: color,
+                          borderRadius: 1,
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div
+                className="t-mono"
+                style={{ color: "var(--fg-mute)", fontSize: 8, marginTop: 7 }}
+              >
+                Daily time-series telemetry is not yet persisted.
+              </div>
+            )}
           </div>
+          {sources.length > 0 && (
+            <>
+              <div className="t-tag" style={{ marginTop: 10, marginBottom: 4 }}>
+                SOURCES · LAST 24H
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                {sources.map((s) => (
+                  <div
+                    key={s.k}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 50px",
+                      alignItems: "center",
+                      gap: 8,
+                      fontSize: 10.5,
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <span style={{ color: "var(--fg-dim)" }}>{s.k}</span>
+                        <span className="t-num" style={{ color: "var(--el-earth)" }}>
+                          +{s.v.toLocaleString()}
+                        </span>
+                      </div>
+                      <div
+                        style={{
+                          position: "relative",
+                          height: 3,
+                          background: "rgba(255,255,255,0.04)",
+                          borderRadius: 999,
+                          marginTop: 2,
+                          overflow: "hidden",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: `${s.p * 100}%`,
+                            height: "100%",
+                            background: "var(--el-earth)",
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <span
+                      className="t-mono"
+                      style={{
+                        fontSize: 9,
+                        color: "var(--fg-mute)",
+                        textAlign: "right",
+                      }}
+                    >
+                      ESMS
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
           <div className="t-tag" style={{ marginTop: 10, marginBottom: 4 }}>
             SINKS · LAST 24H
           </div>
@@ -808,8 +1213,18 @@ export function CosmicYieldEconomy({ data }: { data: CosmicYieldData }) {
               className="t-mono"
               style={{ color: "var(--fg-mute)", fontSize: 8, marginTop: 5 }}
             >
-              A true Gini coefficient requires the complete holder distribution
-              and is not currently computed.
+              {typeof data.giniCoefficient === "number" ? (
+                <>
+                  Gini coefficient:{" "}
+                  <b style={{ color: "var(--fg)" }}>
+                    {data.giniCoefficient.toFixed(3)}
+                  </b>{" "}
+                  across {(data.holderCount ?? 0).toLocaleString()} active
+                  holders.
+                </>
+              ) : (
+                "A true Gini coefficient requires the complete holder distribution and is not currently computed."
+              )}
             </div>
           </div>
         </div>

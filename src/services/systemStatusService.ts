@@ -1442,49 +1442,63 @@ async function probeDatabase(): Promise<FlowHealth> {
 const PA_BASE_URL = getServiceUrlSafe("planetaryAgentsApi");
 
 async function probePADependency(): Promise<DependencyHealth> {
-  const startedAt = Date.now();
   const checkedAt = new Date().toISOString();
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 2000);
-    const headers: Record<string, string> = { Accept: "application/json" };
-    if (process.env.INTERNAL_API_SECRET) {
-      headers.Authorization = `Bearer ${process.env.INTERNAL_API_SECRET}`;
-    }
-    const res = await fetch(`${PA_BASE_URL}/health`, {
-      headers,
-      signal: controller.signal,
-    });
-    clearTimeout(timer);
-    const latencyMs = Date.now() - startedAt;
-    if (res.ok) {
+  const headers: Record<string, string> = { Accept: "application/json" };
+  if (process.env.INTERNAL_API_SECRET) {
+    headers.Authorization = `Bearer ${process.env.INTERNAL_API_SECRET}`;
+  }
+
+  const candidateBases = [PA_BASE_URL];
+  if (
+    (PA_BASE_URL.includes("localhost") || PA_BASE_URL.includes("127.0.0.1")) &&
+    !candidateBases.includes("https://api.agents.alchm.kitchen")
+  ) {
+    candidateBases.push("https://api.agents.alchm.kitchen");
+  }
+
+  let lastError = "unreachable";
+  for (const baseUrl of candidateBases) {
+    const attemptStart = Date.now();
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 2000);
+      const res = await fetch(`${baseUrl}/health`, {
+        headers,
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+      const latencyMs = Date.now() - attemptStart;
+      if (res.ok) {
+        return {
+          id: "planetary-agents",
+          label: "Planetary Agents",
+          status: latencyMs > 1500 ? "DEGRADED" : "OK",
+          summary: `Healthy · ${formatLatency(latencyMs)}`,
+          latencyMs,
+          checkedAt,
+        };
+      }
       return {
         id: "planetary-agents",
         label: "Planetary Agents",
-        status: latencyMs > 1500 ? "DEGRADED" : "OK",
-        summary: `Healthy · ${formatLatency(latencyMs)}`,
+        status: "DEGRADED",
+        summary: `HTTP ${res.status} from /health`,
         latencyMs,
         checkedAt,
       };
+    } catch (err) {
+      lastError = err instanceof Error ? err.message : "unreachable";
     }
-    return {
-      id: "planetary-agents",
-      label: "Planetary Agents",
-      status: "DEGRADED",
-      summary: `HTTP ${res.status} from /health`,
-      latencyMs,
-      checkedAt,
-    };
-  } catch (err) {
-    return {
-      id: "planetary-agents",
-      label: "Planetary Agents",
-      status: "INCIDENT",
-      summary: err instanceof Error ? err.message : "unreachable",
-      latencyMs: null,
-      checkedAt,
-    };
   }
+
+  return {
+    id: "planetary-agents",
+    label: "Planetary Agents",
+    status: "INCIDENT",
+    summary: lastError,
+    latencyMs: null,
+    checkedAt,
+  };
 }
 
 async function probeStripeDependency(): Promise<DependencyHealth> {

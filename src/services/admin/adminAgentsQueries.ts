@@ -36,47 +36,66 @@ export async function probeService(
   fetchFn: typeof fetch = fetch,
 ): Promise<ServiceReachability> {
   const url = getServiceUrlSafe(key);
-  const fullUrl = subPath ? `${url}${subPath}` : url;
-  const label = key === "planetaryAgentsApi" ? "Alchemy Agents API" : "Alchemy Agents UI";
-  const start = Date.now();
-
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 3_000);
-    const headers: Record<string, string> = {
-      Accept: "application/json",
-      ...(process.env.INTERNAL_API_SECRET ? { Authorization: `Bearer ${process.env.INTERNAL_API_SECRET}` } : {}),
-    };
-
-    const res = await fetchFn(fullUrl, {
-      method: "GET",
-      headers,
-      signal: controller.signal,
-    });
-    clearTimeout(timer);
-
-    return {
-      key,
-      label,
-      url: fullUrl,
-      reachable: res.status < 500,
-      statusCode: res.status,
-      latencyMs: Date.now() - start,
-      checkedAt: new Date().toISOString(),
-    };
-  } catch (err) {
-    _logger.error(`[adminAgentsService] ${key} probe failed:`, err);
-    return {
-      key,
-      label,
-      url: fullUrl,
-      reachable: false,
-      statusCode: null,
-      latencyMs: null,
-      error: err instanceof Error ? err.message : String(err),
-      checkedAt: new Date().toISOString(),
-    };
+  const prodFallback =
+    key === "planetaryAgentsApi"
+      ? "https://api.agents.alchm.kitchen"
+      : "https://agents.alchm.kitchen";
+  const candidateBases = [url];
+  if (
+    (url.includes("localhost") || url.includes("127.0.0.1")) &&
+    !candidateBases.includes(prodFallback)
+  ) {
+    candidateBases.push(prodFallback);
   }
+
+  const label = key === "planetaryAgentsApi" ? "Alchemy Agents API" : "Alchemy Agents UI";
+  const headers: Record<string, string> = { Accept: "application/json" };
+  if (process.env.INTERNAL_API_SECRET) {
+    headers.Authorization = `Bearer ${process.env.INTERNAL_API_SECRET}`;
+  }
+
+  let lastError: unknown = null;
+  let lastFullUrl = subPath ? `${url}${subPath}` : url;
+
+  for (const base of candidateBases) {
+    const fullUrl = subPath ? `${base}${subPath}` : base;
+    lastFullUrl = fullUrl;
+    const start = Date.now();
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 3_000);
+      const res = await fetchFn(fullUrl, {
+        method: "GET",
+        headers,
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+
+      return {
+        key,
+        label,
+        url: fullUrl,
+        reachable: res.status < 500,
+        statusCode: res.status,
+        latencyMs: Date.now() - start,
+        checkedAt: new Date().toISOString(),
+      };
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  _logger.error(`[adminAgentsService] ${key} probe failed:`, lastError);
+  return {
+    key,
+    label,
+    url: lastFullUrl,
+    reachable: false,
+    statusCode: null,
+    latencyMs: null,
+    error: lastError instanceof Error ? lastError.message : String(lastError),
+    checkedAt: new Date().toISOString(),
+  };
 }
 
 export async function getAgentRosterStats(options?: { client?: PoolClient }): Promise<AgentRosterStats> {

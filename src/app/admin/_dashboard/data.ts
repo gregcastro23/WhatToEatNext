@@ -26,6 +26,8 @@ import type {
   ResourceUsageData,
   PractitionerGeoData,
   CohortRetentionData,
+  SemsDistributionData,
+  RouteHeatmapData,
 } from "@/services/dashboardPanelsService";
 import type { EconomyIntegrityData } from "@/services/economyIntegrityService";
 import type { TriageQueueData } from "@/services/githubTriageService";
@@ -193,6 +195,10 @@ export interface AdminDashboardData {
   practitionerGeo: PractitionerGeoData;
   /** User login and activity cohort retention. */
   cohortRetention: CohortRetentionData;
+  /** Live ESMS & elemental distribution across recipes + user_profiles. */
+  semsDistribution?: SemsDistributionData;
+  /** Live per-route hourly request heatmap + canonical route performance. */
+  routeHeatmap?: RouteHeatmapData;
   /**
    * Generation metadata. `mockedFields` lists any panels still served
    * from explicitly-labelled illustrative values rather than a live source.
@@ -512,6 +518,22 @@ export const FALLBACK_DATA: AdminDashboardData = {
   },
   practitionerGeo: { regions: [], live: false },
   cohortRetention: { cohorts: [], live: false },
+  semsDistribution: {
+    recipeCount: 0,
+    axes: [],
+    aSharpMean: 0,
+    harmonyMean: 0,
+    elementalMeans: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    monicaCalibration: { calibratedProfiles: 0, meanConstant: 0, methods: [] },
+    live: false,
+  },
+  routeHeatmap: {
+    windowHours: 24,
+    bucketLabels: [],
+    routes: [],
+    canonicalRoutes: [],
+    live: false,
+  },
   meta: {
     generatedAt: new Date(0).toISOString(),
     mockedFields: [],

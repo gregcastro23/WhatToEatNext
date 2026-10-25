@@ -44,6 +44,8 @@ import {
   getResourceUsage,
   getPractitionerGeo,
   getCohortRetention,
+  getSemsDistribution,
+  getRouteHeatmap,
 } from "@/services/dashboardPanelsService";
 import { getEconomyIntegrity } from "@/services/economyIntegrityService";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
@@ -297,11 +299,14 @@ async function assembleTelemetryCore() {
     const migrationStatusPromise = getMigrationStatus();
     const cronHeartbeatsPromise = getCronHeartbeats();
     const triageQueuePromise = getTriageQueue();
+    const semsDistributionPromise = getSemsDistribution();
+    const routeHeatmapPromise = getRouteHeatmap();
 
     let paHealth = "offline";
     // null = the roster probe failed — renders as unknown, never as an
     // empty roster (a fabricated 0 was the previous behavior).
     let paAgentCount: number | null = null;
+    let resolvedPaBackendUrl = PA_BACKEND_URL;
 
     try {
       const internalSecret = process.env.INTERNAL_API_SECRET;
@@ -313,25 +318,36 @@ async function assembleTelemetryCore() {
         headers.Authorization = `Bearer ${internalSecret}`;
       }
 
-      const [healthRes, agentsRes] = await Promise.allSettled([
-        fetchWithTimeout(`${PA_BACKEND_URL}/health`, { headers }, 2000),
-        fetchWithTimeout(`${PA_BACKEND_URL}/api/agents`, { headers }, 2000),
-      ]);
-
-      if (healthRes.status === "fulfilled" && healthRes.value.ok) {
-        const healthData = (await healthRes.value.json().catch(() => ({}))) as {
-          status?: string;
-          health?: string;
-        };
-        paHealth = healthData.status ?? healthData.health ?? "healthy";
-      } else {
-        paHealth = healthRes.status === "fulfilled" ? "unhealthy" : "offline";
+      const candidateUrls = [PA_BACKEND_URL];
+      if (
+        (PA_BACKEND_URL.includes("localhost") ||
+          PA_BACKEND_URL.includes("127.0.0.1")) &&
+        !candidateUrls.includes("https://api.agents.alchm.kitchen")
+      ) {
+        candidateUrls.push("https://api.agents.alchm.kitchen");
       }
 
-      if (agentsRes.status === "fulfilled" && agentsRes.value.ok) {
-        paAgentCount = getAgentCount(
-          await agentsRes.value.json().catch(() => []),
-        );
+      for (const candidateUrl of candidateUrls) {
+        const [healthRes, agentsRes] = await Promise.allSettled([
+          fetchWithTimeout(`${candidateUrl}/health`, { headers }, 2000),
+          fetchWithTimeout(`${candidateUrl}/api/agents`, { headers }, 2000),
+        ]);
+
+        if (healthRes.status === "fulfilled" && healthRes.value.ok) {
+          resolvedPaBackendUrl = candidateUrl;
+          const healthData = (await healthRes.value.json().catch(() => ({}))) as {
+            status?: string;
+            health?: string;
+          };
+          paHealth = healthData.status ?? healthData.health ?? "healthy";
+          if (agentsRes.status === "fulfilled" && agentsRes.value.ok) {
+            paAgentCount = getAgentCount(
+              await agentsRes.value.json().catch(() => []),
+            );
+          }
+          break;
+        }
+        paHealth = healthRes.status === "fulfilled" ? "unhealthy" : "offline";
       }
     } catch (err) {
       _logger.error("Failed to query Planetary Agents backend metrics:", err);
@@ -366,6 +382,8 @@ async function assembleTelemetryCore() {
     const migrationStatus = await migrationStatusPromise;
     const cronHeartbeats = await cronHeartbeatsPromise;
     const triageQueue = await triageQueuePromise;
+    const semsDistribution = await semsDistributionPromise;
+    const routeHeatmap = await routeHeatmapPromise;
 
     // Live metaphysical telemetry — feed-event rate + event-type entropy from
     // the database, elemental harmony from the live ephemeris. Supersedes the
@@ -376,11 +394,11 @@ async function assembleTelemetryCore() {
       endpoints: {
         alchmNextApp: "https://alchm.kitchen",
         paUi: getServiceUrlSafe("agentsUi"),
-        paBackend: PA_BACKEND_URL,
+        paBackend: resolvedPaBackendUrl,
         wtenLegacyBackend: getServiceUrlSafe("wtenBackend"),
       },
       health: normalizePlanetaryHealth(paHealth),
-      agentCount: paAgentCount,
+      agentCount: paAgentCount ?? (stats.live ? stats.agentUsers : null),
       // Roster drift: WTEN's is_agent count vs the PA backend's roster.
       // Either side is null when its source degraded this poll.
       rosterDiff: {
@@ -391,9 +409,25 @@ async function assembleTelemetryCore() {
       telemetry,
     };
 
-    const mockedFields = KNOWN_CODEBASE_GAPS.filter(
-      (gap) => gap.category === "PLACEHOLDER_DATA",
-    ).map((gap) => gap.label);
+    const resolvedGapIds = new Set<string>();
+    if (routeHeatmap.live) {
+      resolvedGapIds.add("api-volume-heatmap");
+      resolvedGapIds.add("canonical-route-performance");
+    }
+    if (semsDistribution.live) {
+      resolvedGapIds.add("recipe-quality-sems");
+      resolvedGapIds.add("sems-rollup");
+    }
+    if (commerce.live && commerce.subscriptionMix) {
+      resolvedGapIds.add("billing-analytics");
+    }
+
+    const activeGaps = KNOWN_CODEBASE_GAPS.filter(
+      (gap) => !resolvedGapIds.has(gap.id),
+    );
+    const mockedFields = activeGaps
+      .filter((gap) => gap.category === "PLACEHOLDER_DATA")
+      .map((gap) => gap.label);
     const operations = buildOperationsControlPlane({
       systemStatus,
       onboarding: onboardingHealth,
@@ -414,7 +448,7 @@ async function assembleTelemetryCore() {
         featureFlags: featureFlags.live,
       },
       mockedFields,
-      codebaseGaps: KNOWN_CODEBASE_GAPS,
+      codebaseGaps: activeGaps,
     });
 
     return {
@@ -453,6 +487,8 @@ async function assembleTelemetryCore() {
       resourceUsage,
       practitionerGeo,
       cohortRetention,
+      semsDistribution,
+      routeHeatmap,
       meta: {
         generatedAt: now.toISOString(),
         mockedFields,
