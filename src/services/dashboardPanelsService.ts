@@ -627,7 +627,7 @@ export async function getPlatformPulse(): Promise<PlatformPulse> {
           ? executeQuery<{ commit_sha: string | null }>(
               `SELECT commit_sha FROM code_health_snapshots
                WHERE commit_sha IS NOT NULL AND commit_sha <> 'unknown'
-               ORDER BY created_at DESC LIMIT 1`,
+               ORDER BY measured_at DESC LIMIT 1`,
             )
           : Promise.resolve({ rows: [] }),
       ]);
@@ -689,11 +689,21 @@ export interface EngineStageMetric {
   p95Ms: number | null;
 }
 
+export interface EngineEvaluationMetrics {
+  totalCritiques: number;
+  critiquedRecipes: number;
+  catalogCoveragePct: number;
+  meanRating: number | null;
+  verifiedCritiques: number;
+  proposedCritiques: number;
+}
+
 export interface EnginePerformanceData {
   clickToCookRate: number;
   totalCalculations: number;
   averageLatencyMs: number;
   stages?: EngineStageMetric[];
+  evaluation?: EngineEvaluationMetrics;
   live: boolean;
 }
 
@@ -760,7 +770,7 @@ function formatAge(createdAt: Date): string {
 
 export async function getEnginePerformance(): Promise<EnginePerformanceData> {
   try {
-    const [interactionsRes, calculationsRes, stagesRes] = await Promise.all([
+    const [interactionsRes, calculationsRes, stagesRes, evalRes] = await Promise.all([
       executeQuery(`
         SELECT
           (
@@ -846,9 +856,29 @@ export async function getEnginePerformance(): Promise<EnginePerformanceData> {
           SELECT
             'Calculation Cache · Memo' AS stage,
             (SELECT COALESCE(SUM(hit_count), COUNT(*)) FROM calculation_cache) AS calls,
-            2::float8 AS p50_ms,
-            8::float8 AS p95_ms
+            NULL::float8 AS p50_ms,
+            NULL::float8 AS p95_ms
         ) t
+      `).catch(() => ({ rows: [] })),
+      executeQuery<{
+        total_recipes: number;
+        total_critiques: number;
+        critiqued_recipes: number;
+        verified_critiques: number;
+        proposed_critiques: number;
+        mean_rating: number | null;
+      }>(`
+        SELECT
+          (SELECT COUNT(*)::int FROM recipes) AS total_recipes,
+          (SELECT COUNT(*)::int FROM recipe_reflections WHERE deleted_at IS NULL AND COALESCE(hidden, false) = false) AS total_critiques,
+          (SELECT COUNT(DISTINCT recipe_id)::int FROM recipe_reflections WHERE deleted_at IS NULL AND COALESCE(hidden, false) = false) AS critiqued_recipes,
+          (SELECT COUNT(*)::int FROM recipe_reflections WHERE deleted_at IS NULL AND COALESCE(hidden, false) = false AND content_state = 'verified') AS verified_critiques,
+          (SELECT COUNT(*)::int FROM recipe_reflections WHERE deleted_at IS NULL AND COALESCE(hidden, false) = false AND content_state = 'proposed') AS proposed_critiques,
+          (SELECT ROUND(AVG(rating)::numeric, 2)::float8 FROM (
+            SELECT score::float8 AS rating FROM recipe_reflections WHERE deleted_at IS NULL AND COALESCE(hidden, false) = false AND score IS NOT NULL
+            UNION ALL
+            SELECT rating::float8 AS rating FROM user_recipe_interactions WHERE rating IS NOT NULL
+          ) r) AS mean_rating
       `).catch(() => ({ rows: [] })),
     ]);
 
@@ -866,11 +896,28 @@ export async function getEnginePerformance(): Promise<EnginePerformanceData> {
       p95Ms: r.p95_ms !== null && r.p95_ms !== undefined ? Number(r.p95_ms) : null,
     }));
 
+    const [evalRow] = evalRes.rows;
+    const totalRecipes = Number(evalRow?.total_recipes ?? 0);
+    const critiquedRecipes = Number(evalRow?.critiqued_recipes ?? 0);
+    const evaluation: EngineEvaluationMetrics = {
+      totalCritiques: Number(evalRow?.total_critiques ?? 0),
+      critiquedRecipes,
+      catalogCoveragePct:
+        totalRecipes > 0 ? Math.round((critiquedRecipes / totalRecipes) * 1000) / 10 : 0,
+      meanRating:
+        evalRow?.mean_rating !== null && evalRow?.mean_rating !== undefined
+          ? Number(evalRow.mean_rating)
+          : null,
+      verifiedCritiques: Number(evalRow?.verified_critiques ?? 0),
+      proposedCritiques: Number(evalRow?.proposed_critiques ?? 0),
+    };
+
     return {
       clickToCookRate,
       totalCalculations,
       averageLatencyMs,
       stages,
+      evaluation,
       live: true,
     };
   } catch (error) {

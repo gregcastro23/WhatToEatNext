@@ -50,6 +50,19 @@ if (/\[(skip[ -]vercel|skip[ -]ci|no[ -]build|skip[ -]build)\]/i.test(commitMsg)
   process.exit(0);
 }
 
+// 1b. Skip automatic Preview builds unless explicitly requested via [deploy-preview] / [build-preview]
+// (82% of historical Vercel builds were unvisited preview builds on agent/feature branches)
+if (
+  vercelEnv === 'preview' &&
+  process.env.FORCE_PREVIEW_BUILD !== 'true' &&
+  !/\[(deploy[ -]preview|build[ -]preview|force[ -]build)\]/i.test(commitMsg)
+) {
+  console.log(`⏩ [SKIP] Preview build skipped by default on branch "${commitRef}".`);
+  console.log('   (Add [deploy-preview] to the commit message or set FORCE_PREVIEW_BUILD=true to build a preview)');
+  console.log('🛑 Cancelling Vercel build (0 CPU minutes used).');
+  process.exit(0);
+}
+
 // 2. Frontend-critical paths
 const FRONTEND_PATHS = [
   'src',
@@ -117,12 +130,24 @@ try {
     }
     console.log('🛑 Cancelling Vercel build (0 CPU minutes used).');
     process.exit(0);
-  } else {
-    console.log('✅ [BUILD] Frontend changes detected:');
-    diffOutput.split('\n').slice(0, 15).forEach(file => console.log(`   + ${file}`));
-    console.log('🚀 Proceeding with Vercel production build.');
-    process.exit(1);
   }
+
+  // 5. Exclude non-runtime files that do not affect the production bundle
+  const NON_RUNTIME_PATTERN = /(\/__tests__\/|\.(test|spec)\.[jt]sx?$|\.mdx?$|\.d\.ts$)/i;
+  const rawFiles = diffOutput.split('\n').map(f => f.trim()).filter(Boolean);
+  const runtimeFiles = rawFiles.filter(f => !NON_RUNTIME_PATTERN.test(f));
+
+  if (runtimeFiles.length === 0) {
+    console.log('🛑 [SKIP] Changes are strictly limited to tests, markdown docs, or type declarations:');
+    rawFiles.slice(0, 15).forEach(file => console.log(`   - ${file}`));
+    console.log('🛑 Cancelling Vercel build (0 CPU minutes used).');
+    process.exit(0);
+  }
+
+  console.log('✅ [BUILD] Production frontend runtime changes detected:');
+  runtimeFiles.slice(0, 15).forEach(file => console.log(`   + ${file}`));
+  console.log('🚀 Proceeding with Vercel production build.');
+  process.exit(1);
 } catch {
   console.log('⚠️ [FALLBACK] Git diff command failed. Defaulting to proceed with build.');
   process.exit(1);

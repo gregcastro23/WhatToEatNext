@@ -896,22 +896,88 @@ export function EngineHealth({ enginePerformance }: { enginePerformance?: Engine
         </div>
       )}
 
-      <div
-        style={{
-          marginTop: 10,
-          padding: "8px 10px",
-          border: "1px dashed var(--line)",
-          borderRadius: 8,
-        }}
-      >
-        <div className="t-tag" style={{ marginBottom: 3, fontSize: 8 }}>
-          OFFLINE EVAL · NOT WIRED
+      {live && perf.evaluation ? (
+        <div
+          style={{
+            marginTop: 10,
+            padding: "8px 10px",
+            border: "1px solid var(--line)",
+            borderRadius: 8,
+            background: "rgba(255,255,255,0.015)",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 6,
+            }}
+          >
+            <span className="t-tag" style={{ fontSize: 8 }}>
+              CATALOG CRITIQUE & QUALITY EVAL · LIVE
+            </span>
+            <span
+              className="t-mono"
+              style={{ fontSize: 9, color: "var(--el-earth)" }}
+            >
+              {perf.evaluation.catalogCoveragePct.toFixed(1)}% catalog coverage
+            </span>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: 6,
+              fontFamily: "var(--f-mono)",
+              fontSize: 10,
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 8, color: "var(--fg-mute)" }}>CRITIQUES</div>
+              <div className="t-num" style={{ color: "var(--fg)" }}>
+                {perf.evaluation.totalCritiques.toLocaleString()}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 8, color: "var(--fg-mute)" }}>RECIPES</div>
+              <div className="t-num" style={{ color: "var(--fg)" }}>
+                {perf.evaluation.critiquedRecipes.toLocaleString()}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 8, color: "var(--fg-mute)" }}>PROPOSED / VERIFIED</div>
+              <div className="t-num" style={{ color: "var(--fg-dim)" }}>
+                {perf.evaluation.proposedCritiques} / {perf.evaluation.verifiedCritiques}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 8, color: "var(--fg-mute)" }}>MEAN SCORE</div>
+              <div className="t-num" style={{ color: "var(--accent)" }}>
+                {perf.evaluation.meanRating !== null
+                  ? `${perf.evaluation.meanRating.toFixed(2)}★`
+                  : "—"}
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
-          NDCG@10 · MAP · canary harness · promote/rollback controls — add an
-          eval pipeline + flag table to surface these here.
+      ) : (
+        <div
+          style={{
+            marginTop: 10,
+            padding: "8px 10px",
+            border: "1px dashed var(--line)",
+            borderRadius: 8,
+          }}
+        >
+          <div className="t-tag" style={{ marginBottom: 3, fontSize: 8 }}>
+            EVALUATION TELEMETRY · OFFLINE
+          </div>
+          <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+            Awaiting database telemetry for catalog critique and quality metrics.
+          </div>
         </div>
-      </div>
+      )}
     </Card>
   );
 }

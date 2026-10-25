@@ -137,7 +137,7 @@ async function fetchFromWtenDb(
              (
                (SELECT COUNT(*) FROM mcp_invocations WHERE called_at >= NOW() - ($1::int * INTERVAL '1 hour'))
                + (SELECT COUNT(*) FROM feed_events WHERE created_at >= NOW() - ($1::int * INTERVAL '1 hour') AND event_type IN ('recipe_review', 'recipe_adapted', 'agent_chat', 'insight'))
-               + (SELECT COUNT(*) FROM user_interactions WHERE timestamp >= NOW() - ($1::int * INTERVAL '1 hour'))
+               + (SELECT COUNT(*) FROM user_interactions WHERE created_at >= NOW() - ($1::int * INTERVAL '1 hour'))
              ) AS help_cnt`,
           [hours],
         ),
@@ -146,9 +146,9 @@ async function fetchFromWtenDb(
           total_cnt: string;
         }>(
           `WITH rated AS (
-             SELECT rating FROM recipe_reflections
+             SELECT score AS rating FROM recipe_reflections
              WHERE created_at >= NOW() - (GREATEST($1::int, 168) * INTERVAL '1 hour')
-               AND rating IS NOT NULL
+               AND score IS NOT NULL
              UNION ALL
              SELECT (metadata_payload->>'rating')::numeric AS rating
              FROM feed_events
@@ -170,7 +170,7 @@ async function fetchFromWtenDb(
                AND latency_ms IS NOT NULL
              UNION ALL
              SELECT latency_ms FROM request_log_entries
-             WHERE ts >= NOW() - (GREATEST($1::int, 24) * INTERVAL '1 hour')
+             WHERE at >= NOW() - (GREATEST($1::int, 24) * INTERVAL '1 hour')
                AND path IN ('/api/generate-cosmic-recipe', '/api/personalized-recommendations', '/api/cuisines/recommend')
                AND latency_ms IS NOT NULL
            )
@@ -183,10 +183,10 @@ async function fetchFromWtenDb(
         }>(
           `WITH paths AS (
              SELECT path FROM page_views
-             WHERE created_at >= NOW() - (GREATEST($1::int, 168) * INTERVAL '1 hour')
+             WHERE at >= NOW() - (GREATEST($1::int, 168) * INTERVAL '1 hour')
              UNION ALL
              SELECT path FROM request_log_entries
-             WHERE ts >= NOW() - (GREATEST($1::int, 24) * INTERVAL '1 hour')
+             WHERE at >= NOW() - (GREATEST($1::int, 24) * INTERVAL '1 hour')
                AND path NOT LIKE '/api/admin/%'
                AND path NOT LIKE '/api/auth/%'
            )
