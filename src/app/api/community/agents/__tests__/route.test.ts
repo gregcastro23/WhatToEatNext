@@ -13,7 +13,7 @@ jest.mock("@/lib/database", () => ({
 }));
 
 jest.mock("@/lib/redis", () => ({
-  redisCached: async (_key: string, _ttl: number, fn: () => Promise<unknown>): Promise<unknown> =>
+  communityAgentsCached: async (_limit: number, _ttl: number, fn: () => Promise<unknown>): Promise<unknown> =>
     fn(),
 }));
 
@@ -59,6 +59,7 @@ describe("GET /api/community/agents", () => {
     const res = await GET(req);
 
     expect(res.status).toBe(200);
+    expect(res.headers.get("Cache-Control")).toBe("no-store");
     expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
 
     const sqlArg = String(mockExecuteQuery.mock.calls[0]?.[0] ?? "");
@@ -108,5 +109,12 @@ describe("GET /api/community/agents", () => {
     const req = new NextRequest("http://localhost/api/community/agents?limit=80");
     const res = await GET(req);
     expect(res.status).toBe(500);
+  });
+
+  it.each([["71", 71], ["999", 200], ["-1", 100], ["0", 100], ["NaN", 100], ["1.5", 100]])("normalizes limit %s to %s", async (value, expected) => {
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+    const res = await GET(new NextRequest(`http://localhost/api/community/agents?limit=${value}`));
+    expect(res.status).toBe(200);
+    expect(mockExecuteQuery.mock.calls[0]?.[1]).toEqual([expected]);
   });
 });

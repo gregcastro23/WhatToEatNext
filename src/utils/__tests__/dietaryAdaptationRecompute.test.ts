@@ -7,6 +7,20 @@ import {
 import type { Recipe } from "@/types/recipe";
 
 describe("recomputeAdaptedInstructions", () => {
+  it("replaces original spans once, without rewriting flax egg or gluten-free flour", () => {
+    const swaps = [
+      { index: 0, from: { name: "eggs", amount: 2, unit: "unit" }, to: { name: "flax egg (1 tbsp flax per egg)", amount: 2, unit: "unit" }, reason: "vegan" },
+      { index: 1, from: { name: "all-purpose flour", amount: 100, unit: "g" }, to: { name: "gluten-free flour blend", amount: 100, unit: "g" }, reason: "gluten-free" },
+    ];
+    expect(recomputeAdaptedInstructions(["Whisk eggs into all-purpose flour."], swaps).adaptedInstructions)
+      .toEqual(["Whisk flax egg into gluten-free flour blend."]);
+  });
+
+  it("does not reduce a compound ingredient to an unrelated standalone ingredient", () => {
+    const swaps = [{ index: 0, from: { name: "rice noodles", amount: 100, unit: "g" }, to: { name: "gluten-free pasta", amount: 100, unit: "g" }, reason: "swap" }];
+    expect(recomputeAdaptedInstructions(["Mix the rice and rice noodles."], swaps).adaptedInstructions)
+      .toEqual(["Mix the rice and gluten-free pasta."]);
+  });
   it("replaces swapped ingredients inline while preserving casing and context", () => {
     const instructions = [
       "Slice the chicken breast into thin strips.",
@@ -61,6 +75,28 @@ describe("recomputeAdaptedInstructions", () => {
 });
 
 describe("recomputeSavedVersionReadings", () => {
+  it("keeps partial elemental and fabricated alchemical readings unavailable", () => {
+    const readings = recomputeSavedVersionReadings({
+      ingredients: [{ name: "firm tofu", amount: 200, unit: "g" }, { name: "zzunmappedzz", amount: 200, unit: "g" }],
+      numberOfServings: 2,
+    });
+    expect(readings.elementalProperties).toBeNull();
+    expect(readings.alchemicalSummary).toBeNull();
+    expect(readings.isComplete).toBe(false);
+  });
+
+  it.each([undefined, 0, 0.5, -1, NaN, Infinity])("does not invent per-serving nutrition for servings %s", (numberOfServings) => {
+    const readings = recomputeSavedVersionReadings({
+      ingredients: [{ name: "firm tofu", amount: 200, unit: "g" }],
+      ...(numberOfServings !== undefined ? { numberOfServings } : {}),
+    });
+    expect(readings.nutritionPerServing).toBeNull();
+    expect(readings.isComplete).toBe(false);
+  });
+
+  it.each([0, -1, NaN, Infinity])("does not invent quantities for amount %s", (amount) => {
+    expect(recomputeSavedVersionReadings({ ingredients: [{ name: "firm tofu", amount, unit: "g" }], numberOfServings: 2 }).nutritionPerServing).toBeNull();
+  });
   it("computes elemental properties and nutrition per serving from adapted ingredients", () => {
     const ingredients = [
       { name: "firm tofu", amount: 200, unit: "g" },
@@ -81,8 +117,7 @@ describe("recomputeSavedVersionReadings", () => {
         readings.elementalProperties.Air;
       expect(sum).toBeCloseTo(1.0, 2);
     }
-    expect(readings.alchemicalSummary).not.toBeNull();
-    expect(readings.alchemicalSummary?.totalASharp).toBeGreaterThan(0);
+    expect(readings.alchemicalSummary).toBeNull();
     expect(readings.nutritionPerServing).not.toBeNull();
     if (readings.nutritionPerServing) {
       expect(readings.nutritionPerServing.calories).toBeGreaterThan(0);
@@ -129,7 +164,7 @@ describe("adaptRecipe with end-to-end recomputation", () => {
 
     expect(adapted.recomputedElemental).not.toBeNull();
     expect(adapted.recomputedNutrition).not.toBeNull();
-    expect(adapted.isFullyRecomputed).toBe(true);
+    expect(adapted.readingsComplete).toBe(true);
   });
 
   it("resolveAdaptedRecipeState surfaces recomputed state and allows suppressing original reading banner", () => {
@@ -145,5 +180,19 @@ describe("adaptRecipe with end-to-end recomputation", () => {
     expect(state.activeNutrition?.calories).toBe(
       Math.round(adapted.recomputedNutrition?.calories ?? 0),
     );
+  });
+
+  it("does not carry original nutrients or shopping identity into a replacement", () => {
+    const recipe = {
+      ...chickenSkillet,
+      ingredients: chickenSkillet.ingredients.map((ingredient) => ({ ...ingredient, asin: "original-product", id: "original-id" })),
+      nutrition: { ...chickenSkillet.nutrition, sodium: 900, sugar: 50, vitamins: ["B12"], minerals: ["iron"] },
+    };
+    const adapted = adaptRecipe(recipe, "vegetarian");
+    adapted.recomputedNutrition = { calories: 100, protein: 10, carbs: 5, fat: 5, fiber: 1 };
+    const state = resolveAdaptedRecipeState(recipe, adapted);
+    expect(state.activeNutrition).toEqual(expect.objectContaining({ sodium: undefined, sugar: undefined, vitamins: undefined, minerals: undefined }));
+    expect(adapted.swaps[0]?.to).not.toHaveProperty("asin");
+    expect(adapted.swaps[0]?.to).not.toHaveProperty("id");
   });
 });

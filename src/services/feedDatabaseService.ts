@@ -203,8 +203,9 @@ class FeedDatabaseService {
 
       feedEventId = feedRes.rows[0]?.id;
       feedPublished = Boolean(feedEventId) || (typeof feedRes.rowCount === "number" && feedRes.rowCount > 0);
-      if (feedPublished && user?.is_agent === true) {
-        invalidateCommunityAgentsCache().catch(() => {});
+      if (feedPublished && user?.is_agent === true && !client) {
+        // Explicit transactions invalidate in their afterCommit callback.
+        await invalidateCommunityAgentsCache();
       }
     } catch (feedError) {
       _logger.error("Failed to insert feed event:", feedError);

@@ -1,7 +1,6 @@
 import type { ElementalProperties, Recipe, RecipeIngredient } from "@/types/recipe";
 import { computeRecipeNutritionFromIngredients } from "@/utils/ingredientNutritionAggregation";
 import {
-  calculateRecipeAlchemicalQuantities,
   calculateRecipeElementalFromIngredients,
   type RecipeAlchemicalSummary,
 } from "@/utils/recipeAlchemicalQuantities";
@@ -55,7 +54,8 @@ export interface AdaptationResult {
   recomputedElemental: ElementalProperties | null;
   recomputedNutrition: NormalizedRecipeNutrition | null;
   recomputedAlchemical: RecipeAlchemicalSummary | null;
-  isFullyRecomputed: boolean;
+  /** Complete elemental coverage and usable per-serving nutrition; not cooking-method validation. */
+  readingsComplete: boolean;
 }
 
 export interface SavedVersionRecomputedReadings {
@@ -123,13 +123,13 @@ export function resolveAdaptedRecipeState(
           sodium:
             adaptation.recomputedNutrition.sodium !== undefined
               ? Math.round(adaptation.recomputedNutrition.sodium)
-              : baseNutrition?.sodium,
+              : undefined,
           sugar:
             adaptation.recomputedNutrition.sugar !== undefined
               ? Math.round(adaptation.recomputedNutrition.sugar * 10) / 10
-              : baseNutrition?.sugar,
-          vitamins: adaptation.recomputedNutrition.vitamins ?? baseNutrition?.vitamins,
-          minerals: adaptation.recomputedNutrition.minerals ?? baseNutrition?.minerals,
+              : undefined,
+          vitamins: adaptation.recomputedNutrition.vitamins,
+          minerals: adaptation.recomputedNutrition.minerals,
         }
       : baseNutrition;
 
@@ -554,6 +554,7 @@ const CORE_SWAP_NOUNS = [
   "salami",
   "steak",
   "brisket",
+  "ribs",
   "chorizo",
   "salmon",
   "tuna",
@@ -635,9 +636,14 @@ function buildSourcePhrases(fromName: string): string[] {
     }
   }
   const lower = base.toLowerCase();
+  const identity = lower.replace(LEADING_CULINARY_MODIFIERS, "");
   for (const noun of CORE_SWAP_NOUNS) {
     const pattern = new RegExp(`\\b${escapeRegex(noun)}(?:s|es)?\\b`, "i");
-    if (pattern.test(lower)) {
+    // Only meat cuts may use a shorter protein reference ("chicken breast"
+    // → "chicken"). Other compounds must retain their identity: rice noodles
+    // are not rice, and chicken broth is not chicken.
+    const isMeatCut = /\b(?:breasts?|thighs?|ribs|ground|boneless|skinless)\b/i.test(lower);
+    if (pattern.test(lower) && ([noun, `${noun}s`, `${noun}es`].includes(identity) || (isMeatCut && [...MEAT_NAMES, ...FISH_NAMES].includes(noun)))) {
       candidates.add(noun);
     }
   }
@@ -660,6 +666,7 @@ function applyCapitalization(matched: string, replacement: string): string {
 export function recomputeAdaptedInstructions(
   instructions: readonly string[],
   swaps: readonly IngredientSwap[],
+  unchangedIngredients: readonly RecipeIngredient[] = [],
 ): {
   adaptedInstructions: string[];
   instructionEdits: InstructionEdit[];
@@ -671,40 +678,46 @@ export function recomputeAdaptedInstructions(
     };
   }
 
-  const swapMatchers = swaps.map((swap) => ({
-    targetLabel: cleanInlineTargetName(swap.to.name),
-    phrases: buildSourcePhrases(swap.from.name),
-  }));
+  const targets = new Map<string, string | null>();
+  for (const swap of swaps) {
+    const target = cleanInlineTargetName(swap.to.name);
+    if (!target) continue;
+    for (const phrase of buildSourcePhrases(swap.from.name)) {
+      for (const form of [phrase, `${phrase}s`, `${phrase}es`]) {
+        const key = form.toLowerCase();
+        // Ambiguous shorthand is left for the cook to review.
+        targets.set(key, targets.has(key) && targets.get(key) !== target ? null : target);
+      }
+    }
+  }
+  for (const ingredient of unchangedIngredients) {
+    for (const phrase of buildSourcePhrases(ingredient.name)) {
+      for (const form of [phrase, `${phrase}s`, `${phrase}es`]) {
+        targets.set(form.toLowerCase(), null);
+      }
+    }
+  }
+  const phrases = [...targets.keys()].sort((a, b) => b.length - a.length);
+  if (phrases.length === 0) return { adaptedInstructions: [...instructions], instructionEdits: [] };
+  const pattern = new RegExp(`\\b(?:${phrases.map(escapeRegex).join("|")})\\b`, "gi");
 
   const adaptedInstructions: string[] = [];
   const instructionEdits: InstructionEdit[] = [];
 
   instructions.forEach((step, index) => {
-    let current = step;
     const swappedTerms: Array<{ from: string; to: string }> = [];
-
-    for (const { targetLabel, phrases } of swapMatchers) {
-      if (!targetLabel) continue;
-      for (const phrase of phrases) {
-        const regex = new RegExp(`\\b(${escapeRegex(phrase)}(?:s|es)?)\\b`, "gi");
-        current = current.replace(regex, (match, _g1, offset: number, fullText: string) => {
-          const before = fullText.slice(Math.max(0, offset - 25), offset);
-          const after = fullText.slice(offset + match.length, offset + match.length + 25);
-          // Skip if already replaced with targetLabel or part of a protected compound
-          if (before.toLowerCase().endsWith(`${targetLabel.toLowerCase()} `)) {
-            return match;
-          }
-          if (PROTECTED_PREFIX_BEFORE_MATCH.test(before) || PROTECTED_SUFFIX_AFTER_MATCH.test(after)) {
-            return match;
-          }
-          const replaced = applyCapitalization(match, targetLabel);
-          if (replaced.toLowerCase() !== match.toLowerCase()) {
-            swappedTerms.push({ from: match, to: replaced });
-          }
-          return replaced;
-        });
-      }
-    }
+    // Match the original text once. Replacement labels cannot become inputs
+    // to subsequent swaps (e.g. eggs → flax egg → flax flax egg).
+    const current = step.replace(pattern, (match, offset: number) => {
+      const target = targets.get(match.toLowerCase());
+      if (!target) return match;
+      const before = step.slice(0, offset);
+      const after = step.slice(offset + match.length);
+      if (PROTECTED_PREFIX_BEFORE_MATCH.test(before) || PROTECTED_SUFFIX_AFTER_MATCH.test(after)) return match;
+      const replaced = applyCapitalization(match, target);
+      if (replaced.toLowerCase() !== match.toLowerCase()) swappedTerms.push({ from: match, to: replaced });
+      return replaced;
+    });
 
     adaptedInstructions.push(current);
     if (current !== step && swappedTerms.length > 0) {
@@ -721,12 +734,13 @@ export function recomputeAdaptedInstructions(
 }
 
 /**
- * Recompute elemental, alchemical, and per-serving nutrition readings from an
- * adapted ingredient list. Returns non-null readings only when catalog
- * resolution and mass completeness checks pass.
+ * Recompute elements and per-serving nutrition from an adapted ingredient
+ * list. Elemental coverage must include every line; nutrition uses the shared
+ * mass-completeness gate and requires an authored serving count. ESMS remains
+ * unavailable: the legacy aggregator includes synthesized/default quantities.
  */
 export function recomputeSavedVersionReadings(recipe: {
-  ingredients: RecipeIngredient[];
+  ingredients: Array<Pick<RecipeIngredient, "name" | "amount" | "unit">>;
   numberOfServings?: number;
   servingSize?: number;
   servings?: number;
@@ -743,18 +757,24 @@ export function recomputeSavedVersionReadings(recipe: {
 
   const elementalSummary = calculateRecipeElementalFromIngredients(names);
   const elementalProperties =
-    elementalSummary && elementalSummary.matchedCount > 0
+    elementalSummary && names.length === recipe.ingredients.length && elementalSummary.matchedCount === names.length
       ? elementalSummary.elementalProperties
       : null;
 
-  const alchemicalSummary = calculateRecipeAlchemicalQuantities(names);
-
   const servings =
     recipe.numberOfServings ?? recipe.servingSize ?? recipe.servings;
-  const computedNutrition = computeRecipeNutritionFromIngredients({
-    ingredients: recipe.ingredients,
-    ...(servings !== undefined ? { numberOfServings: servings } : {}),
-  });
+  // The shared aggregator assumes one unit for missing/zero amounts and clamps
+  // serving counts below one. Do not present those fallbacks as recomputation.
+  const knownAmounts = recipe.ingredients.every((ingredient) =>
+    ingredient.name.trim().length > 0 && ingredient.unit.trim().length > 0 &&
+    Number.isFinite(ingredient.amount) && ingredient.amount > 0,
+  );
+  const computedNutrition = knownAmounts && servings !== undefined && Number.isFinite(servings) && servings >= 1
+    ? computeRecipeNutritionFromIngredients({
+        ingredients: recipe.ingredients,
+        numberOfServings: servings,
+      })
+    : null;
   const nutritionPerServing =
     computedNutrition && hasNutritionData(computedNutrition)
       ? computedNutrition
@@ -763,7 +783,7 @@ export function recomputeSavedVersionReadings(recipe: {
   return {
     elementalProperties,
     nutritionPerServing,
-    alchemicalSummary: alchemicalSummary.matchRate > 0 ? alchemicalSummary : null,
+    alchemicalSummary: null,
     isComplete: Boolean(elementalProperties && nutritionPerServing),
   };
 }
@@ -787,11 +807,11 @@ export function adaptRecipe(recipe: Recipe, mode: DietaryMode): AdaptationResult
     const spec = rule.replace(ing);
     const category = spec.category ?? ing.category;
     const newIng: RecipeIngredient = {
-      ...ing,
       name: spec.name,
       unit: spec.unit ?? ing.unit,
       amount: spec.amountScale ? ing.amount * spec.amountScale : ing.amount,
       ...(category !== undefined ? { category } : {}),
+      ...(ing.optional !== undefined ? { optional: ing.optional } : {}),
     };
     adaptedIngredients.push(newIng);
     swaps.push({ index, from: ing, to: newIng, reason: rule.reason });
@@ -811,6 +831,7 @@ export function adaptRecipe(recipe: Recipe, mode: DietaryMode): AdaptationResult
   const { adaptedInstructions, instructionEdits } = recomputeAdaptedInstructions(
     recipe.instructions ?? [],
     swaps,
+    recipe.ingredients.filter((_, index) => !swaps.some((swap) => swap.index === index)),
   );
 
   let recomputedElemental: ElementalProperties | null = null;
@@ -839,10 +860,7 @@ export function adaptRecipe(recipe: Recipe, mode: DietaryMode): AdaptationResult
 
     const baseNutrition =
       normalizeRecipeNutrition({ nutrition: recipe.nutrition }) ??
-      computeRecipeNutritionFromIngredients({
-        ingredients: recipe.ingredients,
-        ...(recipe.numberOfServings !== undefined ? { numberOfServings: recipe.numberOfServings } : {}),
-      });
+      recomputeSavedVersionReadings(recipe).nutritionPerServing;
     if (recomputedNutrition && baseNutrition) {
       nutritionalDelta.calories = Math.round(recomputedNutrition.calories - baseNutrition.calories);
       nutritionalDelta.protein = Math.round((recomputedNutrition.protein - baseNutrition.protein) * 10) / 10;
@@ -855,11 +873,10 @@ export function adaptRecipe(recipe: Recipe, mode: DietaryMode): AdaptationResult
     }
   }
 
-  const isFullyRecomputed =
+  const readingsComplete =
     swaps.length > 0 &&
     recomputedElemental !== null &&
-    recomputedNutrition !== null &&
-    ((recipe.instructions?.length ?? 0) === 0 || instructionEdits.length > 0);
+    recomputedNutrition !== null;
 
   return {
     mode,
@@ -873,6 +890,6 @@ export function adaptRecipe(recipe: Recipe, mode: DietaryMode): AdaptationResult
     recomputedElemental,
     recomputedNutrition,
     recomputedAlchemical,
-    isFullyRecomputed,
+    readingsComplete,
   };
 }

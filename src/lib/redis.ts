@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { Redis } from "@upstash/redis";
 import { createLogger } from "@/utils/logger";
 
@@ -71,20 +72,36 @@ export async function redisDel(key: string): Promise<void> {
   }
 }
 
-/**
- * Invalidate cached community agents listings across common query limits so
- * active historical/planetary agent updates appear immediately.
- */
+const COMMUNITY_AGENTS_REVISION_KEY = "community:agents:v3:revision";
+
+/** Rotate the namespace after COMMIT, covering every limit and in-flight fill. */
 export async function invalidateCommunityAgentsCache(): Promise<void> {
-  if (!getRedisClient()) return;
-  const commonLimits = [10, 12, 20, 40, 50, 80, 100, 200];
+  const client = getRedisClient();
+  if (!client) return;
   try {
-    await Promise.all(
-      commonLimits.map((limit) => redisDel(`community:agents:v2:${limit}`)),
-    );
+    await client.set(COMMUNITY_AGENTS_REVISION_KEY, randomUUID());
   } catch (err) {
     logger.warn("invalidateCommunityAgentsCache failed:", err);
   }
+}
+
+export async function communityAgentsCached<T>(
+  limit: number,
+  ttlSeconds: number,
+  loader: () => Promise<T>,
+): Promise<T> {
+  const client = getRedisClient();
+  if (!client) return loader();
+  let revision: string | null;
+  try {
+    revision = await client.get<string>(COMMUNITY_AGENTS_REVISION_KEY);
+  } catch (err) {
+    logger.warn("Community agents cache revision unavailable:", err);
+    return loader();
+  }
+  // Old generations expire normally. A loader started before publication can
+  // only refill its old generation, never the newly visible namespace.
+  return redisCached(`community:agents:v3:${revision ?? "initial"}:${limit}`, ttlSeconds, loader);
 }
 
 /**

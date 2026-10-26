@@ -275,7 +275,9 @@ function AdaptedInstructionsNotice({
       >
         Adapted instructions ({adaptation.mode}): replaced {swapSummary} inline
         across {adaptation.instructionEdits.length} step
-        {adaptation.instructionEdits.length === 1 ? "" : "s"}.
+        {adaptation.instructionEdits.length === 1 ? "" : "s"}. Only ingredient
+        references were updated. Review remaining references, quantities,
+        cooking times and temperatures for the substitutions.
       </div>
     );
   }
@@ -287,6 +289,7 @@ function AdaptedInstructionsNotice({
     >
       Preview adaptation active ({adaptation.mode}): substitute {swapSummary}{" "}
       where referenced in the original steps below.
+      {" "}Cooking times, temperatures and quantities still follow the original recipe.
     </div>
   );
 }
@@ -313,6 +316,7 @@ export function buildPlainTextRecipe(
   title: string = recipe.name,
   instructions: string[] = recipe.instructions,
   nutritionOverride?: NutritionData | null,
+  adaptation: AdaptationResult | null = null,
 ): string {
   const baseServings = getBaseServings(recipe);
   const scale = servings / baseServings;
@@ -350,12 +354,20 @@ export function buildPlainTextRecipe(
   text += "\n";
 
   text += `--- INSTRUCTIONS ---\n\n`;
+  if (adaptation && adaptation.swaps.length > 0) {
+    text += "Adaptation preview: ingredient references may be updated; review quantities, cooking times and temperatures for the substitutions.\n\n";
+  }
   instructions.forEach((inst, i) => {
     text += `${i + 1}. ${stripStepPrefix(inst)}\n\n`;
   });
 
   if (nutrition) {
     text += `--- NUTRITION (per serving) ---\n\n`;
+    if (adaptation && adaptation.swaps.length > 0) {
+      text += adaptation.recomputedNutrition
+        ? "Estimated from adapted ingredients.\n"
+        : "Original recipe reading; adapted nutrition is unavailable.\n";
+    }
     const kcal = roundedCalories(nutrition.calories);
     if (kcal !== null) text += `Calories: ${kcal}\n`;
     if (nutrition.protein) text += `Protein: ${nutrition.protein}g\n`;
@@ -619,7 +631,7 @@ function ASharpBlock({
   );
 }
 
-function AlchemicalScoreSection({ recipe }: { recipe: Recipe }): JSX.Element | null {
+function AlchemicalScoreSection({ recipe, hasSwaps }: { recipe: Recipe; hasSwaps: boolean }): JSX.Element | null {
   const spirit    = recipe.spirit    ?? 0;
   const essence   = recipe.essence   ?? 0;
   const matter    = recipe.matter    ?? 0;
@@ -686,6 +698,7 @@ function AlchemicalScoreSection({ recipe }: { recipe: Recipe }): JSX.Element | n
 
   return (
     <SectionCard title="Alchemical Scores" icon={"\u2697\uFE0F"}>
+      <OriginalReadingsNotice hasSwaps={hasSwaps} />
       <div className="space-y-6">
         {(hasASharp || hasIngASharp) && (
           <ASharpBlock
@@ -876,6 +889,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
       activeTitle,
       activeInstructions,
       activeNutrition,
+      adaptation,
     );
     try {
       await navigator.clipboard.writeText(text);
@@ -898,7 +912,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
       }
       document.body.removeChild(textarea);
     }
-  }, [recipe, servings, activeIngredients, activeTitle, activeInstructions, activeNutrition]);
+  }, [recipe, servings, activeIngredients, activeTitle, activeInstructions, activeNutrition, adaptation]);
 
   // ===== Derived data =====
 
@@ -1399,11 +1413,12 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
             </SectionCard>
 
             {/* Alchemical Scores: A# and Monica */}
-            <AlchemicalScoreSection recipe={recipe} />
+            <AlchemicalScoreSection recipe={recipe} hasSwaps={hasSwaps} />
 
             {/* Astrological Affinities */}
             {(planets.length > 0 || signs.length > 0 || lunarPhases.length > 0) && (
               <SectionCard title="Astrological Affinities" icon="&#x2728;">
+                <OriginalReadingsNotice hasSwaps={hasSwaps} />
                 <div className="space-y-4">
                   {planets.length > 0 && (
                     <div>

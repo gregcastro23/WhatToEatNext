@@ -13,6 +13,11 @@ jest.mock("@/lib/mcp/invocationLog", () => ({
   recordInvocation: jest.fn().mockResolvedValue(undefined),
 }));
 
+const mockInvalidateAgents = jest.fn(async () => {});
+jest.mock("@/lib/redis", () => ({
+  invalidateCommunityAgentsCache: () => mockInvalidateAgents(),
+}));
+
 jest.mock("@/services/AlchemicalService", () => ({
   alchemicalService: {
     analyzeAlchemicalHarmony: () => ({
@@ -843,6 +848,7 @@ const STORED_REFLECTION = {
 
 describe("settlement", () => {
   beforeEach(() => {
+    mockInvalidateAgents.mockClear();
     mockedRecord.mockClear();
     mockedDebit.mockReset();
     mockedDebit.mockResolvedValue({
@@ -1084,7 +1090,10 @@ describe("settlement", () => {
     });
   });
 
-  it("fires the Planetary Agents feed webhook strictly after COMMIT and skips it on savepoint rollback", async () => {
+  it("invalidates the roster and sends the webhook after COMMIT, never on savepoint rollback", async () => {
+    mockInvalidateAgents.mockImplementationOnce(async () => {
+      mockTransaction.events.push("CACHE_INVALIDATED_AFTER_COMMIT");
+    });
     jest.mocked(feedDatabase.pushAgentFeedWebhook).mockImplementationOnce(async () => {
       mockTransaction.events.push("PA_WEBHOOK_AFTER_COMMIT");
     });
@@ -1105,11 +1114,13 @@ describe("settlement", () => {
       "SAVEPOINT mcp_reflection_feed",
       "RELEASE SAVEPOINT mcp_reflection_feed",
       "COMMIT",
+      "CACHE_INVALIDATED_AFTER_COMMIT",
       "PA_WEBHOOK_AFTER_COMMIT",
     ]);
 
     // When the feed savepoint rolls back, the reflection still commits, but no webhook fires.
     mockTransaction.events.length = 0;
+    mockInvalidateAgents.mockClear();
     jest.mocked(feedDatabase.pushAgentFeedWebhook).mockClear();
     jest.mocked(feedDatabase.publishFeedEvent).mockRejectedValueOnce(new Error("feed down"));
     mockedDebit.mockResolvedValueOnce({
@@ -1131,6 +1142,7 @@ describe("settlement", () => {
       "COMMIT",
     ]);
     expect(feedDatabase.pushAgentFeedWebhook).not.toHaveBeenCalled();
+    expect(mockInvalidateAgents).not.toHaveBeenCalled();
   });
 
   it("rolls the whole reflection back when its payment is refused", async () => {
