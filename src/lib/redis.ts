@@ -72,6 +72,22 @@ export async function redisDel(key: string): Promise<void> {
 }
 
 /**
+ * Invalidate cached community agents listings across common query limits so
+ * active historical/planetary agent updates appear immediately.
+ */
+export async function invalidateCommunityAgentsCache(): Promise<void> {
+  if (!getRedisClient()) return;
+  const commonLimits = [10, 12, 20, 40, 50, 80, 100, 200];
+  try {
+    await Promise.all(
+      commonLimits.map((limit) => redisDel(`community:agents:v2:${limit}`)),
+    );
+  } catch (err) {
+    logger.warn("invalidateCommunityAgentsCache failed:", err);
+  }
+}
+
+/**
  * Read-through cache. Returns the cached value for `key`; on a miss it runs
  * `loader`, caches the result for `ttlSeconds`, and returns it.
  *

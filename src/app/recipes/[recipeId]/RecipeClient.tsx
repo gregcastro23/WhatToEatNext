@@ -21,7 +21,12 @@ import { useToast } from "@/components/ToastProvider";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import { _logger } from "@/lib/logger";
 import type { Recipe, IngredientAlchemicalSummary } from "@/types/recipe";
-import { adaptRecipe, type DietaryMode, type AdaptationResult } from "@/utils/dietaryAdaptation";
+import {
+  adaptRecipe,
+  resolveAdaptedRecipeState,
+  type DietaryMode,
+  type AdaptationResult,
+} from "@/utils/dietaryAdaptation";
 import { roundedCalories } from "@/utils/roundedCalories";
 import { analyzeTimeShortcuts, type TimeBudget, type TimeShortcutResult } from "@/utils/timeShortcuts";
 
@@ -252,31 +257,6 @@ function getPairingRecommendations(recipe: Recipe): Record<string, string[]> | n
   return null;
 }
 
-function resolveAdaptedRecipeState(
-  recipe: Recipe,
-  adaptation: AdaptationResult | null,
-): {
-  hasSwaps: boolean;
-  activeIngredients: Recipe["ingredients"];
-  activeTitle: string;
-  activeCartId: string;
-} {
-  if (adaptation && adaptation.swaps.length > 0) {
-    return {
-      hasSwaps: true,
-      activeIngredients: adaptation.adaptedIngredients,
-      activeTitle: `${recipe.name} (${adaptation.mode})`,
-      activeCartId: `${String(recipe.id)}:${adaptation.mode}`,
-    };
-  }
-  return {
-    hasSwaps: false,
-    activeIngredients: recipe.ingredients,
-    activeTitle: recipe.name,
-    activeCartId: String(recipe.id),
-  };
-}
-
 function AdaptedInstructionsNotice({
   adaptation,
 }: {
@@ -286,6 +266,19 @@ function AdaptedInstructionsNotice({
   const swapSummary = adaptation.swaps
     .map((s) => `${s.from.name} \u2192 ${s.to.name}`)
     .join(", ");
+  if (adaptation.instructionEdits.length > 0) {
+    return (
+      <div
+        role="note"
+        aria-label="Adapted instructions notice"
+        className="mb-4 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-200"
+      >
+        Adapted instructions ({adaptation.mode}): replaced {swapSummary} inline
+        across {adaptation.instructionEdits.length} step
+        {adaptation.instructionEdits.length === 1 ? "" : "s"}.
+      </div>
+    );
+  }
   return (
     <div
       role="note"
@@ -300,10 +293,12 @@ function AdaptedInstructionsNotice({
 
 function OriginalReadingsNotice({
   hasSwaps,
+  recomputed = false,
 }: {
   hasSwaps: boolean;
+  recomputed?: boolean;
 }): JSX.Element | null {
-  if (!hasSwaps) return null;
+  if (!hasSwaps || recomputed) return null;
   return (
     <p className="mb-3 rounded border border-amber-500/20 bg-amber-500/5 px-2.5 py-1.5 text-xs text-amber-200/80">
       Original recipe reading &mdash; preview swaps are not recomputed here.
@@ -311,17 +306,19 @@ function OriginalReadingsNotice({
   );
 }
 
-function buildPlainTextRecipe(
+export function buildPlainTextRecipe(
   recipe: Recipe,
   servings: number,
   ingredients: Recipe["ingredients"] = recipe.ingredients,
   title: string = recipe.name,
+  instructions: string[] = recipe.instructions,
+  nutritionOverride?: NutritionData | null,
 ): string {
   const baseServings = getBaseServings(recipe);
   const scale = servings / baseServings;
   const times = getTimeMinutes(recipe);
   const methods = getCookingMethods(recipe);
-  const nutrition = getNutrition(recipe);
+  const nutrition = nutritionOverride !== undefined ? nutritionOverride : getNutrition(recipe);
   const subs = getSubstitutions(recipe);
 
   let text = "";
@@ -353,7 +350,7 @@ function buildPlainTextRecipe(
   text += "\n";
 
   text += `--- INSTRUCTIONS ---\n\n`;
-  recipe.instructions.forEach((inst, i) => {
+  instructions.forEach((inst, i) => {
     text += `${i + 1}. ${stripStepPrefix(inst)}\n\n`;
   });
 
@@ -819,7 +816,17 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   const baseServings = useMemo((): number => getBaseServings(recipe), [recipe]);
   const scale = servings / baseServings;
 
-  const { hasSwaps, activeIngredients, activeTitle, activeCartId } = useMemo(
+  const {
+    hasSwaps,
+    activeIngredients,
+    activeInstructions,
+    activeTitle,
+    activeCartId,
+    activeElementalProperties,
+    activeNutrition,
+    elementalRecomputed,
+    nutritionRecomputed,
+  } = useMemo(
     () => resolveAdaptedRecipeState(recipe, adaptation),
     [recipe, adaptation],
   );
@@ -862,7 +869,14 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   }, [activeIngredients, activeCartId, activeTitle, baseServings, servings, addRecipeToGroceryCart, openGroceryCart, showToast]);
 
   const handleCopyRecipe = useCallback(async (): Promise<void> => {
-    const text = buildPlainTextRecipe(recipe, servings, activeIngredients, activeTitle);
+    const text = buildPlainTextRecipe(
+      recipe,
+      servings,
+      activeIngredients,
+      activeTitle,
+      activeInstructions,
+      activeNutrition,
+    );
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -884,7 +898,7 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
       }
       document.body.removeChild(textarea);
     }
-  }, [recipe, servings, activeIngredients, activeTitle]);
+  }, [recipe, servings, activeIngredients, activeTitle, activeInstructions, activeNutrition]);
 
   // ===== Derived data =====
 
@@ -896,7 +910,6 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   const planets = getPlanetaryInfluences(recipe);
   const signs = getZodiacInfluences(recipe);
   const lunarPhases = getLunarPhases(recipe);
-  const nutrition = getNutrition(recipe);
   const substitutions = getSubstitutions(recipe);
   const pairings = getPairingRecommendations(recipe);
 
@@ -1180,9 +1193,13 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
                 Highlighted <span className="text-orange-300 underline decoration-dotted decoration-orange-400/50 underline-offset-4">techniques</span> open a deep-dive. Time phrases include a built-in timer.
               </p>
               <ol className="space-y-5">
-                {recipe.instructions.map((instruction, index) => {
+                {activeInstructions.map((instruction, index) => {
                   const analysis = timeAnalysis?.stepAnalyses[index];
-                  const highlight = analysis && (analysis.skippable || analysis.parallelizable || analysis.timeConsuming);
+                  const stepEdit = adaptation?.instructionEdits.find((e) => e.index === index);
+                  const highlight =
+                    stepEdit !== undefined ||
+                    (analysis !== undefined &&
+                      (analysis.skippable || analysis.parallelizable || analysis.timeConsuming));
                   const badge = analysis?.timeConsuming
                     ? { label: "Long idle", cls: "bg-orange-500/15 text-orange-300 border-orange-500/30" }
                     : analysis?.parallelizable
@@ -1196,11 +1213,18 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
                         {index + 1}
                       </span>
                       <div className="flex-1 min-w-0">
-                        {badge && (
+                        {(badge !== null || stepEdit !== undefined) && (
                           <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                            <span className={`text-xs font-medium px-2 py-0.5 rounded border ${badge.cls}`}>
-                              {badge.label}
-                            </span>
+                            {stepEdit && (
+                              <span className="text-xs font-medium px-2 py-0.5 rounded border bg-emerald-500/15 text-emerald-300 border-emerald-500/30">
+                                Adapted: {stepEdit.swappedTerms.map((t) => `${t.from} \u2192 ${t.to}`).join(", ")}
+                              </span>
+                            )}
+                            {badge && (
+                              <span className={`text-xs font-medium px-2 py-0.5 rounded border ${badge.cls}`}>
+                                {badge.label}
+                              </span>
+                            )}
                             {analysis?.reason && (
                               <span className="text-xs text-white/50 italic">{analysis.reason}</span>
                             )}
@@ -1362,13 +1386,13 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
 
             {/* Elemental Properties */}
             <SectionCard title="Elemental Properties" icon="&#x2697;">
-              <OriginalReadingsNotice hasSwaps={hasSwaps} />
+              <OriginalReadingsNotice hasSwaps={hasSwaps} recomputed={elementalRecomputed} />
               <div className="space-y-3">
                 {(["Fire", "Water", "Earth", "Air"] as const).map((element) => (
                   <ElementalBar
                     key={element}
                     element={element}
-                    value={recipe.elementalProperties[element]}
+                    value={activeElementalProperties[element]}
                   />
                 ))}
               </div>
@@ -1422,10 +1446,10 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
             )}
 
             {/* Nutrition */}
-            {nutrition && (
+            {activeNutrition && (
               <SectionCard title="Nutrition Per Serving" icon="&#x1F4CA;">
-                <OriginalReadingsNotice hasSwaps={hasSwaps} />
-                <NutritionVisualization nutrition={nutrition} />
+                <OriginalReadingsNotice hasSwaps={hasSwaps} recomputed={nutritionRecomputed} />
+                <NutritionVisualization nutrition={activeNutrition} />
               </SectionCard>
             )}
 
