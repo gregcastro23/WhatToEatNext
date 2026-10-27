@@ -7,6 +7,10 @@
  */
 
 const mockQuery = jest.fn();
+const mockInvalidate = jest.fn(async () => {});
+jest.mock("@/lib/redis", () => ({
+  invalidateCommunityAgentsCache: () => mockInvalidate(),
+}));
 jest.mock("@/lib/database/connection", () => ({
   executeQuery: (...args: unknown[]) => mockQuery(...args),
 }));
@@ -16,6 +20,7 @@ jest.mock("@/lib/logger", () => ({
 }));
 
 import { feedDatabase } from "@/services/feedDatabaseService";
+import { Client } from "pg";
 
 describe("feedDatabaseService recipe interaction mirroring", () => {
   const ACTOR_ID = "11111111-1111-1111-1111-111111111111";
@@ -23,6 +28,28 @@ describe("feedDatabaseService recipe interaction mirroring", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+
+  it("does not invalidate an event that failed to persist", async () => {
+    mockQuery.mockImplementation(async (sql: string) => {
+      if (sql.includes("SELECT u.email")) return { rows: [{ is_agent: true }] };
+      throw new Error("insert failed");
+    });
+    const result = await feedDatabase.publishFeedEvent({ actorId: ACTOR_ID, eventType: "recipe_adapted", skipWebhook: true });
+    expect(result.feedPublished).toBe(false);
+    expect(mockInvalidate).not.toHaveBeenCalled();
+  });
+
+  it("leaves invalidation to the transaction owner's afterCommit hook", async () => {
+    const client = Object.assign(new Client(), { release: jest.fn() });
+    jest.spyOn(client, "query").mockImplementation(mockQuery);
+    mockQuery.mockImplementation(async (sql: string) => ({
+      rows: sql.includes("SELECT u.email") ? [{ is_agent: true }] : [{ id: "feed-event" }],
+      rowCount: 1,
+    }));
+    const result = await feedDatabase.publishFeedEvent({ actorId: ACTOR_ID, eventType: "recipe_adapted", skipWebhook: true, client });
+    expect(result.feedPublished).toBe(true);
+    expect(mockInvalidate).not.toHaveBeenCalled();
   });
 
   it("does NOT invent rating=5 or made_it=true when neither is provided in payload", async () => {
@@ -69,6 +96,7 @@ describe("feedDatabaseService recipe interaction mirroring", () => {
     expect(capturedInteractionParams[4]).toBe("A balanced mathematical preparation.");
     expect(capturedInteractionParams[3]).toBeNull();
     expect(capturedInteractionParams[2]).toBe(false);
+    expect(mockInvalidate).toHaveBeenCalledTimes(1);
   });
 
   it("preserves authentic human rating and made_it flag when explicitly provided", async () => {
@@ -114,5 +142,6 @@ describe("feedDatabaseService recipe interaction mirroring", () => {
     expect(capturedInteractionParams[4]).toBe("I made this last night and it was delicious!");
     expect(capturedInteractionParams[3]).toBe(4);
     expect(capturedInteractionParams[2]).toBe(true);
+    expect(mockInvalidate).not.toHaveBeenCalled();
   });
 });

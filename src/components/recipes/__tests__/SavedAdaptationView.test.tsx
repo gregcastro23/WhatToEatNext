@@ -42,7 +42,7 @@ describe("SavedAdaptationView content and coverage", () => {
     expect(screen.getByText(/Unevaluated restrictions: low-histamine/)).toBeVisible();
     expect(screen.getByText(/Unresolved ingredients: unmapped herb/)).toBeVisible();
     expect(screen.getByText(/Not checked: nutrition, steps.0.cooking_method, steps.0.time_minutes/)).toBeVisible();
-    expect(screen.getByText(/Nutrition, elemental, ESMS and planetary scores are unavailable/)).toBeVisible();
+    expect(screen.getByText(/ESMS and planetary scores are unavailable/)).toBeVisible();
     expect(screen.getByText(/feed publication is unknown/)).toBeVisible();
     expect(screen.getByText(/separate from the adaptation receipt/)).toBeVisible();
     expect(screen.queryByText(/★★★★★|made it|cooked it|five.star|certified recipe/i)).not.toBeInTheDocument();
@@ -70,6 +70,8 @@ describe("SavedAdaptationView content and coverage", () => {
     expect(mockAddRecipe).not.toHaveBeenCalled();
     expect(mockOpen).not.toHaveBeenCalled();
     expect(screen.getByText(/serving count is unknown/)).toBeVisible();
+    expect(screen.getByText(/Nutrition unavailable/)).toBeVisible();
+    expect(screen.queryByText(/Nutrition per serving:/)).not.toBeInTheDocument();
   });
 
   it("uses an authored servingSize when numberOfServings is absent", () => {
@@ -79,5 +81,24 @@ describe("SavedAdaptationView content and coverage", () => {
     render(<SavedAdaptationView version={version} publication="not-published" />);
     fireEvent.click(screen.getByRole("button", { name: /Add saved version ingredients/ }));
     expect(mockAddRecipe).toHaveBeenCalledWith(expect.objectContaining({ baseServings: 3, ingredients: version.recipe.ingredients }), 3);
+  });
+
+  it("derives readings from edited ingredients without rewriting the immutable saved receipt", () => {
+    const version = savedFixture();
+    const original = JSON.stringify(version);
+    render(<SavedAdaptationView version={version} publication="published" />);
+    const readings = within(screen.getByRole("region", { name: "Saved version readings" }));
+    expect(readings.getByText(/Nutrition per serving: \d+ kcal/)).toBeVisible();
+    expect(readings.getByText(/Elements: Fire/)).toBeVisible();
+    expect(readings.getByText(/separate from the saved adaptation receipt/)).toBeVisible();
+    expect(JSON.stringify(version)).toBe(original);
+  });
+
+  it("shows unavailable readings for an unresolved edited ingredient", () => {
+    const version = savedFixture();
+    version.recipe.ingredients.push({ name: "zzunmappedzz", amount: 500, unit: "g" });
+    render(<SavedAdaptationView version={version} publication="published" />);
+    expect(screen.getByText(/Nutrition unavailable/)).toBeVisible();
+    expect(screen.getByText(/Elemental reading unavailable/)).toBeVisible();
   });
 });

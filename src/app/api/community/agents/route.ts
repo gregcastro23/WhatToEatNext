@@ -9,7 +9,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
-import { redisCached } from "@/lib/redis";
+import { communityAgentsCached } from "@/lib/redis";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -33,11 +33,14 @@ interface AgentRow {
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const limit = Math.min(parseInt(searchParams.get("limit") ?? "100", 10), 200);
+  const requestedLimit = Number(searchParams.get("limit") ?? "100");
+  const limit = Number.isInteger(requestedLimit) && requestedLimit > 0
+    ? Math.min(requestedLimit, 200)
+    : 100;
 
   try {
-    const agents = await redisCached(
-      `community:agents:v2:${limit}`,
+    const agents = await communityAgentsCached(
+      limit,
       AGENTS_CACHE_TTL_SECONDS,
       async () => {
         const result = await executeQuery<AgentRow>(
@@ -92,7 +95,8 @@ export async function GET(req: NextRequest) {
       { success: true, agents },
       {
         headers: {
-          "Cache-Control": `public, s-maxage=${AGENTS_CACHE_TTL_SECONDS}, stale-while-revalidate=60`,
+          // Redis is the shared cache; a CDN copy would outlive invalidation.
+          "Cache-Control": "no-store",
         },
       },
     );

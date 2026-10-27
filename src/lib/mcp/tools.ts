@@ -20,6 +20,7 @@
 
 import { executeQuery, withTransaction } from "@/lib/database/connection";
 import { evaluateTriplicateSynastry } from "@/lib/economy/triplicatePricing";
+import { invalidateCommunityAgentsCache } from "@/lib/redis";
 import { alchemicalService } from "@/services/AlchemicalService";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { ingredientService } from "@/services/IngredientService";
@@ -760,7 +761,7 @@ interface SettledReflection {
   record: RecipeReflectionRecord;
   replayed: boolean;
   publication: ReflectionPublication;
-  afterCommit?: () => void;
+  afterCommit?: () => Promise<void>;
 }
 
 /** Carries a refused settlement out of the transaction so it rolls back. */
@@ -828,7 +829,7 @@ function reflectionFeedPayload(
 
 interface ReflectionPublicationOutcome {
   publication: ReflectionPublication;
-  afterCommit?: () => void;
+  afterCommit?: () => Promise<void>;
 }
 
 /**
@@ -873,10 +874,11 @@ async function publishReflectionInSavepoint(
         ? `${submission.agentSlug.toLowerCase()}@agentic.alchm.kitchen`
         : `${author.authorId}@agentic.alchm.kitchen`);
     const afterCommit =
-      author.isAgentAuthor &&
-      typeof feedDatabase.pushAgentFeedWebhook === "function"
-        ? () => {
-            feedDatabase
+      author.isAgentAuthor
+        ? async () => {
+            await invalidateCommunityAgentsCache();
+            if (typeof feedDatabase.pushAgentFeedWebhook !== "function") return;
+            await feedDatabase
               .pushAgentFeedWebhook({
                 agentEmail,
                 agentDisplayName: author.resolvedAgentName,
@@ -1043,7 +1045,7 @@ export async function submitRecipeReflection(
     const settled = await withTransaction((client) =>
       settleReflection(client, caller, author, submission, payment),
     );
-    settled.afterCommit?.();
+    await settled.afterCommit?.();
     return reflectionResult(settled, submission, author, payment);
   } catch (err) {
     if (err instanceof SettlementRefusal) return err.result;

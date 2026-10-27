@@ -17,6 +17,7 @@ import {
   resolveFeedActorReveal,
 } from "@/lib/feed/identity";
 import { _logger } from "@/lib/logger";
+import { invalidateCommunityAgentsCache } from "@/lib/redis";
 
 export interface FeedEvent {
   id: string;
@@ -202,6 +203,10 @@ class FeedDatabaseService {
 
       feedEventId = feedRes.rows[0]?.id;
       feedPublished = Boolean(feedEventId) || (typeof feedRes.rowCount === "number" && feedRes.rowCount > 0);
+      if (feedPublished && user?.is_agent === true && !client) {
+        // Explicit transactions invalidate in their afterCommit callback.
+        await invalidateCommunityAgentsCache();
+      }
     } catch (feedError) {
       _logger.error("Failed to insert feed event:", feedError);
       return {
