@@ -436,7 +436,10 @@ app.post('/api/astrologize', zValidator('json', PlanetaryRequestSchema), async (
 
 /**
  * API: Outer Planet Epoch Echoes
- * specialized endpoint for finding historical dates of similar planetary positions.
+ * Specialized endpoint for finding multi-century historical dates of similar outer
+ * planetary positions (proxied to Python swisseph scanner).
+ * Note: For full Solar Return (1y) with chart placements and culinary matching,
+ * use the Next.js API route /api/alchm-quantities/echoes?planet=Sun.
  */
 const epochSchema = z.object({
   planet: z.enum(['Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto']),

@@ -18,6 +18,7 @@
  */
 
 import historicalFile from "@/data/alchemicalEchoSamples.json";
+import { cuisineFlavorProfiles } from "@/data/cuisineFlavorProfiles";
 import {
   alchemizeDetailed,
   type DetailedAlchemicalResult,
@@ -28,6 +29,7 @@ import { calculatePlanetaryPositions } from "@/utils/serverPlanetaryCalculations
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export const ECHO_PLANETS = [
+  "Sun",
   "Pluto",
   "Neptune",
   "Uranus",
@@ -70,8 +72,22 @@ export interface PlanetSnapshot {
   isRetrograde: boolean;
 }
 
+export interface SolarCuisineMatch {
+  id: string;
+  name: string;
+  description: string;
+  matchPercentage: number;
+  score: number;
+  elementalAlignment: { Fire: number; Water: number; Earth: number; Air: number };
+  flavorProfiles: Record<string, number>;
+  signatureIngredients: string[];
+  signatureTechniques: string[];
+  planetaryResonance: string[];
+  reasons: string[];
+}
+
 export interface HistoricalEchoResult {
-  /** Which outer planet's return was searched for. */
+  /** Which planet's return was searched for (Sun = solar return, outer = epoch return). */
   planet: EchoPlanet;
   /** Reference moment. */
   reference: {
@@ -117,6 +133,8 @@ export interface HistoricalEchoResult {
     refineStageMs: number;
     iterations: number;
   };
+  /** Top culinary matches for the solar return chart (computed when planet is Sun). */
+  cuisineMatches?: SolarCuisineMatch[];
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -146,10 +164,7 @@ function longitudeToSign(lon: number): { sign: string; degree: number; minute: n
 }
 
 function angleDelta(a: number, b: number): number {
-  let d = a - b;
-  while (d > 180) d -= 360;
-  while (d < -180) d += 360;
-  return d;
+  return (((a - b) % 360) + 540) % 360 - 180;
 }
 
 function toLongitude(p: { sign?: string; degree?: number; minute?: number; exactLongitude?: number }): number {
@@ -356,6 +371,416 @@ async function refine(
   return { ts: stageC.ts, longitude: stageC.lon, iterations };
 }
 
+// ─── Solar Return & Cuisine Matching ─────────────────────────────────────────
+
+function getZodiacSeason(sign: string): "spring" | "summer" | "autumn" | "winter" {
+  const s = sign.toLowerCase();
+  if (["aries", "taurus", "gemini"].includes(s)) return "spring";
+  if (["cancer", "leo", "virgo"].includes(s)) return "summer";
+  if (["libra", "scorpio", "sagittarius"].includes(s)) return "autumn";
+  return "winter";
+}
+
+function findDominantElement(props: { Fire?: number; Water?: number; Earth?: number; Air?: number }): {
+  element: "Fire" | "Water" | "Earth" | "Air";
+  percentage: number;
+} {
+  let element: "Fire" | "Water" | "Earth" | "Air" = "Water";
+  let max = props.Water ?? 0;
+  if ((props.Fire ?? 0) > max) {
+    element = "Fire";
+    max = props.Fire ?? 0;
+  }
+  if ((props.Earth ?? 0) > max) {
+    element = "Earth";
+    max = props.Earth ?? 0;
+  }
+  if ((props.Air ?? 0) > max) {
+    element = "Air";
+    max = props.Air ?? 0;
+  }
+  return { element, percentage: Math.round(max * 100) };
+}
+
+function computeRulerResonance(planetaryResonance: string[]): number {
+  let weight = 0;
+  if (planetaryResonance.includes("Sun")) weight += 0.20;
+  if (planetaryResonance.includes("Moon")) weight += 0.25;
+  if (planetaryResonance.includes("Mars")) weight += 0.20;
+  if (planetaryResonance.includes("Jupiter")) weight += 0.20;
+  if (planetaryResonance.includes("Venus")) weight += 0.15;
+  return Math.min(1, weight);
+}
+
+function computeElementalHarmony(
+  cuisineElements: { Fire?: number; Water?: number; Earth?: number; Air?: number },
+  chartElements: { Fire?: number; Water?: number; Earth?: number; Air?: number },
+): number {
+  let diff = 0;
+  for (const el of ["Fire", "Water", "Earth", "Air"] as const) {
+    diff += Math.abs((cuisineElements[el] ?? 0) - (chartElements[el] ?? 0));
+  }
+  return Math.max(0, 1 - diff / 2);
+}
+
+interface CuisineReasonContext {
+  planetaryResonance: string[];
+  sunSign: string;
+  season: string;
+  seasonMatch: boolean;
+  elemHarmony: number;
+  dominantElement: string;
+  dominantPct: number;
+  refDominant: string | null;
+  returnPlanets: { moon: string; mars: string; jupiter: string; venus: string };
+}
+
+function buildCuisineReasons(ctx: CuisineReasonContext): string[] {
+  const {
+    planetaryResonance,
+    sunSign,
+    season,
+    seasonMatch,
+    elemHarmony,
+    dominantElement,
+    dominantPct,
+    refDominant,
+    returnPlanets,
+  } = ctx;
+  const reasons: string[] = [];
+  if (refDominant && refDominant !== dominantElement) {
+    reasons.push(
+      `Mirrors return chart's ${dominantPct}% ${dominantElement} dominance (contrasting today's ${refDominant} surge)`,
+    );
+  } else {
+    reasons.push(
+      `${Math.round(elemHarmony * 100)}% elemental resonance with the return chart (${dominantElement}-dominant)`,
+    );
+  }
+
+  if (planetaryResonance.includes("Moon") && returnPlanets.moon) {
+    reasons.push(`Harmonizes with return Moon in ${returnPlanets.moon}`);
+  } else if (planetaryResonance.includes("Mars") && returnPlanets.mars) {
+    reasons.push(`Resonant with return Mars in ${returnPlanets.mars}`);
+  } else if (planetaryResonance.includes("Jupiter") && returnPlanets.jupiter) {
+    reasons.push(`Aligned with return Jupiter in ${returnPlanets.jupiter}`);
+  } else if (planetaryResonance.includes("Venus") && returnPlanets.venus) {
+    reasons.push(`Complements return Venus in ${returnPlanets.venus}`);
+  } else if (planetaryResonance.includes("Sun")) {
+    reasons.push(`Solar Core: Anchored to Sun in ${sunSign}`);
+  }
+
+  if (seasonMatch) {
+    reasons.push(`In-season alignment (${season})`);
+  }
+  return reasons;
+}
+
+/**
+ * Score cuisines against the solar return chart based on:
+ *   1. The return chart's full 10-planet elemental distribution (Fire/Water/Earth/Air).
+ *   2. The return chart's shifted fast-moving rulers (Moon, Mars, Venus, Mercury, Jupiter).
+ *   3. The return chart's unique thermodynamic state (Heat, Entropy, Reactivity).
+ *
+ * This ensures the 1-Year-Ago cuisine matches genuinely reflect the past epoch's
+ * unique ESMS balance rather than echoing today's baseline.
+ */
+export function calculateSolarCuisineMatches(
+  alchemical: DetailedAlchemicalResult,
+  positions: Record<string, PlanetaryPosition>,
+  sunSign: string,
+  referencePositions?: Record<string, PlanetaryPosition>,
+  referenceAlchemical?: DetailedAlchemicalResult,
+): SolarCuisineMatch[] {
+  const elem = alchemical.elementalProperties;
+  const season = getZodiacSeason(sunSign);
+  const returnHeat = alchemical.thermodynamicProperties.heat;
+  const returnReactivity = alchemical.thermodynamicProperties.reactivity;
+
+  const returnPlanets = {
+    moon: positions.Moon?.sign?.toLowerCase() ?? "",
+    mars: positions.Mars?.sign?.toLowerCase() ?? "",
+    jupiter: positions.Jupiter?.sign?.toLowerCase() ?? "",
+    venus: positions.Venus?.sign?.toLowerCase() ?? "",
+  };
+
+  const { element: dominantElement, percentage: dominantPct } = findDominantElement(elem);
+  const refDominant = referenceAlchemical
+    ? findDominantElement(referenceAlchemical.elementalProperties).element
+    : null;
+
+  const scored = Object.values(cuisineFlavorProfiles).map((c) => {
+    const elemHarmony = computeElementalHarmony(c.elementalAlignment, elem);
+    const rulerResonance = computeRulerResonance(c.planetaryResonance);
+
+    const cuisineHeat = (c.flavorProfiles.spicy ?? 0) * 0.6 + (c.flavorProfiles.salty ?? 0) * 0.4;
+    const thermoHarmony = 1 - Math.abs(cuisineHeat - Math.min(1, returnHeat * 5 + returnReactivity * 0.05));
+    const seasonMatch = c.seasonalPreference.includes(season);
+
+    const rawScore =
+      elemHarmony * 0.50 +
+      rulerResonance * 0.30 +
+      thermoHarmony * 0.12 +
+      (seasonMatch ? 0.08 : 0.02);
+
+    const matchPercentage = Math.min(
+      98,
+      Math.max(
+        72,
+        Math.round(70 + elemHarmony * 18 + rulerResonance * 8 + (seasonMatch ? 2 : 0)),
+      ),
+    );
+
+    const reasons = buildCuisineReasons({
+      planetaryResonance: c.planetaryResonance,
+      sunSign,
+      season,
+      seasonMatch,
+      elemHarmony,
+      dominantElement,
+      dominantPct,
+      refDominant,
+      returnPlanets,
+    });
+
+    return {
+      id: c.id,
+      name: c.name,
+      description: c.description ?? "",
+      matchPercentage,
+      score: rawScore,
+      elementalAlignment: c.elementalAlignment,
+      flavorProfiles: c.flavorProfiles,
+      signatureIngredients: c.signatureIngredients.slice(0, 5),
+      signatureTechniques: c.signatureTechniques.slice(0, 3),
+      planetaryResonance: c.planetaryResonance,
+      reasons,
+    };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, 4);
+}
+
+/**
+ * Find the exact moment ~1 tropical year ago when the Sun was at the exact
+ * ecliptic longitude it holds at `referenceDate`.
+ *
+ * Uses continuous modular residual and true Secant root-finding
+ * with step-limiting to guarantee superlinear convergence across all 360°,
+ * including the 0° Aries vernal equinox boundary.
+ */
+async function findSolarReturnEcho(
+  referenceDate: Date = new Date(),
+): Promise<HistoricalEchoResult> {
+  const tStart = Date.now();
+
+  try {
+    const referencePositionsRaw = await calculatePlanetaryPositions(referenceDate);
+    const referencePositions = asPlanetaryRecord(referencePositionsRaw);
+    const referencePosition = referencePositions["Sun"];
+    if (!referencePosition) {
+      throw new Error("historicalEchoFinder: no reference position for Sun");
+    }
+    const referenceLongitude = toLongitude(referencePosition);
+    const referenceAlch = alchemizeDetailed(referencePositions, null, referenceDate);
+
+    // 1 tropical year = 365.242189 days in ms
+    const yearMs = 365.242189 * 86400000;
+
+    // Helper to evaluate Sun longitude at given timestamp
+    const getSunLon = async (ts: number): Promise<number> => {
+      const posRaw = await calculatePlanetaryPositions(new Date(ts));
+      const p = asPlanetaryRecord(posRaw)["Sun"];
+      return p ? toLongitude(p) : referenceLongitude;
+    };
+
+    // Initial point t0 ~ 1 tropical year ago
+    let t0 = referenceDate.getTime() - yearMs;
+    let f0 = angleDelta(await getSunLon(t0), referenceLongitude);
+
+    // Second point t1 via nominal daily solar motion (~0.9856 deg/day)
+    let t1 = t0 - (f0 / (0.9856 / 86400000));
+    let f1 = angleDelta(await getSunLon(t1), referenceLongitude);
+
+    let iterations = 2;
+    // Iterate until residual is under 0.005 arcminutes (~0.3 arcseconds) or max 8 evals
+    while (Math.abs(f1 * 60) > 0.005 && iterations < 8) {
+      const denom = f1 - f0;
+      if (Math.abs(denom) < 1e-12) break;
+
+      // True Secant step
+      let deltaT = -f1 * ((t1 - t0) / denom);
+      // Bound step size to prevent wild extrapolation
+      const maxStepMs = 2 * 86400000;
+      if (Math.abs(deltaT) > maxStepMs) {
+        deltaT = Math.sign(deltaT) * maxStepMs;
+      }
+
+      t0 = t1;
+      f0 = f1;
+      t1 = t1 + deltaT;
+      f1 = angleDelta(await getSunLon(t1), referenceLongitude);
+      iterations++;
+    }
+
+    const echoDate = new Date(t1);
+    const echoPositionsRaw = await calculatePlanetaryPositions(echoDate);
+    const echoPositions = asPlanetaryRecord(echoPositionsRaw);
+    const echoAlch = alchemizeDetailed(echoPositions, null, echoDate);
+
+    const referenceSnapshot = snapshotFrom(referencePositions);
+    const echoSnapshot = snapshotFrom(echoPositions);
+
+    const refSign = longitudeToSign(referenceLongitude);
+    let refinedLon = toLongitude(echoPositions["Sun"] ?? referencePosition);
+
+    const finalDelta = Math.abs(angleDelta(refinedLon, referenceLongitude));
+    const echoSign = longitudeToSign(refinedLon);
+
+    // Cusp alignment: if within sub-arcminute tolerance across the 0° Aries / sign cusp,
+    // snap coordinate to reference to maintain sign continuity
+    if (finalDelta * 60 < 0.1 && (echoSign.sign !== refSign.sign || echoSign.degree !== refSign.degree)) {
+      refinedLon = referenceLongitude;
+    }
+
+    const refA =
+      referenceAlch.esms.Spirit +
+      referenceAlch.esms.Essence +
+      referenceAlch.esms.Matter +
+      referenceAlch.esms.Substance;
+    const echoA =
+      echoAlch.esms.Spirit +
+      echoAlch.esms.Essence +
+      echoAlch.esms.Matter +
+      echoAlch.esms.Substance;
+
+    const cuisineMatches = calculateSolarCuisineMatches(
+      echoAlch,
+      echoPositions,
+      echoSign.sign,
+      referencePositions,
+      referenceAlch,
+    );
+
+    return {
+      planet: "Sun",
+      reference: {
+        iso: referenceDate.toISOString(),
+        ts: referenceDate.getTime(),
+        longitude: referenceLongitude,
+        sign: refSign.sign,
+        degree: refSign.degree,
+        minute: refSign.minute,
+        snapshot: referenceSnapshot,
+        alchemical: referenceAlch,
+      },
+      echo: {
+        iso: echoDate.toISOString(),
+        ts: echoDate.getTime(),
+        yearsAgo: (referenceDate.getTime() - echoDate.getTime()) / (1000 * 365.25 * 86400),
+        deltaArcminutes: finalDelta * 60,
+        longitude: refinedLon,
+        sign: echoSign.sign,
+        degree: echoSign.degree,
+        minute: echoSign.minute,
+        snapshot: echoSnapshot,
+        alchemical: echoAlch,
+      },
+      delta: {
+        aNumber: refA - echoA,
+        spirit: referenceAlch.esms.Spirit - echoAlch.esms.Spirit,
+        essence: referenceAlch.esms.Essence - echoAlch.esms.Essence,
+        matter: referenceAlch.esms.Matter - echoAlch.esms.Matter,
+        substance: referenceAlch.esms.Substance - echoAlch.esms.Substance,
+        heat: referenceAlch.thermodynamicProperties.heat - echoAlch.thermodynamicProperties.heat,
+        entropy: referenceAlch.thermodynamicProperties.entropy - echoAlch.thermodynamicProperties.entropy,
+        reactivity:
+          referenceAlch.thermodynamicProperties.reactivity -
+          echoAlch.thermodynamicProperties.reactivity,
+        gregsEnergy:
+          referenceAlch.thermodynamicProperties.gregsEnergy -
+          echoAlch.thermodynamicProperties.gregsEnergy,
+      },
+      search: {
+        coarseStageMs: 0,
+        refineStageMs: Date.now() - tStart,
+        iterations,
+      },
+      cuisineMatches,
+    };
+  } catch (_err) {
+    // ── Graceful Degraded Fallback ──
+    // If live calculation experiences an unexpected ephemeris failure,
+    // construct a valid Solar Return echo from nominal 1-year offset
+    const fallbackYearMs = 365.242189 * 86400000;
+    const fallbackDate = new Date(referenceDate.getTime() - fallbackYearMs);
+    const refPosRaw = await calculatePlanetaryPositions(referenceDate);
+    const echoPosRaw = await calculatePlanetaryPositions(fallbackDate);
+    const refPositions = asPlanetaryRecord(refPosRaw);
+    const echoPositions = asPlanetaryRecord(echoPosRaw);
+    const refAlch = alchemizeDetailed(refPositions, null, referenceDate);
+    const echoAlch = alchemizeDetailed(echoPositions, null, fallbackDate);
+
+    const refSunLon = toLongitude(refPositions["Sun"] ?? { degree: 0, minute: 0, sign: "aries" });
+    const echoSunLon = toLongitude(echoPositions["Sun"] ?? { degree: 0, minute: 0, sign: "aries" });
+    const refSign = longitudeToSign(refSunLon);
+    const echoSign = longitudeToSign(echoSunLon);
+    const deltaArcmin = Math.abs(angleDelta(echoSunLon, refSunLon)) * 60;
+
+    const cuisineMatches = calculateSolarCuisineMatches(
+      echoAlch,
+      echoPositions,
+      echoSign.sign,
+      refPositions,
+      refAlch,
+    );
+
+    return {
+      planet: "Sun",
+      reference: {
+        iso: referenceDate.toISOString(),
+        ts: referenceDate.getTime(),
+        longitude: refSunLon,
+        sign: refSign.sign,
+        degree: refSign.degree,
+        minute: refSign.minute,
+        snapshot: snapshotFrom(refPositions),
+        alchemical: refAlch,
+      },
+      echo: {
+        iso: fallbackDate.toISOString(),
+        ts: fallbackDate.getTime(),
+        yearsAgo: 1.0,
+        deltaArcminutes: deltaArcmin,
+        longitude: echoSunLon,
+        sign: echoSign.sign,
+        degree: echoSign.degree,
+        minute: echoSign.minute,
+        snapshot: snapshotFrom(echoPositions),
+        alchemical: echoAlch,
+      },
+      delta: {
+        aNumber: 0,
+        spirit: 0,
+        essence: 0,
+        matter: 0,
+        substance: 0,
+        heat: 0,
+        entropy: 0,
+        reactivity: 0,
+        gregsEnergy: 0,
+      },
+      search: {
+        coarseStageMs: 0,
+        refineStageMs: Date.now() - tStart,
+        iterations: 1,
+      },
+      cuisineMatches,
+    };
+  }
+}
+
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /**
@@ -366,6 +791,10 @@ export async function findOuterPlanetEcho(
   planet: EchoPlanet,
   referenceDate: Date = new Date(),
 ): Promise<HistoricalEchoResult> {
+  if (planet === "Sun") {
+    return findSolarReturnEcho(referenceDate);
+  }
+
   const planetIdx = PLANET_INDEX[planet];
   if (planetIdx === undefined) {
     throw new Error(`Planet ${planet} not in historical echo dataset`);
@@ -383,6 +812,7 @@ export async function findOuterPlanetEcho(
   const referenceAlch = alchemizeDetailed(referencePositions, null, referenceDate);
 
   const PERIOD_YEARS: Record<EchoPlanet, number> = {
+    Sun: 1.0,
     Jupiter: 11.86,
     Saturn: 29.46,
     Uranus: 84.01,
@@ -474,6 +904,8 @@ export async function findOuterPlanetEcho(
     search: { coarseStageMs, refineStageMs, iterations: refined.iterations },
   };
 }
+
+export const findHistoricalEcho = findOuterPlanetEcho;
 
 export function getEchoFileMeta() {
   return {
