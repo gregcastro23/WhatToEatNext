@@ -1,11 +1,11 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect, useCallback, useMemo, type JSX } from "react";
 import { OrderIngredientsModal } from "@/components/order/OrderIngredientsModal";
 import { AddToMealPlanButton } from "@/components/recipes/AddToMealPlanButton";
-import { DietaryAdaptationPanel } from "@/components/recipes/DietaryAdaptationPanel";
 import { DiscoverySection } from "@/components/recipes/DiscoverySection";
 import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
 import { IngredientDrawer } from "@/components/recipes/IngredientDrawer";
@@ -22,13 +22,25 @@ import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import { _logger } from "@/lib/logger";
 import type { Recipe, IngredientAlchemicalSummary } from "@/types/recipe";
 import {
-  adaptRecipe,
   resolveAdaptedRecipeState,
   type DietaryMode,
   type AdaptationResult,
-} from "@/utils/dietaryAdaptation";
+} from "@/utils/dietaryAdaptationState";
 import { roundedCalories } from "@/utils/roundedCalories";
 import { analyzeTimeShortcuts, type TimeBudget, type TimeShortcutResult } from "@/utils/timeShortcuts";
+
+const DietaryAdaptationPanel = dynamic(
+  () =>
+    import("@/components/recipes/DietaryAdaptationPanel").then(
+      (m) => m.DietaryAdaptationPanel,
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="rounded-xl border border-white/10 bg-white/5 p-4 animate-pulse h-28" />
+    ),
+  },
+);
 
 // ===== Constants =====
 
@@ -816,9 +828,22 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
     setHeroImageFailed(false);
   }, [recipe.id]);
 
-  const adaptation = useMemo((): AdaptationResult | null => {
-    if (!dietaryMode) return null;
-    return adaptRecipe(recipe, dietaryMode);
+  const [adaptation, setAdaptation] = useState<AdaptationResult | null>(null);
+
+  useEffect(() => {
+    if (!dietaryMode) {
+      setAdaptation(null);
+      return;
+    }
+    let cancelled = false;
+    void import("@/utils/dietaryAdaptation").then(({ adaptRecipe }) => {
+      if (!cancelled) {
+        setAdaptation(adaptRecipe(recipe, dietaryMode));
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [recipe, dietaryMode]);
 
   const timeAnalysis = useMemo((): TimeShortcutResult | null => {
