@@ -8,6 +8,7 @@
  * @created 2026-01-28 (Session 7)
  */
 
+import { Clock, LoaderCircle, Plus, Search, X } from "lucide-react";
 import Link from "next/link";
 import React, {
   useState,
@@ -140,6 +141,8 @@ interface RecipeBrowserPanelProps {
   onSelectRecipe: (recipe: Recipe) => void;
   onViewRecipeDetail?: (recipe: Recipe) => void;
   activeElementFilter?: "fire" | "water" | "earth" | "air" | null;
+  /** Single-column, borderless layout for the planner's side rail. */
+  compact?: boolean;
 }
 
 export function getPlanetaryResonance(recipe: Recipe, planet: string): number {
@@ -168,6 +171,7 @@ export default function RecipeBrowserPanel({
   onSelectRecipe,
   onViewRecipeDetail,
   activeElementFilter = null,
+  compact = false,
 }: RecipeBrowserPanelProps) {
   const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -331,26 +335,33 @@ export default function RecipeBrowserPanel({
   };
 
   return (
-    <div className="alchm-panel border border-muted flex flex-col h-full rounded-xl overflow-hidden">
+    <div
+      className={
+        compact
+          ? "flex flex-col h-full overflow-hidden"
+          : "alchm-panel border border-muted flex flex-col h-full rounded-xl overflow-hidden"
+      }
+    >
       {/* Search Bar */}
-      <div className="p-4 border-b border-muted bg-surface-container-low/30">
+      <div className={`${compact ? "px-4 py-3" : "p-4"} border-b border-muted bg-surface-container-low/30`}>
         <div className="relative">
           <input
             type="text"
+            aria-label="Search recipes"
             placeholder="Search recipes, ingredients, cuisines..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-10 py-2.5 border border-muted bg-surface-container-lowest text-primary rounded-lg focus:border-active-violet focus:outline-none text-sm placeholder:text-on-surface-variant/40"
+            className="w-full pl-9 pr-10 py-2.5 border border-muted bg-surface-container-lowest text-primary rounded-lg focus:border-active-violet focus:outline-none text-sm placeholder:text-on-surface-variant/40"
           />
-          <span className="absolute left-3 top-3 text-on-surface-variant text-sm">
-            &#128269;
-          </span>
+          <Search className="absolute left-3 top-3 h-4 w-4 text-on-surface-variant" aria-hidden />
           {searchQuery && (
             <button
+              type="button"
+              aria-label="Clear search"
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-3 text-on-surface-variant hover:text-white text-sm cursor-pointer"
+              className="absolute right-3 top-3 text-on-surface-variant hover:text-white cursor-pointer"
             >
-              &#10005;
+              <X className="h-4 w-4" aria-hidden />
             </button>
           )}
         </div>
@@ -513,14 +524,14 @@ export default function RecipeBrowserPanel({
         {isLoading ? (
           <div className="flex items-center justify-center h-48">
             <div className="text-center font-mono">
-              <div className="animate-spin text-4xl mb-2">⏳</div>
+              <LoaderCircle className="mx-auto mb-2 h-8 w-8 animate-spin text-active-violet" aria-hidden />
               <p className="text-on-surface-variant">Loading recipes...</p>
             </div>
           </div>
         ) : processedRecipes.length === 0 ? (
           <div className="flex items-center justify-center h-48">
             <div className="text-center">
-              <p className="text-4xl mb-2">🔎</p>
+              <Search className="mx-auto mb-2 h-8 w-8 text-on-surface-variant/50" aria-hidden />
               <p className="text-primary text-lg mb-2 font-headline-md">No recipes found</p>
               <p className="text-on-surface-variant text-sm mb-4 font-body-sm">
                 Try adjusting your search or filters
@@ -535,7 +546,7 @@ export default function RecipeBrowserPanel({
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className={`grid grid-cols-1 ${compact ? "gap-2" : "md:grid-cols-2 gap-3"}`}>
               {visibleRecipes.map((recipe) => (
                 <BrowserRecipeCard
                   key={recipe.id}
@@ -555,7 +566,7 @@ export default function RecipeBrowserPanel({
             </div>
 
             {hasMore && (
-              <div className="text-center py-4 text-sm text-gray-500">
+              <div className="text-center py-4 text-sm text-on-surface-variant">
                 Scroll for more...
               </div>
             )}
@@ -567,7 +578,7 @@ export default function RecipeBrowserPanel({
 }
 
 const DETAILS_CLASS =
-  "px-2 py-1 bg-surface-container-high border border-muted text-primary rounded text-xs font-mono uppercase hover:border-active-violet transition-colors flex items-center justify-center cursor-pointer";
+  "px-2 py-1 bg-surface-container-high border border-muted text-primary rounded text-xs hover:border-active-violet transition-colors flex items-center justify-center cursor-pointer";
 
 /**
  * Recipe Card for the browser panel
@@ -608,8 +619,18 @@ function BrowserRecipeCard({
   const calories = roundedCalories(recipe.nutrition?.calories);
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- drag source; the card's buttons carry the keyboard actions
     <div
-      className="relative p-4 rounded-lg border border-muted bg-surface/50 hover:border-active-violet hover:shadow-[0_0_12px_rgba(184,90,240,0.15)] transition-all duration-200 cursor-pointer group"
+      draggable
+      onDragStart={(e) => {
+        // Same wire format as RecipeQueue so board slots accept the drop.
+        e.dataTransfer.effectAllowed = "copy";
+        e.dataTransfer.setData(
+          "application/json",
+          JSON.stringify({ type: "queue-recipe", recipe }),
+        );
+      }}
+      className="relative p-3 rounded-lg border border-muted bg-surface/50 hover:border-active-violet/60 transition-colors duration-200 cursor-grab active:cursor-grabbing group"
       onPointerEnter={() => setShowPreview(true)}
       onPointerLeave={() => setShowPreview(false)}
       onFocusCapture={() => setShowPreview(true)}
@@ -661,8 +682,16 @@ function BrowserRecipeCard({
             {recipe.cuisine}
           </span>
         )}
-        {recipe.prepTime && <span>⏱️ {recipe.prepTime}</span>}
-        {calories !== null && <span>🔥 {calories} cal</span>}
+        {recipe.prepTime && (
+          <span className="inline-flex items-center gap-1">
+            <Clock className="h-3 w-3" aria-hidden /> {recipe.prepTime}
+          </span>
+        )}
+        {calories !== null && (
+          <span className="inline-flex items-center gap-1">
+            🔥 {calories} cal
+          </span>
+        )}
       </div>
 
       {/* Dietary badges */}
@@ -691,31 +720,35 @@ function BrowserRecipeCard({
         </div>
       )}
 
-      {/* Actions (visible on hover) */}
-      <div className="mt-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+      {/* Actions — always visible (hover-only actions are unreachable on touch) */}
+      <div className="mt-3 flex gap-2">
         <button
+          type="button"
           onClick={(e) => {
             e.stopPropagation();
             void onSelect();
           }}
-          className="flex-1 px-2 py-1 bg-active-violet text-background rounded text-xs font-mono uppercase font-bold hover:bg-white transition-all cursor-pointer"
+          title="Pick a slot on the calendar for this recipe"
+          className="flex-1 inline-flex items-center justify-center gap-1 px-2 py-1 bg-active-violet/90 text-background rounded text-xs font-semibold hover:bg-active-violet transition-colors cursor-pointer"
         >
-          Add to Meal
+          <Plus className="h-3.5 w-3.5" aria-hidden />
+          Add to plan
         </button>
         {!isInQueue && (
           <button
+            type="button"
             onClick={(e) => {
               e.stopPropagation();
               void onAddToQueue();
             }}
-            className="px-2 py-1 bg-surface-container-high border border-muted text-primary rounded text-xs font-mono uppercase hover:border-active-violet transition-colors cursor-pointer"
+            className="px-2 py-1 bg-surface-container-high border border-muted text-primary rounded text-xs hover:border-active-violet transition-colors cursor-pointer"
           >
-            + Queue
+            Save for later
           </button>
         )}
         {isInQueue && (
-          <span className="px-2 py-1 bg-active-violet/10 text-active-violet border border-active-violet/20 rounded text-xs font-mono uppercase">
-            In Queue
+          <span className="px-2 py-1 bg-active-violet/10 text-active-violet border border-active-violet/20 rounded text-xs">
+            Saved
           </span>
         )}
         {/* Details opens the planner's modal and stays on the page; the

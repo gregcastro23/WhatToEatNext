@@ -69,14 +69,41 @@ export function useRecipeCollections() {
   }, []);
 
   // Favorites
-  const toggleFavorite = useCallback((recipeId: string) => {
+  const toggleFavorite = useCallback(
+    (
+      recipeId: string,
+      recipeMeta?: {
+        name?: string | undefined;
+        cuisine?: string | undefined;
+        ingredients?: string[] | undefined;
+      } | undefined,
+    ) => {
     setFavoriteIds((prev) => {
       const isRemoving = prev.includes(recipeId);
       const next = isRemoving
         ? prev.filter((id) => id !== recipeId)
         : [...prev, recipeId];
       saveToStorage(STORAGE_KEYS.favorites, next);
+      saveToStorage("alchm_favorite_recipes", next);
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("alchm_recipe_favorites_changed"));
+      }
       if (!isRemoving) reportQuestEvent('save_recipe');
+
+      // Sync to API in background
+      if (recipeMeta) {
+        fetch("/api/recipes/favorites", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            recipeId,
+            recipeName: recipeMeta.name || "Recipe",
+            cuisine: recipeMeta.cuisine,
+            ingredients: recipeMeta.ingredients || [],
+            isFavorite: !isRemoving,
+          }),
+        }).catch(() => {});
+      }
       return next;
     });
   }, []);

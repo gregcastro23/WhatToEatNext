@@ -201,11 +201,16 @@ export default {
           "0%, 49%": { opacity: "1" },
           "50%, 100%": { opacity: "0.3" },
         },
+        "slide-in-right": {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
       },
       animation: {
         "fade-in": "fade-in 0.3s ease-in-out",
         "fade-in-up": "fade-in-up 0.3s ease-in-out",
         "slide-up": "slide-up 0.3s ease-out",
+        "slide-in-right": "slide-in-right 0.25s cubic-bezier(0.32, 0.72, 0, 1)",
         shake: "shake 0.3s ease-in-out",
         "pulse-glow": "pulseGlow 1.4s ease-in-out infinite",
         breathe: "breathe 4s ease-in-out infinite",

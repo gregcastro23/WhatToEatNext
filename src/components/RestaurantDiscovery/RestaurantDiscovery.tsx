@@ -12,9 +12,13 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AddToDiaryModal } from "@/components/food-diary/AddToDiaryModal";
+import { AlchemizeOptInModal } from "@/components/RestaurantDiscovery/AlchemizeOptInModal";
+import { useFavoriteRestaurants } from "@/components/RestaurantDiscovery/favoriteRestaurants";
+import { RateDishModal } from "@/components/RestaurantDiscovery/RateDishModal";
 import { ReservationModal } from "@/components/RestaurantDiscovery/ReservationModal";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
+import { useUserLocation } from "@/hooks/useUserLocation";
 import type { SavedRestaurant } from "@/types/restaurant";
 import type {
   AlchmScoredRestaurant,
@@ -83,6 +87,12 @@ function sourceLabel(source: RestaurantDiscoverySource | undefined): string {
       return "Google Places";
     case "olo":
       return "Olo";
+    case "osm":
+      return "OpenStreetMap";
+    case "curated":
+      return "Alchm Curated";
+    case "tripadvisor":
+      return "Tripadvisor";
     case "yelp":
     default:
       return "Yelp";
@@ -95,11 +105,14 @@ export function RestaurantDiscovery({
   userLongitude,
   className,
 }: RestaurantDiscoveryProps) {
+  const { location: userLocation, requestBrowserLocation } = useUserLocation();
   const [status, setStatus] = useState<FetchStatus>({ kind: "idle" });
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(
     typeof userLatitude === "number" && typeof userLongitude === "number"
       ? { lat: userLatitude, lng: userLongitude }
-      : null,
+      : userLocation
+        ? { lat: userLocation.lat, lng: userLocation.lng }
+        : null,
   );
   const [locationError, setLocationError] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
@@ -108,6 +121,11 @@ export function RestaurantDiscovery({
   const { showToast } = useToast();
   const [loggingItem, setLoggingItem] = useState<AlchmScoredRestaurant | null>(null);
   const [reservingItem, setReservingItem] = useState<AlchmScoredRestaurant | null>(null);
+  const [ratingDishItem, setRatingDishItem] = useState<AlchmScoredRestaurant | null>(null);
+  const [alchemizeModalItem, setAlchemizeModalItem] = useState<AlchmScoredRestaurant | null>(null);
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
+
+  const { isFavorite, toggleFavorite, favoriteIds } = useFavoriteRestaurants();
 
   useEffect(() => {
     const ids = new Set<string>();
@@ -213,8 +231,10 @@ export function RestaurantDiscovery({
       Number.isFinite(userLongitude)
     ) {
       setCoords({ lat: userLatitude, lng: userLongitude });
+    } else if (userLocation) {
+      setCoords({ lat: userLocation.lat, lng: userLocation.lng });
     }
-  }, [userLatitude, userLongitude]);
+  }, [userLatitude, userLongitude, userLocation]);
 
   const requestLocation = useCallback(() => {
     if (typeof navigator === "undefined" || !navigator.geolocation) {
@@ -263,6 +283,9 @@ export function RestaurantDiscovery({
           lat: String(coords.lat),
           lng: String(coords.lng),
         });
+        if (favoriteIds.length > 0) params.set("favorites", favoriteIds.join(","));
+        if (currentUser?.userId) params.set("userId", currentUser.userId);
+
         const res = await fetch(`/api/restaurants/discover?${params.toString()}`, {
           signal: controller.signal,
         });
@@ -303,6 +326,16 @@ export function RestaurantDiscovery({
     return () => controller.abort();
   }, [cuisineType, coords]);
 
+  const displayedRestaurants = useMemo(() => {
+    if (status.kind !== "ready") return [];
+    if (!favoritesOnly) return status.data.restaurants;
+    return status.data.restaurants.filter(
+      (r) =>
+        isFavorite(r.business.id) ||
+        (r.partnerRestaurantId && isFavorite(r.partnerRestaurantId)),
+    );
+  }, [status, favoritesOnly, isFavorite]);
+
   const cosmicLine = useMemo(() => {
     if (status.kind !== "ready" && status.kind !== "empty") return null;
     const ctx = status.kind === "ready" ? status.data.cosmicContext : status.cosmicContext;
@@ -335,7 +368,7 @@ export function RestaurantDiscovery({
 
       <div className="relative z-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center justify-between mb-5 flex-wrap gap-2">
           <div>
             <h3 className="text-sm font-extrabold text-purple-100 flex items-center gap-2 uppercase tracking-[0.18em]">
               <span aria-hidden className="text-purple-300">✦</span>
@@ -347,6 +380,18 @@ export function RestaurantDiscovery({
                 : "Pick a cuisine to begin"}
             </p>
           </div>
+          <button
+            type="button"
+            onClick={() => setFavoritesOnly((v) => !v)}
+            aria-pressed={favoritesOnly}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-black uppercase tracking-wider transition-all ${
+              favoritesOnly
+                ? "border-rose-400/40 bg-rose-500/15 text-rose-200"
+                : "border-white/10 bg-white/5 text-white/60 hover:text-white/80"
+            }`}
+          >
+            <span aria-hidden>{favoritesOnly ? "❤️" : "♡"}</span> Favorites only
+          </button>
         </div>
 
         {/* Body */}
@@ -428,156 +473,236 @@ export function RestaurantDiscovery({
                 ✦ {status.data.sourceNotice}
               </div>
             )}
-            <ul className="grid grid-cols-1 gap-3">
-              {status.data.restaurants.map((entry) => {
-                const { business } = entry;
-                const source = status.data.source ?? "google";
-                const hasCosmicScore = entry.alchmScore > 0;
-                const providerLabel = sourceLabel(source);
-                const decoration = ELEMENT_DECORATION[entry.dominantElement];
-                const distance = metersToMiles(business.distance);
-                const scorePct = Math.round(entry.alchmScore * 100);
-                const reasons = entry.matchReasons.slice(0, 2);
-                const isSaved = savedIds.has(business.id);
-                const isPartner = entry.isPartner === true;
+            {displayedRestaurants.length === 0 ? (
+              <div className="rounded-2xl bg-black/30 border border-white/10 p-8 text-center">
+                <div className="text-3xl mb-2">❤️</div>
+                <p className="text-xs text-white/70 font-medium">
+                  No favorite sanctuaries found in your current results.
+                </p>
+                <p className="text-[10px] text-white/40 mt-1">
+                  Tap the <span className="text-rose-300 font-bold">♡ Fav</span> button on any restaurant card to save your favorites.
+                </p>
+              </div>
+            ) : (
+              <ul className="grid grid-cols-1 gap-3">
+                {displayedRestaurants.map((entry) => {
+                  const { business } = entry;
+                  const source = status.data.source ?? "google";
+                  const hasCosmicScore = entry.alchmScore > 0;
+                  const providerLabel = sourceLabel(source);
+                  const decoration = ELEMENT_DECORATION[entry.dominantElement];
+                  const distance = metersToMiles(business.distance);
+                  const scorePct = Math.round(entry.alchmScore * 100);
+                  const reasons = entry.matchReasons.slice(0, 2);
+                  const isSaved = savedIds.has(business.id);
+                  const isPartner = entry.isPartner === true;
+                  const isFav =
+                    isFavorite(business.id) ||
+                    (entry.partnerRestaurantId ? isFavorite(entry.partnerRestaurantId) : false);
 
-                return (
-                  <li
-                    key={business.id}
-                    className={`flex flex-col sm:flex-row items-start gap-4 p-4 rounded-2xl bg-black/40 border backdrop-blur-sm transition-all hover:bg-black/50 ${
-                      isPartner
-                        ? "border-emerald-400/40 ring-1 ring-emerald-400/20"
-                        : "border-white/10"
-                    }`}
-                  >
-                    {/* Score / source badge */}
-                    <div className="flex sm:flex-col items-center gap-2 sm:gap-1.5 shrink-0">
-                      {hasCosmicScore ? (
-                        <>
-                          <div className="px-3 py-1.5 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white text-xs font-black shadow-lg shadow-purple-900/40">
-                            {scorePct}% <span aria-hidden>✦</span>
-                          </div>
-                          <span
-                            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] font-black uppercase tracking-wider ${decoration.chipClass}`}
-                            title={`${decoration.label} dominant`}
-                          >
-                            <span aria-hidden>{decoration.emoji}</span>
-                            {decoration.label}
-                          </span>
-                        </>
-                      ) : (
-                        <div className="px-2 py-1 rounded-md bg-purple-500/15 text-purple-200 text-[10px] font-bold border border-purple-400/30 uppercase tracking-wider">
-                          {providerLabel}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Details */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-2">
-                        <h4 className="text-sm font-black text-white truncate">
-                          {business.name}
-                        </h4>
-                        {isPartner && (
-                          <span className="shrink-0 rounded-full border border-emerald-400/30 bg-emerald-500/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-emerald-200">
-                            Partner
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-white/50 mt-1 font-medium">
-                        {typeof business.rating === "number" && business.rating > 0 && (
-                          <span className="text-amber-300 font-bold">
-                            ★ {business.rating.toFixed(1)}
-                          </span>
-                        )}
-                        {business.review_count > 0 && (
-                          <span>({business.review_count.toLocaleString()})</span>
-                        )}
-                        {business.price && (
-                          <span className="text-emerald-300 font-black">
-                            {business.price}
-                          </span>
-                        )}
-                        {distance && <span>· {distance}</span>}
-                        {entry.cuisineLabel && (
-                          <span className="text-purple-300/70">
-                            · {entry.cuisineLabel}
-                          </span>
-                        )}
-                      </div>
-
-                      {hasCosmicScore && reasons.length > 0 && (
-                        <ul className="mt-2 space-y-1 border-l-2 border-purple-400/30 pl-3">
-                          {reasons.map((reason, i) => (
-                            <li
-                              key={i}
-                              className="text-[10px] text-white/60 font-medium leading-relaxed italic"
+                  return (
+                    <li
+                      key={business.id}
+                      className={`flex flex-col sm:flex-row items-start gap-4 p-4 rounded-2xl bg-black/40 border backdrop-blur-sm transition-all hover:bg-black/50 ${
+                        isPartner
+                          ? "border-emerald-400/40 ring-1 ring-emerald-400/20"
+                          : "border-white/10"
+                      }`}
+                    >
+                      {/* Score / source badge */}
+                      <div className="flex sm:flex-col items-center gap-2 sm:gap-1.5 shrink-0">
+                        {hasCosmicScore ? (
+                          <>
+                            <div className="px-3 py-1.5 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white text-xs font-black shadow-lg shadow-purple-900/40">
+                              {scorePct}% <span aria-hidden>✦</span>
+                            </div>
+                            <span
+                              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] font-black uppercase tracking-wider ${decoration.chipClass}`}
+                              title={`${decoration.label} dominant`}
                             >
-                              {reason}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-
-                    {/* CTAs */}
-                    <div className="flex flex-row sm:flex-col gap-2 w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
-                      {isPartner && entry.partnerRestaurantId ? (
-                        <a
-                          href={`/restaurants/${encodeURIComponent(entry.partnerRestaurantId)}/menu`}
-                          className="flex-1 sm:w-32 px-3 py-2 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all text-center bg-gradient-to-r from-emerald-500 to-emerald-600 hover:brightness-110 shadow-lg shadow-emerald-900/30"
-                        >
-                          Order Now
-                        </a>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => setReservingItem(entry)}
-                          className="flex-1 sm:w-32 px-3 py-2 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all text-center bg-gradient-to-r from-purple-500 to-pink-500 hover:brightness-110 shadow-lg shadow-purple-900/30"
-                        >
-                          Reserve
-                        </button>
-                      )}
-
-                      <div className="flex gap-2 flex-1 sm:w-32">
-                        <a
-                          href={business.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex-1 px-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest text-center bg-white/5 text-white/80 border border-white/10 hover:bg-white/10 transition-colors"
-                        >
-                          Menu
-                        </a>
-                        <button
-                          type="button"
-                          onClick={() => void saveRestaurant(entry, source)}
-                          disabled={isSaved}
-                          className={`px-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
-                            isSaved
-                              ? "bg-emerald-500/15 text-emerald-200 border border-emerald-400/30 cursor-default"
-                              : "bg-white/5 text-purple-200 border border-purple-400/30 hover:bg-purple-500/15"
-                          }`}
-                          title={isSaved ? "Saved" : "Save restaurant"}
-                          aria-label={isSaved ? "Saved" : "Save restaurant"}
-                        >
-                          {isSaved ? "✓" : "♡"}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setLoggingItem(entry)}
-                          className="px-3 py-2 bg-white/5 text-white/80 border border-white/10 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors"
-                          title="Log to Food Diary"
-                          aria-label="Log to Food Diary"
-                        >
-                          +
-                        </button>
+                              <span aria-hidden>{decoration.emoji}</span>
+                              {decoration.label}
+                            </span>
+                          </>
+                        ) : (
+                          <div className="px-2 py-1 rounded-md bg-purple-500/15 text-purple-200 text-[10px] font-bold border border-purple-400/30 uppercase tracking-wider">
+                            {providerLabel}
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+
+                      {/* Details */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <h4 className="text-sm font-black text-white truncate">
+                            {business.name}
+                          </h4>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            {entry.isAlchemizedPartner && (
+                              <span
+                                className="rounded-full border border-amber-400/30 bg-amber-500/20 px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-amber-200"
+                                title="Opted in for signature recipe alchemization"
+                              >
+                                ✨ Alchemized
+                              </span>
+                            )}
+                            {isPartner && (
+                              <span className="shrink-0 rounded-full border border-emerald-400/30 bg-emerald-500/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-emerald-200">
+                                Partner
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-white/50 mt-1 font-medium">
+                          {typeof business.rating === "number" && business.rating > 0 && (
+                            <span className="text-amber-300 font-bold">
+                              ★ {business.rating.toFixed(1)}
+                            </span>
+                          )}
+                          {business.review_count > 0 && (
+                            <span>({business.review_count.toLocaleString()})</span>
+                          )}
+                          {business.price && (
+                            <span className="text-emerald-300 font-black">
+                              {business.price}
+                            </span>
+                          )}
+                          {distance && <span>· {distance}</span>}
+                          {entry.cuisineLabel && (
+                            <span className="text-purple-300/70">
+                              · {entry.cuisineLabel}
+                            </span>
+                          )}
+                          {entry.isAlchemizedPartner && (
+                            <span
+                              className="text-amber-300 font-bold bg-amber-500/20 px-1.5 py-0.5 rounded border border-amber-400/40 text-[10px]"
+                              title="Opted in for signature recipe alchemization"
+                            >
+                              ✨ Alchemized Kitchen
+                            </span>
+                          )}
+                          {typeof entry.commentCount === "number" && entry.commentCount > 0 && (
+                            <span
+                              className="text-sky-200 font-medium bg-sky-500/15 px-1.5 py-0.5 rounded border border-sky-400/30 text-[10px]"
+                              title={`${entry.commentCount} community comments/tips`}
+                            >
+                              💬 {entry.commentCount} {entry.commentCount === 1 ? "tip" : "tips"}
+                            </span>
+                          )}
+                        </div>
+
+                        {hasCosmicScore && reasons.length > 0 && (
+                          <ul className="mt-2 space-y-1 border-l-2 border-purple-400/30 pl-3">
+                            {reasons.map((reason, i) => (
+                              <li
+                                key={i}
+                                className="text-[10px] text-white/60 font-medium leading-relaxed italic"
+                              >
+                                {reason}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+
+                      {/* CTAs */}
+                      <div className="flex flex-row sm:flex-col gap-2 w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
+                        {isPartner && entry.partnerRestaurantId ? (
+                          <a
+                            href={`/restaurants/${encodeURIComponent(entry.partnerRestaurantId)}/menu`}
+                            className="flex-1 sm:w-32 px-3 py-2 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all text-center bg-gradient-to-r from-emerald-500 to-emerald-600 hover:brightness-110 shadow-lg shadow-emerald-900/30"
+                          >
+                            Order Now
+                          </a>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setReservingItem(entry)}
+                            className="flex-1 sm:w-32 px-3 py-2 text-white text-[10px] font-black uppercase tracking-widest rounded-lg transition-all text-center bg-gradient-to-r from-purple-500 to-pink-500 hover:brightness-110 shadow-lg shadow-purple-900/30"
+                          >
+                            Reserve
+                          </button>
+                        )}
+
+                        <div className="flex gap-1.5 flex-1 sm:w-32">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              toggleFavorite({
+                                id: entry.partnerRestaurantId || business.id,
+                                name: business.name,
+                                cuisine: entry.cuisineLabel || cuisineType,
+                                source,
+                              })
+                            }
+                            className={`flex-1 px-2 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider text-center transition-all border ${
+                              isFav
+                                ? "bg-rose-500/20 text-rose-200 border-rose-400/50 shadow-sm"
+                                : "bg-white/5 text-white/70 border-white/10 hover:border-rose-400/40 hover:text-rose-200"
+                            }`}
+                            title={isFav ? "Remove from favorite sanctuaries" : "Add to favorite sanctuaries"}
+                          >
+                            {isFav ? "❤️ Fav" : "♡ Fav"}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setRatingDishItem(entry)}
+                            className="flex-1 px-2 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider text-center bg-amber-500/15 text-amber-200 border border-amber-400/30 hover:bg-amber-500/25 transition-all shadow-sm flex items-center justify-center gap-1"
+                            title="Rate a dish from this restaurant"
+                          >
+                            <span aria-hidden>⭐</span> Rate
+                          </button>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => setAlchemizeModalItem(entry)}
+                          className="flex-1 sm:w-32 px-2.5 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider text-center bg-amber-500/10 text-amber-300 border border-amber-400/30 hover:bg-amber-500/20 transition-all"
+                          title="Nominate or opt in signature recipes for elemental alchemization"
+                        >
+                          ✨ Alchemize
+                        </button>
+
+                        <div className="flex gap-2 flex-1 sm:w-32">
+                          <a
+                            href={business.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 px-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest text-center bg-white/5 text-white/80 border border-white/10 hover:bg-white/10 transition-colors"
+                          >
+                            Menu
+                          </a>
+                          <button
+                            type="button"
+                            onClick={() => void saveRestaurant(entry, source)}
+                            disabled={isSaved}
+                            className={`px-2 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${
+                              isSaved
+                                ? "bg-emerald-500/15 text-emerald-200 border border-emerald-400/30 cursor-default"
+                                : "bg-white/5 text-purple-200 border border-purple-400/30 hover:bg-purple-500/15"
+                            }`}
+                            title={isSaved ? "Saved" : "Save restaurant"}
+                            aria-label={isSaved ? "Saved" : "Save restaurant"}
+                          >
+                            {isSaved ? "✓" : "♡"}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setLoggingItem(entry)}
+                            className="px-3 py-2 bg-white/5 text-white/80 border border-white/10 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors"
+                            title="Log to Food Diary"
+                            aria-label="Log to Food Diary"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </>
         )}
 
@@ -610,6 +735,32 @@ export function RestaurantDiscovery({
           source={status.kind === "ready" ? (status.data.source ?? "google") : "google"}
           cuisineType={cuisineType}
           onClose={() => setReservingItem(null)}
+        />
+      )}
+
+      {ratingDishItem && (
+        <RateDishModal
+          restaurant={{
+            id: ratingDishItem.business.id,
+            name: ratingDishItem.business.name,
+            cuisine: cuisineType,
+            address: ratingDishItem.address,
+          }}
+          onClose={() => setRatingDishItem(null)}
+        />
+      )}
+
+      {alchemizeModalItem && (
+        <AlchemizeOptInModal
+          restaurant={{
+            id:
+              alchemizeModalItem.partnerRestaurantId ||
+              alchemizeModalItem.business.id,
+            name: alchemizeModalItem.business.name,
+            cuisine: alchemizeModalItem.cuisineLabel || cuisineType,
+            source: status.kind === "ready" ? status.data.source : undefined,
+          }}
+          onClose={() => setAlchemizeModalItem(null)}
         />
       )}
     </section>

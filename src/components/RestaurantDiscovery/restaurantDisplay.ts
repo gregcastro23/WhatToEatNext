@@ -57,6 +57,8 @@ export function sourceLabel(
       return "OpenStreetMap";
     case "tripadvisor":
       return "Tripadvisor";
+    case "curated":
+      return "Alchm Curated";
     case "yelp":
     default:
       return "Yelp";

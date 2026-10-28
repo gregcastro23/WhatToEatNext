@@ -48,6 +48,7 @@ function cacheKey(
   limit: number | null,
   sort: BestMatchSort,
   openNow: boolean,
+  userKey = "",
 ): string {
   // Round coordinates to ~1km so nearby requests share a cache entry, and bucket
   // by the wall-clock hour so cosmic scoring refreshes each planetary hour.
@@ -63,6 +64,7 @@ function cacheKey(
     sort,
     openNow ? "1" : "0",
     hour,
+    userKey,
   ].join("|");
 }
 
@@ -103,7 +105,14 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const key = cacheKey(cuisine, latitude, longitude, radius, limit, sort, openNow);
+  const userId = searchParams.get("userId")?.trim() || undefined;
+  const favsParam = searchParams.get("favorites") || searchParams.get("favoriteIds");
+  const favoriteIds = favsParam
+    ? favsParam.split(",").map((s) => s.trim()).filter(Boolean)
+    : undefined;
+  const userKey = userId || (favoriteIds && favoriteIds.length > 0 ? favoriteIds.sort().join(",") : "");
+
+  const key = cacheKey(cuisine, latitude, longitude, radius, limit, sort, openNow, userKey);
   const hit = cache.get(key);
   if (hit && Date.now() - hit.at < CACHE_TTL_MS) {
     return NextResponse.json(hit.data, { status: 200 });
@@ -118,6 +127,8 @@ export async function GET(request: NextRequest) {
       ...(limit !== null ? { limit } : {}),
       sort,
       openNow,
+      userId,
+      favoriteIds,
     });
 
     // Only cache successful, non-empty results — but NEVER cache Tripadvisor:

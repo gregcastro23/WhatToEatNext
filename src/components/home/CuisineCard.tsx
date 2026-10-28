@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { getCuisineProfile } from "@/data/cuisineFlavorProfiles";
 import { firePractice } from "@/lib/economy/practiceClient";
+import { useFavoriteRecipes } from "@/lib/recipes/favoriteRecipes";
 import { getCuisineByDisplayName } from "@/utils/cuisineSlug";
 
 type OnDoubleClickCuisine = (cuisineName: string) => void;
@@ -158,6 +159,7 @@ export function CuisineCard({
 }: CuisineCardProps) {
   const [showPreview, setShowPreview] = useState(false);
   const router = useRouter();
+  const { isFavorite, toggleFavorite } = useFavoriteRecipes();
   const cuisineSlug = encodeURIComponent(cuisine.cuisine.toLowerCase());
   const cookHref = `/recipes?cuisine=${cuisineSlug}`;
   const orderHref = `/restaurants?cuisine=${cuisineSlug}`;
@@ -418,24 +420,51 @@ export function CuisineCard({
 
           {/* Hover Preview */}
           {showPreview && cuisine.topRecipes.length > 0 && (
-            <div className="absolute inset-0 z-30 bg-[#0c0c14]/95 backdrop-blur-sm p-5 flex flex-col justify-center border-y border-purple-400/30 pointer-events-none">
+            <div className="absolute inset-0 z-30 bg-[#0c0c14]/95 backdrop-blur-sm p-5 flex flex-col justify-center border-y border-purple-400/30">
               <h4 className="font-black text-purple-200 uppercase tracking-widest text-xs mb-3">
                 Top Recipes
               </h4>
               <div className="space-y-2">
-                {cuisine.topRecipes.map((recipe, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center justify-between text-sm"
-                  >
-                    <span className="text-white/80 font-medium truncate pr-2">
-                      {recipe.name}
-                    </span>
-                    <span className="text-amber-300 font-black shrink-0">
-                      {recipe.matchScore}%
-                    </span>
-                  </div>
-                ))}
+                {cuisine.topRecipes.map((recipe, idx) => {
+                  const recipeKey = `recipe_${cuisine.cuisine.toLowerCase()}_${recipe.name.toLowerCase().replace(/\s+/g, '_')}`;
+                  const isFav = isFavorite(recipeKey) || isFavorite(recipe.name);
+                  return (
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between text-sm"
+                    >
+                      <span className="text-white/80 font-medium truncate pr-2">
+                        {recipe.name}
+                      </span>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-amber-300 font-black">
+                          {recipe.matchScore}%
+                        </span>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            void toggleFavorite({
+                              id: recipeKey,
+                              name: recipe.name,
+                              cuisine: cuisine.cuisine,
+                            });
+                          }}
+                          className={`text-base transition-transform hover:scale-125 p-0.5 ${
+                            isFav
+                              ? "text-amber-400 drop-shadow-[0_0_6px_rgba(251,191,36,0.6)]"
+                              : "text-white/30 hover:text-white"
+                          }`}
+                          title={isFav ? "Favorited" : "Favorite this recipe"}
+                          aria-label={`Favorite ${recipe.name}`}
+                        >
+                          {isFav ? "★" : "☆"}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
               <div className="mt-4 text-center">
                 <span className="text-purple-300 font-bold text-xs uppercase tracking-widest">

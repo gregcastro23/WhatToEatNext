@@ -94,6 +94,20 @@ export interface AlchmScoredRestaurant {
    * Tripadvisor's terms require displaying their official rating graphic.
    */
   ratingImageUrl?: string | undefined;
+  /** Aggregated dish review statistics from community ratings. */
+  dishReviewStats?:
+    | {
+        averageRating: number;
+        reviewCount: number;
+        topDish?: string | undefined;
+      }
+    | undefined;
+  /** Whether the restaurant is saved in the user's favorite sanctuaries. */
+  isFavorite?: boolean | undefined;
+  /** Number of comments left on the restaurant/menu. */
+  commentCount?: number | undefined;
+  /** Whether this restaurant has opted in to recipe alchemization. */
+  isAlchemizedPartner?: boolean | undefined;
 }
 
 export interface CosmicContext {
@@ -109,7 +123,8 @@ export type RestaurantDiscoverySource =
   | "foursquare"
   | "google"
   | "osm"
-  | "tripadvisor";
+  | "tripadvisor"
+  | "curated";
 
 export interface RestaurantSearchResponse {
   restaurants: AlchmScoredRestaurant[];

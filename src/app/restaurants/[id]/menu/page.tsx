@@ -22,6 +22,7 @@ interface RestaurantRow {
   external_id: string | null;
   stripe_connect_account_id: string | null;
   deliverect_location_id: string | null;
+  alchemize_opt_in: boolean | null;
 }
 
 async function getRestaurant(id: string): Promise<RestaurantRow | null> {
@@ -31,7 +32,8 @@ async function getRestaurant(id: string): Promise<RestaurantRow | null> {
   try {
     const result = await executeQuery<RestaurantRow>(
       `SELECT id, name, menu_url, external_provider, external_id,
-              stripe_connect_account_id, deliverect_location_id
+              stripe_connect_account_id, deliverect_location_id,
+              alchemize_opt_in
        FROM restaurants
        WHERE id = $1
        LIMIT 1`,
@@ -109,6 +111,7 @@ export default async function RestaurantMenuPage({
                   ? restaurant.menu_url
                   : fallbackMenuUrl.toString(),
               ...(restaurant.stripe_connect_account_id ? { stripeConnectAccountId: restaurant.stripe_connect_account_id } : {}),
+              alchemizeOptIn: restaurant.alchemize_opt_in === true,
             }}
             menu={menu}
           />
