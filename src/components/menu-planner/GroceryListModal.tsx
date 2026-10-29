@@ -256,6 +256,7 @@ export default function GroceryListModal({
   const groceryCart = useGroceryCart();
 
   const [extraStapleItems, setExtraStapleItems] = useState<GroceryItem[]>([]);
+  const [filterStatus, setFilterStatus] = useState<"all" | "remaining" | "inPantry" | "purchased">("all");
   const [groupBy, setGroupBy] = useState<"category" | "recipe">("category");
   const [cartSentCount, setCartSentCount] = useState<number | null>(null);
   const [amazonLoading, setAmazonLoading] = useState(false);
@@ -362,10 +363,24 @@ export default function GroceryListModal({
     }
   };
 
-  // Group items by category
+  // Filter items based on active status filter tab
+  const filteredCombinedList = useMemo(() => {
+    switch (filterStatus) {
+      case "remaining":
+        return combinedGroceryList.filter((item) => !item.purchased && !item.inPantry);
+      case "inPantry":
+        return combinedGroceryList.filter((item) => item.inPantry);
+      case "purchased":
+        return combinedGroceryList.filter((item) => item.purchased);
+      default:
+        return combinedGroceryList;
+    }
+  }, [combinedGroceryList, filterStatus]);
+
+  // Group items by category (respecting active filterStatus)
   const groupedItems = useMemo(
-    () => getGroupedGroceryList(combinedGroceryList),
-    [combinedGroceryList],
+    () => getGroupedGroceryList(filteredCombinedList),
+    [filteredCombinedList],
   );
 
   // Calculate stats
@@ -689,24 +704,71 @@ export default function GroceryListModal({
             </button>
           </div>
 
-          {/* Stats Bar */}
+          {/* Stats & Filter Bar */}
           <div className="relative z-10 grid grid-cols-4 gap-4">
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 text-center transition-transform hover:scale-105 duration-300 shadow-lg">
-              <div className="font-black text-2xl mb-1">{stats.total}</div>
+            <button
+              type="button"
+              onClick={() => setFilterStatus("all")}
+              className={`backdrop-blur-md border rounded-xl p-3 text-center transition-all duration-300 shadow-lg ${
+                filterStatus === "all"
+                  ? "bg-white/25 border-white ring-2 ring-white/50 scale-105"
+                  : "bg-white/10 border-white/20 hover:bg-white/15"
+              }`}
+            >
+              <div className="font-black text-2xl mb-1 text-white">{stats.total}</div>
               <div className="text-[10px] uppercase tracking-wider font-bold text-indigo-200">Total</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 text-center transition-transform hover:scale-105 duration-300 shadow-lg border-amber-400/30">
+            </button>
+            <button
+              type="button"
+              onClick={() => setFilterStatus("remaining")}
+              className={`backdrop-blur-md border rounded-xl p-3 text-center transition-all duration-300 shadow-lg ${
+                filterStatus === "remaining"
+                  ? "bg-amber-400/25 border-amber-300 ring-2 ring-amber-400/50 scale-105"
+                  : "bg-white/10 border-amber-400/30 hover:bg-white/15"
+              }`}
+            >
               <div className="font-black text-2xl mb-1 text-amber-200">{stats.remaining}</div>
               <div className="text-[10px] uppercase tracking-wider font-bold text-amber-300">To Buy</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 text-center transition-transform hover:scale-105 duration-300 shadow-lg border-emerald-400/30">
+            </button>
+            <button
+              type="button"
+              onClick={() => setFilterStatus("inPantry")}
+              className={`backdrop-blur-md border rounded-xl p-3 text-center transition-all duration-300 shadow-lg ${
+                filterStatus === "inPantry"
+                  ? "bg-emerald-400/25 border-emerald-300 ring-2 ring-emerald-400/50 scale-105"
+                  : "bg-white/10 border-emerald-400/30 hover:bg-white/15"
+              }`}
+            >
               <div className="font-black text-2xl mb-1 text-emerald-300">{stats.inPantry}</div>
               <div className="text-[10px] uppercase tracking-wider font-bold text-emerald-300">In Pantry</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-3 text-center transition-transform hover:scale-105 duration-300 shadow-lg border-blue-400/30">
+            </button>
+            <button
+              type="button"
+              onClick={() => setFilterStatus("purchased")}
+              className={`backdrop-blur-md border rounded-xl p-3 text-center transition-all duration-300 shadow-lg ${
+                filterStatus === "purchased"
+                  ? "bg-blue-400/25 border-blue-300 ring-2 ring-blue-400/50 scale-105"
+                  : "bg-white/10 border-blue-400/30 hover:bg-white/15"
+              }`}
+            >
               <div className="font-black text-2xl mb-1 text-blue-300">{stats.purchased}</div>
               <div className="text-[10px] uppercase tracking-wider font-bold text-blue-300">Got it</div>
-            </div>
+            </button>
+          </div>
+
+          {/* WeekBoard Auto-Sync Banner */}
+          <div className="relative z-10 mt-3 px-3 py-2 rounded-xl bg-black/25 border border-white/15 flex items-center justify-between text-xs font-mono">
+            <span className="text-white/90 flex items-center gap-1.5">
+              <span>⚡</span> Auto-synced from WeekBoard: <strong className="text-amber-300">{stats.remaining} to buy</strong> · <strong className="text-emerald-300">{stats.inPantry} in pantry</strong>
+            </span>
+            <button
+              type="button"
+              onClick={regenerateGroceryList}
+              className="px-2.5 py-1 rounded-lg bg-white/15 hover:bg-white/25 text-white text-[11px] font-bold uppercase transition-colors flex items-center gap-1 cursor-pointer"
+              title="Re-read scheduled WeekBoard recipes and sync Posso inventory"
+            >
+              <span>⟳</span> Sync WeekBoard
+            </button>
           </div>
         </div>
 
@@ -732,9 +794,10 @@ export default function GroceryListModal({
           </button>
           <button
             onClick={regenerateGroceryList}
-            className="px-3 py-2 bg-surface-container-high text-on-surface rounded-lg hover:bg-surface-container-highest text-sm"
+            className="px-3 py-2 bg-surface-container-high text-on-surface rounded-lg hover:bg-surface-container-highest text-sm font-semibold transition-colors"
+            title="Re-sync ingredients from scheduled WeekBoard recipes & Posso pantry"
           >
-            🔄 Rebuild List
+            ⟳ Sync from WeekBoard
           </button>
           <button
             onClick={handleOrderOnAmazon}
@@ -891,7 +954,7 @@ export default function GroceryListModal({
           ) : (
             // GROUP BY RECIPE
             <RecipeGroupedView
-              groceryList={combinedGroceryList}
+              groceryList={filteredCombinedList}
               currentMenu={currentMenu}
               updateGroceryItem={handleUpdateGroceryItem}
               checkPantryStatus={checkPantryStatus}
@@ -1291,7 +1354,7 @@ function RecipeGroupedView({
     return map;
   }, [currentMenu]);
 
-  // Group grocery items by recipe
+  // Group grocery items by recipe (respecting filterStatus passed via groceryList)
   const groupedByRecipe = useMemo(() => {
     const groups = new Map<string, GroceryItem[]>();
 

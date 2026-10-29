@@ -249,6 +249,7 @@ export interface GroceryGenerationOptions {
   groupBy?: "category" | "store-section" | "recipe";
   excludePantryItems?: boolean;
   convertUnits?: boolean;
+  pantryItems?: string[];
 }
 
 /**
@@ -262,13 +263,30 @@ export function generateGroceryList(
     const {
       consolidateBy = "ingredient",
       convertUnits = true,
-      excludePantryItems: _excludePantryItems = false,
+      excludePantryItems = false,
+      pantryItems = [],
     } = options;
 
     logger.debug("Generating grocery list", {
       mealsCount: meals.length,
       options,
     });
+
+    const pantrySet = new Set<string>();
+    for (const item of pantryItems) {
+      const norm = normalizeIngredientName(item).toLowerCase().trim();
+      if (norm) pantrySet.add(norm);
+    }
+
+    const isItemInPantry = (ingName: string): boolean => {
+      if (pantrySet.size === 0) return false;
+      const lower = ingName.toLowerCase().trim();
+      if (pantrySet.has(lower)) return true;
+      for (const p of pantrySet) {
+        if (lower.includes(p) || p.includes(lower)) return true;
+      }
+      return false;
+    };
 
     // Extract all ingredients from recipes
     const ingredientMap = new Map<
@@ -409,18 +427,24 @@ export function generateGroceryList(
           displayUnit = display.unit;
         }
 
+        const inPantry = isItemInPantry(data.ingredient);
+
         return {
           id: `grocery-${index}`,
           ingredient: data.ingredient,
           quantity: roundAmount(displayAmount),
           unit: displayUnit,
           category: data.category,
-          inPantry: false, // User can mark manually
+          inPantry,
           purchased: false,
           usedInRecipes: data.usedInRecipes,
         };
       },
     );
+
+    const activeItems = excludePantryItems
+      ? groceryItems.filter((item) => !item.inPantry)
+      : groceryItems;
 
     // Sort by category
     const categoryOrder: GroceryCategory[] = [
@@ -437,7 +461,7 @@ export function generateGroceryList(
       "other",
     ];
 
-    groceryItems.sort((a, b) => {
+    activeItems.sort((a, b) => {
       const catA = categoryOrder.indexOf(a.category as GroceryCategory);
       const catB = categoryOrder.indexOf(b.category as GroceryCategory);
       if (catA !== catB) {
@@ -446,9 +470,9 @@ export function generateGroceryList(
       return a.ingredient.localeCompare(b.ingredient);
     });
 
-    logger.info(`Generated grocery list with ${groceryItems.length} items`);
+    logger.info(`Generated grocery list with ${activeItems.length} items`);
 
-    return groceryItems;
+    return activeItems;
   } catch (error) {
     logger.error("Failed to generate grocery list:", error);
     return [];

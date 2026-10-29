@@ -18,7 +18,8 @@
  */
 
 import { Copy, LoaderCircle, Lock, Plus, Sparkles, Utensils, X } from "lucide-react";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
 import type { MealSlot as MealSlotType } from "@/types/menuPlanner";
 import { getDayName } from "@/types/menuPlanner";
@@ -47,29 +48,31 @@ export function slotKcal(slot: MealSlotType): number | null {
   return typeof kcal === "number" ? Math.round(kcal * slot.servings) : null;
 }
 
-function isMealSlotPayload(val: unknown): val is { type: "meal-slot"; slotId: string } {
-  return (
-    typeof val === "object" &&
-    val !== null &&
-    "type" in val &&
-    val.type === "meal-slot" &&
-    "slotId" in val &&
-    typeof val.slotId === "string"
-  );
+function computePantryReadiness(
+  ingredients: Recipe["ingredients"] | undefined,
+  inventory: string[] | undefined,
+): { matched: number; total: number } | null {
+  if (!ingredients || ingredients.length === 0) return null;
+  const inv = Array.isArray(inventory) ? inventory : [];
+  if (inv.length === 0) return null;
+  const pantrySet = new Set(inv.map((i) => i.toLowerCase().trim()));
+  let matched = 0;
+  for (const item of ingredients) {
+    const lower = item.name.toLowerCase().trim();
+    if (!lower) continue;
+    if (pantrySet.has(lower) || Array.from(pantrySet).some((p) => lower.includes(p) || p.includes(lower))) {
+      matched++;
+    }
+  }
+  return { matched, total: ingredients.length };
 }
 
-function isQueueRecipePayload(
-  val: unknown,
-): val is { type: "queue-recipe"; recipe: MonicaOptimizedRecipe } {
-  return (
-    typeof val === "object" &&
-    val !== null &&
-    "type" in val &&
-    val.type === "queue-recipe" &&
-    "recipe" in val &&
-    typeof val.recipe === "object" &&
-    val.recipe !== null
-  );
+function isMealSlotPayload(val: unknown): val is { type: "meal-slot"; slotId: string } {
+  return typeof val === "object" && val !== null && "type" in val && val.type === "meal-slot" && "slotId" in val && typeof val.slotId === "string";
+}
+
+function isQueueRecipePayload(val: unknown): val is { type: "queue-recipe"; recipe: MonicaOptimizedRecipe } {
+  return typeof val === "object" && val !== null && "type" in val && val.type === "queue-recipe" && "recipe" in val && typeof val.recipe === "object" && val.recipe !== null;
 }
 
 export interface BoardSlotProps {
@@ -101,17 +104,20 @@ export default function BoardSlot({
   onDropSlot,
   onDropRecipe,
 }: BoardSlotProps): React.ReactElement {
+  const { inventory } = useMenuPlanner();
   const [dragOver, setDragOver] = useState(false);
   const { recipe } = slot;
   const where = `${getDayName(slot.dayOfWeek)} ${slot.mealType}`;
 
+  const pantryReadiness = useMemo(
+    () => computePantryReadiness(recipe?.ingredients, inventory),
+    [recipe?.ingredients, inventory],
+  );
+
   const dropHandlers = {
     onDragOver: (e: React.DragEvent) => {
       e.preventDefault();
-      // Queue/browser drags advertise "copy"; slot-to-slot drags "move". The
-      // dropEffect must be allowed by the source or the browser rejects it.
-      e.dataTransfer.dropEffect =
-        e.dataTransfer.effectAllowed === "copy" ? "copy" : "move";
+      e.dataTransfer.dropEffect = e.dataTransfer.effectAllowed === "copy" ? "copy" : "move";
       if (!dragOver) setDragOver(true);
     },
     onDragLeave: () => setDragOver(false),
@@ -205,7 +211,7 @@ export default function BoardSlot({
   }
 
   // ─── Filled slot ───────────────────────────────────────────────────────
-  const name = recipe.name ?? "Untitled recipe";
+  const { name } = recipe;
   const img = recipeImage(recipe);
   const el = dominantElement(recipe.elementalProperties);
   const kcal = slotKcal(slot);
@@ -247,6 +253,18 @@ export default function BoardSlot({
               />
             )}
             {kcal !== null ? `${kcal} kcal` : img ? "" : <Utensils className="h-3 w-3" aria-hidden />}
+            {pantryReadiness && pantryReadiness.matched > 0 && (
+              <span
+                className={`px-1 py-0.2 rounded text-[9px] font-mono leading-none ${
+                  pantryReadiness.matched === pantryReadiness.total
+                    ? "bg-earth-matter/15 text-earth-matter border border-earth-matter/30"
+                    : "bg-surface-container-high text-on-surface-variant border border-muted"
+                }`}
+                title={`${pantryReadiness.matched} of ${pantryReadiness.total} ingredients in Posso pantry`}
+              >
+                {pantryReadiness.matched === pantryReadiness.total ? "✓ In Pantry" : `${pantryReadiness.matched}/${pantryReadiness.total} Pantry`}
+              </span>
+            )}
             {slot.servings > 1 && <span>· ×{slot.servings}</span>}
             {slot.isLocked && <Lock className="ml-auto h-3 w-3 text-gold-accent" aria-label="Locked" />}
           </span>
