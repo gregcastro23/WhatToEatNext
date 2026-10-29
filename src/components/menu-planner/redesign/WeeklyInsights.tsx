@@ -34,7 +34,7 @@ function balanceVerdict(
   return `A little ${max.key.toLowerCase()}-heavy`;
 }
 
-export default function WeeklyInsights() {
+export default function WeeklyInsights({ showSnacks = true }: { showSnacks?: boolean }) {
   const {
     weeklyStats,
     weeklyBudget,
@@ -47,7 +47,9 @@ export default function WeeklyInsights() {
     null;
   const totalMeals = weeklyStats?.totalMeals ?? 0;
   const totalRecipes = weeklyStats?.totalRecipes ?? 0;
-  const emptySlots = weeklyStats?.missingMeals?.length ?? 0;
+  const emptySlots = weeklyStats?.missingMeals?.filter(
+    (slot) => showSnacks || slot.mealType !== "snack",
+  ).length ?? 0;
 
   const verdict = balanceVerdict(dist, totalMeals);
 
