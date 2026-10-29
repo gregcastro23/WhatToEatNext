@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { getServerRecipes } from "@/actions/recipes";
 import { useToast } from "@/components/common/Toast";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import { useFavoriteRecipes } from "@/lib/recipes/favoriteRecipes";
 import type { DayOfWeek } from "@/types/menuPlanner";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import { calculateRecipeEstimatedCost } from "@/utils/instacart/priceEstimator";
@@ -30,10 +31,40 @@ export default function PossoWidget({
   onSelectRecipe?: (recipe: Recipe) => void;
 }): React.JSX.Element {
   const { inventory, setInventory, addMealToSlot, currentMenu } = useMenuPlanner();
+  const { topTrackedIngredients, topLikedIngredients } = useFavoriteRecipes();
   const [newItem, setNewItem] = useState("");
   const [scoredRecipes, setScoredRecipes] = useState<ScoredRecipe[]>([]);
   const [loading, setLoading] = useState(false);
   const { showSuccess, showInfo: _showInfo } = useToast();
+
+  const favoriteStaplesToStock = useMemo(() => {
+    const pantryLower = new Set(inventory.map((i) => i.toLowerCase().trim()));
+    const seen = new Set<string>();
+    const candidates: Array<{ name: string; count: number; isLiked: boolean }> = [];
+
+    for (const item of topLikedIngredients) {
+      const lower = item.name.toLowerCase().trim();
+      if (!pantryLower.has(lower) && !seen.has(lower)) {
+        seen.add(lower);
+        candidates.push({ name: item.name, count: item.count, isLiked: true });
+      }
+    }
+    for (const item of topTrackedIngredients) {
+      const lower = item.name.toLowerCase().trim();
+      if (!pantryLower.has(lower) && !seen.has(lower)) {
+        seen.add(lower);
+        candidates.push({ name: item.name, count: item.count, isLiked: false });
+      }
+    }
+    return candidates.slice(0, 8);
+  }, [inventory, topLikedIngredients, topTrackedIngredients]);
+
+  const isFavoriteStaple = useMemo(() => {
+    const set = new Set<string>();
+    topLikedIngredients.forEach((i) => set.add(i.name.toLowerCase().trim()));
+    topTrackedIngredients.forEach((i) => set.add(i.name.toLowerCase().trim()));
+    return (item: string): boolean => set.has(item.toLowerCase().trim());
+  }, [topLikedIngredients, topTrackedIngredients]);
 
   const handleAddItem = (e: React.FormEvent): void => {
     e.preventDefault();
@@ -178,26 +209,68 @@ export default function PossoWidget({
             <p className="text-[11px] text-on-surface-variant mt-1">Comma separate multiple items.</p>
           </form>
 
+          {/* Favorite Staples to Stock Row */}
+          {favoriteStaplesToStock.length > 0 && (
+            <div className="mb-4 p-3 rounded-xl border border-gold-accent/30 bg-gold-accent/5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold text-gold-accent font-mono uppercase flex items-center gap-1">
+                  <span>★</span> Favorite Staples to Stock
+                </span>
+                <span className="text-[10px] text-on-surface-variant font-mono">1-click add</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {favoriteStaplesToStock.map((staple) => (
+                  <button
+                    key={staple.name}
+                    type="button"
+                    onClick={() => {
+                      const norm = staple.name.toLowerCase().trim();
+                      if (!inventory.includes(norm)) {
+                        setInventory([...inventory, norm]);
+                        showSuccess(`Added ${staple.name} to pantry`);
+                      }
+                    }}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-mono bg-surface-container-high border border-gold-accent/30 text-primary hover:bg-gold-accent/20 hover:border-gold-accent transition-colors cursor-pointer"
+                    title={`Add ${staple.name} to pantry (${staple.count} favorite recipes)`}
+                  >
+                    <span>{staple.isLiked ? "⭐" : "+"}</span>
+                    <span className="capitalize">{staple.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="flex flex-wrap gap-1.5 max-h-48 overflow-y-auto">
             {inventory.length === 0 ? (
               <div className="text-xs text-on-surface-variant italic text-center w-full py-4 rounded-lg bg-surface-container-lowest">
                 Your inventory is empty. Add items to find matching recipes!
               </div>
             ) : (
-              inventory.map((item) => (
-                <span
-                  key={item}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-high border border-muted text-primary text-xs rounded-full"
-                >
-                  {item}
-                  <button
-                    onClick={() => handleRemoveItem(item)}
-                    className="text-on-surface-variant/60 hover:text-error font-bold"
+              inventory.map((item) => {
+                const isFav = isFavoriteStaple(item);
+                return (
+                  <span
+                    key={item}
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-full border transition-colors ${
+                      isFav
+                        ? "bg-gold-accent/15 border-gold-accent/40 text-gold-accent font-semibold shadow-sm"
+                        : "bg-surface-container-high border-muted text-primary"
+                    }`}
                   >
-                    ×
-                  </button>
-                </span>
-              ))
+                    {isFav && <span title="Favorite recipe staple" aria-hidden>★</span>}
+                    {item}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveItem(item)}
+                      className="text-on-surface-variant/60 hover:text-error font-bold ml-0.5 cursor-pointer"
+                      aria-label={`Remove ${item} from pantry`}
+                    >
+                      ×
+                    </button>
+                  </span>
+                );
+              })
             )}
           </div>
         </div>
