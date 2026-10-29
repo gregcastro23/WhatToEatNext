@@ -12,10 +12,10 @@
     "asAny": 37,
     "chained": 119,
     "single": 2687,
-    "asConst": 621,
-    "nonNull": 580,
     "production": 2253,
-    "test": 590
+    "test": 590,
+    "asConst": 621,
+    "nonNull": 580
   },
   "looseOptionality": {
     "total": 146,
@@ -49,15 +49,15 @@
     }
   },
   "declined": {
-    "total": 4851,
+    "total": 4849,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1307,
+      "@typescript-eslint/explicit-function-return-type": 1306,
       "@typescript-eslint/explicit-module-boundary-types": 619,
       "complexity": 318,
       "max-depth": 85,
       "max-lines": 524,
       "max-lines-per-function": 1620,
-      "no-void": 378
+      "no-void": 377
     },
     "note": "Declined rules pool, pinned at the LIVE measurement — no headroom. Ceilings above live are undetectable slack: the gate only fails when the pool EXCEEDS this total, so every granted unit is a regression the ratchet cannot see. An earlier revision carried 21 such units (4924 recorded vs 4903 live, incl. no-void 385 vs 374). Maintain this block with `bun run lint:debt:ratchet`, never by hand."
   },

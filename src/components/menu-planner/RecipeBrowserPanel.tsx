@@ -19,8 +19,8 @@ import React, {
 } from "react";
 import { getServerRecipes } from "@/actions/recipes";
 import { useRecipeQueue } from "@/contexts/RecipeQueueContext";
-import { useRecipeCollections } from "@/hooks/useRecipeCollections";
 import { useSpacetimeLiveRecipes } from "@/hooks/useSpacetimeLiveRecipes";
+import { useFavoriteRecipes } from "@/lib/recipes/favoriteRecipes";
 import { PLANETARY_DAY_RULERS, type DayOfWeek } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 import { createLogger } from "@/utils/logger";
@@ -179,11 +179,20 @@ export default function RecipeBrowserPanel({
   const [sortBy, setSortBy] = useState<SortOption>("match-score");
   const [filters, setFilters] = useState<RecipeFilters>(EMPTY_FILTERS);
   const [showFilters, setShowFilters] = useState(false);
+  const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
+  const [selectedTrackedIngredient, setSelectedTrackedIngredient] = useState<string | null>(null);
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { addToQueue, isInQueue } = useRecipeQueue();
-  const { isFavorite, toggleFavorite } = useRecipeCollections();
+  const {
+    favoriteIds,
+    favoritesData,
+    isFavorite,
+    toggleFavorite,
+    topTrackedIngredients,
+    topLikedIngredients,
+  } = useFavoriteRecipes();
 
   // Load recipes
   useEffect(() => {
@@ -215,14 +224,86 @@ export default function RecipeBrowserPanel({
     return additions.length === 0 ? allRecipes : [...allRecipes, ...additions];
   }, [allRecipes, liveRecipes]);
 
+  // Ensure any favorited recipes stored in favoritesData are available in the browser even if
+  // not present in the initial server recipe fetch.
+  const allAvailableRecipes = useMemo<Recipe[]>(() => {
+    if (favoriteIds.length === 0) return combinedRecipes;
+    const knownIds = new Set(combinedRecipes.map((r) => r.id));
+    const missing: Recipe[] = [];
+    for (const favId of favoriteIds) {
+      if (!knownIds.has(favId) && favoritesData[favId]) {
+        const fav = favoritesData[favId];
+        const elem = fav.elementalProfile ?? {};
+        missing.push({
+          id: fav.id,
+          name: fav.name,
+          cuisine: fav.cuisine ?? "Various",
+          ingredients: fav.ingredients.map((ing) => ({
+            name: ing,
+            amount: 1,
+            unit: "unit",
+          })),
+          instructions: [],
+          prepTime: "20 min",
+          cookTime: "15 min",
+          totalTime: "35 min",
+          servings: 4,
+          elementalProperties: {
+            Fire: elem.Fire ?? elem.fire ?? 0.25,
+            Water: elem.Water ?? elem.water ?? 0.25,
+            Earth: elem.Earth ?? elem.earth ?? 0.25,
+            Air: elem.Air ?? elem.air ?? 0.25,
+          },
+          isVegetarian: false,
+          isVegan: false,
+          isGlutenFree: false,
+          isDairyFree: false,
+        });
+      }
+    }
+    return missing.length > 0 ? [...combinedRecipes, ...missing] : combinedRecipes;
+  }, [combinedRecipes, favoriteIds, favoritesData]);
+
   // Available cuisines from data
   const availableCuisines = useMemo(() => {
     const set = new Set<string>();
-    combinedRecipes.forEach((r) => {
+    allAvailableRecipes.forEach((r) => {
       if (r.cuisine) set.add(r.cuisine);
     });
     return Array.from(set).sort();
-  }, [combinedRecipes]);
+  }, [allAvailableRecipes]);
+
+  // Top staple ingredient chips prioritizing liked ingredients then top tracked
+  const topStapleChips = useMemo(() => {
+    const map = new Map<string, { name: string; count: number; isLiked: boolean }>();
+    for (const item of topLikedIngredients) {
+      const lower = item.name.toLowerCase().trim();
+      if (lower && !map.has(lower)) {
+        map.set(lower, { name: item.name, count: item.count, isLiked: true });
+      }
+    }
+    for (const item of topTrackedIngredients) {
+      const lower = item.name.toLowerCase().trim();
+      if (lower && !map.has(lower)) {
+        map.set(lower, { name: item.name, count: item.count, isLiked: false });
+      }
+    }
+    return Array.from(map.values()).slice(0, 8);
+  }, [topLikedIngredients, topTrackedIngredients]);
+
+  // Set of all top favorite ingredient names (normalized lower-case) for affinity checks
+  const favoriteIngredientNames = useMemo(() => {
+    const set = new Set<string>();
+    topLikedIngredients.forEach((i) => {
+      const n = i.name.toLowerCase().trim();
+      if (n) set.add(n);
+    });
+    topTrackedIngredients.forEach((i) => {
+      const n = i.name.toLowerCase().trim();
+      if (n) set.add(n);
+    });
+    return set;
+  }, [topLikedIngredients, topTrackedIngredients]);
 
   // Active filter count
   const activeFilterCount = useMemo(() => {
@@ -231,8 +312,10 @@ export default function RecipeBrowserPanel({
     if (filters.dietary.length > 0) count++;
     if (filters.maxCookTime) count++;
     if (filters.seasonal) count++;
+    if (showOnlyFavorites) count++;
+    if (selectedTrackedIngredient) count++;
     return count;
-  }, [filters]);
+  }, [filters, showOnlyFavorites, selectedTrackedIngredient]);
 
   // Process recipes: search -> filter -> sort
   const processedRecipes = useMemo(() => {
@@ -248,7 +331,21 @@ export default function RecipeBrowserPanel({
       ...(filters.maxCookTime !== undefined ? { prepTimeMax: filters.maxCookTime } : {}),
     };
 
-    let results: ScoredRecipe[] = searchRecipes(combinedRecipes, searchOptions);
+    let results: ScoredRecipe[] = searchRecipes(allAvailableRecipes, searchOptions);
+
+    if (showOnlyFavorites) {
+      results = results.filter((recipe) => isFavorite(recipe.id));
+    }
+
+    if (selectedTrackedIngredient) {
+      const term = selectedTrackedIngredient.toLowerCase().trim();
+      results = results.filter((recipe) =>
+        recipe.ingredients.some((ing) => {
+          const name = (typeof ing === "string" ? ing : ing.name).toLowerCase();
+          return name.includes(term);
+        }),
+      );
+    }
 
     if (activeElementFilter) {
       results = results.filter((recipe) => {
@@ -300,7 +397,16 @@ export default function RecipeBrowserPanel({
     }
 
     return results;
-  }, [combinedRecipes, searchQuery, filters, sortBy, activeElementFilter]);
+  }, [
+    allAvailableRecipes,
+    searchQuery,
+    filters,
+    sortBy,
+    activeElementFilter,
+    showOnlyFavorites,
+    selectedTrackedIngredient,
+    isFavorite,
+  ]);
 
   const visibleRecipes = processedRecipes.slice(0, displayCount);
   const hasMore = displayCount < processedRecipes.length;
@@ -324,6 +430,8 @@ export default function RecipeBrowserPanel({
   const clearAllFilters = () => {
     setSearchQuery("");
     setFilters(EMPTY_FILTERS);
+    setShowOnlyFavorites(false);
+    setSelectedTrackedIngredient(null);
   };
 
   const toggleDietary = (key: string) => {
@@ -333,6 +441,21 @@ export default function RecipeBrowserPanel({
   const toggleCuisine = (cuisine: string) => {
     setFilters((prev) => toggleCuisineFilter(prev, cuisine));
   };
+
+  const handleToggleFavorite = useCallback(
+    async (recipe: Recipe): Promise<void> => {
+      const ingNames = recipe.ingredients
+        .map((i) => (typeof i === "string" ? i : i.name))
+        .filter((n): n is string => Boolean(n));
+      await toggleFavorite({
+        id: recipe.id,
+        name: recipe.name,
+        ...(recipe.cuisine ? { cuisine: recipe.cuisine } : {}),
+        ...(ingNames.length > 0 ? { ingredients: ingNames } : {}),
+      });
+    },
+    [toggleFavorite],
+  );
 
   return (
     <div
@@ -375,8 +498,9 @@ export default function RecipeBrowserPanel({
                 ⚡ {liveRecipes.length} live
               </span>
             )}
-            {processedRecipes.length !== combinedRecipes.length && (
+            {processedRecipes.length !== allAvailableRecipes.length && (
               <button
+                type="button"
                 onClick={clearAllFilters}
                 className="ml-2 text-active-violet hover:text-white font-medium cursor-pointer"
               >
@@ -390,6 +514,7 @@ export default function RecipeBrowserPanel({
       {/* Filters & Sort Bar */}
       <div className="px-4 py-2 border-b border-muted bg-surface-container-lowest/80 flex items-center gap-3 flex-wrap">
         <button
+          type="button"
           onClick={() => setShowFilters(!showFilters)}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors font-mono uppercase cursor-pointer ${
             showFilters || activeFilterCount > 0
@@ -401,6 +526,26 @@ export default function RecipeBrowserPanel({
           {activeFilterCount > 0 && (
             <span className="px-1.5 py-0.5 bg-active-violet text-background text-xs rounded-full font-bold">
               {activeFilterCount}
+            </span>
+          )}
+        </button>
+
+        {/* Favorites Filter Toggle */}
+        <button
+          type="button"
+          aria-label="Filter favorites"
+          onClick={() => setShowOnlyFavorites((prev) => !prev)}
+          aria-pressed={showOnlyFavorites}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors font-mono uppercase cursor-pointer ${
+            showOnlyFavorites
+              ? "bg-gold-accent/20 text-gold-accent border border-gold-accent/40 shadow-[0_0_8px_rgba(234,179,8,0.2)] font-bold"
+              : "bg-surface-container-low border border-muted text-on-surface-variant hover:text-primary"
+          }`}
+        >
+          <span>★</span> Favorites
+          {favoriteIds.length > 0 && (
+            <span className="px-1.5 py-0.5 bg-gold-accent text-background text-xs rounded-full font-bold">
+              {favoriteIds.length}
             </span>
           )}
         </button>
@@ -417,6 +562,54 @@ export default function RecipeBrowserPanel({
           <option value="newest">Newest</option>
         </select>
       </div>
+
+      {/* Top Tracked / Liked Ingredients Filter Strip */}
+      {topStapleChips.length > 0 && (
+        <div
+          role="group"
+          aria-label="Top favorite ingredients"
+          className="px-4 py-2 border-b border-muted bg-surface-container-low/20 flex items-center gap-1.5 overflow-x-auto no-scrollbar"
+        >
+          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-on-surface-variant/70 shrink-0 mr-1">
+            Affinity:
+          </span>
+          {topStapleChips.map((chip) => {
+            const isSelected = selectedTrackedIngredient?.toLowerCase() === chip.name.toLowerCase();
+            return (
+              <button
+                key={chip.name}
+                type="button"
+                onClick={() =>
+                  setSelectedTrackedIngredient((prev) =>
+                    prev?.toLowerCase() === chip.name.toLowerCase() ? null : chip.name,
+                  )
+                }
+                aria-pressed={isSelected}
+                className={`shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-mono transition-all cursor-pointer ${
+                  isSelected
+                    ? "bg-gold-accent text-background font-bold shadow-sm"
+                    : "bg-surface-container-high border border-muted text-on-surface-variant hover:border-gold-accent/50 hover:text-primary"
+                }`}
+                title={`Filter by ${chip.name} (${chip.count} favorite recipes)`}
+              >
+                <span>{chip.isLiked ? "⭐" : "🌿"}</span>
+                <span className="capitalize">{chip.name}</span>
+                <span className="text-[10px] opacity-75">({chip.count})</span>
+              </button>
+            );
+          })}
+          {selectedTrackedIngredient && (
+            <button
+              type="button"
+              onClick={() => setSelectedTrackedIngredient(null)}
+              aria-label="Clear ingredient filter"
+              className="shrink-0 text-[11px] text-active-violet hover:underline ml-1 font-mono cursor-pointer"
+            >
+              [Clear]
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Expanded Filter Panel */}
       {showFilters && (
@@ -560,7 +753,10 @@ export default function RecipeBrowserPanel({
                   }
                   isInQueue={isInQueue(recipe.id)}
                   isFavorite={isFavorite(recipe.id)}
-                  onToggleFavorite={() => toggleFavorite(recipe.id)}
+                  onToggleFavorite={() => {
+                    handleToggleFavorite(recipe).catch(() => {});
+                  }}
+                  favoriteIngredientNames={favoriteIngredientNames}
                 />
               ))}
             </div>
@@ -591,6 +787,7 @@ function BrowserRecipeCard({
   isInQueue,
   isFavorite,
   onToggleFavorite,
+  favoriteIngredientNames,
 }: {
   recipe: ScoredRecipe;
   onSelect: () => void;
@@ -599,7 +796,8 @@ function BrowserRecipeCard({
   isInQueue: boolean;
   isFavorite: boolean;
   onToggleFavorite: () => void;
-}) {
+  favoriteIngredientNames: Set<string>;
+}): React.JSX.Element {
   const [showPreview, setShowPreview] = useState(false);
 
   const todayDow = new Date().getDay() as DayOfWeek;
@@ -617,6 +815,18 @@ function BrowserRecipeCard({
   const resonanceScore = getPlanetaryResonance(recipe, todayPlanet);
 
   const calories = roundedCalories(recipe.nutrition?.calories);
+
+  const matchingFavoriteCount = useMemo((): number => {
+    if (favoriteIngredientNames.size === 0) return 0;
+    let count = 0;
+    for (const ing of recipe.ingredients) {
+      const name = (typeof ing === "string" ? ing : ing.name).toLowerCase().trim();
+      if (Array.from(favoriteIngredientNames).some((fav) => name.includes(fav) || fav.includes(name))) {
+        count++;
+      }
+    }
+    return count;
+  }, [recipe.ingredients, favoriteIngredientNames]);
 
   return (
     <div
@@ -670,11 +880,15 @@ function BrowserRecipeCard({
             {planetSymbol} {resonanceScore}%
           </span>
           <button
+            type="button"
+            aria-label={isFavorite ? `Remove ${recipe.name} from favorites` : `Add ${recipe.name} to favorites`}
             onClick={(e) => {
               e.stopPropagation();
-              void onToggleFavorite();
+              onToggleFavorite();
             }}
-            className={`text-sm flex-shrink-0 cursor-pointer ${isFavorite ? "text-gold-accent" : "text-on-surface-variant/40 hover:text-gold-accent"}`}
+            className={`text-sm flex-shrink-0 cursor-pointer p-0.5 rounded transition-colors ${
+              isFavorite ? "text-gold-accent hover:text-gold-accent/80" : "text-on-surface-variant/40 hover:text-gold-accent"
+            }`}
           >
             {isFavorite ? "★" : "☆"}
           </button>
@@ -699,6 +913,18 @@ function BrowserRecipeCard({
           </span>
         )}
       </div>
+
+      {/* Affinity badge */}
+      {matchingFavoriteCount > 0 && (
+        <div className="mt-1.5 flex items-center">
+          <span
+            className="px-1.5 py-0.5 bg-gold-accent/10 border border-gold-accent/30 text-gold-accent text-[9px] font-mono rounded inline-flex items-center gap-1 font-semibold"
+            title={`Contains ${matchingFavoriteCount} of your top favorite ingredients`}
+          >
+            <span>★</span> Matches {matchingFavoriteCount} favorite ingredient{matchingFavoriteCount > 1 ? "s" : ""}
+          </span>
+        </div>
+      )}
 
       {/* Dietary badges */}
       <div className="flex flex-wrap gap-1 mt-1.5 font-mono text-[9px]">
