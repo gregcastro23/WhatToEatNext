@@ -895,9 +895,9 @@ export function BestMatchExplorer({
             address:
               ratingDishItem.restaurant.business.location.display_address.join(
                 ", ",
-              ) || ratingDishItem.restaurant.business.location.address1,
+              ) || ratingDishItem.restaurant.business.location.address1 || "",
           }}
-          initialDishName={ratingDishItem.dishName}
+          {...(ratingDishItem.dishName ? { initialDishName: ratingDishItem.dishName } : {})}
           onClose={() => setRatingDishItem(null)}
         />
       )}
@@ -912,7 +912,7 @@ export function BestMatchExplorer({
               alchemizeModalItem.cuisineLabel ||
               alchemizeModalItem.business.categories[0]?.title ||
               cuisine,
-            isPartner: alchemizeModalItem.isPartner,
+            isPartner: Boolean(alchemizeModalItem.isPartner),
           }}
           onClose={() => setAlchemizeModalItem(null)}
           onSuccess={() => setAlchemizeModalItem(null)}
@@ -1041,13 +1041,13 @@ function MatchRing({ score }: { score: number }) {
 interface CardActionsProps {
   entry: AlchmScoredRestaurant;
   saved: boolean;
-  isFavorite?: boolean | undefined;
-  onToggleFavorite?: (() => void) | undefined;
-  onAlchemize?: (() => void) | undefined;
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
+  onAlchemize?: () => void;
   onReserve: () => void;
   onSave: () => void;
   onLog: () => void;
-  onRateDish?: (() => void) | undefined;
+  onRateDish?: () => void;
 }
 
 function CardActions({
@@ -1218,13 +1218,13 @@ function HeroCard({
           <CardActions
             entry={entry}
             saved={saved}
-            isFavorite={isFavorite}
-            onToggleFavorite={onToggleFavorite}
-            onAlchemize={onAlchemize}
+            {...(isFavorite !== undefined ? { isFavorite } : {})}
+            {...(onToggleFavorite ? { onToggleFavorite } : {})}
+            {...(onAlchemize ? { onAlchemize } : {})}
             onReserve={onReserve}
             onSave={onSave}
             onLog={onLog}
-            onRateDish={onRateDish}
+            {...(onRateDish ? { onRateDish } : {})}
           />
         </div>
       </div>
@@ -1306,13 +1306,13 @@ function RestaurantRow({
         <CardActions
           entry={entry}
           saved={saved}
-          isFavorite={isFavorite}
-          onToggleFavorite={onToggleFavorite}
-          onAlchemize={onAlchemize}
+          {...(isFavorite !== undefined ? { isFavorite } : {})}
+          {...(onToggleFavorite ? { onToggleFavorite } : {})}
+          {...(onAlchemize ? { onAlchemize } : {})}
           onReserve={onReserve}
           onSave={onSave}
           onLog={onLog}
-          onRateDish={onRateDish}
+          {...(onRateDish ? { onRateDish } : {})}
         />
       </div>
     </li>

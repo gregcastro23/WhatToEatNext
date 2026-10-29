@@ -95,19 +95,17 @@ export interface AlchmScoredRestaurant {
    */
   ratingImageUrl?: string | undefined;
   /** Aggregated dish review statistics from community ratings. */
-  dishReviewStats?:
-    | {
-        averageRating: number;
-        reviewCount: number;
-        topDish?: string | undefined;
-      }
-    | undefined;
+  dishReviewStats?: {
+    averageRating: number;
+    reviewCount: number;
+    topDish?: string;
+  };
   /** Whether the restaurant is saved in the user's favorite sanctuaries. */
-  isFavorite?: boolean | undefined;
+  isFavorite?: boolean;
   /** Number of comments left on the restaurant/menu. */
-  commentCount?: number | undefined;
+  commentCount?: number;
   /** Whether this restaurant has opted in to recipe alchemization. */
-  isAlchemizedPartner?: boolean | undefined;
+  isAlchemizedPartner?: boolean;
 }
 
 export interface CosmicContext {

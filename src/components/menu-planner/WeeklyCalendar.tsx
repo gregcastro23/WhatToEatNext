@@ -174,15 +174,15 @@ export default function WeeklyCalendar({
       <div className="md:hidden space-y-3">
         <RecipePlacementBanner />
         <RedesignedMobilePlanner
-          placingRecipe={placingRecipe}
+          {...(placingRecipe !== undefined ? { placingRecipe } : {})}
           onPlaceMeal={(slot) => { void placeRecipe(slot); }}
           showSnacks={state.showSnacks}
           weekDates={weekDates}
           mealsByDay={mealsByDay}
           todayDayOfWeek={todayDayOfWeek}
-          weeklyNutrition={weeklyNutrition}
-          currentPlanetaryHour={currentPlanetaryHour}
-          onShopWeek={onShopWeek}
+          {...(weeklyNutrition !== undefined ? { weeklyNutrition } : {})}
+          {...(currentPlanetaryHour !== undefined ? { currentPlanetaryHour } : {})}
+          {...(onShopWeek ? { onShopWeek } : {})}
           onOpenNutrition={onOpenNutrition}
         />
       </div>

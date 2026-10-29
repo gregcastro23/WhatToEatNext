@@ -40,6 +40,12 @@ jest.mock("next/dynamic", () => (load: () => unknown) => {
       return <><button onClick={props.onOpenNutrition}>calendar: week nutrition</button><span>{state.placingRecipe ? `Ready to place ${state.placingRecipe.name}` : "No placement"}</span></>;
     };
   }
+  if (source.includes("menu-planner/shell/ResponsivePlannerRail")) {
+    return require("@/components/menu-planner/shell/ResponsivePlannerRail").default;
+  }
+  if (source.includes("menu-planner/shell/WeekSummaryStrip")) {
+    return require("@/components/menu-planner/shell/WeekSummaryStrip").default;
+  }
   return () => null;
 });
 jest.mock("@/components/menu-builder/QuickActionsToolbar", () => () => null);

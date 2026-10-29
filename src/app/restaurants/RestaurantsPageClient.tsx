@@ -105,8 +105,8 @@ export default function RestaurantsPageClient() {
               name: orderRestaurant || "Restaurant Order",
               cuisine: initial || "General",
             }}
-            initialDishName={orderDish || undefined}
-            orderId={orderId || undefined}
+            {...(orderDish ? { initialDishName: orderDish } : {})}
+            {...(orderId ? { orderId } : {})}
             onClose={() => setIsRatingOpen(false)}
           />
         )}

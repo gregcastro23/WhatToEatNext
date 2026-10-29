@@ -471,9 +471,9 @@ export default function DynamicCuisineRecommender({
                 key={cuisine.cuisine}
                 cuisine={cuisine}
                 rank={index + 1}
-                selectedCuisine={selectedCuisine}
-                onSelectCuisine={onSelectCuisine}
-                onDoubleClickCuisine={onDoubleClickCuisine}
+                {...(selectedCuisine !== undefined ? { selectedCuisine } : {})}
+                {...(onSelectCuisine ? { onSelectCuisine } : {})}
+                {...(onDoubleClickCuisine ? { onDoubleClickCuisine } : {})}
               />
             ))}
           </div>
@@ -502,9 +502,9 @@ export default function DynamicCuisineRecommender({
                       cuisine={cuisine}
                       rank={index + 7}
                       compact
-                      selectedCuisine={selectedCuisine}
-                      onSelectCuisine={onSelectCuisine}
-                      onDoubleClickCuisine={onDoubleClickCuisine}
+                      {...(selectedCuisine !== undefined ? { selectedCuisine } : {})}
+                      {...(onSelectCuisine ? { onSelectCuisine } : {})}
+                      {...(onDoubleClickCuisine ? { onDoubleClickCuisine } : {})}
                     />
                   ))}
                 </div>

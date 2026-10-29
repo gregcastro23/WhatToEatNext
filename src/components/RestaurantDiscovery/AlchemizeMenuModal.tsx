@@ -25,8 +25,8 @@ export interface AlchemizeMenuModalProps {
   restaurant: {
     id: string;
     name: string;
-    cuisine?: string | undefined;
-    websiteUrl?: string | undefined;
+    cuisine?: string;
+    websiteUrl?: string;
   };
   onClose: () => void;
 }
@@ -424,7 +424,7 @@ export function AlchemizeMenuModal({
           restaurant={{
             id: restaurant.id,
             name: restaurant.name,
-            cuisine: restaurant.cuisine,
+            ...(restaurant.cuisine ? { cuisine: restaurant.cuisine } : {}),
           }}
           initialDishName={selectedRatingDish}
           onClose={() => setSelectedRatingDish(null)}

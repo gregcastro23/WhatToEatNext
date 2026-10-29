@@ -128,8 +128,7 @@ export default function Menu({
   };
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- keyboard handling for the composite menu widget
-    <div ref={rootRef} className={`relative ${className}`} onKeyDown={onKeyDown}>
+    <div ref={rootRef} className={`relative ${className}`} onKeyDownCapture={onKeyDown}>
       {trigger({
         ref: triggerRef,
         onClick: () => setOpen((o) => !o),

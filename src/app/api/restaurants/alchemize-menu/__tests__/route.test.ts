@@ -1,8 +1,7 @@
-import { describe, it, expect, vi } from "vitest";
 import { GET, POST } from "../route";
 import { NextRequest } from "next/server";
 
-const mockExecuteQuery = vi.fn(async (_query: string, params?: unknown[]) => {
+const mockExecuteQuery = jest.fn(async (_query: string, params?: unknown[]) => {
   if (params && params[0] === "partner_alchm_trattoria") {
     return {
       rows: [
@@ -50,7 +49,7 @@ const mockExecuteQuery = vi.fn(async (_query: string, params?: unknown[]) => {
   return { rows: [] };
 });
 
-vi.mock("@/lib/database/connection", () => ({
+jest.mock("@/lib/database/connection", () => ({
   executeQuery: (query: string, params?: unknown[]) => mockExecuteQuery(query, params),
 }));
 

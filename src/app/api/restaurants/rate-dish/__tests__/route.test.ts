@@ -7,38 +7,37 @@
  */
 
 import { NextRequest } from "next/server";
-import { describe, expect, it, vi, beforeEach } from "vitest";
 
-const mockExecuteQuery = vi.fn();
-const mockGetUserIdFromRequest = vi.fn();
-const mockCreateEntry = vi.fn();
-const mockUpdateEntry = vi.fn();
-const mockRecordInteraction = vi.fn();
+const mockExecuteQuery = jest.fn();
+const mockGetUserIdFromRequest = jest.fn();
+const mockCreateEntry = jest.fn();
+const mockUpdateEntry = jest.fn();
+const mockRecordInteraction = jest.fn();
 
-vi.mock("@/lib/auth/validateRequest", () => ({
+jest.mock("@/lib/auth/validateRequest", () => ({
   getUserIdFromRequest: () => mockGetUserIdFromRequest(),
 }));
 
-vi.mock("@/lib/database/connection", () => ({
+jest.mock("@/lib/database/connection", () => ({
   executeQuery: (query: string, params?: unknown[]) => mockExecuteQuery(query, params),
 }));
 
-vi.mock("@/services/FoodDiaryService", () => ({
+jest.mock("@/services/FoodDiaryService", () => ({
   foodDiaryService: {
     createEntry: (...args: unknown[]) => mockCreateEntry(...args),
     updateEntry: (...args: unknown[]) => mockUpdateEntry(...args),
   },
 }));
 
-vi.mock("@/services/userInteractionsService", () => ({
+jest.mock("@/services/userInteractionsService", () => ({
   recordInteraction: (...args: unknown[]) => mockRecordInteraction(...args),
 }));
 
-vi.mock("@/lib/logger", () => ({
+jest.mock("@/lib/logger", () => ({
   _logger: {
-    info: vi.fn(),
-    warn: vi.fn(),
-    error: vi.fn(),
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
   },
 }));
 
@@ -46,7 +45,7 @@ import { GET, POST } from "../route";
 
 describe("Restaurant Dish Reviews API (/api/restaurants/rate-dish)", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   describe("GET /api/restaurants/rate-dish", () => {

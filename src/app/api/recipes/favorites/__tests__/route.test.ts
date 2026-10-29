@@ -1,20 +1,19 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
 import { NextRequest } from "next/server";
 import { GET, POST, DELETE } from "../route";
 
-const mockExecuteQuery = vi.fn();
+const mockExecuteQuery = jest.fn();
 
-vi.mock("@/lib/database/connection", () => ({
+jest.mock("@/lib/database/connection", () => ({
   executeQuery: (...args: unknown[]) => mockExecuteQuery(...args),
 }));
 
-vi.mock("@/lib/auth/validateRequest", () => ({
-  getUserIdFromRequest: vi.fn().mockResolvedValue("user_recipe_master"),
+jest.mock("@/lib/auth/validateRequest", () => ({
+  getUserIdFromRequest: jest.fn().mockResolvedValue("user_recipe_master"),
 }));
 
 describe("Favorite Recipes & Ingredient Tracking API (/api/recipes/favorites)", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   describe("GET /api/recipes/favorites", () => {

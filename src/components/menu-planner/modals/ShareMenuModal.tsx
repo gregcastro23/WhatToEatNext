@@ -21,18 +21,7 @@ import Sheet from "../shell/Sheet";
 
 const logger = createLogger("ShareMenuModal");
 
-interface FeedShareResponse {
-  success: boolean;
-  message?: string | undefined;
-  completedQuests?:
-    | Array<{
-        tokenRewardAmount: number;
-        tokenRewardType: string;
-      }>
-    | undefined;
-}
-
-const FeedShareResponseSchema: z.ZodType<FeedShareResponse> = z.object({
+const FeedShareResponseSchema = z.object({
   success: z.boolean(),
   message: z.string().optional(),
   completedQuests: z
@@ -44,6 +33,8 @@ const FeedShareResponseSchema: z.ZodType<FeedShareResponse> = z.object({
     )
     .optional(),
 });
+
+type FeedShareResponse = z.infer<typeof FeedShareResponseSchema>;
 
 interface ShareMenuModalProps {
   isOpen: boolean;

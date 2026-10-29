@@ -1,16 +1,15 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
 import { NextRequest } from "next/server";
 import { GET, POST } from "../route";
 
-const mockExecuteQuery = vi.fn();
+const mockExecuteQuery = jest.fn();
 
-vi.mock("@/lib/database/connection", () => ({
+jest.mock("@/lib/database/connection", () => ({
   executeQuery: (...args: unknown[]) => mockExecuteQuery(...args),
 }));
 
 describe("Restaurant Recipe Alchemization Opt-In API (/api/restaurants/alchemize-opt-in)", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   describe("GET /api/restaurants/alchemize-opt-in", () => {

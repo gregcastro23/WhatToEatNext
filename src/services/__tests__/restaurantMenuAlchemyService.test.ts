@@ -1,4 +1,3 @@
-import { describe, it, expect } from "bun:test";
 import {
   extractIngredients,
   extractTechniquesAndTextures,
@@ -88,7 +87,8 @@ describe("restaurantMenuAlchemyService", () => {
     const result = alchemizeRawItems(rawItems, "Celestial Sanctuary");
 
     expect(result.dishes).toHaveLength(2);
-    expect(result.dishes[0]!.dominantElement).toBe("Water");
+    const [firstDish] = result.dishes;
+    expect(firstDish?.dominantElement).toBe("Water");
     expect(result.elementalSignature.dominant).toBe("Water");
     expect(result.topIngredients.length).toBeGreaterThan(0);
     expect(result.summary.dishCount).toBe(2);

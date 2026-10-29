@@ -1,4 +1,3 @@
-import { describe, it, expect, beforeEach, mock } from "bun:test";
 import {
   getStoredFavoriteIds,
   saveStoredFavoriteIds,
@@ -50,14 +49,14 @@ describe("favoriteRestaurants client sync", () => {
     let fetchedUrl = "";
     let fetchedBody = "";
 
-    const mockFetch = mock(async (url: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+    const mockFetch: typeof fetch = async (url: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
       fetchedUrl = String(url);
       fetchedBody = String(init?.body ?? "");
       return new Response(JSON.stringify({ success: true, isFavorite: true }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
-    });
+    };
     globalThis.fetch = mockFetch;
 
     try {

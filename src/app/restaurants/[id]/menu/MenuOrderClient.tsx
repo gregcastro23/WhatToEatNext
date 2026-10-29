@@ -42,26 +42,28 @@ interface CartItem {
   unitPriceCents: number;
 }
 
-interface MenuItemComment {
-  id: string;
-  restaurantId: string;
-  menuItemId?: string | null | undefined;
-  dishName?: string | null | undefined;
-  userId: string;
-  userDisplayName: string;
-  comment: string;
-  helpfulCount: number;
-  elementalNote?: string | null | undefined;
-  liked_ingredients?: string[] | null | undefined;
-  likedIngredients?: string[] | null | undefined;
-  dish_features?: string[] | null | undefined;
-  dishFeatures?: string[] | null | undefined;
-  texture_notes?: string[] | null | undefined;
-  textureNotes?: string[] | null | undefined;
-  elemental_resonance?: string | null | undefined;
-  elementalResonance?: string | null | undefined;
-  createdAt: string;
-}
+const MenuItemCommentClientSchema = z.object({
+  id: z.string(),
+  restaurantId: z.string().default(""),
+  menuItemId: z.string().nullish(),
+  dishName: z.string().nullish(),
+  userId: z.string().default(""),
+  userDisplayName: z.string().default("Alchemist"),
+  comment: z.string(),
+  helpfulCount: z.number().default(0),
+  elementalNote: z.string().nullish(),
+  liked_ingredients: z.array(z.string()).nullish(),
+  likedIngredients: z.array(z.string()).nullish(),
+  dish_features: z.array(z.string()).nullish(),
+  dishFeatures: z.array(z.string()).nullish(),
+  texture_notes: z.array(z.string()).nullish(),
+  textureNotes: z.array(z.string()).nullish(),
+  elemental_resonance: z.string().nullish(),
+  elementalResonance: z.string().nullish(),
+  createdAt: z.string().default(() => new Date().toISOString()),
+});
+
+type MenuItemComment = z.infer<typeof MenuItemCommentClientSchema>;
 
 type ElementType = "Fire" | "Water" | "Earth" | "Air";
 
@@ -126,24 +128,6 @@ interface CheckoutResponse {
   orderId?: string;
 }
 
-const MenuItemCommentClientSchema: z.ZodType<MenuItemComment> = z.object({
-  id: z.string(),
-  restaurantId: z.string().default(""),
-  menuItemId: z.string().nullish(),
-  dishName: z.string().nullish(),
-  userId: z.string().default(""),
-  userDisplayName: z.string().default("Alchemist"),
-  comment: z.string(),
-  helpfulCount: z.number().default(0),
-  elementalNote: z.string().nullish(),
-  liked_ingredients: z.array(z.string()).nullish(),
-  likedIngredients: z.array(z.string()).nullish(),
-  dish_features: z.array(z.string()).nullish(),
-  dishFeatures: z.array(z.string()).nullish(),
-  texture_notes: z.array(z.string()).nullish(),
-  textureNotes: z.array(z.string()).nullish(),
-  createdAt: z.string().default(() => new Date().toISOString()),
-});
 
 const CheckoutResponseSchema = z.object({
   mode: z.enum(["stripe_checkout", "external", "esms"]).optional(),
@@ -237,8 +221,8 @@ export default function MenuOrderClient({
 
     const isDominant = pcts[dominant] >= 50;
 
-    let balancingElement: ElementType = "Water";
-    let recommendationMsg = "";
+    let balancingElement: ElementType;
+    let recommendationMsg: string;
     if (dominant === "Fire") {
       balancingElement = "Water";
       recommendationMsg = "🔥 High Fire intensity. Balance with a cooling 💧 Water or 🌿 Earth side.";
@@ -1092,7 +1076,7 @@ export default function MenuOrderClient({
           restaurant={{
             id: restaurant.id,
             name: restaurant.name,
-            cuisine: restaurant.cuisine,
+            ...(restaurant.cuisine ? { cuisine: restaurant.cuisine } : {}),
           }}
           initialDishName={ratingDish}
           onClose={() => setRatingDish(null)}
@@ -1104,7 +1088,7 @@ export default function MenuOrderClient({
           restaurant={{
             id: restaurant.id,
             name: restaurant.name,
-            cuisine: restaurant.cuisine,
+            ...(restaurant.cuisine ? { cuisine: restaurant.cuisine } : {}),
             isPartner: restaurant.alchemizeOptIn ?? true,
           }}
           onClose={() => setIsAlchemizeOpen(false)}
@@ -1116,8 +1100,8 @@ export default function MenuOrderClient({
           restaurant={{
             id: restaurant.id,
             name: restaurant.name,
-            cuisine: restaurant.cuisine,
-            websiteUrl: restaurant.url,
+            ...(restaurant.cuisine ? { cuisine: restaurant.cuisine } : {}),
+            ...(restaurant.url ? { websiteUrl: restaurant.url } : {}),
           }}
           onClose={() => setIsAlchemizeMenuModalOpen(false)}
         />

@@ -66,8 +66,8 @@ export default function MealRowCard({
   mealSlot: MealSlotType;
   /** Render an empty snack slot as a slim ghost affordance instead of a full row. */
   ghost?: boolean;
-  placingRecipe?: Recipe | null | undefined;
-  onPlaceMeal?: ((slot: MealSlotType) => void) | undefined;
+  placingRecipe?: Recipe | null;
+  onPlaceMeal?: (slot: MealSlotType) => void;
 }): React.ReactElement {
   const {
     addMealToSlot,

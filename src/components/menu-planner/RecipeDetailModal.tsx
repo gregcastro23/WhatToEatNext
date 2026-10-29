@@ -150,16 +150,17 @@ export default function RecipeDetailModal({
   const likedIngredients = getLikedIngredients(recipe.id);
 
   const handleToggleFavorite = () => {
-    toggleFavorite(recipe.id, {
+    const meta = {
       name: recipe.name,
-      cuisine: recipe.cuisine,
       ingredients: ingredientNames,
-    });
+      ...(recipe.cuisine ? { cuisine: recipe.cuisine } : {}),
+    };
+    toggleFavorite(recipe.id, meta);
     toggleRecipeFavorite({
       id: recipe.id,
       name: recipe.name,
-      cuisine: recipe.cuisine,
       ingredients: ingredientNames,
+      ...(recipe.cuisine ? { cuisine: recipe.cuisine } : {}),
     });
   };
 
@@ -228,7 +229,7 @@ export default function RecipeDetailModal({
         const asinInput = document.createElement("input");
         asinInput.type = "hidden";
         asinInput.name = `ASIN.${pos}`;
-        asinInput.value = item.asin!;
+        asinInput.value = item.asin ?? "";
         form.appendChild(asinInput);
 
         const qtyInput = document.createElement("input");
@@ -401,7 +402,7 @@ export default function RecipeDetailModal({
                               : [...likedIngredients, ing.name];
                             void updateLikedIngredients(recipe.id, next, {
                               name: recipe.name,
-                              cuisine: recipe.cuisine,
+                              ...(recipe.cuisine ? { cuisine: recipe.cuisine } : {}),
                               ingredients: ingredientNames,
                             });
                           }}

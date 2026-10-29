@@ -36,8 +36,8 @@ export async function GET(request: NextRequest) {
 
     const menu = await getOrAlchemizeRestaurantMenu({
       restaurantId,
-      url,
       forceRefresh: searchParams.get("refresh") === "true",
+      ...(url ? { url } : {}),
     });
 
     return NextResponse.json({
@@ -79,10 +79,10 @@ export async function POST(request: NextRequest) {
 
     const menu = await getOrAlchemizeRestaurantMenu({
       restaurantId,
-      restaurantName,
-      url,
-      menuText,
       forceRefresh: refresh === true,
+      ...(restaurantName ? { restaurantName } : {}),
+      ...(url ? { url } : {}),
+      ...(menuText ? { menuText } : {}),
     });
 
     return NextResponse.json(

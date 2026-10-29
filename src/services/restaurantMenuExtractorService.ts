@@ -12,11 +12,11 @@
 import { _logger } from "@/lib/logger";
 
 export interface RawExtractedMenuItem {
-  id?: string | undefined;
+  id?: string;
   name: string;
-  category?: string | undefined;
-  description?: string | undefined;
-  price?: string | null | undefined;
+  category?: string;
+  description?: string;
+  price?: string | null;
 }
 
 export interface ExtractedMenuSection {
@@ -25,10 +25,10 @@ export interface ExtractedMenuSection {
 }
 
 export interface ExtractedRestaurantMenu {
-  restaurantName?: string | undefined;
-  cuisine?: string | undefined;
-  websiteUrl?: string | undefined;
-  description?: string | undefined;
+  restaurantName?: string;
+  cuisine?: string;
+  websiteUrl?: string;
+  description?: string;
   sourceType: "schema_jsonld" | "html_semantic" | "text_parsed";
   sections: ExtractedMenuSection[];
   totalItems: number;
@@ -157,10 +157,11 @@ function parseJsonLdMenu(
             priceStr = offers.price.startsWith("$") ? offers.price : `$${offers.price}`;
           }
 
+          const miDesc = typeof miObj.description === "string" ? miObj.description.trim() : undefined;
           currentList.push({
             name: miName,
             category: sectionName,
-            description: typeof miObj.description === "string" ? miObj.description.trim() : undefined,
+            ...(miDesc ? { description: miDesc } : {}),
             price: priceStr,
           });
         }
@@ -183,10 +184,11 @@ function parseJsonLdMenu(
           priceStr = offers.price.startsWith("$") ? offers.price : `$${offers.price}`;
         }
 
+        const miDesc = typeof item.description === "string" ? item.description.trim() : undefined;
         currentList.push({
           name: miName,
           category: sectionName,
-          description: typeof item.description === "string" ? item.description.trim() : undefined,
+          ...(miDesc ? { description: miDesc } : {}),
           price: priceStr,
         });
         sectionsMap.set(sectionName, currentList);
@@ -206,9 +208,9 @@ function parseJsonLdMenu(
   if (totalItems === 0) return null;
 
   return {
-    restaurantName,
-    cuisine,
-    description,
+    ...(restaurantName ? { restaurantName } : {}),
+    ...(cuisine ? { cuisine } : {}),
+    ...(description ? { description } : {}),
     websiteUrl: url,
     sourceType: "schema_jsonld",
     sections,
@@ -258,7 +260,8 @@ function parseHtmlMenu(html: string, url: string): ExtractedRestaurantMenu {
   ];
 
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]!;
+    const line = lines[i];
+    if (line === undefined) continue;
 
     // Heading detection
     const lowerLine = line.toLowerCase();
@@ -284,15 +287,16 @@ function parseHtmlMenu(html: string, url: string): ExtractedRestaurantMenu {
       if (namePart.length >= 3 && namePart.length < 60) {
         // Peek next line for description
         let desc: string | undefined;
-        if (i + 1 < lines.length && lines[i + 1]!.length > 10 && lines[i + 1]!.length < 250 && !lines[i + 1]!.includes("$")) {
-          desc = lines[i + 1];
+        const nextLine = lines[i + 1];
+        if (nextLine !== undefined && nextLine.length > 10 && nextLine.length < 250 && !nextLine.includes("$")) {
+          desc = nextLine;
           i++; // consume desc
         }
 
         currentItems.push({
           name: namePart,
           category: currentSection,
-          description: desc,
+          ...(desc ? { description: desc } : {}),
           price: priceStr,
         });
       }
@@ -328,7 +332,8 @@ export function parseTextMenu(text: string, restaurantName?: string): ExtractedR
   let currentItems: RawExtractedMenuItem[] = [];
 
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i]!;
+    const line = lines[i];
+    if (line === undefined) continue;
     if (line.endsWith(":") || (line.length < 35 && line === line.toUpperCase() && line.length > 3)) {
       if (currentItems.length > 0) {
         sections.push({ name: currentSection, items: currentItems });
@@ -344,15 +349,16 @@ export function parseTextMenu(text: string, restaurantName?: string): ExtractedR
 
     if (namePart.length >= 2) {
       let desc: string | undefined;
-      if (i + 1 < lines.length && lines[i + 1]!.length > 10 && !lines[i + 1]!.match(PRICE_REGEX)) {
-        desc = lines[i + 1];
+      const nextLine = lines[i + 1];
+      if (nextLine !== undefined && nextLine.length > 10 && !nextLine.match(PRICE_REGEX)) {
+        desc = nextLine;
         i++;
       }
 
       currentItems.push({
         name: namePart,
         category: currentSection,
-        description: desc,
+        ...(desc ? { description: desc } : {}),
         price: priceStr,
       });
     }

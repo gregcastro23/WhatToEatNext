@@ -127,8 +127,8 @@ export async function GET(request: NextRequest) {
       ...(limit !== null ? { limit } : {}),
       sort,
       openNow,
-      userId,
-      favoriteIds,
+      ...(userId !== undefined ? { userId } : {}),
+      ...(favoriteIds !== undefined ? { favoriteIds } : {}),
     });
 
     // Only cache successful, non-empty results — but NEVER cache Tripadvisor:

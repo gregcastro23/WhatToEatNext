@@ -15,9 +15,9 @@ export interface AlchemizeOptInModalProps {
   restaurant: {
     id: string;
     name: string;
-    cuisine?: string | undefined;
-    isPartner?: boolean | undefined;
-    source?: string | undefined;
+    cuisine?: string;
+    isPartner?: boolean;
+    source?: string;
   };
   onClose: () => void;
   onSuccess?: () => void;

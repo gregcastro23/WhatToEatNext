@@ -703,9 +703,9 @@ export function CuisineRestaurantFinder({
               cuisineType,
             address:
               ratingDishItem.restaurant.business.location.display_address.join(", ") ||
-              ratingDishItem.restaurant.business.location.address1,
+              ratingDishItem.restaurant.business.location.address1 || "",
           }}
-          initialDishName={ratingDishItem.dishName}
+          {...(ratingDishItem.dishName ? { initialDishName: ratingDishItem.dishName } : {})}
           onClose={() => setRatingDishItem(null)}
         />
       )}
@@ -721,7 +721,7 @@ export function CuisineRestaurantFinder({
               alchemizeModalItem.cuisineLabel ||
               alchemizeModalItem.business.categories[0]?.title ||
               cuisineType,
-            isPartner: alchemizeModalItem.isPartner,
+            isPartner: Boolean(alchemizeModalItem.isPartner),
           }}
           onClose={() => setAlchemizeModalItem(null)}
           onSuccess={() => setAlchemizeModalItem(null)}

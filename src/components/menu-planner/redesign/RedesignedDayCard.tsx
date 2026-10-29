@@ -41,8 +41,8 @@ export default function RedesignedDayCard({
   dailyNutrition?: DailyNutritionResult;
   variant?: "hero" | "day";
   currentPlanetaryHour?: string | null;
-  placingRecipe?: Recipe | null | undefined;
-  onPlaceMeal?: ((slot: MealSlotType) => void) | undefined;
+  placingRecipe?: Recipe | null;
+  onPlaceMeal?: (slot: MealSlotType) => void;
   showSnacks?: boolean;
 }) {
   const characteristics = getPlanetaryDayCharacteristics(dayOfWeek);
@@ -128,12 +128,28 @@ export default function RedesignedDayCard({
       {/* Meal rows */}
       <div className="relative z-10 space-y-1">
         {mains.map((m) => (
-          <MealRowCard key={m.id} mealSlot={m} placingRecipe={placingRecipe} onPlaceMeal={onPlaceMeal} />
+          <MealRowCard
+            key={m.id}
+            mealSlot={m}
+            {...(placingRecipe !== undefined ? { placingRecipe } : {})}
+            {...(onPlaceMeal ? { onPlaceMeal } : {})}
+          />
         ))}
         {snack && showSnacks && (snack.recipe ? (
-          <MealRowCard key={snack.id} mealSlot={snack} placingRecipe={placingRecipe} onPlaceMeal={onPlaceMeal} />
+          <MealRowCard
+            key={snack.id}
+            mealSlot={snack}
+            {...(placingRecipe !== undefined ? { placingRecipe } : {})}
+            {...(onPlaceMeal ? { onPlaceMeal } : {})}
+          />
         ) : (
-          <MealRowCard key={snack.id} mealSlot={snack} ghost placingRecipe={placingRecipe} onPlaceMeal={onPlaceMeal} />
+          <MealRowCard
+            key={snack.id}
+            mealSlot={snack}
+            ghost
+            {...(placingRecipe !== undefined ? { placingRecipe } : {})}
+            {...(onPlaceMeal ? { onPlaceMeal } : {})}
+          />
         ))}
       </div>
     </section>

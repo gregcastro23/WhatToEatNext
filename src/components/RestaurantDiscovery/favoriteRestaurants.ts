@@ -37,8 +37,8 @@ export function saveStoredFavoriteIds(ids: string[]): void {
 export async function toggleFavoriteApi(restaurant: {
   id: string;
   name: string;
-  cuisine?: string | undefined;
-  source?: string | undefined;
+  cuisine?: string;
+  source?: string;
 }): Promise<boolean> {
   const current = getStoredFavoriteIds();
   const willFavorite = !current.includes(restaurant.id);
@@ -110,8 +110,8 @@ export function useFavoriteRestaurants() {
     async (restaurant: {
       id: string;
       name: string;
-      cuisine?: string | undefined;
-      source?: string | undefined;
+      cuisine?: string;
+      source?: string;
     }) => {
       const willFavorite = !favoriteIds.includes(restaurant.id);
       const next = willFavorite

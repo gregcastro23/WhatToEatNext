@@ -73,12 +73,12 @@ export default function RedesignedMobilePlanner({
   weekDates: [Date, Date, Date, Date, Date, Date, Date];
   mealsByDay: Record<DayOfWeek, MealSlotType[]>;
   todayDayOfWeek: DayOfWeek | null;
-  weeklyNutrition?: WeeklyNutritionResult | null | undefined;
-  currentPlanetaryHour?: string | null | undefined;
-  placingRecipe?: Recipe | null | undefined;
-  onPlaceMeal?: ((slot: MealSlotType) => void) | undefined;
+  weeklyNutrition?: WeeklyNutritionResult | null;
+  currentPlanetaryHour?: string | null;
+  placingRecipe?: Recipe | null;
+  onPlaceMeal?: (slot: MealSlotType) => void;
   showSnacks?: boolean;
-  onShopWeek?: (() => void) | undefined;
+  onShopWeek?: () => void;
   /** Opens the week's Nutrition Dashboard (the tools bar is hidden on phones); undefined hides the button. */
   onOpenNutrition: (() => void) | undefined;
 }) {
@@ -97,8 +97,8 @@ export default function RedesignedMobilePlanner({
       {/* Today hero */}
       {todayDayOfWeek !== null && (
         <RedesignedDayCard
-          placingRecipe={placingRecipe}
-          onPlaceMeal={onPlaceMeal}
+          {...(placingRecipe !== undefined ? { placingRecipe } : {})}
+          {...(onPlaceMeal ? { onPlaceMeal } : {})}
           showSnacks={showSnacks}
           variant="hero"
           dayOfWeek={todayDayOfWeek}
@@ -117,8 +117,8 @@ export default function RedesignedMobilePlanner({
       {daysToRender.map((day) => (
         <RedesignedDayCard
           key={day}
-          placingRecipe={placingRecipe}
-          onPlaceMeal={onPlaceMeal}
+          {...(placingRecipe !== undefined ? { placingRecipe } : {})}
+          {...(onPlaceMeal ? { onPlaceMeal } : {})}
           showSnacks={showSnacks}
           variant="day"
           dayOfWeek={day}

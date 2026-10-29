@@ -19,11 +19,11 @@ export const LEGACY_STORAGE_KEY = "alchm-recipe-favorites";
 export interface FavoriteRecipeMetadata {
   id: string;
   name: string;
-  cuisine?: string | undefined;
+  cuisine?: string;
   ingredients: string[];
   likedIngredients: string[];
-  elementalProfile?: Record<string, number> | undefined;
-  notes?: string | undefined;
+  elementalProfile?: Record<string, number>;
+  notes?: string;
   favoritedAt: string;
 }
 
@@ -85,12 +85,12 @@ export function saveStoredFavoriteRecipesData(data: Record<string, FavoriteRecip
 export async function toggleFavoriteRecipeApi(recipe: {
   id: string;
   name: string;
-  cuisine?: string | undefined;
-  ingredients?: string[] | undefined;
-  likedIngredients?: string[] | undefined;
-  elementalProfile?: Record<string, number> | undefined;
-  notes?: string | undefined;
-  isFavorite?: boolean | undefined;
+  cuisine?: string;
+  ingredients?: string[];
+  likedIngredients?: string[];
+  elementalProfile?: Record<string, number>;
+  notes?: string;
+  isFavorite?: boolean;
 }): Promise<boolean> {
   const currentIds = getStoredFavoriteRecipeIds();
   const currentData = getStoredFavoriteRecipesData();
@@ -106,15 +106,18 @@ export async function toggleFavoriteRecipeApi(recipe: {
 
   if (willFavorite) {
     nextIds = Array.from(new Set([...currentIds, recipe.id]));
+    const cuisineVal = recipe.cuisine ?? nextData[recipe.id]?.cuisine;
+    const elemVal = recipe.elementalProfile ?? nextData[recipe.id]?.elementalProfile;
+    const notesVal = recipe.notes ?? nextData[recipe.id]?.notes;
     nextData[recipe.id] = {
       id: recipe.id,
       name: recipe.name,
-      cuisine: recipe.cuisine,
       ingredients: recipe.ingredients ?? nextData[recipe.id]?.ingredients ?? [],
       likedIngredients: recipe.likedIngredients ?? nextData[recipe.id]?.likedIngredients ?? [],
-      elementalProfile: recipe.elementalProfile ?? nextData[recipe.id]?.elementalProfile,
-      notes: recipe.notes ?? nextData[recipe.id]?.notes,
       favoritedAt: new Date().toISOString(),
+      ...(cuisineVal !== undefined ? { cuisine: cuisineVal } : {}),
+      ...(elemVal !== undefined ? { elementalProfile: elemVal } : {}),
+      ...(notesVal !== undefined ? { notes: notesVal } : {}),
     };
   } else {
     nextIds = currentIds.filter((id) => id !== recipe.id);
@@ -205,12 +208,12 @@ export function useFavoriteRecipes() {
     async (recipe: {
       id: string;
       name: string;
-      cuisine?: string | undefined;
-      ingredients?: string[] | undefined;
-      likedIngredients?: string[] | undefined;
-      elementalProfile?: Record<string, number> | undefined;
-      notes?: string | undefined;
-      isFavorite?: boolean | undefined;
+      cuisine?: string;
+      ingredients?: string[];
+      likedIngredients?: string[];
+      elementalProfile?: Record<string, number>;
+      notes?: string;
+      isFavorite?: boolean;
     }) => {
       const result = await toggleFavoriteRecipeApi(recipe);
       reloadLocal();
@@ -224,22 +227,25 @@ export function useFavoriteRecipes() {
       recipeId: string,
       likedIngredients: string[],
       recipeMeta?: {
-        name?: string | undefined;
-        cuisine?: string | undefined;
-        ingredients?: string[] | undefined;
-      } | undefined,
+        name?: string;
+        cuisine?: string;
+        ingredients?: string[];
+      },
     ) => {
       const currentData = getStoredFavoriteRecipesData();
       const existing = currentData[recipeId];
+      const cuisineVal = existing?.cuisine || recipeMeta?.cuisine;
+      const elemVal = existing?.elementalProfile;
+      const notesVal = existing?.notes;
       const updatedItem: FavoriteRecipeMetadata = {
         id: recipeId,
         name: existing?.name || recipeMeta?.name || "Recipe",
-        cuisine: existing?.cuisine || recipeMeta?.cuisine,
         ingredients: existing?.ingredients || recipeMeta?.ingredients || [],
         likedIngredients,
-        elementalProfile: existing?.elementalProfile,
-        notes: existing?.notes,
         favoritedAt: existing?.favoritedAt || new Date().toISOString(),
+        ...(cuisineVal !== undefined ? { cuisine: cuisineVal } : {}),
+        ...(elemVal !== undefined ? { elementalProfile: elemVal } : {}),
+        ...(notesVal !== undefined ? { notes: notesVal } : {}),
       };
 
       currentData[recipeId] = updatedItem;

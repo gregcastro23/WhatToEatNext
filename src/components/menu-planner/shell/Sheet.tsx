@@ -36,10 +36,13 @@ export default function Sheet({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50 backdrop-blur-[2px] data-[state=open]:animate-fade-in" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-[80] bg-black/50 backdrop-blur-[2px] data-[state=open]:animate-fade-in" />
         <DialogPrimitive.Content
           onOpenAutoFocus={() => {
-            if (document.activeElement instanceof HTMLElement && document.activeElement !== document.body) {
+            if (
+              document.activeElement instanceof HTMLElement &&
+              document.activeElement !== document.body
+            ) {
               openerRef.current = document.activeElement;
             }
           }}
@@ -48,11 +51,15 @@ export default function Sheet({
             const opener = openerRef.current;
             // A handoff may already have focused another dialog. Restore only
             // when closing has left focus on the document itself.
-            window.requestAnimationFrame(() => {
-              if (opener?.isConnected && document.activeElement === document.body) opener.focus();
+            queueMicrotask(() => {
+              if (
+                opener?.isConnected &&
+                document.activeElement === document.body
+              )
+                opener.focus();
             });
           }}
-          className={`lab fixed inset-y-0 right-0 z-50 flex w-full ${width} flex-col border-l border-muted bg-surface shadow-2xl focus:outline-none data-[state=open]:animate-slide-in-right`}
+          className={`alchm-root fixed inset-y-0 right-0 z-[80] flex w-full ${width} flex-col border-l border-muted bg-surface shadow-2xl focus:outline-none data-[state=open]:animate-slide-in-right`}
           {...(description ? {} : { "aria-describedby": undefined })}
         >
           <div className="flex items-start justify-between gap-4 border-b border-muted px-5 py-4">
@@ -73,7 +80,9 @@ export default function Sheet({
               <X className="h-5 w-5" aria-hidden />
             </DialogPrimitive.Close>
           </div>
-          <div className={`flex-1 overflow-y-auto ${contentClassName}`}>{children}</div>
+          <div className={`flex-1 overflow-y-auto ${contentClassName}`}>
+            {children}
+          </div>
           {footer && (
             <div className="border-t border-muted bg-surface-container-lowest/80 px-5 py-3">
               {footer}

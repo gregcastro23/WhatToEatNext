@@ -211,26 +211,25 @@ export default function BoardSlot({
   const kcal = slotKcal(slot);
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- drag is optional; child buttons provide keyboard details and copy/move actions
     <div
       {...dropHandlers}
       role="group"
       aria-label={where}
-      draggable
-      onDragStart={(e) => {
-        e.dataTransfer.effectAllowed = "move";
-        e.dataTransfer.setData(
-          "application/json",
-          JSON.stringify({ type: "meal-slot", slotId: slot.id }),
-        );
-      }}
-      className={`${base} overflow-hidden border-muted bg-surface-container-low/70 hover:border-active-violet/40 hover:bg-surface-container-low cursor-grab active:cursor-grabbing`}
+      className={`${base} overflow-hidden border-muted bg-surface-container-low/70 hover:border-active-violet/40 hover:bg-surface-container-low`}
     >
       <button
         type="button"
+        draggable
+        onDragStart={(e) => {
+          e.dataTransfer.effectAllowed = "move";
+          e.dataTransfer.setData(
+            "application/json",
+            JSON.stringify({ type: "meal-slot", slotId: slot.id }),
+          );
+        }}
         onClick={onOpen}
         aria-label={`${name}, ${where}. Open details`}
-        className="flex h-full w-full flex-col text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-active-violet rounded-xl"
+        className="flex h-full w-full flex-col text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-active-violet rounded-xl cursor-grab active:cursor-grabbing"
       >
         {img ? (
           // eslint-disable-next-line @next/next/no-img-element

@@ -10,18 +10,13 @@
 import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useState } from "react";
 import { useToast } from "@/components/common/Toast";
-import SaveTemplateModal from "@/components/menu-planner/modals/SaveTemplateModal";
-import ShareMenuModal from "@/components/menu-planner/modals/ShareMenuModal";
 import PlannerHeader, { type PlannerSyncInfo } from "@/components/menu-planner/shell/PlannerHeader";
+import ResponsivePlannerRail from "@/components/menu-planner/shell/ResponsivePlannerRail";
 import {
   PlannerUIProvider,
   usePlannerUI,
 } from "@/components/menu-planner/shell/PlannerUIContext";
-import PlannerUndoToast from "@/components/menu-planner/shell/PlannerUndoToast";
-import PlanSettingsDrawer from "@/components/menu-planner/shell/PlanSettingsDrawer";
-import ResponsivePlannerRail from "@/components/menu-planner/shell/ResponsivePlannerRail";
 import { ALL_MEAL_TYPES, MAIN_MEAL_TYPES, usePlanActions } from "@/components/menu-planner/shell/usePlanActions";
-import WeekSummaryStrip from "@/components/menu-planner/shell/WeekSummaryStrip";
 import {
   MenuPlannerProvider,
   useMenuPlanner,
@@ -33,7 +28,7 @@ import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import { useRecipeRefResolver } from "@/hooks/useRecipeRefResolver";
 import { useSpacetimePlannerSync } from "@/hooks/useSpacetimePlannerSync";
 
-// Lazy-loaded modals and calendar per master architecture
+// Lazy-loaded modals, drawers and calendar per master architecture
 const WeeklyCalendar = dynamic(
   () => import("@/components/menu-planner/WeeklyCalendar"),
   {
@@ -48,6 +43,21 @@ const NutritionalDashboard = dynamic(
 );
 const RecipeDetailModal = dynamic(
   () => import("@/components/menu-planner/RecipeDetailModal"),
+);
+const SaveTemplateModal = dynamic(
+  () => import("@/components/menu-planner/modals/SaveTemplateModal"),
+);
+const ShareMenuModal = dynamic(
+  () => import("@/components/menu-planner/modals/ShareMenuModal"),
+);
+const PlanSettingsDrawer = dynamic(
+  () => import("@/components/menu-planner/shell/PlanSettingsDrawer"),
+);
+const WeekSummaryStrip = dynamic(
+  () => import("@/components/menu-planner/shell/WeekSummaryStrip"),
+);
+const PlannerUndoToast = dynamic(
+  () => import("@/components/menu-planner/shell/PlannerUndoToast"),
 );
 
 /**

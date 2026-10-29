@@ -337,15 +337,8 @@ export default function MealDetailSheet({
           {...(recipe.elementalProperties !== undefined
             ? { recipeElementalProperties: recipe.elementalProperties }
             : {})}
-          {...(recipe.alchemicalProperties
-            ? {
-                recipeAlchemicalProperties: {
-                  Spirit: recipe.alchemicalProperties.heat ?? 0,
-                  Essence: recipe.alchemicalProperties.reactivity ?? 0,
-                  Matter: recipe.alchemicalProperties.stability ?? 0,
-                  Substance: recipe.alchemicalProperties.entropy ?? 0,
-                },
-              }
+          {...(recipe.mappedAlchemy
+            ? { recipeAlchemicalProperties: recipe.mappedAlchemy }
             : {})}
         />
       )}

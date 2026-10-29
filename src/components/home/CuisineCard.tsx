@@ -143,10 +143,10 @@ export interface DynamicCuisineRecommendation {
 interface CuisineCardProps {
   cuisine: DynamicCuisineRecommendation;
   rank: number;
-  compact?: boolean | undefined;
-  selectedCuisine?: string | null | undefined;
-  onSelectCuisine?: ((cuisineName: string | null) => void) | undefined;
-  onDoubleClickCuisine?: OnDoubleClickCuisine | undefined;
+  compact?: boolean;
+  selectedCuisine?: string | null;
+  onSelectCuisine?: (cuisineName: string | null) => void;
+  onDoubleClickCuisine?: OnDoubleClickCuisine;
 }
 
 export function CuisineCard({

@@ -398,10 +398,10 @@ export function alchemizeRawItems(
  */
 export async function getOrAlchemizeRestaurantMenu(options: {
   restaurantId: string;
-  restaurantName?: string | undefined;
-  url?: string | undefined;
-  menuText?: string | undefined;
-  forceRefresh?: boolean | undefined;
+  restaurantName?: string;
+  url?: string;
+  menuText?: string;
+  forceRefresh?: boolean;
 }): Promise<AlchemizedRestaurantMenu> {
   const { restaurantId, url, menuText, forceRefresh } = options;
 

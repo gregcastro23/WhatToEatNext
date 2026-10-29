@@ -744,7 +744,7 @@ export function RestaurantDiscovery({
             id: ratingDishItem.business.id,
             name: ratingDishItem.business.name,
             cuisine: cuisineType,
-            address: ratingDishItem.address,
+            ...(ratingDishItem.address ? { address: ratingDishItem.address } : {}),
           }}
           onClose={() => setRatingDishItem(null)}
         />
@@ -758,7 +758,7 @@ export function RestaurantDiscovery({
               alchemizeModalItem.business.id,
             name: alchemizeModalItem.business.name,
             cuisine: alchemizeModalItem.cuisineLabel || cuisineType,
-            source: status.kind === "ready" ? status.data.source : undefined,
+            ...(status.kind === "ready" && status.data.source ? { source: status.data.source } : {}),
           }}
           onClose={() => setAlchemizeModalItem(null)}
         />

@@ -8,7 +8,7 @@
  * @created 2026-01-28 (Session 7)
  */
 
-import { Clock, LoaderCircle, Plus, Search, X } from "lucide-react";
+import { Clock, GripVertical, LoaderCircle, Plus, Search, X } from "lucide-react";
 import Link from "next/link";
 import React, {
   useState,
@@ -619,18 +619,8 @@ function BrowserRecipeCard({
   const calories = roundedCalories(recipe.nutrition?.calories);
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- drag source; the card's buttons carry the keyboard actions
     <div
-      draggable
-      onDragStart={(e) => {
-        // Same wire format as RecipeQueue so board slots accept the drop.
-        e.dataTransfer.effectAllowed = "copy";
-        e.dataTransfer.setData(
-          "application/json",
-          JSON.stringify({ type: "queue-recipe", recipe }),
-        );
-      }}
-      className="relative p-3 rounded-lg border border-muted bg-surface/50 hover:border-active-violet/60 transition-colors duration-200 cursor-grab active:cursor-grabbing group"
+      className="relative p-3 rounded-lg border border-muted bg-surface/50 hover:border-active-violet/60 transition-colors duration-200 group"
       onPointerEnter={() => setShowPreview(true)}
       onPointerLeave={() => setShowPreview(false)}
       onFocusCapture={() => setShowPreview(true)}
@@ -642,7 +632,23 @@ function BrowserRecipeCard({
     >
       {/* Top row: name + favorite */}
       <div className="flex items-start justify-between gap-2">
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 flex items-center gap-1.5">
+          <button
+            type="button"
+            draggable
+            aria-label={`Drag ${recipe.name} to calendar`}
+            onDragStart={(e) => {
+              // Same wire format as RecipeQueue so board slots accept the drop.
+              e.dataTransfer.effectAllowed = "copy";
+              e.dataTransfer.setData(
+                "application/json",
+                JSON.stringify({ type: "queue-recipe", recipe }),
+              );
+            }}
+            className="text-on-surface-variant/40 hover:text-active-violet cursor-grab active:cursor-grabbing p-0.5 rounded shrink-0"
+          >
+            <GripVertical className="h-3.5 w-3.5" aria-hidden />
+          </button>
           <h3 className="font-semibold font-headline-md text-primary text-sm line-clamp-1">
             <Link
               href={`/recipes/${recipe.id}`}

@@ -73,10 +73,10 @@ export function useRecipeCollections() {
     (
       recipeId: string,
       recipeMeta?: {
-        name?: string | undefined;
-        cuisine?: string | undefined;
-        ingredients?: string[] | undefined;
-      } | undefined,
+        name?: string;
+        cuisine?: string;
+        ingredients?: string[];
+      },
     ) => {
     setFavoriteIds((prev) => {
       const isRemoving = prev.includes(recipeId);

@@ -24,11 +24,11 @@ export interface RateDishModalProps {
   restaurant: {
     id: string;
     name: string;
-    cuisine?: string | undefined;
-    address?: string | undefined;
+    cuisine?: string;
+    address?: string;
   };
-  initialDishName?: string | undefined;
-  orderId?: string | undefined;
+  initialDishName?: string;
+  orderId?: string;
   onClose: () => void;
   onSuccess?: () => void;
 }
@@ -40,9 +40,9 @@ interface CommunityReview {
   rating: number;
   comment: string | null;
   mood_tags: string[];
-  liked_ingredients?: string[] | null | undefined;
-  dish_features?: string[] | null | undefined;
-  elemental_resonance?: string | null | undefined;
+  liked_ingredients?: string[] | null;
+  dish_features?: string[] | null;
+  elemental_resonance?: string | null;
   would_eat_again: boolean | null;
   created_at: string;
 }

@@ -11,7 +11,10 @@ import { getCuisineProfile } from "@/data/cuisineFlavorProfiles";
 import { z } from "zod";
 import { readJson } from "@/lib/api/json";
 import { executeQuery } from "@/lib/database/connection";
-import { GooglePlacesResponseSchema } from "@/lib/validation/serviceResponseSchemas";
+import {
+  GooglePlacesResponseSchema,
+  GooglePlaceRawSchema,
+} from "@/lib/validation/serviceResponseSchemas";
 import { scoreCuisineAgainstMoment } from "@/services/restaurantScoring";
 import {
   tripadvisorService,
@@ -49,12 +52,24 @@ export interface DiscoverInput {
   cuisine: string;
   latitude: number;
   longitude: number;
-  lat?: number | undefined;
-  lng?: number | undefined;
+  lat?: number;
+  lng?: number;
   radiusMeters?: number;
   limit?: number;
-  userId?: string | undefined;
-  favoriteIds?: string[] | undefined;
+  userId?: string;
+  favoriteIds?: string[];
+}
+
+interface ResolvedDiscoverInput {
+  cuisine: string;
+  latitude: number;
+  longitude: number;
+  lat: number;
+  lng: number;
+  radiusMeters: number;
+  limit: number;
+  userId?: string;
+  favoriteIds?: string[];
 }
 
 const NominatimResponseSchema = z.array(
@@ -83,12 +98,12 @@ interface NormalizedRestaurant {
   name: string;
   address: string;
   rating: number;
-  imageUrl?: string | undefined;
+  imageUrl?: string;
   business: YelpBusiness;
-  cuisineLabel?: string | undefined;
-  primaryType?: string | undefined;
+  cuisineLabel?: string;
+  primaryType?: string;
   /** Tripadvisor rating-bubble image URL (must be shown per TA terms). */
-  ratingImageUrl?: string | undefined;
+  ratingImageUrl?: string;
 }
 
 // ─── Constants ─────────────────────────────────────────────────────────────
@@ -336,19 +351,7 @@ function clampLimit(limit: number | undefined): number {
 
 // ─── Google Places provider ────────────────────────────────────────────────
 
-interface GooglePlaceRaw {
-  id?: string | undefined;
-  displayName?: { text?: string | undefined } | undefined;
-  formattedAddress?: string | undefined;
-  rating?: number | undefined;
-  userRatingCount?: number | undefined;
-  priceLevel?: string | undefined;
-  photos?: Array<{ name?: string | undefined }> | undefined;
-  primaryType?: string | undefined;
-  primaryTypeDisplayName?: { text?: string | undefined } | undefined;
-  types?: string[] | undefined;
-  location?: { latitude?: number | undefined; longitude?: number | undefined } | undefined;
-}
+type GooglePlaceRaw = z.infer<typeof GooglePlaceRawSchema>;
 
 function deriveCuisineLabel(raw: GooglePlaceRaw): string | undefined {
   if (raw.primaryType && PLACE_TYPE_TO_CUISINE[raw.primaryType]) {
@@ -397,20 +400,20 @@ function normalizeGooglePlace(raw: GooglePlaceRaw): NormalizedRestaurant | null 
     is_closed: false,
   };
 
+  const cuisineLabel = deriveCuisineLabel(raw);
   return {
     externalId,
     name,
     address,
     rating: business.rating,
-    imageUrl: undefined,
     business,
-    cuisineLabel: deriveCuisineLabel(raw),
-    primaryType: raw.primaryType,
+    ...(cuisineLabel ? { cuisineLabel } : {}),
+    ...(raw.primaryType ? { primaryType: raw.primaryType } : {}),
   };
 }
 
 async function googleNearby(
-  input: Required<DiscoverInput>,
+  input: ResolvedDiscoverInput,
   openNow = false,
 ): Promise<
   | { ok: true; restaurants: NormalizedRestaurant[]; sourceNotice?: string }
@@ -551,18 +554,19 @@ function normalizeFoursquare(
     is_closed: false,
   };
 
+  const cuisineLabel = place.categories?.[0]?.name;
   return {
     externalId: place.fsq_id,
     name: place.name,
     address: place.location?.formatted_address ?? "",
     rating: business.rating,
     business,
-    cuisineLabel: place.categories?.[0]?.name,
+    ...(cuisineLabel ? { cuisineLabel } : {}),
   };
 }
 
 async function foursquareNearby(
-  input: Required<DiscoverInput>,
+  input: ResolvedDiscoverInput,
 ): Promise<NormalizedRestaurant[] | null> {
   const apiKey = process.env.FOURSQUARE_API_KEY?.trim();
   if (!apiKey) return null;
@@ -710,7 +714,7 @@ async function throttleNominatim(): Promise<void> {
 }
 
 async function nominatimNearby(
-  input: Required<DiscoverInput>,
+  input: ResolvedDiscoverInput,
 ): Promise<{ restaurants: NormalizedRestaurant[]; relaxed: boolean } | null> {
   const cacheKey = `${input.latitude.toFixed(2)}:${input.longitude.toFixed(2)}:${(input.cuisine ?? "").trim().toLowerCase()}:${input.limit}`;
   const cached = nominatimCache.get(cacheKey);
@@ -808,7 +812,7 @@ export {
 type CuratedTemplate = CuratedRestaurantTemplate;
 
 function curatedNearby(
-  input: Required<DiscoverInput>,
+  input: ResolvedDiscoverInput,
 ): NormalizedRestaurant[] {
   const targetCuisine = input.cuisine.trim().toLowerCase();
   let matches = CURATED_RESTAURANTS.filter((r) =>
@@ -1029,7 +1033,14 @@ function normalizeOsm(el: OverpassElement): NormalizedRestaurant | null {
     is_closed: false,
   };
 
-  return { externalId, name, address, rating: 0, business, cuisineLabel };
+  return {
+    externalId,
+    name,
+    address,
+    rating: 0,
+    business,
+    ...(cuisineLabel ? { cuisineLabel } : {}),
+  };
 }
 
 /**
@@ -1039,7 +1050,7 @@ function normalizeOsm(el: OverpassElement): NormalizedRestaurant | null {
  * hard provider failure (network/both mirrors down).
  */
 async function osmNearby(
-  input: Required<DiscoverInput>,
+  input: ResolvedDiscoverInput,
 ): Promise<{ restaurants: NormalizedRestaurant[]; relaxed: boolean } | null> {
   const radius = Math.min(Math.max(input.radiusMeters, 100), 20000);
   const limit = Math.min(Math.max(input.limit, 1), 30);
@@ -1116,8 +1127,8 @@ function normalizeTripadvisor(d: TripadvisorDetails): NormalizedRestaurant {
     address: d.addressString ?? "",
     rating: d.rating ?? 0,
     business,
-    cuisineLabel,
-    ratingImageUrl: d.ratingImageUrl,
+    ...(cuisineLabel ? { cuisineLabel } : {}),
+    ...(d.ratingImageUrl ? { ratingImageUrl: d.ratingImageUrl } : {}),
   };
 }
 
@@ -1127,7 +1138,7 @@ function normalizeTripadvisor(d: TripadvisorDetails): NormalizedRestaurant {
  * through to Google/OSM). Never throws.
  */
 async function tripadvisorNearby(
-  input: Required<DiscoverInput>,
+  input: ResolvedDiscoverInput,
 ): Promise<NormalizedRestaurant[] | null> {
   if (!tripadvisorService.isConfigured()) return null;
 
@@ -1186,7 +1197,7 @@ async function loadPartners(
 export interface DishReviewStats {
   averageRating: number;
   reviewCount: number;
-  topDish?: string | undefined;
+  topDish?: string;
 }
 
 async function loadDishReviewStats(
@@ -1332,8 +1343,8 @@ export interface DiscoveryEnrichments {
 async function loadPartnersAndReviewStats(
   candidates: NormalizedRestaurant[],
   provider: RestaurantDiscoverySource,
-  userId?: string | undefined,
-  explicitFavorites?: string[] | undefined,
+  userId?: string,
+  explicitFavorites?: string[],
 ): Promise<DiscoveryEnrichments> {
   const externalIds = candidates.map((r) => r.externalId);
   const partners = await loadPartners(externalIds, provider);
@@ -1422,9 +1433,9 @@ function applyDiscoveryEnrichments(
   baseScore: number,
   baseReasons: string[],
   options: {
-    stats?: DishReviewStats | undefined;
-    isFavorite?: boolean | undefined;
-    isAlchemizedPartner?: boolean | undefined;
+    stats?: DishReviewStats;
+    isFavorite?: boolean;
+    isAlchemizedPartner?: boolean;
   },
 ): { score: number; reasons: string[] } {
   const { stats, isFavorite, isAlchemizedPartner } = options;
@@ -1451,10 +1462,10 @@ function applyDiscoveryEnrichments(
 interface AnnotateOptions {
   restaurant: NormalizedRestaurant;
   partner: PartnerRow | undefined;
-  reviewStats?: DishReviewStats | undefined;
-  isFavorite?: boolean | undefined;
-  commentCount?: number | undefined;
-  isAlchemizedPartner?: boolean | undefined;
+  reviewStats: DishReviewStats | undefined;
+  isFavorite: boolean;
+  commentCount: number;
+  isAlchemizedPartner: boolean;
   matchReasons: string[];
   cuisineElement: AlchmScoredRestaurant["cuisineElement"];
   dominantElement: AlchmScoredRestaurant["dominantElement"];
@@ -1490,7 +1501,7 @@ function annotateWithPartner(opts: AnnotateOptions): AlchmScoredRestaurant {
       scores.alchmScore ?? 0,
       initialReasons,
       {
-        stats: reviewStats,
+        ...(reviewStats ? { stats: reviewStats } : {}),
         isFavorite,
         isAlchemizedPartner,
       },
@@ -1501,16 +1512,12 @@ function annotateWithPartner(opts: AnnotateOptions): AlchmScoredRestaurant {
     name: restaurant.name,
     address: restaurant.address,
     rating: restaurant.rating,
-    imageUrl: restaurant.imageUrl,
+    ...(restaurant.imageUrl ? { imageUrl: restaurant.imageUrl } : {}),
     business: restaurant.business,
     isPartner,
-    partnerRestaurantId: isPartner ? partner?.internal_restaurant_id : undefined,
-    stripeConnectAccountId: isPartner
-      ? partner?.stripe_connect_account_id ?? undefined
-      : undefined,
-    deliverectLocationId: isPartner
-      ? partner?.deliverect_location_id ?? undefined
-      : undefined,
+    ...(isPartner && partner?.internal_restaurant_id ? { partnerRestaurantId: partner.internal_restaurant_id } : {}),
+    ...(isPartner && partner?.stripe_connect_account_id ? { stripeConnectAccountId: partner.stripe_connect_account_id } : {}),
+    ...(isPartner && partner?.deliverect_location_id ? { deliverectLocationId: partner.deliverect_location_id } : {}),
     alchmScore,
     elementalMatch: scores.elementalMatch ?? 0,
     planetaryAlignment: scores.planetaryAlignment ?? 0,
@@ -1518,10 +1525,10 @@ function annotateWithPartner(opts: AnnotateOptions): AlchmScoredRestaurant {
     dominantElement,
     matchReasons: finalReasons,
     cuisineElement,
-    cuisineLabel: restaurant.cuisineLabel,
-    primaryType: restaurant.primaryType,
-    ratingImageUrl: restaurant.ratingImageUrl,
-    dishReviewStats: reviewStats,
+    ...(restaurant.cuisineLabel ? { cuisineLabel: restaurant.cuisineLabel } : {}),
+    ...(restaurant.primaryType ? { primaryType: restaurant.primaryType } : {}),
+    ...(restaurant.ratingImageUrl ? { ratingImageUrl: restaurant.ratingImageUrl } : {}),
+    ...(reviewStats ? { dishReviewStats: reviewStats } : {}),
     isFavorite,
     commentCount: commentCount ?? 0,
     isAlchemizedPartner,
@@ -1531,7 +1538,7 @@ function annotateWithPartner(opts: AnnotateOptions): AlchmScoredRestaurant {
 // ─── Yelp scored discovery ────────────────────────────────────────────────
 
 async function yelpScored(
-  input: Required<DiscoverInput>,
+  input: ResolvedDiscoverInput,
   cosmic: CosmicComputation,
 ): Promise<AlchmScoredRestaurant[] | null> {
   if (!yelpService.isConfigured()) return null;
@@ -1556,7 +1563,7 @@ async function yelpScored(
 export async function discoverRestaurants(
   inputRaw: DiscoverInput,
 ): Promise<RestaurantSearchResponse> {
-  const input: Required<DiscoverInput> = {
+  const input: ResolvedDiscoverInput = {
     cuisine: text(inputRaw.cuisine),
     latitude:
       typeof inputRaw.latitude === "number"
@@ -1570,8 +1577,8 @@ export async function discoverRestaurants(
     lng: inputRaw.lng ?? 0,
     radiusMeters: clampRadius(inputRaw.radiusMeters),
     limit: clampLimit(inputRaw.limit),
-    userId: inputRaw.userId,
-    favoriteIds: inputRaw.favoriteIds,
+    ...(inputRaw.userId ? { userId: inputRaw.userId } : {}),
+    ...(inputRaw.favoriteIds ? { favoriteIds: inputRaw.favoriteIds } : {}),
   };
 
   const cosmic = buildAstrologicalState();
@@ -1705,7 +1712,7 @@ export async function discoverRestaurants(
           : entry.matchReasons;
         const { score: alchmScore, reasons: finalReasons } =
           applyDiscoveryEnrichments(entry.alchmScore, baseReasons, {
-            stats,
+            ...(stats ? { stats } : {}),
             isFavorite,
             isAlchemizedPartner,
           });
@@ -1714,11 +1721,11 @@ export async function discoverRestaurants(
           ...entry,
           alchmScore,
           isPartner,
-          partnerRestaurantId: isPartner ? partner?.internal_restaurant_id : undefined,
-          stripeConnectAccountId: isPartner ? partner?.stripe_connect_account_id ?? undefined : undefined,
-          deliverectLocationId: isPartner ? partner?.deliverect_location_id ?? undefined : undefined,
+          ...(isPartner && partner?.internal_restaurant_id ? { partnerRestaurantId: partner.internal_restaurant_id } : {}),
+          ...(isPartner && partner?.stripe_connect_account_id ? { stripeConnectAccountId: partner.stripe_connect_account_id } : {}),
+          ...(isPartner && partner?.deliverect_location_id ? { deliverectLocationId: partner.deliverect_location_id } : {}),
           matchReasons: finalReasons,
-          dishReviewStats: stats,
+          ...(stats ? { dishReviewStats: stats } : {}),
           isFavorite,
           commentCount,
           isAlchemizedPartner,
@@ -2041,15 +2048,16 @@ function withDistance(
 
 /** Normalize a native Yelp business into the shared NormalizedRestaurant shape. */
 function normalizeYelpBusiness(b: YelpBusiness): NormalizedRestaurant {
+  const cuisineLabel = b.categories[0]?.title;
   return {
     externalId: b.id,
     name: b.name,
     address:
       b.location.display_address.join(", ") || b.location.address1 || "",
     rating: b.rating,
-    imageUrl: b.image_url,
     business: b,
-    cuisineLabel: b.categories[0]?.title,
+    ...(b.image_url ? { imageUrl: b.image_url } : {}),
+    ...(cuisineLabel ? { cuisineLabel } : {}),
   };
 }
 
@@ -2058,10 +2066,10 @@ function finalizeScored(
   scored: AlchmScoredRestaurant,
   restaurant: NormalizedRestaurant,
   partner: PartnerRow | undefined,
-  reviewStats?: DishReviewStats | undefined,
-  isFavorite?: boolean | undefined,
-  commentCount?: number | undefined,
-  isAlchemizedPartner?: boolean | undefined,
+  reviewStats?: DishReviewStats,
+  isFavorite?: boolean,
+  commentCount?: number,
+  isAlchemizedPartner?: boolean,
 ): AlchmScoredRestaurant {
   const isPartner = Boolean(partner?.stripe_connect_account_id);
   const initialReasons = isPartner
@@ -2070,9 +2078,9 @@ function finalizeScored(
 
   const { score: alchmScore, reasons: finalReasons } =
     applyDiscoveryEnrichments(scored.alchmScore, initialReasons, {
-      stats: reviewStats,
-      isFavorite,
-      isAlchemizedPartner,
+      ...(reviewStats ? { stats: reviewStats } : {}),
+      ...(isFavorite !== undefined ? { isFavorite } : {}),
+      ...(isAlchemizedPartner !== undefined ? { isAlchemizedPartner } : {}),
     });
 
   return {
@@ -2081,24 +2089,20 @@ function finalizeScored(
     name: restaurant.name,
     address: restaurant.address,
     rating: restaurant.rating,
-    imageUrl: restaurant.imageUrl,
-    cuisineLabel: restaurant.cuisineLabel,
-    primaryType: restaurant.primaryType,
-    ratingImageUrl: restaurant.ratingImageUrl,
+    ...(restaurant.imageUrl ? { imageUrl: restaurant.imageUrl } : {}),
+    ...(restaurant.cuisineLabel ? { cuisineLabel: restaurant.cuisineLabel } : {}),
+    ...(restaurant.primaryType ? { primaryType: restaurant.primaryType } : {}),
+    ...(restaurant.ratingImageUrl ? { ratingImageUrl: restaurant.ratingImageUrl } : {}),
     isPartner,
-    partnerRestaurantId: isPartner ? partner?.internal_restaurant_id : undefined,
-    stripeConnectAccountId: isPartner
-      ? partner?.stripe_connect_account_id ?? undefined
-      : undefined,
-    deliverectLocationId: isPartner
-      ? partner?.deliverect_location_id ?? undefined
-      : undefined,
+    ...(isPartner && partner?.internal_restaurant_id ? { partnerRestaurantId: partner.internal_restaurant_id } : {}),
+    ...(isPartner && partner?.stripe_connect_account_id ? { stripeConnectAccountId: partner.stripe_connect_account_id } : {}),
+    ...(isPartner && partner?.deliverect_location_id ? { deliverectLocationId: partner.deliverect_location_id } : {}),
     alchmScore,
     matchReasons: finalReasons,
-    dishReviewStats: reviewStats,
-    isFavorite,
+    ...(reviewStats ? { dishReviewStats: reviewStats } : {}),
+    ...(isFavorite !== undefined ? { isFavorite } : {}),
     commentCount: commentCount ?? 0,
-    isAlchemizedPartner,
+    ...(isAlchemizedPartner !== undefined ? { isAlchemizedPartner } : {}),
   };
 }
 
@@ -2163,7 +2167,7 @@ function sortRestaurants(
  * so the caller can apply uniform cosmic scoring across every provider.
  */
 async function gatherBestMatchCandidates(
-  input: Required<DiscoverInput>,
+  input: ResolvedDiscoverInput,
   openNow: boolean,
 ): Promise<{
   candidates: NormalizedRestaurant[];
@@ -2173,7 +2177,7 @@ async function gatherBestMatchCandidates(
    *  distinct from `notices`, which records earlier providers that were tried
    *  and superseded. Only this should reach users once results are found;
    *  `notices` is diagnostic and is only surfaced when nothing worked at all. */
-  resultNotice?: string | undefined;
+  resultNotice?: string;
 }> {
   const notices: string[] = [];
 
@@ -2221,7 +2225,12 @@ async function gatherBestMatchCandidates(
       nom.relaxed && input.cuisine
         ? `No ${input.cuisine} spots tagged in immediate area — showing nearby restaurants ranked by ${input.cuisine} fit.`
         : undefined;
-    return { candidates: nom.restaurants, source: "osm", notices, resultNotice };
+    return {
+      candidates: nom.restaurants,
+      source: "osm",
+      notices,
+      ...(resultNotice ? { resultNotice } : {}),
+    };
   }
 
   // 3b. OpenStreetMap / Overpass (keyless — secondary live source).
@@ -2231,7 +2240,12 @@ async function gatherBestMatchCandidates(
       osm.relaxed && input.cuisine
         ? `No ${input.cuisine} spots tagged nearby — showing nearby restaurants ranked by ${input.cuisine} fit.`
         : undefined;
-    return { candidates: osm.restaurants, source: "osm", notices, resultNotice };
+    return {
+      candidates: osm.restaurants,
+      source: "osm",
+      notices,
+      ...(resultNotice ? { resultNotice } : {}),
+    };
   }
   if (osm === null) notices.push("OpenStreetMap was unavailable.");
 
@@ -2262,7 +2276,7 @@ async function gatherBestMatchCandidates(
 export async function bestMatchRestaurants(
   inputRaw: BestMatchInput,
 ): Promise<RestaurantSearchResponse> {
-  const input: Required<DiscoverInput> = {
+  const input: ResolvedDiscoverInput = {
     cuisine: text(inputRaw.cuisine),
     latitude:
       typeof inputRaw.latitude === "number"
@@ -2276,8 +2290,8 @@ export async function bestMatchRestaurants(
     lng: inputRaw.lng ?? 0,
     radiusMeters: clampRadius(inputRaw.radiusMeters),
     limit: clampLimit(inputRaw.limit),
-    userId: inputRaw.userId,
-    favoriteIds: inputRaw.favoriteIds,
+    ...(inputRaw.userId ? { userId: inputRaw.userId } : {}),
+    ...(inputRaw.favoriteIds ? { favoriteIds: inputRaw.favoriteIds } : {}),
   };
   const sort: BestMatchSort = inputRaw.sort ?? "match";
   const openNow = inputRaw.openNow === true;
