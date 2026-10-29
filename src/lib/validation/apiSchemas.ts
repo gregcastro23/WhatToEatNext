@@ -1500,6 +1500,94 @@ export const AdminSendTestEmailRequestSchema = z.object({
 });
 export type AdminSendTestEmailRequest = z.infer<typeof AdminSendTestEmailRequestSchema>;
 
+// ─── Restaurant Dish Rating & Comment Schema ───────────────────────────────
+
+export const RestaurantDishRatingSchema = z.object({
+  restaurantId: z.string().min(1, "Restaurant ID is required"),
+  restaurantName: z.string().min(1, "Restaurant name is required"),
+  dishName: z.string().min(1, "Dish name is required").max(120),
+  rating: z.number().min(0.5).max(5),
+  comment: z.string().max(1000).optional(),
+  moodTags: z.array(z.string()).optional(),
+  wouldEatAgain: z.boolean().optional(),
+  addToDiary: z.boolean().optional(),
+  orderId: z.string().optional(),
+  likedIngredients: z.array(z.string().trim()).max(20).optional(),
+  dishFeatures: z.array(z.string().trim()).max(10).optional(),
+  elementalResonance: z.string().trim().max(100).optional(),
+});
+export type RestaurantDishRating = z.infer<typeof RestaurantDishRatingSchema>;
+
+// ─── Restaurant Favorites, Comments & Alchemize Opt-In Schemas ───────────────
+
+export const ToggleFavoriteRestaurantSchema = z.object({
+  restaurantId: z.string().min(1, "Restaurant ID is required"),
+  restaurantName: z.string().min(1, "Restaurant name is required"),
+  cuisine: z.string().optional(),
+  source: z.string().optional(),
+  notes: z.string().max(1000).optional(),
+  favoriteDishes: z.array(z.string()).optional(),
+  isFavorite: z.boolean().optional(),
+});
+export type ToggleFavoriteRestaurant = z.infer<typeof ToggleFavoriteRestaurantSchema>;
+
+export const DeleteFavoriteRestaurantSchema = z.object({
+  restaurantId: z.string().min(1, "Restaurant ID is required"),
+});
+export type DeleteFavoriteRestaurant = z.infer<typeof DeleteFavoriteRestaurantSchema>;
+
+export const CreateRestaurantCommentSchema = z.object({
+  restaurantId: z.string().min(1, "Restaurant ID is required"),
+  menuItemId: z.string().optional(),
+  dishName: z.string().max(120).optional(),
+  comment: z.string().min(1, "Comment cannot be empty").max(1000),
+  userDisplayName: z.string().max(60).optional(),
+  elementalNote: z.string().max(200).optional(),
+  likedIngredients: z.array(z.string().trim()).max(20).optional(),
+  dishFeatures: z.array(z.string().trim()).max(10).optional(),
+  textureNotes: z.array(z.string().trim()).max(10).optional(),
+  elementalResonance: z.string().trim().max(100).optional(),
+});
+export type CreateRestaurantComment = z.infer<typeof CreateRestaurantCommentSchema>;
+
+export const RestaurantAlchemizeOptInSchema = z.object({
+  restaurantId: z.string().min(1, "Restaurant ID is required"),
+  restaurantName: z.string().min(1, "Restaurant name is required"),
+  contactEmail: z.string().email("Valid email is required"),
+  role: z.enum(["owner", "chef", "diner_nomination"]),
+  signatureDishesToAlchemize: z.array(z.string().min(1)).optional().default([]),
+  recipeNotes: z.string().max(2000).optional(),
+});
+export type RestaurantAlchemizeOptIn = z.infer<typeof RestaurantAlchemizeOptInSchema>;
+
+export const AlchemizeRestaurantMenuSchema = z.object({
+  restaurantId: z.string().trim().min(1, "Restaurant ID is required"),
+  restaurantName: z.string().trim().optional(),
+  url: z.string().url("Valid URL required").optional(),
+  menuText: z.string().optional(),
+  refresh: z.boolean().optional(),
+});
+export type AlchemizeRestaurantMenu = z.infer<typeof AlchemizeRestaurantMenuSchema>;
+
+// ─── Favorite Recipes & Tracked Ingredients Schemas ─────────────────────────
+
+export const ToggleFavoriteRecipeSchema = z.object({
+  recipeId: z.string().min(1, "Recipe ID is required"),
+  recipeName: z.string().min(1, "Recipe name is required"),
+  cuisine: z.string().optional(),
+  ingredients: z.array(z.string().trim()).optional().default([]),
+  likedIngredients: z.array(z.string().trim()).optional().default([]),
+  elementalProfile: z.record(z.string(), z.number()).optional(),
+  notes: z.string().max(1000).optional(),
+  isFavorite: z.boolean().optional(),
+});
+export type ToggleFavoriteRecipe = z.infer<typeof ToggleFavoriteRecipeSchema>;
+
+export const DeleteFavoriteRecipeSchema = z.object({
+  recipeId: z.string().min(1, "Recipe ID is required"),
+});
+export type DeleteFavoriteRecipe = z.infer<typeof DeleteFavoriteRecipeSchema>;
+
 // ─── Helper: extract cooking methods normalised to string[] ──────────────────
 // Replaces the `as unknown as Record<string, unknown>` dance in route handlers.
 

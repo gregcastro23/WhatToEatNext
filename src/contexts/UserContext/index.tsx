@@ -10,6 +10,11 @@ import React, {
   useRef,
   type ReactNode,
 } from "react";
+import { readJson } from "@/lib/api/json";
+import {
+  ServerProfileResponseSchema,
+  type ServerProfileDataWire,
+} from "@/lib/validation/userProfileResponseSchemas";
 import type {
   BirthData,
   NatalChart,
@@ -19,11 +24,6 @@ import type {
 } from "@/types/natalChart";
 import { calculateAlchemicalProfile } from "@/utils/astrology/natalAlchemy";
 import { logger } from "@/utils/logger";
-import { readJson } from "@/lib/api/json";
-import {
-  ServerProfileResponseSchema,
-  type ServerProfileDataWire,
-} from "@/lib/validation/userProfileResponseSchemas";
 
 // Define the user's alchemical constitution
 interface AlchemicalProfile {
@@ -492,6 +492,8 @@ export const useUser = (): UserContextType => {
   }
   return context;
 };
+
+export const useOptionalUser = (): UserContextType | null => useContext(UserContext);
 
 // Export types for use in other modules
 export type { UserProfile, AlchemicalProfile };

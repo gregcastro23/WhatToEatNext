@@ -15,6 +15,9 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AddToDiaryModal } from "@/components/food-diary/AddToDiaryModal";
+import { AlchemizeOptInModal } from "@/components/RestaurantDiscovery/AlchemizeOptInModal";
+import { useFavoriteRestaurants } from "@/components/RestaurantDiscovery/favoriteRestaurants";
+import { RateDishModal } from "@/components/RestaurantDiscovery/RateDishModal";
 import { ReservationModal } from "@/components/RestaurantDiscovery/ReservationModal";
 import {
   capitalize,
@@ -186,6 +189,14 @@ export function BestMatchExplorer({
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const [loggingItem, setLoggingItem] = useState<AlchmScoredRestaurant | null>(null);
   const [reservingItem, setReservingItem] = useState<AlchmScoredRestaurant | null>(null);
+  const [ratingDishItem, setRatingDishItem] = useState<{
+    restaurant: AlchmScoredRestaurant;
+    dishName?: string;
+  } | null>(null);
+  const [alchemizeModalItem, setAlchemizeModalItem] = useState<AlchmScoredRestaurant | null>(null);
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
+
+  const { isFavorite, toggleFavorite, favoriteIds } = useFavoriteRestaurants();
 
   // ── Saved restaurants (hydrate from profile + localStorage) ──
   useEffect(() => {
@@ -279,6 +290,7 @@ export function BestMatchExplorer({
           radius: String(Math.round(radiusMi * MI_TO_M)),
         });
         if (openNow) params.set("openNow", "true");
+        if (favoriteIds.length > 0) params.set("favorites", favoriteIds.join(","));
 
         const res = await fetch(`/api/restaurants/best-match?${params.toString()}`, {
           signal: controller.signal,
@@ -396,8 +408,14 @@ export function BestMatchExplorer({
 
   const ranked = useMemo(() => {
     if (status.kind !== "ready") return [];
-    return sortRestaurants(status.data.restaurants, sort);
-  }, [status, sort]);
+    const sorted = sortRestaurants(status.data.restaurants, sort);
+    if (!favoritesOnly) return sorted;
+    return sorted.filter(
+      (r) =>
+        isFavorite(r.business.id) ||
+        (r.partnerRestaurantId && isFavorite(r.partnerRestaurantId)),
+    );
+  }, [status, sort, favoritesOnly, isFavorite]);
 
   const cosmicLine = useMemo(() => {
     if (status.kind !== "ready" && status.kind !== "empty") return null;
@@ -652,6 +670,18 @@ export function BestMatchExplorer({
             >
               <span aria-hidden>{openNow ? "🟢" : "○"}</span> Open now
             </button>
+            <button
+              type="button"
+              onClick={() => setFavoritesOnly((v) => !v)}
+              aria-pressed={favoritesOnly}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-black uppercase tracking-wider transition-all ${
+                favoritesOnly
+                  ? "border-rose-400/40 bg-rose-500/15 text-rose-200"
+                  : "border-white/10 bg-white/5 text-white/60 hover:text-white/80"
+              }`}
+            >
+              <span aria-hidden>{favoritesOnly ? "❤️" : "♡"}</span> Favorites only
+            </button>
           </div>
         </div>
       </section>
@@ -738,6 +768,19 @@ export function BestMatchExplorer({
             source={source}
             cuisine={cuisine}
             saved={savedIds.has(hero.business.id)}
+            isFavorite={
+              isFavorite(hero.business.id) ||
+              (hero.partnerRestaurantId ? isFavorite(hero.partnerRestaurantId) : false)
+            }
+            onToggleFavorite={() =>
+              toggleFavorite({
+                id: hero.partnerRestaurantId || hero.business.id,
+                name: hero.business.name,
+                cuisine: hero.cuisineLabel || cuisine,
+                source,
+              })
+            }
+            onAlchemize={() => setAlchemizeModalItem(hero)}
             onReserve={() => {
               firePractice("recommendation_acted", `restaurant:${hero.business.id}`);
               setReservingItem(hero);
@@ -747,6 +790,7 @@ export function BestMatchExplorer({
               void saveRestaurant(hero, source);
             }}
             onLog={() => setLoggingItem(hero)}
+            onRateDish={() => setRatingDishItem({ restaurant: hero })}
           />
 
           {/* Runners-up */}
@@ -767,6 +811,21 @@ export function BestMatchExplorer({
                     entry={entry}
                     source={source}
                     saved={savedIds.has(entry.business.id)}
+                    isFavorite={
+                      isFavorite(entry.business.id) ||
+                      (entry.partnerRestaurantId
+                        ? isFavorite(entry.partnerRestaurantId)
+                        : false)
+                    }
+                    onToggleFavorite={() =>
+                      toggleFavorite({
+                        id: entry.partnerRestaurantId || entry.business.id,
+                        name: entry.business.name,
+                        cuisine: entry.cuisineLabel || cuisine,
+                        source,
+                      })
+                    }
+                    onAlchemize={() => setAlchemizeModalItem(entry)}
                     onReserve={() => {
                       firePractice("recommendation_acted", `restaurant:${entry.business.id}`);
                       setReservingItem(entry);
@@ -776,6 +835,7 @@ export function BestMatchExplorer({
                       void saveRestaurant(entry, source);
                     }}
                     onLog={() => setLoggingItem(entry)}
+                    onRateDish={() => setRatingDishItem({ restaurant: entry })}
                   />
                 ))}
               </ul>
@@ -821,6 +881,41 @@ export function BestMatchExplorer({
           source={source}
           cuisineType={cuisine}
           onClose={() => setReservingItem(null)}
+        />
+      )}
+      {ratingDishItem && (
+        <RateDishModal
+          restaurant={{
+            id: ratingDishItem.restaurant.business.id,
+            name: ratingDishItem.restaurant.business.name,
+            cuisine:
+              ratingDishItem.restaurant.cuisineLabel ||
+              ratingDishItem.restaurant.business.categories[0]?.title ||
+              cuisine,
+            address:
+              ratingDishItem.restaurant.business.location.display_address.join(
+                ", ",
+              ) || ratingDishItem.restaurant.business.location.address1 || "",
+          }}
+          {...(ratingDishItem.dishName ? { initialDishName: ratingDishItem.dishName } : {})}
+          onClose={() => setRatingDishItem(null)}
+        />
+      )}
+      {alchemizeModalItem && (
+        <AlchemizeOptInModal
+          restaurant={{
+            id:
+              alchemizeModalItem.partnerRestaurantId ||
+              alchemizeModalItem.business.id,
+            name: alchemizeModalItem.business.name,
+            cuisine:
+              alchemizeModalItem.cuisineLabel ||
+              alchemizeModalItem.business.categories[0]?.title ||
+              cuisine,
+            isPartner: Boolean(alchemizeModalItem.isPartner),
+          }}
+          onClose={() => setAlchemizeModalItem(null)}
+          onSuccess={() => setAlchemizeModalItem(null)}
         />
       )}
     </div>
@@ -878,6 +973,30 @@ function QualityMeta({ entry }: { entry: AlchmScoredRestaurant }) {
       {business.price && <span className="text-emerald-300 font-black">{business.price}</span>}
       {distance && <span>· {distance}</span>}
       {entry.cuisineLabel && <span className="text-purple-300/70">· {entry.cuisineLabel}</span>}
+      {entry.dishReviewStats && (
+        <span
+          className="text-amber-200 font-bold bg-amber-500/15 px-1.5 py-0.5 rounded border border-amber-400/30 text-[10px]"
+          title={`${entry.dishReviewStats.reviewCount} community dish ratings`}
+        >
+          ✦ {entry.dishReviewStats.averageRating.toFixed(1)} Community ({entry.dishReviewStats.reviewCount})
+        </span>
+      )}
+      {entry.isAlchemizedPartner && (
+        <span
+          className="text-amber-300 font-bold bg-amber-500/20 px-1.5 py-0.5 rounded border border-amber-400/40 text-[10px]"
+          title="Opted in for signature recipe alchemization"
+        >
+          ✨ Alchemized Kitchen
+        </span>
+      )}
+      {typeof entry.commentCount === "number" && entry.commentCount > 0 && (
+        <span
+          className="text-sky-200 font-medium bg-sky-500/15 px-1.5 py-0.5 rounded border border-sky-400/30 text-[10px]"
+          title={`${entry.commentCount} community comments/tips`}
+        >
+          💬 {entry.commentCount} {entry.commentCount === 1 ? "tip" : "tips"}
+        </span>
+      )}
     </div>
   );
 }
@@ -922,12 +1041,26 @@ function MatchRing({ score }: { score: number }) {
 interface CardActionsProps {
   entry: AlchmScoredRestaurant;
   saved: boolean;
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
+  onAlchemize?: () => void;
   onReserve: () => void;
   onSave: () => void;
   onLog: () => void;
+  onRateDish?: () => void;
 }
 
-function CardActions({ entry, saved, onReserve, onSave, onLog }: CardActionsProps) {
+function CardActions({
+  entry,
+  saved,
+  isFavorite,
+  onToggleFavorite,
+  onAlchemize,
+  onReserve,
+  onSave,
+  onLog,
+  onRateDish,
+}: CardActionsProps) {
   const { business } = entry;
   const isPartner = entry.isPartner === true;
   return (
@@ -946,6 +1079,42 @@ function CardActions({ entry, saved, onReserve, onSave, onLog }: CardActionsProp
           className="flex-1 sm:w-32 px-3 py-2 text-white text-[10px] font-black uppercase tracking-widest rounded-lg text-center bg-gradient-to-r from-purple-500 to-pink-500 hover:brightness-110 shadow-lg shadow-purple-900/30 transition-all"
         >
           Reserve
+        </button>
+      )}
+      <div className="flex gap-1.5 flex-1 sm:w-32">
+        {onToggleFavorite && (
+          <button
+            type="button"
+            onClick={onToggleFavorite}
+            className={`flex-1 px-2 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider text-center transition-all border ${
+              isFavorite
+                ? "bg-rose-500/20 text-rose-200 border-rose-400/50 shadow-sm"
+                : "bg-white/5 text-white/70 border-white/10 hover:border-rose-400/40 hover:text-rose-200"
+            }`}
+            title={isFavorite ? "Remove from favorite sanctuaries" : "Add to favorite sanctuaries"}
+          >
+            {isFavorite ? "❤️ Fav" : "♡ Fav"}
+          </button>
+        )}
+        {onRateDish && (
+          <button
+            type="button"
+            onClick={onRateDish}
+            className="flex-1 px-2 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider text-center bg-amber-500/15 text-amber-200 border border-amber-400/30 hover:bg-amber-500/25 transition-all shadow-sm"
+            title="Rate a dish from this restaurant"
+          >
+            ⭐ Rate
+          </button>
+        )}
+      </div>
+      {onAlchemize && (
+        <button
+          type="button"
+          onClick={onAlchemize}
+          className="flex-1 sm:w-32 px-2.5 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider text-center bg-amber-500/10 text-amber-300 border border-amber-400/30 hover:bg-amber-500/20 transition-all"
+          title="Nominate or opt in signature recipes for elemental alchemization"
+        >
+          ✨ Alchemize
         </button>
       )}
       <div className="flex gap-2 flex-1 sm:w-32">
@@ -990,7 +1159,17 @@ interface CardProps extends CardActionsProps {
   cuisine?: string;
 }
 
-function HeroCard({ entry, saved, onReserve, onSave, onLog }: CardProps) {
+function HeroCard({
+  entry,
+  saved,
+  isFavorite,
+  onToggleFavorite,
+  onAlchemize,
+  onReserve,
+  onSave,
+  onLog,
+  onRateDish,
+}: CardProps) {
   const { business } = entry;
   const decoration = ELEMENT_DECORATION[entry.dominantElement];
   const hasScore = entry.alchmScore > 0;
@@ -1039,9 +1218,13 @@ function HeroCard({ entry, saved, onReserve, onSave, onLog }: CardProps) {
           <CardActions
             entry={entry}
             saved={saved}
+            {...(isFavorite !== undefined ? { isFavorite } : {})}
+            {...(onToggleFavorite ? { onToggleFavorite } : {})}
+            {...(onAlchemize ? { onAlchemize } : {})}
             onReserve={onReserve}
             onSave={onSave}
             onLog={onLog}
+            {...(onRateDish ? { onRateDish } : {})}
           />
         </div>
       </div>
@@ -1049,7 +1232,18 @@ function HeroCard({ entry, saved, onReserve, onSave, onLog }: CardProps) {
   );
 }
 
-function RestaurantRow({ entry, source, saved, onReserve, onSave, onLog }: CardProps) {
+function RestaurantRow({
+  entry,
+  source,
+  saved,
+  isFavorite,
+  onToggleFavorite,
+  onAlchemize,
+  onReserve,
+  onSave,
+  onLog,
+  onRateDish,
+}: CardProps) {
   const { business } = entry;
   const decoration = ELEMENT_DECORATION[entry.dominantElement];
   const hasScore = entry.alchmScore > 0;
@@ -1112,9 +1306,13 @@ function RestaurantRow({ entry, source, saved, onReserve, onSave, onLog }: CardP
         <CardActions
           entry={entry}
           saved={saved}
+          {...(isFavorite !== undefined ? { isFavorite } : {})}
+          {...(onToggleFavorite ? { onToggleFavorite } : {})}
+          {...(onAlchemize ? { onAlchemize } : {})}
           onReserve={onReserve}
           onSave={onSave}
           onLog={onLog}
+          {...(onRateDish ? { onRateDish } : {})}
         />
       </div>
     </li>

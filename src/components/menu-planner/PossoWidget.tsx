@@ -22,8 +22,12 @@ interface ScoredRecipe extends Recipe {
 
 export default function PossoWidget({
   onClose,
+  compact = false,
+  onSelectRecipe,
 }: {
-  onClose: () => void;
+  onClose?: () => void;
+  compact?: boolean;
+  onSelectRecipe?: (recipe: Recipe) => void;
 }): React.JSX.Element {
   const { inventory, setInventory, addMealToSlot, currentMenu } = useMenuPlanner();
   const [newItem, setNewItem] = useState("");
@@ -121,29 +125,39 @@ export default function PossoWidget({
   }, [inventory]);
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-emerald-200 overflow-hidden flex flex-col h-full max-h-[600px]">
+    <div
+      className={
+        compact
+          ? "flex flex-col h-full overflow-hidden bg-surface"
+          : "bg-surface-container rounded-xl shadow-lg border border-muted overflow-hidden flex flex-col h-full max-h-[600px]"
+      }
+    >
       {/* Header */}
-      <div className="bg-gradient-to-r from-emerald-600 to-teal-700 p-4 text-white flex justify-between items-center">
-        <div>
-          <h2 className="text-xl font-bold flex items-center gap-2">
-            <span>🛒</span> Posso (What I Can Make)
-          </h2>
-          <p className="text-emerald-100 text-sm mt-1">
-            Add ingredients you already have to see budget-saving recipes.
-          </p>
+      {!compact && (
+        <div className="bg-surface-container-high p-4 text-primary border-b border-muted flex justify-between items-center">
+          <div>
+            <h2 className="text-lg font-bold flex items-center gap-2 text-primary">
+              <span>🍲</span> Pantry Meals (Posso)
+            </h2>
+            <p className="text-on-surface-variant text-xs mt-1">
+              Add ingredients you have to find recipes that use what&apos;s on hand.
+            </p>
+          </div>
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="text-on-surface-variant hover:text-primary rounded-full p-1.5 transition-colors"
+            >
+              ✕
+            </button>
+          )}
         </div>
-        <button
-          onClick={onClose}
-          className="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-1.5 transition-colors"
-        >
-          ✕
-        </button>
-      </div>
+      )}
 
-      <div className="flex flex-col md:flex-row h-full overflow-hidden">
+      <div className={`flex flex-col ${compact ? "space-y-4 p-4 overflow-y-auto" : "md:flex-row h-full overflow-hidden"}`}>
         {/* Left: Inventory Manager */}
-        <div className="w-full md:w-1/3 bg-emerald-50 border-r border-emerald-100 p-4 overflow-y-auto">
-          <h3 className="font-semibold text-emerald-900 mb-3">My Pantry & Cart</h3>
+        <div className={compact ? "w-full" : "w-full md:w-1/3 bg-surface-container-low border-r border-muted p-4 overflow-y-auto"}>
+          <h3 className="font-semibold text-primary text-sm mb-3">My Pantry Ingredients</h3>
 
           <form onSubmit={handleAddItem} className="mb-4">
             <div className="flex gap-2">
@@ -152,33 +166,33 @@ export default function PossoWidget({
                 value={newItem}
                 onChange={(e) => setNewItem(e.target.value)}
                 placeholder="e.g. chicken, rice..."
-                className="flex-1 px-3 py-2 text-sm border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="flex-1 px-3 py-2 text-sm border border-muted bg-surface-container-lowest text-primary rounded-lg focus:outline-none focus:border-active-violet"
               />
               <button
                 type="submit"
-                className="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 text-sm font-medium transition-colors"
+                className="px-3 py-2 bg-active-violet text-background rounded-lg hover:bg-white text-xs font-semibold uppercase font-mono transition-colors"
               >
                 Add
               </button>
             </div>
-            <p className="text-xs text-emerald-600 mt-1">Comma separate multiple items.</p>
+            <p className="text-[11px] text-on-surface-variant mt-1">Comma separate multiple items.</p>
           </form>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5 max-h-48 overflow-y-auto">
             {inventory.length === 0 ? (
-              <div className="text-sm text-emerald-700 italic text-center w-full mt-4 bg-white/50 py-4 rounded-lg">
+              <div className="text-xs text-on-surface-variant italic text-center w-full py-4 rounded-lg bg-surface-container-lowest">
                 Your inventory is empty. Add items to find matching recipes!
               </div>
             ) : (
               inventory.map((item) => (
                 <span
                   key={item}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white border border-emerald-200 text-emerald-800 text-sm rounded-full shadow-sm"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface-container-high border border-muted text-primary text-xs rounded-full"
                 >
                   {item}
                   <button
                     onClick={() => handleRemoveItem(item)}
-                    className="text-emerald-400 hover:text-emerald-600 font-bold"
+                    className="text-on-surface-variant/60 hover:text-error font-bold"
                   >
                     ×
                   </button>
@@ -189,11 +203,11 @@ export default function PossoWidget({
         </div>
 
         {/* Right: Recipe Matches */}
-        <div className="w-full md:w-2/3 p-4 bg-white overflow-y-auto relative">
-          <h3 className="font-semibold text-gray-800 mb-3 flex items-center justify-between">
+        <div className={compact ? "w-full border-t border-muted pt-4" : "w-full md:w-2/3 p-4 bg-surface-container-lowest/20 overflow-y-auto relative"}>
+          <h3 className="font-semibold text-primary mb-3 flex items-center justify-between text-sm">
             <span>Budget-Saving Recipes</span>
             {scoredRecipes.length > 0 && (
-              <span className="text-xs font-normal text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full">
+              <span className="text-xs font-normal text-active-violet bg-active-violet/10 border border-active-violet/20 px-2 py-0.5 rounded-full font-mono">
                 {scoredRecipes.length} Matches
               </span>
             )}
@@ -210,25 +224,25 @@ export default function PossoWidget({
             </div>
           ) : scoredRecipes.length === 0 ? (
             <div className="text-center py-10">
-              <p className="text-gray-500">No recipes matched your inventory perfectly.</p>
-              <p className="text-sm text-gray-400 mt-1">Try adding more staples.</p>
+              <p className="text-on-surface-variant">No recipes matched your inventory perfectly.</p>
+              <p className="text-sm text-on-surface-variant/60 mt-1">Try adding more staples.</p>
             </div>
           ) : (
             <div className="space-y-3 pb-8">
               {scoredRecipes.map((recipe) => (
                 <div
                   key={recipe.id}
-                  className="flex flex-col p-3 border border-gray-100 rounded-xl hover:border-emerald-300 hover:shadow-md transition-all group"
+                  className="flex flex-col p-3 border border-muted bg-surface-container-low rounded-xl hover:border-active-violet transition-all group"
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-bold text-gray-800 line-clamp-1 flex-1 pr-2">
+                    <h4 className="font-semibold text-primary line-clamp-1 flex-1 pr-2 text-sm">
                       {recipe.name}
                     </h4>
-                    <div className="flex flex-col items-end shrink-0">
-                      <span className="text-xs text-gray-400 line-through decoration-red-400/50">
+                    <div className="flex flex-col items-end shrink-0 font-mono">
+                      <span className="text-xs text-on-surface-variant/50 line-through">
                         ${recipe.originalCost.toFixed(2)}
                       </span>
-                      <span className="font-bold text-emerald-600">
+                      <span className="font-bold text-active-violet text-sm">
                         ${recipe.possoCost.toFixed(2)}
                       </span>
                     </div>
@@ -237,19 +251,23 @@ export default function PossoWidget({
                   <div className="flex items-center justify-between mt-auto">
                     <div className="flex items-center gap-2">
                       {/* Match Progress Bar */}
-                      <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden" title={`${recipe.matchCount}/${recipe.totalIngredients} ingredients`}>
+                      <div className="w-16 h-1.5 bg-surface-container-high rounded-full overflow-hidden" title={`${recipe.matchCount}/${recipe.totalIngredients} ingredients`}>
                         <div
                           className="h-full bg-emerald-500"
                           style={{ width: `${recipe.matchPercentage * 100}%` }}
                         />
                       </div>
-                      <span className="text-xs font-medium text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
+                      <span className="text-xs font-mono font-medium text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">
                         Save ${(recipe.savings).toFixed(2)}
                       </span>
                     </div>
 
                     <button
                       onClick={() => {
+                        if (onSelectRecipe) {
+                          onSelectRecipe(recipe);
+                          return;
+                        }
                         const days: DayOfWeek[] = [0, 1, 2, 3, 4, 5, 6];
                         const dayNames = [
                           "Sunday",
@@ -280,9 +298,9 @@ export default function PossoWidget({
                             logger.error("Failed to add meal to slot", err);
                           });
                       }}
-                      className="px-3 py-1 bg-emerald-100 text-emerald-700 hover:bg-emerald-600 hover:text-white text-xs font-semibold rounded-lg transition-colors"
+                      className="px-3 py-1 bg-active-violet text-background hover:bg-white text-xs font-semibold rounded-lg font-mono uppercase transition-colors cursor-pointer"
                     >
-                      + Auto Add
+                      {onSelectRecipe ? "Place" : "+ Auto Add"}
                     </button>
                   </div>
                 </div>
