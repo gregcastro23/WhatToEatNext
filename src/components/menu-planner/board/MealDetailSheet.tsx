@@ -322,6 +322,32 @@ export default function MealDetailSheet({
               <ExternalLink className="h-3.5 w-3.5" />
             </Link>
           </div>
+
+          {/* Can't Cook Tonight? Restaurant Discovery Bridge */}
+          <div className="p-4 rounded-xl bg-gradient-to-br from-purple-950/30 via-surface-container-low to-surface-container-low border border-purple-500/20 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-primary flex items-center gap-1.5">
+                <span>🍽️</span> Can&apos;t cook this tonight?
+              </span>
+              <span className="text-[10px] font-mono text-purple-300 uppercase tracking-wider font-semibold">
+                Order It
+              </span>
+            </div>
+            <p className="text-xs text-on-surface-variant leading-relaxed font-body-sm">
+              Skip prep and find {recipe.cuisine ? `${recipe.cuisine} ` : ""}restaurants nearby matching this dish&apos;s culinary profile.
+            </p>
+            <Link
+              href={
+                recipe.cuisine
+                  ? `/restaurants?cuisine=${encodeURIComponent(recipe.cuisine.toLowerCase())}`
+                  : "/restaurants"
+              }
+              className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 font-mono text-xs uppercase tracking-wider font-semibold transition-colors"
+            >
+              <span>Find Nearby {recipe.cuisine ?? "Takeout"}</span>
+              <ExternalLink className="h-3 w-3" />
+            </Link>
+          </div>
         </div>
       </Sheet>
 

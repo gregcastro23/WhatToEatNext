@@ -422,3 +422,53 @@ it.each([false, true])(
     expect(screen.getByRole("dialog", { name: "Morning oats" })).toBeTruthy();
   },
 );
+
+test("bridges empty slots and planned meal detail sheets to restaurant discovery (Order It)", async () => {
+  mockMeals = [makeSlot(false)];
+  const { rerender } = render(
+    <PlannerUIProvider>
+      <WeekBoard
+        days={[{ date: at, dayOfWeek: 0, dayName: "Sunday", isToday: true }]}
+        meals={mockMeals}
+        onSelectRecipe={jest.fn()}
+      />
+    </PlannerUIProvider>,
+  );
+
+  // 1. Empty slot exposes a link to restaurant discovery
+  const orderOutLink = screen.getByRole("link", { name: /Find restaurants for Sunday breakfast/i });
+  expect(orderOutLink).toHaveAttribute("href", "/restaurants");
+
+  // 2. Filled slot detail sheet exposes Order It bridge
+  mockMeals = [
+    {
+      ...makeSlot(true),
+      recipe: {
+        id: "thai-green-curry",
+        name: "Thai Green Curry",
+        cuisine: "Thai",
+        ingredients: [],
+        nutrition: { calories: 550 },
+      },
+    },
+  ];
+
+  rerender(
+    <PlannerUIProvider>
+      <WeekBoard
+        days={[{ date: at, dayOfWeek: 0, dayName: "Sunday", isToday: true }]}
+        meals={mockMeals}
+        onSelectRecipe={jest.fn()}
+      />
+    </PlannerUIProvider>,
+  );
+
+  fireEvent.click(
+    screen.getByRole("button", { name: /Thai Green Curry.*Open details/ }),
+  );
+
+  const sheet = screen.getByRole("dialog", { name: "Thai Green Curry" });
+  expect(within(sheet).getByText(/Can't cook this tonight\?/i)).toBeInTheDocument();
+  const restaurantLink = within(sheet).getByRole("link", { name: /Find Nearby Thai/i });
+  expect(restaurantLink).toHaveAttribute("href", "/restaurants?cuisine=thai");
+});
