@@ -1,7 +1,10 @@
 "use client";
 
 import React from "react";
-import type { PageTelemetryData } from "@/services/dashboardPanelsService";
+import type {
+  PageTelemetryData,
+  SemsDistributionData,
+} from "@/services/dashboardPanelsService";
 import type {
   PlanetaryHourSnapshot,
   SkyConditionsData,
@@ -168,28 +171,19 @@ const PLANETARY_HOUR_COLORS: Record<string, string> = {
 };
 
 function PlanetaryHourBar({ snapshot }: { snapshot: PlanetaryHourSnapshot }) {
-  // Empty segments (degraded state) — render a uniform muted strip so the
-  // bar doesn't collapse layout while the ephemeris recovers.
-  const segs = snapshot.segments.length > 0
-    ? snapshot.segments
-    : Array.from({ length: 24 }, (_, hour) => ({
-        hour,
-        symbol: "·",
-        planet: snapshot.dayRuler,
-        isLive: false,
-        isPast: false,
-      }));
+  const segs =
+    snapshot.segments.length > 0
+      ? snapshot.segments
+      : Array.from({ length: 24 }, (_, hour) => ({
+          hour,
+          symbol: "·",
+          planet: snapshot.dayRuler,
+          isLive: false,
+          isPast: false,
+        }));
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(24, 1fr)",
-        gap: 1.5,
-        alignItems: "stretch",
-        height: 22,
-      }}
-    >
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(24, 1fr)", gap: 1.5, alignItems: "stretch", height: 22 }}>
       {segs.map((s) => {
         const color = PLANETARY_HOUR_COLORS[s.symbol] ?? "var(--fg-mute)";
         return (
@@ -197,11 +191,7 @@ function PlanetaryHourBar({ snapshot }: { snapshot: PlanetaryHourSnapshot }) {
             key={s.hour}
             title={`${String(s.hour).padStart(2, "0")}:00 · ${s.planet}`}
             style={{
-              background: s.isLive
-                ? "var(--accent)"
-                : s.isPast
-                  ? `color-mix(in oklch, ${color}, transparent 70%)`
-                  : "rgba(255,255,255,0.04)",
+              background: s.isLive ? "var(--accent)" : s.isPast ? `color-mix(in oklch, ${color}, transparent 70%)` : "rgba(255,255,255,0.04)",
               border: `1px solid ${s.isLive ? "var(--accent)" : "var(--line)"}`,
               borderRadius: 2,
               display: "flex",
@@ -334,38 +324,188 @@ export function AstronomicalEngine({
 
 // ============================================================
 // SEMS THERMODYNAMIC BALANCE
-// No per-recipe SEMS rollup exists yet, so the panel carries no
-// numbers at all — only the honest NOT-WIRED state (same pattern
-// as EngineHealth's offline-eval slot) until the rollup lands.
+// Populates from the live catalog `recipes.read_model` +
+// `recipe_calibration_profiles` rollup; degrades honestly when
+// `data?.live` is false.
 // ============================================================
-export function SEMSDistribution() {
+export function SEMSDistribution({
+  data,
+}: { data?: SemsDistributionData } = {}): React.ReactElement {
+  const isLive = Boolean(data?.live && data.recipeCount > 0);
+  if (!isLive || !data) {
+    return (
+      <Card
+        title="Alchm · SEMS Thermodynamic Balance"
+        subtitle="Spirit · Essence · Matter · Substance"
+        right={
+          <span
+            className="t-mono"
+            style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+          >
+            ○ NOT WIRED
+          </span>
+        }
+      >
+        <div
+          style={{
+            padding: "10px 12px",
+            border: "1px dashed var(--line)",
+            borderRadius: 8,
+          }}
+        >
+          <div className="t-tag" style={{ marginBottom: 4 }}>SEMS ROLLUP · NOT WIRED</div>
+          <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)", lineHeight: 1.6 }}>
+            This panel will populate from a per-recipe SEMS rollup (Spirit /
+            Essence / Matter / Substance scores plus the derived Monica and
+            Kalchm constants) once recipe ingestion captures a thermodynamic
+            score table. No live source exists yet — nothing is shown rather
+            than sample numbers.
+          </div>
+        </div>
+      </Card>
+    );
+  }
+
+  const axisColor: Record<string, string> = {
+    Spirit: "var(--accent)",
+    Essence: "var(--el-water)",
+    Matter: "var(--el-earth)",
+    Substance: "var(--accent-2)",
+  };
+  const elementColor: Record<string, string> = {
+    Fire: "var(--el-fire)",
+    Water: "var(--el-water)",
+    Earth: "var(--el-earth)",
+    Air: "var(--el-air)",
+  };
+
   return (
     <Card
       title="Alchm · SEMS Thermodynamic Balance"
-      subtitle="Spirit · Essence · Matter · Substance"
+      subtitle={`${data.recipeCount.toLocaleString()} catalog recipes · A# ${data.aSharpMean >= 0 ? "+" : ""}${data.aSharpMean.toFixed(2)} · ${(data.harmonyMean * 100).toFixed(1)}% harmony`}
       right={
         <span
           className="t-mono"
-          style={{ fontSize: 9, color: "var(--fg-mute)", letterSpacing: "0.14em" }}
+          style={{ fontSize: 9, color: "var(--el-earth)", letterSpacing: "0.14em" }}
         >
-          ○ NOT WIRED
+          ● LIVE ROLLUP
         </span>
       }
     >
-      <div
-        style={{
-          padding: "10px 12px",
-          border: "1px dashed var(--line)",
-          borderRadius: 8,
-        }}
-      >
-        <div className="t-tag" style={{ marginBottom: 4 }}>SEMS ROLLUP · NOT WIRED</div>
-        <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)", lineHeight: 1.6 }}>
-          This panel will populate from a per-recipe SEMS rollup (Spirit /
-          Essence / Matter / Substance scores plus the derived Monica and
-          Kalchm constants) once recipe ingestion captures a thermodynamic
-          score table. No live source exists yet — nothing is shown rather
-          than sample numbers.
+      <div style={{ display: "grid", gridTemplateColumns: "1.2fr 0.9fr", gap: 14 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div className="t-tag" style={{ fontSize: 8.5 }}>
+            ESMS QUATERNARY DISTRIBUTION · N={data.recipeCount}
+          </div>
+          {data.axes.map((ax) => {
+            const maxBin = Math.max(1, ...ax.bins);
+            const color = axisColor[ax.key] ?? "var(--accent)";
+            return (
+              <div key={ax.key} style={{ border: "1px solid var(--line)", borderRadius: 6, padding: "6px 8px", background: "rgba(255,255,255,0.012)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
+                  <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "var(--fg)" }}>
+                    <span className="el-dot" style={{ background: color, boxShadow: `0 0 6px ${color}` }} />
+                    {ax.key}
+                  </span>
+                  <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-dim)" }}>
+                    μ <b style={{ color: "var(--fg)" }}>{ax.mean.toFixed(2)}</b> · σ {ax.stdDev.toFixed(2)} · [{ax.min.toFixed(1)}–{ax.max.toFixed(1)}]
+                  </span>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(8, 1fr)", gap: 3, height: 18, alignItems: "end" }}>
+                  {ax.bins.map((b, idx) => (
+                    <div
+                      key={idx}
+                      title={`Bin ${idx + 1}: ${b} recipes`}
+                      style={{
+                        height: `${Math.max(12, Math.round((b / maxBin) * 100))}%`,
+                        background: b > 0 ? color : "rgba(255,255,255,0.04)",
+                        opacity: b > 0 ? 0.35 + 0.65 * (b / maxBin) : 0.3,
+                        borderRadius: 2,
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 10 }}>
+          <div>
+            <div className="t-tag" style={{ fontSize: 8.5, marginBottom: 6 }}>
+              ELEMENTAL MEAN · CATALOG
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+              {(["Fire", "Water", "Earth", "Air"] as const).map((el) => {
+                const val = data.elementalMeans[el];
+                const col = elementColor[el];
+                return (
+                  <div
+                    key={el}
+                    style={{
+                      border: "1px solid var(--line)",
+                      borderRadius: 6,
+                      padding: "6px 8px",
+                    }}
+                  >
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10 }}>
+                      <span style={{ color: "var(--fg-dim)", display: "flex", alignItems: "center", gap: 5 }}>
+                        <span className="el-dot" style={{ background: col, boxShadow: `0 0 5px ${col}` }} />
+                        {el}
+                      </span>
+                      <span className="t-num" style={{ color: "var(--fg)" }}>
+                        {(val * 100).toFixed(1)}%
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div
+            style={{
+              border: "1px solid var(--line)",
+              borderRadius: 6,
+              padding: "8px 10px",
+              background: "rgba(0,0,0,0.2)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                marginBottom: 6,
+              }}
+            >
+              <span className="t-tag" style={{ fontSize: 8 }}>
+                MONICA CALIBRATION · {data.monicaCalibration.calibratedProfiles} PROFILES
+              </span>
+              <span className="t-mono" style={{ fontSize: 9.5, color: "var(--accent-2)" }}>
+                M̄ = {data.monicaCalibration.meanConstant.toFixed(3)}
+              </span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              {data.monicaCalibration.methods.map((m) => (
+                <div
+                  key={m.method}
+                  className="t-mono"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    fontSize: 9,
+                    color: "var(--fg-dim)",
+                  }}
+                >
+                  <span>{m.method.replace(/_/g, " ")}</span>
+                  <span className="t-num" style={{ color: "var(--fg)" }}>
+                    {m.count} profiles
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </Card>

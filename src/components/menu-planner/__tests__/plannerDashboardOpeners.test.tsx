@@ -11,10 +11,11 @@
  * (next/dynamic hands back the real dashboard and a calendar stub that renders
  * whatever opener it is given). Imports only modules that exist on master.
  */
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import MenuPlannerPage from "@/app/menu-planner/page";
 import RedesignedMobilePlanner from "@/components/menu-planner/redesign/RedesignedMobilePlanner";
+import { usePlannerUI as mockUsePlannerUI } from "../shell/PlannerUIContext";
 import { emptyDayRecord } from "@/utils/dayCircuitCalculations";
 
 jest.mock("next/dynamic", () => (load: () => unknown) => {
@@ -22,13 +23,28 @@ jest.mock("next/dynamic", () => (load: () => unknown) => {
   if (source.includes("menu-planner/NutritionalDashboard")) {
     return require("@/components/menu-planner/NutritionalDashboard").default;
   }
+  if (source.includes("menu-planner/RecipeBrowserPanel")) {
+    return function BrowserStub(props: { onSelectRecipe: (r: unknown) => void; onViewRecipeDetail: (r: unknown) => void }) {
+      const r = { id: "oats", name: "Oats", ingredients: [] };
+      return <><button onClick={() => props.onSelectRecipe(r)}>browser: place oats</button><button onClick={() => props.onViewRecipeDetail(r)}>browser: details</button></>;
+    };
+  }
+  if (source.includes("menu-planner/RecipeDetailModal")) {
+    return function DetailStub(props: { recipe: unknown; onAddToMeal: (r: unknown) => void }) {
+      return <button onClick={() => props.onAddToMeal(props.recipe)}>detail: add to meal</button>;
+    };
+  }
   if (source.includes("menu-planner/WeeklyCalendar")) {
     return function CalendarStub(props: { onOpenNutrition?: () => void }) {
-      const { createElement } = require("react");
-      return props.onOpenNutrition
-        ? createElement("button", { onClick: props.onOpenNutrition }, "calendar: week nutrition")
-        : null;
+      const { state } = mockUsePlannerUI();
+      return <><button onClick={props.onOpenNutrition}>calendar: week nutrition</button><span>{state.placingRecipe ? `Ready to place ${state.placingRecipe.name}` : "No placement"}</span></>;
     };
+  }
+  if (source.includes("menu-planner/shell/ResponsivePlannerRail")) {
+    return require("@/components/menu-planner/shell/ResponsivePlannerRail").default;
+  }
+  if (source.includes("menu-planner/shell/WeekSummaryStrip")) {
+    return require("@/components/menu-planner/shell/WeekSummaryStrip").default;
   }
   return () => null;
 });
@@ -61,6 +77,11 @@ jest.mock("@/contexts/MenuPlannerContext", () => ({
     syncWithLunarCycle: false,
   }),
 }));
+
+beforeEach(() => {
+  window.localStorage.clear();
+  Object.defineProperty(window, "innerWidth", { configurable: true, value: 390 });
+});
 
 function dashboard(): HTMLElement | null {
   return screen.queryByRole("dialog", { name: "Nutrition Dashboard" });
@@ -105,4 +126,25 @@ describe("the mobile planner", () => {
     expect(screen.queryByRole("button", { name: /Week nutrition/ })).toBeNull();
     expect(screen.getByRole("button", { name: /Shop the week/ })).toBeTruthy();
   });
+});
+
+it("opens one mobile rail and completes the recipe detail Add to meal flow", async () => {
+  render(<MenuPlannerPage />);
+  fireEvent.click(screen.getByRole("button", { name: "Recipes" }));
+  expect(screen.getAllByRole("complementary", { name: "Planner Side Rail" })).toHaveLength(1);
+  fireEvent.click(screen.getByRole("button", { name: "browser: details" }));
+  fireEvent.click(screen.getByRole("button", { name: "detail: add to meal" }));
+  await waitFor(() => expect(screen.queryByRole("dialog", { name: "Recipes & ideas" })).toBeNull());
+  expect(screen.getByText("Ready to place Oats")).toBeTruthy();
+});
+
+it("closes the mobile rail when choosing a recipe and supports Escape dismissal", async () => {
+  render(<MenuPlannerPage />);
+  fireEvent.click(screen.getByRole("button", { name: "Recipes" }));
+  fireEvent.click(screen.getByRole("button", { name: "browser: place oats" }));
+  expect(screen.getByText("Ready to place Oats")).toBeTruthy();
+  expect(screen.queryByRole("dialog", { name: "Recipes & ideas" })).toBeNull();
+  fireEvent.click(screen.getByRole("button", { name: "Recipes" }));
+  fireEvent.keyDown(screen.getByRole("dialog", { name: "Recipes & ideas" }), { key: "Escape" });
+  await waitFor(() => expect(screen.queryByRole("dialog", { name: "Recipes & ideas" })).toBeNull());
 });

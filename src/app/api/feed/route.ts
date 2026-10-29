@@ -373,8 +373,8 @@ export const POST = withObservability(
           error: "Invalid agent email",
           agentEmail: normalizedEmail,
           hint: isAgenticNamespace
-            ? "Agent exists but is not flagged is_agent=true. Re-run the sync via POST https://whattoeatnext-production.up.railway.app/api/internal/agent-sync."
-            : `Only ${AGENTIC_EMAIL_DOMAIN} emails are eligible for feed events. Sync the agent via POST https://whattoeatnext-production.up.railway.app/api/internal/agent-sync (X-Sync-Secret: ALCHM_KITCHEN_SYNC_SECRET).`,
+            ? "Agent exists but is not flagged is_agent=true. Re-run the sync via POST https://alchm.kitchen/api/internal/agent-sync."
+            : `Only ${AGENTIC_EMAIL_DOMAIN} emails are eligible for feed events. Sync the agent via POST https://alchm.kitchen/api/internal/agent-sync (X-Sync-Secret: ALCHM_KITCHEN_SYNC_SECRET).`,
         },
         { status: 404 },
       );

@@ -20,7 +20,73 @@
 import crypto from "crypto";
 import { executeQuery, closeDatabase } from "../src/lib/database/connection";
 import { _logger } from "../src/lib/logger";
+import { fullChartMonica } from "../src/utils/fullChartMonica";
 import { AGENT_ESMS_SEED_SQL } from "./lib/agentEsmsSeed";
+
+export const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
+
+/**
+ * Non-NPC founder/human persona slugs present in `/api/agents` (`HISTORICAL_AGENTS`)
+ * that are excluded from the 71 canonical historical NPC roster (`CANONICAL_ROSTER_71`)
+ * unless explicitly requested via `--slug` or `--include-non-npc`.
+ */
+export const NON_NPC_HISTORICAL_SLUGS = new Set(["greg-castro-1991"]);
+
+export interface SyncCliOptions {
+  dryRun: boolean;
+  onlyMissing: boolean;
+  includeNonNpc: boolean;
+  slugFilter: Set<string> | null;
+}
+
+export function parseSyncCliArgs(argv: readonly string[]): SyncCliOptions {
+  let dryRun = false;
+  let onlyMissing = false;
+  let includeNonNpc = false;
+  const slugs: string[] = [];
+
+  for (const arg of argv) {
+    if (arg === "--dry-run" || arg === "-n") {
+      dryRun = true;
+    } else if (arg === "--only-missing") {
+      onlyMissing = true;
+    } else if (arg === "--include-non-npc") {
+      includeNonNpc = true;
+    } else if (arg.startsWith("--slug=")) {
+      const raw = arg.slice("--slug=".length);
+      for (const part of raw.split(",")) {
+        const trimmed = part.trim().toLowerCase();
+        if (trimmed) slugs.push(trimmed);
+      }
+    }
+  }
+
+  return {
+    dryRun,
+    onlyMissing,
+    includeNonNpc,
+    slugFilter: slugs.length > 0 ? new Set(slugs) : null,
+  };
+}
+
+export function isCanonicalHistoricalNpcSlug(
+  slug: string,
+  options?: Pick<SyncCliOptions, "includeNonNpc" | "slugFilter">,
+): boolean {
+  const normalized = slug.trim().toLowerCase();
+  if (!normalized) return false;
+  if (options?.slugFilter && !options.slugFilter.has(normalized)) {
+    return false;
+  }
+  if (
+    NON_NPC_HISTORICAL_SLUGS.has(normalized) &&
+    !options?.includeNonNpc &&
+    !options?.slugFilter?.has(normalized)
+  ) {
+    return false;
+  }
+  return true;
+}
 
 const AGENTS_UI_URL =
   process.env.NEXT_PUBLIC_AGENTS_UI_URL ||
@@ -116,7 +182,9 @@ interface AgentsListResponse {
   agents?: RawAgent[];
 }
 
-function derivePositionsFromChart(chart: unknown): Array<{ planet: string; sign: string; degree: number }> {
+export function derivePositionsFromChart(
+  chart: unknown,
+): Array<{ planet: string; sign: string; degree: number }> {
   if (!chart || typeof chart !== "object") return [];
   const chartObj = chart as { planets?: Record<string, unknown> };
   if (!chartObj.planets || typeof chartObj.planets !== "object") return [];
@@ -137,7 +205,10 @@ function derivePositionsFromChart(chart: unknown): Array<{ planet: string; sign:
 }
 
 async function main(): Promise<void> {
-  console.log(`[sync-agentic-users] Connecting to ASOL UI: ${AGENTS_UI_URL}`);
+  const cli = parseSyncCliArgs(process.argv.slice(2));
+  console.log(
+    `[sync-agentic-users] Connecting to ASOL UI: ${AGENTS_UI_URL} (mode=${cli.dryRun ? "DRY-RUN" : "APPLY"}${cli.onlyMissing ? ", onlyMissing=true" : ""}${cli.slugFilter ? `, slugs=${[...cli.slugFilter].join(",")}` : ""})`,
+  );
 
   // 1. Fetch agents roster and diet profiles
   const [agentsRes, dietsRes] = await Promise.all([
@@ -187,15 +258,20 @@ async function main(): Promise<void> {
     }));
   }
 
+  let matchedCount = 0;
   let insertedCount = 0;
   let updatedCount = 0;
+  let skippedExistingCount = 0;
+  let seededLedgerCount = 0;
+  let preservedLedgerCount = 0;
   let errorCount = 0;
 
   for (const raw of agentList) {
     const slug = (raw.id || raw.agentId || "").toLowerCase().trim();
-    if (!slug || slug === "chiron") continue; // Keep only historical figures
+    if (!isCanonicalHistoricalNpcSlug(slug, cli)) continue;
+    matchedCount++;
 
-    const email = `${slug}@agentic.alchm.kitchen`;
+    const email = `${slug}${AGENTIC_EMAIL_DOMAIN}`;
     const dietProfile = dietMap.get(slug);
 
     // If historicalDiet is missing, attempt to fetch individual agent profile
@@ -239,6 +315,14 @@ async function main(): Promise<void> {
     const birthData = agentData.birthData || dietProfile?.birthData || null;
     const natalChart = agentData.consciousness?.natalChart || null;
     const derivedPositions = derivePositionsFromChart(natalChart);
+    const fullChart = derivedPositions.length > 0 ? fullChartMonica(derivedPositions) : null;
+    const monicaDiurnal = fullChart ? Number(fullChart.diurnal.toFixed(6)) : null;
+    const monicaNocturnal = fullChart ? Number(fullChart.nocturnal.toFixed(6)) : null;
+    const monicaFullChart =
+      monicaDiurnal !== null && monicaNocturnal !== null
+        ? Number(((monicaDiurnal + monicaNocturnal) / 2).toFixed(6))
+        : null;
+    const monicaMethod = monicaFullChart !== null ? "full-chart" : null;
 
     // Live ESMS Essence balances calculation
     const esmsSource =
@@ -279,14 +363,65 @@ async function main(): Promise<void> {
         }
       }
 
-      // 1. Upsert users table
-      const userRes = await executeQuery<{ id: string }>(
-        "SELECT id FROM users WHERE LOWER(email) = LOWER($1)",
+      // 1. Inspect existing user by canonical agentic email
+      const userRes = await executeQuery<{ id: string; is_agent: boolean }>(
+        "SELECT id, is_agent FROM users WHERE LOWER(email) = LOWER($1)",
         [email]
       );
 
+      if (userRes.rows.length > 0 && !userRes.rows[0]!.is_agent) {
+        throw new Error(
+          `Refusing to merge or overwrite non-agent human account ${email} (id=${userRes.rows[0]!.id}).`,
+        );
+      }
+
+      const existingUserId = userRes.rows[0]?.id ?? null;
+      let hasExistingBalance = false;
+      let hasExistingLedger = false;
+
+      if (existingUserId) {
+        const ledgerCheck = await executeQuery<{
+          has_balance: boolean;
+          has_ledger: boolean;
+        }>(
+          `SELECT
+             EXISTS (SELECT 1 FROM token_balances WHERE user_id = $1) AS has_balance,
+             EXISTS (SELECT 1 FROM token_transactions WHERE user_id = $1) AS has_ledger`,
+          [existingUserId],
+        );
+        hasExistingBalance = Boolean(ledgerCheck.rows[0]?.has_balance);
+        hasExistingLedger = Boolean(ledgerCheck.rows[0]?.has_ledger);
+      }
+
+      if (existingUserId && cli.onlyMissing && hasExistingBalance) {
+        skippedExistingCount++;
+        preservedLedgerCount++;
+        continue;
+      }
+
+      if (cli.dryRun) {
+        if (!existingUserId) {
+          insertedCount++;
+          seededLedgerCount++;
+          console.log(
+            `[DRY-RUN] WOULD INSERT ${name} (${slug}) -> ${email} | Seed ESMS: ${spirit}/${essence}/${matter}/${substance} | Element: ${dominantElement}`,
+          );
+        } else {
+          updatedCount++;
+          if (!hasExistingBalance && !hasExistingLedger) {
+            seededLedgerCount++;
+            console.log(
+              `[DRY-RUN] WOULD UPDATE ${name} (${slug}) -> ${email} (id=${existingUserId}) | Seed missing ESMS: ${spirit}/${essence}/${matter}/${substance}`,
+            );
+          } else {
+            preservedLedgerCount++;
+          }
+        }
+        continue;
+      }
+
       let userId = "";
-      if (userRes.rows.length === 0) {
+      if (!existingUserId) {
         userId = crypto.randomUUID();
         await executeQuery(
           `INSERT INTO users (
@@ -306,7 +441,7 @@ async function main(): Promise<void> {
         );
         insertedCount++;
       } else {
-        userId = userRes.rows[0]!.id;
+        userId = existingUserId;
         await executeQuery(
           `UPDATE users
               SET name = $1,
@@ -317,7 +452,7 @@ async function main(): Promise<void> {
                   profile = COALESCE(profile, '{}'::jsonb) || $2::jsonb,
                   preferences = $3::jsonb,
                   updated_at = now()
-            WHERE id = $4`,
+            WHERE id = $4 AND is_agent = true`,
           [
             name,
             JSON.stringify(userProfilePayload),
@@ -332,10 +467,12 @@ async function main(): Promise<void> {
       await executeQuery(
         `INSERT INTO user_profiles (
            user_id, name, bio, birth_data, natal_chart, natal_positions,
+           monica_full_chart, monica_diurnal, monica_nocturnal, monica_method,
            dominant_element, dietary_preferences, updated_at
          ) VALUES (
            $1, $2, $3, $4::jsonb, $5::jsonb, $6::jsonb,
-           $7, $8::jsonb, now()
+           $7::numeric, $8::numeric, $9::numeric, $10,
+           $11, $12::jsonb, now()
          )
          ON CONFLICT (user_id) DO UPDATE SET
            name = COALESCE(EXCLUDED.name, user_profiles.name),
@@ -348,6 +485,19 @@ async function main(): Promise<void> {
              THEN user_profiles.natal_positions 
              ELSE EXCLUDED.natal_positions 
            END,
+           monica_full_chart = CASE
+             WHEN user_profiles.monica_method IS NOT NULL THEN user_profiles.monica_full_chart
+             ELSE EXCLUDED.monica_full_chart
+           END,
+           monica_diurnal = CASE
+             WHEN user_profiles.monica_method IS NOT NULL THEN user_profiles.monica_diurnal
+             ELSE EXCLUDED.monica_diurnal
+           END,
+           monica_nocturnal = CASE
+             WHEN user_profiles.monica_method IS NOT NULL THEN user_profiles.monica_nocturnal
+             ELSE EXCLUDED.monica_nocturnal
+           END,
+           monica_method = COALESCE(user_profiles.monica_method, EXCLUDED.monica_method),
            dietary_preferences = EXCLUDED.dietary_preferences,
            updated_at = now()`,
         [
@@ -357,6 +507,10 @@ async function main(): Promise<void> {
           birthData ? JSON.stringify(birthData) : null,
           natalChart ? JSON.stringify(natalChart) : null,
           derivedPositions.length > 0 ? JSON.stringify(derivedPositions) : null,
+          monicaFullChart,
+          monicaDiurnal,
+          monicaNocturnal,
+          monicaMethod,
           dominantElement,
           JSON.stringify(historicalDiet),
         ]
@@ -364,6 +518,7 @@ async function main(): Promise<void> {
 
       // 3. Seed the ESMS balance and all ledger credits atomically.
       const seedResult = await executeQuery<{
+        credited_axes: number;
         ledger_without_balance: boolean;
         invalid_quantities: boolean;
       }>(
@@ -375,6 +530,11 @@ async function main(): Promise<void> {
       }
       if (seedResult.rows[0]?.invalid_quantities) {
         throw new Error("Agent ESMS seed quantities must be finite and nonnegative.");
+      }
+      if ((seedResult.rows[0]?.credited_axes ?? 0) > 0) {
+        seededLedgerCount++;
+      } else {
+        preservedLedgerCount++;
       }
 
       // 4. Upsert user_streaks
@@ -393,15 +553,17 @@ async function main(): Promise<void> {
   }
 
   console.log(
-    `\n[sync-agentic-users] Complete! Inserted: ${insertedCount}, Updated: ${updatedCount}, Errors: ${errorCount}`
+    `\n[sync-agentic-users] ${cli.dryRun ? "Dry-run summary" : "Complete"}! Matched: ${matchedCount}, Inserted: ${insertedCount}, Updated: ${updatedCount}, SkippedExisting: ${skippedExistingCount}, SeededLedger: ${seededLedgerCount}, PreservedLedger: ${preservedLedgerCount}, Errors: ${errorCount}`
   );
 }
 
-main()
-  .catch((err) => {
-    console.error("Fatal sync error:", err);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await closeDatabase();
-  });
+if (process.argv[1]?.includes("sync-agentic-users")) {
+  main()
+    .catch((err) => {
+      console.error("Fatal sync error:", err);
+      process.exit(1);
+    })
+    .finally(async () => {
+      await closeDatabase();
+    });
+}

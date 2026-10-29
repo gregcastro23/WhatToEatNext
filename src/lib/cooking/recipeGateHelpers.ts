@@ -66,60 +66,11 @@ export function normalizeUnit(rawUnit: string): string {
   return UNIT_CANONICAL_MAP[lower] ?? lower;
 }
 
-export const GLUTEN_CONTAINING_TERMS: RegExp[] = [
-  /\bwheat\b/i,
-  /\bflour\b/i,
-  /\bseitan\b/i,
-  /\bsemolina\b/i,
-  /\bspelt\b/i,
-  /\brye\b/i,
-  /\bbarley\b/i,
-  /\bkamut\b/i,
-  /\bbread\b/i,
-  /\bbreadcrumbs?\b/i,
-  /\bcroutons?\b/i,
-  /\bpanko\b/i,
-  /\bpasta\b/i,
-  /\bspaghetti\b/i,
-  /\blinguine\b/i,
-  /\bfettuccine\b/i,
-  /\btagliatelle\b/i,
-  /\brigatoni\b/i,
-  /\bfusilli\b/i,
-  /\blasagn[ae]\b/i,
-  /\bpenne\b/i,
-  /\bmacaroni\b/i,
-  /\borzo\b/i,
-  /\bgnocchi\b/i,
-  /\bnoodles?\b/i,
-  /\budon\b/i,
-  /\bramen\b/i,
-  /\bpitas?\b/i,
-  /\bnaan\b/i,
-  /\bbagels?\b/i,
-  /\bsoy\s+sauce\b/i,
-  /\bteriyaki\b/i,
-  /\bcouscous\b/i,
-  /\bbulgur\b/i,
-  /\bfarro\b/i,
-  /\bbeer\b/i,
-  /\bmalt\b/i,
-  /\bmalt\s+vinegar\b/i,
-];
-
-export const GLUTEN_EXEMPT_TERMS: RegExp[] = [
-  /\bgluten[- ]free\s+(soy\s+sauce|flour|breadcrumbs?|bread|pasta|noodles?|spaghetti|linguine|fettuccine|tagliatelle|rigatoni|fusilli|lasagn[ae]|penne|macaroni|orzo|gnocchi|udon|ramen|pita|naan|bagels?)\b/gi,
-  /\b(rice|almond|buckwheat|coconut|tapioca|chickpea|gram|besan|corn|potato|sorghum|teff|cassava|arrowroot)\s+flour\b/gi,
-  /\b(rice|glass|cellophane|sweet\s+potato|kelp|shirataki)\s+noodles?\b/gi,
-];
-
-export function isKnownGlutenSource(ingredientName: string): boolean {
-  let remaining = ingredientName.toLowerCase().trim();
-  for (const exempt of GLUTEN_EXEMPT_TERMS) {
-    remaining = remaining.replace(exempt, " ");
-  }
-  return GLUTEN_CONTAINING_TERMS.some((rx) => rx.test(remaining));
-}
+export {
+  GLUTEN_CONTAINING_TERMS,
+  GLUTEN_EXEMPT_TERMS,
+  isKnownGlutenSource,
+} from "./recipeGateDietCoverage";
 
 export interface ResolvedIngredientResult {
   ingredient: RecipeContentIngredient;

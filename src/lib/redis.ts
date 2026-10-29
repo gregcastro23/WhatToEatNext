@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { Redis } from "@upstash/redis";
 import { createLogger } from "@/utils/logger";
 
@@ -17,9 +18,13 @@ export function getRedisClient(): Redis | null {
   }
 
   try {
+    // Use `cache: "default"` instead of @upstash/redis's default `"no-store"` so
+    // Next.js 15's patched fetch does not throw DynamicServerError (`DYNAMIC_SERVER_USAGE`)
+    // when Redis reads/writes occur inside ISR routes like /recipes/[recipeId].
     _client = new Redis({
       url,
       token,
+      cache: "default",
     });
     return _client;
   } catch (err) {
@@ -65,6 +70,38 @@ export async function redisDel(key: string): Promise<void> {
   } catch (err) {
     logger.error("DEL failed", { error: err });
   }
+}
+
+const COMMUNITY_AGENTS_REVISION_KEY = "community:agents:v3:revision";
+
+/** Rotate the namespace after COMMIT, covering every limit and in-flight fill. */
+export async function invalidateCommunityAgentsCache(): Promise<void> {
+  const client = getRedisClient();
+  if (!client) return;
+  try {
+    await client.set(COMMUNITY_AGENTS_REVISION_KEY, randomUUID());
+  } catch (err) {
+    logger.warn("invalidateCommunityAgentsCache failed:", err);
+  }
+}
+
+export async function communityAgentsCached<T>(
+  limit: number,
+  ttlSeconds: number,
+  loader: () => Promise<T>,
+): Promise<T> {
+  const client = getRedisClient();
+  if (!client) return loader();
+  let revision: string | null;
+  try {
+    revision = await client.get<string>(COMMUNITY_AGENTS_REVISION_KEY);
+  } catch (err) {
+    logger.warn("Community agents cache revision unavailable:", err);
+    return loader();
+  }
+  // Old generations expire normally. A loader started before publication can
+  // only refill its old generation, never the newly visible namespace.
+  return redisCached(`community:agents:v3:${revision ?? "initial"}:${limit}`, ttlSeconds, loader);
 }
 
 /**

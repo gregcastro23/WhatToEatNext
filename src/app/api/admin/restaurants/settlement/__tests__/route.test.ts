@@ -296,6 +296,23 @@ describe("POST /api/admin/restaurants/settlement", () => {
     const data = await res.json();
     expect(data.success).toBe(true);
     expect(data.status).toBe("refunded");
+    expect(data.netRefund).toBe(25);
+    expect(data.perAxisRefund).toEqual({
+      Spirit: 15,
+      Essence: 10,
+      Matter: 0,
+      Substance: 0,
+    });
+    expect(data.refundAmounts).toEqual({
+      spirit: 15,
+      essence: 10,
+      matter: 0,
+      substance: 0,
+    });
+    expect(data.refundReference).toEqual({
+      sourceId: ORDER_ID,
+      idempotencyKey: `restaurant_refund:${ORDER_ID}`,
+    });
     expect(mockCreditMultipleTokens).toHaveBeenCalledWith(
       "user-1",
       [

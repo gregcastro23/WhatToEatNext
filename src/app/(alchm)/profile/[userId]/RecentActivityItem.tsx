@@ -24,6 +24,7 @@ function resolveActivityHref(
   const versionId = typeof meta?.versionId === "string" ? meta.versionId : undefined;
   if (versionPath) return versionPath;
   if (versionId) return `/recipes/versions/${encodeURIComponent(versionId)}`;
+  if (meta?.mcpCatalog === false) return undefined;
   if (narrationHref) return narrationHref;
   const recipeId =
     (typeof meta?.recipeId === "string" && meta.recipeId) ||
@@ -139,6 +140,28 @@ function ActivityItemHeader({
   );
 }
 
+function resolveActivityReviewText(
+  meta: Record<string, unknown> | null,
+): string | undefined {
+  for (const key of ["review", "comment", "reflection", "insightContent"]) {
+    const val = meta?.[key];
+    if (typeof val === "string" && val.length > 0) return val;
+  }
+  return undefined;
+}
+
+function isCritiqueEvent(
+  eventType: string,
+  meta: Record<string, unknown> | null,
+): boolean {
+  const source = meta?.source;
+  return (
+    eventType === "recipe_review" ||
+    source === "catalog_critique" ||
+    source === "catalog_review"
+  );
+}
+
 export function RecentActivityItem({
   event,
 }: {
@@ -148,11 +171,7 @@ export function RecentActivityItem({
   const narration = narrateFeedEvent(event.eventType, meta);
   const href = resolveActivityHref(meta, narration.href);
   const displayTitle = resolveActivityTitle(meta, narration.label);
-  const reviewText =
-    (typeof meta?.review === "string" && meta.review) ||
-    (typeof meta?.comment === "string" && meta.comment) ||
-    (typeof meta?.reflection === "string" && meta.reflection) ||
-    undefined;
+  const reviewText = resolveActivityReviewText(meta);
 
   return (
     <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 hover:border-white/10 transition-colors space-y-2">
@@ -164,7 +183,7 @@ export function RecentActivityItem({
         badges={
           <ActivityBadges
             isAdapted={event.eventType === "recipe_adapted" || typeof meta?.versionId === "string"}
-            isCritique={event.eventType === "recipe_review" || meta?.source === "catalog_critique"}
+            isCritique={isCritiqueEvent(event.eventType, meta)}
             isTransmuted={event.eventType === "recipe_generation"}
             contentState={typeof meta?.contentState === "string" ? meta.contentState : undefined}
           />

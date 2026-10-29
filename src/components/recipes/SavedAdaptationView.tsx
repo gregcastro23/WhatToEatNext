@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import type { SavedAdaptation } from "@/lib/recipes/savedAdaptationSchemas";
+import { recomputeSavedVersionReadings } from "@/utils/dietaryAdaptation";
 import type { JSX } from "react";
 
 interface VersionProps {
@@ -87,10 +89,7 @@ function Coverage({ version }: VersionProps): JSX.Element {
       <p>
         Not checked: {verification.notChecked.join(", ") || "none reported"}.
       </p>
-      <p>
-        Nutrition, elemental, ESMS and planetary scores are unavailable for this
-        edited version.
-      </p>
+      <p>ESMS and planetary scores are unavailable for this edited version.</p>
     </div>
   );
 }
@@ -116,6 +115,42 @@ function Receipt({ version }: VersionProps): JSX.Element {
         {version.receipt.basis.chart.source}); preferences: saved agent profile.
       </p>
       <Coverage version={version} />
+    </section>
+  );
+}
+
+function Readings({ version }: VersionProps): JSX.Element {
+  const readings = useMemo(
+    () =>
+      recomputeSavedVersionReadings({
+        ingredients: version.recipe.ingredients,
+        ...(version.recipe.numberOfServings !== undefined
+          ? { numberOfServings: version.recipe.numberOfServings }
+          : {}),
+        ...(version.recipe.servingSize !== undefined
+          ? { servingSize: version.recipe.servingSize }
+          : {}),
+      }),
+    [version.recipe],
+  );
+  const nutrition = readings.nutritionPerServing;
+  const elements = readings.elementalProperties;
+  return (
+    <section aria-label="Saved version readings" className="space-y-2 text-sm">
+      <h2 className="text-lg font-semibold">Readings from edited ingredients</h2>
+      <p>Estimates from the current ingredient catalog. These are calculated when viewed and are separate from the saved adaptation receipt.</p>
+      {nutrition ? (
+        <p>
+          Nutrition per serving: {Math.round(nutrition.calories)} kcal · Protein {nutrition.protein.toFixed(1)} g · Carbs {nutrition.carbs.toFixed(1)} g · Fat {nutrition.fat.toFixed(1)} g · Fiber {nutrition.fiber.toFixed(1)} g.
+        </p>
+      ) : (
+        <p>Nutrition unavailable: a known serving count and sufficient ingredient quantity data are required.</p>
+      )}
+      {elements ? (
+        <p>Elements: {Object.entries(elements).map(([element, value]) => `${element} ${Math.round(value * 100)}%`).join(" · ")}.</p>
+      ) : (
+        <p>Elemental reading unavailable: catalog coverage is incomplete.</p>
+      )}
     </section>
   );
 }
@@ -169,6 +204,7 @@ export function SavedAdaptationView({
           ))}
         </ol>
       </section>
+      <Readings version={version} />
       <Receipt version={version} />
       <Bibliography version={version} />
     </main>

@@ -29,9 +29,34 @@ export interface CosmicRefundOutcome {
     matter: number;
     substance: number;
   } | null;
+  netRefund: number;
+  perAxisRefund: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  } | null;
   refundReference: { debitTransactionGroupId: string; idempotencyKey: string } | null;
   creditResult?: CreditResult;
   error?: string;
+}
+
+function computePerAxisRefund(refund: SpendRecord["refund"]): {
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
+} {
+  return {
+    Spirit: refund.spirit,
+    Essence: refund.essence,
+    Matter: refund.matter,
+    Substance: refund.substance,
+  };
+}
+
+function computeNetRefund(refund: SpendRecord["refund"]): number {
+  return refund.spirit + refund.essence + refund.matter + refund.substance;
 }
 
 function buildRefundCredits(
@@ -63,6 +88,8 @@ function handleCreditFailure(
     refunded: false,
     refundStatus: "failed",
     refundAmounts: spend.refund,
+    netRefund: computeNetRefund(spend.refund),
+    perAxisRefund: computePerAxisRefund(spend.refund),
     refundReference: refundReference(spend),
     creditResult: outcome,
   };
@@ -86,6 +113,8 @@ function interpretCreditOutcome(spend: SpendRecord, outcome: CreditResult): Cosm
     refunded: false,
     refundStatus: "pending",
     refundAmounts: spend.refund,
+    netRefund: computeNetRefund(spend.refund),
+    perAxisRefund: computePerAxisRefund(spend.refund),
     refundReference: refundReference(spend),
     creditResult: outcome,
     };
@@ -95,6 +124,8 @@ function interpretCreditOutcome(spend: SpendRecord, outcome: CreditResult): Cosm
     refunded: true,
     refundStatus: "confirmed",
     refundAmounts: spend.refund,
+    netRefund: computeNetRefund(spend.refund),
+    perAxisRefund: computePerAxisRefund(spend.refund),
     refundReference: refundReference(spend),
     creditResult: outcome,
     };
@@ -123,6 +154,8 @@ export async function settleCosmicRecipeRefund(
       refunded: false,
       refundStatus: null,
       refundAmounts: null,
+      netRefund: 0,
+      perAxisRefund: null,
       refundReference: null,
     };
   }
@@ -146,6 +179,8 @@ export async function settleCosmicRecipeRefund(
       refunded: false,
       refundStatus: "failed",
       refundAmounts: spend.refund,
+      netRefund: computeNetRefund(spend.refund),
+      perAxisRefund: computePerAxisRefund(spend.refund),
       refundReference: refundReference(spend),
       error: error instanceof Error ? error.message : String(error),
     };

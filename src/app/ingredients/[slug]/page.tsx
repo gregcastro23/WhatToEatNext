@@ -21,9 +21,9 @@ import { getIngredientCatalog } from "@/lib/ingredients/ingredientCatalog";
 import { ingredientHref } from "@/lib/ingredients/ingredientSlug";
 import type { Metadata } from "next";
 
-// The card is static data; "used in" follows the live recipe catalog. Hourly
-// ISR, like recipe pages.
-export const revalidate = 3600;
+// The card is static data; "used in" follows the live recipe catalog. 24h
+// ISR, matching recipe pages, to prevent crawler sweeps from burning ISR write units.
+export const revalidate = 86400;
 
 /**
  * No slug is prebuilt (the live index needs the database, which builds should

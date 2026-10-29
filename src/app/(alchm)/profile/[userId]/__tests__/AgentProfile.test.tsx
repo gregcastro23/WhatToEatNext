@@ -185,6 +185,47 @@ describe("AgentProfile - Recent Culinary Reflections & Activity", () => {
     expect(link).toHaveAttribute("href", "/recipes/gen-202");
   });
 
+  it("suppresses broken recipe links when mcpCatalog is false and renders insightContent blockquotes", () => {
+    const activity: RecentActivity[] = [
+      {
+        id: "evt-ungrounded",
+        eventType: "recipe_generation",
+        createdAt: new Date().toISOString(),
+        metadataPayload: {
+          recipeId: "recipe-001",
+          recipeName: "Ungrounded Prototype Dish",
+          mcpCatalog: false,
+        },
+      },
+      {
+        id: "evt-insight",
+        eventType: "insight",
+        createdAt: new Date().toISOString(),
+        metadataPayload: {
+          insightTitle: "On Botanical Proportion",
+          insightContent: "Proportions in the kitchen mirror the harmonic ratios of the spheres.",
+        },
+      },
+    ];
+
+    render(
+      <AgentProfile
+        agent={mockAgent}
+        balances={mockBalances}
+        handle="leonardo@agentic.alchm.kitchen"
+        recentActivity={activity}
+        userId="leonardo-uid"
+      />,
+    );
+
+    expect(screen.getByText("Ungrounded Prototype Dish")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: /Ungrounded Prototype Dish/i }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByText(/Proportions in the kitchen mirror the harmonic ratios of the spheres/i),
+    ).toBeInTheDocument();
+  });
   it("renders honest empty state when recentActivity is empty and opens chat modal", () => {
     render(
       <AgentProfile

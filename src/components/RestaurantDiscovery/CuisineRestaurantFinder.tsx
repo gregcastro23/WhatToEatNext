@@ -9,7 +9,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AddToDiaryModal } from "@/components/food-diary/AddToDiaryModal";
+import { AlchemizeOptInModal } from "@/components/RestaurantDiscovery/AlchemizeOptInModal";
+import { useFavoriteRestaurants } from "@/components/RestaurantDiscovery/favoriteRestaurants";
+import { RateDishModal } from "@/components/RestaurantDiscovery/RateDishModal";
 import { ReservationModal } from "@/components/RestaurantDiscovery/ReservationModal";
+import { sourceLabel } from "@/components/RestaurantDiscovery/restaurantDisplay";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
 import type { SavedRestaurant } from "@/types/restaurant";
@@ -72,20 +76,6 @@ interface SavedRestaurantsPrefs {
   [k: string]: unknown;
 }
 
-function sourceLabel(source: RestaurantDiscoverySource | undefined): string {
-  switch (source) {
-    case "foursquare":
-      return "Foursquare";
-    case "google":
-      return "Google Places";
-    case "olo":
-      return "Olo";
-    case "yelp":
-    default:
-      return "Yelp";
-  }
-}
-
 export function CuisineRestaurantFinder({
   initialCuisineType = "",
   userLatitude,
@@ -103,10 +93,41 @@ export function CuisineRestaurantFinder({
   const [locationError, setLocationError] = useState<string | null>(null);
   const [loggingItem, setLoggingItem] = useState<AlchmScoredRestaurant | null>(null);
   const [reservingItem, setReservingItem] = useState<AlchmScoredRestaurant | null>(null);
+  const [ratingDishItem, setRatingDishItem] = useState<{
+    restaurant: AlchmScoredRestaurant;
+    dishName?: string;
+  } | null>(null);
+  const [alchemizeModalItem, setAlchemizeModalItem] = useState<AlchmScoredRestaurant | null>(null);
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const { isFavorite, toggleFavorite, favoriteIds } = useFavoriteRestaurants();
   const abortRef = useRef<AbortController | null>(null);
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const { currentUser, updateProfile } = useUser();
   const { showToast } = useToast();
+
+  // Read stored location if coordinates were not passed
+  useEffect(() => {
+    if (!coords && typeof window !== "undefined") {
+      try {
+        const stored = window.localStorage.getItem("alchm_user_location");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (
+            parsed &&
+            typeof parsed === "object" &&
+            "lat" in parsed &&
+            typeof parsed.lat === "number" &&
+            "lng" in parsed &&
+            typeof parsed.lng === "number"
+          ) {
+            setCoords({ lat: parsed.lat, lng: parsed.lng });
+          }
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }, [coords]);
 
   const saveRestaurant = useCallback(
     async (entry: AlchmScoredRestaurant, source: RestaurantDiscoverySource) => {
@@ -240,6 +261,9 @@ export function CuisineRestaurantFinder({
           lat: String(coords.lat),
           lng: String(coords.lng),
         });
+        if (favoriteIds.length > 0) {
+          params.set("favorites", favoriteIds.join(","));
+        }
         const res = await fetch(`/api/restaurants/discover?${params.toString()}`, {
           signal: controller.signal,
         });
@@ -298,6 +322,16 @@ export function CuisineRestaurantFinder({
     }
     return parts.join(" · ");
   }, [status]);
+
+  const displayedRestaurants = useMemo(() => {
+    if (status.kind !== "ready") return [];
+    if (!favoritesOnly) return status.data.restaurants;
+    return status.data.restaurants.filter(
+      (r) =>
+        isFavorite(r.business.id) ||
+        (r.partnerRestaurantId && isFavorite(r.partnerRestaurantId)),
+    );
+  }, [status, favoritesOnly, isFavorite]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -407,8 +441,25 @@ export function CuisineRestaurantFinder({
               ✦ {status.data.sourceNotice}
             </div>
           )}
+          <div className="flex items-center justify-between mb-3 px-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-white/50">
+              {displayedRestaurants.length} restaurant{displayedRestaurants.length === 1 ? "" : "s"}
+            </span>
+            <button
+              type="button"
+              onClick={() => setFavoritesOnly((v) => !v)}
+              aria-pressed={favoritesOnly}
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-wider transition-all ${
+                favoritesOnly
+                  ? "border-rose-400/40 bg-rose-500/15 text-rose-200"
+                  : "border-white/10 bg-white/5 text-white/60 hover:text-white/80"
+              }`}
+            >
+              <span aria-hidden>{favoritesOnly ? "❤️" : "♡"}</span> Favorites only
+            </button>
+          </div>
           <ul className="grid grid-cols-1 gap-3">
-            {status.data.restaurants.map((entry) => {
+            {displayedRestaurants.map((entry) => {
               const { business } = entry;
               const source = status.data.source ?? "yelp";
               const isScored = !!entry.dominantElement;
@@ -419,6 +470,11 @@ export function CuisineRestaurantFinder({
               const reasons = entry.matchReasons.slice(0, 2);
               const isSaved = savedIds.has(business.id);
               const isPartner = entry.isPartner === true;
+              const isFav =
+                isFavorite(business.id) ||
+                (entry.partnerRestaurantId
+                  ? isFavorite(entry.partnerRestaurantId)
+                  : false);
 
               return (
                 <li
@@ -483,6 +539,30 @@ export function CuisineRestaurantFinder({
                         </span>
                       )}
                       {distance && <span>· {distance}</span>}
+                      {entry.dishReviewStats && (
+                        <span
+                          className="text-amber-200 font-bold bg-amber-500/15 px-1.5 py-0.5 rounded border border-amber-400/30 text-[10px]"
+                          title={`${entry.dishReviewStats.reviewCount} community dish ratings`}
+                        >
+                          ✦ {entry.dishReviewStats.averageRating.toFixed(1)} Community ({entry.dishReviewStats.reviewCount})
+                        </span>
+                      )}
+                      {entry.isAlchemizedPartner && (
+                        <span
+                          className="text-amber-300 font-bold bg-amber-500/20 px-1.5 py-0.5 rounded border border-amber-400/40 text-[10px]"
+                          title="Opted in for signature recipe alchemization"
+                        >
+                          ✨ Alchemized Kitchen
+                        </span>
+                      )}
+                      {typeof entry.commentCount === "number" && entry.commentCount > 0 && (
+                        <span
+                          className="text-sky-200 font-medium bg-sky-500/15 px-1.5 py-0.5 rounded border border-sky-400/30 text-[10px]"
+                          title={`${entry.commentCount} community comments/tips`}
+                        >
+                          💬 {entry.commentCount} {entry.commentCount === 1 ? "tip" : "tips"}
+                        </span>
+                      )}
                     </div>
 
                     {isScored && reasons.length > 0 && (
@@ -517,6 +597,44 @@ export function CuisineRestaurantFinder({
                         Reserve
                       </button>
                     )}
+
+                    <div className="flex gap-1.5 flex-1 sm:w-32">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          toggleFavorite({
+                            id: entry.partnerRestaurantId || business.id,
+                            name: business.name,
+                            cuisine: entry.cuisineLabel || cuisineType,
+                            source,
+                          })
+                        }
+                        className={`flex-1 px-2 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider text-center transition-all border ${
+                          isFav
+                            ? "bg-rose-500/20 text-rose-200 border-rose-400/50 shadow-sm"
+                            : "bg-white/5 text-white/70 border-white/10 hover:border-rose-400/40 hover:text-rose-200"
+                        }`}
+                        title={isFav ? "Remove from favorites" : "Add to favorite sanctuaries"}
+                      >
+                        {isFav ? "❤️ Fav" : "♡ Fav"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setRatingDishItem({ restaurant: entry })}
+                        className="flex-1 px-2 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider text-center bg-amber-500/15 text-amber-200 border border-amber-400/30 hover:bg-amber-500/25 transition-all shadow-sm"
+                      >
+                        ⭐ Rate
+                      </button>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setAlchemizeModalItem(entry)}
+                      className="flex-1 sm:w-32 px-2.5 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider text-center bg-amber-500/10 text-amber-300 border border-amber-400/30 hover:bg-amber-500/20 transition-all"
+                      title="Alchemize this kitchen's recipes"
+                    >
+                      ✨ Alchemize
+                    </button>
 
                     <div className="flex gap-2 flex-1 sm:w-32">
                       <a
@@ -571,6 +689,42 @@ export function CuisineRestaurantFinder({
           source={status.kind === "ready" ? (status.data.source ?? "google") : "google"}
           cuisineType={cuisineType}
           onClose={() => setReservingItem(null)}
+        />
+      )}
+
+      {ratingDishItem && (
+        <RateDishModal
+          restaurant={{
+            id: ratingDishItem.restaurant.business.id,
+            name: ratingDishItem.restaurant.business.name,
+            cuisine:
+              ratingDishItem.restaurant.cuisineLabel ||
+              ratingDishItem.restaurant.business.categories[0]?.title ||
+              cuisineType,
+            address:
+              ratingDishItem.restaurant.business.location.display_address.join(", ") ||
+              ratingDishItem.restaurant.business.location.address1 || "",
+          }}
+          {...(ratingDishItem.dishName ? { initialDishName: ratingDishItem.dishName } : {})}
+          onClose={() => setRatingDishItem(null)}
+        />
+      )}
+
+      {alchemizeModalItem && (
+        <AlchemizeOptInModal
+          restaurant={{
+            id:
+              alchemizeModalItem.partnerRestaurantId ||
+              alchemizeModalItem.business.id,
+            name: alchemizeModalItem.business.name,
+            cuisine:
+              alchemizeModalItem.cuisineLabel ||
+              alchemizeModalItem.business.categories[0]?.title ||
+              cuisineType,
+            isPartner: Boolean(alchemizeModalItem.isPartner),
+          }}
+          onClose={() => setAlchemizeModalItem(null)}
+          onSuccess={() => setAlchemizeModalItem(null)}
         />
       )}
 

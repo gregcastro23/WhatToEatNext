@@ -54,17 +54,10 @@ if (!hasExplicitBackend) {
     : DEV_BACKEND_URL;
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === "object" && !Array.isArray(value);
-}
-
-function structuredObject(value: unknown): Record<string, unknown> {
-  return isRecord(value) ? value : { data: value };
-}
-
 async function main(): Promise<void> {
   // Import only after backend defaults and stdout protection are in place.
-  const { invokeTool } = await import("../../src/lib/mcp/tools.js");
+  const { invokeTool, structuredToolContent } =
+    await import("../../src/lib/mcp/tools.js");
   const { drainMcpInvocations } =
     await import("../../src/lib/mcp/invocationLog.js");
   const sessionId = randomUUID();
@@ -84,20 +77,7 @@ async function main(): Promise<void> {
       signal: extra.signal,
       correlationId: `stdio:${sessionId}:${extra.requestId}`,
     });
-    const payload = result.ok
-      ? {
-          ...structuredObject(result.data),
-          correlationId: result.correlationId,
-        }
-      : {
-          errorCode: result.errorCode ?? "INTERNAL",
-          message: result.errorMessage ?? "Tool failed",
-          correlationId: result.correlationId,
-          ...(result.data !== null ? { data: result.data } : {}),
-          ...(typeof result.summary.retryAfterSec === "number"
-            ? { retryAfterSec: result.summary.retryAfterSec }
-            : {}),
-        };
+    const payload = structuredToolContent(result);
     return {
       ...(result.ok ? {} : { isError: true }),
       structuredContent: payload,

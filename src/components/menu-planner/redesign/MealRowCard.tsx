@@ -15,7 +15,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
-import type { MealSlot as MealSlotType, MealType } from "@/types/menuPlanner";
+import { getDayName, type MealSlot as MealSlotType, type MealType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 import RecipeSelector from "../RecipeSelector";
 import { dominantElement, ELEMENT_DOT } from "./elementUtils";
@@ -60,10 +60,14 @@ function macroLine(r?: RecipeLike | null, servings = 1): string {
 export default function MealRowCard({
   mealSlot,
   ghost = false,
+  placingRecipe,
+  onPlaceMeal,
 }: {
   mealSlot: MealSlotType;
   /** Render an empty snack slot as a slim ghost affordance instead of a full row. */
   ghost?: boolean;
+  placingRecipe?: Recipe | null;
+  onPlaceMeal?: (slot: MealSlotType) => void;
 }): React.ReactElement {
   const {
     addMealToSlot,
@@ -99,6 +103,16 @@ export default function MealRowCard({
       }}
     />
   );
+
+  if (placingRecipe && onPlaceMeal) {
+    return (
+      <button type="button" onClick={() => onPlaceMeal(mealSlot)}
+        aria-label={`${recipe ? "Replace" : "Place"} ${placingRecipe.name} at ${getDayName(mealSlot.dayOfWeek)} ${mealSlot.mealType}`}
+        className="w-full rounded-lg border border-dashed border-active-violet bg-active-violet/10 p-4 text-left text-sm text-primary focus-visible:ring-2 focus-visible:ring-active-violet">
+        {recipe ? `Replace ${recipe.name}` : `Place at ${label.toLowerCase()}`}
+      </button>
+    );
+  }
 
   // Empty snack → slim ghost affordance
   if (!recipe && ghost) {

@@ -38,7 +38,7 @@ async function handleGet(request: NextRequest): Promise<NextResponse> {
   const deadlineMs = startedAt.getTime() + maxDuration * 1000 - HEARTBEAT_RESERVE_MS;
   try {
     const { searchParams } = new URL(request.url);
-    const limit = Math.min(Math.max(parseInt(searchParams.get("limit") ?? "3", 10), 1), 8);
+    const limit = Math.min(Math.max(parseInt(searchParams.get("limit") ?? "1", 10), 1), 8);
     const result = await prewarmAgentRecipes(limit, deadlineMs);
     // A run that started generations and landed none is PA failing, not a
     // healthy tick — record it as such so two in a row can alert.

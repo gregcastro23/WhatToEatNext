@@ -456,7 +456,7 @@ async function getInteractions(
          LEFT JOIN user_profiles target_email_up
            ON target_email_up.user_id = target_email.id
         WHERE u.is_agent = true
-          AND f.event_type = 'agent_chat'
+          AND f.event_type IN ('agent_chat', 'recipe_review', 'recipe_adapted', 'word_duel')
           AND (
             $2::text IS NULL
             OR LOWER(COALESCE(up.name, u.name, '')) LIKE '%' || $2 || '%'
@@ -465,12 +465,14 @@ async function getInteractions(
             OR LOWER(COALESCE(f.metadata_payload->>'withAgent', '')) LIKE '%' || $2 || '%'
             OR LOWER(COALESCE(f.metadata_payload->>'partnerName', '')) LIKE '%' || $2 || '%'
             OR LOWER(COALESCE(f.metadata_payload->>'targetAgentId', '')) LIKE '%' || $2 || '%'
+            OR LOWER(COALESCE(f.metadata_payload->>'recipeName', '')) LIKE '%' || $2 || '%'
           )
           AND (
             $3::text IS NULL
             OR LOWER(COALESCE(f.metadata_payload->>'responsePreview', '')) LIKE '%' || $3 || '%'
             OR LOWER(COALESCE(f.metadata_payload->>'messagePreview', '')) LIKE '%' || $3 || '%'
             OR LOWER(COALESCE(f.metadata_payload->>'message', '')) LIKE '%' || $3 || '%'
+            OR LOWER(COALESCE(f.metadata_payload->>'review', '')) LIKE '%' || $3 || '%'
             OR LOWER(COALESCE(f.metadata_payload->>'topic', '')) LIKE '%' || $3 || '%'
             OR LOWER(COALESCE(f.metadata_payload->>'subject', '')) LIKE '%' || $3 || '%'
           )
@@ -486,18 +488,29 @@ async function getInteractions(
         readMetadataString(meta, "targetName") ??
         readMetadataString(meta, "withAgent") ??
         readMetadataString(meta, "partnerName") ??
-        "User";
+        readMetadataString(meta, "recipeName") ??
+        "Catalog";
       return {
-        sessionId: readMetadataString(meta, "sessionId") ?? row.id,
+        sessionId:
+          readMetadataString(meta, "sessionId") ??
+          readMetadataString(meta, "recipeId") ??
+          row.id,
         agentId1: row.actor_id,
-        agentId2: readMetadataString(meta, "targetAgentId") ?? "user",
+        agentId2:
+          readMetadataString(meta, "targetAgentId") ??
+          readMetadataString(meta, "recipeId") ??
+          "catalog",
         targetUserId: row.target_user_id,
-        agentName1: row.actor_name ?? "Agent",
+        agentName1:
+          row.actor_name ?? readMetadataString(meta, "agentName") ?? "Agent",
         agentName2: targetName,
         timestamp: new Date(row.createdAt).toISOString(),
         preview:
           readMetadataString(meta, "responsePreview") ??
           readMetadataString(meta, "messagePreview") ??
+          readMetadataString(meta, "review") ??
+          readMetadataString(meta, "summary") ??
+          readMetadataString(meta, "message") ??
           "Discourse started",
       };
     });
@@ -534,39 +547,57 @@ const REASONING_LIMIT = 8;
 
 async function getRoleOps(): Promise<AgentNetworkPayload["roleOps"]> {
   try {
-    const roleIds = ROLE_OPS_DEFS.map((r) => r.id);
     // GROUPING SETS gives us, per role, one role-level rollup row (action IS
     // NULL — correct DISTINCT agent count + 24h/7d totals + last activity) plus
-    // one row per action for the breakdown — all in a single 7d scan.
+    // one row per action for the breakdown.
     const result = await executeQuery<{
       role: string;
       action: string | null;
       agent_count: number;
       events_24h: number;
       events_7d: number;
+      events_total: number;
       last_activity: Date | null;
     }>(
       `WITH agent_events AS (
          SELECT f.actor_id,
                 f.created_at,
-                split_part(f.event_type, '.', 1) AS role,
-                COALESCE(NULLIF(split_part(f.event_type, '.', 2), ''), '(unlabeled)') AS action
+                CASE
+                  WHEN split_part(f.event_type, '.', 1) IN ('sous-chef', 'galileo', 'substitution', 'pantry', 'procurement', 'lineage')
+                    THEN split_part(f.event_type, '.', 1)
+                  WHEN f.event_type IN ('recipe_generation', 'weekly_menu') THEN 'sous-chef'
+                  WHEN f.event_type IN ('insight', 'transit_attunement') THEN 'galileo'
+                  WHEN f.event_type IN ('recipe_adapted', 'recipe_review') THEN 'substitution'
+                  WHEN f.event_type = 'lab_entry' THEN 'pantry'
+                  WHEN f.event_type = 'claim_daily' THEN 'procurement'
+                  WHEN f.event_type IN ('agent_chat', 'word_duel') THEN 'lineage'
+                  ELSE NULL
+                END AS role,
+                COALESCE(
+                  NULLIF(split_part(f.event_type, '.', 2), ''),
+                  NULLIF(f.metadata_payload->>'messageType', ''),
+                  NULLIF(f.metadata_payload->>'internalTrigger', ''),
+                  NULLIF(f.metadata_payload->>'source', ''),
+                  f.event_type
+                ) AS action
          FROM feed_events f
          JOIN users u ON u.id = f.actor_id AND u.is_agent = true
-         WHERE f.created_at > NOW() - INTERVAL '7 days'
-           AND split_part(f.event_type, '.', 1) = ANY($1::text[])
        )
        SELECT
          role,
          action,
-         COUNT(DISTINCT actor_id)::int AS agent_count,
+         COALESCE(
+           NULLIF(COUNT(DISTINCT actor_id) FILTER (WHERE created_at > NOW() - INTERVAL '7 days'), 0),
+           COUNT(DISTINCT actor_id)
+         )::int AS agent_count,
          COUNT(*) FILTER (WHERE created_at > NOW() - INTERVAL '24 hours')::int AS events_24h,
-         COUNT(*)::int AS events_7d,
+         COUNT(*) FILTER (WHERE created_at > NOW() - INTERVAL '7 days')::int AS events_7d,
+         COUNT(*)::int AS events_total,
          MAX(created_at) AS last_activity
        FROM agent_events
+       WHERE role IS NOT NULL
        GROUP BY GROUPING SETS ((role), (role, action))
        ORDER BY role`,
-      [roleIds],
     );
 
     interface Bucket {
@@ -597,7 +628,10 @@ async function getRoleOps(): Promise<AgentNetworkPayload["roleOps"]> {
           ? new Date(row.last_activity).toISOString()
           : null;
       } else {
-        bucket.actions.push({ action: row.action, count: row.events_7d });
+        const count = row.events_7d > 0 ? row.events_7d : row.events_total;
+        if (count > 0) {
+          bucket.actions.push({ action: row.action, count });
+        }
       }
     }
 
@@ -640,9 +674,8 @@ async function getReasoning(
   limit = REASONING_LIMIT,
 ): Promise<AgentNetworkPayload["reasoning"]> {
   try {
-    // The latest decision preview per distinct agent. There is no reasoning /
-    // trace store yet, so this `agent_chat` preview is the closest real signal
-    // we can honestly surface; `instrumented` stays false to say so.
+    // The latest decision preview per distinct agent across agent_chat,
+    // recipe_generation, recipe_review, recipe_adapted, insight, and lab_entry.
     const result = await executeQuery<{
       agent_id: string;
       handle: string | null;
@@ -653,21 +686,30 @@ async function getReasoning(
          FROM (
            SELECT DISTINCT ON (f.actor_id)
              f.actor_id::text AS agent_id,
-             COALESCE(up.name, u.name, split_part(u.email, '@', 1)) AS handle,
+             COALESCE(
+               up.name,
+               u.name,
+               NULLIF(f.metadata_payload->>'agentName', ''),
+               split_part(u.email, '@', 1)
+             ) AS handle,
              f.created_at,
              COALESCE(
-               f.metadata_payload->>'responsePreview',
-               f.metadata_payload->>'messagePreview',
-               f.metadata_payload->>'message'
+               NULLIF(f.metadata_payload->>'responsePreview', ''),
+               NULLIF(f.metadata_payload->>'messagePreview', ''),
+               NULLIF(f.metadata_payload->>'review', ''),
+               NULLIF(f.metadata_payload->>'summary', ''),
+               NULLIF(f.metadata_payload->>'message', '')
              ) AS preview
            FROM feed_events f
            JOIN users u ON u.id = f.actor_id AND u.is_agent = true
            LEFT JOIN user_profiles up ON up.user_id = u.id
-           WHERE f.event_type = 'agent_chat'
+           WHERE f.event_type IN ('agent_chat', 'recipe_generation', 'recipe_review', 'recipe_adapted', 'insight', 'lab_entry')
              AND COALESCE(
-               f.metadata_payload->>'responsePreview',
-               f.metadata_payload->>'messagePreview',
-               f.metadata_payload->>'message'
+               NULLIF(f.metadata_payload->>'responsePreview', ''),
+               NULLIF(f.metadata_payload->>'messagePreview', ''),
+               NULLIF(f.metadata_payload->>'review', ''),
+               NULLIF(f.metadata_payload->>'summary', ''),
+               NULLIF(f.metadata_payload->>'message', '')
              ) IS NOT NULL
            ORDER BY f.actor_id, f.created_at DESC
          ) t

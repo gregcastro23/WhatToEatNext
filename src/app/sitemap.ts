@@ -9,7 +9,7 @@ const logger = createLogger("sitemap");
 // LocalRecipeService, whose no-store Upstash fetches would bail the sitemap
 // out of static rendering during `next build`. Listing static-catalog slugs
 // here used to point every crawler at a redirect behind a not-found head.
-export const revalidate = 3600; // regenerate sitemap at most hourly
+export const revalidate = 86400; // regenerate sitemap at most once per 24h (slashes ISR Write Units by 96%)
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://alchm.kitchen";
 

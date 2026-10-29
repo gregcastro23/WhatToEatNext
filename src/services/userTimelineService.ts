@@ -279,7 +279,7 @@ async function readLifetimeStats(userId: string): Promise<{
            COUNT(*) FILTER (WHERE event_type LIKE 'signin%' AND status = 'success')::int AS signins,
            COUNT(*) FILTER (WHERE event_type LIKE 'signin%' AND status = 'failure')::int AS failures
          FROM auth_events
-         WHERE user_id = $1
+         WHERE user_id = $1::text
        ),
        feed AS (
          SELECT COUNT(*)::int AS evt

@@ -13,6 +13,7 @@
 import { BarChart3, ShoppingBag } from "lucide-react";
 import type { DayOfWeek, MealSlot as MealSlotType } from "@/types/menuPlanner";
 import type { WeeklyNutritionResult } from "@/types/nutrition";
+import type { Recipe } from "@/types/recipe";
 import FastStartCard from "./FastStartCard";
 import RedesignedDayCard from "./RedesignedDayCard";
 import WeeklyInsights from "./WeeklyInsights";
@@ -62,6 +63,9 @@ export default function RedesignedMobilePlanner({
   todayDayOfWeek,
   weeklyNutrition,
   currentPlanetaryHour,
+  placingRecipe,
+  onPlaceMeal,
+  showSnacks = true,
   onShopWeek,
   onOpenNutrition,
 }: {
@@ -69,9 +73,12 @@ export default function RedesignedMobilePlanner({
   weekDates: [Date, Date, Date, Date, Date, Date, Date];
   mealsByDay: Record<DayOfWeek, MealSlotType[]>;
   todayDayOfWeek: DayOfWeek | null;
-  weeklyNutrition?: WeeklyNutritionResult | null | undefined;
-  currentPlanetaryHour?: string | null | undefined;
-  onShopWeek?: (() => void) | undefined;
+  weeklyNutrition?: WeeklyNutritionResult | null;
+  currentPlanetaryHour?: string | null;
+  placingRecipe?: Recipe | null;
+  onPlaceMeal?: (slot: MealSlotType) => void;
+  showSnacks?: boolean;
+  onShopWeek?: () => void;
   /** Opens the week's Nutrition Dashboard (the tools bar is hidden on phones); undefined hides the button. */
   onOpenNutrition: (() => void) | undefined;
 }) {
@@ -90,6 +97,9 @@ export default function RedesignedMobilePlanner({
       {/* Today hero */}
       {todayDayOfWeek !== null && (
         <RedesignedDayCard
+          {...(placingRecipe !== undefined ? { placingRecipe } : {})}
+          {...(onPlaceMeal ? { onPlaceMeal } : {})}
+          showSnacks={showSnacks}
           variant="hero"
           dayOfWeek={todayDayOfWeek}
           date={weekDates[todayDayOfWeek]}
@@ -107,6 +117,9 @@ export default function RedesignedMobilePlanner({
       {daysToRender.map((day) => (
         <RedesignedDayCard
           key={day}
+          {...(placingRecipe !== undefined ? { placingRecipe } : {})}
+          {...(onPlaceMeal ? { onPlaceMeal } : {})}
+          showSnacks={showSnacks}
           variant="day"
           dayOfWeek={day}
           date={weekDates[day]}

@@ -14,6 +14,7 @@
  *   - application/json:        { text: string }
  *   - multipart/form-data:     images[] (File, up to 4) and/or text
  */
+import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import {
@@ -118,12 +119,15 @@ export async function POST(request: NextRequest) {
       pricing,
     );
 
+    const extractionId = randomUUID();
     const debited = await tokenEconomy.debitTokens(
       user.id,
       "Essence",
       liveEssence,
       "recipe_ingestion",
       {
+        sourceId: extractionId,
+        transactionGroupId: extractionId,
         description: pricing.personalized
           ? `Recipe ingestion (live x${pricing.multiplier.toFixed(2)} · personalized)`
           : `Recipe ingestion (live x${pricing.multiplier.toFixed(2)})`,
@@ -141,13 +145,36 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const refundTelemetry = {
+      refunded: true,
+      netRefund: liveEssence,
+      refundAmounts: { spirit: 0, essence: liveEssence, matter: 0, substance: 0 },
+      perAxisRefund: { Spirit: 0, Essence: liveEssence, Matter: 0, Substance: 0 },
+      refundReference: {
+        sourceId: extractionId,
+        idempotencyKey: `recipe_extract_refund:${extractionId}`,
+      },
+    };
+
     // Refund helper — never let a failed/empty extraction cost tokens.
-    const refund = (reason: string) =>
-      tokenEconomy
-        .creditTokens(user.id, "Essence", liveEssence, "recipe_ingestion", {
-          description: `Refund — ${reason}`,
-        })
-        .catch((e) => _logger.error("[recipes/extract] refund failed:", e));
+    const refund = async (reason: string): Promise<void> => {
+      try {
+        await tokenEconomy.creditTokens(
+          user.id,
+          "Essence",
+          liveEssence,
+          "recipe_ingestion",
+          {
+            sourceId: extractionId,
+            transactionGroupId: extractionId,
+            idempotencyKey: `recipe_extract_refund:${extractionId}`,
+            description: `Refund — ${reason}`,
+          },
+        );
+      } catch (e) {
+        _logger.error("[recipes/extract] refund failed:", e);
+      }
+    };
 
     // ── Extract ───────────────────────────────────────────────────────────
     let extracted;
@@ -162,6 +189,7 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           error: "Extraction failed. Your Essence was refunded — please try again.",
+          ...refundTelemetry,
         },
         { status: 502 },
       );
@@ -175,6 +203,7 @@ export async function POST(request: NextRequest) {
         recipes: [],
         balances,
         message: "No recipe detected — your Essence was refunded.",
+        ...refundTelemetry,
       });
     }
 

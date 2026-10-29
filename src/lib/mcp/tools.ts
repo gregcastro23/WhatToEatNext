@@ -18,22 +18,30 @@
  * @file mcp-server/src/tools.ts
  */
 
-import { executeQuery } from "@/lib/database/connection";
+import { executeQuery, withTransaction } from "@/lib/database/connection";
 import { evaluateTriplicateSynastry } from "@/lib/economy/triplicatePricing";
+import { invalidateCommunityAgentsCache } from "@/lib/redis";
 import { alchemicalService } from "@/services/AlchemicalService";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { ingredientService } from "@/services/IngredientService";
 import { calculateNatalChart } from "@/services/natalChartService";
-import { recipeReflectionsService } from "@/services/recipeReflectionsService";
+import {
+  recipeReflectionsService,
+  sanitizeReview,
+  type RecipeReflectionRecord,
+} from "@/services/recipeReflectionsService";
 import { recipeService } from "@/services/RecipeService";
 import type { TokenType } from "@/types/economy";
+import { resolveCaller, type ResolvedCaller } from "./auth";
 import {
+  IDEMPOTENCY_REPLAY_HOURS,
+  UNKEYED_PAYMENT,
   debitForTool,
-  resolveCaller,
+  requestFingerprint,
   type DebitOutcome,
-  type ResolvedCaller,
-} from "./auth";
-import { isToolName, type ToolName } from "./catalog";
+  type PaymentRequest,
+} from "./billing";
+import { TOOL_COSTS, isToolName, type ToolName } from "./catalog";
 import {
   buildEvidenceSnapshot,
   type EvidenceSnapshot,
@@ -51,6 +59,8 @@ import {
   getTransitNatalOverlay,
 } from "./synastryTools";
 import { validateToolArguments } from "./validation";
+import type { BillingStatus, ToolErrorCode } from "./outputSchemas";
+import type { PoolClient } from "pg";
 
 function isRecord(val: unknown): val is Record<string, unknown> {
   return typeof val === "object" && val !== null && !Array.isArray(val);
@@ -71,23 +81,26 @@ function isDominantElement(
   return val === "Fire" || val === "Water" || val === "Earth" || val === "Air";
 }
 
+/** What a paid tool did about payment for one response. */
+export interface BillingReceipt {
+  status: BillingStatus;
+  /** Why nothing was charged (e.g. anonymous-caller, not-delivered). */
+  reason?: string;
+  /** Debited by this call; null when nothing was charged now. */
+  amounts: DebitOutcome["amounts"];
+  /** The caller's `_meta.idempotencyKey`, echoed back. */
+  idempotencyKey: string | null;
+}
+
 export interface ToolResult<T = unknown> {
   ok: boolean;
   data: T | null;
   /** Stable error code for caller-side handling. */
-  errorCode?:
-    | "INVALID_ARGS"
-    | "QUOTA"
-    | "INTERNAL"
-    | "NOT_FOUND"
-    | "RATE_LIMIT"
-    | "UNAUTHORIZED"
-    | "FORBIDDEN"
-    | "UNAVAILABLE"
-    | "BUSY"
-    | "CANCELLED";
+  errorCode?: ToolErrorCode;
   errorMessage?: string;
   correlationId?: string;
+  /** Present on paid tools once the call reaches settlement. */
+  billing?: BillingReceipt;
   /** Small object suitable for persisting in `mcp_invocations.result_summary`. */
   summary: Record<string, unknown>;
 }
@@ -681,6 +694,7 @@ interface ReflectionAuthor {
   authorId: string;
   resolvedAgentName: string | null;
   isAgentAuthor: boolean;
+  agentEmail?: string | null;
 }
 
 async function resolveReflectionAuthor(
@@ -696,8 +710,9 @@ async function resolveReflectionAuthor(
     id: string;
     name: string | null;
     is_agent: boolean;
+    email?: string | null;
   }>(
-    `SELECT u.id, COALESCE(up.name, u.name) AS name, u.is_agent
+    `SELECT u.id, COALESCE(up.name, u.name) AS name, u.is_agent, u.email
        FROM users u
   LEFT JOIN user_profiles up ON up.user_id = u.id
       WHERE u.id = $1
@@ -712,6 +727,7 @@ async function resolveReflectionAuthor(
     authorId: row.id,
     resolvedAgentName: row.name,
     isAgentAuthor: row.is_agent === true,
+    agentEmail: row.email ?? null,
   };
 }
 
@@ -723,50 +739,298 @@ function formatReflectionTimestamp(createdAt: unknown): string {
   return new Date().toISOString();
 }
 
+interface ReflectionPublication {
+  feedPublished: boolean;
+  feedEventId: string | null;
+  legacyInteractionStatus: string;
+  error?: string;
+}
+
+/** A validated submission, as it is stored and published. */
+interface ReflectionSubmission {
+  recipeId: string;
+  review: string;
+  source: string;
+  recipeName?: string;
+  agentSlug?: string;
+  dominantElement?: string;
+}
+
+interface SettledReflection {
+  debit: DebitOutcome;
+  record: RecipeReflectionRecord;
+  replayed: boolean;
+  publication: ReflectionPublication;
+  afterCommit?: () => Promise<void>;
+}
+
+/** Carries a refused settlement out of the transaction so it rolls back. */
+class SettlementRefusal extends Error {
+  constructor(readonly result: ToolResult) {
+    super(result.errorMessage ?? "MCP payment refused");
+  }
+}
+
+function invalidReflection(field: "recipeId" | "reflection"): ToolResult {
+  return {
+    ok: false,
+    data: null,
+    errorCode: "INVALID_ARGS",
+    errorMessage: `Missing or invalid '${field}' (must be a non-empty string)`,
+    summary: { reason: `invalid-${field}` },
+  };
+}
+
+function parseReflectionSubmission(
+  args: SubmitRecipeReflectionArgs,
+): { submission: ReflectionSubmission } | { failure: ToolResult } {
+  const { recipeId, recipeName, reflection, agentSlug, dominantElement, source } =
+    args;
+  if (typeof recipeId !== "string" || !recipeId.trim())
+    return { failure: invalidReflection("recipeId") };
+  // Stored text is stripped of control characters; text that strips to
+  // nothing would otherwise fail the column CHECK after authorization.
+  if (typeof reflection !== "string" || !sanitizeReview(reflection))
+    return { failure: invalidReflection("reflection") };
+  return {
+    submission: {
+      recipeId,
+      review: reflection.trim(),
+      source:
+        typeof source === "string" && source.trim()
+          ? source.trim()
+          : "mcp_reflection",
+      ...(typeof recipeName === "string" ? { recipeName } : {}),
+      ...(typeof agentSlug === "string" ? { agentSlug } : {}),
+      ...(typeof dominantElement === "string" ? { dominantElement } : {}),
+    },
+  };
+}
+
+function reflectionFeedPayload(
+  record: RecipeReflectionRecord,
+  submission: ReflectionSubmission,
+  author: ReflectionAuthor,
+): Record<string, unknown> {
+  const { recipeName, agentSlug, dominantElement } = submission;
+  return {
+    recipeId: record.recipeId,
+    ...(recipeName ? { recipeName } : {}),
+    review: record.review,
+    source: record.source,
+    ...(agentSlug ? { agentSlug } : {}),
+    ...(author.resolvedAgentName ? { agentName: author.resolvedAgentName } : {}),
+    ...(dominantElement ? { dominantElement } : {}),
+    recipeReflectionId: record.id,
+    contentState: record.contentState,
+    skipEconomyCharge: true, // 0.4 ESMS settled in this transaction
+  };
+}
+
+interface ReflectionPublicationOutcome {
+  publication: ReflectionPublication;
+  afterCommit?: () => Promise<void>;
+}
+
 /**
- * Submits an authentic culinary critique/reflection from an external agent,
- * persisting to recipe_reflections, dual-writing to user_recipe_interactions,
- * and publishing to feed_events.
+ * Publish the saved reflection inside the settling transaction. The savepoint
+ * keeps the reflection (and its paid debit) when publication fails: the feed
+ * insert, the interaction mirror and the reflection's feed link land together
+ * or not at all, and a retry with the same idempotency key tries again. The
+ * Planetary Agents webhook is skipped inside the transaction and returned as
+ * an `afterCommit` callback so an event is never pushed before COMMIT succeeds.
+ */
+async function publishReflectionInSavepoint(
+  client: PoolClient,
+  record: RecipeReflectionRecord,
+  submission: ReflectionSubmission,
+  author: ReflectionAuthor,
+): Promise<ReflectionPublicationOutcome> {
+  await client.query("SAVEPOINT mcp_reflection_feed");
+  try {
+    const metadataPayload = reflectionFeedPayload(record, submission, author);
+    const receipt = await feedDatabase.publishFeedEvent({
+      actorId: author.authorId,
+      eventType: "recipe_review",
+      metadataPayload,
+      identity: { share: true, explicit: true },
+      skipWebhook: true,
+      client,
+    });
+    const feedEventId = receipt.feedPublished ? (receipt.event?.id ?? null) : null;
+    if (!feedEventId) throw new Error(receipt.error ?? "Feed event was not stored");
+    // A failed mirror leaves the transaction aborted; this write then fails too.
+    await client.query(
+      `UPDATE recipe_reflections
+          SET feed_event_id = $1, updated_at = CURRENT_TIMESTAMP
+        WHERE id = $2`,
+      [feedEventId, record.id],
+    );
+    await client.query("RELEASE SAVEPOINT mcp_reflection_feed");
+    const agentEmail =
+      receipt.agentEmail ??
+      author.agentEmail ??
+      (submission.agentSlug
+        ? `${submission.agentSlug.toLowerCase()}@agentic.alchm.kitchen`
+        : `${author.authorId}@agentic.alchm.kitchen`);
+    const afterCommit =
+      author.isAgentAuthor
+        ? async () => {
+            await invalidateCommunityAgentsCache();
+            if (typeof feedDatabase.pushAgentFeedWebhook !== "function") return;
+            await feedDatabase
+              .pushAgentFeedWebhook({
+                agentEmail,
+                agentDisplayName: author.resolvedAgentName,
+                eventType: "recipe_review",
+                metadataPayload,
+              })
+              .catch(() => undefined);
+          }
+        : undefined;
+    return {
+      publication: {
+        feedPublished: true,
+        feedEventId,
+        legacyInteractionStatus: receipt.legacyInteractionStatus,
+      },
+      ...(afterCommit ? { afterCommit } : {}),
+    };
+  } catch (err) {
+    await client.query("ROLLBACK TO SAVEPOINT mcp_reflection_feed");
+    process.stderr.write(
+      `[mcp/submit_recipe_reflection] feed publication failed: ${String(err)}\n`,
+    );
+    return {
+      publication: {
+        feedPublished: false,
+        feedEventId: null,
+        legacyInteractionStatus: "failed",
+        error: "Feed publication failed; the reflection was saved",
+      },
+    };
+  }
+}
+
+/** Publish a reflection unless it already is, or moderation has removed it. */
+function publishIfUnpublished(
+  client: PoolClient,
+  record: RecipeReflectionRecord,
+  submission: ReflectionSubmission,
+  author: ReflectionAuthor,
+): Promise<ReflectionPublicationOutcome> | ReflectionPublicationOutcome {
+  if (record.feedEventId)
+    return {
+      publication: {
+        feedPublished: true,
+        feedEventId: record.feedEventId,
+        legacyInteractionStatus: "not_requested",
+      },
+    };
+  // Deleting a feed event nulls feed_event_id (ON DELETE SET NULL), just as a
+  // failed publication leaves it; a replay must not put moderated text back.
+  if (record.hidden || record.deletedAt || record.contentState === "rejected")
+    return {
+      publication: {
+        feedPublished: false,
+        feedEventId: null,
+        legacyInteractionStatus: "not_requested",
+        error: "The reflection was moderated and is not republished",
+      },
+    };
+  return publishReflectionInSavepoint(client, record, submission, author);
+}
+
+/** Debit, store (or find the replayed original) and publish, in `client`'s transaction. */
+async function settleReflection(
+  client: PoolClient,
+  caller: ResolvedCaller,
+  author: ReflectionAuthor,
+  submission: ReflectionSubmission,
+  payment: PaymentRequest,
+): Promise<SettledReflection> {
+  const name = "submit_recipe_reflection";
+  const debit = await debitForTool(name, caller, payment, client);
+  const refusal = paymentFailure(name, caller, debit);
+  if (refusal) throw new SettlementRefusal({ ...refusal, billing: billingReceipt(debit, payment) });
+  const prior =
+    debit.replayed && debit.ledgerKey
+      ? await recipeReflectionsService.findByDeliveryKey(author.authorId, debit.ledgerKey, client)
+      : null;
+  const record =
+    prior ??
+    (await recipeReflectionsService.createReflection({
+      recipeId: submission.recipeId,
+      authorId: author.authorId,
+      deliveryKey: debit.ledgerKey ?? null,
+      source: submission.source,
+      contentState: "proposed",
+      review: submission.review,
+      isAgent: author.isAgentAuthor,
+      provenance: {
+        mcpCaller: caller.caller,
+        ...(submission.agentSlug ? { agentSlug: submission.agentSlug } : {}),
+        ...(caller.apiKeyId ? { apiKeyId: caller.apiKeyId } : {}),
+      },
+      client,
+    }));
+  const { publication, afterCommit } = await publishIfUnpublished(client, record, submission, author);
+  return { debit, record, replayed: prior !== null, publication, ...(afterCommit ? { afterCommit } : {}) };
+}
+
+function reflectionResult(
+  { debit, record, replayed, publication }: SettledReflection,
+  submission: ReflectionSubmission,
+  author: ReflectionAuthor,
+  payment: PaymentRequest,
+): ToolResult {
+  return {
+    ok: true,
+    data: {
+      reflectionId: record.id,
+      recipeId: record.recipeId,
+      authorId: record.authorId,
+      agentSlug: submission.agentSlug ?? null,
+      agentName: author.resolvedAgentName,
+      reflection: record.review,
+      contentState: record.contentState,
+      published: publication.feedPublished,
+      publicationReceipt: publication,
+      replayed,
+      timestamp: formatReflectionTimestamp(record.createdAt),
+    },
+    billing: billingReceipt(debit, payment),
+    summary: {
+      reflectionId: record.id,
+      recipeId: record.recipeId,
+      authorId: record.authorId,
+      published: publication.feedPublished,
+      replayed,
+      legacyInteractionStatus: publication.legacyInteractionStatus,
+    },
+  };
+}
+
+/**
+ * Submits an authentic culinary critique/reflection from an external agent.
+ * The 0.4 ESMS debit and the `recipe_reflections` row commit in one
+ * transaction, so a caller is never charged for a reflection that was not
+ * stored. Feed publication (and its `user_recipe_interactions` mirror) is
+ * attempted in the same transaction behind a savepoint. With an idempotency
+ * key, a retry returns the stored reflection without charging again and
+ * re-attempts a publication that previously failed.
  */
 export async function submitRecipeReflection(
   args: SubmitRecipeReflectionArgs,
   caller: ResolvedCaller,
   authorizedAuthor?: ReflectionAuthor,
+  payment: PaymentRequest = UNKEYED_PAYMENT,
 ): Promise<ToolResult> {
-  const {
-    recipeId,
-    recipeName,
-    reflection,
-    agentSlug,
-    dominantElement,
-    source,
-  } = args;
-
-  if (typeof recipeId !== "string" || !recipeId.trim()) {
-    return {
-      ok: false,
-      data: null,
-      errorCode: "INVALID_ARGS",
-      errorMessage:
-        "Missing or invalid 'recipeId' (must be a non-empty string)",
-      summary: { reason: "invalid-recipeId" },
-    };
-  }
-
-  if (typeof reflection !== "string" || !reflection.trim()) {
-    return {
-      ok: false,
-      data: null,
-      errorCode: "INVALID_ARGS",
-      errorMessage:
-        "Missing or invalid 'reflection' (must be a non-empty string)",
-      summary: { reason: "invalid-reflection" },
-    };
-  }
-
+  const parsed = parseReflectionSubmission(args);
+  if ("failure" in parsed) return parsed.failure;
+  const { submission } = parsed;
   const author =
-    authorizedAuthor ?? (await resolveReflectionAuthor(agentSlug, caller));
-
+    authorizedAuthor ?? (await resolveReflectionAuthor(args.agentSlug, caller));
   if (!author) {
     return {
       ok: false,
@@ -777,93 +1041,16 @@ export async function submitRecipeReflection(
       summary: { reason: "unresolvable-author" },
     };
   }
-
-  const { authorId, resolvedAgentName, isAgentAuthor } = author;
-  const effectiveSource =
-    typeof source === "string" && source.trim()
-      ? source.trim()
-      : "mcp_reflection";
-
-  // 1. Create durable reflection record
-  const createdReflection = await recipeReflectionsService.createReflection({
-    recipeId,
-    authorId,
-    source: effectiveSource,
-    contentState: "reviewed",
-    review: reflection.trim(),
-    isAgent: isAgentAuthor,
-    provenance: {
-      mcpCaller: caller.caller,
-      ...(agentSlug ? { agentSlug } : {}),
-      ...(caller.apiKeyId ? { apiKeyId: caller.apiKeyId } : {}),
-    },
-  });
-
-  // 2. Publish feed event & mirror to user_recipe_interactions
-  let published = false;
-  let publicationReceipt: {
-    feedPublished: boolean;
-    legacyInteractionStatus: string;
-    error?: string;
-  } = {
-    feedPublished: false,
-    legacyInteractionStatus: "failed",
-  };
   try {
-    const receipt = await feedDatabase.publishFeedEvent({
-      actorId: authorId,
-      eventType: "recipe_review",
-      metadataPayload: {
-        recipeId,
-        ...(recipeName ? { recipeName } : {}),
-        review: reflection.trim(),
-        source: effectiveSource,
-        ...(agentSlug ? { agentSlug } : {}),
-        ...(resolvedAgentName ? { agentName: resolvedAgentName } : {}),
-        ...(dominantElement ? { dominantElement } : {}),
-        recipeReflectionId: createdReflection.id,
-        contentState: "reviewed",
-        skipEconomyCharge: true, // 0.4 ESMS already settled via debitForTool
-      },
-      identity: { share: true, explicit: true },
-    });
-    published = receipt.feedPublished;
-    publicationReceipt = {
-      feedPublished: receipt.feedPublished,
-      legacyInteractionStatus: receipt.legacyInteractionStatus,
-      ...(receipt.error ? { error: receipt.error } : {}),
-    };
-  } catch (err) {
-    publicationReceipt.error =
-      "Feed publication failed; the reflection was saved";
-    process.stderr.write(
-      `[mcp/submit_recipe_reflection] feed publication failed: ${String(err)}\n`,
+    const settled = await withTransaction((client) =>
+      settleReflection(client, caller, author, submission, payment),
     );
+    await settled.afterCommit?.();
+    return reflectionResult(settled, submission, author, payment);
+  } catch (err) {
+    if (err instanceof SettlementRefusal) return err.result;
+    throw err;
   }
-
-  const data = {
-    reflectionId: createdReflection.id,
-    recipeId,
-    authorId,
-    agentSlug: agentSlug ?? null,
-    agentName: resolvedAgentName,
-    reflection: reflection.trim(),
-    published,
-    publicationReceipt,
-    timestamp: formatReflectionTimestamp(createdReflection.createdAt),
-  };
-
-  return {
-    ok: true,
-    data,
-    summary: {
-      reflectionId: createdReflection.id,
-      recipeId,
-      authorId,
-      published,
-      legacyInteractionStatus: publicationReceipt.legacyInteractionStatus,
-    },
-  };
 }
 
 // ─── Dispatch + invocation wrapper ────────────────────────────────────
@@ -897,6 +1084,7 @@ function executeOtherTool(
   args: Record<string, unknown>,
   caller: ResolvedCaller,
   reflectionAuthor?: ReflectionAuthor,
+  payment?: PaymentRequest,
 ): Promise<ToolResult> | ToolResult {
   switch (name) {
     case "get_live_sky_transits":
@@ -912,7 +1100,7 @@ function executeOtherTool(
     case "create_evidence_snapshot":
       return createEvidenceSnapshot(args);
     case "submit_recipe_reflection":
-      return submitRecipeReflection(args, caller, reflectionAuthor);
+      return submitRecipeReflection(args, caller, reflectionAuthor, payment);
     default:
       return {
         ok: false,
@@ -1045,6 +1233,16 @@ function paymentFailure(
 ): ToolResult | null {
   if (debit.reason?.startsWith("insufficient-"))
     return toolFailure("QUOTA", `MCP token quota: ${debit.reason}`);
+  if (debit.reason === "idempotency-conflict")
+    return toolFailure(
+      "CONFLICT",
+      "This idempotency key was already used with different arguments; use a new key for a new request",
+    );
+  if (debit.reason === "idempotency-expired")
+    return toolFailure(
+      "CONFLICT",
+      `This idempotency key settled more than ${IDEMPOTENCY_REPLAY_HOURS} hours ago and can no longer be replayed; use a new key`,
+    );
   const exempt =
     debit.reason === "free-tool" ||
     debit.reason === "synthetic-probe-exempt" ||
@@ -1064,9 +1262,10 @@ function dispatchAuthorizedTool(
   args: Record<string, unknown>,
   caller: ResolvedCaller,
   author?: ReflectionAuthor,
+  payment?: PaymentRequest,
 ): Promise<ToolResult> | ToolResult {
   if (name !== "alchemize_ingredients")
-    return executeOtherTool(name, args, caller, author);
+    return executeOtherTool(name, args, caller, author, payment);
   // Validated above; narrow without casting unchecked input.
   const { ingredients } = args;
   if (
@@ -1096,11 +1295,82 @@ async function executeReadyTool(
   const authorization = await authorizeTool(name, args, caller);
   if (authorization.failure) return authorization.failure;
   signal?.throwIfAborted();
-  const debit = await debitForTool(name, caller);
+  if (!TOOL_COSTS[name])
+    return dispatchAuthorizedTool(name, args, caller, authorization.author);
+  const payment = paymentRequest(name, args);
+  // A reflection settles inside its own write transaction.
+  const result =
+    name === "submit_recipe_reflection"
+      ? await dispatchAuthorizedTool(
+          name,
+          args,
+          caller,
+          authorization.author,
+          payment,
+        )
+      : await deliverThenSettle(name, args, caller, payment);
+  state.tokensDebited = result.billing?.amounts ?? null;
+  return result;
+}
+
+function paymentRequest(
+  name: ToolName,
+  args: Record<string, unknown>,
+): PaymentRequest {
+  const meta = isRecord(args._meta) ? args._meta : {};
+  return {
+    idempotencyKey:
+      typeof meta.idempotencyKey === "string" ? meta.idempotencyKey : null,
+    fingerprint: requestFingerprint(name, args),
+  };
+}
+
+function billingReceipt(
+  debit: DebitOutcome,
+  payment: PaymentRequest,
+): BillingReceipt {
+  const status: BillingStatus = debit.replayed
+    ? "replayed"
+    : debit.applied
+      ? "charged"
+      : "not_charged";
+  return {
+    status,
+    ...(status === "not_charged" && debit.reason ? { reason: debit.reason } : {}),
+    amounts: debit.amounts,
+    idempotencyKey: payment.idempotencyKey,
+  };
+}
+
+/**
+ * Paid reads are charged on delivery: the tool runs first and only a
+ * successful result is settled, so a failed or partial result never costs the
+ * caller. A refused settlement withholds the result.
+ */
+async function deliverThenSettle(
+  name: ToolName,
+  args: Record<string, unknown>,
+  caller: ResolvedCaller,
+  payment: PaymentRequest,
+): Promise<ToolResult> {
+  const result = await dispatchAuthorizedTool(name, args, caller);
+  if (!result.ok)
+    return {
+      ...result,
+      billing: {
+        status: "not_charged",
+        reason: "not-delivered",
+        amounts: null,
+        idempotencyKey: payment.idempotencyKey,
+      },
+    };
+  // A caller that has gone away is not charged for a result it cannot receive.
+  getMcpInvocationContext()?.signal.throwIfAborted();
+  const debit = await debitForTool(name, caller, payment);
+  const billing = billingReceipt(debit, payment);
   const unsettled = paymentFailure(name, caller, debit);
-  if (unsettled) return unsettled;
-  state.tokensDebited = debit.amounts;
-  return dispatchAuthorizedTool(name, args, caller, authorization.author);
+  if (unsettled) return { ...unsettled, billing };
+  return { ...result, billing };
 }
 
 async function runValidatedTool(
@@ -1117,11 +1387,13 @@ async function runValidatedTool(
     executeReadyTool(name, args, state),
   );
   return (
-    completed ??
-    toolFailure(
-      "BUSY",
-      "The MCP server is at its four-call concurrency limit; retry later",
-    )
+    completed ?? {
+      ...toolFailure(
+        "BUSY",
+        "The MCP server is at its four-call concurrency limit; retry later",
+      ),
+      summary: { reason: "busy", retryAfterSec: 1 },
+    }
   );
 }
 
@@ -1143,7 +1415,11 @@ function completeToolInvocation(
 ): ToolResult {
   const { caller, tokensDebited, startedAt, calledAtIso } = state;
   result.correlationId = correlationId;
-  result.summary = { ...result.summary, correlationId };
+  result.summary = {
+    ...result.summary,
+    correlationId,
+    ...(result.billing ? { billing: result.billing.status } : {}),
+  };
   void recordInvocation(
     {
       toolName: name,
@@ -1192,6 +1468,36 @@ export async function invokeTool(
     result,
     invocationOptions.correlationId,
   );
+}
+
+function structuredObject(value: unknown): Record<string, unknown> {
+  return isRecord(value) ? value : { data: value };
+}
+
+/**
+ * The wire payload for one result: `structuredContent`, and the JSON text
+ * beside it. Both shapes conform to the tool's published outputSchema.
+ */
+export function structuredToolContent(
+  result: ToolResult,
+): Record<string, unknown> {
+  const billing = result.billing ? { billing: result.billing } : {};
+  if (result.ok)
+    return {
+      ...structuredObject(result.data),
+      correlationId: result.correlationId,
+      ...billing,
+    };
+  return {
+    errorCode: result.errorCode ?? "INTERNAL",
+    message: result.errorMessage ?? "Tool failed",
+    correlationId: result.correlationId,
+    ...(result.data !== null ? { data: result.data } : {}),
+    ...(typeof result.summary.retryAfterSec === "number"
+      ? { retryAfterSec: result.summary.retryAfterSec }
+      : {}),
+    ...billing,
+  };
 }
 
 export type { DebitOutcome };

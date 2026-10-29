@@ -311,7 +311,9 @@ export async function GET(
         `SELECT id, event_type, metadata_payload, created_at
            FROM feed_events
           WHERE actor_id = $1
-          ORDER BY created_at DESC
+            AND COALESCE(metadata_payload->>'mcpCatalog', 'true') <> 'false'
+          ORDER BY (event_type IN ('recipe_review', 'recipe_adapted', 'made_it', 'recipe_generation', 'lab_entry', 'weekly_menu')) DESC,
+                   created_at DESC
           LIMIT 12`,
         [realUserId],
       ),

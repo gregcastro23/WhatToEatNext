@@ -722,15 +722,8 @@ export default function MealSlot({
         {...(mealSlot.recipe?.elementalProperties !== undefined
           ? { recipeElementalProperties: mealSlot.recipe.elementalProperties }
           : {})}
-        {...(mealSlot.recipe?.alchemicalProperties
-          ? {
-              recipeAlchemicalProperties: {
-                Spirit: mealSlot.recipe.alchemicalProperties.heat ?? 0,
-                Essence: mealSlot.recipe.alchemicalProperties.reactivity ?? 0,
-                Matter: mealSlot.recipe.alchemicalProperties.stability ?? 0,
-                Substance: mealSlot.recipe.alchemicalProperties.entropy ?? 0,
-              },
-            }
+        {...(mealSlot.recipe?.mappedAlchemy
+          ? { recipeAlchemicalProperties: mealSlot.recipe.mappedAlchemy }
           : {})}
       />
     </div>

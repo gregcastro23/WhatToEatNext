@@ -19,6 +19,9 @@ import type { PoolClient } from "pg";
 
 const ProvenanceSchema = z.record(z.string(), z.unknown());
 
+const isServerWithDB = (): boolean =>
+  typeof window === "undefined" && !!process.env.DATABASE_URL;
+
 function parseProvenance(value: unknown): Record<string, unknown> {
   if (typeof value === "string") {
     try {
@@ -38,7 +41,8 @@ export interface CreateReflectionParams {
   feedEventId?: string | null;
   deliveryKey?: string | null;
   source: string;
-  contentState?: "proposed" | "reviewed" | "published" | "archived";
+  /** Must match the `recipe_reflections.content_state` CHECK (migration 94). */
+  contentState?: "proposed" | "verified" | "rejected";
   review: string;
   score?: number | null;
   isAgent?: boolean;
@@ -132,7 +136,30 @@ interface RawReflectionRow {
 // eslint-disable-next-line no-control-regex -- explicitly strip ASCII control characters for moderation sanitization
 const CONTROL_CHARS = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g;
 
-function sanitizeReview(text: string): string {
+function toReflectionRecord(row: RawReflectionRow): RecipeReflectionRecord {
+  return {
+    id: row.id,
+    recipeId: row.recipe_id,
+    authorId: row.author_id,
+    publicationId: row.publication_id,
+    feedEventId: row.feed_event_id,
+    deliveryKey: row.delivery_key,
+    source: row.source,
+    contentState: row.content_state,
+    review: row.review,
+    score: row.score !== null ? Number(row.score) : null,
+    isAgent: row.is_agent,
+    instructionReviewRequired: row.instruction_review_required,
+    provenance: parseProvenance(row.provenance),
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    deletedAt: row.deleted_at,
+    hidden: row.hidden,
+  };
+}
+
+/** The review text as stored: ASCII control characters removed, trimmed. */
+export function sanitizeReview(text: string): string {
   return text.replace(CONTROL_CHARS, "").trim();
 }
 
@@ -219,30 +246,16 @@ export class RecipeReflectionsService {
       if (!row) {
         throw new Error("Failed to insert recipe reflection row");
       }
-      const record: RecipeReflectionRecord = {
-        id: row.id,
-        recipeId: row.recipe_id,
-        authorId: row.author_id,
-        publicationId: row.publication_id,
-        feedEventId: row.feed_event_id,
-        deliveryKey: row.delivery_key,
-        source: row.source,
-        contentState: row.content_state,
-        review: row.review,
-        score: row.score !== null ? Number(row.score) : null,
-        isAgent: row.is_agent,
-        instructionReviewRequired: row.instruction_review_required,
-        provenance: parseProvenance(row.provenance),
-        createdAt: row.created_at,
-        updatedAt: row.updated_at,
-        deletedAt: row.deleted_at,
-        hidden: row.hidden,
-      };
+      const record = toReflectionRecord(row);
 
       this.inMemoryReflections.unshift({ ...record });
       return record;
-    } catch (_err) {
-      // Memory fallback for tests
+    } catch (err) {
+      // The memory fallback stands in for a missing database only. With a real
+      // database (or inside a caller's transaction, which this error has
+      // already aborted) a failed insert must surface: returning an invented id
+      // would report a reflection that was never stored.
+      if (client || isServerWithDB()) throw err;
       const fallbackId = randomUUID();
       const now = params.createdAt ? new Date(params.createdAt) : new Date();
       const record: RecipeReflectionRecord & { author_name?: string; author_email?: string } = {
@@ -267,6 +280,33 @@ export class RecipeReflectionsService {
       this.inMemoryReflections.unshift(record);
       return record;
     }
+  }
+
+  /**
+   * The reflection an author already saved under a delivery key, if any. A
+   * retried idempotent submission resolves to it instead of writing another.
+   * Includes moderated rows: the retry describes the original write.
+   */
+  async findByDeliveryKey(
+    authorId: string,
+    deliveryKey: string,
+    client?: PoolClient,
+  ): Promise<RecipeReflectionRecord | null> {
+    const sql = `
+      SELECT id, recipe_id, author_id, publication_id, feed_event_id, delivery_key,
+             source, content_state, review, score, is_agent,
+             instruction_review_required, provenance, created_at, updated_at,
+             deleted_at, hidden
+        FROM recipe_reflections
+       WHERE author_id = $1 AND delivery_key = $2
+       ORDER BY created_at ASC, id ASC
+       LIMIT 1
+    `;
+    const result = client
+      ? await client.query<RawReflectionRow>(sql, [authorId, deliveryKey])
+      : await executeQuery<RawReflectionRow>(sql, [authorId, deliveryKey]);
+    const [row] = result.rows;
+    return row ? toReflectionRecord(row) : null;
   }
 
   /**

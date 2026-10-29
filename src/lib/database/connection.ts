@@ -17,6 +17,7 @@ import type { PoolClient, QueryResult, QueryResultRow } from "pg";
  * static import on the hot query path.
  */
 export { getDatabasePool, initializeDatabase, closeDatabase };
+export { isolateDiagnosticQuery, type DiagnosticQueryOptions } from "./queryIsolation";
 export type { DatabaseConfig } from "./rawPool";
 
 // Throttle the per-query system_metrics persistence (in executeQuery below) so a

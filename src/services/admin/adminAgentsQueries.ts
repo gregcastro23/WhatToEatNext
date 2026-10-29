@@ -6,6 +6,7 @@
 
 import { getRecipePipelineTelemetryStats } from "@/lib/cooking/recipePipelineTelemetry";
 import { executeQuery } from "@/lib/database/connection";
+import { isolateDiagnosticQuery } from "@/lib/database/queryIsolation";
 import { _logger } from "@/lib/logger";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import {
@@ -13,7 +14,11 @@ import {
   type AsolContractProbeReport,
 } from "@/services/asolContractProbeService";
 import { getCronHeartbeats } from "@/services/cronHeartbeatService";
-import { AGENT_ACTION_METRICS_SQL } from "./adminAgentSql";
+import {
+  AGENT_ACTION_METRICS_SQL,
+  AGENT_ROSTER_STATS_SQL,
+  RECIPE_PIPELINE_OUTCOMES_SQL,
+} from "./adminAgentSql";
 import {
   MONITORED_AGENT_ACTIONS,
   type AgentActionMetric,
@@ -23,6 +28,7 @@ import {
   type RecipePipelineOutcomes,
   type ServiceReachability,
 } from "./adminAgentsTypes";
+import type { PoolClient } from "pg";
 
 export async function probeService(
   key: "planetaryAgentsApi" | "agentsUi",
@@ -30,61 +36,47 @@ export async function probeService(
   fetchFn: typeof fetch = fetch,
 ): Promise<ServiceReachability> {
   const url = getServiceUrlSafe(key);
-  const fullUrl = subPath ? `${url}${subPath}` : url;
-  const label = key === "planetaryAgentsApi" ? "Alchemy Agents API" : "Alchemy Agents UI";
-  const start = Date.now();
-
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 3_000);
-    const headers: Record<string, string> = { Accept: "application/json" };
-    if (process.env.INTERNAL_API_SECRET) {
-      headers.Authorization = `Bearer ${process.env.INTERNAL_API_SECRET}`;
-    }
-
-    const res = await fetchFn(fullUrl, {
-      method: "GET",
-      headers,
-      signal: controller.signal,
-    });
-    clearTimeout(timer);
-
-    return {
-      key,
-      label,
-      url: fullUrl,
-      reachable: res.status < 500,
-      statusCode: res.status,
-      latencyMs: Date.now() - start,
-      checkedAt: new Date().toISOString(),
-    };
-  } catch (err) {
-    _logger.error(`[adminAgentsService] ${key} probe failed:`, err);
-    return {
-      key,
-      label,
-      url: fullUrl,
-      reachable: false,
-      statusCode: null,
-      latencyMs: null,
-      error: err instanceof Error ? err.message : String(err),
-      checkedAt: new Date().toISOString(),
-    };
+  const prodFallback = key === "planetaryAgentsApi" ? "https://api.agents.alchm.kitchen" : "https://agents.alchm.kitchen";
+  const candidateBases = [url];
+  if ((url.includes("localhost") || url.includes("127.0.0.1")) && !candidateBases.includes(prodFallback)) {
+    candidateBases.push(prodFallback);
   }
+  const label = key === "planetaryAgentsApi" ? "Alchemy Agents API" : "Alchemy Agents UI";
+  const secret = process.env.INTERNAL_API_SECRET;
+  const headers: Record<string, string> = { Accept: "application/json", ...(secret ? { Authorization: `Bearer ${secret}` } : {}) };
+  let lastError: unknown = null;
+  let lastFullUrl = subPath ? `${url}${subPath}` : url;
+
+  for (const base of candidateBases) {
+    const fullUrl = subPath ? `${base}${subPath}` : base;
+    lastFullUrl = fullUrl;
+    const start = Date.now();
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 3_000);
+      const res = await fetchFn(fullUrl, { method: "GET", headers, signal: controller.signal });
+      clearTimeout(timer);
+      return { key, label, url: fullUrl, reachable: res.status < 500, statusCode: res.status, latencyMs: Date.now() - start, checkedAt: new Date().toISOString() };
+    } catch (err) {
+      lastError = err;
+    }
+  }
+
+  _logger.error(`[adminAgentsService] ${key} probe failed:`, lastError);
+  return {
+    key, label, url: lastFullUrl, reachable: false, statusCode: null, latencyMs: null,
+    error: lastError instanceof Error ? lastError.message : String(lastError),
+    checkedAt: new Date().toISOString(),
+  };
 }
 
-export async function getAgentRosterStats(): Promise<AgentRosterStats> {
+export async function getAgentRosterStats(options?: { client?: PoolClient }): Promise<AgentRosterStats> {
+  const client = options?.client;
   try {
     const result = await executeQuery<{
       total_agents: number;
       active_agents: number;
-    }>(
-      `SELECT
-         COUNT(*)::int AS total_agents,
-         COUNT(*) FILTER (WHERE last_login_at > NOW() - INTERVAL '24 hours')::int AS active_agents
-       FROM users
-       WHERE is_agent = true`,
-    );
+    }>(AGENT_ROSTER_STATS_SQL, [], client ? { client } : {});
     const [row] = result.rows;
     return {
       totalAgents: Number(row?.total_agents ?? 0),
@@ -108,54 +100,73 @@ interface ActionMetricRow {
   last_seen: Date | string | null;
 }
 
-export async function getActionMetrics(): Promise<AgentActionMetric[]> {
+function formatActionMetric(
+  def: (typeof MONITORED_AGENT_ACTIONS)[number],
+  data?: ActionMetricRow,
+  queryFailed?: boolean,
+): AgentActionMetric {
+  if (queryFailed) {
+    return {
+      action: def.action,
+      label: def.label,
+      path: def.path,
+      calls24h: null,
+      successes24h: null,
+      failures24h: null,
+      serverFailures24h: null,
+      p50Ms: null,
+      p95Ms: null,
+      lastSeenAt: null,
+    };
+  }
+  return {
+    action: def.action,
+    label: def.label,
+    path: def.path,
+    calls24h: Number(data?.total ?? 0),
+    successes24h: Number(data?.successes ?? 0),
+    failures24h: Number(data?.failures ?? 0),
+    serverFailures24h: Number(data?.server_failures ?? 0),
+    p50Ms: data?.p50_ms !== null && data?.p50_ms !== undefined ? Number(data.p50_ms) : null,
+    p95Ms: data?.p95_ms !== null && data?.p95_ms !== undefined ? Number(data.p95_ms) : null,
+    lastSeenAt: data?.last_seen ? new Date(data.last_seen).toISOString() : null,
+  };
+}
+
+export async function getActionMetrics(options?: { client?: PoolClient }): Promise<AgentActionMetric[]> {
   const paths = MONITORED_AGENT_ACTIONS.map((a) => a.path);
   const metricsMap = new Map<string, ActionMetricRow>();
-
+  const client = options?.client;
   let queryFailed = false;
+
   try {
-    const result = await executeQuery<ActionMetricRow>(
-      AGENT_ACTION_METRICS_SQL,
-      [paths],
+    const result = await isolateDiagnosticQuery(
+      "agent_action_metrics",
+      () =>
+        executeQuery<ActionMetricRow>(
+          AGENT_ACTION_METRICS_SQL,
+          [paths],
+          client ? { client } : {},
+        ),
+      null,
+      client,
     );
 
-    for (const r of result.rows) {
-      metricsMap.set(r.path, r);
+    if (result === null) {
+      queryFailed = true;
+    } else {
+      for (const r of result.rows) {
+        metricsMap.set(r.path, r);
+      }
     }
   } catch (err) {
     queryFailed = true;
     _logger.error("[adminAgentsService] action metrics query failed:", err);
   }
 
-  return MONITORED_AGENT_ACTIONS.map((def) => {
-    const data = metricsMap.get(def.path);
-    if (queryFailed) {
-      return {
-        action: def.action,
-        label: def.label,
-        path: def.path,
-        calls24h: null,
-        successes24h: null,
-        failures24h: null,
-        serverFailures24h: null,
-        p50Ms: null,
-        p95Ms: null,
-        lastSeenAt: null,
-      };
-    }
-    return {
-      action: def.action,
-      label: def.label,
-      path: def.path,
-      calls24h: Number(data?.total ?? 0),
-      successes24h: Number(data?.successes ?? 0),
-      failures24h: Number(data?.failures ?? 0),
-      serverFailures24h: Number(data?.server_failures ?? 0),
-      p50Ms: data?.p50_ms !== null && data?.p50_ms !== undefined ? Number(data.p50_ms) : null,
-      p95Ms: data?.p95_ms !== null && data?.p95_ms !== undefined ? Number(data.p95_ms) : null,
-      lastSeenAt: data?.last_seen ? new Date(data.last_seen).toISOString() : null,
-    };
-  });
+  return MONITORED_AGENT_ACTIONS.map((def) =>
+    formatActionMetric(def, metricsMap.get(def.path), queryFailed),
+  );
 }
 
 export async function getAgentCronHeartbeats(): Promise<AgentCronHeartbeat[]> {
@@ -163,15 +174,16 @@ export async function getAgentCronHeartbeats(): Promise<AgentCronHeartbeat[]> {
   try {
     const heartbeats = await getCronHeartbeats();
     if (heartbeats.live) {
-      const relevant = heartbeats.entries.filter((e) => agentCronNames.has(e.name));
-      return relevant.map((e) => ({
-        name: e.name,
-        schedule: e.schedule,
-        expectedIntervalMinutes: e.expectedIntervalMinutes,
-        lastRun: e.lastRun,
-        lastStatus: e.lastStatus,
-        state: e.state,
-      }));
+      return heartbeats.entries
+        .filter((e) => agentCronNames.has(e.name))
+        .map((e) => ({
+          name: e.name,
+          schedule: e.schedule,
+          expectedIntervalMinutes: e.expectedIntervalMinutes,
+          lastRun: e.lastRun,
+          lastStatus: e.lastStatus,
+          state: e.state,
+        }));
     }
     // Query marked not live
     _logger.error("[adminAgentsService] cron heartbeats unreadable (live: false)");
@@ -180,69 +192,51 @@ export async function getAgentCronHeartbeats(): Promise<AgentCronHeartbeat[]> {
   }
 
   return [
-    {
-      name: "agents-daily-yield",
-      schedule: "30 0 * * *",
-      expectedIntervalMinutes: 1440,
-      lastRun: null,
-      lastStatus: null,
-      state: "never",
-    },
-    {
-      name: "prewarm-agent-recipes",
-      schedule: "0 * * * *",
-      expectedIntervalMinutes: 60,
-      lastRun: null,
-      lastStatus: null,
-      state: "never",
-    },
+    { name: "agents-daily-yield", schedule: "30 0 * * *", expectedIntervalMinutes: 1440, lastRun: null, lastStatus: null, state: "never" },
+    { name: "prewarm-agent-recipes", schedule: "0 * * * *", expectedIntervalMinutes: 60, lastRun: null, lastStatus: null, state: "never" },
   ];
 }
 
-export async function getRecipePipelineOutcomes(): Promise<RecipePipelineOutcomes> {
+export async function getRecipePipelineOutcomes(
+  options?: { client?: PoolClient },
+): Promise<RecipePipelineOutcomes> {
   const telemetry = getRecipePipelineTelemetryStats();
+  const fallback = (live: boolean): RecipePipelineOutcomes => ({
+    attempts: telemetry.attempts,
+    repairs: telemetry.repairs,
+    retries: telemetry.retries,
+    refunds: telemetry.refunds,
+    finalFailures: telemetry.finalFailures,
+    live,
+  });
+
   try {
-    const result = await executeQuery<{
-      refunds: number;
-      attempts: number;
-      final_failures: number;
-    }>(
-      `SELECT
-         (SELECT COUNT(DISTINCT transaction_group_id)::int
-            FROM token_transactions
-           WHERE (source_type = 'cosmic_recipe_refund'
-               OR idempotency_key LIKE 'cosmic_recipe_refund:%'
-               OR description LIKE 'Refund - cosmic recipe%')
-             AND created_at > NOW() - INTERVAL '24 hours') AS refunds,
-         (SELECT COUNT(*)::int
-            FROM request_log_entries
-           WHERE path = '/api/generate-cosmic-recipe'
-             AND at > NOW() - INTERVAL '24 hours') AS attempts,
-         (SELECT COUNT(*)::int
-            FROM request_log_entries
-           WHERE path = '/api/generate-cosmic-recipe'
-             AND status >= 500
-             AND at > NOW() - INTERVAL '24 hours') AS final_failures`,
+    const result = await isolateDiagnosticQuery(
+      "recipe_pipeline_outcomes",
+      () =>
+        executeQuery<{
+          refunds: number;
+          attempts: number;
+          final_failures: number;
+        }>(RECIPE_PIPELINE_OUTCOMES_SQL, [], options?.client ? { client: options.client } : {}),
+      null,
+      options?.client,
     );
-    const [row] = result.rows;
+
+    const [row] = result?.rows ?? [];
+    if (!row) return fallback(false);
+
     return {
-      attempts: Number(row?.attempts ?? 0),
+      attempts: Number(row.attempts),
       repairs: telemetry.repairs,
       retries: telemetry.retries,
-      refunds: Number(row?.refunds ?? 0),
-      finalFailures: Number(row?.final_failures ?? 0),
+      refunds: Number(row.refunds),
+      finalFailures: Number(row.final_failures),
       live: true,
     };
   } catch (err) {
     _logger.error("[adminAgentsService] recipe pipeline outcomes query failed:", err);
-    return {
-      attempts: telemetry.attempts,
-      repairs: telemetry.repairs,
-      retries: telemetry.retries,
-      refunds: telemetry.refunds,
-      finalFailures: telemetry.finalFailures,
-      live: false,
-    };
+    return fallback(false);
   }
 }
 
