@@ -47,5 +47,9 @@
   },
   "cookingTechniques": [],
   "regionalCuisines": {},
-  "astrologicalInfluences": []
+  "astrologicalInfluences": [],
+  "elementalProfileBasis": {
+    "method": "recipe-mean",
+    "recipes": 39
+  }
 }
