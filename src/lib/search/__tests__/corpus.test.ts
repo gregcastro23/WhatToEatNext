@@ -66,9 +66,11 @@ describe("corpus: every catalog ingredient", () => {
       }
     }
     expect(total).toBeGreaterThan(2500);
-    // [MEASURED 2026-09-23] 3 misses, all 4-letter typos that are whole
-    // substrings of another word ("aple" ⊂ "maple"). Ratchet: may not grow.
-    expect(misses.length).toBeLessThanOrEqual(3);
+    // [MEASURED 2026-10-03] 4 misses, all 4-letter typos that are whole
+    // substrings of another word ("aple" ⊂ "maple"). Was 3 on 2026-09-23: the
+    // restored Tomato "Cream" Sauce (for Vegetable-Polenta Napoleons) is a second
+    // recipe title holding "leon" ⊂ "napoleons". Ratchet: may not grow.
+    expect(misses.length).toBeLessThanOrEqual(4);
   });
 });
 
@@ -141,10 +143,21 @@ describe("reverse index: a recipe line is filed under its head ingredient", () =
     //   modifier   46 →  41 →  41  (for review, not all wrong: "jalapeno pepper" →
     //                               jalapeno is right; "almond flour" awaits the derived flag)
     //   unresolved 373 → 377 → 273 (step 1: non-card slugs skipped, plurals, accents)
+    // [MEASURED 2026-10-03] 36 recipes restored from the PDF added lines, not defects:
+    //   generic     6 →   7  "garbanzo flour" → flour (the corn/oat flour class)
+    //   modifier   41 →  44  "honey-mustard yogurt" (a parent's reference line),
+    //                        "pistachio nuts", "potato starch flour"
+    //   unresolved 259 → 270 stays under 273: six ingredients with no catalog card (aqua
+    //                        faba, burdock root, cous-cous, marjoram leaf, roquefort
+    //                        cheese, the "muhammara" reference) and five range or comma
+    //                        splits ("2-3 tablespoons ...", "skinless, boneless ...")
+    // [MEASURED 2026-10-05] after the importer's parser was corrected and hsca.ts rebuilt
+    // (ranges, Unicode fractions, "of ...", "to taste", size patterns, adjective lists), over
+    // 2,675 distinct lines: generic 7 → 5, modifier 44 → 44, unresolved 270 → 248.
     expect(summary.flagged["unit-word"]).toBe(0);
-    expect(summary.flagged.generic).toBeLessThanOrEqual(6);
-    expect(summary.flagged.modifier).toBeLessThanOrEqual(41);
-    expect(summary.unresolved).toBeLessThanOrEqual(273);
+    expect(summary.flagged.generic).toBeLessThanOrEqual(5);
+    expect(summary.flagged.modifier).toBeLessThanOrEqual(44);
+    expect(summary.unresolved).toBeLessThanOrEqual(248);
   });
 
   it("hero recipe counts follow the head: lemon and garlic, not juice and cloves", () => {

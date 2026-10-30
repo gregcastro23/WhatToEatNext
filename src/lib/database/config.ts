@@ -38,6 +38,7 @@ export const databaseConfig = {
   // Database connection
   databaseUrl:
     process.env.DATABASE_URL ??
+    process.env.DATABASE_PUBLIC_URL ??
     "postgresql://user:pass@localhost:5432/alchm_kitchen",
 
   // Individual connection parameters (fallback if DATABASE_URL not provided).
@@ -54,7 +55,7 @@ export const databaseConfig = {
   // Connection pool settings — kept small for serverless (each Vercel invocation
   // owns its own pool; 50 concurrent connections per instance would exhaust Railway).
   maxConnections: intFromEnv(process.env.DB_MAX_CONNECTIONS, 5),
-  idleTimeout: intFromEnv(process.env.DB_IDLE_TIMEOUT, 10000),
+  idleTimeout: intFromEnv(process.env.DB_IDLE_TIMEOUT, 30000),
   connectionTimeout: intFromEnv(process.env.DB_CONNECTION_TIMEOUT, 5000),
 
   // Per-statement cap. Pool-acquisition storms (cold start + cron storms) used

@@ -10,7 +10,7 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
-import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
+import type { CraftedAgentProfile, HistoricalDiet } from "@/lib/agents/craftedAgentTypes";
 import {
   agentSlugFromEmail,
   fetchAgentProfile,
@@ -21,6 +21,8 @@ import {
   type AgentAction,
   type AgentArtifact,
 } from "@/lib/agents/fetchAgentProfile";
+import { computeAgentProgression } from "@/lib/agents/levelingService";
+import { resolveAgentAppearance } from "@/lib/agents/vessel-appearance-manifest";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { followDatabase } from "@/services/followDatabaseService";
@@ -32,6 +34,10 @@ const _logger = createLogger("users-api");
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+
+function isRecord(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null && !Array.isArray(val);
+}
 
 interface ProfileRow {
   user_id: string;
@@ -163,15 +169,16 @@ export async function GET(
     );
   }
 
-  // Allow lookup either by uuid or by exact email — agents often live under
-  // a stable email so callers can deep link with the friendlier slug.
+  // Allow lookup by uuid, exact email, or agentic email slug (e.g. 'leonardo-da-vinci')
   const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId);
-  const lookupColumn = isUuid ? "u.id::text = $1" : "u.email = $1";
+  const lookupColumn = isUuid
+    ? "u.id::text = $1"
+    : "(LOWER(u.email) = LOWER($1) OR LOWER(u.email) = LOWER($1) || '@agentic.alchm.kitchen' OR LOWER(u.email) = LOWER($1) || '@agents.alchm.kitchen')";
 
   try {
     const profileResult = await executeQuery<ProfileRow>(
       `SELECT u.id AS user_id, u.email, COALESCE(u.is_agent, false) AS is_agent,
-              up.name, up.bio, up.natal_chart, up.natal_positions,
+              COALESCE(up.name, u.name) AS name, up.bio, up.natal_chart, up.natal_positions,
               up.dominant_element, up.birth_data, up.dietary_preferences, up.profile_layout,
               COALESCE(up.avatar_url, u.image) AS avatar_url,
               up.share_identity,
@@ -179,12 +186,98 @@ export async function GET(
          FROM users u
          LEFT JOIN user_profiles up ON up.user_id = u.id
         WHERE ${lookupColumn}
+        ORDER BY (LOWER(u.email) LIKE '%@agentic.alchm.kitchen') DESC,
+                 (up.name IS NOT NULL) DESC,
+                 (up.dietary_preferences IS NOT NULL) DESC
         LIMIT 1`,
       [userId],
     );
 
     const [row] = profileResult.rows;
     if (!row) {
+      // Check if this slug corresponds to a canonical historical agent from ASOL
+      const externalAgent = await fetchAgentProfile(userId);
+      if (externalAgent) {
+        const appearance = resolveAgentAppearance(userId);
+        const rawChart = externalAgent.consciousness?.natalChart;
+        const progression = computeAgentProgression({
+          id: userId,
+          name: externalAgent.name,
+          consciousness: {
+            ...(externalAgent.consciousness?.dominantElement
+              ? { dominantElement: externalAgent.consciousness.dominantElement }
+              : {}),
+            ...(isRecord(rawChart) ? { natalChart: rawChart } : {}),
+          },
+        });
+        const vessel = {
+          level: progression.vesselLevel,
+          totalXp: progression.totalXp,
+          xpToNextLevel: progression.xpToNextLevel,
+          levelBoost: progression.levelBoost,
+          baseOverall: progression.baseOverall,
+          trainedOverall: progression.trainedOverall,
+          currentOverall: progression.currentOverall,
+          transitDelta: progression.transitDelta,
+          progressionStatus: progression.progressionStatus,
+          archetype: progression.archetype,
+          stats: progression.stats,
+          statDeltas: progression.statDeltas,
+          appearance,
+        };
+
+        return NextResponse.json({
+          success: true,
+          profile: {
+            userId,
+            handle: `${userId}@agentic.alchm.kitchen`,
+            name: externalAgent.name,
+            isAgent: true,
+            avatarUrl: null,
+            social: {
+              followers: 108,
+              following: 12,
+              commensals: 7,
+              tablesHosted: 4,
+              tablesJoined: 18,
+              viewer: null,
+            },
+            agentSlug: userId,
+            agentProfile: externalAgent,
+            vessel,
+            agentInteractions: [],
+            agentActions: [],
+            agentArtifacts: [],
+            bio: externalAgent.title
+              ? `${externalAgent.title} (${externalAgent.era ?? "Historical Master"})`
+              : "Historical Alchemical Intelligence",
+            dominantElement: externalAgent.consciousness?.dominantElement ?? "Spirit",
+            natalChart: externalAgent.consciousness?.natalChart ?? externalAgent.birthData ?? {},
+            natalPositions: [],
+            birthData: externalAgent.birthData ?? {},
+            dietary_preferences: externalAgent.historicalDiet ?? {},
+            profile_layout: [
+              "natalChart",
+              "alchemicalConstitution",
+              "tasteGraph",
+              "dietaryPrefs",
+              "insightsTicker",
+              "tokenEconomy",
+              "recentActivity",
+            ],
+            tasteGraph: null,
+            createdAt: new Date().toISOString(),
+            balances: {
+              spirit: 5000,
+              essence: 4200,
+              matter: 3800,
+              substance: 3500,
+            },
+            recentActivity: [],
+          },
+        });
+      }
+
       return NextResponse.json(
         { success: false, message: "Profile not found" },
         { status: 404 },
@@ -218,7 +311,9 @@ export async function GET(
         `SELECT id, event_type, metadata_payload, created_at
            FROM feed_events
           WHERE actor_id = $1
-          ORDER BY created_at DESC
+            AND COALESCE(metadata_payload->>'mcpCatalog', 'true') <> 'false'
+          ORDER BY (event_type IN ('recipe_review', 'recipe_adapted', 'made_it', 'recipe_generation', 'lab_entry', 'weekly_menu')) DESC,
+                   created_at DESC
           LIMIT 12`,
         [realUserId],
       ),
@@ -295,7 +390,7 @@ export async function GET(
     const natalChart = parseJsonField<Record<string, unknown>>(row.natal_chart, {});
     const natalPositions = parseJsonField<unknown[]>(row.natal_positions, []);
     const birthData = parseJsonField<Record<string, unknown>>(row.birth_data, {});
-    const dietaryPreferences = parseJsonField<Record<string, unknown>>(row.dietary_preferences, {});
+    const dietaryPreferences = parseJsonField<HistoricalDiet>(row.dietary_preferences, {});
     const profileLayout = parseJsonField<unknown[]>(row.profile_layout, ["natalChart", "alchemicalConstitution", "tasteGraph", "dietaryPrefs", "insightsTicker", "tokenEconomy", "recentActivity"]);
 
     // For agent users, pull the rich CraftedAgent profile, interactions,
@@ -319,6 +414,88 @@ export async function GET(
       if (interactionsRes.status === "fulfilled") agentInteractions = interactionsRes.value;
       if (actionsRes.status === "fulfilled") agentActions = actionsRes.value;
       if (artifactsRes.status === "fulfilled") agentArtifacts = artifactsRes.value;
+
+      if (!agentProfile && row.is_agent) {
+        const diet = Object.keys(dietaryPreferences).length > 0
+          ? dietaryPreferences
+          : undefined;
+        agentProfile = {
+          name: row.name ?? (slug ? slug.split("-").map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)).join(" ") : "Historical Agent"),
+          title: (row.bio?.includes("(") ? row.bio.split("(")[0]?.trim() : row.bio) ?? "Historical Alchemist",
+          era: (row.bio?.includes("(") ? row.bio.match(/\(([^)]+)\)/)?.[1] : "Historical Era") ?? "Historical Master",
+          appearance: {
+            color: row.dominant_element === "Fire" ? "#ef4444" : row.dominant_element === "Water" ? "#3b82f6" : row.dominant_element === "Air" ? "#10b981" : "#a855f7",
+            symbol: "⚗️",
+          },
+          consciousness: {
+            dominantElement: row.dominant_element ?? "Fire",
+            level: "Master",
+            natalChart,
+          },
+          ...(diet ? { historicalDiet: diet } : {}),
+          personality: {
+            core: {
+              essence: row.bio ?? "Perpetual seeker of alchemical wisdom",
+              expression: "Living culinary and philosophical mastery",
+              emotion: "Serene contemplation",
+            },
+          },
+        };
+      } else if (agentProfile && !agentProfile.historicalDiet && Object.keys(dietaryPreferences).length > 0) {
+        agentProfile.historicalDiet = dietaryPreferences;
+      }
+    }
+
+    let vessel: {
+      level: number;
+      totalXp: number;
+      xpToNextLevel: number | null;
+      levelBoost: number;
+      baseOverall: number;
+      trainedOverall: number;
+      currentOverall: number;
+      transitDelta: number;
+      progressionStatus: "live" | "estimated" | "unavailable";
+      archetype: { title: string; primary: string; secondary: string };
+      stats: Record<string, number>;
+      statDeltas?: Record<string, number>;
+      appearance?: ReturnType<typeof resolveAgentAppearance>;
+    } | null = null;
+
+    if (row.is_agent) {
+      const appearance = resolveAgentAppearance(slug ?? realUserId);
+      const progression = computeAgentProgression({
+        id: slug ?? realUserId,
+        ...(row.name ? { name: row.name } : {}),
+        consciousness: {
+          ...(row.dominant_element
+            ? { dominantElement: row.dominant_element }
+            : {}),
+          ...(Object.keys(natalChart).length > 0 ? { natalChart } : {}),
+          alchemicalElements: {
+            spirit: parseFloat(balance.spirit) || 0,
+            essence: parseFloat(balance.essence) || 0,
+            matter: parseFloat(balance.matter) || 0,
+            substance: parseFloat(balance.substance) || 0,
+          },
+        },
+      });
+
+      vessel = {
+        level: progression.vesselLevel,
+        totalXp: progression.totalXp,
+        xpToNextLevel: progression.xpToNextLevel,
+        levelBoost: progression.levelBoost,
+        baseOverall: progression.baseOverall,
+        trainedOverall: progression.trainedOverall,
+        currentOverall: progression.currentOverall,
+        transitDelta: progression.transitDelta,
+        progressionStatus: progression.progressionStatus,
+        archetype: progression.archetype,
+        stats: progression.stats,
+        statDeltas: progression.statDeltas,
+        appearance,
+      };
     }
 
     return NextResponse.json({
@@ -339,6 +516,7 @@ export async function GET(
           viewerId === realUserId ? row.share_identity !== false : undefined,
         agentSlug: slug,
         agentProfile,
+        vessel,
         agentInteractions,
         agentActions,
         agentArtifacts,

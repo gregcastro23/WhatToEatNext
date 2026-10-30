@@ -65,6 +65,35 @@ describe("redisCached", () => {
     expect(await redisCached("b", 30, async () => "B")).toBe("B");
   });
 
+  it("invalidates every roster limit, including uncommon limits", async () => {
+    configureUpstash();
+    const { communityAgentsCached, invalidateCommunityAgentsCache } = await import("@/lib/redis");
+    const limits = [1, 71, 80, 137, 200];
+    for (const limit of limits) await communityAgentsCached(limit, 30, async () => "old");
+    await invalidateCommunityAgentsCache();
+    for (const limit of limits) {
+      expect(await communityAgentsCached(limit, 30, async () => "new")).toBe("new");
+    }
+  });
+
+  it("cannot refill the visible cache with a query started before invalidation", async () => {
+    configureUpstash();
+    const { communityAgentsCached, invalidateCommunityAgentsCache } = await import("@/lib/redis");
+    let finish: (value: string) => void = () => { throw new Error("loader not started"); };
+    let started: () => void = () => {};
+    const ready = new Promise<void>((resolve) => { started = resolve; });
+    const staleRequest = communityAgentsCached(71, 30, () => new Promise<string>((resolve) => {
+      finish = resolve;
+      started();
+    }));
+    await ready;
+    await invalidateCommunityAgentsCache();
+    finish("old");
+    expect(await staleRequest).toBe("old");
+    expect(await communityAgentsCached(71, 30, async () => "new")).toBe("new");
+    expect(await communityAgentsCached(71, 30, async () => "unexpected")).toBe("new");
+  });
+
   it("fails open when Upstash is unconfigured: loader runs every call, value still returned", async () => {
     delete process.env.UPSTASH_REDIS_REST_URL;
     delete process.env.UPSTASH_REDIS_REST_TOKEN;

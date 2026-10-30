@@ -161,7 +161,7 @@ describe("self-canonicals", () => {
     },
   );
 
-  it.each([["/discover"], ["/recipe-generator"]])("public route %s names itself", async (route) => {
+  it.each([["/discover"], ["/cosmic-recipe"]])("public route %s names itself", async (route) => {
     expect(await canonicalFor(route)).toBe(route);
   });
 

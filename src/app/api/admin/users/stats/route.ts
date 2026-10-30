@@ -50,26 +50,7 @@ export async function GET(request: NextRequest) {
       return authResult.error;
     }
 
-    const rollupResult = await executeQuery<UserRollupRow>(
-      `SELECT
-         COUNT(*)::int AS total,
-         COUNT(*) FILTER (WHERE u.is_active = true)::int AS active,
-         COUNT(*) FILTER (WHERE up.onboarding_completed = true)::int AS onboarded,
-         COUNT(*) FILTER (WHERE u.role = 'ADMIN')::int AS admins,
-         COUNT(*) FILTER (WHERE u.is_agent = true)::int AS agents,
-         COUNT(*) FILTER (WHERE u.created_at >= NOW() - INTERVAL '24 hours')::int AS signups_24h,
-         COUNT(*) FILTER (WHERE u.created_at >= NOW() - INTERVAL '7 days')::int  AS signups_7d,
-         COUNT(*) FILTER (WHERE u.last_login_at >= NOW() - INTERVAL '24 hours')::int AS logged_in_24h,
-         COUNT(*) FILTER (WHERE u.last_login_at >= NOW() - INTERVAL '7 days')::int  AS logged_in_7d,
-         COUNT(*) FILTER (WHERE u.last_login_at >= NOW() - INTERVAL '30 days')::int AS logged_in_30d,
-         (
-           SELECT COUNT(*)::int FROM device_sessions WHERE revoked_at IS NULL
-         ) AS active_sessions
-       FROM users u
-       LEFT JOIN user_profiles up ON up.user_id = u.id`,
-    );
-
-    const rollup = rollupResult.rows[0] ?? {
+    const defaultRollup: UserRollupRow = {
       total: 0,
       active: 0,
       onboarded: 0,
@@ -77,23 +58,80 @@ export async function GET(request: NextRequest) {
       agents: 0,
       signups_24h: 0,
       signups_7d: 0,
+      active_sessions: 0,
       logged_in_24h: 0,
       logged_in_7d: 0,
       logged_in_30d: 0,
-      active_sessions: 0,
     };
 
-    const [eventsLast24h, eventsLast7d, recentLogins] = await Promise.all([
-      getEventCounts(24 * 60 * 60 * 1000),
-      getEventCounts(7 * 24 * 60 * 60 * 1000),
-      executeQuery<RecentLoginRow>(
-        `SELECT id::text AS id, email, last_login_at, login_count
-         FROM users
-         WHERE last_login_at IS NOT NULL
-         ORDER BY last_login_at DESC
-         LIMIT 10`,
-      ),
-    ]);
+    const [rollupSettled, events24hSettled, events7dSettled, loginsSettled] =
+      await Promise.allSettled([
+        executeQuery<UserRollupRow>(
+          `SELECT
+             COUNT(*)::int AS total,
+             COUNT(*) FILTER (WHERE u.is_active = true)::int AS active,
+             COUNT(*) FILTER (WHERE COALESCE(up.onboarding_completed, false) = true)::int AS onboarded,
+             COUNT(*) FILTER (WHERE u.role = 'ADMIN')::int AS admins,
+             COUNT(*) FILTER (WHERE COALESCE(u.is_agent, false) = true)::int AS agents,
+             COUNT(*) FILTER (WHERE u.created_at >= NOW() - INTERVAL '24 hours')::int AS signups_24h,
+             COUNT(*) FILTER (WHERE u.created_at >= NOW() - INTERVAL '7 days')::int  AS signups_7d,
+             COUNT(*) FILTER (WHERE u.last_login_at >= NOW() - INTERVAL '24 hours')::int AS logged_in_24h,
+             COUNT(*) FILTER (WHERE u.last_login_at >= NOW() - INTERVAL '7 days')::int  AS logged_in_7d,
+             COUNT(*) FILTER (WHERE u.last_login_at >= NOW() - INTERVAL '30 days')::int AS logged_in_30d,
+             (
+               SELECT COUNT(*)::int FROM device_sessions WHERE revoked_at IS NULL
+             ) AS active_sessions
+           FROM users u
+           LEFT JOIN user_profiles up ON up.user_id = u.id`,
+        ).catch(async (err) => {
+          _logger.warn("[admin/users/stats] full rollup failed, trying simple count:", err);
+          const simple = await executeQuery<{ total: number; active: number }>(
+            `SELECT COUNT(*)::int AS total, COUNT(*) FILTER (WHERE is_active = true)::int AS active FROM users`,
+          );
+          return {
+            rows: [
+              {
+                ...defaultRollup,
+                total: simple.rows[0]?.total ?? 0,
+                active: simple.rows[0]?.active ?? 0,
+              },
+            ],
+            command: "SELECT",
+            rowCount: 1,
+            oid: 0,
+            fields: [],
+          };
+        }),
+        getEventCounts(24 * 60 * 60 * 1000),
+        getEventCounts(7 * 24 * 60 * 60 * 1000),
+        executeQuery<RecentLoginRow>(
+          `SELECT id::text AS id, email, last_login_at, login_count
+           FROM users
+           WHERE last_login_at IS NOT NULL
+           ORDER BY last_login_at DESC
+           LIMIT 10`,
+        ),
+      ]);
+
+    const rollup =
+      rollupSettled.status === "fulfilled"
+        ? rollupSettled.value.rows[0] ?? defaultRollup
+        : defaultRollup;
+
+    const defaultEvents = { total: 0, successes: 0, failures: 0, byType: [] };
+    const eventsLast24h =
+      events24hSettled.status === "fulfilled"
+        ? events24hSettled.value
+        : defaultEvents;
+    const eventsLast7d =
+      events7dSettled.status === "fulfilled"
+        ? events7dSettled.value
+        : defaultEvents;
+
+    const recentLogins =
+      loginsSettled.status === "fulfilled"
+        ? loginsSettled.value.rows
+        : [];
 
     return NextResponse.json({
       success: true,
@@ -121,10 +159,10 @@ export async function GET(request: NextRequest) {
         last24h: eventsLast24h,
         last7d: eventsLast7d,
       },
-      recentLogins: recentLogins.rows.map((r) => ({
+      recentLogins: recentLogins.map((r) => ({
         userId: r.id,
         email: r.email,
-        lastLoginAt: r.last_login_at,
+        lastLoginAt: r.last_login_at ? new Date(r.last_login_at).toISOString() : null,
         loginCount: r.login_count ?? 0,
       })),
     });

@@ -305,10 +305,16 @@ function absorbFryingFat(ingredients: Ingredients, weighed: WeighedContribution[
   const fat = medium ? weighed[medium.index] : undefined;
   if (!medium || !fat?.found) return;
   const friedGrams = lines.reduce((sum, line, i) => (i === medium.index ? sum : sum + (line.grams ?? 0)), 0);
+  const friedSpread = weighed.reduce(
+    (sum, { line }, i) => sum + (i !== medium.index && line.kind === "counted" ? (line.spread ?? 0) : 0),
+    0,
+  );
   const listed = lines[medium.index]?.grams ?? null;
   const absorbed = absorbedFatGrams(listed, friedGrams, medium.method);
+  // Heavier cuts can absorb more fat; preserve that uncertainty and the listed-fat cap.
+  const spread = absorbedFatGrams(listed, friedGrams + friedSpread, medium.method) - absorbed;
   weighed[medium.index] = {
-    line: { kind: "counted", grams: absorbed },
+    line: { kind: "counted", grams: absorbed, ...(spread > 0 ? { spread } : {}) },
     nutrition: absorbed > 0 ? computeIngredientNutrition(fat.found, absorbed, "g") : null,
     found: fat.found,
   };

@@ -23,7 +23,6 @@ import {
   type LiveActivityPayload as ActivityPayload,
   type LiveActivityEvent as ActivityEvent,
 } from "@/lib/validation/adminResponseSchemas";
-
 import type {
   ActivityCategory as Category,
   ActivityStatus as Status,
@@ -92,12 +91,11 @@ const STATUS_STYLE: Record<Status, { label: string; className: string }> = {
 
 function formatRelative(iso: string): string {
   const ageMs = Date.now() - new Date(iso).getTime();
-  if (ageMs < 0) return "just now";
   if (ageMs < 5_000) return "just now";
-  if (ageMs < 60_000) return `${Math.round(ageMs / 1000)}s`;
-  if (ageMs < 3_600_000) return `${Math.round(ageMs / 60_000)}m`;
-  if (ageMs < 86_400_000) return `${Math.round(ageMs / 3_600_000)}h`;
-  return `${Math.round(ageMs / 86_400_000)}d`;
+  if (ageMs < 60_000) return `${Math.round(ageMs / 1000)}s ago`;
+  if (ageMs < 3_600_000) return `${Math.round(ageMs / 60_000)}m ago`;
+  if (ageMs < 86_400_000) return `${Math.round(ageMs / 3_600_000)}h ago`;
+  return `${Math.round(ageMs / 86_400_000)}d ago`;
 }
 
 function shortHandle(actor: Actor | null): string {
@@ -206,7 +204,7 @@ export default function LiveActivityPanel(): React.JSX.Element | null {
           </p>
         </div>
         <span className="text-[10px] font-mono text-gray-400">
-          updated {formatRelative(data.generatedAt)} ago
+          updated {formatRelative(data.generatedAt)}
         </span>
       </div>
 
@@ -339,7 +337,7 @@ function EventRow({ event }: { event: ActivityEvent }): React.JSX.Element {
           )}
         </div>
         <span className="flex-shrink-0 text-[10px] text-gray-400 font-mono" title={new Date(event.at).toLocaleString()}>
-          {formatRelative(event.at)} ago
+          {formatRelative(event.at)}
         </span>
       </div>
     </li>

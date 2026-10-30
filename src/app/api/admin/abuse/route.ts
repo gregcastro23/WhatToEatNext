@@ -59,62 +59,68 @@ export async function GET(request: NextRequest) {
       parseInt(searchParams.get("minFailures") ?? "5", 10) || 5,
     );
 
-    // IPs with concentrated failures — usually scripted brute-force.
-    const ipResult = await executeQuery<IpRow>(
-      `SELECT
-         ip_hash,
-         COUNT(*) FILTER (WHERE status = 'failure')::int AS failures,
-         COUNT(*) FILTER (WHERE status = 'success')::int AS successes,
-         COUNT(DISTINCT email) FILTER (WHERE status = 'failure')::int AS emails_targeted,
-         MIN(created_at) AS first_seen,
-         MAX(created_at) AS last_seen
-       FROM auth_events
-       WHERE ip_hash IS NOT NULL
-         AND created_at >= NOW() - INTERVAL '${interval}'
-       GROUP BY ip_hash
-       HAVING COUNT(*) FILTER (WHERE status = 'failure') >= $1
-       ORDER BY failures DESC, emails_targeted DESC
-       LIMIT 100`,
-      [minFailures],
-    );
+    const [ipResultSettled, emailResultSettled] = await Promise.allSettled([
+      executeQuery<IpRow>(
+        `SELECT
+           ip_hash,
+           COUNT(*) FILTER (WHERE status = 'failure')::int AS failures,
+           COUNT(*) FILTER (WHERE status = 'success')::int AS successes,
+           COUNT(DISTINCT email) FILTER (WHERE status = 'failure')::int AS emails_targeted,
+           MIN(created_at) AS first_seen,
+           MAX(created_at) AS last_seen
+         FROM auth_events
+         WHERE ip_hash IS NOT NULL
+           AND created_at >= NOW() - INTERVAL '${interval}'
+         GROUP BY ip_hash
+         HAVING COUNT(*) FILTER (WHERE status = 'failure') >= $1
+         ORDER BY failures DESC, emails_targeted DESC
+         LIMIT 100`,
+        [minFailures],
+      ),
+      executeQuery<EmailRow>(
+        `SELECT
+           email,
+           COUNT(*)::int AS failures,
+           COUNT(DISTINCT ip_hash)::int AS ips,
+           MAX(created_at) AS last_seen
+         FROM auth_events
+         WHERE email IS NOT NULL
+           AND status = 'failure'
+           AND created_at >= NOW() - INTERVAL '${interval}'
+         GROUP BY email
+         HAVING COUNT(*) >= $1
+         ORDER BY failures DESC
+         LIMIT 100`,
+        [minFailures],
+      ),
+    ]);
 
-    // Emails repeatedly failing — could be a user typo, but multiple distinct
-    // IPs targeting the same email is a credential-stuffing signal.
-    const emailResult = await executeQuery<EmailRow>(
-      `SELECT
-         email,
-         COUNT(*)::int AS failures,
-         COUNT(DISTINCT ip_hash)::int AS ips,
-         MAX(created_at) AS last_seen
-       FROM auth_events
-       WHERE email IS NOT NULL
-         AND status = 'failure'
-         AND created_at >= NOW() - INTERVAL '${interval}'
-       GROUP BY email
-       HAVING COUNT(*) >= $1
-       ORDER BY failures DESC
-       LIMIT 100`,
-      [minFailures],
-    );
+    const ipRows =
+      ipResultSettled.status === "fulfilled"
+        ? ipResultSettled.value.rows
+        : [];
+    const emailRows =
+      emailResultSettled.status === "fulfilled"
+        ? emailResultSettled.value.rows
+        : [];
 
     return NextResponse.json({
       success: true,
       generatedAt: new Date().toISOString(),
       window: windowKey,
       minFailures,
-      suspiciousIps: ipResult.rows.map((r) => ({
+      suspiciousIps: ipRows.map((r) => ({
         ipHash: r.ip_hash,
         failures: r.failures,
         successes: r.successes,
         emailsTargeted: r.emails_targeted,
-        firstSeen: r.first_seen,
-        lastSeen: r.last_seen,
+        lastSeen: r.last_seen ? new Date(r.last_seen).toISOString() : new Date().toISOString(),
       })),
-      targetedEmails: emailResult.rows.map((r) => ({
+      targetedEmails: emailRows.map((r) => ({
         email: r.email,
         failures: r.failures,
         distinctIps: r.ips,
-        lastSeen: r.last_seen,
+        lastSeen: r.last_seen ? new Date(r.last_seen).toISOString() : new Date().toISOString(),
       })),
     });
   } catch (error) {

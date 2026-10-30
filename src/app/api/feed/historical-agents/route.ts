@@ -21,32 +21,44 @@ import {
   filterHistoricalAgentFeed,
 } from "@/lib/feed/historicalAgentFeed";
 import { _logger } from "@/lib/logger";
-import { getHistoricalAgentRecipes } from "@/services/historicalAgentFeedService";
+import {
+  getHistoricalAgentEvents,
+  getHistoricalAgentRecipes,
+} from "@/services/historicalAgentFeedService";
 import { getPlanetaryResonanceFeed } from "@/services/planetaryResonanceService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function GET(request: Request) {
+async function buildInternalHistoricalFeed(limit: number): Promise<NextResponse> {
+  try {
+    const recipeLimit = Math.max(1, Math.floor(limit / 3));
+    const [events, recipes] = await Promise.all([
+      getHistoricalAgentEvents(limit),
+      getHistoricalAgentRecipes(recipeLimit),
+    ]);
+    const resonance = getPlanetaryResonanceFeed();
+    const items = filterHistoricalAgentFeed([...resonance, ...events, ...recipes])
+      .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+      .slice(0, limit);
+    return NextResponse.json({ success: true, items, source: "internal" });
+  } catch (error) {
+    _logger.error("[GET /api/feed/historical-agents] internal source error:", error);
+    return NextResponse.json({ success: true, items: [], source: "internal_error" });
+  }
+}
+
+export async function GET(request: Request): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
   const limit = Math.min(parseInt(searchParams.get("limit") ?? "40", 10), 100);
 
   const producerUrl = process.env.PA_HISTORICAL_FEED_URL;
 
   // No PA producer wired → serve real WTEN-internal content: live planetary
-  // resonance (degree agents, current sky) + historical agents' activity.
+  // resonance (degree agents, current sky) + historical agents' real activity +
+  // resonant historical recipes.
   if (!producerUrl) {
-    try {
-      const recipes = await getHistoricalAgentRecipes(limit);
-      const resonance = getPlanetaryResonanceFeed();
-      const items = filterHistoricalAgentFeed([...resonance, ...recipes])
-        .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
-        .slice(0, limit);
-      return NextResponse.json({ success: true, items, source: "internal" });
-    } catch (error) {
-      _logger.error("[GET /api/feed/historical-agents] internal source error:", error);
-      return NextResponse.json({ success: true, items: [], source: "internal_error" });
-    }
+    return buildInternalHistoricalFeed(limit);
   }
 
   try {

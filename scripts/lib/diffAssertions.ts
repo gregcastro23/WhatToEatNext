@@ -232,6 +232,8 @@ export function getFileDiffAddedLines(
         cwd: repoRoot,
         encoding: "utf8",
         stdio: ["ignore", "pipe", "pipe"],
+        // A data file such as src/data/cuisines/hsca.ts diffs to megabytes; the 1 MB default threw ENOBUFS.
+        maxBuffer: 256 * 1024 * 1024,
       },
     );
     return parseAddedLinesFromDiff(diffOutput);

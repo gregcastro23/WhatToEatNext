@@ -811,6 +811,9 @@ export async function POST(request: Request): Promise<NextResponse> {
     successUrl.searchParams.set("restaurant", restaurantName);
     successUrl.searchParams.set("order_id", orderId);
     successUrl.searchParams.set("session_id", "{CHECKOUT_SESSION_ID}");
+    if (lineItems.length > 0 && lineItems[0]?.name) {
+      successUrl.searchParams.set("dish", lineItems[0].name);
+    }
 
     const cancelUrl = new URL("/restaurants", appUrl);
     cancelUrl.searchParams.set("cuisine", cuisineType);

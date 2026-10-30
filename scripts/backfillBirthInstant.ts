@@ -76,6 +76,7 @@ import { calculateNatalChart } from "@/services/natalChartService";
 import { toEsmsShares, selectArchetype } from "@/utils/alchemicalConstitution";
 import { isSectDiurnal } from "@/utils/planetaryAlchemyMapping";
 import {
+  AGENT_SENTINEL_DATETIME,
   resolveBirthZone,
   wallClockToInstant,
   isFabricatedFallbackPin,
@@ -109,9 +110,6 @@ const INCLUDE_AGENTS = ARGV.has("--include-agents");
  * Opt-in, because it encodes a human claim that is not in the data.
  */
 const ATTEST_FALLBACK_PIN = ARGV.has("--attest-fallback-pin");
-
-/** The sentinel every agent placeholder carries. */
-const AGENT_SENTINEL_DATETIME = "1900-01-01T12:00:00.000Z";
 
 // ─────────────────────────────── guardrails ───────────────────────────────
 

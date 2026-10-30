@@ -18,6 +18,7 @@ import {
 } from "@/data/amazon";
 import { firePractice } from "@/lib/economy/practiceClient";
 import { reportQuestEvent } from "@/lib/questReporter";
+import { useFavoriteRecipes } from "@/lib/recipes/favoriteRecipes";
 import type { GroceryItem, GroceryCategory } from "@/types/menuPlanner";
 import { getGroupedGroceryList } from "@/utils/groceryListGenerator";
 import { createLogger } from "@/utils/logger";
@@ -251,8 +252,10 @@ export default function GroceryListModal({
 }: GroceryListModalProps): React.JSX.Element | null {
   const { groceryList, updateGroceryItem, regenerateGroceryList, currentMenu, inventory, setInventory } =
     useMenuPlanner();
+  const { topTrackedIngredients, topLikedIngredients } = useFavoriteRecipes();
   const groceryCart = useGroceryCart();
 
+  const [extraStapleItems, setExtraStapleItems] = useState<GroceryItem[]>([]);
   const [groupBy, setGroupBy] = useState<"category" | "recipe">("category");
   const [cartSentCount, setCartSentCount] = useState<number | null>(null);
   const [amazonLoading, setAmazonLoading] = useState(false);
@@ -279,25 +282,105 @@ export default function GroceryListModal({
   const [showAmazonPreview, setShowAmazonPreview] = useState(false);
   const [showSplitModal, setShowSplitModal] = useState(false);
 
+  // Merge any dynamically added favorite staple items into the active grocery list
+  const combinedGroceryList = useMemo(() => {
+    if (extraStapleItems.length === 0) return groceryList;
+    const existingIds = new Set(groceryList.map((g) => g.id));
+    const added = extraStapleItems.filter((g) => !existingIds.has(g.id));
+    return added.length > 0 ? [...groceryList, ...added] : groceryList;
+  }, [groceryList, extraStapleItems]);
+
+  // Set of all top favorite ingredient names (normalized lower-case) for affinity checks
+  const favoriteStapleSet = useMemo(() => {
+    const set = new Set<string>();
+    topLikedIngredients.forEach((i) => {
+      const n = i.name.toLowerCase().trim();
+      if (n) set.add(n);
+    });
+    topTrackedIngredients.forEach((i) => {
+      const n = i.name.toLowerCase().trim();
+      if (n) set.add(n);
+    });
+    return set;
+  }, [topLikedIngredients, topTrackedIngredients]);
+
+  const isFavoriteStaple = (ingredient: string): boolean => {
+    const norm = ingredient.toLowerCase().trim();
+    if (!norm) return false;
+    return (
+      favoriteStapleSet.has(norm) ||
+      Array.from(favoriteStapleSet).some((fav) => norm.includes(fav) || fav.includes(norm))
+    );
+  };
+
+  // Compute favorite staple suggestions that are not yet on the grocery list or in the pantry
+  const suggestedFavoriteStaples = useMemo(() => {
+    const listIngs = new Set(combinedGroceryList.map((g) => g.ingredient.toLowerCase().trim()));
+    const pantryIngs = new Set(inventory.map((i) => i.toLowerCase().trim()));
+    const seen = new Set<string>();
+    const candidates: Array<{ name: string; count: number; isLiked: boolean }> = [];
+
+    for (const item of topLikedIngredients) {
+      const lower = item.name.toLowerCase().trim();
+      if (lower && !listIngs.has(lower) && !pantryIngs.has(lower) && !seen.has(lower)) {
+        seen.add(lower);
+        candidates.push({ name: item.name, count: item.count, isLiked: true });
+      }
+    }
+    for (const item of topTrackedIngredients) {
+      const lower = item.name.toLowerCase().trim();
+      if (lower && !listIngs.has(lower) && !pantryIngs.has(lower) && !seen.has(lower)) {
+        seen.add(lower);
+        candidates.push({ name: item.name, count: item.count, isLiked: false });
+      }
+    }
+    return candidates.slice(0, 6);
+  }, [combinedGroceryList, inventory, topLikedIngredients, topTrackedIngredients]);
+
+  const handleAddStapleToGroceryList = (stapleName: string): void => {
+    const newItem: GroceryItem = {
+      id: `fav-staple-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      ingredient: stapleName,
+      quantity: 1,
+      unit: "item",
+      category: "other",
+      inPantry: false,
+      purchased: false,
+      usedInRecipes: [],
+      notes: "Favorite Staple",
+    };
+    setExtraStapleItems((prev) => [...prev, newItem]);
+  };
+
+  const handleUpdateGroceryItem = (id: string, updates: Partial<GroceryItem>): void => {
+    if (extraStapleItems.some((s) => s.id === id)) {
+      setExtraStapleItems((prev) =>
+        prev.map((s) => (s.id === id ? { ...s, ...updates } : s)),
+      );
+    } else {
+      updateGroceryItem(id, updates);
+    }
+  };
+
   // Group items by category
   const groupedItems = useMemo(
-    () => getGroupedGroceryList(groceryList),
-    [groceryList],
+    () => getGroupedGroceryList(combinedGroceryList),
+    [combinedGroceryList],
   );
 
   // Calculate stats
   const stats = useMemo(() => {
-    const total = groceryList.length;
-    const purchased = groceryList.filter((item) => item.purchased).length;
-    const inPantry = groceryList.filter((item) => item.inPantry).length;
+    const total = combinedGroceryList.length;
+    const purchased = combinedGroceryList.filter((item) => item.purchased).length;
+    const inPantry = combinedGroceryList.filter((item) => item.inPantry).length;
     const remaining = total - purchased - inPantry;
 
     return { total, purchased, inPantry, remaining };
-  }, [groceryList]);
+  }, [combinedGroceryList]);
 
   const activeShoppingItems = useMemo(
-    () => groceryList.filter((item) => !item.purchased && !item.inPantry),
-    [groceryList],
+    () => combinedGroceryList.filter((item) => !item.purchased && !item.inPantry),
+    [combinedGroceryList],
   );
 
   // Toggle category expansion
@@ -309,7 +392,7 @@ export default function GroceryListModal({
   const markCategoryPurchased = (category: GroceryCategory): void => {
     groupedItems[category].forEach((item) => {
       if (!item.inPantry) {
-        updateGroceryItem(item.id, { purchased: true });
+        handleUpdateGroceryItem(item.id, { purchased: true });
       }
     });
   };
@@ -317,7 +400,7 @@ export default function GroceryListModal({
   // Handle export
   const handleExport = async (format: "clipboard" | "email" | "print"): Promise<void> => {
     try {
-      await exportGroceryList(groceryList, format);
+      await exportGroceryList(combinedGroceryList, format);
 
       if (format === "clipboard") {
         logger.info("Grocery list copied to clipboard");
@@ -576,7 +659,7 @@ export default function GroceryListModal({
       setInventory([...inventory, item.ingredient.toLowerCase()]);
     }
 
-    updateGroceryItem(item.id, { inPantry: true });
+    handleUpdateGroceryItem(item.id, { inPantry: true });
   };
 
   if (!isOpen) return null;
@@ -791,8 +874,9 @@ export default function GroceryListModal({
                               key={item.id}
                               item={item}
                               isInPantry={isInPantry}
+                              isFavoriteStaple={isFavoriteStaple(item.ingredient)}
                               onTogglePurchased={(purchased) =>
-                                updateGroceryItem(item.id, { purchased })
+                                handleUpdateGroceryItem(item.id, { purchased })
                               }
                               onAddToPantry={() => addToPantry(item)}
                             />
@@ -807,21 +891,67 @@ export default function GroceryListModal({
           ) : (
             // GROUP BY RECIPE
             <RecipeGroupedView
-              groceryList={groceryList}
+              groceryList={combinedGroceryList}
               currentMenu={currentMenu}
-              updateGroceryItem={updateGroceryItem}
+              updateGroceryItem={handleUpdateGroceryItem}
               checkPantryStatus={checkPantryStatus}
               addToPantry={addToPantry}
+              isFavoriteStaple={isFavoriteStaple}
             />
           )}
 
-          {groceryList.length === 0 && (
+          {combinedGroceryList.length === 0 && (
             <div className="text-center text-on-surface-variant py-12">
               <div className="text-4xl mb-2">🛒</div>
               <p>No items in grocery list yet.</p>
               <p className="text-sm mt-2">
                 Add recipes to your weekly menu to generate a grocery list.
               </p>
+            </div>
+          )}
+
+          {/* Suggested Favorite Staples Section */}
+          {suggestedFavoriteStaples.length > 0 && (
+            <div className="mt-6 p-4 rounded-xl border border-gold-accent/30 bg-gold-accent/5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-base" aria-hidden>⭐</span>
+                  <h3 className="text-sm font-bold text-gold-accent uppercase font-mono tracking-wider">
+                    Suggested Favorite Staples
+                  </h3>
+                </div>
+                <span className="text-xs text-on-surface-variant font-mono">
+                  From your favorite recipes • not yet on list or in pantry
+                </span>
+              </div>
+              <p className="text-xs text-on-surface-variant mb-3">
+                These ingredients are staples across your favorited recipes. Restock them for the week with one click.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {suggestedFavoriteStaples.map((staple) => (
+                  <div
+                    key={staple.name}
+                    className="flex items-center justify-between p-2.5 rounded-lg border border-muted bg-surface-container-low hover:border-gold-accent/50 transition-colors"
+                  >
+                    <div className="min-w-0 flex-1 mr-2">
+                      <span className="font-semibold text-sm text-primary capitalize truncate block">
+                        {staple.name}
+                      </span>
+                      <span className="text-[10px] text-gold-accent font-mono block">
+                        {staple.isLiked ? "⭐ Liked ingredient" : `Used in ${staple.count} favorite recipes`}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleAddStapleToGroceryList(staple.name)}
+                      className="px-2.5 py-1 text-xs font-semibold uppercase font-mono rounded bg-active-violet/10 text-active-violet hover:bg-active-violet hover:text-background transition-colors shrink-0 cursor-pointer"
+                      title={`Add ${staple.name} to grocery list`}
+                    >
+                      + Add
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -1060,11 +1190,13 @@ export default function GroceryListModal({
 function GroceryItemRow({
   item,
   isInPantry,
+  isFavoriteStaple = false,
   onTogglePurchased,
   onAddToPantry,
 }: {
   item: GroceryItem;
   isInPantry: boolean;
+  isFavoriteStaple?: boolean;
   onTogglePurchased: (purchased: boolean) => void;
   onAddToPantry: () => void;
 }): React.JSX.Element {
@@ -1090,6 +1222,14 @@ function GroceryItemRow({
           <div className={item.purchased ? "opacity-60" : ""}>
             <div className={`font-bold text-slate-800 ${item.purchased ? "line-through" : ""}`}>
               <span className="text-indigo-600 mr-1">{item.quantity} {item.unit}</span> {item.ingredient}
+              {isFavoriteStaple && (
+                <span
+                  className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-gold-accent/15 border border-gold-accent/40 text-gold-accent text-[9px] font-mono font-bold uppercase tracking-wider ml-2"
+                  title="Core ingredient in your favorite recipes"
+                >
+                  ★ Favorite Staple
+                </span>
+              )}
             </div>
             {item.usedInRecipes.length > 0 && (
               <div className="text-[10px] text-slate-500 font-medium uppercase tracking-wide mt-0.5">
@@ -1130,12 +1270,14 @@ function RecipeGroupedView({
   updateGroceryItem,
   checkPantryStatus,
   addToPantry,
+  isFavoriteStaple,
 }: {
   groceryList: GroceryItem[];
   currentMenu: import("@/types/menuPlanner").WeeklyMenu | null;
   updateGroceryItem: (id: string, updates: Partial<GroceryItem>) => void;
   checkPantryStatus: (name: string) => boolean;
   addToPantry: (item: GroceryItem) => void;
+  isFavoriteStaple: (ingredient: string) => boolean;
 }): React.JSX.Element {
   // Build a map from recipe ID -> recipe name
   const recipeNames = useMemo(() => {
@@ -1202,6 +1344,7 @@ function RecipeGroupedView({
                     key={`${recipeId}-${item.id}`}
                     item={item}
                     isInPantry={isInPantry}
+                    isFavoriteStaple={isFavoriteStaple(item.ingredient)}
                     onTogglePurchased={(purchased) =>
                       updateGroceryItem(item.id, { purchased })
                     }

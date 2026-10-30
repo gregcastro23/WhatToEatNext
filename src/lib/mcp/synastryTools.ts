@@ -21,6 +21,7 @@
  */
 
 import { calculateNatalChart } from "@/services/natalChartService";
+import { getMcpInvocationContext } from "./execution";
 import type { ToolResult } from "./tools";
 
 // ─── Constants ────────────────────────────────────────────────────────
@@ -95,14 +96,14 @@ const PLANET_VALENCE: Record<string, string> = {
 export interface NatalPlanetInput {
   sign: string;
   degree: number;        // 0..30
-  retrograde?: boolean | undefined;
-  house?: number | undefined;
+  retrograde?: boolean;
+  house?: number;
 }
 
 export interface NatalChartInput {
   planets: Record<string, NatalPlanetInput>;
-  ascendant?: number | NatalPlanetInput | undefined;
-  midheaven?: number | NatalPlanetInput | undefined;
+  ascendant?: number | NatalPlanetInput;
+  midheaven?: number | NatalPlanetInput;
 }
 
 export interface SynastryArgs {
@@ -273,11 +274,8 @@ let dbModule:
 async function getDb(): Promise<
   typeof import("@/lib/database/connection") | null
 > {
+  if (!isServerWithDB()) return null;
   if (dbModule !== undefined) return dbModule;
-  if (!isServerWithDB()) {
-    dbModule = null;
-    return null;
-  }
   try {
     dbModule = await import("@/lib/database/connection");
   } catch (err) {
@@ -492,11 +490,11 @@ export async function computeSynastryOverlay(
     }
   }
 
-  if (cacheStrategy !== "bypass") {
-    // Fire-and-forget — the upsert below blocks briefly but failure
-    // here must not block the duel.
-    upsertNatalPositions(agentA.id, pointsA).catch(() => {});
-    upsertNatalPositions(agentB.id, pointsB).catch(() => {});
+  if (cacheStrategy === "write") {
+    await Promise.all([
+      upsertNatalPositions(agentA.id, pointsA),
+      upsertNatalPositions(agentB.id, pointsB),
+    ]);
   }
 
   const stance = decideStance(scores);
@@ -547,6 +545,64 @@ interface TransitActivation {
   valence: string;
 }
 
+const harmonicWeight = (a: TransitActivation): number => {
+  if (a.type === "conjunction") return 1.0;
+  if (a.type === "trine" || a.type === "sextile") return 0.8;
+  return 0.7;
+};
+
+function computeElementBoost(activations: TransitActivation[]): {
+  elementVotes: Record<"fire" | "earth" | "air" | "water", number>;
+  boostElement: "fire" | "earth" | "air" | "water" | null;
+  boostMagnitude: number;
+} {
+  const elementVotes: Record<"fire" | "earth" | "air" | "water", number> = {
+    fire: 0,
+    earth: 0,
+    air: 0,
+    water: 0,
+  };
+  for (const a of activations) {
+    elementVotes[a.natalElement] += a.exactness * harmonicWeight(a);
+  }
+  let boostElement: "fire" | "earth" | "air" | "water" | null = null;
+  let maxVote = 0;
+  const elements: ("fire" | "earth" | "air" | "water")[] = [
+    "fire",
+    "earth",
+    "air",
+    "water",
+  ];
+  for (const el of elements) {
+    const v = elementVotes[el];
+    if (v > maxVote) {
+      maxVote = v;
+      boostElement = el;
+    }
+  }
+  const totalVotes = Object.values(elementVotes).reduce((s, v) => s + v, 0);
+  const boostMagnitude =
+    totalVotes > 0 ? Number((maxVote / Math.max(totalVotes, 1)).toFixed(3)) : 0;
+  return { elementVotes, boostElement, boostMagnitude };
+}
+
+function collectStressNotes(activations: TransitActivation[]): string[] {
+  const lights = new Set(["Sun", "Moon", "Ascendant", "MC"]);
+  const stressNotes: string[] = [];
+  for (const a of activations) {
+    if (
+      lights.has(a.natalPoint) &&
+      (a.type === "square" || a.type === "opposition") &&
+      a.exactness >= 0.4
+    ) {
+      stressNotes.push(
+        `natal ${a.natalPoint} under transit ${a.transitPlanet} ${a.type}`,
+      );
+    }
+  }
+  return stressNotes;
+}
+
 export async function getTransitNatalOverlay(
   args: TransitOverlayArgs,
 ): Promise<ToolResult> {
@@ -579,7 +635,7 @@ export async function getTransitNatalOverlay(
       latitude: lat,
       longitude: lon,
       timezone: "UTC",
-    });
+    }, getMcpInvocationContext());
   } catch (err) {
     return {
       ok: false,
@@ -627,53 +683,17 @@ export async function getTransitNatalOverlay(
         orb: detected.orb,
         exactness: detected.exactness,
         natalElement: SIGN_TO_ELEMENT[n.sign] ?? "fire",
-        valence: PLANET_VALENCE[t.planet] || "neutral",
+        valence: PLANET_VALENCE[t.planet] ?? "neutral",
       });
     }
   }
   activations.sort((a, b) => b.exactness - a.exactness);
 
   // Weighted vote: aspect exactness × harmonic weight per element.
-  // Harmonic aspects emphasize, friction de-emphasizes but still counts
-  // (a square to a fire-sign planet still makes that element hot).
-  const harmonicWeight = (a: TransitActivation): number => {
-    if (a.type === "conjunction") return 1.0;
-    if (a.type === "trine" || a.type === "sextile") return 0.8;
-    return 0.7;
-  };
-  const elementVotes: Record<"fire" | "earth" | "air" | "water", number> = {
-    fire: 0, earth: 0, air: 0, water: 0,
-  };
-  for (const a of activations) {
-    elementVotes[a.natalElement] += a.exactness * harmonicWeight(a);
-  }
-  let boostElement: "fire" | "earth" | "air" | "water" | null = null;
-  let maxVote = 0;
-  for (const [el, v] of Object.entries(elementVotes)) {
-    if (v > maxVote) {
-      maxVote = v;
-      boostElement = el as "fire" | "earth" | "air" | "water";
-    }
-  }
-  const totalVotes = Object.values(elementVotes).reduce((s, v) => s + v, 0);
-  const boostMagnitude = totalVotes > 0
-    ? Number((maxVote / Math.max(totalVotes, 1)).toFixed(3))
-    : 0;
+  const { boostElement, boostMagnitude } = computeElementBoost(activations);
 
   // Stress notes — squares/opps to luminaries are the headline.
-  const lights = new Set(["Sun", "Moon", "Ascendant", "MC"]);
-  const stressNotes: string[] = [];
-  for (const a of activations) {
-    if (
-      lights.has(a.natalPoint) &&
-      (a.type === "square" || a.type === "opposition") &&
-      a.exactness >= 0.4
-    ) {
-      stressNotes.push(
-        `natal ${a.natalPoint} under transit ${a.transitPlanet} ${a.type}`,
-      );
-    }
-  }
+  const stressNotes = collectStressNotes(activations);
 
   const [headline] = activations;
   const boostSuffix = boostElement

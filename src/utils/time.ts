@@ -1,7 +1,19 @@
+export interface TimeFactors {
+  _planetaryDay: {
+    day: string | undefined;
+    planet: string | undefined;
+  };
+  planetaryHour: {
+    hourOfDay: number;
+    planet: string | undefined;
+  };
+  isDaytime: boolean;
+}
+
 /**
  * Returns the current planetary day and hour information
  */
-export function getTimeFactors() {
+export function getTimeFactors(): TimeFactors {
   const days = [
     "Sunday",
     "Monday",

@@ -203,8 +203,8 @@ export interface MeasuredPortion {
    * A measure USDA weighed only qualified, several ways, at different weights:
    * a cup of walnuts is 80 g ground and 117 g chopped. No one of them is the
    * ingredient's cup, so the measure is absent from \`gramsPer\`, and a recipe
-   * line is weighed only when its own words name exactly one cut (see
-   * \`volumeToMass\`).
+   * line uses the cut its own words name. When no unique cut is named, it
+   * uses the lightest cut plus the spread to the heaviest (see \`volumeToMass\`).
    */
   cuts?: Partial<Record<VolumeMeasure, readonly MeasuredCut[]>>;
 }

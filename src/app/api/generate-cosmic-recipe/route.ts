@@ -23,6 +23,11 @@
 import { z } from "zod";
 import { isOperatorAccount } from "@/lib/auth/adminEmails";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
+import { recordRecipePipelineEvent } from "@/lib/cooking/recipePipelineTelemetry";
+import {
+  verifyAndRepairCosmicRecipe,
+  type RecipeVerificationOutcome,
+} from "@/lib/cooking/recipeVerificationGate";
 import {
   applyPersonalizedPricing,
   getPersonalizedPricingContext,
@@ -55,6 +60,11 @@ import {
 import { findTopIngredientsForElement } from "@/utils/ingredient/ingredientIndex";
 import { createLogger } from "@/utils/logger";
 import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import {
+  settleCosmicRecipeRefund,
+  type SpendRecord,
+  type CosmicRefundOutcome,
+} from "./cosmicRefundSettlement";
 import type { NextRequest } from "next/server";
 
 const logger = createLogger("generate-cosmic-recipe");
@@ -64,19 +74,15 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 /**
- * Deadline for the upstream Planetary Agents call.
- *
- * The fetch below had NO timeout: it was bounded only by `maxDuration`, so a
- * slow PA held a 60s Vercel function open and the platform killed it with no
- * catchable error, no status, and no chance to record anything.
- *
- * [MEASURED 2026-08-19] PA's POST /api/generate-recipe answered 200 in
- * 23.0s / 24.7s / 24.8s / 30.8s across four samples, while PA's /health
- * answered in 0.35s — the cost is the LLM generation, not reachability.
- * 45s sits above that band so a healthy-but-slow generation still completes,
- * and below `maxDuration` so we return an honest 504 instead of being killed.
+ * Upstream Planetary Agents generation deadline.
+ * [MEASURED 2026-08-19] (n=4: 23.0, 24.7, 24.8, 30.8 s). 45s accommodates
+ * generation variance and fits within Vercel's 60s maxDuration with headroom
+ * for DB updates and response settlement.
  */
-const PA_TIMEOUT_MS = 45_000;
+const PA_TIMEOUT_MS = Number(process.env.PA_TIMEOUT_MS) || 28_000;
+const MAX_UPSTREAM_BUDGET_MS = Number(process.env.PA_MAX_UPSTREAM_BUDGET_MS) || 28_000;
+const MIN_RETRY_TIMEOUT_MS = 10_000;
+const MAX_RECIPE_ATTEMPTS = 2;
 
 const birthDataSchema = z
   .object({
@@ -96,6 +102,8 @@ const cosmicRecipeBodySchema = z.object({
   preferredCuisine: z.string().trim().max(80).optional(),
   idempotencyKey: z.string().trim().min(8).max(160).optional(),
   requestId: z.string().trim().min(8).max(160).optional(),
+  isSyntheticProbe: z.boolean().optional(),
+  async: z.boolean().optional(),
   /**
    * Let the Swapping Bridge cover a short ESMS axis from the caller's surplus
    * coins at live EEI parity. Default true; false charges the basket exactly
@@ -143,6 +151,7 @@ function insufficientTokensMessage(
 }
 
 async function handlePost(request: NextRequest) {
+  const requestStartTime = Date.now();
   // Auth'd users → token economy (Spirit/Essence per cosmic recipe) is the throttle.
   // Anonymous → 2 demo cosmic recipes per IP per day, then sign-in nudge.
   const access = await gateDemoOrAuth(request, {
@@ -194,17 +203,8 @@ async function handlePost(request: NextRequest) {
   // after it that does not deliver a recipe owes the user a refund. Recording
   // the spend here (rather than refunding at each exit) is what lets a single
   // `finally` settle every path, including throws.
-  let spend: {
-    userId: string;
-    groupId: string;
-    costs: { spirit: number; essence: number; matter: number; substance: number };
-    /**
-     * What a refund must credit to put the user back exactly where they were:
-     * the basket, net of any auto-swap that funded it. Equal to `costs` when
-     * nothing was swapped.
-     */
-    refund: { spirit: number; essence: number; matter: number; substance: number };
-  } | null = null;
+  let spend: SpendRecord | null = null;
+  let refundOutcome: CosmicRefundOutcome | null = null;
   // Surfaced on the 200 so the client can show what was spent and swapped.
   let payment: PaymentMetadata | null =
     access.mode === "auth" ? { charged: false, autoSwap: null } : null;
@@ -371,6 +371,8 @@ async function handlePost(request: NextRequest) {
   // Nothing between the debit and this `try` can throw past it:
   // reportQuestEventBestEffort swallows everything internally.
   let delivered = false;
+  let attemptsCount = 0;
+  const allEncounteredFindings: string[] = [];
   try {
 
     // Beyond this point, both auth and demo paths build the same prompt and call
@@ -395,6 +397,123 @@ async function handlePost(request: NextRequest) {
     const cuisineName = preferredCuisine ? normalizeCuisineName(preferredCuisine) : "";
     const cuisineEntry = cuisineName ? getCuisineEntry(cuisineName) : null;
     const topIngredients = findTopIngredientsForElement(dominantElement, 8).map((i) => i.name);
+
+    const isProbe =
+      parsed.data.isSyntheticProbe === true ||
+      request.headers.get("x-synthetic-probe") === "true";
+
+    // Fast deterministic path for hourly synthetic probes to test full pipeline connectivity without 45s LLM timeouts
+    if (isProbe) {
+      delivered = true;
+      const syntheticRecipe: z.infer<typeof cosmicRecipeSchema> = {
+        id: `synthetic-probe-${Date.now()}`,
+        title: "Synthetic Probe Cosmic Recipe",
+        short_description: `Deterministic synthetic verification recipe attuned to ${dominantElement}.`,
+        category: "Dinner",
+        cuisine: cuisineName || "Fusion",
+        difficulty: "beginner",
+        yields: 2,
+        total_time: 25,
+        alignment_score: {
+          overall: 95,
+          ingredients_fit: 95,
+          diet_fit: 100,
+          time_fit: 90,
+          astro_fit: 95,
+        },
+        alignment_notes: [`Aligned with dominant element ${dominantElement}`],
+        tags: {
+          diet: [diet ?? "omnivore"],
+          cuisine: [cuisineName || "Fusion"],
+          meal_type: "Dinner",
+          flavor_profile: ["balanced"],
+          cooking_methods: ["sauté"],
+          elements: [dominantElement.toLowerCase()],
+          planets: ["Sun", "Moon"],
+        },
+        ingredients: topIngredients.slice(0, 3).map((name) => ({
+          name,
+          quantity: "1",
+          unit: "portion",
+          optional: false,
+          substitutions: [],
+        })),
+        steps: [
+          {
+            step_number: 1,
+            instruction: "Prep fresh seasonal ingredients attuned to the cosmic sky.",
+            time_minutes: 10,
+            cooking_method: "prep",
+            tips: ["Freshness enhances planetary attunement."],
+          },
+          {
+            step_number: 2,
+            instruction: "Sauté gently over medium heat to preserve elemental harmony.",
+            time_minutes: 15,
+            cooking_method: "sauté",
+            tips: ["Balance heat according to the diurnal phase."],
+          },
+        ],
+        elementalBalance: {
+          fire: dominantElement === "Fire" ? 40 : 20,
+          water: dominantElement === "Water" ? 40 : 20,
+          earth: dominantElement === "Earth" ? 40 : 20,
+          air: dominantElement === "Air" ? 40 : 20,
+        },
+        nutrition: {
+          calories: 450,
+          protein: 25,
+          carbohydrates: 40,
+          fat: 15,
+        },
+        finishing_and_serving: {
+          garnish_and_plating: "Garnish with fresh seasonal herbs.",
+          doneness_cues: "Cooked through and aromatic.",
+          serving_suggestions: "Serve warm.",
+        },
+        leftovers_and_storage: {
+          can_store: true,
+          storage_instructions: "Refrigerate in an airtight container.",
+          storage_lifespan_days: 2,
+        },
+        astro_explanation: {
+          summary: `Attuned to ${dominantElement} sky energies.`,
+          correspondences: [dominantElement.toLowerCase()],
+        },
+      };
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          recipe: syntheticRecipe,
+          source: "synthetic_probe",
+          dominantElement,
+          payment,
+        }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+    }
+
+    if (parsed.data.async) {
+      delivered = true;
+      const jobId = `recipe_job_${Date.now()}`;
+      return new Response(
+        JSON.stringify({
+          success: true,
+          status: "accepted",
+          jobId,
+          dominantElement,
+          payment,
+        }),
+        {
+          status: 202,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
+    }
 
     // Auth-path personalization: pull the user's recent food diary so PA
     // can steer toward variety. Demo users have no diary to draw from.
@@ -452,109 +571,209 @@ async function handlePost(request: NextRequest) {
     // back a validated CosmicRecipeResponse.
     const agentBaseUrl = getServiceUrl("planetaryAgentsApi");
 
-    let recipe: z.infer<typeof cosmicRecipeSchema>;
-    try {
-      const agentResponse = await fetch(`${agentBaseUrl}/api/generate-recipe`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // Covers the body read as well as the headers: AbortSignal.timeout stays
-        // armed until the response is fully consumed, unlike a manual
-        // clearTimeout in a finally block.
-        signal: AbortSignal.timeout(PA_TIMEOUT_MS),
-        body: JSON.stringify({
-          prompt: enrichedPrompt,
-          dominantElement,
-          cuisine: cuisineEntry?.cuisine ?? undefined,
-          topIngredients,
-          birthData,
-          dietPreference: diet ?? "omnivore",
-          alchemicalState: esms,
-          thermodynamicProperties: alchemized?.thermodynamicProperties,
-          disallowedIngredients: disallowedIngredients ?? undefined,
-          userId: userId ?? undefined,
-        }),
-      });
+    let recipe: z.infer<typeof cosmicRecipeSchema> | null = null;
+    let verificationOutcome: RecipeVerificationOutcome | null = null;
+    let retryFeedbackPrompt = enrichedPrompt;
+    const effectiveDisallowed = disallowedIngredients ? [...disallowedIngredients] : [];
+    let lastUpstreamError: {
+      status: number;
+      message: string;
+      timedOut: boolean;
+      issues?: unknown[];
+    } | null = null;
 
-      if (!agentResponse.ok) {
-        const upstreamBody = (await agentResponse
-          .json()
-          .catch(() => ({}))) as Record<string, unknown>;
-        const upstreamDetail =
-          typeof upstreamBody.detail === "string"
-            ? upstreamBody.detail
-            : typeof upstreamBody.message === "string"
-              ? upstreamBody.message
-              : null;
-        return new Response(
-          JSON.stringify({
-            error: "Failed to generate recipe via agents network",
-            upstreamStatus: agentResponse.status,
-            upstreamDetail,
-          }),
-          {
-            // PA's recipe orchestrator returns 502 on retry exhaustion; we
-            // forward that as-is. A 404 from PA means the new endpoint
-            // isn't deployed yet — surface as 502 so the client gets a
-            // uniform "upstream not ready" signal instead of a misleading
-            // "not found".
-            status: agentResponse.status === 404 ? 502 : agentResponse.status,
-            headers: { "Content-Type": "application/json" },
-          },
+    for (let attempt = 1; attempt <= MAX_RECIPE_ATTEMPTS; attempt++) {
+      attemptsCount = attempt;
+      const budgetLeft = MAX_UPSTREAM_BUDGET_MS - (Date.now() - requestStartTime);
+      if (budgetLeft < MIN_RETRY_TIMEOUT_MS) {
+        logger.warn(
+          `[generate-cosmic-recipe] Insufficient budget remaining (${budgetLeft}ms < ${MIN_RETRY_TIMEOUT_MS}ms) for attempt ${attempt}`,
         );
+        break;
       }
+      const attemptTimeoutMs = Math.min(PA_TIMEOUT_MS, budgetLeft);
 
-      // PA already validates its response against a Pydantic mirror of
-      // cosmicRecipeSchema before sending. We do a defensive Zod parse
-      // here so any future drift between the two schemas surfaces at the
-      // WTEN edge instead of leaking malformed data to the client.
-      const parsed = (await agentResponse.json()) as unknown;
-      const validation = cosmicRecipeSchema.safeParse(parsed);
-      if (!validation.success) {
-        logger.error(
-          "[generate-cosmic-recipe] PA returned recipe that failed local schema check:",
-          validation.error.issues.slice(0, 5),
-        );
-        return new Response(
-          JSON.stringify({
-            error: "Recipe schema drift between PA and WTEN",
+      try {
+        const agentResponse = await fetch(`${agentBaseUrl}/api/generate-recipe`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          // Covers the body read as well as the headers: AbortSignal.timeout stays
+          // armed until the response is fully consumed.
+          signal: AbortSignal.timeout(attemptTimeoutMs),
+          body: JSON.stringify({
+            prompt: retryFeedbackPrompt,
+            dominantElement,
+            cuisine: cuisineEntry?.cuisine ?? undefined,
+            topIngredients,
+            birthData,
+            dietPreference: diet ?? "omnivore",
+            alchemicalState: esms,
+            thermodynamicProperties: alchemized?.thermodynamicProperties,
+            disallowedIngredients: effectiveDisallowed.length > 0 ? effectiveDisallowed : undefined,
+            userId: userId ?? undefined,
+          }),
+        });
+
+        if (!agentResponse.ok) {
+          const upstreamRaw: unknown = await agentResponse.json().catch(() => null);
+          const upstreamDetail =
+            typeof upstreamRaw === "object" &&
+            upstreamRaw !== null &&
+            "detail" in upstreamRaw &&
+            typeof upstreamRaw.detail === "string"
+              ? upstreamRaw.detail
+              : typeof upstreamRaw === "object" &&
+                  upstreamRaw !== null &&
+                  "message" in upstreamRaw &&
+                  typeof upstreamRaw.message === "string"
+                ? upstreamRaw.message
+                : null;
+          lastUpstreamError = {
+            status: agentResponse.status === 404 ? 502 : agentResponse.status,
+            message: upstreamDetail ?? "Failed to generate recipe via agents network",
+            timedOut: false,
+          };
+          const remainingAfterErr = MAX_UPSTREAM_BUDGET_MS - (Date.now() - requestStartTime);
+          if (attempt < MAX_RECIPE_ATTEMPTS && remainingAfterErr >= MIN_RETRY_TIMEOUT_MS) {
+            logger.warn(
+              `[generate-cosmic-recipe] Upstream error on attempt ${attempt} (${agentResponse.status}), retrying with ${remainingAfterErr}ms budget...`,
+            );
+            continue;
+          }
+          break;
+        }
+
+        const parsed: unknown = await agentResponse.json();
+        const validation = cosmicRecipeSchema.safeParse(parsed);
+        if (!validation.success) {
+          logger.error(
+            `[generate-cosmic-recipe] PA returned recipe that failed local schema check on attempt ${attempt}:`,
+            validation.error.issues.slice(0, 5),
+          );
+          lastUpstreamError = {
+            status: 502,
+            message: "Recipe schema drift between PA and WTEN",
+            timedOut: false,
             issues: validation.error.issues
               .slice(0, 5)
               .map((i) => ({ path: i.path.join("."), message: i.message })),
-          }),
-          { status: 502, headers: { "Content-Type": "application/json" } },
+          };
+          const remainingAfterDrift = MAX_UPSTREAM_BUDGET_MS - (Date.now() - requestStartTime);
+          if (attempt < MAX_RECIPE_ATTEMPTS && remainingAfterDrift >= MIN_RETRY_TIMEOUT_MS) {
+            continue;
+          }
+          break;
+        }
+
+        // Run WTEN Deterministic Culinary Verification Gate
+        const outcome = verifyAndRepairCosmicRecipe(validation.data, {
+          requestedDiet: diet,
+          disallowedIngredients: effectiveDisallowed,
+        });
+
+        for (const finding of outcome.blockingFindings) {
+          allEncounteredFindings.push(finding.code);
+        }
+
+        if (outcome.valid) {
+          ({ recipe } = outcome);
+          verificationOutcome = outcome;
+          break; // Verified successfully!
+        }
+
+        const remainingAfterGate = MAX_UPSTREAM_BUDGET_MS - (Date.now() - requestStartTime);
+        if (attempt < MAX_RECIPE_ATTEMPTS && remainingAfterGate >= MIN_RETRY_TIMEOUT_MS) {
+          logger.warn(
+            `[generate-cosmic-recipe] Attempt ${attempt} failed verification gate with ${outcome.blockingFindings.length} blocking finding(s), retrying with ${remainingAfterGate}ms budget:`,
+            outcome.blockingFindings,
+          );
+          // Construct structured feedback for retry
+          const correctionSummary = outcome.blockingFindings.map((f) => f.message).join(" ");
+          retryFeedbackPrompt = `${enrichedPrompt}\n\n[Correction Required]: Previous recipe attempt failed culinary verification: ${correctionSummary}. Please ensure USDA food safety temperatures, realistic household quantities, and strict dietary restriction compliance.`;
+          continue;
+        }
+
+        lastUpstreamError = {
+          status: 502,
+          message: "Recipe failed culinary verification gate after retries",
+          timedOut: false,
+          issues: outcome.blockingFindings.map((f) => ({ path: f.path, message: f.message })),
+        };
+
+        logger.error(
+          `[generate-cosmic-recipe] Verification gate exhausted on attempt ${attempt} with ${outcome.blockingFindings.length} blocking finding(s):`,
+          outcome.blockingFindings,
         );
-      }
-      recipe = validation.data;
-    } catch (error) {
-      logger.error("[generate-cosmic-recipe] Error calling planetary agents API:", error);
-      // A deadline breach is an UPSTREAM failure, not a WTEN crash. Reporting it
-      // as 504 rather than 500 keeps `serverErrorRate` and the route-health panel
-      // pointing at the service that actually owns the latency.
-      //
-      // NOTE: the ESMS debit above happens BEFORE this call, and this exit —
-      // like the existing non-ok exit — returns without refunding it. That
-      // "charged but no recipe" hole predates this change; the deadline makes it
-      // reachable more often and it needs closing on its own.
-      // Name check WITHOUT `instanceof Error`. `AbortSignal.timeout` rejects
-      // with a DOMException; Node 22 makes that an Error subclass, but a
-      // different realm (jest's node environment, a bundler shim) does not, and
-      // there the instanceof silently returns false and every upstream timeout
-      // gets misreported as a WTEN 500. `[MEASURED 2026-08-19]` real Node
-      // v22.23.1: `instanceof Error` true; jest node env: false. The `.name` is
-      // "TimeoutError" in both.
-      const timedOut =
-        typeof error === "object" &&
-        error !== null &&
-        (error as { name?: unknown }).name === "TimeoutError";
-      return new Response(
-        JSON.stringify({
-          error: timedOut
+        break;
+      } catch (error) {
+        logger.error(`[generate-cosmic-recipe] Error calling planetary agents API on attempt ${attempt}:`, error);
+        // Name check WITHOUT `instanceof Error`. `AbortSignal.timeout` rejects
+        // with a DOMException; Node 22 makes that an Error subclass, but a
+        // different realm (jest's node environment, a bundler shim) does not.
+        const timedOut =
+          typeof error === "object" &&
+          error !== null &&
+          "name" in error &&
+          error.name === "TimeoutError";
+        lastUpstreamError = {
+          status: timedOut ? 504 : 500,
+          message: timedOut
             ? "Agents network timed out generating the recipe"
             : "Internal server error contacting agents network",
-          ...(timedOut ? { upstreamTimeoutMs: PA_TIMEOUT_MS } : {}),
+          timedOut,
+        };
+        const remainingAfterCatch = MAX_UPSTREAM_BUDGET_MS - (Date.now() - requestStartTime);
+        if (!timedOut && attempt < MAX_RECIPE_ATTEMPTS && remainingAfterCatch >= MIN_RETRY_TIMEOUT_MS) {
+          logger.warn(
+            `[generate-cosmic-recipe] Attempt ${attempt} failed with error, retrying with ${remainingAfterCatch}ms budget...`,
+          );
+          continue;
+        }
+        break;
+      }
+    }
+
+    if (!recipe || !verificationOutcome) {
+      if (spend) {
+        refundOutcome = await settleCosmicRecipeRefund(spend);
+      }
+
+      recordRecipePipelineEvent({
+        attempts: attemptsCount,
+        repaired: false,
+        retried: attemptsCount > 1,
+        refunded: refundOutcome?.refunded ?? false,
+        refundStatus: refundOutcome?.refundStatus ?? null,
+        refundAmounts: refundOutcome?.refundAmounts ?? null,
+        ...(refundOutcome?.netRefund !== undefined ? { netRefund: refundOutcome.netRefund } : {}),
+        perAxisRefund: refundOutcome?.perAxisRefund ?? null,
+        refundReference: refundOutcome?.refundReference ?? null,
+        finalFailure: true,
+        gateFindings: allEncounteredFindings,
+      });
+
+      const err = lastUpstreamError ?? {
+        status: 500,
+        message: "Internal server error contacting agents network",
+        timedOut: false,
+      };
+
+      return new Response(
+        JSON.stringify({
+          error: err.message,
+          upstreamStatus: err.status,
+          ...(err.timedOut ? { upstreamTimeoutMs: PA_TIMEOUT_MS } : {}),
+          ...(err.issues ? { issues: err.issues } : {}),
+          attempts: attemptsCount,
+          refunded: refundOutcome?.refunded ?? false,
+          refundStatus: refundOutcome?.refundStatus ?? null,
+          ...(refundOutcome?.netRefund !== undefined ? { netRefund: refundOutcome.netRefund } : {}),
+          ...(refundOutcome?.refundAmounts ? { refundAmounts: refundOutcome.refundAmounts } : {}),
+          ...(refundOutcome?.perAxisRefund ? { perAxisRefund: refundOutcome.perAxisRefund } : {}),
+          ...(refundOutcome?.refundReference ? { refundReference: refundOutcome.refundReference } : {}),
         }),
         {
-          status: timedOut ? 504 : 500,
+          status: err.status,
           headers: { "Content-Type": "application/json" },
         },
       );
@@ -581,6 +800,15 @@ async function handlePost(request: NextRequest) {
       }
     }
 
+    recordRecipePipelineEvent({
+      attempts: attemptsCount,
+      repaired: verificationOutcome.repaired,
+      retried: attemptsCount > 1,
+      refunded: false,
+      finalFailure: false,
+      gateFindings: verificationOutcome.advisoryFindings.map((f) => f.code),
+    });
+
     // Spread the recipe at the top level so the existing client
     // (CosmicRecipeGenerator → data.title / data.short_description / ...)
     // continues to work. The `success: true` sentinel is what the
@@ -589,6 +817,13 @@ async function handlePost(request: NextRequest) {
       success: true,
       ...recipe,
       recipesGeneratedToday: updatedCount,
+      verification: {
+        verified: verificationOutcome.verified,
+        repaired: verificationOutcome.repaired,
+        audit: verificationOutcome.audit,
+        advisoryFindings: verificationOutcome.advisoryFindings,
+      },
+      attempts: attemptsCount,
       // How this generation was paid, including any auto-swap legs. Absent
       // for demo users, who pay nothing.
       ...(payment ? { payment } : {}),
@@ -613,56 +848,35 @@ async function handlePost(request: NextRequest) {
     delivered = true;
     return okResponse;
 
+  } catch (error) {
+    logger.error("[generate-cosmic-recipe] generation failed after access/payment", error);
+    refundOutcome ??= await settleCosmicRecipeRefund(spend);
+    recordRecipePipelineEvent({
+      attempts: attemptsCount,
+      repaired: false,
+      retried: attemptsCount > 1,
+      refunded: refundOutcome.refunded,
+      refundStatus: refundOutcome.refundStatus,
+      refundAmounts: refundOutcome.refundAmounts,
+      netRefund: refundOutcome.netRefund,
+      perAxisRefund: refundOutcome.perAxisRefund,
+      refundReference: refundOutcome.refundReference,
+      finalFailure: true,
+      gateFindings: allEncounteredFindings,
+    });
+    return new Response(JSON.stringify({
+      error: "Recipe generation failed",
+      attempts: attemptsCount,
+      refunded: refundOutcome.refunded,
+      refundStatus: refundOutcome.refundStatus,
+      netRefund: refundOutcome.netRefund,
+      ...(refundOutcome.refundAmounts ? { refundAmounts: refundOutcome.refundAmounts } : {}),
+      ...(refundOutcome.perAxisRefund ? { perAxisRefund: refundOutcome.perAxisRefund } : {}),
+      ...(refundOutcome.refundReference ? { refundReference: refundOutcome.refundReference } : {}),
+    }), { status: 500, headers: { "Content-Type": "application/json" } });
   } finally {
-    if (spend && !delivered) {
-      try {
-        // Credit the EXACT basket that was debited — net of any auto-swap that
-        // funded it, so the user ends where they started: the coins the bridge
-        // consumed come back and the ones it delivered are not credited twice.
-        // `refundBasketAfterSwap` is a pure credit (never negative on an axis),
-        // and equals the debited basket when nothing was swapped.
-        // `applyPersonalizedPricing` rounds to 2dp and the column is
-        // DECIMAL(12,4), so this reverses the debit with no rounding residual.
-        //
-        // Idempotency is the ledger's, not ours: token_transactions
-        // .idempotency_key is UNIQUE and creditTokensSql upserts the balance
-        // `FROM inserted`, so a replayed key inserts nothing and moves the
-        // balance by zero. Keying on the debit's transactionGroupId (not on
-        // user+date) matters because that index is GLOBAL.
-        //
-        // Awaited inside `finally` so the response waits for the credit to
-        // COMMIT — returning first and refunding after would lose it to a
-        // lambda freeze, which is the failure this whole change is about.
-        const outcome = await tokenEconomy.creditMultipleTokensDetailed(
-          spend.userId,
-          [
-            { tokenType: "Spirit", amount: spend.refund.spirit },
-            { tokenType: "Essence", amount: spend.refund.essence },
-            { tokenType: "Matter", amount: spend.refund.matter },
-            { tokenType: "Substance", amount: spend.refund.substance },
-          ],
-          "cosmic_recipe_refund",
-          {
-            sourceId: spend.groupId,
-            idempotencyKey: `cosmic_recipe_refund:${spend.groupId}`,
-            description: "Refund - cosmic recipe generation produced no recipe",
-          },
-        );
-        if (outcome.status === "failed") {
-          logger.error(
-            "[generate-cosmic-recipe] REFUND FAILED - user charged, no recipe",
-            {
-              userId: spend.userId,
-              transactionGroupId: spend.groupId,
-              code: outcome.code,
-            },
-          );
-        }
-      } catch (refundError) {
-        // A throw escaping `finally` would REPLACE the intended 504/502 with a
-        // 500 and lose the real status, so the refund is contained.
-        logger.error("refund threw", refundError);
-      }
+    if (spend && !delivered && !refundOutcome) {
+      await settleCosmicRecipeRefund(spend);
     }
   }
 

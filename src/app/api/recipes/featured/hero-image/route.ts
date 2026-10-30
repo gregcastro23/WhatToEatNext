@@ -1,3 +1,4 @@
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { featuredRecipe } from "@/data/featuredRecipe";
 import { generateRecipeImage } from "@/lib/recipe-nft/image";
@@ -8,7 +9,7 @@ export const runtime = "nodejs";
  * Hero image for the featured recipe — resolved via the live nanobanana pipeline
  * (Redis-cached 7d). Lightweight: just the image URL for the Promo card.
  */
-export async function GET() {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   const url = await generateRecipeImage({
     id: featuredRecipe.id,
     title: featuredRecipe.title,

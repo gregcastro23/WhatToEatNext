@@ -14,10 +14,9 @@ export interface LineCut {
   spread?: number;
 }
 
-/** The words a cut is named by: "chopped or diced" is chopped, diced. A parenthetical is a note. */
+/** Preparation words also count inside parentheses: "shelled (50 halves)" names halves. */
 function cutWords(as: string): string[] {
   return as
-    .replace(/\([^)]*\)/g, " ")
     .toLowerCase()
     .split(/[^a-z]+/)
     .filter((word) => word.length > 0 && word !== "or" && word !== "and");

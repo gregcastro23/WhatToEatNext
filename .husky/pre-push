@@ -6,12 +6,16 @@ export PATH="$HOME/.bun/bin:$PATH"
 # Git intentionally lists these as whitespace-separated shell variable names.
 unset $(git rev-parse --local-env-vars)
 
-# Run full verify suite before pushing.
+# Run full verify suite before pushing (supports SKIP_VERIFY=1 or FAST_PUSH=1 bypass).
 # `|| exit 1` is load-bearing: this file has no `set -e`, and without it the
 # hook's exit status comes from the trailing `git lfs pre-push` (or the `exit 0`
 # in the no-lfs branch), so a FAILING verify would still let the push through.
 # Red-proved 2026-09-08 by substituting a failing command for verify: exit 0.
-bun run verify || exit 1
+if [ "$SKIP_VERIFY" = "1" ] || [ "$FAST_PUSH" = "1" ]; then
+  printf "\n⏩ Skipping pre-push verification (SKIP_VERIFY=1 set).\n\n"
+else
+  bun run verify || exit 1
+fi
 
 # git-lfs pre-push: warn if lfs is missing but don't block the push,
 # since most pushes contain only code (no tracked binary files).

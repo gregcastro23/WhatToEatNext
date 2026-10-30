@@ -22,7 +22,7 @@ export const runtime = "nodejs";
  * path in `computeRecipeFingerprint` anonymously reachable. `dailyDemoQuota: 0`
  * matches `/mint` — there is no demo tier for this.
  */
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const access = await gateDemoOrAuth(request, { dailyDemoQuota: 0, feature: "mint recipe quote" });
   if (access.mode !== "auth") {
     if (access.mode === "denied") return access.blocked;

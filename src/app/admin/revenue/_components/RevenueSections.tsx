@@ -18,11 +18,18 @@ export function ModeBanner({ data }: { data: RevenueView }): React.JSX.Element |
   }
   const partial = data.errors.length > 0;
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      {data.mode === "live" && <Pill tone="ok">Live mode — real money</Pill>}
-      {data.mode === "test" && <Pill tone="warn">Test mode — these are test payments, not revenue</Pill>}
-      {data.mode === "unknown" && <Pill tone="neutral">Key mode unrecognised</Pill>}
-      {partial && <Pill tone="bad" title={data.errors.join("\n")}>{data.errors.length} Stripe read(s) failed</Pill>}
+    <div className="space-y-2">
+      <div className="flex flex-wrap items-center gap-2">
+        {data.mode === "live" && <Pill tone="ok">Live mode — real money</Pill>}
+        {data.mode === "test" && <Pill tone="warn">Test mode — these are test payments, not revenue</Pill>}
+        {data.mode === "unknown" && <Pill tone="neutral">Key mode unrecognised</Pill>}
+        {partial && <Pill tone="bad" title={data.errors.join("\n")}>{data.errors.length} Stripe read(s) failed</Pill>}
+      </div>
+      {partial && (
+        <div className="rounded-lg border border-rose-200 bg-rose-50/70 px-3.5 py-2.5 text-xs text-rose-800 font-mono">
+          {data.errors[0]}
+        </div>
+      )}
     </div>
   );
 }

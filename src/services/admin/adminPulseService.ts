@@ -10,7 +10,10 @@
  */
 
 import { memoize } from "@/lib/cache/memoryCache";
+import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
+import { getAsolHealthOverview } from "@/services/admin/asolHealthService";
 import { getBaseProgress, type BaseProgress } from "@/services/admin/baseProgressService";
 import { deployIdentity, getCodeHealthPulse, type CodeHealthPulse, type DeployIdentity } from "@/services/admin/codeHealthService";
 import { getSolanaProgress } from "@/services/admin/solanaProgressService";
@@ -20,7 +23,18 @@ import type { Money, StripeMode, StripeRevenuePayload } from "@/services/admin/s
 import { getTrafficPulse } from "@/services/admin/trafficAnalyticsService";
 import type { TrafficPulse } from "@/services/admin/trafficTypes";
 import { getUserGrowth, type GrowthPayload } from "@/services/admin/userGrowthService";
+import {
+  classifyCreditPath,
+  fetchCreditPathSignals,
+  type CreditPathVerdict,
+} from "@/services/agentCreditPathHealth";
+import {
+  classifyDebitPath,
+  fetchDebitPathSignals,
+  type DebitPathVerdict,
+} from "@/services/agentDebitPathHealth";
 import type { CoverageStatus } from "@/services/stripeWebhookCoverageService";
+import { AGENT_PULSE_ROSTER_SQL } from "./adminAgentSql";
 
 export interface GrowthPulse {
   live: boolean;
@@ -67,6 +81,15 @@ export interface BasePulse {
   claimsMinted: number | null;
 }
 
+export interface AgentsPulse {
+  live: boolean;
+  totalAgents: number | null;
+  paReachable: boolean;
+  creditVerdict: CreditPathVerdict;
+  debitVerdict: DebitPathVerdict;
+  activeDeliveryEvents24h: number | null;
+}
+
 export interface AdminPulse {
   generatedAt: string;
   errors: string[];
@@ -77,6 +100,7 @@ export interface AdminPulse {
   code: CodeHealthPulse | null;
   solana: SolanaPulse | null;
   base: BasePulse | null;
+  agents: AgentsPulse | null;
 }
 
 async function section<T>(label: string, errors: string[], work: () => Promise<T>): Promise<T | null> {
@@ -150,15 +174,61 @@ function mapOrNull<T, U>(value: T | null, fn: (v: T) => U): U | null {
   return value === null ? null : fn(value);
 }
 
+export async function getAgentsPulse(): Promise<AgentsPulse> {
+  const [rosterRes, creditSignals, debitSignals, asolHealth, reachabilityRes] = await Promise.all([
+    executeQuery<{ count: number }>(
+      AGENT_PULSE_ROSTER_SQL,
+    )
+      .then((res) => (res.rows[0]?.count !== undefined ? Number(res.rows[0].count) : null))
+      .catch((err) => {
+        _logger.error("[adminPulseService] roster query failed:", err);
+        return null;
+      }),
+    fetchCreditPathSignals().catch(() => ({
+      live: false,
+      calls24h: 0,
+      credits24h: 0,
+      lastCreditAgeMs: null,
+      priorCalls7d: 0,
+      priorCredits7d: 0,
+    })),
+    fetchDebitPathSignals().catch(() => ({
+      live: false,
+      agentTraffic24h: 0,
+      debits24h: 0,
+      lastDebitAgeMs: null,
+    })),
+    getAsolHealthOverview().catch(() => null),
+    fetch(`${getServiceUrlSafe("planetaryAgentsApi")}/health`, {
+      signal: AbortSignal.timeout(2_000),
+    })
+      .then((r) => r.status < 500)
+      .catch(() => false),
+  ]);
+
+  const credit = classifyCreditPath(creditSignals);
+  const debit = classifyDebitPath(debitSignals);
+
+  return {
+    live: creditSignals.live || debitSignals.live || asolHealth !== null,
+    totalAgents: rosterRes,
+    paReachable: reachabilityRes,
+    creditVerdict: credit.verdict,
+    debitVerdict: debit.verdict,
+    activeDeliveryEvents24h: asolHealth !== null ? asolHealth.totalReceived : null,
+  };
+}
+
 export async function getAdminPulse(): Promise<AdminPulse> {
   const errors: string[] = [];
-  const [traffic, growth, revenue, code, solana, base] = await Promise.all([
+  const [traffic, growth, revenue, code, solana, base, agents] = await Promise.all([
     section("traffic", errors, () => getTrafficPulse()),
     section("growth", errors, () => memoize("admin:growth", 30_000, () => getUserGrowth())),
     section("revenue", errors, () => memoize("admin:revenue", 60_000, () => getStripeRevenue())),
     section("code", errors, () => getCodeHealthPulse()),
     section("solana", errors, () => getSolanaProgress()),
     section("base", errors, () => getBaseProgress()),
+    section("agents", errors, () => memoize("admin:agents", 30_000, () => getAgentsPulse())),
   ]);
   return {
     generatedAt: new Date().toISOString(),
@@ -170,5 +240,6 @@ export async function getAdminPulse(): Promise<AdminPulse> {
     code,
     solana: mapOrNull(solana, solanaPulse),
     base: mapOrNull(base, basePulse),
+    agents,
   };
 }

@@ -41,8 +41,8 @@ export interface AlertLogEntry {
 }
 
 export interface AlertDispatchSummary {
-  slack?: { ok: boolean; error?: string };
-  email?: { ok: boolean; error?: string };
+  slack?: { ok: boolean; error?: string; skipped?: boolean };
+  email?: { ok: boolean; error?: string; skipped?: boolean };
   // Set when alertService skipped Slack/email because this (component,
   // current_status) pair was already dispatched within the cooldown window.
   // The DB row + ring entry are still recorded so the audit trail catches

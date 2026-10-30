@@ -123,7 +123,7 @@ const DAIRY_TERMS: RegExp[] = [
   /\b(milk|buttermilk|cream|creams?|butter|ghee|cheeses?|yogh?urts?|whey|casein|curds?|kefir|custard)\b/,
   // A roux thickened with milk; the `béchamel sauce` card sits under `seasoning`.
   /\bb[eé]chamel\b/,
-  /\b(paneer|ricotta|mozzarella|parmesan|parmigiano|cheddar|feta|mascarpone|gouda|brie|halloumi|queso)\b/,
+  /\b(paneer|ricotta|mozzarella|parmesan|parmigiano|cheddar|feta|mascarpone|gouda|brie|halloumi|queso|gruy[eè]re|pecorino|fontina|camembert|manchego|provolone|gorgonzola|burrata|asiago|emmental(er)?|romano|ch[eè]vre|roquefort|bocconcini|taleggio|havarti|cotija|quark|labneh)\b/,
   /\bcr[eè]me\s+fra[iî]che\b/,
 ];
 

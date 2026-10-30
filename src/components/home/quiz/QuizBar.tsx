@@ -1,13 +1,18 @@
 "use client";
+import { answeredCount } from "./engine/session";
 import styles from "./quiz.module.css";
 import { useQuiz } from "./QuizProvider";
 
-export function QuizBar({
-  tunedSuffix = "",
-}: {
-  tunedSuffix?: string;
-}): React.JSX.Element {
-  const { state, start, close, reading } = useQuiz();
+function actionLabel(isOpen: boolean, phase: string, answered: number): string {
+  if (isOpen) return "Close ↑";
+  if (phase === "result") return "See it →";
+  return answered > 0 ? "Resume →" : "Start →";
+}
+
+export function QuizBar({ tunedSuffix = "" }: { tunedSuffix?: string }): React.JSX.Element {
+  const { state, open, close } = useQuiz();
+  const answered = answeredCount(state);
+  const { summary } = state;
   return (
     <button
       id="meal-quiz-trigger"
@@ -15,34 +20,22 @@ export function QuizBar({
       className={styles.bar}
       aria-expanded={state.isOpen}
       aria-controls="meal-quiz-stage"
-      onClick={state.isOpen ? close : start}
+      onClick={state.isOpen ? close : open}
       disabled={!state.hydrated}
     >
       <span className={styles.barSymbol} aria-hidden="true">
-        ✦
+        {summary ? summary.emoji : "✦"}
       </span>
       <span className={styles.barCopy}>
-        <strong>
-          {reading
-            ? `${reading.meal.emoji} ${reading.meal.name}`
-            : "Craft tonight’s meal"}
-        </strong>
+        <strong>{summary ? `Tonight: ${summary.name}` : "What are you actually hungry for?"}</strong>
         <span>
-          {state.mode === "quick"
-            ? "Quick Craft · 4 questions"
-            : `Deep Dive · up to ${state.questionLimit} questions`}
+          {summary
+            ? "Matched from real recipes · retake any time"
+            : `A ${state.target}-question quiz that reads the moment and finds a real dish`}
           {tunedSuffix}
         </span>
       </span>
-      <span className={styles.barAction}>
-        {state.isOpen
-          ? "Close ↑"
-          : reading
-            ? "View →"
-            : Object.keys(state.answers).length
-              ? "Resume →"
-              : "Start →"}
-      </span>
+      <span className={styles.barAction}>{actionLabel(state.isOpen, state.phase, answered)}</span>
     </button>
   );
 }

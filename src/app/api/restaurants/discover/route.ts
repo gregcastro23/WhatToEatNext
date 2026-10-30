@@ -38,6 +38,8 @@ interface DiscoverInput {
   longitude?: unknown;
   radius?: unknown;
   limit?: unknown;
+  userId?: string;
+  favoriteIds?: string[];
 }
 
 async function discover(input: DiscoverInput) {
@@ -64,6 +66,8 @@ async function discover(input: DiscoverInput) {
       longitude,
       ...(radiusMeters !== null ? { radiusMeters } : {}),
       ...(limit !== null ? { limit } : {}),
+      ...(input.userId !== undefined ? { userId: input.userId } : {}),
+      ...(input.favoriteIds !== undefined ? { favoriteIds: input.favoriteIds } : {}),
     });
     return NextResponse.json(data, { status: 200 });
   } catch (err) {
@@ -82,12 +86,19 @@ async function discover(input: DiscoverInput) {
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
+  const favsParam = searchParams.get("favorites") || searchParams.get("favoriteIds");
+  const favoriteIds = favsParam
+    ? favsParam.split(",").map((s) => s.trim()).filter(Boolean)
+    : undefined;
+
   return discover({
     cuisine: searchParams.get("cuisine"),
     latitude: searchParams.get("lat"),
     longitude: searchParams.get("lng"),
     radius: searchParams.get("radius"),
     limit: searchParams.get("limit"),
+    ...(searchParams.get("userId") ? { userId: searchParams.get("userId") ?? "" } : {}),
+    ...(favoriteIds ? { favoriteIds } : {}),
   });
 }
 

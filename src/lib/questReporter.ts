@@ -19,7 +19,7 @@
  */
 export function reportQuestEvent(event: string): void {
   // Use void to indicate intentional fire-and-forget
-  void (async () => {
+  void (async (): Promise<void> => {
     try {
       await fetch('/api/quests', {
         method: 'POST',

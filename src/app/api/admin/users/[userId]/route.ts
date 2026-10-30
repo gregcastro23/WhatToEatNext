@@ -138,9 +138,10 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-// The users.role column enum (database/init/06 + 07): legacy ALCHEMIST /
-// GRAND_MASTER labels plus the USER / ADMIN pair the app actually gates on.
-const ALLOWED_ROLES = new Set(["USER", "ADMIN", "ALCHEMIST", "GRAND_MASTER"]);
+// The users.role column enum (database/init/93): RBAC is strictly USER / ADMIN.
+// "Alchemist" is a culinary identity, not an access tier, and agents are USER
+// with is_agent = true. The legacy ALCHEMIST / GRAND_MASTER labels are gone.
+const ALLOWED_ROLES = new Set(["USER", "ADMIN"]);
 
 /**
  * PATCH /api/admin/users/[userId]
@@ -235,7 +236,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       const applied = await userDatabase.updateUserRole(
         userId,
         // updateUserRole uppercases before casting to the user_role enum, so
-        // the DB label round-trips even for the legacy ALCHEMIST/GRAND_MASTER values.
+        // the DB label (USER / ADMIN) round-trips.
         normalizedRole.toLowerCase() as Parameters<
           typeof userDatabase.updateUserRole
         >[1],

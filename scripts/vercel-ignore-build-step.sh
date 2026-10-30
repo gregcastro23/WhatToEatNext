@@ -41,6 +41,16 @@ if [[ "$COMMIT_MSG" =~ \[(skip[ -]vercel|skip[ -]ci|no[ -]build|skip[ -]build)\]
 fi
 
 # ------------------------------------------------------------------------------
+# 1b. Skip automatic Preview builds unless explicitly requested
+# ------------------------------------------------------------------------------
+if [[ "$VERCEL_ENV" == "preview" && "${FORCE_PREVIEW_BUILD:-}" != "true" && ! "$COMMIT_MSG" =~ \[(deploy[ -]preview|build[ -]preview|force[ -]build)\] ]]; then
+  echo "⏩ [SKIP] Preview build skipped by default on branch \"$COMMIT_REF\"."
+  echo "   (Add [deploy-preview] to the commit message or set FORCE_PREVIEW_BUILD=true to build a preview)"
+  echo "🛑 Cancelling Vercel build (0 CPU minutes used)."
+  exit 0
+fi
+
+# ------------------------------------------------------------------------------
 # 2. Define frontend critical files and directories
 # ------------------------------------------------------------------------------
 FRONTEND_PATHS=(

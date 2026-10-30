@@ -11,6 +11,7 @@ import {
   claimWebhookEvent,
   completeWebhookEvent,
   failWebhookEvent,
+  STORED_RESULT_SQL,
 } from "@/lib/hooks/inbox";
 import type { HookEvent, HookSource, InboxClaim } from "@/lib/hooks/types";
 
@@ -100,7 +101,7 @@ export async function fetchStoredResult(
 ): Promise<Record<string, unknown> | null> {
   try {
     const res = await executeQuery<{ result: unknown }>(
-      `SELECT result FROM webhook_events WHERE source = $1 AND event_id = $2 LIMIT 1`,
+      STORED_RESULT_SQL,
       [source, eventId],
     );
     const [row] = res.rows;
@@ -191,4 +192,31 @@ export async function claimInboundEvent(params: {
   };
 }
 
+/**
+ * Settle a claimed inbound event as failed with a `rejected:<status>` reason.
+ * Safely no-ops if claim is null, undefined, or unrecorded.
+ */
+export async function rejectInboundClaim(
+  claim: InboxClaim | null | undefined,
+  statusCode: number,
+): Promise<void> {
+  if (claim?.kind === "claimed") {
+    await failWebhookEvent(claim, `rejected:${statusCode}`);
+  }
+}
+
+/**
+ * Settle a claimed inbound event as failed with an error or provenance reason.
+ * Safely no-ops if claim is null, undefined, or unrecorded.
+ */
+export async function failInboundClaim(
+  claim: InboxClaim | null | undefined,
+  error: unknown,
+): Promise<void> {
+  if (claim?.kind === "claimed") {
+    await failWebhookEvent(claim, error);
+  }
+}
+
 export { completeWebhookEvent, failWebhookEvent };
+export { formatErrorProvenance } from "@/lib/hooks/inbox";

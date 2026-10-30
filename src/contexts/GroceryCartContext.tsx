@@ -571,6 +571,10 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
   );
 }
 
+export function useOptionalGroceryCart(): GroceryCartContextValue | null {
+  return useContext(GroceryCartContext);
+}
+
 export function useGroceryCart(): GroceryCartContextValue {
   const ctx = useContext(GroceryCartContext);
   if (!ctx) {
@@ -578,3 +582,4 @@ export function useGroceryCart(): GroceryCartContextValue {
   }
   return ctx;
 }
+

@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import AgentProfileWeekCard from "@/components/menu-planner/redesign/AgentProfileWeekCard";
+import type { AgentVesselData } from "@/components/profile/AgentVesselCard";
 import type { DietaryPreferencesData } from "@/components/profile/blocks/types";
 import { CustomizeDrawer } from "@/components/profile/CustomizeDrawer";
 import { LiveAgentFeed } from "@/components/profile/LiveAgentFeed";
@@ -41,6 +42,7 @@ interface PublicProfile {
   isAgent: boolean;
   agentSlug: string | null;
   agentProfile: CraftedAgentProfile | null;
+  vessel?: AgentVesselData | null;
   agentInteractions?: AgentInteraction[];
   agentActions?: AgentAction[];
   agentArtifacts?: AgentArtifact[];
@@ -87,7 +89,7 @@ function formatPlacement(placement: NatalPosition): string | null {
   return `${placement.planet} ${degree}${sign}`.trim();
 }
 
-export default function PublicProfilePage() {
+export default function PublicProfilePage(): React.JSX.Element {
   const params = useParams<{ userId: string }>();
   const userId = params?.userId;
   const [profile, setProfile] = useState<PublicProfile | null>(null);
@@ -136,7 +138,7 @@ export default function PublicProfilePage() {
       }
     }
     load().catch(() => {});
-    return () => {
+    return (): void => {
       cancelled = true;
     };
   }, [userId]);
@@ -198,10 +200,12 @@ export default function PublicProfilePage() {
           <AgentProfile
             agent={profile.agentProfile!}
             balances={profile.balances}
+            vessel={profile.vessel ?? null}
             handle={profile.handle}
             interactions={profile.agentInteractions ?? []}
             actions={profile.agentActions ?? []}
             artifacts={profile.agentArtifacts ?? []}
+            recentActivity={profile.recentActivity}
             userId={profile.userId}
             viewer={social.viewer}
           />
@@ -220,7 +224,7 @@ export default function PublicProfilePage() {
                 agentSlug={profile.agentSlug}
                 avatarUrl={profile.avatarUrl}
                 dominantElement={profile.dominantElement}
-                natalPositions={profile.natalPositions ?? []}
+                natalPositions={profile.natalPositions}
                 bio={profile.bio}
                 createdAt={profile.createdAt}
                 isOwner={isOwner}

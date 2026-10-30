@@ -63,6 +63,34 @@ export interface TransmutationOwnOffer extends TransmutationOfferView {
   taker: TransmutationParty | null;
 }
 
+export interface CircleBoardResonanceWindow {
+  windowKey: string;
+  expiresAt: string;
+  makerId: string;
+  takerId: string;
+  bonusPct: number;
+  harmonicAspect: string;
+  transitCatalyst: string;
+  partnerId?: string;
+  partnerName?: string;
+  partnerIsAgent?: boolean;
+  aspectDescription?: string;
+  complementaryAxes?: { give: TokenType; want: TokenType };
+}
+
+export interface TriplicateTradeSummary {
+  id: string;
+  timestamp: string;
+  makerName: string;
+  takerName: string;
+  gaveToken: TokenType;
+  gaveAmount: number;
+  receivedToken: TokenType;
+  receivedAmount: number;
+  resonanceBonusPct: number;
+  aspectDescription: string;
+}
+
 export interface TransmutationTerms {
   giveToken: TokenType;
   giveAmount: number;
@@ -93,12 +121,19 @@ export interface TransmutationCircleSnapshot {
   };
   /** The standing incentive, stated so the UI never has to hard-code it. */
   bonus: { tokenType: TokenType; baseAmount: number; minTradeValue: number; perPartnerPerDay: 1 };
+  recentTrades?: TriplicateTradeSummary[];
+  resonanceWindows?: CircleBoardResonanceWindow[];
+  activeResonanceWindows?: CircleBoardResonanceWindow[];
 }
 
 export interface TransmutationTrade {
   gave: { tokenType: TokenType; amount: number };
   received: { tokenType: TokenType; amount: number };
   transactionGroupId: string;
+  resonanceBonusPct?: number;
+  aspectDescription?: string;
+  transitCatalyst?: string;
+  celestialRebate?: { maker: number; taker: number };
 }
 
 export type TransmutationFailureReason =

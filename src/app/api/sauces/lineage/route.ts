@@ -1,3 +1,4 @@
+import type { NextRequest } from "next/server";
 /**
  * GET /api/sauces/lineage?root=<id>
  *
@@ -18,7 +19,7 @@ import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { SauceLineageResponseSchema } from "@/lib/schemas/dashboard";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 const SAUCES_JSON_PATH = path.join(
   process.cwd(),
@@ -81,7 +82,7 @@ function findRoot(
   return null;
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(request, {
     window: 60_000,
     max: 60,
@@ -143,7 +144,9 @@ export async function GET(request: Request) {
       },
     });
 
-    return NextResponse.json(body);
+    return NextResponse.json(body, {
+      headers: { "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800" },
+    });
   } catch (error) {
     _logger.error("[sauces/lineage] Error:", error);
     return NextResponse.json(

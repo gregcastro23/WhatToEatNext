@@ -1,13 +1,13 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
-import { getTransitNatalOverlay } from "@/lib/mcp/synastryTools";
+import { getTransitNatalOverlay, type NatalChartInput } from "@/lib/mcp/synastryTools";
 
 export const dynamic = "force-dynamic";
 
 interface ProfileRow {
   user_id: string;
-  natal_chart: any;
+  natal_chart: unknown;
 }
 
 function parseJsonField<T>(value: unknown, fallback: T): T {
@@ -22,10 +22,7 @@ function parseJsonField<T>(value: unknown, fallback: T): T {
   return value as T;
 }
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: Promise<{ userId: string }> },
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ userId: string }> }): Promise<NextResponse> {
   const { userId } = await params;
   if (!userId) {
     return NextResponse.json(
@@ -55,7 +52,7 @@ export async function GET(
       );
     }
 
-    const rawNatal = parseJsonField<any>(row.natal_chart, null);
+    const rawNatal = parseJsonField<NatalChartInput | null>(row.natal_chart, null);
 
     if (!rawNatal?.planets) {
       return NextResponse.json(
@@ -70,8 +67,12 @@ export async function GET(
         id: row.user_id,
         natalChart: {
           planets: rawNatal.planets,
-          ascendant: rawNatal.ascendant,
-          midheaven: rawNatal.midheaven,
+          ...(typeof rawNatal.ascendant !== "undefined"
+            ? { ascendant: rawNatal.ascendant }
+            : {}),
+          ...(typeof rawNatal.midheaven !== "undefined"
+            ? { midheaven: rawNatal.midheaven }
+            : {}),
         },
       },
     });

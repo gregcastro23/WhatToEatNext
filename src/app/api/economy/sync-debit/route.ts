@@ -5,7 +5,7 @@ import type {
   AutoSwapExecution,
   AutoSwapRefusal,
 } from "@/lib/economy/swappingBridge";
-import { safeEqual } from "@/lib/hooks/secureCompare";
+import { safeEqual, bearerMatches } from "@/lib/hooks/secureCompare";
 import { withObservability } from "@/lib/observability/withObservability";
 import { SyncDebitRequestSchema } from "@/lib/validation/apiSchemas";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
@@ -60,8 +60,17 @@ function deriveAgentDisplayName(
 
 async function handlePost(req: NextRequest) {
   const authHeader = req.headers.get("X-Sync-Secret");
+  const authBearer = req.headers.get("Authorization");
   const syncSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
-  if (!safeEqual(authHeader, syncSecret)) {
+  const internalSecret = process.env.INTERNAL_API_SECRET;
+
+  const isAuthorized =
+    safeEqual(authHeader, syncSecret) ||
+    safeEqual(authHeader, internalSecret) ||
+    bearerMatches(authBearer, internalSecret) ||
+    bearerMatches(authBearer, syncSecret);
+
+  if (!isAuthorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -589,6 +598,22 @@ async function handlePost(req: NextRequest) {
       return NextResponse.json({ ok: false, reason: "already_applied" }, { status: 409 });
     }
     logger.error("[sync-debit] Internal Error:", error);
+    try {
+      await executeQuery(
+        `INSERT INTO system_metrics (metric_name, metric_value, tags, timestamp)
+         VALUES ('failed_agent_debit', 1, $1::jsonb, NOW())`,
+        [
+          JSON.stringify({
+            userEmail,
+            amounts,
+            operationType,
+            error: error instanceof Error ? error.message : String(error),
+          }),
+        ],
+      );
+    } catch (metricErr) {
+      logger.error("[sync-debit] Dead-letter log write failed:", metricErr);
+    }
     return NextResponse.json(
       { ok: false, reason: "internal_error", message: (error as Error).message },
       { status: 500 },

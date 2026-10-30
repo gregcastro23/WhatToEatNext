@@ -195,7 +195,7 @@ export function Dashboard({ data }: DashboardProps) {
             marginBottom: 12,
           }}
         >
-          <SEMSDistribution />
+          <SEMSDistribution data={data.semsDistribution} />
           <AstronomicalEngine
             live={data.skyConditions.live}
             pageTelemetry={data.pageTelemetry}
@@ -233,8 +233,14 @@ export function Dashboard({ data }: DashboardProps) {
             marginBottom: 12,
           }}
         >
-          <SubdomainMatrix pageTelemetry={data.pageTelemetry} />
-          <APIHeatmap db={data.dbObservability} />
+          <SubdomainMatrix
+            pageTelemetry={data.pageTelemetry}
+            routeHeatmap={data.routeHeatmap}
+          />
+          <APIHeatmap
+            db={data.dbObservability}
+            routeHeatmap={data.routeHeatmap}
+          />
         </div>
 
         <div

@@ -22,7 +22,7 @@ export interface FeedNarration {
   /** Short noun phrase suitable for a "Recent Activity" bullet point. */
   label: string;
   /** Optional href target — e.g. recipe permalink or PA chat. */
-  href?: string | undefined;
+  href?: string;
 }
 
 function getString(meta: FeedMetadata, key: string): string | undefined {
@@ -42,6 +42,15 @@ function titleCase(input: string): string {
     .split(/\s+/)
     .map((w) => (w.length === 0 ? w : w.charAt(0).toUpperCase() + w.slice(1)))
     .join(" ");
+}
+
+function narration(icon: string, action: string, label: string, href?: string): FeedNarration {
+  return {
+    icon,
+    action,
+    label,
+    ...(href ? { href } : {}),
+  };
 }
 
 /**
@@ -103,15 +112,76 @@ export function narrateFeedEvent(
       const recipeName = getString(metadata, "recipeName");
       const recipeId =
         getString(metadata, "recipeId") ?? getString(metadata, "recipe_id");
-      const href = recipeId ? `/generated-recipe/${recipeId}` : undefined;
-      return {
-        icon: "🍽️",
-        action: recipeName
-          ? `transmuted ingredients into ${recipeName}.`
+      const isCatalog = getString(metadata, "source") === "catalog_review";
+      const isUngrounded = metadata?.mcpCatalog === false;
+      const href =
+        recipeId && !isUngrounded
+          ? isCatalog
+            ? `/recipes/${recipeId}`
+            : `/generated-recipe/${recipeId}`
+          : undefined;
+      return narration(
+        "🍽️",
+        recipeName
+          ? (isCatalog ? `reviewed ${recipeName} and shared a culinary reflection.` : `transmuted ingredients into ${recipeName}.`)
           : "transmuted ingredients into a new recipe.",
-        label: recipeName ? `Created recipe: ${recipeName}` : "Created a recipe",
+        recipeName ? (isCatalog ? `Reviewed: ${recipeName}` : `Created recipe: ${recipeName}`) : "Created a recipe",
         href,
-      };
+      );
+    }
+
+    case "recipe_adapted": {
+      const original = getString(metadata, "recipeName");
+      const versionName = getString(metadata, "versionName");
+      const versionId = getString(metadata, "versionId");
+      const versionPath = getString(metadata, "versionPath");
+      const href =
+        versionPath ??
+        (versionId
+          ? `/recipes/versions/${encodeURIComponent(versionId)}`
+          : undefined);
+      const displayLabel = versionName
+        ? `Adapted: ${versionName}`
+        : original
+          ? `Adapted: ${original}`
+          : "Saved adaptation";
+      const actionText = original
+        ? versionName
+          ? `adapted ${original} as ${versionName} and saved their version.`
+          : `adapted ${original} and saved their version.`
+        : "saved an adapted recipe version.";
+      return narration("📝", actionText, displayLabel, href);
+    }
+
+    case "recipe_review": {
+      const recipeName =
+        getString(metadata, "recipeName") ??
+        getString(metadata, "title") ??
+        getString(metadata, "dishName");
+      const recipeId =
+        getString(metadata, "recipeId") ?? getString(metadata, "recipe_id");
+      const isCatalogCritique =
+        getString(metadata, "source") === "catalog_critique" ||
+        getString(metadata, "source") === "catalog_review";
+      // Catalog critiques and unrated agent reflections never carry cooking star ratings
+      const rating = !isCatalogCritique
+        ? getNumber(metadata, "rating")
+        : undefined;
+      const reviewText =
+        getString(metadata, "review") ??
+        getString(metadata, "comment") ??
+        getString(metadata, "reflection");
+      const ratingStr = rating ? ` (${rating}★)` : "";
+      const reviewExcerpt = reviewText ? `: "${truncate(reviewText, 80)}"` : ".";
+      const href = recipeId ? `/recipes/${recipeId}` : undefined;
+      return narration(
+        "📜",
+        recipeName
+          ? `critiqued ${recipeName}${ratingStr} and shared an alchemical tip${reviewExcerpt}`
+          : `shared an alchemical recipe critique${reviewExcerpt}`,
+        recipeName ? `Critique: ${recipeName}` : "Recipe critique",
+        href,
+      );
     }
 
     case "insight": {
@@ -142,12 +212,12 @@ export function narrateFeedEvent(
         getString(metadata, "recipeId") ?? getString(metadata, "recipe_id");
       const rating = getNumber(metadata, "rating");
       const base = recipeName ? `prepared ${recipeName}` : "prepared a community recipe";
-      return {
-        icon: "✅",
-        action: rating ? `${base} and gave it ${rating} stars.` : `${base}.`,
-        label: recipeName ? `Made: ${recipeName}` : "Made a community recipe",
-        href: recipeId ? `/recipes/${recipeId}` : undefined,
-      };
+      return narration(
+        "✅",
+        rating ? `${base} and gave it ${rating} stars.` : `${base}.`,
+        recipeName ? `Made: ${recipeName}` : "Made a community recipe",
+        recipeId ? `/recipes/${recipeId}` : undefined,
+      );
     }
 
     case "table_memory": {
@@ -158,14 +228,14 @@ export function narrateFeedEvent(
       const tableId = getString(metadata, "tableId");
       const guestPhrase =
         guestCount && guestCount > 1 ? ` with ${guestCount} at the table` : "";
-      return {
-        icon: "🍽️",
-        action: title
+      return narration(
+        "🍽️",
+        title
           ? `closed the table on "${title}"${guestPhrase} — the memory is saved.`
           : "closed a table and saved the memory.",
-        label: title ? `Table memory: ${title}` : "Table memory",
-        href: tableId ? `/tables/${tableId}` : undefined,
-      };
+        title ? `Table memory: ${title}` : "Table memory",
+        tableId ? `/tables/${tableId}` : undefined,
+      );
     }
 
     case "weekly_menu":
@@ -242,12 +312,12 @@ export function narrateFeedEvent(
         ? `narrated an alchemical walkthrough for ${recipeName} with voice synthesis.`
         : "recorded a voice-guided alchemical cooking walkthrough.";
       const label = recipeName ? `Voice Walkthrough · ${recipeName}` : "Voice Walkthrough";
-      return {
-        icon: "🎙️",
+      return narration(
+        "🎙️",
         action,
         label,
-        href: audioUrl ?? (recipeId ? `/recipes/${recipeId}` : undefined),
-      };
+        audioUrl ?? (recipeId ? `/recipes/${recipeId}` : undefined),
+      );
     }
 
     case "agent_voice_insight":
@@ -269,12 +339,7 @@ export function narrateFeedEvent(
         : planet
           ? `Transit Insight · ${planet}`
           : "Voice Insight";
-      return {
-        icon: "📻",
-        action,
-        label,
-        href: audioUrl,
-      };
+      return narration("📻", action, label, audioUrl);
     }
 
     case "transit_discussion":
@@ -310,12 +375,12 @@ export function narrateFeedEvent(
         ? `completed guided alchemical cooking for ${recipeName}${stepPhrase}.`
         : "completed a guided alchemical cooking step.";
       const label = recipeName ? `Guided Step · ${recipeName}` : "Guided Cooking Step";
-      return {
-        icon: "👨‍🍳",
+      return narration(
+        "👨‍🍳",
         action,
         label,
-        href: recipeId ? `/recipes/${recipeId}` : undefined,
-      };
+        recipeId ? `/recipes/${recipeId}` : undefined,
+      );
     }
 
     case "transmutation_offer": {

@@ -14,11 +14,10 @@ import type { Metadata } from "next";
 // Recipe pages are generated on demand (generateStaticParams is normally
 // disabled below) and would otherwise stay cached until the next deploy —
 // DB-side content changes (description backfills, image swaps) never reached
-// already-rendered pages. Hourly ISR keeps the HTML at most 1h behind the DB;
-// the underlying LocalRecipeService Redis catalog cache is 5 min, so the page
-// regenerates from reasonably fresh data. POST /api/internal/revalidate
+// already-rendered pages. 24-hour ISR keeps HTML fresh without burning
+// thousands of ISR write units on daily crawler sweeps; POST /api/internal/revalidate
 // forces an immediate refresh after bulk backfills.
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export async function generateStaticParams() {
   if (process.env.ENABLE_RECIPE_STATIC_PARAMS !== "true") {

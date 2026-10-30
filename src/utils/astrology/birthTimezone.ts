@@ -196,3 +196,11 @@ export function isFabricatedFallbackPin(latitude: number, longitude: number): bo
     latitude === IGNITE_FALLBACK_PIN.latitude && longitude === IGNITE_FALLBACK_PIN.longitude
   );
 }
+
+/**
+ * The `birthData.dateTime` every agent placeholder carries (52 of the 60 rows
+ * measured on 2026-08-04). It is a sentinel, not a birth — `backfillBirthInstant`
+ * skips it for that reason — so anything that presents a birth to a user must
+ * refuse it rather than render a chart for 1900-01-01 noon.
+ */
+export const AGENT_SENTINEL_DATETIME = "1900-01-01T12:00:00.000Z";

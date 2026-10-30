@@ -35,11 +35,36 @@ describe("a line naming its cut is weighed at that cut", () => {
 });
 
 describe("a line naming no cut carries the spread between cuts", () => {
-  it("withholds almond cream sauce, whose minced onion could weigh 45 g more", async () => {
-    // "1 cup minced onion": USDA weighs a cup of onion sliced (115 g) and
-    // chopped (160 g), not minced. Named chopped, the recipe accounts for itself.
+  const friedWalnuts = (oilGrams: number, notes = "") => ({
+    numberOfServings: 4,
+    ingredients: [
+      { name: "flour", amount: 270, unit: "g" },
+      { name: "walnuts", amount: 1, unit: "cup", notes },
+      { name: "vegetable oil", amount: oilGrams, unit: "g", notes: "for deep frying" },
+    ],
+    instructions: ["Deep-fry until golden."],
+  });
+
+  it("includes the extra frying fat absorbed by an uncertain food mass", () => {
+    // The walnuts weigh 80–120 g. Food plus absorbed oil has 42.8 g of
+    // uncertainty out of 417.3 g, exceeding 10%; ignoring oil's spread passes.
+    expect(computeRecipeNutritionFromIngredients(friedWalnuts(1000))).toBeNull();
+    expect(computeRecipeNutritionFromIngredients(friedWalnuts(1000, "ground"))).not.toBeNull();
+  });
+
+  it("caps absorption uncertainty at the oil actually listed", () => {
+    // All 10 g of oil is absorbed at either food mass: only the walnuts'
+    // 40 g spread remains, exactly 10% of the 400 g maximum total.
+    expect(computeRecipeNutritionFromIngredients(friedWalnuts(10))).not.toBeNull();
+  });
+
+  it("accounts for dilution when the minced onion could weigh 45 g more", async () => {
+    // The restored archive recipe includes 2 cups of water, so its 45 g onion
+    // spread is below the limit. Without that dilution, it needs a named cut.
     const found = await recipe("hsca-lunch-all-almond-cream-sauce");
-    expect(computeRecipeNutritionFromIngredients(found)).toBeNull();
-    expect(computeRecipeNutritionFromIngredients(withLine(found, "minced onion", { name: "chopped onion" }))).not.toBeNull();
+    expect(computeRecipeNutritionFromIngredients(found)).not.toBeNull();
+    const concentrated = { ...found, ingredients: found.ingredients.filter((ing) => ing.name !== "water") };
+    expect(computeRecipeNutritionFromIngredients(concentrated)).toBeNull();
+    expect(computeRecipeNutritionFromIngredients(withLine(concentrated, "minced onion", { name: "chopped onion" }))).not.toBeNull();
   });
 });

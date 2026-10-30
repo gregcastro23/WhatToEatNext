@@ -641,6 +641,47 @@ function AdminSideRail({
             )}
           </Link>
         ))}
+
+        <div style={{ padding: "10px 8px 4px", marginTop: 6, borderTop: "1px solid var(--line)" }}>
+          <div className="t-tag" style={{ fontSize: 8.5, marginBottom: 6 }}>
+            DEDICATED CONSOLES
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
+            {[
+              { label: "Live Ops", href: "/admin" },
+              { label: "Traffic", href: "/admin/traffic" },
+              { label: "Growth", href: "/admin/growth" },
+              { label: "Revenue", href: "/admin/revenue" },
+              { label: "Chain", href: "/admin/chain" },
+              { label: "Code Health", href: "/admin/code-health" },
+              { label: "Jobs", href: "/admin/jobs" },
+              { label: "Agents", href: "/admin/agents" },
+              { label: "MCP Mesh", href: "/admin/mcp" },
+              { label: "Users", href: "/admin/users" },
+            ].map((c) => (
+              <Link
+                key={c.href}
+                href={c.href}
+                onClick={onNavigate}
+                className="t-mono"
+                style={{
+                  fontSize: 9.5,
+                  padding: "5px 7px",
+                  borderRadius: 6,
+                  border: "1px solid var(--line)",
+                  background: "rgba(255,255,255,0.02)",
+                  color: "var(--fg-dim)",
+                  textDecoration: "none",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                ↗ {c.label}
+              </Link>
+            ))}
+          </div>
+        </div>
       </nav>
 
       <div style={{ padding: 12, borderTop: "1px solid var(--line)" }}>

@@ -36,6 +36,7 @@ jest.mock("@/services/QuestService", () => ({
 }));
 
 import { NextRequest } from "next/server";
+import { GET as getBalance } from "../../balance/route";
 import { GET } from "../route";
 
 const TEST_SYNC_SECRET = "vessel-sync-secret-777";
@@ -269,5 +270,72 @@ describe("GET /api/economy/vessel", () => {
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(isRecord(data) && data.success).toBe(true);
+  });
+});
+
+describe("GET /api/economy/balance (server-to-server ?email=)", () => {
+  const origSecret = process.env.ALCHM_KITCHEN_SYNC_SECRET;
+
+  beforeEach(() => {
+    process.env.ALCHM_KITCHEN_SYNC_SECRET = TEST_SYNC_SECRET;
+    mockExecuteQuery.mockReset();
+    mockGetUserIdFromRequest.mockReset().mockResolvedValue(null);
+    mockGetBalances.mockReset();
+  });
+
+  afterAll(() => {
+    process.env.ALCHM_KITCHEN_SYNC_SECRET = origSecret;
+  });
+
+  function makeBalanceRequest(email: string, syncSecret = TEST_SYNC_SECRET): NextRequest {
+    const url = new URL("http://localhost/api/economy/balance");
+    url.searchParams.set("email", email);
+    return new NextRequest(url.toString(), {
+      method: "GET",
+      headers: { "x-sync-secret": syncSecret },
+    });
+  }
+
+  it("reads authoritative token_balances without calling tokenEconomy.getBalances", async () => {
+    mockExecuteQuery
+      .mockResolvedValueOnce({ rows: [{ id: "chiron-uuid" }] })
+      .mockResolvedValueOnce({
+        rows: [{ spirit: "0.9500", essence: "0.9000", matter: "0.4000", substance: "0.8500" }],
+      });
+
+    const res = await getBalance(makeBalanceRequest("Chiron@agentic.alchm.kitchen"));
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toEqual({
+      balances: {
+        spirit: 0.95,
+        essence: 0.9,
+        matter: 0.4,
+        substance: 0.85,
+      },
+    });
+    expect(mockGetBalances).not.toHaveBeenCalled();
+  });
+
+  it("returns 404 no_ledger_row when user exists in users but has no token_balances row", async () => {
+    mockExecuteQuery
+      .mockResolvedValueOnce({ rows: [{ id: "unseeded-agent-uuid" }] })
+      .mockResolvedValueOnce({ rows: [] });
+
+    const res = await getBalance(makeBalanceRequest("moon-agent-1@agentic.alchm.kitchen"));
+    expect(res.status).toBe(404);
+    const body = await res.json();
+    expect(body).toEqual({ error: "no_ledger_row" });
+    expect(mockGetBalances).not.toHaveBeenCalled();
+  });
+
+  it("returns 404 user_not_found when user does not exist in users", async () => {
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const res = await getBalance(makeBalanceRequest("missing@agentic.alchm.kitchen"));
+    expect(res.status).toBe(404);
+    const body = await res.json();
+    expect(body).toEqual({ error: "user_not_found" });
+    expect(mockGetBalances).not.toHaveBeenCalled();
   });
 });

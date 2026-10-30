@@ -16,6 +16,7 @@ import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { quoteSourceAmount } from "@/lib/economy/swappingBridge";
 import { findRate, tryGetCurrentSwapRates } from "@/lib/economy/swapRates";
 import { _logger } from "@/lib/logger";
+import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { EconomySwapRequestSchema } from "@/lib/validation/apiSchemas";
 import { tokenEconomy } from "@/services/TokenEconomyService";
@@ -23,7 +24,7 @@ import { tokenEconomy } from "@/services/TokenEconomyService";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function POST(request: NextRequest) {
+async function handlePost(request: NextRequest) {
   try {
     const userId = await getUserIdFromRequest(request);
     if (!userId) {
@@ -178,3 +179,6 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export const POST = withObservability({ routeName: "/api/economy/swap" }, handlePost);
+

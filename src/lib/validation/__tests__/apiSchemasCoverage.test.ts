@@ -230,7 +230,7 @@ describe("leaf and enum schemas", () => {
     expect(schemas.SyncTokenAmountsSchema.safeParse({ spirit: "3" }).success).toBe(true);
   });
 
-  it("TransactionSourceTypeSchema pins the canonical 23-member source set", () => {
+  it("TransactionSourceTypeSchema pins the canonical 25-member source set", () => {
     // The PA -> alchm sync-credit bridge sends `source`. Before this schema the
     // field was never validated, so an unlisted value passed straight through
     // to the DB; now it 400s. Pin the membership so drift is visible here
@@ -256,7 +256,9 @@ describe("leaf and enum schemas", () => {
         "premium_purchase",
         "purchase",
         "quest_reward",
+        "recipe_branch",
         "recipe_ingestion",
+        "recipe_reflection",
         "restaurant_order",
         "restaurant_refund",
         "signup_grant",

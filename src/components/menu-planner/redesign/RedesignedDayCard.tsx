@@ -16,6 +16,7 @@ import {
   getPlanetaryDayCharacteristics,
 } from "@/types/menuPlanner";
 import type { DailyNutritionResult } from "@/types/nutrition";
+import type { Recipe } from "@/types/recipe";
 import { formatCoveredTotal, NO_MEALS } from "@/utils/menuPlanner/nutritionCoverage";
 import NutritionCoverageNote from "../NutritionCoverageNote";
 import { PLANET_GLYPHS } from "../StitchTransitRibbon";
@@ -30,6 +31,9 @@ export default function RedesignedDayCard({
   dailyNutrition,
   variant = "day",
   currentPlanetaryHour,
+  placingRecipe,
+  onPlaceMeal,
+  showSnacks = true,
 }: {
   dayOfWeek: DayOfWeek;
   date: Date;
@@ -37,6 +41,9 @@ export default function RedesignedDayCard({
   dailyNutrition?: DailyNutritionResult;
   variant?: "hero" | "day";
   currentPlanetaryHour?: string | null;
+  placingRecipe?: Recipe | null;
+  onPlaceMeal?: (slot: MealSlotType) => void;
+  showSnacks?: boolean;
 }) {
   const characteristics = getPlanetaryDayCharacteristics(dayOfWeek);
   const glyph = PLANET_GLYPHS[characteristics.planet] ?? "✶";
@@ -52,6 +59,7 @@ export default function RedesignedDayCard({
     : null;
 
   const isHero = variant === "hero";
+  const isToday = date.toDateString() === new Date().toDateString();
 
   return (
     <section
@@ -76,7 +84,7 @@ export default function RedesignedDayCard({
             </span>
             <div className="min-w-0">
               <h3 className="font-headline-md text-headline-md font-bold text-primary truncate leading-tight">
-                {isHero ? "Today" : getDayName(dayOfWeek)}
+                {isToday && isHero ? "Today" : getDayName(dayOfWeek)}
               </h3>
               <p className="font-mono text-[10px] uppercase tracking-wider text-on-surface-variant truncate">
                 {isHero ? `${getDayName(dayOfWeek)} · ` : ""}
@@ -120,12 +128,28 @@ export default function RedesignedDayCard({
       {/* Meal rows */}
       <div className="relative z-10 space-y-1">
         {mains.map((m) => (
-          <MealRowCard key={m.id} mealSlot={m} />
+          <MealRowCard
+            key={m.id}
+            mealSlot={m}
+            {...(placingRecipe !== undefined ? { placingRecipe } : {})}
+            {...(onPlaceMeal ? { onPlaceMeal } : {})}
+          />
         ))}
-        {snack && (snack.recipe ? (
-          <MealRowCard key={snack.id} mealSlot={snack} />
+        {snack && showSnacks && (snack.recipe ? (
+          <MealRowCard
+            key={snack.id}
+            mealSlot={snack}
+            {...(placingRecipe !== undefined ? { placingRecipe } : {})}
+            {...(onPlaceMeal ? { onPlaceMeal } : {})}
+          />
         ) : (
-          <MealRowCard key={snack.id} mealSlot={snack} ghost />
+          <MealRowCard
+            key={snack.id}
+            mealSlot={snack}
+            ghost
+            {...(placingRecipe !== undefined ? { placingRecipe } : {})}
+            {...(onPlaceMeal ? { onPlaceMeal } : {})}
+          />
         ))}
       </div>
     </section>

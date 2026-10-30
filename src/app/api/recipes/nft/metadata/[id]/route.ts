@@ -19,7 +19,7 @@ export const runtime = "nodejs";
 export async function GET(
   _req: Request,
   props: { params: Promise<{ id: string }> },
-) {
+): Promise<NextResponse> {
   const { id } = await props.params;
   const resolved = await resolveNftRecipe(id);
   if (!resolved) {

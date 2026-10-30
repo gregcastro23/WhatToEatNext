@@ -479,24 +479,27 @@ export async function dispatchAlert(
   let dispatch: AlertDispatchSummary;
   if (cooldown.suppressed) {
     dispatch = {
-      slack: { ok: false, error: "Suppressed by cooldown" },
-      email: { ok: false, error: "Suppressed by cooldown" },
+      slack: { ok: false, skipped: true, error: "Suppressed by cooldown" },
+      email: { ok: false, skipped: true, error: "Suppressed by cooldown" },
       suppressed: true,
       ...(cooldown.reason ? { suppressionReason: cooldown.reason } : {}),
     };
   } else {
+    const hasSlackConfig = Boolean(process.env.ALERT_SLACK_WEBHOOK_URL);
     const [slackResult, emailResult] = await Promise.all([
-      sendSlackAlert({
-        title: candidate.title,
-        message: candidate.message,
-        component: candidate.componentLabel,
-        previous: candidate.previous,
-        current: candidate.current,
-        severity: candidate.severity,
-      }).catch((err) => ({
-        ok: false,
-        error: err instanceof Error ? err.message : "unknown",
-      })),
+      hasSlackConfig
+        ? sendSlackAlert({
+            title: candidate.title,
+            message: candidate.message,
+            component: candidate.componentLabel,
+            previous: candidate.previous,
+            current: candidate.current,
+            severity: candidate.severity,
+          }).catch((err) => ({
+            ok: false,
+            error: err instanceof Error ? err.message : "unknown",
+          }))
+        : Promise.resolve({ ok: true, skipped: true }),
       sendAlertEmail(candidate).catch((err) => ({
         ok: false,
         error: err instanceof Error ? err.message : "unknown",
@@ -669,7 +672,7 @@ export async function hydrateAlertRingFromDb(): Promise<number> {
         severity: r.severity,
         title: r.title,
         message: r.message,
-        dispatch: r.dispatch ?? {},
+        dispatch: r.dispatch,
       })),
     );
     return result.rows.length;

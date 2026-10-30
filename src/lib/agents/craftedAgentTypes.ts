@@ -23,16 +23,13 @@ interface AlchemicalElements {
 }
 
 interface Consciousness {
-  dominantElement: Element;
+  dominantElement: Element | string;
   dominantModality?: string;
   level?: string;
   strength?: string;
   emotion?: string;
   signature?: string;
-  natalChart?: {
-    planets: Record<string, NatalPlanet>;
-    aspects: NatalAspect[];
-  };
+  natalChart?: unknown;
   alchemicalElements?: AlchemicalElements;
 }
 
@@ -75,7 +72,7 @@ interface Abilities {
   wisdomDomains?: string[];
 }
 
-interface HistoricalDiet {
+export interface HistoricalDiet {
   culturalCuisine?: string;
   dietaryPhilosophy?: string;
   staples?: string[];
@@ -97,20 +94,20 @@ interface BirthData {
 
 export interface CraftedAgentProfile {
   name: string;
-  title?: string;
-  era?: string;
-  specialization?: string;
-  synthesis?: string;
-  monicaCreationStory?: string;
-  quotes?: string[];
-  coreBeliefs?: string[];
+  title?: string ;
+  era?: string ;
+  specialization?: string ;
+  synthesis?: string ;
+  monicaCreationStory?: string ;
+  quotes?: string[] ;
+  coreBeliefs?: string[] ;
   appearance?: {
-    symbol?: string;
-    color?: string;
+    symbol?: string ;
+    color?: string ;
   };
-  consciousness?: Consciousness;
-  personality?: Personality;
-  abilities?: Abilities;
-  historicalDiet?: HistoricalDiet;
-  birthData?: BirthData;
+  consciousness?: Consciousness ;
+  personality?: Personality ;
+  abilities?: Abilities ;
+  historicalDiet?: HistoricalDiet ;
+  birthData?: BirthData ;
 }

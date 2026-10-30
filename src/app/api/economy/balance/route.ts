@@ -26,21 +26,34 @@ export async function GET(request: NextRequest) {
     const emailParam = new URL(request.url).searchParams.get("email");
     if (emailParam && safeEqual(syncHeader, syncSecret)) {
       const userRow = await executeQuery<{ id: string }>(
-        "SELECT id FROM users WHERE email = $1 LIMIT 1",
-        [emailParam],
+        "SELECT id FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1",
+        [emailParam.trim()],
       );
       if (userRow.rows.length === 0) {
         return NextResponse.json({ error: "user_not_found" }, { status: 404 });
       }
       const [balanceUser] = userRow.rows;
       if (!balanceUser) throw new Error("economy/balance: user row missing");
-      const b = await tokenEconomy.getBalances(balanceUser.id);
+      const balanceRow = await executeQuery<{
+        spirit: string | number;
+        essence: string | number;
+        matter: string | number;
+        substance: string | number;
+      }>(
+        "SELECT spirit, essence, matter, substance FROM token_balances WHERE user_id = $1 LIMIT 1",
+        [balanceUser.id],
+      );
+      if (balanceRow.rows.length === 0) {
+        return NextResponse.json({ error: "no_ledger_row" }, { status: 404 });
+      }
+      const [b] = balanceRow.rows;
+      if (!b) throw new Error("economy/balance: balance row missing");
       return NextResponse.json({
         balances: {
-          spirit: b.spirit,
-          essence: b.essence,
-          matter: b.matter,
-          substance: b.substance,
+          spirit: Number(b.spirit),
+          essence: Number(b.essence),
+          matter: Number(b.matter),
+          substance: Number(b.substance),
         },
       });
     }

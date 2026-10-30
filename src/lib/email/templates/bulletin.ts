@@ -102,7 +102,7 @@ export function renderBulletinEmail(input: BulletinInput): RenderedEmail {
     emailFeatureRow(
       "🍳",
       "Generate a cosmic recipe",
-      `a recipe built for this moment and your chart. <a href="${appUrl}/recipe-generator" style="color:${BRAND.accent};text-decoration:none;font-weight:600;">Make one →</a>`,
+      `a recipe built for this moment and your chart. <a href="${appUrl}/cosmic-recipe" style="color:${BRAND.accent};text-decoration:none;font-weight:600;">Make one →</a>`,
     ),
     emailFeatureRow(
       "📅",
@@ -162,7 +162,7 @@ export function renderBulletinEmail(input: BulletinInput): RenderedEmail {
       chartProfileText(ctx),
       `WHAT YOU CAN DO RIGHT NOW`,
       `- Today's recommendations — ${appUrl}/current-chart`,
-      `- Generate a cosmic recipe — ${appUrl}/recipe-generator`,
+      `- Generate a cosmic recipe — ${appUrl}/cosmic-recipe`,
       `- Plan your week with the planetary weather`,
       `- Discover restaurants — ${appUrl}/restaurants`,
       ctx.hasChart ? `See today's alignment: ${appUrl}/current-chart` : `Complete your chart: ${appUrl}/profile`,

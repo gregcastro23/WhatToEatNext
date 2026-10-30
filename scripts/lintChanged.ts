@@ -69,9 +69,10 @@ function main(): void {
 
   console.log(`Running ESLint on ${filesToLint.length} changed file(s)...`);
 
+  const extraArgs = process.argv.slice(2);
   const result = spawnSync(
     eslintBin,
-    ["--config", "eslint.config.mjs", "--cache", ...filesToLint],
+    ["--config", "eslint.config.mjs", "--cache", "--no-warn-ignored", ...extraArgs, ...filesToLint],
     {
       stdio: "inherit",
     },

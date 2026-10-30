@@ -65,6 +65,13 @@ bun-debug.log*
 
 # local files
 temp.log
+.local/
+.dev.pid
+.dev.vars
+install_log.txt
+lint_results.json
+lint_warnings.txt
+audit-reports/
 
 # Local Babel config (Termux/Android workaround — must NOT reach Vercel/SWC)
 .babelrc

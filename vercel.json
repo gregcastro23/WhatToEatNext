@@ -10,13 +10,13 @@
   "bunVersion": "1.3",
   "functions": {
     "src/app/api/**/*.ts": {
-      "maxDuration": 60
+      "maxDuration": 15
     }
   },
   "crons": [
     {
       "path": "/api/cron/synthetic-onboarding",
-      "schedule": "2,17,32,47 * * * *"
+      "schedule": "2 * * * *"
     },
     {
       "path": "/api/cron/synthetic-cosmic-recipe",
@@ -24,23 +24,23 @@
     },
     {
       "path": "/api/cron/synthetic-recommendations",
-      "schedule": "4,19,34,49 * * * *"
+      "schedule": "4 * * * *"
     },
     {
       "path": "/api/cron/synthetic-stripe-webhook",
-      "schedule": "6,21,36,51 * * * *"
+      "schedule": "6 * * * *"
     },
     {
       "path": "/api/cron/synthetic-auth-handshake",
-      "schedule": "8,23,38,53 * * * *"
+      "schedule": "8 * * * *"
     },
     {
       "path": "/api/cron/synthetic-auth-signin",
-      "schedule": "11,26,41,56 * * * *"
+      "schedule": "11 * * * *"
     },
     {
       "path": "/api/cron/synthetic-mcp",
-      "schedule": "13,43 * * * *"
+      "schedule": "13 * * * *"
     },
     {
       "path": "/api/cron/system-health-snapshot",
@@ -75,8 +75,13 @@
       "schedule": "10 * * * *"
     }
   ],
+  "build": {
+    "env": {
+      "NEXT_TELEMETRY_DISABLED": "1",
+      "NODE_OPTIONS": "--max-old-space-size=3072"
+    }
+  },
   "env": {
-    "NEXT_TELEMETRY_DISABLED": "1",
-    "NODE_OPTIONS": "--max-old-space-size=4096"
+    "NEXT_TELEMETRY_DISABLED": "1"
   }
 }

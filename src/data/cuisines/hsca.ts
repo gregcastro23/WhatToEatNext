@@ -61,10 +61,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.25,
+            "amount": 0.3125,
             "unit": "cup",
-            "name": "plus one tablespoon agave",
-            "notes": ""
+            "name": "agave",
+            "notes": "1/4 cup plus one tablespoon"
           },
           {
             "amount": 2,
@@ -87,9 +87,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17,
-          "Water": 0.5000000000000001,
-          "Earth": 0.11600000000000002,
+          "Fire": 0.13,
+          "Water": 0.52,
+          "Earth": 0.136,
           "Air": 0.21399999999999997
         },
         "astrologicalAffinities": {
@@ -111,7 +111,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 3,
-          "sodiumMg": 350,
+          "sodiumMg": 358,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -125,18 +125,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.19,
-          "Essence": 2.06,
-          "Matter": 1.41,
-          "Substance": 1.4
+          "Spirit": 2.03,
+          "Essence": 2.79,
+          "Matter": 1.43,
+          "Substance": 1.23
         },
         "thermodynamicProperties": {
-          "heat": 0.0445,
-          "entropy": 0.2067,
-          "reactivity": 3.4116,
-          "gregsEnergy": -0.6607,
-          "kalchm": 2.0965,
-          "monica": 0.2616
+          "heat": 0.1036,
+          "entropy": 0.2396,
+          "reactivity": 5.6073,
+          "gregsEnergy": -1.2399,
+          "kalchm": 34.2562,
+          "monica": 0.0626
         },
         "substitutions": [
           {
@@ -284,8 +284,8 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 1,
-            "unit": "g",
-            "name": "allon water",
+            "unit": "gallon",
+            "name": "water",
             "notes": ""
           },
           {
@@ -303,7 +303,7 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "ounce",
-            "name": "of mint",
+            "name": "mint",
             "notes": ""
           }
         ],
@@ -322,10 +322,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.09999999999999999,
-          "Water": 0.4625,
-          "Earth": 0.175,
-          "Air": 0.26249999999999996
+          "Fire": 0.15000000000000005,
+          "Water": 0.4875,
+          "Earth": 0.13750000000000004,
+          "Air": 0.22500000000000003
         },
         "astrologicalAffinities": {
           "planets": [
@@ -342,12 +342,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 8,
-          "carbsG": 28,
-          "fatG": 6,
+          "proteinG": 7,
+          "carbsG": 27,
+          "fatG": 7,
           "fiberG": 3,
-          "sodiumMg": 335,
-          "sugarG": 6,
+          "sodiumMg": 345,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -360,22 +360,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.66,
-          "Essence": 1.29,
-          "Matter": 1.04,
-          "Substance": 0.95
+          "Spirit": 0.72,
+          "Essence": 1.38,
+          "Matter": 0.97,
+          "Substance": 0.94
         },
         "thermodynamicProperties": {
-          "heat": 0.0255,
-          "entropy": 0.1609,
-          "reactivity": 2.2321,
-          "gregsEnergy": -0.3337,
-          "kalchm": 1.0642,
-          "monica": 2.4024
+          "heat": 0.0316,
+          "entropy": 0.1667,
+          "reactivity": 2.9491,
+          "gregsEnergy": -0.46,
+          "kalchm": 1.344,
+          "monica": 0.5275
         },
         "substitutions": [
           {
-            "originalIngredient": "allon water",
+            "originalIngredient": "water",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -405,9 +405,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 6,
-            "unit": "piece",
-            "name": "-8 cups filtered water",
-            "notes": ""
+            "unit": "cups",
+            "name": "filtered water",
+            "notes": "6-8"
           },
           {
             "amount": 1,
@@ -424,7 +424,7 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.25,
             "unit": "teaspoon",
-            "name": "of sea salt",
+            "name": "sea salt",
             "notes": ""
           }
         ],
@@ -442,10 +442,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.14,
-          "Water": 0.32,
-          "Earth": 0.41,
-          "Air": 0.13
+          "Fire": 0.13999999999999999,
+          "Water": 0.33999999999999997,
+          "Earth": 0.3899999999999999,
+          "Air": 0.12999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -466,7 +466,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 278,
+          "sodiumMg": 286,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -481,17 +481,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 0.61,
-          "Essence": 1.52,
-          "Matter": 2.23,
-          "Substance": 1.89
+          "Essence": 1.57,
+          "Matter": 2.19,
+          "Substance": 1.88
         },
         "thermodynamicProperties": {
           "heat": 0.0093,
-          "entropy": 0.1983,
-          "reactivity": 0.9173,
-          "gregsEnergy": -0.1727,
-          "kalchm": 0.0702,
-          "monica": -0.0709
+          "entropy": 0.1956,
+          "reactivity": 0.98,
+          "gregsEnergy": -0.1824,
+          "kalchm": 0.0823,
+          "monica": -0.0745
         },
         "substitutions": [
           {
@@ -520,13 +520,13 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "organic",
-            "notes": "2 pound; seedless watermelon, scrubbed and peeled up to white pith"
+            "name": "organic seedless watermelon",
+            "notes": "2 pound; scrubbed and peeled up to white pith"
           },
           {
             "amount": 0.25,
             "unit": "cup",
-            "name": "of lemon juice",
+            "name": "lemon juice",
             "notes": "about 1 lemon"
           }
         ],
@@ -546,10 +546,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3,
-          "Water": 0.45,
-          "Earth": 0.05,
-          "Air": 0.2
+          "Fire": 0.15000000000000002,
+          "Water": 0.6000000000000001,
+          "Earth": 0.1,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -566,12 +566,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 6,
-          "carbsG": 26,
-          "fatG": 9,
-          "fiberG": 2,
-          "sodiumMg": 330,
-          "sugarG": 5,
+          "proteinG": 7,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 3,
+          "sodiumMg": 390,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -584,22 +584,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.51,
-          "Essence": 0.66,
-          "Matter": 0.42,
-          "Substance": 0.44
+          "Spirit": 0.75,
+          "Essence": 1.6,
+          "Matter": 0.35,
+          "Substance": 0.28
         },
         "thermodynamicProperties": {
-          "heat": 0.071,
-          "entropy": 0.2338,
-          "reactivity": 5.531,
-          "gregsEnergy": -1.2222,
-          "kalchm": 1.114,
-          "monica": 2.0469
+          "heat": 0.0617,
+          "entropy": 0.0977,
+          "reactivity": 17.8069,
+          "gregsEnergy": -1.6776,
+          "kalchm": 3.5258,
+          "monica": 0.0748
         },
         "substitutions": [
           {
-            "originalIngredient": "organic",
+            "originalIngredient": "organic seedless watermelon",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -629,8 +629,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 4,
-            "unit": "g",
-            "name": "ranny smith apples",
+            "unit": "piece",
+            "name": "granny smith apples",
             "notes": "washed"
           },
           {
@@ -871,8 +871,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "-inch piece of ginger root",
-            "notes": "scrubbed, unpeeled"
+            "name": "ginger root",
+            "notes": "1-inch; scrubbed, unpeeled"
           },
           {
             "amount": 1.5,
@@ -913,10 +913,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20435595838119788,
-          "Water": 0.4403055453261294,
-          "Earth": 0.14895766116842643,
-          "Air": 0.2063808351242463
+          "Fire": 0.25381146358354817,
+          "Water": 0.37901735216036325,
+          "Earth": 0.16158795352237312,
+          "Air": 0.2055832307337155
         },
         "astrologicalAffinities": {
           "planets": [
@@ -935,9 +935,9 @@ export const cuisine: Cuisine = {
           "calories": 280,
           "proteinG": 7,
           "carbsG": 26,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 3,
-          "sodiumMg": 326,
+          "sodiumMg": 302,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -951,18 +951,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.97,
-          "Essence": 3.81,
-          "Matter": 2.08,
-          "Substance": 1.97
+          "Spirit": 2.96,
+          "Essence": 4.48,
+          "Matter": 2.26,
+          "Substance": 2.06
         },
         "thermodynamicProperties": {
-          "heat": 0.0524,
-          "entropy": 0.1869,
-          "reactivity": 4.5401,
-          "gregsEnergy": -0.7962,
-          "kalchm": 35.6248,
-          "monica": 0.0491
+          "heat": 0.0969,
+          "entropy": 0.2474,
+          "reactivity": 5.6831,
+          "gregsEnergy": -1.3089,
+          "kalchm": 734.3404,
+          "monica": 0.0349
         },
         "substitutions": [
           {
@@ -1002,9 +1002,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 8,
-            "unit": "piece",
-            "name": "-9 cups filtered water",
-            "notes": ""
+            "unit": "cups",
+            "name": "filtered water",
+            "notes": "8-9"
           },
           {
             "amount": 3,
@@ -1063,22 +1063,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22999999999999998,
-          "Water": 0.3088888888888889,
-          "Earth": 0.3355555555555555,
-          "Air": 0.12555555555555553
+          "Fire": 0.23000000000000004,
+          "Water": 0.31444444444444447,
+          "Earth": 0.30777777777777776,
+          "Air": 0.14777777777777779
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
@@ -1086,8 +1086,8 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 24,
           "fatG": 8,
-          "fiberG": 5,
-          "sodiumMg": 274,
+          "fiberG": 4,
+          "sodiumMg": 276,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -1101,18 +1101,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.73,
-          "Essence": 2.65,
-          "Matter": 3.28,
-          "Substance": 2.96
+          "Spirit": 1.81,
+          "Essence": 2.71,
+          "Matter": 3.12,
+          "Substance": 2.85
         },
         "thermodynamicProperties": {
-          "heat": 0.0326,
-          "entropy": 0.2735,
-          "reactivity": 1.449,
-          "gregsEnergy": -0.3637,
-          "kalchm": 0.0279,
-          "monica": -0.0701
+          "heat": 0.0373,
+          "entropy": 0.2756,
+          "reactivity": 1.6099,
+          "gregsEnergy": -0.4064,
+          "kalchm": 0.0633,
+          "monica": -0.0915
         },
         "substitutions": [
           {
@@ -1146,9 +1146,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 tablespoons organic maple syrup",
-            "notes": "preferably Grade B"
+            "unit": "tablespoons",
+            "name": "organic maple syrup",
+            "notes": "1-2; preferably Grade B"
           },
           {
             "amount": 1,
@@ -1179,10 +1179,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.32999999999999996,
-          "Water": 0.42500000000000004,
-          "Earth": 0.13749999999999998,
-          "Air": 0.10750000000000001
+          "Fire": 0.305,
+          "Water": 0.41250000000000003,
+          "Earth": 0.15,
+          "Air": 0.1325
         },
         "astrologicalAffinities": {
           "planets": [
@@ -1200,10 +1200,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 7,
-          "carbsG": 23,
+          "carbsG": 24,
           "fatG": 9,
           "fiberG": 3,
-          "sodiumMg": 320,
+          "sodiumMg": 315,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -1217,18 +1217,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.96,
-          "Essence": 1.37,
-          "Matter": 0.9,
-          "Substance": 0.91
+          "Spirit": 1.35,
+          "Essence": 1.77,
+          "Matter": 0.93,
+          "Substance": 0.85
         },
         "thermodynamicProperties": {
-          "heat": 0.0695,
-          "entropy": 0.2331,
-          "reactivity": 3.6489,
-          "gregsEnergy": -0.781,
-          "kalchm": 1.7731,
-          "monica": 0.3737
+          "heat": 0.1063,
+          "entropy": 0.2495,
+          "reactivity": 5.1086,
+          "gregsEnergy": -1.1683,
+          "kalchm": 5.0602,
+          "monica": 0.141
         },
         "substitutions": [
           {
@@ -1363,9 +1363,9 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 tablespoons organic flax seeds",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "organic flax seeds",
+            "notes": "1-2"
           },
           {
             "amount": 1,
@@ -1387,10 +1387,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.04999999999999999,
-          "Water": 0.5249999999999999,
-          "Earth": 0.32499999999999996,
-          "Air": 0.09999999999999998
+          "Fire": 0.05,
+          "Water": 0.55,
+          "Earth": 0.2,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
@@ -1407,12 +1407,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 10,
-          "carbsG": 23,
+          "proteinG": 8,
+          "carbsG": 26,
           "fatG": 6,
-          "fiberG": 5,
-          "sodiumMg": 360,
-          "sugarG": 3,
+          "fiberG": 4,
+          "sodiumMg": 370,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -1425,22 +1425,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.14,
-          "Essence": 0.64,
-          "Matter": 0.77,
-          "Substance": 0.57
+          "Spirit": 0.22,
+          "Essence": 0.7,
+          "Matter": 0.61,
+          "Substance": 0.47
         },
         "thermodynamicProperties": {
-          "heat": 0.0026,
-          "entropy": 0.0699,
-          "reactivity": 0.8692,
-          "gregsEnergy": -0.0582,
-          "kalchm": 0.9615,
+          "heat": 0.0068,
+          "entropy": 0.0735,
+          "reactivity": 1.6831,
+          "gregsEnergy": -0.1168,
+          "kalchm": 1.0764,
           "monica": 1.618
         },
         "substitutions": [
           {
-            "originalIngredient": "-2 tablespoons organic flax seeds",
+            "originalIngredient": "organic flax seeds",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -1602,10 +1602,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 2,
+            "amount": 1,
             "unit": "piece",
-            "name": "-ounce fresh ginger",
-            "notes": ""
+            "name": "fresh ginger",
+            "notes": "2-ounce"
           },
           {
             "amount": 10,
@@ -1627,9 +1627,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 tablespoons maple syrup",
-            "notes": "or to taste"
+            "unit": "tablespoons",
+            "name": "maple syrup",
+            "notes": "1-2; or to taste"
           }
         ],
         "instructions": [
@@ -1772,8 +1772,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 3,
             "unit": "tablespoons",
-            "name": "canola oil or melted butter + more for frying",
-            "notes": ""
+            "name": "canola oil or melted butter",
+            "notes": "for frying; + more"
           },
           {
             "amount": 2,
@@ -1801,10 +1801,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.184,
-          "Water": 0.294,
-          "Earth": 0.3329999999999999,
-          "Air": 0.18899999999999997
+          "Fire": 0.174,
+          "Water": 0.289,
+          "Earth": 0.3379999999999999,
+          "Air": 0.19899999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -1825,7 +1825,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 268,
+          "sodiumMg": 266,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -1839,18 +1839,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.23,
-          "Essence": 2.62,
-          "Matter": 3.35,
-          "Substance": 3.39
+          "Spirit": 2.62,
+          "Essence": 3.02,
+          "Matter": 3.38,
+          "Substance": 3.34
         },
         "thermodynamicProperties": {
-          "heat": 0.0484,
-          "entropy": 0.3799,
-          "reactivity": 1.7314,
-          "gregsEnergy": -0.6095,
-          "kalchm": 0.0207,
-          "monica": -0.0908
+          "heat": 0.0618,
+          "entropy": 0.3663,
+          "reactivity": 1.9744,
+          "gregsEnergy": -0.6616,
+          "kalchm": 0.102,
+          "monica": -0.1468
         },
         "substitutions": [
           {
@@ -2037,9 +2037,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 tablespoons maple crystals",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "maple crystals",
+            "notes": "1-2"
           },
           {
             "amount": 1.25,
@@ -2107,10 +2107,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16727272727272727,
-          "Water": 0.3672727272727272,
-          "Earth": 0.30727272727272725,
-          "Air": 0.15818181818181815
+          "Fire": 0.1581818181818182,
+          "Water": 0.36272727272727273,
+          "Earth": 0.3118181818181819,
+          "Air": 0.16727272727272727
         },
         "astrologicalAffinities": {
           "planets": [
@@ -2131,8 +2131,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 297,
-          "sugarG": 4,
+          "sodiumMg": 295,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -2145,18 +2145,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.13,
-          "Essence": 3.83,
-          "Matter": 4.13,
-          "Substance": 3.94
+          "Spirit": 2.59,
+          "Essence": 4.73,
+          "Matter": 4.1,
+          "Substance": 3.87
         },
         "thermodynamicProperties": {
-          "heat": 0.0282,
-          "entropy": 0.2698,
-          "reactivity": 1.7734,
-          "gregsEnergy": -0.4503,
-          "kalchm": 0.011,
-          "monica": -0.0563
+          "heat": 0.0367,
+          "entropy": 0.2406,
+          "reactivity": 2.273,
+          "gregsEnergy": -0.5103,
+          "kalchm": 0.299,
+          "monica": -0.1859
         },
         "substitutions": [
           {
@@ -2189,10 +2189,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
+            "amount": 1.5833333333333335,
             "unit": "tablespoon",
-            "name": "+ 1 3/4 teaspoons baking powder",
-            "notes": ""
+            "name": "baking powder",
+            "notes": "1 tablespoon + 1 3/4 teaspoons"
           },
           {
             "amount": 0.25,
@@ -2254,10 +2254,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24000000000000002,
-          "Water": 0.2155555555555555,
-          "Earth": 0.3522222222222222,
-          "Air": 0.19222222222222218
+          "Fire": 0.24000000000000007,
+          "Water": 0.22111111111111112,
+          "Earth": 0.3244444444444444,
+          "Air": 0.21444444444444444
         },
         "astrologicalAffinities": {
           "planets": [
@@ -2278,7 +2278,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 236,
+          "sodiumMg": 238,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -2292,18 +2292,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.01,
-          "Essence": 2.28,
-          "Matter": 3.16,
-          "Substance": 2.9
+          "Spirit": 2.09,
+          "Essence": 2.35,
+          "Matter": 3,
+          "Substance": 2.79
         },
         "thermodynamicProperties": {
-          "heat": 0.0495,
-          "entropy": 0.3476,
-          "reactivity": 1.4421,
-          "gregsEnergy": -0.4517,
-          "kalchm": 0.032,
-          "monica": -0.091
+          "heat": 0.0559,
+          "entropy": 0.3526,
+          "reactivity": 1.613,
+          "gregsEnergy": -0.5129,
+          "kalchm": 0.0735,
+          "monica": -0.1218
         },
         "substitutions": [
           {
@@ -2802,8 +2802,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "ranny smith apple",
+            "unit": "piece",
+            "name": "granny smith apple",
             "notes": "peeled and grated"
           },
           {
@@ -3032,8 +3032,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.5,
             "unit": "cup",
-            "name": "frozen or fresh cranberries (could use blueberries or cherries",
-            "notes": "instead)"
+            "name": "frozen or fresh cranberries",
+            "notes": "could use blueberries or cherries, instead"
           }
         ],
         "instructions": [
@@ -3057,10 +3057,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26529411764705874,
-          "Water": 0.22470588235294112,
-          "Earth": 0.2970588235294118,
-          "Air": 0.21294117647058824
+          "Fire": 0.24777777777777776,
+          "Water": 0.24833333333333338,
+          "Earth": 0.27777777777777785,
+          "Air": 0.22611111111111112
         },
         "astrologicalAffinities": {
           "planets": [
@@ -3078,10 +3078,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 280,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 240,
+          "sodiumMg": 249,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -3096,17 +3096,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 5.05,
-          "Essence": 5.69,
-          "Matter": 5.27,
-          "Substance": 4.95
+          "Essence": 5.7,
+          "Matter": 5.25,
+          "Substance": 4.99
         },
         "thermodynamicProperties": {
-          "heat": 0.0923,
-          "entropy": 0.3802,
-          "reactivity": 2.6635,
-          "gregsEnergy": -0.9203,
-          "kalchm": 4.0362,
-          "monica": 0.2476
+          "heat": 0.0917,
+          "entropy": 0.3836,
+          "reactivity": 2.7185,
+          "gregsEnergy": -0.9509,
+          "kalchm": 3.9423,
+          "monica": 0.255
         },
         "substitutions": [
           {
@@ -3256,7 +3256,8 @@ export const cuisine: Cuisine = {
           "Combine almonds and water in blender or Vitamix. Process for a few minutes until well-homogenized.",
           "Rinse piece of cheesecloth (double thickness) with cold water and wring thoroughly.",
           "Pour small amount of almond mixture through sieve or chinois lined with prepared cheesecloth, wringing and squeezing cheesecloth to extract as much liquid from pulp as possible. Discard each batch of almond pulp when no more liquid can be extracted. Rinse cheesecloth well in cold water and proceed with next batch, repeating this process until all of almond mixture has been 'milked.'",
-          "Strain almond milk through sieve. Add vanilla."
+          "Strain almond milk through sieve. Add vanilla.",
+          "Note: For even richer milk, soak blanched almonds in water for 20-30 minutes before blending."
         ],
         "mealType": [],
         "classifications": {
@@ -3344,10 +3345,10 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 0.5,
+            "amount": 0.625,
             "unit": "cup",
-            "name": "+ 2 tablespoons corn flour",
-            "notes": ""
+            "name": "corn flour",
+            "notes": "1/2 cup + 2 tablespoons"
           },
           {
             "amount": 0.5,
@@ -3473,22 +3474,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.19,
-          "Essence": 3.41,
-          "Matter": 4.38,
-          "Substance": 4.12
+          "Spirit": 2.26,
+          "Essence": 3.92,
+          "Matter": 4.32,
+          "Substance": 4.1
         },
         "thermodynamicProperties": {
-          "heat": 0.0298,
-          "entropy": 0.3053,
-          "reactivity": 1.486,
-          "gregsEnergy": -0.4239,
-          "kalchm": 0.0017,
-          "monica": -0.0447
+          "heat": 0.0297,
+          "entropy": 0.2771,
+          "reactivity": 1.7009,
+          "gregsEnergy": -0.4416,
+          "kalchm": 0.0074,
+          "monica": -0.0529
         },
         "substitutions": [
           {
-            "originalIngredient": "+ 2 tablespoons corn flour",
+            "originalIngredient": "corn flour",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -3511,10 +3512,10 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 0.3333333333333333,
+            "amount": 0.3958333333333333,
             "unit": "cup",
-            "name": "+ 1 tablespoon extra-virgin olive oil",
-            "notes": ""
+            "name": "extra-virgin olive oil",
+            "notes": "1/3 cup + 1 tablespoon"
           },
           {
             "amount": 1.25,
@@ -3628,7 +3629,7 @@ export const cuisine: Cuisine = {
         },
         "substitutions": [
           {
-            "originalIngredient": "+ 1 tablespoon extra-virgin olive oil",
+            "originalIngredient": "extra-virgin olive oil",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -3675,16 +3676,16 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
+            "amount": 1.5,
             "unit": "tablespoon",
-            "name": "+ 1 1/2 teaspoons grade a maple syrup",
-            "notes": ""
+            "name": "grade a maple syrup",
+            "notes": "1 tablespoon + 1 1/2 teaspoons"
           },
           {
-            "amount": 4,
+            "amount": 4.5,
             "unit": "tablespoons",
-            "name": "+ 1 1/2 teaspoons extra virgin olive oil",
-            "notes": ""
+            "name": "extra virgin olive oil",
+            "notes": "4 tablespoons + 1 1/2 teaspoons"
           }
         ],
         "instructions": [
@@ -3977,8 +3978,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "bag",
-            "name": "uettes",
+            "unit": "piece",
+            "name": "baguettes",
             "notes": "cut into 1/2\" slices and toasted"
           },
           {
@@ -4111,8 +4112,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "arlic clove",
+            "unit": "clove",
+            "name": "garlic",
             "notes": "sliced thin"
           },
           {
@@ -4249,8 +4250,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "slice",
-            "name": "d tomato",
+            "unit": "piece",
+            "name": "sliced tomato",
             "notes": ""
           },
           {
@@ -4285,9 +4286,20 @@ export const cuisine: Cuisine = {
           }
         ],
         "instructions": [
-          "Assemble the sandwich by spreading avocado spread or Nayonaise on sliced Spelt Bread.",
-          "Layer with Fried Tempeh, sliced tomato, mustard, ketchup, and sauerkraut.",
-          "Garnish with pickles and serve immediately."
+          "Fried Tempeh (recipe follows):",
+          "In 2 1/2 quart saucepan, combine marinade ingredients. Cover pan, bring to boil.",
+          "Add tempeh slices, lower heat, and simmer uncovered 30-40 minutes.",
+          "Drain tempeh and pat dry.",
+          "In 12-inch sauté pan, heat oil. Brown tempeh slices on both sides. Drain on paper towel.",
+          "Spelt Bread (recipe follows):",
+          "In small bowl, combine water and maple syrup then gently sprinkle yeast on top. Allow to sit until foamy.",
+          "Stir in oil, some of the flour, and salt until well combined. Gradually add more flour while stirring until dough is firm and workable.",
+          "Turn out dough onto lightly floured surface and knead to form sturdy and pliable dough. Transfer to large, lightly oiled bowl and cover tightly with plastic wrap. Let rise in warm place until doubled in size (about 1 hour).",
+          "Fold and turn dough, and rise again (about 30 minutes). Divide into two balls. Shape dough and transfer to lightly oiled loaf pans, score if desired. Cover with damp towels and rise again in warm place (about 20 minutes).",
+          "While bread is rising, pre-heat oven to 375° F. Bake bread until well-browned and finished (inner temp of 200° F). Remove from pan and cool on racks before slicing.",
+          "Ketchup (recipe below):",
+          "In blender, combine raisins (with soaking liquid), tomato puree, garlic, water, paprika, cayenne, cinnamon, and salt. Blend until all ingredients are combined.",
+          "In 2 1/2 quart saucepan, on high heat, heat oil. Slowly add tomato mixture. Lower heat and simmer 40 minutes. Add Worcestershire sauce and lemon juice. Simmer 5 minutes more. Adjust seasonings."
         ],
         "classifications": {
           "mealType": [
@@ -4296,7 +4308,8 @@ export const cuisine: Cuisine = {
           "cookingMethods": [
             "steaming",
             "simmering",
-            "raw"
+            "raw",
+            "baking"
           ]
         },
         "elementalProperties": {
@@ -4402,14 +4415,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 8,
             "unit": "oz",
-            "name": ". tempeh",
+            "name": "tempeh",
             "notes": "sliced on diagonal into 6-8 pieces"
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons coconut oil for frying",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "coconut oil",
+            "notes": "3-4; for frying"
           }
         ],
         "instructions": [
@@ -4429,9 +4442,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26666666666666666,
-          "Water": 0.275,
-          "Earth": 0.26666666666666666,
+          "Fire": 0.25,
+          "Water": 0.30000000000000004,
+          "Earth": 0.25833333333333336,
           "Air": 0.19166666666666665
         },
         "astrologicalAffinities": {
@@ -4453,7 +4466,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 260,
+          "sodiumMg": 270,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -4467,18 +4480,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.94,
-          "Essence": 2.23,
-          "Matter": 2.17,
-          "Substance": 2.01
+          "Spirit": 1.93,
+          "Essence": 2.57,
+          "Matter": 2.58,
+          "Substance": 2.4
         },
         "thermodynamicProperties": {
-          "heat": 0.0752,
-          "entropy": 0.324,
-          "reactivity": 2.1828,
-          "gregsEnergy": -0.632,
-          "kalchm": 0.9897,
-          "monica": 1.618
+          "heat": 0.055,
+          "entropy": 0.2941,
+          "reactivity": 2.0207,
+          "gregsEnergy": -0.5394,
+          "kalchm": 0.4267,
+          "monica": -0.3134
         },
         "substitutions": [
           {
@@ -4530,9 +4543,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 7,
-            "unit": "piece",
-            "name": "-8 cups spelt flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "spelt flour",
+            "notes": "7-8"
           },
           {
             "amount": 3,
@@ -4650,7 +4663,7 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "clove",
-            "name": "of garlic",
+            "name": "garlic",
             "notes": "minced"
           },
           {
@@ -4686,14 +4699,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "large ripe tomato (peeled",
-            "notes": "seeded and chopped)"
+            "name": "large ripe tomato",
+            "notes": "peeled, seeded and chopped"
           },
           {
             "amount": 1.5,
             "unit": "teaspoons",
-            "name": "sea salt or to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -4717,9 +4730,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.29727272727272724,
-          "Water": 0.22999999999999998,
-          "Earth": 0.32545454545454544,
+          "Fire": 0.28818181818181815,
+          "Water": 0.2345454545454545,
+          "Earth": 0.33,
           "Air": 0.1472727272727273
         },
         "astrologicalAffinities": {
@@ -4739,9 +4752,9 @@ export const cuisine: Cuisine = {
           "calories": 280,
           "proteinG": 10,
           "carbsG": 24,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 242,
+          "sodiumMg": 244,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -4755,18 +4768,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.5,
-          "Essence": 3.96,
-          "Matter": 4.21,
-          "Substance": 3.77
+          "Spirit": 3.92,
+          "Essence": 4.32,
+          "Matter": 4.22,
+          "Substance": 3.68
         },
         "thermodynamicProperties": {
-          "heat": 0.0772,
-          "entropy": 0.349,
-          "reactivity": 2.0567,
-          "gregsEnergy": -0.6407,
-          "kalchm": 0.2952,
-          "monica": -0.2553
+          "heat": 0.0924,
+          "entropy": 0.35,
+          "reactivity": 2.3056,
+          "gregsEnergy": -0.7146,
+          "kalchm": 2.2379,
+          "monica": 0.3848
         },
         "substitutions": [
           {
@@ -4941,10 +4954,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 10,
-            "unit": "piece",
-            "name": "-ounce bag frozen blueberries",
-            "notes": ""
+            "amount": 1,
+            "unit": "bag",
+            "name": "frozen blueberries",
+            "notes": "10-ounce"
           },
           {
             "amount": 0.5,
@@ -5006,18 +5019,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.53,
-          "Essence": 0.89,
-          "Matter": 0.86,
-          "Substance": 0.91
+          "Spirit": 0.6,
+          "Essence": 1.4,
+          "Matter": 0.8,
+          "Substance": 0.89
         },
         "thermodynamicProperties": {
-          "heat": 0.026,
-          "entropy": 0.2032,
-          "reactivity": 1.787,
-          "gregsEnergy": -0.3371,
-          "kalchm": 0.7988,
-          "monica": -0.8397
+          "heat": 0.0258,
+          "entropy": 0.1494,
+          "reactivity": 3.1346,
+          "gregsEnergy": -0.4425,
+          "kalchm": 1.5633,
+          "monica": 0.316
         },
         "substitutions": [
           {
@@ -5045,9 +5058,9 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons butter or olive oil",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "butter or olive oil",
+            "notes": "2-3"
           },
           {
             "amount": 2,
@@ -5058,8 +5071,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "cups",
-            "name": "sliced mushrooms (button",
-            "notes": "or Portobello, or combination)"
+            "name": "sliced mushrooms",
+            "notes": "button, or Portobello, or combination"
           },
           {
             "amount": 1,
@@ -5129,10 +5142,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23500000000000001,
-          "Water": 0.29500000000000004,
-          "Earth": 0.31700000000000006,
-          "Air": 0.153
+          "Fire": 0.21363636363636365,
+          "Water": 0.2863636363636364,
+          "Earth": 0.34727272727272734,
+          "Air": 0.1527272727272727
         },
         "astrologicalAffinities": {
           "planets": [
@@ -5153,7 +5166,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 268,
+          "sodiumMg": 265,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -5167,22 +5180,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.74,
-          "Essence": 5.04,
-          "Matter": 4.74,
-          "Substance": 4.41
+          "Spirit": 3.5,
+          "Essence": 4.82,
+          "Matter": 5.01,
+          "Substance": 4.63
         },
         "thermodynamicProperties": {
-          "heat": 0.0628,
-          "entropy": 0.3103,
-          "reactivity": 2.3072,
-          "gregsEnergy": -0.6532,
-          "kalchm": 0.4341,
-          "monica": -0.3393
+          "heat": 0.0529,
+          "entropy": 0.3083,
+          "reactivity": 1.9885,
+          "gregsEnergy": -0.5602,
+          "kalchm": 0.0406,
+          "monica": -0.0879
         },
         "substitutions": [
           {
-            "originalIngredient": "-3 tablespoons butter or olive oil",
+            "originalIngredient": "butter or olive oil",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -5224,10 +5237,20 @@ export const cuisine: Cuisine = {
           }
         ],
         "instructions": [
-          "Place a warm Chickpea Crêpe flat on a clean surface or plate.",
-          "Spoon a generous portion of the Curried Chickpea and vegetable filling down the center of the crêpe.",
-          "Fold or roll the crêpe to neatly enclose the filling.",
-          "Garnish with Mango Sauce drizzle and fresh herbs. Serve warm."
+          "Chickpea Crêpe (recipe below):",
+          "In large bowl, sift flours, salt, and pepper.",
+          "Add water, herbs and oil to flour mixture and blend with whisk until smooth. (May also be processed in blender.)",
+          "Let batter rest at room temperature at least 30 minutes. If necessary, thin batter with more water to maintain consistency of light cream.",
+          "Prepare crêpe pan by oiling lightly. Pour approximately 1/4 cup of batter into pan, tipping pan so batter thins covers pan. Cook 30 seconds, until crêpe is golden brown on bottom. Flip, cook another 30 seconds.",
+          "Curried Chickpea Filling (recipe follows):",
+          "In pressure cooker, combine chickpeas, water, cumin, salt, and bay leaves.",
+          "Bring pot to pressure, lower heat, and cook 30 minutes. Drain beans, set aside, and reserve bean liquid if using in place of stock.",
+          "In 12-inch sauté pan, heat oil. Add onions. Lower heat and cook until onions begin to soften and become translucent. Add curry. Cook 2-3 minutes more.",
+          "Add carrots and potatoes, stirring often to prevent sticking. Cook 5-6 minutes. Add garlic and salt. Cook 2-3 minutes more. Add stock or bean liquid reserved from chickpeas.",
+          "Add coconut milk and chickpeas. Simmer 3-4 minutes more. Add spinach. Cook until spinach becomes tender (about 1-2 minutes). Adjust seasonings. If mixture looks too thick, add bit more stock or bean liquid.",
+          "Mango Sauce, for garnish (recipe follows):",
+          "In blender, combine mango, tomatoes, tomato juices, shallot, canola oil, lime juice, and salt. Blend until creamy.",
+          "Adjust seasonings. Garnish sauce with jalapeño and cilantro."
         ],
         "classifications": {
           "mealType": [
@@ -5341,9 +5364,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1.5,
-            "unit": "piece",
-            "name": "-1 3/4 cups warm water",
-            "notes": ""
+            "unit": "cups",
+            "name": "warm water",
+            "notes": "1 1/2-1 3/4"
           },
           {
             "amount": 1,
@@ -5482,9 +5505,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 teaspoons lime juice",
-            "notes": "about 1/2 small lime"
+            "unit": "teaspoons",
+            "name": "lime juice",
+            "notes": "2-3; about 1/2 small lime"
           },
           {
             "amount": 1.5,
@@ -5495,14 +5518,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "-2 jalapeño peppers",
-            "notes": "minced"
+            "name": "jalapeño peppers",
+            "notes": "1-2; minced"
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons cilantro",
-            "notes": "chopped"
+            "unit": "tablespoons",
+            "name": "cilantro",
+            "notes": "2-3; chopped"
           }
         ],
         "instructions": [
@@ -5520,9 +5543,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22250000000000003,
-          "Water": 0.32749999999999996,
-          "Earth": 0.23750000000000004,
+          "Fire": 0.21625000000000003,
+          "Water": 0.3275,
+          "Earth": 0.24375000000000002,
           "Air": 0.2125
         },
         "astrologicalAffinities": {
@@ -5558,18 +5581,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.08,
-          "Essence": 2.8,
-          "Matter": 2.35,
-          "Substance": 2.4
+          "Spirit": 2.82,
+          "Essence": 3.67,
+          "Matter": 2.46,
+          "Substance": 2.28
         },
         "thermodynamicProperties": {
-          "heat": 0.0631,
-          "entropy": 0.3117,
-          "reactivity": 2.7077,
-          "gregsEnergy": -0.7809,
-          "kalchm": 1.3462,
-          "monica": 0.9702
+          "heat": 0.0946,
+          "entropy": 0.2949,
+          "reactivity": 3.6687,
+          "gregsEnergy": -0.9872,
+          "kalchm": 36.6636,
+          "monica": 0.0747
         },
         "substitutions": [
           {
@@ -5983,10 +6006,10 @@ export const cuisine: Cuisine = {
             "notes": "1/4-inch dice"
           },
           {
-            "amount": 1,
+            "amount": 1.5,
             "unit": "tablespoon",
-            "name": "+ 1 1/2 teaspoons chopped jalapeno pepper",
-            "notes": "minced"
+            "name": "chopped jalapeno pepper",
+            "notes": "1 tablespoon + 1 1/2 teaspoons; minced"
           },
           {
             "amount": 0.3333333333333333,
@@ -6316,9 +6339,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 7,
-            "unit": "piece",
-            "name": "-8 cups unbleached all-purpose flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "unbleached all-purpose flour",
+            "notes": "7-8"
           },
           {
             "amount": 2,
@@ -6615,10 +6638,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.25,
+            "amount": 0.375,
             "unit": "cup",
-            "name": "+ 2 tablespoons agar flakes",
-            "notes": ""
+            "name": "agar flakes",
+            "notes": "1/4 cup + 2 tablespoons"
           },
           {
             "amount": 1,
@@ -6680,10 +6703,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12777777777777777,
-          "Water": 0.38555555555555554,
-          "Earth": 0.3577777777777778,
-          "Air": 0.1288888888888889
+          "Fire": 0.14444444444444443,
+          "Water": 0.36888888888888893,
+          "Earth": 0.3633333333333334,
+          "Air": 0.12333333333333332
         },
         "astrologicalAffinities": {
           "planets": [
@@ -6704,7 +6727,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 304,
+          "sodiumMg": 298,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -6718,18 +6741,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.13,
-          "Essence": 2.37,
-          "Matter": 3.25,
-          "Substance": 2.9
+          "Spirit": 1.2,
+          "Essence": 2.33,
+          "Matter": 3.24,
+          "Substance": 2.88
         },
         "thermodynamicProperties": {
-          "heat": 0.0147,
-          "entropy": 0.24,
-          "reactivity": 1.1897,
-          "gregsEnergy": -0.2709,
-          "kalchm": 0.0088,
-          "monica": -0.0481
+          "heat": 0.0169,
+          "entropy": 0.246,
+          "reactivity": 1.1811,
+          "gregsEnergy": -0.2737,
+          "kalchm": 0.0094,
+          "monica": -0.0496
         },
         "substitutions": [
           {
@@ -6756,10 +6779,10 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 0.25,
+            "amount": 0.375,
             "unit": "cup",
-            "name": "+ 2 tablespoons butter",
-            "notes": ""
+            "name": "butter",
+            "notes": "1/4 cup + 2 tablespoons"
           },
           {
             "amount": 0.75,
@@ -6837,32 +6860,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.28333333333333327,
-          "Water": 0.325,
-          "Earth": 0.2333333333333333,
-          "Air": 0.15833333333333335
+          "Fire": 0.3277777777777778,
+          "Water": 0.28888888888888886,
+          "Earth": 0.1944444444444445,
+          "Air": 0.18888888888888888
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 9,
-          "carbsG": 25,
-          "fatG": 8,
+          "proteinG": 8,
+          "carbsG": 26,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 280,
-          "sugarG": 4,
+          "sodiumMg": 266,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -6875,22 +6898,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.53,
-          "Essence": 3.69,
-          "Matter": 3.15,
-          "Substance": 2.99
+          "Spirit": 3.62,
+          "Essence": 4.97,
+          "Matter": 2.96,
+          "Substance": 2.81
         },
         "thermodynamicProperties": {
-          "heat": 0.0583,
-          "entropy": 0.2822,
-          "reactivity": 2.5481,
-          "gregsEnergy": -0.6608,
-          "kalchm": 1.3191,
-          "monica": 0.9364
+          "heat": 0.1014,
+          "entropy": 0.2987,
+          "reactivity": 4.6156,
+          "gregsEnergy": -1.2773,
+          "kalchm": 672.2457,
+          "monica": 0.0425
         },
         "substitutions": [
           {
-            "originalIngredient": "+ 2 tablespoons butter",
+            "originalIngredient": "butter",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -6932,9 +6955,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "to 3 cups organic milk",
-            "notes": ""
+            "unit": "cups",
+            "name": "organic milk",
+            "notes": "2-3"
           },
           {
             "amount": 2,
@@ -6972,10 +6995,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18333333333333335,
-          "Water": 0.2916666666666667,
-          "Earth": 0.38333333333333336,
-          "Air": 0.14166666666666666
+          "Fire": 0.2285714285714286,
+          "Water": 0.27142857142857146,
+          "Earth": 0.3428571428571429,
+          "Air": 0.15714285714285717
         },
         "astrologicalAffinities": {
           "planets": [
@@ -6992,11 +7015,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 11,
-          "carbsG": 24,
-          "fatG": 7,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 267,
+          "sodiumMg": 259,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7010,18 +7033,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.67,
-          "Essence": 2.91,
-          "Matter": 3.39,
-          "Substance": 3.19
+          "Spirit": 1.82,
+          "Essence": 2.89,
+          "Matter": 3.25,
+          "Substance": 3.15
         },
         "thermodynamicProperties": {
-          "heat": 0.0266,
-          "entropy": 0.2676,
-          "reactivity": 1.5151,
-          "gregsEnergy": -0.3789,
-          "kalchm": 0.0208,
-          "monica": -0.0646
+          "heat": 0.0332,
+          "entropy": 0.2918,
+          "reactivity": 1.684,
+          "gregsEnergy": -0.4581,
+          "kalchm": 0.0373,
+          "monica": -0.0827
         },
         "substitutions": [
           {
@@ -7422,7 +7445,8 @@ export const cuisine: Cuisine = {
           "In 2 1/2 quart saucepan, bring water to boil. Add almonds and remove pot from flame. Let sit covered for 20-30 minutes.",
           "Transfer almonds and water to Vitamix. Process for few minutes until well homogenized.",
           "Strain milk through nut bag or chinois lined with 2 layers of moistened cheesecloth. Reserve almond pulp and set aside.",
-          "Add vanilla and salt. Whisk to combine."
+          "Add vanilla and salt. Whisk to combine.",
+          "Note: Save any pulp from almond milk for Nut Pulp Crisps recipe."
         ],
         "mealType": [],
         "classifications": {
@@ -7517,8 +7541,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "can full-fat coconut milk",
+            "unit": "can",
+            "name": "full-fat coconut milk",
             "notes": "14 ounce"
           },
           {
@@ -7549,10 +7573,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.07500000000000001,
-          "Water": 0.4625,
-          "Earth": 0.3125,
-          "Air": 0.15
+          "Fire": 0.0875,
+          "Water": 0.4375,
+          "Earth": 0.32,
+          "Air": 0.155
         },
         "astrologicalAffinities": {
           "planets": [
@@ -7573,7 +7597,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 6,
           "fiberG": 5,
-          "sodiumMg": 335,
+          "sodiumMg": 325,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -7587,18 +7611,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.54,
-          "Essence": 1.45,
-          "Matter": 1.54,
-          "Substance": 1.34
+          "Spirit": 0.45,
+          "Essence": 1.16,
+          "Matter": 1.38,
+          "Substance": 1.13
         },
         "thermodynamicProperties": {
-          "heat": 0.0108,
-          "entropy": 0.1492,
-          "reactivity": 1.2914,
-          "gregsEnergy": -0.1819,
-          "kalchm": 0.4269,
-          "monica": -0.1655
+          "heat": 0.01,
+          "entropy": 0.139,
+          "reactivity": 1.0547,
+          "gregsEnergy": -0.1366,
+          "kalchm": 0.4631,
+          "monica": -0.1682
         },
         "substitutions": [
           {
@@ -7627,20 +7651,20 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "piece",
-            "name": "-3 medium organic beets",
-            "notes": "¾ pound; scrubbed (not peeled), chopped in 1-inch pieces"
+            "name": "medium organic beets",
+            "notes": "2-3; 3/4 pound; scrubbed (not peeled), chopped in 1-inch pieces"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ cup whey or sauerkraut juice (optional",
-            "notes": "as starter)"
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "whey or sauerkraut juice",
+            "notes": "optional, as starter"
           },
           {
             "amount": 1,
             "unit": "tablespoon",
             "name": "sea salt",
-            "notes": "or 1 ½ tablespoons if not using whey/juice"
+            "notes": "or 1 1/2 tablespoons if not using whey/juice"
           },
           {
             "amount": 2,
@@ -7649,9 +7673,9 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ gallon glass jar",
+            "amount": 0.5,
+            "unit": "gallon",
+            "name": "glass jar",
             "notes": ""
           },
           {
@@ -7730,7 +7754,7 @@ export const cuisine: Cuisine = {
         },
         "substitutions": [
           {
-            "originalIngredient": "-3 medium organic beets",
+            "originalIngredient": "medium organic beets",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -7893,7 +7917,8 @@ export const cuisine: Cuisine = {
           "Heat butter in small sauté pan.",
           "When fat is just hot enough to make drop of water sizzle, pour in eggs.",
           "Cook over low heat, stirring gently with spatula from time to time as eggs coagulate. Lift portions of coagulated egg so that uncooked egg can run underneath. Too much stirring breaks up eggs into very small particles. Do not let eggs brown. Keep heat low.",
-          "When eggs are set but still soft and moist, remove from heat. Turn out onto plate or into steam table pan."
+          "When eggs are set but still soft and moist, remove from heat. Turn out onto plate or into steam table pan.",
+          "Additions to scrambled eggs: Flavor variations may be created by adding any of the following ingredients to scrambled eggs before serving: chopped parsley and/or other herbs; organic grated cheese (Cheddar, Swiss, parmesan); sautéed, diced onion and/or green pepper; diced smoked salmon."
         ],
         "classifications": {
           "mealType": [
@@ -7966,6 +7991,519 @@ export const cuisine: Cuisine = {
             ]
           }
         ]
+      },
+      {
+        "name": "SWEET VEGAN CRÊPES",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 16,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2.5,
+            "unit": "cups",
+            "name": "cashew milk",
+            "notes": "or more if needed (recipe below)"
+          },
+          {
+            "amount": 1.5,
+            "unit": "cups",
+            "name": "all-purpose flour",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "canola oil",
+            "notes": "plus more for pan"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "baking powder",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch sea salt",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Combine all ingredients in blender. Let batter sit for 30 minutes in refrigerator."
+        ],
+        "classifications": {
+          "mealType": [
+            "breakfast"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2066666666666667,
+          "Water": 0.215,
+          "Earth": 0.36000000000000004,
+          "Air": 0.21833333333333335
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 280,
+          "proteinG": 10,
+          "carbsG": 27,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 236,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.22,
+          "Essence": 1.25,
+          "Matter": 1.85,
+          "Substance": 1.77
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0477,
+          "entropy": 0.3489,
+          "reactivity": 1.2941,
+          "gregsEnergy": -0.4037,
+          "kalchm": 0.1965,
+          "monica": -0.1917
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "cashew milk",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CASHEW MILK (FOR SWEET VEGAN CRÊPES)",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 3,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "cups",
+            "name": "cashews",
+            "notes": "soaked"
+          },
+          {
+            "amount": 4,
+            "unit": "cups",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "vanilla",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Puree mixture in VitaMix or blender. Strain through chinois or strainer lined with wet cheesecloth."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.11666666666666665,
+          "Water": 0.48333333333333334,
+          "Earth": 0.25,
+          "Air": 0.15000000000000002
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 280,
+          "proteinG": 9,
+          "carbsG": 25,
+          "fatG": 6,
+          "fiberG": 4,
+          "sodiumMg": 343,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 0.39,
+          "Essence": 0.96,
+          "Matter": 0.96,
+          "Substance": 0.81
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0127,
+          "entropy": 0.1199,
+          "reactivity": 1.3657,
+          "gregsEnergy": -0.1511,
+          "kalchm": 0.8216,
+          "monica": -0.563
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "cashews",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "GLUTEN-FREE AND VEGAN WAFFLES",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1.75,
+            "unit": "cups",
+            "name": "high-protein gluten-free flour mix",
+            "notes": "recipe below"
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "baking powder",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "ground cinnamon",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "melted oil",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "vanilla extract",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "almond milk",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "aqua faba",
+            "notes": "from canned chickpeas"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "small amount of oil to brush or spray onto waffle iron",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Pre-heat waffle iron.",
+          "In large bowl whisk together flours, baking powder, salt, maple crystals, and cinnamon.",
+          "In separate bowl, whisk oil, vanilla extract, and almond milk.",
+          "Make well in center of dry ingredients. Pour in liquid ingredients and whisk to combine.",
+          "In stand mixer, beat aqua faba until stiff peaks are achieved; fold into batter until barely blended.",
+          "Lightly grease waffle iron. For each waffle pour about 1/2-3/4 cup batter onto griddle.",
+          "Cook about 5-6 minutes per batch (longer cooking than egg waffles)."
+        ],
+        "classifications": {
+          "mealType": [
+            "breakfast"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2485714285714286,
+          "Water": 0.24428571428571427,
+          "Earth": 0.3285714285714286,
+          "Air": 0.17857142857142855
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 280,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 248,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.27,
+          "Essence": 2.54,
+          "Matter": 2.83,
+          "Substance": 2.57
+        },
+        "thermodynamicProperties": {
+          "heat": 0.069,
+          "entropy": 0.3356,
+          "reactivity": 1.8406,
+          "gregsEnergy": -0.5486,
+          "kalchm": 0.3194,
+          "monica": -0.2612
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "high-protein gluten-free flour mix",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FRITTATA",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 4,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "filling of choice",
+            "notes": "2-3; e.g., onions, garlic, peppers, tomato, cheese, mushrooms, etc."
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch pepper",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoons",
+            "name": "oil to coat pan",
+            "notes": "1-2"
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "eggs",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "In medium bowl whisk together filling(s), salt, and pepper with eggs.",
+          "Heat oil in sauté pan.",
+          "Pour in egg mixture.",
+          "Cook over medium-low heat until bottom is set.",
+          "Slide pan under preheated broiler for 1 or 2 minutes until lightly browned and set or, in alternative, transfer pan to 400°F oven for approximately 5 minutes."
+        ],
+        "classifications": {
+          "mealType": [
+            "breakfast"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.25,
+          "Water": 0.26666666666666666,
+          "Earth": 0.3333333333333333,
+          "Air": 0.15
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 280,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 257,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.32,
+          "Essence": 1.54,
+          "Matter": 1.55,
+          "Substance": 1.48
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0638,
+          "entropy": 0.2951,
+          "reactivity": 1.8214,
+          "gregsEnergy": -0.4737,
+          "kalchm": 0.796,
+          "monica": -1.1399
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "filling of choice",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
       }
     ],
     "spring": [
@@ -8009,10 +8547,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.25,
+            "amount": 0.3125,
             "unit": "cup",
-            "name": "plus one tablespoon agave",
-            "notes": ""
+            "name": "agave",
+            "notes": "1/4 cup plus one tablespoon"
           },
           {
             "amount": 2,
@@ -8035,9 +8573,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17,
-          "Water": 0.5000000000000001,
-          "Earth": 0.11600000000000002,
+          "Fire": 0.13,
+          "Water": 0.52,
+          "Earth": 0.136,
           "Air": 0.21399999999999997
         },
         "astrologicalAffinities": {
@@ -8059,7 +8597,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 3,
-          "sodiumMg": 350,
+          "sodiumMg": 358,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -8073,18 +8611,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.19,
-          "Essence": 2.06,
-          "Matter": 1.41,
-          "Substance": 1.4
+          "Spirit": 2.03,
+          "Essence": 2.79,
+          "Matter": 1.43,
+          "Substance": 1.23
         },
         "thermodynamicProperties": {
-          "heat": 0.0445,
-          "entropy": 0.2067,
-          "reactivity": 3.4116,
-          "gregsEnergy": -0.6607,
-          "kalchm": 2.0965,
-          "monica": 0.2616
+          "heat": 0.1036,
+          "entropy": 0.2396,
+          "reactivity": 5.6073,
+          "gregsEnergy": -1.2399,
+          "kalchm": 34.2562,
+          "monica": 0.0626
         },
         "substitutions": [
           {
@@ -8138,10 +8676,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.25,
+            "amount": 0.3125,
             "unit": "cup",
-            "name": "plus one tablespoon agave",
-            "notes": ""
+            "name": "agave",
+            "notes": "1/4 cup plus one tablespoon"
           },
           {
             "amount": 2,
@@ -8164,9 +8702,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17,
-          "Water": 0.5000000000000001,
-          "Earth": 0.11600000000000002,
+          "Fire": 0.13,
+          "Water": 0.52,
+          "Earth": 0.136,
           "Air": 0.21399999999999997
         },
         "astrologicalAffinities": {
@@ -8188,7 +8726,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 3,
-          "sodiumMg": 350,
+          "sodiumMg": 358,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -8202,18 +8740,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.19,
-          "Essence": 2.06,
-          "Matter": 1.41,
-          "Substance": 1.4
+          "Spirit": 2.03,
+          "Essence": 2.79,
+          "Matter": 1.43,
+          "Substance": 1.23
         },
         "thermodynamicProperties": {
-          "heat": 0.0445,
-          "entropy": 0.2067,
-          "reactivity": 3.4116,
-          "gregsEnergy": -0.6607,
-          "kalchm": 2.0965,
-          "monica": 0.2616
+          "heat": 0.1036,
+          "entropy": 0.2396,
+          "reactivity": 5.6073,
+          "gregsEnergy": -1.2399,
+          "kalchm": 34.2562,
+          "monica": 0.0626
         },
         "substitutions": [
           {
@@ -8241,8 +8779,8 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 1,
-            "unit": "g",
-            "name": "allon water",
+            "unit": "gallon",
+            "name": "water",
             "notes": ""
           },
           {
@@ -8260,7 +8798,7 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "ounce",
-            "name": "of mint",
+            "name": "mint",
             "notes": ""
           }
         ],
@@ -8279,10 +8817,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.09999999999999999,
-          "Water": 0.4625,
-          "Earth": 0.175,
-          "Air": 0.26249999999999996
+          "Fire": 0.15000000000000005,
+          "Water": 0.4875,
+          "Earth": 0.13750000000000004,
+          "Air": 0.22500000000000003
         },
         "astrologicalAffinities": {
           "planets": [
@@ -8299,12 +8837,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 280,
-          "proteinG": 8,
-          "carbsG": 28,
-          "fatG": 6,
+          "proteinG": 7,
+          "carbsG": 27,
+          "fatG": 7,
           "fiberG": 3,
-          "sodiumMg": 335,
-          "sugarG": 6,
+          "sodiumMg": 345,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -8317,22 +8855,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.66,
-          "Essence": 1.29,
-          "Matter": 1.04,
-          "Substance": 0.95
+          "Spirit": 0.72,
+          "Essence": 1.38,
+          "Matter": 0.97,
+          "Substance": 0.94
         },
         "thermodynamicProperties": {
-          "heat": 0.0255,
-          "entropy": 0.1609,
-          "reactivity": 2.2321,
-          "gregsEnergy": -0.3337,
-          "kalchm": 1.0642,
-          "monica": 2.4024
+          "heat": 0.0316,
+          "entropy": 0.1667,
+          "reactivity": 2.9491,
+          "gregsEnergy": -0.46,
+          "kalchm": 1.344,
+          "monica": 0.5275
         },
         "substitutions": [
           {
-            "originalIngredient": "allon water",
+            "originalIngredient": "water",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -8635,9 +9173,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-1 1/2 tablespoons rice syrup",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "rice syrup",
+            "notes": "1-1 1/2"
           },
           {
             "amount": 2,
@@ -8659,31 +9197,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2885714285714286,
-          "Water": 0.2385714285714286,
-          "Earth": 0.2685714285714286,
-          "Air": 0.20428571428571426
+          "Fire": 0.2742857142857143,
+          "Water": 0.22428571428571428,
+          "Earth": 0.28285714285714286,
+          "Air": 0.21857142857142856
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 245,
+          "sodiumMg": 240,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -8697,18 +9235,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.45,
-          "Essence": 2.72,
-          "Matter": 2.7,
-          "Substance": 2.52
+          "Spirit": 2.62,
+          "Essence": 3.11,
+          "Matter": 2.8,
+          "Substance": 2.48
         },
         "thermodynamicProperties": {
-          "heat": 0.0813,
-          "entropy": 0.3552,
-          "reactivity": 2.2619,
-          "gregsEnergy": -0.7221,
-          "kalchm": 0.9105,
-          "monica": -3.4048
+          "heat": 0.0835,
+          "entropy": 0.319,
+          "reactivity": 2.4053,
+          "gregsEnergy": -0.6839,
+          "kalchm": 2.5012,
+          "monica": 0.3101
         },
         "substitutions": [
           {
@@ -8777,10 +9315,10 @@ export const cuisine: Cuisine = {
             "notes": "chopped"
           },
           {
-            "amount": 1,
+            "amount": 1.3333333333333333,
             "unit": "tablespoon",
-            "name": "plus 1 teaspoon olive oil",
-            "notes": ""
+            "name": "olive oil",
+            "notes": "1 tablespoon plus 1 teaspoon"
           },
           {
             "amount": 1.5,
@@ -8905,10 +9443,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23124999999999998,
-          "Water": 0.2999999999999999,
-          "Earth": 0.2683333333333333,
-          "Air": 0.20041666666666672
+          "Fire": 0.23600000000000002,
+          "Water": 0.30199999999999994,
+          "Earth": 0.2656,
+          "Air": 0.19640000000000007
         },
         "astrologicalAffinities": {
           "planets": [
@@ -8929,7 +9467,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 270,
+          "sodiumMg": 271,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -8945,16 +9483,16 @@ export const cuisine: Cuisine = {
         "alchemicalProperties": {
           "Spirit": 8.94,
           "Essence": 10.36,
-          "Matter": 8.69,
-          "Substance": 8.08
+          "Matter": 8.68,
+          "Substance": 8.16
         },
         "thermodynamicProperties": {
-          "heat": 0.1028,
-          "entropy": 0.3775,
-          "reactivity": 3.1491,
-          "gregsEnergy": -1.0861,
-          "kalchm": 3405.0134,
-          "monica": 0.0424
+          "heat": 0.1023,
+          "entropy": 0.3813,
+          "reactivity": 3.1744,
+          "gregsEnergy": -1.1082,
+          "kalchm": 2743.7313,
+          "monica": 0.0441
         },
         "substitutions": [
           {
@@ -9223,8 +9761,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt to taste",
-            "notes": ""
+            "name": "salt",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -9258,10 +9796,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20736842105263162,
-          "Water": 0.30210526315789477,
-          "Earth": 0.3268421052631578,
-          "Air": 0.1636842105263158
+          "Fire": 0.202,
+          "Water": 0.297,
+          "Earth": 0.3404999999999999,
+          "Air": 0.1605
         },
         "astrologicalAffinities": {
           "planets": [
@@ -9282,7 +9820,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 271,
+          "sodiumMg": 269,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -9296,18 +9834,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.99,
-          "Essence": 7.62,
-          "Matter": 7.79,
-          "Substance": 6.76
+          "Spirit": 4.8,
+          "Essence": 7.61,
+          "Matter": 8.22,
+          "Substance": 7.16
         },
         "thermodynamicProperties": {
-          "heat": 0.0473,
-          "entropy": 0.2747,
-          "reactivity": 1.9553,
-          "gregsEnergy": -0.4898,
-          "kalchm": 0.0045,
-          "monica": -0.0464
+          "heat": 0.0408,
+          "entropy": 0.2743,
+          "reactivity": 1.8063,
+          "gregsEnergy": -0.4546,
+          "kalchm": 0.0002,
+          "monica": -0.0295
         },
         "substitutions": [
           {
@@ -9340,10 +9878,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 8,
-            "unit": "piece",
-            "name": "-ounce package tempeh",
-            "notes": "grated to texture of ground beef"
+            "amount": 1,
+            "unit": "package",
+            "name": "tempeh",
+            "notes": "8-ounce; grated to texture of ground beef"
           },
           {
             "amount": 1,
@@ -9390,8 +9928,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 8,
             "unit": "piece",
-            "name": "-10 sheets rice paper",
-            "notes": ""
+            "name": "sheets rice paper",
+            "notes": "8-10"
           },
           {
             "amount": 2,
@@ -9449,22 +9987,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.254699447244559,
-          "Water": 0.270809254485527,
-          "Earth": 0.28084690854526567,
-          "Air": 0.19364438972464834
+          "Fire": 0.25803278057789236,
+          "Water": 0.27747592115219366,
+          "Earth": 0.26084690854526565,
+          "Air": 0.20364438972464832
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
@@ -9473,7 +10011,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 258,
+          "sodiumMg": 261,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -9487,18 +10025,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.57,
-          "Essence": 5.82,
-          "Matter": 5.77,
-          "Substance": 5.3
+          "Spirit": 4.66,
+          "Essence": 5.91,
+          "Matter": 5.59,
+          "Substance": 5.2
         },
         "thermodynamicProperties": {
-          "heat": 0.0674,
-          "entropy": 0.3329,
-          "reactivity": 2.2676,
-          "gregsEnergy": -0.6875,
-          "kalchm": 0.1726,
-          "monica": -0.1726
+          "heat": 0.0716,
+          "entropy": 0.3372,
+          "reactivity": 2.45,
+          "gregsEnergy": -0.7545,
+          "kalchm": 0.5936,
+          "monica": -0.5905
         },
         "substitutions": [
           {
@@ -9551,7 +10089,7 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.25,
             "unit": "cup",
-            "name": "of extra virgin olive oil",
+            "name": "extra virgin olive oil",
             "notes": ""
           },
           {
@@ -9603,10 +10141,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.28125000000000006,
-          "Water": 0.23125,
-          "Earth": 0.29375000000000007,
-          "Air": 0.19375000000000003
+          "Fire": 0.26111111111111107,
+          "Water": 0.2555555555555556,
+          "Earth": 0.29444444444444445,
+          "Air": 0.1888888888888889
         },
         "astrologicalAffinities": {
           "planets": [
@@ -9627,7 +10165,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 243,
+          "sodiumMg": 252,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -9641,18 +10179,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.39,
-          "Essence": 3.65,
-          "Matter": 3.51,
-          "Substance": 3.26
+          "Spirit": 3.26,
+          "Essence": 3.63,
+          "Matter": 3.6,
+          "Substance": 3.4
         },
         "thermodynamicProperties": {
-          "heat": 0.0933,
-          "entropy": 0.3765,
-          "reactivity": 2.4614,
-          "gregsEnergy": -0.8335,
-          "kalchm": 1.8307,
-          "monica": 0.56
+          "heat": 0.0828,
+          "entropy": 0.3683,
+          "reactivity": 2.3429,
+          "gregsEnergy": -0.7801,
+          "kalchm": 0.7867,
+          "monica": -1.3879
         },
         "substitutions": [
           {
@@ -9691,10 +10229,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
+            "amount": 1.5,
             "unit": "tablespoon",
-            "name": "plus 1 1/2 teaspoons maple syrup",
-            "notes": ""
+            "name": "maple syrup",
+            "notes": "1 tablespoon plus 1 1/2 teaspoons"
           }
         ],
         "instructions": [
@@ -9710,10 +10248,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23333333333333328,
-          "Water": 0.48333333333333334,
-          "Earth": 0.16666666666666663,
-          "Air": 0.11666666666666665
+          "Fire": 0.20000000000000004,
+          "Water": 0.4666666666666666,
+          "Earth": 0.18333333333333335,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -9731,10 +10269,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
-          "carbsG": 24,
-          "fatG": 8,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 3,
-          "sodiumMg": 343,
+          "sodiumMg": 337,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -9748,18 +10286,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.56,
-          "Essence": 1,
-          "Matter": 0.78,
-          "Substance": 0.9
+          "Spirit": 0.95,
+          "Essence": 1.4,
+          "Matter": 0.81,
+          "Substance": 0.85
         },
         "thermodynamicProperties": {
-          "heat": 0.031,
-          "entropy": 0.2018,
-          "reactivity": 2.7062,
-          "gregsEnergy": -0.5152,
-          "kalchm": 0.9646,
-          "monica": 1.618
+          "heat": 0.0633,
+          "entropy": 0.2063,
+          "reactivity": 3.9173,
+          "gregsEnergy": -0.7449,
+          "kalchm": 2.0775,
+          "monica": 0.2601
         },
         "substitutions": [
           {
@@ -10149,10 +10687,10 @@ export const cuisine: Cuisine = {
             "notes": "soaked overnight"
           },
           {
-            "amount": 2,
+            "amount": 1,
             "unit": "piece",
-            "name": "-inch piece rinsed kombu",
-            "notes": ""
+            "name": "rinsed kombu",
+            "notes": "2-inch"
           },
           {
             "amount": 15,
@@ -10371,8 +10909,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": ""
           },
           {
@@ -10402,8 +10940,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt and pepper to taste",
-            "notes": ""
+            "name": "salt and pepper",
+            "notes": "to taste"
           },
           {
             "amount": 0.25,
@@ -10430,10 +10968,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24615384615384614,
-          "Water": 0.2538461538461539,
-          "Earth": 0.28846153846153844,
-          "Air": 0.2115384615384615
+          "Fire": 0.21428571428571425,
+          "Water": 0.26071428571428573,
+          "Earth": 0.31785714285714284,
+          "Air": 0.20714285714285713
         },
         "astrologicalAffinities": {
           "planets": [
@@ -10450,11 +10988,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 252,
+          "fiberG": 5,
+          "sodiumMg": 254,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -10468,18 +11006,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.23,
-          "Essence": 4.93,
-          "Matter": 5.05,
-          "Substance": 4.58
+          "Spirit": 4.4,
+          "Essence": 5.75,
+          "Matter": 5.89,
+          "Substance": 5.12
         },
         "thermodynamicProperties": {
-          "heat": 0.0766,
-          "entropy": 0.352,
-          "reactivity": 2.2227,
-          "gregsEnergy": -0.7059,
-          "kalchm": 0.3067,
-          "monica": -0.2687
+          "heat": 0.063,
+          "entropy": 0.3059,
+          "reactivity": 2.0446,
+          "gregsEnergy": -0.5623,
+          "kalchm": 0.1076,
+          "monica": -0.1234
         },
         "substitutions": [
           {
@@ -10537,9 +11075,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 cups all-purpose flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "all-purpose flour",
+            "notes": "2-3"
           },
           {
             "amount": 0.25,
@@ -10548,10 +11086,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
+            "amount": 1.3333333333333333,
             "unit": "tablespoon",
-            "name": "+1 teaspoon sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "1 tablespoon +1 teaspoon"
           },
           {
             "amount": 2,
@@ -10562,14 +11100,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.25,
             "unit": "cup",
-            "name": "sesame or poppy seeds for top",
-            "notes": ""
+            "name": "sesame or poppy seeds",
+            "notes": "for top"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "olive oil or rice syrup diluted with water for brushing",
-            "notes": ""
+            "name": "olive oil or rice syrup diluted with water",
+            "notes": "for brushing"
           }
         ],
         "instructions": [
@@ -10593,10 +11131,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18909090909090906,
-          "Water": 0.28363636363636363,
-          "Earth": 0.3481818181818182,
-          "Air": 0.17909090909090908
+          "Fire": 0.1890909090909091,
+          "Water": 0.2836363636363637,
+          "Earth": 0.33000000000000007,
+          "Air": 0.1972727272727273
         },
         "astrologicalAffinities": {
           "planets": [
@@ -10614,7 +11152,7 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
           "sodiumMg": 263,
@@ -10631,18 +11169,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.55,
-          "Essence": 3.75,
-          "Matter": 4.66,
-          "Substance": 4.05
+          "Spirit": 2.63,
+          "Essence": 3.79,
+          "Matter": 4.52,
+          "Substance": 3.95
         },
         "thermodynamicProperties": {
-          "heat": 0.0371,
-          "entropy": 0.281,
-          "reactivity": 1.4798,
-          "gregsEnergy": -0.3787,
-          "kalchm": 0.0041,
-          "monica": -0.0466
+          "heat": 0.0407,
+          "entropy": 0.2837,
+          "reactivity": 1.5746,
+          "gregsEnergy": -0.4061,
+          "kalchm": 0.0095,
+          "monica": -0.0554
         },
         "substitutions": [
           {
@@ -10706,9 +11244,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 cups whole wheat pastry flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "whole wheat pastry flour",
+            "notes": "3-4"
           },
           {
             "amount": 1,
@@ -10740,10 +11278,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1285714285714286,
-          "Water": 0.3,
-          "Earth": 0.39999999999999997,
-          "Air": 0.17142857142857143
+          "Fire": 0.13125,
+          "Water": 0.275,
+          "Earth": 0.40625,
+          "Air": 0.1875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -10761,10 +11299,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 11,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 270,
+          "sodiumMg": 260,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -10778,18 +11316,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.36,
-          "Essence": 2.32,
-          "Matter": 3.17,
-          "Substance": 2.64
+          "Spirit": 1.32,
+          "Essence": 2.17,
+          "Matter": 3.27,
+          "Substance": 2.72
         },
         "thermodynamicProperties": {
-          "heat": 0.023,
-          "entropy": 0.2314,
-          "reactivity": 1.125,
-          "gregsEnergy": -0.2372,
-          "kalchm": 0.0213,
-          "monica": -0.0548
+          "heat": 0.0216,
+          "entropy": 0.2453,
+          "reactivity": 1.0343,
+          "gregsEnergy": -0.2322,
+          "kalchm": 0.0106,
+          "monica": -0.0494
         },
         "substitutions": [
           {
@@ -10841,9 +11379,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 4,
-            "unit": "piece",
-            "name": "-5 cups whole wheat pastry flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "whole wheat pastry flour",
+            "notes": "4-5"
           },
           {
             "amount": 0.5,
@@ -11156,9 +11694,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 5,
-            "unit": "piece",
-            "name": "- 6 cups whole wheat pastry flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "whole wheat pastry flour",
+            "notes": "5-6"
           }
         ],
         "instructions": [
@@ -11290,9 +11828,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 8,
-            "unit": "piece",
-            "name": "-10 cups spelt flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "spelt flour",
+            "notes": "8-10"
           }
         ],
         "instructions": [
@@ -11448,8 +11986,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "additional salt and pepper to taste",
-            "notes": ""
+            "name": "additional salt and pepper",
+            "notes": "to taste"
           },
           {
             "amount": 0.25,
@@ -11752,8 +12290,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "maple syrup for glazing",
-            "notes": "optional"
+            "name": "maple syrup",
+            "notes": "optional; for glazing"
           }
         ],
         "instructions": [
@@ -11777,10 +12315,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22384615384615383,
-          "Water": 0.2838461538461538,
-          "Earth": 0.3092307692307692,
-          "Air": 0.18307692307692308
+          "Fire": 0.20076923076923076,
+          "Water": 0.27999999999999997,
+          "Earth": 0.32846153846153847,
+          "Air": 0.19076923076923077
         },
         "astrologicalAffinities": {
           "planets": [
@@ -11798,10 +12336,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 25,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 264,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 262,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -11815,18 +12353,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.72,
-          "Essence": 3.5,
-          "Matter": 4.28,
-          "Substance": 4.05
+          "Spirit": 3.52,
+          "Essence": 4.78,
+          "Matter": 4.42,
+          "Substance": 4
         },
         "thermodynamicProperties": {
-          "heat": 0.0469,
-          "entropy": 0.3407,
-          "reactivity": 1.7195,
-          "gregsEnergy": -0.5389,
-          "kalchm": 0.0084,
-          "monica": -0.0656
+          "heat": 0.0634,
+          "entropy": 0.2959,
+          "reactivity": 2.2793,
+          "gregsEnergy": -0.611,
+          "kalchm": 0.8137,
+          "monica": -1.3003
         },
         "substitutions": [
           {
@@ -12335,9 +12873,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons olive oil",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "olive oil",
+            "notes": "2-3"
           },
           {
             "amount": 1,
@@ -12348,8 +12886,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -12365,31 +12903,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31714285714285717,
-          "Water": 0.19571428571428573,
-          "Earth": 0.29714285714285715,
-          "Air": 0.19
+          "Fire": 0.2671428571428571,
+          "Water": 0.2385714285714286,
+          "Earth": 0.31857142857142856,
+          "Air": 0.17571428571428574
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 26,
-          "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 228,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 245,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -12403,18 +12941,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.85,
-          "Essence": 2.85,
-          "Matter": 2.5,
-          "Substance": 2.29
+          "Spirit": 2.23,
+          "Essence": 2.77,
+          "Matter": 2.73,
+          "Substance": 2.43
         },
         "thermodynamicProperties": {
-          "heat": 0.1187,
-          "entropy": 0.3955,
-          "reactivity": 2.7689,
-          "gregsEnergy": -0.9765,
-          "kalchm": 5.9394,
-          "monica": 0.1979
+          "heat": 0.0672,
+          "entropy": 0.2993,
+          "reactivity": 2.0132,
+          "gregsEnergy": -0.5353,
+          "kalchm": 0.7493,
+          "monica": -0.9212
         },
         "substitutions": [
           {
@@ -12490,9 +13028,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "28-ounce can peeled tomatoes",
-            "notes": "chopped (pulsed in food processor)"
+            "unit": "can",
+            "name": "peeled tomatoes",
+            "notes": "28-ounce; chopped (pulsed in food processor)"
           },
           {
             "amount": 2,
@@ -12503,8 +13041,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and pepper to taste",
-            "notes": ""
+            "name": "sea salt and pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -12909,8 +13447,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 8,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": "thinly sliced"
           },
           {
@@ -12922,7 +13460,7 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "handful",
-            "name": "of fresh thyme sprigs",
+            "name": "fresh thyme sprigs",
             "notes": ""
           },
           {
@@ -12959,10 +13497,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.35499999999999987,
-          "Water": 0.175,
-          "Earth": 0.22999999999999998,
-          "Air": 0.24000000000000005
+          "Fire": 0.36,
+          "Water": 0.16,
+          "Earth": 0.24500000000000002,
+          "Air": 0.23500000000000001
         },
         "astrologicalAffinities": {
           "planets": [
@@ -12979,11 +13517,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 27,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 220,
+          "sodiumMg": 214,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -12997,18 +13535,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.8,
-          "Essence": 3.2,
-          "Matter": 2.82,
-          "Substance": 2.76
+          "Spirit": 4.64,
+          "Essence": 3.91,
+          "Matter": 3.13,
+          "Substance": 2.9
         },
         "thermodynamicProperties": {
-          "heat": 0.164,
-          "entropy": 0.5388,
-          "reactivity": 3.495,
-          "gregsEnergy": -1.719,
-          "kalchm": 21.5301,
-          "monica": 0.1602
+          "heat": 0.1935,
+          "entropy": 0.5435,
+          "reactivity": 3.9891,
+          "gregsEnergy": -1.9745,
+          "kalchm": 328.1305,
+          "monica": 0.0854
         },
         "substitutions": [
           {
@@ -13048,8 +13586,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "arlic clove",
+            "unit": "clove",
+            "name": "garlic",
             "notes": ""
           },
           {
@@ -13167,8 +13705,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": "minced"
           },
           {
@@ -13179,9 +13717,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "28-ounce can whole tomatoes",
-            "notes": "drained OR 2 pounds fresh tomatoes, concassé, 1/2-inch dice"
+            "unit": "can",
+            "name": "whole tomatoes",
+            "notes": "28-ounce; drained OR 2 pounds fresh tomatoes, concassé, 1/2-inch dice"
           },
           {
             "amount": 1,
@@ -13211,10 +13749,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3366666666666666,
-          "Water": 0.2283333333333333,
-          "Earth": 0.22166666666666665,
-          "Air": 0.21333333333333332
+          "Fire": 0.36166666666666664,
+          "Water": 0.21166666666666667,
+          "Earth": 0.23833333333333337,
+          "Air": 0.18833333333333332
         },
         "astrologicalAffinities": {
           "planets": [
@@ -13231,11 +13769,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 241,
+          "sodiumMg": 235,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -13249,18 +13787,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.27,
-          "Essence": 2.42,
-          "Matter": 1.85,
-          "Substance": 1.78
+          "Spirit": 2.72,
+          "Essence": 2.74,
+          "Matter": 2.13,
+          "Substance": 1.98
         },
         "thermodynamicProperties": {
-          "heat": 0.1168,
-          "entropy": 0.3806,
-          "reactivity": 3.3526,
-          "gregsEnergy": -1.1593,
-          "kalchm": 6.2661,
-          "monica": 0.1884
+          "heat": 0.1343,
+          "entropy": 0.4058,
+          "reactivity": 3.3941,
+          "gregsEnergy": -1.243,
+          "kalchm": 12.4342,
+          "monica": 0.1453
         },
         "substitutions": [
           {
@@ -13289,8 +13827,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.75,
             "unit": "cup",
-            "name": "walnuts for pesto plus 1/2 cup for garnish",
-            "notes": ""
+            "name": "walnuts for pesto plus 1/2 cup",
+            "notes": "for garnish"
           },
           {
             "amount": 2,
@@ -13300,8 +13838,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "arlic clove",
+            "unit": "clove",
+            "name": "garlic",
             "notes": ""
           },
           {
@@ -13350,10 +13888,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.32428571428571434,
-          "Water": 0.20285714285714285,
-          "Earth": 0.24714285714285714,
-          "Air": 0.22571428571428573
+          "Fire": 0.30874999999999997,
+          "Water": 0.19625,
+          "Earth": 0.29125,
+          "Air": 0.20375000000000001
         },
         "astrologicalAffinities": {
           "planets": [
@@ -13371,10 +13909,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 27,
+          "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 231,
+          "sodiumMg": 229,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -13388,22 +13926,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.83,
-          "Essence": 2.88,
-          "Matter": 2.54,
-          "Substance": 2.45
+          "Spirit": 3.55,
+          "Essence": 3.5,
+          "Matter": 3,
+          "Substance": 2.75
         },
         "thermodynamicProperties": {
-          "heat": 0.1111,
-          "entropy": 0.4112,
-          "reactivity": 2.8968,
-          "gregsEnergy": -1.08,
-          "kalchm": 4.1675,
-          "monica": 0.2612
+          "heat": 0.1285,
+          "entropy": 0.4158,
+          "reactivity": 3.0086,
+          "gregsEnergy": -1.1225,
+          "kalchm": 16.5204,
+          "monica": 0.133
         },
         "substitutions": [
           {
-            "originalIngredient": "walnuts for pesto plus 1/2 cup for garnish",
+            "originalIngredient": "walnuts for pesto plus 1/2 cup",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -13439,15 +13977,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": ""
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -13471,10 +14009,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26399999999999996,
-          "Water": 0.20799999999999996,
-          "Earth": 0.33599999999999997,
-          "Air": 0.19199999999999995
+          "Fire": 0.29400000000000004,
+          "Water": 0.18800000000000003,
+          "Earth": 0.356,
+          "Air": 0.162
         },
         "astrologicalAffinities": {
           "planets": [
@@ -13492,11 +14030,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 8,
+          "carbsG": 25,
+          "fatG": 9,
           "fiberG": 5,
-          "sodiumMg": 233,
-          "sugarG": 5,
+          "sodiumMg": 225,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -13509,18 +14047,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.27,
-          "Essence": 1.53,
-          "Matter": 1.82,
-          "Substance": 1.68
+          "Spirit": 1.72,
+          "Essence": 1.84,
+          "Matter": 2.1,
+          "Substance": 1.87
         },
         "thermodynamicProperties": {
-          "heat": 0.0506,
-          "entropy": 0.2995,
-          "reactivity": 1.49,
-          "gregsEnergy": -0.3957,
-          "kalchm": 0.3652,
-          "monica": -0.2636
+          "heat": 0.0717,
+          "entropy": 0.3267,
+          "reactivity": 1.656,
+          "gregsEnergy": -0.4692,
+          "kalchm": 0.5098,
+          "monica": -0.4206
         },
         "substitutions": [
           {
@@ -13788,9 +14326,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 tablespoons mellow white or chickpea miso",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "mellow white or chickpea miso",
+            "notes": "1-2"
           },
           {
             "amount": 1,
@@ -13799,17 +14337,19 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
+            "amount": 1.3333333333333333,
             "unit": "tablespoon",
-            "name": "plus 1 teaspoon lemon juice",
-            "notes": ""
+            "name": "lemon juice",
+            "notes": "1 tablespoon plus 1 teaspoon"
           }
         ],
         "instructions": [
           "In blender, soak almonds in 1 cup hot water for at least 15 minutes. Process until smooth, gradually adding remaining cup of water. Strain through fine mesh sieve and return almond milk to blender.",
           "In 2 1/2 quart sauce pan, sweat onion in oil with salt until completely soft. Add garlic and cook a few minutes longer, being careful not to brown vegetables.",
           "Add sweated vegetables and miso to almond milk. Process until very smooth, adding salt and pepper to taste.",
-          "Transfer sauce back to sauce pan and heat slowly, whisking to break up lumps. Stir in lemon juice and serve immediately."
+          "Transfer sauce back to sauce pan and heat slowly, whisking to break up lumps. Stir in lemon juice and serve immediately.",
+          "Note: For tangier flavor, blend 1/2 small clove minced raw garlic into sauce, omitting garlic from step two.",
+          "Serving suggestion: Almond \"Cream\" Sauce is delicious served over pasta with lemon zest and freshly cracked pepper."
         ],
         "mealType": [],
         "classifications": {
@@ -13821,10 +14361,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27777777777777773,
-          "Water": 0.2833333333333333,
-          "Earth": 0.2833333333333333,
-          "Air": 0.15555555555555553
+          "Fire": 0.26666666666666666,
+          "Water": 0.27777777777777773,
+          "Earth": 0.2888888888888889,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -13845,8 +14385,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 263,
-          "sugarG": 4,
+          "sodiumMg": 261,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -13859,18 +14399,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.83,
-          "Essence": 3.4,
-          "Matter": 3.4,
-          "Substance": 2.96
+          "Spirit": 3.22,
+          "Essence": 3.79,
+          "Matter": 3.43,
+          "Substance": 2.9
         },
         "thermodynamicProperties": {
-          "heat": 0.0736,
-          "entropy": 0.3109,
-          "reactivity": 2.1016,
-          "gregsEnergy": -0.5798,
-          "kalchm": 0.7648,
-          "monica": -1.0289
+          "heat": 0.0886,
+          "entropy": 0.3113,
+          "reactivity": 2.4091,
+          "gregsEnergy": -0.6614,
+          "kalchm": 4.4805,
+          "monica": 0.1831
         },
         "substitutions": [
           {
@@ -13915,10 +14455,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.25,
+            "amount": 0.3125,
             "unit": "cup",
-            "name": "+ 1 tablespoon maple syrup",
-            "notes": ""
+            "name": "maple syrup",
+            "notes": "1/4 cup + 1 tablespoon"
           },
           {
             "amount": 1,
@@ -14029,8 +14569,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.25,
             "unit": "cup",
-            "name": "golden raisins (soaked in 1/4 cup water",
-            "notes": "10-15 minutes)"
+            "name": "golden raisins",
+            "notes": "soaked in 1/4 cup water, 10-15 minutes"
           },
           {
             "amount": 1.5,
@@ -14108,10 +14648,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31727272727272726,
-          "Water": 0.3163636363636364,
-          "Earth": 0.21545454545454543,
-          "Air": 0.1509090909090909
+          "Fire": 0.3218181818181818,
+          "Water": 0.28,
+          "Earth": 0.2336363636363636,
+          "Air": 0.16454545454545452
         },
         "astrologicalAffinities": {
           "planets": [
@@ -14128,11 +14668,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 277,
+          "sodiumMg": 262,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -14146,22 +14686,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.25,
-          "Essence": 3.85,
-          "Matter": 3.04,
-          "Substance": 2.87
+          "Spirit": 3.75,
+          "Essence": 4.09,
+          "Matter": 3.07,
+          "Substance": 2.94
         },
         "thermodynamicProperties": {
-          "heat": 0.0978,
-          "entropy": 0.3435,
-          "reactivity": 3.1936,
-          "gregsEnergy": -0.9993,
-          "kalchm": 13.6643,
-          "monica": 0.1197
+          "heat": 0.1219,
+          "entropy": 0.3878,
+          "reactivity": 3.6323,
+          "gregsEnergy": -1.2867,
+          "kalchm": 60.5494,
+          "monica": 0.0863
         },
         "substitutions": [
           {
-            "originalIngredient": "golden raisins (soaked in 1/4 cup water",
+            "originalIngredient": "golden raisins",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -14227,9 +14767,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2.5,
-            "unit": "piece",
-            "name": "- 3 cups whole wheat pastry flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "whole wheat pastry flour",
+            "notes": "2 1/2-3"
           }
         ],
         "instructions": [
@@ -14840,8 +15380,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -14920,7 +15460,8 @@ export const cuisine: Cuisine = {
           "Combine rice in 2 1/2 quart pot with water and salt. Bring rice to boil, reduce heat, and simmer, covered, until grains are tender but still chewy (about 20-25 minutes). Drain rice.",
           "Combine all dressing ingredients except for oil in blender. Slowly drizzle oil into blender until emulsified. Pour half of dressing over still warm rice.",
           "When rice is completely cooled, combine with cranberries, walnuts, carrots, radishes, scallions, chives, and parsley. Season with salt and pepper, if needed.",
-          "Toss radicchio and arugula with remaining dressing, arrange on plate, and top with rice salad."
+          "Toss radicchio and arugula with remaining dressing, arrange on plate, and top with rice salad.",
+          "Seasonal variation: In Spring/Summer, replace dried cranberries with 1/4 cup rehydrated, drained, and chopped sun-dried tomatoes."
         ],
         "classifications": {
           "mealType": [
@@ -14933,10 +15474,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23478260869565215,
-          "Water": 0.28695652173913044,
-          "Earth": 0.2726086956521739,
-          "Air": 0.2056521739130435
+          "Fire": 0.22608695652173913,
+          "Water": 0.3021739130434783,
+          "Earth": 0.2530434782608696,
+          "Air": 0.218695652173913
         },
         "astrologicalAffinities": {
           "planets": [
@@ -14954,10 +15495,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 265,
+          "sodiumMg": 271,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -14971,18 +15512,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.38,
-          "Essence": 7.44,
-          "Matter": 7.21,
-          "Substance": 6.91
+          "Spirit": 7.17,
+          "Essence": 8.94,
+          "Matter": 7.13,
+          "Substance": 6.68
         },
         "thermodynamicProperties": {
-          "heat": 0.0818,
-          "entropy": 0.3828,
-          "reactivity": 2.5717,
-          "gregsEnergy": -0.9026,
-          "kalchm": 0.4293,
-          "monica": -0.4151
+          "heat": 0.093,
+          "entropy": 0.3478,
+          "reactivity": 3.2315,
+          "gregsEnergy": -1.0309,
+          "kalchm": 1114.2808,
+          "monica": 0.0455
         },
         "substitutions": [
           {
@@ -15088,9 +15629,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons grated parmesan cheese",
-            "notes": "1/2 ounce"
+            "unit": "tablespoons",
+            "name": "grated parmesan cheese",
+            "notes": "2-3; 1/2 ounce"
           }
         ],
         "instructions": [
@@ -15112,10 +15653,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3192307692307692,
-          "Water": 0.23461538461538464,
-          "Earth": 0.2961538461538462,
-          "Air": 0.15000000000000002
+          "Fire": 0.31153846153846154,
+          "Water": 0.23076923076923078,
+          "Earth": 0.30000000000000004,
+          "Air": 0.1576923076923077
         },
         "astrologicalAffinities": {
           "planets": [
@@ -15132,11 +15673,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 244,
+          "sodiumMg": 242,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -15150,18 +15691,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.19,
-          "Essence": 5.43,
-          "Matter": 5.42,
-          "Substance": 5.24
+          "Spirit": 5.58,
+          "Essence": 5.83,
+          "Matter": 5.45,
+          "Substance": 5.18
         },
         "thermodynamicProperties": {
-          "heat": 0.0961,
-          "entropy": 0.4209,
-          "reactivity": 2.5726,
-          "gregsEnergy": -0.9867,
-          "kalchm": 0.8997,
-          "monica": -3.6289
+          "heat": 0.1062,
+          "entropy": 0.4164,
+          "reactivity": 2.7866,
+          "gregsEnergy": -1.0542,
+          "kalchm": 8.2504,
+          "monica": 0.1793
         },
         "substitutions": [
           {
@@ -15671,8 +16212,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and black pepper to taste",
-            "notes": ""
+            "name": "sea salt and black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -15694,10 +16235,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24599999999999994,
-          "Water": 0.26349999999999996,
-          "Earth": 0.289,
-          "Air": 0.2015
+          "Fire": 0.22714285714285712,
+          "Water": 0.2604761904761905,
+          "Earth": 0.3014285714285715,
+          "Air": 0.21095238095238097
         },
         "astrologicalAffinities": {
           "planets": [
@@ -15714,11 +16255,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 255,
+          "sodiumMg": 254,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -15732,18 +16273,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.88,
-          "Essence": 7.48,
-          "Matter": 7.57,
-          "Substance": 6.76
+          "Spirit": 6.52,
+          "Essence": 8.18,
+          "Matter": 7.79,
+          "Substance": 6.8
         },
         "thermodynamicProperties": {
-          "heat": 0.068,
-          "entropy": 0.3302,
-          "reactivity": 2.2083,
-          "gregsEnergy": -0.6611,
-          "kalchm": 0.0624,
-          "monica": -0.1079
+          "heat": 0.0768,
+          "entropy": 0.3251,
+          "reactivity": 2.3801,
+          "gregsEnergy": -0.6969,
+          "kalchm": 1.476,
+          "monica": 0.7521
         },
         "substitutions": [
           {
@@ -15867,9 +16408,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.75,
-            "unit": "piece",
-            "name": "-1 teaspoon sea salt",
-            "notes": ""
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": "3/4-1"
           },
           {
             "amount": 1,
@@ -15896,22 +16437,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24687499999999996,
-          "Water": 0.27187500000000003,
-          "Earth": 0.2875,
-          "Air": 0.19375000000000003
+          "Fire": 0.24062499999999998,
+          "Water": 0.296875,
+          "Earth": 0.25,
+          "Air": 0.21250000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
@@ -15920,7 +16461,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 259,
+          "sodiumMg": 269,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -15934,18 +16475,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.3,
-          "Essence": 5.83,
-          "Matter": 5.72,
-          "Substance": 5.29
+          "Spirit": 6.32,
+          "Essence": 6.8,
+          "Matter": 5.34,
+          "Substance": 4.9
         },
         "thermodynamicProperties": {
-          "heat": 0.091,
-          "entropy": 0.3831,
-          "reactivity": 2.5003,
-          "gregsEnergy": -0.8668,
-          "kalchm": 1.3903,
-          "monica": 1.0521
+          "heat": 0.1263,
+          "entropy": 0.398,
+          "reactivity": 3.5325,
+          "gregsEnergy": -1.2796,
+          "kalchm": 2848.1407,
+          "monica": 0.0455
         },
         "substitutions": [
           {
@@ -16033,15 +16574,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 6,
-            "unit": "piece",
-            "name": "-8 tablespoons toasted sesame oil",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "toasted sesame oil",
+            "notes": "6-8"
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons black sesame seeds",
-            "notes": "to garnish"
+            "unit": "tablespoons",
+            "name": "black sesame seeds",
+            "notes": "2-3; to garnish"
           }
         ],
         "instructions": [
@@ -16061,9 +16602,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2316666666666666,
-          "Water": 0.23916666666666667,
-          "Earth": 0.325,
+          "Fire": 0.2691666666666666,
+          "Water": 0.23083333333333333,
+          "Earth": 0.29583333333333334,
           "Air": 0.2041666666666667
         },
         "astrologicalAffinities": {
@@ -16081,11 +16622,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
-          "fiberG": 5,
-          "sodiumMg": 246,
+          "fiberG": 4,
+          "sodiumMg": 242,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -16099,18 +16640,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.32,
-          "Essence": 3.32,
-          "Matter": 4.22,
-          "Substance": 3.94
+          "Spirit": 3.94,
+          "Essence": 3.5,
+          "Matter": 4.03,
+          "Substance": 3.85
         },
         "thermodynamicProperties": {
-          "heat": 0.0738,
-          "entropy": 0.4056,
-          "reactivity": 1.8261,
-          "gregsEnergy": -0.6669,
-          "kalchm": 0.0299,
-          "monica": -0.1041
+          "heat": 0.1063,
+          "entropy": 0.4693,
+          "reactivity": 2.2853,
+          "gregsEnergy": -0.9661,
+          "kalchm": 0.3607,
+          "monica": -0.4146
         },
         "substitutions": [
           {
@@ -16304,8 +16845,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.25,
             "unit": "teaspoon",
-            "name": "sea salt or to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           },
           {
             "amount": 0.25,
@@ -16321,9 +16862,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.25,
-            "unit": "piece",
-            "name": "to 1/2 cup artichoke cooking liquid or vegetable stock",
-            "notes": ""
+            "unit": "cup",
+            "name": "artichoke cooking liquid or vegetable stock",
+            "notes": "1/4-1/2"
           }
         ],
         "instructions": [
@@ -16340,10 +16881,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3055555555555556,
-          "Water": 0.2444444444444444,
-          "Earth": 0.26666666666666666,
-          "Air": 0.18333333333333332
+          "Fire": 0.29444444444444445,
+          "Water": 0.23888888888888887,
+          "Earth": 0.2722222222222222,
+          "Air": 0.19444444444444445
         },
         "astrologicalAffinities": {
           "planets": [
@@ -16364,7 +16905,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 248,
+          "sodiumMg": 246,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -16378,18 +16919,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.5,
-          "Essence": 3.52,
-          "Matter": 3.02,
-          "Substance": 2.8
+          "Spirit": 3.89,
+          "Essence": 3.91,
+          "Matter": 3.05,
+          "Substance": 2.75
         },
         "thermodynamicProperties": {
-          "heat": 0.1226,
-          "entropy": 0.4066,
-          "reactivity": 3.0241,
-          "gregsEnergy": -1.1071,
-          "kalchm": 13.3784,
-          "monica": 0.1412
+          "heat": 0.1403,
+          "entropy": 0.4088,
+          "reactivity": 3.4578,
+          "gregsEnergy": -1.2733,
+          "kalchm": 84.1464,
+          "monica": 0.0831
         },
         "substitutions": [
           {
@@ -16661,8 +17202,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -16853,8 +17394,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -17194,8 +17735,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.3333333333333333,
             "unit": "teaspoon",
-            "name": "sea salt or to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -17263,10 +17804,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2444444444444444,
-          "Water": 0.29722222222222217,
-          "Earth": 0.26500000000000007,
-          "Air": 0.19333333333333333
+          "Fire": 0.23888888888888887,
+          "Water": 0.29444444444444434,
+          "Earth": 0.26777777777777784,
+          "Air": 0.1988888888888889
         },
         "astrologicalAffinities": {
           "planets": [
@@ -17287,7 +17828,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 269,
+          "sodiumMg": 268,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -17301,18 +17842,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.07,
-          "Essence": 5.45,
-          "Matter": 5.67,
-          "Substance": 5.26
+          "Spirit": 5.46,
+          "Essence": 5.85,
+          "Matter": 5.7,
+          "Substance": 5.21
         },
         "thermodynamicProperties": {
-          "heat": 0.0877,
-          "entropy": 0.3918,
-          "reactivity": 2.3637,
-          "gregsEnergy": -0.8383,
-          "kalchm": 0.3331,
-          "monica": -0.3226
+          "heat": 0.0973,
+          "entropy": 0.3889,
+          "reactivity": 2.5653,
+          "gregsEnergy": -0.9003,
+          "kalchm": 2.9493,
+          "monica": 0.3245
         },
         "substitutions": [
           {
@@ -17395,8 +17936,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "additional salt to taste",
-            "notes": ""
+            "name": "additional salt",
+            "notes": "to taste"
           },
           {
             "amount": 4,
@@ -17484,10 +18025,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21571428571428578,
-          "Water": 0.25952380952380955,
-          "Earth": 0.31285714285714283,
-          "Air": 0.2119047619047619
+          "Fire": 0.20380952380952383,
+          "Water": 0.2642857142857143,
+          "Earth": 0.31523809523809515,
+          "Air": 0.21666666666666662
         },
         "astrologicalAffinities": {
           "planets": [
@@ -17505,10 +18046,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 8,
+          "carbsG": 27,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 254,
+          "sodiumMg": 256,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -17522,18 +18063,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.17,
-          "Essence": 7.24,
-          "Matter": 7.73,
-          "Substance": 7.18
+          "Spirit": 5.88,
+          "Essence": 8.1,
+          "Matter": 7.82,
+          "Substance": 7.12
         },
         "thermodynamicProperties": {
-          "heat": 0.0509,
-          "entropy": 0.3244,
-          "reactivity": 2.0229,
-          "gregsEnergy": -0.6054,
-          "kalchm": 0.0008,
-          "monica": -0.042
+          "heat": 0.0609,
+          "entropy": 0.3135,
+          "reactivity": 2.2821,
+          "gregsEnergy": -0.6546,
+          "kalchm": 0.0673,
+          "monica": -0.1063
         },
         "substitutions": [
           {
@@ -17866,9 +18407,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons extra virgin olive oil",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": "2-3"
           },
           {
             "amount": 1,
@@ -17920,10 +18461,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2699999999999999,
-          "Water": 0.27249999999999996,
-          "Earth": 0.27499999999999997,
-          "Air": 0.18250000000000002
+          "Fire": 0.26428571428571423,
+          "Water": 0.269047619047619,
+          "Earth": 0.2785714285714285,
+          "Air": 0.18809523809523815
         },
         "astrologicalAffinities": {
           "planets": [
@@ -17941,10 +18482,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 259,
+          "sodiumMg": 258,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -17958,18 +18499,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.34,
-          "Essence": 8.2,
-          "Matter": 8.52,
-          "Substance": 8.15
+          "Spirit": 6.8,
+          "Essence": 8.96,
+          "Matter": 8.91,
+          "Substance": 8.46
         },
         "thermodynamicProperties": {
-          "heat": 0.0614,
-          "entropy": 0.3579,
-          "reactivity": 2.25,
-          "gregsEnergy": -0.7439,
-          "kalchm": 0.0017,
-          "monica": -0.0518
+          "heat": 0.0632,
+          "entropy": 0.3476,
+          "reactivity": 2.3483,
+          "gregsEnergy": -0.7531,
+          "kalchm": 0.0077,
+          "monica": -0.0659
         },
         "substitutions": [
           {
@@ -18175,7 +18716,8 @@ export const cuisine: Cuisine = {
           "In 1-gallon pot, bring poach ingredients – chicken stock, coconut milk, bay leaves, thyme, cilantro, salt, remaining 1/2 teaspoon curry powder, and pepper – to simmer. Add chicken, lower heat, cover pot, and poach 15 minutes or until chicken is tender and flesh is opaque.",
           "Remove pot from heat; let chicken remain in stock 20 to 25 minutes. Remove chicken from stock, cool, and cut into 1/3-inch thick diagonal slices. Set aside.",
           "In blender, combine dressing ingredients until creamy. Drain fennel and toss with 2-3 tablespoons of dressing.",
-          "On large plate, arrange mesclun, poached chicken, fennel, endive, onion, and asparagus. Drizzle dressing over salad ingredients and chicken. Garnish with cilantro."
+          "On large plate, arrange mesclun, poached chicken, fennel, endive, onion, and asparagus. Drizzle dressing over salad ingredients and chicken. Garnish with cilantro.",
+          "Seasonal variation: In Fall/Winter, substitute 1 small head of cauliflower for asparagus."
         ],
         "classifications": {
           "mealType": [
@@ -18544,8 +19086,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "teaspoon",
-            "name": "tamari or to taste",
-            "notes": ""
+            "name": "tamari",
+            "notes": "to taste"
           },
           {
             "amount": 6,
@@ -18580,10 +19122,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21739130434782608,
-          "Water": 0.35,
-          "Earth": 0.29782608695652174,
-          "Air": 0.13478260869565217
+          "Fire": 0.20000000000000007,
+          "Water": 0.3608695652173913,
+          "Earth": 0.30695652173913046,
+          "Air": 0.13217391304347828
         },
         "astrologicalAffinities": {
           "planets": [
@@ -18600,11 +19142,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 24,
-          "fatG": 8,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 290,
+          "sodiumMg": 294,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -18618,18 +19160,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5,
-          "Essence": 7.38,
-          "Matter": 8.44,
-          "Substance": 7.8
+          "Spirit": 6.12,
+          "Essence": 8.51,
+          "Matter": 8.46,
+          "Substance": 7.52
         },
         "thermodynamicProperties": {
-          "heat": 0.0421,
-          "entropy": 0.3168,
-          "reactivity": 1.8401,
-          "gregsEnergy": -0.5408,
-          "kalchm": 0,
-          "monica": 1.618
+          "heat": 0.0586,
+          "entropy": 0.3024,
+          "reactivity": 2.1678,
+          "gregsEnergy": -0.5968,
+          "kalchm": 0.0197,
+          "monica": -0.0701
         },
         "substitutions": [
           {
@@ -18700,8 +19242,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -18759,10 +19301,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19230769230769232,
-          "Water": 0.3461538461538461,
-          "Earth": 0.29230769230769227,
-          "Air": 0.16923076923076927
+          "Fire": 0.17500000000000002,
+          "Water": 0.3392857142857143,
+          "Earth": 0.30714285714285716,
+          "Air": 0.17857142857142858
         },
         "astrologicalAffinities": {
           "planets": [
@@ -18779,11 +19321,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 288,
+          "sodiumMg": 286,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -18797,18 +19339,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.41,
-          "Essence": 4.84,
-          "Matter": 5.04,
-          "Substance": 4.77
+          "Spirit": 3.66,
+          "Essence": 5.14,
+          "Matter": 5.22,
+          "Substance": 4.87
         },
         "thermodynamicProperties": {
-          "heat": 0.0488,
-          "entropy": 0.3113,
-          "reactivity": 2.0396,
-          "gregsEnergy": -0.5862,
-          "kalchm": 0.0226,
-          "monica": -0.0758
+          "heat": 0.0521,
+          "entropy": 0.3069,
+          "reactivity": 2.0855,
+          "gregsEnergy": -0.5879,
+          "kalchm": 0.0419,
+          "monica": -0.0889
         },
         "substitutions": [
           {
@@ -19222,21 +19764,21 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ cup greek full-fat yogurt",
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "greek full-fat yogurt",
             "notes": ""
           },
           {
-            "amount": 2,
-            "unit": "piece",
-            "name": "½ teaspoons dijon mustard",
+            "amount": 2.5,
+            "unit": "teaspoons",
+            "name": "dijon mustard",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¾ teaspoon sea salt",
+            "amount": 0.75,
+            "unit": "teaspoon",
+            "name": "sea salt",
             "notes": ""
           },
           {
@@ -19249,13 +19791,13 @@ export const cuisine: Cuisine = {
             "amount": 2,
             "unit": "tablespoons",
             "name": "chopped chives",
-            "notes": "½ ounce"
+            "notes": "1/2 ounce"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "beet chips for garnish",
-            "notes": "recipe below"
+            "name": "beet chips",
+            "notes": "recipe below; for garnish"
           }
         ],
         "instructions": [
@@ -19278,10 +19820,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2136363636363636,
-          "Water": 0.3136363636363636,
-          "Earth": 0.3090909090909091,
-          "Air": 0.16363636363636364
+          "Fire": 0.21363636363636365,
+          "Water": 0.3318181818181818,
+          "Earth": 0.29090909090909095,
+          "Air": 0.16363636363636366
         },
         "astrologicalAffinities": {
           "planets": [
@@ -19298,11 +19840,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 275,
+          "sodiumMg": 283,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -19316,18 +19858,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.52,
-          "Essence": 4.1,
-          "Matter": 4.14,
-          "Substance": 3.92
+          "Spirit": 3.32,
+          "Essence": 3.9,
+          "Matter": 3.97,
+          "Substance": 3.76
         },
         "thermodynamicProperties": {
-          "heat": 0.0742,
-          "entropy": 0.3543,
-          "reactivity": 2.2601,
-          "gregsEnergy": -0.7266,
-          "kalchm": 0.3599,
-          "monica": -0.3146
+          "heat": 0.0718,
+          "entropy": 0.3498,
+          "reactivity": 2.2336,
+          "gregsEnergy": -0.7096,
+          "kalchm": 0.3129,
+          "monica": -0.2734
         },
         "substitutions": [
           {
@@ -19366,9 +19908,9 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ teaspoon sea salt",
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "sea salt",
             "notes": ""
           },
           {
@@ -19396,8 +19938,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.3,
-          "Water": 0.175,
-          "Earth": 0.375,
+          "Water": 0.2,
+          "Earth": 0.35000000000000003,
           "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
@@ -19415,11 +19957,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 9,
           "fiberG": 5,
-          "sodiumMg": 220,
+          "sodiumMg": 230,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -19434,17 +19976,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.4,
-          "Essence": 1.35,
-          "Matter": 1.67,
-          "Substance": 1.52
+          "Essence": 1.4,
+          "Matter": 1.63,
+          "Substance": 1.51
         },
         "thermodynamicProperties": {
           "heat": 0.0747,
-          "entropy": 0.3439,
-          "reactivity": 1.4911,
-          "gregsEnergy": -0.4381,
-          "kalchm": 0.5397,
-          "monica": -0.4764
+          "entropy": 0.3396,
+          "reactivity": 1.6204,
+          "gregsEnergy": -0.4756,
+          "kalchm": 0.6209,
+          "monica": -0.6159
         },
         "substitutions": [
           {
@@ -19501,16 +20043,16 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ teaspoon sea salt",
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "sea salt",
             "notes": ""
           },
           {
             "amount": 2,
             "unit": "tablespoons",
             "name": "minced chives",
-            "notes": "¼ ounce"
+            "notes": "1/4 ounce"
           },
           {
             "amount": 1,
@@ -19527,8 +20069,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "quart",
-            "name": "coconut or canola oil for frying",
-            "notes": ""
+            "name": "coconut or canola oil",
+            "notes": "for frying"
           },
           {
             "amount": 2,
@@ -19538,15 +20080,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 tablespoons water",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "water",
+            "notes": "1-2"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ teaspoon lemon juice",
-            "notes": "½ lemon"
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "lemon juice",
+            "notes": "1/2 lemon"
           }
         ],
         "instructions": [
@@ -19568,10 +20110,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22307692307692306,
-          "Water": 0.3115384615384616,
+          "Fire": 0.2076923076923077,
+          "Water": 0.31153846153846154,
           "Earth": 0.2769230769230769,
-          "Air": 0.18846153846153849
+          "Air": 0.20384615384615384
         },
         "astrologicalAffinities": {
           "planets": [
@@ -19590,7 +20132,7 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 9,
           "carbsG": 26,
-          "fatG": 8,
+          "fatG": 7,
           "fiberG": 4,
           "sodiumMg": 275,
           "sugarG": 5,
@@ -19606,18 +20148,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.59,
-          "Essence": 4.97,
-          "Matter": 4.8,
-          "Substance": 4.58
+          "Spirit": 4.37,
+          "Essence": 5.82,
+          "Matter": 4.82,
+          "Substance": 4.46
         },
         "thermodynamicProperties": {
-          "heat": 0.0565,
-          "entropy": 0.3164,
-          "reactivity": 2.2792,
-          "gregsEnergy": -0.6646,
-          "kalchm": 0.1435,
-          "monica": -0.1502
+          "heat": 0.0758,
+          "entropy": 0.3099,
+          "reactivity": 2.8116,
+          "gregsEnergy": -0.7956,
+          "kalchm": 11.5461,
+          "monica": 0.1157
         },
         "substitutions": [
           {
@@ -19694,8 +20236,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.25,
             "unit": "teaspoon",
-            "name": "lemon juice or more to taste",
-            "notes": "1/2 lemon"
+            "name": "lemon juice",
+            "notes": "1/2 lemon; to taste; or more"
           },
           {
             "amount": 1,
@@ -19741,9 +20283,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil for frying",
-            "notes": "1/4 cup"
+            "unit": "piece",
+            "name": "canola oil",
+            "notes": "1/4 cup; for frying"
           },
           {
             "amount": 16,
@@ -19772,10 +20314,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3,
+          "Fire": 0.29444444444444445,
           "Water": 0.18888888888888888,
-          "Earth": 0.29555555555555546,
-          "Air": 0.2155555555555556
+          "Earth": 0.29,
+          "Air": 0.2266666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -19793,7 +20335,7 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 9,
           "fiberG": 4,
           "sodiumMg": 226,
@@ -19810,18 +20352,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.76,
-          "Essence": 5.32,
-          "Matter": 5.49,
-          "Substance": 5.1
+          "Spirit": 6.15,
+          "Essence": 5.71,
+          "Matter": 5.43,
+          "Substance": 5.12
         },
         "thermodynamicProperties": {
-          "heat": 0.1206,
-          "entropy": 0.4651,
-          "reactivity": 2.6189,
-          "gregsEnergy": -1.0974,
-          "kalchm": 3.7413,
-          "monica": 0.3176
+          "heat": 0.1317,
+          "entropy": 0.4754,
+          "reactivity": 2.959,
+          "gregsEnergy": -1.2749,
+          "kalchm": 35.5262,
+          "monica": 0.1207
         },
         "substitutions": [
           {
@@ -19862,8 +20404,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch sea salt or to taste",
-            "notes": ""
+            "name": "pinch sea salt",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -19873,9 +20415,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 4,
-            "unit": "piece",
-            "name": "-5 tablespoons water",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "water",
+            "notes": "4-5"
           },
           {
             "amount": 0.25,
@@ -20010,8 +20552,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sachet (3 sprigs thyme",
-            "notes": "1/2 teaspoon coriander seeds, 1/2 teaspoon peppercorns, 1 bay leaf, 1 cinnamon stick)"
+            "name": "sachet",
+            "notes": "3 sprigs thyme, 1/2 teaspoon coriander seeds, 1/2 teaspoon peppercorns, 1 bay leaf, 1 cinnamon stick"
           },
           {
             "amount": 0.25,
@@ -20082,8 +20624,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and pepper to taste",
-            "notes": ""
+            "name": "sea salt and pepper",
+            "notes": "to taste"
           },
           {
             "amount": 24,
@@ -20128,10 +20670,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24411764705882355,
+          "Fire": 0.2294117647058824,
           "Water": 0.2982352941176471,
-          "Earth": 0.24882352941176467,
-          "Air": 0.2088235294117647
+          "Earth": 0.2723529411764705,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
@@ -20166,18 +20708,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.46,
-          "Essence": 6.48,
-          "Matter": 5.97,
-          "Substance": 5.77
+          "Spirit": 5.73,
+          "Essence": 6.74,
+          "Matter": 6.21,
+          "Substance": 5.83
         },
         "thermodynamicProperties": {
-          "heat": 0.083,
-          "entropy": 0.3742,
-          "reactivity": 2.7224,
-          "gregsEnergy": -0.9357,
-          "kalchm": 1.8177,
-          "monica": 0.5752
+          "heat": 0.086,
+          "entropy": 0.366,
+          "reactivity": 2.6756,
+          "gregsEnergy": -0.8933,
+          "kalchm": 3.4709,
+          "monica": 0.2683
         },
         "substitutions": [
           {
@@ -20242,8 +20784,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pinch of sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "pinch of sea salt and freshly ground black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -20291,10 +20833,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.35909090909090907,
-          "Water": 0.15909090909090906,
-          "Earth": 0.2772727272727273,
-          "Air": 0.20454545454545456
+          "Fire": 0.3291666666666667,
+          "Water": 0.15833333333333335,
+          "Earth": 0.28750000000000003,
+          "Air": 0.225
         },
         "astrologicalAffinities": {
           "planets": [
@@ -20312,10 +20854,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 214,
+          "sodiumMg": 213,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -20329,18 +20871,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.7,
-          "Essence": 4.29,
-          "Matter": 3.93,
-          "Substance": 3.77
+          "Spirit": 5.04,
+          "Essence": 4.59,
+          "Matter": 4.02,
+          "Substance": 3.78
         },
         "thermodynamicProperties": {
-          "heat": 0.1393,
-          "entropy": 0.4868,
-          "reactivity": 3.1017,
-          "gregsEnergy": -1.3705,
-          "kalchm": 23.0851,
-          "monica": 0.1408
+          "heat": 0.1495,
+          "entropy": 0.4859,
+          "reactivity": 3.2845,
+          "gregsEnergy": -1.4464,
+          "kalchm": 92.4831,
+          "monica": 0.0973
         },
         "substitutions": [
           {
@@ -20404,15 +20946,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil for frying",
-            "notes": "2/3 cup"
+            "unit": "piece",
+            "name": "canola oil",
+            "notes": "2/3 cup; for frying"
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons crème fraîche",
-            "notes": "1 ounce"
+            "unit": "tablespoons",
+            "name": "crème fraîche",
+            "notes": "3-4; 1 ounce"
           },
           {
             "amount": 20,
@@ -20437,22 +20979,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23381146358354818,
-          "Water": 0.2765173521603632,
-          "Earth": 0.29158795352237316,
-          "Air": 0.19808323073371553
+          "Fire": 0.2211657454075984,
+          "Water": 0.2957932019203228,
+          "Earth": 0.2780781809087761,
+          "Air": 0.20496287176330266
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
@@ -20461,7 +21003,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 261,
+          "sodiumMg": 268,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -20475,18 +21017,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.43,
-          "Essence": 3.04,
-          "Matter": 2.95,
-          "Substance": 2.7
+          "Spirit": 2.3,
+          "Essence": 3.33,
+          "Matter": 3.11,
+          "Substance": 2.99
         },
         "thermodynamicProperties": {
-          "heat": 0.0666,
-          "entropy": 0.309,
-          "reactivity": 2.1514,
-          "gregsEnergy": -0.5981,
-          "kalchm": 0.715,
-          "monica": -0.8287
+          "heat": 0.0512,
+          "entropy": 0.2911,
+          "reactivity": 2.2212,
+          "gregsEnergy": -0.5954,
+          "kalchm": 0.414,
+          "monica": -0.3039
         },
         "substitutions": [
           {
@@ -20519,10 +21061,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
+            "amount": 1.0833333333333333,
             "unit": "tablespoon",
-            "name": "+ 1/4 teaspoon sea salt",
-            "notes": "divided"
+            "name": "sea salt",
+            "notes": "1 tablespoon + 1/4 teaspoon; divided"
           },
           {
             "amount": 2,
@@ -20610,9 +21152,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil for frying",
-            "notes": "1/4 - 1/2 cup"
+            "unit": "piece",
+            "name": "canola oil",
+            "notes": "1/4 - 1/2 cup; for frying"
           },
           {
             "amount": 0.25,
@@ -20665,10 +21207,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24650000000000002,
-          "Water": 0.27599999999999997,
-          "Earth": 0.2675,
-          "Air": 0.20999999999999996
+          "Fire": 0.23952380952380953,
+          "Water": 0.2795238095238095,
+          "Earth": 0.26428571428571435,
+          "Air": 0.21666666666666662
         },
         "astrologicalAffinities": {
           "planets": [
@@ -20686,10 +21228,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 260,
+          "sodiumMg": 262,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -20703,18 +21245,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.96,
-          "Essence": 7.44,
+          "Spirit": 7.28,
+          "Essence": 7.79,
           "Matter": 7.08,
-          "Substance": 6.41
+          "Substance": 6.54
         },
         "thermodynamicProperties": {
-          "heat": 0.1032,
-          "entropy": 0.395,
-          "reactivity": 2.6871,
-          "gregsEnergy": -0.9583,
-          "kalchm": 14.4168,
-          "monica": 0.1337
+          "heat": 0.1079,
+          "entropy": 0.4035,
+          "reactivity": 2.904,
+          "gregsEnergy": -1.0639,
+          "kalchm": 74.0081,
+          "monica": 0.0851
         },
         "substitutions": [
           {
@@ -20845,8 +21387,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           },
           {
             "amount": 25,
@@ -20855,48 +21397,17 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.5,
-            "unit": "cup",
-            "name": "cashews",
-            "notes": "soaked 4 hours to overnight (discard soaking liquid)"
-          },
-          {
-            "amount": 2,
-            "unit": "tablespoon",
-            "name": "lime juice",
-            "notes": "1-2 limes"
-          },
-          {
-            "amount": 2,
-            "unit": "tablespoons",
-            "name": "canola oil",
-            "notes": ""
-          },
-          {
-            "amount": 0.25,
-            "unit": "teaspoon",
-            "name": "sea salt of to taste",
-            "notes": ""
-          },
-          {
             "amount": 1,
             "unit": "piece",
-            "name": "scallion",
-            "notes": "trimmed, chopped"
-          },
-          {
-            "amount": 2,
-            "unit": "tablespoons",
-            "name": "water",
-            "notes": ""
+            "name": "cashew cream",
+            "notes": "recipe below"
           }
         ],
         "instructions": [
           "In 10-inch sauté pan, heat oil over medium flame. Add fennel and salt. Sweat until fennel is translucent. Add pears and sweat for an additional 3-5 minutes or until fennel and pears are barely tender.",
           "Add garlic and coriander; continue to sweat for another minute. Add vinegar and water. Simmer for about 5 minutes or until liquid has been absorbed. Season to taste. When cool, add chives and mix to combine. Set aside.",
           "In medium bowl, combine grated sweet potatoes, scallions, flour, arrowroot, salt, pepper, and garlic powder. Mix to combine. Form latkes using tablespoon measure. Heat canola oil in 12-inch straight-sided sauté pan over medium-high heat.",
-          "Fry latkes in batches until golden, about 2 minutes on each side. Drain on paper-lined half sheet pan to absorb any excess oil. Season with additional salt to taste. Serve topped with marmalade, cashew cream and fennel fronds.",
-          "Combine all ingredients in food processor until smooth and creamy. Season to taste."
+          "Fry latkes in batches until golden, about 2 minutes on each side. Drain on paper-lined half sheet pan to absorb any excess oil. Season with additional salt to taste. Serve topped with marmalade, cashew cream and fennel fronds."
         ],
         "classifications": {
           "mealType": [
@@ -20909,10 +21420,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.206,
-          "Water": 0.27399999999999997,
-          "Earth": 0.296,
-          "Air": 0.22400000000000003
+          "Fire": 0.21500000000000002,
+          "Water": 0.255,
+          "Earth": 0.3125,
+          "Air": 0.21750000000000003
         },
         "astrologicalAffinities": {
           "planets": [
@@ -20929,11 +21440,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 27,
-          "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 260,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 252,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -20947,18 +21458,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.23,
-          "Essence": 9.04,
-          "Matter": 8.5,
-          "Substance": 8.06
+          "Spirit": 6.19,
+          "Essence": 7.76,
+          "Matter": 7.43,
+          "Substance": 6.95
         },
         "thermodynamicProperties": {
-          "heat": 0.0751,
-          "entropy": 0.3577,
-          "reactivity": 2.5737,
-          "gregsEnergy": -0.8456,
-          "kalchm": 0.4469,
-          "monica": -0.4079
+          "heat": 0.073,
+          "entropy": 0.3492,
+          "reactivity": 2.4521,
+          "gregsEnergy": -0.7833,
+          "kalchm": 0.3038,
+          "monica": -0.2681
         },
         "substitutions": [
           {
@@ -21005,8 +21516,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "salt and freshly ground black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 6,
@@ -21119,10 +21630,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2710526315789473,
-          "Water": 0.26052631578947366,
-          "Earth": 0.3,
-          "Air": 0.1684210526315789
+          "Fire": 0.2657894736842105,
+          "Water": 0.25789473684210523,
+          "Earth": 0.3026315789473684,
+          "Air": 0.17368421052631575
         },
         "astrologicalAffinities": {
           "planets": [
@@ -21143,7 +21654,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 254,
+          "sodiumMg": 253,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -21157,18 +21668,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.07,
-          "Essence": 7.08,
-          "Matter": 7.28,
-          "Substance": 6.5
+          "Spirit": 6.46,
+          "Essence": 7.48,
+          "Matter": 7.31,
+          "Substance": 6.44
         },
         "thermodynamicProperties": {
-          "heat": 0.0792,
-          "entropy": 0.3557,
-          "reactivity": 2.252,
-          "gregsEnergy": -0.7219,
-          "kalchm": 0.1629,
-          "monica": -0.1767
+          "heat": 0.0866,
+          "entropy": 0.3535,
+          "reactivity": 2.4041,
+          "gregsEnergy": -0.7633,
+          "kalchm": 1.7637,
+          "monica": 0.5595
         },
         "substitutions": [
           {
@@ -21429,8 +21940,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -21595,9 +22106,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-1 1/2 cups whole wheat bread crumbs",
-            "notes": ""
+            "unit": "cups",
+            "name": "whole wheat bread crumbs",
+            "notes": "1-1 1/2"
           },
           {
             "amount": 2,
@@ -21620,8 +22131,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -21643,10 +22154,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2153846153846154,
-          "Water": 0.25384615384615383,
-          "Earth": 0.3015384615384616,
-          "Air": 0.22923076923076927
+          "Fire": 0.20714285714285716,
+          "Water": 0.25,
+          "Earth": 0.3157142857142857,
+          "Air": 0.22714285714285717
         },
         "astrologicalAffinities": {
           "planets": [
@@ -21665,9 +22176,9 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 10,
           "carbsG": 27,
-          "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 252,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 250,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -21681,18 +22192,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.86,
-          "Essence": 4.4,
-          "Matter": 4.83,
-          "Substance": 4.34
+          "Spirit": 3.75,
+          "Essence": 4.27,
+          "Matter": 4.99,
+          "Substance": 4.48
         },
         "thermodynamicProperties": {
-          "heat": 0.0725,
-          "entropy": 0.3533,
-          "reactivity": 2.0225,
-          "gregsEnergy": -0.6421,
-          "kalchm": 0.106,
-          "monica": -0.1415
+          "heat": 0.0668,
+          "entropy": 0.3545,
+          "reactivity": 1.8658,
+          "gregsEnergy": -0.5947,
+          "kalchm": 0.0278,
+          "monica": -0.089
         },
         "substitutions": [
           {
@@ -21898,8 +22409,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.25,
             "unit": "ounce",
-            "name": "micro-greens for garnish",
-            "notes": ""
+            "name": "micro-greens",
+            "notes": "for garnish"
           }
         ],
         "instructions": [
@@ -21957,18 +22468,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.44,
-          "Essence": 3.47,
-          "Matter": 3.1,
-          "Substance": 2.9
+          "Spirit": 2.63,
+          "Essence": 3.92,
+          "Matter": 3.16,
+          "Substance": 2.86
         },
         "thermodynamicProperties": {
-          "heat": 0.0566,
-          "entropy": 0.2767,
-          "reactivity": 2.2912,
-          "gregsEnergy": -0.5775,
-          "kalchm": 0.9036,
-          "monica": -2.4863
+          "heat": 0.06,
+          "entropy": 0.2537,
+          "reactivity": 2.5504,
+          "gregsEnergy": -0.5869,
+          "kalchm": 3.5152,
+          "monica": 0.1831
         },
         "substitutions": [
           {
@@ -22290,8 +22801,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -22312,10 +22823,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23750000000000004,
-          "Water": 0.24375,
-          "Earth": 0.37499999999999994,
-          "Air": 0.14375000000000002
+          "Fire": 0.21111111111111114,
+          "Water": 0.28888888888888886,
+          "Earth": 0.37222222222222223,
+          "Air": 0.1277777777777778
         },
         "astrologicalAffinities": {
           "planets": [
@@ -22336,7 +22847,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 248,
+          "sodiumMg": 266,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -22350,18 +22861,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.58,
-          "Essence": 2.88,
-          "Matter": 3.48,
-          "Substance": 3.1
+          "Spirit": 1.96,
+          "Essence": 2.79,
+          "Matter": 3.71,
+          "Substance": 3.31
         },
         "thermodynamicProperties": {
-          "heat": 0.0642,
-          "entropy": 0.3356,
-          "reactivity": 1.6619,
-          "gregsEnergy": -0.4934,
-          "kalchm": 0.0949,
-          "monica": -0.1261
+          "heat": 0.0346,
+          "entropy": 0.2897,
+          "reactivity": 1.3637,
+          "gregsEnergy": -0.3605,
+          "kalchm": 0.0096,
+          "monica": -0.0569
         },
         "substitutions": [
           {
@@ -22550,9 +23061,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons extra virgin olive oil",
-            "notes": "divided"
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": "2-3; divided"
           },
           {
             "amount": 8,
@@ -22579,10 +23090,10 @@ export const cuisine: Cuisine = {
             "notes": "cleaned, stemmed, sliced"
           },
           {
-            "amount": 1,
+            "amount": 1.125,
             "unit": "cup",
-            "name": "plus 2 tablespoons walnuts",
-            "notes": "well toasted and divided"
+            "name": "walnuts",
+            "notes": "1 cup plus 2 tablespoons; well toasted and divided"
           },
           {
             "amount": 1,
@@ -22604,9 +23115,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.3333333333333333,
-            "unit": "piece",
-            "name": "- 1/2 cup canola oil",
-            "notes": ""
+            "unit": "cup",
+            "name": "canola oil",
+            "notes": "1/3-1/2"
           },
           {
             "amount": 16,
@@ -22653,10 +23164,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25625,
-          "Water": 0.25625,
-          "Earth": 0.28875,
-          "Air": 0.19875
+          "Fire": 0.27499999999999997,
+          "Water": 0.240625,
+          "Earth": 0.28250000000000003,
+          "Air": 0.201875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -22677,7 +23188,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 253,
+          "sodiumMg": 246,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -22691,18 +23202,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.37,
-          "Essence": 5.99,
-          "Matter": 5.83,
-          "Substance": 5.39
+          "Spirit": 5.42,
+          "Essence": 5.61,
+          "Matter": 5.45,
+          "Substance": 5.05
         },
         "thermodynamicProperties": {
-          "heat": 0.0897,
-          "entropy": 0.3793,
-          "reactivity": 2.5091,
-          "gregsEnergy": -0.8621,
-          "kalchm": 1.4779,
-          "monica": 0.8796
+          "heat": 0.1039,
+          "entropy": 0.4099,
+          "reactivity": 2.633,
+          "gregsEnergy": -0.9753,
+          "kalchm": 4.1207,
+          "monica": 0.2616
         },
         "substitutions": [
           {
@@ -22779,8 +23290,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -22963,8 +23474,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "sprigs",
-            "name": "of dill for garnish",
-            "notes": ""
+            "name": "dill",
+            "notes": "for garnish"
           }
         ],
         "instructions": [
@@ -22987,10 +23498,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27285714285714285,
-          "Water": 0.28,
-          "Earth": 0.2071428571428572,
-          "Air": 0.24000000000000002
+          "Fire": 0.2613333333333333,
+          "Water": 0.27466666666666667,
+          "Earth": 0.2266666666666667,
+          "Air": 0.23733333333333337
         },
         "astrologicalAffinities": {
           "planets": [
@@ -23011,7 +23522,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 262,
+          "sodiumMg": 260,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -23025,18 +23536,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.98,
-          "Essence": 5.51,
-          "Matter": 4.72,
-          "Substance": 4.27
+          "Spirit": 4.87,
+          "Essence": 5.38,
+          "Matter": 4.88,
+          "Substance": 4.41
         },
         "thermodynamicProperties": {
-          "heat": 0.1073,
-          "entropy": 0.3758,
-          "reactivity": 3.0319,
-          "gregsEnergy": -1.0321,
-          "kalchm": 48.1964,
-          "monica": 0.0878
+          "heat": 0.1002,
+          "entropy": 0.3738,
+          "reactivity": 2.7728,
+          "gregsEnergy": -0.9363,
+          "kalchm": 11.9788,
+          "monica": 0.136
         },
         "substitutions": [
           {
@@ -23093,16 +23604,16 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
+            "amount": 1.3333333333333333,
             "unit": "tablespoon",
-            "name": "+ 1 teaspoon melted coconut oil",
-            "notes": ""
+            "name": "melted coconut oil",
+            "notes": "1 tablespoon + 1 teaspoon"
           },
           {
-            "amount": 1,
+            "amount": 1.3333333333333333,
             "unit": "tablespoon",
-            "name": "+ 1 teaspoon brown rice syrup",
-            "notes": ""
+            "name": "brown rice syrup",
+            "notes": "1 tablespoon + 1 teaspoon"
           },
           {
             "amount": 1,
@@ -23151,10 +23662,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19,
-          "Water": 0.25000000000000006,
-          "Earth": 0.38,
-          "Air": 0.18000000000000002
+          "Fire": 0.18636363636363634,
+          "Water": 0.23636363636363641,
+          "Earth": 0.38636363636363635,
+          "Air": 0.19090909090909092
         },
         "astrologicalAffinities": {
           "planets": [
@@ -23172,10 +23683,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 11,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 250,
+          "sodiumMg": 245,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -23189,18 +23700,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.6,
-          "Essence": 3.12,
-          "Matter": 4.22,
-          "Substance": 3.67
+          "Spirit": 2.56,
+          "Essence": 2.97,
+          "Matter": 4.31,
+          "Substance": 3.75
         },
         "thermodynamicProperties": {
-          "heat": 0.0486,
-          "entropy": 0.3195,
-          "reactivity": 1.4222,
-          "gregsEnergy": -0.4058,
-          "kalchm": 0.0081,
-          "monica": -0.0592
+          "heat": 0.047,
+          "entropy": 0.3312,
+          "reactivity": 1.3404,
+          "gregsEnergy": -0.397,
+          "kalchm": 0.0036,
+          "monica": -0.0526
         },
         "substitutions": [
           {
@@ -23228,9 +23739,9 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 cloves garlic",
-            "notes": "peeled"
+            "unit": "cloves",
+            "name": "garlic",
+            "notes": "2-3; peeled"
           },
           {
             "amount": 1,
@@ -23245,10 +23756,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
+            "amount": 1.5,
             "unit": "tablespoon",
-            "name": "+ 1 1/2 teaspoons balsamic vinegar",
-            "notes": ""
+            "name": "balsamic vinegar",
+            "notes": "1 tablespoon + 1 1/2 teaspoons"
           },
           {
             "amount": 1,
@@ -23320,32 +23831,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31923076923076926,
-          "Water": 0.24230769230769236,
-          "Earth": 0.26153846153846155,
-          "Air": 0.1769230769230769
+          "Fire": 0.2846153846153846,
+          "Water": 0.2538461538461539,
+          "Earth": 0.2961538461538461,
+          "Air": 0.16538461538461535
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
           "carbsG": 25,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 247,
-          "sugarG": 5,
+          "sodiumMg": 252,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -23358,22 +23869,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.96,
-          "Essence": 4.52,
-          "Matter": 4.36,
-          "Substance": 4.26
+          "Spirit": 4.67,
+          "Essence": 4.75,
+          "Matter": 4.75,
+          "Substance": 4.43
         },
         "thermodynamicProperties": {
-          "heat": 0.1293,
-          "entropy": 0.487,
-          "reactivity": 2.967,
-          "gregsEnergy": -1.3156,
-          "kalchm": 8.7371,
-          "monica": 0.2046
+          "heat": 0.1021,
+          "entropy": 0.4113,
+          "reactivity": 2.52,
+          "gregsEnergy": -0.9344,
+          "kalchm": 1.8287,
+          "monica": 0.6143
         },
         "substitutions": [
           {
-            "originalIngredient": "-3 cloves garlic",
+            "originalIngredient": "garlic",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -23545,8 +24056,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt to taste",
-            "notes": ""
+            "name": "salt",
+            "notes": "to taste"
           },
           {
             "amount": 0.3333333333333333,
@@ -23568,10 +24079,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26875000000000004,
-          "Water": 0.31250000000000006,
-          "Earth": 0.23125,
-          "Air": 0.1875
+          "Fire": 0.25625000000000003,
+          "Water": 0.30625,
+          "Earth": 0.2375,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
@@ -23588,11 +24099,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 8,
+          "proteinG": 9,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 275,
+          "sodiumMg": 273,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -23606,18 +24117,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.59,
-          "Essence": 2.56,
-          "Matter": 2.3,
-          "Substance": 2.17
+          "Spirit": 3.17,
+          "Essence": 3.4,
+          "Matter": 2.39,
+          "Substance": 2.07
         },
         "thermodynamicProperties": {
-          "heat": 0.1126,
-          "entropy": 0.3947,
-          "reactivity": 2.8367,
-          "gregsEnergy": -1.007,
-          "kalchm": 3.5764,
-          "monica": 0.2786
+          "heat": 0.1366,
+          "entropy": 0.3599,
+          "reactivity": 3.7796,
+          "gregsEnergy": -1.2238,
+          "kalchm": 68.7,
+          "monica": 0.0766
         },
         "substitutions": [
           {
@@ -23658,7 +24169,7 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "tablespoon",
-            "name": "of lemon juice",
+            "name": "lemon juice",
             "notes": ""
           },
           {
@@ -23681,9 +24192,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoon fresh dill",
-            "notes": "minced"
+            "unit": "tablespoon",
+            "name": "fresh dill",
+            "notes": "2-3; minced"
           },
           {
             "amount": 1,
@@ -23706,10 +24217,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25625000000000003,
-          "Water": 0.3375,
-          "Earth": 0.2125,
-          "Air": 0.19375
+          "Fire": 0.23125,
+          "Water": 0.325,
+          "Earth": 0.22499999999999998,
+          "Air": 0.21875000000000003
         },
         "astrologicalAffinities": {
           "planets": [
@@ -23727,10 +24238,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 285,
+          "sodiumMg": 280,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -23744,18 +24255,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.26,
-          "Essence": 2.99,
-          "Matter": 2.63,
-          "Substance": 2.58
+          "Spirit": 3.04,
+          "Essence": 3.78,
+          "Matter": 2.69,
+          "Substance": 2.47
         },
         "thermodynamicProperties": {
-          "heat": 0.0647,
-          "entropy": 0.3117,
-          "reactivity": 2.5893,
-          "gregsEnergy": -0.7425,
-          "kalchm": 1.1378,
-          "monica": 2.2212
+          "heat": 0.0986,
+          "entropy": 0.3134,
+          "reactivity": 3.5115,
+          "gregsEnergy": -1.0018,
+          "kalchm": 33.4857,
+          "monica": 0.0813
         },
         "substitutions": [
           {
@@ -23838,8 +24349,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and black pepper to taste",
-            "notes": ""
+            "name": "sea salt and black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -24073,8 +24584,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "arlic clove",
+            "unit": "clove",
+            "name": "garlic",
             "notes": "minced"
           },
           {
@@ -24127,7 +24638,8 @@ export const cuisine: Cuisine = {
           }
         ],
         "instructions": [
-          "Combine all ingredients in food processor. Pulse to spreadable paste-like consistency."
+          "Combine all ingredients in food processor. Pulse to spreadable paste-like consistency.",
+          "Note: Tapenade may be prepared without anchovies or nori."
         ],
         "classifications": {
           "mealType": [
@@ -24260,14 +24772,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "black pepper to taste",
-            "notes": ""
+            "name": "black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "parsley sprigs for garnish",
-            "notes": ""
+            "name": "parsley sprigs",
+            "notes": "for garnish"
           }
         ],
         "instructions": [
@@ -24287,10 +24799,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21666666666666667,
-          "Water": 0.25555555555555554,
-          "Earth": 0.35222222222222227,
-          "Air": 0.17555555555555558
+          "Fire": 0.21111111111111114,
+          "Water": 0.2888888888888889,
+          "Earth": 0.33555555555555555,
+          "Air": 0.16444444444444445
         },
         "astrologicalAffinities": {
           "planets": [
@@ -24311,8 +24823,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 252,
-          "sugarG": 5,
+          "sodiumMg": 266,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -24325,18 +24837,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.65,
-          "Essence": 3.13,
-          "Matter": 3.56,
-          "Substance": 3.25
+          "Spirit": 2.58,
+          "Essence": 3.25,
+          "Matter": 3.54,
+          "Substance": 3.29
         },
         "thermodynamicProperties": {
-          "heat": 0.0615,
-          "entropy": 0.3316,
-          "reactivity": 1.7984,
-          "gregsEnergy": -0.5349,
-          "kalchm": 0.1111,
-          "monica": -0.1354
+          "heat": 0.0567,
+          "entropy": 0.3193,
+          "reactivity": 1.8774,
+          "gregsEnergy": -0.5427,
+          "kalchm": 0.1204,
+          "monica": -0.1365
         },
         "substitutions": [
           {
@@ -24400,9 +24912,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.5,
-            "unit": "piece",
-            "name": "to 1 teaspoon sea salt",
-            "notes": ""
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": "1/2-1"
           },
           {
             "amount": 0.25,
@@ -24446,9 +24958,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1772727272727273,
-          "Water": 0.33636363636363636,
-          "Earth": 0.28363636363636363,
+          "Fire": 0.1681818181818182,
+          "Water": 0.35000000000000003,
+          "Earth": 0.27909090909090906,
           "Air": 0.20272727272727273
         },
         "astrologicalAffinities": {
@@ -24470,7 +24982,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 285,
+          "sodiumMg": 290,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -24484,18 +24996,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.62,
-          "Essence": 4.12,
-          "Matter": 4.42,
-          "Substance": 4.06
+          "Spirit": 3.04,
+          "Essence": 4.54,
+          "Matter": 4.39,
+          "Substance": 3.96
         },
         "thermodynamicProperties": {
-          "heat": 0.0383,
-          "entropy": 0.2791,
-          "reactivity": 1.8309,
-          "gregsEnergy": -0.4728,
-          "kalchm": 0.0202,
-          "monica": -0.0662
+          "heat": 0.0492,
+          "entropy": 0.2735,
+          "reactivity": 2.0975,
+          "gregsEnergy": -0.5245,
+          "kalchm": 0.1835,
+          "monica": -0.1475
         },
         "substitutions": [
           {
@@ -24681,9 +25193,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons agave syrup",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "agave syrup",
+            "notes": "2-3"
           },
           {
             "amount": 1,
@@ -24754,7 +25266,7 @@ export const cuisine: Cuisine = {
           "reactivity": 1.4575,
           "gregsEnergy": -0.2134,
           "kalchm": 0.9009,
-          "monica": -1.4027
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -24813,8 +25325,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.25,
             "unit": "teaspoon",
-            "name": "salt or to taste",
-            "notes": ""
+            "name": "salt",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -24846,9 +25358,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23500000000000001,
-          "Water": 0.27749999999999997,
-          "Earth": 0.25,
+          "Fire": 0.2225,
+          "Water": 0.28375,
+          "Earth": 0.25625000000000003,
           "Air": 0.2375
         },
         "astrologicalAffinities": {
@@ -24870,7 +25382,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 261,
+          "sodiumMg": 264,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -24884,18 +25396,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.54,
-          "Essence": 2.74,
-          "Matter": 2.33,
-          "Substance": 2.31
+          "Spirit": 2.96,
+          "Essence": 3.11,
+          "Matter": 2.34,
+          "Substance": 2.22
         },
         "thermodynamicProperties": {
-          "heat": 0.0981,
-          "entropy": 0.3798,
-          "reactivity": 2.9271,
-          "gregsEnergy": -1.0136,
-          "kalchm": 3.4028,
-          "monica": 0.2828
+          "heat": 0.1235,
+          "entropy": 0.3845,
+          "reactivity": 3.4936,
+          "gregsEnergy": -1.2198,
+          "kalchm": 19.7079,
+          "monica": 0.1171
         },
         "substitutions": [
           {
@@ -25254,8 +25766,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "arlic clove",
+            "unit": "clove",
+            "name": "garlic",
             "notes": "sliced"
           },
           {
@@ -25285,14 +25797,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pepper to taste",
-            "notes": ""
+            "name": "pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "tabasco or hot sauce to taste",
-            "notes": ""
+            "name": "tabasco or hot sauce",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -25309,10 +25821,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25909090909090915,
-          "Water": 0.31818181818181823,
-          "Earth": 0.23636363636363636,
-          "Air": 0.18636363636363634
+          "Fire": 0.2636363636363636,
+          "Water": 0.30454545454545456,
+          "Earth": 0.25,
+          "Air": 0.18181818181818177
         },
         "astrologicalAffinities": {
           "planets": [
@@ -25330,10 +25842,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 277,
+          "sodiumMg": 272,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -25347,18 +25859,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.19,
-          "Essence": 4.04,
-          "Matter": 3.86,
-          "Substance": 3.63
+          "Spirit": 4.03,
+          "Essence": 4.75,
+          "Matter": 4.17,
+          "Substance": 3.77
         },
         "thermodynamicProperties": {
-          "heat": 0.068,
-          "entropy": 0.3281,
-          "reactivity": 2.3765,
-          "gregsEnergy": -0.7118,
-          "kalchm": 0.5757,
-          "monica": -0.5424
+          "heat": 0.0905,
+          "entropy": 0.3404,
+          "reactivity": 2.7237,
+          "gregsEnergy": -0.8367,
+          "kalchm": 7.8505,
+          "monica": 0.1491
         },
         "substitutions": [
           {
@@ -25411,8 +25923,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "tablespoon",
-            "name": "chickpea miso or more to taste",
-            "notes": ""
+            "name": "chickpea miso",
+            "notes": "to taste; or more"
           },
           {
             "amount": 1,
@@ -25423,8 +25935,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "tablespoon",
-            "name": "umeboshi paste or to taste",
-            "notes": ""
+            "name": "umeboshi paste",
+            "notes": "to taste"
           },
           {
             "amount": 0.25,
@@ -25541,9 +26053,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons shoyu",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "shoyu",
+            "notes": "3-4"
           },
           {
             "amount": 6,
@@ -26104,8 +26616,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "freshly ground black pepper to taste",
-            "notes": ""
+            "name": "freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -26129,10 +26641,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.34615384615384615,
-          "Water": 0.19230769230769232,
-          "Earth": 0.2692307692307693,
-          "Air": 0.19230769230769232
+          "Fire": 0.32333333333333336,
+          "Water": 0.2,
+          "Earth": 0.29,
+          "Air": 0.18666666666666668
         },
         "astrologicalAffinities": {
           "planets": [
@@ -26153,7 +26665,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 227,
+          "sodiumMg": 230,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -26167,18 +26679,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.45,
-          "Essence": 5.06,
-          "Matter": 4.86,
-          "Substance": 4.9
+          "Spirit": 5.28,
+          "Essence": 4.87,
+          "Matter": 5.1,
+          "Substance": 5.16
         },
         "thermodynamicProperties": {
-          "heat": 0.1246,
-          "entropy": 0.4998,
-          "reactivity": 3.0222,
-          "gregsEnergy": -1.386,
-          "kalchm": 7.2003,
-          "monica": 0.2323
+          "heat": 0.112,
+          "entropy": 0.4994,
+          "reactivity": 2.6986,
+          "gregsEnergy": -1.2358,
+          "kalchm": 0.7549,
+          "monica": -1.6286
         },
         "substitutions": [
           {
@@ -26231,8 +26743,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -26244,7 +26756,7 @@ export const cuisine: Cuisine = {
             "amount": 1,
             "unit": "tablespoon",
             "name": "lemon juice",
-            "notes": "½ lemon"
+            "notes": "1/2 lemon"
           },
           {
             "amount": 2,
@@ -26277,9 +26789,9 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ teaspoon sea salt",
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "sea salt",
             "notes": ""
           },
           {
@@ -26315,10 +26827,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23461538461538453,
-          "Water": 0.2423076923076923,
-          "Earth": 0.3115384615384615,
-          "Air": 0.21153846153846154
+          "Fire": 0.23928571428571427,
+          "Water": 0.24285714285714285,
+          "Earth": 0.30357142857142855,
+          "Air": 0.21428571428571433
         },
         "astrologicalAffinities": {
           "planets": [
@@ -26353,18 +26865,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.41,
-          "Essence": 4.82,
-          "Matter": 5.64,
-          "Substance": 5.32
+          "Spirit": 4.97,
+          "Essence": 5.72,
+          "Matter": 5.57,
+          "Substance": 5.28
         },
         "thermodynamicProperties": {
-          "heat": 0.0712,
-          "entropy": 0.3945,
-          "reactivity": 2.0085,
-          "gregsEnergy": -0.721,
-          "kalchm": 0.0108,
-          "monica": -0.0793
+          "heat": 0.0824,
+          "entropy": 0.376,
+          "reactivity": 2.4772,
+          "gregsEnergy": -0.8491,
+          "kalchm": 0.6657,
+          "monica": -0.8423
         },
         "substitutions": [
           {
@@ -26391,16 +26903,16 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ cup canola oil",
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "canola oil",
             "notes": ""
           },
           {
             "amount": 12,
             "unit": "ounces",
             "name": "seitan",
-            "notes": "cut into ½-inch wide strips and patted dry"
+            "notes": "cut into 1/2-inch wide strips and patted dry"
           },
           {
             "amount": 4,
@@ -26445,9 +26957,9 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ cup orange juice",
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "orange juice",
             "notes": "2 oranges"
           },
           {
@@ -26475,9 +26987,9 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ cup cashews",
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "cashews",
             "notes": "toasted, coarsely chopped"
           },
           {
@@ -26541,22 +27053,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.57,
-          "Essence": 5.62,
-          "Matter": 5.27,
-          "Substance": 5.09
+          "Spirit": 5.76,
+          "Essence": 6.07,
+          "Matter": 5.33,
+          "Substance": 5.05
         },
         "thermodynamicProperties": {
-          "heat": 0.112,
-          "entropy": 0.4386,
-          "reactivity": 2.9015,
-          "gregsEnergy": -1.1607,
-          "kalchm": 9.2639,
-          "monica": 0.1797
+          "heat": 0.1133,
+          "entropy": 0.4142,
+          "reactivity": 3.0638,
+          "gregsEnergy": -1.1557,
+          "kalchm": 51.1577,
+          "monica": 0.0959
         },
         "substitutions": [
           {
-            "originalIngredient": "¼ cup canola oil",
+            "originalIngredient": "canola oil",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -26579,10 +27091,10 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 1,
+            "amount": 1.3333333333333333,
             "unit": "tablespoon",
-            "name": "plus 1 teaspoon olive oil",
-            "notes": "divided"
+            "name": "olive oil",
+            "notes": "1 tablespoon plus 1 teaspoon; divided"
           },
           {
             "amount": 6,
@@ -26645,10 +27157,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 14,
-            "unit": "piece",
-            "name": "-ounce can crushed tomatoes",
-            "notes": ""
+            "amount": 1,
+            "unit": "can",
+            "name": "crushed tomatoes",
+            "notes": "14-ounce"
           },
           {
             "amount": 2,
@@ -26712,10 +27224,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.37368421052631573,
-          "Water": 0.18421052631578944,
-          "Earth": 0.25368421052631573,
-          "Air": 0.18842105263157893
+          "Fire": 0.37105263157894736,
+          "Water": 0.1921052631578947,
+          "Earth": 0.2405263157894737,
+          "Air": 0.1963157894736842
         },
         "astrologicalAffinities": {
           "planets": [
@@ -26736,7 +27248,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 224,
+          "sodiumMg": 227,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -26750,22 +27262,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 7.64,
-          "Essence": 6.69,
-          "Matter": 6.12,
-          "Substance": 5.75
+          "Spirit": 8.15,
+          "Essence": 7.15,
+          "Matter": 5.95,
+          "Substance": 5.56
         },
         "thermodynamicProperties": {
-          "heat": 0.1589,
-          "entropy": 0.522,
-          "reactivity": 3.3576,
-          "gregsEnergy": -1.5936,
-          "kalchm": 1218.7796,
-          "monica": 0.0668
+          "heat": 0.1789,
+          "entropy": 0.5325,
+          "reactivity": 3.8795,
+          "gregsEnergy": -1.8868,
+          "kalchm": 60705.9029,
+          "monica": 0.0442
         },
         "substitutions": [
           {
-            "originalIngredient": "plus 1 teaspoon olive oil",
+            "originalIngredient": "olive oil",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -26816,7 +27328,8 @@ export const cuisine: Cuisine = {
           "Place cabbage in large bowl and sprinkle with salt. Squeeze and massage cabbage to release water. Continue to massage and squeeze until enough liquid has been released to create salty brine that covers cabbage by 1/4 inch. Add caraway seeds.",
           "Pack tightly into 2 quart wide-mouthed glass jar or ceramic crock (liquid brine must be above cabbage for healthy successful fermentation). If cabbage has not released enough juices to cover, add salted water to jar/crock in a ratio of 1 teaspoon sea salt per 1 cup water.",
           "Place plate or discover cabbage and press down to squeeze more brine to surface. Cover mouth of vessel with cheesecloth and secure to rim of lid with kitchen twine, rubber band, OR if using airlock lid, fill airlock and secure lid.",
-          "Store sauerkraut in dry place for 2 - 4 weeks at room temperature. Be sure to check water level, adding more salt water as needed to ensure the mixture is covered throughout fermentation process. Taste every few days and eat or refrigerate when desired tangy flavor is achieved."
+          "Store sauerkraut in dry place for 2 - 4 weeks at room temperature. Be sure to check water level, adding more salt water as needed to ensure the mixture is covered throughout fermentation process. Taste every few days and eat or refrigerate when desired tangy flavor is achieved.",
+          "Note: A cooler fermentation area will result in a slower fermentation with complex flavor notes. A warmer area will result in a faster fermentation that may lead to off flavors and cloudy brine."
         ],
         "mealType": [],
         "classifications": {
@@ -26904,9 +27417,9 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ cup sea salt",
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "sea salt",
             "notes": "not iodized"
           },
           {
@@ -26916,9 +27429,9 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ pounds kirby or pickling cucumbers",
+            "amount": 1.5,
+            "unit": "pounds",
+            "name": "kirby or pickling cucumbers",
             "notes": "3-4 inches long"
           },
           {
@@ -26966,9 +27479,9 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.2785714285714286,
-          "Water": 0.30000000000000004,
-          "Earth": 0.23571428571428574,
-          "Air": 0.18571428571428572
+          "Water": 0.31428571428571433,
+          "Earth": 0.22142857142857145,
+          "Air": 0.1857142857142857
         },
         "astrologicalAffinities": {
           "planets": [
@@ -26985,11 +27498,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 8,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 270,
+          "sodiumMg": 276,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -27004,21 +27517,21 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 2.11,
-          "Essence": 2.27,
-          "Matter": 2.03,
+          "Essence": 2.33,
+          "Matter": 1.99,
           "Substance": 1.7
         },
         "thermodynamicProperties": {
-          "heat": 0.1003,
-          "entropy": 0.3188,
-          "reactivity": 2.4734,
-          "gregsEnergy": -0.6882,
-          "kalchm": 2.9953,
-          "monica": 0.2536
+          "heat": 0.0997,
+          "entropy": 0.3162,
+          "reactivity": 2.6546,
+          "gregsEnergy": -0.7396,
+          "kalchm": 3.5784,
+          "monica": 0.2185
         },
         "substitutions": [
           {
-            "originalIngredient": "¼ cup sea salt",
+            "originalIngredient": "sea salt",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -27242,8 +27755,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt and pepper to taste",
-            "notes": ""
+            "name": "salt and pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -27259,8 +27772,8 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15375,
-          "Water": 0.36500000000000005,
+          "Fire": 0.16,
+          "Water": 0.35875,
           "Earth": 0.24374999999999997,
           "Air": 0.23750000000000002
         },
@@ -27283,7 +27796,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 296,
+          "sodiumMg": 294,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -27297,18 +27810,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.94,
-          "Essence": 2.89,
-          "Matter": 2.75,
-          "Substance": 2.5
+          "Spirit": 2.26,
+          "Essence": 3.4,
+          "Matter": 2.84,
+          "Substance": 2.47
         },
         "thermodynamicProperties": {
-          "heat": 0.0469,
-          "entropy": 0.2585,
-          "reactivity": 2.073,
-          "gregsEnergy": -0.489,
-          "kalchm": 0.4868,
-          "monica": -0.3277
+          "heat": 0.0563,
+          "entropy": 0.2411,
+          "reactivity": 2.4164,
+          "gregsEnergy": -0.5264,
+          "kalchm": 2.2383,
+          "monica": 0.2704
         },
         "substitutions": [
           {
@@ -27699,9 +28212,9 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-1 1/2 pound boneless salmon or arctic char filet",
-            "notes": ""
+            "unit": "pound",
+            "name": "boneless salmon or arctic char filet",
+            "notes": "1-1 1/2"
           },
           {
             "amount": 1,
@@ -27771,31 +28284,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.29625,
-          "Water": 0.22750000000000004,
-          "Earth": 0.25375000000000003,
-          "Air": 0.22250000000000003
+          "Fire": 0.26333333333333336,
+          "Water": 0.26333333333333336,
+          "Earth": 0.2533333333333333,
+          "Air": 0.22
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
           "carbsG": 27,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 241,
+          "sodiumMg": 255,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -27809,22 +28322,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.08,
-          "Essence": 2.65,
-          "Matter": 2.47,
-          "Substance": 2.35
+          "Spirit": 3.42,
+          "Essence": 3.49,
+          "Matter": 2.8,
+          "Substance": 2.69
         },
         "thermodynamicProperties": {
-          "heat": 0.1433,
-          "entropy": 0.4828,
-          "reactivity": 2.9951,
-          "gregsEnergy": -1.3026,
-          "kalchm": 6.0865,
-          "monica": 0.2408
+          "heat": 0.1246,
+          "entropy": 0.4112,
+          "reactivity": 3.3573,
+          "gregsEnergy": -1.2558,
+          "kalchm": 20.5473,
+          "monica": 0.1237
         },
         "substitutions": [
           {
-            "originalIngredient": "-1 1/2 pound boneless salmon or arctic char filet",
+            "originalIngredient": "boneless salmon or arctic char filet",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -27891,8 +28404,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt and black pepper to taste",
-            "notes": ""
+            "name": "salt and black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -27919,10 +28432,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22777777777777777,
-          "Water": 0.3222222222222222,
-          "Earth": 0.29999999999999993,
-          "Air": 0.14999999999999997
+          "Fire": 0.21666666666666667,
+          "Water": 0.31666666666666665,
+          "Earth": 0.3055555555555556,
+          "Air": 0.16111111111111112
         },
         "astrologicalAffinities": {
           "planets": [
@@ -27943,7 +28456,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 279,
+          "sodiumMg": 277,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -27957,18 +28470,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.33,
-          "Essence": 4.03,
-          "Matter": 4.42,
-          "Substance": 4.23
+          "Spirit": 2.72,
+          "Essence": 4.43,
+          "Matter": 4.45,
+          "Substance": 4.18
         },
         "thermodynamicProperties": {
-          "heat": 0.0303,
-          "entropy": 0.2843,
-          "reactivity": 1.7838,
-          "gregsEnergy": -0.4768,
-          "kalchm": 0.0062,
-          "monica": -0.0526
+          "heat": 0.0389,
+          "entropy": 0.2763,
+          "reactivity": 1.9752,
+          "gregsEnergy": -0.5068,
+          "kalchm": 0.0366,
+          "monica": -0.0776
         },
         "substitutions": [
           {
@@ -28069,8 +28582,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and black pepper to taste",
-            "notes": ""
+            "name": "sea salt and black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -28105,14 +28618,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.5,
             "unit": "ounce",
-            "name": "mint sprigs for garnish",
-            "notes": ""
+            "name": "mint sprigs",
+            "notes": "for garnish"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "lemon slices from 2 lemons for garnish",
-            "notes": ""
+            "name": "lemon slices from 2 lemons",
+            "notes": "for garnish"
           }
         ],
         "instructions": [
@@ -28124,7 +28637,9 @@ export const cuisine: Cuisine = {
           "Stuff squid bodies with mixture. Make sure not to overstuff as mixture expands during cooking. Use about 3 tablespoons per squid body. Secure squid body opening with one or two toothpicks. Place in pan large enough to accommodate squid in one even layer.",
           "Add wine, stock, tomato puree, bay leaves and salt. Cover pan and turn heat to low.",
           "Simmer until squid is tender, about 40-50 minutes. At 20-minute mark, turn squid over.",
-          "Remove from pan. Garnish with mint and lemon slices."
+          "Remove from pan. Garnish with mint and lemon slices.",
+          "Note: Great served at room temperature as antipasti selection or warm with sautéed Italian bitter greens.",
+          "Note: While stuffing squid, it is good idea to dip your hands into bowl of cold water, as mixture can be sticky."
         ],
         "classifications": {
           "mealType": [
@@ -28137,10 +28652,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20789473684210527,
-          "Water": 0.3105263157894737,
-          "Earth": 0.24999999999999994,
-          "Air": 0.23157894736842108
+          "Fire": 0.20000000000000004,
+          "Water": 0.3052631578947369,
+          "Earth": 0.26315789473684204,
+          "Air": 0.23157894736842102
         },
         "astrologicalAffinities": {
           "planets": [
@@ -28161,7 +28676,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 274,
+          "sodiumMg": 272,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -28175,18 +28690,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.59,
-          "Essence": 7.31,
-          "Matter": 6.36,
-          "Substance": 6.25
+          "Spirit": 6.3,
+          "Essence": 7.76,
+          "Matter": 6.39,
+          "Substance": 6.02
         },
         "thermodynamicProperties": {
-          "heat": 0.0729,
-          "entropy": 0.3477,
-          "reactivity": 2.8367,
-          "gregsEnergy": -0.9133,
-          "kalchm": 2.5647,
-          "monica": 0.3418
+          "heat": 0.0903,
+          "entropy": 0.3509,
+          "reactivity": 3.08,
+          "gregsEnergy": -0.9905,
+          "kalchm": 126.1395,
+          "monica": 0.0665
         },
         "substitutions": [
           {
@@ -28214,15 +28729,15 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "to 2 teaspoons sea salt",
-            "notes": ""
+            "unit": "teaspoons",
+            "name": "sea salt",
+            "notes": "1-2"
           },
           {
             "amount": 0.25,
-            "unit": "piece",
-            "name": "to 1/2 teaspoon black pepper",
-            "notes": ""
+            "unit": "teaspoon",
+            "name": "black pepper",
+            "notes": "1/4-1/2"
           },
           {
             "amount": 1,
@@ -28232,9 +28747,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil or coconut oil for deep-frying",
-            "notes": ""
+            "unit": "piece",
+            "name": "canola oil or coconut oil",
+            "notes": "for deep-frying"
           },
           {
             "amount": 1.5,
@@ -28274,10 +28789,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24285714285714285,
-          "Water": 0.27142857142857146,
-          "Earth": 0.25,
-          "Air": 0.2357142857142857
+          "Fire": 0.22857142857142856,
+          "Water": 0.2857142857142857,
+          "Earth": 0.22142857142857147,
+          "Air": 0.2642857142857143
         },
         "astrologicalAffinities": {
           "planets": [
@@ -28294,11 +28809,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 27,
+          "proteinG": 8,
+          "carbsG": 28,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 259,
+          "sodiumMg": 264,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -28312,22 +28827,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.04,
-          "Essence": 2.1,
-          "Matter": 2.06,
-          "Substance": 2.07
+          "Spirit": 2.43,
+          "Essence": 2.54,
+          "Matter": 1.96,
+          "Substance": 2.08
         },
         "thermodynamicProperties": {
-          "heat": 0.0865,
-          "entropy": 0.3906,
-          "reactivity": 2.4446,
-          "gregsEnergy": -0.8685,
-          "kalchm": 1.0178,
-          "monica": 1.618
+          "heat": 0.1102,
+          "entropy": 0.413,
+          "reactivity": 3.5486,
+          "gregsEnergy": -1.3552,
+          "kalchm": 5.3815,
+          "monica": 0.2269
         },
         "substitutions": [
           {
-            "originalIngredient": "to 2 teaspoons sea salt",
+            "originalIngredient": "sea salt",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -28351,14 +28866,14 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 25,
-            "unit": "piece",
-            "name": "-30 pieces peeled and deveined shrimp",
-            "notes": "tails on"
+            "unit": "pieces",
+            "name": "peeled and deveined shrimp",
+            "notes": "25-30; tails on"
           },
           {
             "amount": 2,
-            "unit": "g",
-            "name": "allons water",
+            "unit": "gallons",
+            "name": "water",
             "notes": ""
           },
           {
@@ -28383,10 +28898,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.05,
-          "Water": 0.65,
-          "Earth": 0.1,
-          "Air": 0.2
+          "Fire": 0.15,
+          "Water": 0.5333333333333333,
+          "Earth": 0.15,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -28404,10 +28919,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 7,
-          "carbsG": 26,
-          "fatG": 6,
+          "carbsG": 25,
+          "fatG": 7,
           "fiberG": 3,
-          "sodiumMg": 410,
+          "sodiumMg": 363,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -28422,21 +28937,21 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 0.49,
-          "Essence": 1.41,
-          "Matter": 0.91,
-          "Substance": 0.84
+          "Essence": 1.39,
+          "Matter": 0.92,
+          "Substance": 0.92
         },
         "thermodynamicProperties": {
-          "heat": 0.0144,
-          "entropy": 0.1048,
-          "reactivity": 3.3318,
-          "gregsEnergy": -0.335,
-          "kalchm": 1.4437,
-          "monica": 0.2738
+          "heat": 0.0158,
+          "entropy": 0.1269,
+          "reactivity": 2.9289,
+          "gregsEnergy": -0.3558,
+          "kalchm": 1.299,
+          "monica": 0.4644
         },
         "substitutions": [
           {
-            "originalIngredient": "-30 pieces peeled and deveined shrimp",
+            "originalIngredient": "peeled and deveined shrimp",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -28735,8 +29250,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.5,
             "unit": "teaspoon",
-            "name": "dijon mustard or more to taste",
-            "notes": ""
+            "name": "dijon mustard",
+            "notes": "to taste; or more"
           },
           {
             "amount": 1,
@@ -28785,10 +29300,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.14166666666666664,
-          "Water": 0.3166666666666667,
-          "Earth": 0.3666666666666667,
-          "Air": 0.17499999999999996
+          "Fire": 0.18750000000000003,
+          "Water": 0.2875,
+          "Earth": 0.35625,
+          "Air": 0.16875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -28805,11 +29320,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 277,
+          "sodiumMg": 265,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -28823,18 +29338,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.68,
-          "Essence": 2.27,
-          "Matter": 2.96,
-          "Substance": 2.56
+          "Spirit": 2.2,
+          "Essence": 2.83,
+          "Matter": 3.5,
+          "Substance": 3
         },
         "thermodynamicProperties": {
-          "heat": 0.038,
-          "entropy": 0.2696,
-          "reactivity": 1.3265,
-          "gregsEnergy": -0.3196,
-          "kalchm": 0.0558,
-          "monica": -0.0835
+          "heat": 0.0474,
+          "entropy": 0.2859,
+          "reactivity": 1.4791,
+          "gregsEnergy": -0.3755,
+          "kalchm": 0.0497,
+          "monica": -0.0846
         },
         "substitutions": [
           {
@@ -29185,9 +29700,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 cloves garlic",
-            "notes": "sliced"
+            "unit": "cloves",
+            "name": "garlic",
+            "notes": "3-4; sliced"
           },
           {
             "amount": 1,
@@ -29197,9 +29712,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.25,
-            "unit": "piece",
-            "name": "-1/2 teaspoon salt",
-            "notes": ""
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": "1/4-1/2"
           }
         ],
         "instructions": [
@@ -29310,8 +29825,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": "sliced"
           },
           {
@@ -29434,10 +29949,10 @@ export const cuisine: Cuisine = {
             "notes": "minced"
           },
           {
-            "amount": 1,
+            "amount": 1.5,
             "unit": "tablespoon",
-            "name": "plus 1 1/2 teaspoons coriander seeds",
-            "notes": ""
+            "name": "coriander seeds",
+            "notes": "1 tablespoon plus 1 1/2 teaspoons"
           },
           {
             "amount": 0.75,
@@ -29544,10 +30059,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3541176470588235,
-          "Water": 0.1323529411764706,
-          "Earth": 0.29411764705882354,
-          "Air": 0.21941176470588242
+          "Fire": 0.36882352941176466,
+          "Water": 0.12647058823529414,
+          "Earth": 0.2882352941176471,
+          "Air": 0.2164705882352942
         },
         "astrologicalAffinities": {
           "planets": [
@@ -29565,10 +30080,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 27,
+          "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 203,
+          "sodiumMg": 201,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -29582,18 +30097,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.27,
-          "Essence": 4.99,
-          "Matter": 5.21,
-          "Substance": 4.76
+          "Spirit": 6.75,
+          "Essence": 5.1,
+          "Matter": 5.19,
+          "Substance": 4.78
         },
         "thermodynamicProperties": {
-          "heat": 0.1619,
-          "entropy": 0.5503,
-          "reactivity": 2.8738,
-          "gregsEnergy": -1.4196,
-          "kalchm": 33.2855,
-          "monica": 0.1409
+          "heat": 0.1854,
+          "entropy": 0.5986,
+          "reactivity": 3.1528,
+          "gregsEnergy": -1.7019,
+          "kalchm": 176.6137,
+          "monica": 0.1043
         },
         "substitutions": [
           {
@@ -30811,9 +31326,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.5,
-            "unit": "piece",
-            "name": "- 3/4 teaspoon salt",
-            "notes": ""
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": "1/2-3/4"
           },
           {
             "amount": 1,
@@ -30845,9 +31360,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19142857142857142,
-          "Water": 0.2728571428571429,
-          "Earth": 0.32857142857142857,
+          "Fire": 0.18428571428571425,
+          "Water": 0.27642857142857147,
+          "Earth": 0.33214285714285713,
           "Air": 0.20714285714285716
         },
         "astrologicalAffinities": {
@@ -30869,7 +31384,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 259,
+          "sodiumMg": 261,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -30883,18 +31398,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.18,
-          "Essence": 4,
-          "Matter": 5.07,
-          "Substance": 4.65
+          "Spirit": 3.6,
+          "Essence": 4.37,
+          "Matter": 5.08,
+          "Substance": 4.56
         },
         "thermodynamicProperties": {
-          "heat": 0.0481,
-          "entropy": 0.3401,
-          "reactivity": 1.6431,
-          "gregsEnergy": -0.5108,
-          "kalchm": 0.0021,
-          "monica": -0.0504
+          "heat": 0.0591,
+          "entropy": 0.3344,
+          "reactivity": 1.8095,
+          "gregsEnergy": -0.546,
+          "kalchm": 0.0163,
+          "monica": -0.0733
         },
         "substitutions": [
           {
@@ -30983,8 +31498,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt to taste",
-            "notes": ""
+            "name": "salt",
+            "notes": "to taste"
           },
           {
             "amount": 0.5,
@@ -31008,10 +31523,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.30000000000000004,
-          "Water": 0.19999999999999998,
-          "Earth": 0.30454545454545456,
-          "Air": 0.19545454545454544
+          "Fire": 0.2833333333333334,
+          "Water": 0.22083333333333333,
+          "Earth": 0.30416666666666664,
+          "Air": 0.19166666666666665
         },
         "astrologicalAffinities": {
           "planets": [
@@ -31030,9 +31545,9 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 10,
           "carbsG": 26,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 230,
+          "sodiumMg": 238,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -31046,18 +31561,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.72,
-          "Essence": 4.46,
-          "Matter": 4.5,
-          "Substance": 4.02
+          "Spirit": 4.59,
+          "Essence": 4.45,
+          "Matter": 4.6,
+          "Substance": 4.16
         },
         "thermodynamicProperties": {
-          "heat": 0.1195,
-          "entropy": 0.4305,
-          "reactivity": 2.5342,
-          "gregsEnergy": -0.9716,
-          "kalchm": 5.112,
-          "monica": 0.235
+          "heat": 0.109,
+          "entropy": 0.4198,
+          "reactivity": 2.4258,
+          "gregsEnergy": -0.9094,
+          "kalchm": 1.9898,
+          "monica": 0.5449
         },
         "substitutions": [
           {
@@ -31279,9 +31794,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.5,
-            "unit": "piece",
-            "name": "to 3/4 teaspoon salt",
-            "notes": ""
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": "1/2-3/4"
           },
           {
             "amount": 2,
@@ -31335,10 +31850,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.165,
-          "Water": 0.315,
-          "Earth": 0.282,
-          "Air": 0.238
+          "Fire": 0.155,
+          "Water": 0.31,
+          "Earth": 0.287,
+          "Air": 0.248
         },
         "astrologicalAffinities": {
           "planets": [
@@ -31359,7 +31874,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 276,
+          "sodiumMg": 274,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -31373,18 +31888,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.3,
-          "Essence": 3.71,
-          "Matter": 3.29,
-          "Substance": 3.08
+          "Spirit": 2.69,
+          "Essence": 4.11,
+          "Matter": 3.32,
+          "Substance": 3.02
         },
         "thermodynamicProperties": {
-          "heat": 0.0446,
-          "entropy": 0.2575,
-          "reactivity": 2.2512,
-          "gregsEnergy": -0.535,
-          "kalchm": 0.5471,
-          "monica": -0.394
+          "heat": 0.0569,
+          "entropy": 0.2552,
+          "reactivity": 2.5695,
+          "gregsEnergy": -0.5988,
+          "kalchm": 3.1559,
+          "monica": 0.2028
         },
         "substitutions": [
           {
@@ -31467,14 +31982,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and pepper to taste",
-            "notes": ""
+            "name": "sea salt and pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
             "unit": "teaspoon",
-            "name": "smoked paprika for garnish",
-            "notes": ""
+            "name": "smoked paprika",
+            "notes": "for garnish"
           },
           {
             "amount": 1,
@@ -31487,7 +32002,8 @@ export const cuisine: Cuisine = {
           "Combine chickpeas in pressure cooker with salt, cumin, and bay leaf. Add enough water to cover by 1 inch. Cover and bring to full pressure. Lower heat and cook for 15 minutes. Release pressure by running cold water over lid and drain beans, reserving cooking liquid.",
           "Discard bay leaf, and transfer beans to food processor.",
           "Add garlic, olive oil, lemon juice, bell pepper, and tahini. Process until smooth, adding bean liquid as necessary to form smooth, thick puree. Season with salt and pepper.",
-          "Garnish with paprika and serve with pita."
+          "Garnish with paprika and serve with pita.",
+          "Seasonal variation: In Winter/Fall, substitute two heads roasted garlic for roasted red pepper and remove chopped garlic."
         ],
         "classifications": {
           "mealType": [
@@ -31500,10 +32016,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26833333333333337,
-          "Water": 0.20249999999999999,
-          "Earth": 0.3608333333333333,
-          "Air": 0.16833333333333333
+          "Fire": 0.26000000000000006,
+          "Water": 0.19416666666666668,
+          "Earth": 0.35666666666666663,
+          "Air": 0.18916666666666668
         },
         "astrologicalAffinities": {
           "planets": [
@@ -31521,10 +32037,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 231,
+          "sodiumMg": 228,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -31538,18 +32054,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.25,
-          "Essence": 3.93,
-          "Matter": 4.78,
-          "Substance": 4.3
+          "Spirit": 3.7,
+          "Essence": 4.33,
+          "Matter": 4.72,
+          "Substance": 4.17
         },
         "thermodynamicProperties": {
-          "heat": 0.0563,
-          "entropy": 0.339,
-          "reactivity": 1.6891,
-          "gregsEnergy": -0.5163,
-          "kalchm": 0.0107,
-          "monica": -0.0674
+          "heat": 0.0706,
+          "entropy": 0.3383,
+          "reactivity": 1.9388,
+          "gregsEnergy": -0.5853,
+          "kalchm": 0.1234,
+          "monica": -0.1443
         },
         "substitutions": [
           {
@@ -31620,14 +32136,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.25,
             "unit": "teaspoon",
-            "name": "cayenne or to taste",
-            "notes": ""
+            "name": "cayenne",
+            "notes": "to taste"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt and pepper to taste",
-            "notes": ""
+            "name": "salt and pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -31636,10 +32152,10 @@ export const cuisine: Cuisine = {
             "notes": "1 ounce"
           },
           {
-            "amount": 16,
-            "unit": "piece",
-            "name": "-ounce bag corn chips",
-            "notes": ""
+            "amount": 1,
+            "unit": "bag",
+            "name": "corn chips",
+            "notes": "16-ounce"
           }
         ],
         "instructions": [
@@ -31659,10 +32175,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.32499999999999996,
-          "Water": 0.202,
-          "Earth": 0.275,
-          "Air": 0.198
+          "Fire": 0.3136363636363636,
+          "Water": 0.20636363636363636,
+          "Earth": 0.2818181818181818,
+          "Air": 0.1981818181818182
         },
         "astrologicalAffinities": {
           "planets": [
@@ -31683,7 +32199,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 231,
+          "sodiumMg": 233,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -31697,18 +32213,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.49,
-          "Essence": 3.61,
-          "Matter": 3.75,
-          "Substance": 3.53
+          "Spirit": 3.9,
+          "Essence": 3.9,
+          "Matter": 3.78,
+          "Substance": 3.52
         },
         "thermodynamicProperties": {
-          "heat": 0.0919,
-          "entropy": 0.4036,
-          "reactivity": 2.3369,
-          "gregsEnergy": -0.8512,
-          "kalchm": 0.6619,
-          "monica": -0.8827
+          "heat": 0.1084,
+          "entropy": 0.4157,
+          "reactivity": 2.6058,
+          "gregsEnergy": -0.975,
+          "kalchm": 3.1883,
+          "monica": 0.3227
         },
         "substitutions": [
           {
@@ -31791,8 +32307,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and pepper to taste",
-            "notes": ""
+            "name": "sea salt and pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -31818,22 +32334,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.265,
-          "Water": 0.20500000000000002,
-          "Earth": 0.26200000000000007,
-          "Air": 0.268
+          "Fire": 0.24545454545454543,
+          "Water": 0.2045454545454545,
+          "Earth": 0.2881818181818182,
+          "Air": 0.26181818181818184
         },
         "astrologicalAffinities": {
           "planets": [
-            "Mercury",
-            "Uranus"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Gemini",
-            "Aquarius"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Last Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
@@ -31856,18 +32372,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.42,
-          "Essence": 3.43,
-          "Matter": 3.27,
-          "Substance": 3.05
+          "Spirit": 3.69,
+          "Essence": 3.71,
+          "Matter": 3.47,
+          "Substance": 3.16
         },
         "thermodynamicProperties": {
-          "heat": 0.107,
-          "entropy": 0.4116,
-          "reactivity": 2.6411,
-          "gregsEnergy": -0.98,
-          "kalchm": 3.1823,
-          "monica": 0.3205
+          "heat": 0.1111,
+          "entropy": 0.4031,
+          "reactivity": 2.6576,
+          "gregsEnergy": -0.9602,
+          "kalchm": 5.6331,
+          "monica": 0.209
         },
         "substitutions": [
           {
@@ -32165,8 +32681,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and pepper to taste",
-            "notes": ""
+            "name": "sea salt and pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -32198,10 +32714,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27375000000000005,
-          "Water": 0.22937500000000002,
-          "Earth": 0.296875,
-          "Air": 0.20000000000000007
+          "Fire": 0.264375,
+          "Water": 0.235625,
+          "Earth": 0.301875,
+          "Air": 0.19812500000000005
         },
         "astrologicalAffinities": {
           "planets": [
@@ -32218,11 +32734,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 242,
+          "sodiumMg": 244,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -32236,18 +32752,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.06,
-          "Essence": 5.85,
+          "Spirit": 5.41,
+          "Essence": 6.23,
           "Matter": 6.59,
-          "Substance": 6.03
+          "Substance": 5.93
         },
         "thermodynamicProperties": {
-          "heat": 0.0697,
-          "entropy": 0.3692,
-          "reactivity": 2.0316,
-          "gregsEnergy": -0.6805,
-          "kalchm": 0.0089,
-          "monica": -0.0709
+          "heat": 0.0773,
+          "entropy": 0.3617,
+          "reactivity": 2.1772,
+          "gregsEnergy": -0.7103,
+          "kalchm": 0.0862,
+          "monica": -0.1331
         },
         "substitutions": [
           {
@@ -32354,8 +32870,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and pepper to taste",
-            "notes": ""
+            "name": "sea salt and pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -32388,10 +32904,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.258125,
-          "Water": 0.23875,
-          "Earth": 0.3,
-          "Air": 0.20312500000000003
+          "Fire": 0.24875000000000003,
+          "Water": 0.245,
+          "Earth": 0.305,
+          "Air": 0.20125000000000004
         },
         "astrologicalAffinities": {
           "planets": [
@@ -32412,7 +32928,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 246,
+          "sodiumMg": 248,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -32426,18 +32942,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.91,
-          "Essence": 5.9,
+          "Spirit": 5.26,
+          "Essence": 6.28,
           "Matter": 6.57,
-          "Substance": 6.03
+          "Substance": 5.93
         },
         "thermodynamicProperties": {
-          "heat": 0.0653,
-          "entropy": 0.358,
-          "reactivity": 2.0222,
-          "gregsEnergy": -0.6586,
-          "kalchm": 0.0073,
-          "monica": -0.0662
+          "heat": 0.0727,
+          "entropy": 0.3505,
+          "reactivity": 2.1672,
+          "gregsEnergy": -0.6869,
+          "kalchm": 0.0705,
+          "monica": -0.1195
         },
         "substitutions": [
           {
@@ -32538,8 +33054,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and pepper to taste",
-            "notes": ""
+            "name": "sea salt and pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -32547,7 +33063,8 @@ export const cuisine: Cuisine = {
           "Lower heat and simmer, uncovered, for about 25-30 minutes or until beans are tender. Remove bay leaf and drain beans in colander.",
           "Whisk together remaining 1/2 teaspoon of salt, black pepper, mustard, lemon juice, and olive oil. Pour over warm beans.",
           "When beans have cooled, toss together with red peppers, red onion, olives, and basil.",
-          "Season with salt and pepper to taste."
+          "Season with salt and pepper to taste.",
+          "Seasonal variation: In Winter/Fall, substitute 1/4 teaspoon freshly chopped rosemary for basil."
         ],
         "classifications": {
           "mealType": [
@@ -32560,10 +33077,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2823076923076923,
-          "Water": 0.25923076923076926,
-          "Earth": 0.2561538461538461,
-          "Air": 0.2023076923076923
+          "Fire": 0.2746153846153846,
+          "Water": 0.25538461538461543,
+          "Earth": 0.26,
+          "Air": 0.21
         },
         "astrologicalAffinities": {
           "planets": [
@@ -32584,7 +33101,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 254,
+          "sodiumMg": 252,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -32598,18 +33115,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.36,
-          "Essence": 4.4,
-          "Matter": 4.33,
-          "Substance": 3.99
+          "Spirit": 4.75,
+          "Essence": 4.8,
+          "Matter": 4.36,
+          "Substance": 3.93
         },
         "thermodynamicProperties": {
-          "heat": 0.1057,
-          "entropy": 0.4101,
-          "reactivity": 2.5901,
-          "gregsEnergy": -0.9564,
-          "kalchm": 2.9206,
-          "monica": 0.3445
+          "heat": 0.1186,
+          "entropy": 0.4073,
+          "reactivity": 2.8688,
+          "gregsEnergy": -1.0498,
+          "kalchm": 22.9155,
+          "monica": 0.1168
         },
         "substitutions": [
           {
@@ -32716,8 +33233,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and pepper to taste",
-            "notes": ""
+            "name": "sea salt and pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -32826,10 +33343,10 @@ export const cuisine: Cuisine = {
             "notes": "minced"
           },
           {
-            "amount": 1,
+            "amount": 1.5,
             "unit": "tablespoon",
-            "name": "+ 1 1/2 teaspoons olive oil",
-            "notes": ""
+            "name": "olive oil",
+            "notes": "1 tablespoon + 1 1/2 teaspoons"
           },
           {
             "amount": 1,
@@ -32859,10 +33376,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.33333333333333337,
-          "Water": 0.13333333333333336,
-          "Earth": 0.4,
-          "Air": 0.13333333333333336
+          "Fire": 0.275,
+          "Water": 0.1375,
+          "Earth": 0.4375,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
@@ -32879,11 +33396,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 11,
-          "carbsG": 24,
-          "fatG": 9,
-          "fiberG": 5,
-          "sodiumMg": 203,
+          "proteinG": 12,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 6,
+          "sodiumMg": 205,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -32897,18 +33414,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.52,
-          "Essence": 1.65,
-          "Matter": 1.78,
-          "Substance": 1.52
+          "Spirit": 1.41,
+          "Essence": 1.5,
+          "Matter": 1.96,
+          "Substance": 1.67
         },
         "thermodynamicProperties": {
-          "heat": 0.0768,
-          "entropy": 0.3024,
-          "reactivity": 1.576,
-          "gregsEnergy": -0.3998,
-          "kalchm": 0.8187,
-          "monica": -1.2681
+          "heat": 0.0602,
+          "entropy": 0.2994,
+          "reactivity": 1.2429,
+          "gregsEnergy": -0.312,
+          "kalchm": 0.3387,
+          "monica": -0.2318
         },
         "substitutions": [
           {
@@ -32978,9 +33495,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-4 tablespoons shoyu",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "shoyu",
+            "notes": "2-4"
           }
         ],
         "instructions": [
@@ -33002,10 +33519,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1357142857142857,
-          "Water": 0.35714285714285715,
-          "Earth": 0.2814285714285714,
-          "Air": 0.22571428571428573
+          "Fire": 0.13125,
+          "Water": 0.325,
+          "Earth": 0.32125,
+          "Air": 0.2225
         },
         "astrologicalAffinities": {
           "planets": [
@@ -33022,11 +33539,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 27,
           "fatG": 7,
-          "fiberG": 4,
-          "sodiumMg": 293,
+          "fiberG": 5,
+          "sodiumMg": 280,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -33040,18 +33557,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.57,
-          "Essence": 2.52,
-          "Matter": 2.37,
-          "Substance": 2.23
+          "Spirit": 1.46,
+          "Essence": 2.34,
+          "Matter": 2.57,
+          "Substance": 2.38
         },
         "thermodynamicProperties": {
-          "heat": 0.039,
-          "entropy": 0.2456,
-          "reactivity": 1.9893,
-          "gregsEnergy": -0.4496,
-          "kalchm": 0.451,
-          "monica": -0.2839
+          "heat": 0.0323,
+          "entropy": 0.2547,
+          "reactivity": 1.6083,
+          "gregsEnergy": -0.3773,
+          "kalchm": 0.1426,
+          "monica": -0.1205
         },
         "substitutions": [
           {
@@ -33084,10 +33601,10 @@ export const cuisine: Cuisine = {
             "notes": "washed and drained"
           },
           {
-            "amount": 1,
+            "amount": 1.3333333333333333,
             "unit": "tablespoon",
-            "name": "+ 1 teaspoon extra virgin olive oil",
-            "notes": ""
+            "name": "extra virgin olive oil",
+            "notes": "1 tablespoon + 1 teaspoon"
           },
           {
             "amount": 1.25,
@@ -33155,10 +33672,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18666666666666665,
-          "Water": 0.2911111111111111,
-          "Earth": 0.25777777777777783,
-          "Air": 0.2644444444444445
+          "Fire": 0.17300000000000001,
+          "Water": 0.30699999999999994,
+          "Earth": 0.26200000000000007,
+          "Air": 0.258
         },
         "astrologicalAffinities": {
           "planets": [
@@ -33179,7 +33696,7 @@ export const cuisine: Cuisine = {
           "carbsG": 28,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 266,
+          "sodiumMg": 273,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -33193,18 +33710,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.62,
-          "Essence": 3.37,
-          "Matter": 3.01,
-          "Substance": 2.89
+          "Spirit": 2.89,
+          "Essence": 3.78,
+          "Matter": 3.12,
+          "Substance": 2.98
         },
         "thermodynamicProperties": {
-          "heat": 0.0679,
-          "entropy": 0.3191,
-          "reactivity": 2.5063,
-          "gregsEnergy": -0.732,
-          "kalchm": 1.2635,
-          "monica": 1.2487
+          "heat": 0.0731,
+          "entropy": 0.3106,
+          "reactivity": 2.7725,
+          "gregsEnergy": -0.7881,
+          "kalchm": 3.6307,
+          "monica": 0.2205
         },
         "substitutions": [
           {
@@ -33676,7 +34193,7 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "cloves",
-            "name": "of garlic",
+            "name": "garlic",
             "notes": "peeled"
           },
           {
@@ -33816,10 +34333,10 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 5,
+            "amount": 1,
             "unit": "piece",
-            "name": "-inch piece kombu",
-            "notes": ""
+            "name": "kombu",
+            "notes": "5-inch"
           },
           {
             "amount": 4,
@@ -33837,7 +34354,8 @@ export const cuisine: Cuisine = {
         "instructions": [
           "Wipe kombu with towel, if it has salty residue. Place it in pot and cover with cold water. Let stand 30 minutes.",
           "Bring to boil, add bonito flakes and remove from heat.",
-          "Wait till bonito flakes sink to bottom of pot and strain through cheesecloth."
+          "Wait till bonito flakes sink to bottom of pot and strain through cheesecloth.",
+          "Note: Kombu and bonito flakes can be re-used once: just simmer 4-5 minutes and discard. This is called niban-dashi."
         ],
         "classifications": {
           "mealType": [
@@ -33850,10 +34368,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.08333333333333333,
-          "Water": 0.5166666666666667,
-          "Earth": 0.2833333333333333,
-          "Air": 0.11666666666666668
+          "Fire": 0.11666666666666665,
+          "Water": 0.5,
+          "Earth": 0.21666666666666665,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -33870,12 +34388,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 24,
+          "proteinG": 8,
+          "carbsG": 25,
           "fatG": 6,
           "fiberG": 4,
-          "sodiumMg": 357,
-          "sugarG": 4,
+          "sodiumMg": 350,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -33888,22 +34406,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.29,
-          "Essence": 0.96,
-          "Matter": 1.06,
-          "Substance": 0.89
+          "Spirit": 0.41,
+          "Essence": 0.99,
+          "Matter": 0.91,
+          "Substance": 0.78
         },
         "thermodynamicProperties": {
-          "heat": 0.0062,
-          "entropy": 0.1128,
-          "reactivity": 1.1556,
-          "gregsEnergy": -0.1241,
-          "kalchm": 0.7003,
-          "monica": -0.3014
+          "heat": 0.0143,
+          "entropy": 0.1195,
+          "reactivity": 1.6134,
+          "gregsEnergy": -0.1784,
+          "kalchm": 0.9086,
+          "monica": 1.618
         },
         "substitutions": [
           {
-            "originalIngredient": "-inch piece kombu",
+            "originalIngredient": "kombu",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -34198,8 +34716,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "piece",
-            "name": "-3 tomatoes",
-            "notes": "chopped"
+            "name": "tomatoes",
+            "notes": "2-3; chopped"
           },
           {
             "amount": 1,
@@ -34222,31 +34740,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.36250000000000004,
-          "Water": 0.35000000000000003,
-          "Earth": 0.18750000000000003,
-          "Air": 0.10000000000000002
+          "Fire": 0.30999999999999994,
+          "Water": 0.32999999999999996,
+          "Earth": 0.23000000000000004,
+          "Air": 0.12999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 8,
-          "carbsG": 23,
+          "carbsG": 24,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 290,
+          "sodiumMg": 282,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -34260,18 +34778,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.49,
-          "Essence": 2.16,
-          "Matter": 1.94,
-          "Substance": 1.71
+          "Spirit": 1.4,
+          "Essence": 2.06,
+          "Matter": 2.05,
+          "Substance": 1.82
         },
         "thermodynamicProperties": {
-          "heat": 0.0566,
-          "entropy": 0.2458,
-          "reactivity": 2.2256,
-          "gregsEnergy": -0.4904,
-          "kalchm": 1.0561,
-          "monica": 4.037
+          "heat": 0.0469,
+          "entropy": 0.2469,
+          "reactivity": 1.8732,
+          "gregsEnergy": -0.4157,
+          "kalchm": 0.5479,
+          "monica": -0.3688
         },
         "substitutions": [
           {
@@ -34300,8 +34818,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 8,
             "unit": "pounds",
-            "name": "bones (necks",
-            "notes": "backs, wing tips)"
+            "name": "bones",
+            "notes": "necks, backs, wing tips"
           },
           {
             "amount": 6,
@@ -34342,10 +34860,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.13333333333333333,
-          "Water": 0.4833333333333334,
-          "Earth": 0.15000000000000002,
-          "Air": 0.2333333333333333
+          "Fire": 0.125,
+          "Water": 0.42500000000000004,
+          "Earth": 0.2125,
+          "Air": 0.2375
         },
         "astrologicalAffinities": {
           "planets": [
@@ -34362,11 +34880,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 7,
+          "proteinG": 8,
           "carbsG": 27,
           "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 343,
+          "fiberG": 4,
+          "sodiumMg": 320,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -34380,22 +34898,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.02,
-          "Essence": 1.63,
-          "Matter": 1.25,
-          "Substance": 1.07
+          "Spirit": 0.93,
+          "Essence": 1.53,
+          "Matter": 1.35,
+          "Substance": 1.18
         },
         "thermodynamicProperties": {
-          "heat": 0.0456,
-          "entropy": 0.1829,
-          "reactivity": 2.6265,
-          "gregsEnergy": -0.4348,
-          "kalchm": 1.5924,
-          "monica": 0.3558
+          "heat": 0.0362,
+          "entropy": 0.1883,
+          "reactivity": 1.9869,
+          "gregsEnergy": -0.3379,
+          "kalchm": 0.9829,
+          "monica": 1.618
         },
         "substitutions": [
           {
-            "originalIngredient": "bones (necks",
+            "originalIngredient": "bones",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -34462,8 +34980,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -34485,10 +35003,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20714285714285716,
-          "Water": 0.32142857142857145,
-          "Earth": 0.35000000000000003,
-          "Air": 0.12142857142857143
+          "Fire": 0.21875000000000003,
+          "Water": 0.29374999999999996,
+          "Earth": 0.36875,
+          "Air": 0.11875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -34505,11 +35023,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 24,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 279,
+          "sodiumMg": 268,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -34523,18 +35041,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.08,
-          "Essence": 3.37,
-          "Matter": 3.42,
-          "Substance": 3.31
+          "Spirit": 2.05,
+          "Essence": 3.23,
+          "Matter": 3.55,
+          "Substance": 3.42
         },
         "thermodynamicProperties": {
-          "heat": 0.0368,
-          "entropy": 0.2755,
-          "reactivity": 1.8856,
-          "gregsEnergy": -0.4827,
-          "kalchm": 0.0781,
-          "monica": -0.1004
+          "heat": 0.0352,
+          "entropy": 0.2881,
+          "reactivity": 1.7243,
+          "gregsEnergy": -0.4616,
+          "kalchm": 0.0319,
+          "monica": -0.0777
         },
         "substitutions": [
           {
@@ -34623,8 +35141,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -34644,10 +35162,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24500000000000002,
-          "Water": 0.24500000000000002,
-          "Earth": 0.29700000000000004,
-          "Air": 0.213
+          "Fire": 0.27,
+          "Water": 0.23500000000000001,
+          "Earth": 0.28700000000000003,
+          "Air": 0.20800000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -34668,7 +35186,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 248,
+          "sodiumMg": 244,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -34682,18 +35200,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.31,
-          "Essence": 3.69,
-          "Matter": 3.73,
-          "Substance": 3.3
+          "Spirit": 3.79,
+          "Essence": 3.8,
+          "Matter": 3.71,
+          "Substance": 3.32
         },
         "thermodynamicProperties": {
-          "heat": 0.0837,
-          "entropy": 0.3463,
-          "reactivity": 2.197,
-          "gregsEnergy": -0.6771,
-          "kalchm": 0.9319,
-          "monica": -4.3697
+          "heat": 0.108,
+          "entropy": 0.3953,
+          "reactivity": 2.5036,
+          "gregsEnergy": -0.8817,
+          "kalchm": 3.5782,
+          "monica": 0.2762
         },
         "substitutions": [
           {
@@ -34770,8 +35288,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -34795,10 +35313,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.32499999999999996,
-          "Earth": 0.35000000000000003,
-          "Air": 0.125
+          "Fire": 0.21111111111111114,
+          "Water": 0.3,
+          "Earth": 0.3666666666666667,
+          "Air": 0.12222222222222223
         },
         "astrologicalAffinities": {
           "planets": [
@@ -34815,11 +35333,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 24,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 280,
+          "sodiumMg": 270,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -34833,18 +35351,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.38,
-          "Essence": 3.89,
-          "Matter": 3.88,
-          "Substance": 3.71
+          "Spirit": 2.35,
+          "Essence": 3.75,
+          "Matter": 4,
+          "Substance": 3.82
         },
         "thermodynamicProperties": {
-          "heat": 0.0378,
-          "entropy": 0.2732,
-          "reactivity": 1.9405,
-          "gregsEnergy": -0.4923,
-          "kalchm": 0.0622,
-          "monica": -0.0913
+          "heat": 0.0364,
+          "entropy": 0.2848,
+          "reactivity": 1.8003,
+          "gregsEnergy": -0.4762,
+          "kalchm": 0.0247,
+          "monica": -0.0715
         },
         "substitutions": [
           {
@@ -34927,8 +35445,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sachet d'epices (3 bay leaves",
-            "notes": "6 parsley stems, 5 sprigs thyme, 6 black peppercorns tied in cheesecloth)"
+            "name": "sachet d'epices",
+            "notes": "3 bay leaves, 6 parsley stems, 5 sprigs thyme, 6 black peppercorns tied in cheesecloth"
           },
           {
             "amount": 4,
@@ -34939,8 +35457,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -34961,10 +35479,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22272727272727275,
-          "Water": 0.23636363636363636,
-          "Earth": 0.3590909090909091,
-          "Air": 0.18181818181818182
+          "Fire": 0.1954545454545455,
+          "Water": 0.25,
+          "Earth": 0.39545454545454545,
+          "Air": 0.1590909090909091
         },
         "astrologicalAffinities": {
           "planets": [
@@ -34981,12 +35499,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 10,
+          "proteinG": 11,
           "carbsG": 25,
-          "fatG": 8,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 245,
-          "sugarG": 5,
+          "sodiumMg": 250,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -34999,18 +35517,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.03,
-          "Essence": 4.33,
-          "Matter": 4.98,
-          "Substance": 4.77
+          "Spirit": 3.57,
+          "Essence": 5.21,
+          "Matter": 5.32,
+          "Substance": 4.98
         },
         "thermodynamicProperties": {
-          "heat": 0.0738,
-          "entropy": 0.3983,
-          "reactivity": 2.0305,
-          "gregsEnergy": -0.7349,
-          "kalchm": 0.0307,
-          "monica": -0.1039
+          "heat": 0.048,
+          "entropy": 0.3011,
+          "reactivity": 1.9842,
+          "gregsEnergy": -0.5495,
+          "kalchm": 0.0236,
+          "monica": -0.0739
         },
         "substitutions": [
           {
@@ -35087,8 +35605,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sachet d'epices (3 bay leaves",
-            "notes": "6 parsley stems, 5 sprigs thyme, 6 black peppercorns tied in cheesecloth)"
+            "name": "sachet d'epices",
+            "notes": "3 bay leaves, 6 parsley stems, 5 sprigs thyme, 6 black peppercorns tied in cheesecloth"
           },
           {
             "amount": 2,
@@ -35128,10 +35646,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24090909090909085,
-          "Water": 0.2727272727272727,
-          "Earth": 0.33636363636363636,
-          "Air": 0.15000000000000002
+          "Fire": 0.2318181818181818,
+          "Water": 0.2772727272727273,
+          "Earth": 0.34545454545454546,
+          "Air": 0.14545454545454548
         },
         "astrologicalAffinities": {
           "planets": [
@@ -35149,10 +35667,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 24,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 259,
+          "sodiumMg": 261,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -35166,18 +35684,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.17,
-          "Essence": 4.61,
-          "Matter": 4.64,
-          "Substance": 4.47
+          "Spirit": 3.67,
+          "Essence": 4.53,
+          "Matter": 4.81,
+          "Substance": 4.55
         },
         "thermodynamicProperties": {
-          "heat": 0.0832,
-          "entropy": 0.3853,
-          "reactivity": 2.3735,
-          "gregsEnergy": -0.8312,
-          "kalchm": 0.4427,
-          "monica": -0.4298
+          "heat": 0.0629,
+          "entropy": 0.345,
+          "reactivity": 2.0635,
+          "gregsEnergy": -0.649,
+          "kalchm": 0.0588,
+          "monica": -0.111
         },
         "substitutions": [
           {
@@ -35205,9 +35723,9 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "cans whole tomatoes",
-            "notes": "28 ounce"
+            "unit": "cans",
+            "name": "whole tomatoes",
+            "notes": "28 ounce; including juice"
           },
           {
             "amount": 0.25,
@@ -35230,8 +35748,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "tablespoon",
-            "name": "agave syrup or more to taste",
-            "notes": ""
+            "name": "agave syrup",
+            "notes": "to taste; or more"
           },
           {
             "amount": 1,
@@ -35248,8 +35766,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -35323,7 +35841,7 @@ export const cuisine: Cuisine = {
         },
         "substitutions": [
           {
-            "originalIngredient": "cans whole tomatoes",
+            "originalIngredient": "whole tomatoes",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -35347,9 +35865,9 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "cans whole tomatoes",
-            "notes": "28 ounce"
+            "unit": "cans",
+            "name": "whole tomatoes",
+            "notes": "28 ounce; including juice"
           },
           {
             "amount": 3,
@@ -35395,15 +35913,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.5,
-            "unit": "piece",
-            "name": "- 1 teaspoon red pepper flakes",
-            "notes": "to taste"
+            "unit": "teaspoon",
+            "name": "red pepper flakes",
+            "notes": "1/2-1; to taste"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -35476,7 +35994,7 @@ export const cuisine: Cuisine = {
         },
         "substitutions": [
           {
-            "originalIngredient": "cans whole tomatoes",
+            "originalIngredient": "whole tomatoes",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -35554,9 +36072,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "cans whole tomatoes",
-            "notes": "28 ounce"
+            "unit": "cans",
+            "name": "whole tomatoes",
+            "notes": "28 ounce; including juice"
           },
           {
             "amount": 2,
@@ -35573,8 +36091,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -35680,9 +36198,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 4,
-            "unit": "piece",
-            "name": "-5 cups milk",
-            "notes": "divided"
+            "unit": "cups",
+            "name": "milk",
+            "notes": "4-5; divided"
           },
           {
             "amount": 1,
@@ -35699,8 +36217,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and ground white pepper to taste",
-            "notes": ""
+            "name": "sea salt and ground white pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -35715,7 +36233,8 @@ export const cuisine: Cuisine = {
           "In 10-inch sauté pan, combine flour and butter. Stir with wooden spoon for 2-3 minutes. Let roux cool.",
           "Slowly and gradually whisk 4 cups cooled milk into warm roux.",
           "Simmer sauce for approximately 20-25 minutes until thickened and reduced to nappé consistency.",
-          "Strain sauce through fine chinois. Add additional 1 cup milk on low flame, if needed."
+          "Strain sauce through fine chinois. Add additional 1 cup milk on low flame, if needed.",
+          "Note: Piqué is a bay leaf tacked with whole clove on peeled halved onion."
         ],
         "mealType": [],
         "classifications": {
@@ -35829,8 +36348,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and white pepper to taste",
-            "notes": ""
+            "name": "sea salt and white pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -35852,7 +36371,8 @@ export const cuisine: Cuisine = {
           "Slowly and gradually whisk cooled milk into warm roux.",
           "Simmer sauce for approximately 20-30 minutes until thickened and reduced to nappé consistency.",
           "Strain sauce through fine chinois.",
-          "Add cheese and whisk until cheese is totally melted and incorporated into sauce."
+          "Add cheese and whisk until cheese is totally melted and incorporated into sauce.",
+          "Note: Piqué is a bay leaf tacked with whole clove to peeled halved onion."
         ],
         "mealType": [],
         "classifications": {
@@ -35960,15 +36480,16 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
           "In 12-inch sauté pan, melt butter over medium-low flame. Sprinkle in flour and stir for about 3-4 minutes.",
           "Slowly whisk in stock 1/2 cup at a time, waiting for sauce to thicken between each addition, until sauce is smooth.",
           "Lower heat and simmer about 35-40 minutes or until sauce achieves nappé consistency.",
-          "Adjust seasonings to taste."
+          "Adjust seasonings to taste.",
+          "Note: Reserve 2 cups of this sauce for Sauce Supreme (see below)."
         ],
         "mealType": [],
         "classifications": {
@@ -36202,15 +36723,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons lemon juice",
-            "notes": "1/2 lemon"
+            "unit": "tablespoons",
+            "name": "lemon juice",
+            "notes": "2-3; 1/2 lemon"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -36230,10 +36751,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22777777777777775,
-          "Water": 0.25222222222222224,
-          "Earth": 0.27444444444444444,
-          "Air": 0.2455555555555556
+          "Fire": 0.21666666666666667,
+          "Water": 0.2466666666666667,
+          "Earth": 0.28,
+          "Air": 0.25666666666666665
         },
         "astrologicalAffinities": {
           "planets": [
@@ -36251,10 +36772,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 27,
+          "carbsG": 28,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 251,
+          "sodiumMg": 249,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -36268,18 +36789,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.4,
-          "Essence": 2.82,
-          "Matter": 2.91,
-          "Substance": 2.76
+          "Spirit": 2.79,
+          "Essence": 3.22,
+          "Matter": 2.94,
+          "Substance": 2.71
         },
         "thermodynamicProperties": {
-          "heat": 0.0677,
-          "entropy": 0.3446,
-          "reactivity": 2.1207,
-          "gregsEnergy": -0.6631,
-          "kalchm": 0.4125,
-          "monica": -0.3531
+          "heat": 0.084,
+          "entropy": 0.3409,
+          "reactivity": 2.4758,
+          "gregsEnergy": -0.7599,
+          "kalchm": 2.1293,
+          "monica": 0.4061
         },
         "substitutions": [
           {
@@ -36453,8 +36974,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -36480,10 +37001,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27999999999999997,
-          "Water": 0.25,
-          "Earth": 0.31,
-          "Air": 0.16
+          "Fire": 0.25999999999999995,
+          "Water": 0.24,
+          "Earth": 0.31999999999999995,
+          "Air": 0.18000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -36503,9 +37024,9 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 250,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 246,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -36518,18 +37039,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.55,
-          "Essence": 1.67,
-          "Matter": 1.76,
-          "Substance": 1.76
+          "Spirit": 1.94,
+          "Essence": 2.07,
+          "Matter": 1.79,
+          "Substance": 1.7
         },
         "thermodynamicProperties": {
-          "heat": 0.071,
-          "entropy": 0.352,
-          "reactivity": 1.9733,
-          "gregsEnergy": -0.6236,
-          "kalchm": 0.635,
-          "monica": -0.6959
+          "heat": 0.0965,
+          "entropy": 0.3457,
+          "reactivity": 2.4923,
+          "gregsEnergy": -0.7651,
+          "kalchm": 2.3336,
+          "monica": 0.3622
         },
         "substitutions": [
           {
@@ -36570,8 +37091,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -36597,31 +37118,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3,
-          "Water": 0.2375,
-          "Earth": 0.2875,
-          "Air": 0.175
+          "Fire": 0.275,
+          "Water": 0.22500000000000003,
+          "Earth": 0.3,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
-          "carbsG": 25,
-          "fatG": 9,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 245,
+          "sodiumMg": 240,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -36635,18 +37156,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.35,
-          "Essence": 1.07,
-          "Matter": 1.06,
-          "Substance": 1.1
+          "Spirit": 1.74,
+          "Essence": 1.47,
+          "Matter": 1.09,
+          "Substance": 1.05
         },
         "thermodynamicProperties": {
-          "heat": 0.1238,
-          "entropy": 0.4473,
-          "reactivity": 2.3981,
-          "gregsEnergy": -0.9489,
-          "kalchm": 1.3647,
-          "monica": 1.2725
+          "heat": 0.1651,
+          "entropy": 0.4461,
+          "reactivity": 3.3421,
+          "gregsEnergy": -1.3258,
+          "kalchm": 3.9946,
+          "monica": 0.2864
         },
         "substitutions": [
           {
@@ -36723,8 +37244,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -36749,10 +37270,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17,
-          "Water": 0.2899999999999999,
-          "Earth": 0.37,
-          "Air": 0.17
+          "Fire": 0.165,
+          "Water": 0.31999999999999995,
+          "Earth": 0.35500000000000004,
+          "Air": 0.16
         },
         "astrologicalAffinities": {
           "planets": [
@@ -36769,12 +37290,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 266,
-          "sugarG": 5,
+          "sodiumMg": 278,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -36787,18 +37308,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.37,
-          "Essence": 3.61,
-          "Matter": 4.16,
-          "Substance": 3.74
+          "Spirit": 2.3,
+          "Essence": 3.73,
+          "Matter": 4.15,
+          "Substance": 3.78
         },
         "thermodynamicProperties": {
-          "heat": 0.0371,
-          "entropy": 0.2767,
-          "reactivity": 1.5973,
-          "gregsEnergy": -0.4049,
-          "kalchm": 0.0152,
-          "monica": -0.0605
+          "heat": 0.0341,
+          "entropy": 0.2682,
+          "reactivity": 1.6579,
+          "gregsEnergy": -0.4106,
+          "kalchm": 0.0165,
+          "monica": -0.0603
         },
         "substitutions": [
           {
@@ -36857,8 +37378,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -36986,8 +37507,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -37115,8 +37636,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -37244,8 +37765,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -37366,21 +37887,21 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons vegetable stock",
-            "notes": "or more as needed"
+            "unit": "tablespoons",
+            "name": "vegetable stock",
+            "notes": "2-3; or more as needed"
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoons",
+            "name": "lemon juice",
+            "notes": "1-2; 1 lemon"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "-2 tablespoons lemon juice",
-            "notes": "1 lemon"
-          },
-          {
-            "amount": 1,
-            "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -37406,10 +37927,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3,
-          "Water": 0.22142857142857145,
-          "Earth": 0.32142857142857145,
-          "Air": 0.15714285714285717
+          "Fire": 0.2857142857142857,
+          "Water": 0.21428571428571427,
+          "Earth": 0.32857142857142857,
+          "Air": 0.17142857142857146
         },
         "astrologicalAffinities": {
           "planets": [
@@ -37428,10 +37949,10 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 10,
           "carbsG": 25,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 239,
-          "sugarG": 4,
+          "sodiumMg": 236,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -37444,18 +37965,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.73,
-          "Essence": 2.96,
-          "Matter": 3.14,
-          "Substance": 2.79
+          "Spirit": 3.12,
+          "Essence": 3.35,
+          "Matter": 3.17,
+          "Substance": 2.74
         },
         "thermodynamicProperties": {
-          "heat": 0.082,
+          "heat": 0.0987,
           "entropy": 0.3479,
-          "reactivity": 2.0166,
-          "gregsEnergy": -0.6196,
-          "kalchm": 0.6056,
-          "monica": -0.6126
+          "reactivity": 2.3384,
+          "gregsEnergy": -0.7148,
+          "kalchm": 3.2574,
+          "monica": 0.2588
         },
         "substitutions": [
           {
@@ -37508,8 +38029,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -37606,9 +38127,9 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "cans coconut milk",
-            "notes": "13.66 ounce"
+            "unit": "cans",
+            "name": "coconut milk",
+            "notes": "13.66 ounce; about 3 1/2 cups"
           },
           {
             "amount": 2,
@@ -37673,8 +38194,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "additional salt to taste",
-            "notes": ""
+            "name": "additional salt",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -37692,10 +38213,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2636363636363636,
-          "Water": 0.2090909090909091,
-          "Earth": 0.34545454545454546,
-          "Air": 0.18181818181818185
+          "Fire": 0.2590909090909091,
+          "Water": 0.20454545454545456,
+          "Earth": 0.3527272727272728,
+          "Air": 0.18363636363636368
         },
         "astrologicalAffinities": {
           "planets": [
@@ -37713,10 +38234,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 234,
+          "sodiumMg": 232,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -37730,22 +38251,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.54,
-          "Essence": 3.66,
-          "Matter": 4.11,
-          "Substance": 3.73
+          "Spirit": 3.87,
+          "Essence": 3.73,
+          "Matter": 3.96,
+          "Substance": 3.43
         },
         "thermodynamicProperties": {
-          "heat": 0.0842,
-          "entropy": 0.3831,
-          "reactivity": 2.0143,
-          "gregsEnergy": -0.6875,
-          "kalchm": 0.2241,
-          "monica": -0.2282
+          "heat": 0.1069,
+          "entropy": 0.3946,
+          "reactivity": 2.1935,
+          "gregsEnergy": -0.7587,
+          "kalchm": 1.5995,
+          "monica": 0.7364
         },
         "substitutions": [
           {
-            "originalIngredient": "cans coconut milk",
+            "originalIngredient": "coconut milk",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -37806,8 +38327,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -37957,15 +38478,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "- 2 1/2 cups reserved vegetable cooking liquid",
-            "notes": ""
+            "unit": "cups",
+            "name": "reserved vegetable cooking liquid",
+            "notes": "2-2 1/2"
           },
           {
-            "amount": 1,
+            "amount": 1.3333333333333333,
             "unit": "tablespoon",
-            "name": "plus 1 teaspoon red miso",
-            "notes": "dissolved in 1/4 cup liquid"
+            "name": "red miso",
+            "notes": "1 tablespoon plus 1 teaspoon; dissolved in 1/4 cup liquid"
           },
           {
             "amount": 2,
@@ -37982,8 +38503,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -38003,10 +38524,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25583333333333336,
-          "Water": 0.2225,
-          "Earth": 0.33583333333333326,
-          "Air": 0.18583333333333332
+          "Fire": 0.2476923076923077,
+          "Water": 0.22846153846153844,
+          "Earth": 0.34461538461538466,
+          "Air": 0.17923076923076925
         },
         "astrologicalAffinities": {
           "planets": [
@@ -38024,10 +38545,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 26,
+          "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 239,
+          "sodiumMg": 241,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -38041,18 +38562,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.01,
-          "Essence": 4.33,
-          "Matter": 4.97,
-          "Substance": 4.43
+          "Spirit": 3.89,
+          "Essence": 4.25,
+          "Matter": 5.13,
+          "Substance": 4.59
         },
         "thermodynamicProperties": {
-          "heat": 0.0771,
-          "entropy": 0.3684,
-          "reactivity": 1.9396,
-          "gregsEnergy": -0.6375,
-          "kalchm": 0.0708,
-          "monica": -0.1241
+          "heat": 0.0701,
+          "entropy": 0.3664,
+          "reactivity": 1.8153,
+          "gregsEnergy": -0.595,
+          "kalchm": 0.0193,
+          "monica": -0.083
         },
         "substitutions": [
           {
@@ -38268,14 +38789,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "teaspoons",
-            "name": "sherry vinegar or to taste",
-            "notes": ""
+            "name": "sherry vinegar",
+            "notes": "to taste"
           },
           {
             "amount": 0.5,
             "unit": "teaspoon",
-            "name": "sea salt or to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -38583,8 +39104,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.25,
             "unit": "cup",
-            "name": "",
-            "notes": "2 ounces; Worcestershire sauce"
+            "name": "worcestershire sauce",
+            "notes": "2 ounces"
           },
           {
             "amount": 1,
@@ -38619,8 +39140,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -38641,10 +39162,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.30124999999999996,
-          "Water": 0.264375,
-          "Earth": 0.27687500000000004,
-          "Air": 0.1575
+          "Fire": 0.29823529411764704,
+          "Water": 0.2576470588235294,
+          "Earth": 0.28411764705882353,
+          "Air": 0.16
         },
         "astrologicalAffinities": {
           "planets": [
@@ -38665,7 +39186,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 256,
+          "sodiumMg": 253,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -38679,18 +39200,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.85,
-          "Essence": 4.94,
-          "Matter": 5.14,
-          "Substance": 4.91
+          "Spirit": 5.31,
+          "Essence": 5.8,
+          "Matter": 5.38,
+          "Substance": 4.93
         },
         "thermodynamicProperties": {
-          "heat": 0.0959,
-          "entropy": 0.4232,
-          "reactivity": 2.4613,
-          "gregsEnergy": -0.9458,
-          "kalchm": 0.5073,
-          "monica": -0.5662
+          "heat": 0.1001,
+          "entropy": 0.3829,
+          "reactivity": 2.6906,
+          "gregsEnergy": -0.9303,
+          "kalchm": 8.5269,
+          "monica": 0.1613
         },
         "substitutions": [
           {
@@ -38773,8 +39294,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.5,
             "unit": "cup",
-            "name": "water or more as needed",
-            "notes": ""
+            "name": "water",
+            "notes": "as needed; or more"
           }
         ],
         "instructions": [
@@ -39023,8 +39544,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.25,
             "unit": "teaspoon",
-            "name": "sea salt or to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -39041,8 +39562,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -39058,10 +39579,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1571428571428571,
-          "Water": 0.35,
-          "Earth": 0.2785714285714286,
-          "Air": 0.21428571428571433
+          "Fire": 0.14285714285714285,
+          "Water": 0.34285714285714286,
+          "Earth": 0.2857142857142857,
+          "Air": 0.2285714285714286
         },
         "astrologicalAffinities": {
           "planets": [
@@ -39079,10 +39600,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 290,
+          "sodiumMg": 287,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -39096,18 +39617,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.38,
-          "Essence": 2.17,
-          "Matter": 2.09,
-          "Substance": 2.21
+          "Spirit": 1.77,
+          "Essence": 2.56,
+          "Matter": 2.12,
+          "Substance": 2.16
         },
         "thermodynamicProperties": {
-          "heat": 0.0361,
-          "entropy": 0.287,
-          "reactivity": 2.0838,
-          "gregsEnergy": -0.562,
-          "kalchm": 0.3111,
-          "monica": -0.231
+          "heat": 0.0532,
+          "entropy": 0.2793,
+          "reactivity": 2.5127,
+          "gregsEnergy": -0.6486,
+          "kalchm": 1.1742,
+          "monica": 1.6074
         },
         "substitutions": [
           {
@@ -39208,8 +39729,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "tablespoons",
-            "name": "tamari or to taste",
-            "notes": ""
+            "name": "tamari",
+            "notes": "to taste"
           },
           {
             "amount": 0.5,
@@ -39231,15 +39752,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons lime juice",
-            "notes": "2-3 limes"
+            "unit": "tablespoons",
+            "name": "lime juice",
+            "notes": "2-3; 2-3 limes"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           },
           {
             "amount": 3,
@@ -39267,10 +39788,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2758823529411764,
-          "Water": 0.25470588235294117,
-          "Earth": 0.29588235294117643,
-          "Air": 0.17352941176470588
+          "Fire": 0.2705263157894737,
+          "Water": 0.2594736842105264,
+          "Earth": 0.2936842105263158,
+          "Air": 0.1763157894736842
         },
         "astrologicalAffinities": {
           "planets": [
@@ -39291,7 +39812,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 252,
+          "sodiumMg": 254,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -39305,18 +39826,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.21,
-          "Essence": 6.62,
-          "Matter": 6.39,
-          "Substance": 6.08
+          "Spirit": 6.62,
+          "Essence": 6.91,
+          "Matter": 6.41,
+          "Substance": 6.12
         },
         "thermodynamicProperties": {
-          "heat": 0.0984,
-          "entropy": 0.4113,
-          "reactivity": 2.6739,
-          "gregsEnergy": -1.0014,
-          "kalchm": 2.7919,
-          "monica": 0.3648
+          "heat": 0.1079,
+          "entropy": 0.4228,
+          "reactivity": 2.875,
+          "gregsEnergy": -1.1078,
+          "kalchm": 17.7009,
+          "monica": 0.1341
         },
         "substitutions": [
           {
@@ -39582,8 +40103,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.5,
             "unit": "teaspoon",
-            "name": "or more sea salt to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste; or more"
           },
           {
             "amount": 2,
@@ -39606,8 +40127,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -39623,9 +40144,9 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15000000000000002,
-          "Water": 0.35624999999999996,
-          "Earth": 0.28125,
+          "Fire": 0.13749999999999998,
+          "Water": 0.375,
+          "Earth": 0.275,
           "Air": 0.21250000000000002
         },
         "astrologicalAffinities": {
@@ -39647,7 +40168,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 293,
+          "sodiumMg": 300,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -39661,18 +40182,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.52,
-          "Essence": 2.48,
-          "Matter": 2.42,
-          "Substance": 2.35
+          "Spirit": 1.94,
+          "Essence": 2.89,
+          "Matter": 2.39,
+          "Substance": 2.26
         },
         "thermodynamicProperties": {
-          "heat": 0.0356,
-          "entropy": 0.2577,
-          "reactivity": 1.943,
-          "gregsEnergy": -0.4651,
-          "kalchm": 0.2843,
-          "monica": -0.1903
+          "heat": 0.0536,
+          "entropy": 0.2541,
+          "reactivity": 2.4539,
+          "gregsEnergy": -0.5699,
+          "kalchm": 1.5335,
+          "monica": 0.5432
         },
         "substitutions": [
           {
@@ -39755,14 +40276,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "tablespoon",
-            "name": "tamari or to taste",
-            "notes": ""
+            "name": "tamari",
+            "notes": "to taste"
           },
           {
             "amount": 1,
             "unit": "tablespoon",
-            "name": "rice vinegar or to taste",
-            "notes": ""
+            "name": "rice vinegar",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -39787,31 +40308,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2791666666666667,
-          "Water": 0.23750000000000002,
-          "Earth": 0.28750000000000003,
-          "Air": 0.1958333333333334
+          "Fire": 0.3,
+          "Water": 0.22499999999999998,
+          "Earth": 0.27499999999999997,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Sun",
+            "Mars"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Aries",
+            "Leo"
           ],
           "lunarPhases": [
-            "New Moon"
+            "Full Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
           "carbsG": 26,
-          "fatG": 8,
+          "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 245,
+          "sodiumMg": 240,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -39825,18 +40346,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.23,
-          "Essence": 4.31,
-          "Matter": 4.32,
-          "Substance": 4.35
+          "Spirit": 4.4,
+          "Essence": 4.32,
+          "Matter": 4.17,
+          "Substance": 4.25
         },
         "thermodynamicProperties": {
-          "heat": 0.0957,
-          "entropy": 0.4406,
-          "reactivity": 2.6174,
-          "gregsEnergy": -1.0576,
-          "kalchm": 0.7266,
-          "monica": -1.2651
+          "heat": 0.1077,
+          "entropy": 0.4646,
+          "reactivity": 2.8477,
+          "gregsEnergy": -1.2155,
+          "kalchm": 2.0886,
+          "monica": 0.5795
         },
         "substitutions": [
           {
@@ -39961,8 +40482,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and black pepper to taste",
-            "notes": ""
+            "name": "sea salt and black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -39996,10 +40517,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27368421052631575,
-          "Water": 0.2210526315789474,
-          "Earth": 0.3352631578947369,
-          "Air": 0.17
+          "Fire": 0.2552631578947368,
+          "Water": 0.23421052631578948,
+          "Earth": 0.34578947368421054,
+          "Air": 0.1647368421052632
         },
         "astrologicalAffinities": {
           "planets": [
@@ -40020,8 +40541,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 238,
-          "sugarG": 5,
+          "sodiumMg": 244,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -40034,18 +40555,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.81,
-          "Essence": 6.48,
-          "Matter": 7.3,
-          "Substance": 6.56
+          "Spirit": 5.19,
+          "Essence": 6.37,
+          "Matter": 7.55,
+          "Substance": 6.71
         },
         "thermodynamicProperties": {
-          "heat": 0.0762,
-          "entropy": 0.3741,
-          "reactivity": 2.0401,
-          "gregsEnergy": -0.687,
-          "kalchm": 0.0109,
-          "monica": -0.0745
+          "heat": 0.0591,
+          "entropy": 0.3427,
+          "reactivity": 1.8075,
+          "gregsEnergy": -0.5603,
+          "kalchm": 0.0005,
+          "monica": -0.0408
         },
         "substitutions": [
           {
@@ -40116,8 +40637,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt and pinch freshly ground black pepper to taste",
-            "notes": ""
+            "name": "salt and pinch freshly ground black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -40144,10 +40665,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.16111111111111112,
-          "Water": 0.2777777777777778,
-          "Earth": 0.38555555555555554,
-          "Air": 0.17555555555555558
+          "Fire": 0.18333333333333335,
+          "Water": 0.29444444444444445,
+          "Earth": 0.3522222222222222,
+          "Air": 0.17000000000000004
         },
         "astrologicalAffinities": {
           "planets": [
@@ -40164,11 +40685,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 11,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 261,
+          "sodiumMg": 268,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -40182,18 +40703,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2,
-          "Essence": 3,
-          "Matter": 3.75,
-          "Substance": 3.33
+          "Spirit": 2.1,
+          "Essence": 3.13,
+          "Matter": 3.58,
+          "Substance": 3.26
         },
         "thermodynamicProperties": {
-          "heat": 0.0338,
-          "entropy": 0.2756,
-          "reactivity": 1.4163,
-          "gregsEnergy": -0.3565,
-          "kalchm": 0.0138,
-          "monica": -0.0588
+          "heat": 0.0382,
+          "entropy": 0.279,
+          "reactivity": 1.6158,
+          "gregsEnergy": -0.4126,
+          "kalchm": 0.0373,
+          "monica": -0.0777
         },
         "substitutions": [
           {
@@ -40264,8 +40785,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt to taste",
-            "notes": ""
+            "name": "salt",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -40298,10 +40819,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23499999999999996,
-          "Water": 0.29500000000000004,
-          "Earth": 0.29999999999999993,
-          "Air": 0.16999999999999998
+          "Fire": 0.21000000000000002,
+          "Water": 0.31,
+          "Earth": 0.31300000000000006,
+          "Air": 0.16699999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -40321,8 +40842,8 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 268,
+          "fiberG": 5,
+          "sodiumMg": 274,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -40336,18 +40857,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.36,
-          "Essence": 3.28,
-          "Matter": 4.06,
-          "Substance": 3.83
+          "Spirit": 3.13,
+          "Essence": 4.03,
+          "Matter": 4.08,
+          "Substance": 3.64
         },
         "thermodynamicProperties": {
-          "heat": 0.0395,
-          "entropy": 0.3228,
-          "reactivity": 1.6396,
-          "gregsEnergy": -0.4897,
-          "kalchm": 0.0074,
-          "monica": -0.0609
+          "heat": 0.0626,
+          "entropy": 0.3031,
+          "reactivity": 2.0445,
+          "gregsEnergy": -0.5572,
+          "kalchm": 0.2861,
+          "monica": -0.2178
         },
         "substitutions": [
           {
@@ -40399,9 +40920,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 5,
-            "unit": "piece",
-            "name": "-6 cups stock",
-            "notes": ""
+            "unit": "cups",
+            "name": "stock",
+            "notes": "5-6"
           },
           {
             "amount": 6,
@@ -40418,8 +40939,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "salt and freshly ground black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -40448,10 +40969,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.2,
-          "Earth": 0.4,
-          "Air": 0.2
+          "Fire": 0.19444444444444448,
+          "Water": 0.23333333333333334,
+          "Earth": 0.38333333333333336,
+          "Air": 0.1888888888888889
         },
         "astrologicalAffinities": {
           "planets": [
@@ -40472,7 +40993,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 230,
+          "sodiumMg": 243,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -40486,18 +41007,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.21,
-          "Essence": 2.58,
-          "Matter": 3.58,
-          "Substance": 3.07
+          "Spirit": 2.09,
+          "Essence": 2.6,
+          "Matter": 3.65,
+          "Substance": 3.21
         },
         "thermodynamicProperties": {
-          "heat": 0.0489,
-          "entropy": 0.3149,
-          "reactivity": 1.3311,
-          "gregsEnergy": -0.3702,
-          "kalchm": 0.0221,
-          "monica": -0.073
+          "heat": 0.0418,
+          "entropy": 0.3127,
+          "reactivity": 1.3253,
+          "gregsEnergy": -0.3727,
+          "kalchm": 0.0117,
+          "monica": -0.0632
         },
         "substitutions": [
           {
@@ -40549,9 +41070,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 5,
-            "unit": "piece",
-            "name": "-6 cups stock",
-            "notes": ""
+            "unit": "cups",
+            "name": "stock",
+            "notes": "5-6"
           },
           {
             "amount": 4,
@@ -40597,10 +41118,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.29999999999999993,
-          "Water": 0.23124999999999998,
+          "Fire": 0.27222222222222214,
+          "Water": 0.25555555555555554,
           "Earth": 0.30000000000000004,
-          "Air": 0.16875
+          "Air": 0.17222222222222225
         },
         "astrologicalAffinities": {
           "planets": [
@@ -40619,9 +41140,9 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 10,
           "carbsG": 25,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 243,
+          "sodiumMg": 252,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -40635,18 +41156,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.88,
-          "Essence": 3.29,
-          "Matter": 3.85,
-          "Substance": 3.5
+          "Spirit": 3.15,
+          "Essence": 3.71,
+          "Matter": 3.96,
+          "Substance": 3.58
         },
         "thermodynamicProperties": {
-          "heat": 0.0652,
-          "entropy": 0.3511,
-          "reactivity": 1.8314,
-          "gregsEnergy": -0.5778,
-          "kalchm": 0.0735,
-          "monica": -0.1209
+          "heat": 0.0697,
+          "entropy": 0.3376,
+          "reactivity": 2.0208,
+          "gregsEnergy": -0.6126,
+          "kalchm": 0.2149,
+          "monica": -0.1971
         },
         "substitutions": [
           {
@@ -40698,9 +41219,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 5,
-            "unit": "piece",
-            "name": "-6 cups stock",
-            "notes": ""
+            "unit": "cups",
+            "name": "stock",
+            "notes": "5-6"
           },
           {
             "amount": 0.25,
@@ -40723,8 +41244,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "tablespoons",
-            "name": "chopped dill for garnish",
-            "notes": "1/2 ounce"
+            "name": "chopped dill",
+            "notes": "1/2 ounce; for garnish"
           }
         ],
         "instructions": [
@@ -40746,10 +41267,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2875,
-          "Water": 0.2125,
-          "Earth": 0.3375,
-          "Air": 0.1625
+          "Fire": 0.26111111111111107,
+          "Water": 0.23888888888888887,
+          "Earth": 0.33333333333333337,
+          "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
@@ -40770,8 +41291,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 235,
-          "sugarG": 4,
+          "sodiumMg": 246,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -40784,18 +41305,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.9,
-          "Essence": 3.13,
-          "Matter": 3.52,
-          "Substance": 3.11
+          "Spirit": 3.17,
+          "Essence": 3.54,
+          "Matter": 3.62,
+          "Substance": 3.2
         },
         "thermodynamicProperties": {
-          "heat": 0.0774,
-          "entropy": 0.3509,
-          "reactivity": 1.8839,
-          "gregsEnergy": -0.5836,
-          "kalchm": 0.2727,
-          "monica": -0.2384
+          "heat": 0.0821,
+          "entropy": 0.341,
+          "reactivity": 2.1098,
+          "gregsEnergy": -0.6372,
+          "kalchm": 0.7813,
+          "monica": -1.2238
         },
         "substitutions": [
           {
@@ -40847,15 +41368,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.3333333333333333,
-            "unit": "piece",
-            "name": "-1/2 cup extra virgin olive oil",
-            "notes": "Troy brand Turkish olive oil OR Spectrum brand Californian olive oil"
+            "unit": "cup",
+            "name": "extra virgin olive oil",
+            "notes": "1/3-1/2; Troy brand Turkish olive oil OR Spectrum brand Californian olive oil"
           },
           {
             "amount": 1.5,
-            "unit": "piece",
-            "name": "-2 teaspoons lemon juice",
-            "notes": ""
+            "unit": "teaspoons",
+            "name": "lemon juice",
+            "notes": "1 1/2-2"
           }
         ],
         "instructions": [
@@ -40863,7 +41384,8 @@ export const cuisine: Cuisine = {
           "Put garlic paste in bowl together with egg yolks and mustard; whisk until smooth.",
           "Slowly add oil (no more than one teaspoon at a time) to egg yolk mixture, whisking until well incorporated before adding more oil.",
           "As mixture begins to thicken, oil can be added somewhat more rapidly (no more than one tablespoon at a time).",
-          "When all oil has been incorporated, whisk in lemon juice."
+          "When all oil has been incorporated, whisk in lemon juice.",
+          "Note: If using extra virgin oil, use mild-flavored oil. Most Italian olive oils have too robust a flavor and leave bitter aftertaste on tongue. It is also helpful to use relatively small proportion of oil to egg yolk."
         ],
         "mealType": [],
         "classifications": {
@@ -40875,10 +41397,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3416666666666666,
-          "Water": 0.24166666666666667,
-          "Earth": 0.275,
-          "Air": 0.1416666666666667
+          "Fire": 0.325,
+          "Water": 0.2333333333333333,
+          "Earth": 0.2833333333333334,
+          "Air": 0.15833333333333333
         },
         "astrologicalAffinities": {
           "planets": [
@@ -40896,10 +41418,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 247,
+          "sodiumMg": 243,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -40913,18 +41435,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.53,
-          "Essence": 3,
-          "Matter": 2.79,
-          "Substance": 2.56
+          "Spirit": 2.92,
+          "Essence": 3.4,
+          "Matter": 2.82,
+          "Substance": 2.51
         },
         "thermodynamicProperties": {
-          "heat": 0.0803,
-          "entropy": 0.3291,
-          "reactivity": 2.3578,
-          "gregsEnergy": -0.6957,
-          "kalchm": 1.4552,
-          "monica": 0.7866
+          "heat": 0.0976,
+          "entropy": 0.3296,
+          "reactivity": 2.7591,
+          "gregsEnergy": -0.8117,
+          "kalchm": 7.8174,
+          "monica": 0.1431
         },
         "substitutions": [
           {
@@ -41090,21 +41612,21 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 tablespoons lemon juice",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "lemon juice",
+            "notes": "1-2"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt to taste",
-            "notes": ""
+            "name": "salt",
+            "notes": "to taste"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "white or cayenne pepper to taste",
-            "notes": ""
+            "name": "white or cayenne pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -41124,10 +41646,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31,
-          "Water": 0.22999999999999998,
-          "Earth": 0.33999999999999997,
-          "Air": 0.12000000000000002
+          "Fire": 0.29,
+          "Water": 0.21999999999999997,
+          "Earth": 0.3499999999999999,
+          "Air": 0.13999999999999996
         },
         "astrologicalAffinities": {
           "planets": [
@@ -41146,9 +41668,9 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 10,
           "carbsG": 24,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 242,
+          "sodiumMg": 238,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -41162,18 +41684,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.76,
-          "Essence": 2.1,
-          "Matter": 2.18,
-          "Substance": 2.05
+          "Spirit": 2.15,
+          "Essence": 2.5,
+          "Matter": 2.21,
+          "Substance": 1.99
         },
         "thermodynamicProperties": {
-          "heat": 0.0648,
-          "entropy": 0.315,
-          "reactivity": 1.8697,
-          "gregsEnergy": -0.5242,
-          "kalchm": 0.5393,
-          "monica": -0.4541
+          "heat": 0.0857,
+          "entropy": 0.3116,
+          "reactivity": 2.2865,
+          "gregsEnergy": -0.6267,
+          "kalchm": 2.2582,
+          "monica": 0.3365
         },
         "substitutions": [
           {
@@ -41213,21 +41735,21 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 tablespoons lemon juice",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "lemon juice",
+            "notes": "1-2"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt to taste",
-            "notes": ""
+            "name": "salt",
+            "notes": "to taste"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "white or cayenne pepper to taste",
-            "notes": ""
+            "name": "white or cayenne pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -41247,10 +41769,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31,
-          "Water": 0.22999999999999998,
-          "Earth": 0.33999999999999997,
-          "Air": 0.12000000000000002
+          "Fire": 0.29,
+          "Water": 0.21999999999999997,
+          "Earth": 0.3499999999999999,
+          "Air": 0.13999999999999996
         },
         "astrologicalAffinities": {
           "planets": [
@@ -41269,9 +41791,9 @@ export const cuisine: Cuisine = {
           "calories": 250,
           "proteinG": 10,
           "carbsG": 24,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 242,
+          "sodiumMg": 238,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -41285,18 +41807,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.76,
-          "Essence": 2.1,
-          "Matter": 2.18,
-          "Substance": 2.05
+          "Spirit": 2.15,
+          "Essence": 2.5,
+          "Matter": 2.21,
+          "Substance": 1.99
         },
         "thermodynamicProperties": {
-          "heat": 0.0648,
-          "entropy": 0.315,
-          "reactivity": 1.8697,
-          "gregsEnergy": -0.5242,
-          "kalchm": 0.5393,
-          "monica": -0.4541
+          "heat": 0.0857,
+          "entropy": 0.3116,
+          "reactivity": 2.2865,
+          "gregsEnergy": -0.6267,
+          "kalchm": 2.2582,
+          "monica": 0.3365
         },
         "substitutions": [
           {
@@ -41937,8 +42459,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "lemon juice to taste",
-            "notes": ""
+            "name": "lemon juice",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -41976,31 +42498,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3277777777777778,
-          "Water": 0.24444444444444446,
-          "Earth": 0.2833333333333333,
-          "Air": 0.14444444444444443
+          "Fire": 0.3,
+          "Water": 0.24,
+          "Earth": 0.31500000000000006,
+          "Air": 0.14500000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 24,
           "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 248,
+          "fiberG": 5,
+          "sodiumMg": 246,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -42014,18 +42536,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.94,
-          "Essence": 3.85,
-          "Matter": 3.71,
-          "Substance": 3.37
+          "Spirit": 4.28,
+          "Essence": 4.57,
+          "Matter": 4.21,
+          "Substance": 3.73
         },
         "thermodynamicProperties": {
-          "heat": 0.1161,
-          "entropy": 0.4129,
-          "reactivity": 2.6269,
-          "gregsEnergy": -0.9685,
-          "kalchm": 5.1261,
-          "monica": 0.2256
+          "heat": 0.1055,
+          "entropy": 0.3711,
+          "reactivity": 2.6024,
+          "gregsEnergy": -0.8604,
+          "kalchm": 9.0718,
+          "monica": 0.1499
         },
         "substitutions": [
           {
@@ -42268,16 +42790,16 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.3333333333333333,
+            "amount": 0.4583333333333333,
             "unit": "cup",
-            "name": "+ 2 tablespoons extra virgin olive oil",
-            "notes": ""
+            "name": "extra virgin olive oil",
+            "notes": "1/3 cup + 2 tablespoons"
           },
           {
             "amount": 1.5,
-            "unit": "piece",
-            "name": "-2 cups water",
-            "notes": ""
+            "unit": "cups",
+            "name": "water",
+            "notes": "1 1/2-2"
           }
         ],
         "instructions": [
@@ -42297,10 +42819,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.29062499999999997,
-          "Water": 0.24062499999999998,
-          "Earth": 0.30937499999999996,
-          "Air": 0.15937500000000002
+          "Fire": 0.2794117647058823,
+          "Water": 0.2529411764705882,
+          "Earth": 0.3088235294117647,
+          "Air": 0.15882352941176475
         },
         "astrologicalAffinities": {
           "planets": [
@@ -42321,7 +42843,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 246,
+          "sodiumMg": 251,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -42335,18 +42857,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.31,
-          "Essence": 6.15,
-          "Matter": 6.34,
-          "Substance": 5.68
+          "Spirit": 5.18,
+          "Essence": 6.14,
+          "Matter": 6.43,
+          "Substance": 5.82
         },
         "thermodynamicProperties": {
-          "heat": 0.0793,
-          "entropy": 0.3562,
-          "reactivity": 2.2266,
-          "gregsEnergy": -0.7138,
-          "kalchm": 0.2147,
-          "monica": -0.2084
+          "heat": 0.0737,
+          "entropy": 0.3526,
+          "reactivity": 2.1706,
+          "gregsEnergy": -0.6917,
+          "kalchm": 0.0778,
+          "monica": -0.1248
         },
         "substitutions": [
           {
@@ -42422,9 +42944,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 tablespoons umeboshi paste",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "umeboshi paste",
+            "notes": "1-2"
           },
           {
             "amount": 1,
@@ -42498,31 +43020,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1852941176470588,
-          "Water": 0.3323529411764705,
-          "Earth": 0.34117647058823525,
-          "Air": 0.14117647058823532
+          "Fire": 0.1888888888888889,
+          "Water": 0.3388888888888889,
+          "Earth": 0.32222222222222224,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 10,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 283,
+          "sodiumMg": 286,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -42536,18 +43058,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.65,
-          "Essence": 5.34,
-          "Matter": 6.25,
+          "Spirit": 3.67,
+          "Essence": 5.4,
+          "Matter": 6.14,
           "Substance": 5.52
         },
         "thermodynamicProperties": {
-          "heat": 0.0416,
-          "entropy": 0.2915,
-          "reactivity": 1.6682,
-          "gregsEnergy": -0.4448,
-          "kalchm": 0.0007,
-          "monica": -0.0367
+          "heat": 0.0423,
+          "entropy": 0.2955,
+          "reactivity": 1.7546,
+          "gregsEnergy": -0.4763,
+          "kalchm": 0.0012,
+          "monica": -0.0404
         },
         "substitutions": [
           {
@@ -42576,8 +43098,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "cups",
-            "name": "canola or coconut oil for frying",
-            "notes": ""
+            "name": "canola or coconut oil",
+            "notes": "for frying"
           },
           {
             "amount": 7,
@@ -42624,8 +43146,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "shoyu to taste",
-            "notes": ""
+            "name": "shoyu",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -42649,10 +43171,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23888888888888893,
-          "Water": 0.3111111111111111,
-          "Earth": 0.2777777777777778,
-          "Air": 0.1722222222222222
+          "Fire": 0.21500000000000002,
+          "Water": 0.32,
+          "Earth": 0.30999999999999994,
+          "Air": 0.15499999999999997
         },
         "astrologicalAffinities": {
           "planets": [
@@ -42669,12 +43191,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 250,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 274,
-          "sugarG": 5,
+          "sodiumMg": 278,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -42687,22 +43209,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.09,
-          "Essence": 3.3,
-          "Matter": 3.47,
-          "Substance": 3.22
+          "Spirit": 2.96,
+          "Essence": 3.71,
+          "Matter": 3.72,
+          "Substance": 3.46
         },
         "thermodynamicProperties": {
-          "heat": 0.0831,
-          "entropy": 0.3694,
-          "reactivity": 2.2063,
-          "gregsEnergy": -0.7319,
-          "kalchm": 0.5186,
-          "monica": -0.5052
+          "heat": 0.0646,
+          "entropy": 0.3202,
+          "reactivity": 2.1347,
+          "gregsEnergy": -0.619,
+          "kalchm": 0.331,
+          "monica": -0.2623
         },
         "substitutions": [
           {
-            "originalIngredient": "canola or coconut oil for frying",
+            "originalIngredient": "canola or coconut oil",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -43031,9 +43553,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "to 3 tablespoons mirin",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "mirin",
+            "notes": "2-3"
           },
           {
             "amount": 1,
@@ -43084,10 +43606,1723 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2318181818181818,
-          "Water": 0.29545454545454547,
-          "Earth": 0.3227272727272727,
-          "Air": 0.15000000000000002
+          "Fire": 0.22727272727272727,
+          "Water": 0.29090909090909095,
+          "Earth": 0.33636363636363636,
+          "Air": 0.14545454545454548
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 266,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.13,
+          "Essence": 3.61,
+          "Matter": 4.47,
+          "Substance": 3.84
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0611,
+          "entropy": 0.3247,
+          "reactivity": 1.6333,
+          "gregsEnergy": -0.4692,
+          "kalchm": 0.0259,
+          "monica": -0.0786
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "arame",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "TOMATO VINAIGRETTE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 1,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "vine-ripe tomatoes",
+            "notes": "12 ounces; seeded, cored, and cut into quarters"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "diced red onion",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "vegetable stock",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "red wine vinegar",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "ground black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch of salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "fresh basil leaves",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Combine all ingredients in blender and puree until smooth."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2775,
+          "Water": 0.2525,
+          "Earth": 0.28500000000000003,
+          "Air": 0.185
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 251,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.82,
+          "Essence": 3.12,
+          "Matter": 2.88,
+          "Substance": 2.63
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0918,
+          "entropy": 0.3505,
+          "reactivity": 2.4736,
+          "gregsEnergy": -0.7752,
+          "kalchm": 2.4206,
+          "monica": 0.3545
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "vine-ripe tomatoes",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "TOMATO \"CREAM\" SAUCE (FOR VEGETABLE-POLENTA NAPOLEONS)",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 3,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "pounds",
+            "name": "ripe tomatoes",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "spanish onion",
+            "notes": "1/2 pound; medium dice"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "carrot",
+            "notes": "6 ounces; peeled and cut in 1/4-inch dice"
+          },
+          {
+            "amount": 4,
+            "unit": "cloves",
+            "name": "garlic",
+            "notes": "peeled and thinly sliced"
+          },
+          {
+            "amount": 2,
+            "unit": "cups",
+            "name": "vegetable stock",
+            "notes": "2-3"
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "fresh basil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "fresh oregano",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "salt",
+            "notes": "to taste"
+          }
+        ],
+        "instructions": [
+          "Preheat broiler for 5-10 minutes. Adjust rack to highest position.",
+          "Broil tomatoes on sheet tray or sizzle platter, turning them often until their skins blister. Reserve tomato liquid collected in broiler pan.",
+          "Put tomatoes through food mill to remove skins and seeds. Combine tomato pulp and reserved liquid and set aside.",
+          "In 10-inch sauté pan, \"sauté\" onion, carrot, and garlic in 1/2 cup vegetable stock, stirring often. When all liquid has evaporated, ladle in another 1/2 cup stock. Repeat this procedure until vegetables are soft and just beginning to caramelize.",
+          "In blender, process tomatoes with their liquid and carrot-onion mixture until very smooth and creamy, about 2 to 3 minutes.",
+          "Transfer sauce to covered saucepan, and simmer sauce for 25 minutes. If sauce is too thick, thin with some vegetable stock. Stir in olive oil and fresh herbs. Simmer 5 minutes longer."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2911111111111111,
+          "Water": 0.21333333333333332,
+          "Earth": 0.3088888888888889,
+          "Air": 0.18666666666666668
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 235,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.13,
+          "Essence": 3.47,
+          "Matter": 3.47,
+          "Substance": 3.06
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0862,
+          "entropy": 0.3462,
+          "reactivity": 2.1965,
+          "gregsEnergy": -0.6744,
+          "kalchm": 1.1608,
+          "monica": 2.0589
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "ripe tomatoes",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MUHAMMARA",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 2,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "large red peppers",
+            "notes": "1 pound; roasted, skinned and seeded"
+          },
+          {
+            "amount": 3,
+            "unit": "cloves",
+            "name": "garlic",
+            "notes": "peeled"
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "pomegranate molasses",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "lemon juice",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "walnuts",
+            "notes": "toasted"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "plain breadcrumbs",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "ground black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "vegetable stock or water",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "sherry vinegar",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Combine peppers, garlic, pomegranate molasses, lemon juice, and walnuts in bowl of food processor and puree.",
+          "Add breadcrumbs, black pepper, olive oil, vegetable stock, and sherry vinegar. Puree until smooth. Serve with Mediterranean Roasted Black Cod."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.3055555555555556,
+          "Water": 0.2111111111111111,
+          "Earth": 0.3111111111111111,
+          "Air": 0.17222222222222222
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 234,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.79,
+          "Essence": 3.69,
+          "Matter": 3.44,
+          "Substance": 3.12
+        },
+        "thermodynamicProperties": {
+          "heat": 0.1207,
+          "entropy": 0.4136,
+          "reactivity": 2.6922,
+          "gregsEnergy": -0.9929,
+          "kalchm": 7.904,
+          "monica": 0.1784
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "large red peppers",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "HONEY-MUSTARD YOGURT",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 3,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "yogurt",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "dijon mustard",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "honey",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "In small bowl, whisk all ingredients together."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.3,
+          "Water": 0.31666666666666665,
+          "Earth": 0.26666666666666666,
+          "Air": 0.11666666666666668
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 24,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 277,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.2,
+          "Essence": 1.38,
+          "Matter": 1.34,
+          "Substance": 1.34
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0675,
+          "entropy": 0.306,
+          "reactivity": 2.0702,
+          "gregsEnergy": -0.566,
+          "kalchm": 0.886,
+          "monica": -2.2587
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "yogurt",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FISH CONGEE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 10,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 8,
+            "unit": "cups",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "white basmati rice",
+            "notes": "soaked overnight"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "long grain brown rice",
+            "notes": "soaked overnight"
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "pound",
+            "name": "burdock root",
+            "notes": "thin diagonal slice"
+          },
+          {
+            "amount": 0.25,
+            "unit": "pound",
+            "name": "carrot",
+            "notes": "small dice"
+          },
+          {
+            "amount": 0.5,
+            "unit": "pound",
+            "name": "onion",
+            "notes": "small dice"
+          },
+          {
+            "amount": 1,
+            "unit": "pound",
+            "name": "white fish fillet",
+            "notes": "sole, flounder, sea bass OR red snapper"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "toasted sesame oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoons",
+            "name": "tamari",
+            "notes": "1-2; or more to taste"
+          },
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "finely sliced scallions",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "sheets nori",
+            "notes": "cut in thin strips"
+          }
+        ],
+        "instructions": [
+          "In 1-gallon pot, combine water, white basmati rice, long grain brown rice, and salt. Bring to boil for 2-3 minutes. Add burdock, carrot, and onion. Lower flame, cover and allow to simmer, stirring frequently, until rice is creamy and lightly thickened (1 to 1 1/2 hours).",
+          "Cut fillet in 2-inch pieces. Add to soup 3 minutes before end of cooking, or until just tender.",
+          "Turn off flame; add toasted sesame oil, tamari, and scallions.",
+          "Ladle into bowls; garnish with nori strips.",
+          "Note: Scissors work best for cutting the nori."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.19166666666666668,
+          "Water": 0.2708333333333333,
+          "Earth": 0.375,
+          "Air": 0.1625
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 258,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.29,
+          "Essence": 3.76,
+          "Matter": 4.74,
+          "Substance": 4.1
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0604,
+          "entropy": 0.3311,
+          "reactivity": 1.6018,
+          "gregsEnergy": -0.47,
+          "kalchm": 0.0141,
+          "monica": -0.0688
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "water",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "HIGH-PROTEIN GLUTEN-FREE FLOUR MIX",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 1,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "garbanzo flour",
+            "notes": ""
+          },
+          {
+            "amount": 7,
+            "unit": "tablespoons",
+            "name": "brown rice flour",
+            "notes": ""
+          },
+          {
+            "amount": 7,
+            "unit": "tablespoons",
+            "name": "potato starch flour",
+            "notes": ""
+          },
+          {
+            "amount": 7,
+            "unit": "tablespoons",
+            "name": "tapioca starch flour",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Note: for this recipe use 1 3/4 cups flour (discard extra tablespoon)."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.1,
+          "Water": 0.2,
+          "Earth": 0.5,
+          "Air": 0.2
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 13,
+          "carbsG": 26,
+          "fatG": 6,
+          "fiberG": 6,
+          "sodiumMg": 230,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 0.56,
+          "Essence": 0.68,
+          "Matter": 1.64,
+          "Substance": 1.36
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0154,
+          "entropy": 0.2427,
+          "reactivity": 0.593,
+          "gregsEnergy": -0.1285,
+          "kalchm": 0.1626,
+          "monica": -0.1193
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "garbanzo flour",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "GLUTEN-FREE MINI PIZZAS",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 10,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": "for greasing sheet trays"
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "lukewarm water",
+            "notes": ""
+          },
+          {
+            "amount": 2.25,
+            "unit": "teaspoons",
+            "name": "dry yeast",
+            "notes": "1 packet"
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "rice flour",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "tapioca flour",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "xanthan gum",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "fennel seed",
+            "notes": "optional"
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "egg",
+            "notes": ""
+          },
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "olive oil",
+            "notes": "divided"
+          }
+        ],
+        "instructions": [
+          "Line 2 half-sheet trays with Silpats or parchment generously brushed with olive oil.",
+          "In small bowl, dissolve maple crystals in water and add yeast. Cover with plastic wrap and set aside.",
+          "In separate small bowl, whisk together rice flour, tapioca flour, xanthan gum, fennel, and salt. Set aside.",
+          "In stand mixer, blend egg, 1 tablespoon of oil, and yeast-maple crystal water. Add flour mix and beat on high for 2 minutes.",
+          "Using tablespoon, spoon batter onto cookie sheet, making 6-8 pizzas per sheet. With circular motion, spread each circle out with spoon to about 2 inches in diameter.",
+          "Cover with inverted baking sheet, and let rise 40-45 minutes. Preheat oven to 375° F.",
+          "Bake each mini pizza 10 minutes without toppings.",
+          "Remove trays from oven, and garnish pizzas with toppings of choice. Dribble remaining oil over each mini pizza. Bake another 10 minutes to cook fillings and melt cheese, if using."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.19090909090909092,
+          "Water": 0.2590909090909091,
+          "Earth": 0.35000000000000003,
+          "Air": 0.2
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 254,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.51,
+          "Essence": 3.6,
+          "Matter": 4.32,
+          "Substance": 3.86
+        },
+        "thermodynamicProperties": {
+          "heat": 0.04,
+          "entropy": 0.2925,
+          "reactivity": 1.5729,
+          "gregsEnergy": -0.4201,
+          "kalchm": 0.0099,
+          "monica": -0.0579
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "extra virgin olive oil",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "COBB SALAD",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "red wine vinegar",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "dijon mustard",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "rice syrup",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch freshly ground black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "roquefort cheese",
+            "notes": "2 ounces"
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped chives",
+            "notes": "1/2 ounce"
+          },
+          {
+            "amount": 4,
+            "unit": "ounces",
+            "name": "duck bacon",
+            "notes": "5 slices; roasted at 375° F for 10 minutes"
+          },
+          {
+            "amount": 2,
+            "unit": "cups",
+            "name": "chicken stock",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "bay leaf",
+            "notes": ""
+          },
+          {
+            "amount": 3,
+            "unit": "sprigs",
+            "name": "thyme",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "pound",
+            "name": "skinless boneless chicken breast",
+            "notes": "1 small"
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "large eggs",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "pound",
+            "name": "romaine lettuce",
+            "notes": "1 head; bite-size pieces"
+          },
+          {
+            "amount": 3,
+            "unit": "ounces",
+            "name": "arugula",
+            "notes": "bite-size pieces"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "avocado",
+            "notes": "medium dice (drizzled with juice of 1/2 lemon)"
+          },
+          {
+            "amount": 0.5,
+            "unit": "pint",
+            "name": "cherry tomatoes",
+            "notes": "halved lengthwise"
+          }
+        ],
+        "instructions": [
+          "In blender, combine all dressing ingredients until creamy. Season to taste and set aside.",
+          "Sear bacon in 10-inch sauté pan on medium-low heat until crisp on both sides. Transfer to paper towels to drain excess fat. Cool, crumble, and set bacon aside.",
+          "Combine chicken stock, salt, bay leaf, and thyme in 2 1/2 quart saucepan and bring to boil. Add chicken, lower heat, and poach until tender and flesh is opaque. Transfer chicken to plate and cool to room temperature. Cut into medium dice. Set aside.",
+          "Combine eggs in 2 1/2 quart pot, cover with 1 inch of water, cover pot, and bring to boil. Turn off heat and allow eggs to remain in hot water for about 8 minutes. Shock eggs in cold water. When cool enough to handle, peel and chop eggs into medium dice.",
+          "Combine romaine and arugula. Arrange bacon, chicken, eggs, avocado, and tomatoes over greens. Drizzle with dressing and serve."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2777777777777779,
+          "Water": 0.2444444444444444,
+          "Earth": 0.26388888888888895,
+          "Air": 0.21388888888888888
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Sun",
+            "Mars"
+          ],
+          "signs": [
+            "Aries",
+            "Leo"
+          ],
+          "lunarPhases": [
+            "Full Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 248,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 6.15,
+          "Essence": 6.81,
+          "Matter": 6.13,
+          "Substance": 6.1
+        },
+        "thermodynamicProperties": {
+          "heat": 0.097,
+          "entropy": 0.4156,
+          "reactivity": 2.9742,
+          "gregsEnergy": -1.1389,
+          "kalchm": 8.0848,
+          "monica": 0.1832
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "red wine vinegar",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CASHEW CREAM",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 1,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "cashews",
+            "notes": "soaked 4 hours to overnight (discard soaking liquid)"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "lime juice",
+            "notes": "1-2 limes"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "canola oil",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": "to taste"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "scallion",
+            "notes": "trimmed, chopped"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "water",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Combine all ingredients in food processor until smooth and creamy. Season to taste."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.15,
+          "Water": 0.38333333333333336,
+          "Earth": 0.25000000000000006,
+          "Air": 0.2166666666666667
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 303,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.66,
+          "Essence": 2.4,
+          "Matter": 1.69,
+          "Substance": 1.61
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0648,
+          "entropy": 0.2428,
+          "reactivity": 3.0088,
+          "gregsEnergy": -0.6658,
+          "kalchm": 3.6288,
+          "monica": 0.1717
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "cashews",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CREAM OF ASPARAGUS SOUP",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 4,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "pounds",
+            "name": "asparagus",
+            "notes": "bottoms trimmed"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "cups",
+            "name": "thinly sliced leeks",
+            "notes": "about 2 medium"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "rolled oats",
+            "notes": ""
+          },
+          {
+            "amount": 4,
+            "unit": "cups",
+            "name": "water or vegetable stock",
+            "notes": "4-5"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "bouquet garni",
+            "notes": "2 sprigs parsley, 1 sprig thyme and 1 bay leaf"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "freshly ground black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoons",
+            "name": "fresh lemon juice",
+            "notes": "1-3"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "butter",
+            "notes": "optional"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "chopped parsley",
+            "notes": "for garnish"
+          }
+        ],
+        "instructions": [
+          "Trim tips of asparagus spears and set aside. Cut remainder of stems into 1-inch pieces. Prepare ice bath.",
+          "In small saucepan, bring 2 1/2 cups of salted water to boil. Blanch asparagus tips until tender (1-2 minutes); shock tips in ice water. Reserve cooking liquid (about 2 cups). Set aside tips for garnish.",
+          "Warm oil in 1-gallon sauce pan. Add leeks with pinch of salt and sweat over medium-low heat for 7 to 10 minutes or until soft but not brown. Add oats, asparagus stems, reserved cooking liquid with enough water or stock to equal 4 cups. Add bouquet garni and bring to boil. Lower heat and simmer, partially covered for about 30 minutes or until oats are soft.",
+          "Remove bouquet garni and discard. Puree soup in blender until very smooth.",
+          "Return soup to pot; thin if desired with water or stock. Adjust seasonings with salt, pepper and lemon juice. Add butter if desired for richer consistency.",
+          "Pour soup into bowls and garnish with chopped parsley and reserved tips."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.19545454545454544,
+          "Water": 0.309090909090909,
+          "Earth": 0.2790909090909091,
+          "Air": 0.2163636363636364
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 274,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.13,
+          "Essence": 4.18,
+          "Matter": 3.92,
+          "Substance": 3.56
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0633,
+          "entropy": 0.2988,
+          "reactivity": 2.2756,
+          "gregsEnergy": -0.6167,
+          "kalchm": 0.7223,
+          "monica": -0.833
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "asparagus",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CREAMY SWEET POTATO BISQUE WITH CASHEW CRÈME FRAICHE AND CANDIED PECANS",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 7,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "coconut oil",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "onions",
+            "notes": "medium dice"
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "garlic powder",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "smoked paprika",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "ground cumin",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "pounds",
+            "name": "sweet potatoes",
+            "notes": "peeled and diced"
+          },
+          {
+            "amount": 6,
+            "unit": "cups",
+            "name": "vegetable stock",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "coconut milk",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "brown rice vinegar",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "cashews",
+            "notes": "soaked 4 hours to overnight (discard soaking liquid)"
+          },
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "brown rice vinegar",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "canola oil",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": "or to taste"
+          },
+          {
+            "amount": 1,
+            "unit": "clove",
+            "name": "garlic",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "water",
+            "notes": "or enough to blend"
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "pecans",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "tablespoons",
+            "name": "rice syrup",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "smoked paprika",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "cayenne pepper",
+            "notes": "or to taste"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "container purple microgreens",
+            "notes": "for garnish"
+          }
+        ],
+        "instructions": [
+          "For sweet potato bisque: In 1-gallon pot, heat coconut oil over medium flame. Add onion, salt, garlic powder, smoked paprika, and cumin. Sweat until onions are translucent. Add sweet potatoes and stock to pot. Raise heat bring and bring to boil. Reduce heat and simmer with lid ajar until potatoes are tender.",
+          "Puree soup in blender until creamy. Return soup to pot. Re-heat and whisk in coconut milk. Season to taste, adding in vinegar.",
+          "For cashew crème fraiche: Combine all ingredients in food processor until smooth and creamy. Season to taste.",
+          "For candied pecans: Preheat oven to 350° F. Line half sheet tray with parchment paper.",
+          "In small saucepan, heat syrup and maple crystals. Add salt, smoked paprika, and cayenne.",
+          "Combine nuts with syrup in small bowl. Transfer to sheet tray and bake 5 to 7 minutes. Cool in refrigerator until cold enough to crack."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2608695652173913,
+          "Water": 0.24130434782608695,
+          "Earth": 0.32782608695652166,
+          "Air": 0.17
         },
         "astrologicalAffinities": {
           "planets": [
@@ -43108,7 +45343,162 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 268,
+          "sodiumMg": 247,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 6.21,
+          "Essence": 6.82,
+          "Matter": 8.46,
+          "Substance": 7.74
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0684,
+          "entropy": 0.3924,
+          "reactivity": 1.8794,
+          "gregsEnergy": -0.669,
+          "kalchm": 0.0001,
+          "monica": -0.0387
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "coconut oil",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "PEANUT SAUCE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 4,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "peanuts",
+            "notes": "roasted"
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "chopped garlic",
+            "notes": "1 large clove"
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "tamari",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "toasted sesame oil",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "coconut sugar",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "lime juice",
+            "notes": "1 lime"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "cayenne",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "coconut milk",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "maple syrup",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sea salt",
+            "notes": "to taste"
+          }
+        ],
+        "instructions": [
+          "Puree peanuts and water in VitaMix to paste consistency. Add garlic, tamari, oil, sugar, lime juice, cayenne, coconut milk, and maple syrup. Puree until smooth. Add salt to taste."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.28363636363636363,
+          "Water": 0.3227272727272727,
+          "Earth": 0.28,
+          "Air": 0.11363636363636363
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 23,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 279,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -43122,22 +45512,1142 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.18,
-          "Essence": 3.66,
-          "Matter": 4.38,
-          "Substance": 3.79
+          "Spirit": 3.56,
+          "Essence": 3.98,
+          "Matter": 3.75,
+          "Substance": 3.37
         },
         "thermodynamicProperties": {
-          "heat": 0.0641,
-          "entropy": 0.3275,
-          "reactivity": 1.7199,
-          "gregsEnergy": -0.4992,
-          "kalchm": 0.0454,
-          "monica": -0.0939
+          "heat": 0.0913,
+          "entropy": 0.3474,
+          "reactivity": 2.4671,
+          "gregsEnergy": -0.7658,
+          "kalchm": 2.6301,
+          "monica": 0.321
         },
         "substitutions": [
           {
-            "originalIngredient": "arame",
+            "originalIngredient": "peanuts",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CEVICHE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 12,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "pound",
+            "name": "sea scallops",
+            "notes": "cut into quarters"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "jalapeno pepper",
+            "notes": "brunoise"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "red pepper",
+            "notes": "brunoise"
+          },
+          {
+            "amount": 0.5,
+            "unit": "piece",
+            "name": "small red onion",
+            "notes": "2 ounces; minced"
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "ripe tomatoes",
+            "notes": "seeded and cut into small dice"
+          },
+          {
+            "amount": 1,
+            "unit": "clove",
+            "name": "garlic",
+            "notes": "minced"
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "rice syrup",
+            "notes": "optional"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped cilantro",
+            "notes": "1/4 ounce"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped parsley",
+            "notes": "1/4 ounce"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "lime juice",
+            "notes": "8-10 limes"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "lemon juice",
+            "notes": "4 lemons"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "avocado",
+            "notes": "peeled and cut into 16 slices and tossed with lemon juice"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped parsley",
+            "notes": "2-3; 1/4 ounce"
+          }
+        ],
+        "instructions": [
+          "In large bowl, combine scallops, jalapeno, red pepper, onion, tomato, garlic, rice syrup, cilantro, parsley, salt, pepper and citrus juices. Toss gently but thoroughly, being certain scallops are well coated with citrus juices.",
+          "Cover and refrigerate for at least 30-60 minutes, or until scallops lose their translucent appearance. Stir occasionally.",
+          "Serve in individual chilled bowls or glasses garnished with avocado slices and parsley."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.23533333333333337,
+          "Water": 0.298,
+          "Earth": 0.21933333333333332,
+          "Air": 0.24733333333333335
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 8,
+          "carbsG": 27,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 269,
+          "sugarG": 6,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 5.79,
+          "Essence": 6.27,
+          "Matter": 4.28,
+          "Substance": 4.1
+        },
+        "thermodynamicProperties": {
+          "heat": 0.1413,
+          "entropy": 0.4119,
+          "reactivity": 4.4385,
+          "gregsEnergy": -1.6868,
+          "kalchm": 15841.0229,
+          "monica": 0.0393
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "sea scallops",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BLACKENING SPICE MIX",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 4,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "teaspoons",
+            "name": "paprika",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "ground coriander",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "ground cumin",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "ground thyme",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "ground rosemary",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Combine all ingredients."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.3528571428571428,
+          "Water": 0.11142857142857143,
+          "Earth": 0.29000000000000004,
+          "Air": 0.24571428571428572
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Sun",
+            "Mars"
+          ],
+          "signs": [
+            "Aries",
+            "Leo"
+          ],
+          "lunarPhases": [
+            "Full Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 195,
+          "sugarG": 6,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.52,
+          "Essence": 1.57,
+          "Matter": 1.74,
+          "Substance": 1.65
+        },
+        "thermodynamicProperties": {
+          "heat": 0.2059,
+          "entropy": 0.6721,
+          "reactivity": 2.8477,
+          "gregsEnergy": -1.708,
+          "kalchm": 3.4809,
+          "monica": 0.4809
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "black pepper",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BLACK BEAN SALAD",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 5,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "black beans",
+            "notes": "soaked, drained, and rinsed"
+          },
+          {
+            "amount": 4,
+            "unit": "cups",
+            "name": "filtered water",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "ground cumin",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "ground fennel",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "bay leaf",
+            "notes": ""
+          },
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "lime juice",
+            "notes": "1 1/2 limes"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 3,
+            "unit": "piece",
+            "name": "red radishes",
+            "notes": "small dice"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "minced scallions",
+            "notes": "3"
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "chopped tarragon",
+            "notes": "1/2 ounce"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "salt and pepper",
+            "notes": "to taste"
+          }
+        ],
+        "instructions": [
+          "Combine beans, water, 1/2 teaspoon salt, cumin, fennel, and bay leaf in 1-gallon pot and bring to boil over high heat.",
+          "Lower heat and simmer for 25-30 minutes or until beans are tender. Remove bay leaf and drain beans in colander.",
+          "Whisk together lime juice, remaining 1/2 teaspoon salt, and olive oil. Pour over warm beans.",
+          "When beans have cooled, toss together with radish, scallions, and tarragon.",
+          "Season to taste with salt and pepper."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.16416666666666668,
+          "Water": 0.2941666666666667,
+          "Earth": 0.31916666666666665,
+          "Air": 0.22249999999999995
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 27,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 268,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.34,
+          "Essence": 4.31,
+          "Matter": 4.34,
+          "Substance": 3.94
+        },
+        "thermodynamicProperties": {
+          "heat": 0.062,
+          "entropy": 0.3118,
+          "reactivity": 2.0923,
+          "gregsEnergy": -0.5903,
+          "kalchm": 0.2349,
+          "monica": -0.1948
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "black beans",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "VEGAN \"MORNAY\" SAUCE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 3,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "coconut oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "ounce",
+            "name": "shallot",
+            "notes": "1 small; minced"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "ounce",
+            "name": "oat flour",
+            "notes": "1 tablespoon + 1 teaspoon"
+          },
+          {
+            "amount": 4,
+            "unit": "cups",
+            "name": "fresh almond milk",
+            "notes": "cooled (see following recipe)"
+          },
+          {
+            "amount": 3,
+            "unit": "sprigs",
+            "name": "fresh thyme",
+            "notes": ".01 ounce"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "bay leaf",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch nutmeg",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "chickpea miso",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "umeboshi paste",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "dijon mustard",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "lemon juice",
+            "notes": "or more to taste"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "worcestershire sauce",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sea salt and freshly white pepper",
+            "notes": "to taste"
+          }
+        ],
+        "instructions": [
+          "In 1-gallon sauce pan, heat oil over medium flame. Sweat shallots with salt until translucent.",
+          "Add flour and cook over low heat, stirring constantly for about 5 minutes.",
+          "Slowly whisk in 4 cups of almond milk. Add thyme, bay leaf, and nutmeg.",
+          "Simmer for about 20 minutes, stirring often.",
+          "In blender, combine miso, umeboshi paste, mustard, and water and blend until creamy. Add this mixture to sauce and slowly whisk to combine.",
+          "Simmer until sauce is nappé consistency, about 15 minutes.",
+          "Strain sauce through chinois. Add lemon juice and Worcestershire sauce. Season to taste."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.20666666666666667,
+          "Water": 0.27799999999999997,
+          "Earth": 0.3013333333333333,
+          "Air": 0.21399999999999997
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 261,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 4.16,
+          "Essence": 5.02,
+          "Matter": 5.33,
+          "Substance": 4.75
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0687,
+          "entropy": 0.3345,
+          "reactivity": 2.0571,
+          "gregsEnergy": -0.6194,
+          "kalchm": 0.1012,
+          "monica": -0.1315
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "coconut oil",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BORSCHT",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 10,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 12,
+            "unit": "ounces",
+            "name": "onion",
+            "notes": "1 large; medium dice"
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "minced garlic",
+            "notes": "3 large cloves"
+          },
+          {
+            "amount": 4,
+            "unit": "ounces",
+            "name": "carrot",
+            "notes": "1 small; 1/2-inch quarter moon slices"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "rib celery",
+            "notes": "medium dice"
+          },
+          {
+            "amount": 6,
+            "unit": "ounces",
+            "name": "red cabbage",
+            "notes": "finely shredded"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "apple cider vinegar",
+            "notes": ""
+          },
+          {
+            "amount": 18,
+            "unit": "ounces",
+            "name": "beets",
+            "notes": "3-4 medium; peeled, medium dice"
+          },
+          {
+            "amount": 2,
+            "unit": "quarts",
+            "name": "vegetable stock",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "apple juice",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "lemon juice",
+            "notes": "1 lemon"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped fresh dill",
+            "notes": "1/2 ounce; for garnish"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "tofu sour cream",
+            "notes": "recipe below; for garnish"
+          }
+        ],
+        "instructions": [
+          "In 1-gallon pot, heat oil over medium flame. Sweat onion with salt until translucent.",
+          "Add garlic, carrot, celery, red cabbage, and vinegar. Continue sweating until cabbage wilts.",
+          "Add beets and stock. Simmer partially covered, 30 minutes, or until all vegetables are tender.",
+          "Add apple juice and lemon juice.",
+          "Season with salt and pepper. Garnish with dill and Tofu Sour Cream (recipe below)."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2,
+          "Water": 0.2633333333333333,
+          "Earth": 0.36666666666666664,
+          "Air": 0.16999999999999998
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 255,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 4.22,
+          "Essence": 5.83,
+          "Matter": 6.07,
+          "Substance": 5.35
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0548,
+          "entropy": 0.2962,
+          "reactivity": 1.9444,
+          "gregsEnergy": -0.5211,
+          "kalchm": 0.0283,
+          "monica": -0.0752
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "extra virgin olive oil",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CREAM OF CARROT SOUP WITH ARBORIO RICE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "large onion",
+            "notes": "12 ounces; medium dice"
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "pounds",
+            "name": "carrots",
+            "notes": "peeled, 1/2-inch rounds"
+          },
+          {
+            "amount": 5,
+            "unit": "cups",
+            "name": "stock",
+            "notes": "5-6"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "arborio rice",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "lemon juice",
+            "notes": "1/2 lemon"
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "ginger juice",
+            "notes": "1/2 ounce"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped dill",
+            "notes": "1/2 ounce; for garnish"
+          }
+        ],
+        "instructions": [
+          "In 1-gallon pot, heat oil over medium flame. Add onions and salt. Sweat until onions are softened (about 5-8 minutes). Stir often to prevent browning.",
+          "Add carrots, cover pot, and sweat over low heat for 5-6 minutes. Stir to prevent browning.",
+          "Add stock and rice to pot. Raise heat and bring soup to boil. Reduce heat and simmer with lid ajar, 25 minutes, or until carrots and rice are very tender.",
+          "Blend soup until creamy, adding additional stock to achieve desired consistency.",
+          "Return soup to pot. Re-heat and season to taste with lemon and ginger juices.",
+          "Garnish with dill."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2666666666666666,
+          "Water": 0.23888888888888887,
+          "Earth": 0.3166666666666667,
+          "Air": 0.17777777777777778
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 246,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.24,
+          "Essence": 3.58,
+          "Matter": 3.52,
+          "Substance": 3.13
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0879,
+          "entropy": 0.348,
+          "reactivity": 2.2602,
+          "gregsEnergy": -0.6987,
+          "kalchm": 1.4527,
+          "monica": 0.8278
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "extra virgin olive oil",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BABA GHANOUSH",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 1,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "pound",
+            "name": "eggplant",
+            "notes": "1 medium"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "tahini",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "clove",
+            "name": "garlic",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "lemon juice",
+            "notes": "1/2 large lemon"
+          },
+          {
+            "amount": 0.375,
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Cook eggplant on top of stove over medium-low flame, turning often with tongs until skin is completely charred and flesh is fork tender (about 15 minutes).",
+          "Transfer eggplant to covered bowl and let sweat for 15 minutes.",
+          "Let eggplant cool, cut in half, and scoop out flesh or peel off charred skin.",
+          "In food processor, blend flesh with tahini, garlic, lemon juice, and salt. Adjust seasonings for desired taste."
+        ],
+        "classifications": {
+          "mealType": [
+            "lunch"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.24000000000000005,
+          "Water": 0.24,
+          "Earth": 0.32,
+          "Air": 0.19999999999999998
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 250,
+          "proteinG": 10,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 246,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.87,
+          "Essence": 2.1,
+          "Matter": 2.02,
+          "Substance": 1.65
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0834,
+          "entropy": 0.2884,
+          "reactivity": 1.9696,
+          "gregsEnergy": -0.4847,
+          "kalchm": 1.6194,
+          "monica": 0.5105
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "eggplant",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -43194,9 +46704,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-1 1/2 tablespoons rice syrup",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "rice syrup",
+            "notes": "1-1 1/2"
           },
           {
             "amount": 2,
@@ -43218,31 +46728,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2885714285714286,
-          "Water": 0.2385714285714286,
-          "Earth": 0.2685714285714286,
-          "Air": 0.20428571428571426
+          "Fire": 0.2742857142857143,
+          "Water": 0.22428571428571428,
+          "Earth": 0.28285714285714286,
+          "Air": 0.21857142857142856
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 245,
+          "sodiumMg": 240,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -43256,18 +46766,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.45,
-          "Essence": 2.72,
-          "Matter": 2.7,
-          "Substance": 2.52
+          "Spirit": 2.62,
+          "Essence": 3.11,
+          "Matter": 2.8,
+          "Substance": 2.48
         },
         "thermodynamicProperties": {
-          "heat": 0.0813,
-          "entropy": 0.3552,
-          "reactivity": 2.2619,
-          "gregsEnergy": -0.7221,
-          "kalchm": 0.9105,
-          "monica": -3.4048
+          "heat": 0.0835,
+          "entropy": 0.319,
+          "reactivity": 2.4053,
+          "gregsEnergy": -0.6839,
+          "kalchm": 2.5012,
+          "monica": 0.3101
         },
         "substitutions": [
           {
@@ -43328,9 +46838,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-1 1/2 tablespoons rice syrup",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "rice syrup",
+            "notes": "1-1 1/2"
           },
           {
             "amount": 2,
@@ -43352,31 +46862,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2885714285714286,
-          "Water": 0.2385714285714286,
-          "Earth": 0.2685714285714286,
-          "Air": 0.20428571428571426
+          "Fire": 0.2742857142857143,
+          "Water": 0.22428571428571428,
+          "Earth": 0.28285714285714286,
+          "Air": 0.21857142857142856
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 250,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 245,
+          "sodiumMg": 240,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -43390,18 +46900,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.45,
-          "Essence": 2.72,
-          "Matter": 2.7,
-          "Substance": 2.52
+          "Spirit": 2.62,
+          "Essence": 3.11,
+          "Matter": 2.8,
+          "Substance": 2.48
         },
         "thermodynamicProperties": {
-          "heat": 0.0813,
-          "entropy": 0.3552,
-          "reactivity": 2.2619,
-          "gregsEnergy": -0.7221,
-          "kalchm": 0.9105,
-          "monica": -3.4048
+          "heat": 0.0835,
+          "entropy": 0.319,
+          "reactivity": 2.4053,
+          "gregsEnergy": -0.6839,
+          "kalchm": 2.5012,
+          "monica": 0.3101
         },
         "substitutions": [
           {
@@ -43532,8 +47042,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "extra virgin olive oil for brushing",
-            "notes": ""
+            "name": "extra virgin olive oil",
+            "notes": "for brushing"
           },
           {
             "amount": 1,
@@ -43675,76 +47185,22 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "scant 1/4 teaspoon black pepper",
-            "notes": ""
-          },
-          {
-            "amount": 1,
-            "unit": "piece",
-            "name": "extra virgin olive oil for brushing",
-            "notes": ""
-          },
-          {
-            "amount": 2,
-            "unit": "piece",
-            "name": "large red peppers",
-            "notes": "1 pound; roasted, skinned and seeded"
-          },
-          {
-            "amount": 3,
-            "unit": "cloves",
-            "name": "garlic",
-            "notes": "peeled"
-          },
-          {
-            "amount": 1,
-            "unit": "tablespoon",
-            "name": "pomegranate molasses",
-            "notes": ""
-          },
-          {
-            "amount": 1,
-            "unit": "tablespoon",
-            "name": "lemon juice",
-            "notes": ""
-          },
-          {
-            "amount": 1,
-            "unit": "cup",
-            "name": "walnuts",
-            "notes": "toasted"
-          },
-          {
-            "amount": 0.25,
-            "unit": "cup",
-            "name": "plain breadcrumbs",
-            "notes": ""
-          },
-          {
             "amount": 0.25,
             "unit": "teaspoon",
-            "name": "ground black pepper",
-            "notes": ""
+            "name": "black pepper",
+            "notes": "scant"
           },
           {
-            "amount": 1.5,
-            "unit": "tablespoons",
+            "amount": 1,
+            "unit": "piece",
             "name": "extra virgin olive oil",
-            "notes": ""
+            "notes": "for brushing"
           },
           {
-            "amount": 2,
-            "unit": "tablespoons",
-            "name": "vegetable stock or water",
-            "notes": ""
-          },
-          {
-            "amount": 1.5,
-            "unit": "teaspoons",
-            "name": "sherry vinegar",
-            "notes": ""
+            "amount": 1,
+            "unit": "piece",
+            "name": "muhammara",
+            "notes": "recipe below"
           }
         ],
         "instructions": [
@@ -43753,9 +47209,7 @@ export const cuisine: Cuisine = {
           "When spices are cool, powder them in coffee grinder and add allspice and sumac.",
           "Divide black cod into six portions and sprinkle spice mixture on both sides of fish. Season with salt and pepper.",
           "Transfer fish to parchment-lined half sheet pan. Lightly brush fish with oil.",
-          "Roast fish for about 7-8 minutes or until inside of fish is opaque. Remove from oven and set aside. Serve with Muhammara (recipe below).",
-          "Combine peppers, garlic, pomegranate molasses, lemon juice, and walnuts in bowl of food processor and puree.",
-          "Add breadcrumbs, black pepper, olive oil, vegetable stock, and sherry vinegar. Puree until smooth. Serve with Mediterranean Roasted Black Cod."
+          "Roast fish for about 7-8 minutes or until inside of fish is opaque. Remove from oven and set aside. Serve with Muhammara (recipe below)."
         ],
         "classifications": {
           "mealType": [
@@ -43768,10 +47222,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31176470588235294,
-          "Water": 0.20882352941176474,
-          "Earth": 0.2911764705882353,
-          "Air": 0.1882352941176471
+          "Fire": 0.30625,
+          "Water": 0.2,
+          "Earth": 0.275,
+          "Air": 0.21875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -43789,10 +47243,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 234,
+          "sodiumMg": 230,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -43806,18 +47260,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.97,
-          "Essence": 5.87,
-          "Matter": 6.04,
-          "Substance": 5.74
+          "Spirit": 2.82,
+          "Essence": 2.88,
+          "Matter": 2.88,
+          "Substance": 2.76
         },
         "thermodynamicProperties": {
-          "heat": 0.1063,
-          "entropy": 0.4462,
-          "reactivity": 2.5751,
-          "gregsEnergy": -1.0428,
-          "kalchm": 1.1772,
-          "monica": 2.4822
+          "heat": 0.0948,
+          "entropy": 0.4042,
+          "reactivity": 2.4157,
+          "gregsEnergy": -0.8815,
+          "kalchm": 1.1293,
+          "monica": 3.001
         },
         "substitutions": [
           {
@@ -43906,26 +47360,20 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "extra virgin olive oil for brushing",
-            "notes": ""
-          },
-          {
-            "amount": 0.5,
-            "unit": "cup",
-            "name": "yogurt",
-            "notes": ""
-          },
-          {
-            "amount": 2,
-            "unit": "tablespoons",
-            "name": "dijon mustard",
-            "notes": ""
+            "name": "extra virgin olive oil",
+            "notes": "for brushing"
           },
           {
             "amount": 1,
-            "unit": "tablespoon",
-            "name": "honey",
-            "notes": ""
+            "unit": "piece",
+            "name": "honey-mustard yogurt",
+            "notes": "recipe below"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "baby bok choy and red cabbage slaw",
+            "notes": "see following recipe"
           }
         ],
         "instructions": [
@@ -43934,8 +47382,7 @@ export const cuisine: Cuisine = {
           "Transfer mixture to bowl. Fold in chives, salt, and pepper scallops and shrimp. Divide mixture into eight 1/3-cup portions.",
           "Form sausages 4 inches long and 1 1/2 inch thick. Roll each tightly first in parchment (8-inch x 6-inch sheets) and then in foil (8-inch x 6-inch sheets), twisting ends, and poach in simmering water for 9-10 minutes.",
           "Unwrap sausage and cool slightly. Slice each sausage once on bias in middle.",
-          "Lightly brush non-stick pan with olive oil. Arrange sausages in pan so as not to crowd them. Brown them lightly on all sides. Serve with dollop of Honey-Mustard Yogurt and side of Baby Bok Choy and Red Cabbage Slaw (recipes following).",
-          "In small bowl, whisk all ingredients together."
+          "Lightly brush non-stick pan with olive oil. Arrange sausages in pan so as not to crowd them. Brown them lightly on all sides. Serve with dollop of Honey-Mustard Yogurt and side of Baby Bok Choy and Red Cabbage Slaw (recipes following)."
         ],
         "classifications": {
           "mealType": [
@@ -43948,10 +47395,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24999999999999997,
-          "Water": 0.2923076923076923,
-          "Earth": 0.2615384615384615,
-          "Air": 0.19615384615384615
+          "Fire": 0.20384615384615387,
+          "Water": 0.33076923076923076,
+          "Earth": 0.2653846153846154,
+          "Air": 0.2
         },
         "astrologicalAffinities": {
           "planets": [
@@ -43970,9 +47417,9 @@ export const cuisine: Cuisine = {
           "calories": 380,
           "proteinG": 9,
           "carbsG": 26,
-          "fatG": 8,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 267,
+          "sodiumMg": 282,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -43986,18 +47433,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.28,
-          "Essence": 6.5,
-          "Matter": 5.29,
-          "Substance": 5.39
+          "Spirit": 4.37,
+          "Essence": 6.02,
+          "Matter": 4.81,
+          "Substance": 5.03
         },
         "thermodynamicProperties": {
-          "heat": 0.0869,
-          "entropy": 0.3743,
-          "reactivity": 3.2241,
-          "gregsEnergy": -1.1199,
-          "kalchm": 21.3354,
-          "monica": 0.1135
+          "heat": 0.069,
+          "entropy": 0.3407,
+          "reactivity": 3.1378,
+          "gregsEnergy": -1,
+          "kalchm": 4.8092,
+          "monica": 0.2029
         },
         "substitutions": [
           {
@@ -44026,8 +47473,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 4,
             "unit": "piece",
-            "name": "3-ounce",
-            "notes": "skinless Arctic char filets (12 ounces), butterflied and pounded to 1/4 inch between parchment"
+            "name": "skinless arctic char filets",
+            "notes": "3-ounce; 12 ounces; butterflied and pounded to 1/4 inch between parchment"
           },
           {
             "amount": 0.125,
@@ -44079,31 +47526,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.41999999999999993,
-          "Water": 0.17,
-          "Earth": 0.23000000000000004,
-          "Air": 0.18
+          "Fire": 0.27999999999999997,
+          "Water": 0.2,
+          "Earth": 0.29000000000000004,
+          "Air": 0.22999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 8,
-          "carbsG": 25,
-          "fatG": 10,
+          "proteinG": 9,
+          "carbsG": 27,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 218,
+          "sodiumMg": 230,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -44117,22 +47564,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.66,
-          "Essence": 2.16,
-          "Matter": 1.8,
-          "Substance": 1.78
+          "Spirit": 2.4,
+          "Essence": 2.4,
+          "Matter": 1.98,
+          "Substance": 1.79
         },
         "thermodynamicProperties": {
-          "heat": 0.1816,
-          "entropy": 0.5499,
-          "reactivity": 3.6757,
-          "gregsEnergy": -1.8396,
-          "kalchm": 8.8586,
-          "monica": 0.2294
+          "heat": 0.123,
+          "entropy": 0.3835,
+          "reactivity": 2.8907,
+          "gregsEnergy": -0.9856,
+          "kalchm": 6.0955,
+          "monica": 0.1886
         },
         "substitutions": [
           {
-            "originalIngredient": "3-ounce",
+            "originalIngredient": "skinless arctic char filets",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -44179,10 +47626,10 @@ export const cuisine: Cuisine = {
             "notes": "1 pound; washed and trimmed (2 inches of stem removed)"
           },
           {
-            "amount": 1,
+            "amount": 1.6666666666666665,
             "unit": "tablespoon",
-            "name": "and 2 teaspoons extra virgin olive oil",
-            "notes": ""
+            "name": "extra virgin olive oil",
+            "notes": "1 tablespoon and 2 teaspoons"
           },
           {
             "amount": 3,
@@ -44234,32 +47681,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31333333333333335,
-          "Water": 0.19111111111111115,
-          "Earth": 0.28111111111111114,
-          "Air": 0.2144444444444445
+          "Fire": 0.28200000000000003,
+          "Water": 0.187,
+          "Earth": 0.29300000000000004,
+          "Air": 0.238
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
-          "carbsG": 26,
-          "fatG": 9,
+          "carbsG": 27,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 226,
-          "sugarG": 5,
+          "sodiumMg": 225,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -44272,18 +47719,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.57,
-          "Essence": 3.26,
-          "Matter": 3.19,
-          "Substance": 2.98
+          "Spirit": 3.91,
+          "Essence": 3.56,
+          "Matter": 3.27,
+          "Substance": 2.99
         },
         "thermodynamicProperties": {
-          "heat": 0.1255,
-          "entropy": 0.4543,
-          "reactivity": 2.6919,
-          "gregsEnergy": -1.0975,
-          "kalchm": 4.2253,
-          "monica": 0.2829
+          "heat": 0.1384,
+          "entropy": 0.456,
+          "reactivity": 2.9203,
+          "gregsEnergy": -1.1931,
+          "kalchm": 14.9192,
+          "monica": 0.1512
         },
         "substitutions": [
           {
@@ -44335,9 +47782,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "to 3 tablespoons shoyu",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "shoyu",
+            "notes": "2-3"
           },
           {
             "amount": 0.25,
@@ -44368,10 +47815,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23333333333333336,
-          "Water": 0.39166666666666666,
-          "Earth": 0.18333333333333335,
-          "Air": 0.19166666666666665
+          "Fire": 0.2,
+          "Water": 0.37857142857142856,
+          "Earth": 0.2285714285714286,
+          "Air": 0.19285714285714287
         },
         "astrologicalAffinities": {
           "planets": [
@@ -44390,9 +47837,9 @@ export const cuisine: Cuisine = {
           "calories": 380,
           "proteinG": 8,
           "carbsG": 26,
-          "fatG": 8,
-          "fiberG": 3,
-          "sodiumMg": 307,
+          "fatG": 7,
+          "fiberG": 4,
+          "sodiumMg": 301,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -44406,18 +47853,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.31,
-          "Essence": 3.08,
-          "Matter": 2.38,
-          "Substance": 2.13
+          "Spirit": 2.55,
+          "Essence": 3.4,
+          "Matter": 2.58,
+          "Substance": 2.25
         },
         "thermodynamicProperties": {
-          "heat": 0.0772,
-          "entropy": 0.2736,
-          "reactivity": 2.9836,
-          "gregsEnergy": -0.7391,
-          "kalchm": 5.6102,
-          "monica": 0.1436
+          "heat": 0.0802,
+          "entropy": 0.2683,
+          "reactivity": 2.9596,
+          "gregsEnergy": -0.7139,
+          "kalchm": 9.757,
+          "monica": 0.1059
         },
         "substitutions": [
           {
@@ -44670,9 +48117,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 cups whole wheat pastry flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "whole wheat pastry flour",
+            "notes": "3-4"
           },
           {
             "amount": 1.5,
@@ -44811,9 +48258,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 4,
-            "unit": "piece",
-            "name": "-5 cups whole wheat pastry flour",
-            "notes": "divided"
+            "unit": "cups",
+            "name": "whole wheat pastry flour",
+            "notes": "4-5; divided"
           },
           {
             "amount": 2,
@@ -44822,10 +48269,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
+            "amount": 1.3333333333333333,
             "unit": "tablespoon",
-            "name": "+ teaspoon sea salt",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "1 tablespoon + teaspoon"
           },
           {
             "amount": 0.3333333333333333,
@@ -44855,10 +48302,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15714285714285717,
-          "Water": 0.3142857142857143,
-          "Earth": 0.3785714285714286,
-          "Air": 0.15000000000000002
+          "Fire": 0.15625,
+          "Water": 0.3,
+          "Earth": 0.375,
+          "Air": 0.16875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -44879,8 +48326,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 276,
-          "sugarG": 4,
+          "sodiumMg": 270,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -44893,18 +48340,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.42,
-          "Essence": 2.4,
-          "Matter": 3.09,
-          "Substance": 2.63
+          "Spirit": 1.38,
+          "Essence": 2.31,
+          "Matter": 3.15,
+          "Substance": 2.7
         },
         "thermodynamicProperties": {
-          "heat": 0.0254,
-          "entropy": 0.2349,
-          "reactivity": 1.2334,
-          "gregsEnergy": -0.2643,
-          "kalchm": 0.0324,
-          "monica": -0.0625
+          "heat": 0.0238,
+          "entropy": 0.2457,
+          "reactivity": 1.1809,
+          "gregsEnergy": -0.2663,
+          "kalchm": 0.0199,
+          "monica": -0.0576
         },
         "substitutions": [
           {
@@ -44968,9 +48415,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 7,
-            "unit": "piece",
-            "name": "-8 cups unbleached white all-purpose flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "unbleached white all-purpose flour",
+            "notes": "7-8"
           },
           {
             "amount": 3,
@@ -45088,10 +48535,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
+            "amount": 1.5,
             "unit": "tablespoon",
-            "name": "+ 1 1/2 teaspoons dry yeast",
-            "notes": ""
+            "name": "dry yeast",
+            "notes": "1 tablespoon + 1 1/2 teaspoons"
           },
           {
             "amount": 0.3333333333333333,
@@ -45119,9 +48566,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 4,
-            "unit": "piece",
-            "name": "-5 cups whole wheat pastry flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "whole wheat pastry flour",
+            "notes": "4-5"
           }
         ],
         "instructions": [
@@ -45638,8 +49085,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt and pepper to taste",
-            "notes": ""
+            "name": "salt and pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -45659,10 +49106,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2944444444444444,
-          "Water": 0.22777777777777777,
-          "Earth": 0.3166666666666666,
-          "Air": 0.16111111111111112
+          "Fire": 0.25555555555555554,
+          "Water": 0.2555555555555556,
+          "Earth": 0.3388888888888889,
+          "Air": 0.15000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -45681,9 +49128,9 @@ export const cuisine: Cuisine = {
           "calories": 380,
           "proteinG": 10,
           "carbsG": 25,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 241,
+          "sodiumMg": 252,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -45697,18 +49144,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.16,
-          "Essence": 3.38,
-          "Matter": 3.25,
-          "Substance": 2.81
+          "Spirit": 2.54,
+          "Essence": 3.27,
+          "Matter": 3.49,
+          "Substance": 2.96
         },
         "thermodynamicProperties": {
-          "heat": 0.0979,
-          "entropy": 0.3496,
-          "reactivity": 2.3167,
-          "gregsEnergy": -0.712,
-          "kalchm": 2.7686,
-          "monica": 0.3018
+          "heat": 0.0595,
+          "entropy": 0.2829,
+          "reactivity": 1.7775,
+          "gregsEnergy": -0.4433,
+          "kalchm": 0.2639,
+          "monica": -0.1872
         },
         "substitutions": [
           {
@@ -45779,8 +49226,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "tablespoons",
-            "name": "melted butter for brushing on top (optional",
-            "notes": "for non-vegan biscuits)"
+            "name": "melted butter",
+            "notes": "optional, for non-vegan biscuits; for brushing on top"
           }
         ],
         "instructions": [
@@ -45791,7 +49238,8 @@ export const cuisine: Cuisine = {
           "Transfer dough to lightly floured table and gently roll out to shape of rectangle, about 1/4 inch thick. With long edge facing you, fold in both short ends to meet in middle. Fold dough forward in half and very gently roll together to 3/4 inch or no thinner than 1/2-inch square. This folding technique will provide flaky layers if not over-worked and too flat.",
           "Cut biscuits with lightly floured cookie cutter or sharp knife and transfer to sheet tray. If desired, brush tops with melted butter.",
           "Bake for about 6 minutes and rotate pan in oven to ensure even browning. Continue baking for about another 10 minutes or until golden brown on top and slightly firm to touch.",
-          "Transfer to rack and cool."
+          "Transfer to rack and cool.",
+          "Note: Brushing with coconut oil in place of butter is not recommended."
         ],
         "mealType": [],
         "classifications": {
@@ -45804,10 +49252,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18714285714285714,
-          "Water": 0.2671428571428572,
-          "Earth": 0.35714285714285715,
-          "Air": 0.18857142857142858
+          "Fire": 0.18875,
+          "Water": 0.27125,
+          "Earth": 0.3625,
+          "Air": 0.17750000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -45825,10 +49273,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 26,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 257,
+          "sodiumMg": 259,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -45842,18 +49290,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.77,
-          "Essence": 2.45,
-          "Matter": 2.99,
-          "Substance": 2.75
+          "Spirit": 1.72,
+          "Essence": 2.75,
+          "Matter": 3.44,
+          "Substance": 3.2
         },
         "thermodynamicProperties": {
-          "heat": 0.0391,
-          "entropy": 0.2927,
-          "reactivity": 1.5031,
-          "gregsEnergy": -0.4009,
-          "kalchm": 0.0578,
-          "monica": -0.0936
+          "heat": 0.0288,
+          "entropy": 0.2849,
+          "reactivity": 1.4456,
+          "gregsEnergy": -0.3831,
+          "kalchm": 0.0142,
+          "monica": -0.0623
         },
         "substitutions": [
           {
@@ -45946,16 +49394,16 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.5,
+            "amount": 0.6875,
             "unit": "cup",
-            "name": "+ 3 tablespoons all-purpose flour",
-            "notes": ""
+            "name": "all-purpose flour",
+            "notes": "1/2 cup + 3 tablespoons"
           },
           {
-            "amount": 0.5,
+            "amount": 0.6875,
             "unit": "cup",
-            "name": "+ 3 tablespoons whole wheat pastry flour",
-            "notes": ""
+            "name": "whole wheat pastry flour",
+            "notes": "1/2 cup + 3 tablespoons"
           }
         ],
         "instructions": [
@@ -45977,9 +49425,9 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.21619166989756805,
-          "Water": 0.21554913979099277,
-          "Earth": 0.3932848944753065,
-          "Air": 0.17497429583613264
+          "Water": 0.2117029859448389,
+          "Earth": 0.3663618175522296,
+          "Air": 0.20574352660536335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -45996,11 +49444,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 11,
-          "carbsG": 25,
+          "proteinG": 10,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 236,
+          "sodiumMg": 235,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -46014,18 +49462,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.48,
-          "Essence": 2.95,
-          "Matter": 4.54,
-          "Substance": 3.9
+          "Spirit": 2.64,
+          "Essence": 3,
+          "Matter": 4.28,
+          "Substance": 3.7
         },
         "thermodynamicProperties": {
-          "heat": 0.0418,
-          "entropy": 0.3268,
-          "reactivity": 1.2403,
-          "gregsEnergy": -0.3636,
-          "kalchm": 0.0012,
-          "monica": -0.0436
+          "heat": 0.0507,
+          "entropy": 0.336,
+          "reactivity": 1.3801,
+          "gregsEnergy": -0.413,
+          "kalchm": 0.0055,
+          "monica": -0.0575
         },
         "substitutions": [
           {
@@ -46517,9 +49965,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons extra virgin olive oil",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": "3-4"
           },
           {
             "amount": 0.5,
@@ -46792,8 +50240,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "tablespoons",
-            "name": "olive oil for greasing sheet trays",
-            "notes": ""
+            "name": "olive oil",
+            "notes": "for greasing sheet trays"
           },
           {
             "amount": 2,
@@ -46885,10 +50333,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.17272727272727273,
-          "Water": 0.31363636363636366,
-          "Earth": 0.3227272727272727,
-          "Air": 0.19090909090909092
+          "Fire": 0.16666666666666666,
+          "Water": 0.29583333333333334,
+          "Earth": 0.32916666666666666,
+          "Air": 0.20833333333333334
         },
         "astrologicalAffinities": {
           "planets": [
@@ -46909,7 +50357,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 275,
+          "sodiumMg": 268,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -46923,22 +50371,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.41,
-          "Essence": 3.94,
-          "Matter": 4.43,
-          "Substance": 3.77
+          "Spirit": 2.38,
+          "Essence": 3.8,
+          "Matter": 4.49,
+          "Substance": 3.82
         },
         "thermodynamicProperties": {
-          "heat": 0.0347,
-          "entropy": 0.2476,
-          "reactivity": 1.5809,
-          "gregsEnergy": -0.3568,
-          "kalchm": 0.017,
-          "monica": -0.0554
+          "heat": 0.034,
+          "entropy": 0.2558,
+          "reactivity": 1.5008,
+          "gregsEnergy": -0.3499,
+          "kalchm": 0.0089,
+          "monica": -0.0494
         },
         "substitutions": [
           {
-            "originalIngredient": "olive oil for greasing sheet trays",
+            "originalIngredient": "olive oil",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -47004,9 +50452,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2.5,
-            "unit": "piece",
-            "name": "- 3 cups whole wheat pastry flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "whole wheat pastry flour",
+            "notes": "2 1/2-3"
           }
         ],
         "instructions": [
@@ -47132,9 +50580,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons extra virgin olive oil",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": "2-3"
           }
         ],
         "instructions": [
@@ -48281,7 +51729,8 @@ export const cuisine: Cuisine = {
         ],
         "instructions": [
           "Blend tofu, olive oil, water, and salt in blender under smooth.",
-          "In food processor, pulse flour for few seconds to aerate it. Add tofu mixture and process 30 seconds. Squeeze dough into ball. Remove dough to lightly floured work surface and knead for 1 minute, or until smooth. Wrap in plastic wrap and let sit at least 15 minutes."
+          "In food processor, pulse flour for few seconds to aerate it. Add tofu mixture and process 30 seconds. Squeeze dough into ball. Remove dough to lightly floured work surface and knead for 1 minute, or until smooth. Wrap in plastic wrap and let sit at least 15 minutes.",
+          "Variations: Add 1/4 cup of fresh chopped herbs to flour; add chili paste instead of water and/or color olive oil with annatto seeds to produce a red dough; warm water and mix in 1/4 teaspoon of saffron threads; add 1/4 cup well-wrung spinach puree instead of water; add 1/4 cup beet puree instead of water."
         ],
         "classifications": {
           "mealType": [
@@ -48541,8 +51990,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "egg white for brushing",
-            "notes": ""
+            "name": "egg white",
+            "notes": "for brushing"
           }
         ],
         "instructions": [
@@ -48562,10 +52011,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.3166666666666667,
-          "Water": 0.2222222222222222,
-          "Earth": 0.3222222222222222,
-          "Air": 0.1388888888888889
+          "Fire": 0.28500000000000003,
+          "Water": 0.22999999999999998,
+          "Earth": 0.33,
+          "Air": 0.15499999999999997
         },
         "astrologicalAffinities": {
           "planets": [
@@ -48583,10 +52032,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 24,
-          "fatG": 9,
+          "carbsG": 25,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 239,
+          "sodiumMg": 242,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -48600,18 +52049,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.82,
-          "Essence": 4.22,
-          "Matter": 4.02,
-          "Substance": 3.74
+          "Spirit": 3.81,
+          "Essence": 3.84,
+          "Matter": 4.03,
+          "Substance": 3.78
         },
         "thermodynamicProperties": {
-          "heat": 0.0916,
-          "entropy": 0.3719,
-          "reactivity": 2.4692,
-          "gregsEnergy": -0.8267,
-          "kalchm": 1.9533,
-          "monica": 0.5001
+          "heat": 0.0955,
+          "entropy": 0.4068,
+          "reactivity": 2.2993,
+          "gregsEnergy": -0.8399,
+          "kalchm": 0.6837,
+          "monica": -0.9607
         },
         "substitutions": [
           {
@@ -48663,8 +52112,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": "peeled"
           },
           {
@@ -49502,9 +52951,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons olive oil",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "olive oil",
+            "notes": "3-4"
           },
           {
             "amount": 1,
@@ -49521,20 +52970,20 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.5,
             "unit": "cup",
-            "name": "of mixed fresh herbs + more for garnish",
-            "notes": ""
+            "name": "mixed fresh herbs",
+            "notes": "for garnish; + more"
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 cups whole wheat bread flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "whole wheat bread flour",
+            "notes": "2-3"
           },
           {
             "amount": 0.25,
             "unit": "cup",
-            "name": "olive oil for brushing",
-            "notes": ""
+            "name": "olive oil",
+            "notes": "for brushing"
           },
           {
             "amount": 1,
@@ -49570,10 +53019,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18461538461538465,
-          "Water": 0.3038461538461539,
-          "Earth": 0.35769230769230764,
-          "Air": 0.15384615384615385
+          "Fire": 0.1842857142857143,
+          "Water": 0.305,
+          "Earth": 0.345,
+          "Air": 0.16571428571428568
         },
         "astrologicalAffinities": {
           "planets": [
@@ -49608,18 +53057,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.67,
-          "Essence": 4.31,
-          "Matter": 5.35,
-          "Substance": 4.56
+          "Spirit": 2.66,
+          "Essence": 4.29,
+          "Matter": 5.32,
+          "Substance": 4.6
         },
         "thermodynamicProperties": {
-          "heat": 0.0317,
-          "entropy": 0.2626,
-          "reactivity": 1.4319,
-          "gregsEnergy": -0.3444,
+          "heat": 0.0315,
+          "entropy": 0.2688,
+          "reactivity": 1.4581,
+          "gregsEnergy": -0.3605,
           "kalchm": 0.0009,
-          "monica": -0.0343
+          "monica": -0.0353
         },
         "substitutions": [
           {
@@ -49653,8 +53102,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "allon water",
+            "unit": "gallon",
+            "name": "water",
             "notes": ""
           },
           {
@@ -49726,8 +53175,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt to taste",
-            "notes": ""
+            "name": "salt",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -49750,10 +53199,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18571428571428572,
-          "Water": 0.3821428571428571,
-          "Earth": 0.23,
-          "Air": 0.20214285714285718
+          "Fire": 0.1892857142857143,
+          "Water": 0.3678571428571428,
+          "Earth": 0.22999999999999998,
+          "Air": 0.21285714285714283
         },
         "astrologicalAffinities": {
           "planets": [
@@ -49774,7 +53223,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 303,
+          "sodiumMg": 297,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -49788,18 +53237,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.5,
-          "Essence": 4.96,
-          "Matter": 3.9,
-          "Substance": 3.74
+          "Spirit": 4.76,
+          "Essence": 5.87,
+          "Matter": 3.94,
+          "Substance": 3.65
         },
         "thermodynamicProperties": {
-          "heat": 0.0683,
-          "entropy": 0.2933,
-          "reactivity": 2.9935,
-          "gregsEnergy": -0.8097,
-          "kalchm": 8.0563,
-          "monica": 0.1296
+          "heat": 0.1114,
+          "entropy": 0.3329,
+          "reactivity": 4.0631,
+          "gregsEnergy": -1.2412,
+          "kalchm": 2181.1758,
+          "monica": 0.0397
         },
         "substitutions": [
           {
@@ -49857,8 +53306,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "packages tempeh",
+            "unit": "packages",
+            "name": "tempeh",
             "notes": "8-ounce"
           },
           {
@@ -49933,7 +53382,8 @@ export const cuisine: Cuisine = {
           "Cut each package of tempeh in two. Bring marinade to boil, add tempeh, lower heat, and simmer covered for 45 minutes. Drain tempeh and pat dry, reserving marinade (there should be 1 cup plus 2 tablespoons).",
           "Whisk together vegetable marinade ingredients in mixing bowl. Add all vegetables to marinade and let sit for 20-30 minutes, stirring often. Remove vegetables with slotted spoon (set aside marinade for later use).",
           "Cut tempeh into 24 cubes and toss with oil. Preheat grill while preparing kebobs. Use one piece of each vegetable and two pieces of tempeh for each skewer. Grill kebobs few minutes on each side until grill marks form and vegetables are tender.",
-          "Bring reserved tempeh marinade to boil in 2 1/2 quart saucepan; whisk in dissolved arrowroot, stirring constantly until sauce comes back to boil and becomes clear. Use sauce for kebobs."
+          "Bring reserved tempeh marinade to boil in 2 1/2 quart saucepan; whisk in dissolved arrowroot, stirring constantly until sauce comes back to boil and becomes clear. Use sauce for kebobs.",
+          "Note: Kebobs can be baked in 450° F. oven for 20-30 minutes as an alternative to grilling. Brush them occasionally with vegetable marinade as they cook."
         ],
         "classifications": {
           "mealType": [
@@ -49942,26 +53392,27 @@ export const cuisine: Cuisine = {
           "cookingMethods": [
             "steaming",
             "simmering",
-            "raw"
+            "raw",
+            "baking"
           ]
         },
         "elementalProperties": {
-          "Fire": 0.28565573179177406,
+          "Fire": 0.27315573179177405,
           "Water": 0.2788836760801816,
-          "Earth": 0.2520439767611866,
-          "Air": 0.18341661536685772
+          "Earth": 0.26454397676118657,
+          "Air": 0.18341661536685774
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
@@ -49984,18 +53435,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.39,
-          "Essence": 7.24,
-          "Matter": 6.15,
-          "Substance": 5.92
+          "Spirit": 6.18,
+          "Essence": 9.02,
+          "Matter": 6.38,
+          "Substance": 5.85
         },
         "thermodynamicProperties": {
-          "heat": 0.0727,
-          "entropy": 0.3314,
-          "reactivity": 2.8475,
-          "gregsEnergy": -0.8709,
-          "kalchm": 5.5468,
-          "monica": 0.1785
+          "heat": 0.0792,
+          "entropy": 0.2853,
+          "reactivity": 3.4872,
+          "gregsEnergy": -0.9157,
+          "kalchm": 7614.721,
+          "monica": 0.0294
         },
         "substitutions": [
           {
@@ -50035,9 +53486,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.25,
-            "unit": "piece",
-            "name": "to 1/2 teaspoon of salt",
-            "notes": ""
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": "1/4-1/2"
           },
           {
             "amount": 1,
@@ -50110,7 +53561,7 @@ export const cuisine: Cuisine = {
           "reactivity": 1.6653,
           "gregsEnergy": -0.3549,
           "kalchm": 1.0602,
-          "monica": 3.646
+          "monica": 1.618
         },
         "substitutions": [
           {
@@ -50151,14 +53602,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "pinches",
-            "name": "of sea salt",
+            "name": "sea salt",
             "notes": ""
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoon extra-virgin olive oil",
-            "notes": ""
+            "unit": "tablespoon",
+            "name": "extra-virgin olive oil",
+            "notes": "3-4"
           },
           {
             "amount": 4,
@@ -50169,8 +53620,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and pepper to taste",
-            "notes": ""
+            "name": "sea salt and pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -50190,8 +53641,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.21833333333333335,
-          "Water": 0.19499999999999998,
-          "Earth": 0.42333333333333334,
+          "Water": 0.21166666666666667,
+          "Earth": 0.40666666666666673,
           "Air": 0.16333333333333333
         },
         "astrologicalAffinities": {
@@ -50213,7 +53664,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 228,
+          "sodiumMg": 235,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -50228,17 +53679,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.75,
-          "Essence": 2.44,
-          "Matter": 2.7,
-          "Substance": 2.42
+          "Essence": 2.49,
+          "Matter": 2.66,
+          "Substance": 2.4
         },
         "thermodynamicProperties": {
-          "heat": 0.0447,
-          "entropy": 0.2712,
-          "reactivity": 1.5361,
-          "gregsEnergy": -0.3719,
-          "kalchm": 0.1892,
-          "monica": -0.1454
+          "heat": 0.0448,
+          "entropy": 0.2674,
+          "reactivity": 1.6101,
+          "gregsEnergy": -0.3857,
+          "kalchm": 0.234,
+          "monica": -0.1649
         },
         "substitutions": [
           {
@@ -50290,8 +53741,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "package tempeh",
+            "unit": "package",
+            "name": "tempeh",
             "notes": "8-ounce; cut in half crosswise"
           },
           {
@@ -50302,9 +53753,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.25,
-            "unit": "piece",
-            "name": "-1/2 cup unbleached white flour",
-            "notes": "for dredging"
+            "unit": "cup",
+            "name": "unbleached white flour",
+            "notes": "1/4-1/2; for dredging"
           },
           {
             "amount": 6,
@@ -50320,15 +53771,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.5,
-            "unit": "piece",
-            "name": "-3/4 cup white wine",
-            "notes": ""
+            "unit": "cup",
+            "name": "white wine",
+            "notes": "1/2-3/4"
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 ounces sliced fresh shiitake and/or cremini mushrooms",
-            "notes": ""
+            "unit": "ounces",
+            "name": "sliced fresh shiitake and/or cremini mushrooms",
+            "notes": "2-3"
           },
           {
             "amount": 1,
@@ -50356,15 +53807,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 tablespoons lemon juice",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "lemon juice",
+            "notes": "1-2"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt to taste",
-            "notes": ""
+            "name": "salt",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -50380,7 +53831,8 @@ export const cuisine: Cuisine = {
           "Add sliced mushrooms and garlic, reduce heat to low, and cook covered until mushrooms release juices and become tender.",
           "Add fresh herbs; simmer until liquid thickens (needs to be saucy).",
           "Remove from heat and stir in lemon juice and salt to taste.",
-          "Garnish with parsley and serve."
+          "Garnish with parsley and serve.",
+          "Note: Serve with rice, noodles or sautéed greens."
         ],
         "classifications": {
           "mealType": [
@@ -50393,10 +53845,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21777777777777776,
-          "Water": 0.32055555555555554,
-          "Earth": 0.25277777777777777,
-          "Air": 0.20888888888888893
+          "Fire": 0.21222222222222223,
+          "Water": 0.31777777777777777,
+          "Earth": 0.2555555555555556,
+          "Air": 0.21444444444444447
         },
         "astrologicalAffinities": {
           "planets": [
@@ -50417,7 +53869,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 278,
+          "sodiumMg": 277,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -50431,18 +53883,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.13,
-          "Essence": 6.55,
-          "Matter": 6.16,
-          "Substance": 5.63
+          "Spirit": 5.52,
+          "Essence": 6.95,
+          "Matter": 6.19,
+          "Substance": 5.58
         },
         "thermodynamicProperties": {
-          "heat": 0.0721,
-          "entropy": 0.3293,
-          "reactivity": 2.4587,
-          "gregsEnergy": -0.7376,
-          "kalchm": 0.7945,
-          "monica": -1.304
+          "heat": 0.0802,
+          "entropy": 0.3281,
+          "reactivity": 2.6502,
+          "gregsEnergy": -0.7893,
+          "kalchm": 7.5948,
+          "monica": 0.1469
         },
         "substitutions": [
           {
@@ -50500,8 +53952,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "round pepper",
+            "unit": "piece",
+            "name": "ground pepper",
             "notes": "to taste"
           },
           {
@@ -50513,14 +53965,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "-2 bay leaves",
-            "notes": ""
+            "name": "bay leaves",
+            "notes": "1-2"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "fresh herbs for garnish",
-            "notes": ""
+            "name": "fresh herbs",
+            "notes": "for garnish"
           }
         ],
         "instructions": [
@@ -50538,10 +53990,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2588888888888889,
-          "Water": 0.18000000000000005,
-          "Earth": 0.308888888888889,
-          "Air": 0.2522222222222222
+          "Fire": 0.2533333333333333,
+          "Water": 0.21333333333333332,
+          "Earth": 0.3144444444444444,
+          "Air": 0.21888888888888886
         },
         "astrologicalAffinities": {
           "planets": [
@@ -50559,11 +54011,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 28,
+          "carbsG": 27,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 222,
-          "sugarG": 6,
+          "fiberG": 5,
+          "sodiumMg": 235,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -50576,18 +54028,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.67,
-          "Essence": 2.64,
-          "Matter": 3.04,
-          "Substance": 2.74
+          "Spirit": 2.94,
+          "Essence": 2.79,
+          "Matter": 3.08,
+          "Substance": 2.86
         },
         "thermodynamicProperties": {
-          "heat": 0.0857,
-          "entropy": 0.388,
-          "reactivity": 1.9411,
-          "gregsEnergy": -0.6675,
-          "kalchm": 0.3841,
-          "monica": -0.3594
+          "heat": 0.097,
+          "entropy": 0.4137,
+          "reactivity": 2.1493,
+          "gregsEnergy": -0.7923,
+          "kalchm": 0.646,
+          "monica": -0.8436
         },
         "substitutions": [
           {
@@ -50614,10 +54066,10 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 8,
-            "unit": "piece",
-            "name": "-ounce package tempeh",
-            "notes": "grated"
+            "amount": 1,
+            "unit": "package",
+            "name": "tempeh",
+            "notes": "8-ounce; grated"
           },
           {
             "amount": 0.25,
@@ -50633,15 +54085,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "to 2 teaspoons salt",
-            "notes": ""
+            "unit": "teaspoons",
+            "name": "salt",
+            "notes": "1-2"
           },
           {
-            "amount": 1,
+            "amount": 1.5,
             "unit": "tablespoon",
-            "name": "+ 1 1/2 teaspoons minced garlic",
-            "notes": ""
+            "name": "minced garlic",
+            "notes": "1 tablespoon + 1 1/2 teaspoons"
           },
           {
             "amount": 1,
@@ -50662,16 +54114,16 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 28,
-            "unit": "piece",
-            "name": "-ounce can tomato puree",
-            "notes": "3 1/4 cups"
+            "amount": 1,
+            "unit": "can",
+            "name": "tomato puree",
+            "notes": "28-ounce; 3 1/4 cups"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "black pepper to taste",
-            "notes": ""
+            "name": "black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -50695,7 +54147,8 @@ export const cuisine: Cuisine = {
           "Have large pot set up with boiling, salted water and strainer or basket that can be easily lifted out.",
           "In 8-inch sauté pan, heat approximately 1/2 cup of Bolognese sauce.",
           "Drop one serving pasta (about 4 ounces) in strainer or basket and place in boiling water. Heat through about one minute. Drain pasta.",
-          "Combine pasta with sauce and toss to coat. Plate pasta and pour over any sauce left in pan. Garnish plate and serve."
+          "Combine pasta with sauce and toss to coat. Plate pasta and pour over any sauce left in pan. Garnish plate and serve.",
+          "Note: Broccoli should be used as garnish: about 2-3 pieces depending on size."
         ],
         "classifications": {
           "mealType": [
@@ -50708,10 +54161,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.322,
-          "Water": 0.177,
-          "Earth": 0.29300000000000004,
-          "Air": 0.20799999999999996
+          "Fire": 0.3154545454545455,
+          "Water": 0.20636363636363636,
+          "Earth": 0.28,
+          "Air": 0.19818181818181815
         },
         "astrologicalAffinities": {
           "planets": [
@@ -50732,7 +54185,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 9,
           "fiberG": 4,
-          "sodiumMg": 221,
+          "sodiumMg": 233,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -50746,22 +54199,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.61,
-          "Essence": 4.28,
-          "Matter": 4.28,
-          "Substance": 3.92
+          "Spirit": 4.66,
+          "Essence": 4.68,
+          "Matter": 4.38,
+          "Substance": 4.01
         },
         "thermodynamicProperties": {
-          "heat": 0.1233,
-          "entropy": 0.4509,
-          "reactivity": 2.6355,
-          "gregsEnergy": -1.065,
-          "kalchm": 5.4198,
-          "monica": 0.2391
+          "heat": 0.1153,
+          "entropy": 0.4163,
+          "reactivity": 2.7574,
+          "gregsEnergy": -1.0325,
+          "kalchm": 10.5478,
+          "monica": 0.1589
         },
         "substitutions": [
           {
-            "originalIngredient": "-ounce package tempeh",
+            "originalIngredient": "tempeh",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -50786,8 +54239,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 4,
             "unit": "piece",
-            "name": "boneless",
-            "notes": "skinless, chicken breast halves, pounded to 1/2 inch thickness"
+            "name": "boneless skinless chicken breast halves",
+            "notes": "pounded to 1/2 inch thickness"
           },
           {
             "amount": 0.5,
@@ -50804,8 +54257,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt and pepper to taste",
-            "notes": ""
+            "name": "salt and pepper",
+            "notes": "to taste"
           },
           {
             "amount": 8,
@@ -50846,8 +54299,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 3,
             "unit": "tablespoons",
-            "name": "cold",
-            "notes": "sweet butter, cut into small pieces"
+            "name": "cold sweet butter",
+            "notes": "cut into small pieces"
           },
           {
             "amount": 2,
@@ -50877,10 +54330,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2136363636363636,
-          "Water": 0.3,
-          "Earth": 0.3363636363636363,
-          "Air": 0.15
+          "Fire": 0.2166666666666667,
+          "Water": 0.29166666666666663,
+          "Earth": 0.3166666666666667,
+          "Air": 0.17500000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -50901,8 +54354,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 270,
-          "sugarG": 4,
+          "sodiumMg": 267,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -50915,22 +54368,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.71,
-          "Essence": 4.98,
-          "Matter": 5,
-          "Substance": 4.49
+          "Spirit": 4.05,
+          "Essence": 5.58,
+          "Matter": 5.33,
+          "Substance": 4.83
         },
         "thermodynamicProperties": {
-          "heat": 0.0593,
-          "entropy": 0.3016,
-          "reactivity": 2.0677,
-          "gregsEnergy": -0.5643,
-          "kalchm": 0.1449,
-          "monica": -0.1413
+          "heat": 0.0602,
+          "entropy": 0.3001,
+          "reactivity": 2.2277,
+          "gregsEnergy": -0.6082,
+          "kalchm": 0.2815,
+          "monica": -0.2154
         },
         "substitutions": [
           {
-            "originalIngredient": "boneless",
+            "originalIngredient": "boneless skinless chicken breast halves",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -51002,9 +54455,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.25,
-            "unit": "piece",
-            "name": "-1/3 cup vegetable oil",
-            "notes": ""
+            "unit": "cup",
+            "name": "vegetable oil",
+            "notes": "1/4-1/3"
           },
           {
             "amount": 1,
@@ -51036,10 +54489,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.29,
-          "Water": 0.31000000000000005,
-          "Earth": 0.275,
-          "Air": 0.12500000000000003
+          "Fire": 0.2799999999999999,
+          "Water": 0.315,
+          "Earth": 0.29,
+          "Air": 0.11499999999999999
         },
         "astrologicalAffinities": {
           "planets": [
@@ -51057,10 +54510,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
-          "carbsG": 24,
+          "carbsG": 23,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 274,
+          "sodiumMg": 276,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -51074,18 +54527,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.02,
-          "Essence": 3.37,
-          "Matter": 3.36,
-          "Substance": 3.07
+          "Spirit": 3.04,
+          "Essence": 3.85,
+          "Matter": 3.44,
+          "Substance": 3.14
         },
         "thermodynamicProperties": {
-          "heat": 0.0833,
-          "entropy": 0.3484,
-          "reactivity": 2.2779,
-          "gregsEnergy": -0.7104,
-          "kalchm": 0.9199,
-          "monica": -3.7353
+          "heat": 0.075,
+          "entropy": 0.3079,
+          "reactivity": 2.452,
+          "gregsEnergy": -0.6801,
+          "kalchm": 2.0694,
+          "monica": 0.3814
         },
         "substitutions": [
           {
@@ -51703,7 +55156,7 @@ export const cuisine: Cuisine = {
           {
             "amount": 4,
             "unit": "slices",
-            "name": "of ginger",
+            "name": "ginger",
             "notes": ""
           },
           {
@@ -51821,16 +55274,16 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 8,
-            "unit": "piece",
-            "name": "-ounce package tempeh",
-            "notes": "simmered in marinade (see Basic Tempeh recipe)"
+            "amount": 1,
+            "unit": "package",
+            "name": "tempeh",
+            "notes": "8-ounce; simmered in marinade (see Basic Tempeh recipe)"
           },
           {
             "amount": 0.25,
-            "unit": "piece",
-            "name": "- 1/2 cup unbleached all-purpose flour",
-            "notes": "for dredging"
+            "unit": "cup",
+            "name": "unbleached all-purpose flour",
+            "notes": "1/4-1/2; for dredging"
           },
           {
             "amount": 6,
@@ -51852,15 +55305,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.3333333333333333,
-            "unit": "piece",
-            "name": "- 3/4 cup white wine",
-            "notes": "or red wine or sherry"
+            "unit": "cup",
+            "name": "white wine",
+            "notes": "1/3-3/4; or red wine or sherry"
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 ounces sliced fresh shiitake and/or cremini mushrooms",
-            "notes": ""
+            "unit": "ounces",
+            "name": "sliced fresh shiitake and/or cremini mushrooms",
+            "notes": "2-3"
           },
           {
             "amount": 1,
@@ -51919,10 +55372,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23083333333333333,
-          "Water": 0.2933333333333334,
-          "Earth": 0.2125,
-          "Air": 0.26333333333333336
+          "Fire": 0.22250000000000003,
+          "Water": 0.2891666666666667,
+          "Earth": 0.21666666666666667,
+          "Air": 0.27166666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -51943,7 +55396,7 @@ export const cuisine: Cuisine = {
           "carbsG": 28,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 267,
+          "sodiumMg": 266,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -51957,22 +55410,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.06,
-          "Essence": 4.87,
-          "Matter": 4.07,
-          "Substance": 3.82
+          "Spirit": 4.45,
+          "Essence": 5.27,
+          "Matter": 4.1,
+          "Substance": 3.77
         },
         "thermodynamicProperties": {
-          "heat": 0.0903,
-          "entropy": 0.3497,
-          "reactivity": 2.999,
-          "gregsEnergy": -0.9583,
-          "kalchm": 13.0122,
-          "monica": 0.1245
+          "heat": 0.1025,
+          "entropy": 0.35,
+          "reactivity": 3.3271,
+          "gregsEnergy": -1.0621,
+          "kalchm": 100.9075,
+          "monica": 0.0692
         },
         "substitutions": [
           {
-            "originalIngredient": "-ounce package tempeh",
+            "originalIngredient": "tempeh",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -51995,10 +55448,10 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 14,
+            "amount": 1,
             "unit": "piece",
-            "name": "-ounce block of firm tofu",
-            "notes": "pressed 30 minutes"
+            "name": "block of firm tofu",
+            "notes": "14-ounce; pressed 30 minutes"
           },
           {
             "amount": 6,
@@ -52062,9 +55515,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons shoyu or tamari",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "shoyu or tamari",
+            "notes": "2-3"
           },
           {
             "amount": 1,
@@ -52079,22 +55532,22 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
+            "amount": 1.5,
             "unit": "tablespoon",
-            "name": "+ 1 1/2 teaspoons kuzu",
-            "notes": ""
+            "name": "kuzu",
+            "notes": "1 tablespoon + 1 1/2 teaspoons"
+          },
+          {
+            "amount": 1.5,
+            "unit": "tablespoon",
+            "name": "cold water",
+            "notes": "1 tablespoon + 1 1/2 teaspoons"
           },
           {
             "amount": 1,
-            "unit": "tablespoon",
-            "name": "+ 1 1/2 teaspoons cold water",
-            "notes": ""
-          },
-          {
-            "amount": 1,
-            "unit": "g",
-            "name": "arnish: 1 scallion",
-            "notes": "cut into thin diagonal"
+            "unit": "piece",
+            "name": "scallion",
+            "notes": "garnish; cut into thin diagonal"
           }
         ],
         "instructions": [
@@ -52118,10 +55571,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18437500000000004,
+          "Fire": 0.18750000000000006,
           "Water": 0.353125,
-          "Earth": 0.29687499999999994,
-          "Air": 0.165625
+          "Earth": 0.2875,
+          "Air": 0.171875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -52143,7 +55596,7 @@ export const cuisine: Cuisine = {
           "fatG": 7,
           "fiberG": 4,
           "sodiumMg": 291,
-          "sugarG": 4,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -52156,22 +55609,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.37,
-          "Essence": 6.58,
-          "Matter": 6.39,
-          "Substance": 5.7
+          "Spirit": 4.44,
+          "Essence": 6.62,
+          "Matter": 6.28,
+          "Substance": 5.63
         },
         "thermodynamicProperties": {
-          "heat": 0.0504,
-          "entropy": 0.2784,
-          "reactivity": 2.1262,
-          "gregsEnergy": -0.5416,
-          "kalchm": 0.0534,
-          "monica": -0.0869
+          "heat": 0.0528,
+          "entropy": 0.2808,
+          "reactivity": 2.2124,
+          "gregsEnergy": -0.5683,
+          "kalchm": 0.118,
+          "monica": -0.1202
         },
         "substitutions": [
           {
-            "originalIngredient": "-ounce block of firm tofu",
+            "originalIngredient": "block of firm tofu",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -52201,9 +55654,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons canola or coconut oil",
-            "notes": "for grilling"
+            "unit": "tablespoons",
+            "name": "canola or coconut oil",
+            "notes": "3-4; for grilling"
           },
           {
             "amount": 1,
@@ -52295,10 +55748,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.266923076923077,
-          "Water": 0.2561538461538462,
-          "Earth": 0.30615384615384617,
-          "Air": 0.17076923076923076
+          "Fire": 0.2621428571428572,
+          "Water": 0.24857142857142858,
+          "Earth": 0.3164285714285714,
+          "Air": 0.17285714285714288
         },
         "astrologicalAffinities": {
           "planets": [
@@ -52318,8 +55771,8 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 252,
+          "fiberG": 5,
+          "sodiumMg": 249,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -52333,18 +55786,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.21,
-          "Essence": 5.14,
-          "Matter": 5.51,
-          "Substance": 5.02
+          "Spirit": 4.19,
+          "Essence": 5.17,
+          "Matter": 5.18,
+          "Substance": 4.87
         },
         "thermodynamicProperties": {
-          "heat": 0.0661,
-          "entropy": 0.3422,
-          "reactivity": 2.0548,
-          "gregsEnergy": -0.6371,
-          "kalchm": 0.048,
-          "monica": -0.1021
+          "heat": 0.0692,
+          "entropy": 0.3473,
+          "reactivity": 2.2562,
+          "gregsEnergy": -0.7143,
+          "kalchm": 0.1767,
+          "monica": -0.1826
         },
         "substitutions": [
           {
@@ -52451,14 +55904,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "cornmeal or flour for dredging",
-            "notes": ""
+            "name": "cornmeal or flour",
+            "notes": "for dredging"
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons oil for frying",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "oil",
+            "notes": "3-4; for frying"
           }
         ],
         "instructions": [
@@ -52640,20 +56093,20 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt to taste",
-            "notes": ""
+            "name": "salt",
+            "notes": "to taste"
           },
           {
             "amount": 0.25,
             "unit": "teaspoon",
-            "name": "black pepper or more to taste",
-            "notes": ""
+            "name": "black pepper",
+            "notes": "to taste; or more"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "cornmeal for dredging",
-            "notes": ""
+            "name": "cornmeal",
+            "notes": "for dredging"
           }
         ],
         "instructions": [
@@ -52792,15 +56245,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-8 ounce packages tempeh",
-            "notes": ""
+            "unit": "packages",
+            "name": "tempeh",
+            "notes": "8-ounce"
           },
           {
             "amount": 12,
             "unit": "piece",
-            "name": "-8 inch skewers",
-            "notes": ""
+            "name": "skewers",
+            "notes": "8-inch"
           },
           {
             "amount": 6,
@@ -52878,22 +56331,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.28565573179177406,
+          "Fire": 0.27315573179177405,
           "Water": 0.27888367608018166,
-          "Earth": 0.25204397676118656,
-          "Air": 0.18341661536685777
+          "Earth": 0.26454397676118657,
+          "Air": 0.18341661536685774
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
@@ -52916,18 +56369,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.39,
-          "Essence": 7.24,
-          "Matter": 6.15,
-          "Substance": 5.92
+          "Spirit": 6.18,
+          "Essence": 9.02,
+          "Matter": 6.38,
+          "Substance": 5.84
         },
         "thermodynamicProperties": {
-          "heat": 0.0727,
-          "entropy": 0.3314,
-          "reactivity": 2.8475,
-          "gregsEnergy": -0.8709,
-          "kalchm": 5.5468,
-          "monica": 0.1785
+          "heat": 0.0793,
+          "entropy": 0.2848,
+          "reactivity": 3.4846,
+          "gregsEnergy": -0.9133,
+          "kalchm": 7828.2518,
+          "monica": 0.0292
         },
         "substitutions": [
           {
@@ -52979,8 +56432,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 4,
-            "unit": "g",
-            "name": "arlic cloves",
+            "unit": "cloves",
+            "name": "garlic",
             "notes": "sliced"
           },
           {
@@ -53098,10 +56551,10 @@ export const cuisine: Cuisine = {
             "notes": "minced"
           },
           {
-            "amount": 2,
+            "amount": 1,
             "unit": "piece",
-            "name": "-inch ginger",
-            "notes": "peeled and minced"
+            "name": "ginger",
+            "notes": "2-inch; peeled and minced"
           },
           {
             "amount": 1,
@@ -53150,10 +56603,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25967212788511673,
-          "Water": 0.29662547645803117,
-          "Earth": 0.2625070216613443,
-          "Air": 0.18119537399550775
+          "Fire": 0.2562238520230478,
+          "Water": 0.2983496143890657,
+          "Earth": 0.2738863320061719,
+          "Air": 0.17154020158171462
         },
         "astrologicalAffinities": {
           "planets": [
@@ -53188,18 +56641,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 8.8,
-          "Essence": 10.08,
-          "Matter": 10.09,
-          "Substance": 9.33
+          "Spirit": 9.62,
+          "Essence": 11.27,
+          "Matter": 10.46,
+          "Substance": 9.49
         },
         "thermodynamicProperties": {
-          "heat": 0.0848,
-          "entropy": 0.383,
-          "reactivity": 2.4846,
-          "gregsEnergy": -0.8669,
-          "kalchm": 0.177,
-          "monica": -0.2015
+          "heat": 0.0906,
+          "entropy": 0.3673,
+          "reactivity": 2.6889,
+          "gregsEnergy": -0.897,
+          "kalchm": 23.7011,
+          "monica": 0.1054
         },
         "substitutions": [
           {
@@ -53276,8 +56729,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -53306,10 +56759,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25222222222222224,
-          "Water": 0.33555555555555555,
-          "Earth": 0.24777777777777782,
-          "Air": 0.16444444444444445
+          "Fire": 0.23000000000000004,
+          "Water": 0.3244444444444444,
+          "Earth": 0.2588888888888889,
+          "Air": 0.18666666666666665
         },
         "astrologicalAffinities": {
           "planets": [
@@ -53327,11 +56780,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 284,
-          "sugarG": 4,
+          "sodiumMg": 280,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -53344,18 +56797,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.73,
-          "Essence": 3.81,
-          "Matter": 3.79,
-          "Substance": 3.47
+          "Spirit": 3.51,
+          "Essence": 4.6,
+          "Matter": 3.85,
+          "Substance": 3.36
         },
         "thermodynamicProperties": {
-          "heat": 0.0538,
-          "entropy": 0.2924,
-          "reactivity": 2.0985,
-          "gregsEnergy": -0.5599,
-          "kalchm": 0.2168,
-          "monica": -0.1745
+          "heat": 0.0782,
+          "entropy": 0.2904,
+          "reactivity": 2.6632,
+          "gregsEnergy": -0.6952,
+          "kalchm": 8.7135,
+          "monica": 0.1206
         },
         "substitutions": [
           {
@@ -53396,8 +56849,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.5,
             "unit": "teaspoon",
-            "name": "sea salt or more to taste",
-            "notes": ""
+            "name": "sea salt",
+            "notes": "to taste; or more"
           },
           {
             "amount": 1,
@@ -54104,10 +57557,10 @@ export const cuisine: Cuisine = {
             "notes": "5 pounds"
           },
           {
-            "amount": 0.25,
+            "amount": 0.375,
             "unit": "cup",
-            "name": "plus 2 tablespoons extra virgin olive oil",
-            "notes": ""
+            "name": "extra virgin olive oil",
+            "notes": "1/4 cup plus 2 tablespoons"
           },
           {
             "amount": 2,
@@ -54184,8 +57637,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt and black pepper to taste",
-            "notes": ""
+            "name": "salt and black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
@@ -54416,8 +57869,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1.5,
             "unit": "pounds",
-            "name": "boneless",
-            "notes": "skinless chicken breasts (4)"
+            "name": "boneless skinless chicken breasts",
+            "notes": "4"
           },
           {
             "amount": 0.5,
@@ -54500,10 +57953,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23500000000000001,
-          "Water": 0.26,
-          "Earth": 0.32700000000000007,
-          "Air": 0.178
+          "Fire": 0.23181818181818184,
+          "Water": 0.2636363636363636,
+          "Earth": 0.31545454545454543,
+          "Air": 0.18909090909090906
         },
         "astrologicalAffinities": {
           "planets": [
@@ -54521,10 +57974,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 254,
+          "sodiumMg": 255,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -54538,22 +57991,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.26,
-          "Essence": 4.13,
-          "Matter": 4.3,
-          "Substance": 3.95
+          "Spirit": 3.16,
+          "Essence": 4.28,
+          "Matter": 4.65,
+          "Substance": 4.4
         },
         "thermodynamicProperties": {
-          "heat": 0.0618,
-          "entropy": 0.3237,
-          "reactivity": 2.0291,
-          "gregsEnergy": -0.595,
-          "kalchm": 0.1369,
-          "monica": -0.1475
+          "heat": 0.0505,
+          "entropy": 0.3255,
+          "reactivity": 1.9396,
+          "gregsEnergy": -0.5809,
+          "kalchm": 0.0222,
+          "monica": -0.0787
         },
         "substitutions": [
           {
-            "originalIngredient": "boneless",
+            "originalIngredient": "boneless skinless chicken breasts",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -54582,9 +58035,9 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¾ cup shoyu",
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "shoyu",
             "notes": ""
           },
           {
@@ -54608,7 +58061,7 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "piece kombu",
+            "name": "kombu",
             "notes": "5-inch"
           },
           {
@@ -54645,7 +58098,8 @@ export const cuisine: Cuisine = {
           "At a certain point, it will seem as though dough is falling apart. After several minutes of rinsing and kneading, however, gluten will start to tighten again. Continue to knead dough until it has firm, tight, and rubbery texture.",
           "Pull pieces of gluten into small billiard-size balls. Drop gluten into stock, one piece at a time, stirring occasionally to prevent sticking.",
           "Simmer seitan for 1 ½ to 2 hours, depending on size of pieces.",
-          "For improved flavor and firmer texture, cool seitan to room temperature in broth. Store in refrigerator, submerged in broth, or freeze."
+          "For improved flavor and firmer texture, cool seitan to room temperature in broth. Store in refrigerator, submerged in broth, or freeze.",
+          "Note: The amount of shoyu added to broth depends on how and if stock will be used in recipes. If planning to reduce broth as part of a sauce, do not make it too salty."
         ],
         "classifications": {
           "mealType": [
@@ -54749,30 +58203,30 @@ export const cuisine: Cuisine = {
             "amount": 2,
             "unit": "piece",
             "name": "ribs celery",
-            "notes": "½-inch thick diagonal slices"
+            "notes": "1/2-inch thick diagonal slices"
           },
           {
             "amount": 6,
             "unit": "ounces",
             "name": "burdock",
-            "notes": "1 piece; ½-inch roll cut"
+            "notes": "1 piece; 1/2-inch roll cut"
           },
           {
             "amount": 12,
             "unit": "ounces",
             "name": "carrot",
-            "notes": "1 large; ½-inch roll cut"
+            "notes": "1 large; 1/2-inch roll cut"
           },
           {
             "amount": 1,
             "unit": "pound",
             "name": "daikon",
-            "notes": "1 medium; ½-inch half moon slices"
+            "notes": "1 medium; 1/2-inch half moon slices"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ pound shiitake mushrooms",
+            "amount": 0.5,
+            "unit": "pound",
+            "name": "shiitake mushrooms",
             "notes": "stemmed and halved"
           },
           {
@@ -54794,10 +58248,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ pounds seitan",
-            "notes": "½-inch chunks"
+            "amount": 1.5,
+            "unit": "pounds",
+            "name": "seitan",
+            "notes": "1/2-inch chunks"
           },
           {
             "amount": 2,
@@ -54815,7 +58269,7 @@ export const cuisine: Cuisine = {
             "amount": 5,
             "unit": "tablespoons",
             "name": "kuzu",
-            "notes": "dissolved in ¼ cup cold stock"
+            "notes": "dissolved in 1/4 cup cold stock"
           },
           {
             "amount": 2,
@@ -54826,8 +58280,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -54839,7 +58293,8 @@ export const cuisine: Cuisine = {
         "instructions": [
           "In 1-gallon pot, heat olive oil over medium flame and sweat onion until softened. Add celery, burdock, carrots, and daikon. Sweat until vegetables begin to soften, about 5-7 minutes. Add mushrooms and sweat until tender, about 1 minute.",
           "Add squash and stock to just cover vegetables, about 6 cups. Cover pot and bring to boil. Lower heat and add bay leaves, seitan, and tamari. Cover and simmer 20 minutes, stirring occasionally, until all vegetables are tender and squash has started to break down. Add green beans and simmer until beans are just tender.",
-          "Add kuzu slurry and simmer until mixture slightly thickens. Stir in ginger juice. Season to taste with salt and pepper. Garnish with scallions."
+          "Add kuzu slurry and simmer until mixture slightly thickens. Stir in ginger juice. Season to taste with salt and pepper. Garnish with scallions.",
+          "Seasonal variation: In Spring/Summer replace green beans with 1 small zucchini (7 ounces), cut into 1-inch roll cut."
         ],
         "classifications": {
           "mealType": [
@@ -54852,10 +58307,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23666666666666666,
-          "Water": 0.25,
-          "Earth": 0.36666666666666664,
-          "Air": 0.14666666666666667
+          "Fire": 0.22058823529411764,
+          "Water": 0.26176470588235295,
+          "Earth": 0.3735294117647059,
+          "Air": 0.14411764705882354
         },
         "astrologicalAffinities": {
           "planets": [
@@ -54876,7 +58331,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 250,
+          "sodiumMg": 255,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -54890,18 +58345,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5,
-          "Essence": 6.05,
-          "Matter": 6.62,
-          "Substance": 5.85
+          "Spirit": 4.72,
+          "Essence": 5.91,
+          "Matter": 6.93,
+          "Substance": 6.18
         },
         "thermodynamicProperties": {
-          "heat": 0.0674,
-          "entropy": 0.3359,
-          "reactivity": 1.966,
-          "gregsEnergy": -0.593,
-          "kalchm": 0.0201,
-          "monica": -0.0772
+          "heat": 0.057,
+          "entropy": 0.3334,
+          "reactivity": 1.791,
+          "gregsEnergy": -0.5402,
+          "kalchm": 0.0011,
+          "monica": -0.0443
         },
         "substitutions": [
           {
@@ -55162,15 +58617,16 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and freshly ground black pepper to taste",
-            "notes": ""
+            "name": "sea salt and freshly ground black pepper",
+            "notes": "to taste"
           }
         ],
         "instructions": [
           "Dredge seitan in flour and shake off any excess.",
           "In 10-inch sauté pan over medium-high flame, heat oil and sear seitan until lightly caramelized on both sides. Remove seitan from pan and set aside. Add shallots to pan and sauté until caramelized.",
           "Add seitan back to pan with stock, red wine, shiitake mushrooms, and thyme. Simmer until liquid is reduced to nappé consistency.",
-          "Season to taste with salt and pepper."
+          "Season to taste with salt and pepper.",
+          "Note: Can replace red wine with Marsala wine."
         ],
         "classifications": {
           "mealType": [
@@ -55538,8 +58994,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "rilled seitan cubes",
+            "unit": "piece",
+            "name": "grilled seitan cubes",
             "notes": "from step 1"
           },
           {
@@ -55586,9 +59042,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.3333333333333333,
-            "unit": "piece",
-            "name": "-1/2 cups water",
-            "notes": ""
+            "unit": "cups",
+            "name": "water",
+            "notes": "1/3-1/2"
           },
           {
             "amount": 1,
@@ -55618,10 +59074,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21045454545454542,
-          "Water": 0.2804545454545455,
-          "Earth": 0.31363636363636355,
-          "Air": 0.19545454545454544
+          "Fire": 0.21272727272727268,
+          "Water": 0.27590909090909094,
+          "Earth": 0.3204545454545454,
+          "Air": 0.19090909090909094
         },
         "astrologicalAffinities": {
           "planets": [
@@ -55642,7 +59098,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 262,
+          "sodiumMg": 260,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -55656,18 +59112,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.36,
-          "Essence": 6.6,
-          "Matter": 7.89,
-          "Substance": 7.09
+          "Spirit": 6.34,
+          "Essence": 8.62,
+          "Matter": 8.26,
+          "Substance": 7.05
         },
         "thermodynamicProperties": {
-          "heat": 0.0575,
-          "entropy": 0.3476,
-          "reactivity": 1.8235,
-          "gregsEnergy": -0.5763,
-          "kalchm": 0.0002,
-          "monica": -0.0371
+          "heat": 0.0659,
+          "entropy": 0.2946,
+          "reactivity": 2.2324,
+          "gregsEnergy": -0.5918,
+          "kalchm": 0.3938,
+          "monica": -0.2845
         },
         "substitutions": [
           {
@@ -55728,7 +59184,8 @@ export const cuisine: Cuisine = {
           "Place cabbage in large bowl and sprinkle with salt. Squeeze and massage cabbage to release water. Continue to massage and squeeze until enough liquid has been released to create salty brine that covers cabbage by 1/4 inch. Add ginger and turmeric.",
           "Pack tightly into 2 quart wide-mouthed glass jar or ceramic crock (liquid brine must be above cabbage for healthy successful fermentation). If cabbage has not released enough juices to cover, add salted water to jar/crock in a ratio of 1 teaspoon sea salt per 1 cup water.",
           "Place plate or discover cabbage and press down to squeeze more brine to the surface. Cover mouth of vessel with cheesecloth and secure to rim of lid with kitchen twine, rubber band, OR if using airlock lid, fill airlock and secure lid.",
-          "Store sauerkraut in dry place for 2 - 4 weeks at room temperature. Be sure to check water level, adding more salt water as needed to ensure the mixture is covered throughout fermentation process. Taste every few days and eat or refrigerate when desired tangy flavor is achieved."
+          "Store sauerkraut in dry place for 2 - 4 weeks at room temperature. Be sure to check water level, adding more salt water as needed to ensure the mixture is covered throughout fermentation process. Taste every few days and eat or refrigerate when desired tangy flavor is achieved.",
+          "Note: A cooler fermentation area will result in a slower fermentation with complex flavor notes. A warmer area will result in a faster fermentation that may lead to off flavors and cloudy brine."
         ],
         "mealType": [],
         "classifications": {
@@ -55816,9 +59273,9 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ pounds salmon",
+            "amount": 1.5,
+            "unit": "pounds",
+            "name": "salmon",
             "notes": "skinned and divided into six 4-ounce portions"
           },
           {
@@ -55828,9 +59285,9 @@ export const cuisine: Cuisine = {
             "notes": "to season fish"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ cup mayonnaise",
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "mayonnaise",
             "notes": ""
           },
           {
@@ -55855,24 +59312,24 @@ export const cuisine: Cuisine = {
             "amount": 1,
             "unit": "piece",
             "name": "juice of 2 lemons",
-            "notes": "approximately ¼ cup"
+            "notes": "approximately 1/4 cup"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¾ cup panko bread crumbs",
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "panko bread crumbs",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ teaspoon black pepper",
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "black pepper",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ teaspoon sea salt",
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "sea salt",
             "notes": ""
           }
         ],
@@ -55896,10 +59353,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23125,
-          "Water": 0.31875000000000003,
-          "Earth": 0.25250000000000006,
-          "Air": 0.1975
+          "Fire": 0.22999999999999995,
+          "Water": 0.26999999999999996,
+          "Earth": 0.262,
+          "Air": 0.238
         },
         "astrologicalAffinities": {
           "planets": [
@@ -55917,11 +59374,11 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
-          "carbsG": 26,
+          "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 278,
-          "sugarG": 5,
+          "sodiumMg": 258,
+          "sugarG": 6,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -55934,22 +59391,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.69,
-          "Essence": 3.25,
-          "Matter": 2.99,
-          "Substance": 2.95
+          "Spirit": 3.6,
+          "Essence": 3.88,
+          "Matter": 2.97,
+          "Substance": 2.85
         },
         "thermodynamicProperties": {
-          "heat": 0.0735,
-          "entropy": 0.3455,
-          "reactivity": 2.5391,
-          "gregsEnergy": -0.8039,
-          "kalchm": 1.0267,
-          "monica": 1.618
+          "heat": 0.1187,
+          "entropy": 0.3889,
+          "reactivity": 3.4769,
+          "gregsEnergy": -1.2334,
+          "kalchm": 38.6333,
+          "monica": 0.0971
         },
         "substitutions": [
           {
-            "originalIngredient": "½ pounds salmon",
+            "originalIngredient": "salmon",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -55990,9 +59447,9 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¾ cup rice syrup",
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "rice syrup",
             "notes": ""
           },
           {
@@ -56024,31 +59481,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31666666666666665,
-          "Water": 0.2166666666666667,
-          "Earth": 0.3,
+          "Fire": 0.24166666666666667,
+          "Water": 0.25,
+          "Earth": 0.3416666666666666,
           "Air": 0.16666666666666666
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
           "carbsG": 25,
-          "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 237,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 250,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -56062,18 +59519,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.28,
-          "Essence": 1.64,
-          "Matter": 1.59,
-          "Substance": 1.65
+          "Spirit": 1.64,
+          "Essence": 1.5,
+          "Matter": 1.85,
+          "Substance": 1.79
         },
         "thermodynamicProperties": {
-          "heat": 0.1712,
-          "entropy": 0.5734,
-          "reactivity": 3.0194,
-          "gregsEnergy": -1.5601,
-          "kalchm": 3.0858,
-          "monica": 0.4585
+          "heat": 0.079,
+          "entropy": 0.3849,
+          "reactivity": 1.7264,
+          "gregsEnergy": -0.5855,
+          "kalchm": 0.4673,
+          "monica": -0.4458
         },
         "substitutions": [
           {
@@ -56143,9 +59600,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil to pan fry",
-            "notes": ""
+            "unit": "piece",
+            "name": "canola oil",
+            "notes": "to pan fry"
           }
         ],
         "instructions": [
@@ -56170,10 +59627,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2583333333333333,
-          "Water": 0.20833333333333334,
-          "Earth": 0.2916666666666667,
-          "Air": 0.2416666666666667
+          "Fire": 0.24999999999999997,
+          "Water": 0.2375,
+          "Earth": 0.28125000000000006,
+          "Air": 0.23125000000000004
         },
         "astrologicalAffinities": {
           "planets": [
@@ -56194,8 +59651,8 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 233,
-          "sugarG": 6,
+          "sodiumMg": 245,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -56208,18 +59665,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.45,
-          "Essence": 2.33,
-          "Matter": 2.82,
-          "Substance": 2.68
+          "Spirit": 2.34,
+          "Essence": 2.22,
+          "Matter": 2.87,
+          "Substance": 2.97
         },
         "thermodynamicProperties": {
-          "heat": 0.0826,
-          "entropy": 0.4169,
-          "reactivity": 1.9398,
-          "gregsEnergy": -0.7262,
-          "kalchm": 0.2468,
-          "monica": -0.2676
+          "heat": 0.0714,
+          "entropy": 0.4581,
+          "reactivity": 1.9533,
+          "gregsEnergy": -0.8236,
+          "kalchm": 0.0822,
+          "monica": -0.1687
         },
         "substitutions": [
           {
@@ -56546,8 +60003,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "extra virgin olive oil for drizzling",
-            "notes": ""
+            "name": "extra virgin olive oil",
+            "notes": "for drizzling"
           }
         ],
         "instructions": [
@@ -56573,32 +60030,32 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.27499999999999997,
-          "Earth": 0.275,
-          "Air": 0.25
+          "Fire": 0.19,
+          "Water": 0.30999999999999994,
+          "Earth": 0.28,
+          "Air": 0.22000000000000003
         },
         "astrologicalAffinities": {
           "planets": [
-            "Saturn",
-            "Mercury"
+            "Moon",
+            "Neptune"
           ],
           "signs": [
-            "Virgo",
-            "Capricorn"
+            "Cancer",
+            "Pisces"
           ],
           "lunarPhases": [
-            "New Moon"
+            "First Quarter"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 9,
-          "carbsG": 28,
+          "carbsG": 27,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 260,
-          "sugarG": 6,
+          "sodiumMg": 274,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -56611,18 +60068,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.46,
-          "Essence": 1.57,
-          "Matter": 2.12,
-          "Substance": 2.22
+          "Spirit": 1.34,
+          "Essence": 1.56,
+          "Matter": 2.21,
+          "Substance": 2.37
         },
         "thermodynamicProperties": {
-          "heat": 0.0482,
-          "entropy": 0.3984,
-          "reactivity": 1.6916,
-          "gregsEnergy": -0.6257,
-          "kalchm": 0.1221,
-          "monica": -0.1759
+          "heat": 0.0379,
+          "entropy": 0.3944,
+          "reactivity": 1.6172,
+          "gregsEnergy": -0.5999,
+          "kalchm": 0.0664,
+          "monica": -0.1368
         },
         "substitutions": [
           {
@@ -56650,9 +60107,9 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 2.5,
-            "unit": "piece",
-            "name": "-3 pound whole dressed fish",
-            "notes": "head and tail intact, gills removed"
+            "unit": "pound",
+            "name": "whole dressed fish",
+            "notes": "2 1/2-3; head and tail intact, gills removed"
           },
           {
             "amount": 1.5,
@@ -56663,8 +60120,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "pepper to taste",
-            "notes": ""
+            "name": "pepper",
+            "notes": "to taste"
           },
           {
             "amount": 1,
@@ -56786,7 +60243,7 @@ export const cuisine: Cuisine = {
         },
         "substitutions": [
           {
-            "originalIngredient": "-3 pound whole dressed fish",
+            "originalIngredient": "whole dressed fish",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -56817,8 +60274,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt and pepper to taste",
-            "notes": ""
+            "name": "salt and pepper",
+            "notes": "to taste"
           },
           {
             "amount": 0.25,
@@ -56978,8 +60435,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 8,
             "unit": "piece",
-            "name": "-10 flounder filets",
-            "notes": "seasoned with salt and pepper"
+            "name": "flounder filets",
+            "notes": "8-10; seasoned with salt and pepper"
           },
           {
             "amount": 1,
@@ -57027,10 +60484,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24672130096315392,
-          "Water": 0.3180154241425451,
-          "Earth": 0.23696706979766502,
-          "Air": 0.198296205096636
+          "Fire": 0.220044700788035,
+          "Water": 0.3238308015711732,
+          "Earth": 0.26206396619808947,
+          "Air": 0.1940605314427022
         },
         "astrologicalAffinities": {
           "planets": [
@@ -57051,7 +60508,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 277,
+          "sodiumMg": 280,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -57065,18 +60522,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.28,
-          "Essence": 5.08,
-          "Matter": 4.26,
-          "Substance": 3.74
+          "Spirit": 3.04,
+          "Essence": 4.96,
+          "Matter": 4.49,
+          "Substance": 4.01
         },
         "thermodynamicProperties": {
-          "heat": 0.0565,
-          "entropy": 0.2538,
-          "reactivity": 2.5097,
-          "gregsEnergy": -0.5803,
-          "kalchm": 2.8447,
-          "monica": 0.2212
+          "heat": 0.0458,
+          "entropy": 0.2523,
+          "reactivity": 2.2192,
+          "gregsEnergy": -0.514,
+          "kalchm": 0.3718,
+          "monica": -0.2341
         },
         "substitutions": [
           {
@@ -57141,8 +60598,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "salt and pepper to taste",
-            "notes": ""
+            "name": "salt and pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -57194,10 +60651,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2920491708668385,
-          "Water": 0.22621388172829054,
-          "Earth": 0.3032703628178985,
-          "Air": 0.17846658458697243
+          "Fire": 0.27459015533348957,
+          "Water": 0.2511035288439005,
+          "Earth": 0.2984276025617259,
+          "Air": 0.175878713260884
         },
         "astrologicalAffinities": {
           "planets": [
@@ -57214,11 +60671,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 10,
+          "proteinG": 9,
           "carbsG": 25,
-          "fatG": 9,
+          "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 240,
+          "sodiumMg": 250,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -57232,18 +60689,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.1,
-          "Essence": 4.37,
-          "Matter": 4.08,
-          "Substance": 3.55
+          "Spirit": 3.97,
+          "Essence": 4.38,
+          "Matter": 4.16,
+          "Substance": 3.69
         },
         "thermodynamicProperties": {
-          "heat": 0.1046,
-          "entropy": 0.3662,
-          "reactivity": 2.5336,
-          "gregsEnergy": -0.8233,
-          "kalchm": 7.3538,
-          "monica": 0.1629
+          "heat": 0.0944,
+          "entropy": 0.3569,
+          "reactivity": 2.4515,
+          "gregsEnergy": -0.7805,
+          "kalchm": 3.3045,
+          "monica": 0.2664
         },
         "substitutions": [
           {
@@ -57286,56 +60743,13 @@ export const cuisine: Cuisine = {
             "unit": "piece",
             "name": "skewers",
             "notes": ""
-          },
-          {
-            "amount": 0.3333333333333333,
-            "unit": "teaspoon",
-            "name": "black pepper",
-            "notes": ""
-          },
-          {
-            "amount": 2,
-            "unit": "teaspoons",
-            "name": "paprika",
-            "notes": ""
-          },
-          {
-            "amount": 1,
-            "unit": "teaspoon",
-            "name": "sea salt",
-            "notes": ""
-          },
-          {
-            "amount": 1,
-            "unit": "teaspoon",
-            "name": "ground coriander",
-            "notes": ""
-          },
-          {
-            "amount": 1,
-            "unit": "teaspoon",
-            "name": "ground cumin",
-            "notes": ""
-          },
-          {
-            "amount": 0.5,
-            "unit": "teaspoon",
-            "name": "ground thyme",
-            "notes": ""
-          },
-          {
-            "amount": 0.5,
-            "unit": "teaspoon",
-            "name": "ground rosemary",
-            "notes": ""
           }
         ],
         "instructions": [
           "In shallow pan or plate, distribute Blackening Spice Mix evenly.",
           "Skewer shrimp, 3 to skewer.",
           "Roll skewered shrimp in spice mix. Heat griddle grill.",
-          "Grill shrimp about 1 1/2-2 minutes on each side until shrimp is opaque.",
-          "Combine all ingredients for Blackening Spice Mix."
+          "Grill shrimp about 1 1/2-2 minutes on each side until shrimp is opaque."
         ],
         "classifications": {
           "mealType": [
@@ -57348,10 +60762,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.32125,
-          "Water": 0.16,
-          "Earth": 0.26625,
-          "Air": 0.2525
+          "Fire": 0.325,
+          "Water": 0.275,
+          "Earth": 0.125,
+          "Air": 0.275
         },
         "astrologicalAffinities": {
           "planets": [
@@ -57368,11 +60782,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 380,
-          "proteinG": 9,
+          "proteinG": 7,
           "carbsG": 28,
           "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 214,
+          "fiberG": 3,
+          "sodiumMg": 260,
           "sugarG": 6,
           "vitamins": [
             "Vitamin A",
@@ -57386,18 +60800,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.22,
-          "Essence": 2.83,
-          "Matter": 2.58,
-          "Substance": 2.5
+          "Spirit": 0.88,
+          "Essence": 1.19,
+          "Matter": 0.72,
+          "Substance": 0.8
         },
         "thermodynamicProperties": {
-          "heat": 0.142,
-          "entropy": 0.4928,
-          "reactivity": 3.0637,
-          "gregsEnergy": -1.3678,
-          "kalchm": 7.1949,
-          "monica": 0.2262
+          "heat": 0.0768,
+          "entropy": 0.299,
+          "reactivity": 4.3239,
+          "gregsEnergy": -1.2162,
+          "kalchm": 1.6645,
+          "monica": 0.552
         },
         "substitutions": [
           {
@@ -57462,14 +60876,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "black pepper and sea salt to taste",
-            "notes": ""
+            "name": "black pepper and sea salt",
+            "notes": "to taste"
           },
           {
             "amount": 20,
             "unit": "piece",
-            "name": "-25 fresh live mussels",
-            "notes": "cleaned"
+            "name": "fresh live mussels",
+            "notes": "20-25; cleaned"
           }
         ],
         "instructions": [
@@ -57564,9 +60978,9 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 10,
-            "unit": "piece",
-            "name": "to 12 cups water",
-            "notes": ""
+            "unit": "cups",
+            "name": "water",
+            "notes": "10-12"
           },
           {
             "amount": 3,
@@ -57586,7 +61000,8 @@ export const cuisine: Cuisine = {
           "Add noodles and stir to separate them.",
           "Cover pot. Bring to rolling boil. Add 1/2 cup cold water and stir noodles.",
           "Bring to rolling boil again. Add 1/2 cup cold water and stir noodles. Bring to rolling boil a third time. Add 1/2 cup cold water and stir noodles. Bring to rolling boil again. Remove from heat and let stand 2 to 3 minutes. Noodles are done when they are the same color inside and out.",
-          "Drain and rinse in cold water until noodles are cooled."
+          "Drain and rinse in cold water until noodles are cooled.",
+          "Note: This method of shocking noodles involves bringing noodles to rolling boil (noodles almost foam out of the pan) and adding cold water three times. The cold water temporarily halts cooking of outside of noodles so inside of noodles can become soft (without overcooking outside). Noodles cooked by shocking will be cooked uniformly throughout."
         ],
         "classifications": {
           "mealType": [
@@ -57652,7 +61067,7 @@ export const cuisine: Cuisine = {
         },
         "substitutions": [
           {
-            "originalIngredient": "to 12 cups water",
+            "originalIngredient": "water",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -57705,7 +61120,8 @@ export const cuisine: Cuisine = {
           "Heat 10-inch sauté pan over medium-high flame and add kasha.",
           "Using wooden spoon, stir constantly, toasting until buckwheat is dry.",
           "Turn off heat under pan and add stock. Quickly cover to avoid sputtering.",
-          "Bring back to boil and reduce to simmer for 10 to 15 minutes until all water is absorbed."
+          "Bring back to boil and reduce to simmer for 10 to 15 minutes until all water is absorbed.",
+          "Note: The above kasha recipe is ideal for side dish yielding a light fluffy texture. Do not use for kasha potato loaf."
         ],
         "mealType": [],
         "classifications": {
@@ -58414,10 +61830,10 @@ export const cuisine: Cuisine = {
             "notes": "soaked overnight, drained and rinsed"
           },
           {
-            "amount": 2,
+            "amount": 1,
             "unit": "piece",
-            "name": "-inch piece kombu",
-            "notes": ""
+            "name": "kombu",
+            "notes": "2-inch"
           },
           {
             "amount": 5,
@@ -58440,8 +61856,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "tablespoons",
-            "name": "tamari or more to taste",
-            "notes": ""
+            "name": "tamari",
+            "notes": "to taste; or more"
           },
           {
             "amount": 2,
@@ -58467,10 +61883,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27999999999999997,
-          "Water": 0.24499999999999997,
-          "Earth": 0.325,
-          "Air": 0.15
+          "Fire": 0.2681818181818182,
+          "Water": 0.24545454545454548,
+          "Earth": 0.34090909090909094,
+          "Air": 0.14545454545454548
         },
         "astrologicalAffinities": {
           "planets": [
@@ -58488,7 +61904,7 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 24,
           "fatG": 8,
           "fiberG": 5,
           "sodiumMg": 248,
@@ -58505,18 +61921,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.69,
-          "Essence": 4.21,
-          "Matter": 4.38,
-          "Substance": 4.03
+          "Spirit": 3.57,
+          "Essence": 4.09,
+          "Matter": 4.55,
+          "Substance": 4.19
         },
         "thermodynamicProperties": {
-          "heat": 0.077,
+          "heat": 0.0697,
           "entropy": 0.357,
-          "reactivity": 2.1567,
-          "gregsEnergy": -0.6931,
-          "kalchm": 0.2962,
-          "monica": -0.2641
+          "reactivity": 1.9724,
+          "gregsEnergy": -0.6346,
+          "kalchm": 0.0748,
+          "monica": -0.1241
         },
         "substitutions": [
           {
@@ -58617,8 +62033,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "sea salt and pepper to taste",
-            "notes": ""
+            "name": "sea salt and pepper",
+            "notes": "to taste"
           },
           {
             "amount": 2,
@@ -58644,10 +62060,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22083333333333333,
-          "Water": 0.2833333333333333,
-          "Earth": 0.32333333333333336,
-          "Air": 0.17250000000000001
+          "Fire": 0.23846153846153847,
+          "Water": 0.2692307692307692,
+          "Earth": 0.3215384615384615,
+          "Air": 0.17076923076923078
         },
         "astrologicalAffinities": {
           "planets": [
@@ -58668,7 +62084,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 263,
+          "sodiumMg": 258,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -58682,18 +62098,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.8,
-          "Essence": 5.12,
-          "Matter": 5.53,
-          "Substance": 4.76
+          "Spirit": 3.88,
+          "Essence": 5.03,
+          "Matter": 5.52,
+          "Substance": 4.8
         },
         "thermodynamicProperties": {
-          "heat": 0.0553,
-          "entropy": 0.2934,
-          "reactivity": 1.8525,
-          "gregsEnergy": -0.4882,
-          "kalchm": 0.0318,
-          "monica": -0.0764
+          "heat": 0.0582,
+          "entropy": 0.3076,
+          "reactivity": 1.8625,
+          "gregsEnergy": -0.5147,
+          "kalchm": 0.0281,
+          "monica": -0.0774
         },
         "substitutions": [
           {
@@ -58756,10 +62172,10 @@ export const cuisine: Cuisine = {
             "notes": "minced"
           },
           {
-            "amount": 1,
+            "amount": 1.5,
             "unit": "tablespoon",
-            "name": "+ 1 1/2 teaspoons shoyu",
-            "notes": ""
+            "name": "shoyu",
+            "notes": "1 tablespoon + 1 1/2 teaspoons"
           },
           {
             "amount": 1,
@@ -58770,8 +62186,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "no-taste oil for frying",
-            "notes": ""
+            "name": "no-taste oil",
+            "notes": "for frying"
           }
         ],
         "instructions": [
@@ -58794,31 +62210,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.12500000000000003,
-          "Water": 0.34375000000000006,
-          "Earth": 0.31500000000000006,
-          "Air": 0.21625
+          "Fire": 0.1222222222222222,
+          "Water": 0.31666666666666665,
+          "Earth": 0.3466666666666666,
+          "Air": 0.2144444444444444
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
           "carbsG": 26,
-          "fatG": 7,
+          "fatG": 6,
           "fiberG": 5,
-          "sodiumMg": 288,
+          "sodiumMg": 277,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -58832,18 +62248,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.7,
-          "Essence": 2.72,
-          "Matter": 2.83,
-          "Substance": 2.5
+          "Spirit": 1.59,
+          "Essence": 2.54,
+          "Matter": 3.03,
+          "Substance": 2.65
         },
         "thermodynamicProperties": {
-          "heat": 0.0365,
-          "entropy": 0.2387,
-          "reactivity": 1.6903,
-          "gregsEnergy": -0.367,
-          "kalchm": 0.1997,
-          "monica": -0.1348
+          "heat": 0.0307,
+          "entropy": 0.2474,
+          "reactivity": 1.4176,
+          "gregsEnergy": -0.32,
+          "kalchm": 0.0586,
+          "monica": -0.0796
         },
         "substitutions": [
           {
@@ -59077,9 +62493,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 6,
-            "unit": "piece",
-            "name": "- 8 tablespoons extra virgin olive oil",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": "6-8"
           },
           {
             "amount": 8,
@@ -59134,10 +62550,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2678571428571429,
-          "Water": 0.2571428571428571,
-          "Earth": 0.31071428571428567,
-          "Air": 0.1642857142857143
+          "Fire": 0.24285714285714288,
+          "Water": 0.275,
+          "Earth": 0.325,
+          "Air": 0.15714285714285717
         },
         "astrologicalAffinities": {
           "planets": [
@@ -59157,8 +62573,8 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 253,
+          "fiberG": 5,
+          "sodiumMg": 260,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -59172,18 +62588,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.77,
-          "Essence": 5.41,
-          "Matter": 5.47,
-          "Substance": 4.89
+          "Spirit": 4.15,
+          "Essence": 5.3,
+          "Matter": 5.71,
+          "Substance": 5.03
         },
         "thermodynamicProperties": {
-          "heat": 0.0838,
-          "entropy": 0.3568,
-          "reactivity": 2.2772,
-          "gregsEnergy": -0.7288,
-          "kalchm": 0.6246,
-          "monica": -0.68
+          "heat": 0.0613,
+          "entropy": 0.3161,
+          "reactivity": 1.9432,
+          "gregsEnergy": -0.553,
+          "kalchm": 0.0358,
+          "monica": -0.0855
         },
         "substitutions": [
           {
@@ -59222,10 +62638,10 @@ export const cuisine: Cuisine = {
             "notes": "soaked, drained and rinsed"
           },
           {
-            "amount": 1,
-            "unit": "g",
-            "name": "allon + 2 quarts water",
-            "notes": ""
+            "amount": 1.5,
+            "unit": "gallon",
+            "name": "water",
+            "notes": "1 gallon + 2 quarts"
           },
           {
             "amount": 4,
@@ -59259,9 +62675,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "- 4 tablespoons extra virgin olive oil",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": "3-4"
           },
           {
             "amount": 4,
@@ -59316,10 +62732,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26071428571428573,
-          "Water": 0.2892857142857143,
-          "Earth": 0.31071428571428567,
-          "Air": 0.1392857142857143
+          "Fire": 0.2357142857142857,
+          "Water": 0.30714285714285716,
+          "Earth": 0.32499999999999996,
+          "Air": 0.13214285714285715
         },
         "astrologicalAffinities": {
           "planets": [
@@ -59339,8 +62755,8 @@ export const cuisine: Cuisine = {
           "proteinG": 10,
           "carbsG": 24,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 266,
+          "fiberG": 5,
+          "sodiumMg": 273,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -59354,18 +62770,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.82,
-          "Essence": 5.88,
-          "Matter": 5.81,
-          "Substance": 5.07
+          "Spirit": 4.2,
+          "Essence": 5.77,
+          "Matter": 6.06,
+          "Substance": 5.21
         },
         "thermodynamicProperties": {
-          "heat": 0.0761,
-          "entropy": 0.3246,
-          "reactivity": 2.2337,
-          "gregsEnergy": -0.6489,
-          "kalchm": 0.6338,
-          "monica": -0.637
+          "heat": 0.0558,
+          "entropy": 0.2888,
+          "reactivity": 1.9192,
+          "gregsEnergy": -0.4985,
+          "kalchm": 0.0341,
+          "monica": -0.0769
         },
         "substitutions": [
           {
@@ -59399,15 +62815,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 pounds bones from flat fish",
-            "notes": "no gills or skin"
+            "unit": "pounds",
+            "name": "bones from flat fish",
+            "notes": "1-2; no gills or skin"
           },
           {
             "amount": 6,
             "unit": "ounces",
-            "name": "'white mirepoix' (2 ounces each: white portion of leeks",
-            "notes": "celery, and parsnips)"
+            "name": "'white mirepoix'",
+            "notes": "2 ounces each: white portion of leeks, celery, and parsnips"
           },
           {
             "amount": 1,
@@ -59432,7 +62848,8 @@ export const cuisine: Cuisine = {
           "In medium stockpot, heat oil. Add bones and mirepoix and sweat for 10 to 15 minutes.",
           "Add 2 1/2 quarts water, bouquet garni, vinegar and wine, if using.",
           "Bring to boil, lower heat, and simmer for 30-40 minutes.",
-          "Strain stock, pressing firmly to extract as much liquid as possible, though fine mesh strainer or cheesecloth-lined chinois."
+          "Strain stock, pressing firmly to extract as much liquid as possible, though fine mesh strainer or cheesecloth-lined chinois.",
+          "Note: Bouquet garni is 1 bay leaf, 3 or 4 parsley stems, 1 sprig fresh thyme, 8 peppercorns."
         ],
         "classifications": {
           "mealType": [
@@ -59445,10 +62862,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20833333333333334,
-          "Water": 0.275,
+          "Fire": 0.19166666666666668,
+          "Water": 0.2833333333333333,
           "Earth": 0.3083333333333333,
-          "Air": 0.20833333333333334
+          "Air": 0.21666666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -59466,10 +62883,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 380,
           "proteinG": 10,
-          "carbsG": 26,
-          "fatG": 8,
+          "carbsG": 27,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 260,
+          "sodiumMg": 263,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -59483,18 +62900,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.46,
+          "Spirit": 1.42,
           "Essence": 1.84,
-          "Matter": 2.08,
-          "Substance": 1.83
+          "Matter": 2.09,
+          "Substance": 1.84
         },
         "thermodynamicProperties": {
-          "heat": 0.0508,
-          "entropy": 0.2745,
-          "reactivity": 1.5828,
-          "gregsEnergy": -0.3837,
-          "kalchm": 0.3849,
-          "monica": -0.2539
+          "heat": 0.0474,
+          "entropy": 0.2683,
+          "reactivity": 1.5563,
+          "gregsEnergy": -0.3701,
+          "kalchm": 0.3525,
+          "monica": -0.2281
         },
         "substitutions": [
           {
@@ -59529,14 +62946,15 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "8-inch piece kombu",
-            "notes": ""
+            "name": "kombu",
+            "notes": "8-inch"
           }
         ],
         "instructions": [
           "In small stockpot, soak mushrooms in 2 quarts water for 30 minutes.",
           "Add kombu and bring to boil. Lower flame and simmer 5 minutes.",
-          "Strain stock through fine chinois, pressing firmly to extract as much liquid as possible."
+          "Strain stock through fine chinois, pressing firmly to extract as much liquid as possible.",
+          "Note: Strained mushrooms and kombu can be sliced and used in soup, and other dishes."
         ],
         "mealType": [],
         "classifications": {
@@ -59793,10 +63211,10 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 12,
-            "unit": "piece",
-            "name": "-ounce package seitan",
-            "notes": "cut into six 2-ounce slabs (reserve liquid from package)"
+            "amount": 1,
+            "unit": "package",
+            "name": "seitan",
+            "notes": "12-ounce; cut into six 2-ounce slabs (reserve liquid from package)"
           },
           {
             "amount": 0.25,
@@ -59903,7 +63321,7 @@ export const cuisine: Cuisine = {
         },
         "substitutions": [
           {
-            "originalIngredient": "-ounce package seitan",
+            "originalIngredient": "seitan",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -60214,9 +63632,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons extra virgin olive oil",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": "3-4"
           },
           {
             "amount": 1,
@@ -60377,10 +63795,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 2,
+            "amount": 2.5,
             "unit": "tablespoons",
-            "name": "+ 1 1/2 teaspoons shoyu",
-            "notes": ""
+            "name": "shoyu",
+            "notes": "2 tablespoons + 1 1/2 teaspoons"
           },
           {
             "amount": 1.5,
@@ -60457,22 +63875,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.25625,
-          "Water": 0.284375,
-          "Earth": 0.2812499999999999,
-          "Air": 0.17812499999999998
+          "Fire": 0.23888888888888893,
+          "Water": 0.2833333333333333,
+          "Earth": 0.2972222222222222,
+          "Air": 0.18055555555555558
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
@@ -60481,7 +63899,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 264,
+          "sodiumMg": 263,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -60495,18 +63913,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 5.62,
-          "Essence": 6.38,
-          "Matter": 6.56,
-          "Substance": 5.7
+          "Spirit": 5.4,
+          "Essence": 6.2,
+          "Matter": 6.82,
+          "Substance": 5.96
         },
         "thermodynamicProperties": {
-          "heat": 0.0842,
-          "entropy": 0.3518,
-          "reactivity": 2.2425,
-          "gregsEnergy": -0.7047,
-          "kalchm": 0.4796,
-          "monica": -0.4277
+          "heat": 0.075,
+          "entropy": 0.3502,
+          "reactivity": 2.0391,
+          "gregsEnergy": -0.6391,
+          "kalchm": 0.0364,
+          "monica": -0.0946
         },
         "substitutions": [
           {
@@ -60540,8 +63958,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.5,
-            "unit": "g",
-            "name": "allon salted water",
+            "unit": "gallon",
+            "name": "salted water",
             "notes": ""
           },
           {
@@ -60690,6 +64108,892 @@ export const cuisine: Cuisine = {
         "substitutions": [
           {
             "originalIngredient": "soba noodles",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "FOCACCIA",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 1,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "dry yeast",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "rice syrup or honey",
+            "notes": ""
+          },
+          {
+            "amount": 0.6666666666666666,
+            "unit": "cup",
+            "name": "lukewarm filtered water",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "hi gluten flour",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "cooked or baked potato",
+            "notes": "mashed"
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "warm water",
+            "notes": ""
+          },
+          {
+            "amount": 4,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "semolina flour",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "cups",
+            "name": "unbleached white flour or 1/2 white and 1/2 whole wheat bread flour",
+            "notes": "2-3"
+          }
+        ],
+        "instructions": [
+          "For the sponge: In medium bowl, mix sponge ingredients (yeast, rice syrup or honey, lukewarm water, and hi gluten flour) with whisk. Cover with plastic wrap and let rise for 20-30 minutes in warm place.",
+          "For the crust: Add potato, water, oil and salt to bowl with sponge. Add flour in 1/2 cup increments.",
+          "Remove dough from bowl, form dough into ball and knead on a floured work surface. Dough should be soft and a little sticky. Knead 8-10 minutes.",
+          "Place dough in lightly oiled bowl, cover with plastic, and place in warm place until doubled in size - about 1 hour. Punch down, transfer to parchment-lined sheet pan and let rise 15 to 20 minutes more.",
+          "Preheat oven to 475° F.",
+          "Transfer focaccia to pan. Dimple surface of focaccia with fingers before adding toppings.",
+          "Bake for 20 to 25 minutes."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.13500000000000004,
+          "Water": 0.36000000000000004,
+          "Earth": 0.355,
+          "Air": 0.15
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 380,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 294,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.4,
+          "Essence": 3.06,
+          "Matter": 4.4,
+          "Substance": 3.75
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0136,
+          "entropy": 0.2404,
+          "reactivity": 1.1303,
+          "gregsEnergy": -0.2581,
+          "kalchm": 0.0005,
+          "monica": -0.03
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "dry yeast",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "GNOCCHI",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "pounds",
+            "name": "russet potatoes",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "egg",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "up to 1 1/2 cups unbleached flour",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Note: For lightest possible gnocchi, potatoes must be baked.",
+          "Preheat oven to 400° F.",
+          "Prick flesh of potatoes with fork and bake until tender, about 1 hour.",
+          "Peel potatoes while still warm and put in medium bowl. Mash potatoes and add egg and salt. Add flour in increments, working it in to bind potato mixture. Add just enough flour to hold dough together. Roll out a few test gnocchi.",
+          "Bring pot of salted water to simmer. Add gnocchi. When gnocchi rise to top, count to ten before removing and testing for consistency. If gnocchi are fragile and fall apart, add more flour and make another test batch. When you have right consistency, finish rolling out gnocchi.",
+          "Cook gnocchi as described above. You can sauce gnocchi or cook gnocchi and then sauté them in clarified butter for delicious variation. You can cook gnocchi and toss with olive oil and hold them in refrigerator up to overnight before sautéing them.",
+          "Variations: Add one of the below with the potatoes: diced herbs; chopped garlic; cooked and chopped Swiss chard."
+        ],
+        "classifications": {
+          "mealType": [
+            "dinner"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.13749999999999998,
+          "Water": 0.3125,
+          "Earth": 0.4125,
+          "Air": 0.1375
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 380,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 275,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 0.64,
+          "Essence": 1.15,
+          "Matter": 2.17,
+          "Substance": 2.05
+        },
+        "thermodynamicProperties": {
+          "heat": 0.011,
+          "entropy": 0.2842,
+          "reactivity": 0.9101,
+          "gregsEnergy": -0.2476,
+          "kalchm": 0.0377,
+          "monica": -0.083
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "russet potatoes",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "COUS-COUS",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 4,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "cous-cous",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "extra virgin olive or melted coconut oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "boiling water",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "In small sauté pan, roast cous-cous in oil until there is a nutty aroma (2 to 3 minutes).",
+          "Pour water over cous-cous. Cover cous-cous with lid and steam for 5-10 minutes until all liquid is absorbed.",
+          "Fluff with fork and serve."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.06666666666666667,
+          "Water": 0.46666666666666673,
+          "Earth": 0.3333333333333333,
+          "Air": 0.13333333333333333
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 380,
+          "proteinG": 10,
+          "carbsG": 24,
+          "fatG": 6,
+          "fiberG": 5,
+          "sodiumMg": 337,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 0.64,
+          "Essence": 1.46,
+          "Matter": 1.69,
+          "Substance": 1.38
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0139,
+          "entropy": 0.1497,
+          "reactivity": 1.1445,
+          "gregsEnergy": -0.1575,
+          "kalchm": 0.3449,
+          "monica": -0.1293
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "cous-cous",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "POLENTA",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 8,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "polenta",
+            "notes": ""
+          },
+          {
+            "amount": 4,
+            "unit": "cups",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "teaspoon",
+            "name": "salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "black pepper",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "white wine vinegar or 1 1/2 teaspoons white balsamic vinegar or 1 1/2 teaspoons sherry vinegar",
+            "notes": "dark balsamic discolors the polenta"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "rosemary",
+            "notes": "optional"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "oregano",
+            "notes": "optional"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "garlic powder",
+            "notes": "optional"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "a pinch of chili flakes",
+            "notes": "optional"
+          }
+        ],
+        "instructions": [
+          "Optional: toast polenta in sauté pan over medium flame, stirring constantly until it has nut-like fragrance, about 3 to 4 minutes. Remove polenta from pan and let cool to room temperature.",
+          "In 3-quart saucepan, mix polenta, salt, pepper, and water, whisking until smooth. Place pan over heat, bring mixture to boil, stirring constantly, until thickened, using medium-high flame.",
+          "Simmer 20 to 30 minutes, stirring constantly, until mixture is thick enough so wooden spoon can stand in it.",
+          "Season with flavoring options of choice."
+        ],
+        "mealType": [],
+        "classifications": {
+          "mealType": [],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.3277777777777777,
+          "Water": 0.2,
+          "Earth": 0.2722222222222222,
+          "Air": 0.19999999999999998
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Sun",
+            "Mars"
+          ],
+          "signs": [
+            "Aries",
+            "Leo"
+          ],
+          "lunarPhases": [
+            "Full Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 380,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 230,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.34,
+          "Essence": 2.57,
+          "Matter": 2.57,
+          "Substance": 2.31
+        },
+        "thermodynamicProperties": {
+          "heat": 0.1707,
+          "entropy": 0.5283,
+          "reactivity": 2.8823,
+          "gregsEnergy": -1.3519,
+          "kalchm": 8.1165,
+          "monica": 0.224
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "polenta",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "RISOTTO",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "extra virgin olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "onion",
+            "notes": "1/2 pound; minced"
+          },
+          {
+            "amount": 4,
+            "unit": "cloves",
+            "name": "garlic",
+            "notes": "minced"
+          },
+          {
+            "amount": 2,
+            "unit": "cups",
+            "name": "short grain brown rice",
+            "notes": "soaked and rinsed"
+          },
+          {
+            "amount": 4,
+            "unit": "cups",
+            "name": "stock",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "pounds",
+            "name": "asparagus",
+            "notes": "trimmed and cut into 1-inch diagonals"
+          },
+          {
+            "amount": 0.125,
+            "unit": "teaspoon",
+            "name": "saffron",
+            "notes": "dissolved in a little stock"
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "white wine",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoons",
+            "name": "salt",
+            "notes": "1-1 1/2"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pepper",
+            "notes": "to taste"
+          }
+        ],
+        "instructions": [
+          "In pressure cooker, heat oil over medium flame. Sauté onion, then garlic in oil until translucent.",
+          "Add rice and sauté few minutes more.",
+          "Add stock and bring pot to pressure. Pressure cook risotto for 35 minutes.",
+          "While rice is cooking, prepare an ice bath, bring 1 quart water to boil, and add 1/2 teaspoon salt. Blanch asparagus for 1 minute, and shock in ice water. Drain and set asparagus aside.",
+          "Remove pressure cooker from heat, and allow pressure to come down. Open pressure cooker and add saffron, wine, and salt. Cook uncovered for 5-10 minutes more, stirring often, and adding stock if necessary.",
+          "Add blanched asparagus just before serving."
+        ],
+        "classifications": {
+          "mealType": [
+            "dinner"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.3,
+          "Water": 0.23000000000000004,
+          "Earth": 0.29500000000000004,
+          "Air": 0.17500000000000002
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Sun",
+            "Mars"
+          ],
+          "signs": [
+            "Aries",
+            "Leo"
+          ],
+          "lunarPhases": [
+            "Full Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 380,
+          "proteinG": 9,
+          "carbsG": 25,
+          "fatG": 9,
+          "fiberG": 4,
+          "sodiumMg": 242,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.84,
+          "Essence": 3.87,
+          "Matter": 3.54,
+          "Substance": 3.18
+        },
+        "thermodynamicProperties": {
+          "heat": 0.1164,
+          "entropy": 0.3967,
+          "reactivity": 2.7203,
+          "gregsEnergy": -0.9628,
+          "kalchm": 9.486,
+          "monica": 0.1573
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "extra virgin olive oil",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CASSOULET",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "great northern beans",
+            "notes": "soaked overnight, drained, and rinsed"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "kombu",
+            "notes": "2-inch"
+          },
+          {
+            "amount": 4,
+            "unit": "cups",
+            "name": "brown stock",
+            "notes": "4-6; saved from Stock Practicum"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sachet - 1 sprig rosemary",
+            "notes": "1 bay leaf, 4 peppercorns"
+          },
+          {
+            "amount": 8,
+            "unit": "ounces",
+            "name": "carrots",
+            "notes": "1 medium; 1/4-inch diagonal slices"
+          },
+          {
+            "amount": 8,
+            "unit": "ounces",
+            "name": "parsnips",
+            "notes": "1 large; 1/4-inch diagonal slices"
+          },
+          {
+            "amount": 6,
+            "unit": "tablespoons",
+            "name": "olive oil",
+            "notes": ""
+          },
+          {
+            "amount": 4,
+            "unit": "ounces",
+            "name": "onion",
+            "notes": "1 small; sauté slice"
+          },
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "minced garlic",
+            "notes": "3 large cloves"
+          },
+          {
+            "amount": 4,
+            "unit": "ounces",
+            "name": "plum tomatoes",
+            "notes": "4; seeded, medium dice"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "sea salt and pepper",
+            "notes": "to taste"
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "chopped parsley",
+            "notes": "1 ounce"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "fresh thyme leaves",
+            "notes": "chopped (2 sprigs)"
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "marjoram leaf",
+            "notes": "chopped (1 sprig)"
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "whole wheat bread crumbs mixed with 3 tablespoons olive oil",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Preheat oven to 375° F.",
+          "Combine beans in pot with salt, kombu, Brown Stock, and sachet. Cover and cook at simmer until beans are soft (approximately 45 minutes).",
+          "Toss carrots and parsnips in bowl with 3 tablespoons olive oil, transfer to parchment-lined sheet tray, and roast until browned (about 20 to 25 minutes). Sprinkle with salt and set aside.",
+          "In 10-inch sauté pan, caramelize onions with 2 tablespoons of oil. When softened and browned, add garlic and cook few minutes more. Add tomatoes and remaining oil. Sauté until tomatoes are soft. Set aside.",
+          "When beans are tender, add tomatoes and onions to pot. Simmer 5 minutes more. Strain bean mixture, reserving bean liquid. Reduce liquid over heat until nappé consistency is achieved (should lightly coat back of spoon). Add reduction back into bean/tomato mixture and season with salt and pepper.",
+          "In small bowl, combine parsley, thyme, and marjoram with breadcrumbs and olive oil.",
+          "In 2-quart casserole dish, layer alternately beans and roasted vegetables. Top with breadcrumb mixture. Bake uncovered for 20 to 30 minutes until browned."
+        ],
+        "classifications": {
+          "mealType": [
+            "dinner"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.234375,
+          "Water": 0.259375,
+          "Earth": 0.32312499999999994,
+          "Air": 0.183125
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 380,
+          "proteinG": 10,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 254,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 4.86,
+          "Essence": 5.97,
+          "Matter": 6.23,
+          "Substance": 5.99
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0659,
+          "entropy": 0.3647,
+          "reactivity": 2.2191,
+          "gregsEnergy": -0.7434,
+          "kalchm": 0.0231,
+          "monica": -0.0889
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "great northern beans",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -61008,8 +65312,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 6,
             "unit": "piece",
-            "name": "8-inch skewers",
-            "notes": ""
+            "name": "skewers",
+            "notes": "8-inch"
           },
           {
             "amount": 3,
@@ -61100,22 +65404,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.09,
-          "Essence": 3.09,
-          "Matter": 1.79,
-          "Substance": 1.78
+          "Spirit": 2.28,
+          "Essence": 3.54,
+          "Matter": 1.85,
+          "Substance": 1.74
         },
         "thermodynamicProperties": {
-          "heat": 0.0797,
-          "entropy": 0.2536,
-          "reactivity": 4.4526,
-          "gregsEnergy": -1.0497,
-          "kalchm": 19.263,
-          "monica": 0.0797
+          "heat": 0.0838,
+          "entropy": 0.2315,
+          "reactivity": 5.0821,
+          "gregsEnergy": -1.0928,
+          "kalchm": 70.2651,
+          "monica": 0.0506
         },
         "substitutions": [
           {
-            "originalIngredient": "8-inch skewers",
+            "originalIngredient": "skewers",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -61163,9 +65467,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons soy milk",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "soy milk",
+            "notes": "2-3"
           }
         ],
         "instructions": [
@@ -61184,10 +65488,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.22000000000000003,
-          "Water": 0.38,
-          "Earth": 0.25,
-          "Air": 0.15
+          "Fire": 0.24999999999999994,
+          "Water": 0.33999999999999997,
+          "Earth": 0.26999999999999996,
+          "Air": 0.13999999999999999
         },
         "astrologicalAffinities": {
           "planets": [
@@ -61205,10 +65509,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 9,
-          "carbsG": 25,
+          "carbsG": 24,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 302,
+          "sodiumMg": 286,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -61222,18 +65526,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.06,
-          "Essence": 1.71,
-          "Matter": 1.55,
-          "Substance": 1.64
+          "Spirit": 1.22,
+          "Essence": 1.82,
+          "Matter": 1.5,
+          "Substance": 1.33
         },
         "thermodynamicProperties": {
-          "heat": 0.0363,
-          "entropy": 0.2567,
-          "reactivity": 2.1459,
-          "gregsEnergy": -0.5145,
-          "kalchm": 0.5996,
-          "monica": -0.4687
+          "heat": 0.0532,
+          "entropy": 0.2162,
+          "reactivity": 2.1601,
+          "gregsEnergy": -0.4139,
+          "kalchm": 1.412,
+          "monica": 0.5553
         },
         "substitutions": [
           {
@@ -61292,8 +65596,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "mint leaves for garnish",
-            "notes": ""
+            "name": "mint leaves",
+            "notes": "for garnish"
           }
         ],
         "instructions": [
@@ -61445,9 +65749,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 cups whole wheat pastry flour",
-            "notes": ""
+            "unit": "cups",
+            "name": "whole wheat pastry flour",
+            "notes": "2-3"
           },
           {
             "amount": 6,
@@ -61538,10 +65842,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1928571428571429,
-          "Water": 0.24285714285714288,
-          "Earth": 0.34047619047619043,
-          "Air": 0.22380952380952382
+          "Fire": 0.17857142857142858,
+          "Water": 0.2452380952380952,
+          "Earth": 0.35714285714285704,
+          "Air": 0.21904761904761907
         },
         "astrologicalAffinities": {
           "planets": [
@@ -61562,7 +65866,7 @@ export const cuisine: Cuisine = {
           "carbsG": 27,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 247,
+          "sodiumMg": 248,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -61576,18 +65880,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.58,
-          "Essence": 5.52,
-          "Matter": 6.88,
-          "Substance": 6.07
+          "Spirit": 5.01,
+          "Essence": 6.89,
+          "Matter": 7.06,
+          "Substance": 6.15
         },
         "thermodynamicProperties": {
-          "heat": 0.0565,
-          "entropy": 0.3435,
-          "reactivity": 1.6963,
-          "gregsEnergy": -0.5262,
-          "kalchm": 0.0004,
-          "monica": -0.0396
+          "heat": 0.0574,
+          "entropy": 0.2975,
+          "reactivity": 2.0092,
+          "gregsEnergy": -0.5403,
+          "kalchm": 0.0274,
+          "monica": -0.0748
         },
         "substitutions": [
           {
@@ -62595,8 +66899,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "tablespoon",
-            "name": "almond milk for brushing",
-            "notes": ""
+            "name": "almond milk",
+            "notes": "for brushing"
           },
           {
             "amount": 1,
@@ -62625,10 +66929,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.26266666666666666,
-          "Water": 0.22933333333333333,
-          "Earth": 0.33199999999999996,
-          "Air": 0.17600000000000005
+          "Fire": 0.24214285714285713,
+          "Water": 0.24,
+          "Earth": 0.3464285714285714,
+          "Air": 0.17142857142857146
         },
         "astrologicalAffinities": {
           "planets": [
@@ -62649,7 +66953,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 242,
+          "sodiumMg": 246,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -62663,18 +66967,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.84,
-          "Essence": 4.16,
-          "Matter": 5.11,
-          "Substance": 4.65
+          "Spirit": 4.06,
+          "Essence": 4.63,
+          "Matter": 5.21,
+          "Substance": 4.66
         },
         "thermodynamicProperties": {
-          "heat": 0.069,
-          "entropy": 0.3773,
-          "reactivity": 1.8175,
-          "gregsEnergy": -0.6168,
-          "kalchm": 0.0125,
-          "monica": -0.0774
+          "heat": 0.0711,
+          "entropy": 0.3522,
+          "reactivity": 1.9363,
+          "gregsEnergy": -0.6109,
+          "kalchm": 0.0504,
+          "monica": -0.1056
         },
         "substitutions": [
           {
@@ -63411,7 +67715,8 @@ export const cuisine: Cuisine = {
           "Add lemon juice and zest.",
           "Pour mixture into shallow bowl or pan and cool completely. Whisk frequently so that it does not 'set up.'",
           "When mixture is cooled, pour into pre-baked and cooled tart crust.",
-          "Refrigerate tart to set filling."
+          "Refrigerate tart to set filling.",
+          "Note: There may be lemon filling left after filling tart. Let it set totally and blend it in food processor for creamy smooth pudding."
         ],
         "classifications": {
           "mealType": [
@@ -63519,10 +67824,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.5,
+            "amount": 0.625,
             "unit": "cup",
-            "name": "+ 2 tablespoons maple crystals",
-            "notes": "ground to powder"
+            "name": "maple crystals",
+            "notes": "1/2 cup + 2 tablespoons; ground to powder"
           },
           {
             "amount": 0.5,
@@ -63564,22 +67869,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.175,
-          "Water": 0.33333333333333337,
-          "Earth": 0.33333333333333326,
-          "Air": 0.1583333333333333
+          "Fire": 0.2,
+          "Water": 0.30833333333333335,
+          "Earth": 0.34166666666666656,
+          "Air": 0.15
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
@@ -63588,7 +67893,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 283,
+          "sodiumMg": 273,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -63602,18 +67907,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.68,
-          "Essence": 2.02,
-          "Matter": 2.57,
-          "Substance": 2.49
+          "Spirit": 1.75,
+          "Essence": 1.98,
+          "Matter": 2.56,
+          "Substance": 2.46
         },
         "thermodynamicProperties": {
-          "heat": 0.0457,
-          "entropy": 0.3285,
-          "reactivity": 1.5742,
-          "gregsEnergy": -0.4715,
-          "kalchm": 0.0902,
-          "monica": -0.1245
+          "heat": 0.051,
+          "entropy": 0.3407,
+          "reactivity": 1.5668,
+          "gregsEnergy": -0.4828,
+          "kalchm": 0.1014,
+          "monica": -0.1346
         },
         "substitutions": [
           {
@@ -64170,10 +68475,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.25,
+            "amount": 0.375,
             "unit": "cup",
-            "name": "+ 2 tablespoons maple crystals",
-            "notes": ""
+            "name": "maple crystals",
+            "notes": "1/4 cup + 2 tablespoons"
           },
           {
             "amount": 0.5,
@@ -64195,9 +68500,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons almond slices",
-            "notes": "toasted"
+            "unit": "tablespoons",
+            "name": "almond slices",
+            "notes": "3-4; toasted"
           }
         ],
         "instructions": [
@@ -64220,10 +68525,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19,
-          "Water": 0.275,
-          "Earth": 0.35,
-          "Air": 0.185
+          "Fire": 0.17272727272727273,
+          "Water": 0.26818181818181813,
+          "Earth": 0.35454545454545455,
+          "Air": 0.20454545454545459
         },
         "astrologicalAffinities": {
           "planets": [
@@ -64244,7 +68549,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 260,
+          "sodiumMg": 257,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -64258,18 +68563,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.23,
-          "Essence": 2.91,
-          "Matter": 3.84,
-          "Substance": 3.42
+          "Spirit": 2.95,
+          "Essence": 3.67,
+          "Matter": 3.96,
+          "Substance": 3.35
         },
         "thermodynamicProperties": {
-          "heat": 0.0415,
-          "entropy": 0.3078,
-          "reactivity": 1.4401,
-          "gregsEnergy": -0.4017,
-          "kalchm": 0.0114,
-          "monica": -0.0623
+          "heat": 0.0626,
+          "entropy": 0.2936,
+          "reactivity": 1.8016,
+          "gregsEnergy": -0.4663,
+          "kalchm": 0.215,
+          "monica": -0.1684
         },
         "substitutions": [
           {
@@ -64333,9 +68638,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons heavy cream",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "heavy cream",
+            "notes": "3-4"
           },
           {
             "amount": 1,
@@ -64358,7 +68663,8 @@ export const cuisine: Cuisine = {
           "Add wet to dry until just combined.",
           "Fold out onto table and form semi-flattened log.",
           "Cut log into triangles and bake on parchment for 10 minutes.",
-          "Serve warm."
+          "Serve warm.",
+          "Note: If using rice flour add more liquid (about 2 tablespoons)."
         ],
         "classifications": {
           "mealType": [
@@ -64410,18 +68716,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.94,
-          "Essence": 3.07,
-          "Matter": 3.78,
-          "Substance": 3.59
+          "Spirit": 2.13,
+          "Essence": 3.52,
+          "Matter": 3.84,
+          "Substance": 3.55
         },
         "thermodynamicProperties": {
-          "heat": 0.0301,
-          "entropy": 0.296,
-          "reactivity": 1.514,
-          "gregsEnergy": -0.4181,
-          "kalchm": 0.0076,
-          "monica": -0.0566
+          "heat": 0.0333,
+          "entropy": 0.2671,
+          "reactivity": 1.665,
+          "gregsEnergy": -0.4115,
+          "kalchm": 0.0267,
+          "monica": -0.0682
         },
         "substitutions": [
           {
@@ -64448,10 +68754,10 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 1.5,
+            "amount": 1.625,
             "unit": "cups",
-            "name": "+ 2 tablespoons whole wheat pastry flour",
-            "notes": ""
+            "name": "whole wheat pastry flour",
+            "notes": "1 1/2 cups + 2 tablespoons"
           },
           {
             "amount": 3,
@@ -64522,10 +68828,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19875,
-          "Water": 0.27625000000000005,
-          "Earth": 0.3375,
-          "Air": 0.18749999999999997
+          "Fire": 0.18777777777777777,
+          "Water": 0.2622222222222222,
+          "Earth": 0.35555555555555557,
+          "Air": 0.1944444444444444
         },
         "astrologicalAffinities": {
           "planets": [
@@ -64546,7 +68852,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 261,
+          "sodiumMg": 255,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -64560,22 +68866,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.74,
-          "Essence": 2.15,
-          "Matter": 2.76,
-          "Substance": 2.69
+          "Spirit": 1.65,
+          "Essence": 2.01,
+          "Matter": 2.91,
+          "Substance": 2.81
         },
         "thermodynamicProperties": {
-          "heat": 0.0435,
-          "entropy": 0.3388,
-          "reactivity": 1.5673,
-          "gregsEnergy": -0.4876,
-          "kalchm": 0.0576,
-          "monica": -0.109
+          "heat": 0.0378,
+          "entropy": 0.3486,
+          "reactivity": 1.3879,
+          "gregsEnergy": -0.4461,
+          "kalchm": 0.0228,
+          "monica": -0.085
         },
         "substitutions": [
           {
-            "originalIngredient": "+ 2 tablespoons whole wheat pastry flour",
+            "originalIngredient": "whole wheat pastry flour",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -64725,10 +69031,10 @@ export const cuisine: Cuisine = {
             "notes": "1 1/4 sticks; softened"
           },
           {
-            "amount": 0.25,
+            "amount": 0.375,
             "unit": "cup",
-            "name": "+ 2 tablespoons powdered maple crystals",
-            "notes": ""
+            "name": "powdered maple crystals",
+            "notes": "1/4 cup + 2 tablespoons"
           },
           {
             "amount": 0.25,
@@ -64869,10 +69175,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.75,
+            "amount": 0.875,
             "unit": "cup",
-            "name": "+ 2 tablespoons unbleached all-purpose flour",
-            "notes": ""
+            "name": "unbleached all-purpose flour",
+            "notes": "3/4 cup + 2 tablespoons"
           },
           {
             "amount": 0.25,
@@ -64930,10 +69236,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1681818181818182,
-          "Water": 0.2909090909090909,
-          "Earth": 0.3954545454545455,
-          "Air": 0.14545454545454548
+          "Fire": 0.15909090909090912,
+          "Water": 0.31818181818181823,
+          "Earth": 0.36818181818181817,
+          "Air": 0.15454545454545457
         },
         "astrologicalAffinities": {
           "planets": [
@@ -64951,10 +69257,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 11,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 266,
+          "sodiumMg": 277,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -64968,18 +69274,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.08,
-          "Essence": 3.33,
-          "Matter": 4.56,
-          "Substance": 4.22
+          "Spirit": 2.06,
+          "Essence": 3.47,
+          "Matter": 4.43,
+          "Substance": 4.19
         },
         "thermodynamicProperties": {
-          "heat": 0.026,
-          "entropy": 0.3016,
-          "reactivity": 1.3584,
-          "gregsEnergy": -0.3837,
-          "kalchm": 0.0006,
-          "monica": -0.0381
+          "heat": 0.0255,
+          "entropy": 0.2964,
+          "reactivity": 1.4764,
+          "gregsEnergy": -0.412,
+          "kalchm": 0.0011,
+          "monica": -0.041
         },
         "substitutions": [
           {
@@ -65073,9 +69379,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1.5,
-            "unit": "piece",
-            "name": "-2 tablespoons boiling water",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "boiling water",
+            "notes": "1 1/2-2"
           },
           {
             "amount": 0.5,
@@ -65114,10 +69420,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19538461538461538,
-          "Water": 0.2992307692307692,
-          "Earth": 0.336923076923077,
-          "Air": 0.1684615384615385
+          "Fire": 0.18249999999999997,
+          "Water": 0.30333333333333334,
+          "Earth": 0.3566666666666667,
+          "Air": 0.1575
         },
         "astrologicalAffinities": {
           "planets": [
@@ -65138,8 +69444,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 270,
-          "sugarG": 5,
+          "sodiumMg": 271,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -65152,18 +69458,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3,
-          "Essence": 4.36,
-          "Matter": 5,
-          "Substance": 4.63
+          "Spirit": 2.92,
+          "Essence": 4.37,
+          "Matter": 5.1,
+          "Substance": 4.65
         },
         "thermodynamicProperties": {
-          "heat": 0.0413,
-          "entropy": 0.3053,
-          "reactivity": 1.7415,
-          "gregsEnergy": -0.4903,
-          "kalchm": 0.0044,
-          "monica": -0.0519
+          "heat": 0.0384,
+          "entropy": 0.2944,
+          "reactivity": 1.659,
+          "gregsEnergy": -0.45,
+          "kalchm": 0.0028,
+          "monica": -0.0461
         },
         "substitutions": [
           {
@@ -65706,8 +70012,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.3333333333333333,
             "unit": "cup",
-            "name": "of crushed pineapple",
-            "notes": "4 oz."
+            "name": "crushed pineapple",
+            "notes": "4 oz.; drained and squeezed to extract all liquid"
           },
           {
             "amount": 1.5,
@@ -65846,10 +70152,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.75,
+            "amount": 0.875,
             "unit": "cup",
-            "name": "+ 2 tablespoons unbleached all-purpose flour",
-            "notes": ""
+            "name": "unbleached all-purpose flour",
+            "notes": "3/4 cup + 2 tablespoons"
           },
           {
             "amount": 0.25,
@@ -65907,10 +70213,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1681818181818182,
-          "Water": 0.2909090909090909,
-          "Earth": 0.3954545454545455,
-          "Air": 0.14545454545454548
+          "Fire": 0.15909090909090912,
+          "Water": 0.31818181818181823,
+          "Earth": 0.36818181818181817,
+          "Air": 0.15454545454545457
         },
         "astrologicalAffinities": {
           "planets": [
@@ -65928,10 +70234,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 11,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 266,
+          "sodiumMg": 277,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -65945,18 +70251,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.08,
-          "Essence": 3.33,
-          "Matter": 4.56,
-          "Substance": 4.22
+          "Spirit": 2.06,
+          "Essence": 3.47,
+          "Matter": 4.43,
+          "Substance": 4.19
         },
         "thermodynamicProperties": {
-          "heat": 0.026,
-          "entropy": 0.3016,
-          "reactivity": 1.3584,
-          "gregsEnergy": -0.3837,
-          "kalchm": 0.0006,
-          "monica": -0.0381
+          "heat": 0.0255,
+          "entropy": 0.2964,
+          "reactivity": 1.4764,
+          "gregsEnergy": -0.412,
+          "kalchm": 0.0011,
+          "monica": -0.041
         },
         "substitutions": [
           {
@@ -66050,9 +70356,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1.5,
-            "unit": "piece",
-            "name": "-2 tablespoons boiling water",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "boiling water",
+            "notes": "1 1/2-2"
           },
           {
             "amount": 0.5,
@@ -66091,10 +70397,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19538461538461538,
-          "Water": 0.2992307692307692,
-          "Earth": 0.336923076923077,
-          "Air": 0.1684615384615385
+          "Fire": 0.18249999999999997,
+          "Water": 0.30333333333333334,
+          "Earth": 0.3566666666666667,
+          "Air": 0.1575
         },
         "astrologicalAffinities": {
           "planets": [
@@ -66115,8 +70421,8 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 270,
-          "sugarG": 5,
+          "sodiumMg": 271,
+          "sugarG": 4,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -66129,18 +70435,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3,
-          "Essence": 4.36,
-          "Matter": 5,
-          "Substance": 4.63
+          "Spirit": 2.92,
+          "Essence": 4.37,
+          "Matter": 5.1,
+          "Substance": 4.65
         },
         "thermodynamicProperties": {
-          "heat": 0.0413,
-          "entropy": 0.3053,
-          "reactivity": 1.7415,
-          "gregsEnergy": -0.4903,
-          "kalchm": 0.0044,
-          "monica": -0.0519
+          "heat": 0.0384,
+          "entropy": 0.2944,
+          "reactivity": 1.659,
+          "gregsEnergy": -0.45,
+          "kalchm": 0.0028,
+          "monica": -0.0461
         },
         "substitutions": [
           {
@@ -66683,8 +70989,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 0.3333333333333333,
             "unit": "cup",
-            "name": "of crushed pineapple",
-            "notes": "4 oz."
+            "name": "crushed pineapple",
+            "notes": "4 oz.; drained and squeezed to extract all liquid"
           },
           {
             "amount": 1.5,
@@ -66819,8 +71125,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 6,
             "unit": "tablespoons",
-            "name": "cocoa powder plus 2 teaspoons for dusting pan",
-            "notes": ""
+            "name": "cocoa powder plus 2 teaspoons",
+            "notes": "for dusting pan"
           },
           {
             "amount": 1,
@@ -66903,10 +71209,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21461538461538465,
-          "Water": 0.24307692307692308,
-          "Earth": 0.35384615384615387,
-          "Air": 0.18846153846153849
+          "Fire": 0.22428571428571428,
+          "Water": 0.22928571428571431,
+          "Earth": 0.3607142857142857,
+          "Air": 0.18571428571428572
         },
         "astrologicalAffinities": {
           "planets": [
@@ -66927,7 +71233,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 247,
+          "sodiumMg": 242,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -66941,18 +71247,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.84,
-          "Essence": 3.17,
-          "Matter": 4.38,
-          "Substance": 4.09
+          "Spirit": 2.86,
+          "Essence": 3.03,
+          "Matter": 4.46,
+          "Substance": 4.17
         },
         "thermodynamicProperties": {
-          "heat": 0.0525,
-          "entropy": 0.3748,
-          "reactivity": 1.5611,
-          "gregsEnergy": -0.5325,
-          "kalchm": 0.0037,
-          "monica": -0.0609
+          "heat": 0.0532,
+          "entropy": 0.3929,
+          "reactivity": 1.5012,
+          "gregsEnergy": -0.5367,
+          "kalchm": 0.0019,
+          "monica": -0.0571
         },
         "substitutions": [
           {
@@ -68549,10 +72855,10 @@ export const cuisine: Cuisine = {
             "notes": "1 1/2 cups"
           },
           {
-            "amount": 1,
+            "amount": 1.6666666666666665,
             "unit": "tablespoon",
-            "name": "+ 2 teaspoons agar powder",
-            "notes": ""
+            "name": "agar powder",
+            "notes": "1 tablespoon + 2 teaspoons"
           },
           {
             "amount": 8,
@@ -68610,10 +72916,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18750000000000003,
-          "Water": 0.3,
-          "Earth": 0.3875,
-          "Air": 0.125
+          "Fire": 0.2,
+          "Water": 0.2875,
+          "Earth": 0.3975,
+          "Air": 0.115
         },
         "astrologicalAffinities": {
           "planets": [
@@ -68631,10 +72937,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 11,
-          "carbsG": 24,
+          "carbsG": 23,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 270,
+          "sodiumMg": 265,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -68649,17 +72955,17 @@ export const cuisine: Cuisine = {
         },
         "alchemicalProperties": {
           "Spirit": 1.32,
-          "Essence": 2.32,
-          "Matter": 3.19,
-          "Substance": 2.8
+          "Essence": 2.3,
+          "Matter": 3.17,
+          "Substance": 2.76
         },
         "thermodynamicProperties": {
-          "heat": 0.0214,
-          "entropy": 0.2508,
-          "reactivity": 1.1803,
-          "gregsEnergy": -0.2747,
-          "kalchm": 0.0141,
-          "monica": -0.0546
+          "heat": 0.0219,
+          "entropy": 0.2485,
+          "reactivity": 1.1618,
+          "gregsEnergy": -0.2668,
+          "kalchm": 0.0153,
+          "monica": -0.0549
         },
         "substitutions": [
           {
@@ -68703,7 +73009,8 @@ export const cuisine: Cuisine = {
           "In 2 1/2 quart pot, bring almond milk to boil and pour over chocolate, whisking vigorously, until chocolate melts and mixture is smooth.",
           "Let ganache cool to room temperature.",
           "Beat with stand mixer fitted with the paddle attachment for several minutes, until ganache becomes lighter and somewhat thicker.",
-          "Chill ganache in refrigerator until it acquires spreadable consistency."
+          "Chill ganache in refrigerator until it acquires spreadable consistency.",
+          "Variation: Add 1/4 to 1 teaspoon flavored extract to finished ganache."
         ],
         "classifications": {
           "mealType": [
@@ -68985,7 +73292,8 @@ export const cuisine: Cuisine = {
           "In medium bowl, whisk egg whites, agave, vinegar, salt, and cream of tartar. Place bowl over 2 1/2 quart pot of boiling water. Make sure water underneath bowl is rapidly boiling.",
           "Whisk mixture for about 10 minutes (mixture will become white and frothy).",
           "Remove from heat and add vanilla extract.",
-          "Using hand mixer, whip at medium-high speed until light and fluffy, about 4-5 minutes."
+          "Using hand mixer, whip at medium-high speed until light and fluffy, about 4-5 minutes.",
+          "Note: If doubling recipe, frosting can be whipped in stand mixer."
         ],
         "classifications": {
           "mealType": [
@@ -69279,9 +73587,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-5 tablespoons ice cold water",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "ice cold water",
+            "notes": "2-5"
           }
         ],
         "instructions": [
@@ -69382,9 +73690,9 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 1.5,
-            "unit": "piece",
-            "name": "- 2 pounds kabocha squash",
-            "notes": "1 small; halved"
+            "unit": "pounds",
+            "name": "kabocha squash",
+            "notes": "1 1/2-2; 1 small; halved"
           },
           {
             "amount": 1,
@@ -69466,31 +73774,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.31666666666666665,
-          "Water": 0.2333333333333333,
-          "Earth": 0.29999999999999993,
-          "Air": 0.15
+          "Fire": 0.3,
+          "Water": 0.23999999999999994,
+          "Earth": 0.31499999999999995,
+          "Air": 0.14500000000000002
         },
         "astrologicalAffinities": {
           "planets": [
-            "Sun",
-            "Mars"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Aries",
-            "Leo"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "Full Moon"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 25,
+          "carbsG": 24,
           "fatG": 9,
-          "fiberG": 4,
-          "sodiumMg": 243,
+          "fiberG": 5,
+          "sodiumMg": 246,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -69504,22 +73812,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.52,
-          "Essence": 4.06,
-          "Matter": 3.75,
-          "Substance": 3.61
+          "Spirit": 3.4,
+          "Essence": 3.98,
+          "Matter": 3.91,
+          "Substance": 3.77
         },
         "thermodynamicProperties": {
-          "heat": 0.0853,
-          "entropy": 0.367,
-          "reactivity": 2.5657,
-          "gregsEnergy": -0.8563,
-          "kalchm": 1.6952,
-          "monica": 0.6323
+          "heat": 0.0763,
+          "entropy": 0.3629,
+          "reactivity": 2.3406,
+          "gregsEnergy": -0.7732,
+          "kalchm": 0.5086,
+          "monica": -0.4886
         },
         "substitutions": [
           {
-            "originalIngredient": "- 2 pounds kabocha squash",
+            "originalIngredient": "kabocha squash",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -69761,10 +74069,10 @@ export const cuisine: Cuisine = {
             "notes": "peeled, cored, diced"
           },
           {
-            "amount": 1,
+            "amount": 1.5,
             "unit": "tablespoon",
-            "name": "+ 1 1/2 teaspoons arrowroot dissolved in 2 tablespoons water",
-            "notes": ""
+            "name": "arrowroot dissolved in 2 tablespoons water",
+            "notes": "1 tablespoon + 1 1/2 teaspoons"
           }
         ],
         "instructions": [
@@ -69789,10 +74097,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18,
-          "Water": 0.45,
-          "Earth": 0.18,
-          "Air": 0.19
+          "Fire": 0.16,
+          "Water": 0.4600000000000001,
+          "Earth": 0.21000000000000002,
+          "Air": 0.16999999999999998
         },
         "astrologicalAffinities": {
           "planets": [
@@ -69810,10 +74118,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 8,
-          "carbsG": 26,
+          "carbsG": 25,
           "fatG": 7,
-          "fiberG": 3,
-          "sodiumMg": 330,
+          "fiberG": 4,
+          "sodiumMg": 334,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -69827,18 +74135,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.17,
-          "Essence": 1.93,
-          "Matter": 1.56,
-          "Substance": 1.46
+          "Spirit": 1.38,
+          "Essence": 2.86,
+          "Matter": 1.7,
+          "Substance": 1.48
         },
         "thermodynamicProperties": {
-          "heat": 0.0421,
-          "entropy": 0.2103,
-          "reactivity": 2.476,
-          "gregsEnergy": -0.4785,
-          "kalchm": 1.2293,
-          "monica": 0.9361
+          "heat": 0.0408,
+          "entropy": 0.1517,
+          "reactivity": 3.4375,
+          "gregsEnergy": -0.4807,
+          "kalchm": 7.153,
+          "monica": 0.0711
         },
         "substitutions": [
           {
@@ -69915,8 +74223,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "cup",
-            "name": "toasted",
-            "notes": "chopped walnuts"
+            "name": "toasted chopped walnuts",
+            "notes": ""
           }
         ],
         "instructions": [
@@ -69937,10 +74245,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21874999999999997,
-          "Water": 0.3125,
-          "Earth": 0.25625000000000003,
-          "Air": 0.2125
+          "Fire": 0.19285714285714284,
+          "Water": 0.31428571428571433,
+          "Earth": 0.3071428571428572,
+          "Air": 0.18571428571428572
         },
         "astrologicalAffinities": {
           "planets": [
@@ -69957,11 +74265,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 9,
+          "proteinG": 10,
           "carbsG": 26,
-          "fatG": 8,
+          "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 275,
+          "sodiumMg": 276,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -69975,18 +74283,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.98,
-          "Essence": 2.42,
-          "Matter": 2.43,
-          "Substance": 2.4
+          "Spirit": 2.14,
+          "Essence": 3.33,
+          "Matter": 2.68,
+          "Substance": 2.43
         },
         "thermodynamicProperties": {
-          "heat": 0.0615,
-          "entropy": 0.3328,
-          "reactivity": 2.1795,
-          "gregsEnergy": -0.6639,
-          "kalchm": 0.4642,
-          "monica": -0.3969
+          "heat": 0.054,
+          "entropy": 0.24,
+          "reactivity": 2.4368,
+          "gregsEnergy": -0.531,
+          "kalchm": 2.3036,
+          "monica": 0.2611
         },
         "substitutions": [
           {
@@ -70696,7 +75004,8 @@ export const cuisine: Cuisine = {
           "Whisk in nut butter, extracts, and brandy. Add arrowroot slurry. Mix on medium low heat until mixture thickens slightly. Remove from heat and cool.",
           "Pour walnut mixture into tart shell. Place top dough over filling, trim and seal edges. Cut a few steam vents.",
           "Bake for 30-40 minutes until crust is firm and golden.",
-          "Cool before serving (about 25 minutes)."
+          "Cool before serving (about 25 minutes).",
+          "Note: If cashew butter is very thick, loosen it up with 1-2 tablespoons of water or nut milk."
         ],
         "classifications": {
           "mealType": [
@@ -70799,9 +75108,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons unsalted butter or olive oil",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "unsalted butter or olive oil",
+            "notes": "3-4"
           },
           {
             "amount": 0.5,
@@ -70850,10 +75159,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2166666666666667,
-          "Water": 0.34166666666666673,
-          "Earth": 0.3083333333333333,
-          "Air": 0.13333333333333333
+          "Fire": 0.20833333333333334,
+          "Water": 0.35833333333333334,
+          "Earth": 0.3333333333333333,
+          "Air": 0.10000000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -70871,10 +75180,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 24,
+          "carbsG": 23,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 287,
+          "fiberG": 5,
+          "sodiumMg": 293,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -70888,18 +75197,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.98,
-          "Essence": 3.15,
-          "Matter": 2.96,
-          "Substance": 2.7
+          "Spirit": 1.95,
+          "Essence": 3.45,
+          "Matter": 3.34,
+          "Substance": 3.2
         },
         "thermodynamicProperties": {
-          "heat": 0.0431,
-          "entropy": 0.2467,
-          "reactivity": 1.9954,
-          "gregsEnergy": -0.4492,
-          "kalchm": 0.3957,
-          "monica": -0.2428
+          "heat": 0.0331,
+          "entropy": 0.2518,
+          "reactivity": 1.9363,
+          "gregsEnergy": -0.4545,
+          "kalchm": 0.1136,
+          "monica": -0.1079
         },
         "substitutions": [
           {
@@ -71190,9 +75499,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons olive oil for browning seitan",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "olive oil for browning seitan",
+            "notes": "3-4"
           },
           {
             "amount": 0.5,
@@ -71202,9 +75511,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons red wine",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "red wine",
+            "notes": "2-3"
           },
           {
             "amount": 1,
@@ -71226,9 +75535,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-4 tablespoons soy milk",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "soy milk",
+            "notes": "2-4"
           },
           {
             "amount": 1,
@@ -71251,8 +75560,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 3,
             "unit": "tablespoons",
-            "name": "chopped parsley for garnish",
-            "notes": ""
+            "name": "chopped parsley",
+            "notes": "for garnish"
           }
         ],
         "instructions": [
@@ -71278,8 +75587,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.2571428571428571,
-          "Water": 0.2714285714285714,
-          "Earth": 0.3009523809523809,
+          "Water": 0.26904761904761904,
+          "Earth": 0.3033333333333333,
           "Air": 0.1704761904761905
         },
         "astrologicalAffinities": {
@@ -71301,7 +75610,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 4,
-          "sodiumMg": 259,
+          "sodiumMg": 258,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -71315,18 +75624,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 6.46,
-          "Essence": 7.78,
-          "Matter": 8.77,
-          "Substance": 7.95
+          "Spirit": 6.36,
+          "Essence": 7.48,
+          "Matter": 8.67,
+          "Substance": 7.7
         },
         "thermodynamicProperties": {
-          "heat": 0.0656,
-          "entropy": 0.3582,
-          "reactivity": 2.013,
-          "gregsEnergy": -0.6555,
+          "heat": 0.067,
+          "entropy": 0.357,
+          "reactivity": 1.9356,
+          "gregsEnergy": -0.6241,
           "kalchm": 0.0005,
-          "monica": -0.0428
+          "monica": -0.0424
         },
         "substitutions": [
           {
@@ -71404,7 +75713,7 @@ export const cuisine: Cuisine = {
             "amount": 1.5,
             "unit": "pounds",
             "name": "garnet yams cooked and mashed",
-            "notes": "2 large"
+            "notes": "2 large; about 2 1/4 cups"
           },
           {
             "amount": 0.25,
@@ -71468,9 +75777,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 tablespoons maple syrup",
-            "notes": "if using pecans"
+            "unit": "tablespoons",
+            "name": "maple syrup",
+            "notes": "1-2; if using pecans"
           }
         ],
         "instructions": [
@@ -71625,9 +75934,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-5 tablespoons ice cold water",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "ice cold water",
+            "notes": "2-5"
           }
         ],
         "instructions": [
@@ -71740,14 +76049,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 8,
             "unit": "tablespoons",
-            "name": "cold",
-            "notes": "sweet butter"
+            "name": "cold sweet butter",
+            "notes": ""
           },
           {
             "amount": 0.25,
-            "unit": "piece",
-            "name": "-1/3 cup ice water",
-            "notes": ""
+            "unit": "cup",
+            "name": "ice water",
+            "notes": "1/4-1/3"
           }
         ],
         "instructions": [
@@ -71766,10 +76075,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.0625,
-          "Water": 0.3875,
-          "Earth": 0.43750000000000006,
-          "Air": 0.11250000000000002
+          "Fire": 0.1,
+          "Water": 0.375,
+          "Earth": 0.4,
+          "Air": 0.125
         },
         "astrologicalAffinities": {
           "planets": [
@@ -71786,11 +76095,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 12,
-          "carbsG": 23,
+          "proteinG": 11,
+          "carbsG": 24,
           "fatG": 6,
-          "fiberG": 6,
-          "sodiumMg": 305,
+          "fiberG": 5,
+          "sodiumMg": 300,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -71804,18 +76113,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.43,
-          "Essence": 1.33,
-          "Matter": 1.95,
-          "Substance": 1.62
+          "Spirit": 0.48,
+          "Essence": 1.38,
+          "Matter": 1.9,
+          "Substance": 1.57
         },
         "thermodynamicProperties": {
-          "heat": 0.0055,
-          "entropy": 0.1677,
-          "reactivity": 0.8324,
-          "gregsEnergy": -0.1341,
-          "kalchm": 0.1265,
-          "monica": -0.0779
+          "heat": 0.0073,
+          "entropy": 0.1655,
+          "reactivity": 0.9009,
+          "gregsEnergy": -0.1418,
+          "kalchm": 0.1595,
+          "monica": -0.0857
         },
         "substitutions": [
           {
@@ -71873,9 +76182,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 0.25,
-            "unit": "piece",
-            "name": "-1/2 cup ice cold filtered water",
-            "notes": ""
+            "unit": "cup",
+            "name": "ice cold filtered water",
+            "notes": "1/4-1/2"
           }
         ],
         "instructions": [
@@ -72011,8 +76320,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "chilled juice or water to bind as needed",
-            "notes": ""
+            "name": "chilled juice or water to bind",
+            "notes": "as needed"
           }
         ],
         "instructions": [
@@ -72864,8 +77173,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 2,
             "unit": "piece",
-            "name": "large",
-            "notes": "ripe frozen bananas, peeled (2 cups)"
+            "name": "large ripe frozen bananas",
+            "notes": "peeled (2 cups)"
           },
           {
             "amount": 1,
@@ -72877,13 +77186,13 @@ export const cuisine: Cuisine = {
             "amount": 2,
             "unit": "cups",
             "name": "pitted frozen cherries or 1 bag frozen cherries",
-            "notes": "1 1/2 pounds"
+            "notes": "1 1/2 pounds; 10-ounce"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "maple syrup to taste",
-            "notes": ""
+            "name": "maple syrup",
+            "notes": "to taste"
           },
           {
             "amount": 0.3333333333333333,
@@ -72910,10 +77219,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.27,
-          "Water": 0.38,
-          "Earth": 0.19,
-          "Air": 0.16
+          "Fire": 0.24999999999999994,
+          "Water": 0.38999999999999996,
+          "Earth": 0.17999999999999997,
+          "Air": 0.18
         },
         "astrologicalAffinities": {
           "planets": [
@@ -72933,9 +77242,9 @@ export const cuisine: Cuisine = {
           "proteinG": 8,
           "carbsG": 25,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 302,
-          "sugarG": 4,
+          "fiberG": 3,
+          "sodiumMg": 306,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -72948,18 +77257,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.76,
-          "Essence": 3.02,
-          "Matter": 1.76,
-          "Substance": 1.6
+          "Spirit": 2.2,
+          "Essence": 3.27,
+          "Matter": 1.55,
+          "Substance": 1.47
         },
         "thermodynamicProperties": {
-          "heat": 0.0627,
-          "entropy": 0.2011,
-          "reactivity": 3.9503,
-          "gregsEnergy": -0.7317,
-          "kalchm": 13.2748,
-          "monica": 0.0716
+          "heat": 0.0989,
+          "entropy": 0.2442,
+          "reactivity": 5.9945,
+          "gregsEnergy": -1.3652,
+          "kalchm": 78.511,
+          "monica": 0.0522
         },
         "substitutions": [
           {
@@ -73282,15 +77591,15 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "can coconut milk",
+            "unit": "can",
+            "name": "coconut milk",
             "notes": "14 oz."
           },
           {
-            "amount": 0.25,
+            "amount": 0.375,
             "unit": "cup",
-            "name": "+ 2 tablespoons maple syrup",
-            "notes": ""
+            "name": "maple syrup",
+            "notes": "1/4 cup + 2 tablespoons"
           },
           {
             "amount": 2,
@@ -73326,10 +77635,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.28,
-          "Water": 0.29000000000000004,
-          "Earth": 0.32000000000000006,
-          "Air": 0.11000000000000003
+          "Fire": 0.2899999999999999,
+          "Water": 0.27,
+          "Earth": 0.326,
+          "Air": 0.11400000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -73350,7 +77659,7 @@ export const cuisine: Cuisine = {
           "carbsG": 23,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 266,
+          "sodiumMg": 258,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -73364,22 +77673,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.51,
-          "Essence": 1.63,
-          "Matter": 1.74,
-          "Substance": 1.74
+          "Spirit": 1.42,
+          "Essence": 1.34,
+          "Matter": 1.58,
+          "Substance": 1.53
         },
         "thermodynamicProperties": {
-          "heat": 0.0694,
-          "entropy": 0.3408,
-          "reactivity": 1.918,
-          "gregsEnergy": -0.5842,
-          "kalchm": 0.6012,
-          "monica": -0.5986
+          "heat": 0.0789,
+          "entropy": 0.3603,
+          "reactivity": 1.7405,
+          "gregsEnergy": -0.5482,
+          "kalchm": 0.6168,
+          "monica": -0.6519
         },
         "substitutions": [
           {
-            "originalIngredient": "can coconut milk",
+            "originalIngredient": "coconut milk",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -73421,8 +77730,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "can coconut milk",
+            "unit": "can",
+            "name": "coconut milk",
             "notes": "14 oz."
           },
           {
@@ -73473,10 +77782,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1633333333333333,
-          "Water": 0.3688888888888889,
-          "Earth": 0.2922222222222222,
-          "Air": 0.17555555555555552
+          "Fire": 0.15222222222222223,
+          "Water": 0.3744444444444445,
+          "Earth": 0.29555555555555557,
+          "Air": 0.17777777777777778
         },
         "astrologicalAffinities": {
           "planets": [
@@ -73497,7 +77806,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 298,
+          "sodiumMg": 300,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -73511,18 +77820,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.61,
-          "Essence": 2.73,
-          "Matter": 2.95,
-          "Substance": 2.76
+          "Spirit": 1.84,
+          "Essence": 2.9,
+          "Matter": 2.84,
+          "Substance": 2.54
         },
         "thermodynamicProperties": {
-          "heat": 0.0304,
-          "entropy": 0.2553,
-          "reactivity": 1.6986,
-          "gregsEnergy": -0.4033,
-          "kalchm": 0.0833,
-          "monica": -0.0955
+          "heat": 0.0409,
+          "entropy": 0.2408,
+          "reactivity": 1.8758,
+          "gregsEnergy": -0.4107,
+          "kalchm": 0.3255,
+          "monica": -0.1951
         },
         "substitutions": [
           {
@@ -73567,10 +77876,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 3,
+            "amount": 3.3333333333333335,
             "unit": "tablespoons",
-            "name": "+ 1 teaspoon agar flakes",
-            "notes": "combined with 1 1/2 cups water (soaked for 10 minutes)"
+            "name": "agar flakes",
+            "notes": "3 tablespoons + 1 teaspoon; combined with 1 1/2 cups water (soaked for 10 minutes)"
           },
           {
             "amount": 3.3333333333333335,
@@ -73627,10 +77936,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.195,
-          "Water": 0.385,
+          "Fire": 0.19,
+          "Water": 0.4,
           "Earth": 0.29000000000000004,
-          "Air": 0.12999999999999998
+          "Air": 0.12
         },
         "astrologicalAffinities": {
           "planets": [
@@ -73651,7 +77960,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 304,
+          "sodiumMg": 310,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -73665,18 +77974,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.98,
-          "Essence": 3.48,
-          "Matter": 3.5,
-          "Substance": 3.33
+          "Spirit": 2.29,
+          "Essence": 4.42,
+          "Matter": 3.66,
+          "Substance": 3.3
         },
         "thermodynamicProperties": {
-          "heat": 0.032,
-          "entropy": 0.2571,
-          "reactivity": 1.9022,
-          "gregsEnergy": -0.457,
-          "kalchm": 0.0673,
-          "monica": -0.089
+          "heat": 0.0355,
+          "entropy": 0.2104,
+          "reactivity": 2.2997,
+          "gregsEnergy": -0.4484,
+          "kalchm": 0.8005,
+          "monica": -0.8762
         },
         "substitutions": [
           {
@@ -74022,8 +78331,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "mint sprigs for garnish",
-            "notes": "1/2 ounce"
+            "name": "mint sprigs",
+            "notes": "1/2 ounce; for garnish"
           }
         ],
         "instructions": [
@@ -74045,10 +78354,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.15000000000000002,
-          "Water": 0.45,
-          "Earth": 0.22000000000000003,
-          "Air": 0.18
+          "Fire": 0.12999999999999998,
+          "Water": 0.45999999999999996,
+          "Earth": 0.22999999999999998,
+          "Air": 0.17999999999999997
         },
         "astrologicalAffinities": {
           "planets": [
@@ -74069,7 +78378,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 330,
+          "sodiumMg": 334,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -74083,18 +78392,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.85,
-          "Essence": 1.95,
-          "Matter": 1.28,
-          "Substance": 1.25
+          "Spirit": 1.27,
+          "Essence": 2.31,
+          "Matter": 1.29,
+          "Substance": 1.16
         },
         "thermodynamicProperties": {
-          "heat": 0.0262,
-          "entropy": 0.1538,
-          "reactivity": 2.82,
-          "gregsEnergy": -0.4076,
-          "kalchm": 1.7669,
-          "monica": 0.2539
+          "heat": 0.0514,
+          "entropy": 0.1634,
+          "reactivity": 3.703,
+          "gregsEnergy": -0.5538,
+          "kalchm": 5.6799,
+          "monica": 0.0861
         },
         "substitutions": [
           {
@@ -75405,10 +79714,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.75,
+            "amount": 0.7916666666666666,
             "unit": "cup",
-            "name": "+ 2 teaspoons agave syrup",
-            "notes": ""
+            "name": "agave syrup",
+            "notes": "3/4 cup + 2 teaspoons"
           },
           {
             "amount": 0.3333333333333333,
@@ -75549,10 +79858,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.75,
+            "amount": 0.7916666666666666,
             "unit": "cup",
-            "name": "+ 2 teaspoons agave syrup",
-            "notes": ""
+            "name": "agave syrup",
+            "notes": "3/4 cup + 2 teaspoons"
           },
           {
             "amount": 0.3333333333333333,
@@ -76070,27 +80379,27 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¾ cup whole wheat pastry flour",
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "whole wheat pastry flour",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ cup unbleached all-purpose flour",
+            "amount": 1.5,
+            "unit": "cup",
+            "name": "unbleached all-purpose flour",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ cup + 2 tablespoons blanched almonds",
-            "notes": "ground to fine meal (measure then grind)"
+            "amount": 0.375,
+            "unit": "cup",
+            "name": "blanched almonds",
+            "notes": "1/4 cup + 2 tablespoons; ground to fine meal (measure then grind)"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ teaspoon cinnamon",
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "cinnamon",
             "notes": ""
           },
           {
@@ -76118,9 +80427,9 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ cups apple juice",
+            "amount": 1.5,
+            "unit": "cups",
+            "name": "apple juice",
             "notes": ""
           },
           {
@@ -76130,9 +80439,9 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ teaspoon cinnamon",
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "cinnamon",
             "notes": ""
           },
           {
@@ -76171,10 +80480,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2376923076923077,
-          "Water": 0.24307692307692308,
-          "Earth": 0.3376923076923077,
-          "Air": 0.18153846153846157
+          "Fire": 0.23,
+          "Water": 0.2469230769230769,
+          "Earth": 0.34923076923076923,
+          "Air": 0.17384615384615387
         },
         "astrologicalAffinities": {
           "planets": [
@@ -76195,7 +80504,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 247,
+          "sodiumMg": 249,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -76209,22 +80518,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.04,
-          "Essence": 3.65,
-          "Matter": 4.51,
-          "Substance": 4.07
+          "Spirit": 3.06,
+          "Essence": 4.13,
+          "Matter": 4.59,
+          "Substance": 4.13
         },
         "thermodynamicProperties": {
-          "heat": 0.0551,
-          "entropy": 0.3389,
-          "reactivity": 1.6714,
-          "gregsEnergy": -0.5114,
-          "kalchm": 0.0123,
-          "monica": -0.0696
+          "heat": 0.0508,
+          "entropy": 0.3054,
+          "reactivity": 1.7881,
+          "gregsEnergy": -0.4953,
+          "kalchm": 0.0281,
+          "monica": -0.0775
         },
         "substitutions": [
           {
-            "originalIngredient": "¾ cup whole wheat pastry flour",
+            "originalIngredient": "whole wheat pastry flour",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -76259,21 +80568,21 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¾ cup + 1 tablespoon unbleached all-purpose flour",
-            "notes": "sifted"
+            "amount": 0.8125,
+            "unit": "cup",
+            "name": "unbleached all-purpose flour",
+            "notes": "3/4 cup + 1 tablespoon; sifted"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ teaspoons anise seeds",
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "anise seeds",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ teaspoon baking powder",
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "baking powder",
             "notes": ""
           },
           {
@@ -76283,21 +80592,21 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ cup maple syrup",
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "maple syrup",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ teaspoon vanilla extract",
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "vanilla extract",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ teaspoon anise extract",
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "anise extract",
             "notes": ""
           },
           {
@@ -76333,10 +80642,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1933333333333333,
-          "Water": 0.24333333333333332,
-          "Earth": 0.38111111111111107,
-          "Air": 0.1822222222222222
+          "Fire": 0.21272727272727276,
+          "Water": 0.2172727272727273,
+          "Earth": 0.3481818181818182,
+          "Air": 0.22181818181818186
         },
         "astrologicalAffinities": {
           "planets": [
@@ -76353,11 +80662,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
-          "carbsG": 25,
-          "fatG": 7,
+          "proteinG": 10,
+          "carbsG": 27,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 247,
+          "sodiumMg": 237,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -76371,18 +80680,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.3,
-          "Essence": 2.84,
-          "Matter": 3.88,
-          "Substance": 3.4
+          "Spirit": 2.48,
+          "Essence": 2.69,
+          "Matter": 3.72,
+          "Substance": 3.34
         },
         "thermodynamicProperties": {
-          "heat": 0.0446,
-          "entropy": 0.3137,
-          "reactivity": 1.3794,
-          "gregsEnergy": -0.3881,
-          "kalchm": 0.0107,
-          "monica": -0.062
+          "heat": 0.0558,
+          "entropy": 0.3576,
+          "reactivity": 1.4915,
+          "gregsEnergy": -0.4776,
+          "kalchm": 0.0183,
+          "monica": -0.08
         },
         "substitutions": [
           {
@@ -76427,21 +80736,21 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ teaspoon ground cinnamon",
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "ground cinnamon",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ cup extra virgin canola oil",
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "extra virgin canola oil",
             "notes": "olive oil, melted butter OR 6 tablespoons melted coconut oil"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ cup maple syrup",
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "maple syrup",
             "notes": ""
           },
           {
@@ -76454,7 +80763,7 @@ export const cuisine: Cuisine = {
             "amount": 1,
             "unit": "piece",
             "name": "apricot jam",
-            "notes": "about ½ cup"
+            "notes": "about 1/2 cup"
           }
         ],
         "instructions": [
@@ -76475,10 +80784,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.23999999999999996,
-          "Water": 0.20999999999999996,
-          "Earth": 0.3774999999999999,
-          "Air": 0.1725
+          "Fire": 0.21875000000000003,
+          "Water": 0.21250000000000002,
+          "Earth": 0.4,
+          "Air": 0.16875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -76499,7 +80808,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 234,
+          "sodiumMg": 235,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -76513,18 +80822,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.82,
-          "Essence": 2.14,
-          "Matter": 2.64,
-          "Substance": 2.45
+          "Spirit": 1.71,
+          "Essence": 2.09,
+          "Matter": 2.77,
+          "Substance": 2.54
         },
         "thermodynamicProperties": {
-          "heat": 0.0528,
-          "entropy": 0.3264,
-          "reactivity": 1.5404,
-          "gregsEnergy": -0.4499,
-          "kalchm": 0.13,
-          "monica": -0.1432
+          "heat": 0.0444,
+          "entropy": 0.3156,
+          "reactivity": 1.3798,
+          "gregsEnergy": -0.3911,
+          "kalchm": 0.0651,
+          "monica": -0.1038
         },
         "substitutions": [
           {
@@ -76551,15 +80860,15 @@ export const cuisine: Cuisine = {
         },
         "ingredients": [
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ cups maple crystals",
+            "amount": 1.25,
+            "unit": "cups",
+            "name": "maple crystals",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¾ cup water",
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "water",
             "notes": ""
           },
           {
@@ -76581,15 +80890,15 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 3,
-            "unit": "piece",
-            "name": "½ cups shredded coconut",
+            "amount": 3.5,
+            "unit": "cups",
+            "name": "shredded coconut",
             "notes": "pulsed in food processor to fine powder"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ cup finely chopped pistachios or almonds",
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "finely chopped pistachios or almonds",
             "notes": ""
           }
         ],
@@ -76665,7 +80974,7 @@ export const cuisine: Cuisine = {
         },
         "substitutions": [
           {
-            "originalIngredient": "¼ cups maple crystals",
+            "originalIngredient": "maple crystals",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -77198,15 +81507,15 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "10-ounce jar raspberry preserves",
-            "notes": ""
+            "unit": "jar",
+            "name": "raspberry preserves",
+            "notes": "10-ounce"
           },
           {
             "amount": 0.75,
             "unit": "cup",
-            "name": "powdered sugar (optional",
-            "notes": "for garnish)"
+            "name": "powdered sugar",
+            "notes": "optional, for garnish"
           }
         ],
         "instructions": [
@@ -77229,10 +81538,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1857142857142857,
-          "Water": 0.19285714285714284,
-          "Earth": 0.4642857142857143,
-          "Air": 0.15714285714285717
+          "Fire": 0.1875,
+          "Water": 0.21875,
+          "Earth": 0.41875,
+          "Air": 0.17500000000000002
         },
         "astrologicalAffinities": {
           "planets": [
@@ -77249,12 +81558,12 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 12,
+          "proteinG": 11,
           "carbsG": 25,
           "fatG": 7,
-          "fiberG": 6,
-          "sodiumMg": 227,
-          "sugarG": 4,
+          "fiberG": 5,
+          "sodiumMg": 238,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -77267,18 +81576,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.57,
-          "Essence": 1.94,
-          "Matter": 3.19,
-          "Substance": 2.78
+          "Spirit": 1.56,
+          "Essence": 1.96,
+          "Matter": 3.13,
+          "Substance": 2.81
         },
         "thermodynamicProperties": {
-          "heat": 0.0328,
-          "entropy": 0.3061,
-          "reactivity": 1.0524,
-          "gregsEnergy": -0.2893,
-          "kalchm": 0.0106,
-          "monica": -0.0605
+          "heat": 0.0325,
+          "entropy": 0.3169,
+          "reactivity": 1.1343,
+          "gregsEnergy": -0.3269,
+          "kalchm": 0.0115,
+          "monica": -0.0645
         },
         "substitutions": [
           {
@@ -77323,10 +81632,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.25,
+            "amount": 0.375,
             "unit": "cup",
-            "name": "+ 2 tablespoons cocoa powder",
-            "notes": ""
+            "name": "cocoa powder",
+            "notes": "1/4 cup + 2 tablespoons"
           },
           {
             "amount": 0.25,
@@ -77382,10 +81691,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.19444444444444445,
-          "Water": 0.2222222222222222,
-          "Earth": 0.4222222222222223,
-          "Air": 0.16111111111111112
+          "Fire": 0.21111111111111114,
+          "Water": 0.20555555555555557,
+          "Earth": 0.4277777777777778,
+          "Air": 0.15555555555555559
         },
         "astrologicalAffinities": {
           "planets": [
@@ -77404,9 +81713,9 @@ export const cuisine: Cuisine = {
           "calories": 320,
           "proteinG": 11,
           "carbsG": 25,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 239,
+          "sodiumMg": 232,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -77420,18 +81729,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.98,
-          "Essence": 2.1,
-          "Matter": 3.59,
-          "Substance": 3.23
+          "Spirit": 2.05,
+          "Essence": 2.06,
+          "Matter": 3.58,
+          "Substance": 3.21
         },
         "thermodynamicProperties": {
-          "heat": 0.0418,
-          "entropy": 0.3593,
-          "reactivity": 1.1726,
-          "gregsEnergy": -0.3795,
-          "kalchm": 0.0042,
-          "monica": -0.0591
+          "heat": 0.0457,
+          "entropy": 0.3704,
+          "reactivity": 1.1743,
+          "gregsEnergy": -0.3892,
+          "kalchm": 0.0048,
+          "monica": -0.0621
         },
         "substitutions": [
           {
@@ -77838,9 +82147,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 16,
-            "unit": "slice",
-            "name": "d almonds for garnish",
-            "notes": ""
+            "unit": "piece",
+            "name": "sliced almonds",
+            "notes": "for garnish"
           }
         ],
         "instructions": [
@@ -77848,7 +82157,8 @@ export const cuisine: Cuisine = {
           "In medium bowl whisk almond meal, sorghum flour, arrowroot flour, ground ginger, and black pepper.",
           "In separate small bowl, whisk together oil, rice syrup, maple syrup, vanilla, water, and salt.",
           "Pour syrup mixture into nut/flour mixture. Batter should be consistency of heavy cream. If it is too thick, add more water, 1 tablespoon at a time, until you have proper consistency.",
-          "Using teaspoon measure, drop batter onto sheets (5-6 cookies a sheet). Decorate each cookie with one sliced almond. Bake 15-20 minutes or until cookies are golden. Cool before removing from sheet pan."
+          "Using teaspoon measure, drop batter onto sheets (5-6 cookies a sheet). Decorate each cookie with one sliced almond. Bake 15-20 minutes or until cookies are golden. Cool before removing from sheet pan.",
+          "Note: Cookies hold shape better on Silpat."
         ],
         "classifications": {
           "mealType": [
@@ -77863,8 +82173,8 @@ export const cuisine: Cuisine = {
         },
         "elementalProperties": {
           "Fire": 0.2416666666666667,
-          "Water": 0.2708333333333333,
-          "Earth": 0.325,
+          "Water": 0.2541666666666667,
+          "Earth": 0.34166666666666673,
           "Air": 0.1625
         },
         "astrologicalAffinities": {
@@ -77886,7 +82196,7 @@ export const cuisine: Cuisine = {
           "carbsG": 25,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 258,
+          "sodiumMg": 252,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -77900,18 +82210,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.29,
-          "Essence": 3.71,
-          "Matter": 4.44,
-          "Substance": 3.88
+          "Spirit": 3.3,
+          "Essence": 3.59,
+          "Matter": 4.52,
+          "Substance": 3.95
         },
         "thermodynamicProperties": {
-          "heat": 0.0665,
-          "entropy": 0.3394,
-          "reactivity": 1.7529,
-          "gregsEnergy": -0.5285,
-          "kalchm": 0.0452,
-          "monica": -0.0974
+          "heat": 0.0666,
+          "entropy": 0.3507,
+          "reactivity": 1.6725,
+          "gregsEnergy": -0.5198,
+          "kalchm": 0.0243,
+          "monica": -0.0836
         },
         "substitutions": [
           {
@@ -77956,10 +82266,10 @@ export const cuisine: Cuisine = {
             "notes": "2 large cloves"
           },
           {
-            "amount": 1,
+            "amount": 1.0833333333333333,
             "unit": "tablespoon",
-            "name": "+ ¼ teaspoon sea salt",
-            "notes": "divided"
+            "name": "sea salt",
+            "notes": "1 tablespoon + 1/4 teaspoon; divided"
           },
           {
             "amount": 1,
@@ -77980,28 +82290,28 @@ export const cuisine: Cuisine = {
             "notes": "stemmed, leaves roughly chopped"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ pound feta",
+            "amount": 0.25,
+            "unit": "pound",
+            "name": "feta",
             "notes": "crumbled"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ cup ricotta cheese",
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "ricotta cheese",
             "notes": "strained 30 minutes in strainer lined with wet cheesecloth"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ pound whole wheat phyllo",
+            "amount": 0.5,
+            "unit": "pound",
+            "name": "whole wheat phyllo",
             "notes": "8 sheets"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ to ½ cup butter",
-            "notes": "melted"
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "butter",
+            "notes": "1/4-1/2; melted"
           }
         ],
         "instructions": [
@@ -78026,10 +82336,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2844444444444445,
-          "Water": 0.19666666666666666,
-          "Earth": 0.32888888888888884,
-          "Air": 0.19
+          "Fire": 0.25090909090909097,
+          "Water": 0.22454545454545452,
+          "Earth": 0.32818181818181813,
+          "Air": 0.19636363636363638
         },
         "astrologicalAffinities": {
           "planets": [
@@ -78050,7 +82360,7 @@ export const cuisine: Cuisine = {
           "carbsG": 26,
           "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 229,
+          "sodiumMg": 240,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -78064,18 +82374,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.79,
-          "Essence": 4.71,
-          "Matter": 4.52,
-          "Substance": 4.08
+          "Spirit": 3.59,
+          "Essence": 4.61,
+          "Matter": 4.68,
+          "Substance": 4.3
         },
         "thermodynamicProperties": {
-          "heat": 0.0734,
-          "entropy": 0.3271,
-          "reactivity": 2.2691,
-          "gregsEnergy": -0.6687,
-          "kalchm": 0.8133,
-          "monica": -1.4261
+          "heat": 0.063,
+          "entropy": 0.3249,
+          "reactivity": 2.1044,
+          "gregsEnergy": -0.6208,
+          "kalchm": 0.1555,
+          "monica": -0.1585
         },
         "substitutions": [
           {
@@ -78114,33 +82424,33 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ pound shallots",
+            "amount": 0.5,
+            "unit": "pound",
+            "name": "shallots",
             "notes": "minced"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ teaspoon sea salt",
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "sea salt",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ teaspoon ground fennel",
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "ground fennel",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ teaspoon ground cumin",
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "ground cumin",
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ teaspoon smoked paprika",
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "smoked paprika",
             "notes": ""
           },
           {
@@ -78151,9 +82461,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 3,
-            "unit": "piece",
-            "name": "-4 tablespoons chickpea miso",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "chickpea miso",
+            "notes": "3-4"
           },
           {
             "amount": 2,
@@ -78162,16 +82472,16 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "½ pound whole wheat phyllo",
+            "amount": 0.5,
+            "unit": "pound",
+            "name": "whole wheat phyllo",
             "notes": "8 sheets"
           },
           {
-            "amount": 1,
-            "unit": "piece",
-            "name": "¼ to ½ cup extra virgin olive oil",
-            "notes": ""
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "extra virgin olive oil",
+            "notes": "1/4-1/2"
           }
         ],
         "instructions": [
@@ -78194,10 +82504,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.21545454545454543,
-          "Water": 0.26181818181818184,
-          "Earth": 0.3572727272727272,
-          "Air": 0.1654545454545454
+          "Fire": 0.2058333333333333,
+          "Water": 0.2566666666666667,
+          "Earth": 0.35666666666666663,
+          "Air": 0.18083333333333332
         },
         "astrologicalAffinities": {
           "planets": [
@@ -78216,10 +82526,10 @@ export const cuisine: Cuisine = {
           "calories": 320,
           "proteinG": 10,
           "carbsG": 25,
-          "fatG": 8,
+          "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 255,
-          "sugarG": 4,
+          "sodiumMg": 253,
+          "sugarG": 5,
           "vitamins": [
             "Vitamin A",
             "Vitamin C",
@@ -78232,18 +82542,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.84,
-          "Essence": 3.94,
-          "Matter": 4.67,
-          "Substance": 4.27
+          "Spirit": 2.79,
+          "Essence": 3.85,
+          "Matter": 4.72,
+          "Substance": 4.33
         },
         "thermodynamicProperties": {
-          "heat": 0.0434,
-          "entropy": 0.3096,
-          "reactivity": 1.6604,
-          "gregsEnergy": -0.4707,
-          "kalchm": 0.0065,
-          "monica": -0.0563
+          "heat": 0.0417,
+          "entropy": 0.3155,
+          "reactivity": 1.6101,
+          "gregsEnergy": -0.4663,
+          "kalchm": 0.0036,
+          "monica": -0.0515
         },
         "substitutions": [
           {
@@ -78331,8 +82641,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "bag",
-            "name": "uette",
+            "unit": "piece",
+            "name": "baguette",
             "notes": "sliced and toasted"
           },
           {
@@ -78489,9 +82799,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "10-ounce bag frozen blueberries",
-            "notes": "approximately 2 1/2 cups"
+            "unit": "bag",
+            "name": "frozen blueberries",
+            "notes": "10-ounce; approximately 2 1/2 cups"
           },
           {
             "amount": 0.75,
@@ -78567,10 +82877,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1647058823529412,
+          "Fire": 0.14705882352941177,
           "Water": 0.3588235294117648,
-          "Earth": 0.2870588235294117,
-          "Air": 0.1894117647058824
+          "Earth": 0.29647058823529404,
+          "Air": 0.19764705882352943
         },
         "astrologicalAffinities": {
           "planets": [
@@ -78605,18 +82915,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.19,
-          "Essence": 5.09,
-          "Matter": 5.89,
-          "Substance": 5.72
+          "Spirit": 3.9,
+          "Essence": 6.43,
+          "Matter": 5.88,
+          "Substance": 5.56
         },
         "thermodynamicProperties": {
-          "heat": 0.0332,
-          "entropy": 0.3178,
-          "reactivity": 1.8082,
-          "gregsEnergy": -0.5415,
-          "kalchm": 0.0002,
-          "monica": -0.0352
+          "heat": 0.0435,
+          "entropy": 0.2747,
+          "reactivity": 2.2978,
+          "gregsEnergy": -0.5879,
+          "kalchm": 0.0685,
+          "monica": -0.0954
         },
         "substitutions": [
           {
@@ -78975,8 +83285,8 @@ export const cuisine: Cuisine = {
         "ingredients": [
           {
             "amount": 4,
-            "unit": "g",
-            "name": "ranny smith apples",
+            "unit": "piece",
+            "name": "granny smith apples",
             "notes": "peeled, cored, cut in into 1/8-inch slices"
           },
           {
@@ -79119,7 +83429,7 @@ export const cuisine: Cuisine = {
         },
         "substitutions": [
           {
-            "originalIngredient": "ranny smith apples",
+            "originalIngredient": "granny smith apples",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -79161,9 +83471,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "-3 tablespoons ground cinnamon",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "ground cinnamon",
+            "notes": "2-3"
           },
           {
             "amount": 1,
@@ -79173,8 +83483,8 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "g",
-            "name": "ranny smith apple",
+            "unit": "piece",
+            "name": "granny smith apple",
             "notes": "peeled, cored and thinly sliced"
           },
           {
@@ -79204,20 +83514,20 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "cinnamon to garnish",
-            "notes": ""
+            "name": "cinnamon",
+            "notes": "to garnish"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "toasted nuts to garnish",
-            "notes": ""
+            "name": "toasted nuts",
+            "notes": "to garnish"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "fresh mint to garnish",
-            "notes": ""
+            "name": "fresh mint",
+            "notes": "to garnish"
           }
         ],
         "instructions": [
@@ -79243,10 +83553,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.24916666666666668,
-          "Water": 0.20916666666666664,
-          "Earth": 0.31166666666666665,
-          "Air": 0.23
+          "Fire": 0.21416666666666664,
+          "Water": 0.215,
+          "Earth": 0.3641666666666667,
+          "Air": 0.20666666666666664
         },
         "astrologicalAffinities": {
           "planets": [
@@ -79264,10 +83574,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
-          "carbsG": 27,
+          "carbsG": 26,
           "fatG": 8,
-          "fiberG": 4,
-          "sodiumMg": 234,
+          "fiberG": 5,
+          "sodiumMg": 236,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -79281,18 +83591,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 3.28,
-          "Essence": 3.74,
-          "Matter": 4.41,
-          "Substance": 4.08
+          "Spirit": 3.15,
+          "Essence": 4.62,
+          "Matter": 4.79,
+          "Substance": 4.34
         },
         "thermodynamicProperties": {
-          "heat": 0.0642,
-          "entropy": 0.366,
-          "reactivity": 1.8638,
-          "gregsEnergy": -0.618,
-          "kalchm": 0.0317,
-          "monica": -0.0961
+          "heat": 0.0472,
+          "entropy": 0.2891,
+          "reactivity": 1.8911,
+          "gregsEnergy": -0.4995,
+          "kalchm": 0.0412,
+          "monica": -0.0828
         },
         "substitutions": [
           {
@@ -79337,10 +83647,10 @@ export const cuisine: Cuisine = {
             "notes": ""
           },
           {
-            "amount": 0.25,
+            "amount": 0.3125,
             "unit": "cup",
-            "name": "+ 1 tbsp maple syrup",
-            "notes": ""
+            "name": "maple syrup",
+            "notes": "1/4 cup + 1 Tbsp"
           },
           {
             "amount": 1,
@@ -79515,18 +83825,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 4.31,
-          "Essence": 7.18,
-          "Matter": 7.05,
-          "Substance": 6.53
+          "Spirit": 4.5,
+          "Essence": 7.63,
+          "Matter": 7.11,
+          "Substance": 6.49
         },
         "thermodynamicProperties": {
-          "heat": 0.0399,
-          "entropy": 0.2766,
-          "reactivity": 2.1048,
-          "gregsEnergy": -0.5423,
-          "kalchm": 0.0038,
-          "monica": -0.0462
+          "heat": 0.0416,
+          "entropy": 0.2634,
+          "reactivity": 2.2141,
+          "gregsEnergy": -0.5416,
+          "kalchm": 0.0221,
+          "monica": -0.0642
         },
         "substitutions": [
           {
@@ -79566,9 +83876,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 2,
-            "unit": "piece",
-            "name": "12-ounces bags frozen raspberries",
-            "notes": ""
+            "unit": "bags",
+            "name": "frozen raspberries",
+            "notes": "12-ounces"
           },
           {
             "amount": 2,
@@ -79594,10 +83904,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20000000000000004,
-          "Water": 0.45,
-          "Earth": 0.18333333333333332,
-          "Air": 0.16666666666666666
+          "Fire": 0.2625,
+          "Water": 0.3875,
+          "Earth": 0.16249999999999998,
+          "Air": 0.1875
         },
         "astrologicalAffinities": {
           "planets": [
@@ -79614,11 +83924,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 8,
-          "carbsG": 25,
-          "fatG": 7,
+          "proteinG": 7,
+          "carbsG": 26,
+          "fatG": 8,
           "fiberG": 3,
-          "sodiumMg": 330,
+          "sodiumMg": 305,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -79632,18 +83942,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.81,
-          "Essence": 1.3,
-          "Matter": 1.04,
-          "Substance": 0.9
+          "Spirit": 0.93,
+          "Essence": 1.28,
+          "Matter": 0.92,
+          "Substance": 0.87
         },
         "thermodynamicProperties": {
-          "heat": 0.0426,
-          "entropy": 0.1735,
-          "reactivity": 2.2895,
-          "gregsEnergy": -0.3546,
-          "kalchm": 1.2516,
-          "monica": 0.6901
+          "heat": 0.0644,
+          "entropy": 0.2282,
+          "reactivity": 2.9991,
+          "gregsEnergy": -0.62,
+          "kalchm": 1.5626,
+          "monica": 0.4632
         },
         "substitutions": [
           {
@@ -79922,14 +84232,14 @@ export const cuisine: Cuisine = {
           {
             "amount": 1,
             "unit": "piece",
-            "name": "cornmeal for dredging",
-            "notes": ""
+            "name": "cornmeal",
+            "notes": "for dredging"
           },
           {
             "amount": 1,
             "unit": "piece",
-            "name": "no taste oil for frying",
-            "notes": ""
+            "name": "no taste oil",
+            "notes": "for frying"
           }
         ],
         "instructions": [
@@ -79950,10 +84260,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.2,
-          "Water": 0.25,
-          "Earth": 0.375,
-          "Air": 0.175
+          "Fire": 0.16666666666666666,
+          "Water": 0.21666666666666667,
+          "Earth": 0.43333333333333335,
+          "Air": 0.18333333333333335
         },
         "astrologicalAffinities": {
           "planets": [
@@ -79970,11 +84280,11 @@ export const cuisine: Cuisine = {
         },
         "nutritionPerServing": {
           "calories": 320,
-          "proteinG": 11,
-          "carbsG": 25,
+          "proteinG": 12,
+          "carbsG": 26,
           "fatG": 7,
           "fiberG": 5,
-          "sodiumMg": 250,
+          "sodiumMg": 237,
           "sugarG": 5,
           "vitamins": [
             "Vitamin A",
@@ -79988,18 +84298,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 0.63,
-          "Essence": 0.74,
-          "Matter": 0.93,
-          "Substance": 0.82
+          "Spirit": 0.52,
+          "Essence": 0.58,
+          "Matter": 1.1,
+          "Substance": 0.96
         },
         "thermodynamicProperties": {
-          "heat": 0.0404,
-          "entropy": 0.2164,
-          "reactivity": 1.0276,
-          "gregsEnergy": -0.182,
-          "kalchm": 0.753,
-          "monica": -0.6244
+          "heat": 0.0247,
+          "entropy": 0.2309,
+          "reactivity": 0.6962,
+          "gregsEnergy": -0.136,
+          "kalchm": 0.486,
+          "monica": -0.2708
         },
         "substitutions": [
           {
@@ -80170,7 +84480,8 @@ export const cuisine: Cuisine = {
           "Set 6 ramekins in water bath reaching halfway up their sides. Add enough caramel* to cover bottom of ramekin. Carefully pour in custard.",
           "Bake approximately 60-90 minutes. Water should be almost simmering as custard cooks. Do not let it boil as this makes the custard grainy.",
           "To test for doneness, insert thin-bladed knife about an inch or two from the center. Custard is done if knife comes out clean. Center may not be completely set, but it will continue to cook in its own heat after removal from the oven.",
-          "Chill completely and un-mold right before service."
+          "Chill completely and un-mold right before service.",
+          "Crème Caramel: In small saucepan, simmer 1 cup maple crystals and 1/4 cup water, swirling to dissolve sugar until mixture caramelizes. Cover pan and boil over medium heat until bubbles are thick. Line bottoms of ramekins with hot caramel, tilting to spread evenly."
         ],
         "classifications": {
           "mealType": [
@@ -80267,9 +84578,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "piece",
-            "name": "-2 tablespoons vanilla",
-            "notes": ""
+            "unit": "tablespoons",
+            "name": "vanilla",
+            "notes": "1-2"
           },
           {
             "amount": 6,
@@ -80288,7 +84599,8 @@ export const cuisine: Cuisine = {
           "Heat cream or milk and vanilla to scalding (just below simmering) in double boiler.",
           "In medium bowl, beat together egg yolks and maple crystals. Slowly pour hot cream/milk into egg mixture while whisking constantly (this raises the temperature of the eggs gradually and helps prevent curdling).",
           "Heat mixture slowly in double boiler, stirring constantly to prevent curdling. Sauce is cooked when it lightly coats the back of a spoon instead of running off like milk, or when it reaches 185°F. Never let the temperatures go above 190°F.",
-          "When done, remove sauce from heat. Cool sauce by setting pan or bowl in ice water. Stir occasionally to cool evenly."
+          "When done, remove sauce from heat. Cool sauce by setting pan or bowl in ice water. Stir occasionally to cool evenly.",
+          "Note: If sauce accidentally curdles, it is sometimes possible to save it. Immediately stir in 1-2 tablespoons cold milk, transfer sauce to blender, and process at high speed."
         ],
         "classifications": {
           "mealType": [
@@ -80379,8 +84691,8 @@ export const cuisine: Cuisine = {
           {
             "amount": 5,
             "unit": "tablespoons",
-            "name": "unsalted butter (1 tablespoon softened",
-            "notes": "remaining 4 tablespoons cut into 1/2-inch chunks)"
+            "name": "unsalted butter",
+            "notes": "1 tablespoon softened, remaining 4 tablespoons cut into 1/2-inch chunks"
           },
           {
             "amount": 1,
@@ -80455,31 +84767,31 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.20000000000000004,
-          "Water": 0.3388888888888889,
-          "Earth": 0.3277777777777778,
-          "Air": 0.13333333333333336
+          "Fire": 0.21666666666666667,
+          "Water": 0.3222222222222222,
+          "Earth": 0.3388888888888889,
+          "Air": 0.12222222222222223
         },
         "astrologicalAffinities": {
           "planets": [
-            "Moon",
-            "Neptune"
+            "Saturn",
+            "Mercury"
           ],
           "signs": [
-            "Cancer",
-            "Pisces"
+            "Virgo",
+            "Capricorn"
           ],
           "lunarPhases": [
-            "First Quarter"
+            "New Moon"
           ]
         },
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 10,
           "carbsG": 24,
-          "fatG": 7,
+          "fatG": 8,
           "fiberG": 5,
-          "sodiumMg": 286,
+          "sodiumMg": 279,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -80493,22 +84805,22 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 2.04,
-          "Essence": 3.07,
-          "Matter": 3.53,
-          "Substance": 3.45
+          "Spirit": 2.11,
+          "Essence": 3.03,
+          "Matter": 3.52,
+          "Substance": 3.43
         },
         "thermodynamicProperties": {
-          "heat": 0.0357,
-          "entropy": 0.3053,
-          "reactivity": 1.7243,
-          "gregsEnergy": -0.4908,
-          "kalchm": 0.0218,
-          "monica": -0.0744
+          "heat": 0.0388,
+          "entropy": 0.3131,
+          "reactivity": 1.7167,
+          "gregsEnergy": -0.4986,
+          "kalchm": 0.0242,
+          "monica": -0.078
         },
         "substitutions": [
           {
-            "originalIngredient": "unsalted butter (1 tablespoon softened",
+            "originalIngredient": "unsalted butter",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"
@@ -80680,9 +84992,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil for ramekins",
-            "notes": ""
+            "unit": "piece",
+            "name": "canola oil",
+            "notes": "for ramekins"
           },
           {
             "amount": 0.5,
@@ -80717,10 +85029,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.18749999999999997,
-          "Water": 0.3775,
-          "Earth": 0.29000000000000004,
-          "Air": 0.145
+          "Fire": 0.2,
+          "Water": 0.3577777777777778,
+          "Earth": 0.28,
+          "Air": 0.1622222222222222
         },
         "astrologicalAffinities": {
           "planets": [
@@ -80738,10 +85050,10 @@ export const cuisine: Cuisine = {
         "nutritionPerServing": {
           "calories": 320,
           "proteinG": 9,
-          "carbsG": 24,
+          "carbsG": 25,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 301,
+          "sodiumMg": 293,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -80755,18 +85067,18 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.64,
-          "Essence": 2.52,
-          "Matter": 2.74,
-          "Substance": 2.52
+          "Spirit": 1.65,
+          "Essence": 2.42,
+          "Matter": 2.69,
+          "Substance": 2.66
         },
         "thermodynamicProperties": {
-          "heat": 0.0369,
-          "entropy": 0.2589,
-          "reactivity": 1.698,
-          "gregsEnergy": -0.4027,
-          "kalchm": 0.1422,
-          "monica": -0.1216
+          "heat": 0.0376,
+          "entropy": 0.2986,
+          "reactivity": 1.7967,
+          "gregsEnergy": -0.4989,
+          "kalchm": 0.1003,
+          "monica": -0.1207
         },
         "substitutions": [
           {
@@ -80830,9 +85142,9 @@ export const cuisine: Cuisine = {
           },
           {
             "amount": 1,
-            "unit": "can",
-            "name": "ola oil for ramekins",
-            "notes": ""
+            "unit": "piece",
+            "name": "canola oil",
+            "notes": "for ramekins"
           },
           {
             "amount": 0.5,
@@ -80867,10 +85179,10 @@ export const cuisine: Cuisine = {
           ]
         },
         "elementalProperties": {
-          "Fire": 0.1875,
-          "Water": 0.41875000000000007,
-          "Earth": 0.2625,
-          "Air": 0.13124999999999998
+          "Fire": 0.18333333333333338,
+          "Water": 0.4055555555555556,
+          "Earth": 0.2644444444444444,
+          "Air": 0.14666666666666667
         },
         "astrologicalAffinities": {
           "planets": [
@@ -80891,7 +85203,7 @@ export const cuisine: Cuisine = {
           "carbsG": 24,
           "fatG": 7,
           "fiberG": 4,
-          "sodiumMg": 318,
+          "sodiumMg": 312,
           "sugarG": 4,
           "vitamins": [
             "Vitamin A",
@@ -80905,22 +85217,1136 @@ export const cuisine: Cuisine = {
           ]
         },
         "alchemicalProperties": {
-          "Spirit": 1.68,
-          "Essence": 2.96,
-          "Matter": 3.04,
-          "Substance": 2.84
+          "Spirit": 2.04,
+          "Essence": 3.24,
+          "Matter": 3,
+          "Substance": 2.88
         },
         "thermodynamicProperties": {
-          "heat": 0.0307,
-          "entropy": 0.2451,
-          "reactivity": 1.8225,
-          "gregsEnergy": -0.416,
-          "kalchm": 0.1043,
-          "monica": -0.101
+          "heat": 0.0425,
+          "entropy": 0.262,
+          "reactivity": 2.1745,
+          "gregsEnergy": -0.5273,
+          "kalchm": 0.3399,
+          "monica": -0.2247
         },
         "substitutions": [
           {
             "originalIngredient": "coconut milk",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "GLUTEN-FREE CHOCOLATE CAKE",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 9,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.6666666666666666,
+            "unit": "cup",
+            "name": "pitted dates",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "maple syrup",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "vanilla extract",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "piece",
+            "name": "large eggs",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "stick unsalted butter",
+            "notes": "melted + 1 tablespoon solid butter for greasing Bundt pan"
+          },
+          {
+            "amount": 0.3333333333333333,
+            "unit": "cup",
+            "name": "gluten-free flour blend",
+            "notes": "recipe below"
+          },
+          {
+            "amount": 0.3333333333333333,
+            "unit": "cup",
+            "name": "sorghum flour",
+            "notes": ""
+          },
+          {
+            "amount": 0.6666666666666666,
+            "unit": "cup",
+            "name": "cocoa powder",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "baking powder",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch of sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "good quality chocolate for melting",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "walnuts",
+            "notes": "roasted and chopped"
+          }
+        ],
+        "instructions": [
+          "Preheat oven to 350° F. Grease 9 1/2-inch Bundt pan with butter and dust with cocoa powder.",
+          "In food processor, blend dates with maple syrup.",
+          "When dates are thoroughly blended, add vanilla, eggs and melted butter. Mix to combine.",
+          "In medium bowl, sift together flours, cocoa powder, baking powder and salt. Whisk well to incorporate. Add to date-syrup mixture in food processor. Mix to combine.",
+          "Pour batter into baking pan, filling no more than 2/3 up side of cake pan. Any extra cake batter can be used for muffins. Do not overfill pan. Bake for 30-35 minutes. Allow cake to cool completely.",
+          "Double-melt chocolate and drizzle over cake. Sprinkle with walnuts."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.21272727272727268,
+          "Water": 0.23090909090909092,
+          "Earth": 0.4027272727272727,
+          "Air": 0.1536363636363636
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 11,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 242,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.49,
+          "Essence": 3.54,
+          "Matter": 4.87,
+          "Substance": 4.48
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0334,
+          "entropy": 0.322,
+          "reactivity": 1.4001,
+          "gregsEnergy": -0.4175,
+          "kalchm": 0.0005,
+          "monica": -0.0392
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "pitted dates",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CHOCOLATE CHIP COOKIES",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 18,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "butter",
+            "notes": "1 stick; softened"
+          },
+          {
+            "amount": 6,
+            "unit": "tablespoons",
+            "name": "brown sugar",
+            "notes": ""
+          },
+          {
+            "amount": 6,
+            "unit": "tablespoons",
+            "name": "white sugar",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "egg",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "teaspoon",
+            "name": "vanilla extract",
+            "notes": ""
+          },
+          {
+            "amount": 1.25,
+            "unit": "cup",
+            "name": "unbleached white all-purpose flour",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "teaspoon",
+            "name": "baking soda",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "chocolate chips",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Preheat oven to 350° F (300° F in convection oven). Line 2 sheet trays with parchment paper.",
+          "Cream together butter, brown sugar, and white sugar in stand mixer, until sugars are completed incorporated and mixture is light and fluffy.",
+          "Add egg and vanilla. Mix to incorporate.",
+          "In separate bowl, sift together flour, baking soda and salt.",
+          "Add flour mixture to butter/sugar/egg mixture in 1/2 cup increments until flour is completely incorporated. Fold in chocolate chips.",
+          "Using 1-ounce scoop, drop cookies onto baking sheet at 2-inch intervals.",
+          "Cook 10-12 minutes or until golden at edges. Let cool."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2055555555555556,
+          "Water": 0.22777777777777775,
+          "Earth": 0.4277777777777778,
+          "Air": 0.1388888888888889
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 241,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.84,
+          "Essence": 2.41,
+          "Matter": 3.75,
+          "Substance": 3.37
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0322,
+          "entropy": 0.3187,
+          "reactivity": 1.1839,
+          "gregsEnergy": -0.3452,
+          "kalchm": 0.003,
+          "monica": -0.0502
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "butter",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CREAM CHEESE FROSTING",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 5,
+            "unit": "piece",
+            "name": "eight-ounce packages of organic cream cheese",
+            "notes": "softened"
+          },
+          {
+            "amount": 10,
+            "unit": "ounces",
+            "name": "butter",
+            "notes": "2 1/2 sticks; softened"
+          },
+          {
+            "amount": 2,
+            "unit": "cups",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 3,
+            "unit": "tablespoons",
+            "name": "vanilla extract",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch sea salt",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "In stand mixer, on low speed, beat cream cheese with butter until smooth.",
+          "Gradually beat in maple crystals, vanilla extract, and salt until well blended.",
+          "Chill to set up."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.225,
+          "Water": 0.25,
+          "Earth": 0.4,
+          "Air": 0.125
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 11,
+          "carbsG": 24,
+          "fatG": 8,
+          "fiberG": 5,
+          "sodiumMg": 250,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 1.03,
+          "Essence": 1.54,
+          "Matter": 2,
+          "Substance": 1.8
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0297,
+          "entropy": 0.2488,
+          "reactivity": 1.1808,
+          "gregsEnergy": -0.264,
+          "kalchm": 0.174,
+          "monica": -0.1279
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "eight-ounce packages of organic cream cheese",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "RICE PUDDING",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2.5,
+            "unit": "cups",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "vanilla bean",
+            "notes": "pulp scraped and pods reserved"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "cinnamon stick",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "short grain brown rice",
+            "notes": "rinsed"
+          },
+          {
+            "amount": 1,
+            "unit": "quart",
+            "name": "rich almond milk",
+            "notes": "recipe preceding"
+          },
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "maple syrup",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "rice syrup",
+            "notes": ""
+          },
+          {
+            "amount": 0.3333333333333333,
+            "unit": "cup",
+            "name": "currants",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "orange zest",
+            "notes": ""
+          },
+          {
+            "amount": 0.5,
+            "unit": "cup",
+            "name": "orange juice",
+            "notes": "2 oranges"
+          },
+          {
+            "amount": 0.3333333333333333,
+            "unit": "cup",
+            "name": "walnuts",
+            "notes": "toasted, chopped"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "ground cinnamon",
+            "notes": "for garnish"
+          }
+        ],
+        "instructions": [
+          "In 1-gallon pot, bring water, vanilla pulp and pod, cinnamon stick, and sea salt to boil. Add rice and cover. Reduce heat to low simmer and slowly cook, covered, until rice absorbs all water, about 30 minutes. Remove rice from heat and let rest, covered, without stirring, for 15 minutes. Rice should not be fully cooked, as it will continue to cook in almond milk mixture.",
+          "Add almond milk, maple crystals, maple syrup, and rice syrup. Simmer, uncovered, over medium heat about 30-40 minutes. Stir mixture often to release starch from rice. This will allow pudding to become thick and creamy. Occasionally taste for doneness and continue to cook accordingly.",
+          "Add currants, zest, and juice. Remove cinnamon stick, and transfer pudding to bowl to cool.",
+          "Chill pudding in refrigerator. Garnish with walnuts and cinnamon just before serving."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.23357142857142854,
+          "Water": 0.3092857142857142,
+          "Earth": 0.2978571428571429,
+          "Air": 0.15928571428571428
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 9,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 274,
+          "sugarG": 4,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 3.33,
+          "Essence": 4.81,
+          "Matter": 4.45,
+          "Substance": 4.03
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0564,
+          "entropy": 0.2815,
+          "reactivity": 2.2465,
+          "gregsEnergy": -0.5761,
+          "kalchm": 0.4969,
+          "monica": -0.3667
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "water",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CHECKERBOARD COOKIES",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 24,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 0.625,
+            "unit": "cup",
+            "name": "cold butter",
+            "notes": "1 stick; 1/2 cup + 2 tablespoons"
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "egg",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoon",
+            "name": "vanilla extract",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "cups",
+            "name": "unbleached all-purpose flour",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "baking powder",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "all-purpose flour",
+            "notes": "for dusting"
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "extra egg white",
+            "notes": "for brushing"
+          },
+          {
+            "amount": 4,
+            "unit": "tablespoons",
+            "name": "butter",
+            "notes": "softened"
+          },
+          {
+            "amount": 0.75,
+            "unit": "cup",
+            "name": "maple crystals",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "pinch sea salt",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "egg",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "baking powder",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "teaspoon",
+            "name": "almond extract",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "unbleached all-purpose flour",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "cocoa powder",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "all-purpose flour",
+            "notes": "for dusting"
+          }
+        ],
+        "instructions": [
+          "For vanilla dough: Preheat oven to 350° F. Line 2 half-sheet trays with parchment paper.",
+          "In stand mixer, beat together butter, maple crystals, and salt until light and fluffy with paddle attachment. Add egg and vanilla and continue to mix until well combined.",
+          "Whisk together flour and baking powder in separate small bowl. Add flour mixture to butter mixture in mixer until combined. Wrap dough in plastic and refrigerate 10 minutes to firm up while making chocolate dough.",
+          "For chocolate dough: In stand mixer, beat together butter, maple crystals, and salt until well combined. Add egg, baking powder, and almond extract. Continue to mix until smooth.",
+          "Whisk together flour and cocoa powder in separate small bowl. Gradually sift flour/cocoa mixture into butter mixture and mix just until combined. Wrap dough in plastic and refrigerate at least 10 minutes until firm.",
+          "For assembly: Divide vanilla dough into 5 equal pieces. Divide chocolate dough into 4 equal pieces.",
+          "On parchment, using flour as necessary for dusting, roll out each piece dough to 1/4 inch. Make 3 stacks of rolled dough, brushing each layer with egg white: 1) vanilla/chocolate/vanilla; 2) chocolate/vanilla/chocolate; 3) vanilla/chocolate/vanilla.",
+          "Using bench scraper, square off sides of each stack of dough. Freeze 3 stacks of dough until hard. Using sharp knife, cut lengthwise rectangles of each dough, brush them with egg white, and stack rectangles in same order as listed above. Cut crosswise at 1/4 inch intervals across rectangle stacks to form cookies. Trimmed scraps of dough can be bundled together and re-rolled, frozen and stamped with cookie cutter shapes to make marbleized cookies.",
+          "Transfer to sheet trays. Brush tops with egg white. Bake 6-10 minutes or until golden at edges. Remove from pans to racks to cool."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.19333333333333338,
+          "Water": 0.24055555555555552,
+          "Earth": 0.3672222222222222,
+          "Air": 0.1988888888888889
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 11,
+          "carbsG": 26,
+          "fatG": 7,
+          "fiberG": 5,
+          "sodiumMg": 246,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 4.35,
+          "Essence": 5.02,
+          "Matter": 6.74,
+          "Substance": 6.44
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0525,
+          "entropy": 0.3953,
+          "reactivity": 1.6972,
+          "gregsEnergy": -0.6185,
+          "kalchm": 0,
+          "monica": 1.618
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "cold butter",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "VEGAN BAKLAVA",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 50,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 1,
+            "unit": "pound",
+            "name": "pistachio nuts",
+            "notes": "finely chopped"
+          },
+          {
+            "amount": 1,
+            "unit": "tablespoons",
+            "name": "cinnamon",
+            "notes": "1-2"
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "coconut oil",
+            "notes": "melted"
+          },
+          {
+            "amount": 1,
+            "unit": "pound",
+            "name": "phyllo",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "water",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "rice syrup",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "cup",
+            "name": "maple syrup",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "cinnamon stick",
+            "notes": ""
+          },
+          {
+            "amount": 1,
+            "unit": "piece",
+            "name": "rind of 1/2 lemon and juice",
+            "notes": ""
+          }
+        ],
+        "instructions": [
+          "Preheat oven to 300°F.",
+          "For phyllo: In bowl, mix nuts and cinnamon. Set aside.",
+          "In half-sheet pan lined with parchment paper, individually oil and layer 6-7 sheets of phyllo. Edges of phyllo sheets will overhang bottom of sheet pan slightly, but they will be trimmed later.",
+          "Spread portion of nut mixture (approximately 1/3-1/2 cups) over top of phyllo, enough to cover surface. Add another sheet of brushed phyllo and cover with more nuts; repeat this process until all nuts are gone.",
+          "Top baklava with 6 more layers of oil-brushed phyllo. Trim excess phyllo from sides of pan, so phyllo fits pan exactly.",
+          "Cut baklava into eighths lengthwise. Then make diagonal crosswise cuts, at 2-inch intervals.",
+          "Bake baklava 30 minutes at 300°F in standard oven (fan in convection oven causes phyllo to blow away). Bake additional 30 minutes at 350°F, until golden brown.",
+          "For syrup: While baklava bakes, bring all syrup ingredients to simmer in 2-quart saucepan. Cook syrup uncovered until reduced to 2 cups.",
+          "Remove baklava from oven. Pour hot syrup over warm phyllo and let sit at least 30 minutes."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw",
+            "baking"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.255,
+          "Water": 0.2575,
+          "Earth": 0.2925,
+          "Air": 0.195
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Saturn",
+            "Mercury"
+          ],
+          "signs": [
+            "Virgo",
+            "Capricorn"
+          ],
+          "lunarPhases": [
+            "New Moon"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 9,
+          "carbsG": 26,
+          "fatG": 8,
+          "fiberG": 4,
+          "sodiumMg": 253,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.15,
+          "Essence": 2.59,
+          "Matter": 2.91,
+          "Substance": 2.58
+        },
+        "thermodynamicProperties": {
+          "heat": 0.0602,
+          "entropy": 0.311,
+          "reactivity": 1.7703,
+          "gregsEnergy": -0.4903,
+          "kalchm": 0.2362,
+          "monica": -0.1919
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "pistachio nuts",
+            "substituteOptions": [
+              "sea salt",
+              "chickpea miso"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "BERRY-GRAPE KANTEN",
+        "description": null,
+        "details": {
+          "cuisine": "HSCA",
+          "prepTimeMinutes": 15,
+          "cookTimeMinutes": 15,
+          "baseServingSize": 6,
+          "spiceLevel": "None",
+          "season": [
+            "all"
+          ]
+        },
+        "ingredients": [
+          {
+            "amount": 2,
+            "unit": "cups",
+            "name": "white grape juice",
+            "notes": ""
+          },
+          {
+            "amount": 2,
+            "unit": "tablespoons",
+            "name": "+ 1 1/2 heaping teaspoons agar flakes",
+            "notes": ""
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "ginger juice",
+            "notes": "1/2 ounce piece of ginger"
+          },
+          {
+            "amount": 1.5,
+            "unit": "teaspoons",
+            "name": "lemon zest",
+            "notes": ""
+          },
+          {
+            "amount": 0.25,
+            "unit": "cup",
+            "name": "agave syrup",
+            "notes": ""
+          },
+          {
+            "amount": 9,
+            "unit": "ounces",
+            "name": "green grapes",
+            "notes": "sliced in half lengthwise"
+          },
+          {
+            "amount": 4,
+            "unit": "ounces",
+            "name": "strawberries",
+            "notes": "small dice"
+          }
+        ],
+        "instructions": [
+          "In 2 1/2 quart pot, combine grape juice and agar flakes. Soak agar for 5 minutes.",
+          "Bring agar-juice mixture to boil over medium heat, whisking frequently. Lower flame and simmer 5 minutes or until agar is completely dissolved.",
+          "Add ginger juice, lemon zest, and agave syrup to juice mixture. Simmer 2 minutes more.",
+          "Divide and arrange grapes and strawberries equally among individual ramekins.",
+          "Slowly pour juice mixture over grapes and strawberries in ramekins. Let mixture stand until no more steam rises. Transfer kanten to refrigerator until firmed up, about 30 minutes.",
+          "Serve kanten as is from ramekins."
+        ],
+        "classifications": {
+          "mealType": [
+            "dessert"
+          ],
+          "cookingMethods": [
+            "steaming",
+            "simmering",
+            "raw"
+          ]
+        },
+        "elementalProperties": {
+          "Fire": 0.2571428571428571,
+          "Water": 0.3785714285714286,
+          "Earth": 0.1857142857142857,
+          "Air": 0.17857142857142858
+        },
+        "astrologicalAffinities": {
+          "planets": [
+            "Moon",
+            "Neptune"
+          ],
+          "signs": [
+            "Cancer",
+            "Pisces"
+          ],
+          "lunarPhases": [
+            "First Quarter"
+          ]
+        },
+        "nutritionPerServing": {
+          "calories": 320,
+          "proteinG": 8,
+          "carbsG": 25,
+          "fatG": 8,
+          "fiberG": 3,
+          "sodiumMg": 301,
+          "sugarG": 5,
+          "vitamins": [
+            "Vitamin A",
+            "Vitamin C",
+            "Folate"
+          ],
+          "minerals": [
+            "Calcium",
+            "Iron",
+            "Magnesium"
+          ]
+        },
+        "alchemicalProperties": {
+          "Spirit": 2.68,
+          "Essence": 3.7,
+          "Matter": 2.04,
+          "Substance": 1.92
+        },
+        "thermodynamicProperties": {
+          "heat": 0.1027,
+          "entropy": 0.2759,
+          "reactivity": 5.0063,
+          "gregsEnergy": -1.2788,
+          "kalchm": 118.6216,
+          "monica": 0.0535
+        },
+        "substitutions": [
+          {
+            "originalIngredient": "white grape juice",
             "substituteOptions": [
               "sea salt",
               "chickpea miso"

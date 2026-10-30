@@ -90,7 +90,7 @@ function noMatchSection(query: string): OmnibarSection {
     id: "none",
     title: `NO MATCHES FOR “${query.toUpperCase()}”`,
     rows: [
-      link("page", "none:generator", "Invent a recipe with the generator", "RECIPE GENERATOR", "/recipe-generator"),
+      link("page", "none:generator", "Invent a recipe with the generator", "RECIPE GENERATOR", "/cosmic-recipe"),
       link("recipe", "none:recipes", "Browse all recipes", "RECIPES", "/recipes"),
       link("ingredient", "none:ingredients", "Browse all ingredients", "INGREDIENTS", "/ingredients"),
     ],

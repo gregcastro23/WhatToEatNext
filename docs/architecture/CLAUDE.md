@@ -2,7 +2,7 @@
 
 _Version: 3.3.0 | Last Updated: June 29, 2026_
 
-> Sibling guide: **`GEMINI.md`** (repo root) is the concise, actively-maintained status summary. This file is the deeper engineering reference (admin console, observability, cron, surface map). Keep both in sync when project status changes.
+> Sibling guide: **`docs/GEMINI.md`** is the concise, actively-maintained status summary. This file is the deeper engineering reference (admin console, observability, cron, surface map). Keep both in sync when project status changes.
 
 ## Project Overview
 
@@ -262,7 +262,7 @@ Public API unchanged — no consumers touched.
 
 ### Reference docs
 
-- `GEMINI.md` (repo root) — concise, actively-maintained status summary (sibling to this guide)
+- `docs/GEMINI.md` — concise, actively-maintained status summary (sibling to this guide)
 - `CHANGELOG.md` — keep-a-changelog from v1.0.0
 - `README.md` — project overview
 - `docs/API_REFERENCE.md` — all `/api/*` routes

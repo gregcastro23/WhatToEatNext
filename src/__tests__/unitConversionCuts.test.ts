@@ -17,6 +17,11 @@ describe("a measure USDA weighed several ways", () => {
     });
     expect(convertToGramsDetailed(1, "cup", "walnuts", "walnuts ground in food processor")?.grams).toBe(80);
     expect(convertToGramsDetailed(1, "cup", "walnuts", "walnut pieces")?.grams).toBe(120);
+    expect(convertToGramsDetailed(1, "cup", "walnuts", "walnut halves")).toEqual({
+      grams: 100,
+      ...WALNUTS,
+      measuredAs: "shelled (50 halves)",
+    });
     // FDC 170931 weighs a teaspoon of pepper ground (2.3 g) and whole (2.9 g).
     expect(convertToGramsDetailed(2, "tsp", "black pepper", "whole black pepper")?.grams).toBeCloseTo(5.8, 9);
   });
