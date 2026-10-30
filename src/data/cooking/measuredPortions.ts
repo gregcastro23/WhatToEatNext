@@ -2,8 +2,9 @@
  * MEASURED household-measure weights, from USDA FoodData Central.
  *
  * ⚠️ GENERATED — do not hand-edit. Regenerate with:
- *     FDC_API_KEY=… bun run fetch:portions
- * then re-run the generator in that script's docs. Every row carries the
+ *     bun run generate:volume-portions        (offline, from scripts/data/usda-portions.json)
+ *     FDC_API_KEY=… bun run fetch:portions    (refetch, then regenerate)
+ * The rules are in scripts/lib/volumePortionsSource.ts. Every row carries the
  * `fdcId` it came from, so any figure here can be checked against its source.
  *
  * ── Why this file has to exist ──────────────────────────────────────────────
@@ -41,7 +42,8 @@ export interface MeasuredPortion {
   /**
    * The preparation USDA measured, where the portion was qualified —
    * "chopped", "ground", "shredded". Present only for a qualified measure; an
-   * unqualified one always wins over a qualified one for the same measure.
+   * unqualified one always wins over a qualified one for the same measure, and
+   * a qualifier naming another food ("whipped", "in shell") is never used.
    *
    * It matters: a cup of CHOPPED onion and a cup of whole onion are different
    * masses, and the reader deserves to know which was weighed.
@@ -135,8 +137,8 @@ export const MEASURED_PORTIONS: readonly MeasuredPortion[] = [
     fdcId: 170859,
     fdcDescription: "Cream, fluid, heavy whipping",
     retrieved: "2026-08-18",
-    gramsPer: { cup: 120, tbsp: 15 },
-    measuredAs: { cup: "whipped" },
+    gramsPer: { cup: 238, tbsp: 15 },
+    measuredAs: { cup: "fluid (yields 2 cups whipped)" },
   },
   {
     ingredient: "Lemon Juice",
