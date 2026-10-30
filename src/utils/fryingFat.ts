@@ -90,7 +90,7 @@ export function findFryingMedium(lines: readonly FryingLine[], instructions: rea
   const fromInstructions = methodFromInstructions(instructions);
   const named = lines.findIndex((line) => line.fat && FRYING_LINE.test(line.text));
   if (named >= 0) {
-    const fromLine = methodFromInstructions([lines[named].text]);
+    const fromLine = methodFromInstructions([lines[named]?.text ?? ""]);
     return { index: named, method: fromInstructions ?? fromLine ?? "pan" };
   }
   if (fromInstructions === null) return null;
