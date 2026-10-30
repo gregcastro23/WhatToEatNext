@@ -109,6 +109,8 @@ export interface SystemStatusPayload {
   generatedAt: string;
   /** Worst status across all flows + dependencies, surfaces on the banner. */
   overall: FlowStatus;
+  coreOverall?: FlowStatus;
+  asyncOverall?: FlowStatus;
   flows: FlowHealth[];
   dependencies: DependencyHealth[];
 }
@@ -155,6 +157,25 @@ export function rollUpOverall(
     ...flowStatuses,
     ...dependencyStatuses.map((s) => (s === "UNKNOWN" ? "OK" : s)),
   ]);
+}
+
+export const CORE_FLOW_IDS = new Set(["auth", "database", "recommendations", "onboarding"]);
+
+export function rollUpCoreAndAsync(
+  flows: FlowHealth[],
+  dependencies: DependencyHealth[],
+): { overall: FlowStatus; coreOverall: FlowStatus; asyncOverall: FlowStatus } {
+  const coreFlows = flows.filter((f) => CORE_FLOW_IDS.has(f.id));
+  const asyncFlows = flows.filter((f) => !CORE_FLOW_IDS.has(f.id));
+
+  const coreOverall = worst(coreFlows.map((f) => f.status));
+  const asyncOverall = worst([
+    ...asyncFlows.map((f) => f.status),
+    ...dependencies.map((d) => (d.status === "UNKNOWN" ? "OK" : d.status)),
+  ]);
+
+  const overall = worst([coreOverall, asyncOverall]);
+  return { overall, coreOverall, asyncOverall };
 }
 
 /**
@@ -532,8 +553,10 @@ async function probeOnboarding(latest: LatestProbeRow[]): Promise<FlowHealth> {
       "Birth-data submission, natal-chart computation, profile completion.",
     status,
     summary:
-      status === "OK"
-        ? `${onboardedLast24h}/${signupsLast24h} signups onboarded in 24h (${formatPct(completionRate, 0)})`
+      signupsLast24h === 0
+        ? "— (No signups in 24h)"
+        : status === "OK"
+          ? `${onboardedLast24h}/${signupsLast24h} signups onboarded in 24h (${formatPct(completionRate, 0)})`
         : status === "DEGRADED"
           ? syntheticStale
             ? "Synthetic probe stale — cron may have stopped"
@@ -1092,7 +1115,7 @@ async function probeAgents(): Promise<FlowHealth> {
       severity: creditHealth.verdict === "INCIDENT" ? "error" : "warn",
     });
   }
-  if (stale && lastEmitAgeMs !== null) {
+  if (lastEmitAgeMs !== null && lastEmitAgeMs > 6 * ONE_HOUR) {
     issues.push({
       at: new Date(Date.now() - lastEmitAgeMs).toISOString(),
       message: `No PA feed emit in ${Math.round(lastEmitAgeMs / ONE_HOUR)}h — webhook silent`,
@@ -1419,49 +1442,39 @@ async function probeDatabase(): Promise<FlowHealth> {
 const PA_BASE_URL = getServiceUrlSafe("planetaryAgentsApi");
 
 async function probePADependency(): Promise<DependencyHealth> {
-  const startedAt = Date.now();
   const checkedAt = new Date().toISOString();
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 2000);
-    const headers: Record<string, string> = { Accept: "application/json" };
-    if (process.env.INTERNAL_API_SECRET) {
-      headers.Authorization = `Bearer ${process.env.INTERNAL_API_SECRET}`;
-    }
-    const res = await fetch(`${PA_BASE_URL}/health`, {
-      headers,
-      signal: controller.signal,
-    });
-    clearTimeout(timer);
-    const latencyMs = Date.now() - startedAt;
-    if (res.ok) {
-      return {
-        id: "planetary-agents",
-        label: "Planetary Agents",
-        status: latencyMs > 1500 ? "DEGRADED" : "OK",
-        summary: `Healthy · ${formatLatency(latencyMs)}`,
-        latencyMs,
-        checkedAt,
-      };
-    }
-    return {
-      id: "planetary-agents",
-      label: "Planetary Agents",
-      status: "DEGRADED",
-      summary: `HTTP ${res.status} from /health`,
-      latencyMs,
-      checkedAt,
-    };
-  } catch (err) {
-    return {
-      id: "planetary-agents",
-      label: "Planetary Agents",
-      status: "INCIDENT",
-      summary: err instanceof Error ? err.message : "unreachable",
-      latencyMs: null,
-      checkedAt,
-    };
+  const secret = process.env.INTERNAL_API_SECRET;
+  const headers: Record<string, string> = { Accept: "application/json", ...(secret ? { Authorization: `Bearer ${secret}` } : {}) };
+  const candidateBases = [PA_BASE_URL];
+  if ((PA_BASE_URL.includes("localhost") || PA_BASE_URL.includes("127.0.0.1")) && !candidateBases.includes("https://api.agents.alchm.kitchen")) {
+    candidateBases.push("https://api.agents.alchm.kitchen");
   }
+
+  let lastError = "unreachable";
+  for (const baseUrl of candidateBases) {
+    const attemptStart = Date.now();
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 2000);
+      const res = await fetch(`${baseUrl}/health`, { headers, signal: controller.signal });
+      clearTimeout(timer);
+      const latencyMs = Date.now() - attemptStart;
+      if (res.ok) {
+        return {
+          id: "planetary-agents", label: "Planetary Agents",
+          status: latencyMs > 1500 ? "DEGRADED" : "OK",
+          summary: `Healthy · ${formatLatency(latencyMs)}`, latencyMs, checkedAt,
+        };
+      }
+      return {
+        id: "planetary-agents", label: "Planetary Agents", status: "DEGRADED",
+        summary: `HTTP ${res.status} from /health`, latencyMs, checkedAt,
+      };
+    } catch (err) {
+      lastError = err instanceof Error ? err.message : "unreachable";
+    }
+  }
+  return { id: "planetary-agents", label: "Planetary Agents", status: "INCIDENT", summary: lastError, latencyMs: null, checkedAt };
 }
 
 async function probeStripeDependency(): Promise<DependencyHealth> {
@@ -1473,12 +1486,21 @@ async function probeStripeDependency(): Promise<DependencyHealth> {
   // question asked of it is unanswerable by construction.
   const webhookHealth = await summarizePathDurable("/api/stripe/webhook", ONE_DAY);
   const checkedAt = new Date().toISOString();
+
+  let paidSubs = 0;
+  try {
+    const rev = await getSubscriptionRevenueBreakdown();
+    ({ paidSubs } = rev);
+  } catch {
+    // Non-throwing fallback
+  }
+
   if (!webhookHealth.observed) {
     return {
       id: "stripe",
       label: "Stripe",
-      status: "DEGRADED",
-      summary: "No webhook traffic in 24h",
+      status: paidSubs > 0 ? "DEGRADED" : "OK",
+      summary: paidSubs > 0 ? "No webhook traffic in 24h" : "Idle · 0 active subscriptions",
       latencyMs: null,
       checkedAt,
     };
@@ -1498,6 +1520,17 @@ async function probeStripeDependency(): Promise<DependencyHealth> {
   }
 
   if (verified === 0) {
+    // When there are 0 paying subscriptions, receiving 0 customer webhooks is expected and normal
+    if (paidSubs === 0) {
+      return {
+        id: "stripe",
+        label: "Stripe",
+        status: "OK",
+        summary: `Idle · 0 active subscriptions${webhookHealth.errors4xx > 0 ? ` (${webhookHealth.errors4xx} probes seen)` : ""}`,
+        latencyMs: webhookHealth.p95LatencyMs,
+        checkedAt,
+      };
+    }
     return {
       id: "stripe",
       label: "Stripe",
@@ -1743,14 +1776,13 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
     }),
   ];
 
-  const overall = rollUpOverall(
-    flows.map((f) => f.status),
-    dependencies.map((d) => d.status),
-  );
+  const { overall, coreOverall, asyncOverall } = rollUpCoreAndAsync(flows, dependencies);
 
   return {
     generatedAt: new Date().toISOString(),
     overall,
+    coreOverall,
+    asyncOverall,
     flows,
     dependencies,
   };

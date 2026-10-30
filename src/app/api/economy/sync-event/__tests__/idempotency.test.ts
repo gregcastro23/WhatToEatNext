@@ -6,6 +6,10 @@
 
 import { NextRequest } from "next/server";
 import {
+  CLAIM_RETRY_SQL,
+  FAIL_SQL,
+} from "@/lib/hooks/inbox";
+import {
   computeV1Signature,
   parseWebhookSecret,
 } from "@/lib/hooks/standardWebhooks";
@@ -235,5 +239,67 @@ describe("POST /api/economy/sync-event idempotency", () => {
     expect(isRecord(data) && data.error).toContain("unsigned");
 
     delete process.env.ASOL_WEBHOOK_SIGNATURES;
+  });
+
+  it("settles claim with error stack provenance when questService throws", async () => {
+    // 1. user lookup succeeds
+    mockExecuteQuery.mockResolvedValueOnce({
+      rows: [{ id: "user-1", is_agent: true }],
+    });
+    // 2. webhook_events INSERT claim succeeds
+    mockExecuteQuery.mockResolvedValueOnce({
+      rows: [{ id: 701, attempts: 1 }],
+    });
+    // 3. questService throws
+    mockReportEvent.mockRejectedValueOnce(new Error("Quest engine timeout"));
+    // 4. failWebhookEvent updates status='failed'
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const req = makeRequest(
+      { userEmail: "agent@agentic.alchm.kitchen", event: "recipe_created" },
+      "sync-crash-key",
+    );
+
+    const res = await POST(req);
+    expect(res.status).toBe(500);
+
+    const failCall = mockExecuteQuery.mock.calls.find(
+      (c: unknown[]) => Array.isArray(c) && c[0] === FAIL_SQL,
+    );
+    expect(failCall).toBeDefined();
+    const args = Array.isArray(failCall) && Array.isArray(failCall[1]) ? failCall[1] : [];
+    expect(args[0]).toBe(701);
+    const recordedError = typeof args[2] === "string" ? args[2] : "";
+    expect(recordedError.includes("Quest engine timeout")).toBe(true);
+    expect(recordedError.includes("Error:")).toBe(true);
+  });
+
+  it("allows redelivery after failed claim: retry re-claims the event and succeeds", async () => {
+    // 1. user lookup succeeds
+    mockExecuteQuery.mockResolvedValueOnce({
+      rows: [{ id: "user-1", is_agent: true }],
+    });
+    // 2. insert fails with conflict
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+    // 3. retry update re-claims the failed event (status='failed') -> returns { id: 701, attempts: 2 }
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [{ id: 701, attempts: 2 }] });
+    // 4. completeWebhookEvent updates status='processed'
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const req = makeRequest(
+      { userEmail: "agent@agentic.alchm.kitchen", event: "recipe_created" },
+      "sync-retried-key",
+    );
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(isRecord(data) && data.ok).toBe(true);
+    expect(mockReportEvent).toHaveBeenCalledTimes(1);
+
+    const retryCall = mockExecuteQuery.mock.calls.find(
+      (c: unknown[]) => Array.isArray(c) && c[0] === CLAIM_RETRY_SQL,
+    );
+    expect(retryCall).toBeDefined();
   });
 });

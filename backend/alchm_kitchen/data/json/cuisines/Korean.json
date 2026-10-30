@@ -7,6 +7,7 @@
     "Air": 0.1075
   },
   "description": "Bold flavors from fermentation and grilling.",
+  "imageUrl": "/images/cuisines/korean.png",
   "id": "korean",
   "dishes": {
     "breakfast": {

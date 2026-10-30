@@ -15,6 +15,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { isAuthorizedCron } from "@/app/api/cron/_lib/cronAuth";
 import { _logger } from "@/lib/logger";
+import { withObservability } from "@/lib/observability/withObservability";
 import { prewarmAgentRecipes } from "@/services/agentRecipePrewarm";
 import { recordCronRun } from "@/services/cronHeartbeatService";
 
@@ -29,7 +30,7 @@ export const maxDuration = 60;
  */
 const HEARTBEAT_RESERVE_MS = 12_000;
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
+async function handleGet(request: NextRequest): Promise<NextResponse> {
   if (!isAuthorizedCron(request)) {
     return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
   }
@@ -37,7 +38,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const deadlineMs = startedAt.getTime() + maxDuration * 1000 - HEARTBEAT_RESERVE_MS;
   try {
     const { searchParams } = new URL(request.url);
-    const limit = Math.min(Math.max(parseInt(searchParams.get("limit") ?? "3", 10), 1), 8);
+    const limit = Math.min(Math.max(parseInt(searchParams.get("limit") ?? "1", 10), 1), 8);
     const result = await prewarmAgentRecipes(limit, deadlineMs);
     // A run that started generations and landed none is PA failing, not a
     // healthy tick — record it as such so two in a row can alert.
@@ -62,3 +63,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     );
   }
 }
+
+export const GET = withObservability(
+  { routeName: "/api/cron/prewarm-agent-recipes" },
+  handleGet,
+);
+

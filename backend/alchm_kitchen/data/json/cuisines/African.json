@@ -7,6 +7,7 @@
     "Air": 0.1026
   },
   "description": "Rich and diverse culinary traditions from across the African continent.",
+  "imageUrl": "/images/cuisines/african.png",
   "id": "african",
   "dishes": {
     "breakfast": {

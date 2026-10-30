@@ -86,7 +86,7 @@ describe("SearchPage", () => {
   it("xqzv: offers next steps instead of an empty page (D5)", async () => {
     const page = await html("xqzv");
     expect(page).toContain("Nothing in the kitchen matches");
-    expect(page).toContain('href="/recipe-generator"');
+    expect(page).toContain('href="/cosmic-recipe"');
   });
 
   it("an unavailable index says so rather than claiming zero results", async () => {

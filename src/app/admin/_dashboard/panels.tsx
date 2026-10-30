@@ -106,9 +106,7 @@ export function ServiceMatrix({ systemStatus }: { systemStatus: SystemStatusPayl
                     <span style={{ color: "var(--fg)" }}>{it.name}</span>
                   </div>
                 </SvcCell>
-                <SvcCell>
-                  <span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>{it.tier}</span>
-                </SvcCell>
+                <SvcCell><span className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>{it.tier}</span></SvcCell>
                 <SvcCell>
                   <span
                     className="t-mono"
@@ -124,20 +122,13 @@ export function ServiceMatrix({ systemStatus }: { systemStatus: SystemStatusPayl
                     {it.status}
                   </span>
                 </SvcCell>
-                <SvcCell>
-                  <span style={{ color: "var(--fg-dim)", fontSize: 10.5 }}>{it.summary}</span>
-                </SvcCell>
+                <SvcCell><span style={{ color: "var(--fg-dim)", fontSize: 10.5 }}>{it.summary}</span></SvcCell>
                 <SvcCell>
                   {it.metrics && it.metrics.length > 0 ? (
                     <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                       {it.metrics.map((m) => (
-                        <span
-                          key={m.label}
-                          className="t-mono"
-                          style={{ fontSize: 9.5, color: "var(--fg-mute)" }}
-                        >
-                          {m.label}:&nbsp;
-                          <span style={{ color: "var(--fg-dim)" }}>{m.value}</span>
+                        <span key={m.label} className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+                          {m.label}:&nbsp;<span style={{ color: "var(--fg-dim)" }}>{m.value}</span>
                         </span>
                       ))}
                     </div>
@@ -253,23 +244,12 @@ export function LiveEventStream({
                   padding: "6px 14px",
                   fontFamily: "var(--f-mono)",
                   fontSize: 10.5,
-                  borderBottom:
-                    i === events.length - 1
-                      ? "none"
-                      : "1px solid color-mix(in oklch, var(--line), transparent 30%)",
+                  borderBottom: i === events.length - 1 ? "none" : "1px solid color-mix(in oklch, var(--line), transparent 30%)",
                   color: "var(--fg-dim)",
                 }}
               >
                 <span style={{ color: "var(--fg-mute)", fontSize: 9.5 }}>{time}</span>
-                <span
-                  style={{
-                    width: 4,
-                    height: 4,
-                    borderRadius: 999,
-                    background: dot,
-                    boxShadow: `0 0 6px ${dot}`,
-                  }}
-                />
+                <span style={{ width: 4, height: 4, borderRadius: 999, background: dot, boxShadow: `0 0 6px ${dot}` }} />
                 <span style={{ color: cat, fontSize: 9.5, letterSpacing: "0.08em" }}>
                   {e.category}.{e.type}
                 </span>
@@ -278,14 +258,7 @@ export function LiveEventStream({
                     {e.actor?.name ?? e.actor?.email ?? "system"}
                   </span>
                   <span style={{ color: "var(--fg-mute)" }}>·</span>
-                  <span
-                    style={{
-                      color: "var(--fg-dim)",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
+                  <span style={{ color: "var(--fg-dim)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {e.description}
                   </span>
                 </span>
@@ -784,6 +757,7 @@ export function EngineHealth({ enginePerformance }: { enginePerformance?: Engine
     live: false,
   };
   const { live } = perf;
+  const stages = perf.stages ?? [];
   return (
     <Card
       title="Recommendation Engine · Performance & Metrics"
@@ -822,20 +796,161 @@ export function EngineHealth({ enginePerformance }: { enginePerformance?: Engine
           delta="total"
         />
       </div>
-      <div
-        style={{
-          marginTop: 12,
-          padding: "10px 12px",
-          border: "1px dashed var(--line)",
-          borderRadius: 8,
-        }}
-      >
-        <div className="t-tag" style={{ marginBottom: 4 }}>OFFLINE EVAL · NOT WIRED</div>
-        <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
-          NDCG@10 · MAP · canary harness · promote/rollback controls — add an
-          eval pipeline + flag table to surface these here.
+
+      {stages.length > 0 && (
+        <div
+          style={{
+            marginTop: 10,
+            border: "1px solid var(--line)",
+            borderRadius: 8,
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1.4fr 0.7fr 0.6fr 0.6fr",
+              padding: "5px 10px",
+              borderBottom: "1px solid var(--line-hi)",
+              background: "rgba(255,255,255,0.02)",
+            }}
+          >
+            {["Pipeline Stage", "Calls", "p50", "p95"].map((h, i) => (
+              <span
+                key={h}
+                className="t-tag"
+                style={{ fontSize: 8, textAlign: i >= 1 ? "right" : "left" }}
+              >
+                {h}
+              </span>
+            ))}
+          </div>
+          {stages.map((s, idx) => (
+            <div
+              key={s.stage}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1.4fr 0.7fr 0.6fr 0.6fr",
+                padding: "6px 10px",
+                borderBottom:
+                  idx === stages.length - 1 ? "none" : "1px solid var(--line)",
+                fontFamily: "var(--f-mono)",
+                fontSize: 10,
+                alignItems: "center",
+              }}
+            >
+              <span style={{ color: "var(--fg)" }}>{s.stage}</span>
+              <span
+                className="t-num"
+                style={{ textAlign: "right", color: "var(--fg-dim)" }}
+              >
+                {s.calls.toLocaleString()}
+              </span>
+              <span
+                className="t-num"
+                style={{ textAlign: "right", color: "var(--fg-mute)" }}
+              >
+                {s.p50Ms !== null && s.p50Ms > 0 ? `${s.p50Ms}ms` : "—"}
+              </span>
+              <span
+                className="t-num"
+                style={{
+                  textAlign: "right",
+                  color:
+                    s.p95Ms !== null && s.p95Ms > 250
+                      ? "var(--accent-2)"
+                      : "var(--fg)",
+                }}
+              >
+                {s.p95Ms !== null && s.p95Ms > 0 ? `${s.p95Ms}ms` : "—"}
+              </span>
+            </div>
+          ))}
         </div>
-      </div>
+      )}
+
+      {live && perf.evaluation ? (
+        <div
+          style={{
+            marginTop: 10,
+            padding: "8px 10px",
+            border: "1px solid var(--line)",
+            borderRadius: 8,
+            background: "rgba(255,255,255,0.015)",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 6,
+            }}
+          >
+            <span className="t-tag" style={{ fontSize: 8 }}>
+              CATALOG CRITIQUE & QUALITY EVAL · LIVE
+            </span>
+            <span
+              className="t-mono"
+              style={{ fontSize: 9, color: "var(--el-earth)" }}
+            >
+              {perf.evaluation.catalogCoveragePct.toFixed(1)}% catalog coverage
+            </span>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: 6,
+              fontFamily: "var(--f-mono)",
+              fontSize: 10,
+            }}
+          >
+            <div>
+              <div style={{ fontSize: 8, color: "var(--fg-mute)" }}>CRITIQUES</div>
+              <div className="t-num" style={{ color: "var(--fg)" }}>
+                {perf.evaluation.totalCritiques.toLocaleString()}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 8, color: "var(--fg-mute)" }}>RECIPES</div>
+              <div className="t-num" style={{ color: "var(--fg)" }}>
+                {perf.evaluation.critiquedRecipes.toLocaleString()}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 8, color: "var(--fg-mute)" }}>PROPOSED / VERIFIED</div>
+              <div className="t-num" style={{ color: "var(--fg-dim)" }}>
+                {perf.evaluation.proposedCritiques} / {perf.evaluation.verifiedCritiques}
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 8, color: "var(--fg-mute)" }}>MEAN SCORE</div>
+              <div className="t-num" style={{ color: "var(--accent)" }}>
+                {perf.evaluation.meanRating !== null
+                  ? `${perf.evaluation.meanRating.toFixed(2)}★`
+                  : "—"}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div
+          style={{
+            marginTop: 10,
+            padding: "8px 10px",
+            border: "1px dashed var(--line)",
+            borderRadius: 8,
+          }}
+        >
+          <div className="t-tag" style={{ marginBottom: 3, fontSize: 8 }}>
+            EVALUATION TELEMETRY · OFFLINE
+          </div>
+          <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+            Awaiting database telemetry for catalog critique and quality metrics.
+          </div>
+        </div>
+      )}
     </Card>
   );
 }
@@ -947,6 +1062,8 @@ export function LivingEconomyPanel({ data }: { data?: { affiliateClicksWeek: num
 export function CommercePanel({ commerceSummary }: { commerceSummary?: CommerceSummaryData }): React.ReactElement {
   const summary = commerceSummary ?? { mrr: 0, paidSubs: 0, recentOrders: [], live: false };
   const { live } = summary;
+  const subMix = summary.subscriptionMix ?? [];
+  const totalSubs = subMix.reduce((acc, s) => acc + s.count, 0);
 
   const stateColor: Record<string, string> = {
     fulfilled: "var(--el-earth)",
@@ -988,20 +1105,88 @@ export function CommercePanel({ commerceSummary }: { commerceSummary?: CommerceS
               </span>
             </span>
           </div>
-          <div
-            style={{
-              marginTop: 12,
-              padding: "10px 12px",
-              border: "1px dashed var(--line)",
-              borderRadius: 8,
-            }}
-          >
-            <div className="t-tag" style={{ marginBottom: 4 }}>BILLING ANALYTICS · NOT WIRED</div>
-            <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
-              subscription mix · churn · LTV · free→pro — wire Stripe billing
-              analytics to surface these here.
+          {subMix.length > 0 ? (
+            <div
+              style={{
+                marginTop: 10,
+                padding: "8px 10px",
+                border: "1px solid var(--line)",
+                borderRadius: 8,
+                background: "rgba(255,255,255,0.015)",
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                <span className="t-tag" style={{ fontSize: 8 }}>
+                  SUBSCRIPTION MIX · {totalSubs.toLocaleString()} ACCOUNTS
+                </span>
+                <span className="t-mono" style={{ fontSize: 8.5, color: "var(--fg-mute)" }}>
+                  shop: {summary.shopPurchasesTotal ?? 0} (${(summary.shopPurchasesUsd ?? 0).toFixed(2)})
+                </span>
+              </div>
+              {subMix.map((s) => {
+                const pct = totalSubs > 0 ? (s.count / totalSubs) * 100 : 0;
+                const isPaid = s.tier.toLowerCase() === "premium" || s.tier.toLowerCase() === "pro";
+                return (
+                  <div key={`${s.tier}:${s.status}`}>
+                    <div
+                      className="t-mono"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontSize: 9.5,
+                        color: "var(--fg-dim)",
+                      }}
+                    >
+                      <span>
+                        <b style={{ color: isPaid ? "var(--accent)" : "var(--fg)" }}>
+                          {s.tier}
+                        </b>{" "}
+                        · {s.status}
+                      </span>
+                      <span className="t-num">
+                        {s.count.toLocaleString()} ({pct.toFixed(0)}%)
+                      </span>
+                    </div>
+                    <div
+                      style={{
+                        height: 4,
+                        marginTop: 2,
+                        background: "rgba(255,255,255,0.04)",
+                        borderRadius: 999,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: `${Math.max(3, pct)}%`,
+                          height: "100%",
+                          background: isPaid ? "var(--accent)" : "var(--el-water)",
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          </div>
+          ) : (
+            <div
+              style={{
+                marginTop: 12,
+                padding: "10px 12px",
+                border: "1px dashed var(--line)",
+                borderRadius: 8,
+              }}
+            >
+              <div className="t-tag" style={{ marginBottom: 4 }}>BILLING ANALYTICS · NOT WIRED</div>
+              <div className="t-mono" style={{ fontSize: 9.5, color: "var(--fg-mute)" }}>
+                subscription mix · churn · LTV · free→pro — wire Stripe billing
+                analytics to surface these here.
+              </div>
+            </div>
+          )}
         </div>
         <div>
           <div className="t-tag" style={{ marginBottom: 6 }}>ORDERS & CART INTENTS{live ? " · LIVE" : ""}</div>
@@ -1078,36 +1263,16 @@ export function CommensalPulse({ pageTelemetry }: { pageTelemetry?: PageTelemetr
   return (
     <Card
       title="Commensal Dining & Companions"
-      subtitle={
-        live
-          ? `${count.toLocaleString()} companion charts · ${mealPlans.toLocaleString()} meal plans`
-          : "page telemetry offline"
-      }
+      subtitle={live ? `${count.toLocaleString()} companion charts · ${mealPlans.toLocaleString()} meal plans` : "page telemetry offline"}
       right={
-        <span
-          className="t-mono"
-          style={{
-            fontSize: 9,
-            color: live ? "var(--el-earth)" : "var(--fg-mute)",
-            letterSpacing: "0.14em",
-          }}
-        >
+        <span className="t-mono" style={{ fontSize: 9, color: live ? "var(--el-earth)" : "var(--fg-mute)", letterSpacing: "0.14em" }}>
           {live ? "● LIVE" : "○ STALE"}
         </span>
       }
     >
       {count === 0 ? (
-        <div
-          style={{
-            padding: "24px 12px",
-            textAlign: "center",
-            border: "1px dashed var(--line)",
-            borderRadius: 8,
-          }}
-        >
-          <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>
-            No commensal sessions yet
-          </div>
+        <div style={{ padding: "24px 12px", textAlign: "center", border: "1px dashed var(--line)", borderRadius: 8 }}>
+          <div style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}>No commensal sessions yet</div>
           <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
             ratings + party-state will populate once /commensal traffic begins
           </div>
@@ -1117,11 +1282,7 @@ export function CommensalPulse({ pageTelemetry }: { pageTelemetry?: PageTelemetr
           <MetricTile label="Commensals" v={count.toLocaleString()} sub="companion rows" />
           <MetricTile label="Meal plans" v={mealPlans.toLocaleString()} sub="saved plans" />
           <MetricTile label="Custom recipes" v={customRecipes.toLocaleString()} sub="user-created" />
-          <MetricTile
-            label="Restaurants"
-            v={(pageTelemetry?.restaurants ?? 0).toLocaleString()}
-            sub="user-saved"
-          />
+          <MetricTile label="Restaurants" v={(pageTelemetry?.restaurants ?? 0).toLocaleString()} sub="user-saved" />
         </div>
       )}
     </Card>

@@ -63,7 +63,6 @@ function tableFixture(overrides: Record<string, unknown> = {}) {
       },
     ],
     photos: [],
-    invites: undefined,
     ...overrides,
   };
 }

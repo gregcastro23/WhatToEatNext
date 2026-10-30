@@ -76,7 +76,6 @@ if (import.meta.main) {
     "src/utils/ingredientRecommender.ts",
     "src/services/FoodDiaryService.ts",
     "src/services/UnifiedIngredientService.ts",
-    "src/services/UnifiedRecommendationService.ts",
     "src/utils/recommendation/methodRecommendation.ts",
     "src/services/UnifiedScoringService.ts",
     "src/services/TokenEconomyService.ts",

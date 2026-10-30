@@ -21,14 +21,17 @@ import {
 } from "@/lib/economy/swapRates";
 import { _logger } from "@/lib/logger";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 30;
 export const runtime = "nodejs";
 
 export function GET(): Promise<NextResponse> {
   try {
     const rates = getCurrentSwapRates();
     return Promise.resolve(
-      NextResponse.json({ success: true, live: true, ...rates }),
+      NextResponse.json(
+        { success: true, live: true, ...rates },
+        { headers: { "Cache-Control": "public, s-maxage=30, stale-while-revalidate=60" } },
+      ),
     );
   } catch (error) {
     const unavailable = error instanceof SwapRatesUnavailableError;

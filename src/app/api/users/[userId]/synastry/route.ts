@@ -1,7 +1,14 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { executeQuery } from "@/lib/database";
-import { computeSynastryOverlay, type NatalChartInput } from "@/lib/mcp/synastryTools";
-import { SynastryRequestSchema } from "@/lib/validation/apiSchemas";
+import {
+  computeSynastryOverlay,
+  type NatalChartInput,
+  type NatalPlanetInput,
+} from "@/lib/mcp/synastryTools";
+import {
+  SynastryRequestSchema,
+  type ParsedSynastryRequest,
+} from "@/lib/validation/apiSchemas";
 import { createLogger } from "@/utils/logger";
 
 const _logger = createLogger("users-synastry-api");
@@ -11,6 +18,37 @@ export const dynamic = "force-dynamic";
 interface ProfileRow {
   user_id: string;
   natal_chart: unknown;
+}
+
+type ViewerNatalInput = ParsedSynastryRequest["viewer"]["natalChart"];
+type RawPlanet = NatalPlanetInput | NonNullable<ViewerNatalInput["planets"][string]>;
+
+function toNatalPlanet(p: RawPlanet): NatalPlanetInput {
+  return {
+    sign: p.sign,
+    degree: p.degree,
+    ...(typeof p.retrograde === "boolean" ? { retrograde: p.retrograde } : {}),
+    ...(typeof p.house === "number" ? { house: p.house } : {}),
+  };
+}
+
+function toNatalChartInput(chart: ViewerNatalInput | NatalChartInput): NatalChartInput {
+  const planets: Record<string, NatalPlanetInput> = {};
+  for (const [key, planet] of Object.entries(chart.planets)) {
+    planets[key] = toNatalPlanet(planet);
+  }
+  const result: NatalChartInput = { planets };
+  if (typeof chart.ascendant === "number") {
+    result.ascendant = chart.ascendant;
+  } else if (chart.ascendant) {
+    result.ascendant = toNatalPlanet(chart.ascendant);
+  }
+  if (typeof chart.midheaven === "number") {
+    result.midheaven = chart.midheaven;
+  } else if (chart.midheaven) {
+    result.midheaven = toNatalPlanet(chart.midheaven);
+  }
+  return result;
 }
 
 function parseJsonField<T>(value: unknown, fallback: T): T {
@@ -91,19 +129,11 @@ export async function POST(
     const mcpRes = await computeSynastryOverlay({
       agentA: {
         id: viewer.id ?? "viewer",
-        natalChart: {
-          planets: viewer.natalChart.planets,
-          ascendant: viewer.natalChart.ascendant,
-          midheaven: viewer.natalChart.midheaven,
-        },
+        natalChart: toNatalChartInput(viewer.natalChart),
       },
       agentB: {
         id: row.user_id,
-        natalChart: {
-          planets: rawNatal.planets,
-          ascendant: rawNatal.ascendant,
-          midheaven: rawNatal.midheaven,
-        },
+        natalChart: toNatalChartInput(rawNatal),
       },
     });
 

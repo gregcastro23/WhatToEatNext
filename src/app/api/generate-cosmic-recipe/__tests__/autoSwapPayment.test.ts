@@ -105,7 +105,7 @@ describe("cosmic recipe × Swapping Bridge", () => {
       transactionGroupId: GROUP,
       autoSwap: EXECUTION,
     });
-    creditMultipleTokensDetailed.mockResolvedValue({ status: "credited" });
+    creditMultipleTokensDetailed.mockResolvedValue({ status: "credited", written: 3, requested: 3, balances: null });
   });
 
   afterEach(() => jest.restoreAllMocks());
@@ -144,7 +144,12 @@ describe("cosmic recipe × Swapping Bridge", () => {
 
   it("refunds a failed generation NET of the swap, restoring the user exactly", async () => {
     installFetchMock(jest.fn().mockResolvedValue(new Response("{}", { status: 502 })));
-    await post();
+    const response = await post();
+    expect(await response.json()).toMatchObject({
+      refunded: true,
+      refundStatus: "confirmed",
+      refundAmounts: { spirit: 6.825, essence: 0, matter: 1, substance: 2.5 },
+    });
 
     expect(creditMultipleTokensDetailed).toHaveBeenCalledTimes(1);
     const [, credits, source, opts] = creditMultipleTokensDetailed.mock.calls[0];

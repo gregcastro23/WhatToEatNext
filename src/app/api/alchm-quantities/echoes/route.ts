@@ -1,13 +1,11 @@
 /**
- * GET /api/alchm-quantities/echoes?planet=Pluto[&ref=ISO]
+ * GET /api/alchm-quantities/echoes?planet=Sun[&ref=ISO]
  *
- * Returns the historical moment when the requested outer planet was at the
- * same longitude it occupies at `ref` (default: now), refined to ~1
- * arc-minute precision. Includes the full chart and alchemical state at the
- * echo moment for direct comparison.
- *
- * Defaults to Pluto since its 248-year orbit means each return is unique
- * within recorded history.
+ * Returns the historical moment when the requested planet was at the same
+ * longitude it occupies at `ref` (default: now), refined to ~1 arc-minute
+ * precision. For planet=Sun, returns the 1-year Solar Return with full chart
+ * placements and curated cuisine matches. For outer planets (Pluto, Neptune,
+ * Uranus, Saturn, Jupiter), returns the deep historical epoch return.
  */
 import { NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rateLimit";

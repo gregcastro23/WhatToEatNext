@@ -38,6 +38,8 @@ const DependencyHealthSchema = z.object({
 export const SystemStatusSchema = z.object({
   generatedAt: z.string(),
   overall: FlowStatusSchema,
+  coreOverall: FlowStatusSchema.exactOptional(),
+  asyncOverall: FlowStatusSchema.exactOptional(),
   flows: z.array(FlowHealthSchema),
   dependencies: z.array(DependencyHealthSchema),
 });

@@ -206,14 +206,43 @@ try {
   if (!returnedIds.has("fresh_active")) {
     fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL excluded fresh active session");
   }
-  if (!returnedIds.has("legacy_session_current")) {
-    fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL excluded legacy session created prior to epoch");
-  }
-  if (!returnedIds.has("interim_session_current")) {
-    fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL excluded interim session created before deploy");
+
+  const nowCheck = await client.query<{ is_post_deadline: boolean }>(
+    "SELECT NOW() > TIMESTAMPTZ '2026-10-15T20:33:00Z' AS is_post_deadline",
+  );
+  const isPostDeadline = nowCheck.rows[0]?.is_post_deadline === true;
+
+  if (isPostDeadline) {
+    if (returnedIds.has("legacy_session_current")) {
+      fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL included legacy session after deadline");
+    }
+    if (returnedIds.has("interim_session_current")) {
+      fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL included interim session after deadline");
+    }
+  } else {
+    if (!returnedIds.has("legacy_session_current")) {
+      fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL excluded legacy session created prior to epoch");
+    }
+    if (!returnedIds.has("interim_session_current")) {
+      fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL excluded interim session created before deploy");
+    }
   }
   if (returnedIds.has("revoked_session")) {
     fail("CONTROL FAILED: SELECT_DEVICE_SESSIONS_SQL included revoked session");
+  }
+
+  // Also simulate pre-deadline check (< 2026-10-15T20:33:00Z) for pre-deploy sessions
+  const legacyActiveClause = authQueries.buildDeviceSessionActiveClause("created_at", "TIMESTAMPTZ '2026-10-01T00:00:00Z'");
+  const preDeadlineLegacyTest = await client.query<{ label: string }>(`
+    WITH test_rows(label, created_at, revoked_at) AS (
+      VALUES
+        ('legacy_session', TIMESTAMPTZ '2026-08-06T00:00:00Z', NULL::timestamptz),
+        ('interim_session', TIMESTAMPTZ '2026-09-16T08:00:00Z', NULL::timestamptz)
+    )
+    SELECT label FROM test_rows WHERE revoked_at IS NULL AND ${legacyActiveClause}
+  `);
+  if (preDeadlineLegacyTest.rows.length !== 2) {
+    fail(`CONTROL FAILED: legacy sessions unexpectedly excluded before deadline: got ${preDeadlineLegacyTest.rows.length} rows`);
   }
 
   // Also simulate post-deadline check (> 2026-10-15T20:33:00Z) for pre-deploy sessions

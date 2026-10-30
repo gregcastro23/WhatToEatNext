@@ -19,6 +19,9 @@
  *     categorises as dessert (owner ruling 2026-09-25).
  * Since 2026-09-29, 532: a second transcription of Rich Almond Milk (for
  * Almond Fruit Tart) was removed, so breakfast 57 and 19 drinks.
+ * Since 2026-10-03, 568: 36 recipes missing from the source were restored from
+ * the PDF, so breakfast 61, dessert 141, lunch 206, dinner 80, 80 with no
+ * signal, 20 drinks and 95 sauces; 195 claim no meal.
  */
 export type HscaMeal = "breakfast" | "lunch" | "dinner" | "dessert";
 

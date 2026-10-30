@@ -22,6 +22,7 @@ env:
 
 jobs:
   checks:
+    name: checks (${{ matrix.name }}, ${{ matrix.command }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -38,26 +39,31 @@ jobs:
           # identical and both signals independent (fail-fast is false).
           - name: Verify
             command: bun run verify:static
+            fetch-depth: 0
           - name: Build
             command: bun run build
+            fetch-depth: 1
+            cache-build: true
           - name: Test
             command: bun run test --passWithNoTests
+            fetch-depth: 1
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
-          fetch-depth: 0
-          lfs: true
+          fetch-depth: ${{ matrix.fetch-depth }}
       - name: Setup safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
+      - name: Cache Next.js build
+        if: matrix.cache-build == true
+        uses: actions/cache@v4
         with:
-          bun-version: latest
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-next-cache-${{ hashFiles('bun.lockb', 'bun.lock') }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-next-cache-${{ hashFiles('bun.lockb', 'bun.lock') }}-
       - name: Create env file
         run: |
           echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
@@ -82,15 +88,8 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 1
-          lfs: true
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
       - name: Create env file
         run: |
           echo "NEXT_PUBLIC_ENABLE_ASTRO_DEBUG=false" > .env.local
@@ -123,7 +122,6 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 1
-          lfs: true
       # rust-toolchain.toml is the single source of truth for the version, and
       # it has to be, because the compiled artifact embeds the rustc commit hash
       # and public/wasm/ is committed. Naming a version here as well would be a
@@ -145,8 +143,6 @@ jobs:
       # relative/`@/` with no npm package in it.
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
 
       - name: Install the pinned Rust toolchain
         run: |

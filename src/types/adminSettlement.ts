@@ -39,4 +39,21 @@ export type SettlementActionResponse =
       credited: Array<{ tokenType: TokenType; amount: number }>;
       balances: TokenBalances;
       status: "refunded";
+      netRefund?: number;
+      refundAmounts?: {
+        spirit: number;
+        essence: number;
+        matter: number;
+        substance: number;
+      };
+      perAxisRefund?: {
+        Spirit: number;
+        Essence: number;
+        Matter: number;
+        Substance: number;
+      };
+      refundReference?: {
+        sourceId: string;
+        idempotencyKey: string;
+      };
     };

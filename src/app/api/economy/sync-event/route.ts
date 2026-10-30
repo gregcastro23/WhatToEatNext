@@ -4,7 +4,7 @@ import {
   buildDeliverySummary,
   claimInboundEvent,
   completeWebhookEvent,
-  failWebhookEvent,
+  failInboundClaim,
   resolveInboundDeliveryContext,
 } from "@/lib/hooks/idempotency";
 import { inFlightConflict } from "@/lib/hooks/inFlightConflict";
@@ -202,9 +202,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json(responsePayload);
     } catch (innerError) {
-      if (claimResult.claim) {
-        await failWebhookEvent(claimResult.claim, innerError);
-      }
+      await failInboundClaim(claimResult.claim, innerError);
       throw innerError;
     }
 

@@ -169,6 +169,7 @@ export interface CreateFoodDiaryEntryInput {
   serving: ServingSize;
   quantity: number;
   nutrition?: FoodDiaryNutrition;
+  nutritionConfidence?: "high" | "medium" | "low";
   elementalProperties?: ElementalProperties;
   notes?: string;
   tags?: string[];

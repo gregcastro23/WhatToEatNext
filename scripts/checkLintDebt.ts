@@ -1,4 +1,5 @@
 import { execFileSync } from "node:child_process";
+import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -85,11 +86,17 @@ const heartbeat = setInterval(() => {
 }, 15_000);
 heartbeat.unref();
 
-console.log("[1/6] Generating Next.js route types...");
-execFileSync("./node_modules/.bin/next", ["typegen"], {
-  cwd: repoRoot,
-  stdio: "ignore",
-});
+const typesDir = path.join(repoRoot, ".next", "types");
+const needsTypegen = !existsSync(typesDir) || process.argv.includes("--typegen");
+if (needsTypegen) {
+  console.log("[1/6] Generating Next.js route types...");
+  execFileSync("./node_modules/.bin/next", ["typegen"], {
+    cwd: repoRoot,
+    stdio: "ignore",
+  });
+} else {
+  console.log("[1/6] Next.js route types already present, skipping redundant typegen.");
+}
 
 if (JSON.stringify(auditedRuleNames) !== JSON.stringify(baselineRuleNames)) {
   console.error(

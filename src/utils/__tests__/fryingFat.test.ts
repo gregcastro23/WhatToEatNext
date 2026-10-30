@@ -31,6 +31,11 @@ describe("findFryingMedium", () => {
     expect(findFryingMedium(lines, ["Fry the steaks until golden."])).toEqual({ index: 2, method: "pan" });
   });
 
+  it("honors deep frying named by the fat line when instructions only say fry", () => {
+    const lines = [food("flour", 500), fat("vegetable oil for deep frying", 436)];
+    expect(findFryingMedium(lines, ["Fry until golden."])).toEqual({ index: 1, method: "deep" });
+  });
+
   it("reads deep-frying from the instructions and takes the largest fat line", () => {
     const lines = [food("flour", 500), fat("butter", 60), fat("vegetable oil", 872)];
     expect(findFryingMedium(lines, ["Heat the oil in a deep pot to 350°F."])).toEqual({ index: 2, method: "deep" });

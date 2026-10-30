@@ -22,7 +22,7 @@ interface Params {
   params: Promise<{ id: string }>;
 }
 
-export async function DELETE(request: NextRequest, { params }: Params) {
+export async function DELETE(request: NextRequest, { params }: Params): Promise<NextResponse> {
   const auth = await validateRequest(request);
   if ("error" in auth) return auth.error;
   const { userId } = auth.user;

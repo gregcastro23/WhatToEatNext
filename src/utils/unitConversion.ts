@@ -160,7 +160,9 @@ export const UNIT_CONVERSIONS: Record<string, number> = {
   gallon: 3785.41,
   gallons: 3785.41,
 
-  // Piece/count units (context-dependent, using approximate averages)
+  // Piece/count units (context-dependent, using approximate averages). Read
+  // only where USDA did not weigh exactly one such unit of the food: a measured
+  // one replaces the guess (`countToMass`, owner ruling 2026-10-03, option B).
   piece: 50,
   pieces: 50,
   clove: 6,
@@ -173,15 +175,16 @@ export const UNIT_CONVERSIONS: Record<string, number> = {
   "": 50,
 };
 
-/** Count units the table weighs at its own average ("1 piece" = 50 g). */
+/** Count units the table weighs at its own average ("1 piece" = 50 g) when USDA has no single one. */
 const COUNT_UNITS: ReadonlySet<string> = new Set([
   "piece", "pieces", "clove", "cloves", "slice", "slices", "head", "heads", "each", "",
 ]);
 
 /**
  * Whether `unit` counts things rather than weighing or measuring them. Its gram
- * weight is a guess about the food, so it says nothing about how much of an
- * ingredient with no calories (salt) a line holds.
+ * weight is a guess about the food, or USDA's weight of one such item, so it
+ * says nothing about how much of an ingredient with no calories (salt) a line
+ * holds.
  */
 export function isCountUnit(unit: string): boolean {
   return COUNT_UNITS.has((unit ?? "").toLowerCase().trim());

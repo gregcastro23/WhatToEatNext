@@ -4,10 +4,7 @@ import { feedDatabase } from "@/services/feedDatabaseService";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ userId: string }> }
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ userId: string }> }): Promise<NextResponse> {
   try {
     const { userId } = await params;
     const { searchParams } = new URL(request.url);

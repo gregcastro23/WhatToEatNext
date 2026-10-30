@@ -276,14 +276,21 @@ describe("Auth wiring tests", () => {
       expect(edgeJwt).toBeDefined();
       if (!edgeJwt) return;
 
-      const token = {
-        sub: "user-legacy-123",
-        email: "test@alchm.kitchen",
-      };
+      const dateSpy = jest
+        .spyOn(Date, "now")
+        .mockReturnValue((LEGACY_SESSION_MIGRATION_EPOCH_SECONDS + 86400 * 5) * 1000);
+      try {
+        const token = {
+          sub: "user-legacy-123",
+          email: "test@alchm.kitchen",
+        };
 
-      const result = await edgeJwt({ token });
-      expect(result).not.toBeNull();
-      expect(result?.authTime).toBe(LEGACY_SESSION_MIGRATION_EPOCH_SECONDS);
+        const result = await edgeJwt({ token });
+        expect(result).not.toBeNull();
+        expect(result?.authTime).toBe(LEGACY_SESSION_MIGRATION_EPOCH_SECONDS);
+      } finally {
+        dateSpy.mockRestore();
+      }
     });
 
     it("preserves valid authTime on active token", async () => {

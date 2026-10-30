@@ -167,6 +167,10 @@ const nextConfig = {
         hostname: "**",
       },
     ],
+    // Cache optimized images for 30 days (up from Next.js default 60s) and restrict
+    // to WebP to prevent double transformations and slash Image Optimization Cache Writes.
+    minimumCacheTTL: 2592000,
+    formats: ["image/webp"],
     unoptimized: false, // Vercel handles high-performance image optimization natively
   },
   compiler: {
@@ -347,6 +351,11 @@ const nextConfig = {
         source: "/meal-plan/groceries",
         destination: "/menu-planner",
         permanent: true,
+      },
+      {
+        source: "/recipe-generator",
+        destination: "/cosmic-recipe",
+        permanent: false,
       },
       // The tier concept is retired, but these two were never upsell pages —
       // /premium was the ESMS Vault (still linked from the footer as "ESMS

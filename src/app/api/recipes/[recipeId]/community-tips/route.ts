@@ -4,6 +4,8 @@
  *
  * Returns top user-submitted reviews (rating ≥ 4, non-empty review),
  * joined with user display data, ordered by rating DESC, limited to 10.
+ *
+ * Distinguishes healthy empty results from unavailable/degraded service states.
  */
 
 import { NextResponse } from "next/server";
@@ -33,7 +35,10 @@ function displayName(row: TipRow): string {
   if (row.author_name?.trim()) return row.author_name.trim();
   if (row.author_email) {
     const [local = row.author_email] = row.author_email.split("@");
-    return local.charAt(0).toUpperCase() + local.slice(1);
+    return local
+      .split(/[-_]/)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
   }
   return "Anonymous cook";
 }
@@ -41,22 +46,27 @@ function displayName(row: TipRow): string {
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ recipeId: string }> },
-) {
+): Promise<NextResponse> {
   const { recipeId } = await params;
+
+  if (!recipeId || typeof recipeId !== "string" || !recipeId.trim()) {
+    return NextResponse.json({ tips: [], error: "recipeId is required" }, { status: 400 });
+  }
 
   try {
     const result = await executeQuery<TipRow>(
-      `SELECT u.name AS author_name, u.email AS author_email,
+      `SELECT COALESCE(up.name, u.name) AS author_name, u.email AS author_email,
               uri.rating, uri.review, uri.updated_at
        FROM user_recipe_interactions uri
        JOIN users u ON u.id = uri.user_id
+       LEFT JOIN user_profiles up ON up.user_id = u.id
        WHERE uri.recipe_id = $1
          AND uri.rating >= 4
          AND uri.review IS NOT NULL
          AND length(uri.review) > 0
        ORDER BY uri.rating DESC, uri.updated_at DESC
        LIMIT 10`,
-      [recipeId],
+      [recipeId.trim()],
     );
 
     const tips: CommunityTip[] = result.rows.map((row) => ({
@@ -66,9 +76,20 @@ export async function GET(
       postedAt: row.updated_at,
     }));
 
-    return NextResponse.json({ tips });
-  } catch (error) {
-    _logger.error("[GET /api/recipes/:id/community-tips]", error);
-    return NextResponse.json({ tips: [] as CommunityTip[] });
+    return NextResponse.json({
+      tips,
+      recipeId: recipeId.trim(),
+      totalTips: tips.length,
+    });
+  } catch (_error) {
+    const emptyTips: CommunityTip[] = [];
+    return NextResponse.json(
+      {
+        tips: emptyTips,
+        error: "Community tips query failed; service temporarily unavailable",
+        degraded: true,
+      },
+      { status: 503 },
+    );
   }
 }

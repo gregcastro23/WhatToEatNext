@@ -7,6 +7,7 @@
     "Air": 0.1256
   },
   "description": "Complex spice blends and traditional cooking methods like the tandoor.",
+  "imageUrl": "/images/cuisines/indian.png",
   "id": "indian",
   "dishes": {
     "breakfast": {

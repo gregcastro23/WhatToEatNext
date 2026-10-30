@@ -48,6 +48,9 @@ export const FAIL_SQL = `UPDATE webhook_events
    SET status = 'failed', locked_at = NULL, latency_ms = $2, last_error = $3
  WHERE id = $1`;
 
+export const STORED_RESULT_SQL =
+  "SELECT result FROM webhook_events WHERE source = $1 AND event_id = $2 LIMIT 1";
+
 interface ClaimRow {
   id: string | number;
   attempts: number;
@@ -59,9 +62,23 @@ export function boundedSummary(summary: Record<string, unknown>): string {
   return json.length <= MAX_SUMMARY_BYTES ? json : JSON.stringify({ truncated: true, bytes: json.length });
 }
 
-function errorText(err: unknown): string {
+function simpleError(err: unknown): string {
   return (err instanceof Error ? err.message : String(err)).slice(0, MAX_ERROR_CHARS);
 }
+
+/** Format an error or rejection reason, capturing stack provenance for thrown Errors. */
+export function formatErrorProvenance(err: unknown): string {
+  if (err instanceof Error) {
+    const { stack } = err;
+    return (stack && stack.trim().length > 0 ? stack : `${err.name}: ${err.message}`).slice(0, MAX_ERROR_CHARS);
+  }
+  if (typeof err === "string") {
+    return err.slice(0, MAX_ERROR_CHARS);
+  }
+  return String(err).slice(0, MAX_ERROR_CHARS);
+}
+
+export const errorText = formatErrorProvenance;
 
 async function tryInsert(event: HookEvent): Promise<ClaimRow | undefined> {
   const res = await executeQuery<ClaimRow & Record<string, unknown>>(CLAIM_INSERT_SQL, [
@@ -98,7 +115,7 @@ export async function claimWebhookEvent(event: HookEvent): Promise<InboxClaim> {
     return { kind: "duplicate", status: existing.status };
   } catch (err) {
     _logger.error(`[hooks] could not record ${event.source}:${event.id} (${event.type}) — processing unrecorded:`, err);
-    return { kind: "unrecorded", error: errorText(err), startedAt };
+    return { kind: "unrecorded", error: simpleError(err), startedAt };
   }
 }
 

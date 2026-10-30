@@ -1,3 +1,4 @@
+import { AlchmRouteFrame } from "@/components/layout/AlchmRouteFrame";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,6 +12,7 @@ export default function RecipeBuilderLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
-  return children;
+}): React.JSX.Element {
+  return <AlchmRouteFrame>{children}</AlchmRouteFrame>;
 }
+

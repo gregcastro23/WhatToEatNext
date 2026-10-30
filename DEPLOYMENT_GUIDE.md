@@ -764,7 +764,7 @@ docker-compose -f docker-compose.simple.yml up -d --scale app=3
 
 - [Backend Status Report](./BACKEND_STATUS_REPORT.md) - Complete backend analysis
 - [Service Deep Dive](./SERVICE_DEEP_DIVE.md) - Detailed service reviews
-- [GEMINI.md](./GEMINI.md) / [docs/architecture/CLAUDE.md](./docs/architecture/CLAUDE.md) - Project architecture and development guide
+- [GEMINI.md](./docs/GEMINI.md) / [docs/architecture/CLAUDE.md](./docs/architecture/CLAUDE.md) - Project architecture and development guide
 
 ### Scripts
 

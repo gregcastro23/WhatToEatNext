@@ -17,6 +17,7 @@ import { RestaurantDiscovery } from "@/components/RestaurantDiscovery";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { resolveAsin, AMAZON_ASSOCIATE_TAG, getStandardizedQuantity } from "@/data/amazon";
 import { useRecipeCollections } from "@/hooks/useRecipeCollections";
+import { useFavoriteRecipes } from "@/lib/recipes/favoriteRecipes";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import type { DietaryMode } from "@/utils/dietaryAdaptation";
 import type { TimeBudget } from "@/utils/timeShortcuts";
@@ -132,6 +133,37 @@ export default function RecipeDetailModal({
     markViewed,
   } = useRecipeCollections();
 
+  const {
+    isFavorite: isRecipeFavorited,
+    toggleFavorite: toggleRecipeFavorite,
+    updateLikedIngredients,
+    getLikedIngredients,
+    topTrackedIngredients,
+  } = useFavoriteRecipes();
+
+  const ingredientNames = useMemo(
+    () => recipe.ingredients.map((i) => i.name).filter(Boolean),
+    [recipe.ingredients],
+  );
+
+  const isFav = isFavorite(recipe.id) || isRecipeFavorited(recipe.id);
+  const likedIngredients = getLikedIngredients(recipe.id);
+
+  const handleToggleFavorite = () => {
+    const meta = {
+      name: recipe.name,
+      ingredients: ingredientNames,
+      ...(recipe.cuisine ? { cuisine: recipe.cuisine } : {}),
+    };
+    toggleFavorite(recipe.id, meta);
+    toggleRecipeFavorite({
+      id: recipe.id,
+      name: recipe.name,
+      ingredients: ingredientNames,
+      ...(recipe.cuisine ? { cuisine: recipe.cuisine } : {}),
+    });
+  };
+
   // Mark as viewed on open
   React.useEffect(() => {
     if (isOpen) {
@@ -197,7 +229,7 @@ export default function RecipeDetailModal({
         const asinInput = document.createElement("input");
         asinInput.type = "hidden";
         asinInput.name = `ASIN.${pos}`;
-        asinInput.value = item.asin!;
+        asinInput.value = item.asin ?? "";
         form.appendChild(asinInput);
 
         const qtyInput = document.createElement("input");
@@ -262,15 +294,21 @@ export default function RecipeDetailModal({
                   {recipe.name}
                 </h2>
                 <button
-                  onClick={() => toggleFavorite(recipe.id)}
-                  className="text-2xl flex-shrink-0"
+                  type="button"
+                  onClick={handleToggleFavorite}
+                  className={`text-2xl flex-shrink-0 transition-transform active:scale-125 ${
+                    isFav
+                      ? "text-amber-500 drop-shadow-[0_0_6px_rgba(245,158,11,0.5)]"
+                      : "text-gray-400 hover:text-amber-400"
+                  }`}
                   title={
-                    isFavorite(recipe.id)
+                    isFav
                       ? "Remove from favorites"
-                      : "Add to favorites"
+                      : "Add to favorites and track ingredients"
                   }
+                  aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
                 >
-                  {isFavorite(recipe.id) ? "\u2605" : "\u2606"}
+                  {isFav ? "★" : "☆"}
                 </button>
               </div>
 
@@ -339,6 +377,68 @@ export default function RecipeDetailModal({
                   </span>
                 )}
               </div>
+
+              {/* Liked Ingredients Selector when favorited */}
+              {isFav && recipe.ingredients.length > 0 && (
+                <div className="mt-3 p-3 rounded-xl bg-emerald-50/90 border border-emerald-200 shadow-sm">
+                  <div className="flex items-center justify-between text-xs mb-1.5">
+                    <span className="font-bold text-emerald-900 flex items-center gap-1.5">
+                      <span aria-hidden>🌿</span> Tap ingredients you loved most in this recipe:
+                    </span>
+                    <span className="text-[11px] text-emerald-700 font-semibold">
+                      {likedIngredients.length} highlighted
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {recipe.ingredients.map((ing) => {
+                      const selected = likedIngredients.includes(ing.name);
+                      return (
+                        <button
+                          key={ing.name}
+                          type="button"
+                          onClick={() => {
+                            const next = selected
+                              ? likedIngredients.filter((x) => x !== ing.name)
+                              : [...likedIngredients, ing.name];
+                            void updateLikedIngredients(recipe.id, next, {
+                              name: recipe.name,
+                              ...(recipe.cuisine ? { cuisine: recipe.cuisine } : {}),
+                              ingredients: ingredientNames,
+                            });
+                          }}
+                          className={`text-xs px-2.5 py-1 rounded-full border transition-all ${
+                            selected
+                              ? "bg-emerald-600 text-white border-emerald-600 font-bold shadow-sm"
+                              : "bg-white text-emerald-800 border-emerald-300 hover:bg-emerald-100"
+                          }`}
+                        >
+                          {selected ? "✓ " : "+ "}{ing.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Top Tracked Ingredients Summary Pill */}
+              {topTrackedIngredients.length > 0 && (
+                <div className="mt-2.5 flex items-center gap-2 text-xs overflow-x-auto pb-1 text-gray-600">
+                  <span className="font-bold text-gray-700 shrink-0 flex items-center gap-1">
+                    <span aria-hidden>✨</span> Top Tracked:
+                  </span>
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    {topTrackedIngredients.slice(0, 5).map((item) => (
+                      <span
+                        key={item.name}
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 border border-amber-300/60 text-amber-900 text-[11px] font-medium"
+                      >
+                        <span>{item.name}</span>
+                        <span className="text-[10px] font-bold text-amber-600">({item.count})</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <button

@@ -14,6 +14,7 @@ export {
   executeQueryWithRetry,
   getDatabasePool,
   initializeDatabase,
+  isolateDiagnosticQuery,
   withTransaction,
 } from "./connection";
 

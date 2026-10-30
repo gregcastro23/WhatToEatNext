@@ -173,7 +173,7 @@ function NoMatches({ query }: { query: string }): JSX.Element {
       <Section
         title="TRY INSTEAD"
         rows={[
-          { key: "generator", label: "Invent a recipe with the generator", hint: "RECIPE GENERATOR", href: "/recipe-generator" },
+          { key: "generator", label: "Invent a recipe with the generator", hint: "COSMIC RECIPE", href: "/cosmic-recipe" },
           { key: "recipes", label: "Browse all recipes", hint: "RECIPES", href: "/recipes" },
           { key: "ingredients", label: "Browse all ingredients", hint: "INGREDIENTS", href: "/ingredients" },
         ]}

@@ -126,7 +126,7 @@ export default function UserInsightsPanel(): React.JSX.Element {
     {
       label: "Onboarded",
       value: onboarding.completed,
-      sub: `${formatPercent(onboarding.completionRate)} of all users`,
+      sub: `${formatPercent(onboarding.completionRate)} of humans`,
     },
     {
       label: "Active in 24h",
@@ -201,12 +201,12 @@ export default function UserInsightsPanel(): React.JSX.Element {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Activity buckets */}
-        <Section title="Activity" hint="Time since last login">
-          <BarRow label="Active 24h" value={activity.activeIn24h} total={totals.all} tone="bg-emerald-500" />
-          <BarRow label="Active 7d" value={activity.activeIn7d} total={totals.all} tone="bg-emerald-400" />
-          <BarRow label="Active 30d" value={activity.activeIn30d} total={totals.all} tone="bg-emerald-300" />
-          <BarRow label="Dormant > 30d" value={activity.dormantOver30d} total={totals.all} tone="bg-amber-400" />
-          <BarRow label="Never logged in" value={activity.neverLoggedIn} total={totals.all} tone="bg-gray-300" />
+        <Section title="Activity" hint="Human accounts · login & interaction">
+          <BarRow label="Active 24h" value={activity.activeIn24h} total={totals.humans || totals.all} tone="bg-emerald-500" />
+          <BarRow label="Active 7d" value={activity.activeIn7d} total={totals.humans || totals.all} tone="bg-emerald-400" />
+          <BarRow label="Active 30d" value={activity.activeIn30d} total={totals.humans || totals.all} tone="bg-emerald-300" />
+          <BarRow label="Dormant > 30d" value={activity.dormantOver30d} total={totals.humans || totals.all} tone="bg-amber-400" />
+          <BarRow label="Never logged in" value={activity.neverLoggedIn} total={totals.humans || totals.all} tone="bg-gray-300" />
         </Section>
 
         {/* Onboarding funnel */}

@@ -1,0 +1,773 @@
+/**
+ * @jest-environment node
+ *
+ * Golden Test Suite for the WTEN Deterministic Culinary Verification Gate.
+ *
+ * Verifies:
+ * 1. Unit normalization and fractional parsing.
+ * 2. Plant-based ingredients with animal substrings (eggplant, butternut squash, champagne vinegar)
+ *    correctly classify as vegan and vegetarian.
+ * 3. Gluten sources (spaghetti, soy sauce, udon, seitan) are flagged on gluten-free requests
+ *    and NEVER falsely tagged gluten-free.
+ * 4. Safe culinary envelopes: wood-fired pizza (850°F), candy syrup boiling (245°F),
+ *    refrigerated chilling (40°F), and Celsius internal doneness (74°C = 165.2°F).
+ * 5. Low internal poultry temperature (145°F internal) is flagged as BLOCKING.
+ * 6. Non-positive and excessive quantities (>15kg).
+ * 7. Disallowed ingredients.
+ * 8. Advisory reporting: unknown cooking methods and missing nutrition do NOT block or invent fake data.
+ *
+ * @file src/lib/cooking/__tests__/recipeVerificationGate.test.ts
+ */
+
+import {
+  verifyAndRepairCosmicRecipe,
+  normalizeUnit,
+  parseFractionalQuantity,
+  type CosmicRecipe,
+} from "@/lib/cooking/recipeVerificationGate";
+import { VALID_RECIPE } from "@/app/api/generate-cosmic-recipe/__tests__/helpers/validCosmicRecipe";
+import { cosmicRecipeSchema } from "@/types/cosmicRecipeSchema";
+import { SAFE_INTERNAL_TEMPERATURES } from "@/data/cooking/foodSafety";
+
+describe("recipeVerificationGate unit helpers", () => {
+  it("normalizes colloquial culinary units", () => {
+    expect(normalizeUnit("tablespoons")).toBe("tbsp");
+    expect(normalizeUnit("Tablespoon")).toBe("tbsp");
+    expect(normalizeUnit("grams")).toBe("g");
+    expect(normalizeUnit("teaspoons")).toBe("tsp");
+    expect(normalizeUnit("pounds")).toBe("lb");
+    expect(normalizeUnit("cups")).toBe("cup");
+  });
+
+  it("parses fractional and decimal quantities", () => {
+    expect(parseFractionalQuantity("1/2")).toBe(0.5);
+    expect(parseFractionalQuantity("1 1/2")).toBe(1.5);
+    expect(parseFractionalQuantity("2.25")).toBe(2.25);
+    expect(parseFractionalQuantity("0")).toBe(0);
+    expect(parseFractionalQuantity("")).toBe(0);
+  });
+});
+
+describe("verifyAndRepairCosmicRecipe", () => {
+  const createBaseRecipe = (): CosmicRecipe =>
+    cosmicRecipeSchema.parse(VALID_RECIPE);
+
+  it("passes known-good plant recipes and normalizes units without inventing fake tags", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "salt",
+        quantity: "1",
+        unit: "tsp",
+        optional: false,
+        substitutions: [],
+      },
+      {
+        name: "olive oil",
+        quantity: "2",
+        unit: "tablespoons",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(true);
+    expect(outcome.blockingFindings).toHaveLength(0);
+    // Unit normalization repair: "tablespoons" -> "tbsp"
+    expect(outcome.recipe.ingredients[1]?.unit).toBe("tbsp");
+    expect(outcome.repaired).toBe(true);
+    expect(outcome.audit.resolvedIngredientsCount).toBeGreaterThanOrEqual(1);
+    // Does NOT inject unverified tags into delivered recipe
+    expect(outcome.recipe.tags.diet).toEqual(recipe.tags.diet);
+  });
+
+  it("correctly classifies eggplant, butternut squash, and champagne vinegar as vegan", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "eggplant",
+        quantity: "1",
+        unit: "piece",
+        optional: false,
+        substitutions: [],
+      },
+      {
+        name: "butternut squash",
+        quantity: "1",
+        unit: "lb",
+        optional: false,
+        substitutions: [],
+      },
+      {
+        name: "champagne vinegar",
+        quantity: "1",
+        unit: "tbsp",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "vegan" });
+    expect(outcome.valid).toBe(true);
+    expect(outcome.blockingFindings).toHaveLength(0);
+  });
+
+  it("flags gluten-containing ingredients (spaghetti, soy sauce, seitan, udon) when gluten-free is requested", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "spaghetti",
+        quantity: "200",
+        unit: "g",
+        optional: false,
+        substitutions: [],
+      },
+      {
+        name: "soy sauce",
+        quantity: "2",
+        unit: "tbsp",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "gluten-free" });
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "ALLERGEN_VIOLATION_GLUTEN")).toBe(true);
+  });
+
+  it("permits wood-fired pizza ovens operating at 850°F", () => {
+    const recipe = createBaseRecipe();
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Bake pizza in a wood-fired oven at 850°F for 90 seconds.",
+        time_minutes: 2,
+        cooking_method: "bake",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(true);
+    expect(outcome.blockingFindings).toHaveLength(0);
+  });
+
+  it("permits candy syrup boiling at 245°F", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "sugar",
+        quantity: "1",
+        unit: "cup",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Boil sugar syrup until thermometer reads 245°F (firm ball stage).",
+        time_minutes: 8,
+        cooking_method: "boiling",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(true);
+    expect(outcome.blockingFindings).toHaveLength(0);
+  });
+
+  it("permits chilling chicken in refrigerator to 40°F without false positive", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "chicken breast",
+        quantity: "1",
+        unit: "lb",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Chill marinated chicken breast in refrigerator to 40°F before grilling.",
+        time_minutes: 30,
+        cooking_method: "prep",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(true);
+    expect(outcome.blockingFindings).toHaveLength(0);
+  });
+
+  it("recognizes Celsius internal temperature for poultry (74°C = 165.2°F)", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "chicken breast",
+        quantity: "1",
+        unit: "lb",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Roast chicken breast until internal temperature reaches 74°C.",
+        time_minutes: 25,
+        cooking_method: "roast",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(true);
+    expect(outcome.blockingFindings).toHaveLength(0);
+  });
+
+  it("flags unsafe low internal temperature for poultry as BLOCKING", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "chicken breast",
+        quantity: "1",
+        unit: "lb",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Bake chicken breast until internal temperature reaches 145°F.",
+        time_minutes: 20,
+        cooking_method: "bake",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    const tempFinding = outcome.blockingFindings.find((f) => f.code === "UNSAFE_TEMPERATURE");
+    expect(tempFinding).toBeDefined();
+    expect(tempFinding?.message).toContain("165°F");
+  });
+
+  it("flags unsafe low internal temperature for ground meat with accurate consumer citation", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "ground beef",
+        quantity: "500",
+        unit: "g",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Cook ground beef patties until internal temperature reaches 145°F.",
+        time_minutes: 10,
+        cooking_method: "sear",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    const tempFinding = outcome.blockingFindings.find((f) => f.code === "UNSAFE_TEMPERATURE");
+    expect(tempFinding).toBeDefined();
+    expect(tempFinding?.message).toContain("USDA FSIS consumer safe minimum of 160°F (71°C)");
+    expect(tempFinding?.message).not.toContain("FDA Food Code 2022 § 3-401.11(A)(2)");
+  });
+
+  it("flags unsafe low internal temperature for fish with consumer safe minimum citation", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "salmon fillet",
+        quantity: "300",
+        unit: "g",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Cook salmon fillet until internal temperature reaches 130°F.",
+        time_minutes: 10,
+        cooking_method: "sear",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    const tempFinding = outcome.blockingFindings.find((f) => f.code === "UNSAFE_TEMPERATURE");
+    expect(tempFinding).toBeDefined();
+    expect(tempFinding?.message).toContain("USDA FSIS consumer safe minimum of 145°F (63°C)");
+    expect(tempFinding?.message).not.toContain("FDA Food Code 2022 § 3-401.11(A)(1)");
+  });
+
+  it("maintains truthful food-safety citations without conflating CFR standards or unsubstantiated pathogens", () => {
+    const poultry = SAFE_INTERNAL_TEMPERATURES.find((t) => t.category === "poultry");
+    expect(poultry).toBeDefined();
+    expect(poultry?.notes).not.toContain("Campylobacter");
+
+    const ground = SAFE_INTERNAL_TEMPERATURES.find((t) => t.category === "ground-meat");
+    expect(ground).toBeDefined();
+    expect(ground?.source).toContain("USDA FSIS consumer Safe Minimum Internal Temperature Chart");
+    expect(ground?.source).not.toContain("9 CFR § 318.23");
+
+    const eggs = SAFE_INTERNAL_TEMPERATURES.find((t) => t.category === "eggs");
+    expect(eggs).toBeDefined();
+    expect(eggs?.foodType).not.toContain("casseroles");
+    expect(eggs?.foodType).toContain("frittatas");
+
+    const reheating = SAFE_INTERNAL_TEMPERATURES.find((t) => t.category === "reheating");
+    expect(reheating).toBeDefined();
+    expect(reheating?.foodType).toContain("casseroles");
+
+    const fish = SAFE_INTERNAL_TEMPERATURES.find((t) => t.category === "finfish");
+    expect(fish).toBeDefined();
+    expect(fish?.source).toContain("15 seconds");
+  });
+
+  it("flags physically impossible boiling liquid water temperature as BLOCKING", () => {
+    const recipe = createBaseRecipe();
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Boil the water at 280°F vigorously.",
+        time_minutes: 10,
+        cooking_method: "boiling",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    const tempFinding = outcome.blockingFindings.find((f) => f.code === "UNSAFE_TEMPERATURE");
+    expect(tempFinding).toBeDefined();
+    expect(tempFinding?.message).toContain("212°F");
+  });
+
+  it("flags impossible non-positive quantity as BLOCKING", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "salt",
+        quantity: "0",
+        unit: "tsp",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "IMPOSSIBLE_QUANTITY")).toBe(true);
+  });
+
+  it("flags excessive quantity (>15kg) as BLOCKING", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "rice",
+        quantity: "25",
+        unit: "kg",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "EXCESSIVE_QUANTITY")).toBe(true);
+  });
+
+  it("flags dietary violation (meat in vegan/vegetarian request) as BLOCKING", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "beef steak",
+        quantity: "8",
+        unit: "oz",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+    recipe.tags.diet = ["vegan"];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "vegan" });
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "DIET_VIOLATION_VEGAN")).toBe(true);
+  });
+
+  it("flags disallowed ingredients as BLOCKING", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      {
+        name: "peanut butter",
+        quantity: "2",
+        unit: "tbsp",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe, {
+      disallowedIngredients: ["peanut", "shellfish"],
+    });
+    expect(outcome.valid).toBe(false);
+    const disallowedFinding = outcome.blockingFindings.find(
+      (f) => f.code === "DISALLOWED_INGREDIENT_FOUND",
+    );
+    expect(disallowedFinding).toBeDefined();
+    expect(disallowedFinding?.message).toContain("peanut");
+  });
+
+  it("treats unprofiled cooking method as ADVISORY, not blocking", () => {
+    const recipe = createBaseRecipe();
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Infuse with liquid nitrogen smoke.",
+        time_minutes: 2,
+        cooking_method: "cryogenic_freeze",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(true);
+    expect(outcome.blockingFindings).toHaveLength(0);
+    const advisory = outcome.advisoryFindings.find(
+      (f) => f.code === "UNKNOWN_COOKING_METHOD",
+    );
+    expect(advisory).toBeDefined();
+  });
+
+  it("reports missing nutrition as ADVISORY without inventing fabricated values", () => {
+    const recipe = createBaseRecipe();
+    recipe.nutrition = { calories: 0, protein: 0, carbohydrates: 0, fat: 0 };
+    recipe.ingredients = [
+      {
+        name: "olive oil",
+        quantity: "1",
+        unit: "tbsp",
+        optional: false,
+        substitutions: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(true);
+    const advisory = outcome.advisoryFindings.find((f) => f.code === "MISSING_NUTRITION");
+    expect(advisory).toBeDefined();
+    // Does NOT mutate original calories to fake numbers
+    expect(outcome.recipe.nutrition.calories).toBe(0);
+  });
+
+  it("normalizes uppercase T to tbsp rather than tsp", () => {
+    expect(normalizeUnit("T")).toBe("tbsp");
+    expect(normalizeUnit("T.")).toBe("tbsp");
+    expect(normalizeUnit("t")).toBe("tsp");
+    expect(normalizeUnit("t.")).toBe("tsp");
+  });
+
+  it("does not let 'chilli' or 'chili' bypass poultry temperature checks", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "chicken thigh", quantity: "1", unit: "lb", optional: false, substitutions: [] },
+      { name: "chilli powder", quantity: "1", unit: "tsp", optional: false, substitutions: [] },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Season chicken with chilli powder and bake to 140°F internal temp.",
+        time_minutes: 20,
+        cooking_method: "bake",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "UNSAFE_TEMPERATURE")).toBe(true);
+  });
+
+  it("evaluates all temperatures in a step, catching unsafe internal doneness after oven preheat temp", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "chicken breast", quantity: "1", unit: "lb", optional: false, substitutions: [] },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Preheat oven to 425°F. Roast chicken breast to internal 155°F.",
+        time_minutes: 25,
+        cooking_method: "bake",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "UNSAFE_TEMPERATURE")).toBe(true);
+  });
+
+  it("does not exempt sous vide from minimum food safety temperatures", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "chicken breast", quantity: "1", unit: "lb", optional: false, substitutions: [] },
+    ];
+    recipe.steps = [
+      {
+        step_number: 1,
+        instruction: "Cook chicken in a sous vide bath at 120°F for 1 hour.",
+        time_minutes: 60,
+        cooking_method: "sous_vide",
+        tips: [],
+      },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "UNSAFE_TEMPERATURE")).toBe(true);
+  });
+
+  it("parses multi-restriction requestedDiet string (Vegetarian, Gluten-Free)", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "bacon", quantity: "4", unit: "slice", optional: false, substitutions: [] },
+      { name: "spaghetti", quantity: "8", unit: "oz", optional: false, substitutions: [] },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Vegetarian, Gluten-Free" });
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "DIET_VIOLATION_VEGETARIAN")).toBe(true);
+    expect(outcome.blockingFindings.some((f) => f.code === "ALLERGEN_VIOLATION_GLUTEN")).toBe(true);
+  });
+
+  it("flags quark, burrata, and pecorino as non-vegan using catalog taxonomy", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "burrata", quantity: "4", unit: "oz", optional: false, substitutions: [] },
+      { name: "pecorino", quantity: "2", unit: "tbsp", optional: false, substitutions: [] },
+      { name: "quark", quantity: "4", unit: "oz", optional: false, substitutions: [] },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "vegan" });
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.some((f) => f.code === "DIET_VIOLATION_VEGAN")).toBe(true);
+  });
+
+  it("matches quiz allergen category keys in disallowedIngredients", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "salmon fillet", quantity: "1", unit: "piece", optional: false, substitutions: [] },
+      { name: "egg yolk", quantity: "2", unit: "piece", optional: false, substitutions: [] },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe, {
+      disallowedIngredients: ["fish", "eggs"],
+    });
+    expect(outcome.valid).toBe(false);
+    expect(outcome.blockingFindings.filter((f) => f.code.startsWith("DISALLOWED"))).toHaveLength(2);
+  });
+
+  it("allows 24 lb turkey under 15 kg household batch limit, but blocks >15 kg", () => {
+    const recipe = createBaseRecipe();
+    recipe.ingredients = [
+      { name: "turkey", quantity: "24", unit: "lb", optional: false, substitutions: [] },
+    ];
+
+    const outcome = verifyAndRepairCosmicRecipe(recipe);
+    // 24 lb = ~10.88 kg <= 15 kg
+    expect(outcome.blockingFindings.some((f) => f.code === "EXCESSIVE_QUANTITY")).toBe(false);
+
+    const excessiveRecipe = createBaseRecipe();
+    excessiveRecipe.ingredients = [
+      { name: "turkey", quantity: "35", unit: "lb", optional: false, substitutions: [] },
+    ];
+    const excessiveOutcome = verifyAndRepairCosmicRecipe(excessiveRecipe);
+    // 35 lb = ~15.87 kg > 15 kg
+    expect(excessiveOutcome.blockingFindings.some((f) => f.code === "EXCESSIVE_QUANTITY")).toBe(true);
+  });
+
+  describe("Phase 45 Slice A2: Evaluated restrictions, exclusion normalization, cheese & flour controls", () => {
+    describe("Recipe Builder exclusion key normalization & compound boundaries", () => {
+      it.each([
+        ["Tree Nuts", "walnuts"],
+        ["tree nut", "walnuts"],
+        ["nut allergy", "walnuts"],
+        ["avoidTreeNuts", "walnuts"],
+        ["tree-nuts", "walnuts"],
+      ])("blocks allergen when disallowed as %s with %s", (disallowed, ingName) => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: ingName, quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, {
+          disallowedIngredients: [disallowed],
+        });
+        expect(outcome.valid).toBe(false);
+        expect(outcome.blockingFindings.some((f) => f.code.startsWith("DISALLOWED_"))).toBe(true);
+      });
+
+      it("does not false-positive block plant compound ingredients on animal substrings", () => {
+        // "egg" should not block "eggplant"
+        const eggRecipe = createBaseRecipe();
+        eggRecipe.ingredients = [
+          { name: "eggplant", quantity: "1", unit: "piece", optional: false, substitutions: [] },
+        ];
+        const eggOutcome = verifyAndRepairCosmicRecipe(eggRecipe, {
+          disallowedIngredients: ["egg"],
+        });
+        expect(eggOutcome.blockingFindings.filter((f) => f.code === "DISALLOWED_INGREDIENT_FOUND")).toHaveLength(0);
+
+        // "ham" should not block "graham crackers"
+        const hamRecipe = createBaseRecipe();
+        hamRecipe.ingredients = [
+          { name: "graham crackers", quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const hamOutcome = verifyAndRepairCosmicRecipe(hamRecipe, {
+          disallowedIngredients: ["ham"],
+        });
+        expect(hamOutcome.blockingFindings.filter((f) => f.code === "DISALLOWED_INGREDIENT_FOUND")).toHaveLength(0);
+
+        // "butter" should not block "butternut squash"
+        const butterRecipe = createBaseRecipe();
+        butterRecipe.ingredients = [
+          { name: "butternut squash", quantity: "1", unit: "piece", optional: false, substitutions: [] },
+        ];
+        const butterOutcome = verifyAndRepairCosmicRecipe(butterRecipe, {
+          disallowedIngredients: ["butter"],
+        });
+        expect(butterOutcome.blockingFindings.filter((f) => f.code === "DISALLOWED_INGREDIENT_FOUND")).toHaveLength(0);
+      });
+    });
+
+    describe("Evaluated vs unevaluated restriction coverage contract", () => {
+      it("evaluates dairy-free and blocks dairy ingredients (heavy cream, parmesan, yogurt)", () => {
+        for (const dairy of ["heavy cream", "parmesan", "yogurt"]) {
+          const recipe = createBaseRecipe();
+          recipe.ingredients = [
+            { name: dairy, quantity: "100", unit: "g", optional: false, substitutions: [] },
+          ];
+          const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Dairy-Free" });
+          expect(outcome.valid).toBe(false);
+          expect(outcome.blockingFindings.some((f) => f.code.includes("DAIRY"))).toBe(true);
+        }
+      });
+
+      it("evaluates nut-free and blocks nuts (walnuts)", () => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: "walnuts", quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Nut-Free" });
+        expect(outcome.valid).toBe(false);
+        expect(outcome.blockingFindings.some((f) => f.code.includes("NUT"))).toBe(true);
+      });
+
+      it("evaluates pescatarian and blocks poultry/meat (chicken)", () => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: "chicken", quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Pescatarian" });
+        expect(outcome.valid).toBe(false);
+        expect(outcome.blockingFindings.some((f) => f.code.includes("PESCATARIAN") || f.code.includes("VEGETARIAN"))).toBe(true);
+      });
+
+      it("identifies unevaluated requested restrictions (keto, paleo, low-sodium), marks verified: false and emits advisory", () => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: "olive oil", quantity: "2", unit: "tbsp", optional: false, substitutions: [] },
+          { name: "salt", quantity: "1", unit: "tsp", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Keto" });
+        expect(outcome.valid).toBe(true);
+        expect(outcome.verified).toBe(false);
+        expect(outcome.audit.requestedRestrictions).toContain("keto");
+        expect(outcome.audit.unevaluatedRestrictions).toContain("keto");
+        expect(outcome.advisoryFindings.some((f) => f.code === "UNEVALUATED_DIETARY_RESTRICTION")).toBe(true);
+      });
+    });
+
+    describe("Per-item cheese positive & negative controls", () => {
+      it.each([
+        ["gruyere"],
+        ["gruyère"],
+        ["fontina"],
+        ["camembert"],
+      ])("blocks %s in vegan request as DIET_VIOLATION_VEGAN", (cheese) => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: cheese, quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Vegan" });
+        expect(outcome.valid).toBe(false);
+        expect(outcome.blockingFindings.some((f) => f.code === "DIET_VIOLATION_VEGAN")).toBe(true);
+      });
+
+      it("blocks pecorino even as a secondary ingredient in a vegan recipe", () => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: "salt", quantity: "1", unit: "tsp", optional: false, substitutions: [] },
+          { name: "pecorino", quantity: "50", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Vegan" });
+        expect(outcome.valid).toBe(false);
+        expect(outcome.blockingFindings.some((f) => f.code === "DIET_VIOLATION_VEGAN")).toBe(true);
+      });
+    });
+
+    describe("Flour and gluten source controls", () => {
+      it.each([
+        ["rice flour"],
+        ["almond flour"],
+        ["buckwheat flour"],
+        ["gluten-free soy sauce"],
+      ])("does NOT flag gluten violation for naturally gluten-free item %s", (gfItem) => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: "salt", quantity: "1", unit: "tsp", optional: false, substitutions: [] },
+          { name: gfItem, quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Gluten-Free" });
+        expect(outcome.blockingFindings.some((f) => f.code === "ALLERGEN_VIOLATION_GLUTEN")).toBe(false);
+      });
+
+      it.each([
+        ["pita"],
+        ["naan"],
+        ["bagel"],
+        ["kamut"],
+        ["breadcrumb"],
+      ])("blocks gluten-containing source %s in gluten-free request", (glutenItem) => {
+        const recipe = createBaseRecipe();
+        recipe.ingredients = [
+          { name: "salt", quantity: "1", unit: "tsp", optional: false, substitutions: [] },
+          { name: glutenItem, quantity: "100", unit: "g", optional: false, substitutions: [] },
+        ];
+        const outcome = verifyAndRepairCosmicRecipe(recipe, { requestedDiet: "Gluten-Free" });
+        expect(outcome.valid).toBe(false);
+        expect(outcome.blockingFindings.some((f) => f.code === "ALLERGEN_VIOLATION_GLUTEN")).toBe(true);
+      });
+    });
+  });
+});
+
+

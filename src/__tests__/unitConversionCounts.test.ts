@@ -8,6 +8,11 @@
  * recipes with computed nutrition from 163 to 200 (authored 862 → 828, none
  * 59 → 56).
  *
+ * The table's own count guesses (piece, each, a bare count, clove, slice,
+ * head) follow the same rule (owner ruling 2026-10-03, option B). `[MEASURED
+ * 2026-10-03]` on master c27e4136 it re-weighs 232 lines in 220 recipes
+ * (garlic 180 of them) and moves computed 202 → 204, authored 825 → 823.
+ *
  * @file src/__tests__/unitConversionCounts.test.ts
  */
 import { parseServingSizeGrams } from "@/utils/ingredientNutritionAggregation";
@@ -68,13 +73,40 @@ describe("it never chooses a size the recipe did not state", () => {
   });
 });
 
-describe("the table's own count guesses are untouched (owner ruling pending)", () => {
-  it("keeps 6 g a clove although USDA weighs a garlic clove at 3 g", () => {
-    expect(convertToGramsDetailed(2, "cloves", "garlic")).toEqual({ grams: 12, basis: "water-approximation" });
+describe("a measured count replaces the table's guess where USDA weighed exactly one (ruling B)", () => {
+  it("weighs a garlic clove at USDA's 3 g, not the table's 6 g", () => {
+    // FDC 169230 "Garlic, raw" weighs one "clove" at 3 g.
+    expect(convertToGramsDetailed(2, "cloves", "garlic")).toEqual({
+      grams: 6,
+      basis: "usda-measured",
+      fdcId: 169230,
+      measuredAs: "clove",
+    });
   });
 
-  it("keeps 50 g a piece although USDA weighs an orange at 131 g", () => {
-    expect(convertToGramsDetailed(1, "piece", "Orange")?.grams).toBe(50);
+  it("weighs a piece, an each or a bare count as USDA's one whole item", () => {
+    // FDC 169097 orange "fruit (2-5/8\" dia)" 131 g; 171705 avocado 201 g; 169910 mango 336 g.
+    expect(convertToGramsDetailed(1, "piece", "Orange")).toMatchObject({ grams: 131, fdcId: 169097 });
+    expect(convertToGramsDetailed(2, "", "Avocado")?.grams).toBe(402);
+    expect(convertToGramsDetailed(1, "each", "Mango")?.grams).toBe(336);
+  });
+
+  it("weighs a slice of ginger from USDA's five 1\" slices (11 g), not the table's 30 g", () => {
+    expect(convertToGramsDetailed(1, "slice", "Ginger")?.grams).toBeCloseTo(2.2, 10);
+  });
+});
+
+describe("the table's guess stays where USDA has no single unqualified count", () => {
+  it("keeps 50 g a piece of egg: USDA weighs an egg only by its size", () => {
+    expect(convertToGramsDetailed(1, "piece", "Chicken Egg")).toEqual({ grams: 50, basis: "water-approximation" });
+  });
+
+  it("keeps 50 g a piece of lemon: USDA weighs two fruit sizes, 58 g and 84 g", () => {
+    expect(convertToGramsDetailed(1, "piece", "Lemon")?.grams).toBe(50);
+  });
+
+  it("keeps 200 g a head of cabbage: every USDA head is sized (714–1,248 g)", () => {
+    expect(convertToGramsDetailed(1, "head", "cabbage")?.grams).toBe(200);
   });
 });
 

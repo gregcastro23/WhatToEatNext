@@ -1,6 +1,6 @@
+import type { DietKey } from "@/lib/quiz/catalogContract";
 import { cosmicRecipeSchema } from "@/types/cosmicRecipeSchema";
 import type { Recipe } from "@/types/recipe";
-import type { QuizReading } from "./types";
 import type { z } from "zod";
 
 export type QuizCosmicRecipe = z.infer<typeof cosmicRecipeSchema>;
@@ -98,10 +98,17 @@ export function generationErrorMessage(value: unknown, status: number): string {
   return "Could not generate a recipe right now. Your quiz meal is still available.";
 }
 
+export interface GenerationConstraints {
+  dietaryStyle: "unrestricted" | DietKey;
+  excludedAllergens: readonly string[];
+  maxMinutes: number | null;
+  servings: number;
+}
+
 /** Reject obvious conflicts in an AI response; labels/substitutions still need kitchen review. */
 export function validateGeneratedConstraints(
   recipe: QuizCosmicRecipe,
-  reading: QuizReading,
+  constraints: GenerationConstraints,
 ): void {
   const names = recipe.ingredients
     .map((item) => item.name.toLowerCase())
@@ -119,13 +126,13 @@ export function validateGeneratedConstraints(
     shellfish:
       /\b(shrimp|prawns?|crab|lobster|clams?|mussels?|oysters?|scallops?)\b/,
   };
-  const excluded = new Set(reading.preferences.excludedAllergens);
-  if (reading.preferences.dietaryStyle === "vegan")
+  const excluded = new Set(constraints.excludedAllergens);
+  if (constraints.dietaryStyle === "vegan")
     for (const key of ["dairy", "eggs", "fish", "shellfish"]) excluded.add(key);
-  if (reading.preferences.dietaryStyle === "vegetarian")
+  if (constraints.dietaryStyle === "vegetarian")
     for (const key of ["fish", "shellfish"]) excluded.add(key);
   if (
-    reading.preferences.dietaryStyle !== "unrestricted" &&
+    constraints.dietaryStyle !== "unrestricted" &&
     /\b(chicken|beef|pork|lamb|bacon|ham|turkey|gelatin|lard)\b/.test(names)
   )
     throw new Error(
@@ -138,32 +145,14 @@ export function validateGeneratedConstraints(
       );
   }
   if (
-    reading.preferences.maxMinutes !== null &&
-    recipe.total_time > reading.preferences.maxMinutes
+    constraints.maxMinutes !== null &&
+    recipe.total_time > constraints.maxMinutes
   )
     throw new Error(
       "The AI recipe exceeded your time limit. Your original meal is still available.",
     );
-  if (recipe.yields !== reading.preferences.servings)
+  if (recipe.yields !== constraints.servings)
     throw new Error(
       "The AI recipe used a different serving count. Your original meal is still available.",
-    );
-  const { equipment } = reading.preferences;
-  const methods = [
-    ...recipe.tags.cooking_methods,
-    ...recipe.steps.map((step) => step.cooking_method),
-  ].join(" ");
-  const requiresOven = /\b(bak\w*|roast\w*|broil\w*|oven)\b/i.test(methods);
-  const requiresStove =
-    /\b(saut\w*|boil\w*|simmer\w*|fry\w*|stir-fry|steam\w*|sear\w*)\b/i.test(
-      methods,
-    );
-  if (
-    equipment.length > 0 &&
-    ((requiresOven && !equipment.includes("oven")) ||
-      (requiresStove && !equipment.includes("stovetop")))
-  )
-    throw new Error(
-      "The AI recipe requires equipment you did not select. Your original meal is still available.",
     );
 }

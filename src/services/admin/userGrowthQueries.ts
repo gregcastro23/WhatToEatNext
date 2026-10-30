@@ -15,6 +15,9 @@
 import { executeQuery } from "@/lib/database/connection";
 
 export const AGENT_DOMAIN = "%@agentic.alchm.kitchen";
+export const LEGACY_AGENT_DOMAIN = "%@agents.alchm.kitchen";
+export const HUMAN_WHERE = `COALESCE(is_agent, false) = false AND email NOT ILIKE '${AGENT_DOMAIN}' AND email NOT ILIKE '${LEGACY_AGENT_DOMAIN}'`;
+export const AGENT_WHERE = `(is_agent = true OR email ILIKE '${AGENT_DOMAIN}' OR email ILIKE '${LEGACY_AGENT_DOMAIN}')`;
 export const TZ = "America/New_York";
 export const SERIES_DAYS = 30;
 export const COHORT_WEEKS = 8;
@@ -40,7 +43,7 @@ export function activityCte(withPageViews: boolean): string {
     : "";
   return `
     humans AS (
-      SELECT id, id::text AS uid, email, created_at FROM users WHERE email NOT ILIKE '${AGENT_DOMAIN}'
+      SELECT id, id::text AS uid, email, created_at FROM users WHERE ${HUMAN_WHERE}
     ),
     human_activity AS (
       SELECT a.user_id AS uid, a.created_at AS at FROM humans h JOIN auth_events a ON a.user_id = h.uid
@@ -76,8 +79,8 @@ interface GrowthSql {
 }
 
 export const SQL: GrowthSql = {
-  population: () => `SELECT COUNT(*) FILTER (WHERE email NOT ILIKE '${AGENT_DOMAIN}')::int AS humans,
-                            COUNT(*) FILTER (WHERE email ILIKE '${AGENT_DOMAIN}')::int AS agents
+  population: () => `SELECT COUNT(*) FILTER (WHERE ${HUMAN_WHERE})::int AS humans,
+                            COUNT(*) FILTER (WHERE ${AGENT_WHERE})::int AS agents
                        FROM users`,
   engagement: (cte: string) => `WITH ${cte}
     SELECT COUNT(DISTINCT uid) FILTER (WHERE at >= NOW() - INTERVAL '1 day')::int AS dau,
@@ -90,12 +93,12 @@ export const SQL: GrowthSql = {
   signupSeries: () => `SELECT to_char(date_trunc('day', created_at AT TIME ZONE '${TZ}'), 'YYYY-MM-DD') AS day,
                               COUNT(*)::int AS n
                          FROM users
-                        WHERE email NOT ILIKE '${AGENT_DOMAIN}' AND created_at >= NOW() - INTERVAL '${SERIES_DAYS} days'
+                        WHERE ${HUMAN_WHERE} AND created_at >= NOW() - INTERVAL '${SERIES_DAYS} days'
                         GROUP BY 1`,
   cohortSizes: () => `SELECT to_char(date_trunc('week', created_at AT TIME ZONE '${TZ}'), 'YYYY-MM-DD') AS week,
                              COUNT(*)::int AS size
                         FROM users
-                       WHERE email NOT ILIKE '${AGENT_DOMAIN}' AND created_at >= ${COHORT_START}
+                       WHERE ${HUMAN_WHERE} AND created_at >= ${COHORT_START}
                        GROUP BY 1`,
   cohortActivity: (cte: string) => `WITH ${cte},
     cohort AS (SELECT uid, date_trunc('week', created_at AT TIME ZONE '${TZ}') AS wk FROM humans

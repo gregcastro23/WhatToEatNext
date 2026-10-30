@@ -69,11 +69,13 @@ const CALORIE_PRESETS = [
 interface GenerationPreferencesPanelProps {
   isOpen: boolean;
   onToggle: () => void;
+  embedded?: boolean;
 }
 
 export default function GenerationPreferencesPanel({
   isOpen,
   onToggle,
+  embedded = false,
 }: GenerationPreferencesPanelProps) {
   const {
     generationPreferences,
@@ -187,10 +189,11 @@ export default function GenerationPreferencesPanel({
     summaryParts.push(`< ${generationPreferences.maxPrepTimeMinutes}min`);
   }
 
+
   return (
-    <div className="alchm-panel rounded-xl mt-3 overflow-hidden">
+    <div className={embedded ? "space-y-4" : "alchm-panel rounded-xl mt-3 overflow-hidden"}>
       {/* Collapsed Header Bar */}
-      <button
+      {!embedded && <button
         onClick={onToggle}
         className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface-container-low transition-colors focus:outline-none"
       >
@@ -220,11 +223,11 @@ export default function GenerationPreferencesPanel({
             ▼
           </span>
         </div>
-      </button>
+      </button>}
 
       {/* Expanded Panel */}
-      {isOpen && (
-        <div className="px-4 pb-4 border-t border-muted">
+      {(isOpen || embedded) && (
+        <div className={embedded ? "pb-4" : "px-4 pb-4 border-t border-muted"}>
           {/* Reset Button */}
           {activeCount > 0 && (
             <div className="flex justify-end pt-3">
@@ -291,6 +294,7 @@ export default function GenerationPreferencesPanel({
                 <div className="mt-2 flex items-center gap-2">
                   <input
                     type="number"
+                    aria-label="Daily calorie target"
                     min="800"
                     max="5000"
                     step="50"
@@ -494,7 +498,7 @@ export default function GenerationPreferencesPanel({
           </div>
 
           {/* ─── INGREDIENT PREFERENCES ─── */}
-          <div className="pt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="pt-4 grid grid-cols-1 gap-4">
             {/* Must Include */}
             <div>
               <h4 className="text-xs font-semibold text-on-surface-variant uppercase tracking-wider mb-2">

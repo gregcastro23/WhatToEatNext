@@ -1,8 +1,8 @@
 {
   "name": "@alchm/mcp-server",
-  "version": "1.1.2",
+  "version": "1.4.0",
   "mcpName": "io.github.gregcastro23/alchm-kitchen",
-  "description": "Alchm.kitchen MCP server — live planetary transits, ingredient ESMS analysis, cosmic recipe search, synastry overlays, and transit×natal overlays.",
+  "description": "Alchm.kitchen MCP server \u2014 live planetary transits, ingredient ESMS analysis, cosmic recipe search, synastry overlays, triplicate synastry pricing, evidence snapshots, and recipe reflections.",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
@@ -14,9 +14,11 @@
   ],
   "scripts": {
     "build": "bun build src/index.ts --outfile dist/index.js --bundle --target node --external pg --define 'process.env.ALCHM_MCP_BUNDLED=\"1\"'",
-    "build:binary": "bun build src/index.ts --compile --outfile bin/alchm-mcp --define 'process.env.ALCHM_MCP_BUNDLED=\"1\"'",
+    "build:binary": "bun build src/index.ts --compile --outfile bin/alchm-mcp --define 'process.env.ALCHM_MCP_BUNDLED=\"1\"' --no-compile-autoload-dotenv --no-compile-autoload-bunfig && bun scripts/sign-binary.ts",
     "start": "bun run src/index.ts",
-    "prepublishOnly": "bun run build"
+    "prepublishOnly": "bun run build",
+    "test:stdio": "MCP_E2E=1 bun test src/__tests__/stdio.test.ts src/__tests__/sdkClient.test.ts",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "mcp",
@@ -44,7 +46,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.1",
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "pg": "^8.20.0"
   }
 }

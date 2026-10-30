@@ -26,6 +26,11 @@ describe("asolHealthService", () => {
     process.env = originalEnv;
   });
 
+  it("rejects when its real database reader fails instead of inventing zero delivery counts", async () => {
+    mockExecuteQuery.mockRejectedValue(new Error("webhook_events read unavailable"));
+    await expect(getAsolHealthOverview()).rejects.toThrow("webhook_events read unavailable");
+  });
+
   it("aggregates overall metrics, source breakdowns, and recent events", async () => {
     process.env.INTERNAL_API_SECRET = "secret-1";
     process.env.ALCHM_KITCHEN_SYNC_SECRET = "secret-2";

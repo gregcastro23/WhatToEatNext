@@ -252,4 +252,51 @@ describe("GET /api/commensal/companions", () => {
     const other = await GET(makeRequest(undefined, "203.0.113.100"));
     expect(other.status).toBe(200);
   });
+
+  it("handles flattened gateway activations without nested agent object", async () => {
+    jest.mocked(fetchAgentsForDate).mockResolvedValue([
+      {
+        id: "hermes",
+        name: "Hermes Trismegistus",
+        description: "Direct flat activation description",
+        strength: 0.88,
+        dignity: "exaltation",
+        element: "Air",
+        planetaryRuler: "Mercury",
+      },
+    ]);
+
+    const res = await GET(makeRequest());
+    const data = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(data.success).toBe(true);
+    expect(data.activeAgents).toHaveLength(1);
+    expect(data.activeAgents[0].name).toBe("Hermes Trismegistus");
+    expect(data.activeAgents[0].activation.strength).toBe(0.88);
+    expect(data.activeAgents[0].activation.dignity).toBe("exaltation");
+    expect(data.activeAgents[0].activation.description).toBe("Direct flat activation description");
+  });
+
+  it("matches degree agent activations with planetary- prefix to database records", async () => {
+    jest.mocked(fetchAgentsForDate).mockResolvedValue([
+      {
+        id: "planetary-hermes",
+        name: "Hermes Trismegistus",
+        description: "Degree activation description",
+        strength: 0.92,
+        dignity: "domicile",
+        element: "Air",
+        planetaryRuler: "Mercury",
+      },
+    ]);
+
+    const res = await GET(makeRequest());
+    const data = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(data.success).toBe(true);
+    expect(data.activeAgents).toHaveLength(1);
+    expect(data.activeAgents[0].name).toBe("Hermes Trismegistus");
+  });
 });

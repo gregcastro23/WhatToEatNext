@@ -62,6 +62,18 @@ function unconfigured(base: Pick<StripeRevenuePayload, "generatedAt" | "configur
   };
 }
 
+function isAuthError(err: unknown): boolean {
+  if (!err || typeof err !== "object") return false;
+  const type = "type" in err ? err.type : undefined;
+  const code = "code" in err ? err.code : undefined;
+  const statusCode = "statusCode" in err ? err.statusCode : undefined;
+  return (
+    type === "StripeAuthenticationError" ||
+    code === "api_key_expired" ||
+    statusCode === 401
+  );
+}
+
 export async function getStripeRevenue(): Promise<StripeRevenuePayload> {
   const key = process.env.STRIPE_SECRET_KEY;
   const base = { generatedAt: new Date().toISOString(), configured: Boolean(key), mode: stripeModeFromKey(key) };
@@ -71,8 +83,32 @@ export async function getStripeRevenue(): Promise<StripeRevenuePayload> {
   const stripe = getStripe();
   const since = Math.floor((Date.now() - WINDOW_DAYS * 86_400_000) / 1000);
   const errors: string[] = [];
-  const [balance, subscriptions, charges, checkout, events, webhookCoverage] = await Promise.all([
-    section("balance", errors, () => readBalance(stripe)),
+
+  // Probe balance first so an expired/invalid API key logs once and short-circuits
+  // the remaining 5 Stripe SDK calls instead of spamming 6 identical 401 stack traces.
+  let balance: StripeRevenuePayload["balance"] = null;
+  try {
+    balance = await readBalance(stripe);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "unknown error";
+    errors.push(`balance: ${msg}`);
+    if (isAuthError(err)) {
+      _logger.warn(`[admin/revenue] Stripe authentication failed: ${msg}`);
+      return {
+        ...base,
+        errors: [`Stripe authentication failed: ${msg}`],
+        balance: null,
+        subscriptions: null,
+        charges: null,
+        checkout: null,
+        events: null,
+        webhookCoverage: null,
+      };
+    }
+    _logger.error("[admin/revenue] balance failed:", err);
+  }
+
+  const [subscriptions, charges, checkout, events, webhookCoverage] = await Promise.all([
     section("subscriptions", errors, () => readSubscriptions(stripe, since)),
     section("charges", errors, () => readCharges(stripe, since)),
     section("checkout sessions", errors, () => readCheckout(stripe, since)),

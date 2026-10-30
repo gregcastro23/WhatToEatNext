@@ -18,7 +18,7 @@ import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { RelatedIngredientRecipe } from "@/types/ingredient";
 import type { Recipe } from "@/types/recipe";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 const { HONO_API_URL } = process.env;
 
@@ -122,15 +122,20 @@ export async function GET(
 
     const substitutions = buildSubstitutions(ingredient, canonicalName);
 
-    return NextResponse.json({
-      success: true,
-      ingredient,
-      slug: card?.slug ?? null,
-      relatedRecipes,
-      recipesByCuisine,
-      substitutions,
-      totalRecipeMatches,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        ingredient,
+        slug: card?.slug ?? null,
+        relatedRecipes,
+        recipesByCuisine,
+        substitutions,
+        totalRecipeMatches,
+      },
+      {
+        headers: { "Cache-Control": "public, max-age=86400, stale-while-revalidate=604800" },
+      },
+    );
   } catch (error) {
     _logger.error("[ingredients/:name] Error:", error);
     return NextResponse.json(
