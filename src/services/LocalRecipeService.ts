@@ -405,12 +405,29 @@ export class LocalRecipeService {
     return result.rows.map(mapRowToRecipe);
   }
 
+  /**
+   * The catalog load in progress, if any. Concurrent callers on a cold or
+   * expired cache share it rather than each running the catalog query: on a
+   * small connection pool that stampede times out, and every caller that times
+   * out is served the (uncached) static list instead of the live catalog.
+   */
+  private static _inFlightLoad: Promise<Recipe[]> | null = null;
+
   static async getAllRecipes(): Promise<Recipe[]> {
     // L1: in-process memory (warm path — sub-ms)
     if (this.isCacheFresh()) {
       return this._allRecipes!;
     }
+    if (this._inFlightLoad) return this._inFlightLoad;
+    const load = this.loadAllRecipes().finally(() => {
+      // A cleared cache may have started a newer load; only release our own.
+      if (this._inFlightLoad === load) this._inFlightLoad = null;
+    });
+    this._inFlightLoad = load;
+    return load;
+  }
 
+  private static async loadAllRecipes(): Promise<Recipe[]> {
     // L2: Redis catalog cache (cross-instance — target <20ms)
     const cached = await getCachedCatalogFromRedis();
     if (cached && Array.isArray(cached) && cached.length > 0) {
@@ -615,6 +632,8 @@ export class LocalRecipeService {
     this._allRecipes = null;
     this._allRecipesLoadedAt = null;
     this._catalogDegraded = false;
+    // Callers after an invalidation must not join a load that began before it.
+    this._inFlightLoad = null;
     redisDel(REDIS_CATALOG_KEY).catch(() => {});
   }
 }

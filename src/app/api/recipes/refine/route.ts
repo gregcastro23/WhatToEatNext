@@ -10,11 +10,11 @@ import {
 } from "@/lib/economy/livePricing";
 import { OPERATION_COSTS } from "@/lib/economy/operationCosts";
 import { _logger } from "@/lib/logger";
-import { withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
+import { filterRecipes } from "@/lib/recipes/catalogQuery";
+import { loadCanonicalCatalog, withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
 import { RecipeRefineRequestSchema } from "@/lib/validation/apiSchemas";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import { tokenEconomy } from "@/services/TokenEconomyService";
-import type { Recipe } from "@/types/recipe";
 import { getCapitalizedNatalPositions } from "@/utils/astrology/chartDataUtils";
 import type { NextRequest } from "next/server";
 
@@ -81,21 +81,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Fetch recipes for the cuisine
-    const { LocalRecipeService } = await import("@/services/LocalRecipeService");
-    
-    let recipes: Recipe[] = [];
-    if (cuisine) {
-      recipes = await LocalRecipeService.getRecipesByCuisine(cuisine);
-    } else {
-      recipes = await LocalRecipeService.getAllRecipes();
-    }
-    
-    // Limit to 50 for scoring performance
-    recipes = recipes.slice(0, 50);
+    // Every recipe of the cuisine is a candidate, from the same catalog and
+    // cuisine matching as the recipe list. Nothing is capped: with positions
+    // cached, scoring is arithmetic (13 ms for all 1,113 recipes).
+    const recipes = filterRecipes(await loadCanonicalCatalog(), { cuisine: cuisine ?? null });
 
     // Score recipes with high precision (simulated by adding a transit multiplier)
     const scoringService = PlanetaryScoringService.getInstance();
+    // Warm the shared position cache once. Every scoreRecipe awaits it, and
+    // without a warm-up N concurrent calls make N position requests.
+    await scoringService.getCurrentPlanetaryPositions();
     const scoredRecipes = await Promise.all(
       recipes.map(async (recipe) => {
         try {
