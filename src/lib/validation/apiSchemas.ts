@@ -910,7 +910,9 @@ export const RecipesQueryBodySchema = z.object({
   element: z.string().optional(),
   cuisine: z.string().optional(),
   search: z.string().optional(),
-  limit: z.coerce.number().int().min(1).max(100).optional().default(20),
+  // No ceiling and no default: the catalog is never capped. Without a limit
+  // the response carries every recipe.
+  limit: z.coerce.number().int().min(1).optional(),
   offset: z.coerce.number().int().min(0).optional().default(0),
 });
 export type ParsedRecipesQueryBody = z.infer<typeof RecipesQueryBodySchema>;

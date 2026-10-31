@@ -14,7 +14,9 @@ import {
   PlanetaryRequestSchema 
 } from '../lib/validation/railway.js';
 import { LocalRecipeService } from '../services/LocalRecipeService.js';
-import { RecipeSchema } from '../lib/validation/apiSchemas.js';
+import { RecipeSchema, RecipesQueryBodySchema } from '../lib/validation/apiSchemas.js';
+import { parseCatalogWindow } from '../lib/recipes/catalogQuery.js';
+import { loadCatalogPage } from '../lib/recipes/catalogService.js';
 import { _recipeRecommender } from '../services/recipeRecommendations.js';
 import { sauceRecommender } from '../services/sauceRecommender.js';
 import { IngredientService } from '../services/IngredientService.js';
@@ -254,52 +256,30 @@ app.get('/api/recipes/:recipeId', async (c) => {
 
 /**
  * API: Recipes Catalog
- * Replaces Next.js /api/recipes route.
+ * Replaces Next.js /api/recipes route, with the same semantics: the whole
+ * canonical catalog, no cap, and the shared cuisine/search/element filters.
  */
+function listRecipes(query: {
+  element?: string | null;
+  cuisine?: string | null;
+  search?: string | null;
+  limit?: string | null;
+  offset?: string | null;
+}) {
+  return loadCatalogPage(query, parseCatalogWindow(query.limit, query.offset));
+}
+
 app.get('/api/recipes', async (c) => {
-  const element = c.req.query('element');
-  const cuisine = c.req.query('cuisine');
-  const search = c.req.query('q') || c.req.query('search');
-  const limit = Math.min(parseInt(c.req.query('limit') || '20', 10), 50);
-  const offset = parseInt(c.req.query('offset') || '0', 10);
-
   try {
-    let recipes: any[] = [];
-    if (cuisine) {
-      recipes = await LocalRecipeService.getRecipesByCuisine(cuisine);
-    } else if (search) {
-      recipes = await LocalRecipeService.searchRecipes(search);
-    } else {
-      recipes = await LocalRecipeService.getAllRecipes();
-    }
-
-    if (element) {
-      const lowerElement = element.toLowerCase();
-      recipes = recipes.filter((recipe) => {
-        const ep = recipe.elementalProperties;
-        if (!ep) return false;
-        let dom = '';
-        let max = -1;
-        for (const k of ['Fire', 'Water', 'Earth', 'Air'] as const) {
-          if (typeof ep[k] === 'number' && ep[k] > max) {
-            max = ep[k];
-            dom = k.toLowerCase();
-          }
-        }
-        return dom.includes(lowerElement);
-      });
-    }
-
-    const total = recipes.length;
-    const slicedRecipes = recipes.slice(offset, offset + limit);
-
-    return c.json({
-      success: true,
-      recipes: slicedRecipes,
-      total,
-      limit,
-      offset,
-    });
+    return c.json(
+      await listRecipes({
+        element: c.req.query('element') ?? null,
+        cuisine: c.req.query('cuisine') ?? null,
+        search: c.req.query('q') ?? c.req.query('search') ?? null,
+        limit: c.req.query('limit') ?? null,
+        offset: c.req.query('offset') ?? null,
+      }),
+    );
   } catch (error) {
     console.error('[Hono] Recipe fetch error:', error);
     return c.json({ success: false, error: 'Failed to fetch recipes' }, 500);
@@ -308,48 +288,21 @@ app.get('/api/recipes', async (c) => {
 
 app.post('/api/recipes', async (c) => {
   try {
-    const body = await c.req.json().catch(() => ({}));
-    const { element, cuisine, search, limit = 20, offset = 0 } = body;
-    
-    let recipes: any[] = [];
-    if (cuisine) {
-      recipes = await LocalRecipeService.getRecipesByCuisine(cuisine);
-    } else if (search) {
-      recipes = await LocalRecipeService.searchRecipes(search);
-    } else {
-      recipes = await LocalRecipeService.getAllRecipes();
-    }
-
-    if (element) {
-      const lowerElement = element.toLowerCase();
-      recipes = recipes.filter((recipe) => {
-        const ep = recipe.elementalProperties;
-        if (!ep) return false;
-        let dom = '';
-        let max = -1;
-        for (const k of ['Fire', 'Water', 'Earth', 'Air'] as const) {
-          if (typeof ep[k] === 'number' && ep[k] > max) {
-            max = ep[k];
-            dom = k.toLowerCase();
-          }
-        }
-        return dom.includes(lowerElement);
-      });
-    }
-
-    const total = recipes.length;
-    const slicedRecipes = recipes.slice(offset, offset + limit);
-
-    return c.json({
-      success: true,
-      recipes: slicedRecipes,
-      total,
-      limit,
-      offset,
-    });
+    const parsed = RecipesQueryBodySchema.safeParse(await c.req.json().catch(() => null));
+    if (!parsed.success) return c.json({ success: false, error: 'Invalid request' }, 400);
+    const { element, cuisine, search, limit, offset } = parsed.data;
+    return c.json(
+      await listRecipes({
+        element: element ?? null,
+        cuisine: cuisine ?? null,
+        search: search ?? null,
+        limit: limit === undefined ? null : String(limit),
+        offset: String(offset),
+      }),
+    );
   } catch (error) {
     console.error('[Hono] Recipe POST error:', error);
-    return c.json({ success: false, error: 'Invalid request' }, 400);
+    return c.json({ success: false, error: 'Failed to fetch recipes' }, 500);
   }
 });
 

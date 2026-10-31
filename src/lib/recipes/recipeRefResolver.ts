@@ -22,6 +22,7 @@ import {
 } from "@/lib/search/authoredFacts";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { Recipe } from "@/types/recipe";
+import { toPublicRecipe } from "./catalogQuery";
 import {
   buildRecipeIdentityIndex,
   type RecipeIdentityIndex,
@@ -246,4 +247,27 @@ export async function listCanonicalRecipeIds(): Promise<string[]> {
   if (live.length === 0) return staticIds;
   const index = buildRecipeIdentityIndex(staticIdentities, live);
   return [...new Set([...live.map((r) => r.id), ...index.staticOnlyIds])];
+}
+
+/**
+ * Every recipe the site serves, once: each live recipe plus the static
+ * recipes with no live twin. This is `listCanonicalRecipeIds` as full recipes,
+ * so the catalog list and the sitemap cannot disagree about what "every
+ * recipe" is, and a static-only recipe (the Fusion dishes, say) is listed
+ * even when the database holds none of its cuisine. While the live catalog is
+ * degraded its list IS the static list, so nothing is paired with itself.
+ * Internal archive codes are removed from every cuisine.
+ */
+export async function loadCanonicalCatalog(): Promise<Recipe[]> {
+  const [staticRecipes, liveRecipes] = await Promise.all([getServerRecipes(), LocalRecipeService.getAllRecipes()]);
+  // The degraded loader hands back the cached static array itself. Compare
+  // that, not isCatalogDegraded(): the flag is one shared static that a
+  // concurrent load resets, so it can describe another request's list.
+  if (liveRecipes.length === 0 || liveRecipes === staticRecipes) return staticRecipes.map(toPublicRecipe);
+  const { index, staticById } = resolverFor(staticRecipes, liveRecipes);
+  const staticOnly = index.staticOnlyIds.flatMap((id) => {
+    const recipe = staticById.get(id);
+    return recipe ? [recipe] : [];
+  });
+  return [...liveRecipes, ...staticOnly].map(toPublicRecipe);
 }

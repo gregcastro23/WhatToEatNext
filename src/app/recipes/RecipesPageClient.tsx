@@ -7,30 +7,12 @@ import { z } from "zod";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { readJson, parseEach } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
+import { cuisineHeading, isDisplayableRecipe } from "@/lib/recipes/catalogValidity";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import type { Recipe } from "@/types/recipe";
 
-function hasValidElementalProperties(ep: unknown): boolean {
-  if (!ep || typeof ep !== "object") return false;
-  return (
-    "Fire" in ep && typeof ep.Fire === "number" &&
-    "Water" in ep && typeof ep.Water === "number" &&
-    "Earth" in ep && typeof ep.Earth === "number" &&
-    "Air" in ep && typeof ep.Air === "number"
-  );
-}
-
-function isValidRecipe(r: unknown): r is Recipe {
-  if (!r || typeof r !== "object") return false;
-  if (!("id" in r) || typeof r.id !== "string") return false;
-  if (!("name" in r) || typeof r.name !== "string") return false;
-  if (!("ingredients" in r) || !Array.isArray(r.ingredients)) return false;
-  if (!("instructions" in r) || !Array.isArray(r.instructions)) return false;
-  return "elementalProperties" in r && hasValidElementalProperties(r.elementalProperties);
-}
-
 const ValidatedRecipeSchema = z.custom<Recipe>(
-  isValidRecipe,
+  isDisplayableRecipe,
   "Expected valid Recipe with id, name, ingredients, instructions, and elementalProperties",
 );
 
@@ -38,84 +20,111 @@ const RecipesResponseEnvelopeSchema = z
   .object({
     success: z.boolean().optional(),
     recipes: z.array(z.unknown()).optional(),
+    total: z.number().optional(),
   })
   .passthrough();
+
+interface CatalogLoad {
+  recipes: Recipe[];
+  /** How many recipes the server holds for this selection. */
+  total: number;
+  /** Served but not displayable: counted, never silently hidden. */
+  dropped: number;
+}
+
+/**
+ * The whole catalog for a selection, in one request. The API has no cap, so
+ * there is no limit to send and nothing to paginate around. A failed request
+ * throws: an empty catalog and a broken one must not look alike.
+ */
+async function loadCatalog(cuisine: string | null): Promise<CatalogLoad> {
+  const params = new URLSearchParams();
+  if (cuisine) params.set("cuisine", cuisine);
+  const query = params.toString();
+  const res = await fetch(query ? `/api/recipes?${query}` : "/api/recipes");
+  if (!res.ok) throw new Error(`The recipe service answered ${res.status}`);
+  const data = await readJson(res, {
+    parse: (raw) => RecipesResponseEnvelopeSchema.parse(raw),
+  });
+  if (data.success === false) throw new Error("The recipe service reported a failure");
+  const parsed = parseEach(data.recipes ?? [], (r) => ValidatedRecipeSchema.parse(r));
+  return {
+    recipes: parsed.items,
+    total: data.total ?? parsed.total,
+    dropped: parsed.dropped,
+  };
+}
 
 function RecipesPageContent() {
   const searchParams = useSearchParams();
   const cuisine = searchParams?.get("cuisine") || null;
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [total, setTotal] = useState(0);
+  const [dropped, setDropped] = useState(0);
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isScoring, setIsScoring] = useState(false);
 
   const fetchAndScoreRecipes = useCallback(async () => {
     setIsLoading(true);
+    setError(null);
+    let cuisineRecipes: Recipe[];
     try {
-      // Request the full catalog — this page scores and sorts every recipe
-      // client-side, so it must not be capped to the API's default page size.
-      const params = new URLSearchParams({ limit: "1000" });
-      if (cuisine) params.set("cuisine", cuisine);
-      const res = await fetch(`/api/recipes?${params.toString()}`);
-      if (!res.ok) {
-        setRecipes([]);
-        setIsLoading(false);
-        return;
-      }
-
-      const data = await readJson(res, {
-        parse: (raw) => RecipesResponseEnvelopeSchema.parse(raw),
-      });
-      let cuisineRecipes: Recipe[] = [];
-      if (data.success && data.recipes) {
-        cuisineRecipes = parseEach(data.recipes, (r) => ValidatedRecipeSchema.parse(r)).items;
-      }
-
-      // Initially display recipes unsorted
-      setRecipes(cuisineRecipes);
+      const catalog = await loadCatalog(cuisine);
+      cuisineRecipes = catalog.recipes;
+      setTotal(catalog.total);
+      setDropped(catalog.dropped);
+      if (catalog.dropped > 0)
+        _logger.warn(`${catalog.dropped} of ${catalog.total} recipes failed validation`);
+    } catch (fetchError) {
+      _logger.error("Failed to fetch recipes:", fetchError);
+      setRecipes([]);
+      setTotal(0);
+      setDropped(0);
+      setError("We couldn't load the recipes just now.");
       setIsLoading(false);
+      return;
+    }
 
-      if (cuisineRecipes.length === 0) return;
+    // Initially display recipes unsorted
+    setRecipes(cuisineRecipes);
+    setIsLoading(false);
+    if (cuisineRecipes.length === 0) return;
 
-      // Then score each recipe with planetary alignment
-      setIsScoring(true);
-      try {
-        const scoringService = PlanetaryScoringService.getInstance();
-        // Warm the shared planetary-position cache once up front. Otherwise
-        // the concurrent scoreRecipe() calls below would each fire their own
-        // /api/astrologize request (one per recipe in the catalog).
-        await scoringService.getCurrentPlanetaryPositions();
-        const scoredRecipes = await Promise.all(
-          cuisineRecipes.map(async (recipe) => {
-            const r = recipe;
-            try {
-              const result = await scoringService.scoreRecipe(r);
-              return {
-                ...r,
-                score: result.overallScore,
-                planetaryScore: result.overallScore,
-                planetaryReason: result.planetaryReason,
-                recommendedTiming: result.recommendedTiming,
-                rulingPlanet: result.rulingPlanet,
-              };
-            } catch {
-              return { ...r, score: 50 };
-            }
-          }),
-        );
+    // Then score each recipe with planetary alignment
+    setIsScoring(true);
+    try {
+      const scoringService = PlanetaryScoringService.getInstance();
+      // Warm the shared planetary-position cache once up front. Otherwise
+      // the concurrent scoreRecipe() calls below would each fire their own
+      // /api/astrologize request (one per recipe in the catalog).
+      await scoringService.getCurrentPlanetaryPositions();
+      const scoredRecipes = await Promise.all(
+        cuisineRecipes.map(async (recipe) => {
+          const r = recipe;
+          try {
+            const result = await scoringService.scoreRecipe(r);
+            return {
+              ...r,
+              score: result.overallScore,
+              planetaryScore: result.overallScore,
+              planetaryReason: result.planetaryReason,
+              recommendedTiming: result.recommendedTiming,
+              rulingPlanet: result.rulingPlanet,
+            };
+          } catch {
+            return { ...r, score: 50 };
+          }
+        }),
+      );
 
-        // Sort by planetary score descending
-        scoredRecipes.sort(
-          (a, b) => (b.score ?? 0) - (a.score ?? 0),
-        );
-        setRecipes(scoredRecipes);
-      } catch (error) {
-        _logger.error("Failed to score recipes:", error);
-      } finally {
-        setIsScoring(false);
-      }
-    } catch (error) {
-      _logger.error("Failed to fetch recipes:", error);
-      setIsLoading(false);
+      // Sort by planetary score descending
+      scoredRecipes.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+      setRecipes(scoredRecipes);
+    } catch (scoringError) {
+      _logger.error("Failed to score recipes:", scoringError);
+    } finally {
+      setIsScoring(false);
     }
   }, [cuisine]);
 
@@ -123,9 +132,7 @@ function RecipesPageContent() {
     void fetchAndScoreRecipes();
   }, [cuisine, fetchAndScoreRecipes]);
 
-  const displayCuisine = cuisine
-    ? cuisine.charAt(0).toUpperCase() + cuisine.slice(1)
-    : "All";
+  const displayCuisine = cuisineHeading(cuisine);
 
   return (
     <main className="min-h-screen bg-[#08080e] text-white p-4 md:p-8">
@@ -134,12 +141,17 @@ function RecipesPageContent() {
           <h1 className="text-4xl font-bold mb-4">
             {displayCuisine} Recipes
           </h1>
-          {!isLoading && (
+          {!isLoading && !error && (
             <p className="text-lg text-gray-400">
               {recipes.length} recipes
               {isScoring
                 ? " - consulting the heavens..."
                 : " sorted by current planetary alignment"}
+            </p>
+          )}
+          {!isLoading && !error && dropped > 0 && (
+            <p role="status" className="mt-2 text-sm text-amber-300">
+              {dropped} of {total} recipes couldn&apos;t be displayed because their data is incomplete.
             </p>
           )}
         </div>
@@ -153,19 +165,46 @@ function RecipesPageContent() {
               />
             ))}
           </div>
+        ) : error ? (
+          <div role="alert" className="text-center py-20">
+            <p className="text-6xl mb-6">⚠️</p>
+            <h2 className="text-2xl font-bold text-white mb-3">Recipes Unavailable</h2>
+            <p className="text-gray-400 mb-8 max-w-md mx-auto">
+              {error} This is a connection problem, not an empty catalog.
+            </p>
+            <button
+              type="button"
+              onClick={() => void fetchAndScoreRecipes()}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-purple-600 text-white font-bold hover:bg-purple-700 transition-colors"
+            >
+              ↻ Try Again
+            </button>
+          </div>
         ) : recipes.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-6xl mb-6">🍽️</p>
             <h2 className="text-2xl font-bold text-white mb-3">No Recipes Found</h2>
             <p className="text-gray-400 mb-8 max-w-md mx-auto">
-              We couldn&apos;t find any recipes matching your selection. Try a different cuisine or check back later.
+              {cuisine
+                ? `We have no ${displayCuisine} recipes yet. Try another cuisine, or browse everything.`
+                : "We couldn't find any recipes. Check back later."}
             </p>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-purple-600 text-white font-bold hover:bg-purple-700 transition-colors"
-            >
-              ← Back to Home
-            </Link>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              {cuisine && (
+                <Link
+                  href="/recipes"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-purple-600 text-white font-bold hover:bg-purple-700 transition-colors"
+                >
+                  View All Recipes
+                </Link>
+              )}
+              <Link
+                href="/cuisines"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 text-white font-bold hover:bg-white/20 transition-colors"
+              >
+                Explore Cuisines
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

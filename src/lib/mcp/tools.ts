@@ -119,7 +119,14 @@ export interface CosmicRecipeArgs {
   cuisine?: string;
   dietary?: string[];
   dominantElement?: "Fire" | "Water" | "Earth" | "Air";
+  /** Recipes to return; default 5, no maximum. */
+  limit?: number;
+  /** Matching recipes to skip, for paging through `totalMatching`. */
+  offset?: number;
 }
+
+/** A tool response is read by a model, so it starts small; `limit` lifts it. */
+const DEFAULT_RECIPE_RESULTS = 5;
 
 export interface TriplicateSynastryArgs {
   makerId?: string;
@@ -375,11 +382,16 @@ export async function generateCosmicRecipe(
   const domElem =
     typeof args.dominantElement === "string" ? args.dominantElement : undefined;
 
+  // No `limit` here: RecipeService slices the catalog by it BEFORE the prompt
+  // and element filters below run, so a limit would search only the first N
+  // recipes. Every recipe is searched; the page is cut afterwards.
   const criteria: Record<string, unknown> = {
     cuisine,
     dietaryRestrictions: dietary,
-    limit: 50,
   };
+  const limit =
+    typeof args.limit === "number" ? args.limit : DEFAULT_RECIPE_RESULTS;
+  const offset = typeof args.offset === "number" ? args.offset : 0;
 
   const rawRecipes = await recipeService.searchRecipes(criteria);
   let filtered = [...rawRecipes];
@@ -407,7 +419,7 @@ export async function generateCosmicRecipe(
     });
   }
 
-  const finalRecipes = filtered.slice(0, 5).map((r) => {
+  const finalRecipes = filtered.slice(offset, offset + limit).map((r) => {
     const props = r.elementalProperties;
     return {
       id: r.id,
@@ -439,6 +451,7 @@ export async function generateCosmicRecipe(
   const data = {
     totalMatching: filtered.length,
     returnedCount: finalRecipes.length,
+    offset,
     recipes: finalRecipes,
   };
 
@@ -448,6 +461,7 @@ export async function generateCosmicRecipe(
     summary: {
       totalMatching: filtered.length,
       returnedCount: finalRecipes.length,
+      offset,
       filters: {
         prompt: prompt || null,
         cuisine: cuisine ?? null,

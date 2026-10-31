@@ -389,13 +389,18 @@ describe("Batch 1C API Validation Schemas (Recipes, Menus, AI & Culinary)", () =
     expect(NanobananaGenerateRequestSchema.safeParse({}).success).toBe(false);
   });
 
-  it("validates RecipesQueryBodySchema with defaults", () => {
+  it("validates RecipesQueryBodySchema with no default limit and no ceiling", () => {
     const res = RecipesQueryBodySchema.safeParse({});
     expect(res.success).toBe(true);
     if (res.success) {
-      expect(res.data.limit).toBe(20);
+      // The catalog is never capped: no limit means every recipe.
+      expect(res.data.limit).toBeUndefined();
       expect(res.data.offset).toBe(0);
     }
+    const large = RecipesQueryBodySchema.safeParse({ limit: 100000 });
+    expect(large.success).toBe(true);
+    if (large.success) expect(large.data.limit).toBe(100000);
+    expect(RecipesQueryBodySchema.safeParse({ limit: 0 }).success).toBe(false);
   });
 
   it("validates RecipeRefineRequestSchema and RecipeExtractJsonBodySchema", () => {
