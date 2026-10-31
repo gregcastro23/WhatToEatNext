@@ -74,8 +74,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // Fetch all recipes to score against the composite chart
     const { LocalRecipeService } = await import("@/services/LocalRecipeService");
-    const allRecipes = await LocalRecipeService.getAllRecipes();
-    const recipes = allRecipes.slice(0, 100);
+    const recipes = await LocalRecipeService.getAllRecipes();
 
     // Score recipes against the composite chart
     const scoredRecipes = recipes.map((r) => {
