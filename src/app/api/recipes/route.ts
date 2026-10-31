@@ -1,16 +1,16 @@
 /**
  * GET/POST /api/recipes
- * Returns recipe catalog with optional filtering by element, cuisine, or search query.
+ * Returns the whole recipe catalog, with optional filtering by element,
+ * cuisine, or search query. Nothing caps it: with no `limit` every recipe
+ * comes back, and a caller that sends one gets exactly that page.
  */
 import { NextResponse } from "next/server";
-import { getServerRecipes } from "@/actions/recipes";
-import { createLogger } from "@/utils/logger";
-
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
-import { withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
+import { parseCatalogWindow } from "@/lib/recipes/catalogQuery";
+import { loadCatalogPage } from "@/lib/recipes/catalogService";
 import { RecipesQueryBodySchema } from "@/lib/validation/apiSchemas";
-import type { Recipe } from "@/types/recipe";
+import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("recipes");
 
@@ -18,58 +18,6 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const { HONO_API_URL } = process.env;
-
-function filterRecipes(
-  recipes: Recipe[],
-  options: { element?: string | null; cuisine?: string | null; search?: string | null },
-): Recipe[] {
-  const searchTerm = options.search?.toLowerCase().trim();
-  const cuisineTerm = options.cuisine?.toLowerCase().trim();
-  const elementTerm = options.element?.toLowerCase().trim();
-
-  return recipes.filter((recipe) => {
-    if (cuisineTerm) {
-      const recipeCuisine = recipe.cuisine?.toLowerCase().trim() ?? "";
-      if (!recipeCuisine.includes(cuisineTerm)) {
-        return false;
-      }
-    }
-
-    if (searchTerm) {
-      const haystack = [
-        recipe.name,
-        recipe.description,
-        recipe.cuisine,
-        ...(recipe.ingredients?.map((ingredient) => ingredient.name) ?? []),
-      ]
-        .filter((value): value is string => typeof value === "string")
-        .join(" ")
-        .toLowerCase();
-
-      if (!haystack.includes(searchTerm)) {
-        return false;
-      }
-    }
-
-    if (elementTerm) {
-      const ep = recipe.elementalProperties;
-      if (!ep) return false;
-      let dominantElement = "";
-      let maxValue = -1;
-      for (const key of ["Fire", "Water", "Earth", "Air"] as const) {
-        if (typeof ep[key] === "number" && ep[key] > maxValue) {
-          maxValue = ep[key];
-          dominantElement = key.toLowerCase();
-        }
-      }
-      if (!dominantElement.includes(elementTerm)) {
-        return false;
-      }
-    }
-
-    return true;
-  });
-}
 
 async function handleGet(request: Request) {
   const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "recipes-list" });
@@ -90,54 +38,18 @@ async function handleGet(request: Request) {
       }
     }
 
-    const element = url.searchParams.get("element");
-    const cuisine = url.searchParams.get("cuisine");
-    const search = url.searchParams.get("q") ?? url.searchParams.get("search");
-    // Default page size stays modest, but the catalog page legitimately
-    // needs the full set (~580 recipes) in one request — it scores and
-    // sorts every recipe client-side — so the hard cap is generous.
-    const limitParam = parseInt(url.searchParams.get("limit") ?? "20", 10);
-    const limit = Math.min(
-      Number.isFinite(limitParam) && limitParam > 0 ? limitParam : 20,
-      1000,
+    const page = await loadCatalogPage(
+      {
+        element: url.searchParams.get("element"),
+        cuisine: url.searchParams.get("cuisine"),
+        search: url.searchParams.get("q") ?? url.searchParams.get("search"),
+      },
+      parseCatalogWindow(
+        url.searchParams.get("limit"),
+        url.searchParams.get("offset"),
+      ),
     );
-    const offsetParam = parseInt(url.searchParams.get("offset") ?? "0", 10);
-    const offset =
-      Number.isFinite(offsetParam) && offsetParam > 0 ? offsetParam : 0;
-
-    try {
-      const { LocalRecipeService } = await import("@/services/LocalRecipeService");
-
-      let recipes = await LocalRecipeService.getAllRecipes();
-      if (recipes.length === 0) {
-        recipes = await getServerRecipes();
-      }
-      recipes = filterRecipes(recipes, { element, cuisine, search });
-
-      const total = recipes.length;
-      const slicedRecipes = recipes.slice(offset, offset + limit);
-
-      return NextResponse.json({
-        success: true,
-        // The live catalog's times and meal are placeholders (prep 30, cook
-        // 30, "main" on every row); serve the authored ones, or none.
-        recipes: await withAuthoredFactsAll(slicedRecipes),
-        total,
-        limit,
-        offset,
-      });
-    } catch (apiError) {
-      logger.warn("[recipes] backend service unavailable:", apiError);
-      const recipes = filterRecipes(await getServerRecipes(), { element, cuisine, search });
-      return NextResponse.json({
-        success: true,
-        recipes: await withAuthoredFactsAll(recipes.slice(offset, offset + limit)),
-        total: recipes.length,
-        limit,
-        offset,
-        note: "Recipe database temporarily unavailable; using static cuisine fallback",
-      });
-    }
+    return NextResponse.json(page);
   } catch (error) {
     logger.error("[recipes] Error:", error);
     return NextResponse.json({ success: false, error: "Failed to fetch recipes" }, { status: 500 });
@@ -189,7 +101,7 @@ async function handlePost(request: Request) {
     if (element) params.set("element", element);
     if (cuisine) params.set("cuisine", cuisine);
     if (search) params.set("q", search);
-    params.set("limit", String(limit));
+    if (limit !== undefined) params.set("limit", String(limit));
     params.set("offset", String(offset));
 
     const syntheticReq = new Request(`${new URL(request.url).origin}/api/recipes?${params}`);

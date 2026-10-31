@@ -111,7 +111,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
   {
     name: "generate_cosmic_recipe",
     title: "Cosmic recipe search",
-    description: `Search the local recipe catalog by keywords, cuisine, diet and element. Authenticated calls debit 2.5 of each ESMS token (10 total), settled only when the search succeeds; without an idempotency key every call charges. ${RETRY_DOC} ${AUTH_DOC}`,
+    description: `Search the whole local recipe catalog by keywords, cuisine, diet and element. Returns 5 matches by default; limit and offset (no maximum) page through every match, and totalMatching reports how many there are. Authenticated calls debit 2.5 of each ESMS token (10 total), settled only when the search succeeds; without an idempotency key every call charges. ${RETRY_DOC} ${AUTH_DOC}`,
     inputSchema: TOOL_INPUT_SCHEMAS.generate_cosmic_recipe,
     outputSchema: TOOL_OUTPUT_SCHEMAS.generate_cosmic_recipe,
     annotations: annotations(false, false, false),

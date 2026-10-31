@@ -144,6 +144,7 @@ const ingredientAnalysis = shape(
 const recipeSearch = shape({
   totalMatching: integer,
   returnedCount: integer,
+  offset: integer,
   recipes: {
     type: "array",
     items: shape(

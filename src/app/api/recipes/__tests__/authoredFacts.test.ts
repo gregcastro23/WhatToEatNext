@@ -105,7 +105,8 @@ describe("GET /api/recipes", () => {
     mockGetAllRecipes.mockReset();
     mockGetAllRecipes.mockResolvedValueOnce(LIVE).mockRejectedValueOnce(new Error("catalog unavailable"));
     const served = await list();
-    expect(served.size).toBe(LIVE.length);
+    // The live rows are listed first; static-only recipes follow them.
+    expect([...served.keys()]).toEqual(expect.arrayContaining(LIVE.map((r) => r.id)));
     for (const recipe of served.values()) for (const key of [...TIME_KEYS, "mealType"]) expect(recipe).not.toHaveProperty(key);
   }, 60_000);
 });
