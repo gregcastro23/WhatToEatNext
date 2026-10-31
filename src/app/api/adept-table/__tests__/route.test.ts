@@ -49,12 +49,12 @@ jest.mock("@/services/LocalRecipeService", () => ({
         cookTime: "30",
         timeToMake: "60 minutes",
         mealType: ["main"],
-        alchemical_properties: {
-          Spirit: 30,
-          Essence: 20,
-          Matter: 25,
-          Substance: 25,
-        },
+        // The recipe's ESMS totals: exactly the chart's proportions below, so it
+        // is the best match in the catalog and ranks first.
+        spirit: 2.5,
+        essence: 2.5,
+        matter: 2.5,
+        substance: 2.5,
       },
     ]),
   },
@@ -128,6 +128,7 @@ describe("POST /api/adept-table", () => {
   });
 
   it("200s on valid payload and computes composite chart recommendations", async () => {
+    // The first call builds the static catalog the midpoint ranks.
     const res = await POST(
       makeRequest({
         hostData: { birthData: { year: 1990 } },
@@ -144,5 +145,5 @@ describe("POST /api/adept-table", () => {
     for (const key of ["prepTime", "cookTime", "timeToMake", "mealType"]) {
       expect(data.recipes[0]).not.toHaveProperty(key);
     }
-  });
+  }, 60_000);
 });

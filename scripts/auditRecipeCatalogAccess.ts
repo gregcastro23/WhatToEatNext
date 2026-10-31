@@ -41,15 +41,13 @@ async function main(): Promise<boolean> {
     ]);
   const { getServerRecipes } = await import("../src/actions/recipes");
   const { LocalRecipeService } = await import("../src/services/LocalRecipeService");
-  const { listCanonicalRecipeIds } = await import("../src/lib/recipes/recipeRefResolver");
+  const { listCanonicalRecipeIds, servesStaticFallback } = await import("../src/lib/recipes/recipeRefResolver");
 
   const everything = { limit: null, offset: 0 };
-  // One cold load first, alone: concurrent cold loads race on the pool and on
-  // the loader's shared degraded flag. The degraded loader returns the static
-  // array itself, so identity is the race-free test for "fell back".
+  // One cold load first, alone, so the database pool is not stampeded.
   const staticRecipes = await getServerRecipes();
   const live = await LocalRecipeService.getAllRecipes();
-  const degraded = live === staticRecipes;
+  const degraded = servesStaticFallback(live, staticRecipes);
   const canonicalIds = await listCanonicalRecipeIds();
   const page = await loadCatalogPage({}, everything);
   const all = await loadCatalogPage({ cuisine: "all" }, everything);

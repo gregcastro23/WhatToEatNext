@@ -104,6 +104,20 @@ function safeDecode(ref: string): string {
 }
 
 /**
+ * True when the "live" catalog is the static list: LocalRecipeService's
+ * fallback returns the cached static array itself, and getServerRecipes hands
+ * every caller that one array. Identity is race-free; isCatalogDegraded() is
+ * not, because it is one shared flag that any later load resets, so after an
+ * await it can describe another request's list.
+ */
+export function servesStaticFallback(
+  liveRecipes: readonly Recipe[],
+  staticRecipes: readonly Recipe[],
+): boolean {
+  return liveRecipes === staticRecipes;
+}
+
+/**
  * Bridge a non-live recipe id to something `/recipes/[recipeId]` can render.
  * Returns null for unknown ids, and while the live catalog is degraded (DB
  * unreachable): then the "live" list IS the static list, and pointing a
@@ -114,7 +128,7 @@ export async function resolveRecipeRef(ref: string): Promise<ResolvedRecipeRef |
     getServerRecipes(),
     LocalRecipeService.getAllRecipes(),
   ]);
-  if (LocalRecipeService.isCatalogDegraded()) return null;
+  if (servesStaticFallback(liveRecipes, staticRecipes)) return null;
   const resolver = resolverFor(staticRecipes, liveRecipes);
   const hit = resolver.index.resolve(safeDecode(ref));
   if (!hit) return null;
@@ -146,7 +160,7 @@ const NO_LIVE_RECIPES: readonly Recipe[] = [];
  */
 export async function loadStaticTwinBridge(): Promise<StaticTwinBridge> {
   const [staticRecipes, liveRecipes] = await Promise.all([getServerRecipes(), LocalRecipeService.getAllRecipes()]);
-  const live = LocalRecipeService.isCatalogDegraded() ? NO_LIVE_RECIPES : liveRecipes;
+  const live = servesStaticFallback(liveRecipes, staticRecipes) ? NO_LIVE_RECIPES : liveRecipes;
   const { index, staticById, staticIdByLiveId } = resolverFor(staticRecipes, live);
   return {
     staticRecipes,
@@ -260,10 +274,9 @@ export async function listCanonicalRecipeIds(): Promise<string[]> {
  */
 export async function loadCanonicalCatalog(): Promise<Recipe[]> {
   const [staticRecipes, liveRecipes] = await Promise.all([getServerRecipes(), LocalRecipeService.getAllRecipes()]);
-  // The degraded loader hands back the cached static array itself. Compare
-  // that, not isCatalogDegraded(): the flag is one shared static that a
-  // concurrent load resets, so it can describe another request's list.
-  if (liveRecipes.length === 0 || liveRecipes === staticRecipes) return staticRecipes.map(toPublicRecipe);
+  if (liveRecipes.length === 0 || servesStaticFallback(liveRecipes, staticRecipes)) {
+    return staticRecipes.map(toPublicRecipe);
+  }
   const { index, staticById } = resolverFor(staticRecipes, liveRecipes);
   const staticOnly = index.staticOnlyIds.flatMap((id) => {
     const recipe = staticById.get(id);
