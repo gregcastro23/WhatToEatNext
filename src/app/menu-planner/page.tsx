@@ -11,11 +11,11 @@ import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useState } from "react";
 import { useToast } from "@/components/common/Toast";
 import PlannerHeader, { type PlannerSyncInfo } from "@/components/menu-planner/shell/PlannerHeader";
-import ResponsivePlannerRail from "@/components/menu-planner/shell/ResponsivePlannerRail";
 import {
   PlannerUIProvider,
   usePlannerUI,
 } from "@/components/menu-planner/shell/PlannerUIContext";
+import ResponsivePlannerRail from "@/components/menu-planner/shell/ResponsivePlannerRail";
 import { ALL_MEAL_TYPES, MAIN_MEAL_TYPES, usePlanActions } from "@/components/menu-planner/shell/usePlanActions";
 import {
   MenuPlannerProvider,
@@ -49,6 +49,9 @@ const SaveTemplateModal = dynamic(
 );
 const ShareMenuModal = dynamic(
   () => import("@/components/menu-planner/modals/ShareMenuModal"),
+);
+const ElementalHarmonyModal = dynamic(
+  () => import("@/components/menu-planner/modals/ElementalHarmonyModal"),
 );
 const PlanSettingsDrawer = dynamic(
   () => import("@/components/menu-planner/shell/PlanSettingsDrawer"),
@@ -164,6 +167,12 @@ function MenuPlannerContent(): React.ReactElement {
           onClose={() => closeModal()}
           onSuccess={(msg) => showSuccess(msg)}
           onError={(msg) => showError(msg)}
+        />
+
+        {/* Elemental Harmony Modal */}
+        <ElementalHarmonyModal
+          isOpen={state.modal === "harmony"}
+          onClose={() => closeModal()}
         />
 
         {/* Recipe Detail Modal */}

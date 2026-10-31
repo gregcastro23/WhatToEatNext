@@ -14,7 +14,7 @@
  * @file src/components/menu-planner/shell/WeekSummaryStrip.tsx
  */
 
-import { BarChart3, ChevronRight } from "lucide-react";
+import { BarChart3, ChevronRight, Sparkles } from "lucide-react";
 import React from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type { ElementalProperties } from "@/types/recipe";
@@ -66,11 +66,19 @@ export default function WeekSummaryStrip(): React.ReactElement {
         </span>
       </div>
 
-      {/* Elemental Balance Mini-Meter */}
-      <div className="flex items-center gap-3">
+      {/* Elemental Balance Mini-Meter & Opener */}
+      <button
+        type="button"
+        onClick={() => openModal("harmony")}
+        title="Inspect Weekly & Daily Elemental Harmony"
+        className="flex items-center gap-3 p-1.5 -m-1.5 rounded-xl hover:bg-surface-container-high/60 transition-colors text-left group focus:outline-none focus-visible:ring-1 focus-visible:ring-active-violet"
+      >
         <div className="flex flex-col">
           <div className="flex items-center justify-between text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">
-            <span>Elemental</span>
+            <span className="flex items-center gap-1 group-hover:text-primary transition-colors">
+              <span>Elemental</span>
+              <Sparkles className="h-2.5 w-2.5 text-gold-accent" />
+            </span>
             <span className="text-primary font-semibold ml-2">{verdict}</span>
           </div>
           <div className="flex w-32 h-1.5 rounded-full overflow-hidden bg-surface-container-high">
@@ -90,7 +98,7 @@ export default function WeekSummaryStrip(): React.ReactElement {
             })}
           </div>
         </div>
-      </div>
+      </button>
 
       {/* Budget / Cost Snapshot */}
       <div className="flex items-center gap-2">

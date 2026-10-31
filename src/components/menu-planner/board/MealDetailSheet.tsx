@@ -29,7 +29,7 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import SauceSelector from "@/components/menu-planner/SauceSelector";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type { MealSlot as MealSlotType } from "@/types/menuPlanner";
@@ -55,6 +55,8 @@ export default function MealDetailSheet({
   onRemove,
 }: MealDetailSheetProps): React.ReactElement {
   const {
+    inventory,
+    setInventory,
     updateMealServings,
     lockMeal,
     unlockMeal,
@@ -65,6 +67,34 @@ export default function MealDetailSheet({
   const { notify } = usePlannerUI();
 
   const [showSauceSelector, setShowSauceSelector] = useState(false);
+
+  const ingredientsList = useMemo(() => {
+    if (!slot?.recipe?.ingredients) return [];
+    const rawList = slot.recipe.ingredients;
+    const inventoryList = Array.isArray(inventory) ? inventory : [];
+    const pantrySet = new Set(inventoryList.map((i) => i.toLowerCase().trim()));
+    return rawList
+      .map((raw) => {
+        const { name, unit } = raw;
+        const amount = raw.amount ? raw.amount * slot.servings : null;
+        const lower = name.toLowerCase().trim();
+        const inPantry = lower
+          ? pantrySet.has(lower) || Array.from(pantrySet).some((p) => lower.includes(p) || p.includes(lower))
+          : false;
+        return { name, amount, unit, inPantry };
+      })
+      .filter((i) => Boolean(i.name));
+  }, [slot?.recipe?.ingredients, slot?.servings, inventory]);
+
+  const handleAddToPantry = (name: string): void => {
+    const lower = name.toLowerCase().trim();
+    const inventoryList = Array.isArray(inventory) ? inventory : [];
+    if (!lower || inventoryList.includes(lower)) return;
+    if (typeof setInventory === "function") {
+      setInventory([...inventoryList, lower]);
+    }
+    notify(`Added "${name}" to Posso Pantry`);
+  };
 
   if (!slot?.recipe) {
     return <></>;
@@ -312,6 +342,51 @@ export default function MealDetailSheet({
             </div>
           )}
 
+          {/* Ingredients & Pantry Readiness */}
+          {ingredientsList.length > 0 && (
+            <div className="p-4 rounded-xl bg-surface-container-low border border-muted space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-bold text-primary font-mono uppercase tracking-wider">
+                    Ingredients & Pantry Status
+                  </p>
+                  <p className="text-[11px] text-on-surface-variant">
+                    {ingredientsList.filter((i) => i.inPantry).length}/{ingredientsList.length} in Posso Pantry
+                  </p>
+                </div>
+              </div>
+              <ul className="space-y-1.5 text-xs max-h-48 overflow-y-auto pr-1">
+                {ingredientsList.map((item, idx) => (
+                  <li
+                    key={`${item.name}-${idx}`}
+                    className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-surface-container/60 border border-muted/50"
+                  >
+                    <span className="font-medium text-primary truncate">
+                      {item.amount !== null ? `${item.amount} ${item.unit} ` : ""}
+                      {item.name}
+                    </span>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {item.inPantry ? (
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-earth-matter/15 text-earth-matter border border-earth-matter/30">
+                          ✓ In Pantry
+                        </span>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => handleAddToPantry(item.name)}
+                          className="px-2 py-0.5 rounded text-[10px] font-mono bg-surface-container-high text-on-surface-variant hover:text-primary hover:border-active-violet border border-muted transition-colors"
+                          title="Add to Posso Pantry"
+                        >
+                          + Add to Pantry
+                        </button>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {/* Full Recipe Link */}
           <div>
             <Link
@@ -334,9 +409,7 @@ export default function MealDetailSheet({
             addSauceToMeal(slot.id, sauceId);
             setShowSauceSelector(false);
           }}
-          {...(recipe.elementalProperties !== undefined
-            ? { recipeElementalProperties: recipe.elementalProperties }
-            : {})}
+          recipeElementalProperties={recipe.elementalProperties}
           {...(recipe.mappedAlchemy
             ? { recipeAlchemicalProperties: recipe.mappedAlchemy }
             : {})}
