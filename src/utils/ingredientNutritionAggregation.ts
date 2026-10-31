@@ -31,7 +31,7 @@ import {
   type CompleteOnlySource,
 } from "./nutrientCompleteness";
 import { accountsForRecipe, type WeighedLine } from "./nutritionCompleteness";
-import { UNIT_CONVERSIONS, convertToGrams, isCountUnit } from "./unitConversion";
+import { UNIT_CONVERSIONS, convertToGrams, convertToGramsDetailed, isCountUnit } from "./unitConversion";
 import type { NormalizedRecipeNutrition } from "./recipeNutrition";
 
 // `resolveIngredientByName` (added here in #555) was lifted into the shared
@@ -269,11 +269,14 @@ function macrolessNutrition(
 function weighLine(ing: Recipe["ingredients"][number]): WeighedContribution {
   const amount = Number(ing.amount) || 1;
   const unit = String(ing.unit);
+  // The line's own words name the cut, where USDA weighed a measure several ways.
+  const words = `${ing.name} ${ing.notes ?? ""}`;
   const found = resolveIngredientByName(ing.name);
   if (!found?.nutritionalProfile) {
-    return { line: { kind: "unresolved", grams: convertToGrams(amount, unit, ing.name) }, nutrition: null };
+    return { line: { kind: "unresolved", grams: convertToGrams(amount, unit, ing.name, words) }, nutrition: null };
   }
-  const grams = convertToGrams(amount, unit, found.name);
+  const weighed = convertToGramsDetailed(amount, unit, found.name, words);
+  const grams = weighed?.grams ?? null;
   // A profile with no calories or macros (water, salt) adds no energy at any mass, but sodium.
   if (!computeIngredientNutrition(found, 1, "g")) {
     // "1 piece" of salt is not 50 g: a count says nothing about how much of it there is.
@@ -281,7 +284,9 @@ function weighLine(ing: Recipe["ingredients"][number]): WeighedContribution {
     return { line: { kind: "zero", grams }, nutrition: macrolessNutrition(found, grams, massKnown), gapKeys: MACROLESS_KEYS };
   }
   if (grams === null) return { line: { kind: "unweighable" }, nutrition: null, found };
-  return { line: { kind: "counted", grams }, nutrition: computeIngredientNutrition(found, grams, "g"), found };
+  const line: WeighedLine =
+    weighed?.spread !== undefined ? { kind: "counted", grams, spread: weighed.spread } : { kind: "counted", grams };
+  return { line, nutrition: computeIngredientNutrition(found, grams, "g"), found };
 }
 
 type Ingredients = Recipe["ingredients"];
@@ -300,10 +305,16 @@ function absorbFryingFat(ingredients: Ingredients, weighed: WeighedContribution[
   const fat = medium ? weighed[medium.index] : undefined;
   if (!medium || !fat?.found) return;
   const friedGrams = lines.reduce((sum, line, i) => (i === medium.index ? sum : sum + (line.grams ?? 0)), 0);
+  const friedSpread = weighed.reduce(
+    (sum, { line }, i) => sum + (i !== medium.index && line.kind === "counted" ? (line.spread ?? 0) : 0),
+    0,
+  );
   const listed = lines[medium.index]?.grams ?? null;
   const absorbed = absorbedFatGrams(listed, friedGrams, medium.method);
+  // Heavier cuts can absorb more fat; preserve that uncertainty and the listed-fat cap.
+  const spread = absorbedFatGrams(listed, friedGrams + friedSpread, medium.method) - absorbed;
   weighed[medium.index] = {
-    line: { kind: "counted", grams: absorbed },
+    line: { kind: "counted", grams: absorbed, ...(spread > 0 ? { spread } : {}) },
     nutrition: absorbed > 0 ? computeIngredientNutrition(fat.found, absorbed, "g") : null,
     found: fat.found,
   };
