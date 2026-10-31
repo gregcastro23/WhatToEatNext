@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>Alchm Kitchen</ShortName>
+  <Description>Search recipes, ingredients, cuisines, and culinary alchemy on Alchm Kitchen</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Image width="64" height="64" type="image/png">https://alchm.kitchen/alchm-icon-64.png</Image>
+  <Url type="text/html" method="get" template="https://alchm.kitchen/search?q={searchTerms}"/>
+  <Url type="application/x-suggestions+json" method="get" template="https://alchm.kitchen/api/search/suggest?q={searchTerms}"/>
+</OpenSearchDescription>
