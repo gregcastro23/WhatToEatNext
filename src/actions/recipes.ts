@@ -65,6 +65,7 @@ interface RawCuisineDish {
 }
 
 let _cachedRecipes: IndexedRecipe[] | null = null;
+let _inFlightRecipes: Promise<Recipe[]> | null = null;
 let _cachedIndex: RecipeIndex | null = null;
 let _nutritionStats: NutritionCoverageStats = {
   total: 0,
@@ -571,10 +572,23 @@ function buildRecipeIndex(recipes: IndexedRecipe[]): RecipeIndex {
  * Prevents database code from being bundled into client components.
  */
 export async function getServerRecipes(): Promise<Recipe[]> {
+  if (_cachedRecipes) return _cachedRecipes;
+  // Overlapping cold callers share one load, hence one array: without this,
+  // five concurrent calls built five distinct 1,113-recipe arrays, and callers
+  // that tell "the live catalog fell back to the static list" by array identity
+  // (LocalRecipeService's fallback returns this array) could see two arrays
+  // with the same content and conclude the catalog was live.
+  if (!_inFlightRecipes) {
+    const load = loadServerRecipes().finally(() => {
+      if (_inFlightRecipes === load) _inFlightRecipes = null;
+    });
+    _inFlightRecipes = load;
+  }
+  return _inFlightRecipes;
+}
+
+async function loadServerRecipes(): Promise<Recipe[]> {
   try {
-    if (_cachedRecipes) {
-      return _cachedRecipes;
-    }
     const cuisines = (
       await Promise.all(
         PRIMARY_CUISINE_KEYS.map(async (key) => {

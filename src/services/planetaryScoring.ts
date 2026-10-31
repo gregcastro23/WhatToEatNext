@@ -197,8 +197,14 @@ export class PlanetaryScoringService {
     return this.instance;
   }
 
+  /** The lookup in progress, so overlapping callers share one rather than each making their own. */
+  private inFlightPositions: Promise<ScoredPlanetaryPosition[]> | null = null;
+
   /**
-   * Fetch current planetary positions, with caching.
+   * Current planetary positions, cached for 15 minutes. Callers that overlap
+   * on a cold cache share one lookup: scoring a recipe list with a call per
+   * recipe used to make one /api/astrologize request each (rate limited to 60
+   * a minute), so every caller had to remember to warm the cache first.
    */
   async getCurrentPlanetaryPositions(): Promise<ScoredPlanetaryPosition[]> {
     const now = new Date();
@@ -209,37 +215,52 @@ export class PlanetaryScoringService {
     ) {
       return this.cachedPositions;
     }
+    if (this.inFlightPositions) return this.inFlightPositions;
+    const load = this.loadPlanetaryPositions(now).finally(() => {
+      if (this.inFlightPositions === load) this.inFlightPositions = null;
+    });
+    this.inFlightPositions = load;
+    return load;
+  }
+
+  private async loadPlanetaryPositions(now: Date): Promise<ScoredPlanetaryPosition[]> {
+    const positions = await this.fetchPositions(now);
+    this.cachedPositions = positions;
+    this.lastCalculation = now;
+    return positions;
+  }
+
+  private async fetchPositions(now: Date): Promise<ScoredPlanetaryPosition[]> {
+    // A server has no origin to resolve the relative "/api/astrologize"
+    // against, so the request always threw and fell through to this same
+    // local engine (the one the route itself falls back to). Go there directly.
+    if (typeof window === "undefined") return this.localPositions(now);
 
     try {
       const response = await fetch("/api/astrologize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: AbortSignal.timeout(4000), // 4 second timeout
+        // The route reads these fields as UTC (Date.UTC); local fields put the
+        // planets at the wrong instant for everyone outside UTC.
         body: JSON.stringify({
-          year: now.getFullYear(),
-          month: now.getMonth() + 1,
-          date: now.getDate(),
-          hour: now.getHours(),
-          minute: now.getMinutes(),
+          year: now.getUTCFullYear(),
+          month: now.getUTCMonth() + 1,
+          date: now.getUTCDate(),
+          hour: now.getUTCHours(),
+          minute: now.getUTCMinutes(),
         }),
       });
 
       if (response.ok) {
         const data = (await response.json()) as Record<string, unknown>;
-        const positions = this.extractPositions(data);
-        this.cachedPositions = positions;
-        this.lastCalculation = now;
-        return positions;
+        return this.extractPositions(data);
       }
     } catch {
-      // Fall through to fallback
+      // Fall through to the local engine
     }
 
-    // Fallback: use estimated positions
-    const fallback = this.estimatePositions(now);
-    this.cachedPositions = fallback;
-    this.lastCalculation = now;
-    return fallback;
+    return this.localPositions(now);
   }
 
   /**
@@ -789,7 +810,12 @@ export class PlanetaryScoringService {
     return positions;
   }
 
-  private estimatePositions(date: Date): ScoredPlanetaryPosition[] {
+  /**
+   * Positions from the local astronomy-engine: the same function the
+   * /api/astrologize route falls back to, sub-arcminute for the planets. Not
+   * an approximation, despite the call sites that used to be named for one.
+   */
+  private localPositions(date: Date): ScoredPlanetaryPosition[] {
     try {
       const accuratePositions = getAccuratePlanetaryPositions(date);
       return SCORING_PLANETS.map((planet) => {

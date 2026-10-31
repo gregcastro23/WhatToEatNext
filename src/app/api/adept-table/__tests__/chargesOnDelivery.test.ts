@@ -33,18 +33,18 @@ jest.mock("@/lib/validation/apiSchemas", () => {
   };
 });
 
+let mockChartQuantities = { Spirit: 25, Essence: 25, Matter: 25, Substance: 25 };
+
 jest.mock("@/services/groupNatalChartService", () => ({
   calculateCompositeNatalChart: () => ({
     dominantElement: "Water",
-    alchemicalProperties: { Spirit: 25, Essence: 25, Matter: 25, Substance: 25 },
+    alchemicalProperties: mockChartQuantities,
   }),
 }));
 
-jest.mock("@/services/LocalRecipeService", () => ({
-  LocalRecipeService: { getAllRecipes: async () => [{ id: "r1", name: "Soup" }] },
-}));
-
 jest.mock("@/lib/recipes/recipeRefResolver", () => ({
+  loadCanonicalCatalog: async () => [{ id: "r1", name: "Soup", spirit: 1, essence: 1, matter: 1, substance: 1 }],
+  loadStaticTwinBridge: async () => ({ staticRecipeFor: () => null }),
   withAuthoredFactsAll: async (recipes: unknown[]) => recipes,
 }));
 
@@ -62,6 +62,7 @@ async function midpoint(): Promise<Response> {
 describe("Alchemical Midpoint charges on delivery", () => {
   beforeEach(() => {
     jest.resetModules();
+    mockChartQuantities = { Spirit: 25, Essence: 25, Matter: 25, Substance: 25 };
     mockQuote.mockReset().mockResolvedValue({ feature: "alchemicalMidpoint", exempt: false });
     mockCollect.mockReset().mockResolvedValue(null);
   });
@@ -73,6 +74,19 @@ describe("Alchemical Midpoint charges on delivery", () => {
     expect(await res.json()).toEqual(expect.objectContaining({ success: true, recipes: expect.any(Array) }));
     expect(mockQuote).toHaveBeenCalledWith(PAYER, "alchemicalMidpoint");
     expect(mockCollect).toHaveBeenCalledTimes(1);
+  });
+
+  it("charges nothing for a chart with no alchemical quantities to match", async () => {
+    mockChartQuantities = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+
+    const res = await midpoint();
+
+    expect(res.status).toBe(422);
+    expect(await res.json()).toEqual({
+      success: false,
+      error: "The composite chart has no alchemical quantities to match.",
+    });
+    expect(mockCollect).not.toHaveBeenCalled();
   });
 
   it("withholds the composite chart when the charge is refused", async () => {

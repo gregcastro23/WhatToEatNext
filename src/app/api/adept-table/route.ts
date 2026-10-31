@@ -8,10 +8,10 @@ import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { collectOrRefuse, quoteFeature } from "@/lib/economy/featureCharge";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
-import { withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
+import { chartQuantities, rankByAffinity, recipeQuantities } from "@/lib/recipes/alchemicalMatch";
+import { loadCanonicalCatalog, loadStaticTwinBridge, withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
 import { AdeptTableRequestSchema } from "@/lib/validation/apiSchemas";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
-import type { AlchemicalProperties } from "@/types/celestial";
 import type { GroupMember } from "@/types/natalChart";
 import type { NextRequest } from "next/server";
 
@@ -72,36 +72,29 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const compositeChart = calculateCompositeNatalChart(groupMembers, "premium-table-session");
 
-    // Fetch all recipes to score against the composite chart
-    const { LocalRecipeService } = await import("@/services/LocalRecipeService");
-    const recipes = await LocalRecipeService.getAllRecipes();
-
-    // Score recipes against the composite chart
-    const scoredRecipes = recipes.map((r) => {
-      // Simple composite harmony score
-      const rProp = (r.alchemical_properties as Partial<AlchemicalProperties> | undefined) ?? {
-        Spirit: 25,
-        Essence: 25,
-        Matter: 25,
-        Substance: 25,
-      };
-      const cProp = compositeChart.alchemicalProperties;
-
-      const harmony = 100 - (
-        Math.abs((rProp.Spirit ?? 0) - cProp.Spirit) +
-        Math.abs((rProp.Essence ?? 0) - cProp.Essence) +
-        Math.abs((rProp.Matter ?? 0) - cProp.Matter) +
-        Math.abs((rProp.Substance ?? 0) - cProp.Substance)
+    const target = chartQuantities(compositeChart.alchemicalProperties);
+    if (!target) {
+      return NextResponse.json(
+        { success: false, error: "The composite chart has no alchemical quantities to match." },
+        { status: 422 },
       );
+    }
 
-      return {
-        ...r,
-        score: harmony,
-        planetaryReason: `Harmonizes perfectly with the Alchemical Midpoint (${compositeChart.dominantElement} dominant).`,
-      };
-    });
-
-    scoredRecipes.sort((a, b) => b.score - a.score);
+    // Rank the whole catalog by how closely each recipe's alchemical profile
+    // matches the midpoint. The static catalog carries every recipe's ESMS
+    // (the live rows may not), so a recipe without its own borrows its static
+    // twin's; one with neither is not ranked.
+    const [catalog, bridge] = await Promise.all([loadCanonicalCatalog(), loadStaticTwinBridge()]);
+    const ranked = rankByAffinity(
+      catalog,
+      target,
+      (recipe) => recipeQuantities(recipe) ?? recipeQuantities(bridge.staticRecipeFor(String(recipe.id))),
+    );
+    const scoredRecipes = ranked.map(({ recipe, score }) => ({
+      ...recipe,
+      score,
+      planetaryReason: `Harmonizes perfectly with the Alchemical Midpoint (${compositeChart.dominantElement} dominant).`,
+    }));
     // Top 3 for the table, with their authored times and meal (not the live placeholders)
     const tableRecipes = await withAuthoredFactsAll(scoredRecipes.slice(0, 3));
 
