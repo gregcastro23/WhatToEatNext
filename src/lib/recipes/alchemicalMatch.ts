@@ -11,7 +11,9 @@
  * of proportion they have in common.
  *
  * Quantities are never derived from a recipe's elements; they come from the
- * recipe's own ESMS fields, or its static twin's, or the recipe is not ranked.
+ * recipe's own ESMS fields (a live row's are its stored
+ * `read_model.alchemical_quantities`), or its static twin's, or the recipe is
+ * not ranked.
  */
 import type { Recipe } from "@/types/recipe";
 
@@ -39,6 +41,22 @@ export function recipeQuantities(
 ): EsmsQuantities | null {
   if (!recipe) return null;
   const { spirit, essence, matter, substance } = recipe;
+  if (!isQuantity(spirit) || !isQuantity(essence) || !isQuantity(matter) || !isQuantity(substance)) return null;
+  const quantities = { spirit, essence, matter, substance };
+  return totalOf(quantities) > 0 ? quantities : null;
+}
+
+/**
+ * The ESMS totals stored in a live recipe's `read_model.alchemical_quantities`
+ * (written by backfillRecipeAlchemicalQuantities and the Hsca sync, from the
+ * same ingredient sum the static catalog uses), or null when the value is
+ * absent, malformed or all zero. A zero profile means no ingredient matched
+ * the catalog, which is no data, not a neutral profile.
+ */
+export function storedQuantities(value: unknown): EsmsQuantities | null {
+  if (typeof value !== "object" || value === null) return null;
+  if (!("spirit" in value) || !("essence" in value) || !("matter" in value) || !("substance" in value)) return null;
+  const { spirit, essence, matter, substance } = value;
   if (!isQuantity(spirit) || !isQuantity(essence) || !isQuantity(matter) || !isQuantity(substance)) return null;
   const quantities = { spirit, essence, matter, substance };
   return totalOf(quantities) > 0 ? quantities : null;
