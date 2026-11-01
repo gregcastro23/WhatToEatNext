@@ -15,6 +15,7 @@ import {
   esmsAffinity,
   rankByAffinity,
   recipeQuantities,
+  storedQuantities,
   type EsmsQuantities,
 } from "@/lib/recipes/alchemicalMatch";
 import type { Recipe } from "@/types/recipe";
@@ -79,6 +80,25 @@ describe("recipeQuantities and chartQuantities", () => {
     expect(recipeQuantities(recipe("nan", q(Number.NaN, 1, 1, 1)))).toBeNull();
     expect(recipeQuantities(null)).toBeNull();
     expect(recipeQuantities(undefined)).toBeNull();
+  });
+
+  it("reads the totals a live row stores in read_model.alchemical_quantities", () => {
+    // The shape backfillRecipeAlchemicalQuantities writes: extra fields are ignored.
+    const stored = { spirit: 1, essence: 2, matter: 3, substance: 4, totalASharp: 10, matchRate: 0.8 };
+    expect(storedQuantities(stored)).toEqual(q(1, 2, 3, 4));
+  });
+
+  it("returns null for stored quantities that are absent, malformed or empty", () => {
+    expect(storedQuantities(undefined)).toBeNull();
+    expect(storedQuantities(null)).toBeNull();
+    expect(storedQuantities("1,2,3,4")).toBeNull();
+    expect(storedQuantities([1, 2, 3, 4])).toBeNull();
+    expect(storedQuantities({ spirit: 1, essence: 2, matter: 3 })).toBeNull();
+    expect(storedQuantities({ spirit: "1", essence: 2, matter: 3, substance: 4 })).toBeNull();
+    expect(storedQuantities({ spirit: Number.NaN, essence: 2, matter: 3, substance: 4 })).toBeNull();
+    expect(storedQuantities({ spirit: -1, essence: 2, matter: 3, substance: 4 })).toBeNull();
+    // No ingredient matched the catalog: no data, not a neutral profile.
+    expect(storedQuantities({ spirit: 0, essence: 0, matter: 0, substance: 0, matchRate: 0 })).toBeNull();
   });
 
   it("reads a chart's capitalized ESMS, and refuses one with nothing to match", () => {

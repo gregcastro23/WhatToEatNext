@@ -3,6 +3,7 @@ import { after } from "next/server";
 import { getValidatedAssetUrl } from "@/lib/assets";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
+import { storedQuantities } from "@/lib/recipes/alchemicalMatch";
 import { redisGet, redisSet, redisDel } from "@/lib/redis";
 import {
   RecipeNutritionSchema,
@@ -51,6 +52,8 @@ interface RecipeReadModel {
   servings?: number | null;
   elemental_properties?: RecipeReadModelElementalProperties | null;
   nutritional_profile?: NonNullable<Recipe['nutrition']> | null;
+  /** { spirit, essence, matter, substance, totalASharp, matchRate }: the ingredient sum. */
+  alchemical_quantities?: unknown;
 }
 
 interface DbRecipeRow {
@@ -243,6 +246,9 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
     const updatedAt = row.updated_at ? new Date(row.updated_at).toISOString() : undefined;
     const nutrition = parseRecipeNutrition(rm.nutritional_profile ?? row.nutritional_profile);
     const cuisine = publicCuisine(rm.cuisine ?? row.cuisine);
+    // The same fields the static catalog carries, so a recipe that exists only
+    // in the database can still be matched to a chart (/api/adept-table).
+    const esms = storedQuantities(rm.alchemical_quantities);
 
     return {
       id: rm.id ?? row.id,
@@ -271,6 +277,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
       isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree") || hasDietaryTag(dietaryTags, "gluten-free"),
       isDairyFree: hasDietaryTag(dietaryTags, "dairyfree") || hasDietaryTag(dietaryTags, "dairy-free"),
       ...(nutrition ? { nutrition } : {}),
+      ...(esms ? { spirit: esms.spirit, essence: esms.essence, matter: esms.matter, substance: esms.substance } : {}),
       tags: dietaryTags,
       ...(createdAt ? { createdAt } : {}),
       ...(updatedAt ? { updatedAt } : {}),
