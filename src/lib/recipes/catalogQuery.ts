@@ -26,7 +26,7 @@ export function cuisineKey(value: string): string {
 }
 
 /** `all` (or no term) means every cuisine, not a cuisine called "all". */
-function cuisineTermKey(term: string | null | undefined): string | null {
+export function cuisineTermKey(term: string | null | undefined): string | null {
   const key = cuisineKey(term ?? "");
   return key === "" || key === "all" || key === "allcuisines" ? null : key;
 }
@@ -35,7 +35,8 @@ function matchesCuisine(recipe: Recipe, termKey: string): boolean {
   return cuisineKey(recipe.cuisine ?? "").includes(termKey);
 }
 
-function haystackOf(recipe: Recipe): string {
+/** The text a search term is looked for in: name, description, cuisine and ingredient names. */
+export function haystackOf(recipe: Recipe): string {
   return [
     recipe.name,
     recipe.description,
