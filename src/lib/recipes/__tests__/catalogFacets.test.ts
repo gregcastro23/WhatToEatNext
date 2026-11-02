@@ -65,6 +65,31 @@ describe("searchRecipes", () => {
     expect(searchRecipes(pool, "jalapeño").map((r) => r.name)).toEqual(["Jalapeño Poppers"]);
   });
 
+  it("finds a name with a curly apostrophe whether or not the query has an apostrophe", () => {
+    // The catalog spells it "SHEPHERD’S PIE" (U+2019); nobody types that.
+    const shepherds = [dish("SHEPHERD’S PIE", "British")];
+    for (const query of ["shepherd's pie", "shepherd’s pie", "shepherds pie", "SHEPHERD’S"]) {
+      expect(searchRecipes(shepherds, query)).toEqual(shepherds);
+    }
+  });
+
+  it("folds the letters that have no accent to strip, so the ASCII spelling finds them", () => {
+    const folded: Array<[name: string, typed: string]> = [
+      ["Authentic Bœuf Bourguignon", "boeuf"],
+      ["Gỏi Cuốn đậu", "dau"],
+      ["Straße Wurst", "strasse"],
+      ["Smørrebrød", "smorrebrod"],
+      ["Łódź Żurek", "lodz"],
+      ["Æbleskiver", "aebleskiver"],
+    ];
+    for (const [name, typed] of folded) {
+      const recipes = [dish(name, undefined)];
+      expect(searchRecipes(recipes, typed)).toEqual(recipes);
+      // The exact spelling keeps finding itself.
+      expect(searchRecipes(recipes, name)).toEqual(recipes);
+    }
+  });
+
   it("does not match a word that is not there", () => {
     expect(searchRecipes(pool, "zzz")).toEqual([]);
   });

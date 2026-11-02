@@ -18,9 +18,30 @@ export function cuisineSlugOf(name: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-/** Lower case with accents removed, so "jalapeno" finds "Jalapeño". */
+/** Letters with no accent to strip, as people type them without the letter. */
+const FOLDED_LETTERS = new Map([
+  ["œ", "oe"],
+  ["æ", "ae"],
+  ["ß", "ss"],
+  ["ø", "o"],
+  ["đ", "d"],
+  ["ł", "l"],
+  ["ı", "i"],
+]);
+
+/**
+ * Lower case, accents removed, apostrophes dropped and œ æ ß ø đ ł ı folded to
+ * ASCII, so "jalapeno" finds "Jalapeño", "boeuf" finds "Bœuf" and "shepherds
+ * pie" or "shepherd's pie" finds "SHEPHERD’S PIE" (U+2019 is what the catalog
+ * holds and nobody types).
+ */
 function normalizeText(value: string): string {
-  return value.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+  return value
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .replace(/['‘’]/g, "")
+    .replace(/[œæßøđłı]/g, (letter) => FOLDED_LETTERS.get(letter) ?? letter);
 }
 
 const haystacks = new WeakMap<Recipe, string>();
