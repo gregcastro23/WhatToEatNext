@@ -9,8 +9,12 @@
  * It runs the same code the API route runs (`loadCatalogPage`) and judges the
  * response after a JSON round trip, which is what a browser receives.
  *
- * Read-only: it issues SELECTs only, and clears the Redis credentials before
- * anything loads so the catalog loader cannot fill a shared cache.
+ * Read-only, and enforced rather than promised: every database connection this
+ * process opens is read-only (PGOPTIONS), so the app's own best-effort writes
+ * on a slow query (system_metrics, slow_query_log_entries) are refused instead
+ * of persisted, and the run stops if a connection would accept a write. The
+ * Redis credentials are cleared before anything loads so the catalog loader
+ * cannot fill a shared cache.
  *
  * Usage:
  *   DATABASE_URL=postgresql://… bun scripts/auditRecipeCatalogAccess.ts
@@ -29,9 +33,33 @@ export {};
 // database read, and this audit must never write.
 delete process.env.UPSTASH_REDIS_REST_URL;
 delete process.env.UPSTASH_REDIS_REST_TOKEN;
+// Also before any app module loads: pg reads PGOPTIONS when a connection opens.
+process.env.PGOPTIONS = [process.env.PGOPTIONS, "-c default_transaction_read_only=on"]
+  .filter(Boolean)
+  .join(" ");
+
+/**
+ * Whether the pool the audit reads through refuses writes. The check proves
+ * PGOPTIONS reached it; null when the database cannot be reached at all, which
+ * the audit's first check then reports.
+ */
+async function connectionsRefuseWrites(): Promise<boolean | null> {
+  const { executeQuery } = await import("../src/lib/database/index");
+  try {
+    const result = await executeQuery("SHOW default_transaction_read_only");
+    const flag: unknown = result.rows[0]?.default_transaction_read_only;
+    return flag === "on";
+  } catch {
+    return null;
+  }
+}
 
 async function main(): Promise<boolean> {
   const allowStatic = process.argv.includes("--allow-static");
+  if (!allowStatic && (await connectionsRefuseWrites()) === false) {
+    console.error("Refusing to run: the database connection would accept writes, and this audit must not write.");
+    return false;
+  }
   const [{ CUISINES_METADATA }, { cuisineToSlug }, { loadCatalogPage }, { auditCatalog }] =
     await Promise.all([
       import("../src/data/cuisines/index"),
