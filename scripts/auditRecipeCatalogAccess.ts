@@ -1,7 +1,7 @@
 /**
  * Recipe Catalog Access Audit
  *
- * Proves that every recipe the site holds reaches the frontend: the API sends
+ * Proves that every recipe the site lists reaches the frontend: the API sends
  * the whole catalog with nothing capping it, the list is exactly the
  * sitemap's, the page can display every recipe, no internal archive code
  * leaks, and every cuisine link returns its recipes.
@@ -108,7 +108,7 @@ async function main(): Promise<boolean> {
     console.log(`  cuisines no card links to: ${unlinked.map(([c, n]) => `${c} (${n})`).join(", ")}`);
   console.log("");
   for (const c of report.checks) console.log(`  ${c.ok ? "PASS" : "FAIL"}  ${c.name}\n        ${c.detail}`);
-  console.log(`\n${report.ok ? "Every recipe is accessible." : "Some recipes are not accessible."}`);
+  console.log(`\n${report.ok ? "Every listed recipe is accessible." : "Some listed recipes are not accessible."}`);
   return report.ok;
 }
 

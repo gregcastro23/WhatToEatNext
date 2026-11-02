@@ -31,6 +31,11 @@ function staticOnlyOf(live: readonly RecipeIdentityRecord[]): readonly string[] 
 const PUBLIC_OYAKODON = { id: "e03c3505-9729-4a7e-bc0c-5ae57aff83a9", name: "Oyakodon", cuisine: "Japanese" };
 const UNPUBLISHED_HAEMUL = { id: "5b3f6a52-0000-4000-8000-000000000001", name: "Haemul Pajeon", cuisine: "Korean" };
 
+/** The recipes table: `publicRows` answer the live read, `unpublished` the read of the rest. */
+function table(unpublished: unknown[], publicRows: unknown[] = [PUBLIC_OYAKODON]): void {
+  mockQuery.mockImplementation(async (sql) => ({ rows: sql.includes("IS NOT TRUE") ? unpublished : publicRows }));
+}
+
 async function served(staticOnlyIds: readonly string[]): Promise<string[]> {
   const { servedStaticOnlyIds } = await import("../unpublishedCopies");
   return servedStaticOnlyIds(staticOnlyIds, STATIC);
@@ -43,14 +48,14 @@ beforeEach(() => {
 
 describe("servedStaticOnlyIds", () => {
   it("lists every static-only recipe while nothing is unpublished (control)", async () => {
-    mockQuery.mockResolvedValue({ rows: [] });
+    table([]);
     const staticOnly = staticOnlyOf([PUBLIC_OYAKODON]);
     expect(staticOnly).toEqual([HAEMUL.id, FUSION.id]);
     expect(await served(staticOnly)).toEqual([HAEMUL.id, FUSION.id]);
   });
 
   it("drops the static copy of an unpublished recipe and nothing else", async () => {
-    mockQuery.mockResolvedValue({ rows: [UNPUBLISHED_HAEMUL] });
+    table([UNPUBLISHED_HAEMUL]);
     const staticOnly = staticOnlyOf([PUBLIC_OYAKODON]);
     // The same two ids as the control: the unpublished row is the only difference.
     expect(staticOnly).toEqual([HAEMUL.id, FUSION.id]);
@@ -58,18 +63,28 @@ describe("servedStaticOnlyIds", () => {
   });
 
   it("keeps a static recipe the database has never held", async () => {
-    mockQuery.mockResolvedValue({ rows: [{ id: "x", name: "Something Else Entirely", cuisine: "Thai" }] });
+    table([{ id: "x", name: "Something Else Entirely", cuisine: "Thai" }]);
     expect(await served(staticOnlyOf([PUBLIC_OYAKODON]))).toEqual([HAEMUL.id, FUSION.id]);
   });
 
-  it("lists none when the unpublished rows cannot be read, and says so", async () => {
+  it("lists none when the unpublished rows have never been read and cannot be, and says so", async () => {
     mockQuery.mockRejectedValue(new Error("connection reset"));
     expect(await served(staticOnlyOf([PUBLIC_OYAKODON]))).toEqual([]);
     expect(mockLogError).toHaveBeenCalledTimes(1);
   });
 
+  it("uses the unpublished rows it last read when a later read fails, and says so", async () => {
+    table([UNPUBLISHED_HAEMUL]);
+    expect(await served(staticOnlyOf([PUBLIC_OYAKODON]))).toEqual([FUSION.id]);
+
+    mockQuery.mockRejectedValue(new Error("connection reset"));
+    // A new refresh (a new array) whose read fails: Haemul stays hidden, Fusion stays listed.
+    expect(await served(staticOnlyOf([PUBLIC_OYAKODON]))).toEqual([FUSION.id]);
+    expect(mockLogError).toHaveBeenCalledTimes(1);
+  });
+
   it("asks the database once for one catalog refresh, and again for the next", async () => {
-    mockQuery.mockResolvedValue({ rows: [UNPUBLISHED_HAEMUL] });
+    table([UNPUBLISHED_HAEMUL]);
     const refresh = staticOnlyOf([PUBLIC_OYAKODON]);
     await served(refresh);
     await served(refresh);
@@ -87,7 +102,7 @@ describe("servedStaticOnlyIds", () => {
     await served(refresh);
     expect(mockQuery).toHaveBeenCalledTimes(1);
 
-    mockQuery.mockResolvedValue({ rows: [UNPUBLISHED_HAEMUL] });
+    table([UNPUBLISHED_HAEMUL]);
     expect(await served(staticOnlyOf([PUBLIC_OYAKODON]))).toEqual([FUSION.id]);
   });
 });
@@ -111,5 +126,22 @@ describe("loadIdentities", () => {
     });
     const { loadIdentities } = await import("../unpublishedCopies");
     expect(await loadIdentities("public")).toEqual([{ id: "a", name: "Soup", cuisine: "Thai" }]);
+  });
+});
+
+describe("dropUnpublishedTwins", () => {
+  it("is the rule the catalog and the sitemap share: it drops only the twin of an unpublished row", async () => {
+    const { dropUnpublishedTwins } = await import("../unpublishedCopies");
+    const staticOnly = staticOnlyOf([PUBLIC_OYAKODON]);
+    expect(dropUnpublishedTwins(staticOnly, STATIC, [])).toEqual([HAEMUL.id, FUSION.id]);
+    expect(dropUnpublishedTwins(staticOnly, STATIC, [UNPUBLISHED_HAEMUL])).toEqual([FUSION.id]);
+  });
+
+  it("does not touch the list it is given", async () => {
+    const { dropUnpublishedTwins } = await import("../unpublishedCopies");
+    const staticOnly = staticOnlyOf([PUBLIC_OYAKODON]);
+    const before = [...staticOnly];
+    dropUnpublishedTwins(staticOnly, STATIC, [UNPUBLISHED_HAEMUL]);
+    expect(staticOnly).toEqual(before);
   });
 });

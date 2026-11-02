@@ -23,6 +23,8 @@ jest.mock("@/services/LocalRecipeService", () => ({
     isCatalogDegraded: () => false,
   },
 }));
+// The catalog also reads which recipes are unpublished; nothing is, here, and no socket is opened.
+jest.mock("@/lib/database", () => ({ executeQuery: async () => ({ rows: [] }) }));
 jest.mock("@/lib/rateLimit", () => ({ rateLimit: async () => ({ allowed: true }) }));
 jest.mock("@/lib/observability/withObservability", () => ({
   withObservability: (_opts: unknown, handler: unknown): unknown => handler,

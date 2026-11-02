@@ -52,7 +52,10 @@ export interface RecipeIdentityStats {
 
 export interface RecipeIdentityIndex {
   resolve: (ref: string) => RecipeRefResolution | null;
-  /** Static ids with no live twin — the only static ids that are canonical. */
+  /**
+   * Static ids with no live twin — the only static ids that can be canonical.
+   * (Listing then drops the copies of unpublished recipes: ./unpublishedCopies.)
+   */
   staticOnlyIds: readonly string[];
   stats: RecipeIdentityStats;
 }

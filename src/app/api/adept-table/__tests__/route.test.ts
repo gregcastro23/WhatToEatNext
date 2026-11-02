@@ -38,6 +38,8 @@ jest.mock("@/services/groupNatalChartService", () => ({
   }),
 }));
 
+// The catalog also reads which recipes are unpublished; nothing is, here, and no socket is opened.
+jest.mock("@/lib/database", () => ({ executeQuery: async () => ({ rows: [] }) }));
 jest.mock("@/services/LocalRecipeService", () => ({
   LocalRecipeService: {
     getAllRecipes: jest.fn().mockResolvedValue([

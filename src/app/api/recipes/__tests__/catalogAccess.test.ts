@@ -250,7 +250,7 @@ describe("the degraded flag is shared and racy, so the list does not trust it", 
 describe("a live database is completed by the recipes only the static catalog has", () => {
   beforeEach(liveDatabase);
 
-  it("serves the live recipes plus every static recipe without a live twin, each once", async () => {
+  it("serves the live recipes plus every static recipe without a live twin (none unpublished), each once", async () => {
     const served = await get();
     const index = buildRecipeIdentityIndex(
       staticRecipes.map(({ id, name, cuisine }) => ({ id, name, ...(cuisine ? { cuisine } : {}) })),
@@ -332,11 +332,34 @@ describe("the static copy of an unpublished recipe is not listed", () => {
     expect((await get("?cuisine=fusion")).total).toBe(3);
   });
 
-  it("lists no static-only recipe when it cannot tell which were unpublished, and logs it", async () => {
+  it("keeps the copy hidden when a later read of the unpublished rows fails, and logs it", async () => {
+    recipesTable([UNPUBLISHED_HAEMUL]);
+    const healthy = await get();
     recipesTable(new Error("connection reset"));
-    const served = await get();
+    mockGetAllRecipes.mockResolvedValue([...LIVE]); // the next catalog refresh asks again, and fails
+    const degraded = await get();
+    expect(ids(degraded)).toEqual(ids(healthy));
+    expect(ids(degraded)).not.toContain(haemulPajeon().id);
+    expect((await get("?cuisine=fusion")).total).toBe(3);
+    expect(mockLogError).toHaveBeenCalledTimes(1);
+  });
+
+  it("lists no static-only recipe in a process that has never been able to read them", async () => {
+    recipesTable(new Error("connection reset"));
+    const fresh: { GET?: typeof GET } = {};
+    await jest.isolateModulesAsync(async () => {
+      fresh.GET = (await import("../route")).GET;
+    });
+    const served: Served = await (await fresh.GET?.(new Request("http://localhost/api/recipes")))?.json();
     expect(ids(served).sort()).toEqual(LIVE.map((r) => r.id).sort());
     expect(mockLogError).toHaveBeenCalledTimes(1);
+  });
+
+  it("falls back to every static id in the sitemap when the unpublished read fails", async () => {
+    recipesTable(new Error("connection reset"));
+    const canonical = await canonicalIds();
+    expect(canonical).toContain(haemulPajeon().id);
+    expect(canonical.size).toBe(new Set(staticRecipes.map((r) => r.id)).size);
   });
 
   it("asks the database once per catalog refresh, not once per request", async () => {

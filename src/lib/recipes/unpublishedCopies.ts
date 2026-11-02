@@ -8,10 +8,15 @@
  * unpublished rows have such a copy, and Haemul Pajeon, whose every
  * ingredient is a stub, ranked first on a default chart.
  *
- * `servedStaticOnlyIds` drops the static-only ids whose twin is an
- * unpublished row. The catalog list and the sitemap both ask it, so they
- * cannot disagree about which static-only recipes exist. A static recipe the
- * database has never held stays listed: only an unpublished row hides one.
+ * `dropUnpublishedTwins` is the rule: drop the static-only ids whose twin is
+ * an unpublished row. The catalog list and the sitemap both apply it, so under
+ * healthy reads they list the same recipes; they differ only in what each
+ * does when the unpublished rows cannot be read. A static recipe the database
+ * has never held stays listed: only an unpublished row hides one.
+ *
+ * Scope: this governs the lists. A hidden copy still opens by its URL and is
+ * still offered by /discover, as on `master` (resolveRecipeRef and
+ * loadStaticTwinBridge read the identity index, not these lists).
  *
  * @file src/lib/recipes/unpublishedCopies.ts
  */
@@ -51,33 +56,60 @@ export async function loadIdentities(publication: Publication): Promise<RecipeId
   });
 }
 
-async function withoutUnpublishedTwins(
+/** The unpublished rows as last read in this process: the answer to fall back on when a read fails. */
+let lastKnownUnpublished: readonly RecipeIdentityRecord[] | null = null;
+
+/** The unpublished rows now. Throws when they cannot be read; remembers what it read. */
+export async function loadUnpublishedIdentities(): Promise<readonly RecipeIdentityRecord[]> {
+  const unpublished = await loadIdentities("unpublished");
+  lastKnownUnpublished = unpublished;
+  return unpublished;
+}
+
+/** The static-only ids that are not the copy of an unpublished row. Pure. */
+export function dropUnpublishedTwins(
   staticOnlyIds: readonly string[],
   staticIdentities: readonly RecipeIdentityRecord[],
-): Promise<string[]> {
+  unpublished: readonly RecipeIdentityRecord[],
+): string[] {
+  if (unpublished.length === 0) return [...staticOnlyIds];
+  const index = buildRecipeIdentityIndex(staticIdentities, unpublished);
+  return staticOnlyIds.filter((id) => index.resolve(id)?.kind !== "twin");
+}
+
+async function servedWithoutUnpublished(
+  staticOnlyIds: readonly string[],
+  staticIdentities: readonly RecipeIdentityRecord[],
+): Promise<readonly string[]> {
   try {
-    const unpublished = await loadIdentities("unpublished");
-    if (unpublished.length === 0) return [...staticOnlyIds];
-    const index = buildRecipeIdentityIndex(staticIdentities, unpublished);
-    return staticOnlyIds.filter((id) => index.resolve(id)?.kind !== "twin");
+    return dropUnpublishedTwins(staticOnlyIds, staticIdentities, await loadUnpublishedIdentities());
   } catch (err) {
-    // Which static recipes were taken down is unknown, so list none of them:
-    // a gap until the next catalog refresh beats re-serving a hollow recipe.
+    if (lastKnownUnpublished) {
+      _logger.error("[recipes] unpublished recipes unreadable; using the set last read:", err);
+      return dropUnpublishedTwins(staticOnlyIds, staticIdentities, lastKnownUnpublished);
+    }
+    // Never read in this process, so which static recipes were taken down is
+    // unknown: list none of them until the next catalog refresh.
     _logger.error("[recipes] unpublished recipes unreadable; listing no static-only recipe:", err);
     return [];
   }
 }
 
 /** One answer per catalog refresh: `staticOnlyIds` is rebuilt whenever either catalog array is. */
-const served = new WeakMap<readonly string[], Promise<string[]>>();
+const served = new WeakMap<readonly string[], Promise<readonly string[]>>();
 
+/**
+ * The static-only ids the catalog list serves. Asks the database once per
+ * catalog refresh; if it cannot, uses the unpublished set this process last
+ * read, and only a process that has never read it lists no static-only recipe.
+ */
 export function servedStaticOnlyIds(
   staticOnlyIds: readonly string[],
   staticIdentities: readonly RecipeIdentityRecord[],
-): Promise<string[]> {
+): Promise<readonly string[]> {
   const known = served.get(staticOnlyIds);
   if (known) return known;
-  const answer = withoutUnpublishedTwins(staticOnlyIds, staticIdentities);
+  const answer = servedWithoutUnpublished(staticOnlyIds, staticIdentities);
   served.set(staticOnlyIds, answer);
   return answer;
 }
