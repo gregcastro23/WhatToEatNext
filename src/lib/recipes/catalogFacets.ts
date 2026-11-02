@@ -44,6 +44,15 @@ function normalizeText(value: string): string {
     .replace(/[œæßøđłı]/g, (letter) => FOLDED_LETTERS.get(letter) ?? letter);
 }
 
+/**
+ * "middle eastern" → "Middle Eastern". The bundled catalog spells cuisines in
+ * lower case and live rows in Title Case; a pill takes the first spelling it
+ * meets, so without this its label would follow the sort order.
+ */
+function titleCase(name: string): string {
+  return name.replace(/(^|[\s-])(\p{L})/gu, (_match, boundary: string, letter: string) => boundary + letter.toUpperCase());
+}
+
 const haystacks = new WeakMap<Recipe, string>();
 
 function normalizedHaystack(recipe: Recipe): string {
@@ -93,7 +102,7 @@ export function cuisineFacets(all: readonly Recipe[], matching: readonly Recipe[
     if (key === "") continue;
     const facet = facets.get(key);
     if (facet) facet.total += 1;
-    else facets.set(key, { key, name, slug: cuisineSlugOf(name), total: 1, matching: 0 });
+    else facets.set(key, { key, name: titleCase(name), slug: cuisineSlugOf(name), total: 1, matching: 0 });
   }
   for (const recipe of matching) {
     const key = cuisineKey(recipe.cuisine ?? "");

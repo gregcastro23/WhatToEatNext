@@ -131,6 +131,16 @@ describe("cuisineFacets", () => {
     expect(facets).toHaveLength(1);
     expect(facets[0]).toMatchObject({ total: 3, slug: "middle-eastern" });
   });
+
+  it("names a cuisine in Title Case, whichever spelling comes first", () => {
+    // The bundled catalog spells cuisines in lower case ("middle eastern"); live
+    // rows use "Middle Eastern". The pill must not depend on which sorts first.
+    const bundled = dish("a", "middle eastern");
+    const live = dish("b", "Middle Eastern");
+    expect(cuisineFacets([bundled, live], []).map((f) => f.name)).toEqual(["Middle Eastern"]);
+    expect(cuisineFacets([live, bundled], []).map((f) => f.name)).toEqual(["Middle Eastern"]);
+    expect(cuisineFacets([dish("c", "fusion")], []).map((f) => f.name)).toEqual(["Fusion"]);
+  });
 });
 
 describe("over the real catalog", () => {
@@ -144,6 +154,12 @@ describe("over the real catalog", () => {
     expect(facets.length).toBeGreaterThan(10);
     const withCuisine = catalog.filter((r) => r.cuisine).length;
     expect(facets.reduce((sum, f) => sum + f.total, 0)).toBe(withCuisine);
+  });
+
+  it("labels every pill with a capital letter, as the cuisine cards do", () => {
+    for (const facet of cuisineFacets(catalog, catalog)) {
+      expect({ label: facet.name, capitalised: /^\p{Lu}/u.test(facet.name) }).toEqual({ label: facet.name, capitalised: true });
+    }
   });
 
   it("makes each pill select exactly the recipes it counts, the way the API does", () => {
