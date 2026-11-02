@@ -25,6 +25,7 @@ import type { MealSlot as MealSlotType } from "@/types/menuPlanner";
 import { getDayName } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 import { dominantElement, ELEMENT_DOT } from "../redesign/elementUtils";
+import FindRestaurantsLink from "./FindRestaurantsLink";
 
 interface RecipeLike {
   name?: string;
@@ -195,6 +196,7 @@ export default function BoardSlot({
             >
               <Plus className="h-5 w-5" aria-hidden />
             </button>
+            <FindRestaurantsLink where={where} />
             <button
               type="button"
               onClick={onSuggest}
