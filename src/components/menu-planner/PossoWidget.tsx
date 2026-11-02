@@ -66,6 +66,27 @@ export default function PossoWidget({
     return (item: string): boolean => set.has(item.toLowerCase().trim());
   }, [topLikedIngredients, topTrackedIngredients]);
 
+  const pantryItemsUsedInWeek = useMemo(() => {
+    if (!currentMenu?.meals || inventory.length === 0) return [];
+    const usageMap = new Map<string, number>();
+    for (const meal of currentMenu.meals) {
+      const rawList = meal.recipe?.ingredients;
+      if (!rawList) continue;
+      for (const raw of rawList) {
+        const { name } = raw;
+        const lower = name.toLowerCase().trim();
+        for (const inv of inventory) {
+          const invLower = inv.toLowerCase().trim();
+          if (lower.includes(invLower) || invLower.includes(lower)) {
+            usageMap.set(inv, (usageMap.get(inv) ?? 0) + 1);
+            break;
+          }
+        }
+      }
+    }
+    return Array.from(usageMap.entries()).map(([item, count]) => ({ item, count }));
+  }, [currentMenu?.meals, inventory]);
+
   const handleAddItem = (e: React.FormEvent): void => {
     e.preventDefault();
     if (!newItem.trim()) return;
@@ -273,6 +294,32 @@ export default function PossoWidget({
               })
             )}
           </div>
+
+          {/* Active in This Week's Plan */}
+          {pantryItemsUsedInWeek.length > 0 && (
+            <div className="mt-4 pt-3 border-t border-muted/60">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold text-earth-matter font-mono uppercase flex items-center gap-1">
+                  <span>✓</span> Active in Week Plan
+                </span>
+                <span className="text-[10px] text-on-surface-variant font-mono">
+                  {pantryItemsUsedInWeek.length} used
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {pantryItemsUsedInWeek.map(({ item, count }) => (
+                  <span
+                    key={`used-${item}`}
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-mono bg-earth-matter/15 border border-earth-matter/30 text-earth-matter"
+                    title={`Used in ${count} meal${count > 1 ? "s" : ""} on WeekBoard`}
+                  >
+                    <span>{item}</span>
+                    <span className="text-[9px] opacity-75">({count})</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right: Recipe Matches */}

@@ -48,6 +48,8 @@ import {
   formatCoveredTotal,
   coverageNote,
 } from "@/utils/menuPlanner/nutritionCoverage";
+import { PLANETARY_DAY_RULERS } from "@/utils/planetaryDayRecommendations";
+import { readElemental, type ElementName } from "../redesign/elementUtils";
 import Menu from "../shell/Menu";
 import { usePlannerUI } from "../shell/PlannerUIContext";
 import RecipePlacementBanner from "../shell/RecipePlacementBanner";
@@ -58,6 +60,58 @@ import BoardSlot from "./BoardSlot";
 import MealDetailSheet from "./MealDetailSheet";
 
 const ALL_DAYS: DayOfWeek[] = [0, 1, 2, 3, 4, 5, 6];
+const ALL_ELEMENTS: ElementName[] = ["Fire", "Water", "Earth", "Air"];
+
+interface DayHarmonyInfo {
+  dist: Record<ElementName, number>;
+  dominant: ElementName | null;
+  totalPlanned: number;
+  isResonant: boolean;
+  rulerElement: ElementName;
+}
+
+function computeDailyElementalMap(meals: MealSlotType[] | undefined): Map<DayOfWeek, DayHarmonyInfo> {
+  const map = new Map<DayOfWeek, DayHarmonyInfo>();
+  for (const day of ALL_DAYS) {
+    const ruler = PLANETARY_DAY_RULERS[day];
+    const dayMeals = meals?.filter((m) => m.dayOfWeek === day && m.recipe) ?? [];
+    const sum = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
+    for (const meal of dayMeals) {
+      if (!meal.recipe?.elementalProperties) continue;
+      const e = readElemental(meal.recipe.elementalProperties);
+      sum.Fire += e.Fire;
+      sum.Water += e.Water;
+      sum.Earth += e.Earth;
+      sum.Air += e.Air;
+    }
+    const totalWeight = sum.Fire + sum.Water + sum.Earth + sum.Air;
+    const dist: Record<ElementName, number> = {
+      Fire: totalWeight > 0 ? sum.Fire / totalWeight : 0.25,
+      Water: totalWeight > 0 ? sum.Water / totalWeight : 0.25,
+      Earth: totalWeight > 0 ? sum.Earth / totalWeight : 0.25,
+      Air: totalWeight > 0 ? sum.Air / totalWeight : 0.25,
+    };
+    let dominant: ElementName | null = null;
+    if (dayMeals.length > 0 && totalWeight > 0) {
+      let maxVal = -1;
+      for (const el of ALL_ELEMENTS) {
+        if (dist[el] > maxVal) {
+          maxVal = dist[el];
+          dominant = el;
+        }
+      }
+    }
+    const { element: rulerElement } = ruler;
+    map.set(day, {
+      dist,
+      dominant,
+      totalPlanned: dayMeals.length,
+      isResonant: dominant === rulerElement,
+      rulerElement,
+    });
+  }
+  return map;
+}
 const MEAL_ROW_ORDER: MealType[] = ["breakfast", "lunch", "dinner", "snack"];
 
 const ROW_LABELS: Record<MealType, { title: string; icon: React.ReactNode }> = {
@@ -111,6 +165,12 @@ export default function WeekBoard({
     }
     return map;
   }, [currentMenu]);
+
+  // Daily elemental distribution and astrological resonance for each day
+  const dailyElementalMap = useMemo(
+    () => computeDailyElementalMap(currentMenu?.meals),
+    [currentMenu?.meals],
+  );
 
   // Which rows to show (snack is conditional on showSnacks)
   const activeMealTypes = useMemo(
@@ -283,6 +343,7 @@ export default function WeekBoard({
                     day: "numeric",
                   })
                 : "";
+              const dayHarmony = dailyElementalMap.get(day);
 
               return (
                 <div
@@ -358,6 +419,46 @@ export default function WeekBoard({
                       )}
                     />
                   </div>
+
+                  {/* Daily Elemental Micro-Bar & Astrological Resonance */}
+                  {dayHarmony && dayHarmony.totalPlanned > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => ui.openModal("harmony")}
+                      title={`Daily Harmony: Fire ${Math.round(dayHarmony.dist.Fire * 100)}% · Water ${Math.round(dayHarmony.dist.Water * 100)}% · Earth ${Math.round(dayHarmony.dist.Earth * 100)}% · Air ${Math.round(dayHarmony.dist.Air * 100)}%`}
+                      className="mt-2 pt-1.5 border-t border-muted/50 w-full text-left hover:opacity-80 transition-opacity focus:outline-none focus-visible:ring-1 focus-visible:ring-active-violet rounded"
+                    >
+                      <div className="flex w-full h-1 rounded-full overflow-hidden bg-surface-container-high mb-1">
+                        <div
+                          className="bg-fire-spirit h-full"
+                          style={{ width: `${Math.round(dayHarmony.dist.Fire * 100)}%` }}
+                        />
+                        <div
+                          className="bg-water-essence h-full"
+                          style={{ width: `${Math.round(dayHarmony.dist.Water * 100)}%` }}
+                        />
+                        <div
+                          className="bg-earth-matter h-full"
+                          style={{ width: `${Math.round(dayHarmony.dist.Earth * 100)}%` }}
+                        />
+                        <div
+                          className="bg-air-substance h-full"
+                          style={{ width: `${Math.round(dayHarmony.dist.Air * 100)}%` }}
+                        />
+                      </div>
+                      <div className="flex items-center justify-between text-[9px] font-mono leading-none">
+                        <span className="text-on-surface-variant capitalize">{dayHarmony.dominant}</span>
+                        {dayHarmony.isResonant && (
+                          <span
+                            className="text-gold-accent font-bold"
+                            title={`Resonates with ruling element ${dayHarmony.rulerElement}`}
+                          >
+                            ✦ Resonant
+                          </span>
+                        )}
+                      </div>
+                    </button>
+                  )}
                 </div>
               );
             })}

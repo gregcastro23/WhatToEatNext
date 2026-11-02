@@ -22,6 +22,7 @@ import {
   foodFusionEnthalpy,
   latentHeatVaporisation,
 } from "@/lib/cooking/latentHeat";
+import { cutForLine } from "@/lib/cooking/portionCuts";
 
 // ============================================================================
 // 1. Measurement — volume to mass
@@ -54,6 +55,10 @@ export interface VolumeConversion {
   /** The FDC record backing a measured figure. */
   fdcId?: number;
   note?: string;
+  /** Where USDA weighed the measure several ways: the cut weighed (`cutForLine`). */
+  cut?: string;
+  /** Grams beyond `grams` the volume may weigh, when the line named no cut. */
+  spread?: number;
 }
 
 /**
@@ -67,23 +72,36 @@ export interface VolumeConversion {
  *
  * A null here means "nobody has measured this" and the caller must say so.
  * Silently substituting water is how a 15× error survives.
+ *
+ * `lineText` is the recipe line's own words (its name and notes). It matters
+ * only for a measure USDA weighed several ways (`MeasuredPortion.cuts`); see
+ * `cutForLine`.
  */
 export function volumeToMass(
   ingredient: string,
   amount: number,
   measure: VolumeMeasure,
+  lineText?: string,
 ): VolumeConversion | null {
   if (!(amount >= 0)) {
     throw new RangeError(`amount must be non-negative, received ${amount}`);
   }
   const row = PORTIONS_BY_INGREDIENT.get(ingredient.trim().toLowerCase());
-  const perUnit = row?.gramsPer[measure];
-  if (row === undefined || perUnit === undefined) return null;
-  return {
-    grams: amount * perUnit,
+  if (row === undefined) return null;
+  const measured: Omit<VolumeConversion, "grams"> = {
     basis: "usda-measured",
     fdcId: row.fdcId,
     note: `${row.fdcDescription} (FDC ${row.fdcId})`,
+  };
+  const single = row.gramsPer[measure];
+  if (single !== undefined) return { grams: amount * single, ...measured };
+  const weighed = cutForLine(row.cuts?.[measure] ?? [], lineText);
+  if (weighed === null) return null;
+  return {
+    grams: amount * weighed.cut.grams,
+    ...measured,
+    cut: weighed.cut.as,
+    ...(weighed.spread !== undefined ? { spread: amount * weighed.spread } : {}),
   };
 }
 

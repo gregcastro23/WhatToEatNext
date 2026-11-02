@@ -17,6 +17,7 @@
  * Imports only modules that exist on master, so the red proof is behavioural.
  */
 import { getServerRecipes } from "@/actions/recipes";
+import { loadRawCuisine } from "@/data/cuisines/index";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
 import {
   computeRecipeNutritionFromIngredients,
@@ -179,14 +180,32 @@ describe("the catalog's computed recipes", () => {
   });
 });
 
+/** The authored `nutritionPerServing` of the first dish under `node` named `name`. */
+function authoredBlockOf(node: unknown, name: string): unknown {
+  if (typeof node !== "object" || node === null) return undefined;
+  if ("name" in node && node.name === name && "nutritionPerServing" in node) return node.nutritionPerServing;
+  for (const child of Object.values(node)) {
+    const hit = authoredBlockOf(child, name);
+    if (hit !== undefined) return hit;
+  }
+  return undefined;
+}
+
 describe("an authored recipe states what it states", () => {
-  /** East African Mandazi's authored block, as `nutritionPerServing` carries it. */
-  let block: Record<string, number> = {};
+  /**
+   * East African Mandazi's authored block, read from the cuisine file as
+   * `nutritionPerServing` carries it. Not its published nutrition: since
+   * frying fat counts as absorbed (#907), Mandazi publishes a computed total.
+   */
+  const block: Record<string, number> = {};
   beforeAll(async () => {
-    const mandazi = (await getServerRecipes()).find((r) => r.id === "african-breakfast-all-authentic-east-african-mandazi");
-    const n = mandazi?.nutrition;
-    if (!n || typeof n.sugar !== "number") throw new Error("Mandazi states no sugar in the catalog");
-    block = { calories: n.calories, proteinG: n.protein, carbsG: n.carbs, fatG: n.fat, sugarG: n.sugar };
+    const raw = authoredBlockOf(await loadRawCuisine("African"), "Authentic East African Mandazi");
+    const fields = new Map(typeof raw === "object" && raw !== null ? Object.entries(raw) : []);
+    for (const key of ["calories", "proteinG", "carbsG", "fatG", "sugarG"]) {
+      const value = fields.get(key);
+      if (typeof value !== "number") throw new Error(`Mandazi's authored block states no ${key}`);
+      block[key] = value;
+    }
   });
 
   it("does not turn an unstated sodium or saturated fat into 0", () => {

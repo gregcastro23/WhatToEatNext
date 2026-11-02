@@ -1,7 +1,7 @@
 /**
  * A planned day that includes a recipe with no nutrition publishes its total
  * as a lower bound, marked partial (owner ruling 2026-09-26, option a); a day
- * where no meal has nutrition has no total. Real catalog rows: Falafel
+ * where no meal has nutrition has no total. Real catalog rows: Lentil Soup
  * publishes no nutrition on master and under the nutrition gate.
  *
  * Imports only modules that exist on master, so the red proof is behavioural.
@@ -17,7 +17,7 @@ import {
 
 const MANAKISH = "middleeastern-breakfast-all-manakish-zaatar";
 const KOFTA = "middleeastern-lunch-all-authentic-kofta-kebab";
-const FALAFEL = "middleeastern-dinner-all-falafel";
+const LENTIL_SOUP = "middleeastern-dinner-all-lentil-soup-shorbat-adas";
 const WEDNESDAY: DayOfWeek = 3;
 const THURSDAY: DayOfWeek = 4;
 
@@ -59,12 +59,12 @@ function slot(id: string, dayOfWeek: DayOfWeek, mealType: MealType): MealSlot {
   };
 }
 
-/** Manakish 901 kcal + Kofta 410 kcal + Falafel (no nutrition). */
+/** Manakish 901 kcal + Kofta 410 kcal + Lentil Soup (no nutrition). */
 function partialDay(): MealSlot[] {
   return [
     slot(MANAKISH, WEDNESDAY, "breakfast"),
     slot(KOFTA, WEDNESDAY, "lunch"),
-    slot(FALAFEL, WEDNESDAY, "dinner"),
+    slot(LENTIL_SOUP, WEDNESDAY, "dinner"),
   ];
 }
 
@@ -73,8 +73,8 @@ function week(days: Partial<Record<DayOfWeek, MealSlot[]>>): Record<DayOfWeek, M
 }
 
 describe("the catalog rows this test stands on", () => {
-  it("Falafel publishes no nutrition; Manakish and Kofta do", () => {
-    expect(recipe(FALAFEL).nutrition).toBeUndefined();
+  it("Lentil Soup publishes no nutrition; Manakish and Kofta do", () => {
+    expect(recipe(LENTIL_SOUP).nutrition).toBeUndefined();
     expect(caloriesOf(MANAKISH)).toBeGreaterThan(0);
     expect(caloriesOf(KOFTA)).toBeGreaterThan(0);
   });
@@ -90,7 +90,7 @@ describe("the planner's day total (day strip, day cards)", () => {
 
   it("a day whose only meal has no nutrition covers nothing", () => {
     const day = new NutritionTrackingService().calculateDailyNutrition(
-      [slot(FALAFEL, WEDNESDAY, "dinner")],
+      [slot(LENTIL_SOUP, WEDNESDAY, "dinner")],
       new Date(),
     );
     expect(day.coverage).toEqual({ planned: 1, withNutrition: 0 });
@@ -120,7 +120,7 @@ describe("the nutrition dashboard's totals", () => {
   it("chart a partial day as a lower bound, and a day with no nutrition as no total", () => {
     const sum = Math.round(caloriesOf(MANAKISH) + caloriesOf(KOFTA));
     const totals = calculateWeeklyTotals(
-      week({ 3: partialDay(), 4: [slot(FALAFEL, THURSDAY, "dinner")] }),
+      week({ 3: partialDay(), 4: [slot(LENTIL_SOUP, THURSDAY, "dinner")] }),
     );
     const { data } = generateDailyCaloriesChartData(totals.dailyBreakdown, totals.dailyCoverage);
     expect(data[WEDNESDAY]).toMatchObject({

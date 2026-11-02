@@ -31,6 +31,7 @@ export type PlannerModal =
   | "nutrition"
   | "share"
   | "template"
+  | "harmony"
   | null;
 export type PlannerView = "week" | "day";
 

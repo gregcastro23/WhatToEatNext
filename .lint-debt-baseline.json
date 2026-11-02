@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1309,
+  "trackedTotal": 1307,
   "casts": {
     "total": 157,
     "asAny": 38,
@@ -79,7 +79,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 812,
+      "count": 810,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {

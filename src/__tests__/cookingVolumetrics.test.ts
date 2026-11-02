@@ -53,8 +53,9 @@ describe("measured portions data", () => {
       expect(row.fdcId).toBeGreaterThan(0);
       expect(row.fdcDescription.length).toBeGreaterThan(0);
       expect(row.retrieved).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-      expect(Object.keys(row.gramsPer).length).toBeGreaterThan(0);
-      for (const grams of Object.values(row.gramsPer)) {
+      const cuts = Object.values(row.cuts ?? {}).flat();
+      expect(Object.keys(row.gramsPer).length + cuts.length).toBeGreaterThan(0);
+      for (const grams of [...Object.values(row.gramsPer), ...cuts.map((cut) => cut.grams)]) {
         expect(grams).toBeGreaterThan(0);
       }
     }

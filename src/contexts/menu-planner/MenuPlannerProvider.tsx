@@ -384,7 +384,12 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
   // -- Auto grocery sync --
   useEffect(() => {
     if (currentMenu?.meals) {
-      setGroceryList(generateGroceryList(currentMenu.meals));
+      setGroceryList(
+        generateGroceryList(currentMenu.meals, {
+          ...GROCERY_LIST_OPTIONS,
+          ...(inventory.length > 0 ? { pantryItems: inventory } : {}),
+        }),
+      );
     } else {
       setGroceryList([]);
     }
@@ -813,14 +818,17 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
     try {
       const newGroceryList = generateGroceryList(
         currentMenu.meals,
-        GROCERY_LIST_OPTIONS,
+        {
+          ...GROCERY_LIST_OPTIONS,
+          ...(inventory.length > 0 ? { pantryItems: inventory } : {}),
+        },
       );
       setGroceryList(newGroceryList);
       logger.info(`Generated grocery list with ${newGroceryList.length} items`);
     } catch (err) {
       logger.error("Failed to regenerate grocery list:", err);
     }
-  }, [currentMenu]);
+  }, [currentMenu, inventory]);
 
   // -------------------------------------------------------------------------
   // Template persistence

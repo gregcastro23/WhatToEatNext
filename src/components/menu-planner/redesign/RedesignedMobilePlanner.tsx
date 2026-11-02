@@ -134,7 +134,7 @@ export default function RedesignedMobilePlanner({
       <WeekActions onOpenNutrition={onOpenNutrition} onShopWeek={onShopWeek} />
 
       {/* Insights rail */}
-      <WeeklyInsights />
+      <WeeklyInsights showSnacks={showSnacks} />
     </div>
   );
 }

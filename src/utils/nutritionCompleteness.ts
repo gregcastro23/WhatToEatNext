@@ -23,8 +23,12 @@ export const MAX_UNRESOLVED_MASS_SHARE = 0.1;
 
 /** How one ingredient line entered the total. `grams: null` = unknown mass. */
 export type WeighedLine =
-  /** Resolved, weighed, and contributing to the total. */
-  | { kind: "counted"; grams: number }
+  /**
+   * Resolved, weighed, and contributing to the total. `spread` is mass it may
+   * also have: USDA weighed its measure only several ways, the line names none,
+   * and `grams` is the lightest. The spread counts as unresolved mass.
+   */
+  | { kind: "counted"; grams: number; spread?: number }
   /** Resolved to a 0 kcal profile (water, salt): its mass never matters. */
   | { kind: "zero"; grams: number | null }
   /** No catalog ingredient, or one without a nutritional profile. */
@@ -43,6 +47,10 @@ export function accountsForRecipe(lines: readonly WeighedLine[]): boolean {
     }
     knownGrams += line.grams;
     if (line.kind === "unresolved") unresolvedGrams += line.grams;
+    if (line.kind === "counted" && line.spread !== undefined) {
+      knownGrams += line.spread;
+      unresolvedGrams += line.spread;
+    }
   }
   return knownGrams > 0 && unresolvedGrams <= MAX_UNRESOLVED_MASS_SHARE * knownGrams;
 }
