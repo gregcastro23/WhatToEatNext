@@ -1,6 +1,8 @@
 "use server";
 
 import { getCuisineData, PRIMARY_CUISINE_KEYS } from "@/data/cuisines/index";
+import { toIdentity, type RecipeIdentityRecord } from "@/lib/recipes/recipeIdentity";
+import { hiddenStaticIds, readPublication } from "@/lib/recipes/unpublishedCopies";
 import type { Cuisine } from "@/types/cuisine";
 import type { IndexedRecipe, RecipeIndex } from "@/types/indexedRecipe";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
@@ -568,10 +570,70 @@ function buildRecipeIndex(recipes: IndexedRecipe[]): RecipeIndex {
 }
 
 /**
- * Server action to fetch all recipes from the static cuisine data files.
- * Prevents database code from being bundled into client components.
+ * Server action to fetch all recipes from the static cuisine data files,
+ * except the bundled copy of a recipe the operator unpublished (see
+ * `@/lib/recipes/unpublishedCopies`). Prevents database code from being
+ * bundled into client components.
  */
 export async function getServerRecipes(): Promise<Recipe[]> {
+  return (await servedView()).recipes;
+}
+
+interface ServedView {
+  raw: readonly Recipe[];
+  hidden: string;
+  recipes: Recipe[];
+  index: RecipeIndex;
+}
+
+let _served: ServedView | null = null;
+const NOTHING_HIDDEN: ReadonlySet<string> = new Set();
+const _identities = new WeakMap<readonly Recipe[], RecipeIdentityRecord[]>();
+
+function identitiesOf(raw: readonly Recipe[]): RecipeIdentityRecord[] {
+  let known = _identities.get(raw);
+  if (!known) {
+    known = raw.flatMap((r) => {
+      const identity = toIdentity(r);
+      return identity ? [identity] : [];
+    });
+    _identities.set(raw, known);
+  }
+  return known;
+}
+
+/**
+ * Which bundled recipes to hide. Nothing when no database is configured (a
+ * preview, a test) or its recipes cannot be read: the static catalog is also
+ * the outage fallback, and it must never come back empty for want of the list.
+ */
+async function hiddenIds(raw: readonly Recipe[]): Promise<ReadonlySet<string>> {
+  if (!(process.env.DATABASE_URL ?? process.env.DATABASE_PUBLIC_URL)) return NOTHING_HIDDEN;
+  try {
+    return hiddenStaticIds(identitiesOf(raw), await readPublication());
+  } catch {
+    return NOTHING_HIDDEN;
+  }
+}
+
+/**
+ * The catalog and its mealType × season index with the hidden recipes left
+ * out. One array per distinct hidden set: callers tell "the live catalog fell
+ * back to the static list" by array identity, so the array is replaced only
+ * when the set changes, and with nothing hidden it is the loaded array itself.
+ */
+async function servedView(): Promise<ServedView> {
+  const raw = await loadedRecipes();
+  const hidden = await hiddenIds(raw);
+  const key = [...hidden].sort().join("|");
+  // No await between this check and the assignment, so concurrent callers share one view.
+  if (_served?.raw === raw && _served.hidden === key) return _served;
+  const recipes = hidden.size === 0 ? raw : raw.filter((r) => !hidden.has(String(r.id)));
+  _served = { raw, hidden: key, recipes, index: hidden.size === 0 ? (_cachedIndex ?? buildRecipeIndex(raw)) : buildRecipeIndex(recipes) };
+  return _served;
+}
+
+async function loadedRecipes(): Promise<Recipe[]> {
   if (_cachedRecipes) return _cachedRecipes;
   // Overlapping cold callers share one load, hence one array: without this,
   // five concurrent calls built five distinct 1,113-recipe arrays, and callers
@@ -619,10 +681,7 @@ async function loadServerRecipes(): Promise<Recipe[]> {
  * bridge to avoid scanning the entire recipe catalog on every request.
  */
 export async function getServerRecipeIndex(): Promise<RecipeIndex> {
-  if (!_cachedIndex) {
-    await getServerRecipes();
-  }
-  return _cachedIndex ?? new Map();
+  return (await servedView()).index;
 }
 
 /**

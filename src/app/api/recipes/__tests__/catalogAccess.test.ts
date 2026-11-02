@@ -13,12 +13,13 @@
 import { getServerRecipes } from "@/actions/recipes";
 import { CUISINES_METADATA } from "@/data/cuisines/index";
 import { buildRecipeIdentityIndex } from "@/lib/recipes/recipeIdentity";
+import { CATALOG_TTL_MS } from "@/lib/recipes/catalogTtl";
 import { listCanonicalRecipeIds } from "@/lib/recipes/recipeRefResolver";
 import { cuisineToSlug } from "@/utils/cuisineSlug";
 import type { Recipe } from "@/types/recipe";
 
 const mockGetAllRecipes = jest.fn<Promise<Recipe[]>, []>();
-const mockDbRows = jest.fn<Promise<{ rows: unknown[] }>, [string]>();
+const mockDbRows = jest.fn<Promise<{ rows: unknown[] }>, []>();
 const mockLogError = jest.fn();
 let mockDegraded = false;
 
@@ -29,7 +30,7 @@ jest.mock("@/services/LocalRecipeService", () => ({
     isCatalogDegraded: () => mockDegraded,
   },
 }));
-jest.mock("@/lib/database", () => ({ executeQuery: (sql: string) => mockDbRows(sql) }));
+jest.mock("@/lib/database", () => ({ executeQuery: () => mockDbRows() }));
 jest.mock("@/lib/logger", () => ({
   ...jest.requireActual<typeof import("@/lib/logger")>("@/lib/logger"),
   _logger: { error: (...args: unknown[]) => mockLogError(...args), warn: jest.fn(), info: jest.fn(), debug: jest.fn() },
@@ -106,6 +107,15 @@ function liveDatabase(): void {
   mockGetAllRecipes.mockResolvedValue([...LIVE]);
 }
 
+/** The table is read once per live catalog refresh; each test starts a new one. */
+let clock = 1_000_000_000_000;
+
+/** The live catalog's next refresh: its TTL passes and it hands back a new array. */
+function nextRefresh(): void {
+  clock += CATALOG_TTL_MS;
+  mockGetAllRecipes.mockResolvedValue([...LIVE]);
+}
+
 interface IdentityRow {
   id: string;
   name: string;
@@ -115,23 +125,32 @@ interface IdentityRow {
 const identityRow = ({ id, name, cuisine }: Recipe): IdentityRow => ({ id, name, cuisine: cuisine ?? null });
 
 /**
- * The recipes table as the identity queries see it: the live rows for the sitemap's
- * `is_public = true` read, and `unpublished` (or the error) for the read of the rest.
+ * The recipes table as the one identity query sees it: the live rows, flagged
+ * published, then `unpublished` (or the error) for the rest.
  */
 function recipesTable(unpublished: IdentityRow[] | Error = []): void {
-  mockDbRows.mockImplementation(async (sql) => {
-    if (!sql.includes("IS NOT TRUE")) return { rows: LIVE.map(identityRow) };
+  mockDbRows.mockImplementation(async () => {
     if (unpublished instanceof Error) throw unpublished;
-    return { rows: unpublished };
+    return {
+      rows: [
+        ...LIVE.map((r) => ({ ...identityRow(r), published: true })),
+        ...unpublished.map((r) => ({ ...r, published: false })),
+      ],
+    };
   });
 }
 
 beforeEach(() => {
   mockGetAllRecipes.mockReset();
   mockLogError.mockReset();
+  mockDbRows.mockReset();
   mockDegraded = false;
+  clock += CATALOG_TTL_MS * 10;
+  jest.spyOn(Date, "now").mockImplementation(() => clock);
   recipesTable();
 });
+
+afterEach(() => jest.restoreAllMocks());
 
 describe("the catalog has no limit", () => {
   beforeEach(degradedToStatic);
@@ -317,7 +336,7 @@ describe("the static copy of an unpublished recipe is not listed", () => {
   it("drops it, and only it, from the catalog and from the sitemap alike", async () => {
     const before = await get();
     recipesTable([UNPUBLISHED_HAEMUL]);
-    mockGetAllRecipes.mockResolvedValue([...LIVE]); // the next catalog refresh asks again
+    nextRefresh();
     const after = await get();
     expect(after.total).toBe(before.total - 1);
     expect(ids(before).filter((id) => !ids(after).includes(id))).toEqual([haemulPajeon().id]);
@@ -336,7 +355,7 @@ describe("the static copy of an unpublished recipe is not listed", () => {
     recipesTable([UNPUBLISHED_HAEMUL]);
     const healthy = await get();
     recipesTable(new Error("connection reset"));
-    mockGetAllRecipes.mockResolvedValue([...LIVE]); // the next catalog refresh asks again, and fails
+    nextRefresh(); // asks again, and fails
     const degraded = await get();
     expect(ids(degraded)).toEqual(ids(healthy));
     expect(ids(degraded)).not.toContain(haemulPajeon().id);
@@ -355,22 +374,24 @@ describe("the static copy of an unpublished recipe is not listed", () => {
     expect(mockLogError).toHaveBeenCalledTimes(1);
   });
 
-  it("falls back to every static id in the sitemap when the unpublished read fails", async () => {
+  it("falls back to every static id in the sitemap in a process that has never read the table", async () => {
     recipesTable(new Error("connection reset"));
-    const canonical = await canonicalIds();
+    const fresh: { list?: typeof listCanonicalRecipeIds } = {};
+    await jest.isolateModulesAsync(async () => {
+      fresh.list = (await import("@/lib/recipes/recipeRefResolver")).listCanonicalRecipeIds;
+    });
+    const canonical = new Set(await fresh.list?.());
     expect(canonical).toContain(haemulPajeon().id);
     expect(canonical.size).toBe(new Set(staticRecipes.map((r) => r.id)).size);
   });
 
   it("asks the database once per catalog refresh, not once per request", async () => {
-    const asked = (): number => mockDbRows.mock.calls.filter(([sql]) => sql.includes("IS NOT TRUE")).length;
     await get();
     await get("?cuisine=fusion");
     await get("?limit=10");
-    expect(asked()).toBe(1);
-    // A refreshed live catalog is a new array: the question is asked again.
-    mockGetAllRecipes.mockResolvedValue([...LIVE]);
+    expect(mockDbRows).toHaveBeenCalledTimes(1);
+    nextRefresh();
     await get();
-    expect(asked()).toBe(2);
+    expect(mockDbRows).toHaveBeenCalledTimes(2);
   });
 });

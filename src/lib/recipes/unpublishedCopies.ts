@@ -1,40 +1,40 @@
 /**
- * Which static-only recipes the site lists, and which it must not.
+ * Which bundled (static) recipes the site serves, and which it must not.
  *
- * A recipe set `is_public = false` (scripts/depublishFabricatedRecipes.ts)
- * leaves the live catalog, so its static copy has no live twin and the
- * identity index calls it static-only: canonical, and listed. Listing it
- * serves what was just taken down. [MEASURED 2026-11-02] 8 of the 14
- * unpublished rows have such a copy, and Haemul Pajeon, whose every
- * ingredient is a stub, ranked first on a default chart.
+ * A recipe set `is_public = false` (scripts/depublishFabricatedRecipes.ts) is
+ * "removed from every user-facing surface", but its bundled copy has no live
+ * twin, so the identity index calls it static-only and every surface that
+ * reads the bundled catalog served it. [MEASURED 2026-11-02] 8 of the 14
+ * unpublished rows have such a copy, and Haemul Pajeon, whose every ingredient
+ * is a stub, ranked first on a default chart.
  *
- * `dropUnpublishedTwins` is the rule: drop the static-only ids whose twin is
- * an unpublished row. The catalog list and the sitemap both apply it, so under
- * healthy reads they list the same recipes; they differ only in what each
- * does when the unpublished rows cannot be read. A static recipe the database
- * has never held stays listed: only an unpublished row hides one.
+ * The rule: a bundled recipe is hidden when it has no public live twin and
+ * does have an unpublished one. A copy with a public twin is never hidden: the
+ * live row serves it, and it supplies that row's authored times and its legacy
+ * URL. A bundled recipe the database has never held is never hidden.
  *
- * Scope: this governs the lists. A hidden copy still opens by its URL and is
- * still offered by /discover, as on `master` (resolveRecipeRef and
- * loadStaticTwinBridge read the identity index, not these lists).
+ * `readPublication` is the one read of the recipes table every consumer shares.
+ * `hiddenStaticIds` feeds `getServerRecipes`, so every reader of the bundled
+ * catalog gets the rule; `servedStaticOnlyIds` and `dropUnpublishedTwins` are
+ * the catalog list's and the sitemap's own guard.
  *
  * @file src/lib/recipes/unpublishedCopies.ts
  */
 import { executeQuery } from "@/lib/database";
+import { databaseConfig } from "@/lib/database/config";
 import { _logger } from "@/lib/logger";
+import { CATALOG_TTL_MS } from "./catalogTtl";
 import { buildRecipeIdentityIndex, toIdentity, type RecipeIdentityRecord } from "./recipeIdentity";
 
 /**
- * The two halves of the recipes table the live catalog splits: its own rows
- * (`public`), and every row it excludes (`unpublished`, which includes a NULL
- * flag, because the live read is `= true`).
+ * The recipes table, split the way the live catalog splits it. `published` is
+ * exactly the rows LocalRecipeService reads (`is_public = true`); `unpublished`
+ * is every other row, a NULL flag included.
  */
-type Publication = "public" | "unpublished";
-
-const PUBLICATION_PREDICATE: Record<Publication, string> = {
-  public: "r.is_public = true",
-  unpublished: "r.is_public IS NOT TRUE",
-};
+export interface RecipePublication {
+  published: readonly RecipeIdentityRecord[];
+  unpublished: readonly RecipeIdentityRecord[];
+}
 
 /**
  * Recipe identities straight from Postgres, mirroring LocalRecipeService's
@@ -42,31 +42,68 @@ const PUBLICATION_PREDICATE: Record<Publication, string> = {
  * LocalRecipeService.getAllRecipes(): that path can issue Upstash no-store
  * fetches, which bail the sitemap out of static rendering.
  */
-export async function loadIdentities(publication: Publication): Promise<RecipeIdentityRecord[]> {
-  const result = await executeQuery<{ id: string; name: string | null; cuisine: string | null }>(
+async function loadPublication(): Promise<RecipePublication> {
+  const result = await executeQuery<{ id: string; name: string | null; cuisine: string | null; published: boolean }>(
     `SELECT COALESCE(r.read_model->>'id', r.id::text) AS id,
             COALESCE(r.read_model->>'name', r.name) AS name,
-            COALESCE(r.read_model->>'cuisine', r.cuisine::text) AS cuisine
-       FROM recipes r
-      WHERE ${PUBLICATION_PREDICATE[publication]}`,
+            COALESCE(r.read_model->>'cuisine', r.cuisine::text) AS cuisine,
+            (r.is_public IS TRUE) AS published
+       FROM recipes r`,
   );
-  return result.rows.flatMap((row) => {
+  const published: RecipeIdentityRecord[] = [];
+  const unpublished: RecipeIdentityRecord[] = [];
+  for (const row of result.rows) {
     const identity = toIdentity(row);
-    return identity ? [identity] : [];
+    if (identity) (row.published === true ? published : unpublished).push(identity);
+  }
+  return { published, unpublished };
+}
+
+let known: { at: number; value: RecipePublication } | null = null;
+let loading: Promise<RecipePublication> | null = null;
+let failure: { at: number; error: unknown } | null = null;
+
+async function refresh(): Promise<RecipePublication> {
+  try {
+    const value = await loadPublication();
+    known = { at: Date.now(), value };
+    failure = null;
+    return value;
+  } catch (error) {
+    failure = { at: Date.now(), error };
+    _logger.error(
+      known
+        ? "[recipes] cannot read which recipes are unpublished; using the set last read:"
+        : "[recipes] cannot read which recipes are unpublished; no set has been read:",
+      error,
+    );
+    if (!known) throw error;
+    return known.value;
+  }
+}
+
+/**
+ * Which recipes the database holds, published and not. Read once per live
+ * catalog refresh (CATALOG_TTL_MS) and shared by concurrent callers. After a
+ * failed read, no new read is made for one connection timeout, and the set
+ * last read is served, however old; only a process that has never read one
+ * rejects.
+ */
+export function readPublication(): Promise<RecipePublication> {
+  const now = Date.now();
+  if (known && now - known.at < CATALOG_TTL_MS) return Promise.resolve(known.value);
+  if (loading) return loading;
+  if (failure && now - failure.at < databaseConfig.connectionTimeout) {
+    return known ? Promise.resolve(known.value) : Promise.reject(failure.error);
+  }
+  const load = refresh().finally(() => {
+    if (loading === load) loading = null;
   });
+  loading = load;
+  return load;
 }
 
-/** The unpublished rows as last read in this process: the answer to fall back on when a read fails. */
-let lastKnownUnpublished: readonly RecipeIdentityRecord[] | null = null;
-
-/** The unpublished rows now. Throws when they cannot be read; remembers what it read. */
-export async function loadUnpublishedIdentities(): Promise<readonly RecipeIdentityRecord[]> {
-  const unpublished = await loadIdentities("unpublished");
-  lastKnownUnpublished = unpublished;
-  return unpublished;
-}
-
-/** The static-only ids that are not the copy of an unpublished row. Pure. */
+/** The static-only ids that are not the copy of an unpublished recipe. Pure. */
 export function dropUnpublishedTwins(
   staticOnlyIds: readonly string[],
   staticIdentities: readonly RecipeIdentityRecord[],
@@ -77,39 +114,40 @@ export function dropUnpublishedTwins(
   return staticOnlyIds.filter((id) => index.resolve(id)?.kind !== "twin");
 }
 
-async function servedWithoutUnpublished(
+/**
+ * The bundled recipes to hide: no public live twin, an unpublished one. Pure.
+ * Each unpublished row is claimed by at most one bundled recipe, so this never
+ * hides more recipes than there are unpublished rows.
+ */
+export function hiddenStaticIds(
+  staticIdentities: readonly RecipeIdentityRecord[],
+  { published, unpublished }: RecipePublication,
+): ReadonlySet<string> {
+  if (unpublished.length === 0) return new Set();
+  const staticOnly = buildRecipeIdentityIndex(staticIdentities, published).staticOnlyIds;
+  const shown = new Set(dropUnpublishedTwins(staticOnly, staticIdentities, unpublished));
+  return new Set(staticOnly.filter((id) => !shown.has(id)));
+}
+
+const servedFor = new WeakMap<readonly string[], { publication: RecipePublication; ids: readonly string[] }>();
+
+/**
+ * The static-only ids the catalog list serves. Lists none when the database
+ * has never been able to say which recipes are unpublished: better a gap until
+ * the next read than a hollow recipe ranked first.
+ */
+export async function servedStaticOnlyIds(
   staticOnlyIds: readonly string[],
   staticIdentities: readonly RecipeIdentityRecord[],
 ): Promise<readonly string[]> {
   try {
-    return dropUnpublishedTwins(staticOnlyIds, staticIdentities, await loadUnpublishedIdentities());
-  } catch (err) {
-    if (lastKnownUnpublished) {
-      _logger.error("[recipes] unpublished recipes unreadable; using the set last read:", err);
-      return dropUnpublishedTwins(staticOnlyIds, staticIdentities, lastKnownUnpublished);
-    }
-    // Never read in this process, so which static recipes were taken down is
-    // unknown: list none of them until the next catalog refresh.
-    _logger.error("[recipes] unpublished recipes unreadable; listing no static-only recipe:", err);
+    const publication = await readPublication();
+    const memo = servedFor.get(staticOnlyIds);
+    if (memo?.publication === publication) return memo.ids;
+    const ids = dropUnpublishedTwins(staticOnlyIds, staticIdentities, publication.unpublished);
+    servedFor.set(staticOnlyIds, { publication, ids });
+    return ids;
+  } catch {
     return [];
   }
-}
-
-/** One answer per catalog refresh: `staticOnlyIds` is rebuilt whenever either catalog array is. */
-const served = new WeakMap<readonly string[], Promise<readonly string[]>>();
-
-/**
- * The static-only ids the catalog list serves. Asks the database once per
- * catalog refresh; if it cannot, uses the unpublished set this process last
- * read, and only a process that has never read it lists no static-only recipe.
- */
-export function servedStaticOnlyIds(
-  staticOnlyIds: readonly string[],
-  staticIdentities: readonly RecipeIdentityRecord[],
-): Promise<readonly string[]> {
-  const known = served.get(staticOnlyIds);
-  if (known) return known;
-  const answer = servedWithoutUnpublished(staticOnlyIds, staticIdentities);
-  served.set(staticOnlyIds, answer);
-  return answer;
 }
