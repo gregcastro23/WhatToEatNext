@@ -293,9 +293,10 @@ describe("the static copy of an unpublished recipe is not listed", () => {
 
   /** The one static recipe named like a row the operator unpublished (#558). */
   function haemulPajeon(): Recipe {
-    const matches = staticRecipes.filter((r) => r.name === "Haemul Pajeon");
-    expect(matches).toHaveLength(1);
-    return matches[0] as Recipe;
+    const [first, ...others] = staticRecipes.filter((r) => r.name === "Haemul Pajeon");
+    expect(others).toHaveLength(0);
+    if (!first) throw new Error("Haemul Pajeon is not in the static catalog");
+    return first;
   }
   const UNPUBLISHED_HAEMUL: IdentityRow = {
     id: "5b3f6a52-0000-4000-8000-000000000001",
