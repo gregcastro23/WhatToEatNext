@@ -5,7 +5,8 @@ import type { MetadataRoute } from "next";
 const logger = createLogger("sitemap");
 
 // Recipe URLs are canonical ids (live UUIDs, plus static ids with no live
-// twin) from listCanonicalRecipeIds, which reads Postgres directly — not
+// twin that are not the copy of an unpublished recipe) from
+// listCanonicalRecipeIds, which reads Postgres directly — not
 // LocalRecipeService, whose no-store Upstash fetches would bail the sitemap
 // out of static rendering during `next build`. Listing static-catalog slugs
 // here used to point every crawler at a redirect behind a not-found head.

@@ -146,6 +146,24 @@ describeIf("MCP contract through the SDK client", () => {
     expect(typeof object(recipes[0]).name).toBe("string");
   });
 
+  it("returns every recipe in one call, and pages past the first thousand", async () => {
+    // Searching once covered only the first 50 recipes; limit and offset have no maximum.
+    const everything = object(
+      (await client.callTool({ name: "generate_cosmic_recipe", arguments: { limit: 1_000_000 } }))
+        .structuredContent,
+    );
+    expect(everything.totalMatching).toBeGreaterThan(1000);
+    expect(everything.returnedCount).toBe(everything.totalMatching);
+    const total = Number(everything.totalMatching);
+
+    const tail = object(
+      (await client.callTool({ name: "generate_cosmic_recipe", arguments: { limit: 5, offset: total - 3 } }))
+        .structuredContent,
+    );
+    expect(tail.offset).toBe(total - 3);
+    expect(tail.returnedCount).toBe(3);
+  });
+
   it("reports anonymous demo billing on a paid read", async () => {
     const result = await client.callTool({
       name: "generate_cosmic_recipe",

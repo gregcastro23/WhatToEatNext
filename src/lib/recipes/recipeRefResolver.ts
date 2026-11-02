@@ -3,7 +3,8 @@
  *
  * `resolveRecipeRef` serves `/recipes/[recipeId]`: it bridges a static-catalog
  * or ingredient-index id to the live recipe the page can render.
- * `listCanonicalRecipeIds` serves the sitemap: one canonical id per recipe.
+ * `listCanonicalRecipeIds` serves the sitemap: one canonical id per listed
+ * recipe (a static copy of an unpublished recipe is not listed).
  * `loadAuthoredFacts` serves the page the other way: a live recipe's authored
  * time and meal, from its static twin. `withAuthoredFactsAll` does the same
  * for the recipe lists the API routes and the page's recommendations serve.
@@ -11,7 +12,6 @@
  * canonical id of each static recipe it links to.
  */
 import { getServerRecipes } from "@/actions/recipes";
-import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import {
   buildAuthoredLookup,
@@ -22,25 +22,23 @@ import {
 } from "@/lib/search/authoredFacts";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import type { Recipe } from "@/types/recipe";
+import { toPublicRecipe } from "./catalogQuery";
 import {
   buildRecipeIdentityIndex,
+  toIdentity,
   type RecipeIdentityIndex,
   type RecipeIdentityRecord,
 } from "./recipeIdentity";
+import {
+  dropUnpublishedTwins,
+  loadIdentities,
+  loadUnpublishedIdentities,
+  servedStaticOnlyIds,
+} from "./unpublishedCopies";
 
 export type ResolvedRecipeRef =
   | { kind: "twin"; recipe: Recipe; canonicalId: string }
   | { kind: "static-only"; recipe: Recipe; canonicalId: string };
-
-function toIdentity(recipe: {
-  id?: unknown;
-  name?: unknown;
-  cuisine?: unknown;
-}): RecipeIdentityRecord | null {
-  const { id, name, cuisine } = recipe;
-  if ((typeof id !== "string" && typeof id !== "number") || typeof name !== "string") return null;
-  return { id: String(id), name, ...(typeof cuisine === "string" ? { cuisine } : {}) };
-}
 
 function toIdentities(recipes: readonly Recipe[]): RecipeIdentityRecord[] {
   return recipes.flatMap((r) => {
@@ -103,6 +101,20 @@ function safeDecode(ref: string): string {
 }
 
 /**
+ * True when the "live" catalog is the static list: LocalRecipeService's
+ * fallback returns the cached static array itself, and getServerRecipes hands
+ * every caller that one array. Identity is race-free; isCatalogDegraded() is
+ * not, because it is one shared flag that any later load resets, so after an
+ * await it can describe another request's list.
+ */
+export function servesStaticFallback(
+  liveRecipes: readonly Recipe[],
+  staticRecipes: readonly Recipe[],
+): boolean {
+  return liveRecipes === staticRecipes;
+}
+
+/**
  * Bridge a non-live recipe id to something `/recipes/[recipeId]` can render.
  * Returns null for unknown ids, and while the live catalog is degraded (DB
  * unreachable): then the "live" list IS the static list, and pointing a
@@ -113,7 +125,7 @@ export async function resolveRecipeRef(ref: string): Promise<ResolvedRecipeRef |
     getServerRecipes(),
     LocalRecipeService.getAllRecipes(),
   ]);
-  if (LocalRecipeService.isCatalogDegraded()) return null;
+  if (servesStaticFallback(liveRecipes, staticRecipes)) return null;
   const resolver = resolverFor(staticRecipes, liveRecipes);
   const hit = resolver.index.resolve(safeDecode(ref));
   if (!hit) return null;
@@ -145,7 +157,7 @@ const NO_LIVE_RECIPES: readonly Recipe[] = [];
  */
 export async function loadStaticTwinBridge(): Promise<StaticTwinBridge> {
   const [staticRecipes, liveRecipes] = await Promise.all([getServerRecipes(), LocalRecipeService.getAllRecipes()]);
-  const live = LocalRecipeService.isCatalogDegraded() ? NO_LIVE_RECIPES : liveRecipes;
+  const live = servesStaticFallback(liveRecipes, staticRecipes) ? NO_LIVE_RECIPES : liveRecipes;
   const { index, staticById, staticIdByLiveId } = resolverFor(staticRecipes, live);
   return {
     staticRecipes,
@@ -209,41 +221,51 @@ export async function withAuthoredFactsAll(recipes: readonly Recipe[]): Promise<
 }
 
 /**
- * Live recipe identities straight from Postgres, mirroring
- * LocalRecipeService's read_model-first mapping. The sitemap reads this
- * instead of LocalRecipeService.getAllRecipes(): that path can issue Upstash
- * no-store fetches, which bail the sitemap out of static rendering.
- */
-async function loadLiveIdentities(): Promise<RecipeIdentityRecord[]> {
-  const result = await executeQuery<{ id: string; name: string | null; cuisine: string | null }>(
-    `SELECT COALESCE(r.read_model->>'id', r.id::text) AS id,
-            COALESCE(r.read_model->>'name', r.name) AS name,
-            COALESCE(r.read_model->>'cuisine', r.cuisine::text) AS cuisine
-       FROM recipes r
-      WHERE r.is_public = true`,
-  );
-  return result.rows.flatMap((row) => {
-    const identity = toIdentity(row);
-    return identity ? [identity] : [];
-  });
-}
-
-/**
  * One canonical id per recipe: every live UUID, plus the static ids that have
- * no live twin. Falls back to the static ids alone when the database is
- * unreachable — those still resolve, through resolveRecipeRef, at render time.
+ * no live twin and are not the copy of an unpublished recipe (see
+ * ./unpublishedCopies). Falls back to the static ids alone when the database is
+ * unreachable or either identity read fails — those still resolve, through
+ * resolveRecipeRef, at render time.
  */
 export async function listCanonicalRecipeIds(): Promise<string[]> {
   const staticIdentities = toIdentities(await getServerRecipes());
   const staticIds = [...new Set(staticIdentities.map((r) => r.id))];
   let live: RecipeIdentityRecord[];
+  let unpublished: readonly RecipeIdentityRecord[];
   try {
-    live = await loadLiveIdentities();
+    [live, unpublished] = await Promise.all([loadIdentities("public"), loadUnpublishedIdentities()]);
   } catch (err) {
-    _logger.error("[recipeRefResolver] live identities unavailable; sitemap falls back to static ids:", err);
+    // Either read failing gives the superset, never a sitemap short of recipes.
+    _logger.error("[recipeRefResolver] recipe identities unavailable; sitemap falls back to static ids:", err);
     return staticIds;
   }
   if (live.length === 0) return staticIds;
   const index = buildRecipeIdentityIndex(staticIdentities, live);
-  return [...new Set([...live.map((r) => r.id), ...index.staticOnlyIds])];
+  const staticOnly = dropUnpublishedTwins(index.staticOnlyIds, staticIdentities, unpublished);
+  return [...new Set([...live.map((r) => r.id), ...staticOnly])];
+}
+
+/**
+ * Every recipe the site lists, once: each live recipe plus the static
+ * recipes with no live twin. This is `listCanonicalRecipeIds` as full recipes,
+ * so the catalog list and the sitemap cannot disagree about what "every
+ * recipe" is, and a static-only recipe (the Fusion dishes, say) is listed
+ * even when the database holds none of its cuisine. A static copy of a recipe
+ * the operator unpublished is not listed, here or in the sitemap. While the
+ * live catalog is degraded its list IS the static list, so nothing is paired
+ * with itself.
+ * Internal archive codes are removed from every cuisine.
+ */
+export async function loadCanonicalCatalog(): Promise<Recipe[]> {
+  const [staticRecipes, liveRecipes] = await Promise.all([getServerRecipes(), LocalRecipeService.getAllRecipes()]);
+  if (liveRecipes.length === 0 || servesStaticFallback(liveRecipes, staticRecipes)) {
+    return staticRecipes.map(toPublicRecipe);
+  }
+  const { index, staticById } = resolverFor(staticRecipes, liveRecipes);
+  const servedIds = await servedStaticOnlyIds(index.staticOnlyIds, toIdentities(staticRecipes));
+  const staticOnly = servedIds.flatMap((id) => {
+    const recipe = staticById.get(id);
+    return recipe ? [recipe] : [];
+  });
+  return [...liveRecipes, ...staticOnly].map(toPublicRecipe);
 }

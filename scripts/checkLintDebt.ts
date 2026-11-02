@@ -74,10 +74,13 @@ if (rawRuleFilter) {
 
 console.log("Checking lint debt, casts, and assertion sites against baseline...");
 const startTime = Date.now();
+// The ESLint stage alone takes ~390 s on a 4-core container, so 5 minutes
+// failed healthy runs there; this is a hang backstop, not a speed target.
+const WATCHDOG_MS = 480_000;
 const timeoutTimer = setTimeout(() => {
-  console.error("\n❌ checkLintDebt timed out after 5 minutes.");
+  console.error(`\n❌ checkLintDebt timed out after ${WATCHDOG_MS / 60_000} minutes.`);
   process.exit(1);
-}, 300_000);
+}, WATCHDOG_MS);
 timeoutTimer.unref();
 
 const heartbeat = setInterval(() => {

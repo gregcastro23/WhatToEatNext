@@ -1,179 +1,75 @@
 "use client";
 
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import React, { useState, useEffect, Suspense, useCallback } from "react";
-import { z } from "zod";
-import { RecipeCard } from "@/components/recipes/RecipeCard";
-import { readJson, parseEach } from "@/lib/api/json";
-import { _logger } from "@/lib/logger";
-import { PlanetaryScoringService } from "@/services/planetaryScoring";
-import type { Recipe } from "@/types/recipe";
-
-function hasValidElementalProperties(ep: unknown): boolean {
-  if (!ep || typeof ep !== "object") return false;
-  return (
-    "Fire" in ep && typeof ep.Fire === "number" &&
-    "Water" in ep && typeof ep.Water === "number" &&
-    "Earth" in ep && typeof ep.Earth === "number" &&
-    "Air" in ep && typeof ep.Air === "number"
-  );
-}
-
-function isValidRecipe(r: unknown): r is Recipe {
-  if (!r || typeof r !== "object") return false;
-  if (!("id" in r) || typeof r.id !== "string") return false;
-  if (!("name" in r) || typeof r.name !== "string") return false;
-  if (!("ingredients" in r) || !Array.isArray(r.ingredients)) return false;
-  if (!("instructions" in r) || !Array.isArray(r.instructions)) return false;
-  return "elementalProperties" in r && hasValidElementalProperties(r.elementalProperties);
-}
-
-const ValidatedRecipeSchema = z.custom<Recipe>(
-  isValidRecipe,
-  "Expected valid Recipe with id, name, ingredients, instructions, and elementalProperties",
-);
-
-const RecipesResponseEnvelopeSchema = z
-  .object({
-    success: z.boolean().optional(),
-    recipes: z.array(z.unknown()).optional(),
-  })
-  .passthrough();
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useState, Suspense, useCallback, useDeferredValue, useMemo } from "react";
+import { CatalogBody, CatalogFilters, CatalogHeader } from "@/components/recipes/RecipesCatalogViews";
+import { useRecipeCatalog } from "@/hooks/useRecipeCatalog";
+import { cuisineFacets, searchRecipes } from "@/lib/recipes/catalogFacets";
+import { cuisineTermKey, filterRecipes } from "@/lib/recipes/catalogQuery";
+import { cuisineHeading } from "@/lib/recipes/catalogValidity";
 
 function RecipesPageContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const cuisine = searchParams?.get("cuisine") || null;
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isScoring, setIsScoring] = useState(false);
+  const { recipes, total, dropped, error, isLoading, isScoring, reload } = useRecipeCatalog();
+  const [query, setQuery] = useState("");
+  // Typing stays responsive while the grid (up to the whole catalog) catches up.
+  const deferredQuery = useDeferredValue(query);
 
-  const fetchAndScoreRecipes = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      // Request the full catalog — this page scores and sorts every recipe
-      // client-side, so it must not be capped to the API's default page size.
-      const params = new URLSearchParams({ limit: "1000" });
-      if (cuisine) params.set("cuisine", cuisine);
-      const res = await fetch(`/api/recipes?${params.toString()}`);
-      if (!res.ok) {
-        setRecipes([]);
-        setIsLoading(false);
-        return;
-      }
+  const selectCuisine = useCallback(
+    (slug: string | null) => {
+      router.replace(slug ? `/recipes?cuisine=${encodeURIComponent(slug)}` : "/recipes", { scroll: false });
+    },
+    [router],
+  );
 
-      const data = await readJson(res, {
-        parse: (raw) => RecipesResponseEnvelopeSchema.parse(raw),
-      });
-      let cuisineRecipes: Recipe[] = [];
-      if (data.success && data.recipes) {
-        cuisineRecipes = parseEach(data.recipes, (r) => ValidatedRecipeSchema.parse(r)).items;
-      }
+  const searched = useMemo(() => searchRecipes(recipes, deferredQuery), [recipes, deferredQuery]);
+  const visible = useMemo(() => filterRecipes(searched, { cuisine }), [searched, cuisine]);
+  const facets = useMemo(() => cuisineFacets(recipes, searched), [recipes, searched]);
 
-      // Initially display recipes unsorted
-      setRecipes(cuisineRecipes);
-      setIsLoading(false);
-
-      if (cuisineRecipes.length === 0) return;
-
-      // Then score each recipe with planetary alignment
-      setIsScoring(true);
-      try {
-        const scoringService = PlanetaryScoringService.getInstance();
-        // Warm the shared planetary-position cache once up front. Otherwise
-        // the concurrent scoreRecipe() calls below would each fire their own
-        // /api/astrologize request (one per recipe in the catalog).
-        await scoringService.getCurrentPlanetaryPositions();
-        const scoredRecipes = await Promise.all(
-          cuisineRecipes.map(async (recipe) => {
-            const r = recipe;
-            try {
-              const result = await scoringService.scoreRecipe(r);
-              return {
-                ...r,
-                score: result.overallScore,
-                planetaryScore: result.overallScore,
-                planetaryReason: result.planetaryReason,
-                recommendedTiming: result.recommendedTiming,
-                rulingPlanet: result.rulingPlanet,
-              };
-            } catch {
-              return { ...r, score: 50 };
-            }
-          }),
-        );
-
-        // Sort by planetary score descending
-        scoredRecipes.sort(
-          (a, b) => (b.score ?? 0) - (a.score ?? 0),
-        );
-        setRecipes(scoredRecipes);
-      } catch (error) {
-        _logger.error("Failed to score recipes:", error);
-      } finally {
-        setIsScoring(false);
-      }
-    } catch (error) {
-      _logger.error("Failed to fetch recipes:", error);
-      setIsLoading(false);
-    }
-  }, [cuisine]);
-
-  useEffect(() => {
-    void fetchAndScoreRecipes();
-  }, [cuisine, fetchAndScoreRecipes]);
-
-  const displayCuisine = cuisine
-    ? cuisine.charAt(0).toUpperCase() + cuisine.slice(1)
-    : "All";
+  const searchText = deferredQuery.trim();
+  const isReady = !isLoading && !error;
 
   return (
     <main className="min-h-screen bg-[#08080e] text-white p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">
-            {displayCuisine} Recipes
-          </h1>
-          {!isLoading && (
-            <p className="text-lg text-gray-400">
-              {recipes.length} recipes
-              {isScoring
-                ? " - consulting the heavens..."
-                : " sorted by current planetary alignment"}
-            </p>
-          )}
-        </div>
-
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="glass-card-premium rounded-2xl border border-white/8 animate-pulse h-48"
-              />
-            ))}
-          </div>
-        ) : recipes.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-6xl mb-6">🍽️</p>
-            <h2 className="text-2xl font-bold text-white mb-3">No Recipes Found</h2>
-            <p className="text-gray-400 mb-8 max-w-md mx-auto">
-              We couldn&apos;t find any recipes matching your selection. Try a different cuisine or check back later.
-            </p>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-purple-600 text-white font-bold hover:bg-purple-700 transition-colors"
-            >
-              ← Back to Home
-            </Link>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {recipes.map((recipe) => (
-              <RecipeCard key={recipe.id} recipe={recipe} />
-            ))}
-          </div>
+        <CatalogHeader
+          title={cuisineHeading(cuisine)}
+          counts={
+            isReady
+              ? {
+                  shown: visible.length,
+                  held: recipes.length,
+                  isNarrowed: cuisine !== null || searchText !== "",
+                  isScoring,
+                }
+              : null
+          }
+          droppedNotice={isReady && dropped > 0 ? { dropped, total } : null}
+        />
+        {isReady && recipes.length > 0 && (
+          <CatalogFilters
+            query={query}
+            onQueryChange={setQuery}
+            facets={facets}
+            matchingCount={searched.length}
+            selectedKey={cuisineTermKey(cuisine)}
+            onSelectCuisine={selectCuisine}
+          />
         )}
+        <CatalogBody
+          isLoading={isLoading}
+          error={error}
+          onRetry={() => void reload()}
+          held={recipes.length}
+          visible={visible}
+          cuisine={cuisine}
+          displayCuisine={cuisineHeading(cuisine)}
+          searchText={searchText}
+          isCatchingUp={query !== deferredQuery}
+          onClearSearch={() => setQuery("")}
+        />
       </div>
     </main>
   );

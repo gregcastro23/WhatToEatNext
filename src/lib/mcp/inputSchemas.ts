@@ -122,6 +122,20 @@ const search: Record<string, JsonSchema> = {
   dietary: { type: "array", maxItems: 20, items: text(100) },
   dominantElement: element,
 };
+/** Page through the recipes that match. There is deliberately no maximum. */
+const paging: Record<string, JsonSchema> = {
+  limit: {
+    type: "integer",
+    minimum: 1,
+    description:
+      "Recipes to return. Defaults to 5; there is no maximum, so a large value returns every match.",
+  },
+  offset: {
+    type: "integer",
+    minimum: 0,
+    description: "Matching recipes to skip, to page through totalMatching.",
+  },
+};
 const planet: JsonSchema = {
   type: "object",
   required: ["sign", "degree"],
@@ -218,7 +232,7 @@ function input(
 export const TOOL_INPUT_SCHEMAS = {
   get_live_sky_transits: input(coordinates),
   alchemize_ingredients: input({ ingredients }, ["ingredients"]),
-  generate_cosmic_recipe: input(search),
+  generate_cosmic_recipe: input({ ...search, ...paging }),
   compute_synastry_overlay: input(
     {
       agentA: agent,
