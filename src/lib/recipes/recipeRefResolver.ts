@@ -11,7 +11,6 @@
  * canonical id of each static recipe it links to.
  */
 import { getServerRecipes } from "@/actions/recipes";
-import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import {
   buildAuthoredLookup,
@@ -25,23 +24,15 @@ import type { Recipe } from "@/types/recipe";
 import { toPublicRecipe } from "./catalogQuery";
 import {
   buildRecipeIdentityIndex,
+  toIdentity,
   type RecipeIdentityIndex,
   type RecipeIdentityRecord,
 } from "./recipeIdentity";
+import { loadIdentities, servedStaticOnlyIds } from "./unpublishedCopies";
 
 export type ResolvedRecipeRef =
   | { kind: "twin"; recipe: Recipe; canonicalId: string }
   | { kind: "static-only"; recipe: Recipe; canonicalId: string };
-
-function toIdentity(recipe: {
-  id?: unknown;
-  name?: unknown;
-  cuisine?: unknown;
-}): RecipeIdentityRecord | null {
-  const { id, name, cuisine } = recipe;
-  if ((typeof id !== "string" && typeof id !== "number") || typeof name !== "string") return null;
-  return { id: String(id), name, ...(typeof cuisine === "string" ? { cuisine } : {}) };
-}
 
 function toIdentities(recipes: readonly Recipe[]): RecipeIdentityRecord[] {
   return recipes.flatMap((r) => {
@@ -224,28 +215,9 @@ export async function withAuthoredFactsAll(recipes: readonly Recipe[]): Promise<
 }
 
 /**
- * Live recipe identities straight from Postgres, mirroring
- * LocalRecipeService's read_model-first mapping. The sitemap reads this
- * instead of LocalRecipeService.getAllRecipes(): that path can issue Upstash
- * no-store fetches, which bail the sitemap out of static rendering.
- */
-async function loadLiveIdentities(): Promise<RecipeIdentityRecord[]> {
-  const result = await executeQuery<{ id: string; name: string | null; cuisine: string | null }>(
-    `SELECT COALESCE(r.read_model->>'id', r.id::text) AS id,
-            COALESCE(r.read_model->>'name', r.name) AS name,
-            COALESCE(r.read_model->>'cuisine', r.cuisine::text) AS cuisine
-       FROM recipes r
-      WHERE r.is_public = true`,
-  );
-  return result.rows.flatMap((row) => {
-    const identity = toIdentity(row);
-    return identity ? [identity] : [];
-  });
-}
-
-/**
  * One canonical id per recipe: every live UUID, plus the static ids that have
- * no live twin. Falls back to the static ids alone when the database is
+ * no live twin and are not the copy of an unpublished recipe (see
+ * ./unpublishedCopies). Falls back to the static ids alone when the database is
  * unreachable — those still resolve, through resolveRecipeRef, at render time.
  */
 export async function listCanonicalRecipeIds(): Promise<string[]> {
@@ -253,14 +225,15 @@ export async function listCanonicalRecipeIds(): Promise<string[]> {
   const staticIds = [...new Set(staticIdentities.map((r) => r.id))];
   let live: RecipeIdentityRecord[];
   try {
-    live = await loadLiveIdentities();
+    live = await loadIdentities("public");
   } catch (err) {
     _logger.error("[recipeRefResolver] live identities unavailable; sitemap falls back to static ids:", err);
     return staticIds;
   }
   if (live.length === 0) return staticIds;
   const index = buildRecipeIdentityIndex(staticIdentities, live);
-  return [...new Set([...live.map((r) => r.id), ...index.staticOnlyIds])];
+  const staticOnly = await servedStaticOnlyIds(index.staticOnlyIds, staticIdentities);
+  return [...new Set([...live.map((r) => r.id), ...staticOnly])];
 }
 
 /**
@@ -268,8 +241,10 @@ export async function listCanonicalRecipeIds(): Promise<string[]> {
  * recipes with no live twin. This is `listCanonicalRecipeIds` as full recipes,
  * so the catalog list and the sitemap cannot disagree about what "every
  * recipe" is, and a static-only recipe (the Fusion dishes, say) is listed
- * even when the database holds none of its cuisine. While the live catalog is
- * degraded its list IS the static list, so nothing is paired with itself.
+ * even when the database holds none of its cuisine. A static copy of a recipe
+ * the operator unpublished is not listed, here or in the sitemap. While the
+ * live catalog is degraded its list IS the static list, so nothing is paired
+ * with itself.
  * Internal archive codes are removed from every cuisine.
  */
 export async function loadCanonicalCatalog(): Promise<Recipe[]> {
@@ -278,7 +253,8 @@ export async function loadCanonicalCatalog(): Promise<Recipe[]> {
     return staticRecipes.map(toPublicRecipe);
   }
   const { index, staticById } = resolverFor(staticRecipes, liveRecipes);
-  const staticOnly = index.staticOnlyIds.flatMap((id) => {
+  const servedIds = await servedStaticOnlyIds(index.staticOnlyIds, toIdentities(staticRecipes));
+  const staticOnly = servedIds.flatMap((id) => {
     const recipe = staticById.get(id);
     return recipe ? [recipe] : [];
   });

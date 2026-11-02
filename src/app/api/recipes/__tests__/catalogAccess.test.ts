@@ -13,10 +13,13 @@
 import { getServerRecipes } from "@/actions/recipes";
 import { CUISINES_METADATA } from "@/data/cuisines/index";
 import { buildRecipeIdentityIndex } from "@/lib/recipes/recipeIdentity";
+import { listCanonicalRecipeIds } from "@/lib/recipes/recipeRefResolver";
 import { cuisineToSlug } from "@/utils/cuisineSlug";
 import type { Recipe } from "@/types/recipe";
 
 const mockGetAllRecipes = jest.fn<Promise<Recipe[]>, []>();
+const mockDbRows = jest.fn<Promise<{ rows: unknown[] }>, [string]>();
+const mockLogError = jest.fn();
 let mockDegraded = false;
 
 jest.mock("@/services/LocalRecipeService", () => ({
@@ -25,6 +28,11 @@ jest.mock("@/services/LocalRecipeService", () => ({
     getRecipeById: async (id: string) => (await mockGetAllRecipes()).find((r) => r.id === id) ?? null,
     isCatalogDegraded: () => mockDegraded,
   },
+}));
+jest.mock("@/lib/database", () => ({ executeQuery: (sql: string) => mockDbRows(sql) }));
+jest.mock("@/lib/logger", () => ({
+  ...jest.requireActual<typeof import("@/lib/logger")>("@/lib/logger"),
+  _logger: { error: (...args: unknown[]) => mockLogError(...args), warn: jest.fn(), info: jest.fn(), debug: jest.fn() },
 }));
 jest.mock("@/lib/rateLimit", () => ({ rateLimit: async () => ({ allowed: true }) }));
 jest.mock("@/lib/observability/withObservability", () => ({
@@ -92,14 +100,37 @@ const LIVE_DB_ONLY = liveRow("9a9a9a9a-0000-4000-8000-000000000001", "A Recipe O
 const LIVE_OYAKODON = liveRow("e03c3505-9729-4a7e-bc0c-5ae57aff83a9", "Oyakodon (Chicken and Egg Rice Bowl)", "Japanese");
 const LIVE = [LIVE_OYAKODON, LIVE_DB_ONLY];
 
+/** A new array each time: the resolver caches per live array, so each test is its own catalog refresh. */
 function liveDatabase(): void {
   mockDegraded = false;
-  mockGetAllRecipes.mockResolvedValue(LIVE);
+  mockGetAllRecipes.mockResolvedValue([...LIVE]);
+}
+
+interface IdentityRow {
+  id: string;
+  name: string;
+  cuisine: string | null;
+}
+
+const identityRow = ({ id, name, cuisine }: Recipe): IdentityRow => ({ id, name, cuisine: cuisine ?? null });
+
+/**
+ * The recipes table as the identity queries see it: the live rows for the sitemap's
+ * `is_public = true` read, and `unpublished` (or the error) for the read of the rest.
+ */
+function recipesTable(unpublished: IdentityRow[] | Error = []): void {
+  mockDbRows.mockImplementation(async (sql) => {
+    if (!sql.includes("IS NOT TRUE")) return { rows: LIVE.map(identityRow) };
+    if (unpublished instanceof Error) throw unpublished;
+    return { rows: unpublished };
+  });
 }
 
 beforeEach(() => {
   mockGetAllRecipes.mockReset();
+  mockLogError.mockReset();
   mockDegraded = false;
+  recipesTable();
 });
 
 describe("the catalog has no limit", () => {
@@ -251,19 +282,71 @@ describe("a live database is completed by the recipes only the static catalog ha
   });
 
   it("serves the same recipes as the sitemap's canonical id list", async () => {
-    jest.doMock("@/lib/database", () => ({
-      executeQuery: async () => ({
-        rows: LIVE.map(({ id, name, cuisine }) => ({ id, name, cuisine: cuisine ?? null })),
-      }),
-    }));
-    try {
-      jest.resetModules();
-      const { listCanonicalRecipeIds } = await import("@/lib/recipes/recipeRefResolver");
-      const canonical = new Set(await listCanonicalRecipeIds());
-      expect(canonical.size).toBeGreaterThan(LIVE.length);
-      expect(new Set(ids(await get()))).toEqual(canonical);
-    } finally {
-      jest.dontMock("@/lib/database");
-    }
+    const canonical = new Set(await listCanonicalRecipeIds());
+    expect(canonical.size).toBeGreaterThan(LIVE.length);
+    expect(new Set(ids(await get()))).toEqual(canonical);
+  });
+});
+
+describe("the static copy of an unpublished recipe is not listed", () => {
+  beforeEach(liveDatabase);
+
+  /** The one static recipe named like a row the operator unpublished (#558). */
+  function haemulPajeon(): Recipe {
+    const matches = staticRecipes.filter((r) => r.name === "Haemul Pajeon");
+    expect(matches).toHaveLength(1);
+    return matches[0] as Recipe;
+  }
+  const UNPUBLISHED_HAEMUL: IdentityRow = {
+    id: "5b3f6a52-0000-4000-8000-000000000001",
+    name: "Haemul Pajeon",
+    cuisine: "Korean",
+  };
+
+  async function canonicalIds(): Promise<Set<string>> {
+    return new Set(await listCanonicalRecipeIds());
+  }
+
+  it("lists it while its database row is public or absent (control)", async () => {
+    const served = await get();
+    expect(ids(served)).toContain(haemulPajeon().id);
+    expect(await canonicalIds()).toContain(haemulPajeon().id);
+  });
+
+  it("drops it, and only it, from the catalog and from the sitemap alike", async () => {
+    const before = await get();
+    recipesTable([UNPUBLISHED_HAEMUL]);
+    mockGetAllRecipes.mockResolvedValue([...LIVE]); // the next catalog refresh asks again
+    const after = await get();
+    expect(after.total).toBe(before.total - 1);
+    expect(ids(before).filter((id) => !ids(after).includes(id))).toEqual([haemulPajeon().id]);
+    expect(await canonicalIds()).not.toContain(haemulPajeon().id);
+    expect(new Set(ids(after))).toEqual(await canonicalIds());
+  });
+
+  it("still lists the live recipes, and the static ones no unpublished row names", async () => {
+    recipesTable([UNPUBLISHED_HAEMUL]);
+    const served = await get();
+    expect(ids(served)).toEqual(expect.arrayContaining([LIVE_OYAKODON.id, LIVE_DB_ONLY.id]));
+    expect((await get("?cuisine=fusion")).total).toBe(3);
+  });
+
+  it("lists no static-only recipe when it cannot tell which were unpublished, and logs it", async () => {
+    recipesTable(new Error("connection reset"));
+    const served = await get();
+    expect(ids(served).sort()).toEqual(LIVE.map((r) => r.id).sort());
+    expect(mockLogError).toHaveBeenCalledTimes(1);
+  });
+
+  it("asks the database once per catalog refresh, not once per request", async () => {
+    const asked = (): number => mockDbRows.mock.calls.filter(([sql]) => sql.includes("IS NOT TRUE")).length;
+    await get();
+    await get("?cuisine=fusion");
+    await get("?limit=10");
+    expect(asked()).toBe(1);
+    // A refreshed live catalog is a new array: the question is asked again.
+    mockGetAllRecipes.mockResolvedValue([...LIVE]);
+    await get();
+    expect(asked()).toBe(2);
   });
 });

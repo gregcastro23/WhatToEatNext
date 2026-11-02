@@ -24,6 +24,17 @@ export interface RecipeIdentityRecord {
   cuisine?: string;
 }
 
+/** A recipe-shaped value as an identity record, or null when it has no usable id and name. */
+export function toIdentity(recipe: {
+  id?: unknown;
+  name?: unknown;
+  cuisine?: unknown;
+}): RecipeIdentityRecord | null {
+  const { id, name, cuisine } = recipe;
+  if ((typeof id !== "string" && typeof id !== "number") || typeof name !== "string") return null;
+  return { id: String(id), name, ...(typeof cuisine === "string" ? { cuisine } : {}) };
+}
+
 export type RecipeRefResolution =
   | { kind: "twin"; staticId: string; liveId: string }
   | { kind: "static-only"; staticId: string };
