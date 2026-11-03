@@ -187,6 +187,16 @@ jobs:
         # file existed but no workflow ran it. AST extraction, pytest only.
         run: python -m pytest backend/tests/test_main_excluded_bodies.py -q
 
+      - name: Deployed-server seasonal modifiers (Python)
+        # get_seasonal_modifiers() in backend/utils/seasonal_engine.py called
+        # get_planet_weight() without importing it, so every call raised NameError and
+        # the by-chart recommender in main.py (its caller) could not get past it. The
+        # tests beside the module cover only the singular get_seasonal_modifier, and CI
+        # collects nothing under backend/utils. Standard library + pytest only, like the
+        # steps above; it also reads each caller's source with ast to check that every
+        # key they read is a key the function returns.
+        run: python -m pytest backend/tests/test_seasonal_engine_modifiers.py -q
+
       - name: Deploy-time migration runner (Python)
         # backend/scripts/run_init_migrations.py runs before uvicorn on every
         # Railway deploy. A no-transaction migration first in line failed it

@@ -6,10 +6,10 @@ import os
 # Import planetary weights (handles both package and direct invocation)
 # ---------------------------------------------------------------------------
 try:
-    from backend.utils.planetary_weights import normalize_planet_weight, PLANET_MASS_RELATIVE
+    from backend.utils.planetary_weights import get_planet_weight, normalize_planet_weight, PLANET_MASS_RELATIVE
 except ImportError:
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
-    from backend.utils.planetary_weights import normalize_planet_weight, PLANET_MASS_RELATIVE
+    from backend.utils.planetary_weights import get_planet_weight, normalize_planet_weight, PLANET_MASS_RELATIVE
 
 
 # ---------------------------------------------------------------------------
