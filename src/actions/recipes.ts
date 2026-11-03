@@ -631,14 +631,14 @@ function publicationIfAny(): RecipePublication | null {
  * is worked out again only when the loaded array or the table read is a new
  * object, not on every call.
  *
- * A cold process starts the read at once, beside the bundled catalog's load,
- * and its first call waits for that read to settle (at most one connection
- * timeout, once: see `firstReadSettled`), so that the first request is already
- * filtered. No later call waits.
+ * A cold process builds the bundled catalog, then begins the read (unless the
+ * live catalog's load already has) and its first call waits for that read to
+ * settle (at most one connection timeout, once: see `firstReadSettled`), so
+ * that the first request is already filtered. No later call waits.
  */
 async function servedView(): Promise<ServedView> {
-  publicationIfAny();
   const raw = await loadedRecipes();
+  publicationIfAny();
   if (databaseIsConfigured()) await firstReadSettled();
   const publication = publicationIfAny();
   // No await from here to the end, so concurrent callers share one view.

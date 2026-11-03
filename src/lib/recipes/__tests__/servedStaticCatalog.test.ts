@@ -407,15 +407,17 @@ describe("the first call of a cold process", () => {
 });
 
 describe("the cost of asking", () => {
-  it("starts reading the table while the bundled catalog is still loading, and has it by the time the catalog is built", async () => {
+  it("begins the read once the bundled catalog is built, not beside the build", async () => {
+    // The build is one synchronous run, so a read begun beside it cannot be served until it ends, and
+    // would be logged as a slow query on every cold start for the time the build held it.
     table(HAEMUL_UNPUBLISHED);
     mockDbRows.mockClear();
     await jest.isolateModulesAsync(async () => {
       const fresh = await import("@/actions/recipes");
       const pending = fresh.getServerRecipes();
-      // A cold process takes seconds to build the bundled catalog; the table was asked for at once.
+      expect(mockDbRows).not.toHaveBeenCalled(); // the build is still running
+      expect(idsOf(await pending)).not.toContain(haemul().id); // and the first call is filtered all the same
       expect(mockDbRows).toHaveBeenCalledTimes(1);
-      expect(idsOf(await pending)).not.toContain(haemul().id); // and it had answered by the time the catalog was ready
     });
   });
 

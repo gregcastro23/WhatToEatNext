@@ -142,6 +142,16 @@ export function readPublication(): Promise<RecipePublication> {
   return Promise.reject(attempt?.error ?? new Error("the recipes table has not been read"));
 }
 
+/**
+ * Begin the read of the recipes table now if one is due (and a database is
+ * configured). The live catalog's load calls this as it starts, so that the
+ * read runs beside the live query's wait and a database that is down fails
+ * both together, instead of the bundled fallback waiting for a second timeout.
+ */
+export function startPublicationRead(): void {
+  if (databaseIsConfigured()) publicationNow();
+}
+
 let firstWait: Promise<void> | null = null;
 
 /**
@@ -149,13 +159,14 @@ let firstWait: Promise<void> | null = null;
  * after one connection timeout, whichever is first, and at once from then on.
  *
  * `getServerRecipes` waits on this once, after it has built the bundled
- * catalog: that build is one synchronous run of about half a second, during
- * which the socket of a read begun beside it cannot be served, so the read
- * has not landed when the build ends even though the database answered at
- * once [MEASURED 2026-11-02: it lands 18.6 ms later, 230 event-loop turns]. A
- * healthy database costs the first call that long; a hung one costs it a
- * connection timeout, once per process, which is the time the pool takes to
- * give up connecting.
+ * catalog, so that the first request is already filtered. A healthy database
+ * costs that call the read, about 25 ms on a local one [MEASURED 2026-11-02];
+ * a hung one costs a connection timeout, once per process, which is the time
+ * the pool takes to give up connecting. The read is begun after the build, not
+ * beside it: the build is one synchronous run of about half a second during
+ * which a read's socket cannot be served, so a read begun before it gains
+ * nothing [MEASURED: it landed 18.6 ms after the build ended, 230 event-loop
+ * turns], and is logged as a slow query on every cold start.
  */
 export function firstReadSettled(): Promise<void> {
   if (known || attempt) return Promise.resolve();

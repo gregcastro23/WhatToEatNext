@@ -259,6 +259,34 @@ describe("firstReadSettled", () => {
   });
 });
 
+describe("startPublicationRead", () => {
+  const saved = { url: process.env.DATABASE_URL, publicUrl: process.env.DATABASE_PUBLIC_URL };
+  afterEach(() => {
+    for (const [key, value] of [["DATABASE_URL", saved.url], ["DATABASE_PUBLIC_URL", saved.publicUrl]] as const) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  });
+
+  it("begins a read when a database is configured, once however often it is called", async () => {
+    process.env.DATABASE_URL = "postgresql://test@localhost/test";
+    standardTable();
+    const { startPublicationRead } = await module_();
+    startPublicationRead();
+    startPublicationRead();
+    expect(mockQuery).toHaveBeenCalledTimes(1);
+  });
+
+  it("asks nothing when no database is configured", async () => {
+    delete process.env.DATABASE_URL;
+    delete process.env.DATABASE_PUBLIC_URL;
+    standardTable();
+    const { startPublicationRead } = await module_();
+    startPublicationRead();
+    expect(mockQuery).not.toHaveBeenCalled();
+  });
+});
+
 describe("publicationNow", () => {
   it("is null before the first read, begins it at once, and never waits for it", async () => {
     mockQuery.mockImplementation(() => new Promise(() => undefined)); // a read that never answers
