@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import {
-  getRecipeCountForIngredient,
-  getRecipesByCuisineForIngredient,
   getRecipesForIngredient,
+  groupMatchesByCuisine,
   resolveIngredientSlug,
 } from "@/data/ingredientRecipeIndex";
 import {
@@ -13,6 +12,7 @@ import {
 import { buildRelatedIngredientRecipe } from "@/lib/ingredients/relatedRecipe";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { withoutHiddenRecipes } from "@/lib/recipes/unpublishedCopies";
 import { IngredientService } from "@/services/IngredientService";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { RelatedIngredientRecipe } from "@/types/ingredient";
@@ -106,10 +106,10 @@ export async function GET(
     const canonicalName = card?.name ?? ingredientName;
     const slug = resolveIngredientSlug(canonicalName) ?? resolveIngredientSlug(ingredientName) ?? canonicalName;
 
-    // Get from pre-computed recipe index
-    const matches = getRecipesForIngredient(slug);
-    const totalRecipeMatches = getRecipeCountForIngredient(slug);
-    const recipesByCuisine = getRecipesByCuisineForIngredient(slug);
+    // Get from pre-computed recipe index, minus the recipes the operator unpublished
+    const matches = await withoutHiddenRecipes(getRecipesForIngredient(slug));
+    const totalRecipeMatches = matches.length;
+    const recipesByCuisine = groupMatchesByCuisine(matches);
 
     // Enhance the top 24 recipes with detailed timing info for the UI
     const recipeService = UnifiedRecipeService.getInstance();

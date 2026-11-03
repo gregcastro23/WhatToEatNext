@@ -86,8 +86,21 @@ const ids = (served: Served): string[] => served.recipes.map((r) => r.id);
 
 let staticRecipes: Recipe[];
 
+// These tests exercise the catalog list's own guard against an unpublished
+// recipe's copy, so the bundled catalog must reach it whole: no database is
+// configured here, whatever the developer's shell exports. The same rule one
+// layer down, in getServerRecipes, is tested in servedStaticCatalog.test.ts.
+const savedUrls = { url: process.env.DATABASE_URL, publicUrl: process.env.DATABASE_PUBLIC_URL };
+
 beforeAll(async () => {
+  delete process.env.DATABASE_URL;
+  delete process.env.DATABASE_PUBLIC_URL;
   staticRecipes = await getServerRecipes();
+});
+
+afterAll(() => {
+  if (savedUrls.url !== undefined) process.env.DATABASE_URL = savedUrls.url;
+  if (savedUrls.publicUrl !== undefined) process.env.DATABASE_PUBLIC_URL = savedUrls.publicUrl;
 });
 
 /** The live database as it is when it is down: the catalog degrades to the static list. */

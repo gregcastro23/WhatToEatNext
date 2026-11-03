@@ -2,7 +2,12 @@
 
 import { getCuisineData, PRIMARY_CUISINE_KEYS } from "@/data/cuisines/index";
 import { toIdentity, type RecipeIdentityRecord } from "@/lib/recipes/recipeIdentity";
-import { hiddenStaticIds, readPublication } from "@/lib/recipes/unpublishedCopies";
+import {
+  databaseIsConfigured,
+  hiddenStaticIds,
+  readPublication,
+  type RecipePublication,
+} from "@/lib/recipes/unpublishedCopies";
 import type { Cuisine } from "@/types/cuisine";
 import type { IndexedRecipe, RecipeIndex } from "@/types/indexedRecipe";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
@@ -581,6 +586,8 @@ export async function getServerRecipes(): Promise<Recipe[]> {
 
 interface ServedView {
   raw: readonly Recipe[];
+  /** The table this view was last checked against; the same object until the next read. */
+  publication: RecipePublication | null;
   hidden: string;
   recipes: Recipe[];
   index: RecipeIndex;
@@ -603,17 +610,14 @@ function identitiesOf(raw: readonly Recipe[]): RecipeIdentityRecord[] {
 }
 
 /**
- * Which bundled recipes to hide. Nothing when no database is configured (a
- * preview, a test) or its recipes cannot be read: the static catalog is also
- * the outage fallback, and it must never come back empty for want of the list.
+ * The recipes table, started now so that it is read while the bundled catalog
+ * loads. Nothing when no database is configured (a preview, a test) or when it
+ * has never been readable: the static catalog is also the outage fallback, and
+ * it must never come back empty for want of the list.
  */
-async function hiddenIds(raw: readonly Recipe[]): Promise<ReadonlySet<string>> {
-  if (!(process.env.DATABASE_URL ?? process.env.DATABASE_PUBLIC_URL)) return NOTHING_HIDDEN;
-  try {
-    return hiddenStaticIds(identitiesOf(raw), await readPublication());
-  } catch {
-    return NOTHING_HIDDEN;
-  }
+function publicationIfAny(): Promise<RecipePublication | null> {
+  if (!databaseIsConfigured()) return Promise.resolve(null);
+  return readPublication().catch(() => null);
 }
 
 /**
@@ -621,15 +625,22 @@ async function hiddenIds(raw: readonly Recipe[]): Promise<ReadonlySet<string>> {
  * out. One array per distinct hidden set: callers tell "the live catalog fell
  * back to the static list" by array identity, so the array is replaced only
  * when the set changes, and with nothing hidden it is the loaded array itself.
+ * The rule is worked out again only when the loaded array or the table read
+ * is a new object, not on every call.
  */
 async function servedView(): Promise<ServedView> {
-  const raw = await loadedRecipes();
-  const hidden = await hiddenIds(raw);
-  const key = [...hidden].sort().join("|");
-  // No await between this check and the assignment, so concurrent callers share one view.
-  if (_served?.raw === raw && _served.hidden === key) return _served;
-  const recipes = hidden.size === 0 ? raw : raw.filter((r) => !hidden.has(String(r.id)));
-  _served = { raw, hidden: key, recipes, index: hidden.size === 0 ? (_cachedIndex ?? buildRecipeIndex(raw)) : buildRecipeIndex(recipes) };
+  const [raw, publication] = await Promise.all([loadedRecipes(), publicationIfAny()]);
+  // No await from here to the end, so concurrent callers share one view.
+  if (_served?.raw === raw && _served.publication === publication) return _served;
+  const hiddenIds = publication ? hiddenStaticIds(identitiesOf(raw), publication) : NOTHING_HIDDEN;
+  const hidden = [...hiddenIds].sort().join("|");
+  if (_served?.raw === raw && _served.hidden === hidden) {
+    _served.publication = publication;
+    return _served;
+  }
+  const recipes = hiddenIds.size === 0 ? raw : raw.filter((r) => !hiddenIds.has(String(r.id)));
+  const index = hiddenIds.size === 0 ? (_cachedIndex ?? buildRecipeIndex(raw)) : buildRecipeIndex(recipes);
+  _served = { raw, publication, hidden, recipes, index };
   return _served;
 }
 
@@ -676,9 +687,10 @@ async function loadServerRecipes(): Promise<Recipe[]> {
 }
 
 /**
- * Return the prebuilt mealType × season index, building it on demand if
- * `getServerRecipes` hasn't been called yet. Used by the recommendation
- * bridge to avoid scanning the entire recipe catalog on every request.
+ * Return the prebuilt mealType × season index of the recipes
+ * `getServerRecipes` serves (so without the hidden ones), building it on
+ * demand. Used by the recommendation bridge to avoid scanning the entire
+ * recipe catalog on every request.
  */
 export async function getServerRecipeIndex(): Promise<RecipeIndex> {
   return (await servedView()).index;

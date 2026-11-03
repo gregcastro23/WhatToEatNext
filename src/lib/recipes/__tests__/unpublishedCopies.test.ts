@@ -146,6 +146,25 @@ describe("readPublication", () => {
     expect(recovered.unpublished).toEqual([]);
   });
 
+  it("keeps rejecting for the whole back-off in a process that has never read the table, without asking again", async () => {
+    mockQuery.mockRejectedValue(new Error("connection reset"));
+    const { readPublication } = await module_();
+    await expect(readPublication()).rejects.toThrow("connection reset");
+    await expect(readPublication()).rejects.toThrow("connection reset");
+    expect(mockQuery).toHaveBeenCalledTimes(1);
+
+    clock += databaseConfig.connectionTimeout;
+    table([{ row: PUBLIC_OYAKODON, published: true }]);
+    await expect(readPublication()).resolves.toMatchObject({ unpublished: [] });
+    expect(mockQuery).toHaveBeenCalledTimes(2);
+  });
+
+  it("keeps a row with no cuisine: the name is all the rule needs", async () => {
+    mockQuery.mockResolvedValue({ rows: [{ id: "c", name: "Haemul Pajeon", cuisine: null, published: false }] });
+    const { readPublication } = await module_();
+    expect((await readPublication()).unpublished).toEqual([{ id: "c", name: "Haemul Pajeon" }]);
+  });
+
   it("asks for every row with a flag, so that nothing the live read excludes is missed", async () => {
     standardTable();
     const { readPublication } = await module_();
@@ -197,12 +216,19 @@ describe("hiddenStaticIds", () => {
     expect(hiddenStaticIds(STATIC, publication([PUBLIC_OYAKODON], [other])).size).toBe(0);
   });
 
-  it("never hides more recipes than there are unpublished rows, even from duplicate names", async () => {
+  it("hides the copies that share the unpublished name, and never a recipe under another name", async () => {
     const { hiddenStaticIds } = await module_();
     const twin: RecipeIdentityRecord = { ...HAEMUL, id: "korean-dinner-haemul-pajeon-2" };
     const hidden = hiddenStaticIds([HAEMUL, twin, FUSION], publication([PUBLIC_OYAKODON], [UNPUBLISHED_HAEMUL]));
-    expect(hidden.size).toBeLessThanOrEqual(1);
+    expect(hidden.has(HAEMUL.id)).toBe(true);
     expect(hidden.has(FUSION.id)).toBe(false);
+  });
+
+  it("matches the name when only the accents differ, as the identity index does", async () => {
+    const { hiddenStaticIds } = await module_();
+    const plain: RecipeIdentityRecord = { id: "vietnamese-lunch-bun-bo-hue", name: "Bun Bo Hue", cuisine: "Vietnamese" };
+    const accented = { id: "u", name: "Bún Bò Huế", cuisine: "Vietnamese" };
+    expect([...hiddenStaticIds([plain, FUSION], publication([], [accented]))]).toEqual([plain.id]);
   });
 });
 
@@ -237,5 +263,73 @@ describe("servedStaticOnlyIds", () => {
     expect(await servedStaticOnlyIds([HAEMUL.id, FUSION.id], STATIC)).not.toBe(first);
     clock += CATALOG_TTL_MS;
     expect(await servedStaticOnlyIds(staticOnly, STATIC)).not.toBe(first);
+  });
+});
+
+describe("databaseIsConfigured", () => {
+  const saved = { url: process.env.DATABASE_URL, publicUrl: process.env.DATABASE_PUBLIC_URL };
+  afterEach(() => {
+    for (const [key, value] of [["DATABASE_URL", saved.url], ["DATABASE_PUBLIC_URL", saved.publicUrl]] as const) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  });
+
+  it("is true for either variable, which is the order the pool itself reads them in, and false for neither", async () => {
+    const { databaseIsConfigured } = await module_();
+    delete process.env.DATABASE_URL;
+    delete process.env.DATABASE_PUBLIC_URL;
+    expect(databaseIsConfigured()).toBe(false);
+    process.env.DATABASE_PUBLIC_URL = "postgresql://test@localhost/test";
+    expect(databaseIsConfigured()).toBe(true);
+    delete process.env.DATABASE_PUBLIC_URL;
+    process.env.DATABASE_URL = "postgresql://test@localhost/test";
+    expect(databaseIsConfigured()).toBe(true);
+  });
+});
+
+describe("withoutHiddenRecipes", () => {
+  const saved = process.env.DATABASE_URL;
+  beforeEach(() => {
+    process.env.DATABASE_URL = "postgresql://test@localhost/test";
+  });
+  afterEach(() => {
+    if (saved === undefined) delete process.env.DATABASE_URL;
+    else process.env.DATABASE_URL = saved;
+  });
+
+  /** One entry per ingredient line, as the index has them: a recipe's lines all carry its one id. */
+  const entry = (recipeId: string, recipeName: string, cuisine: string, line: string) => ({ recipeId, recipeName, cuisine, line });
+  const ENTRIES = [
+    entry("korean-dinner-haemul-pajeon", "Haemul Pajeon", "Korean", "squid"),
+    entry("thai-dinner-pad-thai", "Pad Thai", "Thai", "rice noodles"),
+    entry("korean-dinner-haemul-pajeon", "Haemul Pajeon", "Korean", "scallion"),
+  ];
+
+  it("drops the entries of a hidden recipe, every line of it, and keeps the rest in order", async () => {
+    standardTable();
+    const { withoutHiddenRecipes } = await module_();
+    expect((await withoutHiddenRecipes(ENTRIES)).map((e) => e.line)).toEqual(["rice noodles"]);
+  });
+
+  it("keeps everything while nothing is unpublished (control)", async () => {
+    table([{ row: PUBLIC_OYAKODON, published: true }]);
+    const { withoutHiddenRecipes } = await module_();
+    expect(await withoutHiddenRecipes(ENTRIES)).toEqual(ENTRIES);
+  });
+
+  it("keeps everything when the table has never been readable: a list is not worth an error", async () => {
+    mockQuery.mockRejectedValue(new Error("connection reset"));
+    const { withoutHiddenRecipes } = await module_();
+    expect(await withoutHiddenRecipes(ENTRIES)).toEqual(ENTRIES);
+  });
+
+  it("asks nothing and keeps everything when no database is configured", async () => {
+    delete process.env.DATABASE_URL;
+    delete process.env.DATABASE_PUBLIC_URL;
+    standardTable();
+    const { withoutHiddenRecipes } = await module_();
+    expect(await withoutHiddenRecipes(ENTRIES)).toEqual(ENTRIES);
+    expect(mockQuery).not.toHaveBeenCalled();
   });
 });

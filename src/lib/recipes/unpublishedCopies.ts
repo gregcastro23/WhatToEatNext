@@ -9,14 +9,18 @@
  * is a stub, ranked first on a default chart.
  *
  * The rule: a bundled recipe is hidden when it has no public live twin and
- * does have an unpublished one. A copy with a public twin is never hidden: the
- * live row serves it, and it supplies that row's authored times and its legacy
- * URL. A bundled recipe the database has never held is never hidden.
+ * does have an unpublished one. "Twin" is the identity index's: the recipe's
+ * name (accent-folded as a fallback), with cuisine only breaking a tie, so
+ * one unpublished row can hide every spelling of its name. A copy with a
+ * public twin is never hidden: the live row serves it, and it supplies that
+ * row's authored times and its legacy URL. A bundled recipe whose name no
+ * unpublished row carries is never hidden.
  *
  * `readPublication` is the one read of the recipes table every consumer shares.
  * `hiddenStaticIds` feeds `getServerRecipes`, so every reader of the bundled
- * catalog gets the rule; `servedStaticOnlyIds` and `dropUnpublishedTwins` are
- * the catalog list's and the sitemap's own guard.
+ * catalog gets the rule; `withoutHiddenRecipes` applies it to lists derived
+ * from the bundled catalog; `servedStaticOnlyIds` and `dropUnpublishedTwins`
+ * are the catalog list's and the sitemap's own guard.
  *
  * @file src/lib/recipes/unpublishedCopies.ts
  */
@@ -114,11 +118,7 @@ export function dropUnpublishedTwins(
   return staticOnlyIds.filter((id) => index.resolve(id)?.kind !== "twin");
 }
 
-/**
- * The bundled recipes to hide: no public live twin, an unpublished one. Pure.
- * Each unpublished row is claimed by at most one bundled recipe, so this never
- * hides more recipes than there are unpublished rows.
- */
+/** The bundled recipes to hide: no public live twin, an unpublished one. Pure. */
 export function hiddenStaticIds(
   staticIdentities: readonly RecipeIdentityRecord[],
   { published, unpublished }: RecipePublication,
@@ -127,6 +127,32 @@ export function hiddenStaticIds(
   const staticOnly = buildRecipeIdentityIndex(staticIdentities, published).staticOnlyIds;
   const shown = new Set(dropUnpublishedTwins(staticOnly, staticIdentities, unpublished));
   return new Set(staticOnly.filter((id) => !shown.has(id)));
+}
+
+/**
+ * Whether there is a database to ask. Without one (a preview, a test) nothing
+ * can be unpublished, so nothing is asked and nothing is hidden.
+ */
+export function databaseIsConfigured(): boolean {
+  return Boolean(process.env.DATABASE_URL ?? process.env.DATABASE_PUBLIC_URL);
+}
+
+/**
+ * The entries of a list derived from the bundled catalog (the ingredient →
+ * recipe index) minus those of a hidden recipe. Fails open, as
+ * `getServerRecipes` does: a list is not worth an error.
+ */
+export async function withoutHiddenRecipes<T extends { recipeId: string; recipeName: string; cuisine: string }>(
+  entries: readonly T[],
+): Promise<T[]> {
+  if (!databaseIsConfigured()) return [...entries];
+  try {
+    const identities = entries.map((e) => ({ id: e.recipeId, name: e.recipeName, cuisine: e.cuisine }));
+    const hidden = hiddenStaticIds(identities, await readPublication());
+    return hidden.size === 0 ? [...entries] : entries.filter((e) => !hidden.has(e.recipeId));
+  } catch {
+    return [...entries];
+  }
 }
 
 const servedFor = new WeakMap<readonly string[], { publication: RecipePublication; ids: readonly string[] }>();

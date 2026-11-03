@@ -9,15 +9,24 @@
  * database and the live catalog mocked.
  */
 import { getServerRecipeIndex, getServerRecipes } from "@/actions/recipes";
+import { quizCatalogResponse, quizDishRecipe } from "@/lib/quiz/serverCatalog";
+import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
 import { CATALOG_TTL_MS } from "../catalogTtl";
 import { indexRecipeIdAliases } from "../recipeIdentity";
-import { loadCanonicalCatalog, loadStaticTwinBridge, resolveRecipeRef } from "../recipeRefResolver";
+import * as unpublished from "../unpublishedCopies";
+import {
+  listCanonicalRecipeIds,
+  loadCanonicalCatalog,
+  loadStaticTwinBridge,
+  resolveRecipeRef,
+} from "../recipeRefResolver";
 
 const mockDbRows = jest.fn<Promise<{ rows: unknown[] }>, []>();
 const mockLive = jest.fn<Promise<Recipe[]>, []>();
 const mockLogError = jest.fn();
 
+jest.mock("server-only", () => ({}));
 jest.mock("@/lib/database", () => ({ executeQuery: () => mockDbRows() }));
 jest.mock("@/lib/logger", () => ({
   _logger: { error: (...args: unknown[]) => mockLogError(...args), warn: jest.fn(), info: jest.fn(), debug: jest.fn() },
@@ -46,6 +55,11 @@ interface Row {
 }
 const HAEMUL_UNPUBLISHED: Row = { id: "5b3f6a52-0000-4000-8000-000000000001", name: "Haemul Pajeon", cuisine: "Korean", published: false };
 const HAEMUL_PUBLISHED: Row = { ...HAEMUL_UNPUBLISHED, id: "6c4a7b63-0000-4000-8000-000000000002", published: true };
+/** An unpublished row named like a given bundled recipe. */
+function unpublishedLike(recipe: Recipe, n: number): Row {
+  return { id: `8e6c9d85-0000-4000-8000-${String(n).padStart(12, "0")}`, name: recipe.name, cuisine: recipe.cuisine ?? "", published: false };
+}
+
 /** An unpublished row named like a real bundled Fusion recipe, so a second recipe can be hidden. */
 function fusionUnpublished(): Row {
   const fusion = bundled.find((r) => r.cuisine === "fusion");
@@ -249,5 +263,107 @@ describe("with no database configured", () => {
     nextRefresh();
     expect(await getServerRecipes()).toBe(bundled);
     expect(mockDbRows).not.toHaveBeenCalled();
+  });
+});
+
+describe("the cost of asking", () => {
+  it("works the rule out once per read of the table, not once per call", async () => {
+    table(HAEMUL_UNPUBLISHED);
+    const rule = jest.spyOn(unpublished, "hiddenStaticIds");
+    await getServerRecipes();
+    const afterFirst = rule.mock.calls.length;
+    expect(afterFirst).toBe(1);
+
+    await getServerRecipes();
+    await getServerRecipeIndex();
+    await Promise.all([getServerRecipes(), getServerRecipes()]);
+    expect(rule).toHaveBeenCalledTimes(afterFirst);
+
+    nextRefresh();
+    await getServerRecipes();
+    expect(rule).toHaveBeenCalledTimes(afterFirst + 1);
+  });
+});
+
+describe("the hidden set follows the table, one recipe or the other", () => {
+  it("is replaced when one recipe is republished and another unpublished, at the same count", async () => {
+    table(HAEMUL_UNPUBLISHED);
+    const first = await getServerRecipes();
+    const fusion = fusionUnpublished();
+    table(fusion);
+    nextRefresh();
+    const second = await getServerRecipes();
+    expect(second).not.toBe(first);
+    expect(second).toHaveLength(first.length);
+    expect(idsOf(second)).toContain(haemul().id);
+    expect(idsOf(first).filter((id) => !idsOf(second).includes(id))).toHaveLength(1);
+    expect(idsOf(second).filter((id) => !idsOf(first).includes(id))).toEqual([haemul().id]);
+  });
+
+  it("hides the first and the last bundled recipe like any other", async () => {
+    const named = bundled.filter((r) => bundled.filter((o) => o.name === r.name).length === 1);
+    const first = named[0];
+    const last = named[named.length - 1];
+    if (!first || !last) throw new Error("no uniquely named bundled recipes");
+    expect(bundled.indexOf(first)).toBeLessThan(5);
+    expect(bundled.indexOf(last)).toBeGreaterThan(bundled.length - 5);
+    table(unpublishedLike(first, 1), unpublishedLike(last, 2));
+    const served = idsOf(await getServerRecipes());
+    expect(served).not.toContain(String(first.id));
+    expect(served).not.toContain(String(last.id));
+    expect(served).toHaveLength(bundled.length - 2);
+  });
+});
+
+describe("the sitemap's own list", () => {
+  it("is the served static list when the database holds no published row at all", async () => {
+    mockDbRows.mockImplementation(async () => ({ rows: [HAEMUL_UNPUBLISHED] }));
+    const served = idsOf(await getServerRecipes());
+    expect(served).not.toContain(haemul().id);
+    expect(new Set(await listCanonicalRecipeIds())).toEqual(new Set(served));
+  });
+});
+
+describe("a database configured only by DATABASE_PUBLIC_URL", () => {
+  it("hides the recipe: the pool reads that variable when DATABASE_URL is absent", async () => {
+    delete process.env.DATABASE_URL;
+    process.env.DATABASE_PUBLIC_URL = "postgresql://test@localhost/test";
+    try {
+      table(HAEMUL_UNPUBLISHED);
+      expect(idsOf(await getServerRecipes())).not.toContain(haemul().id);
+    } finally {
+      delete process.env.DATABASE_PUBLIC_URL;
+    }
+  });
+});
+
+describe("what is built from the served catalog follows the hidden set", () => {
+  it("rebuilds the quiz catalog when a recipe is unpublished or republished, and the dish route agrees", async () => {
+    const dish = (await quizCatalogResponse()).dishes[0];
+    if (!dish) throw new Error("the quiz catalog is empty");
+    const recipe = await quizDishRecipe(dish.id);
+    expect(recipe).not.toBeNull(); // the control: it is a quiz dish to begin with
+
+    table(unpublishedLike(recipe as Recipe, 3));
+    nextRefresh();
+    expect((await quizCatalogResponse()).dishes.map((d) => d.id)).not.toContain(dish.id);
+    expect(await quizDishRecipe(dish.id)).toBeNull();
+
+    table();
+    nextRefresh();
+    expect((await quizCatalogResponse()).dishes.map((d) => d.id)).toContain(dish.id);
+    expect(await quizDishRecipe(dish.id)).not.toBeNull();
+  });
+
+  it("refreshes UnifiedRecipeService's copy on the catalog's TTL, not never", async () => {
+    const service = UnifiedRecipeService.getInstance();
+    expect((await service.getAllRecipes()).map((r) => String(r.id))).toContain(haemul().id);
+
+    table(HAEMUL_UNPUBLISHED);
+    clock += CATALOG_TTL_MS - 1;
+    expect((await service.getAllRecipes()).map((r) => String(r.id))).toContain(haemul().id); // still fresh
+
+    clock += 1;
+    expect((await service.getAllRecipes()).map((r) => String(r.id))).not.toContain(haemul().id);
   });
 });

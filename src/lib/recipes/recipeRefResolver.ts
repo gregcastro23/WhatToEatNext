@@ -98,7 +98,8 @@ function safeDecode(ref: string): string {
 /**
  * True when the "live" catalog is the static list: LocalRecipeService's
  * fallback returns the cached static array itself, and getServerRecipes hands
- * every caller that one array. Identity is race-free; isCatalogDegraded() is
+ * every caller that one array (a new one only when the set of hidden,
+ * unpublished recipes changes). Identity is race-free; isCatalogDegraded() is
  * not, because it is one shared flag that any later load resets, so after an
  * await it can describe another request's list.
  */
