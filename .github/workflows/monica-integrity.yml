@@ -197,6 +197,24 @@ jobs:
         # key they read is a key the function returns.
         run: python -m pytest backend/tests/test_seasonal_engine_modifiers.py -q
 
+      - name: Backend undefined names (Python)
+        # A name that is used but never defined is a NameError waiting for the first call
+        # that reaches it. get_seasonal_modifiers() raised on every call because of one
+        # missing import, and get_transit_details() called a function defined nowhere, so
+        # every route that asks for transit details raised; no test called either. This
+        # runs pyflakes over every tracked backend/*.py and fails on an undefined name, a
+        # file that does not compile or a star import, beyond the reasoned allowlist at the
+        # top of the test (an allowance that is no longer needed fails too).
+        #
+        # It installs pyflakes, which the steps around it deliberately do not, so it does so in a
+        # throwaway venv: the pytest-only steps keep their install. It sits before the migration
+        # runner, not at the end of the job, where other PRs append their steps. pyflakes 4.1.0
+        # needs Python 3.11 or newer, the version this job and backend/Dockerfile run.
+        run: |
+          python -m venv "$RUNNER_TEMP/undefined-names"
+          "$RUNNER_TEMP/undefined-names/bin/python" -m pip install --quiet pytest pyflakes==4.1.0
+          "$RUNNER_TEMP/undefined-names/bin/python" -m pytest backend/tests/test_no_undefined_names.py -q
+
       - name: Deploy-time migration runner (Python)
         # backend/scripts/run_init_migrations.py runs before uvicorn on every
         # Railway deploy. A no-transaction migration first in line failed it
