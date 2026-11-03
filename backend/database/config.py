@@ -10,6 +10,8 @@ from typing import Optional, Dict, Any
 from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings
 
+from .sqlalchemy_url import with_psycopg2_driver
+
 
 class DatabaseConfig(BaseSettings):
     """Database configuration using Pydantic settings management."""
@@ -108,10 +110,15 @@ class DatabaseConfig(BaseSettings):
         return self
 
     def get_sqlalchemy_url(self) -> str:
-        """Get SQLAlchemy-compatible database URL."""
+        """Get SQLAlchemy-compatible database URL, with the psycopg2 driver named.
+
+        `database_url` stays a plain libpq URL (scripts hand it to psycopg2
+        directly); only this SQLAlchemy view of it names the driver. See
+        `sqlalchemy_url.py` for why it must.
+        """
         if not self.database_url:
             return ""
-        return self.database_url
+        return with_psycopg2_driver(self.database_url)
 
 
 # Global configuration instance
