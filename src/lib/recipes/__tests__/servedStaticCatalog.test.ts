@@ -7,6 +7,10 @@
  * (or the pre-built index, or the resolver built on it), so the rule lives
  * there. These tests run the real 1,113-recipe bundled catalog with only the
  * database and the live catalog mocked.
+ *
+ * The table is read behind the request, never waited for: the first call after
+ * it changes still serves the old set, and the read lands for the next. Hence
+ * `setTable` and `nextRefresh`, which make the call and let the read finish.
  */
 import { getServerRecipeIndex, getServerRecipes } from "@/actions/recipes";
 import { quizCatalogResponse, quizDishRecipe } from "@/lib/quiz/serverCatalog";
@@ -14,13 +18,14 @@ import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
 import { CATALOG_TTL_MS } from "../catalogTtl";
 import { indexRecipeIdAliases } from "../recipeIdentity";
-import * as unpublished from "../unpublishedCopies";
 import {
   listCanonicalRecipeIds,
   loadCanonicalCatalog,
   loadStaticTwinBridge,
   resolveRecipeRef,
+  servesStaticFallback,
 } from "../recipeRefResolver";
+import * as unpublished from "../unpublishedCopies";
 
 const mockDbRows = jest.fn<Promise<{ rows: unknown[] }>, []>();
 const mockLive = jest.fn<Promise<Recipe[]>, []>();
@@ -55,6 +60,7 @@ interface Row {
 }
 const HAEMUL_UNPUBLISHED: Row = { id: "5b3f6a52-0000-4000-8000-000000000001", name: "Haemul Pajeon", cuisine: "Korean", published: false };
 const HAEMUL_PUBLISHED: Row = { ...HAEMUL_UNPUBLISHED, id: "6c4a7b63-0000-4000-8000-000000000002", published: true };
+
 /** An unpublished row named like a given bundled recipe. */
 function unpublishedLike(recipe: Recipe, n: number): Row {
   return { id: `8e6c9d85-0000-4000-8000-${String(n).padStart(12, "0")}`, name: recipe.name, cuisine: recipe.cuisine ?? "", published: false };
@@ -78,10 +84,40 @@ function table(...extra: Row[]): void {
 }
 
 let clock = 1_000_000_000_000;
-/** The live catalog's next refresh: its TTL passes. */
-const nextRefresh = (): void => {
+
+/** Let a read that is under way, and the handlers behind it, finish. */
+const settle = (): Promise<void> => new Promise((resolve) => setImmediate(resolve));
+
+/** A call, and the read it begins: afterwards the served view is current. */
+async function catchUp(): Promise<void> {
+  await getServerRecipes();
+  await settle();
+}
+
+/** The live catalog's next refresh: its TTL passes, and the first call after it brings the new read in. */
+async function nextRefresh(): Promise<void> {
   clock += CATALOG_TTL_MS;
-};
+  await catchUp();
+}
+
+/** Change the table, let the served view follow. */
+async function setTable(...extra: Row[]): Promise<void> {
+  table(...extra);
+  await nextRefresh();
+}
+
+/** Resolves to the value, or to "stuck" if it has not settled in `ms`: a call that waits on a hung table would never. */
+async function within<T>(promise: Promise<T>, ms = 8000): Promise<T | "stuck"> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const stuck = new Promise<"stuck">((resolve) => {
+    timer = setTimeout(() => resolve("stuck"), ms);
+  });
+  try {
+    return await Promise.race([promise, stuck]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 /** jest.config restores spies before every test, so the clock is pinned again in each beforeEach. */
 const pinClock = (): void => {
@@ -104,7 +140,7 @@ afterAll(() => {
   if (savedPublicUrl !== undefined) process.env.DATABASE_PUBLIC_URL = savedPublicUrl;
 });
 
-beforeEach(() => {
+beforeEach(async () => {
   process.env.DATABASE_URL = "postgresql://test@localhost/test";
   mockDbRows.mockReset();
   mockLogError.mockReset();
@@ -112,7 +148,7 @@ beforeEach(() => {
   mockLive.mockImplementation(async () => [LIVE_OYAKODON, LIVE_ONLY]);
   clock += CATALOG_TTL_MS * 10;
   pinClock();
-  table();
+  await setTable(); // every test starts from a table with nothing unpublished
 });
 afterEach(() => {
   delete process.env.DATABASE_URL;
@@ -142,7 +178,7 @@ describe("with nothing unpublished (control)", () => {
 });
 
 describe("with Haemul Pajeon unpublished", () => {
-  beforeEach(() => table(HAEMUL_UNPUBLISHED));
+  beforeEach(async () => setTable(HAEMUL_UNPUBLISHED));
 
   it("leaves out that recipe and no other", async () => {
     const served = await getServerRecipes();
@@ -151,16 +187,12 @@ describe("with Haemul Pajeon unpublished", () => {
   });
 
   it("leaves it out of every bucket of the pre-built index, and only it", async () => {
-    const baseline = indexed(await (async () => {
-      table();
-      nextRefresh();
-      return getServerRecipeIndex();
-    })());
+    await setTable();
+    const baseline = indexed(await getServerRecipeIndex());
     const inBuckets = baseline.filter((id) => id === haemul().id).length;
     expect(inBuckets).toBeGreaterThan(0); // the control: it is in the index to begin with
 
-    table(HAEMUL_UNPUBLISHED);
-    nextRefresh();
+    await setTable(HAEMUL_UNPUBLISHED);
     const hidden = indexed(await getServerRecipeIndex());
     expect(hidden).not.toContain(haemul().id);
     expect(hidden).toHaveLength(baseline.length - inBuckets);
@@ -194,7 +226,7 @@ describe("with Haemul Pajeon unpublished", () => {
 
 describe("a bundled recipe with a public live twin is never hidden", () => {
   it("keeps Haemul Pajeon everywhere when a published row shares its name", async () => {
-    table(HAEMUL_UNPUBLISHED, HAEMUL_PUBLISHED);
+    await setTable(HAEMUL_UNPUBLISHED, HAEMUL_PUBLISHED);
     expect(idsOf(await getServerRecipes())).toContain(haemul().id);
     expect(indexed(await getServerRecipeIndex())).toContain(haemul().id);
   });
@@ -202,34 +234,47 @@ describe("a bundled recipe with a public live twin is never hidden", () => {
 
 describe("the array callers compare by identity", () => {
   it("is one array while the hidden set is unchanged, across calls and across refreshes", async () => {
-    table(HAEMUL_UNPUBLISHED);
+    await setTable(HAEMUL_UNPUBLISHED);
     const first = await getServerRecipes();
     expect(first).not.toBe(bundled);
     expect(await getServerRecipes()).toBe(first);
-    nextRefresh();
+    await nextRefresh();
     expect(await getServerRecipes()).toBe(first);
   });
 
   it("is replaced when the set changes, and is the loaded array again when it empties", async () => {
-    table(HAEMUL_UNPUBLISHED);
+    await setTable(HAEMUL_UNPUBLISHED);
     const one = await getServerRecipes();
-    table(HAEMUL_UNPUBLISHED, fusionUnpublished());
-    nextRefresh();
+    await setTable(HAEMUL_UNPUBLISHED, fusionUnpublished());
     const two = await getServerRecipes();
     expect(two).not.toBe(one);
     expect(two.length).toBeLessThan(one.length);
 
-    table();
-    nextRefresh();
+    await setTable();
     expect(await getServerRecipes()).toBe(bundled);
   });
 
   it("is one array for concurrent callers, from one read", async () => {
     table(HAEMUL_UNPUBLISHED);
-    const all = await Promise.all([getServerRecipes(), getServerRecipes(), getServerRecipes()]);
-    expect(all[1]).toBe(all[0]);
-    expect(all[2]).toBe(all[0]);
+    mockDbRows.mockClear();
+    await jest.isolateModulesAsync(async () => {
+      const fresh = await import("@/actions/recipes");
+      const all = await Promise.all([fresh.getServerRecipes(), fresh.getServerRecipes(), fresh.getServerRecipes()]);
+      expect(all[1]).toBe(all[0]);
+      expect(all[2]).toBe(all[0]);
+      expect(all[0]).toHaveLength(bundled.length - 1);
+    });
     expect(mockDbRows).toHaveBeenCalledTimes(1);
+  });
+
+  it("still counts an array handed out before the hidden set changed as the static list", async () => {
+    await setTable(HAEMUL_UNPUBLISHED);
+    const before = await getServerRecipes(); // what a degraded live catalog took as its fallback
+    await setTable(HAEMUL_UNPUBLISHED, fusionUnpublished());
+    const after = await getServerRecipes();
+    expect(after).not.toBe(before);
+    expect(servesStaticFallback(before, after)).toBe(true);
+    expect(servesStaticFallback([LIVE_OYAKODON], after)).toBe(false); // a real live catalog is not
   });
 });
 
@@ -246,12 +291,66 @@ describe("when the recipes table cannot be read", () => {
   });
 
   it("keeps the recipe hidden using the set last read", async () => {
-    table(HAEMUL_UNPUBLISHED);
+    await setTable(HAEMUL_UNPUBLISHED);
     const hidden = await getServerRecipes();
     mockDbRows.mockRejectedValue(new Error("connection reset"));
-    nextRefresh();
+    await nextRefresh();
     expect(await getServerRecipes()).toBe(hidden);
     expect(mockLogError).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("when the recipes table does not answer at all", () => {
+  const hang = (): void => {
+    mockDbRows.mockImplementation(() => new Promise(() => undefined));
+  };
+
+  it("does not hold up a cold process: the whole bundled catalog is served as soon as it is built", async () => {
+    hang();
+    let served: Recipe[] | "stuck" = "stuck";
+    await jest.isolateModulesAsync(async () => {
+      const fresh = await import("@/actions/recipes");
+      served = await within(fresh.getServerRecipes());
+    });
+    expect(served).not.toBe("stuck");
+    expect(Array.isArray(served) && served.map((r) => String(r.id))).toEqual(idsOf(bundled));
+  });
+
+  // A read that never answers stays "in flight" for the module that began it, so each
+  // of these runs in a module registry of its own and leaves the shared one alone.
+  it("does not hold up a warm call: the set last read is served while the refresh hangs", async () => {
+    await jest.isolateModulesAsync(async () => {
+      const fresh = await import("@/actions/recipes");
+      table(HAEMUL_UNPUBLISHED);
+      await fresh.getServerRecipes();
+      await settle();
+      const hidden = await fresh.getServerRecipes();
+      expect(hidden).toHaveLength(bundled.length - 1);
+
+      hang();
+      mockDbRows.mockClear();
+      clock += CATALOG_TTL_MS * 100;
+      expect(await within(fresh.getServerRecipes())).toBe(hidden);
+      expect(await within(fresh.getServerRecipeIndex())).not.toBe("stuck");
+      expect(await within(fresh.getServerRecipes())).toBe(hidden);
+      expect(mockDbRows).toHaveBeenCalledTimes(1); // one refresh at a time, not one per call
+    });
+  });
+
+  it("does not hold up the readers of a degraded live catalog", async () => {
+    await jest.isolateModulesAsync(async () => {
+      const fresh = await import("@/actions/recipes");
+      const resolver = await import("../recipeRefResolver");
+      table(HAEMUL_UNPUBLISHED);
+      await fresh.getServerRecipes();
+      await settle();
+      hang();
+      clock += CATALOG_TTL_MS * 100;
+      // The live catalog failed and fell back to the bundled list; every later reader of that list is prompt.
+      mockLive.mockImplementation(() => fresh.getServerRecipes());
+      expect(await within(resolver.loadCanonicalCatalog())).not.toBe("stuck");
+      expect(await within(resolver.resolveRecipeRef(haemul().id))).toBeNull();
+    });
   });
 });
 
@@ -260,53 +359,52 @@ describe("with no database configured", () => {
     delete process.env.DATABASE_URL;
     delete process.env.DATABASE_PUBLIC_URL;
     table(HAEMUL_UNPUBLISHED);
-    nextRefresh();
+    mockDbRows.mockClear();
+    clock += CATALOG_TTL_MS;
+    await catchUp();
     expect(await getServerRecipes()).toBe(bundled);
     expect(mockDbRows).not.toHaveBeenCalled();
   });
 });
 
 describe("the cost of asking", () => {
-  it("starts reading the table while the bundled catalog is still loading", async () => {
+  it("starts reading the table while the bundled catalog is still loading, and has it by the time the catalog is built", async () => {
     table(HAEMUL_UNPUBLISHED);
+    mockDbRows.mockClear();
     await jest.isolateModulesAsync(async () => {
       const fresh = await import("@/actions/recipes");
       const pending = fresh.getServerRecipes();
       // A cold process takes seconds to build the bundled catalog; the table was asked for at once.
       expect(mockDbRows).toHaveBeenCalledTimes(1);
-      await pending;
+      expect(idsOf(await pending)).not.toContain(haemul().id); // and it had answered by the time the catalog was ready
     });
   });
 
   it("works the rule out once per read of the table, not once per call", async () => {
-    table(HAEMUL_UNPUBLISHED);
+    await setTable(HAEMUL_UNPUBLISHED);
+    await catchUp(); // the view has now seen the read that brought the new set in
     const rule = jest.spyOn(unpublished, "hiddenStaticIds");
-    await getServerRecipes();
     const afterFirst = rule.mock.calls.length;
-    expect(afterFirst).toBe(1);
 
     await getServerRecipes();
     await getServerRecipeIndex();
     await Promise.all([getServerRecipes(), getServerRecipes()]);
     expect(rule).toHaveBeenCalledTimes(afterFirst);
 
-    nextRefresh();
-    await getServerRecipes();
-    expect(rule).toHaveBeenCalledTimes(afterFirst + 1);
+    await nextRefresh();
+    await catchUp();
+    expect(rule).toHaveBeenCalledTimes(afterFirst + 1); // one new read of the table, one new evaluation
   });
 });
 
 describe("the hidden set follows the table, one recipe or the other", () => {
   it("is replaced when one recipe is republished and another unpublished, at the same count", async () => {
-    table(HAEMUL_UNPUBLISHED);
+    await setTable(HAEMUL_UNPUBLISHED);
     const first = await getServerRecipes();
-    const fusion = fusionUnpublished();
-    table(fusion);
-    nextRefresh();
+    await setTable(fusionUnpublished());
     const second = await getServerRecipes();
     expect(second).not.toBe(first);
     expect(second).toHaveLength(first.length);
-    expect(idsOf(second)).toContain(haemul().id);
     expect(idsOf(first).filter((id) => !idsOf(second).includes(id))).toHaveLength(1);
     expect(idsOf(second).filter((id) => !idsOf(first).includes(id))).toEqual([haemul().id]);
   });
@@ -318,7 +416,7 @@ describe("the hidden set follows the table, one recipe or the other", () => {
     if (!first || !last) throw new Error("no uniquely named bundled recipes");
     expect(bundled.indexOf(first)).toBeLessThan(5);
     expect(bundled.indexOf(last)).toBeGreaterThan(bundled.length - 5);
-    table(unpublishedLike(first, 1), unpublishedLike(last, 2));
+    await setTable(unpublishedLike(first, 1), unpublishedLike(last, 2));
     const served = idsOf(await getServerRecipes());
     expect(served).not.toContain(String(first.id));
     expect(served).not.toContain(String(last.id));
@@ -329,6 +427,7 @@ describe("the hidden set follows the table, one recipe or the other", () => {
 describe("the sitemap's own list", () => {
   it("is the served static list when the database holds no published row at all", async () => {
     mockDbRows.mockImplementation(async () => ({ rows: [HAEMUL_UNPUBLISHED] }));
+    await nextRefresh();
     const served = idsOf(await getServerRecipes());
     expect(served).not.toContain(haemul().id);
     expect(new Set(await listCanonicalRecipeIds())).toEqual(new Set(served));
@@ -340,7 +439,7 @@ describe("a database configured only by DATABASE_PUBLIC_URL", () => {
     delete process.env.DATABASE_URL;
     process.env.DATABASE_PUBLIC_URL = "postgresql://test@localhost/test";
     try {
-      table(HAEMUL_UNPUBLISHED);
+      await setTable(HAEMUL_UNPUBLISHED);
       expect(idsOf(await getServerRecipes())).not.toContain(haemul().id);
     } finally {
       delete process.env.DATABASE_PUBLIC_URL;
@@ -355,13 +454,11 @@ describe("what is built from the served catalog follows the hidden set", () => {
     const recipe = await quizDishRecipe(dish.id);
     if (!recipe) throw new Error("the control failed: the first quiz dish has no recipe"); // it is a quiz dish to begin with
 
-    table(unpublishedLike(recipe, 3));
-    nextRefresh();
+    await setTable(unpublishedLike(recipe, 3));
     expect((await quizCatalogResponse()).dishes.map((d) => d.id)).not.toContain(dish.id);
     expect(await quizDishRecipe(dish.id)).toBeNull();
 
-    table();
-    nextRefresh();
+    await setTable();
     expect((await quizCatalogResponse()).dishes.map((d) => d.id)).toContain(dish.id);
     expect(await quizDishRecipe(dish.id)).not.toBeNull();
   });
@@ -374,7 +471,7 @@ describe("what is built from the served catalog follows the hidden set", () => {
     clock += CATALOG_TTL_MS - 1;
     expect((await service.getAllRecipes()).map((r) => String(r.id))).toContain(haemul().id); // still fresh
 
-    clock += 1;
+    await nextRefresh(); // the TTL has passed and the served catalog has caught up
     expect((await service.getAllRecipes()).map((r) => String(r.id))).not.toContain(haemul().id);
   });
 });

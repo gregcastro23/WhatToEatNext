@@ -16,7 +16,8 @@
  * row's authored times and its legacy URL. A bundled recipe whose name no
  * unpublished row carries is never hidden.
  *
- * `readPublication` is the one read of the recipes table every consumer shares.
+ * `publicationNow` and `readPublication` are the one read of the recipes table every
+ * consumer shares; the first never waits on it, the second waits only for the first read.
  * `hiddenStaticIds` feeds `getServerRecipes`, so every reader of the bundled
  * catalog gets the rule; `withoutHiddenRecipes` applies it to lists derived
  * from the bundled catalog; `servedStaticOnlyIds` and `dropUnpublishedTwins`
@@ -65,16 +66,26 @@ async function loadPublication(): Promise<RecipePublication> {
 
 let known: { at: number; value: RecipePublication } | null = null;
 let loading: Promise<RecipePublication> | null = null;
-let failure: { at: number; error: unknown } | null = null;
+/** The last read begun: when it began, and why it failed if it did. */
+let attempt: { at: number; error?: unknown } | null = null;
 
-async function refresh(): Promise<RecipePublication> {
+/**
+ * Whether `span` has not yet passed since `since`. A clock stepped backwards
+ * makes the age negative, which counts as passed: the answer is then read
+ * again, never trusted until the clock catches up.
+ */
+function within(since: number, now: number, span: number): boolean {
+  return now >= since && now - since < span;
+}
+
+async function refresh(startedAt: number): Promise<RecipePublication> {
   try {
     const value = await loadPublication();
     known = { at: Date.now(), value };
-    failure = null;
+    attempt = { at: startedAt };
     return value;
   } catch (error) {
-    failure = { at: Date.now(), error };
+    attempt = { at: startedAt, error };
     _logger.error(
       known
         ? "[recipes] cannot read which recipes are unpublished; using the set last read:"
@@ -87,24 +98,47 @@ async function refresh(): Promise<RecipePublication> {
 }
 
 /**
- * Which recipes the database holds, published and not. Read once per live
- * catalog refresh (CATALOG_TTL_MS) and shared by concurrent callers. After a
- * failed read, no new read is made for one connection timeout, and the set
- * last read is served, however old; only a process that has never read one
- * rejects.
+ * Begin a read when the set last read is older than CATALOG_TTL_MS (or there is
+ * none), unless one is under way or the last began less than a connection
+ * timeout ago: one read at a time, and a database that is down is asked about
+ * once per timeout, not once per caller. Never waits.
  */
-export function readPublication(): Promise<RecipePublication> {
+function ensureFresh(): void {
   const now = Date.now();
-  if (known && now - known.at < CATALOG_TTL_MS) return Promise.resolve(known.value);
-  if (loading) return loading;
-  if (failure && now - failure.at < databaseConfig.connectionTimeout) {
-    return known ? Promise.resolve(known.value) : Promise.reject(failure.error);
-  }
-  const load = refresh().finally(() => {
+  if (loading) return;
+  if (known && within(known.at, now, CATALOG_TTL_MS)) return;
+  if (attempt && within(attempt.at, now, databaseConfig.connectionTimeout)) return;
+  const load = refresh(now).finally(() => {
     if (loading === load) loading = null;
   });
+  // Callers that wait have their own handle on `load`; this one is for the read nobody waits for.
+  load.catch(() => undefined);
   loading = load;
-  return load;
+}
+
+/**
+ * The set of unpublished recipes last read, however old, or null before the
+ * first read. It never waits: it starts a read when one is due and answers
+ * from what is known, so that no caller is slowed by a database that is slow
+ * or down. A set older than CATALOG_TTL_MS is served until the read behind it
+ * lands, which is one request.
+ */
+export function publicationNow(): RecipePublication | null {
+  ensureFresh();
+  return known ? known.value : null;
+}
+
+/**
+ * Which recipes the database holds, published and not, for a caller that cannot
+ * answer without it: the first read in a process is waited for, and rejects if
+ * it fails (and while the next attempt is held back). Once a set is known this
+ * is `publicationNow` and does not wait.
+ */
+export function readPublication(): Promise<RecipePublication> {
+  ensureFresh();
+  if (known) return Promise.resolve(known.value);
+  if (loading) return loading;
+  return Promise.reject(attempt?.error ?? new Error("the recipes table has not been read"));
 }
 
 /** The static-only ids that are not the copy of an unpublished recipe. Pure. */

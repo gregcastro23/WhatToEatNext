@@ -15,6 +15,7 @@ import { CUISINES_METADATA } from "@/data/cuisines/index";
 import { buildRecipeIdentityIndex } from "@/lib/recipes/recipeIdentity";
 import { CATALOG_TTL_MS } from "@/lib/recipes/catalogTtl";
 import { listCanonicalRecipeIds } from "@/lib/recipes/recipeRefResolver";
+import { readPublication } from "@/lib/recipes/unpublishedCopies";
 import { cuisineToSlug } from "@/utils/cuisineSlug";
 import type { Recipe } from "@/types/recipe";
 
@@ -123,10 +124,13 @@ function liveDatabase(): void {
 /** The table is read once per live catalog refresh; each test starts a new one. */
 let clock = 1_000_000_000_000;
 
-/** The live catalog's next refresh: its TTL passes and it hands back a new array. */
-function nextRefresh(): void {
+/** The live catalog's next refresh: its TTL passes, it hands back a new array, and the read behind the first request lands. */
+async function nextRefresh(): Promise<void> {
   clock += CATALOG_TTL_MS;
   mockGetAllRecipes.mockResolvedValue([...LIVE]);
+  // The table is read behind the first request after the TTL; let that read land.
+  await readPublication().catch(() => undefined);
+  await new Promise((resolve) => setTimeout(resolve, 0));
 }
 
 interface IdentityRow {
@@ -349,7 +353,7 @@ describe("the static copy of an unpublished recipe is not listed", () => {
   it("drops it, and only it, from the catalog and from the sitemap alike", async () => {
     const before = await get();
     recipesTable([UNPUBLISHED_HAEMUL]);
-    nextRefresh();
+    await nextRefresh();
     const after = await get();
     expect(after.total).toBe(before.total - 1);
     expect(ids(before).filter((id) => !ids(after).includes(id))).toEqual([haemulPajeon().id]);
@@ -368,7 +372,7 @@ describe("the static copy of an unpublished recipe is not listed", () => {
     recipesTable([UNPUBLISHED_HAEMUL]);
     const healthy = await get();
     recipesTable(new Error("connection reset"));
-    nextRefresh(); // asks again, and fails
+    await nextRefresh(); // asks again, and fails
     const degraded = await get();
     expect(ids(degraded)).toEqual(ids(healthy));
     expect(ids(degraded)).not.toContain(haemulPajeon().id);
@@ -403,7 +407,7 @@ describe("the static copy of an unpublished recipe is not listed", () => {
     await get("?cuisine=fusion");
     await get("?limit=10");
     expect(mockDbRows).toHaveBeenCalledTimes(1);
-    nextRefresh();
+    await nextRefresh();
     await get();
     expect(mockDbRows).toHaveBeenCalledTimes(2);
   });

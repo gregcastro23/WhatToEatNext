@@ -60,6 +60,9 @@ async function module_(): Promise<typeof import("../unpublishedCopies")> {
   return import("../unpublishedCopies");
 }
 
+/** Let a read that is under way, and the handlers behind it, finish. */
+const settle = (): Promise<void> => new Promise((resolve) => setImmediate(resolve));
+
 describe("readPublication", () => {
   it("splits the table the way the live catalog does: only a true flag is published", async () => {
     table([
@@ -85,16 +88,24 @@ describe("readPublication", () => {
     expect(await readPublication()).toEqual({ published: [{ id: "a", name: "Soup", cuisine: "Thai" }], unpublished: [] });
   });
 
-  it("reads once per live catalog refresh, and again after it", async () => {
+  it("keeps a row with no cuisine: the name is all the rule needs", async () => {
+    mockQuery.mockResolvedValue({ rows: [{ id: "c", name: "Haemul Pajeon", cuisine: null, published: false }] });
+    const { readPublication } = await module_();
+    expect((await readPublication()).unpublished).toEqual([{ id: "c", name: "Haemul Pajeon" }]);
+  });
+
+  it("reads once per live catalog refresh; after it the old set is served at once while the read lands behind it", async () => {
     standardTable();
     const { readPublication } = await module_();
     const first = await readPublication();
-    expect(await readPublication()).toBe(first);
     clock += CATALOG_TTL_MS - 1;
     expect(await readPublication()).toBe(first);
     expect(mockQuery).toHaveBeenCalledTimes(1);
 
     clock += 1;
+    expect(await readPublication()).toBe(first); // stale, and served without waiting
+    expect(mockQuery).toHaveBeenCalledTimes(2); // the read behind it has begun
+    await settle();
     expect(await readPublication()).not.toBe(first);
     expect(mockQuery).toHaveBeenCalledTimes(2);
   });
@@ -116,37 +127,7 @@ describe("readPublication", () => {
     expect(String(mockLogError.mock.calls[0]?.[0])).toMatch(/no set has been read/);
   });
 
-  it("serves the set last read when a later read fails, and says so", async () => {
-    standardTable();
-    const { readPublication } = await module_();
-    const first = await readPublication();
-
-    clock += CATALOG_TTL_MS;
-    mockQuery.mockRejectedValue(new Error("connection reset"));
-    expect(await readPublication()).toBe(first);
-    expect(mockLogError).toHaveBeenCalledTimes(1);
-    expect(String(mockLogError.mock.calls[0]?.[0])).toMatch(/set last read/);
-  });
-
-  it("does not ask again until a connection timeout has passed, then does, and recovers", async () => {
-    standardTable();
-    const { readPublication } = await module_();
-    const first = await readPublication();
-    clock += CATALOG_TTL_MS;
-    mockQuery.mockRejectedValue(new Error("connection reset"));
-    await readPublication();
-    await readPublication();
-    expect(mockQuery).toHaveBeenCalledTimes(2); // the first read, and the one failed retry
-
-    clock += databaseConfig.connectionTimeout;
-    table([{ row: PUBLIC_OYAKODON, published: true }]);
-    const recovered = await readPublication();
-    expect(mockQuery).toHaveBeenCalledTimes(3);
-    expect(recovered).not.toBe(first);
-    expect(recovered.unpublished).toEqual([]);
-  });
-
-  it("keeps rejecting for the whole back-off in a process that has never read the table, without asking again", async () => {
+  it("keeps rejecting for a connection timeout from the attempt's start in a process that has never read it, without asking again", async () => {
     mockQuery.mockRejectedValue(new Error("connection reset"));
     const { readPublication } = await module_();
     await expect(readPublication()).rejects.toThrow("connection reset");
@@ -159,10 +140,50 @@ describe("readPublication", () => {
     expect(mockQuery).toHaveBeenCalledTimes(2);
   });
 
-  it("keeps a row with no cuisine: the name is all the rule needs", async () => {
-    mockQuery.mockResolvedValue({ rows: [{ id: "c", name: "Haemul Pajeon", cuisine: null, published: false }] });
+  it("serves the set last read when a later read fails, and says so", async () => {
+    standardTable();
     const { readPublication } = await module_();
-    expect((await readPublication()).unpublished).toEqual([{ id: "c", name: "Haemul Pajeon" }]);
+    const first = await readPublication();
+
+    clock += CATALOG_TTL_MS;
+    mockQuery.mockRejectedValue(new Error("connection reset"));
+    expect(await readPublication()).toBe(first);
+    await settle();
+    expect(mockLogError).toHaveBeenCalledTimes(1);
+    expect(String(mockLogError.mock.calls[0]?.[0])).toMatch(/set last read/);
+    expect(await readPublication()).toBe(first);
+  });
+
+  it("asks again no sooner than a connection timeout after a failed read began, then recovers", async () => {
+    standardTable();
+    const { readPublication } = await module_();
+    const first = await readPublication();
+    clock += CATALOG_TTL_MS;
+    mockQuery.mockRejectedValue(new Error("connection reset"));
+    await readPublication();
+    await settle();
+    await readPublication();
+    expect(mockQuery).toHaveBeenCalledTimes(2); // the first read, and the one failed retry
+
+    clock += databaseConfig.connectionTimeout;
+    table([{ row: PUBLIC_OYAKODON, published: true }]);
+    await readPublication(); // begins the read that recovers
+    await settle();
+    const recovered = await readPublication();
+    expect(mockQuery).toHaveBeenCalledTimes(3);
+    expect(recovered).not.toBe(first);
+    expect(recovered.unpublished).toEqual([]);
+  });
+
+  it("reads again when the clock has been stepped backwards, instead of trusting the set for the step and the TTL", async () => {
+    standardTable();
+    const { readPublication } = await module_();
+    const first = await readPublication();
+    clock -= 60 * 60 * 1000;
+    table([{ row: PUBLIC_OYAKODON, published: true }]);
+    expect(await readPublication()).toBe(first);
+    await settle();
+    expect((await readPublication()).unpublished).toEqual([]);
   });
 
   it("asks for every row with a flag, so that nothing the live read excludes is missed", async () => {
@@ -174,6 +195,43 @@ describe("readPublication", () => {
     // with a NULL flag counting as false, and the two halves cannot overlap.
     expect(sql).toContain("(r.is_public IS TRUE) AS published");
     expect(sql).not.toMatch(/WHERE/i);
+  });
+});
+
+describe("publicationNow", () => {
+  it("is null before the first read, begins it at once, and never waits for it", async () => {
+    mockQuery.mockImplementation(() => new Promise(() => undefined)); // a read that never answers
+    const { publicationNow } = await module_();
+    expect(publicationNow()).toBeNull();
+    expect(mockQuery).toHaveBeenCalledTimes(1);
+    expect(publicationNow()).toBeNull();
+    expect(mockQuery).toHaveBeenCalledTimes(1); // one read at a time
+  });
+
+  it("answers from the set last read while a refresh hangs, however old it is", async () => {
+    standardTable();
+    const { publicationNow, readPublication } = await module_();
+    const first = await readPublication();
+    clock += CATALOG_TTL_MS * 100;
+    mockQuery.mockImplementation(() => new Promise(() => undefined));
+    expect(publicationNow()).toBe(first);
+    expect(publicationNow()).toBe(first);
+    expect(mockQuery).toHaveBeenCalledTimes(2); // the hung refresh, asked once
+  });
+
+  it("does not leave a rejected promise unhandled when a read nobody waits for fails", async () => {
+    const unhandled = jest.fn();
+    process.on("unhandledRejection", unhandled);
+    try {
+      mockQuery.mockRejectedValue(new Error("connection reset"));
+      const { publicationNow } = await module_();
+      expect(publicationNow()).toBeNull();
+      await settle();
+      await settle();
+      expect(unhandled).not.toHaveBeenCalled();
+    } finally {
+      process.off("unhandledRejection", unhandled);
+    }
   });
 });
 
@@ -262,6 +320,8 @@ describe("servedStaticOnlyIds", () => {
     expect(await servedStaticOnlyIds(staticOnly, STATIC)).toBe(first);
     expect(await servedStaticOnlyIds([HAEMUL.id, FUSION.id], STATIC)).not.toBe(first);
     clock += CATALOG_TTL_MS;
+    expect(await servedStaticOnlyIds(staticOnly, STATIC)).toBe(first); // the old read, served while the new one lands
+    await settle();
     expect(await servedStaticOnlyIds(staticOnly, STATIC)).not.toBe(first);
   });
 });

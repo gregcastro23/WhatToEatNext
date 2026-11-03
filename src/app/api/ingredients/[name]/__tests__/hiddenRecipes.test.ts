@@ -76,6 +76,8 @@ describe("GET /api/ingredients/[name] with a recipe unpublished", () => {
       rows: [{ id: "9f7dae96-0000-4000-8000-000000000001", name: target.recipeName, cuisine: target.cuisine, published: false }],
     });
     clock += CATALOG_TTL_MS;
+    await dossier("garlic"); // the set last read is served, and the new one is read behind it
+    await new Promise((resolve) => setImmediate(resolve));
     const after = await dossier("garlic");
     expect(after.totalRecipeMatches).toBe(before.totalRecipeMatches - target.lines);
     expect(Object.values(after.recipesByCuisine).flat().map((m) => m.recipeId)).not.toContain(target.recipeId);

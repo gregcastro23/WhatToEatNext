@@ -2,10 +2,11 @@
 
 import { getCuisineData, PRIMARY_CUISINE_KEYS } from "@/data/cuisines/index";
 import { toIdentity, type RecipeIdentityRecord } from "@/lib/recipes/recipeIdentity";
+import { markServed } from "@/lib/recipes/servedArrays";
 import {
   databaseIsConfigured,
   hiddenStaticIds,
-  readPublication,
+  publicationNow,
   type RecipePublication,
 } from "@/lib/recipes/unpublishedCopies";
 import type { Cuisine } from "@/types/cuisine";
@@ -610,26 +611,34 @@ function identitiesOf(raw: readonly Recipe[]): RecipeIdentityRecord[] {
 }
 
 /**
- * The recipes table, started now so that it is read while the bundled catalog
- * loads. Nothing when no database is configured (a preview, a test) or when it
- * has never been readable: the static catalog is also the outage fallback, and
- * it must never come back empty for want of the list.
+ * The set of unpublished recipes last read, however old, or null: before the
+ * first read, when no database is configured (a preview, a test), and while it
+ * is unreadable. It never waits, because the static catalog is also the outage
+ * fallback: it must not be slowed by a database that is slow or down, nor come
+ * back empty for want of the list. Calling it also starts a read when one is due.
  */
-function publicationIfAny(): Promise<RecipePublication | null> {
-  if (!databaseIsConfigured()) return Promise.resolve(null);
-  return readPublication().catch(() => null);
+function publicationIfAny(): RecipePublication | null {
+  return databaseIsConfigured() ? publicationNow() : null;
 }
 
 /**
  * The catalog and its mealType × season index with the hidden recipes left
  * out. One array per distinct hidden set: callers tell "the live catalog fell
- * back to the static list" by array identity, so the array is replaced only
- * when the set changes, and with nothing hidden it is the loaded array itself.
- * The rule is worked out again only when the loaded array or the table read
- * is a new object, not on every call.
+ * back to the static list" by array identity (and `wasServed` for an array
+ * handed out before the set changed), so the array is replaced only when the
+ * set changes, and with nothing hidden it is the loaded array itself. The rule
+ * is worked out again only when the loaded array or the table read is a new
+ * object, not on every call.
+ *
+ * A cold process starts the read at once, so that it runs while the bundled
+ * catalog loads, and gives it exactly that long: if the table has not answered
+ * by then this call serves the whole catalog, and the next call the filtered
+ * one.
  */
 async function servedView(): Promise<ServedView> {
-  const [raw, publication] = await Promise.all([loadedRecipes(), publicationIfAny()]);
+  publicationIfAny();
+  const raw = await loadedRecipes();
+  const publication = publicationIfAny();
   // No await from here to the end, so concurrent callers share one view.
   if (_served?.raw === raw && _served.publication === publication) return _served;
   const hiddenIds = publication ? hiddenStaticIds(identitiesOf(raw), publication) : NOTHING_HIDDEN;
@@ -639,6 +648,7 @@ async function servedView(): Promise<ServedView> {
     return _served;
   }
   const recipes = hiddenIds.size === 0 ? raw : raw.filter((r) => !hiddenIds.has(String(r.id)));
+  markServed(recipes);
   const index = hiddenIds.size === 0 ? (_cachedIndex ?? buildRecipeIndex(raw)) : buildRecipeIndex(recipes);
   _served = { raw, publication, hidden, recipes, index };
   return _served;

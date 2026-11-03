@@ -29,6 +29,7 @@ import {
   type RecipeIdentityIndex,
   type RecipeIdentityRecord,
 } from "./recipeIdentity";
+import { wasServed } from "./servedArrays";
 import { dropUnpublishedTwins, readPublication, servedStaticOnlyIds } from "./unpublishedCopies";
 
 export type ResolvedRecipeRef =
@@ -107,7 +108,7 @@ export function servesStaticFallback(
   liveRecipes: readonly Recipe[],
   staticRecipes: readonly Recipe[],
 ): boolean {
-  return liveRecipes === staticRecipes;
+  return liveRecipes === staticRecipes || wasServed(liveRecipes);
 }
 
 /**
