@@ -29,12 +29,8 @@ import {
   type RecipeIdentityIndex,
   type RecipeIdentityRecord,
 } from "./recipeIdentity";
-import {
-  dropUnpublishedTwins,
-  loadIdentities,
-  loadUnpublishedIdentities,
-  servedStaticOnlyIds,
-} from "./unpublishedCopies";
+import { wasServed } from "./servedArrays";
+import { dropUnpublishedTwins, readPublication, servedStaticOnlyIds } from "./unpublishedCopies";
 
 export type ResolvedRecipeRef =
   | { kind: "twin"; recipe: Recipe; canonicalId: string }
@@ -103,7 +99,8 @@ function safeDecode(ref: string): string {
 /**
  * True when the "live" catalog is the static list: LocalRecipeService's
  * fallback returns the cached static array itself, and getServerRecipes hands
- * every caller that one array. Identity is race-free; isCatalogDegraded() is
+ * every caller that one array (a new one only when the set of hidden,
+ * unpublished recipes changes). Identity is race-free; isCatalogDegraded() is
  * not, because it is one shared flag that any later load resets, so after an
  * await it can describe another request's list.
  */
@@ -111,7 +108,7 @@ export function servesStaticFallback(
   liveRecipes: readonly Recipe[],
   staticRecipes: readonly Recipe[],
 ): boolean {
-  return liveRecipes === staticRecipes;
+  return liveRecipes === staticRecipes || wasServed(liveRecipes);
 }
 
 /**
@@ -224,18 +221,18 @@ export async function withAuthoredFactsAll(recipes: readonly Recipe[]): Promise<
  * One canonical id per recipe: every live UUID, plus the static ids that have
  * no live twin and are not the copy of an unpublished recipe (see
  * ./unpublishedCopies). Falls back to the static ids alone when the database is
- * unreachable or either identity read fails — those still resolve, through
- * resolveRecipeRef, at render time.
+ * unreachable and no read of it has ever succeeded — those still resolve,
+ * through resolveRecipeRef, at render time.
  */
 export async function listCanonicalRecipeIds(): Promise<string[]> {
   const staticIdentities = toIdentities(await getServerRecipes());
   const staticIds = [...new Set(staticIdentities.map((r) => r.id))];
-  let live: RecipeIdentityRecord[];
+  let live: readonly RecipeIdentityRecord[];
   let unpublished: readonly RecipeIdentityRecord[];
   try {
-    [live, unpublished] = await Promise.all([loadIdentities("public"), loadUnpublishedIdentities()]);
+    ({ published: live, unpublished } = await readPublication());
   } catch (err) {
-    // Either read failing gives the superset, never a sitemap short of recipes.
+    // Never having read the table gives the superset, not a sitemap short of recipes.
     _logger.error("[recipeRefResolver] recipe identities unavailable; sitemap falls back to static ids:", err);
     return staticIds;
   }

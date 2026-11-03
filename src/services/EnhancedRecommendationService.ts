@@ -324,6 +324,12 @@ export class EnhancedRecommendationService {
     limit = 10,
   ): Promise<EnhancedRecommendationResult> {
     const datetime = ctx.datetime ?? new Date();
+    // The bundled catalog read below leaves out the copies of unpublished recipes;
+    // the read of which they are begins beside the signals' own queries, so that a
+    // database that is down fails both together, not one after the other.
+    import("@/lib/recipes/unpublishedCopies")
+      .then((mod) => mod.startPublicationRead())
+      .catch(() => undefined);
     const {
       entries,
       favoriteNames,

@@ -12,13 +12,16 @@
  */
 import { getServerRecipes } from "@/actions/recipes";
 import { CUISINES_METADATA } from "@/data/cuisines/index";
+import { cuisineFacets } from "@/lib/recipes/catalogFacets";
 import { buildRecipeIdentityIndex } from "@/lib/recipes/recipeIdentity";
+import { CATALOG_TTL_MS } from "@/lib/recipes/catalogTtl";
 import { listCanonicalRecipeIds } from "@/lib/recipes/recipeRefResolver";
+import { readPublication } from "@/lib/recipes/unpublishedCopies";
 import { cuisineToSlug } from "@/utils/cuisineSlug";
 import type { Recipe } from "@/types/recipe";
 
 const mockGetAllRecipes = jest.fn<Promise<Recipe[]>, []>();
-const mockDbRows = jest.fn<Promise<{ rows: unknown[] }>, [string]>();
+const mockDbRows = jest.fn<Promise<{ rows: unknown[] }>, []>();
 const mockLogError = jest.fn();
 let mockDegraded = false;
 
@@ -29,7 +32,7 @@ jest.mock("@/services/LocalRecipeService", () => ({
     isCatalogDegraded: () => mockDegraded,
   },
 }));
-jest.mock("@/lib/database", () => ({ executeQuery: (sql: string) => mockDbRows(sql) }));
+jest.mock("@/lib/database", () => ({ executeQuery: () => mockDbRows() }));
 jest.mock("@/lib/logger", () => ({
   ...jest.requireActual<typeof import("@/lib/logger")>("@/lib/logger"),
   _logger: { error: (...args: unknown[]) => mockLogError(...args), warn: jest.fn(), info: jest.fn(), debug: jest.fn() },
@@ -57,7 +60,7 @@ function liveRow(id: string, name: string, cuisine?: string): Recipe {
 
 interface Served {
   success: boolean;
-  recipes: Array<{ id: string; name: string; cuisine?: string }>;
+  recipes: Recipe[];
   total: number;
   limit: number | null;
   offset: number;
@@ -85,8 +88,21 @@ const ids = (served: Served): string[] => served.recipes.map((r) => r.id);
 
 let staticRecipes: Recipe[];
 
+// These tests exercise the catalog list's own guard against an unpublished
+// recipe's copy, so the bundled catalog must reach it whole: no database is
+// configured here, whatever the developer's shell exports. The same rule one
+// layer down, in getServerRecipes, is tested in servedStaticCatalog.test.ts.
+const savedUrls = { url: process.env.DATABASE_URL, publicUrl: process.env.DATABASE_PUBLIC_URL };
+
 beforeAll(async () => {
+  delete process.env.DATABASE_URL;
+  delete process.env.DATABASE_PUBLIC_URL;
   staticRecipes = await getServerRecipes();
+});
+
+afterAll(() => {
+  if (savedUrls.url !== undefined) process.env.DATABASE_URL = savedUrls.url;
+  if (savedUrls.publicUrl !== undefined) process.env.DATABASE_PUBLIC_URL = savedUrls.publicUrl;
 });
 
 /** The live database as it is when it is down: the catalog degrades to the static list. */
@@ -106,6 +122,18 @@ function liveDatabase(): void {
   mockGetAllRecipes.mockResolvedValue([...LIVE]);
 }
 
+/** The table is read once per live catalog refresh; each test starts a new one. */
+let clock = 1_000_000_000_000;
+
+/** The live catalog's next refresh: its TTL passes, it hands back a new array, and the read behind the first request lands. */
+async function nextRefresh(): Promise<void> {
+  clock += CATALOG_TTL_MS;
+  mockGetAllRecipes.mockResolvedValue([...LIVE]);
+  // The table is read behind the first request after the TTL; let that read land.
+  await readPublication().catch(() => undefined);
+  await new Promise((resolve) => setTimeout(resolve, 0));
+}
+
 interface IdentityRow {
   id: string;
   name: string;
@@ -115,23 +143,32 @@ interface IdentityRow {
 const identityRow = ({ id, name, cuisine }: Recipe): IdentityRow => ({ id, name, cuisine: cuisine ?? null });
 
 /**
- * The recipes table as the identity queries see it: the live rows for the sitemap's
- * `is_public = true` read, and `unpublished` (or the error) for the read of the rest.
+ * The recipes table as the one identity query sees it: the live rows, flagged
+ * published, then `unpublished` (or the error) for the rest.
  */
 function recipesTable(unpublished: IdentityRow[] | Error = []): void {
-  mockDbRows.mockImplementation(async (sql) => {
-    if (!sql.includes("IS NOT TRUE")) return { rows: LIVE.map(identityRow) };
+  mockDbRows.mockImplementation(async () => {
     if (unpublished instanceof Error) throw unpublished;
-    return { rows: unpublished };
+    return {
+      rows: [
+        ...LIVE.map((r) => ({ ...identityRow(r), published: true })),
+        ...unpublished.map((r) => ({ ...r, published: false })),
+      ],
+    };
   });
 }
 
 beforeEach(() => {
   mockGetAllRecipes.mockReset();
   mockLogError.mockReset();
+  mockDbRows.mockReset();
   mockDegraded = false;
+  clock += CATALOG_TTL_MS * 10;
+  jest.spyOn(Date, "now").mockImplementation(() => clock);
   recipesTable();
 });
+
+afterEach(() => jest.restoreAllMocks());
 
 describe("the catalog has no limit", () => {
   beforeEach(degradedToStatic);
@@ -317,7 +354,7 @@ describe("the static copy of an unpublished recipe is not listed", () => {
   it("drops it, and only it, from the catalog and from the sitemap alike", async () => {
     const before = await get();
     recipesTable([UNPUBLISHED_HAEMUL]);
-    mockGetAllRecipes.mockResolvedValue([...LIVE]); // the next catalog refresh asks again
+    await nextRefresh();
     const after = await get();
     expect(after.total).toBe(before.total - 1);
     expect(ids(before).filter((id) => !ids(after).includes(id))).toEqual([haemulPajeon().id]);
@@ -336,7 +373,7 @@ describe("the static copy of an unpublished recipe is not listed", () => {
     recipesTable([UNPUBLISHED_HAEMUL]);
     const healthy = await get();
     recipesTable(new Error("connection reset"));
-    mockGetAllRecipes.mockResolvedValue([...LIVE]); // the next catalog refresh asks again, and fails
+    await nextRefresh(); // asks again, and fails
     const degraded = await get();
     expect(ids(degraded)).toEqual(ids(healthy));
     expect(ids(degraded)).not.toContain(haemulPajeon().id);
@@ -344,33 +381,95 @@ describe("the static copy of an unpublished recipe is not listed", () => {
     expect(mockLogError).toHaveBeenCalledTimes(1);
   });
 
-  it("lists no static-only recipe in a process that has never been able to read them", async () => {
+  it("lists every static-only recipe, Fusion's included, in a process that has never been able to read the table", async () => {
     recipesTable(new Error("connection reset"));
     const fresh: { GET?: typeof GET } = {};
     await jest.isolateModulesAsync(async () => {
       fresh.GET = (await import("../route")).GET;
     });
-    const served: Served = await (await fresh.GET?.(new Request("http://localhost/api/recipes")))?.json();
-    expect(ids(served).sort()).toEqual(LIVE.map((r) => r.id).sort());
+    const request = async (query: string): Promise<Served> =>
+      (await fresh.GET?.(new Request(`http://localhost/api/recipes${query}`)))?.json();
+    const index = buildRecipeIdentityIndex(
+      staticRecipes.map(({ id, name, cuisine }) => ({ id, name, ...(cuisine ? { cuisine } : {}) })),
+      LIVE.map(({ id, name, cuisine }) => ({ id, name, ...(cuisine ? { cuisine } : {}) })),
+    );
+    const served = await request("");
+    expect(served.total).toBe(LIVE.length + index.staticOnlyIds.length);
+    expect(ids(served)).toContain(haemulPajeon().id); // the hollow copy is listed until the table can be read
+    expect((await request("?cuisine=fusion")).total).toBe(3);
     expect(mockLogError).toHaveBeenCalledTimes(1);
   });
 
-  it("falls back to every static id in the sitemap when the unpublished read fails", async () => {
+  it("falls back to every static id in the sitemap in a process that has never read the table", async () => {
     recipesTable(new Error("connection reset"));
-    const canonical = await canonicalIds();
+    const fresh: { list?: typeof listCanonicalRecipeIds } = {};
+    await jest.isolateModulesAsync(async () => {
+      fresh.list = (await import("@/lib/recipes/recipeRefResolver")).listCanonicalRecipeIds;
+    });
+    const canonical = new Set(await fresh.list?.());
     expect(canonical).toContain(haemulPajeon().id);
     expect(canonical.size).toBe(new Set(staticRecipes.map((r) => r.id)).size);
   });
 
   it("asks the database once per catalog refresh, not once per request", async () => {
-    const asked = (): number => mockDbRows.mock.calls.filter(([sql]) => sql.includes("IS NOT TRUE")).length;
     await get();
     await get("?cuisine=fusion");
     await get("?limit=10");
-    expect(asked()).toBe(1);
-    // A refreshed live catalog is a new array: the question is asked again.
-    mockGetAllRecipes.mockResolvedValue([...LIVE]);
+    expect(mockDbRows).toHaveBeenCalledTimes(1);
+    await nextRefresh();
     await get();
-    expect(asked()).toBe(2);
+    expect(mockDbRows).toHaveBeenCalledTimes(2);
+  });
+});
+
+/** The 14 recipes the operator had unpublished, as the recipes table held them [MEASURED 2026-11-03, production, read-only]. */
+const PRODUCTION_UNPUBLISHED: IdentityRow[] = [
+  ["Bánh Mì Ốp La", "Vietnamese"],
+  ["Bua Loi", "Thai"],
+  ["Cháo", "Vietnamese"],
+  ["Chè Ba Màu", "Vietnamese"],
+  ["Gaeng Panang Neua", "Thai"],
+  ["Haemul Pajeon", "Korean"],
+  ["Hotteok", "Korean"],
+  ["Japchae", "Korean"],
+  ["Khao Soi Gai", "Thai"],
+  ["Lẩu Thái", "Vietnamese"],
+  ["Sangkaya Fak Thong", "Thai"],
+  ["Songpyeon", "Korean"],
+  ["Thịt Kho Tàu", "Vietnamese"],
+  ["Tub Tim Grob", "Thai"],
+].map(([name, cuisine], n) => ({
+  id: `a1b2c3d4-0000-4000-8000-${String(n + 1).padStart(12, "0")}`,
+  name: name ?? "",
+  cuisine: cuisine ?? null,
+}));
+
+describe("every cuisine category stays filled", () => {
+  beforeEach(liveDatabase);
+
+  const categories = Object.keys(CUISINES_METADATA).filter((key) => key !== "HSCA");
+
+  it.each(categories)("%s still has recipes with the operator's 14 unpublished recipes left out", async (key) => {
+    recipesTable(PRODUCTION_UNPUBLISHED);
+    await nextRefresh();
+    const name = CUISINES_METADATA[key]?.name ?? key;
+    expect((await get(`?cuisine=${encodeURIComponent(cuisineToSlug(name))}`)).total).toBeGreaterThan(0);
+  });
+
+  it("keeps all three Fusion recipes, which exist only as bundled copies, whatever the table says", async () => {
+    recipesTable(PRODUCTION_UNPUBLISHED);
+    await nextRefresh();
+    expect((await get("?cuisine=fusion")).total).toBe(3);
+    recipesTable(new Error("connection reset"));
+    await nextRefresh();
+    expect((await get("?cuisine=fusion")).total).toBe(3);
+  });
+
+  it("never leaves the pills short of a category", async () => {
+    recipesTable(PRODUCTION_UNPUBLISHED);
+    await nextRefresh();
+    const all = (await get()).recipes;
+    const pills = cuisineFacets(all, all).map((facet) => facet.slug).sort();
+    expect(pills).toEqual(categories.map((key) => cuisineToSlug(CUISINES_METADATA[key]?.name ?? key)).sort());
   });
 });

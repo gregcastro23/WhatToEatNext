@@ -199,7 +199,13 @@ export function getRecipeCountForIngredient(slug: string): number {
 export function getRecipesByCuisineForIngredient(
   slug: string,
 ): Record<string, IngredientRecipeMatch[]> {
-  const matches = getRecipesForIngredient(slug);
+  return groupMatchesByCuisine(getRecipesForIngredient(slug));
+}
+
+/** Group matches by cuisine, for a caller that has filtered the list first. */
+export function groupMatchesByCuisine(
+  matches: readonly IngredientRecipeMatch[],
+): Record<string, IngredientRecipeMatch[]> {
   const grouped: Record<string, IngredientRecipeMatch[]> = {};
   for (const m of matches) {
     (grouped[m.cuisine] ??= []).push(m);

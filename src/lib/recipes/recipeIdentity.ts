@@ -54,7 +54,8 @@ export interface RecipeIdentityIndex {
   resolve: (ref: string) => RecipeRefResolution | null;
   /**
    * Static ids with no live twin — the only static ids that can be canonical.
-   * (Listing then drops the copies of unpublished recipes: ./unpublishedCopies.)
+   * (The bundled catalog the index is built from has already left out the
+   * copies of unpublished recipes: ./unpublishedCopies.)
    */
   staticOnlyIds: readonly string[];
   stats: RecipeIdentityStats;

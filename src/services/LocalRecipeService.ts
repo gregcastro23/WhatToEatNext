@@ -4,6 +4,8 @@ import { getValidatedAssetUrl } from "@/lib/assets";
 import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { storedQuantities } from "@/lib/recipes/alchemicalMatch";
+import { CATALOG_TTL_MS } from "@/lib/recipes/catalogTtl";
+import { startPublicationRead } from "@/lib/recipes/unpublishedCopies";
 import { redisGet, redisSet, redisDel } from "@/lib/redis";
 import {
   RecipeNutritionSchema,
@@ -327,7 +329,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
 
 
 const REDIS_CATALOG_KEY = "recipes:catalog:all";
-const REDIS_TTL_SECONDS = 5 * 60; // 5 minutes — matches in-process TTL
+const REDIS_TTL_SECONDS = CATALOG_TTL_MS / 1000; // 5 minutes — matches in-process TTL
 
 // The Upstash Redis client's GET call is a plain uncached fetch(), which
 // Next 15 (uncached-by-default) flags as "dynamic API usage" — fatal for
@@ -435,6 +437,9 @@ export class LocalRecipeService {
   }
 
   private static async loadAllRecipes(): Promise<Recipe[]> {
+    // The bundled fallback below leaves out the copies of unpublished recipes; the
+    // read of which they are begins now, beside the live query, not after it fails.
+    startPublicationRead();
     // L2: Redis catalog cache (cross-instance — target <20ms)
     const cached = await getCachedCatalogFromRedis();
     if (cached && Array.isArray(cached) && cached.length > 0) {

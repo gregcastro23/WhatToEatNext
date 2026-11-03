@@ -4,6 +4,7 @@
  */
 
 import { getServerRecipes } from "@/actions/recipes";
+import { CATALOG_TTL_MS } from "@/lib/recipes/catalogTtl";
 import { ErrorHandler } from "@/services/errorHandler";
 import type { RecipeSearchCriteria } from "@/services/interfaces/RecipeServiceInterface";
 import type { Recipe } from "@/types/recipe";
@@ -17,6 +18,7 @@ const logger = createLogger("UnifiedRecipeService");
 export class UnifiedRecipeService {
   private static instance: UnifiedRecipeService | undefined;
   private recipesCache: Recipe[] | null = null;
+  private recipesLoadedAt = 0;
 
   private constructor() {}
 
@@ -30,8 +32,9 @@ export class UnifiedRecipeService {
    */
   async getAllRecipes(): Promise<Recipe[]> {
     try {
-      // Use cache if available
-      if (this.recipesCache) {
+      // Use cache if it is fresh: the set of unpublished recipes it leaves out
+      // can change while the server or the browser session lives.
+      if (this.recipesCache && Date.now() - this.recipesLoadedAt < CATALOG_TTL_MS) {
         return this.recipesCache;
       }
 
@@ -40,6 +43,7 @@ export class UnifiedRecipeService {
 
       // Cache for future requests
       this.recipesCache = recipes;
+      this.recipesLoadedAt = Date.now();
 
       logger.info(`Loaded ${recipes.length} recipes from data layer`);
       return recipes;

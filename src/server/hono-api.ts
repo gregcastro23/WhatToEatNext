@@ -22,11 +22,11 @@ import { sauceRecommender } from '../services/sauceRecommender.js';
 import { IngredientService } from '../services/IngredientService.js';
 import { UnifiedRecipeService } from '../services/UnifiedRecipeService.js';
 import {
-  getRecipeCountForIngredient,
-  getRecipesByCuisineForIngredient,
   getRecipesForIngredient,
+  groupMatchesByCuisine,
   resolveIngredientSlug,
 } from '../data/ingredientRecipeIndex.js';
+import { withoutHiddenRecipes } from '../lib/recipes/unpublishedCopies.js';
 import { userDatabase } from '../services/userDatabaseService.js';
 import { buildRelatedIngredientRecipe } from '../lib/ingredients/relatedRecipe.js';
 import type { RelatedIngredientRecipe } from '../types/ingredient.js';
@@ -174,10 +174,10 @@ app.get('/api/ingredients/:name', async (c) => {
     const canonicalName = ingredient?.name || ingredientName;
     const slug = resolveIngredientSlug(canonicalName) ?? resolveIngredientSlug(ingredientName) ?? canonicalName;
 
-    // Get from pre-computed recipe index
-    const matches = getRecipesForIngredient(slug);
-    const totalRecipeMatches = getRecipeCountForIngredient(slug);
-    const recipesByCuisine = getRecipesByCuisineForIngredient(slug);
+    // Get from pre-computed recipe index, minus the recipes the operator unpublished
+    const matches = await withoutHiddenRecipes(getRecipesForIngredient(slug));
+    const totalRecipeMatches = matches.length;
+    const recipesByCuisine = groupMatchesByCuisine(matches);
 
     // Enhance the top 24 recipes with detailed timing info for the UI
     const recipeService = UnifiedRecipeService.getInstance();

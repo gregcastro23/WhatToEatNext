@@ -1,6 +1,15 @@
 "use server";
 
 import { getCuisineData, PRIMARY_CUISINE_KEYS } from "@/data/cuisines/index";
+import { toIdentity, type RecipeIdentityRecord } from "@/lib/recipes/recipeIdentity";
+import { markServed } from "@/lib/recipes/servedArrays";
+import {
+  databaseIsConfigured,
+  firstReadSettled,
+  hiddenStaticIds,
+  publicationNow,
+  type RecipePublication,
+} from "@/lib/recipes/unpublishedCopies";
 import type { Cuisine } from "@/types/cuisine";
 import type { IndexedRecipe, RecipeIndex } from "@/types/indexedRecipe";
 import type { Recipe, RecipeIngredient } from "@/types/recipe";
@@ -568,10 +577,86 @@ function buildRecipeIndex(recipes: IndexedRecipe[]): RecipeIndex {
 }
 
 /**
- * Server action to fetch all recipes from the static cuisine data files.
- * Prevents database code from being bundled into client components.
+ * Server action to fetch all recipes from the static cuisine data files,
+ * except the bundled copy of a recipe the operator unpublished (see
+ * `@/lib/recipes/unpublishedCopies`). Prevents database code from being
+ * bundled into client components.
  */
 export async function getServerRecipes(): Promise<Recipe[]> {
+  return (await servedView()).recipes;
+}
+
+interface ServedView {
+  raw: readonly Recipe[];
+  /** The table this view was last checked against; the same object until the next read. */
+  publication: RecipePublication | null;
+  hidden: string;
+  recipes: Recipe[];
+  index: RecipeIndex;
+}
+
+let _served: ServedView | null = null;
+const NOTHING_HIDDEN: ReadonlySet<string> = new Set();
+const _identities = new WeakMap<readonly Recipe[], RecipeIdentityRecord[]>();
+
+function identitiesOf(raw: readonly Recipe[]): RecipeIdentityRecord[] {
+  let known = _identities.get(raw);
+  if (!known) {
+    known = raw.flatMap((r) => {
+      const identity = toIdentity(r);
+      return identity ? [identity] : [];
+    });
+    _identities.set(raw, known);
+  }
+  return known;
+}
+
+/**
+ * The set of unpublished recipes last read, however old, or null: before the
+ * first read, when no database is configured (a preview, a test), and while it
+ * is unreadable. It never waits, because the static catalog is also the outage
+ * fallback: it must not be slowed by a database that is slow or down, nor come
+ * back empty for want of the list. Calling it also starts a read when one is due.
+ */
+function publicationIfAny(): RecipePublication | null {
+  return databaseIsConfigured() ? publicationNow() : null;
+}
+
+/**
+ * The catalog and its mealType × season index with the hidden recipes left
+ * out. One array per distinct hidden set: callers tell "the live catalog fell
+ * back to the static list" by array identity (and `wasServed` for an array
+ * handed out before the set changed), so the array is replaced only when the
+ * set changes, and with nothing hidden it is the loaded array itself. The rule
+ * is worked out again only when the loaded array or the table read is a new
+ * object, not on every call.
+ *
+ * A cold process builds the bundled catalog, then begins the read (unless the
+ * live catalog's load already has) and its first call waits for that read to
+ * settle (at most one connection timeout, once: see `firstReadSettled`), so
+ * that the first request is already filtered. No later call waits.
+ */
+async function servedView(): Promise<ServedView> {
+  const raw = await loadedRecipes();
+  publicationIfAny();
+  if (databaseIsConfigured()) await firstReadSettled();
+  const publication = publicationIfAny();
+  // No await from here to the end, so concurrent callers share one view.
+  if (_served?.raw === raw && _served.publication === publication) return _served;
+  const hiddenIds = publication ? hiddenStaticIds(identitiesOf(raw), publication) : NOTHING_HIDDEN;
+  const hidden = [...hiddenIds].sort().join("|");
+  if (_served?.raw === raw && _served.hidden === hidden) {
+    _served.publication = publication;
+    return _served;
+  }
+  const recipes = hiddenIds.size === 0 ? raw : raw.filter((r) => !hiddenIds.has(String(r.id)));
+  markServed(recipes);
+  const index = hiddenIds.size === 0 ? (_cachedIndex ?? buildRecipeIndex(raw)) : buildRecipeIndex(recipes);
+  _served = { raw, publication, hidden, recipes, index };
+  return _served;
+}
+
+async function loadedRecipes(): Promise<Recipe[]> {
   if (_cachedRecipes) return _cachedRecipes;
   // Overlapping cold callers share one load, hence one array: without this,
   // five concurrent calls built five distinct 1,113-recipe arrays, and callers
@@ -614,15 +699,13 @@ async function loadServerRecipes(): Promise<Recipe[]> {
 }
 
 /**
- * Return the prebuilt mealType × season index, building it on demand if
- * `getServerRecipes` hasn't been called yet. Used by the recommendation
- * bridge to avoid scanning the entire recipe catalog on every request.
+ * Return the prebuilt mealType × season index of the recipes
+ * `getServerRecipes` serves (so without the hidden ones), building it on
+ * demand. Used by the recommendation bridge to avoid scanning the entire
+ * recipe catalog on every request.
  */
 export async function getServerRecipeIndex(): Promise<RecipeIndex> {
-  if (!_cachedIndex) {
-    await getServerRecipes();
-  }
-  return _cachedIndex ?? new Map();
+  return (await servedView()).index;
 }
 
 /**
