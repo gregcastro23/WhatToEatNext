@@ -267,6 +267,17 @@ describe("with no database configured", () => {
 });
 
 describe("the cost of asking", () => {
+  it("starts reading the table while the bundled catalog is still loading", async () => {
+    table(HAEMUL_UNPUBLISHED);
+    await jest.isolateModulesAsync(async () => {
+      const fresh = await import("@/actions/recipes");
+      const pending = fresh.getServerRecipes();
+      // A cold process takes seconds to build the bundled catalog; the table was asked for at once.
+      expect(mockDbRows).toHaveBeenCalledTimes(1);
+      await pending;
+    });
+  });
+
   it("works the rule out once per read of the table, not once per call", async () => {
     table(HAEMUL_UNPUBLISHED);
     const rule = jest.spyOn(unpublished, "hiddenStaticIds");

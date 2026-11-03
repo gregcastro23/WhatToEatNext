@@ -8,6 +8,8 @@
  * index is real; only the database, the rate limiter and the recipe service
  * are mocked.
  */
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { getRecipesForIngredient } from "@/data/ingredientRecipeIndex";
 import { CATALOG_TTL_MS } from "@/lib/recipes/catalogTtl";
 
@@ -79,4 +81,20 @@ describe("GET /api/ingredients/[name] with a recipe unpublished", () => {
     expect(Object.values(after.recipesByCuisine).flat().map((m) => m.recipeId)).not.toContain(target.recipeId);
     expect(Object.values(after.recipesByCuisine).flat()).toHaveLength(after.totalRecipeMatches);
   });
+});
+
+describe("the gateway the route proxies to", () => {
+  // The Next route forwards to the Hono gateway whenever HONO_API_URL is set,
+  // so the gateway has to leave the same recipes out. It starts a server and a
+  // Redis client when imported and cannot be driven here; its wiring is pinned
+  // by the text of the one line, which is a weaker check than the route's.
+  it.each([["src/server/hono-api.ts"], ["src/app/api/ingredients/[name]/route.ts"]])(
+    "%s filters the index's matches before counting and grouping them",
+    (file) => {
+      const source = readFileSync(join(process.cwd(), file), "utf8");
+      expect(source).toContain("await withoutHiddenRecipes(getRecipesForIngredient(slug))");
+      expect(source).toContain("const totalRecipeMatches = matches.length;");
+      expect(source).toContain("groupMatchesByCuisine(matches)");
+    },
+  );
 });
