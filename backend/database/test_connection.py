@@ -10,6 +10,7 @@ and basic CRUD operations.
 import sys
 import time
 from datetime import datetime
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 # Add parent directory to path for imports
@@ -47,9 +48,10 @@ def test_connection():
     try:
         engine = get_db_engine()
         with engine.connect() as conn:
-            result = conn.execute("SELECT version() as version, current_database() as database")
+            result = conn.execute(text("SELECT version() as version, current_database() as database"))
             row = result.fetchone()
-            print("✅ Database connection successful"            print(f"   Database: {row.database}")
+            print("✅ Database connection successful")
+            print(f"   Database: {row.database}")
             print(f"   Version: {row.version}")
             return True
     except Exception as e:
@@ -69,7 +71,7 @@ def test_schema():
             ]
 
             for table in tables_to_check:
-                result = session.execute(f"SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = '{table}')")
+                result = session.execute(text(f"SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = '{table}')"))
                 exists = result.fetchone()[0]
                 if exists:
                     print(f"✅ Table '{table}' exists")
@@ -84,7 +86,7 @@ def test_schema():
             ]
 
             for enum in enums_to_check:
-                result = session.execute(f"SELECT EXISTS (SELECT 1 FROM pg_type WHERE typname = '{enum}')")
+                result = session.execute(text(f"SELECT EXISTS (SELECT 1 FROM pg_type WHERE typname = '{enum}')"))
                 exists = result.fetchone()[0]
                 if exists:
                     print(f"✅ Enum '{enum}' exists")
@@ -93,11 +95,11 @@ def test_schema():
                     return False
 
             # Test indexes exist (sample check)
-            result = session.execute("""
+            result = session.execute(text("""
                 SELECT COUNT(*) as index_count
                 FROM pg_indexes
                 WHERE schemaname = 'public'
-            """)
+            """))
             index_count = result.fetchone()[0]
             print(f"✅ Indexes created: {index_count}")
 
@@ -173,22 +175,22 @@ def test_performance():
         with get_db_session() as session:
             # Test simple query performance
             start_time = time.time()
-            result = session.execute("SELECT COUNT(*) as user_count FROM users")
+            result = session.execute(text("SELECT COUNT(*) as user_count FROM users"))
             user_count = result.fetchone()[0]
             query_time = time.time() - start_time
-            print(".4f"
+            print(f"   Simple query: {query_time:.4f}s ({user_count} users)")
             # Test complex query performance
             start_time = time.time()
-            result = session.execute("""
+            result = session.execute(text("""
                 SELECT r.name, r.cuisine, ep.fire, ep.water, ep.earth, ep.air
                 FROM recipes r
                 LEFT JOIN elemental_properties ep ON (ep.entity_type = 'recipe' AND ep.entity_id = r.id)
                 WHERE r.is_public = true
                 LIMIT 10
-            """)
+            """))
             rows = result.fetchall()
             query_time = time.time() - start_time
-            print(".4f"
+            print(f"   Complex query: {query_time:.4f}s ({len(rows)} rows)")
             return True
 
     except Exception as e:

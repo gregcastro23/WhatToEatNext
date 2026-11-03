@@ -204,7 +204,11 @@ jobs:
         # every route that asks for transit details raised; no test called either. This
         # runs pyflakes over every tracked backend/*.py and fails on an undefined name, a
         # file that does not compile or a star import, beyond the reasoned allowlist at the
-        # top of the test (an allowance that is no longer needed fails too).
+        # top of the test (an allowance that is no longer needed fails too); those
+        # allowlists are empty. The second file keeps backend/database/__init__.py's explicit
+        # model exports complete now that the star import the gate cannot see through is gone.
+        # The third keeps a bare SQL string out of every SQLAlchemy execute(): SQLAlchemy 2 raises on
+        # one, and pyflakes cannot see it.
         #
         # It installs pyflakes, which the steps around it deliberately do not, so it does so in a
         # throwaway venv: the pytest-only steps keep their install. It sits before the migration
@@ -213,7 +217,7 @@ jobs:
         run: |
           python -m venv "$RUNNER_TEMP/undefined-names"
           "$RUNNER_TEMP/undefined-names/bin/python" -m pip install --quiet pytest pyflakes==4.1.0
-          "$RUNNER_TEMP/undefined-names/bin/python" -m pytest backend/tests/test_no_undefined_names.py -q
+          "$RUNNER_TEMP/undefined-names/bin/python" -m pytest backend/tests/test_no_undefined_names.py backend/tests/test_database_package_exports.py backend/tests/test_no_bare_sql_strings.py -q
 
       - name: By-chart recommender (Python)
         # POST /api/astrological/recipe-recommendations-by-chart never got past its first

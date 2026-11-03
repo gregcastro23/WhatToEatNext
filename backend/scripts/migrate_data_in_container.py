@@ -9,6 +9,8 @@ import os
 import json
 from pathlib import Path
 
+from sqlalchemy import text
+
 # Add the backend directory to path
 backend_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(backend_dir))
@@ -204,7 +206,7 @@ def main():
     # Test database connection
     try:
         with get_db_session() as session:
-            result = session.execute("SELECT 1 as test").fetchone()
+            result = session.execute(text("SELECT 1 as test")).fetchone()
             print("✅ Database connection successful")
     except Exception as e:
         print(f"❌ Database connection failed: {e}")

@@ -16,6 +16,7 @@ from typing import List, Optional, Dict, Any
 from datetime import datetime, timedelta
 import random
 import asyncio
+import logging
 import time
 from sqlalchemy.orm import Session
 from sqlalchemy import text
@@ -75,6 +76,8 @@ from backend.utils.image_generator import generate_visual_prompt, NanoBananaPro
 from backend.utils.collective_engine import ChartData, CollectiveSynastryEngine # New imports
 # Centralized celestial config
 from backend.config.celestial_config import FOREST_HILLS_COORDINATES, USER_BIRTH_DATA
+
+logger = logging.getLogger(__name__)
 
 # External data imports for cuisine and sauce recommendations
 

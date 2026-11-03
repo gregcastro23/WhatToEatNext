@@ -16,9 +16,10 @@ This runs pyflakes over every tracked backend/*.py and fails on:
   error must not become a way to hide a name;
 - a star import, which makes pyflakes say "may be undefined" instead of deciding.
 
-The allowlists below are today's debt, one reason each. They grow only by an edit a reviewer
-sees, and they shrink the same way: an entry that is no longer needed (the name was fixed, a
-count fell, the file parses now) fails too, so the fix and the deletion land in one change.
+The allowlists below are for a deliberate exception, one reason each, and today they are empty.
+They grow only by an edit a reviewer sees, and they shrink the same way: an entry that is no
+longer needed (the name was fixed, a count fell, the file compiles now) fails too, so the fix and
+the deletion land in one change.
 
 What a pass does NOT mean. pyflakes counts a name as defined if it is bound anywhere in its
 scope, so a name bound on only some paths is invisible: a conditional definition,
@@ -46,41 +47,18 @@ from pyflakes import api
 
 REPO = Path(__file__).resolve().parents[2]
 
+# The allowlists are empty: the debt they recorded has been paid. An entry is for a deliberate
+# exception (a name defined through exec or globals(), say) and needs a reason a reviewer accepts.
+#
 # (file, name) -> (how many uses, why). A use that is not listed, or one more than listed, fails.
-ALLOWED_UNDEFINED: Dict[Tuple[str, str], Tuple[int, str]] = {
-    ("backend/alchm_kitchen/main.py", "logger"): (
-        1,
-        "the planetary-positions route's except handler calls logger.error, but main.py never "
-        "defines logger: the handler raises NameError instead of the HTTPException it means to",
-    ),
-    ("backend/utils/celestial_calculations.py", "planets"): (
-        1,
-        "the pyephem fallback's aspect loop reads planets.keys(), but planets is not defined "
-        "in that function: the fallback raises whenever it runs",
-    ),
-}
+ALLOWED_UNDEFINED: Dict[Tuple[str, str], Tuple[int, str]] = {}
 
-# file -> why it does not compile (and so cannot be checked). No import statement refers to these.
-ALLOWED_UNPARSEABLE: Dict[str, str] = {
-    "backend/utils/security.py": (
-        "a literal newline inside an f-string at line 77; backend/database/models.py:482-484 "
-        "point callers at this file for birth-data encryption"
-    ),
-    "backend/scripts/extract_typescript_data.py": "an unterminated string literal at line 77",
-    "backend/database/test_connection.py": (
-        "two statements run together on line 52; backend/scripts/init_database.py:58 runs this "
-        "file as the last step of database initialisation, which therefore cannot finish"
-    ),
-}
+# file -> why it does not compile (and so cannot be checked).
+ALLOWED_UNPARSEABLE: Dict[str, str] = {}
 
 # file -> why it star-imports. pyflakes cannot decide names in such a file, so it is not checked
 # for undefined names at all while the entry stands.
-ALLOWED_STAR_IMPORTS: Dict[str, str] = {
-    "backend/database/__init__.py": (
-        "`from .models import *` re-exports the ORM models (main.py does "
-        "`from backend.database import Recipe, ...`); this file is unchecked while it stands"
-    ),
-}
+ALLOWED_STAR_IMPORTS: Dict[str, str] = {}
 
 RUNTIME_ERRORS = {
     "UndefinedName": "undefined name",

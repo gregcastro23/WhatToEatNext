@@ -8,7 +8,27 @@ Central database configuration and connection management for all backend service
 from .config import DatabaseConfig
 from .connection import get_db_session, get_db_engine, create_tables, get_db
 from .redis_connection import get_redis_client
-from .models import *
+from .models import (
+    ApiKey,
+    CalculationCache,
+    ElementalProperties,
+    FeedEvent,
+    Ingredient,
+    IngredientCompatibility,
+    IngredientCuisine,
+    PlanetaryInfluence,
+    Recipe,
+    RecipeContext,
+    RecipeIngredient,
+    Recommendation,
+    SavedChart,
+    SeasonalAssociation,
+    SystemMetric,
+    TransitHistory,
+    User,
+    UserCalculation,
+    ZodiacAffinity,
+)
 
 __all__ = [
     'DatabaseConfig',
@@ -17,5 +37,23 @@ __all__ = [
     'create_tables',
     'get_db',
     'get_redis_client',
-    # Models will be added here as they are imported
+    'ApiKey',
+    'CalculationCache',
+    'ElementalProperties',
+    'FeedEvent',
+    'Ingredient',
+    'IngredientCompatibility',
+    'IngredientCuisine',
+    'PlanetaryInfluence',
+    'Recipe',
+    'RecipeContext',
+    'RecipeIngredient',
+    'Recommendation',
+    'SavedChart',
+    'SeasonalAssociation',
+    'SystemMetric',
+    'TransitHistory',
+    'User',
+    'UserCalculation',
+    'ZodiacAffinity',
 ]

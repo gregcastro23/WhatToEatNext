@@ -405,7 +405,7 @@ def calculate_planetary_positions_pyephem(
         
         # Calculate Aspects
         aspects = []
-        planet_names = list(planets.keys())
+        planet_names = list(planets_map.keys())
         for i in range(len(planet_names)):
             for j in range(i + 1, len(planet_names)):
                 p1 = planet_names[i]
