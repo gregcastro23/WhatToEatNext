@@ -233,9 +233,13 @@ export async function withoutHiddenRecipes<T extends { recipeId: string; recipeN
 const servedFor = new WeakMap<readonly string[], { publication: RecipePublication; ids: readonly string[] }>();
 
 /**
- * The static-only ids the catalog list serves. Lists none when the database
- * has never been able to say which recipes are unpublished: better a gap until
- * the next read than a hollow recipe ranked first.
+ * The static-only ids the catalog list serves. Lists them all when the database
+ * has never been able to say which recipes are unpublished, as `getServerRecipes`
+ * does: until the next read a hollow recipe may be listed, which is a lesser
+ * harm than a cuisine category coming back empty. Fusion is the case: its three
+ * recipes exist only as bundled copies, so a list that dropped the bundled-only
+ * recipes would leave the category with none [MEASURED 2026-11-03, production:
+ * Fusion has 3 recipes, all bundled-only].
  */
 export async function servedStaticOnlyIds(
   staticOnlyIds: readonly string[],
@@ -249,6 +253,6 @@ export async function servedStaticOnlyIds(
     servedFor.set(staticOnlyIds, { publication, ids });
     return ids;
   } catch {
-    return [];
+    return staticOnlyIds;
   }
 }

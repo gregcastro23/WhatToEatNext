@@ -13,9 +13,12 @@
  * `setTable` and `nextRefresh`, which make the call and let the read finish.
  */
 import { getServerRecipeIndex, getServerRecipes } from "@/actions/recipes";
+import { CUISINES_METADATA } from "@/data/cuisines/index";
 import { quizCatalogResponse, quizDishRecipe } from "@/lib/quiz/serverCatalog";
 import { UnifiedRecipeService } from "@/services/UnifiedRecipeService";
 import type { Recipe } from "@/types/recipe";
+import { cuisineToSlug } from "@/utils/cuisineSlug";
+import { filterRecipes, toPublicRecipe } from "../catalogQuery";
 import { CATALOG_TTL_MS } from "../catalogTtl";
 import { indexRecipeIdAliases } from "../recipeIdentity";
 import {
@@ -514,5 +517,46 @@ describe("what is built from the served catalog follows the hidden set", () => {
 
     await nextRefresh(); // the TTL has passed and the served catalog has caught up
     expect((await service.getAllRecipes()).map((r) => String(r.id))).not.toContain(haemul().id);
+  });
+});
+
+describe("every cuisine category stays filled", () => {
+  /** The 14 recipes the operator had unpublished, as the recipes table held them [MEASURED 2026-11-03, production, read-only]. */
+  const PRODUCTION_UNPUBLISHED: Row[] = [
+    ["Bánh Mì Ốp La", "Vietnamese"],
+    ["Bua Loi", "Thai"],
+    ["Cháo", "Vietnamese"],
+    ["Chè Ba Màu", "Vietnamese"],
+    ["Gaeng Panang Neua", "Thai"],
+    ["Haemul Pajeon", "Korean"],
+    ["Hotteok", "Korean"],
+    ["Japchae", "Korean"],
+    ["Khao Soi Gai", "Thai"],
+    ["Lẩu Thái", "Vietnamese"],
+    ["Sangkaya Fak Thong", "Thai"],
+    ["Songpyeon", "Korean"],
+    ["Thịt Kho Tàu", "Vietnamese"],
+    ["Tub Tim Grob", "Thai"],
+  ].map(([name, cuisine], n) => ({
+    id: `a1b2c3d4-0000-4000-8000-${String(n + 1).padStart(12, "0")}`,
+    name: name ?? "",
+    cuisine: cuisine ?? "",
+    published: false,
+  }));
+
+  const categories = Object.keys(CUISINES_METADATA).filter((key) => key !== "HSCA");
+
+  it("leaves every category with recipes when those 14 are hidden at the source", async () => {
+    await setTable(...PRODUCTION_UNPUBLISHED);
+    const served = (await getServerRecipes()).map(toPublicRecipe);
+    expect(served.length).toBeLessThan(bundled.length); // the control: something was hidden
+    const empty = categories.filter((key) => filterRecipes(served, { cuisine: cuisineToSlug(CUISINES_METADATA[key]?.name ?? key) }).length === 0);
+    expect(empty).toEqual([]);
+  });
+
+  it("keeps all three Fusion recipes, which no unpublished row names", async () => {
+    await setTable(...PRODUCTION_UNPUBLISHED);
+    const served = (await getServerRecipes()).map(toPublicRecipe);
+    expect(filterRecipes(served, { cuisine: "fusion" })).toHaveLength(3);
   });
 });

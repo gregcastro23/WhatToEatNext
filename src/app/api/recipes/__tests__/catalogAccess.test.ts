@@ -12,6 +12,7 @@
  */
 import { getServerRecipes } from "@/actions/recipes";
 import { CUISINES_METADATA } from "@/data/cuisines/index";
+import { cuisineFacets } from "@/lib/recipes/catalogFacets";
 import { buildRecipeIdentityIndex } from "@/lib/recipes/recipeIdentity";
 import { CATALOG_TTL_MS } from "@/lib/recipes/catalogTtl";
 import { listCanonicalRecipeIds } from "@/lib/recipes/recipeRefResolver";
@@ -380,14 +381,22 @@ describe("the static copy of an unpublished recipe is not listed", () => {
     expect(mockLogError).toHaveBeenCalledTimes(1);
   });
 
-  it("lists no static-only recipe in a process that has never been able to read them", async () => {
+  it("lists every static-only recipe, Fusion's included, in a process that has never been able to read the table", async () => {
     recipesTable(new Error("connection reset"));
     const fresh: { GET?: typeof GET } = {};
     await jest.isolateModulesAsync(async () => {
       fresh.GET = (await import("../route")).GET;
     });
-    const served: Served = await (await fresh.GET?.(new Request("http://localhost/api/recipes")))?.json();
-    expect(ids(served).sort()).toEqual(LIVE.map((r) => r.id).sort());
+    const request = async (query: string): Promise<Served> =>
+      (await fresh.GET?.(new Request(`http://localhost/api/recipes${query}`)))?.json();
+    const index = buildRecipeIdentityIndex(
+      staticRecipes.map(({ id, name, cuisine }) => ({ id, name, ...(cuisine ? { cuisine } : {}) })),
+      LIVE.map(({ id, name, cuisine }) => ({ id, name, ...(cuisine ? { cuisine } : {}) })),
+    );
+    const served = await request("");
+    expect(served.total).toBe(LIVE.length + index.staticOnlyIds.length);
+    expect(ids(served)).toContain(haemulPajeon().id); // the hollow copy is listed until the table can be read
+    expect((await request("?cuisine=fusion")).total).toBe(3);
     expect(mockLogError).toHaveBeenCalledTimes(1);
   });
 
@@ -410,5 +419,57 @@ describe("the static copy of an unpublished recipe is not listed", () => {
     await nextRefresh();
     await get();
     expect(mockDbRows).toHaveBeenCalledTimes(2);
+  });
+});
+
+/** The 14 recipes the operator had unpublished, as the recipes table held them [MEASURED 2026-11-03, production, read-only]. */
+const PRODUCTION_UNPUBLISHED: IdentityRow[] = [
+  ["Bánh Mì Ốp La", "Vietnamese"],
+  ["Bua Loi", "Thai"],
+  ["Cháo", "Vietnamese"],
+  ["Chè Ba Màu", "Vietnamese"],
+  ["Gaeng Panang Neua", "Thai"],
+  ["Haemul Pajeon", "Korean"],
+  ["Hotteok", "Korean"],
+  ["Japchae", "Korean"],
+  ["Khao Soi Gai", "Thai"],
+  ["Lẩu Thái", "Vietnamese"],
+  ["Sangkaya Fak Thong", "Thai"],
+  ["Songpyeon", "Korean"],
+  ["Thịt Kho Tàu", "Vietnamese"],
+  ["Tub Tim Grob", "Thai"],
+].map(([name, cuisine], n) => ({
+  id: `a1b2c3d4-0000-4000-8000-${String(n + 1).padStart(12, "0")}`,
+  name: name ?? "",
+  cuisine: cuisine ?? null,
+}));
+
+describe("every cuisine category stays filled", () => {
+  beforeEach(liveDatabase);
+
+  const categories = Object.keys(CUISINES_METADATA).filter((key) => key !== "HSCA");
+
+  it.each(categories)("%s still has recipes with the operator's 14 unpublished recipes left out", async (key) => {
+    recipesTable(PRODUCTION_UNPUBLISHED);
+    await nextRefresh();
+    const name = CUISINES_METADATA[key]?.name ?? key;
+    expect((await get(`?cuisine=${encodeURIComponent(cuisineToSlug(name))}`)).total).toBeGreaterThan(0);
+  });
+
+  it("keeps all three Fusion recipes, which exist only as bundled copies, whatever the table says", async () => {
+    recipesTable(PRODUCTION_UNPUBLISHED);
+    await nextRefresh();
+    expect((await get("?cuisine=fusion")).total).toBe(3);
+    recipesTable(new Error("connection reset"));
+    await nextRefresh();
+    expect((await get("?cuisine=fusion")).total).toBe(3);
+  });
+
+  it("never leaves the pills short of a category", async () => {
+    recipesTable(PRODUCTION_UNPUBLISHED);
+    await nextRefresh();
+    const all = (await get()).recipes as Recipe[];
+    const pills = cuisineFacets(all, all).map((facet) => facet.slug).sort();
+    expect(pills).toEqual(categories.map((key) => cuisineToSlug(CUISINES_METADATA[key]?.name ?? key)).sort());
   });
 });

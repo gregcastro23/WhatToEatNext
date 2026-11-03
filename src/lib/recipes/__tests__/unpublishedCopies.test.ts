@@ -386,10 +386,10 @@ describe("servedStaticOnlyIds", () => {
     expect(await servedStaticOnlyIds([HAEMUL.id, FUSION.id], STATIC)).toEqual([FUSION.id]);
   });
 
-  it("lists none when the table has never been readable", async () => {
+  it("lists every static-only recipe when the table has never been readable, so no category can come back empty", async () => {
     mockQuery.mockRejectedValue(new Error("connection reset"));
     const { servedStaticOnlyIds } = await module_();
-    expect(await servedStaticOnlyIds([HAEMUL.id, FUSION.id], STATIC)).toEqual([]);
+    expect(await servedStaticOnlyIds([HAEMUL.id, FUSION.id], STATIC)).toEqual([HAEMUL.id, FUSION.id]);
   });
 
   it("answers from the set last read when the table becomes unreadable", async () => {
