@@ -327,10 +327,9 @@ export class EnhancedRecommendationService {
     // The bundled catalog read below leaves out the copies of unpublished recipes;
     // the read of which they are begins beside the signals' own queries, so that a
     // database that is down fails both together, not one after the other.
-    void import("@/lib/recipes/unpublishedCopies").then(
-      (mod) => mod.startPublicationRead(),
-      () => undefined,
-    );
+    import("@/lib/recipes/unpublishedCopies")
+      .then((mod) => mod.startPublicationRead())
+      .catch(() => undefined);
     const {
       entries,
       favoriteNames,

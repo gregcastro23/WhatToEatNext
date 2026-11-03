@@ -60,7 +60,7 @@ function liveRow(id: string, name: string, cuisine?: string): Recipe {
 
 interface Served {
   success: boolean;
-  recipes: Array<{ id: string; name: string; cuisine?: string }>;
+  recipes: Recipe[];
   total: number;
   limit: number | null;
   offset: number;
@@ -468,7 +468,7 @@ describe("every cuisine category stays filled", () => {
   it("never leaves the pills short of a category", async () => {
     recipesTable(PRODUCTION_UNPUBLISHED);
     await nextRefresh();
-    const all = (await get()).recipes as Recipe[];
+    const all = (await get()).recipes;
     const pills = cuisineFacets(all, all).map((facet) => facet.slug).sort();
     expect(pills).toEqual(categories.map((key) => cuisineToSlug(CUISINES_METADATA[key]?.name ?? key)).sort());
   });
