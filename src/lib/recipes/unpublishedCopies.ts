@@ -130,16 +130,46 @@ export function publicationNow(): RecipePublication | null {
 
 /**
  * Which recipes the database holds, published and not, for a caller that cannot
- * answer without it: the first read in a process is waited for, and rejects if
- * it fails (and while the next attempt is held back). Once a set is known this
- * is `publicationNow` and does not wait.
+ * answer without it. The first attempt in a process is waited for; if it fails,
+ * this rejects at once from then on, while the next attempt runs behind it, so
+ * that a database that hangs is waited on once and not on every call. Once a
+ * set is known this is `publicationNow` and does not wait.
  */
 export function readPublication(): Promise<RecipePublication> {
   ensureFresh();
   if (known) return Promise.resolve(known.value);
-  if (loading) return loading;
+  if (!attempt && loading) return loading;
   return Promise.reject(attempt?.error ?? new Error("the recipes table has not been read"));
 }
+
+let firstWait: Promise<void> | null = null;
+
+/**
+ * Resolves when the first read in this process has answered or failed, or
+ * after one connection timeout, whichever is first, and at once from then on.
+ *
+ * `getServerRecipes` waits on this once, after it has built the bundled
+ * catalog: that build is one synchronous run of about half a second, during
+ * which the socket of a read begun beside it cannot be served, so the read
+ * has not landed when the build ends even though the database answered at
+ * once [MEASURED 2026-11-02: it lands 18.6 ms later, 230 event-loop turns]. A
+ * healthy database costs the first call that long; a hung one costs it a
+ * connection timeout, once per process, which is the time the pool takes to
+ * give up connecting.
+ */
+export function firstReadSettled(): Promise<void> {
+  if (known || attempt) return Promise.resolve();
+  if (firstWait) return firstWait;
+  if (!loading) return Promise.resolve();
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const cap = new Promise<void>((resolve) => {
+    timer = setTimeout(resolve, databaseConfig.connectionTimeout);
+  });
+  firstWait = Promise.race([loading.then(nothing, nothing), cap]).finally(() => clearTimeout(timer));
+  return firstWait;
+}
+
+const nothing = (): void => undefined;
 
 /** The static-only ids that are not the copy of an unpublished recipe. Pure. */
 export function dropUnpublishedTwins(

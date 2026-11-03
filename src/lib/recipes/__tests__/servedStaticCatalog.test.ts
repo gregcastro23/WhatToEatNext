@@ -32,6 +32,11 @@ const mockLive = jest.fn<Promise<Recipe[]>, []>();
 const mockLogError = jest.fn();
 
 jest.mock("server-only", () => ({}));
+// A short connection timeout, so that the one wait a cold process makes for a hung table is short.
+jest.mock("@/lib/database/config", () => {
+  const actual = jest.requireActual<typeof import("@/lib/database/config")>("@/lib/database/config");
+  return { ...actual, databaseConfig: { ...actual.databaseConfig, connectionTimeout: 400 } };
+});
 jest.mock("@/lib/database", () => ({ executeQuery: () => mockDbRows() }));
 jest.mock("@/lib/logger", () => ({
   _logger: { error: (...args: unknown[]) => mockLogError(...args), warn: jest.fn(), info: jest.fn(), debug: jest.fn() },
@@ -73,14 +78,17 @@ function fusionUnpublished(): Row {
   return { id: "7d5b8c74-0000-4000-8000-000000000003", name: fusion.name, cuisine: "Fusion", published: false };
 }
 
-/** The recipes table: the live rows, flagged published, and `extra` rows. */
-function table(...extra: Row[]): void {
-  mockDbRows.mockImplementation(async () => ({
+/** The rows of the recipes table: the live rows, flagged published, and `extra` rows. */
+function rowsOf(extra: Row[]): { rows: unknown[] } {
+  return {
     rows: [
       ...[LIVE_OYAKODON, LIVE_ONLY].map((r) => ({ id: r.id, name: r.name, cuisine: r.cuisine, published: true })),
       ...extra,
     ],
-  }));
+  };
+}
+function table(...extra: Row[]): void {
+  mockDbRows.mockImplementation(async () => rowsOf(extra));
 }
 
 let clock = 1_000_000_000_000;
@@ -305,15 +313,19 @@ describe("when the recipes table does not answer at all", () => {
     mockDbRows.mockImplementation(() => new Promise(() => undefined));
   };
 
-  it("does not hold up a cold process: the whole bundled catalog is served as soon as it is built", async () => {
+  it("holds a cold process for one connection timeout, once, and then serves the whole bundled catalog", async () => {
     hang();
-    let served: Recipe[] | "stuck" = "stuck";
     await jest.isolateModulesAsync(async () => {
       const fresh = await import("@/actions/recipes");
-      served = await within(fresh.getServerRecipes());
+      const served = await within(fresh.getServerRecipes());
+      expect(served).not.toBe("stuck");
+      expect(Array.isArray(served) && served.map((r) => String(r.id))).toEqual(idsOf(bundled));
+
+      // The wait is made once: the next call, with the table still hung, is prompt.
+      const started = performance.now();
+      expect(await within(fresh.getServerRecipes())).not.toBe("stuck");
+      expect(performance.now() - started).toBeLessThan(150);
     });
-    expect(served).not.toBe("stuck");
-    expect(Array.isArray(served) && served.map((r) => String(r.id))).toEqual(idsOf(bundled));
   });
 
   // A read that never answers stays "in flight" for the module that began it, so each
@@ -364,6 +376,30 @@ describe("with no database configured", () => {
     await catchUp();
     expect(await getServerRecipes()).toBe(bundled);
     expect(mockDbRows).not.toHaveBeenCalled();
+  });
+});
+
+describe("the first call of a cold process", () => {
+  it("is already filtered when the read can only land after the bundled catalog is built", async () => {
+    // The build is one synchronous run, so a real socket cannot be served inside it: the read lands just
+    // after. Here the table answers only once the catalog's build has logged that it is done.
+    let release: () => void = () => undefined;
+    const built = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    mockDbRows.mockImplementation(async () => {
+      await built;
+      return rowsOf([HAEMUL_UNPUBLISHED]);
+    });
+    jest.spyOn(console, "info").mockImplementation((...args: unknown[]) => {
+      if (args.some((a) => String(a).includes("Loaded"))) release();
+    });
+    await jest.isolateModulesAsync(async () => {
+      const fresh = await import("@/actions/recipes");
+      const served = await within(fresh.getServerRecipes());
+      expect(served).not.toBe("stuck");
+      expect(Array.isArray(served) && served.map((r) => String(r.id))).not.toContain(haemul().id);
+    });
   });
 });
 

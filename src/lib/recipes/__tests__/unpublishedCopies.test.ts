@@ -17,6 +17,11 @@ const mockQuery = jest.fn<Promise<{ rows: unknown[] }>, [string]>();
 const mockLogError = jest.fn();
 
 jest.mock("@/lib/database", () => ({ executeQuery: (sql: string) => mockQuery(sql) }));
+// A short connection timeout, so that a test can wait out the cap on a first read that never answers.
+jest.mock("@/lib/database/config", () => {
+  const actual = jest.requireActual<typeof import("@/lib/database/config")>("@/lib/database/config");
+  return { ...actual, databaseConfig: { ...actual.databaseConfig, connectionTimeout: 300 } };
+});
 jest.mock("@/lib/logger", () => ({
   _logger: { error: (...args: unknown[]) => mockLogError(...args), warn: jest.fn(), info: jest.fn(), debug: jest.fn() },
 }));
@@ -136,6 +141,9 @@ describe("readPublication", () => {
 
     clock += databaseConfig.connectionTimeout;
     table([{ row: PUBLIC_OYAKODON, published: true }]);
+    await expect(readPublication()).rejects.toThrow("connection reset"); // the retry begins behind this call
+    expect(mockQuery).toHaveBeenCalledTimes(2);
+    await settle();
     await expect(readPublication()).resolves.toMatchObject({ unpublished: [] });
     expect(mockQuery).toHaveBeenCalledTimes(2);
   });
@@ -195,6 +203,59 @@ describe("readPublication", () => {
     // with a NULL flag counting as false, and the two halves cannot overlap.
     expect(sql).toContain("(r.is_public IS TRUE) AS published");
     expect(sql).not.toMatch(/WHERE/i);
+  });
+});
+
+describe("readPublication after a failed first attempt", () => {
+  it("rejects at once while the next attempt runs behind it, instead of waiting for it", async () => {
+    mockQuery.mockRejectedValueOnce(new Error("connection reset")).mockImplementation(() => new Promise(() => undefined));
+    const { readPublication } = await module_();
+    await expect(readPublication()).rejects.toThrow("connection reset"); // the first attempt is waited for
+    clock += databaseConfig.connectionTimeout;
+    const outcome = await Promise.race([
+      readPublication().then(() => "answered", () => "rejected"),
+      new Promise<string>((resolve) => setTimeout(() => resolve("stuck"), 1000)),
+    ]);
+    expect(outcome).toBe("rejected");
+    expect(mockQuery).toHaveBeenCalledTimes(2); // the second attempt is under way
+  });
+});
+
+describe("firstReadSettled", () => {
+  const elapsedMs = async (work: Promise<unknown>): Promise<number> => {
+    const started = performance.now();
+    await work;
+    return performance.now() - started;
+  };
+
+  it("resolves when the first read has answered, which a synchronous run before it can have starved", async () => {
+    standardTable();
+    const { firstReadSettled, publicationNow } = await module_();
+    expect(publicationNow()).toBeNull(); // begins the read
+    await firstReadSettled();
+    expect(publicationNow()).not.toBeNull();
+  });
+
+  it("resolves after one connection timeout when the first read never answers, and at once from then on", async () => {
+    mockQuery.mockImplementation(() => new Promise(() => undefined));
+    const { firstReadSettled, publicationNow } = await module_();
+    publicationNow();
+    const first = await elapsedMs(firstReadSettled());
+    expect(first).toBeGreaterThanOrEqual(databaseConfig.connectionTimeout - 50);
+    expect(first).toBeLessThan(databaseConfig.connectionTimeout + 700);
+    expect(await elapsedMs(firstReadSettled())).toBeLessThan(100);
+  });
+
+  it("resolves when the first read has failed, without waiting out the timeout", async () => {
+    mockQuery.mockRejectedValue(new Error("connection refused"));
+    const { firstReadSettled, publicationNow } = await module_();
+    publicationNow();
+    expect(await elapsedMs(firstReadSettled())).toBeLessThan(databaseConfig.connectionTimeout - 100);
+  });
+
+  it("is already resolved when no read has been begun and none is under way", async () => {
+    const { firstReadSettled } = await module_();
+    expect(await elapsedMs(firstReadSettled())).toBeLessThan(100);
   });
 });
 

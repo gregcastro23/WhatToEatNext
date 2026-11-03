@@ -5,6 +5,7 @@ import { toIdentity, type RecipeIdentityRecord } from "@/lib/recipes/recipeIdent
 import { markServed } from "@/lib/recipes/servedArrays";
 import {
   databaseIsConfigured,
+  firstReadSettled,
   hiddenStaticIds,
   publicationNow,
   type RecipePublication,
@@ -630,14 +631,15 @@ function publicationIfAny(): RecipePublication | null {
  * is worked out again only when the loaded array or the table read is a new
  * object, not on every call.
  *
- * A cold process starts the read at once, so that it runs while the bundled
- * catalog loads, and gives it exactly that long: if the table has not answered
- * by then this call serves the whole catalog, and the next call the filtered
- * one.
+ * A cold process starts the read at once, beside the bundled catalog's load,
+ * and its first call waits for that read to settle (at most one connection
+ * timeout, once: see `firstReadSettled`), so that the first request is already
+ * filtered. No later call waits.
  */
 async function servedView(): Promise<ServedView> {
   publicationIfAny();
   const raw = await loadedRecipes();
+  if (databaseIsConfigured()) await firstReadSettled();
   const publication = publicationIfAny();
   // No await from here to the end, so concurrent callers share one view.
   if (_served?.raw === raw && _served.publication === publication) return _served;
