@@ -353,9 +353,9 @@ describe("what is built from the served catalog follows the hidden set", () => {
     const dish = (await quizCatalogResponse()).dishes[0];
     if (!dish) throw new Error("the quiz catalog is empty");
     const recipe = await quizDishRecipe(dish.id);
-    expect(recipe).not.toBeNull(); // the control: it is a quiz dish to begin with
+    if (!recipe) throw new Error("the control failed: the first quiz dish has no recipe"); // it is a quiz dish to begin with
 
-    table(unpublishedLike(recipe as Recipe, 3));
+    table(unpublishedLike(recipe, 3));
     nextRefresh();
     expect((await quizCatalogResponse()).dishes.map((d) => d.id)).not.toContain(dish.id);
     expect(await quizDishRecipe(dish.id)).toBeNull();
