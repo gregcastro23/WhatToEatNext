@@ -382,13 +382,16 @@ describe("with no database configured", () => {
 describe("the first call of a cold process", () => {
   it("is already filtered when the read can only land after the bundled catalog is built", async () => {
     // The build is one synchronous run, so a real socket cannot be served inside it: the read lands just
-    // after. Here the table answers only once the catalog's build has logged that it is done.
+    // after, on a later turn of the event loop (a mock that answers in microtasks lands before the call
+    // looks, and cannot tell a call that waits from one that does not). Here the table answers on a timer,
+    // and only once the catalog's build has logged that it is done.
     let release: () => void = () => undefined;
     const built = new Promise<void>((resolve) => {
       release = resolve;
     });
     mockDbRows.mockImplementation(async () => {
       await built;
+      await new Promise((resolve) => setTimeout(resolve, 20));
       return rowsOf([HAEMUL_UNPUBLISHED]);
     });
     jest.spyOn(console, "info").mockImplementation((...args: unknown[]) => {
