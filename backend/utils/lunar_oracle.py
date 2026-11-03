@@ -44,6 +44,20 @@ def get_lunar_mansion(moon_longitude):
             return mansion
     return None
 
+def julian_day_utc(moment):
+    """The Julian day (UT) of a datetime: naive means already UTC, aware is converted to UTC first.
+
+    swe.julday takes the time of day as ONE decimal-hours argument. Its fifth parameter is the
+    calendar flag (0 Julian, 1 Gregorian), not the minute: passing the minute there raised
+    "invalid calendar (19)" at almost every minute, and at minute 0 silently read the date in
+    the Julian calendar.
+    """
+    offset = moment.utcoffset()
+    if offset is not None:
+        moment = (moment - offset).replace(tzinfo=None)
+    hours = moment.hour + moment.minute / 60.0 + (moment.second + moment.microsecond / 1e6) / 3600.0
+    return swe.julday(moment.year, moment.month, moment.day, hours)
+
 def get_moon_longitude(julian_day):
     """Gets the longitude of the Moon."""
     # result is a tuple: ((longitude, latitude, distance, long_speed, ...), flags)
@@ -64,7 +78,7 @@ def get_optimal_cooking_windows(days=7):
 
     for day in range(days):
         date = now + datetime.timedelta(days=day)
-        julian_day = swe.julday(date.year, date.month, date.day, date.hour, date.minute)
+        julian_day = julian_day_utc(date)
         moon_longitude = get_moon_longitude(julian_day)
         mansion = get_lunar_mansion(moon_longitude)
 

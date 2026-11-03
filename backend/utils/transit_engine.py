@@ -1,6 +1,8 @@
 import datetime
+import math
 from backend.config.celestial_config import FOREST_HILLS_COORDINATES
 from backend.utils.planetary_weights import normalize_planet_weight, PLANET_MASS_RELATIVE
+from backend.utils.elemental_balance import elemental_balance_from_longitudes
 try:
     import swisseph as swe
     from astral.sun import sun
@@ -142,10 +144,23 @@ def get_cooking_ritual(recipe, dominant_transit):
         return f"For '{recipe.name}', simply cook with mindfulness and enjoy the moment."
 
 def get_dominant_element(elemental_properties):
-    """Gets the dominant element from a recipe's elemental properties."""
+    """The element with the strictly greatest share, or None when there is not one.
+
+    A tie has no dominant element, and neither has a profile with nothing in it. max() would answer
+    with whichever tied key comes first in the dict, which is "Fire" for the order the by-chart
+    recommender builds, so a recipe tied between Water and Air would be scored as Fire-dominant (the
+    highest potency of the four). 34 of the 1099 public recipes in production have an exact tie for
+    the top share (42 within 1e-9). None is the engines' "no profile": a neutral score.
+    """
     if not elemental_properties:
         return None
-    return max(elemental_properties, key=elemental_properties.get)
+    if not all(math.isfinite(share) for share in elemental_properties.values()):
+        return None  # max() and == treat a NaN by its position, so it must not take part
+    top = max(elemental_properties.values())
+    leaders = [name for name, share in elemental_properties.items() if math.isclose(share, top, rel_tol=0.0, abs_tol=1e-9)]
+    if len(leaders) != 1 or top <= 0:
+        return None
+    return leaders[0]
 
 def calculate_total_potency_score(recipe, dominant_transit, sun_sign_element, planetary_hour_ruler):
     """
@@ -213,6 +228,15 @@ def get_zodiac_sign_and_element(longitude):
     ]
     sign_index = int(longitude / 30)
     return zodiac_signs[sign_index]
+
+def calculate_current_elemental_balance(current_transits):
+    """Share of the transiting bodies standing in each element's signs.
+
+    `current_transits` maps body name to ecliptic longitude, as get_planetary_positions returns
+    it. The basis and the weights are in backend/utils/elemental_balance.py.
+    """
+    return elemental_balance_from_longitudes(current_transits.values())
+
 
 def get_transit_details():
     """

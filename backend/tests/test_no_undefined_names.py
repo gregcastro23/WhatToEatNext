@@ -58,11 +58,6 @@ ALLOWED_UNDEFINED: Dict[Tuple[str, str], Tuple[int, str]] = {
         "the pyephem fallback's aspect loop reads planets.keys(), but planets is not defined "
         "in that function: the fallback raises whenever it runs",
     ),
-    ("backend/utils/transit_engine.py", "calculate_current_elemental_balance"): (
-        1,
-        "called by get_transit_details() but defined nowhere in the repo, so it never returns "
-        "(every route that asks for transit details raises)",
-    ),
 }
 
 # file -> why it does not compile (and so cannot be checked). No import statement refers to these.

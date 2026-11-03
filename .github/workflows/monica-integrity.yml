@@ -215,6 +215,26 @@ jobs:
           "$RUNNER_TEMP/undefined-names/bin/python" -m pip install --quiet pytest pyflakes==4.1.0
           "$RUNNER_TEMP/undefined-names/bin/python" -m pytest backend/tests/test_no_undefined_names.py -q
 
+      - name: By-chart recommender (Python)
+        # POST /api/astrological/recipe-recommendations-by-chart never got past its first
+        # recipe: a chain of independent defects, each hidden by the one before it (signs bound in
+        # a spelling the Postgres enum rejects, a minute passed as swe.julday's calendar flag,
+        # an undefined elemental-balance function, elements stored lowercase that the engines
+        # read capitalized, a variable bound on one path and read on both, a pydantic class
+        # shadowing the ORM model, a text that subscripted data nobody had asked for, and a
+        # collective-engine stand-in that was not a dict, a Midheaven computed from a planet's
+        # longitude). The tests of the pieces run on a bare Python; test_by_chart_handler.py RUNS
+        # the handler's real source, extracted with ast, against stand-ins for the database, HTTP
+        # and clock; test_chart_angles.py compares the real chart function with swisseph.
+        #
+        # They need the engines' own dependencies, all pinned in backend/requirements.txt
+        # (pydantic, pyswisseph, astral), so, like the step above, this installs them in a
+        # throwaway venv and the pytest-only steps keep their install.
+        run: |
+          python -m venv "$RUNNER_TEMP/by-chart"
+          "$RUNNER_TEMP/by-chart/bin/python" -m pip install --quiet pytest pydantic==2.10.6 pyswisseph==2.10.3.2 astral==3.2
+          "$RUNNER_TEMP/by-chart/bin/python" -m pytest backend/tests/test_zodiac_signs.py backend/tests/test_elemental_balance.py backend/tests/test_by_chart_recommendations.py backend/tests/test_by_chart_engines.py backend/tests/test_by_chart_handler.py backend/tests/test_chart_angles.py -q
+
       - name: Deploy-time migration runner (Python)
         # backend/scripts/run_init_migrations.py runs before uvicorn on every
         # Railway deploy. A no-transaction migration first in line failed it
