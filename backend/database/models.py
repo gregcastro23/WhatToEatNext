@@ -463,6 +463,12 @@ class TransitHistory(Base):
     essence_score: Mapped[Optional[float]] = mapped_column(Float)
     matter_score: Mapped[Optional[float]] = mapped_column(Float)
     substance_score: Mapped[Optional[float]] = mapped_column(Float)
+    # Whether the ritual was cast for a group and for how many people. POST /api/rituals/generate-cooking-instruction
+    # writes both on every row. They were only ever added by hand (backend/scripts/phase7_migration.py,
+    # add_collective_columns.py); database/init/99 makes every database have them. The defaults say what a row
+    # logged before they existed was: a ritual for one.
+    is_collective: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default='false')
+    participant_count: Mapped[int] = mapped_column(Integer, nullable=False, server_default='1')
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     __table_args__ = (

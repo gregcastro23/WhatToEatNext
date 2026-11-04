@@ -231,13 +231,17 @@ jobs:
         # the handler's real source, extracted with ast, against stand-ins for the database, HTTP
         # and clock; test_chart_angles.py compares the real chart function with swisseph.
         #
+        # test_ritual_handler.py does the same for POST /api/rituals/generate-cooking-instruction,
+        # which had never been run either: its log row named two columns the model and every
+        # migration lacked, so the first statement after the engines raised.
+        #
         # They need the engines' own dependencies, all pinned in backend/requirements.txt
         # (pydantic, pyswisseph, astral), so, like the step above, this installs them in a
         # throwaway venv and the pytest-only steps keep their install.
         run: |
           python -m venv "$RUNNER_TEMP/by-chart"
           "$RUNNER_TEMP/by-chart/bin/python" -m pip install --quiet pytest pydantic==2.10.6 pyswisseph==2.10.3.2 astral==3.2
-          "$RUNNER_TEMP/by-chart/bin/python" -m pytest backend/tests/test_zodiac_signs.py backend/tests/test_elemental_balance.py backend/tests/test_by_chart_recommendations.py backend/tests/test_by_chart_engines.py backend/tests/test_by_chart_handler.py backend/tests/test_chart_angles.py -q
+          "$RUNNER_TEMP/by-chart/bin/python" -m pytest backend/tests/test_zodiac_signs.py backend/tests/test_elemental_balance.py backend/tests/test_by_chart_recommendations.py backend/tests/test_by_chart_engines.py backend/tests/test_by_chart_handler.py backend/tests/test_chart_angles.py backend/tests/test_ritual_handler.py -q
 
       - name: Deploy-time migration runner (Python)
         # backend/scripts/run_init_migrations.py runs before uvicorn on every
