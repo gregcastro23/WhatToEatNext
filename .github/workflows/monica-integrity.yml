@@ -229,7 +229,9 @@ jobs:
         # collective-engine stand-in that was not a dict, a Midheaven computed from a planet's
         # longitude). The tests of the pieces run on a bare Python; test_by_chart_handler.py RUNS
         # the handler's real source, extracted with ast, against stand-ins for the database, HTTP
-        # and clock; test_chart_angles.py compares the real chart function with swisseph.
+        # and clock; test_chart_angles.py compares the real chart function with swisseph;
+        # test_lunar_modifier.py pins the lunar modifier (a boost for a matched category and 1.0
+        # for the rest, where it multiplied every score down) and production's category names.
         #
         # They need the engines' own dependencies, all pinned in backend/requirements.txt
         # (pydantic, pyswisseph, astral), so, like the step above, this installs them in a
@@ -237,7 +239,7 @@ jobs:
         run: |
           python -m venv "$RUNNER_TEMP/by-chart"
           "$RUNNER_TEMP/by-chart/bin/python" -m pip install --quiet pytest pydantic==2.10.6 pyswisseph==2.10.3.2 astral==3.2
-          "$RUNNER_TEMP/by-chart/bin/python" -m pytest backend/tests/test_zodiac_signs.py backend/tests/test_elemental_balance.py backend/tests/test_by_chart_recommendations.py backend/tests/test_by_chart_engines.py backend/tests/test_by_chart_handler.py backend/tests/test_chart_angles.py -q
+          "$RUNNER_TEMP/by-chart/bin/python" -m pytest backend/tests/test_zodiac_signs.py backend/tests/test_elemental_balance.py backend/tests/test_by_chart_recommendations.py backend/tests/test_by_chart_engines.py backend/tests/test_by_chart_handler.py backend/tests/test_chart_angles.py backend/tests/test_lunar_modifier.py -q
 
       - name: Deploy-time migration runner (Python)
         # backend/scripts/run_init_migrations.py runs before uvicorn on every
