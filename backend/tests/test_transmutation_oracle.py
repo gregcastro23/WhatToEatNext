@@ -110,6 +110,49 @@ def test_the_first_hour_belongs_to_the_planet_of_the_weekday(place):
         assert first["ruling_planet"] == WEEKDAY_PLANET[day.weekday()], f"{day:%A}"
 
 
+# --- the order of the hours ---------------------------------------------------------------------
+
+# The Chaldean order, the planets by slowest apparent orbit: each hour of the day is ruled by the NEXT
+# planet in this list, the first by the day's planet. Restated here, not imported.
+CHALDEAN_ORDER = ["Saturn", "Jupiter", "Mars", "Sun", "Venus", "Mercury", "Moon"]
+
+# The classical table of planetary hours for three weekdays, written out: (twelve day hours, twelve night hours).
+CLASSICAL_HOURS = {
+    datetime.date(2025, 6, 21): (  # Saturday
+        "Saturn Jupiter Mars Sun Venus Mercury Moon Saturn Jupiter Mars Sun Venus".split(),
+        "Mercury Moon Saturn Jupiter Mars Sun Venus Mercury Moon Saturn Jupiter Mars".split(),
+    ),
+    datetime.date(2025, 6, 22): (  # Sunday
+        "Sun Venus Mercury Moon Saturn Jupiter Mars Sun Venus Mercury Moon Saturn".split(),
+        "Jupiter Mars Sun Venus Mercury Moon Saturn Jupiter Mars Sun Venus Mercury".split(),
+    ),
+    datetime.date(2025, 6, 25): (  # Wednesday
+        "Mercury Moon Saturn Jupiter Mars Sun Venus Mercury Moon Saturn Jupiter Mars".split(),
+        "Sun Venus Mercury Moon Saturn Jupiter Mars Sun Venus Mercury Moon Saturn".split(),
+    ),
+}
+
+
+@pytest.mark.parametrize("day", sorted(CLASSICAL_HOURS), ids=lambda d: f"{d:%A}")
+def test_the_hours_are_ruled_as_the_classical_table_has_them(day):
+    rulers = [h["ruling_planet"] for h in hours_for("New York", day)["planetary_hours"]]
+    day_hours, night_hours = CLASSICAL_HOURS[day]
+    assert rulers == day_hours + night_hours
+
+
+@pytest.mark.parametrize("place", ["New York", "Tokyo", "Sydney"])
+def test_each_hour_is_ruled_by_the_planet_after_the_one_before_even_across_midnight_and_days(place):
+    # The week must close up: the module's own table of weekday planets (Sun, Moon, Mars, ...) is the
+    # first hour of each day, and it is the 25th hour from the day before only if the hours advance
+    # through the list, not back through it.
+    rulers = []
+    for offset in range(8):
+        day = datetime.date(2025, 6, 15) + datetime.timedelta(days=offset)
+        rulers += [h["ruling_planet"] for h in hours_for(place, day)["planetary_hours"]]
+    for before, after in zip(rulers, rulers[1:]):
+        assert after == CHALDEAN_ORDER[(CHALDEAN_ORDER.index(before) + 1) % 7], (before, after)
+
+
 # --- against independent calculations -----------------------------------------------------------
 
 def astral_events(place, day, direction):

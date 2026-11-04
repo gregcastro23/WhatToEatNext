@@ -17,8 +17,11 @@ from ..utils.lunar_oracle import julian_day_utc
 EPHE_PATH = os.environ.get('SWISSEPH_PATH', os.path.join(os.path.dirname(__file__), '..', '..', 'sweph_ephe'))
 swe.set_ephe_path(EPHE_PATH)
 
-# Chaldean order for planetary rulers (retrograde for hourly sequence)
-# Starting with Saturn, then Jupiter, Mars, Sun, Venus, Mercury, Moon
+# Chaldean order of the planets, slowest apparent orbit first: Saturn, Jupiter, Mars, Sun, Venus,
+# Mercury, Moon. The hours of a day are ruled by the planets in THIS direction, each hour by the next
+# in the list (after the Moon, Saturn again), starting from the planet of the day; so the 25th hour,
+# the first of the next day, is three places on, which is DAY_OF_WEEK_RULERS (Sun, Moon, Mars,
+# Mercury, Jupiter, Venus, Saturn).
 CHALDEAN_ORDER = ["Saturn", "Jupiter", "Mars", "Sun", "Venus", "Mercury", "Moon"]
 
 # Map day of week (weekday() returns Monday=0, Sunday=6) to first hour ruler (Chaldean order)
@@ -149,7 +152,7 @@ class TransmutationOracle:
         # Day hours
         for i in range(12):
             end_time = current_time + day_hour_length
-            ruler_index = (start_index - i) % 7 # Chaldean order is retrograde
+            ruler_index = (start_index + i) % 7
             ruling_planet = CHALDEAN_ORDER[ruler_index]
             planetary_hours.append({
                 "period": "day",
@@ -164,11 +167,11 @@ class TransmutationOracle:
         current_time = sunset_utc
         # The ruling planet sequence continues from where the day left off.
         # The next planet in the sequence after the 12th day hour ruler is the 1st night hour ruler.
-        night_start_ruler_index = (start_index - 12) % 7
+        night_start_ruler_index = (start_index + 12) % 7
 
         for i in range(12):
             end_time = current_time + night_hour_length
-            ruler_index = (night_start_ruler_index - i) % 7
+            ruler_index = (night_start_ruler_index + i) % 7
             ruling_planet = CHALDEAN_ORDER[ruler_index]
             planetary_hours.append({
                 "period": "night",
