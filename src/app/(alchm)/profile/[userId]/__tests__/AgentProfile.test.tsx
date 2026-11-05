@@ -226,7 +226,6 @@ describe("AgentProfile - Recent Culinary Reflections & Activity", () => {
       screen.getByText(/Proportions in the kitchen mirror the harmonic ratios of the spheres/i),
     ).toBeInTheDocument();
   });
-
   it("renders honest empty state when recentActivity is empty and opens chat modal", () => {
     render(
       <AgentProfile
