@@ -3,16 +3,18 @@
  *
  *   "When was the last time the cosmos felt like this?"
  *
- * Pulls /api/alchm-quantities/echoes for the Sun (Solar Return, 1 year ago)
- * or one of five outer planets (Jupiter, Saturn, Uranus, Neptune, Pluto)
- * and renders:
- *   1. Solar Return Panel with exact 1-year historical recurrence & top cuisine matches.
+ * Pulls /api/alchm-quantities/echoes for the Sun (Solar Return, 1 year ago —
+ * or any past year via the year picker) or one of five outer planets
+ * (Jupiter, Saturn, Uranus, Neptune, Pluto) and renders:
+ *   1. Solar Return Panel with exact historical recurrence, top cuisine matches,
+ *      and catalog recipes "from that day".
  *   2. Placements comparison (The cosmos then vs now).
  *   3. Alchemical & thermodynamic state evolution (ESMS + thermo deltas).
  *   4. Outer-planet multi-decade & century epoch cycles.
  */
 "use client";
 
+import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { _logger } from "@/lib/logger";
 
@@ -49,8 +51,21 @@ interface SolarCuisineMatch {
   reasons: string[];
 }
 
+interface SolarReturnRecipe {
+  id: string;
+  name: string;
+  description?: string;
+  cuisine?: string;
+  image?: string;
+  matchedCuisine: string | null;
+  matchPercentage: number;
+  reasons: string[];
+}
+
 interface EchoResponse {
   success: boolean;
+  error?: string;
+  recipes?: SolarReturnRecipe[];
   echo: {
     planet: EchoPlanet;
     reference: {
@@ -91,6 +106,10 @@ interface EchoResponse {
     search: { coarseStageMs: number; refineStageMs: number; iterations: number };
     cuisineMatches?: SolarCuisineMatch[];
   };
+}
+
+function isEchoResponse(data: unknown): data is EchoResponse {
+  return typeof data === "object" && data !== null && "success" in data;
 }
 
 const PLANET_GLYPHS: Record<string, string> = {
@@ -186,6 +205,10 @@ function formatDateTime(iso: string): string {
 
 function formatYearsAgo(years: number, isSolar: boolean): string {
   if (isSolar) {
+    if (years >= 1.5) {
+      const yrs = Math.round(years);
+      return `${yrs} years ago · ${yrs} tropical years`;
+    }
     const days = Math.round(years * 365.25);
     return `${days} days ago · exactly 1.0 tropical year`;
   }
@@ -202,6 +225,20 @@ function formatYearsAgo(years: number, isSolar: boolean): string {
   return `${years.toFixed(1)} years ago`;
 }
 
+function solarAgoPhrase(years: number): string {
+  const yrs = Math.max(1, Math.round(years));
+  return yrs === 1 ? "one year ago" : `${yrs} years ago`;
+}
+
+function solarOrbitPhrase(years: number): string {
+  const yrs = Math.max(1, Math.round(years));
+  return yrs === 1 ? "a 360° tropical orbit" : `${yrs} full 360° tropical orbits`;
+}
+
+function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
 function fmt(n: number, digits = 4): string {
   if (!Number.isFinite(n)) return "—";
   const a = Math.abs(n);
@@ -215,12 +252,17 @@ function calcAngleShift(refLon: number, echoLon: number): number {
   return (((refLon - echoLon) % 360) + 540) % 360 - 180;
 }
 
+const SOLAR_MIN_YEAR = 1800;
+
 export default function HistoricalEchoes(): React.JSX.Element {
   const [planet, setPlanet] = useState<EchoPlanet>("Sun");
   const [data, setData] = useState<EchoResponse["echo"] | null>(null);
+  const [recipes, setRecipes] = useState<SolarReturnRecipe[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeCuisineTab, setActiveCuisineTab] = useState<number>(0);
+  // null = default Solar Return (1 year ago); otherwise a specific past year.
+  const [solarYear, setSolarYear] = useState<number | null>(null);
 
   const isSolar = planet === "Sun";
 
@@ -230,11 +272,17 @@ export default function HistoricalEchoes(): React.JSX.Element {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`/api/alchm-quantities/echoes?planet=${planet}`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = (await res.json()) as EchoResponse;
-        if (!json.success) throw new Error("API reported failure");
-        if (!cancelled) setData(json.echo);
+        const params = new URLSearchParams({ planet });
+        if (planet === "Sun" && solarYear !== null) params.set("year", String(solarYear));
+        const res = await fetch(`/api/alchm-quantities/echoes?${params.toString()}`);
+        const raw: unknown = await res.json().catch(() => null);
+        const json = isEchoResponse(raw) ? raw : null;
+        if (!res.ok || !json) throw new Error(json?.error ?? `HTTP ${res.status}`);
+        if (!json.success) throw new Error(json.error ?? "API reported failure");
+        if (!cancelled) {
+          setData(json.echo);
+          setRecipes(json.recipes ?? []);
+        }
       } catch (err) {
         if (!cancelled) setError(err instanceof Error ? err.message : String(err));
       } finally {
@@ -249,7 +297,7 @@ export default function HistoricalEchoes(): React.JSX.Element {
     return (): void => {
       cancelled = true;
     };
-  }, [planet]);
+  }, [planet, solarYear]);
 
   const matchedPlanetEntry = useMemo(() => {
     if (!data) return null;
@@ -315,6 +363,17 @@ export default function HistoricalEchoes(): React.JSX.Element {
         })}
       </div>
 
+      {isSolar && (
+        <SolarYearPicker
+          value={solarYear}
+          loading={loading}
+          onChange={(y) => {
+            setSolarYear(y);
+            setActiveCuisineTab(0);
+          }}
+        />
+      )}
+
       {error && (
         <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-5 text-rose-300 text-sm">
           {error}
@@ -346,13 +405,18 @@ export default function HistoricalEchoes(): React.JSX.Element {
             />
           )}
 
+          {/* Recipes from that day */}
+          {isSolar && (
+            <SolarRecipesSection recipes={recipes} echoIso={data.echo.iso} />
+          )}
+
           {/* Two-Column Chart Comparison */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <ChartPanel
               title={isSolar ? `Solar Return · ${formatDate(data.echo.iso)}` : formatDate(data.echo.iso)}
               subtitle={
                 isSolar
-                  ? "The cosmos when the Sun was at this exact degree 1 year ago"
+                  ? `The cosmos when the Sun was at this exact degree ${solarAgoPhrase(data.echo.yearsAgo)}`
                   : `The cosmos at the last ${planet} return`
               }
               snapshot={data.echo.snapshot}
@@ -456,8 +520,8 @@ function HeroEchoCard({
 
           {isSolar && (
             <p className="text-xs text-amber-100/70 max-w-xl leading-relaxed mt-2">
-              The Sun has completed a 360° tropical orbit to reach the exact degree and minute it
-              held one year ago. While your solar core is aligned in identical celestial posture,
+              The Sun has completed {solarOrbitPhrase(data.echo.yearsAgo)} to reach the exact degree and minute it
+              held {solarAgoPhrase(data.echo.yearsAgo)}. While your solar core is aligned in identical celestial posture,
               the accompanying planetary backdrop has fundamentally transformed.
             </p>
           )}
@@ -465,7 +529,7 @@ function HeroEchoCard({
 
         <div className="text-right">
           <div className="text-[10px] font-black text-amber-400 uppercase tracking-[0.35em] mb-1">
-            Last Time Here (1 Year Ago)
+            {isSolar ? `Last Time Here (${capitalize(solarAgoPhrase(data.echo.yearsAgo))})` : "Last Time Here"}
           </div>
           <div className="text-2xl font-black text-white">
             {formatDate(data.echo.iso)}
@@ -662,6 +726,198 @@ function SolarCuisineSection({
             </div>
           </div>
         </div>
+      )}
+    </div>
+  );
+}
+
+function YearInput({
+  input,
+  maxYear,
+  valid,
+  onChange,
+}: {
+  input: string;
+  maxYear: number;
+  valid: boolean;
+  onChange: (val: string) => void;
+}): React.JSX.Element {
+  return (
+    <label className="flex flex-col gap-1 text-[10px] font-bold uppercase tracking-widest text-amber-300/80">
+      Travel to year
+      <input
+        type="number"
+        inputMode="numeric"
+        min={SOLAR_MIN_YEAR}
+        max={maxYear}
+        step={1}
+        value={input}
+        onChange={(e) => onChange(e.target.value)}
+        aria-invalid={!valid}
+        className="w-28 rounded-xl border border-white/15 bg-black/30 px-3 py-2 font-mono text-sm text-white focus:border-amber-400 focus:outline-none"
+      />
+    </label>
+  );
+}
+
+function ResetYearButton({ onClick }: { onClick: () => void }): React.JSX.Element {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="rounded-xl border border-white/10 px-3 py-2 text-xs text-white/60 hover:text-white"
+    >
+      Back to last year
+    </button>
+  );
+}
+
+function SolarYearPicker({
+  value,
+  loading,
+  onChange,
+}: {
+  value: number | null;
+  loading: boolean;
+  onChange: (year: number | null) => void;
+}): React.JSX.Element {
+  const maxYear = new Date().getUTCFullYear() - 1;
+  const [input, setInput] = useState<string>(String(value ?? maxYear));
+  const parsed = Number(input);
+  const valid = Number.isInteger(parsed) && parsed >= SOLAR_MIN_YEAR && parsed <= maxYear;
+
+  const handleSubmit = (e: React.FormEvent): void => {
+    e.preventDefault();
+    if (valid) onChange(parsed === maxYear ? null : parsed);
+  };
+
+  return (
+    <form
+      className="flex flex-wrap items-end gap-3 rounded-2xl border border-amber-500/20 bg-amber-500/[0.04] px-4 py-3"
+      onSubmit={handleSubmit}
+    >
+      <YearInput input={input} maxYear={maxYear} valid={valid} onChange={setInput} />
+      <button
+        type="submit"
+        disabled={!valid || loading}
+        className="rounded-xl border border-amber-400/50 bg-amber-500/20 px-4 py-2 text-xs font-bold uppercase tracking-wider text-amber-100 transition-colors hover:bg-amber-500/30 disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        {loading ? "Calculating…" : "Find that day"}
+      </button>
+      {value !== null && (
+        <ResetYearButton
+          onClick={() => {
+            setInput(String(maxYear));
+            onChange(null);
+          }}
+        />
+      )}
+      <p className="basis-full text-[11px] text-white/45">
+        {valid
+          ? "Finds the moment in that year when the Sun stood at today's exact degree, then picks recipes for that sky."
+          : `Enter a year between ${SOLAR_MIN_YEAR} and ${maxYear}.`}
+      </p>
+    </form>
+  );
+}
+
+function FeaturedRecipeCard({ featured }: { featured: SolarReturnRecipe }): React.JSX.Element {
+  return (
+    <Link
+      href={`/recipes/${encodeURIComponent(featured.id)}`}
+      className="group flex flex-col md:flex-row gap-5 rounded-2xl border border-amber-400/40 bg-amber-500/10 p-5 transition-colors hover:border-amber-300/70"
+    >
+      {featured.image && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={featured.image}
+          alt=""
+          loading="lazy"
+          className="h-36 w-full md:w-52 shrink-0 rounded-xl object-cover"
+        />
+      )}
+      <div className="min-w-0 space-y-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-amber-300">
+            Featured
+          </span>
+          {featured.cuisine && (
+            <span className="rounded-full bg-white/5 px-2 py-0.5 text-[10px] font-mono text-white/70">
+              {featured.cuisine}
+            </span>
+          )}
+          <span className="rounded-full border border-amber-400/30 bg-amber-400/20 px-2 py-0.5 text-xs font-mono font-bold text-amber-300">
+            {featured.matchPercentage}%
+          </span>
+        </div>
+        <h4 className="text-xl font-black text-white group-hover:text-amber-100">{featured.name}</h4>
+        {featured.description && (
+          <p className="text-xs text-white/60 line-clamp-3">{featured.description}</p>
+        )}
+        <ul className="space-y-1">
+          {featured.reasons.map((r) => (
+            <li key={r} className="flex items-center gap-2 text-[11px] text-white/75">
+              <span className="text-amber-400">✦</span>
+              <span>{r}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Link>
+  );
+}
+
+function AlternateRecipeGrid({ recipes }: { recipes: SolarReturnRecipe[] }): React.JSX.Element {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+      {recipes.map((r) => (
+        <Link
+          key={r.id}
+          href={`/recipes/${encodeURIComponent(r.id)}`}
+          className="rounded-xl border border-white/8 bg-white/[0.02] p-3 transition-colors hover:border-white/25"
+        >
+          <div className="flex items-start justify-between gap-2">
+            <span className="text-sm font-bold text-white line-clamp-2">{r.name}</span>
+            <span className="text-[10px] font-mono text-amber-300">{r.matchPercentage}%</span>
+          </div>
+          {r.cuisine && <div className="mt-1 text-[10px] font-mono text-white/45">{r.cuisine}</div>}
+        </Link>
+      ))}
+    </div>
+  );
+}
+
+function SolarRecipesSection({
+  recipes,
+  echoIso,
+}: {
+  recipes: SolarReturnRecipe[];
+  echoIso: string;
+}): React.JSX.Element {
+  const [featured, ...rest] = recipes;
+
+  return (
+    <div className="rounded-3xl border border-amber-500/20 bg-white/[0.02] p-6 space-y-5">
+      <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-2 border-b border-white/5 pb-4">
+        <div>
+          <h3 className="text-base font-black text-white uppercase tracking-[0.2em]">
+            Recipe From That Day
+          </h3>
+          <p className="text-xs text-white/50 mt-1">
+            Catalog recipes tuned to the sky of {formatDate(echoIso)}.
+          </p>
+        </div>
+      </div>
+
+      {!featured ? (
+        <p className="text-sm text-white/50">
+          No catalog recipes matched this solar return&apos;s cuisines right now.
+        </p>
+      ) : (
+        <>
+          <FeaturedRecipeCard featured={featured} />
+          {rest.length > 0 && <AlternateRecipeGrid recipes={rest} />}
+        </>
       )}
     </div>
   );
