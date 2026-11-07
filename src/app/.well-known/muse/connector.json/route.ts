@@ -7,6 +7,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { getTrustedOrigin } from "@/lib/mcp/httpSecurity";
 
 export const dynamic = "force-dynamic";
 
@@ -28,13 +29,6 @@ const MCP_SCOPES = [
     description: "Submit culinary reflections and adaptations",
   },
 ];
-
-function getOrigin(req: Request): string {
-  const url = new URL(req.url);
-  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? url.host;
-  const proto = req.headers.get("x-forwarded-proto") ?? url.protocol.replace(":", "");
-  return `${proto}://${host}`;
-}
 
 function getConnectorManifest(origin: string): Record<string, unknown> {
   return {
@@ -75,14 +69,17 @@ function getConnectorManifest(origin: string): Record<string, unknown> {
 }
 
 export function GET(req: Request): Response {
-  const origin = getOrigin(req);
+  const origin = getTrustedOrigin(req);
   return NextResponse.json(getConnectorManifest(origin), {
     status: 200,
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Cache-Control": "public, max-age=3600",
+      "Cache-Control": "public, max-age=3600, must-revalidate",
+      "Vary": "Host, Origin, Accept",
+      "X-Content-Type-Options": "nosniff",
+      "X-Frame-Options": "DENY",
     },
   });
 }
@@ -94,6 +91,8 @@ export function OPTIONS(): Response {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, OPTIONS",
       "Access-Control-Max-Age": "86400",
+      "X-Content-Type-Options": "nosniff",
+      "X-Frame-Options": "DENY",
     },
   });
 }
