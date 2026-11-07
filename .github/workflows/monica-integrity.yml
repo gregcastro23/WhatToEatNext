@@ -194,6 +194,20 @@ jobs:
         # never became healthy. psycopg2 is faked, so pytest-only still holds.
         run: python -m pytest backend/tests/test_run_init_migrations.py -q
 
+      - name: Database driver is named (Python)
+        # SQLAlchemy 2.1 changed the driver a bare postgresql:// URL selects, from
+        # psycopg2 to psycopg (v3). The service installs psycopg2 only, so once an
+        # image build resolved 2.1 create_engine raised "No module named 'psycopg'"
+        # and every route that takes a database session answered 500 while /health
+        # still answered 200. DatabaseConfig now names the driver in the URL it hands
+        # to SQLAlchemy. Unlike the steps above this loads the real DatabaseConfig,
+        # so pydantic and pydantic-settings are installed at the versions
+        # backend/requirements.txt pins; SQLAlchemy is not needed.
+        run: |
+          grep -E '^(pydantic|pydantic-settings)==' backend/requirements.txt > "$RUNNER_TEMP/database-config-requirements.txt"
+          python -m pip install --quiet pytest -r "$RUNNER_TEMP/database-config-requirements.txt"
+          python -m pytest backend/tests/test_sqlalchemy_url.py backend/tests/test_database_config_driver.py -q
+
   # ---------------------------------------------------------------------------
   # PRE-MERGE. The two gates a PULL REQUEST DIFF can actually break, run BEFORE
   # the code reaches master.

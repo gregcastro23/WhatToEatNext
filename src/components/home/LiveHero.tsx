@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { parseCuisineResponse } from "@/components/dashboard/parseCuisineResponse";
 import { QuizBar } from "@/components/home/quiz/QuizBar";
 import {
   localQuizTime,
@@ -501,17 +502,15 @@ export function LiveHero({
       .then((r) => r.json())
       .then((j: unknown) => {
         if (!active) return;
-        const data = j as {
-          success?: boolean;
-          recommendations?: { cuisines?: unknown[] };
-        };
-        const first = data?.success
-          ? data.recommendations?.cuisines?.[0]
-          : null;
-        const name =
-          typeof first === "string"
-            ? first
-            : ((first as { name?: string } | null)?.name ?? null);
+        // The route answers with the local engine's names or the Railway
+        // backend's scored objects; the dashboard's parser reads both (see
+        // parseCuisineResponse). A backend that had no sky to rank by sends its
+        // alphabetical default with null scores, which is no pick for a badge
+        // that says LIVE. Only a success:true body is an answer.
+        const answered =
+          typeof j === "object" && j !== null && "success" in j && j.success === true;
+        const top = answered ? parseCuisineResponse(j)[0] : undefined;
+        const name = top && top.astrological_score !== null ? top.name : undefined;
         if (name) {
           setTopCuisine(name.charAt(0).toUpperCase() + name.slice(1));
         }

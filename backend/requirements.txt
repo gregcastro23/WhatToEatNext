@@ -6,7 +6,11 @@ python-multipart==0.0.6
 python-jose[cryptography]==3.3.0
 
 # Database and Caching
-sqlalchemy>=2.0.36
+# <2.1: this code was written and run against SQLAlchemy 2.0 (alembic==1.12.1 predates 2.1),
+# and every Railway build resolves this line afresh. 2.1 also changed the driver a bare
+# postgresql:// URL selects (psycopg2 -> psycopg v3); database/sqlalchemy_url.py now names
+# psycopg2, so lifting the cap does not depend on that default.
+sqlalchemy>=2.0.36,<2.1
 alembic==1.12.1
 psycopg2-binary==2.9.11
 redis==5.0.1
