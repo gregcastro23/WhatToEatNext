@@ -110,6 +110,11 @@ export const CULINARY_INPUT_SCHEMAS = {
       items: text(100),
       description: "Allergens to remove from the caller's profile.",
     },
+    confirmAllergenRemoval: {
+      type: "boolean",
+      description:
+        "Explicit safety confirmation required when removeAllergens is non-empty. Prevents accidental or prompt-injected allergen removal.",
+    },
     addDislikes: {
       type: "array",
       maxItems: 50,

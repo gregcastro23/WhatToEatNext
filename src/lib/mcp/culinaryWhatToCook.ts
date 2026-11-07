@@ -145,13 +145,21 @@ function resolveProfileFilters(
   args: Record<string, unknown>,
   profile: CallerCulinaryProfile,
 ): ProfileFiltersResult {
-  const profileLoaded = Boolean(caller.userId && !args.ignoreSavedProfile && profile.authenticated);
+  const ignored = Boolean(args.ignoreSavedProfile);
+  const profileLoaded = Boolean(caller.userId && !ignored && profile.authenticated);
+  const hasSavedRestrictions =
+    profile.allergens.length > 0 || profile.dietaryFrameworks.length > 0;
+  const securityNotice =
+    ignored && hasSavedRestrictions
+      ? "User dietary/allergen profile was intentionally bypassed via ignoreSavedProfile=true."
+      : undefined;
   return {
     profileLoaded,
-    ignored: Boolean(args.ignoreSavedProfile),
+    ignored,
     excludedAllergens: profileLoaded ? profile.allergens : [],
     dietaryFrameworks: profileLoaded ? profile.dietaryFrameworks : [],
     dislikedIngredients: profileLoaded ? profile.dislikedIngredients : [],
+    ...(securityNotice ? { securityNotice } : {}),
   };
 }
 

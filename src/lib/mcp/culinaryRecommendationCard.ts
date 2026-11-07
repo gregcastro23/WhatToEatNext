@@ -12,6 +12,7 @@ export interface ProfileFiltersResult {
   excludedAllergens: string[];
   dietaryFrameworks: string[];
   dislikedIngredients: string[];
+  securityNotice?: string;
 }
 
 export interface ScoredRecipe {
@@ -120,6 +121,9 @@ export function buildWhatToCookResult(
       dominantElement,
       topRecommendation: recommendations[0]?.name ?? null,
       ...(solarReturnMeta ? { solarReturnYear: solarReturnMeta.year } : {}),
+      ...(appliedProfileFilters.securityNotice
+        ? { securityNotice: appliedProfileFilters.securityNotice }
+        : {}),
     },
   };
 }

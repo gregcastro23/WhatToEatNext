@@ -6,6 +6,12 @@
 import { normalizeDisallowedKey } from "@/lib/cooking/recipeGateAllergens";
 import { executeQuery } from "@/lib/database/connection";
 import { toolFailure, toStringArray, type ToolResult } from "./culinaryCommon";
+import {
+  sanitizeProfilePayload,
+  auditAllergenRemoval,
+  type SanitizedProfilePayload,
+  type AllergenRemovalAudit,
+} from "./culinaryProfileSecurity";
 import type { ResolvedCaller } from "./auth";
 
 export {
@@ -79,17 +85,7 @@ export async function getUserCulinaryProfile(
   return profile;
 }
 
-interface ProfileUpdatePayload {
-  addAllergens: string[];
-  removeAllergens: string[];
-  addDislikes: string[];
-  removeDislikes: string[];
-  dietaryFrameworks?: string[];
-  kitchenEquipment?: string[];
-  setDiet?: string;
-  spiceTolerance?: string;
-  householdSize?: number;
-}
+type ProfileUpdatePayload = SanitizedProfilePayload;
 
 interface MergedProfileResult {
   updatedPrefs: Record<string, unknown>;
@@ -202,37 +198,13 @@ async function persistProfileUpdate(
   return merged;
 }
 
-function parseProfileUpdatePayload(args: Record<string, unknown>): ProfileUpdatePayload {
-  const payload: ProfileUpdatePayload = {
-    addAllergens: toStringArray(args.addAllergens),
-    removeAllergens: toStringArray(args.removeAllergens),
-    addDislikes: toStringArray(args.addDislikes),
-    removeDislikes: toStringArray(args.removeDislikes),
-  };
-  if (Array.isArray(args.dietaryFrameworks)) {
-    payload.dietaryFrameworks = toStringArray(args.dietaryFrameworks);
-  }
-  if (Array.isArray(args.kitchenEquipment)) {
-    payload.kitchenEquipment = toStringArray(args.kitchenEquipment);
-  }
-  if (typeof args.setDiet === "string") {
-    payload.setDiet = args.setDiet;
-  }
-  if (typeof args.spiceTolerance === "string") {
-    payload.spiceTolerance = args.spiceTolerance;
-  }
-  if (typeof args.householdSize === "number") {
-    payload.householdSize = args.householdSize;
-  }
-  return payload;
-}
-
 function formatProfileToolResult(
   activeAllergens: string[],
   frameworks: string[],
   dislikes: string[],
   equipment: string[],
-  payload: ProfileUpdatePayload,
+  payload: SanitizedProfilePayload,
+  audit?: AllergenRemovalAudit,
 ): ToolResult {
   return {
     ok: true,
@@ -245,12 +217,28 @@ function formatProfileToolResult(
       spiceTolerance: payload.spiceTolerance ?? null,
       householdSize: payload.householdSize ?? null,
       appliedGateCount: activeAllergens.length,
+      ...(audit?.warning
+        ? {
+            securityAudit: {
+              warning: audit.warning,
+              criticalNotice: audit.criticalNotice,
+              removedAllergens: audit.removedAllergens,
+              blocked: audit.blocked ?? false,
+            },
+          }
+        : {}),
     },
     summary: {
       success: true,
       activeAllergensCount: activeAllergens.length,
       dietaryFrameworksCount: frameworks.length,
       dislikedCount: dislikes.length,
+      ...(audit?.warning
+        ? {
+            allergenWarning: audit.warning,
+            allergensRemoved: audit.removedAllergens,
+          }
+        : {}),
     },
   };
 }
@@ -267,7 +255,17 @@ export async function updateCulinaryProfileHandler(
     );
   }
 
-  const payload = parseProfileUpdatePayload(args);
+  const payload = sanitizeProfilePayload(args);
+  const existingProfile = await getUserCulinaryProfile(caller);
+  const audit = auditAllergenRemoval(
+    existingProfile.allergens,
+    payload.removeAllergens,
+    payload.confirmAllergenRemoval === true,
+  );
+
+  if (audit.blocked) {
+    payload.removeAllergens = [];
+  }
   let activeAllergens: string[];
   let frameworks: string[];
   let dislikes: string[];
@@ -288,5 +286,5 @@ export async function updateCulinaryProfileHandler(
     equipment = payload.kitchenEquipment ?? [];
   }
 
-  return formatProfileToolResult(activeAllergens, frameworks, dislikes, equipment, payload);
+  return formatProfileToolResult(activeAllergens, frameworks, dislikes, equipment, payload, audit);
 }

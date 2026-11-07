@@ -8,15 +8,9 @@
  */
 
 import { NextResponse } from "next/server";
+import { getTrustedOrigin } from "@/lib/mcp/httpSecurity";
 
 export const dynamic = "force-dynamic";
-
-function getOrigin(req: Request): string {
-  const url = new URL(req.url);
-  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? url.host;
-  const proto = req.headers.get("x-forwarded-proto") ?? url.protocol.replace(":", "");
-  return `${proto}://${host}`;
-}
 
 function getAuthServerMetadata(origin: string): Record<string, unknown> {
   return {
@@ -56,7 +50,7 @@ export function GET(req: Request): Response {
     );
   }
 
-  const origin = getOrigin(req);
+  const origin = getTrustedOrigin(req);
 
   return NextResponse.json(getAuthServerMetadata(origin), {
     status: 200,

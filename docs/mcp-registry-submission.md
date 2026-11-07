@@ -117,13 +117,13 @@ authenticate instead.)
    | `get_user_allowance` | Check live ESMS balances and fee schedule across all 13 tools. | Free | `readOnlyHint: true` |
    | `substitute_ingredient` | Context-aware culinary substitutions with ratios, texture impacts, and elemental shifts. | Free | `readOnlyHint: true` |
    | `build_consolidated_grocery_list` | 10-aisle consolidated shopping list with unit conversions, pantry coverage, and actionable search queries. | Free | `readOnlyHint: true` |
-   | `what_to_cook_now` | Pantry-first recipe matching scoring available ingredients against tastes, time, and elemental balance. | Free | `readOnlyHint: true` |
+   | `what_to_cook_now` | Pantry-first recipe matching scoring available ingredients against tastes, prep time, Solar Return ephemeris, and planetary weather. | Free | `readOnlyHint: true` |
    | `update_culinary_profile` | Persist caller allergen guardrails, dietary frameworks, disliked ingredients, and kitchen gear. | Free | `readOnlyHint: false` |
 
 2. Verify Full MCP Triad:
    - **4 Prompts**: `cosmic_meal_planning`, `pantry_alchemical_balance`, `historical_culinary_council`, `fast_pantry_dinner`
    - **4 Resources**: `alchm://sky/now`, `alchm://catalog/cuisines`, `alchm://account/allowance`, `alchm://account/culinary-profile`
-   - **3 Resource Templates**: `alchm://ingredients/{slug}`, `alchm://techniques/{slug}`, `alchm://recipes/{id}`
+   - **4 Resource Templates**: `alchm://ingredients/{slug}`, `alchm://techniques/{slug}`, `alchm://recipes/{id}`, `alchm://solar-return/{year}`
    - **Interactive Autocomplete**: `completion/complete` for ingredients, techniques, and prompt arguments.
 
 3. `bunx @alchm/mcp-server` starts and answers a `tools/list` handshake.

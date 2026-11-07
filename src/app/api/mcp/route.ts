@@ -17,6 +17,11 @@
 
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import { resolveCaller, type ResolvedCaller } from "@/lib/mcp/auth";
+import {
+  buildCorsHeaders,
+  checkOriginSecurity,
+  redactSensitiveString,
+} from "@/lib/mcp/httpSecurity";
 import { createAlchmMcpServer } from "@/lib/mcp/serverFactory";
 
 export const dynamic = "force-dynamic";
@@ -35,18 +40,9 @@ function extractBearer(header: string | null): string | null {
 }
 
 function addCorsHeaders(res: Response, req: Request): Response {
-  const origin = req.headers.get("origin") ?? "*";
+  const corsHeaders = buildCorsHeaders(req);
   const headers = new Headers(res.headers);
-  headers.set("Access-Control-Allow-Origin", origin);
-  headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
-  headers.set(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Accept, Authorization, Idempotency-Key, X-Idempotency-Key, X-Correlation-ID, X-Request-ID, Mcp-Session-Id, MCP-Protocol-Version, User-Agent",
-  );
-  headers.set(
-    "Access-Control-Expose-Headers",
-    "Content-Type, Mcp-Session-Id, X-Correlation-ID, Retry-After",
-  );
+  corsHeaders.forEach((val, key) => headers.set(key, val));
   return new Response(res.body, {
     status: res.status,
     statusText: res.statusText,
@@ -103,18 +99,13 @@ function bridgeRpcHeaders(body: Record<string, unknown> | null, headers: BridgeH
 }
 
 export function OPTIONS(req: Request): Response {
-  const origin = req.headers.get("origin") ?? "*";
+  const originViolation = checkOriginSecurity(req);
+  if (originViolation) return originViolation;
+  const headers = buildCorsHeaders(req);
+  headers.set("Access-Control-Max-Age", "86400");
   return new Response(null, {
     status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": origin,
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers":
-        "Content-Type, Accept, Authorization, Idempotency-Key, X-Idempotency-Key, X-Correlation-ID, X-Request-ID, Mcp-Session-Id, MCP-Protocol-Version, User-Agent",
-      "Access-Control-Expose-Headers":
-        "Content-Type, Mcp-Session-Id, X-Correlation-ID, Retry-After",
-      "Access-Control-Max-Age": "86400",
-    },
+    headers,
   });
 }
 
@@ -186,6 +177,8 @@ async function executeStatelessRpc(
 }
 
 export async function POST(req: Request): Promise<Response> {
+  const originViolation = checkOriginSecurity(req);
+  if (originViolation) return originViolation;
   try {
     const rawText = await req.text();
     const sizeViolation = checkPayloadSize(req, rawText);
@@ -210,7 +203,8 @@ export async function POST(req: Request): Promise<Response> {
     bridgeRpcHeaders(body, headers);
     return await executeStatelessRpc(req, body, caller, headers.correlationId ?? "http");
   } catch (err) {
-    process.stderr.write(`[api/mcp] error handling request: ${String(err)}\n`);
+    const safeMsg = redactSensitiveString(String(err));
+    process.stderr.write(`[api/mcp] error handling request: ${safeMsg}\n`);
     return addCorsHeaders(
       new Response(
         JSON.stringify({
