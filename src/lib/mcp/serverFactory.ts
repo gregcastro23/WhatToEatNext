@@ -187,6 +187,15 @@ async function completeResourceUri(uri: string, query: string): Promise<string[]
       return [];
     }
   }
+  if (uri.startsWith("alchm://solar-return/")) {
+    const maxYear = new Date().getUTCFullYear() - 1;
+    const years: string[] = [];
+    for (let y = maxYear; y >= maxYear - 30; y--) {
+      const s = String(y);
+      if (s.includes(query)) years.push(s);
+    }
+    return years.slice(0, 20);
+  }
   return [];
 }
 

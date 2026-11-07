@@ -23,6 +23,7 @@ import {
   type ResourceDefinition,
   type ResourceTemplateDefinition,
 } from "./resourceCatalog";
+import { readSolarReturnResource } from "./solarReturnResource";
 import type { ResolvedCaller } from "./auth";
 
 export {
@@ -44,8 +45,6 @@ interface CallerCulinaryProfileResource {
   kitchenEquipment: string[];
   dominantElement: string | null;
 }
-
-
 
 function makeTextResult(uri: string, payload: unknown): { contents: ResourceContents[] } {
   return {
@@ -285,6 +284,10 @@ export async function readResource(
 
   if (uri.startsWith("alchm://techniques/")) {
     return readTechniqueResource(uri);
+  }
+
+  if (uri.startsWith("alchm://solar-return/")) {
+    return readSolarReturnResource(uri);
   }
 
   return null;

@@ -82,6 +82,13 @@ export const CULINARY_INPUT_SCHEMAS = {
         "When true, bypasses automatic filtering based on the caller's saved dietary preferences and allergens.",
     },
     dominantElement: element,
+    solarReturnYear: {
+      type: "integer",
+      minimum: 1800,
+      maximum: 2100,
+      description:
+        "Optional past calendar year (1800..last year) to align recommendations with that year's Solar Return astrological moment.",
+    },
     limit: {
       type: "integer",
       minimum: 1,

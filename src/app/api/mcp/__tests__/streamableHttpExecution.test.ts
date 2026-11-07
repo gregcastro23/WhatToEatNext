@@ -217,5 +217,30 @@ describe("MCP Streamable HTTP Gateway - Execution & Guards (/api/mcp)", () => {
     expect(firstRec.finishingTouch).toBeDefined();
     expect(Array.isArray(firstRec.sensoryCheckpoints)).toBe(true);
   });
+
+  it("reads parameterized solar return template alchm://solar-return/2000 over HTTP", async () => {
+    const req = new Request("http://localhost:3000/api/mcp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json, text/event-stream",
+      },
+      body: JSON.stringify({
+        jsonrpc: "2.0",
+        id: 15,
+        method: "resources/read",
+        params: { uri: "alchm://solar-return/2000" },
+      }),
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+    const json = await res.json();
+    expect(json.result.contents).toHaveLength(1);
+    const parsed = JSON.parse(json.result.contents[0].text);
+    expect(parsed.year).toBe(2000);
+    expect(parsed.echo.planet).toBe("Sun");
+    expect(Array.isArray(parsed.recipes)).toBe(true);
+  });
 });
 

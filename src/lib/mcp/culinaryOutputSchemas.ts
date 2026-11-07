@@ -122,6 +122,7 @@ const whatToCookNow = shape(
         ],
       ),
     },
+    solarReturn: nullable(object),
   },
   ["totalCandidates", "dominantElement", "appliedProfileFilters", "recommendations"],
 );
