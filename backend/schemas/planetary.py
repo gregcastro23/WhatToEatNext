@@ -30,9 +30,14 @@ class PotencyScore(BaseModel):
     thermo_rating: float = Field(..., ge=0, le=1.0)
 
 class AlchemicalQuantities(BaseModel):
-    spirit_score: float = Field(..., ge=0, le=1.0)
-    essence_score: float = Field(..., ge=0, le=1.0)
-    matter_score: float = Field(..., ge=0, le=1.0)
-    substance_score: float = Field(..., ge=0, le=1.0)
+    # No upper bound on the four scores. 642872c2 (ESMS 2.0, 2026-07-31) removed `min(score, 1.0)` from
+    # calculate_alchemical_quantities ("without artificial [0, 1] clamps", Unified Physics Model v2) and left
+    # `le=1.0` here, so this model rejected exactly the values the engine now computes:
+    # matter_score = .6 * calories/1000 + .4 * earth passes 1.0 above about 1500 kcal (1300 for an
+    # earth-heavy recipe), and nutrition/backfill admits up to 2000 kcal per serving.
+    spirit_score: float = Field(..., ge=0)
+    essence_score: float = Field(..., ge=0)
+    matter_score: float = Field(..., ge=0)
+    substance_score: float = Field(..., ge=0)
     kinetic_val: float = Field(..., ge=0, le=2.0)
     thermo_val: float = Field(..., ge=0, le=1.0)

@@ -56,6 +56,7 @@ from backend.utils.seasonal_engine import get_seasonal_modifiers
 # Zodiac sign spelling for the database
 from backend.utils.zodiac_signs import db_zodiac_signs
 from backend.utils.by_chart_recommendations import chart_request_problem, environmental_match_details, recipe_from_read_model
+from backend.utils.cooking_ritual import elemental_properties_from_row, read_model_elemental_properties, ritual_request_problem
 # Transit Engine import
 from backend.utils.transit_engine import get_transit_details, get_cooking_ritual, calculate_total_potency_score, get_planetary_hour
 from backend.schemas.planetary import CelestialCoordinates
@@ -2236,6 +2237,22 @@ class RitualRequest(BaseModel):
     secondary_chart_ids: Optional[List[str]] = None
     collective_smes_scores: Optional[Dict[str, float]] = None # Aggregated scores for collective rituals
 
+    @model_validator(mode="before")
+    @classmethod
+    def _scores_are_not_booleans(cls, data):
+        # pydantic's lax mode reads true as 1.0, so a boolean "score" would be logged as 1.0.
+        scores = data.get("collective_smes_scores") if isinstance(data, dict) else None
+        if isinstance(scores, dict) and any(isinstance(value, bool) for value in scores.values()):
+            raise ValueError("collective_smes_scores must be numbers, not booleans")
+        return data
+
+    @model_validator(mode="after")
+    def _ritual_request_is_well_formed(self):
+        problem = ritual_request_problem(self.recipe_id, self.secondary_chart_ids, self.collective_smes_scores)
+        if problem:
+            raise ValueError(problem)
+        return self
+
 @app.post("/api/astrological/recipe-recommendations-by-chart")
 async def get_recipe_recommendations_by_chart(
     request: RecipeRecommendationRequest,
@@ -2550,10 +2567,16 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
         if not recipe:
             raise HTTPException(status_code=404, detail="Recipe not found")
 
-        recipe.elementalProperties = db.query(ElementalPropertiesORM).filter(
-            ElementalPropertiesORM.entity_type == 'recipe',
-            ElementalPropertiesORM.entity_id == request.recipe_id
-        ).first()
+        # The engines read the recipe's elements as a dict of floats. They live in the recipe's read
+        # model (as in the by-chart route); the elemental_properties table is the fallback, and its row
+        # is an object with no .values(), so it is converted rather than assigned.
+        elemental_properties = read_model_elemental_properties(recipe.read_model)
+        if elemental_properties is None:
+            elemental_properties = elemental_properties_from_row(db.query(ElementalPropertiesORM).filter(
+                ElementalPropertiesORM.entity_type == 'recipe',
+                ElementalPropertiesORM.entity_id == request.recipe_id
+            ).first())
+        recipe.elementalProperties = elemental_properties
 
         transit_info = get_transit_details()
         if "error" in transit_info:
@@ -2584,11 +2607,14 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
         is_collective_ritual = bool(request.secondary_chart_ids)
         num_participants = (len(request.secondary_chart_ids) + 1) if is_collective_ritual else 1
 
-        # Use collective scores if provided, otherwise use individual recipe scores
-        spirit_score_to_log = request.collective_smes_scores.get("spirit_score", 0.0) if request.collective_smes_scores else smes_quantities.spirit_score
-        essence_score_to_log = request.collective_smes_scores.get("essence_score", 0.0) if request.collective_smes_scores else smes_quantities.essence_score
-        matter_score_to_log = request.collective_smes_scores.get("matter_score", 0.0) if request.collective_smes_scores else smes_quantities.matter_score
-        substance_score_to_log = request.collective_smes_scores.get("substance_score", 0.0) if request.collective_smes_scores else smes_quantities.substance_score
+        # Use collective scores if provided, otherwise use individual recipe scores. The request model
+        # guarantees that scores that were sent hold all four, finite, so none is replaced by a default
+        # (and a 0.0 score is still a score: `is not None`, not truthiness).
+        collective_scores = request.collective_smes_scores
+        spirit_score_to_log = collective_scores["spirit_score"] if collective_scores is not None else smes_quantities.spirit_score
+        essence_score_to_log = collective_scores["essence_score"] if collective_scores is not None else smes_quantities.essence_score
+        matter_score_to_log = collective_scores["matter_score"] if collective_scores is not None else smes_quantities.matter_score
+        substance_score_to_log = collective_scores["substance_score"] if collective_scores is not None else smes_quantities.substance_score
 
         # Potency scores already include kinetic_rating and thermo_rating, so these are individual
         # For now, we log the recipe's inherent kinetic/thermo from potency_scores
@@ -2620,8 +2646,14 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
             "total_potency_score": potency_scores.total_potency_score,
             "current_elemental_balance": transit_info.get("current_elemental_balance"),
         }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to generate cooking instruction: {str(e)}")
+    except HTTPException:
+        # The 404 and the transit engine's own message are answers, not failures: wrapping them made a
+        # missing recipe a 500.
+        raise
+    except Exception:
+        # str(e) of a database error carries the SQL statement and its parameters, and was returned to the caller.
+        logger.exception("Cooking ritual failed for recipe %s", request.recipe_id)
+        raise HTTPException(status_code=500, detail="Failed to generate cooking instruction")
 
 class AstroBlueprintRequest(BaseModel):
     year: int
