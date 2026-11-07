@@ -197,7 +197,7 @@ describeIf("MCP stdio transport", () => {
     if (client) expect(client.proc.exitCode).toBe(0);
   });
 
-  it("lists eight bounded tools with honest mutation annotations", async () => {
+  it("lists all bounded tools with honest mutation annotations", async () => {
     const response = await client.request("tools/list");
     const listed = object(response.result).tools;
     if (!Array.isArray(listed)) throw new Error("Missing tools");

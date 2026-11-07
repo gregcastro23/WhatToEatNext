@@ -1,76 +1,18 @@
-/** The JSON Schema subset enforced by validation.ts; no SDK dependency. */
-export interface JsonSchema {
-  [key: string]: unknown;
-  type?:
-    | "object"
-    | "array"
-    | "string"
-    | "number"
-    | "integer"
-    | "boolean"
-    | "null";
-  description?: string;
-  properties?: Record<string, JsonSchema>;
-  required?: string[];
-  additionalProperties?: boolean | JsonSchema;
-  items?: JsonSchema;
-  anyOf?: JsonSchema[];
-  enum?: string[];
-  minLength?: number;
-  maxLength?: number;
-  minItems?: number;
-  maxItems?: number;
-  minProperties?: number;
-  maxProperties?: number;
-  minimum?: number;
-  maximum?: number;
-  exclusiveMinimum?: number;
-  format?: "date-time";
-  pattern?: string;
-}
+import { CULINARY_INPUT_SCHEMAS } from "./culinaryInputSchemas";
+import {
+  coordinates,
+  credential,
+  element,
+  identifier,
+  input,
+  meta,
+  text,
+  type JsonSchema,
+} from "./inputSchemaHelpers";
 
-const text = (maxLength: number, description?: string): JsonSchema => ({
-  type: "string",
-  minLength: 1,
-  maxLength,
-  ...(description ? { description } : {}),
-});
-const identifier = text(200);
-const credential = text(512);
-const meta: JsonSchema = {
-  type: "object",
-  properties: {
-    apiKey: credential,
-    authKey: credential,
-    caller: text(64),
-    correlationId: text(128),
-    requestId: text(128),
-    traceId: text(128),
-    evidenceSnapshotId: text(128),
-    idempotencyKey: {
-      ...text(200),
-      pattern: "^[A-Za-z0-9._:~-]+$",
-      description:
-        "Optional retry key for paid tools. Reusing it with identical arguments within 24 hours replays the original settlement instead of charging again; reusing it with different arguments, or later, is rejected.",
-    },
-    internalSecret: credential,
-  },
-  additionalProperties: false,
-};
-const coordinates: Record<string, JsonSchema> = {
-  latitude: {
-    type: "number",
-    minimum: -90,
-    maximum: 90,
-    description: "Observer latitude; default 40.7498 (NYC).",
-  },
-  longitude: {
-    type: "number",
-    minimum: -180,
-    maximum: 180,
-    description: "Observer longitude; default -73.7976 (NYC).",
-  },
-};
+export type { JsonSchema };
+export { coordinates, credential, element, identifier, input, meta, text };
+
 const ingredients: JsonSchema = {
   type: "array",
   minItems: 1,
@@ -88,10 +30,6 @@ const transitTime: JsonSchema = {
   format: "date-time",
   maxLength: 64,
   description: "ISO 8601 timestamp with timezone; default now.",
-};
-const element: JsonSchema = {
-  type: "string",
-  enum: ["Fire", "Water", "Earth", "Air"],
 };
 const zodiac: JsonSchema = {
   type: "string",
@@ -121,6 +59,11 @@ const search: Record<string, JsonSchema> = {
   cuisine: text(100),
   dietary: { type: "array", maxItems: 20, items: text(100) },
   dominantElement: element,
+  ignoreSavedProfile: {
+    type: "boolean",
+    description:
+      "When true, bypasses automatic filtering based on the caller's saved dietary preferences and allergens.",
+  },
 };
 /** Page through the recipes that match. There is deliberately no maximum. */
 const paging: Record<string, JsonSchema> = {
@@ -211,23 +154,6 @@ const positiveAmount: JsonSchema = {
   maximum: 1_000_000_000,
 };
 
-function input(
-  properties: Record<string, JsonSchema>,
-  required: string[] = [],
-): JsonSchema & { type: "object" } {
-  return {
-    type: "object",
-    properties: {
-      ...properties,
-      _meta: meta,
-      _authKey: credential,
-      _apiKey: credential,
-    },
-    required,
-    additionalProperties: false,
-  };
-}
-
 /** Complete transport input contracts; shared by discovery and validation. */
 export const TOOL_INPUT_SCHEMAS = {
   get_live_sky_transits: input(coordinates),
@@ -242,9 +168,10 @@ export const TOOL_INPUT_SCHEMAS = {
     },
     ["agentA", "agentB"],
   ),
-  get_transit_natal_overlay: input({ agent, transitTime, ...coordinates, focusPlanets }, [
-    "agent",
-  ]),
+  get_transit_natal_overlay: input(
+    { agent, transitTime, ...coordinates, focusPlanets },
+    ["agent"],
+  ),
   compute_triplicate_synastry: input(
     {
       makerId: identifier,
@@ -282,4 +209,5 @@ export const TOOL_INPUT_SCHEMAS = {
     },
     ["recipeId", "reflection"],
   ),
+  ...CULINARY_INPUT_SCHEMAS,
 };
