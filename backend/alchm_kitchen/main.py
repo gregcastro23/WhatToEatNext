@@ -2240,9 +2240,18 @@ class RitualRequest(BaseModel):
     secondary_chart_ids: Optional[List[str]] = None
     collective_smes_scores: Optional[Dict[str, float]] = None # Aggregated scores for collective rituals
 
+    @model_validator(mode="before")
+    @classmethod
+    def _scores_are_not_booleans(cls, data):
+        # pydantic's lax mode reads true as 1.0, so a boolean "score" would be logged as 1.0.
+        scores = data.get("collective_smes_scores") if isinstance(data, dict) else None
+        if isinstance(scores, dict) and any(isinstance(value, bool) for value in scores.values()):
+            raise ValueError("collective_smes_scores must be numbers, not booleans")
+        return data
+
     @model_validator(mode="after")
     def _ritual_request_is_well_formed(self):
-        problem = ritual_request_problem(self.recipe_id)
+        problem = ritual_request_problem(self.recipe_id, self.secondary_chart_ids, self.collective_smes_scores)
         if problem:
             raise ValueError(problem)
         return self
@@ -2601,11 +2610,14 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
         is_collective_ritual = bool(request.secondary_chart_ids)
         num_participants = (len(request.secondary_chart_ids) + 1) if is_collective_ritual else 1
 
-        # Use collective scores if provided, otherwise use individual recipe scores
-        spirit_score_to_log = request.collective_smes_scores.get("spirit_score", 0.0) if request.collective_smes_scores else smes_quantities.spirit_score
-        essence_score_to_log = request.collective_smes_scores.get("essence_score", 0.0) if request.collective_smes_scores else smes_quantities.essence_score
-        matter_score_to_log = request.collective_smes_scores.get("matter_score", 0.0) if request.collective_smes_scores else smes_quantities.matter_score
-        substance_score_to_log = request.collective_smes_scores.get("substance_score", 0.0) if request.collective_smes_scores else smes_quantities.substance_score
+        # Use collective scores if provided, otherwise use individual recipe scores. The request model
+        # guarantees that scores that were sent hold all four, finite, so none is replaced by a default
+        # (and a 0.0 score is still a score: `is not None`, not truthiness).
+        collective_scores = request.collective_smes_scores
+        spirit_score_to_log = collective_scores["spirit_score"] if collective_scores is not None else smes_quantities.spirit_score
+        essence_score_to_log = collective_scores["essence_score"] if collective_scores is not None else smes_quantities.essence_score
+        matter_score_to_log = collective_scores["matter_score"] if collective_scores is not None else smes_quantities.matter_score
+        substance_score_to_log = collective_scores["substance_score"] if collective_scores is not None else smes_quantities.substance_score
 
         # Potency scores already include kinetic_rating and thermo_rating, so these are individual
         # For now, we log the recipe's inherent kinetic/thermo from potency_scores

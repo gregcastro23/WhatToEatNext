@@ -488,3 +488,94 @@ def test_a_recipe_id_that_is_not_a_canonical_uuid_is_refused_before_the_database
 @pytest.mark.parametrize("recipe_id", [str(RECIPE_ID), str(RECIPE_ID).upper()], ids=["lowercase", "uppercase"])
 def test_a_canonical_uuid_is_accepted_in_either_case(recipe_id):
     assert load()["RitualRequest"](recipe_id=recipe_id).recipe_id == recipe_id
+
+
+# --- the scores a collective ritual logs --------------------------------------------------------
+
+SCORES = {"spirit_score": 0.4, "essence_score": 0.3, "matter_score": 0.2, "substance_score": 0.1}
+CHARTS = [str(OTHER_ID)]
+
+
+def test_the_collective_scores_that_were_sent_are_the_ones_logged():
+    db = FakeDb(recipe_row(read_model=FIRE_READ_MODEL))
+    run(load(), db, secondary_chart_ids=CHARTS, collective_smes_scores=SCORES)
+
+    row = logged(db)
+    assert (row.spirit_score, row.essence_score, row.matter_score, row.substance_score) == (0.4, 0.3, 0.2, 0.1)
+    assert (row.is_collective, row.participant_count) == (True, 2)
+    # the ratings are still the recipe's own: only the four scores are replaced
+    own = FakeDb(recipe_row(read_model=FIRE_READ_MODEL))
+    run(load(), own, secondary_chart_ids=CHARTS)
+    assert (row.kinetic_rating, row.thermo_rating, row.potency_score) == (logged(own).kinetic_rating, logged(own).thermo_rating, logged(own).potency_score)
+
+
+def test_a_score_of_zero_is_a_score_not_an_absence():
+    zeros = {name: 0.0 for name in SCORES}
+    db = FakeDb(recipe_row(read_model=FIRE_READ_MODEL))
+    run(load(), db, secondary_chart_ids=CHARTS, collective_smes_scores=zeros)
+    row = logged(db)
+    assert (row.spirit_score, row.essence_score, row.matter_score, row.substance_score) == (0.0, 0.0, 0.0, 0.0)
+
+
+def test_the_collective_engines_six_keyed_averages_are_accepted_as_they_come():
+    averages = {**SCORES, "kinetic_val": 0.5, "thermo_val": 0.5}  # calculate_collective_elemental_deficits's collective_smes_averages
+    db = FakeDb(recipe_row())
+    run(load(), db, secondary_chart_ids=CHARTS, collective_smes_scores=averages)
+    assert logged(db).spirit_score == 0.4
+
+
+def test_scores_above_one_are_accepted_because_the_engine_no_longer_clamps():
+    db = FakeDb(recipe_row())
+    run(load(), db, secondary_chart_ids=CHARTS, collective_smes_scores={**SCORES, "matter_score": 1.5, "spirit_score": 3})
+    assert (logged(db).matter_score, logged(db).spirit_score) == (1.5, 3.0)
+
+
+@pytest.mark.parametrize(
+    "scores",
+    [
+        {}, {"spirit_score": 0.4},
+        *[{k: v for k, v in SCORES.items() if k != missing} for missing in SCORES],
+        {**SCORES, "spirit_score": float("nan")}, {**SCORES, "matter_score": float("inf")}, {**SCORES, "substance_score": float("-inf")},
+        {**SCORES, "essence_score": -0.1},
+    ],
+    ids=lambda scores: "{" + ",".join(f"{k[:3]}={v}" for k, v in scores.items()) + "}",
+)
+def test_scores_that_are_not_four_finite_numbers_of_zero_or_more_are_refused(scores):
+    # A partial payload used to log 0.0 for what was missing; a NaN went into the log and into every average after it.
+    with pytest.raises(ValidationError, match="collective_smes_scores"):
+        load()["RitualRequest"](recipe_id=str(RECIPE_ID), secondary_chart_ids=CHARTS, collective_smes_scores=scores)
+
+
+def test_a_boolean_is_not_a_score():
+    for value in (True, False):
+        with pytest.raises(ValidationError, match="not booleans"):
+            load()["RitualRequest"](recipe_id=str(RECIPE_ID), secondary_chart_ids=CHARTS, collective_smes_scores={**SCORES, "spirit_score": value})
+
+
+@pytest.mark.parametrize("chart_ids", [None, []], ids=["no ids", "empty ids"])
+def test_collective_scores_without_secondary_charts_are_refused(chart_ids):
+    # They would be logged, as collective numbers, on a row that says is_collective = False.
+    with pytest.raises(ValidationError, match="needs secondary_chart_ids"):
+        load()["RitualRequest"](recipe_id=str(RECIPE_ID), secondary_chart_ids=chart_ids, collective_smes_scores=SCORES)
+
+
+@pytest.mark.parametrize("missing", list(SCORES))
+def test_the_handler_does_not_invent_a_score_even_if_the_request_model_is_bypassed(missing):
+    # The model refuses a partial payload (above). This is the handler's own refusal to log a number nobody computed,
+    # once for each of the four scores (each is read on its own line).
+    namespace = load()
+    request = namespace["RitualRequest"].model_construct(
+        recipe_id=str(RECIPE_ID), secondary_chart_ids=CHARTS,
+        collective_smes_scores={name: value for name, value in SCORES.items() if name != missing},
+    )
+    db = FakeDb(recipe_row())
+    with pytest.raises(HTTPException) as caught:
+        asyncio.run(namespace["generate_cooking_instruction"](request, db=db))
+    assert caught.value.status_code == 500
+    assert db.added == [] and db.commits == 0
+
+
+@pytest.mark.parametrize("value", [True, False])
+def test_the_helper_refuses_a_boolean_score_where_pydantic_has_not_already_coerced_it(value):
+    problem = ritual_request_problem(str(RECIPE_ID), CHARTS, {**SCORES, "spirit_score": value})
+    assert problem is not None and "must be a finite number" in problem
