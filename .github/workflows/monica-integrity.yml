@@ -241,6 +241,30 @@ jobs:
           "$RUNNER_TEMP/by-chart/bin/python" -m pip install --quiet pytest pydantic==2.10.6 pyswisseph==2.10.3.2 astral==3.2
           "$RUNNER_TEMP/by-chart/bin/python" -m pytest backend/tests/test_zodiac_signs.py backend/tests/test_elemental_balance.py backend/tests/test_by_chart_recommendations.py backend/tests/test_by_chart_engines.py backend/tests/test_by_chart_handler.py backend/tests/test_chart_angles.py backend/tests/test_lunar_modifier.py -q
 
+      - name: Swiss Ephemeris engines (Python)
+        # TransmutationOracle.get_daily_planetary_hours raised on every call, three defects deep
+        # (a swe.UTC that does not exist, a rise_trans call with the wrong arguments, a revjul result
+        # unpacked as six values), and behind them it searched from 00:00 UTC instead of local midnight
+        # and stepped the hours in a fixed offset across a daylight-saving change. The tests run the
+        # real function with the real library and compare its times with astral (an independent
+        # NOAA-based calculation), with swe.azalt, and with a minute-by-minute scan of each zone's own
+        # clock, in places from UTC-10 to UTC+13:45 and on the days the clocks change.
+        #
+        # It also runs test_ephemeris_path.py: swe.set_ephe_path is process-wide, and the lunar and
+        # transit queries (and two routes in main.py) reset it to '' on every use, so in a checkout with
+        # sweph_ephe/ (this one: it is tracked) the first query switched every later chart from the
+        # Swiss Ephemeris files to Moshier. The path is now set once, in backend/utils/ephemeris.py;
+        # the tests watch which ephemeris serves a date before and after each query, and fail if any
+        # other tracked backend file names set_ephe_path.
+        #
+        # pytz is already in backend/requirements.txt (unpinned there); it is pinned here to a release
+        # more than a month old. Its own throwaway venv, like the step above, so that the pytest-only
+        # steps keep their install and this step does not depend on that one having run.
+        run: |
+          python -m venv "$RUNNER_TEMP/ephemeris"
+          "$RUNNER_TEMP/ephemeris/bin/python" -m pip install --quiet pytest pydantic==2.10.6 pyswisseph==2.10.3.2 astral==3.2 pytz==2026.5
+          "$RUNNER_TEMP/ephemeris/bin/python" -m pytest backend/tests/test_transmutation_oracle.py backend/tests/test_ephemeris_path.py -q
+
       - name: Deploy-time migration runner (Python)
         # backend/scripts/run_init_migrations.py runs before uvicorn on every
         # Railway deploy. A no-transaction migration first in line failed it

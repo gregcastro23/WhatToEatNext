@@ -46,10 +46,7 @@ from backend.alchm_kitchen.thermodynamics import (
 
 
 from backend.alchm_kitchen.recipe_generator import get_astrological_recipes
-try:
-    import swisseph as swe
-except ImportError:
-    swe = None
+from backend.utils.ephemeris import swe
 
 
 # Lunar Engine import
@@ -2658,7 +2655,6 @@ async def generate_astro_context_blueprint(request: AstroBlueprintRequest):
 
         # 2. Ascendant Calculation
         import swisseph as swe
-        swe.set_ephe_path('')
         julian_day = swe.julday(request.year, request.month, request.day, request.hour + request.minute / 60.0)
         
         try:
@@ -2735,7 +2731,6 @@ async def generate_personalized_recipe(request: RecipeGeneratorRequest, db: Sess
         # 2. Calculate Ascendant and House Cusps for Tropical Zodiac
         # This requires geographical coordinates and exact time for house system calculation
         import swisseph as swe
-        swe.set_ephe_path('') # Use built-in ephemeris
 
         # Calculate Julian day for the birth moment
         julian_day = swe.julday(year, month, day, hour + minute / 60.0)

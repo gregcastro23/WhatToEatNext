@@ -3,12 +3,11 @@ import math
 from backend.config.celestial_config import FOREST_HILLS_COORDINATES
 from backend.utils.planetary_weights import normalize_planet_weight, PLANET_MASS_RELATIVE
 from backend.utils.elemental_balance import elemental_balance_from_longitudes
+from backend.utils.ephemeris import swe
 try:
-    import swisseph as swe
     from astral.sun import sun
     from astral import LocationInfo
 except ImportError:
-    swe = None
     sun = None
     LocationInfo = None
 
@@ -244,9 +243,6 @@ def get_transit_details():
     """
     if not swe:
         return {"error": "pyswisseph is not installed. Please install it to use the transit engine."}
-
-    # Set ephemeris path
-    swe.set_ephe_path('') # Use built-in ephemeris
 
     # 1. Get birth chart
     birth_jd = get_julian_day(BIRTH_DATA["year"], BIRTH_DATA["month"], BIRTH_DATA["day"], BIRTH_DATA["hour"], BIRTH_DATA["minute"])

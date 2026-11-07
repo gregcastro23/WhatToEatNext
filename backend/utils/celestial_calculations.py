@@ -1,22 +1,12 @@
 import datetime
-import os
 from typing import Dict, Any, Optional
 from functools import lru_cache
 from fastapi import HTTPException
 
-# Assuming swisseph and ephem are installed and available
-try:
-    import swisseph as swe
-    # Set ephemeris path once at module level (relative to this file)
-    ephe_path = os.path.join(os.path.dirname(__file__), '..', '..', 'sweph_ephe')
-    if os.path.exists(ephe_path):
-        swe.set_ephe_path(ephe_path)
-    else:
-        # Fallback to local dir
-        swe.set_ephe_path('sweph_ephe')
-except ImportError:
-    swe = None
+# `swe` comes from the module that points pyswisseph at its ephemeris files, once for the process.
+from backend.utils.ephemeris import swe
 
+# Assuming ephem is installed and available
 try:
     import ephem
 except ImportError:
