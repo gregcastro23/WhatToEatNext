@@ -233,7 +233,11 @@ jobs:
         #
         # test_ritual_handler.py does the same for POST /api/rituals/generate-cooking-instruction,
         # which had never been run either: its log row named two columns the model and every
-        # migration lacked, so the first statement after the engines raised.
+        # migration lacked; an ORM row was handed to an engine that reads a dict; a missing recipe
+        # answered 500 and a database error answered with its own SQL; the collective scores it
+        # logged could be an invented 0.0 or a NaN; and the quantity schema refused what the engine
+        # computes. It reads the log table's columns out of models.py and database/init with
+        # nothing but the standard library, so it needs no SQLAlchemy.
         #
         # They need the engines' own dependencies, all pinned in backend/requirements.txt
         # (pydantic, pyswisseph, astral), so, like the step above, this installs them in a
