@@ -154,7 +154,7 @@ class DataMigrator:
                 # Pre-fetch all existing names in one query to avoid per-row checks
                 existing_names: Set[str] = {
                     row[0] for row in session.execute(
-                        "SELECT name FROM ingredients"
+                        text("SELECT name FROM ingredients")
                     ).fetchall()
                 }
                 self.log(f"Found {len(existing_names)} existing ingredients — will skip duplicates.")

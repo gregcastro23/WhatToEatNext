@@ -81,7 +81,10 @@ def calculate_planetary_positions_swisseph(
                 #   [0]=longitude(deg), [1]=latitude(deg), [2]=distance(AU),
                 #   [3]=longitude_speed(deg/day), [4]=latitude_speed(deg/day), [5]=distance_speed(AU/day)
                 positions_array = result[0]
-                longitude = positions_array[0]
+                # Not `longitude`: that is this function's parameter, the OBSERVER's longitude, which
+                # swe.houses reads below. Reusing the name made the Midheaven (and the Ascendant's
+                # longitude dependence) come from the last body's ecliptic longitude instead.
+                body_longitude = positions_array[0]
                 ecliptic_latitude = positions_array[1]
                 distance_au = positions_array[2]
                 longitude_speed = positions_array[3]
@@ -89,11 +92,11 @@ def calculate_planetary_positions_swisseph(
                 distance_speed = positions_array[5]
 
                 # Normalize longitude to 0-360
-                longitude = longitude % 360
+                body_longitude = body_longitude % 360
 
                 # Calculate zodiac sign (each sign is 30 degrees)
-                sign_index = int(longitude / 30)
-                degree_in_sign = longitude % 30
+                sign_index = int(body_longitude / 30)
+                degree_in_sign = body_longitude % 30
                 degree = int(degree_in_sign)
                 minute_in_sign = int((degree_in_sign - degree) * 60)
 
@@ -110,7 +113,7 @@ def calculate_planetary_positions_swisseph(
                     "sign": zodiac_signs[sign_index],
                     "degree": degree,
                     "minute": minute_in_sign, # Typo
-                    "exactLongitude": longitude,
+                    "exactLongitude": body_longitude,
                     "isRetrograde": is_retrograde,
                     "retrogradeSymbol": retrograde_symbol,
                     "longitudeSpeed": longitude_speed,  # degrees/day (signed; negative = retrograde)
@@ -177,7 +180,13 @@ def calculate_planetary_positions_swisseph(
             # For sidereal, we already set the sidereal mode above if needed
             # swe.houses expects (julday, lat, lon), Returns (cusps, ascmc)
             # ascmc indices: 0 = Ascendant, 1 = MC, 2 = ARMC, 3 = Vertex, ...
-            cusps, ascmc = swe.houses(julian_day, latitude, longitude)
+            if zodiac_system.lower() == "sidereal":
+                # swe.houses answers in the tropical zodiac whatever the sidereal mode, while the bodies
+                # above are sidereal here: the angles need houses_ex with the flag, or a sidereal chart
+                # pairs sidereal planets with a tropical Ascendant and Midheaven.
+                cusps, ascmc = swe.houses_ex(julian_day, latitude, longitude, b'P', swe.FLG_SIDEREAL)
+            else:
+                cusps, ascmc = swe.houses(julian_day, latitude, longitude)
             
             asc_longitude = ascmc[0] % 360
             mc_longitude = ascmc[1] % 360
@@ -396,7 +405,7 @@ def calculate_planetary_positions_pyephem(
         
         # Calculate Aspects
         aspects = []
-        planet_names = list(planets.keys())
+        planet_names = list(planets_map.keys())
         for i in range(len(planet_names)):
             for j in range(i + 1, len(planet_names)):
                 p1 = planet_names[i]

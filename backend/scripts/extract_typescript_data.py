@@ -74,8 +74,8 @@ try {{
         .replace(/export\\s+/g, '')
         .replace(/const\\s+/g, 'var ')
         .replace(/type\\s+.*?=/g, 'var $1 =')
-        .replace(/interface\\s+.*?{{/g, 'var $1 = {')
-        .replace(/}}/g, '};')
+        .replace(/interface\\s+.*?{{/g, 'var $1 = {{')
+        .replace(/}}/g, '}};')
         .replace(/;/g, ';\\n');
 
     // Add module wrapper

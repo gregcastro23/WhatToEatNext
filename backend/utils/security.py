@@ -74,5 +74,4 @@ if __name__ == "__main__":
     plain_text_time = "08:45 AM"
     encrypted_time = encrypt_data(plain_text_time)
     decrypted_time = decrypt_data(encrypted_time)
-    print(f"
-Single field encryption: '{plain_text_time}' -> '{encrypted_time}' -> '{decrypted_time}'")
+    print(f"\nSingle field encryption: '{plain_text_time}' -> '{encrypted_time}' -> '{decrypted_time}'")

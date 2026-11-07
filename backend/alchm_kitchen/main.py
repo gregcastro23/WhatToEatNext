@@ -11,11 +11,12 @@ Architecture:
 """
 from fastapi import FastAPI, HTTPException, Depends, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 from typing import List, Optional, Dict, Any
 from datetime import datetime, timedelta
 import random
 import asyncio
+import logging
 import time
 from sqlalchemy.orm import Session
 from sqlalchemy import text
@@ -26,7 +27,10 @@ import os
 
 
 # Database imports
-from backend.database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, ElementalProperties, ZodiacAffinity, SeasonalAssociation, TransitHistory, SavedChart
+# ElementalProperties is the table's model; `class ElementalProperties(BaseModel)` further down is the request
+# model and rebinds that name, so every database query below uses the alias (a query through the pydantic
+# class raised AttributeError: entity_type).
+from backend.database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, ElementalProperties as ElementalPropertiesORM, ZodiacAffinity, SeasonalAssociation, TransitHistory, SavedChart
 
 # New Auth Middleware import
 from backend.alchm_kitchen.auth_middleware import get_current_user
@@ -52,6 +56,9 @@ except ImportError:
 from backend.utils.lunar_engine import get_current_lunar_phase, get_lunar_modifier
 # Seasonal Engine import
 from backend.utils.seasonal_engine import get_seasonal_modifiers
+# Zodiac sign spelling for the database
+from backend.utils.zodiac_signs import db_zodiac_signs
+from backend.utils.by_chart_recommendations import chart_request_problem, environmental_match_details, recipe_from_read_model
 # Transit Engine import
 from backend.utils.transit_engine import get_transit_details, get_cooking_ritual, calculate_total_potency_score, get_planetary_hour
 from backend.schemas.planetary import CelestialCoordinates
@@ -69,6 +76,8 @@ from backend.utils.image_generator import generate_visual_prompt, NanoBananaPro
 from backend.utils.collective_engine import ChartData, CollectiveSynastryEngine # New imports
 # Centralized celestial config
 from backend.config.celestial_config import FOREST_HILLS_COORDINATES, USER_BIRTH_DATA
+
+logger = logging.getLogger(__name__)
 
 # External data imports for cuisine and sauce recommendations
 
@@ -1510,9 +1519,9 @@ async def get_recipe_recommendations(
             user_air = request.current_elements.Air
 
             # Get recipe's elemental properties (from joined table)
-            recipe_elements = db.query(ElementalProperties).filter(
-                ElementalProperties.entity_type == 'recipe',
-                ElementalProperties.entity_id == recipe.id
+            recipe_elements = db.query(ElementalPropertiesORM).filter(
+                ElementalPropertiesORM.entity_type == 'recipe',
+                ElementalPropertiesORM.entity_id == recipe.id
             ).first()
 
             if recipe_elements:
@@ -2203,6 +2212,28 @@ class RecipeRecommendationRequest(BaseModel):
     include_lunar_data: bool = False
     secondary_chart_ids: Optional[List[str]] = None # New field
 
+    @model_validator(mode="before")
+    @classmethod
+    def _numbers_are_not_booleans(cls, data):
+        # pydantic's lax mode reads true as 1, so `year: true` would be the year 1.
+        if isinstance(data, dict):
+            for name in ("year", "month", "day", "hour", "minute", "latitude", "longitude"):
+                if isinstance(data.get(name), bool):
+                    raise ValueError(f"{name} must be a number, not a boolean")
+        return data
+
+    @model_validator(mode="after")
+    def _chart_is_in_range(self):
+        # The Next proxy checks the same ranges, but this route is reachable without it, and the
+        # ephemeris answers out-of-range input quietly (see CHART_RANGES).
+        problem = chart_request_problem(
+            self.year, self.month, self.day, self.hour, self.minute,
+            self.latitude, self.longitude, self.secondary_chart_ids,
+        )
+        if problem:
+            raise ValueError(problem)
+        return self
+
 class RitualRequest(BaseModel):
     recipe_id: str
     secondary_chart_ids: Optional[List[str]] = None
@@ -2219,8 +2250,11 @@ async def get_recipe_recommendations_by_chart(
     """
     try:
         # 1. Get planetary positions for the birth chart
+        # The request's coordinates matter: they place the Ascendant and the Midheaven, whose signs
+        # are among those the affinity query below matches. Without them the function used (0, 0).
         chart_data = calculate_planetary_positions_swisseph(
-            request.year, request.month, request.day, request.hour, request.minute
+            request.year, request.month, request.day, request.hour, request.minute,
+            request.latitude, request.longitude,
         )
 
         if not chart_data or "positions" not in chart_data:
@@ -2241,7 +2275,7 @@ async def get_recipe_recommendations_by_chart(
         water_boost_ingredients = seasonal_modifiers_data['water']
 
         # 3. Build a query to get recipes based on zodiac affinities of their ingredients
-        zodiac_signs_in_chart = {pos["sign"] for pos in positions.values()}
+        zodiac_signs_in_chart = db_zodiac_signs(positions)
 
         query = """
             SELECT
@@ -2263,7 +2297,12 @@ async def get_recipe_recommendations_by_chart(
             AND r.is_public = true
         """
 
-        results = db.execute(text(query), {"zodiac_signs": tuple(zodiac_signs_in_chart)}).fetchall()
+        # `IN ()` is a syntax error, so a chart that names no sign skips the query.
+        results = (
+            db.execute(text(query), {"zodiac_signs": zodiac_signs_in_chart}).fetchall()
+            if zodiac_signs_in_chart
+            else []
+        )
 
         # 4. Process the results and apply lunar and seasonal modifiers
         recipe_scores = {}
@@ -2280,7 +2319,11 @@ async def get_recipe_recommendations_by_chart(
                     "matching_ingredients": []
                 }
 
-            base_score = affinity_strength
+            # A raw text() query returns the driver's own type. Production's column is real (a
+            # float), but 01-schema.sql declares affinity_strength DECIMAL(3,2), which psycopg2
+            # returns as a Decimal, and `Decimal * float` raises TypeError a few lines down.
+            affinity = float(affinity_strength)
+            base_score = affinity
             lunar_modifier = 1.0
 
             if request.include_lunar_data and lunar_phase_data:
@@ -2318,7 +2361,7 @@ async def get_recipe_recommendations_by_chart(
             recipe_scores[recipe_id]["matching_ingredients"].append({
                 "ingredient": ingredient_name,
                 "sign": zodiac_sign,
-                "base_affinity": affinity_strength,
+                "base_affinity": affinity,
                 "lunar_modifier": lunar_modifier,
                 "seasonal_modifier": seasonal_modifier,
                 "weighted_environmental_score": weighted_environmental_score
@@ -2399,7 +2442,7 @@ async def get_recipe_recommendations_by_chart(
             is_match = data["weighted_environmental_score"] > 1.0
             details = ""
             if is_match:
-                details = f"Aligns with current environmental energies! Current: {lunar_phase_data['phase_name']} + {current_seasonal_zodiac} Season"
+                details = environmental_match_details(lunar_phase_data, current_seasonal_zodiac)
 
             # Check for optimal cooking window
             optimal_window = None
@@ -2419,23 +2462,19 @@ async def get_recipe_recommendations_by_chart(
             
             # If we have a read_model, we can reconstruct the recipe object partially
             # for the calculation functions, or we can use the data directly if they support dicts.
-            if read_model:
-                # Mock a recipe object that the calculation functions expect
-                class RecipeObj:
-                    def __init__(self, d):
-                        self.__dict__.update(d)
-                        self.id = d.get("id")
-                        # Ensure elementalProperties is available if stored in read_model
-                        self.elementalProperties = d.get("elemental_properties")
-                
-                full_recipe = RecipeObj(read_model)
+            if read_model and isinstance(read_model, dict):
+                # The recipe object the calculation functions expect; the stored lowercase
+                # elemental properties are spelled the way they read them (see the helper). A read
+                # model that is not an object (a double-encoded JSON string, say) takes the
+                # database fallback below instead of failing the whole request.
+                full_recipe = recipe_from_read_model(read_model)
             else:
                 # Fallback to DB if read_model is missing (for older entries)
                 full_recipe = db.query(Recipe).filter(Recipe.id == recipe_id).first()
                 if full_recipe:
-                    elemental_properties = db.query(ElementalProperties).filter(
-                        ElementalProperties.entity_type == 'recipe',
-                        ElementalProperties.entity_id == recipe_id
+                    elemental_properties = db.query(ElementalPropertiesORM).filter(
+                        ElementalPropertiesORM.entity_type == 'recipe',
+                        ElementalPropertiesORM.entity_id == recipe_id
                     ).first()
                     full_recipe.elementalProperties = {
                         "Fire": elemental_properties.fire,
@@ -2473,12 +2512,9 @@ async def get_recipe_recommendations_by_chart(
                 "isEnvironmentalMatch": is_match,
                 "environmentalMatchDetails": details,
                 "optimal_cooking_window": optimal_window,
-                "elementalProperties": {
-                    "Fire": elemental_properties.fire,
-                    "Water": elemental_properties.water,
-                    "Earth": elemental_properties.earth,
-                    "Air": elemental_properties.air,
-                } if elemental_properties else None,
+                # Read from the recipe itself: both paths above set it, and a variable bound on
+                # only one of them was unbound (or the previous recipe's) on the other.
+                "elementalProperties": full_recipe.elementalProperties,
                 # --- New SMES and Physical Quantities ---
                 "spirit_score": smes_quantities.spirit_score,
                 "matter_score": smes_quantities.matter_score,
@@ -2517,9 +2553,9 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
         if not recipe:
             raise HTTPException(status_code=404, detail="Recipe not found")
 
-        recipe.elementalProperties = db.query(ElementalProperties).filter(
-            ElementalProperties.entity_type == 'recipe',
-            ElementalProperties.entity_id == request.recipe_id
+        recipe.elementalProperties = db.query(ElementalPropertiesORM).filter(
+            ElementalPropertiesORM.entity_type == 'recipe',
+            ElementalPropertiesORM.entity_id == request.recipe_id
         ).first()
 
         transit_info = get_transit_details()

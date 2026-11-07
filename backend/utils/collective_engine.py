@@ -45,7 +45,15 @@ class CollectiveSynastryEngine:
         # (Assuming participant_chart_data.latitude/longitude is their current location, or using Forest Hills)
         current_latitude = participant_chart_data.latitude if participant_chart_data.latitude else self.latitude
         current_longitude = participant_chart_data.longitude if participant_chart_data.longitude else self.longitude
-        planetary_hour_ruler = get_planetary_hour(CelestialCoordinates(latitude=current_latitude, longitude=current_longitude))
+        coordinates = CelestialCoordinates(latitude=current_latitude, longitude=current_longitude)  # invalid ones raise
+        try:
+            planetary_hour_ruler = get_planetary_hour(coordinates)
+        except ValueError:
+            # astral raises ValueError where the Sun never rises, or never reaches the dawn depression,
+            # on the day (high latitudes, a few months a year: measured 114 of 246 samples at 69.65N,
+            # 42 of 246 at 64.15N). Unknown is None to the engines; failing the whole recommendation
+            # for one participant's birthplace is not an answer.
+            planetary_hour_ruler = None
 
         # Determine the participant's natal Sun Sign Element
         # We need their natal Sun longitude. Reusing calculate_planetary_positions_swisseph
@@ -56,17 +64,17 @@ class CollectiveSynastryEngine:
         natal_sun_longitude = natal_planetary_positions["positions"]["Sun"]["exactLongitude"]
         _, natal_sun_element = get_zodiac_sign_and_element(natal_sun_longitude)
 
-        # For the purpose of getting individual SMES, we need a "dummy recipe" to pass
-        class DummyElementalProperties:
-            fire = 0.25
-            water = 0.25
-            earth = 0.25
-            air = 0.25
-
+        # For the purpose of getting individual SMES, we need a "dummy recipe" to pass.
+        # Its elements are None: the engines read elementalProperties as a {"Fire", "Water", "Earth", "Air"}
+        # dict, and None is how they take "no profile" (calculate_alchemical_quantities falls back to the
+        # uniform 0.25 each; calculate_total_potency_score finds no dominant element). The object this
+        # replaced, a class with fire/water/earth/air attributes, is not a dict and raised AttributeError
+        # at the first participant. A uniform dict is not neutral to the potency score either: max() of a
+        # tie is the first key, "Fire", so it would score the "neutral" profile as Fire-dominant.
         class DummyRecipe:
             id = "dummy_id"
             name = "Neutral Elemental Profile"
-            elementalProperties = DummyElementalProperties()
+            elementalProperties = None
 
         dummy_recipe = DummyRecipe()
 

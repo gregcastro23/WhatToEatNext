@@ -167,7 +167,7 @@ def health_check() -> dict:
 
         # Basic connectivity test
         with engine.connect() as conn:
-            result = conn.execute("SELECT 1 as test, version() as version")
+            result = conn.execute(text("SELECT 1 as test, version() as version"))
             row = result.fetchone()
 
         # Get connection pool stats

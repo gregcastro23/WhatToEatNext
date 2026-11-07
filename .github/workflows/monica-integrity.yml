@@ -187,6 +187,60 @@ jobs:
         # file existed but no workflow ran it. AST extraction, pytest only.
         run: python -m pytest backend/tests/test_main_excluded_bodies.py -q
 
+      - name: Deployed-server seasonal modifiers (Python)
+        # get_seasonal_modifiers() in backend/utils/seasonal_engine.py called
+        # get_planet_weight() without importing it, so every call raised NameError and
+        # the by-chart recommender in main.py (its caller) could not get past it. The
+        # tests beside the module cover only the singular get_seasonal_modifier, and CI
+        # collects nothing under backend/utils. Standard library + pytest only, like the
+        # steps above; it also reads each caller's source with ast to check that every
+        # key they read is a key the function returns.
+        run: python -m pytest backend/tests/test_seasonal_engine_modifiers.py -q
+
+      - name: Backend undefined names (Python)
+        # A name that is used but never defined is a NameError waiting for the first call
+        # that reaches it. get_seasonal_modifiers() raised on every call because of one
+        # missing import, and get_transit_details() called a function defined nowhere, so
+        # every route that asks for transit details raised; no test called either. This
+        # runs pyflakes over every tracked backend/*.py and fails on an undefined name, a
+        # file that does not compile or a star import, beyond the reasoned allowlist at the
+        # top of the test (an allowance that is no longer needed fails too); those
+        # allowlists are empty. The second file keeps backend/database/__init__.py's explicit
+        # model exports complete now that the star import the gate cannot see through is gone.
+        # The third keeps a bare SQL string out of every SQLAlchemy execute(): SQLAlchemy 2 raises on
+        # one, and pyflakes cannot see it.
+        #
+        # It installs pyflakes, which the steps around it deliberately do not, so it does so in a
+        # throwaway venv: the pytest-only steps keep their install. It sits before the migration
+        # runner, not at the end of the job, where other PRs append their steps. pyflakes 4.1.0
+        # needs Python 3.11 or newer, the version this job and backend/Dockerfile run.
+        run: |
+          python -m venv "$RUNNER_TEMP/undefined-names"
+          "$RUNNER_TEMP/undefined-names/bin/python" -m pip install --quiet pytest pyflakes==4.1.0
+          "$RUNNER_TEMP/undefined-names/bin/python" -m pytest backend/tests/test_no_undefined_names.py backend/tests/test_database_package_exports.py backend/tests/test_no_bare_sql_strings.py -q
+
+      - name: By-chart recommender (Python)
+        # POST /api/astrological/recipe-recommendations-by-chart never got past its first
+        # recipe: a chain of independent defects, each hidden by the one before it (signs bound in
+        # a spelling the Postgres enum rejects, a minute passed as swe.julday's calendar flag,
+        # an undefined elemental-balance function, elements stored lowercase that the engines
+        # read capitalized, a variable bound on one path and read on both, a pydantic class
+        # shadowing the ORM model, a text that subscripted data nobody had asked for, and a
+        # collective-engine stand-in that was not a dict, a Midheaven computed from a planet's
+        # longitude). The tests of the pieces run on a bare Python; test_by_chart_handler.py RUNS
+        # the handler's real source, extracted with ast, against stand-ins for the database, HTTP
+        # and clock; test_chart_angles.py compares the real chart function with swisseph;
+        # test_lunar_modifier.py pins the lunar modifier (a boost for a matched category and 1.0
+        # for the rest, where it multiplied every score down) and production's category names.
+        #
+        # They need the engines' own dependencies, all pinned in backend/requirements.txt
+        # (pydantic, pyswisseph, astral), so, like the step above, this installs them in a
+        # throwaway venv and the pytest-only steps keep their install.
+        run: |
+          python -m venv "$RUNNER_TEMP/by-chart"
+          "$RUNNER_TEMP/by-chart/bin/python" -m pip install --quiet pytest pydantic==2.10.6 pyswisseph==2.10.3.2 astral==3.2
+          "$RUNNER_TEMP/by-chart/bin/python" -m pytest backend/tests/test_zodiac_signs.py backend/tests/test_elemental_balance.py backend/tests/test_by_chart_recommendations.py backend/tests/test_by_chart_engines.py backend/tests/test_by_chart_handler.py backend/tests/test_chart_angles.py backend/tests/test_lunar_modifier.py -q
+
       - name: Deploy-time migration runner (Python)
         # backend/scripts/run_init_migrations.py runs before uvicorn on every
         # Railway deploy. A no-transaction migration first in line failed it
