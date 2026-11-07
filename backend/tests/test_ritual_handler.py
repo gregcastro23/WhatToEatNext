@@ -33,6 +33,7 @@ from pydantic import BaseModel
 from backend.config.celestial_config import FOREST_HILLS_COORDINATES
 from backend.schemas.planetary import CelestialCoordinates
 from backend.utils.alchemical_quantities import calculate_alchemical_quantities
+from backend.utils.cooking_ritual import elemental_properties_from_row
 from backend.utils.transit_engine import calculate_total_potency_score, get_cooking_ritual
 
 REPO = Path(__file__).resolve().parents[2]
@@ -55,6 +56,9 @@ OTHER_ID = uuid.uuid5(uuid.NAMESPACE_DNS, "ritual.test/other")
 POTENCY_FIRE = 0.4 + 0.3 * 0.5 + 0.3 * 1.0 + 0.25     # 1.10
 POTENCY_WATER = 0.4 + 0.3 * 1.0 + 0.3 * 0.3           # 0.79
 POTENCY_NEUTRAL = 0.4 + 0.3 * 0.5 + 0.3 * 0.5         # 0.70: no element profile at all
+
+# The quantity engine rounds each score to 4 decimals, so a hand-computed score is within half a unit of the last one.
+ROUNDED = 5e-5
 
 FIRE = {"fire": 0.7, "water": 0.1, "earth": 0.1, "air": 0.1}
 WATER = {"fire": 0.1, "water": 0.6, "earth": 0.2, "air": 0.1}
@@ -173,6 +177,11 @@ def recipe_row(**overrides):
     return types.SimpleNamespace(**{**columns, **overrides})
 
 
+def elemental_row(values):
+    """An `elemental_properties` row as the ORM hands it back: an object with float attributes, no .values()."""
+    return types.SimpleNamespace(**values)
+
+
 def load(transit=None, windows=None):
     namespace: Dict[str, Any] = {
         "BaseModel": BaseModel, "Optional": Optional, "List": List, "Dict": Dict, "Any": Any,
@@ -184,6 +193,7 @@ def load(transit=None, windows=None):
         "get_optimal_cooking_windows": lambda days=1: [dict(WINDOW)] if windows is None else windows,
         # the real thing
         "get_cooking_ritual": get_cooking_ritual,
+        "elemental_properties_from_row": elemental_properties_from_row,
         "calculate_total_potency_score": calculate_total_potency_score,
         "calculate_alchemical_quantities": calculate_alchemical_quantities,
         "CelestialCoordinates": CelestialCoordinates, "FOREST_HILLS_COORDINATES": FOREST_HILLS_COORDINATES,
@@ -307,3 +317,45 @@ def test_the_collective_columns_are_added_not_null_with_the_defaults_the_old_row
     # Every row logged before the columns existed was a single-participant ritual: FALSE and 1 say so.
     assert re.fullmatch(r"is_collective BOOLEAN NOT NULL DEFAULT FALSE", built["is_collective"], re.I), built["is_collective"]
     assert re.fullmatch(r"participant_count INTEGER NOT NULL DEFAULT 1", built["participant_count"], re.I), built["participant_count"]
+
+
+# --- the recipe's elements reach the engines as the dict they read ----------------------------
+
+
+@pytest.mark.parametrize("stored, potency", [(FIRE, POTENCY_FIRE), (WATER, POTENCY_WATER)], ids=["fire", "water"])
+def test_a_recipe_with_an_elemental_properties_row_is_scored_on_its_elements(stored, potency):
+    # The ORM row is an object with no .values(): handing it to the engine raised AttributeError.
+    db = FakeDb(recipe_row(), elemental_row(stored))
+    result = run(load(), db)
+
+    assert result["total_potency_score"] == pytest.approx(potency)
+    row = logged(db)
+    assert row.potency_score == pytest.approx(potency)
+    # The quantity engine reads the same elements (its formulas, each term named): spirit = .5 kinetic + .25 air + .25 fire;
+    # essence = .7 water (the Sun is no Water ruler, so no bonus); matter = .6 calories/1000 + .4 earth; substance = .5 thermo + .25 earth + .25 water.
+    assert row.spirit_score == pytest.approx(row.kinetic_rating * 0.5 + stored["air"] * 0.25 + stored["fire"] * 0.25, abs=ROUNDED)
+    assert row.essence_score == pytest.approx(stored["water"] * 0.7, abs=ROUNDED)
+    assert row.matter_score == pytest.approx(0.45 * 0.6 + stored["earth"] * 0.4, abs=ROUNDED)
+    assert row.substance_score == pytest.approx(row.thermo_rating * 0.5 + stored["earth"] * 0.25 + stored["water"] * 0.25, abs=ROUNDED)
+
+
+def test_two_recipes_with_different_elements_do_not_score_alike():
+    # The failure this guards is silence: a neutral profile for everyone is a valid answer to the engines.
+    fire = run(load(), FakeDb(recipe_row(), elemental_row(FIRE)))["total_potency_score"]
+    water = run(load(), FakeDb(recipe_row(), elemental_row(WATER)))["total_potency_score"]
+    neutral = run(load(), FakeDb(recipe_row(), None))["total_potency_score"]
+    assert len({round(fire, 6), round(water, 6), round(neutral, 6)}) == 3
+
+
+@pytest.mark.parametrize(
+    "row",
+    [None, elemental_row({"fire": 0.7, "water": 0.1, "earth": 0.1}), elemental_row({**FIRE, "air": None}),
+     elemental_row({**FIRE, "air": float("nan")}), elemental_row({**FIRE, "fire": float("inf")}), elemental_row({**FIRE, "water": "0.1"})],
+    ids=["no row", "no air", "air is None", "air is NaN", "fire is inf", "water is a string"],
+)
+def test_no_complete_finite_row_is_no_profile_not_a_guess(row):
+    assert elemental_properties_from_row(row) is None
+
+
+def test_the_engines_spelling_comes_from_the_columns():
+    assert elemental_properties_from_row(elemental_row(WATER)) == {"Fire": 0.1, "Water": 0.6, "Earth": 0.2, "Air": 0.1}

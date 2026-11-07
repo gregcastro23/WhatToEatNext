@@ -59,6 +59,7 @@ from backend.utils.seasonal_engine import get_seasonal_modifiers
 # Zodiac sign spelling for the database
 from backend.utils.zodiac_signs import db_zodiac_signs
 from backend.utils.by_chart_recommendations import chart_request_problem, environmental_match_details, recipe_from_read_model
+from backend.utils.cooking_ritual import elemental_properties_from_row
 # Transit Engine import
 from backend.utils.transit_engine import get_transit_details, get_cooking_ritual, calculate_total_potency_score, get_planetary_hour
 from backend.schemas.planetary import CelestialCoordinates
@@ -2553,10 +2554,12 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
         if not recipe:
             raise HTTPException(status_code=404, detail="Recipe not found")
 
-        recipe.elementalProperties = db.query(ElementalPropertiesORM).filter(
+        # The engines read the recipe's elements as a dict of floats; the ORM row is an object with no
+        # .values(), so assigning it raised AttributeError for every recipe that had one.
+        recipe.elementalProperties = elemental_properties_from_row(db.query(ElementalPropertiesORM).filter(
             ElementalPropertiesORM.entity_type == 'recipe',
             ElementalPropertiesORM.entity_id == request.recipe_id
-        ).first()
+        ).first())
 
         transit_info = get_transit_details()
         if "error" in transit_info:
