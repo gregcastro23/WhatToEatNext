@@ -1,14 +1,25 @@
 /**
- * Parses GET /api/cuisines/recommend responses for the profile dashboard.
+ * Parses GET /api/cuisines/recommend responses for the profile dashboard and
+ * for the home hero's "TONIGHT: X" badge.
  *
- * The route has two response shapes depending on which engine served it:
- * - Railway backend branch: rich cuisine objects under `cuisineRecommendations`
- * - Local fallback branch: plain cuisine names under `recommendations.cuisines`
+ * The route has two response shapes, depending on which engine served it:
+ * - Railway backend: rich cuisine objects under `cuisineRecommendations` (and
+ *   no `recommendations` key at all), ranked by elemental match with the current
+ *   sky, best first, each carrying its `astrological_score`. With no sky to rank
+ *   by, every score is null and the order is merely alphabetical.
+ * - Local engine: plain cuisine names under `recommendations.cuisines`: the
+ *   dominant element's first three cuisines, then the secondary element's first
+ *   two, in a hand-written order and with no per-cuisine score.
+ * The rich list wins when a body carries both. `cuisines` and `topCuisines`,
+ * which the route also forwards, are not read.
  */
 
 export interface CuisineRecommendation {
   cuisine_id: string;
   name: string;
+  /** The backend's match with the current sky; null when it had no sky to rank by.
+   *  Absent for the local engine's names, which carry no score. */
+  astrological_score?: number | null;
   description?: string;
   elemental_properties?: Record<string, number>;
   flavor_profile?: Record<string, number>;
@@ -47,6 +58,8 @@ export function parseCuisineResponse(payload: unknown): CuisineRecommendation[] 
             typeof c.cuisine_id === 'string' ? c.cuisine_id : (c.name as string).toLowerCase(),
           name: c.name as string,
         };
+        item.astrological_score =
+          typeof c.astrological_score === 'number' ? c.astrological_score : null;
         if (typeof c.description === 'string') item.description = c.description;
         const elem = asNonEmptyNumberRecord(c.elemental_properties);
         if (elem) item.elemental_properties = elem;

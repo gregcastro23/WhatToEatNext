@@ -10,7 +10,8 @@
  * Stripe flow completes.
  */
 
-import { Check, CircleX, ExternalLink, Loader2 } from "lucide-react";
+import { Bot, Check, CircleX, ExternalLink, Loader2 } from "lucide-react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState, type JSX } from "react";
 import { z } from "zod";
@@ -369,6 +370,50 @@ export function McpTopUpPanel(): JSX.Element {
         One-time purchase, no recurring charges. Credits land in your
         balance within a few seconds of Stripe confirming the payment.
       </p>
+
+      <div
+        style={{
+          marginTop: 32,
+          border: "1px solid var(--line)",
+          background: "var(--bg-elev, rgba(255,255,255,0.02))",
+          borderRadius: 8,
+          padding: "16px 18px",
+          display: "flex",
+          alignItems: "flex-start",
+          gap: 12,
+        }}
+      >
+        <Bot
+          style={{
+            width: 20,
+            height: 20,
+            color: "var(--accent, #c69cff)",
+            marginTop: 2,
+            flexShrink: 0,
+          }}
+        />
+        <div style={{ fontSize: 13, lineHeight: 1.5 }}>
+          <div
+            className="t-display"
+            style={{ fontSize: 14, marginBottom: 4, color: "var(--fg)" }}
+          >
+            Autonomous &amp; Muse Agent Pre-Flight Allowance
+          </div>
+          <div style={{ color: "var(--fg-mute)" }}>
+            Calling from Meta Muse or a cloud agent? Autonomous agents can inspect
+            live token balances and per-tool cost schedules without incurring token costs
+            by invoking the free <code>get_user_allowance</code> tool or reading the{" "}
+            <code>alchm://account/allowance</code> resource. See the{" "}
+            <Link
+              href="/docs/mcp"
+              style={{ color: "var(--accent, #c69cff)", textDecoration: "underline" }}
+            >
+              MCP Integration Guide
+            </Link>{" "}
+            for full remote endpoint and prompt specs.
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

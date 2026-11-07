@@ -66,8 +66,10 @@ weight = get_planet_weight("Jupiter", "kg")       # 1.898e27
 
 # Applying to a lunar modifier
 from backend.utils.lunar_engine import get_lunar_modifier
-mod = get_lunar_modifier("Full Moon", "Grains", planet="Sun")  # ≈ 1.20 × 1.0  = 1.20
-mod = get_lunar_modifier("Full Moon", "Grains", planet="Moon") # ≈ 1.20 × 0.606 = 0.727
+mod = get_lunar_modifier("Full Moon", "Grains", planet="Sun")  # 1 + 0.20 × 1.0    = 1.20
+mod = get_lunar_modifier("Full Moon", "Grains", planet="Moon") # 1 + 0.20 × 0.5457 = 1.1091
+mod = get_lunar_modifier("Full Moon", "grain", planet="Moon")  # production's spelling: the same 1.1091
+mod = get_lunar_modifier("Full Moon", "Fruits", planet="Moon") # this phase does not boost it: 1.0, for any planet
 ```
 
 ### Usage in TypeScript
@@ -95,7 +97,7 @@ weighted_environmental_score = base_score
                              * seasonal_modifier(zodiac, elemental_type, planet)
 
 where:
-  lunar_modifier   = base_lunar_boost  * (0.5 + 0.5 * planet_mass_normalized)
+  lunar_modifier   = 1 + (base_lunar_boost - 1) * (0.5 + 0.5 * planet_mass_normalized)
   seasonal_modifier = base_seasonal_mult * (0.5 + 0.5 * planet_mass_normalized)
 ```
 
