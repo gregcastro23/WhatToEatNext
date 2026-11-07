@@ -1,8 +1,9 @@
 """The cooking-ritual route, RUN: its real source, with stand-ins for what needs a server.
 
-`POST /api/rituals/generate-cooking-instruction` had never been run. It failed at the first
-statement that touched a database row, and each defect hid the next. main.py cannot be imported
-without FastAPI and SQLAlchemy, so, like test_by_chart_handler.py, this reads `RitualRequest` and
+`POST /api/rituals/generate-cooking-instruction` had never been run. Every call failed at the log
+row it builds as its last step, and behind that sat five more defects, each hiding the next (see
+the commit messages, one fix each). main.py cannot be imported without FastAPI and SQLAlchemy,
+so, like test_by_chart_handler.py, this reads `RitualRequest` and
 `generate_cooking_instruction` out of main.py with `ast` and executes them against:
 - REAL: the potency and quantity engines, the ritual text, `CelestialCoordinates` and pydantic;
 - STAND-INS: the database session (rows carrying the types the real driver returns, ORM columns
