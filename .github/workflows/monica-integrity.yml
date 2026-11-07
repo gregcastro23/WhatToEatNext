@@ -248,13 +248,20 @@ jobs:
         # NOAA-based calculation), with swe.azalt, and with a minute-by-minute scan of each zone's own
         # clock, in places from UTC-10 to UTC+13:45 and on the days the clocks change.
         #
+        # It also runs test_ephemeris_path.py: swe.set_ephe_path is process-wide, and the lunar and
+        # transit queries (and two routes in main.py) reset it to '' on every use, so in a checkout with
+        # sweph_ephe/ (this one: it is tracked) the first query switched every later chart from the
+        # Swiss Ephemeris files to Moshier. The path is now set once, in backend/utils/ephemeris.py;
+        # the tests watch which ephemeris serves a date before and after each query, and fail if any
+        # other tracked backend file names set_ephe_path.
+        #
         # pytz is already in backend/requirements.txt (unpinned there); it is pinned here to a release
         # more than a month old. Its own throwaway venv, like the step above, so that the pytest-only
         # steps keep their install and this step does not depend on that one having run.
         run: |
           python -m venv "$RUNNER_TEMP/ephemeris"
           "$RUNNER_TEMP/ephemeris/bin/python" -m pip install --quiet pytest pydantic==2.10.6 pyswisseph==2.10.3.2 astral==3.2 pytz==2026.5
-          "$RUNNER_TEMP/ephemeris/bin/python" -m pytest backend/tests/test_transmutation_oracle.py -q
+          "$RUNNER_TEMP/ephemeris/bin/python" -m pytest backend/tests/test_transmutation_oracle.py backend/tests/test_ephemeris_path.py -q
 
       - name: Deploy-time migration runner (Python)
         # backend/scripts/run_init_migrations.py runs before uvicorn on every

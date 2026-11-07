@@ -1,21 +1,18 @@
-import swisseph as swe
 import datetime
 import math
 import pytz # For robust timezone handling
 from typing import List, Dict, Any, Optional
 import os
+# The path to the Swiss Ephemeris data files (the repo's sweph_ephe/, or $SWISSEPH_PATH) is set in
+# ephemeris.py, once for the process; this module used to set it itself on import.
+from ..utils.ephemeris import swe, EPHE_PATH
 from ..utils.transit_engine import get_transit_details, PLANETARY_ELEMENTS # Import these
 from ..utils.seasonal_engine import get_seasonal_modifiers # Import for current zodiac
 from ..utils.lunar_oracle import julian_day_utc
 
-# Assuming project root is accessible or ephemeris path is configured globally
-# Set the path to the Swiss Ephemeris data files.
-# The user needs to ensure these files are available on the Mac Mini.
-# Common paths for ephemeris data are often in /usr/local/share/sweph/ephe
-# or relative to the application's entry point.
-# For now, we'll try a common relative path, but this might need adjustment.
-EPHE_PATH = os.environ.get('SWISSEPH_PATH', os.path.join(os.path.dirname(__file__), '..', '..', 'sweph_ephe'))
-swe.set_ephe_path(EPHE_PATH)
+if swe is None:
+    # This module has always needed pyswisseph just to be imported (it began with a bare `import swisseph`).
+    raise ImportError("pyswisseph is required by the transmutation oracle")
 
 # Chaldean order of the planets, slowest apparent orbit first: Saturn, Jupiter, Mars, Sun, Venus,
 # Mercury, Moon. The hours of a day are ruled by the planets in THIS direction, each hour by the next
