@@ -32,7 +32,7 @@ import pytest
 from pydantic import BaseModel, ValidationError, model_validator
 
 from backend.config.celestial_config import FOREST_HILLS_COORDINATES
-from backend.schemas.planetary import CelestialCoordinates
+from backend.schemas.planetary import AlchemicalQuantities, CelestialCoordinates
 from backend.utils.alchemical_quantities import calculate_alchemical_quantities
 from backend.utils.cooking_ritual import elemental_properties_from_row, read_model_elemental_properties, ritual_request_problem
 from backend.utils.transit_engine import calculate_total_potency_score, get_cooking_ritual
@@ -579,3 +579,28 @@ def test_the_handler_does_not_invent_a_score_even_if_the_request_model_is_bypass
 def test_the_helper_refuses_a_boolean_score_where_pydantic_has_not_already_coerced_it(value):
     problem = ritual_request_problem(str(RECIPE_ID), CHARTS, {**SCORES, "spirit_score": value})
     assert problem is not None and "must be a finite number" in problem
+
+
+# --- a recipe the quantity engine used to refuse ------------------------------------------------
+
+# scripts/backfillRecipeNutrition.ts stores per-serving calories up to 2000 ("implausibly-huge (>2000 cal)" is what it rejects).
+# matter = .6 * calories / 1000 + .4 * earth (alchemical_quantities.py), so 1800 kcal and the fire profile's earth of 0.1:
+HEAVY_CALORIES = 1800
+HEAVY_MATTER = 0.6 * HEAVY_CALORIES / 1000 + 0.4 * FIRE["earth"]   # 1.12
+
+
+def test_a_recipe_of_1800_kcal_per_serving_gets_its_ritual_and_a_matter_score_above_one():
+    # Through the real app this was a 500: "1 validation error for AlchemicalQuantities matter_score ... less than or equal to 1".
+    db = FakeDb(recipe_row(read_model=FIRE_READ_MODEL, nutritional_profile={"calories": HEAVY_CALORIES}))
+    result = run(load(), db)
+    assert result["total_potency_score"] == pytest.approx(POTENCY_FIRE)
+    assert logged(db).matter_score == pytest.approx(HEAVY_MATTER, abs=ROUNDED)
+    assert logged(db).matter_score > 1
+
+
+@pytest.mark.parametrize("score", ["spirit_score", "essence_score", "matter_score", "substance_score"])
+def test_none_of_the_four_scores_has_an_upper_bound_and_none_may_be_negative(score):
+    ok = dict(spirit_score=0.5, essence_score=0.5, matter_score=0.5, substance_score=0.5, kinetic_val=1.0, thermo_val=1.0)
+    assert getattr(AlchemicalQuantities(**{**ok, score: 1.5}), score) == 1.5
+    with pytest.raises(ValidationError):  # the control: the model still validates, it does not accept anything
+        AlchemicalQuantities(**{**ok, score: -0.1})
