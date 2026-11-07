@@ -373,7 +373,7 @@ async function refine(
 
 // ─── Solar Return & Cuisine Matching ─────────────────────────────────────────
 
-function getZodiacSeason(sign: string): "spring" | "summer" | "autumn" | "winter" {
+export function getZodiacSeason(sign: string): "spring" | "summer" | "autumn" | "winter" {
   const s = sign.toLowerCase();
   if (["aries", "taurus", "gemini"].includes(s)) return "spring";
   if (["cancer", "leo", "virgo"].includes(s)) return "summer";
@@ -563,8 +563,9 @@ export function calculateSolarCuisineMatches(
 }
 
 /**
- * Find the exact moment ~1 tropical year ago when the Sun was at the exact
- * ecliptic longitude it holds at `referenceDate`.
+ * Find the exact moment ~`yearsBack` tropical years ago when the Sun was at
+ * the exact ecliptic longitude it holds at `referenceDate` (default: 1 year,
+ * the classic annual Solar Return).
  *
  * Uses continuous modular residual and true Secant root-finding
  * with step-limiting to guarantee superlinear convergence across all 360°,
@@ -572,6 +573,7 @@ export function calculateSolarCuisineMatches(
  */
 async function findSolarReturnEcho(
   referenceDate: Date = new Date(),
+  yearsBack = 1,
 ): Promise<HistoricalEchoResult> {
   const tStart = Date.now();
 
@@ -595,8 +597,8 @@ async function findSolarReturnEcho(
       return p ? toLongitude(p) : referenceLongitude;
     };
 
-    // Initial point t0 ~ 1 tropical year ago
-    let t0 = referenceDate.getTime() - yearMs;
+    // Initial point t0 ~ `yearsBack` tropical years ago
+    let t0 = referenceDate.getTime() - yearsBack * yearMs;
     let f0 = angleDelta(await getSunLon(t0), referenceLongitude);
 
     // Second point t1 via nominal daily solar motion (~0.9856 deg/day)
@@ -712,9 +714,9 @@ async function findSolarReturnEcho(
   } catch (_err) {
     // ── Graceful Degraded Fallback ──
     // If live calculation experiences an unexpected ephemeris failure,
-    // construct a valid Solar Return echo from nominal 1-year offset
+    // construct a valid Solar Return echo from nominal `yearsBack`-year offset
     const fallbackYearMs = 365.242189 * 86400000;
-    const fallbackDate = new Date(referenceDate.getTime() - fallbackYearMs);
+    const fallbackDate = new Date(referenceDate.getTime() - yearsBack * fallbackYearMs);
     const refPosRaw = await calculatePlanetaryPositions(referenceDate);
     const echoPosRaw = await calculatePlanetaryPositions(fallbackDate);
     const refPositions = asPlanetaryRecord(refPosRaw);
@@ -751,7 +753,7 @@ async function findSolarReturnEcho(
       echo: {
         iso: fallbackDate.toISOString(),
         ts: fallbackDate.getTime(),
-        yearsAgo: 1.0,
+        yearsAgo: yearsBack,
         deltaArcminutes: deltaArcmin,
         longitude: echoSunLon,
         sign: echoSign.sign,
@@ -907,7 +909,42 @@ export async function findOuterPlanetEcho(
 
 export const findHistoricalEcho = findOuterPlanetEcho;
 
-export function getEchoFileMeta() {
+/** Earliest calendar year accepted by {@link findSolarReturnForYear}. */
+export const SOLAR_RETURN_MIN_YEAR = 1800;
+
+/**
+ * Solar Return for an arbitrary past calendar year: the moment in
+ * `targetYear` when the Sun stood at the exact longitude it holds at
+ * `referenceDate` (default: now) — i.e. "this day" in that year.
+ */
+export async function findSolarReturnForYear(
+  targetYear: number,
+  referenceDate: Date = new Date(),
+): Promise<HistoricalEchoResult> {
+  const refYear = referenceDate.getUTCFullYear();
+  if (
+    !Number.isInteger(targetYear) ||
+    targetYear < SOLAR_RETURN_MIN_YEAR ||
+    targetYear >= refYear
+  ) {
+    throw new RangeError(
+      `targetYear must be an integer between ${SOLAR_RETURN_MIN_YEAR} and ${refYear - 1}`,
+    );
+  }
+  return findSolarReturnEcho(referenceDate, refYear - targetYear);
+}
+
+export interface EchoFileMeta {
+  version: number;
+  generatedAt: string;
+  intervalDays: number;
+  startMs: number;
+  endMs: number;
+  count: number;
+  planets: readonly EchoPlanet[];
+}
+
+export function getEchoFileMeta(): EchoFileMeta {
   return {
     version: FILE.version,
     generatedAt: FILE.generatedAt,

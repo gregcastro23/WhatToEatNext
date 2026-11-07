@@ -1,23 +1,24 @@
-import swisseph as swe
 import datetime
 import math
 import pytz # For robust timezone handling
 from typing import List, Dict, Any, Optional
 import os
+# The path to the Swiss Ephemeris data files (the repo's sweph_ephe/, or $SWISSEPH_PATH) is set in
+# ephemeris.py, once for the process; this module used to set it itself on import.
+from ..utils.ephemeris import swe, EPHE_PATH
 from ..utils.transit_engine import get_transit_details, PLANETARY_ELEMENTS # Import these
 from ..utils.seasonal_engine import get_seasonal_modifiers # Import for current zodiac
+from ..utils.lunar_oracle import julian_day_utc
 
-# Assuming project root is accessible or ephemeris path is configured globally
-# Set the path to the Swiss Ephemeris data files.
-# The user needs to ensure these files are available on the Mac Mini.
-# Common paths for ephemeris data are often in /usr/local/share/sweph/ephe
-# or relative to the application's entry point.
-# For now, we'll try a common relative path, but this might need adjustment.
-EPHE_PATH = os.environ.get('SWISSEPH_PATH', os.path.join(os.path.dirname(__file__), '..', '..', 'sweph_ephe'))
-swe.set_ephe_path(EPHE_PATH)
+if swe is None:
+    # This module has always needed pyswisseph just to be imported (it began with a bare `import swisseph`).
+    raise ImportError("pyswisseph is required by the transmutation oracle")
 
-# Chaldean order for planetary rulers (retrograde for hourly sequence)
-# Starting with Saturn, then Jupiter, Mars, Sun, Venus, Mercury, Moon
+# Chaldean order of the planets, slowest apparent orbit first: Saturn, Jupiter, Mars, Sun, Venus,
+# Mercury, Moon. The hours of a day are ruled by the planets in THIS direction, each hour by the next
+# in the list (after the Moon, Saturn again), starting from the planet of the day; so the 25th hour,
+# the first of the next day, is three places on, which is DAY_OF_WEEK_RULERS (Sun, Moon, Mars,
+# Mercury, Jupiter, Venus, Saturn).
 CHALDEAN_ORDER = ["Saturn", "Jupiter", "Mars", "Sun", "Venus", "Mercury", "Moon"]
 
 # Map day of week (weekday() returns Monday=0, Sunday=6) to first hour ruler (Chaldean order)
@@ -48,56 +49,81 @@ PLANETARY_INFLUENCES = {
     }
 }
 
+def utc_datetime_from_julian_day(jd_utc: float) -> datetime.datetime:
+    """The timezone-aware UTC datetime of a Julian day (UT): the inverse of lunar_oracle.julian_day_utc.
+
+    swe.revjul returns (year, month, day, hour) with the time of day as ONE decimal-hours float.
+    It has no minute or second to unpack: unpacking six values from it raised
+    "not enough values to unpack (expected 6, got 4)".
+    """
+    year, month, day, hour = swe.revjul(jd_utc)
+    return datetime.datetime(year, month, day, tzinfo=pytz.utc) + datetime.timedelta(hours=hour)
+
+
 class TransmutationOracle:
     def __init__(self, latitude: float, longitude: float, timezone_str: str):
         self.latitude = latitude
         self.longitude = longitude
         self.timezone = pytz.timezone(timezone_str)
 
-    def _get_local_datetime_from_julian(self, jd_utc: float) -> datetime.datetime:
-        """Converts a Julian Day (UTC) to a localized datetime object."""
-        year, month, day, hour, minute, second = swe.revjul(jd_utc)
-        dt_utc = datetime.datetime(year, month, day, int(hour), int(minute), int(second), tzinfo=pytz.utc)
-        return dt_utc.astimezone(self.timezone)
+    def _start_of_local_day_utc(self, target_date: datetime.date) -> datetime.datetime:
+        """The UTC instant at which `target_date` begins on the wall clock of the oracle's timezone.
+
+        Local midnight is not 00:00 UTC, and not a fixed number of hours from the next local
+        midnight: a day with a daylight-saving change is 23 or 25 hours long. A few zones change
+        the clock AT midnight (Cuba, Lebanon, Chile, Paraguay, Brazil until 2019), and then pytz
+        needs to be told which midnight is meant: when 00:00 is skipped the date begins when the
+        gap ends, and when 00:00 happens twice it begins at the first.
+        """
+        midnight = datetime.datetime(target_date.year, target_date.month, target_date.day)
+        try:
+            local_midnight = self.timezone.localize(midnight, is_dst=None)
+        except pytz.AmbiguousTimeError:
+            local_midnight = self.timezone.localize(midnight, is_dst=True)
+        except pytz.NonExistentTimeError:
+            local_midnight = self.timezone.localize(midnight, is_dst=False)
+        return local_midnight.astimezone(pytz.utc)
+
+    def _next_sun_event_utc(self, after_utc: datetime.datetime, event: int) -> Optional[datetime.datetime]:
+        """The first sunrise (event=swe.CALC_RISE) or sunset (swe.CALC_SET) after `after_utc`, in UTC.
+
+        None when the Sun neither rises nor sets in the next day or so (polar day or night).
+        The Sun's centre against the true horizon, with no refraction: the convention this
+        oracle's hours have always used (BIT_DISC_CENTER | BIT_NO_REFRACTION).
+        swe.rise_trans takes the event flags third and the observer as (longitude, latitude,
+        altitude) fourth.
+        """
+        found, times = swe.rise_trans(
+            julian_day_utc(after_utc), swe.SUN,
+            event | swe.BIT_DISC_CENTER | swe.BIT_NO_REFRACTION,
+            (self.longitude, self.latitude, 0.0),
+        )
+        if found != 0:
+            return None
+        return utc_datetime_from_julian_day(times[0])
 
     def get_daily_planetary_hours(self, target_date: datetime.date) -> Optional[Dict[str, Any]]:
         """
         Calculates planetary hours for a given date and the oracle's location.
+
+        The day hours run from the date's sunrise to its sunset, the night hours from that sunset to
+        the next sunrise, twelve equal parts each. Every boundary is computed in UTC and converted to
+        local time at the end, so a night that crosses a daylight-saving change keeps its true
+        length and every local time carries the offset in force at that instant.
         """
-        # Get UTC midnight for the target date in the specified timezone
-        local_midnight = self.timezone.localize(datetime.datetime(target_date.year, target_date.month, target_date.day, 0, 0, 0))
-        jd_utc_midnight = swe.julday(local_midnight.year, local_midnight.month, local_midnight.day,
-                                     local_midnight.hour + local_midnight.minute / 60 + local_midnight.second / 3600,
-                                     swe.UTC)
+        # Each event is searched for after the one before it, so the three are in order whatever the
+        # latitude; the first is searched for from the start of the local date.
+        sunrise_utc = self._next_sun_event_utc(self._start_of_local_day_utc(target_date), swe.CALC_RISE)
+        sunset_utc = self._next_sun_event_utc(sunrise_utc, swe.CALC_SET) if sunrise_utc else None
+        next_sunrise_utc = self._next_sun_event_utc(sunset_utc, swe.CALC_RISE) if sunset_utc else None
 
-        # Get sunrise and sunset for the given location and date (UTC Julian Day)
-        # We use SE_BIT_DISC_CENTER for Sun's center and SE_BIT_NO_REFRACTION for astrological accuracy
-        
-        # Sunrise
-        ret_rise, geopos_rise = swe.rise_trans(jd_utc_midnight, swe.SUN, self.longitude, self.latitude,
-                                               rsmi=swe.CALC_RISE | swe.BIT_DISC_CENTER | swe.BIT_NO_REFRACTION)
-        jd_sunrise_utc = geopos_rise[0]
-
-        # Sunset
-        ret_set, geopos_set = swe.rise_trans(jd_utc_midnight, swe.SUN, self.longitude, self.latitude,
-                                             rsmi=swe.CALC_SET | swe.BIT_DISC_CENTER | swe.BIT_NO_REFRACTION)
-        jd_sunset_utc = geopos_set[0]
-
-        if not (ret_rise == 0 and ret_set == 0):
+        if not (sunrise_utc and sunset_utc and next_sunrise_utc):
             print(f"Error calculating sunrise/sunset for {target_date}. Check coordinates and ephemeris path.")
             return None
 
         # Localized sunrise and sunset datetimes
-        sunrise_local = self._get_local_datetime_from_julian(jd_sunrise_utc)
-        sunset_local = self._get_local_datetime_from_julian(jd_sunset_utc)
-        
-        # Calculate next day's sunrise for night hours calculation
-        jd_next_day_utc_midnight = swe.julday(target_date.year, target_date.month, target_date.day + 1, 0, 0, 0, swe.UTC)
-        ret_next_rise, geopos_next_rise = swe.rise_trans(jd_next_day_utc_midnight, swe.SUN, self.longitude, self.latitude,
-                                                          rsmi=swe.CALC_RISE | swe.BIT_DISC_CENTER | swe.BIT_NO_REFRACTION)
-        jd_next_sunrise_utc = geopos_next_rise[0]
-        next_sunrise_local = self._get_local_datetime_from_julian(jd_next_sunrise_utc)
-
+        sunrise_local = sunrise_utc.astimezone(self.timezone)
+        sunset_local = sunset_utc.astimezone(self.timezone)
 
         # Determine the ruling planet for the first hour of the day
         day_of_week = sunrise_local.weekday()  # Monday=0, Sunday=6
@@ -113,49 +139,42 @@ class TransmutationOracle:
             print(f"Ruler '{first_hour_ruler}' not found in Chaldean order.")
             return None
 
-        # Calculate day and night durations
-        day_duration = sunset_local - sunrise_local
-        # Ensure night_duration spans correctly across midnight if sunset is late and next_sunrise is early
-        if next_sunrise_local < sunset_local:
-            next_sunrise_local += datetime.timedelta(days=1)
-        night_duration = next_sunrise_local - sunset_local
-
-        # Calculate length of each planetary hour
-        day_hour_length = day_duration / 12
-        night_hour_length = night_duration / 12
+        # Calculate length of each planetary hour (UTC datetimes: the arithmetic is on instants)
+        day_hour_length = (sunset_utc - sunrise_utc) / 12
+        night_hour_length = (next_sunrise_utc - sunset_utc) / 12
 
         planetary_hours: List[Dict[str, Any]] = []
-        current_time = sunrise_local
+        current_time = sunrise_utc
 
         # Day hours
         for i in range(12):
             end_time = current_time + day_hour_length
-            ruler_index = (start_index - i) % 7 # Chaldean order is retrograde
+            ruler_index = (start_index + i) % 7
             ruling_planet = CHALDEAN_ORDER[ruler_index]
             planetary_hours.append({
                 "period": "day",
                 "hour_number": i + 1,
-                "start_time": current_time,
-                "end_time": end_time,
+                "start_time": current_time.astimezone(self.timezone),
+                "end_time": end_time.astimezone(self.timezone),
                 "ruling_planet": ruling_planet
             })
             current_time = end_time
 
         # Night hours
-        current_time = sunset_local
+        current_time = sunset_utc
         # The ruling planet sequence continues from where the day left off.
         # The next planet in the sequence after the 12th day hour ruler is the 1st night hour ruler.
-        night_start_ruler_index = (start_index - 12) % 7 
+        night_start_ruler_index = (start_index + 12) % 7
 
         for i in range(12):
             end_time = current_time + night_hour_length
-            ruler_index = (night_start_ruler_index - i) % 7
+            ruler_index = (night_start_ruler_index + i) % 7
             ruling_planet = CHALDEAN_ORDER[ruler_index]
             planetary_hours.append({
                 "period": "night",
                 "hour_number": i + 1,
-                "start_time": current_time,
-                "end_time": end_time,
+                "start_time": current_time.astimezone(self.timezone),
+                "end_time": end_time.astimezone(self.timezone),
                 "ruling_planet": ruling_planet
             })
             current_time = end_time

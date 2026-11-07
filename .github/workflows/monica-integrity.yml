@@ -229,9 +229,11 @@ jobs:
         # collective-engine stand-in that was not a dict, a Midheaven computed from a planet's
         # longitude). The tests of the pieces run on a bare Python; test_by_chart_handler.py RUNS
         # the handler's real source, extracted with ast, against stand-ins for the database, HTTP
-        # and clock; test_chart_angles.py compares the real chart function with swisseph.
+        # and clock; test_chart_angles.py compares the real chart function with swisseph;
+        # test_lunar_modifier.py pins the lunar modifier (a boost for a matched category and 1.0
+        # for the rest, where it multiplied every score down) and production's category names.
         #
-        # test_ritual_handler.py does the same for POST /api/rituals/generate-cooking-instruction,
+        # test_ritual_handler.py runs the handler the same way for POST /api/rituals/generate-cooking-instruction,
         # which had never been run either: its log row named two columns the model and every
         # migration lacked; an ORM row was handed to an engine that reads a dict; a missing recipe
         # answered 500 and a database error answered with its own SQL; the collective scores it
@@ -245,7 +247,31 @@ jobs:
         run: |
           python -m venv "$RUNNER_TEMP/by-chart"
           "$RUNNER_TEMP/by-chart/bin/python" -m pip install --quiet pytest pydantic==2.10.6 pyswisseph==2.10.3.2 astral==3.2
-          "$RUNNER_TEMP/by-chart/bin/python" -m pytest backend/tests/test_zodiac_signs.py backend/tests/test_elemental_balance.py backend/tests/test_by_chart_recommendations.py backend/tests/test_by_chart_engines.py backend/tests/test_by_chart_handler.py backend/tests/test_chart_angles.py backend/tests/test_ritual_handler.py -q
+          "$RUNNER_TEMP/by-chart/bin/python" -m pytest backend/tests/test_zodiac_signs.py backend/tests/test_elemental_balance.py backend/tests/test_by_chart_recommendations.py backend/tests/test_by_chart_engines.py backend/tests/test_by_chart_handler.py backend/tests/test_chart_angles.py backend/tests/test_lunar_modifier.py backend/tests/test_ritual_handler.py -q
+
+      - name: Swiss Ephemeris engines (Python)
+        # TransmutationOracle.get_daily_planetary_hours raised on every call, three defects deep
+        # (a swe.UTC that does not exist, a rise_trans call with the wrong arguments, a revjul result
+        # unpacked as six values), and behind them it searched from 00:00 UTC instead of local midnight
+        # and stepped the hours in a fixed offset across a daylight-saving change. The tests run the
+        # real function with the real library and compare its times with astral (an independent
+        # NOAA-based calculation), with swe.azalt, and with a minute-by-minute scan of each zone's own
+        # clock, in places from UTC-10 to UTC+13:45 and on the days the clocks change.
+        #
+        # It also runs test_ephemeris_path.py: swe.set_ephe_path is process-wide, and the lunar and
+        # transit queries (and two routes in main.py) reset it to '' on every use, so in a checkout with
+        # sweph_ephe/ (this one: it is tracked) the first query switched every later chart from the
+        # Swiss Ephemeris files to Moshier. The path is now set once, in backend/utils/ephemeris.py;
+        # the tests watch which ephemeris serves a date before and after each query, and fail if any
+        # other tracked backend file names set_ephe_path.
+        #
+        # pytz is already in backend/requirements.txt (unpinned there); it is pinned here to a release
+        # more than a month old. Its own throwaway venv, like the step above, so that the pytest-only
+        # steps keep their install and this step does not depend on that one having run.
+        run: |
+          python -m venv "$RUNNER_TEMP/ephemeris"
+          "$RUNNER_TEMP/ephemeris/bin/python" -m pip install --quiet pytest pydantic==2.10.6 pyswisseph==2.10.3.2 astral==3.2 pytz==2026.5
+          "$RUNNER_TEMP/ephemeris/bin/python" -m pytest backend/tests/test_transmutation_oracle.py backend/tests/test_ephemeris_path.py -q
 
       - name: Deploy-time migration runner (Python)
         # backend/scripts/run_init_migrations.py runs before uvicorn on every
@@ -253,6 +279,20 @@ jobs:
         # ("set_session cannot be used inside a transaction"), so the deploy
         # never became healthy. psycopg2 is faked, so pytest-only still holds.
         run: python -m pytest backend/tests/test_run_init_migrations.py -q
+
+      - name: Database driver is named (Python)
+        # SQLAlchemy 2.1 changed the driver a bare postgresql:// URL selects, from
+        # psycopg2 to psycopg (v3). The service installs psycopg2 only, so once an
+        # image build resolved 2.1 create_engine raised "No module named 'psycopg'"
+        # and every route that takes a database session answered 500 while /health
+        # still answered 200. DatabaseConfig now names the driver in the URL it hands
+        # to SQLAlchemy. Unlike the steps above this loads the real DatabaseConfig,
+        # so pydantic and pydantic-settings are installed at the versions
+        # backend/requirements.txt pins; SQLAlchemy is not needed.
+        run: |
+          grep -E '^(pydantic|pydantic-settings)==' backend/requirements.txt > "$RUNNER_TEMP/database-config-requirements.txt"
+          python -m pip install --quiet pytest -r "$RUNNER_TEMP/database-config-requirements.txt"
+          python -m pytest backend/tests/test_sqlalchemy_url.py backend/tests/test_database_config_driver.py -q
 
   # ---------------------------------------------------------------------------
   # PRE-MERGE. The two gates a PULL REQUEST DIFF can actually break, run BEFORE

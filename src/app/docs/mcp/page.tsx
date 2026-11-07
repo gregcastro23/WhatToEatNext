@@ -17,14 +17,22 @@ export const metadata = {
     "Connect Claude Desktop, Cursor, or any MCP client to alchm.kitchen's three alchemical tools.",
 };
 
+const museConfig = `{
+  "mcp_servers": {
+    "alchm-kitchen": {
+      "url": "https://alchm.kitchen/api/mcp",
+      "headers": {
+        "Authorization": "Bearer sk_alchm_live_…"
+      }
+    }
+  }
+}`;
+
 const claudeDesktopConfig = `{
   "mcpServers": {
     "alchm-kitchen": {
-      "command": "bun",
-      "args": [
-        "run",
-        "/absolute/path/to/WhatToEatNext-master/mcp-server/src/index.ts"
-      ],
+      "command": "npx",
+      "args": ["-y", "@alchm/mcp-server"],
       "env": {
         "MCP_USER_API_KEY": "sk_alchm_live_…"
       }
@@ -35,17 +43,28 @@ const claudeDesktopConfig = `{
 const cursorConfig = `{
   "mcpServers": {
     "alchm-kitchen": {
-      "command": "bun",
-      "args": [
-        "run",
-        "/absolute/path/to/WhatToEatNext-master/mcp-server/src/index.ts"
-      ],
+      "command": "npx",
+      "args": ["-y", "@alchm/mcp-server"],
       "env": {
         "MCP_USER_API_KEY": "sk_alchm_live_…"
       }
     }
   }
 }`;
+
+const rawCurlExample = `curl -X POST https://alchm.kitchen/api/mcp \\
+  -H "Content-Type: application/json" \\
+  -H "Accept: application/json, text/event-stream" \\
+  -H "Authorization: Bearer sk_alchm_live_…" \\
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "get_user_allowance",
+      "arguments": {}
+    }
+  }'`;
 
 interface ToolRow {
   name: string;
@@ -71,6 +90,66 @@ const TOOLS: ToolRow[] = [
     cost: "2.5 of each ESMS (10 total)",
     blurb:
       "Search the 579-recipe catalog by element, cuisine, and dietary needs.",
+  },
+  {
+    name: "compute_synastry_overlay",
+    cost: "Free",
+    blurb:
+      "Inter-chart aspects, tension, harmony, and recommended stance.",
+  },
+  {
+    name: "get_transit_natal_overlay",
+    cost: "Free",
+    blurb:
+      "Sky-to-natal planetary aspects and continuous per-element boosts for an agent.",
+  },
+  {
+    name: "compute_triplicate_synastry",
+    cost: "Free",
+    blurb:
+      "Evaluate natal charts against the sky for resonance quotes and fee rebates.",
+  },
+  {
+    name: "create_evidence_snapshot",
+    cost: "2.5 of each ESMS (10 total)",
+    blurb:
+      "Bundle transits, ingredient analysis, and recipe candidates in one atomic call.",
+  },
+  {
+    name: "submit_recipe_reflection",
+    cost: "0.1 of each ESMS (0.4 total)",
+    blurb:
+      "Save a culinary reflection and mirror to feed & community tips.",
+  },
+  {
+    name: "get_user_allowance",
+    cost: "Free",
+    blurb:
+      "Pre-flight check for calling agents to inspect ESMS balance and tool cost schedule.",
+  },
+  {
+    name: "substitute_ingredient",
+    cost: "Free",
+    blurb:
+      "Dish-context-aware culinary ingredient swaps with exact ratios, flavor/texture impacts, and elemental shifts.",
+  },
+  {
+    name: "build_consolidated_grocery_list",
+    cost: "Free",
+    blurb:
+      "Aisle-grouped consolidated shopping list across multiple recipes with serving multipliers and pantry subtraction.",
+  },
+  {
+    name: "what_to_cook_now",
+    cost: "2.5 of each ESMS (10 total)",
+    blurb:
+      "Single-call composite meal recommender matching pantry ingredients, active prep times, mood/craving, and celestial weather.",
+  },
+  {
+    name: "update_culinary_profile",
+    cost: "Free",
+    blurb:
+      "Safely patch persistent culinary memory (allergens, dislikes, dietary frameworks, spice tolerance, kitchen equipment).",
   },
 ];
 
@@ -167,8 +246,10 @@ export default function McpDocsPage(): JSX.Element {
           >
             Model Context Protocol
           </a>{" "}
-          server exposing three alchemical tools — live planetary transits,
-          ingredient ESMS analysis, and cosmic recipe discovery — to Claude
+          server exposing thirteen alchemical tools — live planetary transits,
+          ingredient ESMS analysis, cosmic recipe discovery, dish-context substitutions,
+          multi-recipe grocery consolidation, single-call meal recommendations,
+          and safe culinary profile management — to Meta Muse, Claude
           Desktop, Cursor, Google Antigravity, the Claude Agent SDK, or any
           other MCP client.
         </p>
@@ -276,7 +357,86 @@ export default function McpDocsPage(): JSX.Element {
         </div>
       </Section>
 
-      <Section title="Connecting Claude Desktop">
+      <Section title="Connecting Meta Muse & Remote Agents (Streamable HTTP)">
+        <p>
+          Meta Muse, cloud virtual machines, and remote autonomous agents connect directly via our hosted 
+          <strong>Streamable HTTP</strong> gateway at <code>https://alchm.kitchen/api/mcp</code>.
+        </p>
+        <p>
+          Configure your agent with Bearer authentication using the key you minted above:
+        </p>
+        <CodeBlock>{museConfig}</CodeBlock>
+        <p style={{ marginTop: 12 }}>
+          Our remote gateway supports standard HTTP headers: <code>Authorization: Bearer &lt;key&gt;</code>, 
+          <code>Idempotency-Key</code> for safe retries, and <code>X-Correlation-ID</code> for distributed tracing.
+        </p>
+
+        <h3
+          className="t-display"
+          style={{ fontSize: 16, marginTop: 20, marginBottom: 8, color: "var(--fg)" }}
+        >
+          Raw HTTP Callers &amp; Content Negotiation
+        </h3>
+        <p>
+          Per the official MCP 2026-07-28 Streamable HTTP specification, POST requests MUST specify both MIME types in the <code>Accept</code> header:
+        </p>
+        <ul style={{ paddingLeft: 20, margin: "8px 0 12px", lineHeight: 1.6 }}>
+          <li><code>Content-Type: application/json</code></li>
+          <li><code>Accept: application/json, text/event-stream</code></li>
+        </ul>
+        <p style={{ marginBottom: 8 }}>
+          Omitting <code>text/event-stream</code> from the <code>Accept</code> header will cause strict MCP SDK transports to reject the call with <code>406 Not Acceptable</code>. Example raw curl invocation:
+        </p>
+        <CodeBlock>{rawCurlExample}</CodeBlock>
+
+        <p style={{ marginTop: 16 }}>
+          Modern agents can also auto-discover our capabilities and security metadata at standard endpoints:
+        </p>
+        <ul style={{ paddingLeft: 20, margin: "8px 0 0", lineHeight: 1.7 }}>
+          <li>
+            <strong>OAuth 2.0 Protected Resource Metadata (RFC 9728):</strong>{" "}
+            <code>/.well-known/oauth-protected-resource</code>
+          </li>
+          <li>
+            <strong>OAuth 2.0 Authorization Server (RFC 8414):</strong>{" "}
+            <code>/.well-known/oauth-authorization-server</code>
+          </li>
+          <li>
+            <strong>Meta Muse Connector Descriptor:</strong>{" "}
+            <code>/.well-known/muse/connector.json</code>
+          </li>
+        </ul>
+      </Section>
+
+      <Section title="Prompts, Resources & Parameterized Templates">
+        <p>
+          In addition to tools, our MCP server exposes structured <strong>Prompts</strong> (actionable blueprints for meal planning and alchemical analysis), 
+          static <strong>Resources</strong>, persistent account memory, and zero-token <strong>RFC 6570 Resource Templates</strong>:
+        </p>
+        <h4 style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--fg)", margin: "16px 0 8px" }}>
+          Prompt Blueprints (prompts/list &amp; prompts/get)
+        </h4>
+        <ul style={{ paddingLeft: 20, margin: "8px 0 16px", lineHeight: 1.7 }}>
+          <li><code>cosmic_meal_planning</code>: End-to-end prompt guiding agents from celestial weather to recipe discovery and grocery lists.</li>
+          <li><code>fast_pantry_dinner</code>: Rapid single-call workflow pairing pantry ingredients and time limits with <code>what_to_cook_now</code>.</li>
+          <li><code>pantry_alchemical_balance</code>: Prompt guiding agents through ESMS analysis, substitutions, and flavor balancing.</li>
+          <li><code>historical_culinary_council</code>: Prompt to consult canonical personas like Leonardo da Vinci or Hildegard von Bingen.</li>
+        </ul>
+        <h4 style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--fg)", margin: "16px 0 8px" }}>
+          Resources &amp; RFC 6570 URI Templates (resources/list &amp; resources/read)
+        </h4>
+        <ul style={{ paddingLeft: 20, margin: "8px 0", lineHeight: 1.7 }}>
+          <li><code>alchm://ingredients/&#123;slug&#125;</code>: Deep nutritional metrics, elemental properties, seasonality, and pairings for 1,002 ingredients.</li>
+          <li><code>alchm://recipes/&#123;id&#125;</code>: Full structured JSON-LD recipe payloads with metric/US volume scaling, timers, and beverage pairings.</li>
+          <li><code>alchm://techniques/&#123;slug&#125;</code>: Culinary technique guide cards (sear, braise, ferment, confit, reduce, clarify).</li>
+          <li><code>alchm://account/culinary-profile</code>: Authenticated caller hard allergens, dietary frameworks, spice tolerance, and kitchen equipment.</li>
+          <li><code>alchm://account/allowance</code>: Live ESMS balance, rate limits, and tool cost schedule for the calling account.</li>
+          <li><code>alchm://catalog/cuisines</code> &amp; <code>alchm://catalog/diets</code>: Reference lists of supported tags.</li>
+          <li><code>alchm://ontology/esms</code>: Spirit, Essence, Matter, Substance philosophical and thermodynamic framework.</li>
+        </ul>
+      </Section>
+
+      <Section title="Connecting Claude Desktop (Local stdio)">
         <p>
           Edit{" "}
           <code>
@@ -286,14 +446,12 @@ export default function McpDocsPage(): JSX.Element {
         </p>
         <CodeBlock>{claudeDesktopConfig}</CodeBlock>
         <p style={{ marginTop: 12 }}>
-          Replace <code>/absolute/path/to/WhatToEatNext-master</code> with
-          your local checkout path and{" "}
-          <code>sk_alchm_live_…</code> with the key you minted above.
+          Replace <code>sk_alchm_live_…</code> with the key you minted above.
           Restart Claude Desktop after editing.
         </p>
       </Section>
 
-      <Section title="Connecting Cursor">
+      <Section title="Connecting Cursor (Local stdio)">
         <p>
           Add to <code>~/.cursor/mcp.json</code> or the project-local{" "}
           <code>.cursor/mcp.json</code>:

@@ -56,36 +56,12 @@ if (!hasExplicitBackend) {
 
 async function main(): Promise<void> {
   // Import only after backend defaults and stdout protection are in place.
-  const { invokeTool, structuredToolContent } =
-    await import("../../src/lib/mcp/tools.js");
+  const { createAlchmMcpServer } =
+    await import("../../src/lib/mcp/serverFactory.js");
   const { drainMcpInvocations } =
     await import("../../src/lib/mcp/invocationLog.js");
   const sessionId = randomUUID();
-  const server = new Server(
-    { name: "alchm-mcp-server", version: MCP_SERVER_VERSION },
-    { capabilities: { tools: {} } },
-  );
-
-  server.setRequestHandler(ListToolsRequestSchema, async () => ({
-    tools: TOOL_DEFINITIONS,
-  }));
-  server.setRequestHandler(CallToolRequestSchema, async (request, extra) => {
-    const { name, arguments: args } = request.params;
-    if (!isToolName(name))
-      throw new McpError(ErrorCode.InvalidParams, `Unknown tool: ${name}`);
-    const result = await invokeTool(name, args ?? {}, {
-      signal: extra.signal,
-      correlationId: `stdio:${sessionId}:${extra.requestId}`,
-    });
-    const payload = structuredToolContent(result);
-    return {
-      ...(result.ok ? {} : { isError: true }),
-      structuredContent: payload,
-      content: [
-        { type: "text" as const, text: JSON.stringify(payload, null, 2) },
-      ],
-    };
-  });
+  const server = createAlchmMcpServer({ sessionId });
 
   let shuttingDown = false;
   const shutdown = (): void => {

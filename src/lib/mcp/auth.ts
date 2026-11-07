@@ -60,7 +60,39 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
-function extractApiKey(args: Record<string, unknown>): string | null {
+export interface ResolveCallerOptions {
+  bearerToken?: string;
+  headers?: Record<string, string | undefined> | Headers;
+}
+
+function extractBearerFromHeaders(
+  headers?: Record<string, string | undefined> | Headers,
+): string | null {
+  if (!headers) return null;
+  let auth: string | null = null;
+  if ("get" in headers && typeof headers.get === "function") {
+    auth = headers.get("authorization") ?? headers.get("Authorization");
+  } else if (isRecord(headers)) {
+    const direct = headers.authorization ?? headers.Authorization;
+    auth = typeof direct === "string" ? direct : null;
+  }
+  if (typeof auth === "string") {
+    const match = auth.match(/^Bearer\s+([A-Za-z0-9_.~-]+)$/i);
+    if (match?.[1]) return match[1];
+  }
+  return null;
+}
+
+function extractApiKey(
+  args: Record<string, unknown>,
+  options?: ResolveCallerOptions,
+): string | null {
+  if (options?.bearerToken && typeof options.bearerToken === "string") {
+    return options.bearerToken.trim();
+  }
+  const fromHeader = extractBearerFromHeaders(options?.headers);
+  if (fromHeader) return fromHeader;
+
   const meta = args._meta;
   if (isRecord(meta)) {
     const m = meta;
@@ -95,6 +127,7 @@ function extractCallerTag(args: Record<string, unknown>): string {
  */
 export async function resolveCaller(
   args: Record<string, unknown>,
+  options?: ResolveCallerOptions,
 ): Promise<ResolvedCaller> {
   const callerTag = extractCallerTag(args);
 
@@ -115,7 +148,7 @@ export async function resolveCaller(
     };
   }
 
-  const key = extractApiKey(args);
+  const key = extractApiKey(args, options);
   if (!key) {
     return {
       userId: null,

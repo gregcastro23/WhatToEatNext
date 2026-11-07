@@ -1,101 +1,24 @@
-import type { JsonSchema } from "./inputSchemas";
+import { CULINARY_OUTPUT_SCHEMAS } from "./culinaryOutputSchemas";
+import {
+  array,
+  basket,
+  boolean,
+  integer,
+  nullable,
+  number,
+  object,
+  result,
+  shape,
+  string,
+  timestamp,
+} from "./outputSchemaHelpers";
 
-/**
- * Published result contracts (tools/list `outputSchema`). Every response,
- * success or `isError`, carries structuredContent and MCP clients validate it
- * against these schemas, so each one accepts the tool's success payload or the
- * shared error envelope. Objects stay open to additive fields; `required` lists
- * only fields every result carries.
- */
-
-/** Stable `errorCode` values; ToolResult derives its union from this list. */
-export const TOOL_ERROR_CODES = [
-  "INVALID_ARGS",
-  "QUOTA",
-  "INTERNAL",
-  "NOT_FOUND",
-  "RATE_LIMIT",
-  "UNAUTHORIZED",
-  "FORBIDDEN",
-  "UNAVAILABLE",
-  "BUSY",
-  "CANCELLED",
-  "CONFLICT",
-] as const;
-
-export type ToolErrorCode = (typeof TOOL_ERROR_CODES)[number];
-
-/** What a paid tool did about payment for this response. */
-export const BILLING_STATUSES = ["charged", "replayed", "not_charged"] as const;
-
-export type BillingStatus = (typeof BILLING_STATUSES)[number];
-
-const string: JsonSchema = { type: "string" };
-const number: JsonSchema = { type: "number" };
-const integer: JsonSchema = { type: "integer" };
-const boolean: JsonSchema = { type: "boolean" };
-const object: JsonSchema = { type: "object" };
-const array: JsonSchema = { type: "array" };
-const timestamp: JsonSchema = { type: "string", format: "date-time" };
-const nullable = (schema: JsonSchema): JsonSchema => ({
-  anyOf: [schema, { type: "null" }],
-});
-const shape = (
-  properties: Record<string, JsonSchema>,
-  required: string[] = Object.keys(properties),
-): JsonSchema & { type: "object" } => ({ type: "object", properties, required });
-
-const basket = shape({
-  spirit: number,
-  essence: number,
-  matter: number,
-  substance: number,
-});
-
-const billing = shape(
-  {
-    status: { type: "string", enum: [...BILLING_STATUSES] },
-    reason: string,
-    amounts: nullable(basket),
-    idempotencyKey: nullable(string),
-  },
-  ["status", "amounts", "idempotencyKey"],
-);
-
-const errorEnvelope = shape(
-  {
-    errorCode: { type: "string", enum: [...TOOL_ERROR_CODES] },
-    message: string,
-    correlationId: string,
-    // Partial evidence a failed call still produced (e.g. a partial snapshot).
-    data: {},
-    retryAfterSec: number,
-    billing,
-  },
-  ["errorCode", "message", "correlationId"],
-);
-
-function result(
-  success: JsonSchema & { type: "object" },
-  paid = false,
-): JsonSchema & { type: "object" } {
-  const properties = {
-    ...success.properties,
-    correlationId: string,
-    ...(paid ? { billing } : {}),
-  };
-  return {
-    type: "object",
-    anyOf: [
-      {
-        ...success,
-        properties,
-        required: [...(success.required ?? []), "correlationId"],
-      },
-      errorEnvelope,
-    ],
-  };
-}
+export {
+  BILLING_STATUSES,
+  TOOL_ERROR_CODES,
+  type BillingStatus,
+  type ToolErrorCode,
+} from "./outputSchemaHelpers";
 
 const sky = shape({
   timestamp,
@@ -145,6 +68,7 @@ const recipeSearch = shape({
   totalMatching: integer,
   returnedCount: integer,
   offset: integer,
+  appliedProfileFilters: object,
   recipes: {
     type: "array",
     items: shape(
@@ -161,6 +85,7 @@ const recipeSearch = shape({
         elementalProperties: object,
         ingredients: { type: "array", items: string },
         instructions: {},
+        resourceUri: string,
       },
       ["name", "esms", "esmsSource", "ingredients"],
     ),
@@ -293,4 +218,5 @@ export const TOOL_OUTPUT_SCHEMAS = {
   compute_triplicate_synastry: result(triplicate),
   create_evidence_snapshot: result(evidenceSnapshot, true),
   submit_recipe_reflection: result(reflection, true),
+  ...CULINARY_OUTPUT_SCHEMAS,
 };

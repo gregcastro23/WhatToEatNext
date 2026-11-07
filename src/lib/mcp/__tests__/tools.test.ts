@@ -1370,6 +1370,28 @@ describe("published output contract", () => {
       reflection: "Bright and balanced.",
       ...AUTHENTICATED,
     },
+    get_user_allowance: {},
+    substitute_ingredient: {
+      ingredient: "buttermilk",
+      dishContext: "pancakes",
+      dietaryRestriction: "vegan",
+    },
+    build_consolidated_grocery_list: {
+      recipeIds: ["r1"],
+      servingsMultiplier: 2,
+      pantryHave: ["salt"],
+    },
+    what_to_cook_now: {
+      availableIngredients: ["tomato"],
+      maxActiveMinutes: 45,
+      moodOrCraving: "warming",
+      ...AUTHENTICATED,
+    },
+    update_culinary_profile: {
+      addAllergens: ["peanuts"],
+      addDislikes: ["cilantro"],
+      ...AUTHENTICATED,
+    },
   };
 
   it("publishes a titled object output schema for every tool", () => {

@@ -1,9 +1,6 @@
 
 import datetime
-try:
-    import swisseph as swe
-except ImportError:
-    swe = None
+from backend.utils.ephemeris import swe
 
 NAKSHATRAS = [
     {"name": "Ashwini", "start_long": 0.0, "end_long": 13.33, "food_type": "Quick & Light"},
@@ -70,8 +67,6 @@ def get_optimal_cooking_windows(days=7):
     """
     if not swe:
         return {"error": "pyswisseph is not installed. Please install it to use the lunar oracle."}
-
-    swe.set_ephe_path('') # Use built-in ephemeris
 
     windows = []
     now = datetime.datetime.utcnow()

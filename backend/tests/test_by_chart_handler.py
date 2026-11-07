@@ -230,12 +230,13 @@ def affinity(value, i):
     return Decimal(str(value)) if i % 2 else float(value)
 
 
-def rows_for(name, read_model, first_ingredient="plain ingredient", names=None, value=None):
+def rows_for(name, read_model, first_ingredient="plain ingredient", names=None, value=None, categories=None):
     ingredients = names or [first_ingredient, "ingredient 1", "ingredient 2", "ingredient 3"]
+    categories = categories or CATEGORIES
     value = AFFINITY[name] if value is None else value
     return [
         (RECIPE_IDS[name], f"recipe {name}", None, "italian", read_model,
-         ingredients[i], CATEGORIES[i], SIGNS[i], affinity(value, i))
+         ingredients[i], categories[i], SIGNS[i], affinity(value, i))
         for i in range(4)
     ]
 
@@ -304,6 +305,21 @@ def test_the_recommendations_are_ranked_by_the_exact_weighted_score(lunar):
         assert all(m["seasonal_modifier"] == 1.0 for m in mods)
         assert [m["base_affinity"] for m in mods] == pytest.approx([AFFINITY[name]] * 4)
         assert all(type(m["base_affinity"]) is float for m in mods)  # the driver's Decimal leaves as a float
+
+
+def test_production_spellings_of_a_category_reach_the_lunar_boost():
+    # ingredients.category in production is lowercase and singular ('fruit'), while the table of
+    # boosted groups says 'Fruits': 0 of 401 production ingredients matched, so the boost never
+    # fired. Waxing Gibbous boosts Fruits only; oil has no counterpart, the others another phase.
+    production = ["fruit", "vegetable", "oil", "culinary_herb"]
+    db = FakeDb(rows_for("Fire", read_model("Fire"), categories=production))
+    result = run(load(season=constant_season()), db, include_lunar_data=True)
+
+    fruit = get_lunar_modifier(PHASE["phase_name"], "Fruits")  # the table's own spelling
+    assert fruit > 1.0  # a boost, not the penalty the multiplied form returned
+    rec = by_id(result)["Fire"]
+    assert [m["lunar_modifier"] for m in rec["matching_ingredients"]] == [fruit, 1.0, 1.0, 1.0]
+    assert rec["weighted_environmental_score"] == pytest.approx(AFFINITY["Fire"] * (fruit + 3.0))
 
 
 def test_the_seasonal_modifier_follows_the_ingredient_and_the_season():

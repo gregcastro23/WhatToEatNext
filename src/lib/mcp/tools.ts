@@ -20,6 +20,7 @@
 
 import { executeQuery, withTransaction } from "@/lib/database/connection";
 import { evaluateTriplicateSynastry } from "@/lib/economy/triplicatePricing";
+import { rpmForTier } from "@/lib/rateLimit";
 import { invalidateCommunityAgentsCache } from "@/lib/redis";
 import { alchemicalService } from "@/services/AlchemicalService";
 import { feedDatabase } from "@/services/feedDatabaseService";
@@ -42,6 +43,14 @@ import {
   type PaymentRequest,
 } from "./billing";
 import { TOOL_COSTS, isToolName, type ToolName } from "./catalog";
+import {
+  getUserCulinaryProfile,
+  isRecipeSafeForProfile,
+  substituteIngredientHandler,
+  buildConsolidatedGroceryListHandler,
+  whatToCookNowHandler,
+  updateCulinaryProfileHandler,
+} from "./culinaryTools";
 import {
   buildEvidenceSnapshot,
   type EvidenceSnapshot,
@@ -98,6 +107,7 @@ export interface ToolResult<T = unknown> {
   /** Stable error code for caller-side handling. */
   errorCode?: ToolErrorCode;
   errorMessage?: string;
+  remediation?: string;
   correlationId?: string;
   /** Present on paid tools once the call reaches settlement. */
   billing?: BillingReceipt;
@@ -123,6 +133,8 @@ export interface CosmicRecipeArgs {
   limit?: number;
   /** Matching recipes to skip, for paging through `totalMatching`. */
   offset?: number;
+  /** Bypass saved caller dietary preferences and allergens. */
+  ignoreSavedProfile?: boolean;
 }
 
 /** A tool response is read by a model, so it starts small; `limit` lifts it. */
@@ -171,8 +183,8 @@ function hasSkyPosition(position: unknown): boolean {
   return typeof position === "string"
     ? Boolean(position.trim())
     : isRecord(position) &&
-        typeof position.sign === "string" &&
-        Boolean(position.sign.trim());
+    typeof position.sign === "string" &&
+    Boolean(position.sign.trim());
 }
 
 function hasCompleteSky(positions: unknown, elements: unknown): boolean {
@@ -255,8 +267,8 @@ export function alchemizeIngredients(args: AlchemizeArgs): Promise<ToolResult> {
   return Promise.resolve().then(() => {
     const inputIngredients = Array.isArray(args.ingredients)
       ? args.ingredients.filter(
-          (s): s is string => typeof s === "string" && s.length > 0,
-        )
+        (s): s is string => typeof s === "string" && s.length > 0,
+      )
       : [];
     if (inputIngredients.length === 0) {
       return {
@@ -290,11 +302,11 @@ export function alchemizeIngredients(args: AlchemizeArgs): Promise<ToolResult> {
         category: item?.category ?? "uncategorized",
         esms: stored
           ? {
-              spirit: Math.round(stored.Spirit * 100),
-              essence: Math.round(stored.Essence * 100),
-              matter: Math.round(stored.Matter * 100),
-              substance: Math.round(stored.Substance * 100),
-            }
+            spirit: Math.round(stored.Spirit * 100),
+            essence: Math.round(stored.Essence * 100),
+            matter: Math.round(stored.Matter * 100),
+            substance: Math.round(stored.Substance * 100),
+          }
           : null,
         esmsSource: stored ? ("ingredient-data" as const) : null,
         elementalProperties: props,
@@ -323,21 +335,21 @@ export function alchemizeIngredients(args: AlchemizeArgs): Promise<ToolResult> {
     const aggregateBalances =
       withEsms.length > 0
         ? {
-            spirit: Math.round(
-              withEsms.reduce((s, a) => s + a.esms.spirit, 0) / withEsms.length,
-            ),
-            essence: Math.round(
-              withEsms.reduce((s, a) => s + a.esms.essence, 0) /
-                withEsms.length,
-            ),
-            matter: Math.round(
-              withEsms.reduce((s, a) => s + a.esms.matter, 0) / withEsms.length,
-            ),
-            substance: Math.round(
-              withEsms.reduce((s, a) => s + a.esms.substance, 0) /
-                withEsms.length,
-            ),
-          }
+          spirit: Math.round(
+            withEsms.reduce((s, a) => s + a.esms.spirit, 0) / withEsms.length,
+          ),
+          essence: Math.round(
+            withEsms.reduce((s, a) => s + a.esms.essence, 0) /
+            withEsms.length,
+          ),
+          matter: Math.round(
+            withEsms.reduce((s, a) => s + a.esms.matter, 0) / withEsms.length,
+          ),
+          substance: Math.round(
+            withEsms.reduce((s, a) => s + a.esms.substance, 0) /
+            withEsms.length,
+          ),
+        }
         : null;
 
     const harmony = alchemicalService.analyzeAlchemicalHarmony(
@@ -374,6 +386,7 @@ export function alchemizeIngredients(args: AlchemizeArgs): Promise<ToolResult> {
 /** Discover cosmos-aligned recipes from the catalog. */
 export async function generateCosmicRecipe(
   args: CosmicRecipeArgs,
+  caller?: ResolvedCaller,
 ): Promise<ToolResult> {
   const prompt =
     typeof args.prompt === "string" ? args.prompt.toLowerCase() : "";
@@ -419,6 +432,30 @@ export async function generateCosmicRecipe(
     });
   }
 
+  let profileLoaded = false;
+  let excludedAllergens: string[] = [];
+  let appliedDietary: string[] = [];
+  let appliedDislikes: string[] = [];
+
+  if (caller?.userId && !args.ignoreSavedProfile) {
+    const profile = await getUserCulinaryProfile(caller);
+    if (profile.authenticated) {
+      profileLoaded = true;
+      excludedAllergens = profile.allergens;
+      appliedDietary = profile.dietaryFrameworks;
+      appliedDislikes = profile.dislikedIngredients;
+      filtered = filtered.filter((r) => isRecipeSafeForProfile(r, profile).safe);
+    }
+  }
+
+  const appliedProfileFilters = {
+    profileLoaded,
+    ignored: Boolean(args.ignoreSavedProfile),
+    excludedAllergens,
+    dietaryFrameworks: appliedDietary,
+    dislikedIngredients: appliedDislikes,
+  };
+
   const finalRecipes = filtered.slice(offset, offset + limit).map((r) => {
     const props = r.elementalProperties;
     return {
@@ -428,11 +465,6 @@ export async function generateCosmicRecipe(
       cuisine: r.cuisine ?? "Cosmic",
       prepTime: r.timeToMake ?? "30 MIN",
       servings: r.numberOfServings ?? 2,
-      // A recipe has no planets, and the Recipe type carries no curated
-      // quantities (elementalProperties is its only such reading — see
-      // src/types/recipe.ts). This field previously returned spirit = Fire * 100,
-      // i.e. the elemental vector relabelled. Quantities are not derivable from
-      // elements, so report their absence and surface the real elemental data.
       esms: null,
       esmsSource: null,
       elementalProperties: props,
@@ -445,6 +477,7 @@ export async function generateCosmicRecipe(
           `${ing.amount} ${ing.unit} ${ing.name} ${ing.preparation ? `(${ing.preparation})` : ""}`,
       ),
       instructions: r.instructions,
+      resourceUri: `alchm://recipes/${r.id}`,
     };
   });
 
@@ -452,6 +485,7 @@ export async function generateCosmicRecipe(
     totalMatching: filtered.length,
     returnedCount: finalRecipes.length,
     offset,
+    appliedProfileFilters,
     recipes: finalRecipes,
   };
 
@@ -462,6 +496,7 @@ export async function generateCosmicRecipe(
       totalMatching: filtered.length,
       returnedCount: finalRecipes.length,
       offset,
+      appliedProfileFilters,
       filters: {
         prompt: prompt || null,
         cuisine: cuisine ?? null,
@@ -471,6 +506,9 @@ export async function generateCosmicRecipe(
     },
   };
 }
+
+// Culinary tools (substitute_ingredient, build_consolidated_grocery_list, what_to_cook_now, update_culinary_profile)
+// are extracted into ./culinaryTools.ts for modularity.
 
 /**
  * Expose Triplicate Synastry evaluation over MCP.
@@ -642,8 +680,8 @@ export async function createEvidenceSnapshot(
   const rawIngredients = args.ingredients;
   const filteredIngredients = Array.isArray(rawIngredients)
     ? rawIngredients.filter(
-        (i): i is string => typeof i === "string" && i.trim().length > 0,
-      )
+      (i): i is string => typeof i === "string" && i.trim().length > 0,
+    )
     : [];
 
   const rawDietary = args.dietary;
@@ -652,8 +690,8 @@ export async function createEvidenceSnapshot(
     ...(typeof args.cuisine === "string" ? { cuisine: args.cuisine } : {}),
     ...(Array.isArray(rawDietary)
       ? {
-          dietary: rawDietary.filter((d): d is string => typeof d === "string"),
-        }
+        dietary: rawDietary.filter((d): d is string => typeof d === "string"),
+      }
       : {}),
     ...(isDominantElement(args.dominantElement)
       ? { dominantElement: args.dominantElement }
@@ -685,10 +723,10 @@ export async function createEvidenceSnapshot(
     data,
     ...(!complete
       ? {
-          errorCode: "INTERNAL" as const,
-          errorMessage:
-            "One or more required evidence sources failed; inspect snapshot provenance",
-        }
+        errorCode: "INTERNAL" as const,
+        errorMessage:
+          "One or more required evidence sources failed; inspect snapshot provenance",
+      }
       : {}),
     summary: {
       snapshotId: data.snapshotId,
@@ -889,18 +927,18 @@ async function publishReflectionInSavepoint(
         : `${author.authorId}@agentic.alchm.kitchen`);
     const afterCommit =
       author.isAgentAuthor
-        ? async () => {
-            await invalidateCommunityAgentsCache();
-            if (typeof feedDatabase.pushAgentFeedWebhook !== "function") return;
-            await feedDatabase
-              .pushAgentFeedWebhook({
-                agentEmail,
-                agentDisplayName: author.resolvedAgentName,
-                eventType: "recipe_review",
-                metadataPayload,
-              })
-              .catch(() => undefined);
-          }
+        ? async (): Promise<void> => {
+          await invalidateCommunityAgentsCache();
+          if (typeof feedDatabase.pushAgentFeedWebhook !== "function") return;
+          await feedDatabase
+            .pushAgentFeedWebhook({
+              agentEmail,
+              agentDisplayName: author.resolvedAgentName,
+              eventType: "recipe_review",
+              metadataPayload,
+            })
+            .catch(() => undefined);
+        }
         : undefined;
     return {
       publication: {
@@ -1093,6 +1131,158 @@ function formatErrorWithCauseChain(err: unknown): string {
   return parts.length > 0 ? parts.join(" ← ") : "unknown";
 }
 
+async function getUserAllowanceHandler(
+  caller: ResolvedCaller,
+): Promise<ToolResult> {
+  const toolCostsSummary = {
+    generate_cosmic_recipe: {
+      totalEsms: 10,
+      perAxis: 2.5,
+      unit: "ESMS",
+      description: "Search catalog recipes by element, diet, cuisine",
+    },
+    create_evidence_snapshot: {
+      totalEsms: 10,
+      perAxis: 2.5,
+      unit: "ESMS",
+      description: "Bundle live transits, ingredient scan, and candidate recipes",
+    },
+    submit_recipe_reflection: {
+      totalEsms: 0.4,
+      perAxis: 0.1,
+      unit: "ESMS",
+      description: "Submit culinary reflection and mirror to feed",
+    },
+    get_live_sky_transits: {
+      totalEsms: 0,
+      free: true,
+      description: "Live planetary transits and elemental balance",
+    },
+    alchemize_ingredients: {
+      totalEsms: 0,
+      free: true,
+      description: "Elemental ESMS breakdown and thermodynamics",
+    },
+    compute_synastry_overlay: {
+      totalEsms: 0,
+      free: true,
+      description: "Inter-chart aspects and relationship dynamics",
+    },
+    get_transit_natal_overlay: {
+      totalEsms: 0,
+      free: true,
+      description: "Transit-to-natal planetary overlays",
+    },
+    compute_triplicate_synastry: {
+      totalEsms: 0,
+      free: true,
+      description: "Natal synergy and resonance quote",
+    },
+    get_user_allowance: {
+      totalEsms: 0,
+      free: true,
+      description: "Check authenticated caller balance and allowances",
+    },
+    substitute_ingredient: {
+      totalEsms: 0,
+      free: true,
+      description: "Culinary substitutions and dietary adaptation",
+    },
+    build_consolidated_grocery_list: {
+      totalEsms: 0,
+      free: true,
+      description: "Aisle-grouped consolidated shopping list across recipes",
+    },
+    what_to_cook_now: {
+      totalEsms: 10,
+      perAxis: 2.5,
+      unit: "ESMS",
+      description: "Pantry and celestial-aligned dish recommendations",
+    },
+    update_culinary_profile: {
+      totalEsms: 0,
+      free: true,
+      description: "Update saved allergens, dislikes, and dietary preferences",
+    },
+  };
+
+  const rateLimitRpm = rpmForTier(caller.rateLimitTier);
+
+  if (!caller.userId) {
+    return {
+      ok: true,
+      data: {
+        authenticated: false,
+        userId: null,
+        tier: "anonymous",
+        rateLimitTier: "anonymous",
+        rateLimitRpm,
+        balances: null,
+        toolCosts: toolCostsSummary,
+        remediation:
+          "To unlock authenticated paid tools and access personalized balances, pass 'Authorization: Bearer <sk_alchm_...>' or '_meta.apiKey' minted at https://alchm.kitchen/profile/api-keys.",
+      },
+      summary: { authenticated: false, tier: "anonymous" },
+    };
+  }
+
+  let balances = { spirit: 0, essence: 0, matter: 0, substance: 0 };
+  let tier = caller.rateLimitTier ?? "authenticated";
+
+  try {
+    if (process.env.DATABASE_URL) {
+      const balanceResult = await executeQuery<{
+        spirit: string | number;
+        essence: string | number;
+        matter: string | number;
+        substance: string | number;
+      }>(
+        `SELECT spirit, essence, matter, substance
+           FROM token_balances
+          WHERE user_id = $1
+          LIMIT 1`,
+        [caller.userId],
+      );
+      const [row] = balanceResult.rows;
+      if (row) {
+        balances = {
+          spirit: Number(row.spirit) || 0,
+          essence: Number(row.essence) || 0,
+          matter: Number(row.matter) || 0,
+          substance: Number(row.substance) || 0,
+        };
+      }
+
+      const subResult = await executeQuery<{ tier: string }>(
+        `SELECT tier FROM user_subscriptions WHERE user_id = $1 AND status = 'active' LIMIT 1`,
+        [caller.userId],
+      );
+      const [subRow] = subResult.rows;
+      if (subRow) {
+        ({ tier } = subRow);
+      }
+    }
+  } catch (err) {
+    process.stderr.write(
+      `[mcp/allowance] failed to read balance: ${String(err)}\n`,
+    );
+  }
+
+  return {
+    ok: true,
+    data: {
+      authenticated: true,
+      userId: caller.userId,
+      tier,
+      rateLimitTier: caller.rateLimitTier ?? "authenticated",
+      rateLimitRpm,
+      balances,
+      toolCosts: toolCostsSummary,
+    },
+    summary: { authenticated: true, tier, balances },
+  };
+}
+
 function executeOtherTool(
   name: ToolName,
   args: Record<string, unknown>,
@@ -1104,7 +1294,7 @@ function executeOtherTool(
     case "get_live_sky_transits":
       return getLiveSkyTransits(args);
     case "generate_cosmic_recipe":
-      return generateCosmicRecipe(args);
+      return generateCosmicRecipe(args, caller);
     case "compute_synastry_overlay":
       return computeSynastryOverlay(args);
     case "get_transit_natal_overlay":
@@ -1115,6 +1305,16 @@ function executeOtherTool(
       return createEvidenceSnapshot(args);
     case "submit_recipe_reflection":
       return submitRecipeReflection(args, caller, reflectionAuthor, payment);
+    case "get_user_allowance":
+      return getUserAllowanceHandler(caller);
+    case "substitute_ingredient":
+      return substituteIngredientHandler(args);
+    case "build_consolidated_grocery_list":
+      return buildConsolidatedGroceryListHandler(args);
+    case "what_to_cook_now":
+      return whatToCookNowHandler(args, caller);
+    case "update_culinary_profile":
+      return updateCulinaryProfileHandler(args, caller);
     default:
       return {
         ok: false,
@@ -1141,12 +1341,14 @@ interface ToolAuthorization {
 function toolFailure(
   errorCode: NonNullable<ToolResult["errorCode"]>,
   errorMessage: string,
+  remediation?: string,
 ): ToolResult {
   return {
     ok: false,
     data: null,
     errorCode,
     errorMessage,
+    ...(remediation ? { remediation } : {}),
     summary: { reason: errorCode.toLowerCase() },
   };
 }
@@ -1188,6 +1390,9 @@ function callerPreflightFailure(caller: ResolvedCaller): ToolResult | null {
     return toolFailure(
       caller.authError === "INVALID_KEY" ? "UNAUTHORIZED" : "UNAVAILABLE",
       "API key authentication failed or is unavailable",
+      caller.authError === "INVALID_KEY"
+        ? "Ensure the API key passed via 'Authorization: Bearer <key>' or '_meta.apiKey' is valid and minted from https://alchm.kitchen/profile/api-keys."
+        : "Authentication service or database is temporarily unreachable. Retry after a brief delay.",
     );
   if (caller.isSynthetic) return null;
   const rl = checkMcpRateLimit({
@@ -1200,6 +1405,7 @@ function callerPreflightFailure(caller: ResolvedCaller): ToolResult | null {
     ...toolFailure(
       "RATE_LIMIT",
       `MCP rate limit exceeded: ${rl.limit}/min. Retry in ${retryAfterSec}s.`,
+      `Rate limit exceeded for tier '${caller.rateLimitTier ?? "anonymous"}'. Pause requests and retry after ${retryAfterSec} seconds.`,
     ),
     summary: { reason: "rate-limited", limit: rl.limit, retryAfterSec },
   };
@@ -1219,6 +1425,7 @@ async function authorizeTool(
       failure: toolFailure(
         "FORBIDDEN",
         "Writing shared natal-chart caches requires the internal integration credential",
+        "Writing to shared natal caches is reserved for internal synthetic probes. Use cacheStrategy='bypass' or omit cacheStrategy.",
       ),
     };
   if (name !== "submit_recipe_reflection") return {};
@@ -1227,6 +1434,7 @@ async function authorizeTool(
       failure: toolFailure(
         "UNAUTHORIZED",
         "Recipe reflections require an authenticated, non-synthetic API key owner",
+        "Submitting recipe reflections requires authentication. Provide an active API key minted at https://alchm.kitchen/profile/api-keys.",
       ),
     };
   const author = await resolveReflectionAuthor(args.agentSlug, caller);
@@ -1235,6 +1443,7 @@ async function authorizeTool(
       failure: toolFailure(
         "FORBIDDEN",
         "The requested reflection author does not belong to this API key",
+        "The specified agentSlug does not belong to the authenticated account. Submit without agentSlug or use your account's assigned agent identity.",
       ),
     };
   return { author };
@@ -1246,16 +1455,22 @@ function paymentFailure(
   debit: DebitOutcome,
 ): ToolResult | null {
   if (debit.reason?.startsWith("insufficient-"))
-    return toolFailure("QUOTA", `MCP token quota: ${debit.reason}`);
+    return toolFailure(
+      "QUOTA",
+      `MCP token quota: ${debit.reason}`,
+      "Insufficient ESMS token balance. Top up your ESMS tokens at https://alchm.kitchen/account/billing or use free tools such as alchemize_ingredients or get_live_sky_transits.",
+    );
   if (debit.reason === "idempotency-conflict")
     return toolFailure(
       "CONFLICT",
       "This idempotency key was already used with different arguments; use a new key for a new request",
+      "The provided idempotencyKey has already been used for a different payload. Provide a unique key or omit it.",
     );
   if (debit.reason === "idempotency-expired")
     return toolFailure(
       "CONFLICT",
       `This idempotency key settled more than ${IDEMPOTENCY_REPLAY_HOURS} hours ago and can no longer be replayed; use a new key`,
+      "This idempotencyKey is older than 24 hours. Generate a fresh idempotencyKey.",
     );
   const exempt =
     debit.reason === "free-tool" ||
@@ -1267,6 +1482,7 @@ function paymentFailure(
     return toolFailure(
       "UNAVAILABLE",
       "The MCP payment could not be settled; the tool was not executed",
+      "Payment settlement failed or was unreachable. Check network status and retry with exponential backoff.",
     );
   return null;
 }
@@ -1316,12 +1532,12 @@ async function executeReadyTool(
   const result =
     name === "submit_recipe_reflection"
       ? await dispatchAuthorizedTool(
-          name,
-          args,
-          caller,
-          authorization.author,
-          payment,
-        )
+        name,
+        args,
+        caller,
+        authorization.author,
+        payment,
+      )
       : await deliverThenSettle(name, args, caller, payment);
   state.tokensDebited = result.billing?.amounts ?? null;
   return result;
@@ -1394,9 +1610,18 @@ async function runValidatedTool(
   state: ToolInvocationState,
 ): Promise<ToolResult> {
   if (!isToolName(name))
-    return toolFailure("NOT_FOUND", `Unknown tool: ${name}`);
+    return toolFailure(
+      "NOT_FOUND",
+      `Unknown tool: ${name}`,
+      "Inspect available tools via tools/list. Valid tools include get_live_sky_transits, alchemize_ingredients, generate_cosmic_recipe, get_user_allowance, etc.",
+    );
   const invalid = validateToolArguments(name, args);
-  if (invalid) return toolFailure("INVALID_ARGS", invalid);
+  if (invalid)
+    return toolFailure(
+      "INVALID_ARGS",
+      invalid,
+      "Input parameter validation failed. Check inputSchema constraints for valid types, coordinate bounds, and property requirements.",
+    );
   const completed = await runMcpInvocation(options, () =>
     executeReadyTool(name, args, state),
   );
@@ -1405,6 +1630,7 @@ async function runValidatedTool(
       ...toolFailure(
         "BUSY",
         "The MCP server is at its four-call concurrency limit; retry later",
+        "Process concurrency limit reached (4 active calls). Back off and retry in 1 second.",
       ),
       summary: { reason: "busy", retryAfterSec: 1 },
     }
@@ -1434,7 +1660,7 @@ function completeToolInvocation(
     correlationId,
     ...(result.billing ? { billing: result.billing.status } : {}),
   };
-  void recordInvocation(
+  recordInvocation(
     {
       toolName: name,
       arguments: args,
@@ -1449,7 +1675,7 @@ function completeToolInvocation(
       resultSummary: result.summary,
       tokensDebited,
     },
-  );
+  ).catch(() => undefined);
   return result;
 }
 
@@ -1505,6 +1731,7 @@ export function structuredToolContent(
   return {
     errorCode: result.errorCode ?? "INTERNAL",
     message: result.errorMessage ?? "Tool failed",
+    ...(result.remediation ? { remediation: result.remediation } : {}),
     correlationId: result.correlationId,
     ...(result.data !== null ? { data: result.data } : {}),
     ...(typeof result.summary.retryAfterSec === "number"
@@ -1515,3 +1742,13 @@ export function structuredToolContent(
 }
 
 export type { DebitOutcome };
+
+export {
+  type CallerCulinaryProfile,
+  getUserCulinaryProfile,
+  isRecipeSafeForProfile,
+  substituteIngredientHandler,
+  buildConsolidatedGroceryListHandler,
+  whatToCookNowHandler,
+  updateCulinaryProfileHandler,
+} from "./culinaryTools";

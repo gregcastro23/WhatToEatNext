@@ -11,7 +11,17 @@
  * dropped from component state and never recoverable.
  */
 
-import { Copy, Eye, Plus, Trash2, TriangleAlert } from "lucide-react";
+import {
+  Bot,
+  ChevronDown,
+  ChevronUp,
+  Copy,
+  Eye,
+  Plus,
+  Trash2,
+  TriangleAlert,
+} from "lucide-react";
+import Link from "next/link";
 import {
   useCallback,
   useEffect,
@@ -87,6 +97,7 @@ export function ApiKeysPanel(): JSX.Element {
   const [revealedKey, setRevealedKey] = useState<ApiKeyRow | null>(null);
   const [revoking, setRevoking] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
 
   const loadKeys = useCallback(async (): Promise<void> => {
@@ -317,6 +328,132 @@ export function ApiKeysPanel(): JSX.Element {
           />
         ))}
       </div>
+
+      {/* AGENT CONNECTIVITY GUIDE */}
+      <section
+        style={{
+          marginTop: 28,
+          border: "1px solid var(--line)",
+          background: "var(--bg-elev, rgba(255,255,255,0.02))",
+          borderRadius: 8,
+          overflow: "hidden",
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => setGuideOpen((v) => !v)}
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "14px 16px",
+            background: "transparent",
+            border: "none",
+            color: "var(--fg)",
+            cursor: "pointer",
+            textAlign: "left",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <Bot style={{ width: 18, height: 18, color: "var(--accent, #c69cff)" }} />
+            <div>
+              <div className="t-display" style={{ fontSize: 14 }}>
+                Connect Meta Muse &amp; Autonomous Agents
+              </div>
+              <div style={{ fontSize: 12, color: "var(--fg-mute)" }}>
+                Streamable HTTP gateway &amp; client configuration for cloud agents
+              </div>
+            </div>
+          </div>
+          {guideOpen ? (
+            <ChevronUp style={{ width: 16, height: 16, color: "var(--fg-mute)" }} />
+          ) : (
+            <ChevronDown style={{ width: 16, height: 16, color: "var(--fg-mute)" }} />
+          )}
+        </button>
+
+        {guideOpen && (
+          <div
+            style={{
+              padding: "0 16px 16px",
+              borderTop: "1px solid var(--line)",
+              fontSize: 13,
+              lineHeight: 1.6,
+              color: "var(--fg-mute)",
+            }}
+          >
+            <p style={{ margin: "12px 0 8px" }}>
+              Our MCP server is deployed with a hosted <strong>Streamable HTTP</strong> gateway at:
+            </p>
+            <div
+              className="t-mono"
+              style={{
+                background: "rgba(0,0,0,0.25)",
+                border: "1px solid var(--line)",
+                padding: "8px 12px",
+                borderRadius: 6,
+                fontSize: 12,
+                color: "var(--fg)",
+                userSelect: "all",
+              }}
+            >
+              https://alchm.kitchen/api/mcp
+            </div>
+
+            <p style={{ margin: "12px 0 8px" }}>
+              Pass your key in the standard <code>Authorization: Bearer &lt;key&gt;</code> header.
+            </p>
+
+            <div style={{ marginTop: 12 }}>
+              <div
+                className="t-tag"
+                style={{ fontSize: 10, letterSpacing: "0.12em", marginBottom: 6 }}
+              >
+                META MUSE CONFIG (<code>~/.config/muse/settings.json</code>)
+              </div>
+              <pre
+                style={{
+                  background: "rgba(0,0,0,0.3)",
+                  border: "1px solid var(--line)",
+                  padding: 10,
+                  borderRadius: 6,
+                  fontFamily: "var(--f-mono, monospace)",
+                  fontSize: 11,
+                  overflowX: "auto",
+                  color: "var(--fg)",
+                  margin: 0,
+                }}
+              >
+                {`{
+  "mcp_servers": {
+    "alchm-kitchen": {
+      "url": "https://alchm.kitchen/api/mcp",
+      "headers": {
+        "Authorization": "Bearer sk_alchm_live_..."
+      }
+    }
+  }
+}`}
+              </pre>
+            </div>
+
+            <p style={{ margin: "12px 0 0" }}>
+              Autonomous agents can query token balances pre-flight via the free{" "}
+              <code>get_user_allowance</code> tool, use Prompts like{" "}
+              <code>cosmic_meal_planning</code>, and read zero-cost resources at{" "}
+              <code>alchm://*</code>. Read the{" "}
+              <Link
+                href="/docs/mcp"
+                style={{ color: "var(--accent, #c69cff)", textDecoration: "underline" }}
+              >
+                full MCP documentation
+              </Link>{" "}
+              for complete schemas and examples.
+            </p>
+          </div>
+        )}
+      </section>
 
       {/* CREATE — name input */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
