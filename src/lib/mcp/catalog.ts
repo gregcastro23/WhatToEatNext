@@ -4,7 +4,7 @@ import { TOOL_OUTPUT_SCHEMAS } from "./outputSchemas";
 export type { JsonSchema } from "./inputSchemas";
 
 /** Shared, dependency-free MCP discovery, input and output contract. */
-export const MCP_SERVER_VERSION = "1.4.0";
+export const MCP_SERVER_VERSION = "1.5.0";
 
 export const TOOL_NAMES = [
   "get_live_sky_transits",
@@ -15,6 +15,11 @@ export const TOOL_NAMES = [
   "compute_triplicate_synastry",
   "create_evidence_snapshot",
   "submit_recipe_reflection",
+  "get_user_allowance",
+  "substitute_ingredient",
+  "build_consolidated_grocery_list",
+  "what_to_cook_now",
+  "update_culinary_profile",
 ] as const;
 
 export type ToolName = (typeof TOOL_NAMES)[number];
@@ -56,6 +61,11 @@ export const TOOL_COSTS: Record<ToolName, EsmsCost | null> = {
   compute_triplicate_synastry: null,
   create_evidence_snapshot: perAxis(2.5),
   submit_recipe_reflection: perAxis(0.1),
+  get_user_allowance: null,
+  substitute_ingredient: null,
+  build_consolidated_grocery_list: null,
+  what_to_cook_now: perAxis(2.5),
+  update_culinary_profile: null,
 };
 
 export interface ToolDefinition {
@@ -122,7 +132,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
     description: `Compute inter-chart aspects, tension, harmony, intensification and recommended stance. cacheStrategy=write updates the optional database cache; bypass computes locally. ${AUTH_DOC}`,
     inputSchema: TOOL_INPUT_SCHEMAS.compute_synastry_overlay,
     outputSchema: TOOL_OUTPUT_SCHEMAS.compute_synastry_overlay,
-    annotations: annotations(false, false),
+    annotations: annotations(true, false, true),
   },
   {
     name: "get_transit_natal_overlay",
@@ -130,7 +140,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
     description: `Compute sky-to-natal aspects and per-element transit boosts for one agent. Requires the chart backend. ${AUTH_DOC}`,
     inputSchema: TOOL_INPUT_SCHEMAS.get_transit_natal_overlay,
     outputSchema: TOOL_OUTPUT_SCHEMAS.get_transit_natal_overlay,
-    annotations: annotations(true, true),
+    annotations: annotations(true, true, true),
   },
   {
     name: "compute_triplicate_synastry",
@@ -138,7 +148,7 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
     description: `Evaluate two natal charts against the current sky for resonance, potential rebates and a cooldown window key. This quotes pricing; it does not execute a trade or pay a rebate. ${AUTH_DOC}`,
     inputSchema: TOOL_INPUT_SCHEMAS.compute_triplicate_synastry,
     outputSchema: TOOL_OUTPUT_SCHEMAS.compute_triplicate_synastry,
-    annotations: annotations(true, true),
+    annotations: annotations(true, true, true),
   },
   {
     name: "create_evidence_snapshot",
@@ -156,4 +166,57 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
     outputSchema: TOOL_OUTPUT_SCHEMAS.submit_recipe_reflection,
     annotations: annotations(false, true, false),
   },
+  {
+    name: "get_user_allowance",
+    title: "Get user allowance & token balance",
+    description: `Inspect ESMS token balances, subscription tier, and tool token costs for the calling account. Free pre-flight tool for autonomous agents. ${AUTH_DOC}`,
+    inputSchema: TOOL_INPUT_SCHEMAS.get_user_allowance,
+    outputSchema: TOOL_OUTPUT_SCHEMAS.get_user_allowance,
+    annotations: annotations(true, false, true),
+  },
+  {
+    name: "substitute_ingredient",
+    title: "Substitute ingredient",
+    description: `Provide dish-context-aware culinary ingredient swaps with exact conversion ratios, flavor/texture impact, and alchemical elemental shifts. Free tool. ${AUTH_DOC}`,
+    inputSchema: TOOL_INPUT_SCHEMAS.substitute_ingredient,
+    outputSchema: TOOL_OUTPUT_SCHEMAS.substitute_ingredient,
+    annotations: annotations(true, false, true),
+  },
+  {
+    name: "build_consolidated_grocery_list",
+    title: "Build consolidated grocery list",
+    description: `Accepts multiple recipe IDs/names, scales ingredient quantities by a serving multiplier, subtracts ingredients already in the pantry, and groups items by supermarket aisle. Free tool. ${AUTH_DOC}`,
+    inputSchema: TOOL_INPUT_SCHEMAS.build_consolidated_grocery_list,
+    outputSchema: TOOL_OUTPUT_SCHEMAS.build_consolidated_grocery_list,
+    annotations: annotations(true, false, true),
+  },
+  {
+    name: "what_to_cook_now",
+    title: "What to cook now (composite recommender)",
+    description: `Single-call composite meal recommender matching pantry ingredients, active prep/cook times, mood/craving, and planetary elemental weather. Respects saved hard allergens and dietary restrictions automatically. Debits 2.5 of each ESMS token (10 total) on success. ${RETRY_DOC} ${AUTH_DOC}`,
+    inputSchema: TOOL_INPUT_SCHEMAS.what_to_cook_now,
+    outputSchema: TOOL_OUTPUT_SCHEMAS.what_to_cook_now,
+    annotations: annotations(false, false, false),
+  },
+  {
+    name: "update_culinary_profile",
+    title: "Update caller culinary profile",
+    description: `Safely patch persistent culinary memory (allergens, dislikes, dietary frameworks, spice tolerance, kitchen equipment) in the caller's account profile without wiping existing safety restrictions. Free tool. ${AUTH_DOC}`,
+    inputSchema: TOOL_INPUT_SCHEMAS.update_culinary_profile,
+    outputSchema: TOOL_OUTPUT_SCHEMAS.update_culinary_profile,
+    annotations: annotations(false, false, true),
+  },
 ];
+
+export { PROMPT_DEFINITIONS, getPrompt } from "./prompts";
+export type { PromptDefinition, GetPromptResult, PromptMessage } from "./prompts";
+export {
+  RESOURCE_DEFINITIONS,
+  RESOURCE_TEMPLATES,
+  readResource,
+} from "./resources";
+export type {
+  ResourceDefinition,
+  ResourceTemplateDefinition,
+  ResourceContents,
+} from "./resources";

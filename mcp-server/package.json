@@ -1,6 +1,6 @@
 {
   "name": "@alchm/mcp-server",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "mcpName": "io.github.gregcastro23/alchm-kitchen",
   "description": "Alchm.kitchen MCP server \u2014 live planetary transits, ingredient ESMS analysis, cosmic recipe search, synastry overlays, triplicate synastry pricing, evidence snapshots, and recipe reflections.",
   "type": "module",
