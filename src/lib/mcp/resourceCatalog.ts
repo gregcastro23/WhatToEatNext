@@ -52,6 +52,13 @@ export const RESOURCE_TEMPLATES: ResourceTemplateDefinition[] = [
       "Reference guide for core cooking methods (dry-brining, tempering, emulsification, searing, braising) with target temperatures, sensory cues, and failure modes.",
     mimeType: "application/json",
   },
+  {
+    uriTemplate: "alchm://solar-return/{year}",
+    name: "Solar Return Ephemeris & Day Recipes",
+    description:
+      "Historical Solar Return moment when the Sun returns to today's exact ecliptic degree in any past year (1800..last year), with elemental chart deltas and top matched culinary recipes from that day.",
+    mimeType: "application/json",
+  },
 ];
 
 export const RESOURCE_DEFINITIONS: ResourceDefinition[] = [
