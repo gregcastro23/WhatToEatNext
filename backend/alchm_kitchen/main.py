@@ -59,7 +59,7 @@ from backend.utils.seasonal_engine import get_seasonal_modifiers
 # Zodiac sign spelling for the database
 from backend.utils.zodiac_signs import db_zodiac_signs
 from backend.utils.by_chart_recommendations import chart_request_problem, environmental_match_details, recipe_from_read_model
-from backend.utils.cooking_ritual import elemental_properties_from_row, read_model_elemental_properties
+from backend.utils.cooking_ritual import elemental_properties_from_row, read_model_elemental_properties, ritual_request_problem
 # Transit Engine import
 from backend.utils.transit_engine import get_transit_details, get_cooking_ritual, calculate_total_potency_score, get_planetary_hour
 from backend.schemas.planetary import CelestialCoordinates
@@ -2240,6 +2240,13 @@ class RitualRequest(BaseModel):
     secondary_chart_ids: Optional[List[str]] = None
     collective_smes_scores: Optional[Dict[str, float]] = None # Aggregated scores for collective rituals
 
+    @model_validator(mode="after")
+    def _ritual_request_is_well_formed(self):
+        problem = ritual_request_problem(self.recipe_id)
+        if problem:
+            raise ValueError(problem)
+        return self
+
 @app.post("/api/astrological/recipe-recommendations-by-chart")
 async def get_recipe_recommendations_by_chart(
     request: RecipeRecommendationRequest,
@@ -2630,8 +2637,14 @@ async def generate_cooking_instruction(request: RitualRequest, db: Session = Dep
             "total_potency_score": potency_scores.total_potency_score,
             "current_elemental_balance": transit_info.get("current_elemental_balance"),
         }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to generate cooking instruction: {str(e)}")
+    except HTTPException:
+        # The 404 and the transit engine's own message are answers, not failures: wrapping them made a
+        # missing recipe a 500.
+        raise
+    except Exception:
+        # str(e) of a database error carries the SQL statement and its parameters, and was returned to the caller.
+        logger.exception("Cooking ritual failed for recipe %s", request.recipe_id)
+        raise HTTPException(status_code=500, detail="Failed to generate cooking instruction")
 
 class AstroBlueprintRequest(BaseModel):
     year: int

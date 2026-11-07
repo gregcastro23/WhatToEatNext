@@ -22,18 +22,19 @@ Needs pydantic (pinned in backend/requirements.txt) next to pytest.
 import ast
 import asyncio
 import re
+import sys
 import types
 import uuid
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import pytest
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError, model_validator
 
 from backend.config.celestial_config import FOREST_HILLS_COORDINATES
 from backend.schemas.planetary import CelestialCoordinates
 from backend.utils.alchemical_quantities import calculate_alchemical_quantities
-from backend.utils.cooking_ritual import elemental_properties_from_row, read_model_elemental_properties
+from backend.utils.cooking_ritual import elemental_properties_from_row, read_model_elemental_properties, ritual_request_problem
 from backend.utils.transit_engine import calculate_total_potency_score, get_cooking_ritual
 
 REPO = Path(__file__).resolve().parents[2]
@@ -135,6 +136,16 @@ class TransitHistory:
         self.__dict__.update(values)
 
 
+class RecordingLogger:
+    """Stands in for main.py's logger. `.exception` is recorded with the exception being handled when it was called."""
+
+    def __init__(self):
+        self.exceptions: List[Any] = []
+
+    def exception(self, message, *args):
+        self.exceptions.append((message % args, sys.exc_info()[1]))
+
+
 class Chain:
     def __init__(self, db, result):
         self.db, self.result = db, result
@@ -184,7 +195,8 @@ def elemental_row(values):
 
 def load(transit=None, windows=None):
     namespace: Dict[str, Any] = {
-        "BaseModel": BaseModel, "Optional": Optional, "List": List, "Dict": Dict, "Any": Any,
+        "BaseModel": BaseModel, "model_validator": model_validator, "Optional": Optional, "List": List, "Dict": Dict, "Any": Any,
+        "logger": RecordingLogger(),
         "Session": object, "Depends": lambda dependency: None, "get_db": None, "HTTPException": HTTPException,
         "Recipe": Recipe, "ElementalPropertiesORM": ElementalPropertiesORM, "TransitHistory": TransitHistory,
         # the clock and the ephemeris, made exact
@@ -195,6 +207,7 @@ def load(transit=None, windows=None):
         "get_cooking_ritual": get_cooking_ritual,
         "elemental_properties_from_row": elemental_properties_from_row,
         "read_model_elemental_properties": read_model_elemental_properties,
+        "ritual_request_problem": ritual_request_problem,
         "calculate_total_potency_score": calculate_total_potency_score,
         "calculate_alchemical_quantities": calculate_alchemical_quantities,
         "CelestialCoordinates": CelestialCoordinates, "FOREST_HILLS_COORDINATES": FOREST_HILLS_COORDINATES,
@@ -401,3 +414,77 @@ def test_the_capitalized_spelling_in_a_read_model_is_read_too():
     capitalized = {"elementalProperties": {"Fire": 0.7, "Water": 0.1, "Earth": 0.1, "Air": 0.1}}
     assert read_model_elemental_properties(capitalized) == {"Fire": 0.7, "Water": 0.1, "Earth": 0.1, "Air": 0.1}
     assert read_model_elemental_properties(FIRE_READ_MODEL) == {"Fire": 0.7, "Water": 0.1, "Earth": 0.1, "Air": 0.1}
+
+
+# --- what the caller is told ------------------------------------------------------------------
+
+# What str() of a SQLAlchemy error holds: the statement and its parameters, ahead of a link to the docs.
+LEAKY = RuntimeError(
+    "(psycopg2.errors.UndefinedColumn) column \"participant_count\" of relation \"transit_history\" does not exist\n"
+    "[SQL: INSERT INTO transit_history (recipe_id, ritual_instruction) VALUES (%(recipe_id)s, %(ritual_instruction)s)]\n"
+    "[parameters: {'recipe_id': 'a-recipe', 'ritual_instruction': 'a ritual'}]"
+)
+
+
+def refused(namespace, db, **request_fields):
+    """The HTTPException the handler raises."""
+    with pytest.raises(HTTPException) as caught:
+        run(namespace, db, **request_fields)
+    return caught.value
+
+
+def test_an_unknown_recipe_is_a_404_not_a_500():
+    namespace = load()
+    error = refused(namespace, FakeDb(None))
+    assert (error.status_code, error.detail) == (404, "Recipe not found")
+    assert namespace["logger"].exceptions == [], "a missing recipe is an answer, not a failure to log"
+
+
+def test_the_transit_engines_own_message_is_returned_as_it_is():
+    message = "pyswisseph is not installed. Please install it to use the transit engine."
+    namespace = load(transit={"error": message})
+    error = refused(namespace, FakeDb(recipe_row()))
+    assert (error.status_code, error.detail) == (500, message)
+    assert namespace["logger"].exceptions == []
+
+
+def test_a_database_failure_is_a_generic_500_that_is_logged_with_its_cause():
+    namespace = load()
+    db = FakeDb(recipe_row(), commit_error=LEAKY)
+    error = refused(namespace, db)
+    assert (error.status_code, error.detail) == (500, "Failed to generate cooking instruction")
+    for leaked in ("SQL", "parameters", "transit_history", "participant_count", "a-recipe"):
+        assert leaked not in error.detail
+    [(message, cause)] = namespace["logger"].exceptions
+    assert cause is LEAKY, "the log keeps the real error, where an operator can read it"
+    assert str(RECIPE_ID) in message
+
+
+def test_any_other_failure_is_the_same_generic_500():
+    def broken():
+        raise RuntimeError("secret engine state")
+
+    namespace = load()
+    namespace["get_transit_details"] = broken
+    error = refused(namespace, FakeDb(recipe_row()))
+    assert (error.status_code, error.detail) == (500, "Failed to generate cooking instruction")
+    assert [str(cause) for _, cause in namespace["logger"].exceptions] == ["secret engine state"]
+
+
+@pytest.mark.parametrize(
+    "recipe_id",
+    [
+        "pasta-carbonara", "", " ", "12345", str(RECIPE_ID) + "x", "x" + str(RECIPE_ID), str(RECIPE_ID)[:-1], RECIPE_ID.hex,
+        "urn:uuid:" + str(RECIPE_ID), "{" + str(RECIPE_ID) + "}", str(RECIPE_ID) + "\n",
+    ],
+    ids=str,
+)
+def test_a_recipe_id_that_is_not_a_canonical_uuid_is_refused_before_the_database_is_asked(recipe_id):
+    # Postgres answers a non-uuid string with SQLSTATE 22P02; the handler used to turn that into a 500 carrying the SQL.
+    with pytest.raises(ValidationError, match="recipe_id must be a UUID"):
+        load()["RitualRequest"](recipe_id=recipe_id)
+
+
+@pytest.mark.parametrize("recipe_id", [str(RECIPE_ID), str(RECIPE_ID).upper()], ids=["lowercase", "uppercase"])
+def test_a_canonical_uuid_is_accepted_in_either_case(recipe_id):
+    assert load()["RitualRequest"](recipe_id=recipe_id).recipe_id == recipe_id

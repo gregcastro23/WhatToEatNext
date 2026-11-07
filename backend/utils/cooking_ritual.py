@@ -10,7 +10,7 @@ run on a bare Python.
 """
 from typing import Any, Dict, Mapping, Optional
 
-from backend.utils.by_chart_recommendations import engine_elemental_properties, recipe_from_read_model
+from backend.utils.by_chart_recommendations import UUID_TEXT, engine_elemental_properties, recipe_from_read_model
 
 ELEMENT_COLUMNS = ("fire", "water", "earth", "air")
 
@@ -47,3 +47,17 @@ def read_model_elemental_properties(read_model: Any) -> Optional[Dict[str, float
     if not isinstance(read_model, Mapping):
         return None
     return recipe_from_read_model(read_model).elementalProperties
+
+
+def ritual_request_problem(recipe_id: Any) -> Optional[str]:
+    """What is wrong with a ritual request, or None.
+
+    `recipe_id` must be a UUID in its canonical text form. recipes.id is a uuid column, so Postgres
+    rejects any other string ("invalid input syntax for type uuid", SQLSTATE 22P02) and the handler
+    answered 500, with the SQL statement and its parameters in the body; a client that sent a slug
+    needs a 422 that says what was wrong. The same check, for the same reason, guards the by-chart
+    route's secondary chart ids (UUID_TEXT).
+    """
+    if not (isinstance(recipe_id, str) and UUID_TEXT.fullmatch(recipe_id)):
+        return f"recipe_id must be a UUID, not {recipe_id!r}"
+    return None
