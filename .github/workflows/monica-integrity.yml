@@ -72,6 +72,55 @@ jobs:
       - name: Saved adaptations preserve immutable versions under concurrent saves
         run: bun run jest --runInBand --runTestsByPath src/lib/recipes/__tests__/savedAdaptationPersistence.postgres.test.ts
 
+  # The deployed backend, executed. The Python steps in fabricated-fallback-scan read the source or run extracted handlers
+  # against stand-ins; none imports the app or runs a migration, so a bad import, a package requirements.txt does not install,
+  # or a migration that does not apply passed them all and would have failed on Railway, where the Docker CMD runs the migration
+  # runner and then uvicorn. This builds the environment from backend/requirements.txt alone (what the image installs; the
+  # top-level ranges and every transitive dependency float, so it also notices an upstream release that breaks the next build
+  # before that build does) and uses PostgreSQL 18, the version production runs. Each test works in a schema of its own.
+  backend-runtime:
+    name: Backend app boots and migrations apply (disposable PostgreSQL)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: migration_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      MIGRATION_TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/migration_test
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install what the Docker image installs
+        run: |
+          python -m venv "$RUNNER_TEMP/backend"
+          "$RUNNER_TEMP/backend/bin/python" -m pip install --quiet -r backend/requirements.txt pytest
+      - name: The app imports and registers its routes (Python)
+        # backend/Dockerfile starts `uvicorn backend.alchm_kitchen.main:app`. Imports the real module and checks that every
+        # route its source declares is registered, once, and that every third-party package the backend imports is one
+        # requirements.txt installs (a misspelled or undeclared name fails here). No route is called, so no database is needed.
+        run: '"$RUNNER_TEMP/backend/bin/python" -m pytest backend/tests/test_app_boots.py -q'
+      - name: Migrations apply on PostgreSQL (Python)
+        if: ${{ !cancelled() }}
+        # Migration 99 and the runner's own paths (no-transaction files, stop at the first failure), through the real
+        # backend/scripts/run_init_migrations.py. database/init cannot be applied to an empty database (the sixth file fails),
+        # so each migration is tested on the tables it changes, as production has them. Includes the one test that needs two
+        # sessions: a blocked ALTER must fail at its lock_timeout instead of stalling the table. `-rs` prints any skip.
+        run: '"$RUNNER_TEMP/backend/bin/python" -m pytest backend/tests/test_migrations_postgres.py -q -rs'
+
   # ---------------------------------------------------------------------------
   # Static. Runs everywhere, including forks — no secrets, so nothing to leak.
   # ---------------------------------------------------------------------------
@@ -197,7 +246,7 @@ jobs:
         # key they read is a key the function returns.
         run: python -m pytest backend/tests/test_seasonal_engine_modifiers.py -q
 
-      - name: Backend undefined names (Python)
+      - name: Backend names and imports resolve (Python)
         # A name that is used but never defined is a NameError waiting for the first call
         # that reaches it. get_seasonal_modifiers() raised on every call because of one
         # missing import, and get_transit_details() called a function defined nowhere, so
@@ -214,10 +263,19 @@ jobs:
         # throwaway venv: the pytest-only steps keep their install. It sits before the migration
         # runner, not at the end of the job, where other PRs append their steps. pyflakes 4.1.0
         # needs Python 3.11 or newer, the version this job and backend/Dockerfile run.
+        #
+        # The fourth file is the other half of "does this name exist": pyflakes checks neither that a module
+        # exists nor that `from m import name` finds the name, and nothing else imported
+        # backend/alchm_kitchen/main.py (3,200 lines, the deployed app). A misspelled import there passed every
+        # Python step and would have crashed the container at boot, before /health answered.
+        # test_first_party_imports_resolve.py reads every tracked backend/*.py with ast and fails on a
+        # first-party import whose module or name does not exist, and on a bare `import utils.x` in anything the
+        # image runs (the image sets only PYTHONPATH=/app), beyond an allowlist that is empty. It imports nothing,
+        # so pytest alone is enough; the backend-runtime job imports the app for real.
         run: |
           python -m venv "$RUNNER_TEMP/undefined-names"
           "$RUNNER_TEMP/undefined-names/bin/python" -m pip install --quiet pytest pyflakes==4.1.0
-          "$RUNNER_TEMP/undefined-names/bin/python" -m pytest backend/tests/test_no_undefined_names.py backend/tests/test_database_package_exports.py backend/tests/test_no_bare_sql_strings.py -q
+          "$RUNNER_TEMP/undefined-names/bin/python" -m pytest backend/tests/test_no_undefined_names.py backend/tests/test_database_package_exports.py backend/tests/test_no_bare_sql_strings.py backend/tests/test_first_party_imports_resolve.py -q
 
       - name: By-chart recommender (Python)
         # POST /api/astrological/recipe-recommendations-by-chart never got past its first
@@ -278,7 +336,11 @@ jobs:
         # Railway deploy. A no-transaction migration first in line failed it
         # ("set_session cannot be used inside a transaction"), so the deploy
         # never became healthy. psycopg2 is faked, so pytest-only still holds.
-        run: python -m pytest backend/tests/test_run_init_migrations.py -q
+        #
+        # test_migration_names.py keeps the file names in the order both runners apply them in (plain string
+        # order, so two-digit prefixes only: 99 is the last safe one, and a `100-` file would sort before `11-`).
+        # The runner is executed against a real PostgreSQL in the backend-runtime job.
+        run: python -m pytest backend/tests/test_run_init_migrations.py backend/tests/test_migration_names.py -q
 
       - name: Database driver is named (Python)
         # SQLAlchemy 2.1 changed the driver a bare postgresql:// URL selects, from

@@ -163,10 +163,21 @@ class Chain:
 
 
 class FakeDb:
+    """A session with a unit of work, which is what makes the ORDER of `add` and `commit` matter.
+
+    `add` only stages a row; `commit` makes the staged rows durable; a row staged after the last commit is lost when the
+    request ends (the get_db dependency closes the session, which rolls it back). A stand-in that merely counted the two
+    calls passed a handler that committed first and added afterwards: 200 OK, and no ritual ever logged. (The tests below
+    include the control that this stand-in tells the two orders apart.)
+    """
+
     def __init__(self, recipe, elements=None, commit_error=None):
         self.recipe, self.elements, self.commit_error = recipe, elements, commit_error
         self.filters: List[Any] = []
-        self.added: List[Any] = []
+        self.added: List[Any] = []      # every row ever added
+        self.pending: List[Any] = []    # staged, not yet committed
+        self.persisted: List[Any] = []  # durable: staged before a commit that succeeded
+        self.events: List[str] = []     # "add" / "commit", in call order
         self.commits = 0
 
     def query(self, model):
@@ -175,11 +186,17 @@ class FakeDb:
         return Chain(self, found[model])
 
     def add(self, row):
+        self.events.append("add")
         self.added.append(row)
+        if not any(row is staged for staged in self.pending):  # a session holds an object once
+            self.pending.append(row)
 
     def commit(self):
+        self.events.append("commit")
         if self.commit_error:
             raise self.commit_error
+        self.persisted.extend(self.pending)
+        self.pending.clear()
         self.commits += 1
 
 
@@ -225,8 +242,13 @@ def run(namespace, db, **request_fields):
 
 
 def logged(db):
-    assert len(db.added) == 1, f"expected exactly one log row, got {len(db.added)}"
-    return db.added[0]
+    """The one row that is durable once the request is over: added, and then committed."""
+    assert len(db.persisted) == 1, (
+        f"expected exactly one committed log row, got {len(db.persisted)} (added {len(db.added)}, still pending {len(db.pending)})"
+    )
+    assert db.pending == [], "a row was added after the last commit: it is lost when the session closes"
+    assert isinstance(db.persisted[0], TransitHistory), "the committed row is not a TransitHistory"
+    return db.persisted[0]
 
 
 # --- the handler runs and logs ----------------------------------------------------------------
@@ -266,6 +288,49 @@ def test_a_collective_ritual_logs_that_it_was_collective_and_for_how_many():
     row = logged(db)
     assert db.commits == 1
     assert (row.is_collective, row.participant_count) == (True, 3)  # the caller plus two secondary charts
+
+
+def test_the_log_row_is_added_and_then_committed_in_that_order():
+    # Committing first and adding afterwards answers 200 and logs nothing: the row is staged after the last commit and is
+    # rolled back when the request's session closes. Counting the calls cannot see that; the order and the durable set can.
+    db = FakeDb(recipe_row())
+    run(load(), db)
+    assert db.events == ["add", "commit"]
+    assert db.persisted == db.added and db.pending == []
+
+
+def test_the_stand_in_session_tells_the_two_orders_apart():
+    # The control for the test above. Without it a stand-in that only counted calls would pass the handler whichever way round.
+    wrong = FakeDb(None)
+    wrong.commit()
+    wrong.add("row")
+    assert wrong.persisted == [] and wrong.pending == ["row"] and wrong.events == ["commit", "add"]
+
+    right = FakeDb(None)
+    right.add("row")
+    right.commit()
+    assert right.persisted == ["row"] and right.pending == [] and right.events == ["add", "commit"]
+
+    # a session holds an object once, as SQLAlchemy's does: adding it twice stages it once
+    twice = FakeDb(None)
+    row = object()
+    twice.add(row)
+    twice.add(row)
+    twice.commit()
+    assert twice.persisted == [row]
+
+    # and a commit that fails makes nothing durable
+    failing = FakeDb(None, commit_error=RuntimeError("down"))
+    failing.add("row")
+    with pytest.raises(RuntimeError):
+        failing.commit()
+    assert failing.persisted == [] and failing.pending == ["row"]
+
+
+def test_the_row_that_is_committed_is_the_log_row_not_the_recipe():
+    db = FakeDb(recipe_row())
+    run(load(), db)
+    assert isinstance(logged(db), TransitHistory) and logged(db) is not db.recipe
 
 
 def test_a_cooking_window_whose_food_type_is_in_the_recipes_category_is_suggested():
@@ -440,17 +505,21 @@ def refused(namespace, db, **request_fields):
 
 def test_an_unknown_recipe_is_a_404_not_a_500():
     namespace = load()
-    error = refused(namespace, FakeDb(None))
+    db = FakeDb(None)
+    error = refused(namespace, db)
     assert (error.status_code, error.detail) == (404, "Recipe not found")
     assert namespace["logger"].exceptions == [], "a missing recipe is an answer, not a failure to log"
+    assert db.events == [], "nothing is logged for a recipe that does not exist"
 
 
 def test_the_transit_engines_own_message_is_returned_as_it_is():
     message = "pyswisseph is not installed. Please install it to use the transit engine."
     namespace = load(transit={"error": message})
-    error = refused(namespace, FakeDb(recipe_row()))
+    db = FakeDb(recipe_row())
+    error = refused(namespace, db)
     assert (error.status_code, error.detail) == (500, message)
     assert namespace["logger"].exceptions == []
+    assert db.events == [], "no ritual was generated, so none is logged"
 
 
 def test_a_database_failure_is_a_generic_500_that_is_logged_with_its_cause():
@@ -463,6 +532,9 @@ def test_a_database_failure_is_a_generic_500_that_is_logged_with_its_cause():
     [(message, cause)] = namespace["logger"].exceptions
     assert cause is LEAKY, "the log keeps the real error, where an operator can read it"
     assert str(RECIPE_ID) in message
+    # The caller was told it failed, and the row really was not made durable: a swallowed commit error would be a 200
+    # for a ritual nobody can find again.
+    assert db.events == ["add", "commit"] and db.persisted == [] and db.commits == 0
 
 
 def test_any_other_failure_is_the_same_generic_500():
@@ -471,9 +543,11 @@ def test_any_other_failure_is_the_same_generic_500():
 
     namespace = load()
     namespace["get_transit_details"] = broken
-    error = refused(namespace, FakeDb(recipe_row()))
+    db = FakeDb(recipe_row())
+    error = refused(namespace, db)
     assert (error.status_code, error.detail) == (500, "Failed to generate cooking instruction")
     assert [str(cause) for _, cause in namespace["logger"].exceptions] == ["secret engine state"]
+    assert db.events == [], "the engine failed before there was a ritual to log"
 
 
 @pytest.mark.parametrize(
