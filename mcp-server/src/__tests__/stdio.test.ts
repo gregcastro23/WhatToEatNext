@@ -4,6 +4,7 @@
  * MCP_E2E_ENTRY=mcp-server/bin/alchm-mcp repeats against the compiled sidecar.
  */
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
+import { createServer, type Server } from "node:http";
 import { resolve } from "node:path";
 import { MCP_SERVER_VERSION, TOOL_NAMES } from "../../../src/lib/mcp/catalog";
 
@@ -36,7 +37,7 @@ class StdioClient {
   >();
   private nextId = 1;
 
-  constructor() {
+  constructor(extraEnv: Record<string, string> = {}) {
     const entry = resolve(
       REPO_ROOT,
       process.env.MCP_E2E_ENTRY ?? "mcp-server/src/index.ts",
@@ -62,6 +63,7 @@ class StdioClient {
         INTERNAL_API_SECRET: "",
         SYNTHETIC_PROBE_USER_ID: "",
         ALCHM_MCP_BACKEND_URL: "http://127.0.0.1:1",
+        ...extraEnv,
       },
     });
     this.proc.stdout.setEncoding("utf8");
@@ -317,6 +319,104 @@ describeIf("MCP stdio transport", () => {
     expect(client.invalidLines).toEqual([]);
     expect(client.sawStartup).toBe(true);
   });
+});
+
+/** A stand-in for https://alchm.kitchen/api/mcp on loopback: records what the bridge sends and answers like the hosted route. */
+async function startHostedStandIn(): Promise<{ url: string; seen: { auth: string | undefined; body: string }[]; close: () => Promise<void> }> {
+  const seen: { auth: string | undefined; body: string }[] = [];
+  const server: Server = createServer((req, res) => {
+    const chunks: Buffer[] = [];
+    req.on("data", (chunk: Buffer) => chunks.push(chunk));
+    req.on("end", () => {
+      const body = Buffer.concat(chunks).toString("utf8");
+      seen.push({ auth: req.headers.authorization, body });
+      if (req.url === "/redirect") {
+        res.writeHead(307, { location: "/api/mcp" }).end();
+        return;
+      }
+      const message = object(JSON.parse(body));
+      if (typeof message.id !== "number") {
+        res.writeHead(202).end();
+        return;
+      }
+      const result =
+        message.method === "initialize"
+          ? { protocolVersion: "2025-06-18", capabilities: {}, serverInfo: { name: "hosted-stand-in", version: "0.0.0" } }
+          : { echoedAuthorization: req.headers.authorization ?? null };
+      res.writeHead(200, { "content-type": "application/json" });
+      res.end(JSON.stringify({ jsonrpc: "2.0", id: message.id, result }));
+    });
+  });
+  await new Promise<void>((ready) => server.listen(0, "127.0.0.1", ready));
+  const address = server.address();
+  if (!address || typeof address === "string") throw new Error("stand-in has no port");
+  return {
+    url: `http://127.0.0.1:${address.port}/api/mcp`,
+    seen,
+    close: () => new Promise<void>((done) => { server.closeAllConnections(); server.close(() => done()); }),
+  };
+}
+
+describeIf("MCP stdio remote bridge (a key and no DATABASE_URL)", () => {
+  const KEY = "sk_alchm_e2e_bridge_key_not_a_credential";
+
+  it("forwards over real stdio and a real HTTP socket, with the key as a bearer token, and exits cleanly on EOF", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_REMOTE_URL: hosted.url });
+    try {
+      const init = await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "bridge-e2e", version: "1.0.0" } });
+      expect(object(init.result).serverInfo).toMatchObject({ name: "hosted-stand-in" });
+      client.notify("notifications/initialized");
+      const listed = await client.request("tools/list");
+      expect(object(listed.result).echoedAuthorization).toBe(`Bearer ${KEY}`);
+      expect(hosted.seen.map((entry) => entry.auth)).toEqual([`Bearer ${KEY}`, `Bearer ${KEY}`, `Bearer ${KEY}`]);
+      expect(client.stderr).toContain(`remote bridge to ${hosted.url}`);
+      expect(client.stderr).not.toContain(KEY);
+      expect(client.invalidLines).toEqual([]);
+      const exited = new Promise<number | null>((done) => client.proc.once("exit", (code) => done(code)));
+      client.proc.stdin.end();
+      expect(await exited).toBe(0);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("stays in-process when a DATABASE_URL is configured (operator mode): the hosted endpoint is never contacted", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, DATABASE_URL: "postgresql://nobody:x@127.0.0.1:1/none", ALCHM_MCP_REMOTE_URL: hosted.url });
+    try {
+      const init = await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "operator-e2e", version: "1.0.0" } });
+      expect(object(init.result).serverInfo).toMatchObject({ name: "alchm-mcp-server", version: MCP_SERVER_VERSION });
+      expect(hosted.seen).toEqual([]);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("does not follow a redirect with the key attached: the request fails and the target is never contacted", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_REMOTE_URL: hosted.url.replace("/api/mcp", "/redirect") });
+    try {
+      const response = await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "redirect-e2e", version: "1.0.0" } });
+      expect(object(response.error).code).toBe(-32603);
+      expect(hosted.seen).toHaveLength(1);
+      expect(client.stderr).not.toContain(KEY);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("refuses to start on a plain-http remote host, with the reason on stderr and nothing on stdout", async () => {
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_REMOTE_URL: "http://example.com/api/mcp" });
+    const code = await new Promise<number | null>((done) => client.proc.once("exit", (exitCode) => done(exitCode)));
+    expect(code).toBe(1);
+    expect(client.stderr).toContain("must be https");
+    expect(client.stderr).not.toContain(KEY);
+    expect(client.invalidLines).toEqual([]);
+  }, 30000);
 });
 
 if (!ENABLED) {

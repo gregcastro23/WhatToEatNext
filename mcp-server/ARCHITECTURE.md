@@ -20,7 +20,7 @@ flowchart LR
     Log --> WTEN
 ```
 
-The only MCP transport shipped here is stdio. The Node bundle and compiled Bun sidecar use the same handlers as source runs. Existing protocol initialization remains on the compatible SDK v1 line; this release does not migrate to the separate v2 package/protocol surface.
+The only MCP transport shipped here is stdio. The Node bundle and compiled Bun sidecar use the same handlers as source runs, except when a key is set without a `DATABASE_URL`: then `src/remoteBridge.ts` takes over and forwards each JSON-RPC message to the hosted endpoint instead of running a handler (see Authentication and effects). Existing protocol initialization remains on the compatible SDK v1 line; this release does not migrate to the separate v2 package/protocol surface.
 
 ## Code ownership
 
@@ -36,7 +36,9 @@ The only MCP transport shipped here is stdio. The Node bundle and compiled Bun s
 | `src/lib/mcp/auth.ts`                    | Credential resolution, request fingerprints, scoped idempotency keys and ESMS settlement. |
 | `src/lib/mcp/rateLimit.ts`               | Per-key/anonymous process-local sliding windows.                                  |
 | `src/lib/mcp/invocationLog.ts`           | Sanitized, best-effort telemetry writes.                                          |
-| `mcp-server/src/index.ts`                | Stdio registration, structured/text envelopes and shutdown.                       |
+| `mcp-server/src/index.ts`                | Stdio registration, structured/text envelopes and shutdown; picks in-process or bridge mode. |
+| `mcp-server/src/remoteBridge.ts`         | A key and no `DATABASE_URL`: stdio-to-HTTP forwarding to the hosted endpoint.     |
+| `mcp-server/src/__tests__/remoteBridge.test.ts` | The bridge against an in-memory fake of the hosted endpoint (runs in the root jest suite). |
 | `mcp-server/src/__tests__/stdio.test.ts` | Real-process protocol regression tests.                                           |
 | `mcp-server/src/__tests__/sdkClient.test.ts` | The same calls through the SDK client, which validates results against `outputSchema`. |
 | `src/lib/mcp/__tests__/settlement.postgres.test.ts` | Settlement, replay and the reflection transaction against real PostgreSQL. |
@@ -45,7 +47,7 @@ The shared catalog contains eight tools: `get_live_sky_transits`, `alchemize_ing
 
 ## Authentication and effects
 
-Calls can carry `_meta.apiKey`/legacy argument aliases, or inherit `MCP_USER_API_KEY` (`ALCHM_MCP_USER_API_KEY` alias). Credentials require WTEN Postgres for validation; the production chart URL supplies astronomical calculation, not remote API-key authentication. Anonymous callers use read tools in demo mode. Reflection publication requires an authenticated non-synthetic user.
+Calls can carry `_meta.apiKey`/legacy argument aliases, or inherit `MCP_USER_API_KEY` (`ALCHM_MCP_USER_API_KEY` alias). Credentials are validated against WTEN Postgres by whichever process has `DATABASE_URL`: an operator's own in-process server, or the hosted endpoint. A stdio process with a key and no `DATABASE_URL` therefore forwards to the hosted endpoint (`ALCHM_MCP_REMOTE_URL`, default `https://alchm.kitchen/api/mcp`, https only except localhost) rather than failing every tool as 1.5.0 did; the production chart URL (`ALCHM_MCP_BACKEND_URL`) is a separate matter and supplies astronomical calculation. Anonymous callers use read tools in demo mode. Reflection publication requires an authenticated non-synthetic user.
 
 Authenticated recipe searches and evidence snapshots cost 2.5 of each ESMS axis; reflections cost 0.1 of each axis. Paid reads settle on delivery: the handler runs, and only a successful result is debited (in its own transaction, with any Swapping Bridge legs); a refused settlement withholds the result. A reflection's debit, its `recipe_reflections` row (content state `proposed`), the feed event, the interaction mirror and the reflection's feed link share one transaction; a savepoint around the feed steps lets a failed publication roll back alone while the paid reflection commits. The Planetary Agents webhook is skipped for these events, as on the feed route, so nothing is pushed before commit or echoed to its origin.
 

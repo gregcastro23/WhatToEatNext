@@ -36,7 +36,7 @@ The bundle is `mcp-server/dist/index.js`; the sidecar is `mcp-server/bin/alchm-m
 | `create_evidence_snapshot`    | 2.5 of each ESMS (10 total)  | Bundle transits, optional ingredients and recipe candidates in one call. Charged only for a complete snapshot.                                      |
 | `submit_recipe_reflection`    | 0.1 of each ESMS (0.4 total) | Save a `proposed` reflection and its debit in one transaction, then attempt feed publication; requires an authenticated, non-synthetic caller.     |
 
-Anonymous callers can use read tools in demo mode. Recipe search and evidence snapshots debit authenticated callers; reflection publication requires authentication. Invalid supplied credentials are rejected. An operator must configure `DATABASE_URL` to validate API keys and apply billing. An API key alone does not connect this stdio process to a hosted authentication service.
+Anonymous callers can use read tools in demo mode. Recipe search and evidence snapshots debit authenticated callers; reflection publication requires authentication. Invalid supplied credentials are rejected. Where the key is checked depends on how the process starts: with `DATABASE_URL` (operator mode) it validates keys and applies billing itself; with an API key and no `DATABASE_URL` (the usual install) it forwards each call to the hosted endpoint, `https://alchm.kitchen/api/mcp`, which validates the key and applies billing, so the key is sent there over https as `Authorization: Bearer`; with neither it runs everything locally in demo mode.
 
 Tool annotations identify paid calls and reflection publication as mutations. The catalog declares bounded inputs; validation runs before authentication, billing and handler work. Coordinates must be within latitude/longitude bounds, ingredient lists contain 1–100 strings, reflections are 1–4000 characters (the stored column's limit), and natal charts/amounts/timestamps must match their published schema.
 
@@ -60,9 +60,10 @@ Results include both `structuredContent` and the same JSON serialized in a text 
 
 ```bash
 ALCHM_MCP_BACKEND_URL=https://alchm.kitchen
-MCP_USER_API_KEY=sk_alchm_...
+MCP_USER_API_KEY=sk_alchm_...  # with no DATABASE_URL: calls are forwarded to the hosted endpoint, which checks the key and bills
 # ALCHM_MCP_USER_API_KEY is also accepted for sanitized Planetary Agents environments.
-DATABASE_URL=postgresql://...  # operator-only: key validation, billing, cache and telemetry
+ALCHM_MCP_REMOTE_URL=https://alchm.kitchen/api/mcp  # optional: where a key-only install forwards (https; http only for localhost)
+DATABASE_URL=postgresql://...  # operator-only: runs the tools in-process, so keys are checked and billed locally; leave it unset otherwise
 ```
 
 Chart/transit requests POST to `<base>/api/astrologize`. Explicit `ALCHM_MCP_BACKEND_URL`, `NEXT_PUBLIC_SITE_URL`, `SITE_URL` or Vercel URL settings take precedence. Bundled/compiled artifacts default to `https://alchm.kitchen`; source runs default to `http://localhost:3000`. Source development therefore needs the local app running or an explicit reachable backend URL.
@@ -107,7 +108,9 @@ Use the same `mcpServers` configuration shape in Claude Desktop's `claude_deskto
 }
 ```
 
-For a local source checkout use `"command": "bun"` and `"args": ["run", "/absolute/path/to/WhatToEatNext-master/mcp-server/src/index.ts"]`. Database configuration belongs to the operator running the server. See the source-run templates in [`claude-desktop.config.example.json`](./claude-desktop.config.example.json) and [`cursor.mcp.example.json`](./cursor.mcp.example.json).
+With only a key, as above, this package is a thin client of the hosted service: each request goes to `https://alchm.kitchen/api/mcp` and a key the service does not recognise is reported there, with where to mint a new one. Leave the key out and the tools run on your machine in demo mode (live sky data still comes from alchm.kitchen). If the key has a stray space or quote the process refuses to start and says so on stderr.
+
+For a local source checkout use `"command": "bun"` and `"args": ["run", "/absolute/path/to/WhatToEatNext-master/mcp-server/src/index.ts"]`. Database configuration belongs to the operator running the server, and setting `DATABASE_URL` switches the process back to running the tools in-process. See the source-run templates in [`claude-desktop.config.example.json`](./claude-desktop.config.example.json) and [`cursor.mcp.example.json`](./cursor.mcp.example.json).
 
 ## Verification and operations
 

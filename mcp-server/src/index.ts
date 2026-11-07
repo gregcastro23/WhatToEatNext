@@ -14,6 +14,7 @@ import {
   TOOL_DEFINITIONS,
   isToolName,
 } from "../../src/lib/mcp/catalog.js";
+import { runBridgeProcess, selectMode } from "./remoteBridge.js";
 
 // Application services log during module initialization. Redirect before their
 // dynamic import: stdout belongs exclusively to newline-delimited JSON-RPC.
@@ -54,7 +55,22 @@ if (!hasExplicitBackend) {
     : DEV_BACKEND_URL;
 }
 
+/**
+ * A key and no `DATABASE_URL` cannot be verified in-process (the database is the operator's), and an unverifiable key
+ * fails every tool. That is the install an external user gets from the README, so those calls are forwarded to the hosted
+ * endpoint, which validates the same keys. Operator mode (a database) and anonymous mode (no key) stay in-process.
+ */
+async function bridge(): Promise<never> {
+  const stop = new AbortController();
+  process.once("SIGINT", () => stop.abort());
+  process.once("SIGTERM", () => stop.abort());
+  const code = await runBridgeProcess(process, `alchm-mcp-bridge/${MCP_SERVER_VERSION}`, stop.signal);
+  await new Promise<void>((flushed) => process.stdout.write("", () => flushed()));
+  process.exit(code);
+}
+
 async function main(): Promise<void> {
+  if (selectMode(process.env) === "bridge") return bridge();
   // Import only after backend defaults and stdout protection are in place.
   const { createAlchmMcpServer } =
     await import("../../src/lib/mcp/serverFactory.js");
