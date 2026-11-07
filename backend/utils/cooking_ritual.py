@@ -8,9 +8,9 @@ itself against stand-ins).
 Only the standard library and the by-chart helpers (themselves standard-library only), so the tests
 run on a bare Python.
 """
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Mapping, Optional
 
-from backend.utils.by_chart_recommendations import engine_elemental_properties
+from backend.utils.by_chart_recommendations import engine_elemental_properties, recipe_from_read_model
 
 ELEMENT_COLUMNS = ("fire", "water", "earth", "air")
 
@@ -29,3 +29,21 @@ def elemental_properties_from_row(row: Any) -> Optional[Dict[str, float]]:
     if row is None:
         return None
     return engine_elemental_properties({name: getattr(row, name, None) for name in ELEMENT_COLUMNS})
+
+
+def read_model_elemental_properties(read_model: Any) -> Optional[Dict[str, float]]:
+    """The elements a recipe's `recipes.read_model` document carries, as the engines read them, or None.
+
+    The route looked only in the `elemental_properties` table, which had no rows in production when it
+    was last measured (2026-11-03), while all 1099 public recipes carried their elements in the read
+    model (lowercase keys: {"fire": .., "water": .., ...}). Every recipe was therefore scored as if
+    nothing were known about it, which is a valid answer to the engines and a wrong one here. The
+    by-chart route reads the same document the same way (`recipe_from_read_model`), so the two routes
+    score one recipe on one set of elements.
+
+    None when the read model is missing, is not an object (a double-encoded JSON string, say), or does
+    not hold all four finite shares; the caller then asks the table.
+    """
+    if not isinstance(read_model, Mapping):
+        return None
+    return recipe_from_read_model(read_model).elementalProperties

@@ -33,7 +33,7 @@ from pydantic import BaseModel
 from backend.config.celestial_config import FOREST_HILLS_COORDINATES
 from backend.schemas.planetary import CelestialCoordinates
 from backend.utils.alchemical_quantities import calculate_alchemical_quantities
-from backend.utils.cooking_ritual import elemental_properties_from_row
+from backend.utils.cooking_ritual import elemental_properties_from_row, read_model_elemental_properties
 from backend.utils.transit_engine import calculate_total_potency_score, get_cooking_ritual
 
 REPO = Path(__file__).resolve().parents[2]
@@ -194,6 +194,7 @@ def load(transit=None, windows=None):
         # the real thing
         "get_cooking_ritual": get_cooking_ritual,
         "elemental_properties_from_row": elemental_properties_from_row,
+        "read_model_elemental_properties": read_model_elemental_properties,
         "calculate_total_potency_score": calculate_total_potency_score,
         "calculate_alchemical_quantities": calculate_alchemical_quantities,
         "CelestialCoordinates": CelestialCoordinates, "FOREST_HILLS_COORDINATES": FOREST_HILLS_COORDINATES,
@@ -359,3 +360,44 @@ def test_no_complete_finite_row_is_no_profile_not_a_guess(row):
 
 def test_the_engines_spelling_comes_from_the_columns():
     assert elemental_properties_from_row(elemental_row(WATER)) == {"Fire": 0.1, "Water": 0.6, "Earth": 0.2, "Air": 0.1}
+
+
+# --- the recipe's own read model is the first place its elements are looked for ---------------
+
+# recipes.read_model as production stores it: elements under "elemental_properties", spelled lowercase.
+FIRE_READ_MODEL = {"id": str(RECIPE_ID), "name": "Spaghetti alla Carbonara", "elemental_properties": FIRE}
+
+
+def test_a_recipe_is_scored_on_the_elements_in_its_read_model():
+    db = FakeDb(recipe_row(read_model=FIRE_READ_MODEL))  # and no elemental_properties row at all
+    assert run(load(), db)["total_potency_score"] == pytest.approx(POTENCY_FIRE)
+    assert db.filters == [("==", "Recipe.id", str(RECIPE_ID))], "a read model that has the elements makes the table lookup unnecessary"
+
+
+def test_the_read_model_wins_over_the_table_and_the_table_is_not_asked():
+    db = FakeDb(recipe_row(read_model=FIRE_READ_MODEL), elemental_row(WATER))
+    assert run(load(), db)["total_potency_score"] == pytest.approx(POTENCY_FIRE)
+    assert len(db.filters) == 1
+
+
+@pytest.mark.parametrize(
+    "read_model",
+    [
+        None, {}, {"name": "no elements here"}, {"elemental_properties": None}, {"elemental_properties": {"fire": 0.5}},
+        {"elemental_properties": {**FIRE, "air": float("nan")}}, '"{\\"id\\": \\"double-encoded\\"}"', ["not", "an", "object"],
+    ],
+    ids=["no read model", "empty", "no elements", "elements None", "partial elements", "NaN share", "double-encoded string", "a list"],
+)
+def test_a_read_model_without_complete_elements_falls_back_to_the_table(read_model):
+    with_row = FakeDb(recipe_row(read_model=read_model), elemental_row(WATER))
+    assert run(load(), with_row)["total_potency_score"] == pytest.approx(POTENCY_WATER)
+    assert len(with_row.filters) == 3, "the table was asked for this recipe's row"
+
+    nothing = FakeDb(recipe_row(read_model=read_model), None)
+    assert run(load(), nothing)["total_potency_score"] == pytest.approx(POTENCY_NEUTRAL)
+
+
+def test_the_capitalized_spelling_in_a_read_model_is_read_too():
+    capitalized = {"elementalProperties": {"Fire": 0.7, "Water": 0.1, "Earth": 0.1, "Air": 0.1}}
+    assert read_model_elemental_properties(capitalized) == {"Fire": 0.7, "Water": 0.1, "Earth": 0.1, "Air": 0.1}
+    assert read_model_elemental_properties(FIRE_READ_MODEL) == {"Fire": 0.7, "Water": 0.1, "Earth": 0.1, "Air": 0.1}
