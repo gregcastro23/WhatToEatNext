@@ -60,6 +60,9 @@ POTENCY_NEUTRAL = 0.4 + 0.3 * 0.5 + 0.3 * 0.5         # 0.70: no element profile
 
 # The quantity engine rounds each score to 4 decimals, so a hand-computed score is within half a unit of the last one.
 ROUNDED = 5e-5
+# The kinetic rating for the Mars transit above: transit_engine.py documents Mars as about 0.21 (the log10-normalized
+# mass; 0.2062 exactly), times 1.5 because the Sun is in a Water sign and the hour ruler (the Sun) is Fire: the "steam" modifier.
+KINETIC_MARS_STEAM = 0.21 * 1.5
 
 FIRE = {"fire": 0.7, "water": 0.1, "earth": 0.1, "air": 0.1}
 WATER = {"fire": 0.1, "water": 0.6, "earth": 0.2, "air": 0.1}
@@ -245,13 +248,14 @@ def test_an_individual_ritual_is_returned_and_logged_once():
     assert (row.recipe_id, row.dominant_transit, row.ritual_instruction) == (str(RECIPE_ID), "Mars", ritual)
     assert row.potency_score == pytest.approx(POTENCY_NEUTRAL)
     assert (row.is_collective, row.participant_count) == (False, 1)
-    # the ESMS scores and ratings are the engines' own, for this recipe
-    potency = calculate_total_potency_score(types.SimpleNamespace(elementalProperties=None), "Mars", "Water", HOUR_RULER)
-    quantities = calculate_alchemical_quantities(types.SimpleNamespace(nutritional_profile={"calories": 450}), potency.kinetic_rating, HOUR_RULER, potency.thermo_rating)
-    assert (row.kinetic_rating, row.thermo_rating) == (potency.kinetic_rating, potency.thermo_rating)
-    assert (row.spirit_score, row.essence_score, row.matter_score, row.substance_score) == (
-        quantities.spirit_score, quantities.essence_score, quantities.matter_score, quantities.substance_score,
-    )
+    # Literals, not the engines called a second time (a test that computes its expectation with the function under test
+    # passes whatever that function does). No element profile at all is the quantity engine's uniform default, 0.25 each.
+    assert row.thermo_rating == 0.5                                     # the neutral parity
+    assert row.kinetic_rating == pytest.approx(KINETIC_MARS_STEAM, abs=0.01)
+    assert row.spirit_score == pytest.approx(0.5 * row.kinetic_rating + 0.25 * 0.25 + 0.25 * 0.25, abs=ROUNDED)
+    assert row.essence_score == pytest.approx(0.7 * 0.25, abs=ROUNDED)
+    assert row.matter_score == pytest.approx(0.6 * 0.45 + 0.4 * 0.25, abs=ROUNDED)   # 450 kcal
+    assert row.substance_score == pytest.approx(0.5 * 0.5 + 0.25 * 0.25 + 0.25 * 0.25, abs=ROUNDED)
 
 
 def test_a_collective_ritual_logs_that_it_was_collective_and_for_how_many():
