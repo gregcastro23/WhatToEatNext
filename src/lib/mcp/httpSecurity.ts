@@ -23,6 +23,13 @@ const TRUSTED_ORIGIN_PATTERNS: RegExp[] = [
   /^https:\/\/(.*\.)?whattoeatnext\.com$/,
   /^https:\/\/(.*\.)?muse\.ai$/,
   /^https:\/\/(.*\.)?meta\.ai$/,
+  /^https:\/\/(.*\.)?google\.com$/,
+  /^https:\/\/(.*\.)?claude\.ai$/,
+  /^https:\/\/(.*\.)?chatgpt\.com$/,
+  /^https:\/\/(.*\.)?openai\.com$/,
+  /^https:\/\/(.*\.)?modelcontextprotocol\.io$/,
+  /^https:\/\/(.*\.)?smithery\.ai$/,
+  /^https:\/\/(.*\.)?glama\.ai$/,
 ];
 
 export function isLocalDevHost(host: string): boolean {
@@ -101,11 +108,14 @@ export function resolveCorsOrigin(req: Request): string {
   return CANONICAL_ORIGIN;
 }
 
-export function buildCorsHeaders(req: Request): Headers {
+export function buildCorsHeaders(
+  req: Request,
+  allowedMethods = "POST, OPTIONS",
+): Headers {
   const headers = new Headers();
   const allowedOrigin = resolveCorsOrigin(req);
   headers.set("Access-Control-Allow-Origin", allowedOrigin);
-  headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+  headers.set("Access-Control-Allow-Methods", allowedMethods);
   headers.set(
     "Access-Control-Allow-Headers",
     "Content-Type, Accept, Authorization, Idempotency-Key, X-Idempotency-Key, X-Correlation-ID, X-Request-ID, Mcp-Session-Id, MCP-Protocol-Version, User-Agent",
