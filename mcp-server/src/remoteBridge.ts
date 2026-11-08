@@ -142,6 +142,21 @@ export function proxyWarning(env: Env, url: URL): string | null {
   return `HTTP_PROXY is set and ${url.origin} is plain http: where the runtime honours it (Bun, or Node with NODE_USE_ENV_PROXY=1) the API key would go through the proxy in clear text. Add ${bare(url.hostname)} to NO_PROXY.`;
 }
 
+/**
+ * The same exposure for the in-process server's REST fallback (src/lib/mcp/stdioRemoteFallback.ts), which sends a keyed call
+ * to ALCHM_MCP_BACKEND_URL when there is no database. Only for an environment that has a key and could take that path; a
+ * URL that is not one needs no warning, since the fallback refuses a keyed call to it. A warning, or null.
+ */
+export function fallbackProxyWarning(env: Env): string | null {
+  const written = env.ALCHM_MCP_BACKEND_URL?.trim();
+  if (!written || env.DATABASE_URL?.trim() || !readApiKey(env)) return null;
+  try {
+    return proxyWarning(env, new URL(written));
+  } catch {
+    return null;
+  }
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
@@ -194,9 +209,13 @@ function describe(error: unknown): string {
 
 const clip = (text: string): string => text.slice(0, MAX_ERROR_CHARS);
 
-/** A redirect is refused on purpose (the key would go wherever it points), and "unexpected redirect" alone does not say what to do. */
+/**
+ * A redirect is refused on purpose (the key would go wherever it points), and "unexpected redirect" alone does not say what
+ * to do. Matched on the runtimes' wording (Node "unexpected redirect", Bun "UnexpectedRedirect"), not on the word "redirect":
+ * a host name can contain it.
+ */
 function redirectHint(detail: string): string {
-  return /redirect/i.test(detail)
+  return /unexpected\s*redirect/i.test(detail)
     ? " (the server answered with a redirect, which the bridge never follows because the API key would go wherever it points: put the final URL in ALCHM_MCP_REMOTE_URL; check a trailing slash, http or https, and www)"
     : "";
 }

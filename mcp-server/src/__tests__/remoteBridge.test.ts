@@ -10,6 +10,7 @@ import {
   DEFAULT_REMOTE_URL,
   DEFAULT_TIMEOUT_MS,
   FINISH_GRACE_MS,
+  fallbackProxyWarning,
   inProcessNote,
   MAX_IN_FLIGHT,
   MAX_MESSAGE_BYTES,
@@ -957,6 +958,16 @@ describe("what the server and the runtime say when something goes wrong", () => 
     expect(run.stderr).toContain("never follows");
   });
 
+  it.each([
+    ["a host name", "getaddrinfo ENOTFOUND redirect.example.com"],
+    ["a path", "connect ECONNREFUSED 127.0.0.1:443 (GET /redirect/me)"],
+  ])("does not call a failure a refused redirect because %s says redirect", async (_what, message) => {
+    const run = await bridge(failing(message).fetchImpl, [request(66)]);
+    expect(errorMessage(run.lines[0])).toContain(message);
+    expect(errorMessage(run.lines[0])).not.toContain("never follows");
+    expect(run.stderr).not.toContain("never follows");
+  });
+
   it("shows Retry-After in seconds as seconds and as a date as a date, and the status text", async () => {
     const seconds = fakeServer(() => new Response("down", { status: 503, headers: { "retry-after": "30" } }));
     expect(errorMessage((await bridge(seconds.fetchImpl, [request(64)])).lines[0])).toBe("The server answered HTTP 503 (retry after 30 s)");
@@ -1098,6 +1109,35 @@ describe("a proxy in the environment", () => {
     const warning = proxyWarning(env, url);
     expect(warning).toContain("clear text");
     expect(warning).toContain(`Add ${host} to NO_PROXY`);
+  });
+});
+
+describe("a proxy in the environment, for the in-process server's REST fallback", () => {
+  const base = { MCP_USER_API_KEY: KEY, ALCHM_MCP_BACKEND_URL: "http://localhost:3000", HTTP_PROXY: "http://proxy.corp:3128" };
+
+  it("warns, naming the host to add to NO_PROXY, when a key could be sent to a plain-http backend through a proxy", () => {
+    const warning = fallbackProxyWarning(base);
+    expect(warning).toContain("HTTP_PROXY is set and http://localhost:3000 is plain http");
+    expect(warning).toContain("Add localhost to NO_PROXY");
+    expect(warning).not.toContain(KEY);
+  });
+
+  it("warns for a key in the other variable, and for a backend URL with spaces around it", () => {
+    const env = { ALCHM_MCP_USER_API_KEY: KEY, ALCHM_MCP_BACKEND_URL: "  http://127.0.0.1:3000/  ", HTTP_PROXY: base.HTTP_PROXY };
+    expect(fallbackProxyWarning(env)).toContain("Add 127.0.0.1 to NO_PROXY");
+  });
+
+  it.each([
+    ["there is no key (nothing secret to send)", { ...base, MCP_USER_API_KEY: "" }],
+    ["a database is configured (the fallback is not used)", { ...base, DATABASE_URL: "postgres://operator" }],
+    ["the backend URL is https, which a proxy only tunnels", { ...base, ALCHM_MCP_BACKEND_URL: "https://alchm.kitchen" }],
+    ["NO_PROXY lists the host", { ...base, NO_PROXY: "localhost" }],
+    ["there is no proxy", { MCP_USER_API_KEY: KEY, ALCHM_MCP_BACKEND_URL: "http://localhost:3000" }],
+    ["there is no backend URL", { MCP_USER_API_KEY: KEY, HTTP_PROXY: "http://proxy.corp:3128" }],
+    ["the backend URL is blank", { ...base, ALCHM_MCP_BACKEND_URL: "   " }],
+    ["the backend URL is not a URL (a keyed call to it is refused)", { ...base, ALCHM_MCP_BACKEND_URL: "not a url" }],
+  ])("says nothing when %s", (_what, env) => {
+    expect(fallbackProxyWarning(env)).toBeNull();
   });
 });
 

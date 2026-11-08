@@ -49,7 +49,7 @@
         },
         {
           "name": "ALCHM_MCP_BACKEND_URL",
-          "description": "Backend origin serving /api/astrologize. Bundled artifacts default to https://alchm.kitchen; source runs default to http://localhost:3000.",
+          "description": "Backend origin serving /api/astrologize. Bundled artifacts default to https://alchm.kitchen; source runs default to http://localhost:3000. It is also where the in-process server sends a keyed tool call when it has no database (ALCHM_MCP_MODE=local), so it is where your API key goes then: https, or http only for localhost, 127.0.0.1 and [::1], without credentials, a query string or a fragment.",
           "isSecret": false,
           "isRequired": false
         }

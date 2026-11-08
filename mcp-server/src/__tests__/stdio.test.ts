@@ -501,6 +501,68 @@ describeIf("MCP stdio remote bridge (a key and no DATABASE_URL)", () => {
     }
   }, 30000);
 
+  it("does not send a key to a backend URL that has a query string, says so in the tool result, and shows the token nowhere", async () => {
+    const hosted = await startHostedStandIn();
+    const token = "QSECRET_hunter2";
+    const origin = hosted.url.replace("/api/mcp", "");
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_MODE: "local", ALCHM_MCP_BACKEND_URL: `${origin}/?x-vercel-protection-bypass=${token}` });
+    try {
+      await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "query-e2e", version: "1.0.0" } });
+      const result = await client.call("get_user_allowance", {});
+      expect(result.isError).toBe(true);
+      expect(object(result.structuredContent)).toMatchObject({ errorCode: "UNAVAILABLE" });
+      expect(JSON.stringify(result)).toContain("query string or a fragment");
+      expect(JSON.stringify(result)).not.toContain(token);
+      expect(JSON.stringify(result)).not.toContain(KEY);
+      expect(hosted.seen).toEqual([]); // nothing was sent, keyed or not
+      await eventually(() => client.stderr.includes("backend:"));
+      expect(client.stderr).toContain(`backend: ${origin}\n`); // the banner shows the address, not the query
+      expect(client.stderr).not.toContain(token);
+      expect(client.stderr).not.toContain(KEY);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("does not send a key that has a space in it, and shows no part of it", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: "sk_alchm_HEAD sk_alchm_TAILSECRET", ALCHM_MCP_MODE: "local", ALCHM_MCP_BACKEND_URL: hosted.url.replace("/api/mcp", "") });
+    try {
+      await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "shape-e2e", version: "1.0.0" } });
+      const result = await client.call("get_user_allowance", {});
+      expect(result.isError).toBe(true);
+      expect(JSON.stringify(result)).toContain("characters an API key cannot have");
+      expect(JSON.stringify(result)).not.toMatch(/HEAD|TAILSECRET/);
+      expect(hosted.seen).toEqual([]);
+      expect(client.stderr).not.toMatch(/HEAD|TAILSECRET/);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("warns on stderr, in the in-process mode too, when a key could go to plain http through a proxy, and not when NO_PROXY lists the host", async () => {
+    const hosted = await startHostedStandIn();
+    const base = { MCP_USER_API_KEY: KEY, ALCHM_MCP_MODE: "local", ALCHM_MCP_BACKEND_URL: hosted.url.replace("/api/mcp", ""), HTTP_PROXY: "http://proxy.invalid:3128" };
+    const warned = new StdioClient({ ...base, NO_PROXY: "", no_proxy: "" });
+    const exempt = new StdioClient({ ...base, NO_PROXY: "127.0.0.1" });
+    const hello = { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "proxy-e2e", version: "1.0.0" } };
+    try {
+      await warned.request("initialize", hello);
+      await exempt.request("initialize", hello);
+      await eventually(() => warned.stderr.includes("warning: HTTP_PROXY is set"));
+      expect(warned.stderr).toContain("Add 127.0.0.1 to NO_PROXY");
+      expect(warned.stderr).not.toContain(KEY);
+      await eventually(() => exempt.stderr.includes("backend:"));
+      expect(exempt.stderr).not.toContain("HTTP_PROXY");
+    } finally {
+      await warned.close();
+      await exempt.close();
+      await hosted.close();
+    }
+  }, 30000);
+
   it("refuses to start on an ALCHM_MCP_MODE it does not know, without repeating it, and writes nothing to stdout", async () => {
     const pasted = "sk_alchm_pasted_into_the_wrong_variable";
     const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_MODE: pasted });

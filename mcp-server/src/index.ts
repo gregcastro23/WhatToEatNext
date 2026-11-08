@@ -14,7 +14,8 @@ import {
   TOOL_DEFINITIONS,
   isToolName,
 } from "../../src/lib/mcp/catalog.js";
-import { inProcessNote, runBridgeMain, selectMode, type Mode } from "./remoteBridge.js";
+import { describeBackend } from "../../src/lib/mcp/keyDestination.js";
+import { fallbackProxyWarning, inProcessNote, runBridgeMain, selectMode, type Mode } from "./remoteBridge.js";
 
 // Application services log during module initialization. Redirect before their
 // dynamic import: stdout belongs exclusively to newline-delimited JSON-RPC.
@@ -118,11 +119,15 @@ async function main(): Promise<void> {
   console.error(
     `Alchm.kitchen MCP ${MCP_SERVER_VERSION}: stdio, ${TOOL_DEFINITIONS.length} tools`,
   );
+  // The configured URL may carry a secret (a deployment-protection token rides in the query), so only its address is shown.
+  const written = process.env.ALCHM_MCP_BACKEND_URL?.trim();
   console.error(
-    `Database: ${process.env.DATABASE_URL ? "configured" : "anonymous demo mode"}; backend: ${process.env.ALCHM_MCP_BACKEND_URL ?? "configured app URL"}`,
+    `Database: ${process.env.DATABASE_URL ? "configured" : "anonymous demo mode"}; backend: ${written ? describeBackend(written) : "configured app URL"}`,
   );
   const note = inProcessNote(process.env);
   if (note) console.error(note);
+  const proxy = fallbackProxyWarning(process.env);
+  if (proxy) console.error(`alchm-mcp: warning: ${proxy}`);
 }
 
 main().catch((error: unknown) => {

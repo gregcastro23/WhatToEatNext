@@ -10,14 +10,11 @@
  */
 
 import { isToolName } from "./catalog";
-import { redactSensitiveString } from "./httpSecurity";
-import {
-  destinationRefusal,
-  isRedirectRefusal,
-  keyDestinationProblem,
-  redirectRefusal,
-} from "./keyDestination";
+import { networkFailureResult } from "./fallbackFailure";
+import { keyRefusal } from "./keyDestination";
 import { validateToolArguments } from "./validation";
+
+const DEFAULT_BACKEND_URL = "https://alchm.kitchen";
 
 export interface RemoteFallbackOptions {
   remoteBackendUrl?: string;
@@ -27,6 +24,8 @@ export interface RemoteFallbackOptions {
 
 export interface RemoteFallbackResult {
   ok: boolean;
+  /** The call was not made (or its answer not read) because the API key may not go where it was headed; see keyDestination.ts. */
+  refused?: boolean;
   payload: Record<string, unknown>;
 }
 
@@ -98,6 +97,7 @@ export function shouldProxyStdioToolToRemote(
 
 function buildRemoteHeaders(
   args: Record<string, unknown>,
+  apiKey: string | null,
   correlationId: string,
 ): Record<string, string> {
   const headers: Record<string, string> = {
@@ -105,7 +105,6 @@ function buildRemoteHeaders(
     Accept: "application/json",
     "X-Correlation-ID": correlationId,
   };
-  const apiKey = extractStdioApiKey(args);
   if (apiKey) {
     headers.Authorization = `Bearer ${apiKey}`;
   }
@@ -154,33 +153,6 @@ function normalizeRemotePayload(
   };
 }
 
-function buildNetworkErrorResult(
-  err: unknown,
-  baseUrl: string,
-  correlationId: string,
-  signal?: AbortSignal,
-): RemoteFallbackResult {
-  const aborted =
-    (signal?.aborted ?? false) ||
-    (err instanceof Error && err.name === "AbortError");
-  const rawMsg =
-    err instanceof Error ? redactSensitiveString(err.message) : "Network error";
-  if (!aborted && isRedirectRefusal(err)) return redirectRefusal(correlationId);
-  return {
-    ok: false,
-    payload: {
-      errorCode: aborted ? "CANCELLED" : "UNAVAILABLE",
-      message: aborted
-        ? "Remote MCP fallback request was cancelled."
-        : `Remote MCP gateway (${baseUrl}) is unreachable and local DATABASE_URL is not configured: ${rawMsg}`,
-      remediation: aborted
-        ? "Retry the tool call when ready."
-        : "Check internet connectivity to https://alchm.kitchen, or unset MCP_USER_API_KEY to run free tools in offline anonymous mode.",
-      correlationId,
-    },
-  };
-}
-
 /**
  * Proxies a validated tool call over HTTP to `${remoteBackendUrl}/api/mcp/rest/${toolName}`.
  */
@@ -189,24 +161,22 @@ export async function invokeRemoteStdioFallback(
   args: Record<string, unknown>,
   options: RemoteFallbackOptions,
 ): Promise<RemoteFallbackResult> {
-  const baseUrl = (options.remoteBackendUrl ?? "https://alchm.kitchen").replace(
-    /\/+$/,
-    "",
-  );
+  const baseUrl = (
+    nonEmptyString(options.remoteBackendUrl) ?? DEFAULT_BACKEND_URL
+  ).replace(/\/+$/, "");
   const url = `${baseUrl}/api/mcp/rest/${encodeURIComponent(toolName)}`;
   const apiKey = extractStdioApiKey(args);
-  const problem = apiKey ? keyDestinationProblem(baseUrl) : null;
-  // The key is not sent anywhere it could be read or redirected.
-  if (problem) return destinationRefusal(problem, options.correlationId);
+  // The key is not sent anywhere it could be read or redirected, nor in a form the route cannot read.
+  const refusal = apiKey ? keyRefusal(apiKey, url, options.correlationId) : null;
+  if (refusal) return refusal;
   // A request that carries the key never follows a redirect.
   const redirect: RequestRedirect = "error";
-  const headers = buildRemoteHeaders(args, options.correlationId);
   const body = JSON.stringify(sanitizeForwardedArgs(args));
 
   try {
     const res = await fetch(url, {
       method: "POST",
-      headers,
+      headers: buildRemoteHeaders(args, apiKey, options.correlationId),
       body,
       ...(apiKey ? { redirect } : {}),
       ...(options.signal ? { signal: options.signal } : {}),
@@ -220,9 +190,9 @@ export async function invokeRemoteStdioFallback(
     );
     return { ok: res.ok, payload };
   } catch (err) {
-    return buildNetworkErrorResult(
+    return networkFailureResult(
       err,
-      baseUrl,
+      { url, baseUrl, keyed: apiKey !== null },
       options.correlationId,
       options.signal,
     );
@@ -263,9 +233,12 @@ export async function tryReadRemoteStdioResource(
       correlationId: `mcp:resource:${toolName}`,
     },
   );
-  if (!res.ok) return null;
+  // A refusal is shown as the content: read as anonymous data, it would hide why the key was not used.
+  if (!res.ok && !res.refused) return null;
   const payload =
-    toolName === "update_culinary_profile" && isRecord(res.payload.profile)
+    res.ok &&
+    toolName === "update_culinary_profile" &&
+    isRecord(res.payload.profile)
       ? { authenticated: true, ...res.payload.profile }
       : res.payload;
   return {
