@@ -36,7 +36,7 @@ The bundle is `mcp-server/dist/index.js`; the sidecar is `mcp-server/bin/alchm-m
 | `create_evidence_snapshot`    | 2.5 of each ESMS (10 total)  | Bundle transits, optional ingredients and recipe candidates in one call. Charged only for a complete snapshot.                                      |
 | `submit_recipe_reflection`    | 0.1 of each ESMS (0.4 total) | Save a `proposed` reflection and its debit in one transaction, then attempt feed publication; requires an authenticated, non-synthetic caller.     |
 
-Anonymous callers can use read tools in demo mode. Recipe search and evidence snapshots debit authenticated callers; reflection publication requires authentication. Invalid supplied credentials are rejected. Where the key is checked depends on how the process starts: with `DATABASE_URL` (operator mode) it validates keys and applies billing itself; with an API key and no `DATABASE_URL` (the usual install) it forwards each call to the hosted endpoint, `https://alchm.kitchen/api/mcp`, which validates the key and applies billing, so the key is sent there over https as `Authorization: Bearer`; with neither it runs everything locally in demo mode.
+Anonymous callers can use read tools in demo mode. Recipe search and evidence snapshots debit authenticated callers; reflection publication requires authentication. Invalid supplied credentials are rejected. Where the key is checked depends on how the process starts: with `DATABASE_URL` (operator mode) it validates keys and applies billing itself; with an API key and no `DATABASE_URL` (the usual install) it forwards each call to the hosted endpoint, `https://alchm.kitchen/api/mcp`, which validates the key and applies billing, so the key is sent there over https as `Authorization: Bearer`; with neither it runs everything locally in demo mode. `ALCHM_MCP_MODE` overrides that choice: `remote` always forwards to the hosted endpoint (it needs a key, and ignores `DATABASE_URL`), `local` always runs in-process, and `auto` (the default, also when it is unset or empty) is the rule above. Any other value stops the process at startup.
 
 Tool annotations identify paid calls and reflection publication as mutations. The catalog declares bounded inputs; validation runs before authentication, billing and handler work. Coordinates must be within latitude/longitude bounds, ingredient lists contain 1–100 strings, reflections are 1–4000 characters (the stored column's limit), and natal charts/amounts/timestamps must match their published schema.
 
@@ -63,6 +63,7 @@ ALCHM_MCP_BACKEND_URL=https://alchm.kitchen
 MCP_USER_API_KEY=sk_alchm_...  # with no DATABASE_URL: calls are forwarded to the hosted endpoint, which checks the key and bills
 # ALCHM_MCP_USER_API_KEY is also accepted for sanitized Planetary Agents environments.
 ALCHM_MCP_REMOTE_URL=https://alchm.kitchen/api/mcp  # optional: where a key-only install forwards (https; http only for localhost)
+ALCHM_MCP_MODE=auto  # optional: auto (default), remote (always the hosted service, even if DATABASE_URL is set) or local (always in-process)
 DATABASE_URL=postgresql://...  # operator-only: runs the tools in-process, so keys are checked and billed locally; leave it unset otherwise
 ```
 
@@ -112,13 +113,13 @@ With only a key, as above, this package is a thin client of the hosted service: 
 
 Troubleshooting a key-only install:
 
-- **Every tool says the authentication service or database is unreachable, and stderr says `An API key and DATABASE_URL are both set`.** Many clients pass on the environment of the shell that started them, and `DATABASE_URL` is a common name, so the process took the operator path. Set `"DATABASE_URL": ""` in this server's `env` block to use the hosted service.
+- **Every tool says the authentication service or database is unreachable, and stderr says `An API key and DATABASE_URL are both set`.** Many clients pass on the environment of the shell that started them, and `DATABASE_URL` is a common name, so the process took the operator path. Set `"ALCHM_MCP_MODE": "remote"` in this server's `env` block to use the hosted service whatever `DATABASE_URL` says (setting `"DATABASE_URL": ""` has the same effect).
 - **`the server answered with a redirect`.** The bridge never follows a redirect, because the key would go wherever it points. Put the final URL in `ALCHM_MCP_REMOTE_URL` (check a trailing slash, `http` against `https`, `www`).
 - **Behind an HTTP proxy.** Node's `fetch` ignores `HTTP_PROXY` and `HTTPS_PROXY` unless `NODE_USE_ENV_PROXY=1` is set (Node 22.21 or 24 and later); older Node cannot use one. Where a proxy is honoured (Bun, or Node with that variable), a plain `http://localhost` URL would send the key through it in clear text, so add the host to `NO_PROXY`; the process warns on stderr when it sees this.
 - **`ALCHM_MCP_REMOTE_URL` is where your key is sent.** Set it only to a host you trust. A project-scoped MCP configuration in a repository you cloned can set it too, so read those before approving them.
 - **Limits.** A request over 256 KB is refused locally, a call gets 65 s, and at most 64 requests are on the wire at once. Nothing is retried automatically, because a retried paid call is charged again; send `_meta.idempotencyKey` (see Billing and safe retries) to retry safely. `notifications/cancelled` is forwarded but does not cancel the request in flight.
 
-For a local source checkout use `"command": "bun"` and `"args": ["run", "/absolute/path/to/WhatToEatNext-master/mcp-server/src/index.ts"]`. Database configuration belongs to the operator running the server, and setting `DATABASE_URL` switches the process back to running the tools in-process. See the source-run templates in [`claude-desktop.config.example.json`](./claude-desktop.config.example.json) and [`cursor.mcp.example.json`](./cursor.mcp.example.json).
+For a local source checkout use `"command": "bun"` and `"args": ["run", "/absolute/path/to/WhatToEatNext-master/mcp-server/src/index.ts"]`. Database configuration belongs to the operator running the server, and setting `DATABASE_URL` switches the process back to running the tools in-process unless `ALCHM_MCP_MODE=remote` says otherwise. See the source-run templates in [`claude-desktop.config.example.json`](./claude-desktop.config.example.json) and [`cursor.mcp.example.json`](./cursor.mcp.example.json).
 
 ## Verification and operations
 

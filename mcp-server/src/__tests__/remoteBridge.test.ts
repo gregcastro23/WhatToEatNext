@@ -10,9 +10,11 @@ import {
   DEFAULT_REMOTE_URL,
   DEFAULT_TIMEOUT_MS,
   FINISH_GRACE_MS,
+  inProcessNote,
   MAX_IN_FLIGHT,
   MAX_MESSAGE_BYTES,
   MAX_REPLY_BYTES,
+  modeSetting,
   parseSse,
   proxyWarning,
   readApiKey,
@@ -134,14 +136,80 @@ describe("choosing the mode", () => {
     [{ MCP_USER_API_KEY: "", ALCHM_MCP_USER_API_KEY: "", DATABASE_URL: "" }, "in-process"],
     [{ MCP_USER_API_KEY: "   " }, "bridge"],
     [{ ALCHM_MCP_REMOTE_URL: "https://example.com/mcp" }, "in-process"],
+    // ALCHM_MCP_MODE=remote: the hosted service whatever DATABASE_URL says (a shell often exports an unrelated one)
+    [{ ALCHM_MCP_MODE: "remote", MCP_USER_API_KEY: KEY, DATABASE_URL: "postgres://unrelated" }, "bridge"],
+    [{ ALCHM_MCP_MODE: "  REMOTE ", MCP_USER_API_KEY: KEY, DATABASE_URL: "postgres://unrelated" }, "bridge"],
+    [{ ALCHM_MCP_MODE: "remote" }, "bridge"], // chosen, then refused at startup for want of a key
+    // ALCHM_MCP_MODE=local: in-process whatever the key and DATABASE_URL say
+    [{ ALCHM_MCP_MODE: "local", MCP_USER_API_KEY: KEY }, "in-process"],
+    [{ ALCHM_MCP_MODE: "Local", MCP_USER_API_KEY: KEY, DATABASE_URL: "postgres://operator" }, "in-process"],
+    // auto, empty and blank are the default rule
+    [{ ALCHM_MCP_MODE: "auto", MCP_USER_API_KEY: KEY }, "bridge"],
+    [{ ALCHM_MCP_MODE: "AUTO", MCP_USER_API_KEY: KEY, DATABASE_URL: "postgres://operator" }, "in-process"],
+    [{ ALCHM_MCP_MODE: "", MCP_USER_API_KEY: KEY }, "bridge"],
+    [{ ALCHM_MCP_MODE: "   ", MCP_USER_API_KEY: KEY }, "bridge"],
   ])("%j -> %s", (env, mode) => {
     expect(selectMode(env)).toBe(mode);
+  });
+
+  it.each([
+    ["is auto when unset", {}, "auto"],
+    ["is auto when empty or blank", { ALCHM_MCP_MODE: "  " }, "auto"],
+    ["reads remote", { ALCHM_MCP_MODE: "remote" }, "remote"],
+    ["reads local", { ALCHM_MCP_MODE: "local" }, "local"],
+    ["ignores case and surrounding blanks", { ALCHM_MCP_MODE: " LoCaL\n" }, "local"],
+  ])("ALCHM_MCP_MODE %s", (_what, env, setting) => {
+    expect(modeSetting(env)).toBe(setting);
+  });
+
+  it.each(["hosted", "remtoe", "in-process", "0", "sk_alchm_live_TEST_KEY_pasted_into_the_wrong_variable"])("refuses ALCHM_MCP_MODE=%j, and never repeats the value (it could be a key)", (value) => {
+    let message = "";
+    try {
+      selectMode({ ALCHM_MCP_MODE: value, MCP_USER_API_KEY: KEY });
+    } catch (error) {
+      expect(error).toBeInstanceOf(BridgeConfigError);
+      message = error instanceof Error ? error.message : "";
+    }
+    expect(message).toBe("ALCHM_MCP_MODE must be remote, local or auto");
+    expect(message).not.toContain(value);
   });
 
   it("reads the same variables in the same order as the in-process server", () => {
     expect(readApiKey({ MCP_USER_API_KEY: "a", ALCHM_MCP_USER_API_KEY: "b" })).toBe("a");
     expect(readApiKey({ ALCHM_MCP_USER_API_KEY: "b" })).toBe("b");
     expect(readApiKey({})).toBeNull();
+  });
+});
+
+describe("what the in-process server says about its mode (inProcessNote)", () => {
+  const operator = "postgres://operator";
+
+  it.each([
+    ["there is no key", { DATABASE_URL: operator }],
+    ["there is no key, whatever the mode", { ALCHM_MCP_MODE: "local", DATABASE_URL: operator }],
+    ["the key has no database and the bridge will run", { MCP_USER_API_KEY: KEY }],
+    ["local was asked for with a database: that is a choice, not a surprise", { ALCHM_MCP_MODE: "local", MCP_USER_API_KEY: KEY, DATABASE_URL: operator }],
+    ["remote was asked for: the bridge runs, not the in-process server", { ALCHM_MCP_MODE: "remote", MCP_USER_API_KEY: KEY, DATABASE_URL: operator }],
+  ])("says nothing when %s", (_what, env) => {
+    expect(inProcessNote(env)).toBeNull();
+  });
+
+  it("explains operator mode, and how to use the hosted service, when a key meets a DATABASE_URL", () => {
+    const note = inProcessNote({ MCP_USER_API_KEY: KEY, DATABASE_URL: operator });
+    expect(note).toContain("operator mode");
+    expect(note).toContain("ALCHM_MCP_MODE=remote");
+    expect(note).not.toContain(KEY);
+    expect(note).not.toContain(operator);
+  });
+
+  it("also fires for the other key variable and for an explicit auto", () => {
+    expect(inProcessNote({ ALCHM_MCP_USER_API_KEY: KEY, DATABASE_URL: operator, ALCHM_MCP_MODE: "auto" })).toContain("operator mode");
+  });
+
+  it("warns that every tool will fail when local is forced on a key that has no database", () => {
+    const note = inProcessNote({ ALCHM_MCP_MODE: "local", MCP_USER_API_KEY: KEY });
+    expect(note).toContain("every tool will fail");
+    expect(note).toContain("Remove ALCHM_MCP_MODE");
   });
 });
 
@@ -171,7 +239,12 @@ describe("resolving the configuration", () => {
     expect(() => resolveBridgeConfig({ MCP_USER_API_KEY: KEY, ALCHM_MCP_REMOTE_URL: url })).toThrow(why);
   });
 
-  it.each(['"sk_alchm_quoted"', "two words", " ", "sk_alchm_ünïcode"])("refuses the key %j, and never repeats it", (key) => {
+  it.each([{}, { MCP_USER_API_KEY: "" }, { MCP_USER_API_KEY: "   \n" }])("says there is no key, and where to get one, for %j", (env) => {
+    expect(() => resolveBridgeConfig(env)).toThrow(BridgeConfigError);
+    expect(() => resolveBridgeConfig(env)).toThrow(/No API key.*https:\/\/alchm\.kitchen\/profile\/api-keys/);
+  });
+
+  it.each(['"sk_alchm_quoted"', "two words", "sk_alchm_ünïcode"])("refuses the key %j, and never repeats it", (key) => {
     let message = "";
     try {
       resolveBridgeConfig({ MCP_USER_API_KEY: key });
@@ -1053,6 +1126,18 @@ describe("the process wrapper", () => {
     expect(run.stdout).toBe("");
   });
 
+  it("says that DATABASE_URL is not used when remote was asked for with one set, and only then", async () => {
+    const forced = await runProcess({ MCP_USER_API_KEY: KEY, ALCHM_MCP_MODE: "remote", DATABASE_URL: "postgres://unrelated" });
+    expect(forced.code).toBe(0);
+    expect(forced.stderr).toContain("remote bridge to https://alchm.kitchen/api/mcp");
+    expect(forced.stderr).toContain("ALCHM_MCP_MODE=remote, so DATABASE_URL is not used");
+    expect(forced.stderr).not.toContain("postgres://unrelated");
+    expect((await runProcess({ MCP_USER_API_KEY: KEY, ALCHM_MCP_MODE: "remote" })).stderr).not.toContain("DATABASE_URL is not used");
+    expect((await runProcess({ MCP_USER_API_KEY: KEY })).stderr).not.toContain("DATABASE_URL is not used");
+    // the wrapper run directly with a database and the default mode (index.ts would not start it): the note is about remote
+    expect((await runProcess({ MCP_USER_API_KEY: KEY, DATABASE_URL: "postgres://unrelated" })).stderr).not.toContain("DATABASE_URL is not used");
+  });
+
   it("stops when the signal it was given aborts, though stdin is still open", async () => {
     const stop = new AbortController();
     const stdin = new PassThrough();
@@ -1079,6 +1164,8 @@ describe("the process wrapper", () => {
   it.each([
     [{ MCP_USER_API_KEY: KEY, ALCHM_MCP_REMOTE_URL: "http://example.com/api/mcp" }, /must be https/],
     [{ MCP_USER_API_KEY: '"quoted"' }, /cannot have/],
+    [{ ALCHM_MCP_MODE: "remote" }, /No API key/],
+    [{ ALCHM_MCP_MODE: "remtoe", MCP_USER_API_KEY: KEY }, /must be remote, local or auto/],
   ])("refuses %j with exit code 1, the reason on stderr and nothing on stdout", async (env, why) => {
     const run = await runProcess(env);
     expect(run.code).toBe(1);

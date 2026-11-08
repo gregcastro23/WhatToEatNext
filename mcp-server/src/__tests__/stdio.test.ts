@@ -449,7 +449,7 @@ describeIf("MCP stdio remote bridge (a key and no DATABASE_URL)", () => {
       await withKey.request("initialize", hello);
       await withoutKey.request("initialize", hello);
       await eventually(() => withKey.stderr.includes("operator mode"));
-      expect(withKey.stderr).toContain("set it to an empty string");
+      expect(withKey.stderr).toContain("ALCHM_MCP_MODE=remote");
       expect(withKey.stderr).not.toContain(KEY);
       await eventually(() => withoutKey.stderr.includes("Database: configured"));
       expect(withoutKey.stderr).not.toContain("operator mode");
@@ -457,6 +457,48 @@ describeIf("MCP stdio remote bridge (a key and no DATABASE_URL)", () => {
       await withKey.close();
       await withoutKey.close();
     }
+  }, 30000);
+
+  it("uses the hosted service with ALCHM_MCP_MODE=remote even when an unrelated DATABASE_URL is set, and says it ignores it", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, DATABASE_URL: "postgresql://unrelated:x@127.0.0.1:1/app", ALCHM_MCP_MODE: "remote", ALCHM_MCP_REMOTE_URL: hosted.url });
+    try {
+      const init = await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "mode-remote-e2e", version: "1.0.0" } });
+      expect(object(init.result).serverInfo).toMatchObject({ name: "hosted-stand-in" });
+      expect(hosted.seen.map((entry) => entry.auth)).toEqual([`Bearer ${KEY}`]);
+      await eventually(() => client.stderr.includes("DATABASE_URL is not used"));
+      expect(client.stderr).not.toContain("unrelated:x");
+      expect(client.stderr).not.toContain(KEY);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("stays in-process with ALCHM_MCP_MODE=local though a key and no database would otherwise take the bridge, and warns that the key cannot be checked", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_MODE: "local", ALCHM_MCP_REMOTE_URL: hosted.url });
+    try {
+      const init = await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "mode-local-e2e", version: "1.0.0" } });
+      expect(object(init.result).serverInfo).toMatchObject({ name: "alchm-mcp-server", version: MCP_SERVER_VERSION });
+      expect(hosted.seen).toEqual([]);
+      await eventually(() => client.stderr.includes("every tool will fail"));
+      expect(client.stderr).not.toContain(KEY);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("refuses to start on an ALCHM_MCP_MODE it does not know, without repeating it, and writes nothing to stdout", async () => {
+    const pasted = "sk_alchm_pasted_into_the_wrong_variable";
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_MODE: pasted });
+    const code = await new Promise<number | null>((done) => client.proc.once("exit", (exitCode) => done(exitCode)));
+    expect(code).toBe(1);
+    expect(client.stderr).toContain("ALCHM_MCP_MODE must be remote, local or auto");
+    expect(client.stderr).not.toContain(pasted);
+    expect(client.stderr).not.toContain(KEY);
+    expect(client.invalidLines).toEqual([]);
   }, 30000);
 
   it("refuses to start on a plain-http remote host, with the reason on stderr and nothing on stdout", async () => {

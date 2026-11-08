@@ -36,6 +36,12 @@
           "isRequired": false
         },
         {
+          "name": "ALCHM_MCP_MODE",
+          "description": "Optional. auto (the default): with an API key and no DATABASE_URL the server forwards to the hosted endpoint, otherwise it runs in-process. remote: always forward to the hosted endpoint, even if an unrelated DATABASE_URL is set in the environment (needs MCP_USER_API_KEY). local: always run in-process.",
+          "isSecret": false,
+          "isRequired": false
+        },
+        {
           "name": "ALCHM_MCP_REMOTE_URL",
           "description": "Optional. The hosted MCP endpoint a key-only install forwards to, and the place your API key is sent: set it only to a host you trust. Defaults to https://alchm.kitchen/api/mcp; must be https (http is accepted only for localhost).",
           "isSecret": false,

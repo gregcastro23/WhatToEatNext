@@ -7,9 +7,12 @@
  * anonymous access). The hosted endpoint, https://alchm.kitchen/api/mcp, validates the same keys. So when the process has
  * a key and no `DATABASE_URL`, it forwards each JSON-RPC message there instead of running the tools itself.
  *
- *   key and DATABASE_URL: in-process, operator mode (unchanged)
- *   no key:               in-process, anonymous demo mode (unchanged)
- *   key, no DATABASE_URL: this bridge
+ *   ALCHM_MCP_MODE unset or auto:
+ *     key and DATABASE_URL: in-process, operator mode (unchanged)
+ *     no key:               in-process, anonymous demo mode (unchanged)
+ *     key, no DATABASE_URL: this bridge
+ *   ALCHM_MCP_MODE=remote:  this bridge, whatever DATABASE_URL says (a shell often exports an unrelated one); needs a key
+ *   ALCHM_MCP_MODE=local:   in-process, whatever the key and DATABASE_URL say
  *
  * The hosted route is stateless Streamable HTTP: POST one message, get one JSON reply (an SSE reply is accepted too), 202
  * with no body for a notification. A JSON-RPC batch is forwarded as it is, but the hosted route refuses one (400), and each
@@ -57,8 +60,43 @@ export function readApiKey(env: Env): string | null {
   return env.MCP_USER_API_KEY || env.ALCHM_MCP_USER_API_KEY || null;
 }
 
+/** What ALCHM_MCP_MODE asks for. `auto` (the default) lets the key and DATABASE_URL decide. */
+export type ModeSetting = "auto" | "remote" | "local";
+
+/**
+ * Reads ALCHM_MCP_MODE (case and surrounding blanks do not matter; unset or empty is `auto`). Anything else is refused
+ * rather than guessed at, and the message does not repeat the value: it may be a key pasted into the wrong variable.
+ */
+export function modeSetting(env: Env): ModeSetting {
+  const written = env.ALCHM_MCP_MODE?.trim().toLowerCase() ?? "";
+  if (written === "" || written === "auto") return "auto";
+  if (written === "remote" || written === "local") return written;
+  throw new BridgeConfigError("ALCHM_MCP_MODE must be remote, local or auto");
+}
+
+/** Throws BridgeConfigError for an ALCHM_MCP_MODE that is none of remote, local and auto. */
 export function selectMode(env: Env): Mode {
+  const setting = modeSetting(env);
+  if (setting === "remote") return "bridge";
+  if (setting === "local") return "in-process";
   return readApiKey(env) && !env.DATABASE_URL ? "bridge" : "in-process";
+}
+
+/**
+ * A line for stderr when the in-process server starts with an API key, saying which mode that is and how to change it, or
+ * null when there is nothing to say. Many clients pass on the environment of the shell that started them, and DATABASE_URL
+ * is a common name: without this, a developer with an unrelated one gets "unavailable" from every tool and no reason.
+ */
+export function inProcessNote(env: Env): string | null {
+  if (!readApiKey(env)) return null;
+  const setting = modeSetting(env);
+  if (setting === "auto" && env.DATABASE_URL) {
+    return "An API key and DATABASE_URL are both set, so this process checks keys against that database (operator mode). To use the hosted service instead, set ALCHM_MCP_MODE=remote in this server's env block (or unset DATABASE_URL).";
+  }
+  if (setting === "local" && !env.DATABASE_URL) {
+    return "ALCHM_MCP_MODE=local with an API key and no DATABASE_URL: the key cannot be checked here, so every tool will fail. Remove ALCHM_MCP_MODE to use the hosted service.";
+  }
+  return null;
 }
 
 export interface BridgeConfig {
@@ -68,6 +106,9 @@ export interface BridgeConfig {
 
 export function resolveBridgeConfig(env: Env): BridgeConfig {
   const rawKey = readApiKey(env)?.trim() ?? "";
+  if (!rawKey) {
+    throw new BridgeConfigError("No API key: set MCP_USER_API_KEY (mint one at https://alchm.kitchen/profile/api-keys); the hosted service needs one");
+  }
   if (!KEY_PATTERN.test(rawKey)) {
     throw new BridgeConfigError(
       "MCP_USER_API_KEY is empty or contains characters an API key cannot have (spaces, quotes); copy the key again from https://alchm.kitchen/profile/api-keys",
@@ -460,13 +501,18 @@ export function runRemoteBridge(options: BridgeOptions): Promise<void> {
 /** What `index.ts` runs in bridge mode: validates the environment, tells stderr which mode this is, and bridges stdio. */
 export async function runBridgeProcess(proc: { env: Env; stdin: Readable; stdout: Writable; stderr: Writable }, userAgent: string, signal?: AbortSignal): Promise<number> {
   let config: BridgeConfig;
+  let setting: ModeSetting;
   try {
+    setting = modeSetting(proc.env);
     config = resolveBridgeConfig(proc.env);
   } catch (error) {
     proc.stderr.write(`alchm-mcp: ${clip(describe(error))}\n`);
     return 1;
   }
   proc.stderr.write(`Alchm.kitchen MCP: remote bridge to ${config.url.origin}${config.url.pathname} (API key read from the environment, not shown)\n`);
+  if (proc.env.DATABASE_URL && setting === "remote") {
+    proc.stderr.write("alchm-mcp: ALCHM_MCP_MODE=remote, so DATABASE_URL is not used\n");
+  }
   const warning = proxyWarning(proc.env, config.url);
   if (warning) proc.stderr.write(`alchm-mcp: warning: ${warning}\n`);
   await runRemoteBridge({ ...config, input: proc.stdin, output: proc.stdout, errors: proc.stderr, userAgent, ...(signal ? { signal } : {}) });
