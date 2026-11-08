@@ -61,7 +61,14 @@ async function main(): Promise<void> {
   const { drainMcpInvocations } =
     await import("../../src/lib/mcp/invocationLog.js");
   const sessionId = randomUUID();
-  const server = createAlchmMcpServer({ sessionId });
+  const hasDatabase = Boolean(process.env.DATABASE_URL?.trim());
+  const remoteFallbackBackendUrl = !hasDatabase
+    ? process.env.ALCHM_MCP_BACKEND_URL
+    : undefined;
+  const server = createAlchmMcpServer({
+    sessionId,
+    ...(remoteFallbackBackendUrl ? { remoteFallbackBackendUrl } : {}),
+  });
 
   let shuttingDown = false;
   const shutdown = (): void => {

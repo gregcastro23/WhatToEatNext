@@ -34,12 +34,18 @@ import {
   RESOURCE_TEMPLATES,
   readResource,
 } from "./resources";
+import {
+  invokeRemoteStdioFallback,
+  shouldProxyStdioToolToRemote,
+  tryReadRemoteStdioResource,
+} from "./stdioRemoteFallback";
 import { invokeTool, structuredToolContent } from "./tools";
 
 export interface CreateServerOptions {
   sessionId?: string;
   defaultCaller?: ResolvedCaller;
   onInvocation?: (toolName: string, args: Record<string, unknown>) => void;
+  remoteFallbackBackendUrl?: string;
 }
 
 const COMMON_CUISINES = [
@@ -78,6 +84,23 @@ const TECHNIQUE_SLUGS = [
   "braising",
 ];
 
+function formatToolCallResponse(
+  ok: boolean,
+  payload: Record<string, unknown>,
+): {
+  isError?: boolean;
+  structuredContent: Record<string, unknown>;
+  content: Array<{ type: "text"; text: string }>;
+} {
+  return {
+    ...(ok ? {} : { isError: true }),
+    structuredContent: payload,
+    content: [
+      { type: "text" as const, text: JSON.stringify(payload, null, 2) },
+    ],
+  };
+}
+
 function registerToolHandlers(
   server: Server,
   options: CreateServerOptions,
@@ -96,21 +119,32 @@ function registerToolHandlers(
     }
 
     const toolArgs = args ?? {};
+    const correlationId = `mcp:${sessionId}:${extra.requestId}`;
     options.onInvocation?.(name, toolArgs);
+
+    if (
+      shouldProxyStdioToolToRemote(
+        name,
+        toolArgs,
+        options.remoteFallbackBackendUrl,
+      )
+    ) {
+      const remoteResult = await invokeRemoteStdioFallback(name, toolArgs, {
+        ...(options.remoteFallbackBackendUrl
+          ? { remoteBackendUrl: options.remoteFallbackBackendUrl }
+          : {}),
+        correlationId,
+        signal: extra.signal,
+      });
+      return formatToolCallResponse(remoteResult.ok, remoteResult.payload);
+    }
 
     const result = await invokeTool(name, toolArgs, {
       signal: extra.signal,
-      correlationId: `mcp:${sessionId}:${extra.requestId}`,
+      correlationId,
     });
 
-    const payload = structuredToolContent(result);
-    return {
-      ...(result.ok ? {} : { isError: true }),
-      structuredContent: payload,
-      content: [
-        { type: "text" as const, text: JSON.stringify(payload, null, 2) },
-      ],
-    };
+    return formatToolCallResponse(result.ok, structuredToolContent(result));
   });
 }
 
@@ -146,6 +180,11 @@ function registerResourceHandlers(server: Server, options: CreateServerOptions):
 
   server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
     const { uri } = request.params;
+    const remoteRes = await tryReadRemoteStdioResource(
+      uri,
+      options.remoteFallbackBackendUrl,
+    );
+    if (remoteRes) return remoteRes;
     const caller = options.defaultCaller ?? (await resolveCaller({}));
     const res = await readResource(uri, caller);
     if (!res) {
