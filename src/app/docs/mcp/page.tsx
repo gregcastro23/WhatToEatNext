@@ -9,6 +9,7 @@
  */
 
 import Link from "next/link";
+import { MultiAgentSnippetsSection } from "./MultiAgentSnippetsSection";
 import type { JSX } from "react";
 
 export const metadata = {
@@ -16,17 +17,6 @@ export const metadata = {
   description:
     "Connect Claude Desktop, Cursor, or any MCP client to alchm.kitchen's three alchemical tools.",
 };
-
-const museConfig = `{
-  "mcp_servers": {
-    "alchm-kitchen": {
-      "url": "https://alchm.kitchen/api/mcp",
-      "headers": {
-        "Authorization": "Bearer sk_alchm_live_…"
-      }
-    }
-  }
-}`;
 
 const claudeDesktopConfig = `{
   "mcpServers": {
@@ -357,20 +347,8 @@ export default function McpDocsPage(): JSX.Element {
         </div>
       </Section>
 
-      <Section title="Connecting Meta Muse & Remote Agents (Streamable HTTP)">
-        <p>
-          Meta Muse, cloud virtual machines, and remote autonomous agents connect directly via our hosted 
-          <strong>Streamable HTTP</strong> gateway at <code>https://alchm.kitchen/api/mcp</code>.
-        </p>
-        <p>
-          Configure your agent with Bearer authentication using the key you minted above:
-        </p>
-        <CodeBlock>{museConfig}</CodeBlock>
-        <p style={{ marginTop: 12 }}>
-          Our remote gateway supports standard HTTP headers: <code>Authorization: Bearer &lt;key&gt;</code>, 
-          <code>Idempotency-Key</code> for safe retries, and <code>X-Correlation-ID</code> for distributed tracing.
-        </p>
-
+      <Section title="Connect Gemini, Claude, OpenAI, Meta Muse & Remote Agents">
+        <MultiAgentSnippetsSection />
         <h3
           className="t-display"
           style={{ fontSize: 16, marginTop: 20, marginBottom: 8, color: "var(--fg)" }}
@@ -393,6 +371,10 @@ export default function McpDocsPage(): JSX.Element {
           Modern agents can also auto-discover our capabilities and security metadata at standard endpoints:
         </p>
         <ul style={{ paddingLeft: 20, margin: "8px 0 0", lineHeight: 1.7 }}>
+          <li>
+            <strong>OpenAPI 3.1.0 REST Spec (Custom GPTs &amp; Vertex AI):</strong>{" "}
+            <code>/api/mcp/openapi.json</code>
+          </li>
           <li>
             <strong>OAuth 2.0 Protected Resource Metadata (RFC 9728):</strong>{" "}
             <code>/.well-known/oauth-protected-resource</code>
