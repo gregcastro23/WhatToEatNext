@@ -19,7 +19,7 @@
       "environmentVariables": [
         {
           "name": "MCP_USER_API_KEY",
-          "description": "Optional alchm.kitchen API key. Requires operator DATABASE_URL for validation and billing. Anonymous read tools run in demo mode; reflection publication requires authentication.",
+          "description": "Optional alchm.kitchen API key (mint at https://alchm.kitchen/profile/api-keys). Without DATABASE_URL the server forwards each call to the hosted endpoint, which validates the key and applies billing. Without a key, read tools run locally in demo mode; reflection publication requires a key.",
           "isSecret": true,
           "isRequired": false
         },
@@ -31,8 +31,20 @@
         },
         {
           "name": "DATABASE_URL",
-          "description": "Operator PostgreSQL connection string for API-key validation, ESMS billing, optional cache and telemetry. Without it, only anonymous demo reads are available.",
+          "description": "Operator-only PostgreSQL connection string. Setting it runs the tools in-process and validates keys and ESMS billing locally; leave it unset to use the hosted service (with a key) or demo mode (without).",
           "isSecret": true,
+          "isRequired": false
+        },
+        {
+          "name": "ALCHM_MCP_MODE",
+          "description": "Optional. auto (the default): with an API key and no DATABASE_URL the server forwards to the hosted endpoint, otherwise it runs in-process. remote: always forward to the hosted endpoint, even if an unrelated DATABASE_URL is set in the environment (needs MCP_USER_API_KEY). local: always run in-process.",
+          "isSecret": false,
+          "isRequired": false
+        },
+        {
+          "name": "ALCHM_MCP_REMOTE_URL",
+          "description": "Optional. The hosted MCP endpoint a key-only install forwards to, and the place your API key is sent: set it only to a host you trust. Defaults to https://alchm.kitchen/api/mcp; must be https (http is accepted only for localhost).",
+          "isSecret": false,
           "isRequired": false
         },
         {

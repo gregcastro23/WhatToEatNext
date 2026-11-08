@@ -4,6 +4,7 @@
  * MCP_E2E_ENTRY=mcp-server/bin/alchm-mcp repeats against the compiled sidecar.
  */
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
+import { createServer, type Server } from "node:http";
 import { resolve } from "node:path";
 import { MCP_SERVER_VERSION, TOOL_NAMES } from "../../../src/lib/mcp/catalog";
 
@@ -36,7 +37,7 @@ class StdioClient {
   >();
   private nextId = 1;
 
-  constructor() {
+  constructor(extraEnv: Record<string, string> = {}) {
     const entry = resolve(
       REPO_ROOT,
       process.env.MCP_E2E_ENTRY ?? "mcp-server/src/index.ts",
@@ -62,6 +63,7 @@ class StdioClient {
         INTERNAL_API_SECRET: "",
         SYNTHETIC_PROBE_USER_ID: "",
         ALCHM_MCP_BACKEND_URL: "http://127.0.0.1:1",
+        ...extraEnv,
       },
     });
     this.proc.stdout.setEncoding("utf8");
@@ -317,6 +319,196 @@ describeIf("MCP stdio transport", () => {
     expect(client.invalidLines).toEqual([]);
     expect(client.sawStartup).toBe(true);
   });
+});
+
+const BIG_REPLY = 300_000; // well over one pipe buffer (64 KiB)
+const sleep = (ms: number): Promise<void> => new Promise((done) => setTimeout(done, ms));
+
+async function eventually(check: () => boolean, ms = 4000): Promise<void> {
+  for (const end = Date.now() + ms; !check(); await sleep(20)) {
+    if (Date.now() > end) throw new Error("condition not met in time");
+  }
+}
+
+/** A stand-in for https://alchm.kitchen/api/mcp on loopback: records what the bridge sends and answers like the hosted route. */
+async function startHostedStandIn(): Promise<{ url: string; seen: { auth: string | undefined; body: string }[]; close: () => Promise<void> }> {
+  const seen: { auth: string | undefined; body: string }[] = [];
+  const server: Server = createServer((req, res) => {
+    const chunks: Buffer[] = [];
+    req.on("data", (chunk: Buffer) => chunks.push(chunk));
+    req.on("end", () => {
+      const body = Buffer.concat(chunks).toString("utf8");
+      seen.push({ auth: req.headers.authorization, body });
+      if (req.url === "/redirect") {
+        res.writeHead(307, { location: "/api/mcp" }).end();
+        return;
+      }
+      const message = object(JSON.parse(body));
+      if (typeof message.id !== "number") {
+        res.writeHead(202).end();
+        return;
+      }
+      const result =
+        message.method === "initialize"
+          ? { protocolVersion: "2025-06-18", capabilities: {}, serverInfo: { name: "hosted-stand-in", version: "0.0.0" } }
+          : message.method === "big"
+            ? { pad: "x".repeat(BIG_REPLY) }
+            : { echoedAuthorization: req.headers.authorization ?? null };
+      res.writeHead(200, { "content-type": "application/json" });
+      res.end(JSON.stringify({ jsonrpc: "2.0", id: message.id, result }));
+    });
+  });
+  await new Promise<void>((ready) => server.listen(0, "127.0.0.1", ready));
+  const address = server.address();
+  if (!address || typeof address === "string") throw new Error("stand-in has no port");
+  return {
+    url: `http://127.0.0.1:${address.port}/api/mcp`,
+    seen,
+    close: () => new Promise<void>((done) => { server.closeAllConnections(); server.close(() => done()); }),
+  };
+}
+
+describeIf("MCP stdio remote bridge (a key and no DATABASE_URL)", () => {
+  const KEY = "sk_alchm_e2e_bridge_key_not_a_credential";
+
+  it("forwards over real stdio and a real HTTP socket, with the key as a bearer token, and exits cleanly on EOF", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_REMOTE_URL: hosted.url });
+    try {
+      const init = await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "bridge-e2e", version: "1.0.0" } });
+      expect(object(init.result).serverInfo).toMatchObject({ name: "hosted-stand-in" });
+      client.notify("notifications/initialized");
+      const listed = await client.request("tools/list");
+      expect(object(listed.result).echoedAuthorization).toBe(`Bearer ${KEY}`);
+      expect(hosted.seen.map((entry) => entry.auth)).toEqual([`Bearer ${KEY}`, `Bearer ${KEY}`, `Bearer ${KEY}`]);
+      expect(client.stderr).toContain(`remote bridge to ${hosted.url}`);
+      expect(client.stderr).not.toContain(KEY);
+      expect(client.invalidLines).toEqual([]);
+      const exited = new Promise<number | null>((done) => client.proc.once("exit", (code) => done(code)));
+      client.proc.stdin.end();
+      expect(await exited).toBe(0);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("stays in-process when a DATABASE_URL is configured (operator mode): the hosted endpoint is never contacted", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, DATABASE_URL: "postgresql://nobody:x@127.0.0.1:1/none", ALCHM_MCP_REMOTE_URL: hosted.url });
+    try {
+      const init = await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "operator-e2e", version: "1.0.0" } });
+      expect(object(init.result).serverInfo).toMatchObject({ name: "alchm-mcp-server", version: MCP_SERVER_VERSION });
+      expect(hosted.seen).toEqual([]);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("does not follow a redirect with the key attached: the request fails and the target is never contacted", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_REMOTE_URL: hosted.url.replace("/api/mcp", "/redirect") });
+    try {
+      const response = await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "redirect-e2e", version: "1.0.0" } });
+      expect(object(response.error).code).toBe(-32603);
+      expect(hosted.seen).toHaveLength(1);
+      expect(client.stderr).not.toContain(KEY);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  // A smoke test: under `bun test` the parent drains the child's pipe eagerly, so this cannot show the truncation that
+  // `process.exit()` used to cause (Bun cut a reply at 64 KiB). That cause is pinned in remoteBridge.test.ts (runBridgeMain).
+  it("writes a reply bigger than a pipe buffer in full when stdin closes right after the request", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_REMOTE_URL: hosted.url });
+    let stdout = "";
+    client.proc.stdout.on("data", (chunk: string) => {
+      stdout += chunk;
+    });
+    const closed = new Promise<number | null>((done) => client.proc.once("close", (code) => done(code)));
+    try {
+      client.proc.stdin.end(`${JSON.stringify({ jsonrpc: "2.0", id: 1, method: "big" })}\n`);
+      expect(await closed).toBe(0);
+      expect(object(object(JSON.parse(stdout)).result).pad).toHaveLength(BIG_REPLY);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("says on stderr that it is in operator mode, and how to leave it, when a key meets a DATABASE_URL, and not otherwise", async () => {
+    const database = "postgresql://nobody:x@127.0.0.1:1/none";
+    const withKey = new StdioClient({ MCP_USER_API_KEY: KEY, DATABASE_URL: database });
+    const withoutKey = new StdioClient({ DATABASE_URL: database });
+    try {
+      const hello = { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "mode-e2e", version: "1.0.0" } };
+      await withKey.request("initialize", hello);
+      await withoutKey.request("initialize", hello);
+      await eventually(() => withKey.stderr.includes("operator mode"));
+      expect(withKey.stderr).toContain("ALCHM_MCP_MODE=remote");
+      expect(withKey.stderr).not.toContain(KEY);
+      await eventually(() => withoutKey.stderr.includes("Database: configured"));
+      expect(withoutKey.stderr).not.toContain("operator mode");
+    } finally {
+      await withKey.close();
+      await withoutKey.close();
+    }
+  }, 30000);
+
+  it("uses the hosted service with ALCHM_MCP_MODE=remote even when an unrelated DATABASE_URL is set, and says it ignores it", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, DATABASE_URL: "postgresql://unrelated:x@127.0.0.1:1/app", ALCHM_MCP_MODE: "remote", ALCHM_MCP_REMOTE_URL: hosted.url });
+    try {
+      const init = await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "mode-remote-e2e", version: "1.0.0" } });
+      expect(object(init.result).serverInfo).toMatchObject({ name: "hosted-stand-in" });
+      expect(hosted.seen.map((entry) => entry.auth)).toEqual([`Bearer ${KEY}`]);
+      await eventually(() => client.stderr.includes("DATABASE_URL is not used"));
+      expect(client.stderr).not.toContain("unrelated:x");
+      expect(client.stderr).not.toContain(KEY);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("stays in-process with ALCHM_MCP_MODE=local though a key and no database would otherwise take the bridge, and warns that the key cannot be checked", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_MODE: "local", ALCHM_MCP_REMOTE_URL: hosted.url });
+    try {
+      const init = await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "mode-local-e2e", version: "1.0.0" } });
+      expect(object(init.result).serverInfo).toMatchObject({ name: "alchm-mcp-server", version: MCP_SERVER_VERSION });
+      expect(hosted.seen).toEqual([]);
+      await eventually(() => client.stderr.includes("every tool will fail"));
+      expect(client.stderr).not.toContain(KEY);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("refuses to start on an ALCHM_MCP_MODE it does not know, without repeating it, and writes nothing to stdout", async () => {
+    const pasted = "sk_alchm_pasted_into_the_wrong_variable";
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_MODE: pasted });
+    const code = await new Promise<number | null>((done) => client.proc.once("exit", (exitCode) => done(exitCode)));
+    expect(code).toBe(1);
+    expect(client.stderr).toContain("ALCHM_MCP_MODE must be remote, local or auto");
+    expect(client.stderr).not.toContain(pasted);
+    expect(client.stderr).not.toContain(KEY);
+    expect(client.invalidLines).toEqual([]);
+  }, 30000);
+
+  it("refuses to start on a plain-http remote host, with the reason on stderr and nothing on stdout", async () => {
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_REMOTE_URL: "http://example.com/api/mcp" });
+    const code = await new Promise<number | null>((done) => client.proc.once("exit", (exitCode) => done(exitCode)));
+    expect(code).toBe(1);
+    expect(client.stderr).toContain("must be https");
+    expect(client.stderr).not.toContain(KEY);
+    expect(client.invalidLines).toEqual([]);
+  }, 30000);
 });
 
 if (!ENABLED) {
