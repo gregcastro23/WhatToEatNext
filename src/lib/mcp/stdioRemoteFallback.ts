@@ -11,6 +11,12 @@
 
 import { isToolName } from "./catalog";
 import { redactSensitiveString } from "./httpSecurity";
+import {
+  destinationRefusal,
+  isRedirectRefusal,
+  keyDestinationProblem,
+  redirectRefusal,
+} from "./keyDestination";
 import { validateToolArguments } from "./validation";
 
 export interface RemoteFallbackOptions {
@@ -159,6 +165,7 @@ function buildNetworkErrorResult(
     (err instanceof Error && err.name === "AbortError");
   const rawMsg =
     err instanceof Error ? redactSensitiveString(err.message) : "Network error";
+  if (!aborted && isRedirectRefusal(err)) return redirectRefusal(correlationId);
   return {
     ok: false,
     payload: {
@@ -187,6 +194,12 @@ export async function invokeRemoteStdioFallback(
     "",
   );
   const url = `${baseUrl}/api/mcp/rest/${encodeURIComponent(toolName)}`;
+  const apiKey = extractStdioApiKey(args);
+  const problem = apiKey ? keyDestinationProblem(baseUrl) : null;
+  // The key is not sent anywhere it could be read or redirected.
+  if (problem) return destinationRefusal(problem, options.correlationId);
+  // A request that carries the key never follows a redirect.
+  const redirect: RequestRedirect = "error";
   const headers = buildRemoteHeaders(args, options.correlationId);
   const body = JSON.stringify(sanitizeForwardedArgs(args));
 
@@ -195,6 +208,7 @@ export async function invokeRemoteStdioFallback(
       method: "POST",
       headers,
       body,
+      ...(apiKey ? { redirect } : {}),
       ...(options.signal ? { signal: options.signal } : {}),
     });
     const rawText = await res.text();
