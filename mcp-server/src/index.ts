@@ -14,7 +14,7 @@ import {
   TOOL_DEFINITIONS,
   isToolName,
 } from "../../src/lib/mcp/catalog.js";
-import { runBridgeProcess, selectMode } from "./remoteBridge.js";
+import { readApiKey, runBridgeMain, selectMode } from "./remoteBridge.js";
 
 // Application services log during module initialization. Redirect before their
 // dynamic import: stdout belongs exclusively to newline-delimited JSON-RPC.
@@ -60,13 +60,8 @@ if (!hasExplicitBackend) {
  * fails every tool. That is the install an external user gets from the README, so those calls are forwarded to the hosted
  * endpoint, which validates the same keys. Operator mode (a database) and anonymous mode (no key) stay in-process.
  */
-async function bridge(): Promise<never> {
-  const stop = new AbortController();
-  process.once("SIGINT", () => stop.abort());
-  process.once("SIGTERM", () => stop.abort());
-  const code = await runBridgeProcess(process, `alchm-mcp-bridge/${MCP_SERVER_VERSION}`, stop.signal);
-  await new Promise<void>((flushed) => process.stdout.write("", () => flushed()));
-  process.exit(code);
+async function bridge(): Promise<void> {
+  process.exitCode = await runBridgeMain(process, `alchm-mcp-bridge/${MCP_SERVER_VERSION}`);
 }
 
 async function main(): Promise<void> {
@@ -110,6 +105,12 @@ async function main(): Promise<void> {
   console.error(
     `Database: ${process.env.DATABASE_URL ? "configured" : "anonymous demo mode"}; backend: ${process.env.ALCHM_MCP_BACKEND_URL ?? "configured app URL"}`,
   );
+  if (process.env.DATABASE_URL && readApiKey(process.env)) {
+    // Many clients pass on the shell's environment, and DATABASE_URL is a common name: say which mode this is, and how to leave it.
+    console.error(
+      "An API key and DATABASE_URL are both set, so this process checks keys against that database (operator mode). To use the hosted service instead, unset DATABASE_URL or set it to an empty string in this server's env block.",
+    );
+  }
 }
 
 main().catch((error: unknown) => {

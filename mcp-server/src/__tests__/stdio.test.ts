@@ -321,6 +321,15 @@ describeIf("MCP stdio transport", () => {
   });
 });
 
+const BIG_REPLY = 300_000; // well over one pipe buffer (64 KiB)
+const sleep = (ms: number): Promise<void> => new Promise((done) => setTimeout(done, ms));
+
+async function eventually(check: () => boolean, ms = 4000): Promise<void> {
+  for (const end = Date.now() + ms; !check(); await sleep(20)) {
+    if (Date.now() > end) throw new Error("condition not met in time");
+  }
+}
+
 /** A stand-in for https://alchm.kitchen/api/mcp on loopback: records what the bridge sends and answers like the hosted route. */
 async function startHostedStandIn(): Promise<{ url: string; seen: { auth: string | undefined; body: string }[]; close: () => Promise<void> }> {
   const seen: { auth: string | undefined; body: string }[] = [];
@@ -342,7 +351,9 @@ async function startHostedStandIn(): Promise<{ url: string; seen: { auth: string
       const result =
         message.method === "initialize"
           ? { protocolVersion: "2025-06-18", capabilities: {}, serverInfo: { name: "hosted-stand-in", version: "0.0.0" } }
-          : { echoedAuthorization: req.headers.authorization ?? null };
+          : message.method === "big"
+            ? { pad: "x".repeat(BIG_REPLY) }
+            : { echoedAuthorization: req.headers.authorization ?? null };
       res.writeHead(200, { "content-type": "application/json" });
       res.end(JSON.stringify({ jsonrpc: "2.0", id: message.id, result }));
     });
@@ -406,6 +417,45 @@ describeIf("MCP stdio remote bridge (a key and no DATABASE_URL)", () => {
     } finally {
       await client.close();
       await hosted.close();
+    }
+  }, 30000);
+
+  // A smoke test: under `bun test` the parent drains the child's pipe eagerly, so this cannot show the truncation that
+  // `process.exit()` used to cause (Bun cut a reply at 64 KiB). That cause is pinned in remoteBridge.test.ts (runBridgeMain).
+  it("writes a reply bigger than a pipe buffer in full when stdin closes right after the request", async () => {
+    const hosted = await startHostedStandIn();
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_REMOTE_URL: hosted.url });
+    let stdout = "";
+    client.proc.stdout.on("data", (chunk: string) => {
+      stdout += chunk;
+    });
+    const closed = new Promise<number | null>((done) => client.proc.once("close", (code) => done(code)));
+    try {
+      client.proc.stdin.end(`${JSON.stringify({ jsonrpc: "2.0", id: 1, method: "big" })}\n`);
+      expect(await closed).toBe(0);
+      expect(object(object(JSON.parse(stdout)).result).pad).toHaveLength(BIG_REPLY);
+    } finally {
+      await client.close();
+      await hosted.close();
+    }
+  }, 30000);
+
+  it("says on stderr that it is in operator mode, and how to leave it, when a key meets a DATABASE_URL, and not otherwise", async () => {
+    const database = "postgresql://nobody:x@127.0.0.1:1/none";
+    const withKey = new StdioClient({ MCP_USER_API_KEY: KEY, DATABASE_URL: database });
+    const withoutKey = new StdioClient({ DATABASE_URL: database });
+    try {
+      const hello = { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "mode-e2e", version: "1.0.0" } };
+      await withKey.request("initialize", hello);
+      await withoutKey.request("initialize", hello);
+      await eventually(() => withKey.stderr.includes("operator mode"));
+      expect(withKey.stderr).toContain("set it to an empty string");
+      expect(withKey.stderr).not.toContain(KEY);
+      await eventually(() => withoutKey.stderr.includes("Database: configured"));
+      expect(withoutKey.stderr).not.toContain("operator mode");
+    } finally {
+      await withKey.close();
+      await withoutKey.close();
     }
   }, 30000);
 

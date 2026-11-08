@@ -37,7 +37,7 @@
         },
         {
           "name": "ALCHM_MCP_REMOTE_URL",
-          "description": "Optional. The hosted MCP endpoint a key-only install forwards to. Defaults to https://alchm.kitchen/api/mcp; must be https (http is accepted only for localhost).",
+          "description": "Optional. The hosted MCP endpoint a key-only install forwards to, and the place your API key is sent: set it only to a host you trust. Defaults to https://alchm.kitchen/api/mcp; must be https (http is accepted only for localhost).",
           "isSecret": false,
           "isRequired": false
         },

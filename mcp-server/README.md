@@ -110,6 +110,14 @@ Use the same `mcpServers` configuration shape in Claude Desktop's `claude_deskto
 
 With only a key, as above, this package is a thin client of the hosted service: each request goes to `https://alchm.kitchen/api/mcp` and a key the service does not recognise is reported there, with where to mint a new one. Leave the key out and the tools run on your machine in demo mode (live sky data still comes from alchm.kitchen). If the key has a stray space or quote the process refuses to start and says so on stderr.
 
+Troubleshooting a key-only install:
+
+- **Every tool says the authentication service or database is unreachable, and stderr says `An API key and DATABASE_URL are both set`.** Many clients pass on the environment of the shell that started them, and `DATABASE_URL` is a common name, so the process took the operator path. Set `"DATABASE_URL": ""` in this server's `env` block to use the hosted service.
+- **`the server answered with a redirect`.** The bridge never follows a redirect, because the key would go wherever it points. Put the final URL in `ALCHM_MCP_REMOTE_URL` (check a trailing slash, `http` against `https`, `www`).
+- **Behind an HTTP proxy.** Node's `fetch` ignores `HTTP_PROXY` and `HTTPS_PROXY` unless `NODE_USE_ENV_PROXY=1` is set (Node 22.21 or 24 and later); older Node cannot use one. Where a proxy is honoured (Bun, or Node with that variable), a plain `http://localhost` URL would send the key through it in clear text, so add the host to `NO_PROXY`; the process warns on stderr when it sees this.
+- **`ALCHM_MCP_REMOTE_URL` is where your key is sent.** Set it only to a host you trust. A project-scoped MCP configuration in a repository you cloned can set it too, so read those before approving them.
+- **Limits.** A request over 256 KB is refused locally, a call gets 65 s, and at most 64 requests are on the wire at once. Nothing is retried automatically, because a retried paid call is charged again; send `_meta.idempotencyKey` (see Billing and safe retries) to retry safely. `notifications/cancelled` is forwarded but does not cancel the request in flight.
+
 For a local source checkout use `"command": "bun"` and `"args": ["run", "/absolute/path/to/WhatToEatNext-master/mcp-server/src/index.ts"]`. Database configuration belongs to the operator running the server, and setting `DATABASE_URL` switches the process back to running the tools in-process. See the source-run templates in [`claude-desktop.config.example.json`](./claude-desktop.config.example.json) and [`cursor.mcp.example.json`](./cursor.mcp.example.json).
 
 ## Verification and operations
