@@ -190,6 +190,8 @@ describe("what the in-process server says about its mode (inProcessNote)", () =>
     ["the key has no database and the bridge will run", { MCP_USER_API_KEY: KEY }],
     ["local was asked for with a database: that is a choice, not a surprise", { ALCHM_MCP_MODE: "local", MCP_USER_API_KEY: KEY, DATABASE_URL: operator }],
     ["remote was asked for: the bridge runs, not the in-process server", { ALCHM_MCP_MODE: "remote", MCP_USER_API_KEY: KEY, DATABASE_URL: operator }],
+    // since 1.5.1 the in-process server sends a keyed tool call to the hosted REST endpoint when it has no database, so this works
+    ["local was asked for with a key and no database: the in-process server's REST fallback takes the keyed calls", { ALCHM_MCP_MODE: "local", MCP_USER_API_KEY: KEY }],
   ])("says nothing when %s", (_what, env) => {
     expect(inProcessNote(env)).toBeNull();
   });
@@ -206,11 +208,6 @@ describe("what the in-process server says about its mode (inProcessNote)", () =>
     expect(inProcessNote({ ALCHM_MCP_USER_API_KEY: KEY, DATABASE_URL: operator, ALCHM_MCP_MODE: "auto" })).toContain("operator mode");
   });
 
-  it("warns that every tool will fail when local is forced on a key that has no database", () => {
-    const note = inProcessNote({ ALCHM_MCP_MODE: "local", MCP_USER_API_KEY: KEY });
-    expect(note).toContain("every tool will fail");
-    expect(note).toContain("Remove ALCHM_MCP_MODE");
-  });
 });
 
 describe("resolving the configuration", () => {

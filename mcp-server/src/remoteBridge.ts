@@ -2,17 +2,19 @@
  * Stdio-to-hosted bridge for the npm package.
  *
  * `@alchm/mcp-server` runs the tools in-process. An API key is checked against the operator's database
- * (`DATABASE_URL`), which an external user does not have, so a key with no database makes every tool answer
+ * (`DATABASE_URL`), which an external user does not have, so in 1.5.0 a key with no database made every tool answer
  * "API key authentication failed or is unavailable" (src/lib/mcp/auth.ts: explicit credentials never fall back to
  * anonymous access). The hosted endpoint, https://alchm.kitchen/api/mcp, validates the same keys. So when the process has
- * a key and no `DATABASE_URL`, it forwards each JSON-RPC message there instead of running the tools itself.
+ * a key and no `DATABASE_URL`, it forwards each JSON-RPC message there instead of running the tools itself. (Since 1.5.1 the
+ * in-process server also sends a keyed tool call to the hosted REST endpoint when it has no database, see
+ * src/lib/mcp/stdioRemoteFallback.ts; ALCHM_MCP_MODE=local gets that path.)
  *
  *   ALCHM_MCP_MODE unset or auto:
  *     key and DATABASE_URL: in-process, operator mode (unchanged)
  *     no key:               in-process, anonymous demo mode (unchanged)
  *     key, no DATABASE_URL: this bridge
  *   ALCHM_MCP_MODE=remote:  this bridge, whatever DATABASE_URL says (a shell often exports an unrelated one); needs a key
- *   ALCHM_MCP_MODE=local:   in-process, whatever the key and DATABASE_URL say
+ *   ALCHM_MCP_MODE=local:   in-process, whatever the key and DATABASE_URL say (keyed tool calls go to the REST fallback if no database)
  *
  * The hosted route is stateless Streamable HTTP: POST one message, get one JSON reply (an SSE reply is accepted too), 202
  * with no body for a notification. A JSON-RPC batch is forwarded as it is, but the hosted route refuses one (400), and each
@@ -92,9 +94,6 @@ export function inProcessNote(env: Env): string | null {
   const setting = modeSetting(env);
   if (setting === "auto" && env.DATABASE_URL) {
     return "An API key and DATABASE_URL are both set, so this process checks keys against that database (operator mode). To use the hosted service instead, set ALCHM_MCP_MODE=remote in this server's env block (or unset DATABASE_URL).";
-  }
-  if (setting === "local" && !env.DATABASE_URL) {
-    return "ALCHM_MCP_MODE=local with an API key and no DATABASE_URL: the key cannot be checked here, so every tool will fail. Remove ALCHM_MCP_MODE to use the hosted service.";
   }
   return null;
 }

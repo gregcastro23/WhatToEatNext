@@ -331,14 +331,20 @@ async function eventually(check: () => boolean, ms = 4000): Promise<void> {
 }
 
 /** A stand-in for https://alchm.kitchen/api/mcp on loopback: records what the bridge sends and answers like the hosted route. */
-async function startHostedStandIn(): Promise<{ url: string; seen: { auth: string | undefined; body: string }[]; close: () => Promise<void> }> {
-  const seen: { auth: string | undefined; body: string }[] = [];
+async function startHostedStandIn(): Promise<{ url: string; seen: { auth: string | undefined; body: string; path: string | undefined }[]; close: () => Promise<void> }> {
+  const seen: { auth: string | undefined; body: string; path: string | undefined }[] = [];
   const server: Server = createServer((req, res) => {
     const chunks: Buffer[] = [];
     req.on("data", (chunk: Buffer) => chunks.push(chunk));
     req.on("end", () => {
       const body = Buffer.concat(chunks).toString("utf8");
-      seen.push({ auth: req.headers.authorization, body });
+      seen.push({ auth: req.headers.authorization, body, path: req.url });
+      if (req.url?.startsWith("/api/mcp/rest/")) {
+        // the REST route the in-process server's fallback calls (src/app/api/mcp/rest/[tool]/route.ts)
+        res.writeHead(200, { "content-type": "application/json" });
+        res.end(JSON.stringify({ ok: true, result: { viaRest: req.url } }));
+        return;
+      }
       if (req.url === "/redirect") {
         res.writeHead(307, { location: "/api/mcp" }).end();
         return;
@@ -380,6 +386,7 @@ describeIf("MCP stdio remote bridge (a key and no DATABASE_URL)", () => {
       client.notify("notifications/initialized");
       const listed = await client.request("tools/list");
       expect(object(listed.result).echoedAuthorization).toBe(`Bearer ${KEY}`);
+      await eventually(() => hosted.seen.length === 3); // the notification's POST runs alongside tools/list: it can still be on its way
       expect(hosted.seen.map((entry) => entry.auth)).toEqual([`Bearer ${KEY}`, `Bearer ${KEY}`, `Bearer ${KEY}`]);
       expect(client.stderr).toContain(`remote bridge to ${hosted.url}`);
       expect(client.stderr).not.toContain(KEY);
@@ -475,14 +482,18 @@ describeIf("MCP stdio remote bridge (a key and no DATABASE_URL)", () => {
     }
   }, 30000);
 
-  it("stays in-process with ALCHM_MCP_MODE=local though a key and no database would otherwise take the bridge, and warns that the key cannot be checked", async () => {
+  it("stays in-process with ALCHM_MCP_MODE=local though a key and no database would otherwise take the bridge: the keyed call goes to the REST fallback, not the bridge", async () => {
     const hosted = await startHostedStandIn();
-    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_MODE: "local", ALCHM_MCP_REMOTE_URL: hosted.url });
+    const client = new StdioClient({ MCP_USER_API_KEY: KEY, ALCHM_MCP_MODE: "local", ALCHM_MCP_REMOTE_URL: hosted.url, ALCHM_MCP_BACKEND_URL: hosted.url.replace("/api/mcp", "") });
     try {
       const init = await client.request("initialize", { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "mode-local-e2e", version: "1.0.0" } });
       expect(object(init.result).serverInfo).toMatchObject({ name: "alchm-mcp-server", version: MCP_SERVER_VERSION });
-      expect(hosted.seen).toEqual([]);
-      await eventually(() => client.stderr.includes("every tool will fail"));
+      expect(hosted.seen).toEqual([]); // the bridge would have sent initialize to the hosted endpoint
+      const answer = await client.request("tools/call", { name: "get_user_allowance", arguments: {} });
+      expect(JSON.stringify(answer.result)).toContain("viaRest");
+      expect(hosted.seen.map((entry) => entry.path)).toEqual(["/api/mcp/rest/get_user_allowance"]);
+      expect(hosted.seen.map((entry) => entry.auth)).toEqual([`Bearer ${KEY}`]);
+      expect(client.stderr).not.toContain("every tool will fail"); // that note was wrong once #993 added the fallback
       expect(client.stderr).not.toContain(KEY);
     } finally {
       await client.close();

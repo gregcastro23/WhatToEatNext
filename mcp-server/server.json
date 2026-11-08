@@ -37,7 +37,7 @@
         },
         {
           "name": "ALCHM_MCP_MODE",
-          "description": "Optional. auto (the default): with an API key and no DATABASE_URL the server forwards to the hosted endpoint, otherwise it runs in-process. remote: always forward to the hosted endpoint, even if an unrelated DATABASE_URL is set in the environment (needs MCP_USER_API_KEY). local: always run in-process.",
+          "description": "Optional. auto (the default): with an API key and no DATABASE_URL the server forwards to the hosted endpoint, otherwise it runs in-process. remote: always forward to the hosted endpoint, even if an unrelated DATABASE_URL is set in the environment (needs MCP_USER_API_KEY). local: always run in-process (with a key and no DATABASE_URL, tool calls still go to the hosted REST endpoint under ALCHM_MCP_BACKEND_URL).",
           "isSecret": false,
           "isRequired": false
         },
