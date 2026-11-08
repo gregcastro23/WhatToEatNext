@@ -8,6 +8,7 @@ import {
   extractStdioApiKey,
   invokeRemoteStdioFallback,
   shouldProxyStdioToolToRemote,
+  tryReadRemoteStdioResource,
 } from "@/lib/mcp/stdioRemoteFallback";
 
 describe("Stdio Remote HTTP Fallback (when DATABASE_URL is absent)", () => {
@@ -144,5 +145,45 @@ describe("Stdio Remote HTTP Fallback (when DATABASE_URL is absent)", () => {
     expect(res.ok).toBe(false);
     expect(res.payload.errorCode).toBe("UNAVAILABLE");
     expect(typeof res.payload.remediation).toBe("string");
+  });
+
+  it("proxies alchm://account/allowance and alchm://account/culinary-profile when API key is configured", async () => {
+    process.env.ALCHM_MCP_USER_API_KEY = "sk_alchm_resource_key";
+    global.fetch = jest.fn((input: RequestInfo | URL): Promise<Response> => {
+      const url = typeof input === "string" ? input : input.toString();
+      if (url.endsWith("/get_user_allowance")) {
+        return Promise.resolve(
+          new Response(
+            JSON.stringify({ authenticated: true, tier: "initiate" }),
+            { status: 200 },
+          ),
+        );
+      }
+      return Promise.resolve(
+        new Response(
+          JSON.stringify({
+            updated: true,
+            profile: { allergens: ["peanuts"], dietaryFrameworks: ["Vegan"] },
+          }),
+          { status: 200 },
+        ),
+      );
+    });
+
+    const allowanceRes = await tryReadRemoteStdioResource(
+      "alchm://account/allowance",
+      "https://alchm.kitchen",
+    );
+    expect(allowanceRes?.contents[0]?.uri).toBe("alchm://account/allowance");
+    expect(allowanceRes?.contents[0]?.text).toContain('"initiate"');
+
+    const profileRes = await tryReadRemoteStdioResource(
+      "alchm://account/culinary-profile",
+      "https://alchm.kitchen",
+    );
+    expect(profileRes?.contents[0]?.uri).toBe(
+      "alchm://account/culinary-profile",
+    );
+    expect(profileRes?.contents[0]?.text).toContain('"peanuts"');
   });
 });

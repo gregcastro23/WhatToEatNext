@@ -215,29 +215,51 @@ export async function invokeRemoteStdioFallback(
   }
 }
 
+function resolveResourceToolName(uri: string): string | null {
+  if (uri === "alchm://account/allowance" || uri === "mcp://user/allowance") {
+    return "get_user_allowance";
+  }
+  if (
+    uri === "alchm://account/culinary-profile" ||
+    uri === "mcp://user/culinary-profile"
+  ) {
+    return "update_culinary_profile";
+  }
+  return null;
+}
+
 export async function tryReadRemoteStdioResource(
   uri: string,
   remoteBackendUrl?: string,
 ): Promise<{
   contents: Array<{ uri: string; mimeType: string; text: string }>;
 } | null> {
+  const toolName = resolveResourceToolName(uri);
   if (
-    uri !== "mcp://user/allowance" ||
-    !shouldProxyStdioToolToRemote("get_user_allowance", {}, remoteBackendUrl)
+    !toolName ||
+    !shouldProxyStdioToolToRemote(toolName, {}, remoteBackendUrl)
   ) {
     return null;
   }
-  const res = await invokeRemoteStdioFallback("get_user_allowance", {}, {
-    ...(remoteBackendUrl ? { remoteBackendUrl } : {}),
-    correlationId: "mcp:resource:allowance",
-  });
+  const res = await invokeRemoteStdioFallback(
+    toolName,
+    {},
+    {
+      ...(remoteBackendUrl ? { remoteBackendUrl } : {}),
+      correlationId: `mcp:resource:${toolName}`,
+    },
+  );
   if (!res.ok) return null;
+  const payload =
+    toolName === "update_culinary_profile" && isRecord(res.payload.profile)
+      ? { authenticated: true, ...res.payload.profile }
+      : res.payload;
   return {
     contents: [
       {
         uri,
         mimeType: "application/json",
-        text: JSON.stringify(res.payload, null, 2),
+        text: JSON.stringify(payload, null, 2),
       },
     ],
   };
