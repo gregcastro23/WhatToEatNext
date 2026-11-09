@@ -42,6 +42,10 @@ export interface AgentRoleSlice {
   label: string;
   agentCount: number;
   events24h: number;
+  liveCount?: number;
+  idleCount?: number;
+  warnCount?: number;
+  drainingCount?: number;
 }
 
 export interface AgentDispatchEntry {
@@ -252,14 +256,29 @@ async function getRoles(): Promise<AgentNetworkPayload["roles"]> {
   try {
     // Each agent's "role" is approximated by the most-common prefix of its
     // feed_events.event_type, then we summarize per role: distinct agents +
-    // 24h event volume. Agents with no events fall into a "dormant" bucket.
+    // per-node health breakdown (live, idle, warn, draining) + 24h event volume.
     const result = await executeQuery<{
       role: string;
       agent_count: number;
+      live_count: number;
+      idle_count: number;
+      warn_count: number;
+      draining_count: number;
       events_24h: number;
     }>(
       `WITH agent_role AS (
          SELECT u.id AS agent_id,
+                u.is_active,
+                EXISTS (
+                  SELECT 1 FROM feed_events f
+                  WHERE f.actor_id = u.id
+                    AND f.created_at > NOW() - INTERVAL '24 hours'
+                ) AS active_24h,
+                EXISTS (
+                  SELECT 1 FROM feed_events f
+                  WHERE f.actor_id = u.id
+                    AND f.created_at > NOW() - INTERVAL '7 days'
+                ) AS active_7d,
                 COALESCE(
                   (
                     SELECT split_part(f.event_type, '.', 1)
@@ -277,6 +296,10 @@ async function getRoles(): Promise<AgentNetworkPayload["roles"]> {
        SELECT
          ar.role,
          COUNT(DISTINCT ar.agent_id)::int AS agent_count,
+         COUNT(DISTINCT ar.agent_id) FILTER (WHERE ar.is_active = true AND ar.active_24h = true)::int AS live_count,
+         COUNT(DISTINCT ar.agent_id) FILTER (WHERE ar.is_active = true AND ar.active_24h = false AND ar.active_7d = true)::int AS idle_count,
+         COUNT(DISTINCT ar.agent_id) FILTER (WHERE ar.is_active = true AND ar.active_7d = false)::int AS warn_count,
+         COUNT(DISTINCT ar.agent_id) FILTER (WHERE ar.is_active = false)::int AS draining_count,
          COALESCE(
            SUM(
              (
@@ -298,6 +321,10 @@ async function getRoles(): Promise<AgentNetworkPayload["roles"]> {
       label: row.role.charAt(0).toUpperCase() + row.role.slice(1),
       agentCount: row.agent_count,
       events24h: row.events_24h,
+      liveCount: row.live_count,
+      idleCount: row.idle_count,
+      warnCount: row.warn_count,
+      drainingCount: row.draining_count,
     }));
 
     return { entries, live: true };
@@ -674,8 +701,8 @@ async function getReasoning(
   limit = REASONING_LIMIT,
 ): Promise<AgentNetworkPayload["reasoning"]> {
   try {
-    // The latest decision preview per distinct agent across agent_chat,
-    // recipe_generation, recipe_review, recipe_adapted, insight, and lab_entry.
+    // Union structured critiques/reflections from recipe_reflections with
+    // decision logs from feed_events across distinct agents.
     const result = await executeQuery<{
       agent_id: string;
       handle: string | null;
@@ -684,34 +711,53 @@ async function getReasoning(
     }>(
       `SELECT t.agent_id, t.handle, t.created_at, t.preview
          FROM (
-           SELECT DISTINCT ON (f.actor_id)
-             f.actor_id::text AS agent_id,
-             COALESCE(
-               up.name,
-               u.name,
-               NULLIF(f.metadata_payload->>'agentName', ''),
-               split_part(u.email, '@', 1)
-             ) AS handle,
-             f.created_at,
-             COALESCE(
-               NULLIF(f.metadata_payload->>'responsePreview', ''),
-               NULLIF(f.metadata_payload->>'messagePreview', ''),
-               NULLIF(f.metadata_payload->>'review', ''),
-               NULLIF(f.metadata_payload->>'summary', ''),
-               NULLIF(f.metadata_payload->>'message', '')
-             ) AS preview
-           FROM feed_events f
-           JOIN users u ON u.id = f.actor_id AND u.is_agent = true
-           LEFT JOIN user_profiles up ON up.user_id = u.id
-           WHERE f.event_type IN ('agent_chat', 'recipe_generation', 'recipe_review', 'recipe_adapted', 'insight', 'lab_entry')
-             AND COALESCE(
-               NULLIF(f.metadata_payload->>'responsePreview', ''),
-               NULLIF(f.metadata_payload->>'messagePreview', ''),
-               NULLIF(f.metadata_payload->>'review', ''),
-               NULLIF(f.metadata_payload->>'summary', ''),
-               NULLIF(f.metadata_payload->>'message', '')
-             ) IS NOT NULL
-           ORDER BY f.actor_id, f.created_at DESC
+           SELECT DISTINCT ON (s.agent_id)
+             s.agent_id,
+             s.handle,
+             s.created_at,
+             s.preview
+           FROM (
+             SELECT
+               r.author_id::text AS agent_id,
+               COALESCE(up.name, u.name, split_part(u.email, '@', 1)) AS handle,
+               r.created_at,
+               r.review AS preview
+             FROM recipe_reflections r
+             JOIN users u ON u.id = r.author_id AND u.is_agent = true
+             LEFT JOIN user_profiles up ON up.user_id = u.id
+             WHERE r.is_agent = true
+               AND r.deleted_at IS NULL
+               AND COALESCE(r.hidden, false) = false
+             UNION ALL
+             SELECT
+               f.actor_id::text AS agent_id,
+               COALESCE(
+                 up.name,
+                 u.name,
+                 NULLIF(f.metadata_payload->>'agentName', ''),
+                 split_part(u.email, '@', 1)
+               ) AS handle,
+               f.created_at,
+               COALESCE(
+                 NULLIF(f.metadata_payload->>'responsePreview', ''),
+                 NULLIF(f.metadata_payload->>'messagePreview', ''),
+                 NULLIF(f.metadata_payload->>'review', ''),
+                 NULLIF(f.metadata_payload->>'summary', ''),
+                 NULLIF(f.metadata_payload->>'message', '')
+               ) AS preview
+             FROM feed_events f
+             JOIN users u ON u.id = f.actor_id AND u.is_agent = true
+             LEFT JOIN user_profiles up ON up.user_id = u.id
+             WHERE f.event_type IN ('agent_chat', 'recipe_generation', 'recipe_review', 'recipe_adapted', 'insight', 'lab_entry')
+               AND COALESCE(
+                 NULLIF(f.metadata_payload->>'responsePreview', ''),
+                 NULLIF(f.metadata_payload->>'messagePreview', ''),
+                 NULLIF(f.metadata_payload->>'review', ''),
+                 NULLIF(f.metadata_payload->>'summary', ''),
+                 NULLIF(f.metadata_payload->>'message', '')
+               ) IS NOT NULL
+           ) s
+           ORDER BY s.agent_id, s.created_at DESC
          ) t
         ORDER BY t.created_at DESC
         LIMIT $1`,
@@ -725,7 +771,7 @@ async function getReasoning(
       preview: row.preview,
     }));
 
-    return { entries, live: true, instrumented: false };
+    return { entries, live: true, instrumented: true };
   } catch (error) {
     _logger.error("[admin/agents/network] reasoning query failed", error);
     return { entries: [], live: false, instrumented: false };

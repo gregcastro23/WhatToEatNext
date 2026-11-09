@@ -3,10 +3,20 @@ import {
   APIHeatmap,
   CosmicYieldEconomy,
   RecipeQualityInspector,
+  SubdomainMatrix,
 } from "@/app/admin/_dashboard/extras";
 import { FALLBACK_DATA } from "@/app/admin/_dashboard/data";
 
 describe("admin telemetry truthfulness", () => {
+  it("renders em-dash row counts in SubdomainMatrix when pageTelemetry is offline instead of fabricated mock numbers", () => {
+    render(<SubdomainMatrix />);
+
+    expect(screen.queryByText("421")).not.toBeInTheDocument();
+    expect(screen.queryByText("156")).not.toBeInTheDocument();
+    expect(screen.queryByText("mock")).not.toBeInTheDocument();
+    expect(screen.getAllByText("—").length).toBeGreaterThanOrEqual(5);
+  });
+
   it("marks missing route-volume and database telemetry instead of inventing traffic", () => {
     render(<APIHeatmap db={FALLBACK_DATA.dbObservability} />);
 

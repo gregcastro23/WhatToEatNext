@@ -33,7 +33,16 @@ export const AgentNetworkSchema = z.object({
   }),
   roles: z.object({
     entries: z.array(
-      z.object({ id: z.string(), label: z.string(), agentCount: z.number(), events24h: z.number() }),
+      z.object({
+        id: z.string(),
+        label: z.string(),
+        agentCount: z.number(),
+        events24h: z.number(),
+        liveCount: z.number().exactOptional(),
+        idleCount: z.number().exactOptional(),
+        warnCount: z.number().exactOptional(),
+        drainingCount: z.number().exactOptional(),
+      }),
     ),
     live: z.boolean(),
   }),

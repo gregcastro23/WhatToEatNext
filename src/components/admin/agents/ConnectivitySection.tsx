@@ -6,10 +6,21 @@
  * @file src/components/admin/agents/ConnectivitySection.tsx
  */
 
-import React from "react";
+import React, { useState } from "react";
+import { z } from "zod";
 import { fmtAgo, fmtInt } from "@/components/admin/live/format";
 import { Pill } from "@/components/admin/live/primitives";
 import type { AdminAgentsView } from "@/lib/admin/schemas/agents";
+import { readJson } from "@/lib/api/json";
+
+const PlanetarySyncResponseSchema = z
+  .object({
+    success: z.boolean().optional(),
+    affectedCount: z.number().optional(),
+    failures: z.array(z.string()).optional(),
+    message: z.string().optional(),
+  })
+  .passthrough();
 
 function formatLatency(ms: number | null): string {
   if (ms === null) return "—";
@@ -17,8 +28,52 @@ function formatLatency(ms: number | null): string {
 }
 
 function RosterCard({ roster }: { roster: AdminAgentsView["roster"] | undefined }): React.ReactElement {
+  const [syncing, setSyncing] = useState(false);
+  const [targetId, setTargetId] = useState("");
+  const [syncResult, setSyncResult] = useState<{
+    ok: boolean;
+    summary: string;
+    failures: string[];
+  } | null>(null);
+
+  const runSync = async (action: "sync-all" | "sync-one"): Promise<void> => {
+    setSyncing(true);
+    setSyncResult(null);
+    try {
+      const body =
+        action === "sync-one"
+          ? { action: "sync-one" as const, agentEmail: targetId.trim() }
+          : { action: "sync-all" as const };
+      const res = await fetch("/api/admin/planetary-sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const payload = await readJson(res, {
+        parse: (raw) => PlanetarySyncResponseSchema.parse(raw),
+      });
+      const affected = payload.affectedCount ?? 0;
+      const failures = payload.failures ?? [];
+      setSyncResult({
+        ok: Boolean(payload.success),
+        summary:
+          payload.message ??
+          `Synced ${affected} agent(s)${failures.length > 0 ? ` · ${failures.length} failure(s)` : ""}`,
+        failures,
+      });
+    } catch {
+      setSyncResult({
+        ok: false,
+        summary: "Network error calling /api/admin/planetary-sync",
+        failures: [],
+      });
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   return (
-    <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
+    <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between gap-3">
       <div>
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
@@ -35,8 +90,54 @@ function RosterCard({ roster }: { roster: AdminAgentsView["roster"] | undefined 
           {roster?.live ? `${fmtInt(roster.activeAgents24h)} active in last 24h` : "Awaiting database read"}
         </p>
       </div>
-      <div className="text-[11px] text-gray-400 mt-3 pt-2 border-t border-gray-100">
-        Filtered on users table (is_agent = true)
+
+      <div className="pt-2 border-t border-gray-100 space-y-2">
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => {
+              runSync("sync-all").catch(() => {});
+            }}
+            disabled={syncing}
+            className="px-2.5 py-1 rounded bg-purple-600 hover:bg-purple-700 text-white text-xs font-medium disabled:opacity-50"
+          >
+            {syncing ? "Syncing…" : "Sync All to PA"}
+          </button>
+          <input
+            type="text"
+            value={targetId}
+            onChange={(e) => setTargetId(e.target.value)}
+            placeholder="agent email or id"
+            className="flex-1 min-w-0 px-2 py-1 border border-gray-200 rounded text-xs font-mono"
+          />
+          {targetId.trim() && (
+            <button
+              type="button"
+              onClick={() => {
+                runSync("sync-one").catch(() => {});
+              }}
+              disabled={syncing}
+              className="px-2 py-1 rounded border border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-800 text-xs font-medium disabled:opacity-50"
+            >
+              Sync One
+            </button>
+          )}
+        </div>
+        {syncResult && (
+          <div className="text-[11px] space-y-0.5">
+            <p className={syncResult.ok ? "text-emerald-700 font-medium" : "text-amber-700 font-medium"}>
+              {syncResult.summary}
+            </p>
+            {syncResult.failures.slice(0, 2).map((f, i) => (
+              <p key={i} className="text-rose-600 font-mono truncate" title={f}>
+                {f}
+              </p>
+            ))}
+          </div>
+        )}
+        <div className="text-[11px] text-gray-400">
+          Filtered on users table (is_agent = true)
+        </div>
       </div>
     </div>
   );

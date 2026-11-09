@@ -48,7 +48,6 @@ const STYLE: Record<
     color: "var(--status-unknown)",
     dot: "◌",
     border: "color-mix(in srgb, var(--status-unknown), transparent 55%)",
-    extra: { borderStyle: "dashed" },
   },
   partial: {
     color: "var(--status-warn)",
@@ -96,8 +95,7 @@ export function ProvenanceBadge({
         gap: 5,
         padding: compact ? "1px 5px" : "2px 7px",
         borderRadius: 999,
-        border: `1px solid ${style.border}`,
-        borderStyle: style.extra?.borderStyle ?? "solid",
+        border: `1px ${provenance.state === "not-instrumented" ? "dashed" : "solid"} ${style.border}`,
         color: style.color,
         fontFamily: "var(--f-mono, ui-monospace, monospace)",
         fontSize: compact ? 9 : 10,
