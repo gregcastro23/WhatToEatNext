@@ -27,11 +27,11 @@ export function SubdomainMatrix({
   routeHeatmap,
 }: SubdomainMatrixProps): React.ReactElement {
   const tele = pageTelemetry ?? {
-    foodDiary: 421,
-    customRecipes: 89,
-    restaurants: 24,
-    commensals: 12,
-    mealPlans: 156,
+    foodDiary: 0,
+    customRecipes: 0,
+    restaurants: 0,
+    commensals: 0,
+    mealPlans: 0,
     live: false,
   };
 
@@ -177,16 +177,17 @@ export function SubdomainMatrix({
             <span style={{ color: "var(--fg-dim)", fontSize: 10 }}>
               {r.table}
             </span>
-            <span style={{ textAlign: "right", color: "var(--fg)" }}>
-              {r.rows.toLocaleString()}{" "}
-              <span
-                style={{
-                  fontSize: 8,
-                  color: tele.live ? "var(--el-earth)" : "var(--fg-mute)",
-                }}
-              >
-                {tele.live ? "live" : "mock"}
-              </span>
+            <span style={{ textAlign: "right", color: tele.live ? "var(--fg)" : "var(--fg-mute)" }}>
+              {tele.live ? (
+                <>
+                  {r.rows.toLocaleString()}{" "}
+                  <span style={{ fontSize: 8, color: "var(--el-earth)" }}>
+                    live
+                  </span>
+                </>
+              ) : (
+                "—"
+              )}
             </span>
             <span
               style={{
@@ -630,7 +631,13 @@ export function RecipeQualityInspector({
               gap: 10,
               alignItems: "center",
               padding: "8px 10px",
-              border: "1px solid var(--line)",
+              border: `1px solid ${
+                r.state === "FLAG"
+                  ? "color-mix(in oklch, var(--el-fire), transparent 60%)"
+                  : r.state === "REVIEW"
+                    ? "color-mix(in oklch, var(--accent), transparent 60%)"
+                    : "var(--line)"
+              }`,
               borderRadius: 8,
               background:
                 r.state === "FLAG"
@@ -638,12 +645,6 @@ export function RecipeQualityInspector({
                   : r.state === "REVIEW"
                     ? "color-mix(in oklch, var(--accent), transparent 92%)"
                     : "transparent",
-              borderColor:
-                r.state === "FLAG"
-                  ? "color-mix(in oklch, var(--el-fire), transparent 60%)"
-                  : r.state === "REVIEW"
-                    ? "color-mix(in oklch, var(--accent), transparent 60%)"
-                    : "var(--line)",
             }}
           >
             <div>

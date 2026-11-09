@@ -418,8 +418,18 @@ async function assembleTelemetryCore() {
       resolvedGapIds.add("recipe-quality-sems");
       resolvedGapIds.add("sems-rollup");
     }
+    if (enginePerformance.live && enginePerformance.evaluation !== undefined) {
+      resolvedGapIds.add("recommendation-evals");
+    }
     if (commerce.live && commerce.subscriptionMix) {
       resolvedGapIds.add("billing-analytics");
+    }
+    if (commerce.webhookEventsLive) {
+      resolvedGapIds.add("stripe-webhook-event-log");
+    }
+    if (stats.live) {
+      resolvedGapIds.add("agent-per-node-health");
+      resolvedGapIds.add("agent-reasoning-traces");
     }
 
     const activeGaps = KNOWN_CODEBASE_GAPS.filter(

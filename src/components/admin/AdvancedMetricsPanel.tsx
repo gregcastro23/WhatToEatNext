@@ -22,6 +22,15 @@ import { EmptyState } from "@/components/admin/kit/EmptyState";
 import { Metric } from "@/components/admin/kit/Metric";
 import { combine, fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
+import { readJson } from "@/lib/api/json";
+
+const SlowQueryThresholdResponseSchema = z
+  .object({
+    success: z.boolean().optional(),
+    thresholdMs: z.number().optional(),
+    message: z.string().optional(),
+  })
+  .passthrough();
 
 const countSchema = z.number().finite();
 const authWindowSchema = z.object({
@@ -146,6 +155,11 @@ export default function AdvancedMetricsPanel(): React.JSX.Element {
   const [stats, setStats] = useState<UsersStats | null>(null);
   const [abuse, setAbuse] = useState<Abuse | null>(null);
   const [obs, setObs] = useState<Observability | null>(null);
+  const [abuseWindow, setAbuseWindow] = useState<"15m" | "1h" | "6h" | "24h" | "7d">("1h");
+  const [thresholdInput, setThresholdInput] = useState<string>("");
+  const [thresholdSaving, setThresholdSaving] = useState<boolean>(false);
+  const [thresholdMessage, setThresholdMessage] = useState<string | null>(null);
+  const [digestPeriod, setDigestPeriod] = useState<"daily" | "weekly">("daily");
   const [errors, setErrors] = useState<{ stats?: string; abuse?: string; obs?: string }>({});
   const [refreshing, setRefreshing] = useState(false);
   const [digestState, setDigestState] = useState<{ loading: boolean; message: string | null }>({
@@ -158,7 +172,7 @@ export default function AdvancedMetricsPanel(): React.JSX.Element {
     setRefreshing(true);
     const [statsRes, abuseRes, obsRes] = await Promise.allSettled([
       fetchJson("/api/admin/users/stats", { cache: "no-store" }),
-      fetchJson("/api/admin/abuse?window=1h", { cache: "no-store" }),
+      fetchJson(`/api/admin/abuse?window=${abuseWindow}`, { cache: "no-store" }),
       fetchJson("/api/admin/observability", { cache: "no-store" }),
     ]);
     const nextErrors: typeof errors = {};
@@ -178,38 +192,78 @@ export default function AdvancedMetricsPanel(): React.JSX.Element {
     }
     if (obsRes.status === "fulfilled") {
       const parsed = observabilitySchema.safeParse(obsRes.value);
-      if (parsed.success) setObs(parsed.data);
-      else nextErrors.obs = readResponseError(obsRes.value);
+      if (parsed.success) {
+        setObs(parsed.data);
+        setThresholdInput((prev) => prev || String(parsed.data.slowQueries.summary.thresholdMs));
+      } else nextErrors.obs = readResponseError(obsRes.value);
     } else {
       nextErrors.obs = "Failed to load";
     }
     setErrors(nextErrors);
     setRefreshing(false);
-  }, []);
+  }, [abuseWindow]);
 
   useEffect(() => {
     void load();
   }, [load]);
 
-  const sendDigestPreview = async () => {
+  const updateSlowQueryThreshold = async (): Promise<void> => {
+    const parsedMs = Number(thresholdInput);
+    if (!Number.isFinite(parsedMs) || parsedMs < 5 || parsedMs > 60_000) {
+      setThresholdMessage("Enter 5–60000 ms");
+      return;
+    }
+    setThresholdSaving(true);
+    setThresholdMessage(null);
+    try {
+      const res = await fetch("/api/admin/observability/slow-query-threshold", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ms: Math.round(parsedMs) }),
+      });
+      const payload = await readJson(res, {
+        parse: (raw) => SlowQueryThresholdResponseSchema.parse(raw),
+      });
+      if (res.ok && payload.success) {
+        setThresholdMessage(`Threshold updated to ${payload.thresholdMs}ms`);
+        await load();
+      } else {
+        setThresholdMessage(payload.message ?? "Failed to update threshold");
+      }
+    } catch {
+      setThresholdMessage("Network error updating threshold");
+    } finally {
+      setThresholdSaving(false);
+    }
+  };
+
+  const runDigest = async (dryRun: boolean): Promise<void> => {
     setDigestState({ loading: true, message: null });
     try {
-      const res = await fetch("/api/admin/digest?dryRun=true", { method: "POST" });
+      const query = dryRun
+        ? `dryRun=true&period=${digestPeriod}`
+        : `period=${digestPeriod}`;
+      const res = await fetch(`/api/admin/digest?${query}`, { method: "POST" });
       const payload: unknown = await res.json();
       const parsed = digestResponseSchema.safeParse(payload);
       if (parsed.success && parsed.data.success) {
-        setDigestState({ loading: false, message: "Preview generated (dry run — no email sent)." });
+        setDigestState({
+          loading: false,
+          message: dryRun
+            ? `Preview generated (${digestPeriod} dry run — no email sent).`
+            : `Sent ${digestPeriod} digest email to AUTH_ADMIN_EMAIL.`,
+        });
       } else {
         setDigestState({
           loading: false,
           message:
             parsed.success
-              ? (parsed.data.message ?? "Failed to generate preview")
+              ? (parsed.data.message ?? "Failed to run digest")
               : "Invalid digest response",
         });
       }
     } catch {
-      setDigestState({ loading: false, message: "Network error generating preview" });
+      setDigestState({ loading: false, message: "Network error running digest" });
     }
   };
 
@@ -390,16 +444,34 @@ export default function AdvancedMetricsPanel(): React.JSX.Element {
 
       {/* Abuse / brute-force */}
       <div className="bg-white rounded-lg shadow">
-        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between flex-wrap gap-3">
           <div>
             <h3 className="text-base font-semibold text-gray-800">
-              Suspicious activity — last hour
+              Suspicious activity — window: {abuseWindow}
             </h3>
             <p className="text-xs text-gray-500 mt-0.5">
-              IPs and emails with 5+ failed auth events in 60 minutes
+              IPs and emails with 5+ failed auth events in the selected window
             </p>
           </div>
-          <ProvenanceBadge provenance={fromLiveFlag(abuse !== null)} compact />
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="inline-flex rounded-md border border-gray-200 bg-gray-50 p-0.5">
+              {(["15m", "1h", "6h", "24h", "7d"] as const).map((w) => (
+                <button
+                  key={w}
+                  type="button"
+                  onClick={() => setAbuseWindow(w)}
+                  className={`px-2 py-1 text-xs font-medium rounded transition-colors ${
+                    abuseWindow === w
+                      ? "bg-purple-600 text-white"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  {w}
+                </button>
+              ))}
+            </div>
+            <ProvenanceBadge provenance={fromLiveFlag(abuse !== null)} compact />
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-0 divide-y md:divide-y-0 md:divide-x divide-gray-100">
           <div className="p-4">
@@ -455,7 +527,7 @@ export default function AdvancedMetricsPanel(): React.JSX.Element {
 
       {/* Observability — slow queries + recent failures */}
       <div className="bg-white rounded-lg shadow">
-        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between flex-wrap gap-3">
           <div>
             <h3 className="text-base font-semibold text-gray-800">
               Observability (this process)
@@ -464,7 +536,37 @@ export default function AdvancedMetricsPanel(): React.JSX.Element {
               In-memory rings — resets on deploy. Durable signal lives in auth_events and Railway logs.
             </p>
           </div>
-          <ProvenanceBadge provenance={fromLiveFlag(obs !== null)} compact />
+          <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-1.5 text-xs">
+              <label htmlFor="slow-query-threshold-input" className="text-gray-500 font-medium">
+                Slow-query threshold (ms):
+              </label>
+              <input
+                id="slow-query-threshold-input"
+                type="number"
+                min={5}
+                max={60000}
+                value={thresholdInput}
+                onChange={(e) => setThresholdInput(e.target.value)}
+                placeholder={obs ? String(obs.slowQueries.summary.thresholdMs) : "250"}
+                className="w-20 px-2 py-1 border border-gray-200 rounded font-mono text-xs text-gray-800"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  updateSlowQueryThreshold().catch(() => {});
+                }}
+                disabled={thresholdSaving}
+                className="px-2 py-1 rounded bg-gray-800 hover:bg-gray-900 text-white font-medium disabled:opacity-50"
+              >
+                {thresholdSaving ? "Saving…" : "Apply"}
+              </button>
+            </div>
+            {thresholdMessage && (
+              <span className="text-xs text-purple-700 font-medium">{thresholdMessage}</span>
+            )}
+            <ProvenanceBadge provenance={fromLiveFlag(obs !== null)} compact />
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-0 divide-y md:divide-y-0 md:divide-x divide-gray-100">
           <div className="p-6">
@@ -526,24 +628,50 @@ export default function AdvancedMetricsPanel(): React.JSX.Element {
       {/* Digest */}
       <div className="bg-white rounded-lg shadow p-6 flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h3 className="text-base font-semibold text-gray-800">Daily auth digest</h3>
+          <h3 className="text-base font-semibold text-gray-800">Daily / Weekly auth digest</h3>
           <p className="text-xs text-gray-500 mt-1">
             POST /api/admin/digest emails AUTH_ADMIN_EMAIL. Wire it to a Railway cron at 09:00 UTC.
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           {digestState.message && (
             <span className="text-xs text-gray-600">{digestState.message}</span>
           )}
+          <div className="inline-flex rounded-md border border-gray-200 bg-gray-50 p-0.5">
+            {(["daily", "weekly"] as const).map((p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => setDigestPeriod(p)}
+                className={`px-2.5 py-1 text-xs font-medium rounded capitalize ${
+                  digestPeriod === p
+                    ? "bg-purple-600 text-white"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                {p}
+              </button>
+            ))}
+          </div>
           <button
             type="button"
             onClick={() => {
-              void sendDigestPreview();
+              runDigest(true).catch(() => {});
             }}
             disabled={digestState.loading}
             className="px-3 py-2 rounded bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium disabled:opacity-50"
           >
             {digestState.loading ? "Building…" : "Preview digest (no send)"}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              runDigest(false).catch(() => {});
+            }}
+            disabled={digestState.loading}
+            className="px-3 py-2 rounded border border-purple-300 bg-purple-50 hover:bg-purple-100 text-purple-800 text-sm font-medium disabled:opacity-50"
+          >
+            Send digest email
           </button>
         </div>
       </div>

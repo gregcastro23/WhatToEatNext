@@ -37,16 +37,19 @@ export default function AdminOnboardingPage() {
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <RouteCard
           route="/login"
+          href="/login"
           title="Authentication entry"
           detail="Session establishment and identity provider hand-off."
         />
         <RouteCard
           route="/onboarding"
+          href="/onboarding"
           title="Birth-data calibration"
           detail="Profile, location, natal chart, and completion transition."
         />
         <RouteCard
           route="/admin/users/[userId]"
+          href="/admin/users"
           title="Operator recovery"
           detail="Timeline and account-level inspection for a stuck user."
         />
@@ -59,18 +62,26 @@ export default function AdminOnboardingPage() {
 
 function RouteCard({
   route,
+  href,
   title,
   detail,
 }: {
   route: string;
+  href: string;
   title: string;
   detail: string;
 }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-      <div className="font-mono text-xs text-purple-700">{route}</div>
+    <Link
+      href={href}
+      className="block rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-colors hover:border-purple-300 hover:bg-purple-50/20"
+    >
+      <div className="flex items-center justify-between">
+        <span className="font-mono text-xs text-purple-700">{route}</span>
+        <span className="text-xs text-gray-400">↗</span>
+      </div>
       <div className="mt-2 text-sm font-semibold text-gray-900">{title}</div>
       <p className="mt-1 text-xs leading-relaxed text-gray-500">{detail}</p>
-    </div>
+    </Link>
   );
 }

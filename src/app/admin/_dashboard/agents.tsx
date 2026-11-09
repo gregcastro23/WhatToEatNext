@@ -22,6 +22,10 @@ interface AgentRoleSlice {
   label: string;
   agentCount: number;
   events24h: number;
+  liveCount?: number;
+  idleCount?: number;
+  warnCount?: number;
+  drainingCount?: number;
 }
 
 interface AgentInteractionEntry {
@@ -411,31 +415,65 @@ function AgentTopology({
     label: r.label.toUpperCase(),
     color: colorForRole(r.id),
     n: r.agentCount,
+    liveCount: r.liveCount ?? 0,
+    idleCount: r.idleCount ?? 0,
+    warnCount: r.warnCount ?? 0,
+    drainingCount: r.drainingCount ?? 0,
+    hasHealthBreakdown:
+      r.liveCount !== undefined ||
+      r.idleCount !== undefined ||
+      r.warnCount !== undefined ||
+      r.drainingCount !== undefined,
   }));
+  const hasNodeHealth = ROLES.some((r) => r.hasHealthBreakdown);
   const SIZE = 360;
   const c = SIZE / 2;
   const ringR = 110;
 
-  // Per-node health is not instrumented — every node renders in one neutral
-  // role-colored style; only the role counts are live.
   interface Node {
     x: number;
     y: number;
     role: (typeof ROLES)[number];
     center?: boolean;
+    healthColor?: string;
+    healthState?: "live" | "idle" | "warn" | "draining";
   }
   const nodes: Node[] = [];
   ROLES.forEach((role, ri) => {
     const a = (ri / Math.max(ROLES.length, 1)) * 2 * Math.PI - Math.PI / 2;
     const rx = c + Math.cos(a) * ringR;
     const ry = c + Math.sin(a) * ringR;
-    // Render up to one decorative node per agent, capped so dense roles don't
-    // crowd the ring. Small roles stay readable.
     const decoCount = Math.min(role.n, 20);
+    const totalTyped =
+      role.liveCount + role.idleCount + role.warnCount + role.drainingCount;
     for (let i = 0; i < decoCount; i++) {
       const aa = (i / Math.max(decoCount, 1)) * 2 * Math.PI;
       const r = 8 + (i % 3) * 8;
-      nodes.push({ x: rx + Math.cos(aa) * r, y: ry + Math.sin(aa) * r, role });
+      let healthState: Node["healthState"] = "live";
+      let healthColor = role.color;
+      if (role.hasHealthBreakdown && totalTyped > 0) {
+        const scaledIdx = Math.floor((i / decoCount) * totalTyped);
+        if (scaledIdx < role.liveCount) {
+          healthState = "live";
+          healthColor = "var(--el-earth)";
+        } else if (scaledIdx < role.liveCount + role.idleCount) {
+          healthState = "idle";
+          healthColor = "var(--fg-mute)";
+        } else if (scaledIdx < role.liveCount + role.idleCount + role.warnCount) {
+          healthState = "warn";
+          healthColor = "var(--el-fire)";
+        } else {
+          healthState = "draining";
+          healthColor = "var(--accent-2)";
+        }
+      }
+      nodes.push({
+        x: rx + Math.cos(aa) * r,
+        y: ry + Math.sin(aa) * r,
+        role,
+        healthColor,
+        healthState,
+      });
     }
     if (role.n > 0) {
       nodes.push({ x: rx, y: ry, role, center: true });
@@ -557,8 +595,8 @@ function AgentTopology({
             key={i}
             cx={n.x}
             cy={n.y}
-            r={n.center ? 6 : 2.4}
-            fill={n.role.color}
+            r={n.center ? 6 : 2.6}
+            fill={n.center ? n.role.color : (n.healthColor ?? n.role.color)}
             stroke={n.center ? "rgba(0,0,0,0.5)" : "none"}
             strokeWidth={n.center ? 1 : 0}
             style={{
@@ -608,7 +646,9 @@ function AgentTopology({
           className="t-mono"
           style={{ fontSize: 8.5, color: "var(--fg-faint)", letterSpacing: "0.1em" }}
         >
-          per-node health not instrumented — nodes show role placement only
+          {hasNodeHealth
+            ? "node health · live (<24h) · idle (<7d) · warn (>7d) · draining (inactive)"
+            : "per-node health not instrumented — nodes show role placement only"}
         </span>
       </div>
       {ROLES.length === 0 && (

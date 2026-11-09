@@ -75,13 +75,17 @@ export function Dashboard({ data }: DashboardProps) {
     {
       label: "Recipes",
       value: statValue(data.stats.totalRecipes),
-      delta: "—",
+      delta: data.pageTelemetry.live
+        ? `${data.pageTelemetry.customRecipes.toLocaleString()} custom`
+        : "—",
       icon: "bookmark",
     },
     {
       label: "Ingredients",
       value: statValue(data.stats.totalIngredients),
-      delta: "—",
+      delta: data.semsDistribution.live
+        ? `${data.semsDistribution.recipeCount.toLocaleString()} ESMS-scored`
+        : "—",
       icon: "ring",
     },
     {
@@ -91,7 +95,7 @@ export function Dashboard({ data }: DashboardProps) {
         data.pageTelemetry.cuisines === 0 && !data.pageTelemetry.live
           ? "—"
           : data.pageTelemetry.cuisines.toLocaleString(),
-      delta: "—",
+      delta: data.pageTelemetry.live ? "canonical catalog" : "—",
       icon: "triangle-up-bar",
     },
   ];
@@ -172,6 +176,7 @@ export function Dashboard({ data }: DashboardProps) {
             gridTemplateColumns: "320px 1.4fr 1fr",
             gap: 12,
             marginBottom: 12,
+            scrollMarginTop: 70,
           }}
         >
           <ArchitectCard user={data.user} recentAlerts={data.recentAlerts} />
@@ -203,12 +208,14 @@ export function Dashboard({ data }: DashboardProps) {
         </div>
 
         <div
+          id="practitioners"
           className="dash-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1.4fr 1fr",
             gap: 12,
             marginBottom: 12,
+            scrollMarginTop: 70,
           }}
         >
           <ElementalTraffic cohorts={data.practitionerCohorts} />
@@ -218,10 +225,22 @@ export function Dashboard({ data }: DashboardProps) {
             retention={data.cohortRetention}
           />
           <IncidentsPanel recentAlerts={data.recentAlerts} />
+        </div>
+
+        <div
+          className="dash-stack"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.2fr 1fr",
+            gap: 12,
+            marginBottom: 12,
+          }}
+        >
           <RecentSignupsPanel
             users={data.recentUsers}
             live={data.recentUsersLive}
           />
+          <PractitionerGeo data={data.practitionerGeo} />
         </div>
 
         <div
@@ -244,26 +263,26 @@ export function Dashboard({ data }: DashboardProps) {
         </div>
 
         <div
+          id="engine"
           className="dash-stack"
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gap: 12,
             marginBottom: 12,
+            scrollMarginTop: 70,
           }}
         >
-          <section id="engine" style={{ scrollMarginTop: 70 }}>
-            <EngineHealth enginePerformance={data.enginePerformance} />
-          </section>
+          <EngineHealth enginePerformance={data.enginePerformance} />
           <RecipeQualityInspector trending={data.catalogTrending} />
         </div>
 
         <div
-          id="commerce"
+          id="catalog"
           className="dash-stack"
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 0.9fr 1fr",
+            gridTemplateColumns: "1.1fr 1fr",
             gap: 12,
             marginBottom: 12,
             scrollMarginTop: 70,
@@ -274,6 +293,19 @@ export function Dashboard({ data }: DashboardProps) {
             trending={data.catalogTrending}
           />
           <CommensalPulse pageTelemetry={data.pageTelemetry} />
+        </div>
+
+        <div
+          id="commerce"
+          className="dash-stack"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1.15fr",
+            gap: 12,
+            marginBottom: 12,
+            scrollMarginTop: 70,
+          }}
+        >
           <CommercePanel commerceSummary={data.commerce} />
           <LivingEconomyPanel {...(data.livingEconomy !== undefined ? { data: data.livingEconomy } : {})} />
         </div>
@@ -283,14 +315,13 @@ export function Dashboard({ data }: DashboardProps) {
           className="dash-stack"
           style={{
             display: "grid",
-            gridTemplateColumns: "1.4fr 1fr",
+            gridTemplateColumns: "1.25fr 1fr",
             gap: 12,
             marginBottom: 12,
             scrollMarginTop: 70,
           }}
         >
           <CosmicYieldEconomy data={data.cosmicYield} />
-          <PractitionerGeo data={data.practitionerGeo} />
           <EconomyIntegrityPanel
             integrity={data.economyIntegrity}
             cosmicYield={data.cosmicYield}

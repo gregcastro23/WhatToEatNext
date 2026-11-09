@@ -687,6 +687,12 @@ export interface CommerceSubscriptionTierRow {
   count: number;
 }
 
+export interface CommerceWebhookEventRow {
+  eventType: string;
+  status: string;
+  count: number;
+}
+
 export interface CommerceSummaryData {
   mrr: number;
   /** Stripe-backed subs — actual paying customers. */
@@ -702,6 +708,8 @@ export interface CommerceSummaryData {
   subscriptionMix?: CommerceSubscriptionTierRow[];
   shopPurchasesTotal?: number;
   shopPurchasesUsd?: number;
+  webhookEvents?: CommerceWebhookEventRow[];
+  webhookEventsLive?: boolean;
   live: boolean;
 }
 
@@ -974,7 +982,7 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
 
 export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
   try {
-    const [revenue, ordersRes, subMixRes, shopStatsRes] = await Promise.all([
+    const [revenue, ordersRes, subMixRes, shopStatsRes, webhookEventsRes] = await Promise.all([
       getSubscriptionRevenueBreakdown()
         .then((res) => ({ ...res, live: true }))
         .catch((err) => {
@@ -1041,6 +1049,24 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
           0::float8 AS total_usd
         FROM user_purchases
       `).catch(() => ({ rows: [{ cnt: 0, total_usd: 0 }] })),
+      executeQuery<{
+        event_type: string;
+        status: string;
+        cnt: number;
+      }>(`
+        SELECT
+          event_type,
+          status,
+          COUNT(*)::int AS cnt
+        FROM webhook_events
+        WHERE source = 'stripe'
+          AND received_at >= NOW() - INTERVAL '30 days'
+        GROUP BY event_type, status
+        ORDER BY cnt DESC
+        LIMIT 8
+      `)
+        .then((res) => ({ rows: res.rows, live: true }))
+        .catch(() => ({ rows: [], live: false })),
     ]);
 
     const { paidSubs, mrr } = revenue;
@@ -1067,6 +1093,12 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
       count: Number(r.count),
     }));
 
+    const webhookEvents: CommerceWebhookEventRow[] = webhookEventsRes.rows.map((r) => ({
+      eventType: String(r.event_type),
+      status: String(r.status),
+      count: Number(r.cnt),
+    }));
+
     const [shopRow] = shopStatsRes.rows;
 
     return {
@@ -1076,6 +1108,8 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
       subscriptionMix,
       shopPurchasesTotal: Number(shopRow?.cnt ?? 0),
       shopPurchasesUsd: Number(shopRow?.total_usd ?? 0),
+      webhookEvents,
+      webhookEventsLive: webhookEventsRes.live,
       live: revenue.live && ordersRes.live,
     };
   } catch (error) {
@@ -1087,6 +1121,8 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
       subscriptionMix: [],
       shopPurchasesTotal: 0,
       shopPurchasesUsd: 0,
+      webhookEvents: [],
+      webhookEventsLive: false,
       live: false,
     };
   }

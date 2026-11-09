@@ -1187,6 +1187,64 @@ export function CommercePanel({ commerceSummary }: { commerceSummary?: CommerceS
               </div>
             </div>
           )}
+
+          {summary.webhookEventsLive && (
+            <div
+              style={{
+                marginTop: 10,
+                padding: "8px 10px",
+                border: "1px solid var(--line)",
+                borderRadius: 8,
+                background: "rgba(255,255,255,0.012)",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
+                <span className="t-tag" style={{ fontSize: 8 }}>
+                  STRIPE WEBHOOK EVENTS · 30D
+                </span>
+                <span className="t-mono" style={{ fontSize: 8.5, color: "var(--el-earth)" }}>
+                  webhook_events ●
+                </span>
+              </div>
+              {(summary.webhookEvents ?? []).length === 0 ? (
+                <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)" }}>
+                  no Stripe webhook events recorded in trailing 30d
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                  {(summary.webhookEvents ?? []).slice(0, 5).map((w) => (
+                    <div
+                      key={`${w.eventType}:${w.status}`}
+                      className="t-mono"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontSize: 9,
+                        color: "var(--fg-dim)",
+                      }}
+                    >
+                      <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "72%" }}>
+                        {w.eventType}{" "}
+                        <span
+                          style={{
+                            color:
+                              w.status === "failed"
+                                ? "var(--el-fire)"
+                                : w.status === "processed"
+                                  ? "var(--el-earth)"
+                                  : "var(--fg-mute)",
+                          }}
+                        >
+                          ({w.status})
+                        </span>
+                      </span>
+                      <span className="t-num">{w.count.toLocaleString()}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <div>
           <div className="t-tag" style={{ marginBottom: 6 }}>ORDERS & CART INTENTS{live ? " · LIVE" : ""}</div>

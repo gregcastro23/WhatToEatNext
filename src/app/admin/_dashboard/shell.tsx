@@ -416,6 +416,33 @@ function AdminSideRail({
   data: AdminDashboardData;
   onNavigate: () => void;
 }) {
+  const [activeId, setActiveId] = React.useState<string>("ops");
+
+  React.useEffect(() => {
+    const syncFromHash = () => {
+      const { hash } = window.location;
+      if (!hash) return;
+      const hashToId: Record<string, string> = {
+        "#overview": "overview",
+        "#operations": "ops",
+        "#platform-telemetry": "telemetry",
+        "#agents": "agents",
+        "#practitioners": "users",
+        "#engine": "engine",
+        "#catalog": "catalog",
+        "#commerce": "commerce",
+        "#economy": "economy",
+        "#infrastructure": "infrastructure",
+        "#trust": "moderation",
+        "#delivery": "delivery",
+      };
+      if (hashToId[hash]) setActiveId(hashToId[hash]);
+    };
+    syncFromHash();
+    window.addEventListener("hashchange", syncFromHash);
+    return () => window.removeEventListener("hashchange", syncFromHash);
+  }, []);
+
   const flowsCount =
     data.systemStatus.flows.length + data.systemStatus.dependencies.length;
   const activeAlerts = data.recentAlerts.entries.filter(
@@ -432,6 +459,7 @@ function AdminSideRail({
       href: "#overview",
       glyph: "orbital",
       badge: null,
+      active: activeId === "overview",
     },
     {
       id: "ops",
@@ -439,7 +467,41 @@ function AdminSideRail({
       href: "#operations",
       glyph: "crosshair",
       badge: flowsCount > 0 ? `${flowsCount} svc` : null,
-      active: true,
+      active: activeId === "ops",
+    },
+    {
+      id: "telemetry",
+      label: "Service Matrix",
+      href: "#platform-telemetry",
+      glyph: "wave",
+      badge: data.liveActivity.live
+        ? `${data.liveActivity.entries.length} ev`
+        : "—",
+      active: activeId === "telemetry",
+    },
+    {
+      id: "agents",
+      label: "Agent Mesh",
+      href: "#agents",
+      glyph: "ring",
+      badge:
+        data.planetaryIntegration.agentCount !== null
+          ? String(data.planetaryIntegration.agentCount)
+          : null,
+      active: activeId === "agents",
+    },
+    {
+      id: "users",
+      label: "Practitioners",
+      href: "#practitioners",
+      glyph: "diamond",
+      // stats zeros are absence when the query degraded — show "—", not a 0.
+      badge: !data.stats.live
+        ? "—"
+        : data.stats.totalUsers > 0
+          ? formatCount(data.stats.totalUsers)
+          : null,
+      active: activeId === "users",
     },
     {
       id: "engine",
@@ -449,47 +511,19 @@ function AdminSideRail({
       badge: data.enginePerformance.live
         ? `${data.enginePerformance.totalCalculations.toLocaleString()} calc`
         : null,
-    },
-    {
-      id: "agents",
-      label: "Agent Mesh",
-      href: "#agents",
-      glyph: "ring",
-      badge: null,
-    },
-    {
-      id: "users",
-      label: "Practitioners",
-      href: "/admin/users",
-      glyph: "diamond",
-      // stats zeros are absence when the query degraded — show "—", not a 0.
-      badge: !data.stats.live
-        ? "—"
-        : data.stats.totalUsers > 0
-          ? formatCount(data.stats.totalUsers)
-          : null,
+      active: activeId === "engine",
     },
     {
       id: "catalog",
-      label: "Catalog",
-      href: "#engine",
+      label: "Catalog & Pulse",
+      href: "#catalog",
       glyph: "bookmark",
       badge: !data.stats.live
         ? "—"
         : recipeCount + ingredientCount > 0
-          ? `${formatCount(recipeCount)} / ${formatCount(ingredientCount)}`
+          ? `${formatCount(recipeCount)} / ${formatCount(ingredientCount)}${data.pageTelemetry.live && commensals > 0 ? ` · ${commensals}c` : ""}`
           : null,
-    },
-    {
-      id: "commensal",
-      label: "Commensal",
-      href: "#platform-telemetry",
-      glyph: "wave",
-      badge: !data.pageTelemetry.live
-        ? "—"
-        : commensals > 0
-          ? String(commensals)
-          : null,
+      active: activeId === "catalog",
     },
     {
       id: "commerce",
@@ -497,42 +531,46 @@ function AdminSideRail({
       href: "#commerce",
       glyph: "triangle-up-bar",
       badge: data.commerce.live ? formatCurrencyShort(data.commerce.mrr) : null,
+      active: activeId === "commerce",
+    },
+    {
+      id: "economy",
+      label: "Token Economy",
+      href: "#economy",
+      glyph: "spiral",
+      badge: data.cosmicYield.live
+        ? `${formatCount(Math.round(data.cosmicYield.inCirculation))} ESMS`
+        : null,
+      active: activeId === "economy",
+    },
+    {
+      id: "infrastructure",
+      label: "Infrastructure",
+      href: "#infrastructure",
+      glyph: "triangle-down-bar",
+      badge: data.dbObservability.live
+        ? formatBytes(data.dbObservability.dbSizeBytes)
+        : "—",
+      active: activeId === "infrastructure",
     },
     {
       id: "moderation",
-      label: "Moderation",
+      label: "Trust & Security",
       href: "#trust",
       glyph: "flask",
       badge: activeAlerts > 0 ? String(activeAlerts) : null,
       warn: activeAlerts > 0,
+      active: activeId === "moderation",
     },
     {
-      id: "security",
-      label: "Security",
-      href: "#trust",
-      glyph: "spiral",
-      badge: null,
-    },
-    {
-      id: "experiments",
-      label: "Experiments",
-      href: "#delivery",
-      glyph: "triangle-down-bar",
-      badge: null,
-    },
-    {
-      id: "deploys",
-      label: "Deploys",
+      id: "delivery",
+      label: "Delivery & Audit",
       href: "#delivery",
       glyph: "triangle-up",
-      badge: null,
-    },
-    {
-      id: "audit",
-      label: "Audit Log",
-      href: "#delivery",
-      glyph: "bookmark",
-      badge: null,
+      badge: data.auditEvents.live
+        ? `${data.auditEvents.events.length} log`
+        : null,
+      active: activeId === "delivery",
     },
     {
       id: "settings",
@@ -553,7 +591,9 @@ function AdminSideRail({
     pool.total === 0
       ? "—"
       : `${pool.total - pool.idle}/${pool.max} busy${pool.waiting > 0 ? ` · ${pool.waiting} wait` : ""}`;
-  const env = process.env.NEXT_PUBLIC_VERCEL_ENV ?? "prod";
+  const env =
+    process.env.NEXT_PUBLIC_VERCEL_ENV ??
+    (process.env.NODE_ENV === "development" ? "dev" : "prod");
 
   return (
     <aside
@@ -578,7 +618,12 @@ function AdminSideRail({
           <Link
             key={m.id}
             href={m.href}
-            onClick={onNavigate}
+            onClick={() => {
+              if (m.href.startsWith("#")) {
+                setActiveId(m.id);
+              }
+              onNavigate();
+            }}
             style={{
               display: "flex",
               alignItems: "center",
@@ -651,13 +696,17 @@ function AdminSideRail({
               { label: "Live Ops", href: "/admin" },
               { label: "Traffic", href: "/admin/traffic" },
               { label: "Growth", href: "/admin/growth" },
+              { label: "Users", href: "/admin/users" },
+              { label: "Onboarding", href: "/admin/onboarding" },
               { label: "Revenue", href: "/admin/revenue" },
+              { label: "Settlements", href: "/admin/settlements" },
               { label: "Chain", href: "/admin/chain" },
               { label: "Code Health", href: "/admin/code-health" },
               { label: "Jobs", href: "/admin/jobs" },
               { label: "Agents", href: "/admin/agents" },
               { label: "MCP Mesh", href: "/admin/mcp" },
-              { label: "Users", href: "/admin/users" },
+              { label: "Chat Reports", href: "/admin/chat-reports" },
+              { label: "Settings", href: "/admin/settings" },
             ].map((c) => (
               <Link
                 key={c.href}
