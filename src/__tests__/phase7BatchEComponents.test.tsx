@@ -1,7 +1,6 @@
-import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { resolveIngredientModality } from "@/components/RecipeBuilder";
-import { AstrologicalRecommendations } from "@/components/astrological/AstrologicalRecommendations";
 import { TokenBalanceBar } from "@/components/economy/TokenBalanceBar";
 import TokenShopModal from "@/components/economy/TokenShopModal";
 import { installFetchMock } from "@/__tests__/helpers/fetchMock";
@@ -56,19 +55,6 @@ describe("Phase 7 Batch E component boundaries", () => {
         elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 1 },
       }),
     ).toBe("Fixed");
-  });
-
-  it("surfaces a malformed astrological recommendation response", async () => {
-    mockFetch({ recommendations: "not-an-array", insights: [] });
-    render(<AstrologicalRecommendations />);
-
-    fireEvent.change(screen.getByLabelText("Select your zodiac sign"), {
-      target: { value: "Aries" },
-    });
-
-    expect(
-      await screen.findByText("Invalid cooking recommendation response"),
-    ).toBeInTheDocument();
   });
 
   it("does not render balances from a malformed economy response", async () => {

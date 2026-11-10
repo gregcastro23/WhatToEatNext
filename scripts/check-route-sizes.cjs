@@ -39,11 +39,39 @@ const DEFAULT_THRESHOLDS = {
     // true first-load with layouts 730,630 B = 713.5 KiB. Budget 745 KiB gives ~31.5 KiB (+4.4%) headroom.
   },
   '/recipes/[recipeId]': {
-    maxRouteKb: 80,
-    maxFirstLoadKb: 350,
-    maxTotalFirstLoadKb: 860,
-    // Basis: Measured on master @ 20346bc9: route 52.0 kB, Next FL 332.0 kB (332,889 B = 325.1 KiB),
-    // true first-load with layouts 843,542 B = 823.8 KiB. Budget 860 KiB gives ~36.2 KiB (+4.4%) headroom.
+    maxRouteKb: 55,
+    maxFirstLoadKb: 250,
+    maxTotalFirstLoadKb: 745,
+    // Basis: Measured after Track 2 SVG macro donut + modal lazy-loading: route 39.9 kB, Next FL 222.0 kB,
+    // true first-load with layouts 724,087 B = 707.1 KiB. Budget 745 KiB gives ~37.9 KiB (+5.4%) headroom.
+  },
+  '/recipes/versions/[versionId]': {
+    maxRouteKb: 15,
+    maxFirstLoadKb: 175,
+    maxTotalFirstLoadKb: 700,
+    // Basis: Measured after Track 2 server-rendered SavedAdaptationView: route 3.14 kB, Next FL 154.0 kB,
+    // true first-load with layouts 679,328 B = 663.4 KiB. Budget 700 KiB gives ~36.6 KiB (+5.5%) headroom.
+  },
+  '/kitchen-lab/physics': {
+    maxRouteKb: 15,
+    maxFirstLoadKb: 135,
+    maxTotalFirstLoadKb: 720,
+    // Basis: Measured after Track 2 dynamic tab splitting: route 3.28 kB, Next FL 113.0 kB,
+    // true first-load with layouts 702,190 B = 685.7 KiB. Budget 720 KiB gives ~34.3 KiB (+5.0%) headroom.
+  },
+  '/cooking-methods/tilt-skillet': {
+    maxRouteKb: 25,
+    maxFirstLoadKb: 150,
+    maxTotalFirstLoadKb: 715,
+    // Basis: Measured after Track 2 elemental catalog decoupling: route 16.1 kB, Next FL 126.0 kB,
+    // true first-load with layouts 694,128 B = 677.9 KiB. Budget 715 KiB gives ~37.1 KiB (+5.5%) headroom.
+  },
+  '/cooking-methods': {
+    maxRouteKb: 140,
+    maxFirstLoadKb: 310,
+    maxTotalFirstLoadKb: 835,
+    // Basis: Measured after Track 2 ReactionChamber ssr:false: route 123.0 kB, Next FL 286.0 kB,
+    // true first-load with layouts 818,282 B = 799.1 KiB. Budget 835 KiB gives ~35.9 KiB (+4.5%) headroom.
   },
   '/shop': {
     maxRouteKb: 15,

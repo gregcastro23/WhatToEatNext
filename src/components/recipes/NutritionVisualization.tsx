@@ -1,13 +1,6 @@
 "use client";
 
 import React from "react";
-import {
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
 
 export interface NutritionData {
   calories: number | undefined;
@@ -74,29 +67,62 @@ function DvBar({
   );
 }
 
-interface MacroTooltipPayload {
-  name?: string;
-  value?: number;
-  payload?: { grams?: number; calories?: number };
+interface MacroSlice {
+  name: string;
+  value: number;
+  grams: number;
+  color: string;
 }
 
-function MacroTooltip({ active, payload }: {
-  active?: boolean;
-  payload?: MacroTooltipPayload[];
+function MacroDonut({
+  slices,
+  totalValue,
+}: {
+  slices: MacroSlice[];
+  totalValue: number;
 }) {
-  if (!active || !payload?.length) return null;
-  const [p] = payload;
-  if (!p) return null;
-  const name = p.name ?? "";
-  const cals = p.value ?? 0;
-  const grams = p.payload?.grams ?? 0;
+  // r = 15.9155 => circumference ≈ 100
+  const r = 15.9155;
+  const sum = slices.reduce((acc, s) => acc + s.value, 0) || totalValue || 1;
+  let accumulated = 0;
+
   return (
-    <div className="glass-card-premium rounded-lg border border-white/10 px-3 py-2 text-xs">
-      <div className="text-white font-semibold capitalize mb-1">{name}</div>
-      <div className="text-white/70 tabular-nums">
-        {grams}g · {cals} cal
-      </div>
-    </div>
+    <svg
+      viewBox="0 0 36 36"
+      className="h-full w-full -rotate-90"
+      role="img"
+      aria-label="Macronutrient distribution"
+    >
+      <circle
+        cx="18"
+        cy="18"
+        r={r}
+        fill="none"
+        stroke="rgba(255,255,255,0.06)"
+        strokeWidth="5"
+      />
+      {slices.map((entry) => {
+        const pct = (entry.value / sum) * 100;
+        const dashOffset = 100 - accumulated;
+        accumulated += pct;
+        return (
+          <circle
+            key={entry.name}
+            cx="18"
+            cy="18"
+            r={r}
+            fill="none"
+            stroke={entry.color}
+            strokeWidth="5"
+            strokeDasharray={`${pct} ${Math.max(0, 100 - pct)}`}
+            strokeDashoffset={dashOffset}
+            strokeLinecap="butt"
+          >
+            <title>{`${entry.name}: ${entry.grams}g · ${entry.value} cal`}</title>
+          </circle>
+        );
+      })}
+    </svg>
   );
 }
 
@@ -114,7 +140,7 @@ export function NutritionVisualization({ nutrition }: { nutrition: NutritionData
   // Use stated calories when available, else derived
   const totalCal = stated > 0 ? stated : derivedTotal;
 
-  const macroData = [
+  const macroData: MacroSlice[] = [
     { name: "protein", value: proteinCal, grams: protein, color: MACRO_COLORS.protein },
     { name: "carbs",   value: carbsCal,   grams: carbs,   color: MACRO_COLORS.carbs },
     { name: "fat",     value: fatCal,     grams: fat,     color: MACRO_COLORS.fat },
@@ -162,27 +188,8 @@ export function NutritionVisualization({ nutrition }: { nutrition: NutritionData
       {/* Macro pie */}
       {hasMacros && (
         <div className="flex items-center gap-4">
-          <div className="w-32 h-32 shrink-0">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={macroData}
-                  dataKey="value"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={36}
-                  outerRadius={60}
-                  paddingAngle={2}
-                  strokeWidth={0}
-                  isAnimationActive
-                >
-                  {macroData.map((entry) => (
-                    <Cell key={entry.name} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip content={<MacroTooltip />} />
-              </PieChart>
-            </ResponsiveContainer>
+          <div className="w-32 h-32 shrink-0 p-1">
+            <MacroDonut slices={macroData} totalValue={derivedTotal} />
           </div>
           <div className="flex-1 space-y-1.5">
             {macroData.map((m) => {

@@ -1,36 +1,22 @@
-"use client";
-
 import Link from "next/link";
-import { useMemo } from "react";
-import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import type { SavedAdaptation } from "@/lib/recipes/savedAdaptationSchemas";
 import { recomputeSavedVersionReadings } from "@/utils/dietaryAdaptation";
+import { SavedAdaptationCartButton } from "./SavedAdaptationCartButton";
 import type { JSX } from "react";
+
+type SavedVersionReadings = ReturnType<typeof recomputeSavedVersionReadings>;
 
 interface VersionProps {
   version: SavedAdaptation;
 }
 interface ViewProps extends VersionProps {
   publication: "published" | "not-published" | "unknown";
+  readings?: SavedVersionReadings;
 }
 
 function Ingredients({ version }: VersionProps): JSX.Element {
-  const { addRecipe, open } = useGroceryCart();
-  const { recipe, id } = version;
+  const { recipe } = version;
   const servings = recipe.numberOfServings ?? recipe.servingSize;
-  const addToCart = (): void => {
-    if (servings === undefined) return;
-    addRecipe(
-      {
-        id,
-        name: recipe.name,
-        baseServings: servings,
-        ingredients: recipe.ingredients,
-      },
-      servings,
-    );
-    open();
-  };
   return (
     <section aria-label="Edited ingredients">
       <h2 className="text-lg font-semibold">
@@ -46,19 +32,7 @@ function Ingredients({ version }: VersionProps): JSX.Element {
           </li>
         ))}
       </ul>
-      <button
-        type="button"
-        disabled={servings === undefined}
-        onClick={addToCart}
-        className="mt-3 rounded border px-3 py-2 disabled:opacity-50"
-      >
-        Add saved version ingredients to cart
-      </button>
-      {servings === undefined && (
-        <p className="text-sm">
-          Cart unavailable because the saved batch serving count is unknown.
-        </p>
-      )}
+      <SavedAdaptationCartButton version={version} />
     </section>
   );
 }
@@ -119,20 +93,21 @@ function Receipt({ version }: VersionProps): JSX.Element {
   );
 }
 
-function Readings({ version }: VersionProps): JSX.Element {
-  const readings = useMemo(
-    () =>
-      recomputeSavedVersionReadings({
-        ingredients: version.recipe.ingredients,
-        ...(version.recipe.numberOfServings !== undefined
-          ? { numberOfServings: version.recipe.numberOfServings }
-          : {}),
-        ...(version.recipe.servingSize !== undefined
-          ? { servingSize: version.recipe.servingSize }
-          : {}),
-      }),
-    [version.recipe],
-  );
+function Readings({
+  version,
+  readings: providedReadings,
+}: VersionProps & { readings?: SavedVersionReadings }): JSX.Element {
+  const readings =
+    providedReadings ??
+    recomputeSavedVersionReadings({
+      ingredients: version.recipe.ingredients,
+      ...(version.recipe.numberOfServings !== undefined
+        ? { numberOfServings: version.recipe.numberOfServings }
+        : {}),
+      ...(version.recipe.servingSize !== undefined
+        ? { servingSize: version.recipe.servingSize }
+        : {}),
+    });
   const nutrition = readings.nutritionPerServing;
   const elements = readings.elementalProperties;
   return (
@@ -173,6 +148,7 @@ function Bibliography({ version }: VersionProps): JSX.Element | null {
 export function SavedAdaptationView({
   version,
   publication,
+  readings,
 }: ViewProps): JSX.Element {
   const { recipe } = version;
   return (
@@ -204,7 +180,10 @@ export function SavedAdaptationView({
           ))}
         </ol>
       </section>
-      <Readings version={version} />
+      <Readings
+        version={version}
+        {...(readings !== undefined ? { readings } : {})}
+      />
       <Receipt version={version} />
       <Bibliography version={version} />
     </main>

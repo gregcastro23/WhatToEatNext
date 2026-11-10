@@ -4,18 +4,15 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect, useCallback, useMemo, type JSX } from "react";
-import { OrderIngredientsModal } from "@/components/order/OrderIngredientsModal";
 import { AddToMealPlanButton } from "@/components/recipes/AddToMealPlanButton";
 import { DiscoverySection } from "@/components/recipes/DiscoverySection";
 import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
-import { IngredientDrawer } from "@/components/recipes/IngredientDrawer";
 import { InteractiveInstruction } from "@/components/recipes/InteractiveInstruction";
 import { NutritionVisualization, type NutritionData } from "@/components/recipes/NutritionVisualization";
 import { RecipeAttribution } from "@/components/recipes/RecipeAttribution";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { RiffOnThisLink } from "@/components/recipes/RiffOnThisLink";
 import { SocialSection } from "@/components/recipes/SocialSection";
-import { TechniqueModal } from "@/components/recipes/TechniqueModal";
 import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
 import { useToast } from "@/components/ToastProvider";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
@@ -28,6 +25,26 @@ import {
 } from "@/utils/dietaryAdaptationState";
 import { roundedCalories } from "@/utils/roundedCalories";
 import { analyzeTimeShortcuts, type TimeBudget, type TimeShortcutResult } from "@/utils/timeShortcuts";
+
+const OrderIngredientsModal = dynamic(
+  () =>
+    import("@/components/order/OrderIngredientsModal").then(
+      (m) => m.OrderIngredientsModal,
+    ),
+  { ssr: false },
+);
+const IngredientDrawer = dynamic(
+  () =>
+    import("@/components/recipes/IngredientDrawer").then(
+      (m) => m.IngredientDrawer,
+    ),
+  { ssr: false },
+);
+const TechniqueModal = dynamic(
+  () =>
+    import("@/components/recipes/TechniqueModal").then((m) => m.TechniqueModal),
+  { ssr: false },
+);
 
 const DietaryAdaptationPanel = dynamic(
   () =>
@@ -1647,27 +1664,29 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
             {/* Community (local-only shell) */}
             <SocialSection recipeId={recipe.id} recipeName={recipe.name} />
 
-            <OrderIngredientsModal
-              open={orderOpen}
-              onClose={() => setOrderOpen(false)}
-              title={activeTitle}
-              inputs={activeIngredients.map((ing) => ({
-                name: ing.name,
-                amount: typeof ing.amount === "number" ? ing.amount : 1,
-                unit: ing.unit,
-                category: ing.category,
-                optional: ing.optional,
-              }))}
-              scale={scale}
-              source="recipe_detail"
-              listTarget={`recipe:${activeCartId}`}
-            />
+            {orderOpen && (
+              <OrderIngredientsModal
+                open={orderOpen}
+                onClose={() => setOrderOpen(false)}
+                title={activeTitle}
+                inputs={activeIngredients.map((ing) => ({
+                  name: ing.name,
+                  amount: typeof ing.amount === "number" ? ing.amount : 1,
+                  unit: ing.unit,
+                  category: ing.category,
+                  optional: ing.optional,
+                }))}
+                scale={scale}
+                source="recipe_detail"
+                listTarget={`recipe:${activeCartId}`}
+              />
+            )}
           </div>
         </div>
 
         {/* ===== Ingredient Drawer ===== */}
-        {(() : JSX.Element => {
-          const sel = selectedIngredientIndex != null ? activeIngredients[selectedIngredientIndex] : null;
+        {selectedIngredientIndex != null && (() : JSX.Element => {
+          const sel = activeIngredients[selectedIngredientIndex];
           const scaledAmount = sel?.amount ? Math.round(sel.amount * scale * 100) / 100 : undefined;
           return (
             <IngredientDrawer
@@ -1682,10 +1701,12 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
         })()}
 
         {/* ===== Technique Modal ===== */}
-        <TechniqueModal
-          techniqueName={selectedTechnique}
-          onClose={() => setSelectedTechnique(null)}
-        />
+        {selectedTechnique != null && (
+          <TechniqueModal
+            techniqueName={selectedTechnique}
+            onClose={() => setSelectedTechnique(null)}
+          />
+        )}
 
         {/* Discovery and Also Recommended show for everyone. They used to be
             swapped for a "Next Cosmic Discovery" skeleton once a non-premium user

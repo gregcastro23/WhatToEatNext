@@ -1,15 +1,44 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState, type JSX } from "react";
-import { BoundaryTransferCanvas } from "@/components/lab/BoundaryTransferCanvas";
-import { LatentHeatPanel } from "@/components/lab/LatentHeatPanel";
-import { SimmerReductionPanel } from "@/components/lab/SimmerReductionPanel";
 import { SystemBadge } from "@/components/lab/SystemBadge";
-import { BoundariesPanel } from "../_solver/BoundariesPanel";
-import { ComparisonPanel } from "../_solver/ComparisonPanel";
-import { SolverPanel } from "../_solver/SolverPanel";
-import { VolumetricsPanel } from "../_solver/VolumetricsPanel";
 import "../_solver/solver.css";
+
+const SolverPanel = dynamic(
+  () => import("../_solver/SolverPanel").then((m) => m.SolverPanel),
+  { ssr: false },
+);
+const ComparisonPanel = dynamic(
+  () => import("../_solver/ComparisonPanel").then((m) => m.ComparisonPanel),
+  { ssr: false },
+);
+const BoundariesPanel = dynamic(
+  () => import("../_solver/BoundariesPanel").then((m) => m.BoundariesPanel),
+  { ssr: false },
+);
+const VolumetricsPanel = dynamic(
+  () => import("../_solver/VolumetricsPanel").then((m) => m.VolumetricsPanel),
+  { ssr: false },
+);
+const LatentHeatPanel = dynamic(
+  () => import("@/components/lab/LatentHeatPanel").then((m) => m.LatentHeatPanel),
+  { ssr: false },
+);
+const SimmerReductionPanel = dynamic(
+  () =>
+    import("@/components/lab/SimmerReductionPanel").then(
+      (m) => m.SimmerReductionPanel,
+    ),
+  { ssr: false },
+);
+const BoundaryTransferCanvas = dynamic(
+  () =>
+    import("@/components/lab/BoundaryTransferCanvas").then(
+      (m) => m.BoundaryTransferCanvas,
+    ),
+  { ssr: false },
+);
 
 /**
  * `/kitchen-lab/physics` — the REAL physics of a pan of food.

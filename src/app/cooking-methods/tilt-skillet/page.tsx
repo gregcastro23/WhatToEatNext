@@ -1,4 +1,5 @@
 import TiltSkilletPlanner from "@/components/cooking-methods/tilt-skillet/TiltSkilletPlanner";
+import { buildIngredientElementalCatalog } from "@/utils/tiltSkilletCircuit";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -16,5 +17,6 @@ export const metadata: Metadata = {
  * `tilt-skillet` segment is matched before the dynamic `[method]` segment.
  */
 export default function TiltSkilletPlannerPage() {
-  return <TiltSkilletPlanner />;
+  const elementalCatalog = buildIngredientElementalCatalog();
+  return <TiltSkilletPlanner elementalCatalog={elementalCatalog} />;
 }
