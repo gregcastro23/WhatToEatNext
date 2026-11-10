@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { ZodError } from "zod";
+import { DIETARY_PERSONA_KEYS, parseDietaryPersonaParam } from "@/data/adaptations/personas";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { rateLimit } from "@/lib/rateLimit";
 import {
@@ -11,6 +12,8 @@ import {
   AdaptationSuccessSchema,
 } from "@/lib/recipes/savedAdaptationSchemas";
 import { createSavedAdaptation } from "@/lib/recipes/savedAdaptationService";
+import { LocalRecipeService } from "@/services/LocalRecipeService";
+import { adaptRecipe } from "@/utils/dietaryAdaptation";
 import type { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -75,6 +78,40 @@ function failed(error: unknown): NextResponse {
     "Adaptation confirmation is unavailable. Retry the same request to check for a saved version.",
     503,
   );
+}
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ recipeId: string }> },
+): Promise<NextResponse> {
+  const { recipeId } = await params;
+  const rawPersona =
+    request.nextUrl.searchParams.get("persona") ??
+    request.nextUrl.searchParams.get("mode") ??
+    request.nextUrl.searchParams.get("diet") ??
+    undefined;
+  const persona = parseDietaryPersonaParam(rawPersona);
+  if (!persona) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: `Unsupported dietary persona. Supported personas: ${DIETARY_PERSONA_KEYS.join(", ")}`,
+        supportedPersonas: DIETARY_PERSONA_KEYS,
+      },
+      { status: 400 },
+    );
+  }
+  const recipe = await LocalRecipeService.getRecipeById(recipeId);
+  if (!recipe) {
+    return rejection(`Recipe not found: ${recipeId}`, 404);
+  }
+  const adaptation = adaptRecipe(recipe, persona);
+  return NextResponse.json({
+    success: true,
+    recipeId: recipe.id,
+    persona,
+    adaptation,
+  });
 }
 
 export async function POST(
