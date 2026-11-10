@@ -116,8 +116,9 @@ describe("sync-credit accepts Jing Arena duel credits", () => {
 
   it("still refuses a source it has not been told about", async () => {
     // The enum stays strict: the agents app's `yield_claim` (a planetary-agent
-    // balance transfer whose debit half never reaches WTEN) is a separate
-    // policy decision, not part of this fix.
+    // balance transfer whose debit half never reaches WTEN) stays refused by
+    // owner ruling 2026-09-29, because the agents-daily-yield cron already
+    // pays that baseline and a second claim would double-mint.
     const res = await POST(post({ ...duelBody("k"), source: "yield_claim" }));
 
     expect(res.status).toBe(400);
