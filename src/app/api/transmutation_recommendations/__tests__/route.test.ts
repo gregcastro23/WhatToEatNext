@@ -30,13 +30,15 @@ jest.mock("@/lib/rateLimit", () => ({
 }));
 
 import { NextRequest } from "next/server";
+import { z } from "zod";
 
 import { POST } from "../route";
 
-interface Recommendation {
-  date: string;
-  ruling_planet: string;
-}
+// The response is parsed, not cast: a body of another shape fails here with what it was.
+const RecommendationsSchema = z.array(
+  z.object({ date: z.string(), ruling_planet: z.string() }),
+);
+type Recommendation = z.infer<typeof RecommendationsSchema>[number];
 
 // Everything but Date stays real, so the request body and the promises behave.
 const FAKE_ONLY_DATE = [
@@ -67,7 +69,7 @@ async function recommendationsAt(now: string, body: unknown): Promise<Recommenda
       }),
     );
     expect(response.status).toBe(200);
-    return (await response.json()) as Recommendation[];
+    return RecommendationsSchema.parse(await response.json());
   } finally {
     jest.useRealTimers();
   }
