@@ -10,6 +10,7 @@ import { NavigationProgress } from "@/components/nav/NavigationProgress";
 import { RedesignedFooter } from "@/components/nav/RedesignedFooter";
 import { RedesignedHeader } from "@/components/nav/RedesignedHeader";
 import PwaRegistration from "@/components/pwa/PwaRegistration";
+import WebSiteJsonLd from "@/components/seo/WebSiteJsonLd";
 import ClientProviders from "./ClientProviders";
 import { cormorantGaramond } from "./fonts/cormorantGaramond";
 import { jetbrainsMono } from "./fonts/jetbrainsMono";
@@ -45,6 +46,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <link
+          rel="search"
+          type="application/opensearchdescription+xml"
+          title="Alchm Kitchen"
+          href="/opensearch.xml"
+        />
         {process.env.NODE_ENV === "development" &&
           process.env.NEXT_PUBLIC_ENABLE_REACT_SCAN === "true" && (
           <script
@@ -54,6 +61,7 @@ export default function RootLayout({
         )}
       </head>
       <body className="font-body alchm-root">
+        <WebSiteJsonLd />
         <a className="alchm-skip-link" href="#alchm-main">
           Skip to main content
         </a>
