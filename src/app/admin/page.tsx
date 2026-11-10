@@ -9,6 +9,7 @@ import LaunchReadinessPanel from "@/components/admin/LaunchReadinessPanel";
 import LiveActivityPanel from "@/components/admin/LiveActivityPanel";
 import PulseStrip from "@/components/admin/PulseStrip";
 import ReliabilityPanel from "@/components/admin/ReliabilityPanel";
+import SearchGapsPanel from "@/components/admin/SearchGapsPanel";
 import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
 import TodaysHighlightsPanel from "@/components/admin/TodaysHighlightsPanel";
 
@@ -74,6 +75,9 @@ export default function AdminDashboardPage(): React.JSX.Element {
 
       {/* Untethered faucet watch — band occupancy and emission pace. */}
       <FaucetResonancePanel />
+
+      {/* Omnibar Phase 7 — Top unfulfilled zero-result searches. */}
+      <SearchGapsPanel />
 
       {/* Advanced Metrics — auth rollups, suspicious IP/email brute-force radar,
           in-process slow query ring & threshold tuning, and digest triggers. */}

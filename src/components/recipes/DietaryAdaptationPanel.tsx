@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { DIETARY_PERSONAS } from "@/data/adaptations/personas";
 import { validateDietaryCompliance } from "@/lib/cooking/recipeGateDiet";
 import type { Recipe } from "@/types/recipe";
 import {
@@ -14,15 +15,6 @@ import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("DietaryAdaptationPanel");
 
-const MODES: Array<{ key: DietaryMode; label: string; icon: string }> = [
-  { key: "vegan", label: "Vegan", icon: "\u{1F33F}" },
-  { key: "vegetarian", label: "Vegetarian", icon: "\u{1F957}" },
-  { key: "gluten-free", label: "Gluten-Free", icon: "\u{1F33E}" },
-  { key: "dairy-free", label: "Dairy-Free", icon: "\u{1F95B}" },
-  { key: "keto", label: "Keto", icon: "\u{1F951}" },
-  { key: "low-carb", label: "Low-Carb", icon: "\u{1F366}" },
-];
-
 const PREFERENCES_KEY = "userFoodPreferences";
 const DISMISSED_KEY = "alchm:dietary-suggestion-dismissed:v1";
 
@@ -35,6 +27,9 @@ function matchPreferenceToMode(pref: string): DietaryMode | null {
   if (p.includes("dairy") || p === "lactose-free") return "dairy-free";
   if (p === "keto" || p === "ketogenic") return "keto";
   if (p.includes("low carb") || p.includes("low-carb")) return "low-carb";
+  if (p.includes("fodmap")) return "low-fodmap";
+  if (p.includes("pescatarian") || p === "pesc") return "pescatarian";
+  if (p === "paleo" || p === "paleolithic") return "paleo";
   return null;
 }
 
@@ -182,8 +177,8 @@ export function DietaryAdaptationPanel({ recipe, activeMode, onModeChange }: Pro
         </div>
       )}
 
-      <div className="flex flex-wrap gap-2">
-        {MODES.map(({ key, label, icon }) => {
+      <div className="flex flex-wrap gap-2" role="group" aria-label="Dietary Persona Selector">
+        {DIETARY_PERSONAS.map(({ key, label, icon, personaTitle }) => {
           const compatible = isAlreadyCompatible(recipe, key);
           const wouldSwap = !compatible && needsAdaptation(recipe, key);
           const isActive = activeMode === key;
@@ -211,9 +206,9 @@ export function DietaryAdaptationPanel({ recipe, activeMode, onModeChange }: Pro
                 disabled
                   ? `Already ${label.toLowerCase()}-compatible`
                   : isPreferred
-                    ? `Your saved preference`
+                    ? `Your saved preference (${personaTitle})`
                     : wouldSwap
-                      ? `Adapt to ${label.toLowerCase()}`
+                      ? `Adapt to ${label.toLowerCase()} (${personaTitle})`
                       : `No swap rules triggered for ${label.toLowerCase()}`
               }
             >

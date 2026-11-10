@@ -1,5 +1,6 @@
 import { notFound, permanentRedirect } from "next/navigation";
 import { cache } from "react";
+import { parseDietaryPersonaParam } from "@/data/adaptations/personas";
 import { _logger } from "@/lib/logger";
 import { loadAuthoredFacts, resolveRecipeRef, withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
 import { withAuthoredFacts } from "@/lib/search/authoredFacts";
@@ -32,6 +33,7 @@ export async function generateStaticParams() {
 
 interface RecipePageProps {
   params: Promise<{ recipeId: string }>;
+  searchParams?: Promise<{ persona?: string | string[]; diet?: string | string[] }>;
 }
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -181,8 +183,12 @@ async function handleMissingRecipe(recipeId: string): Promise<never> {
   notFound();
 }
 
-export default async function RecipePage({ params }: RecipePageProps) {
+export default async function RecipePage({ params, searchParams }: RecipePageProps) {
   const { recipeId } = await params;
+  const resolvedSearch = searchParams ? await searchParams : undefined;
+  const initialPersona = parseDietaryPersonaParam(
+    resolvedSearch?.persona ?? resolvedSearch?.diet,
+  );
 
   const target = await resolveRecipePage(recipeId);
   if (target.kind === "redirect") {
@@ -364,6 +370,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
         recipe={recipe}
         recommendedSauces={recommendedSauces}
         recommendedRecipes={recommendedRecipes}
+        initialPersona={initialPersona}
       />
     </>
   );

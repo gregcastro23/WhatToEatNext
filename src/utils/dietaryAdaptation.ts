@@ -36,6 +36,9 @@ const MODE_LABELS: Record<DietaryMode, string> = {
   "dairy-free": "dairy-free",
   "keto": "keto",
   "low-carb": "low-carb",
+  "low-fodmap": "low-fodmap",
+  "pescatarian": "pescatarian",
+  "paleo": "paleo",
 };
 
 export function getModeLabel(mode: DietaryMode): string {
@@ -355,6 +358,104 @@ function lowCarbRules(): SwapRule[] {
   ];
 }
 
+function lowFodmapRules(): SwapRule[] {
+  return [
+    {
+      match: (ing) => nameHas(ing, "garlic") && !nameHas(ing, "garlic-infused"),
+      replace: (ing) => ({ name: "garlic-infused olive oil", unit: ing.unit }),
+      reason: "Low-FODMAP allium swap",
+    },
+    {
+      match: (ing) => nameHas(ing, "onion", "shallot", "leek") && !nameHas(ing, "green onion", "scallion"),
+      replace: (ing) => ({ name: "green onion tops (green parts only)", unit: ing.unit }),
+      reason: "Low-FODMAP allium swap",
+    },
+    {
+      match: (ing) => nameHas(ing, "flour") && !nameHas(ing, "almond flour", "rice flour", "gluten-free"),
+      replace: (ing) => ({ name: "gluten-free flour blend", unit: ing.unit }),
+      reason: "Low-FODMAP wheat-free flour",
+    },
+    {
+      match: (ing) => nameHas(ing, "pasta", "noodle") && !nameHas(ing, "rice noodle", "gluten-free"),
+      replace: (ing) => ({ name: "brown rice pasta", unit: ing.unit }),
+      reason: "Low-FODMAP pasta",
+    },
+    {
+      match: (ing) => nameHas(ing, ...HONEY_NAMES, "agave"),
+      replace: (ing) => ({ name: "maple syrup", unit: ing.unit }),
+      reason: "Low-FODMAP sweetener",
+    },
+    {
+      match: (ing) => !isProtectedPlantIngredient(ing) && nameHas(ing, "milk") && !nameHas(ing, "almond", "lactose-free", "coconut", "rice milk"),
+      replace: (ing) => ({ name: "almond milk", unit: ing.unit }),
+      reason: "Low-FODMAP lactose-free milk",
+    },
+  ];
+}
+
+function pescatarianRules(): SwapRule[] {
+  return [
+    {
+      match: (ing) => !isProtectedPlantIngredient(ing) && nameHas(ing, ...MEAT_NAMES),
+      replace: (ing): { name: string; unit: string } => {
+        const n = ing.name.toLowerCase();
+        if (n.includes("chicken") || n.includes("turkey")) {
+          return { name: "firm white cod fillet", unit: ing.unit };
+        }
+        if (n.includes("beef") || n.includes("steak") || n.includes("lamb")) {
+          return { name: "wild salmon fillet", unit: ing.unit };
+        }
+        return { name: "seared sea scallops", unit: ing.unit };
+      },
+      reason: "Pescatarian seafood swap",
+      nutritionDelta: { calories: -40, fat: -4, protein: 2 },
+      elementalDelta: { Fire: -0.04, Water: 0.04 },
+    },
+  ];
+}
+
+function paleoRules(): SwapRule[] {
+  return [
+    {
+      match: (ing) => nameHas(ing, "flour") && !nameHas(ing, "almond flour", "coconut flour", "cassava"),
+      replace: (ing) => ({ name: "almond flour", unit: ing.unit, amountScale: 0.75 }),
+      reason: "Paleo grain-free flour",
+    },
+    {
+      match: (ing) => nameHas(ing, "pasta", "noodle", "couscous", "bulgur", "farro", "barley"),
+      replace: (ing) => ({ name: "zucchini noodles", unit: ing.unit }),
+      reason: "Paleo grain-free base",
+      nutritionDelta: { carbs: -35, calories: -120 },
+    },
+    {
+      match: (ing) => nameHas(ing, "rice", "quinoa", "oats") && !nameHas(ing, "cauliflower"),
+      replace: (ing) => ({ name: "cauliflower rice", unit: ing.unit }),
+      reason: "Paleo grain-free rice",
+      nutritionDelta: { carbs: -30, calories: -110 },
+    },
+    {
+      match: (ing) => nameHas(ing, "soy sauce", "tamari"),
+      replace: (ing) => ({ name: "coconut aminos", unit: ing.unit }),
+      reason: "Paleo soy-free seasoning",
+    },
+    {
+      match: (ing) => !isProtectedPlantIngredient(ing) && nameHas(ing, "butter"),
+      replace: (ing) => ({ name: "clarified ghee", unit: ing.unit }),
+      reason: "Paleo clarified lipid",
+    },
+    {
+      match: (ing) => !isProtectedPlantIngredient(ing) && nameHas(ing, "milk", "cream", "yogurt", "yoghurt", "cheese", "parmesan", "mozzarella", "feta", "cheddar"),
+      replace: (ing) => ({ name: "coconut cream", unit: ing.unit }),
+      reason: "Paleo dairy-free swap",
+    },
+    {
+      match: (ing) => nameHas(ing, "sugar") && !nameHas(ing, "coconut sugar"),
+      replace: (ing) => ({ name: "coconut sugar", unit: ing.unit }),
+      reason: "Paleo unrefined sweetener",
+    },
+  ];
+}
+
 function rulesFor(mode: DietaryMode): SwapRule[] {
   switch (mode) {
     case "vegan": return veganRules();
@@ -363,6 +464,9 @@ function rulesFor(mode: DietaryMode): SwapRule[] {
     case "dairy-free": return dairyFreeRules();
     case "keto": return ketoRules();
     case "low-carb": return lowCarbRules();
+    case "low-fodmap": return lowFodmapRules();
+    case "pescatarian": return pescatarianRules();
+    case "paleo": return paleoRules();
   }
 }
 
@@ -375,6 +479,9 @@ export function isAlreadyCompatible(recipe: Recipe, mode: DietaryMode): boolean 
     case "dairy-free":  return recipe.isDairyFree === true || recipe.isVegan === true;
     case "keto":        return recipe.isKeto === true;
     case "low-carb":    return recipe.isLowCarb === true || recipe.isKeto === true;
+    case "low-fodmap":  return false;
+    case "pescatarian": return recipe.isVegetarian === true || recipe.isVegan === true;
+    case "paleo":       return recipe.isPaleo === true;
   }
 }
 
@@ -469,6 +576,13 @@ const CORE_SWAP_NOUNS = [
   "potatoes",
   "potato",
   "sugar",
+  "garlic",
+  "onions",
+  "onion",
+  "shallots",
+  "shallot",
+  "leeks",
+  "leek",
 ];
 
 const PROTECTED_PREFIX_BEFORE_MATCH =

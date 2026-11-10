@@ -11,7 +11,10 @@ export type DietaryMode =
   | "gluten-free"
   | "dairy-free"
   | "keto"
-  | "low-carb";
+  | "low-carb"
+  | "low-fodmap"
+  | "pescatarian"
+  | "paleo";
 
 export interface IngredientSwap {
   index: number;

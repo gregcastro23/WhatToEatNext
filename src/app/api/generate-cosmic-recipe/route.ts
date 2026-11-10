@@ -21,6 +21,13 @@
  * now in place, WTEN simplifies to a proxy.
  */
 import { z } from "zod";
+import {
+  claimCosmicGenerationOperation,
+  completeCosmicGenerationOperation,
+  computeCosmicRequestFingerprint,
+  failCosmicGenerationOperation,
+  recordCosmicOperationDebit,
+} from "@/app/actions/generateCosmicRecipe";
 import { isOperatorAccount } from "@/lib/auth/adminEmails";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import { recordRecipePipelineEvent } from "@/lib/cooking/recipePipelineTelemetry";
@@ -208,11 +215,62 @@ async function handlePost(request: NextRequest) {
   // Surfaced on the 200 so the client can show what was spent and swapped.
   let payment: PaymentMetadata | null =
     access.mode === "auth" ? { charged: false, autoSwap: null } : null;
+  const clientOperationKey =
+    parsed.data.idempotencyKey ??
+    parsed.data.requestId ??
+    request.headers.get("idempotency-key") ??
+    request.headers.get("x-request-id") ??
+    undefined;
 
   // Auth'd path: token economy is the throttle. Every user gets 1 free daily generation,
   // and subsequent recipe generations spend personalized live ESMS tokens.
   if (access.mode === "auth") {
     const { userId } = access;
+    if (clientOperationKey) {
+      const requestFingerprint = computeCosmicRequestFingerprint({
+        prompt: prompt ?? "",
+        diet: diet ?? "omnivore",
+        preferredCuisine: preferredCuisine ?? "",
+        ingredientsMain: ingredientsMain ?? [],
+        disallowedIngredients: disallowedIngredients ?? [],
+      });
+      try {
+        const claim = await claimCosmicGenerationOperation({
+          userId,
+          operationKey: clientOperationKey,
+          requestFingerprint,
+        });
+        if (claim.outcome === "fingerprint_mismatch") {
+          return new Response(
+            JSON.stringify({
+              error: "operation_key_conflict",
+              message: "This operation key was already used with different recipe parameters.",
+            }),
+            { status: 409, headers: { "Content-Type": "application/json" } },
+          );
+        }
+        if (claim.outcome === "in_progress") {
+          return new Response(
+            JSON.stringify({
+              error: "operation_in_progress",
+              message: "This cosmic recipe generation request is currently in progress.",
+            }),
+            { status: 409, headers: { "Content-Type": "application/json" } },
+          );
+        }
+        if (claim.outcome === "replayed" && claim.operation.responsePayload) {
+          return new Response(
+            JSON.stringify({
+              ...claim.operation.responsePayload,
+              replayed: true,
+            }),
+            { status: 200, headers: { "Content-Type": "application/json" } },
+          );
+        }
+      } catch (err) {
+        logger.warn("[generate-cosmic-recipe] Failed to claim durable operation:", err);
+      }
+    }
     let isFirstGeneration = true;
     let count = 0;
 
@@ -352,6 +410,13 @@ async function handlePost(request: NextRequest) {
             transactionGroupId: purchase.transactionGroupId,
             autoSwap: swapped,
           };
+          if (clientOperationKey) {
+            await recordCosmicOperationDebit({
+              userId,
+              operationKey: clientOperationKey,
+              debitTxId: purchase.transactionGroupId,
+            });
+          }
         }
       }
 
@@ -757,6 +822,15 @@ async function handlePost(request: NextRequest) {
         message: "Internal server error contacting agents network",
         timedOut: false,
       };
+      if (access.mode === "auth" && clientOperationKey) {
+        await failCosmicGenerationOperation({
+          userId: access.userId,
+          operationKey: clientOperationKey,
+          refunded: refundOutcome?.refunded ?? false,
+          refundTxId: refundOutcome?.refundReference?.idempotencyKey ?? null,
+          errorMessage: err.message,
+        });
+      }
 
       return new Response(
         JSON.stringify({
@@ -845,6 +919,14 @@ async function handlePost(request: NextRequest) {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
+    if (access.mode === "auth" && clientOperationKey) {
+      await completeCosmicGenerationOperation({
+        userId: access.userId,
+        operationKey: clientOperationKey,
+        recipeId: recipe.id,
+        responsePayload: responseJson,
+      });
+    }
     delivered = true;
     return okResponse;
 

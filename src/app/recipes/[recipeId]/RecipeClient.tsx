@@ -828,22 +828,23 @@ interface RecipeClientProps {
   recipe: Recipe;
   recommendedSauces: string[];
   recommendedRecipes: Recipe[];
+  initialPersona?: DietaryMode | null;
 }
 
-export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes }: RecipeClientProps): JSX.Element {
+export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes, initialPersona = null }: RecipeClientProps): JSX.Element {
   const [servings, setServings] = useState(getBaseServings(recipe));
   const [copied, setCopied] = useState(false);
   const [heroImageFailed, setHeroImageFailed] = useState(false);
   const [selectedIngredientIndex, setSelectedIngredientIndex] = useState<number | null>(null);
   const [selectedTechnique, setSelectedTechnique] = useState<string | null>(null);
-  const [dietaryMode, setDietaryMode] = useState<DietaryMode | null>(null);
+  const [dietaryMode, setDietaryMode] = useState<DietaryMode | null>(initialPersona);
   const [timeBudget, setTimeBudget] = useState<TimeBudget | null>(null);
 
   useEffect(() => {
-    setDietaryMode(null);
+    setDietaryMode(initialPersona ?? null);
     setTimeBudget(null);
     setHeroImageFailed(false);
-  }, [recipe.id]);
+  }, [recipe.id, initialPersona]);
 
   const [adaptation, setAdaptation] = useState<AdaptationResult | null>(null);
 

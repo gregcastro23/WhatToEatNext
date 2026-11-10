@@ -7,6 +7,7 @@ import { _logger } from "@/lib/logger";
 import { SEARCH_QUERY_MAX_LENGTH, type OmnibarResponse } from "@/lib/validation/searchSchemas";
 import { getSearchIndex } from "./loader";
 import { searchOmnibar } from "./omnibar";
+import { isZeroResultSearch, scheduleZeroResultSearchGap } from "./searchGaps";
 import { toOmnibarResponse } from "./serialize";
 
 const PAGE_PER_KIND = 24;
@@ -28,6 +29,9 @@ export async function searchForPage(query: string, now: Date): Promise<OmnibarRe
   try {
     const index = await getSearchIndex();
     const result = searchOmnibar(index, query, { now, perKindLimit: PAGE_PER_KIND, containingLimit: PAGE_CONTAINING });
+    if (query.trim().length >= 3 && isZeroResultSearch(result)) {
+      scheduleZeroResultSearchGap(query, result.chips);
+    }
     return toOmnibarResponse(result);
   } catch (error) {
     _logger.error("[search page] search failed:", error);
