@@ -4,14 +4,9 @@ from backend.config.celestial_config import FOREST_HILLS_COORDINATES
 from backend.utils.planetary_weights import normalize_planet_weight, PLANET_MASS_RELATIVE
 from backend.utils.elemental_balance import elemental_balance_from_longitudes
 from backend.utils.ephemeris import swe
-try:
-    from astral.sun import sun
-    from astral import LocationInfo
-except ImportError:
-    sun = None
-    LocationInfo = None
+from backend.utils.planetary_hours import planetary_hour_at
 
-CHALDEAN_ORDER = ["Saturn", "Jupiter", "Mars", "Sun", "Venus", "Mercury", "Moon"]
+_UTC = datetime.timezone.utc  # the module's own name for it: tests replace `datetime` here with a clock
 PLANETARY_ELEMENTS = {
     "Sun": "Fire", "Venus": "Earth", "Mercury": "Air", "Moon": "Water",
     "Saturn": "Earth", "Jupiter": "Fire", "Mars": "Fire"
@@ -30,59 +25,15 @@ BIRTH_DATA = {
 from backend.schemas.planetary import CelestialCoordinates, PotencyScore
 
 def get_planetary_hour(coords: CelestialCoordinates):
-    """Calculates the current planetary hour."""
-    if not sun or not LocationInfo:
+    """The planet that rules the current planetary hour at `coords`; None when pyswisseph is not installed.
+
+    The rule, and what was wrong with this function before, are in backend/utils/planetary_hours.py.
+    Raises ValueError where the Sun does not rise and set around now (the polar day and night).
+    `coords.timezone` is not used: the weekday comes from the longitude.
+    """
+    if not swe:
         return None
-
-    latitude, longitude = coords.latitude, coords.longitude
-    city = LocationInfo("Forest Hills", "USA", coords.timezone or FOREST_HILLS_COORDINATES["timezone"], latitude, longitude)
-    s = sun(city.observer, date=datetime.datetime.now())
-    sunrise = s["sunrise"]
-    sunset = s["sunset"]
-
-    now = datetime.datetime.now(sunrise.tzinfo) # Use timezone-aware datetime
-
-    if sunrise < now < sunset:
-        # Daytime
-        hour_length = (sunset - sunrise) / 12
-        hour_index = int((now - sunrise) / hour_length)
-        day_of_week = now.weekday()
-        # Monday is 0 in weekday(), but we need Sunday = 0 for Chaldean order
-        day_of_week = (day_of_week + 1) % 7
-        
-        # Get the ruler of the day
-        day_ruler = CHALDEAN_ORDER[day_of_week]
-        day_ruler_index = CHALDEAN_ORDER.index(day_ruler)
-
-        hour_ruler_index = (day_ruler_index + hour_index) % 7
-        return CHALDEAN_ORDER[hour_ruler_index]
-    else:
-        # Nighttime
-        # Find previous sunset
-        yesterday = now - datetime.timedelta(days=1)
-        s_yesterday = sun(city.observer, date=yesterday)
-        prev_sunset = s_yesterday["sunset"]
-
-        if now < sunrise: # Before sunrise
-            hour_length = (sunrise - prev_sunset) / 12
-            hour_index = int((now - prev_sunset) / hour_length)
-        else: # After sunset
-            tomorrow = now + datetime.timedelta(days=1)
-            s_tomorrow = sun(city.observer, date=tomorrow)
-            next_sunrise = s_tomorrow["sunrise"]
-            hour_length = (next_sunrise - sunset) / 12
-            hour_index = int((now - sunset) / hour_length)
-
-        day_of_week = now.weekday()
-        day_of_week = (day_of_week + 1) % 7
-        
-        # Get the ruler of the day
-        day_ruler = CHALDEAN_ORDER[day_of_week]
-        day_ruler_index = CHALDEAN_ORDER.index(day_ruler)
-
-        # The first hour of the night is ruled by the planet that is 3 places after the day ruler
-        hour_ruler_index = (day_ruler_index + 12 + hour_index) % 7
-        return CHALDEAN_ORDER[hour_ruler_index]
+    return planetary_hour_at(datetime.datetime.now(_UTC), coords.latitude, coords.longitude).ruler
 
 def get_julian_day(year, month, day, hour, minute):
     """Calculates the Julian day."""

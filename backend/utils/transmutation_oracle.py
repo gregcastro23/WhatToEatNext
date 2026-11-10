@@ -9,6 +9,7 @@ from ..utils.ephemeris import swe, EPHE_PATH
 from ..utils.transit_engine import get_transit_details, PLANETARY_ELEMENTS # Import these
 from ..utils.seasonal_engine import get_seasonal_modifiers # Import for current zodiac
 from ..utils.lunar_oracle import julian_day_utc
+from ..utils.planetary_hours import utc_datetime_from_julian_day  # defined with the other planetary-hour code
 
 if swe is None:
     # This module has always needed pyswisseph just to be imported (it began with a bare `import swisseph`).
@@ -48,17 +49,6 @@ PLANETARY_INFLUENCES = {
         "recommendation_type": "Matter-balancing (Grounding) transmutation"
     }
 }
-
-def utc_datetime_from_julian_day(jd_utc: float) -> datetime.datetime:
-    """The timezone-aware UTC datetime of a Julian day (UT): the inverse of lunar_oracle.julian_day_utc.
-
-    swe.revjul returns (year, month, day, hour) with the time of day as ONE decimal-hours float.
-    It has no minute or second to unpack: unpacking six values from it raised
-    "not enough values to unpack (expected 6, got 4)".
-    """
-    year, month, day, hour = swe.revjul(jd_utc)
-    return datetime.datetime(year, month, day, tzinfo=pytz.utc) + datetime.timedelta(hours=hour)
-
 
 class TransmutationOracle:
     def __init__(self, latitude: float, longitude: float, timezone_str: str):
