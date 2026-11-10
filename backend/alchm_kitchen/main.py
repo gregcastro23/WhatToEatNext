@@ -967,37 +967,26 @@ async def calculate_token_rates_endpoint(request: TokenRatesRequest):
         
     loc = request.location or {"latitude": FOREST_HILLS_COORDINATES["latitude"], "longitude": FOREST_HILLS_COORDINATES["longitude"]}
     
-    # Get planetary hour and day/night status using transit engine
-    from backend.utils.transit_engine import get_planetary_hour, CelestialCoordinates
-    coords = CelestialCoordinates(latitude=loc["latitude"], longitude=loc["longitude"], timezone=FOREST_HILLS_COORDINATES["timezone"])
-    
-    # Using a simplified day/night logic based on 6am-6pm if astral is missing
+    # Validates the range (a latitude of 95 is an error, not a place).
+    coords = CelestialCoordinates(latitude=loc["latitude"], longitude=loc["longitude"])
+
+    # The fallback where the sun's times cannot be had (the polar day and night, or no pyswisseph): the
+    # hours 06:00-18:00 are the day, ruled by the Sun.
     is_day = 6 <= dt.hour < 18
     planetary_hour = "Sun"  # Default fallback
-    
+
+    # The rule is in backend/utils/planetary_hours.py. This block used to repeat it with the weekday read as an
+    # index into the Chaldean order (right on Tuesday only), every night hour answered "Moon", and a request
+    # datetime with a timezone (what TokensClient sends: toISOString() ends in Z) raised TypeError against the
+    # naive sunrise, which the bare `except Exception` swallowed, so it was always "Sun".
     try:
-        from astral.sun import sun
-        from astral import LocationInfo
-        city = LocationInfo("Local", "Region", coords.timezone, loc["latitude"], loc["longitude"])
-        s = sun(city.observer, date=dt)
-        sunrise = s["sunrise"].replace(tzinfo=None)
-        sunset = s["sunset"].replace(tzinfo=None)
-        is_day = sunrise <= dt <= sunset
-        
-        # Simplified hour calculation based on Chaldean order
-        CHALDEAN_ORDER = ["Saturn", "Jupiter", "Mars", "Sun", "Venus", "Mercury", "Moon"]
-        if is_day:
-            hour_length = (sunset - sunrise).total_seconds() / 12
-            hour_index = int((dt - sunrise).total_seconds() / hour_length)
-            day_of_week = (dt.weekday() + 1) % 7
-            day_ruler = CHALDEAN_ORDER[day_of_week]
-            day_ruler_index = CHALDEAN_ORDER.index(day_ruler)
-            planetary_hour = CHALDEAN_ORDER[(day_ruler_index + hour_index) % 7]
-        else:
-            planetary_hour = "Moon"
-    except Exception:
+        from backend.utils.planetary_hours import planetary_hour_at
+        hour = planetary_hour_at(dt, coords.latitude, coords.longitude)
+    except (ImportError, ValueError):
         pass
-        
+    else:
+        planetary_hour, is_day = hour.ruler, hour.is_daytime
+
     # The four axes are MEASURED from the resolved planetary hour, not declared.
     # Previously they were the literals (1,1,1,1), which made kalchm 1.0 for
     # every hour of every day — a constant wearing the shape of a computation.
