@@ -20,7 +20,11 @@ import {
   type ElementName,
 } from "@/components/cooking-methods/primitives";
 import type { TiltSkilletBatchPlan, TiltSkilletBody } from "@/types/tiltSkilletSchema";
-import { computeBatchCircuit, type BatchStageInput, type StageCircuit } from "@/utils/tiltSkilletCircuit";
+import {
+  computeBatchCircuitWithCatalog,
+  type IngredientElementalCatalog,
+  type StageCircuit,
+} from "@/utils/tiltSkilletCircuitCore";
 
 const UNITS = ["cup", "l", "ml", "tbsp", "tsp", "g", "kg", "piece"] as const;
 type Unit = (typeof UNITS)[number];
@@ -71,7 +75,11 @@ function fmt(x: number): string {
   return x.toFixed(3);
 }
 
-export default function TiltSkilletPlanner() {
+export default function TiltSkilletPlanner({
+  elementalCatalog,
+}: {
+  elementalCatalog?: IngredientElementalCatalog;
+} = {}) {
   const [prompt, setPrompt] = useState(
     "A hearty large-batch braise for the week ahead — deeply savory and freezer-friendly.",
   );
@@ -86,8 +94,8 @@ export default function TiltSkilletPlanner() {
 
   // Live deterministic circuit — instant, recomputed on every edit.
   const circuit = useMemo(
-    () => computeBatchCircuit(stages as BatchStageInput[]),
-    [stages],
+    () => computeBatchCircuitWithCatalog(stages, undefined, elementalCatalog),
+    [stages, elementalCatalog],
   );
 
   const setStage = (si: number, patch: Partial<StageRow>) =>

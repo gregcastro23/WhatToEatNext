@@ -10,6 +10,7 @@ import React from "react";
 const EnhancedCookingMethodRecommender = dynamic(
   () => import("@/components/recommendations/EnhancedCookingMethodRecommender"),
   {
+    ssr: false,
     loading: () => (
       <div className="ma-label flex min-h-[320px] items-center justify-center text-ma-outline">
         CHARGING_REACTION_CHAMBER…
