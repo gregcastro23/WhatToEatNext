@@ -49,10 +49,12 @@ class CollectiveSynastryEngine:
         try:
             planetary_hour_ruler = get_planetary_hour(coordinates)
         except ValueError:
-            # astral raises ValueError where the Sun never rises, or never reaches the dawn depression,
-            # on the day (high latitudes, a few months a year: measured 114 of 246 samples at 69.65N,
-            # 42 of 246 at 64.15N). Unknown is None to the engines; failing the whole recommendation
-            # for one participant's birthplace is not an answer.
+            # get_planetary_hour raises ValueError where the Sun does not rise and set around now (the polar
+            # day and night: measured 121 of the 365 days of 2025 at 12:00 UTC at 69.65N, 0 at 64.15N). It
+            # used to raise as well wherever astral's dawn depression was not reached: 160 days at 69.65N,
+            # 69 at 64.15N, and 3 in New York, where astral's date stamp was a day out.
+            # Unknown is None to the engines; failing the whole recommendation for one participant's
+            # birthplace is not an answer.
             planetary_hour_ruler = None
 
         # Determine the participant's natal Sun Sign Element

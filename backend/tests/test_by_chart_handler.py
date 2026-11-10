@@ -17,7 +17,7 @@ A stand-in must not smooth over the types the real thing returns: the rows carry
 alternate float and Decimal affinities (see RECIPE_IDS).
 
 Needs pydantic (pinned in backend/requirements.txt) next to pytest; the polar-latitude test also
-needs astral.
+needs pyswisseph.
 """
 import ast
 import asyncio
@@ -522,7 +522,7 @@ def test_a_participant_with_invalid_coordinates_is_an_error_not_an_unknown_plane
 
 
 def test_a_participant_born_where_the_sun_does_not_rise_does_not_fail_the_whole_request(monkeypatch):
-    assert transit_engine.sun is not None, "astral is not installed; the CI step installs it"
+    assert transit_engine.swe is not None, "pyswisseph is not installed; the CI step installs it"
 
     class Midwinter(datetime.datetime):
         @classmethod
