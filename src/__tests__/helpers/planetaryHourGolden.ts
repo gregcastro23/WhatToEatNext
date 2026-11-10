@@ -13,6 +13,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { z } from "zod";
+
 import { PlanetaryHourCalculator } from "@/lib/PlanetaryHourCalculator";
 
 export const GOLDEN_PATH = join(
@@ -25,27 +27,32 @@ export const GOLDEN_PATH = join(
   "planetary_hour_golden_vectors.json",
 );
 
-export interface GoldenDay {
-  place: string;
+/** One planetary day of the vector file. */
+const GoldenDaySchema = z.object({
+  place: z.string(),
   /** Local mean solar date of the sunrise that began this planetary day. */
-  localDate: string;
-  weekday: string;
-  dayRuler: string;
-  sunrise: string;
-  sunset: string;
-  nextSunrise: string;
+  localDate: z.string(),
+  weekday: z.string(),
+  dayRuler: z.string(),
+  sunrise: z.string(),
+  sunset: z.string(),
+  nextSunrise: z.string(),
   /** 24 entries: [instant UTC, ruling planet]; 0-11 by day from sunrise, 12-23 by night from sunset. */
-  hours: Array<[string, string]>;
-}
+  hours: z.array(z.tuple([z.string(), z.string()])),
+});
 
-export interface GoldenVectors {
-  basis: { shortestHourMinutes: number };
-  places: Record<string, { latitude: number; longitude: number }>;
-  days: GoldenDay[];
-}
+const GoldenVectorsSchema = z.object({
+  basis: z.object({ shortestHourMinutes: z.number() }),
+  places: z.record(z.string(), z.object({ latitude: z.number(), longitude: z.number() })),
+  days: z.array(GoldenDaySchema),
+});
 
+export type GoldenDay = z.infer<typeof GoldenDaySchema>;
+export type GoldenVectors = z.infer<typeof GoldenVectorsSchema>;
+
+/** The vector file, parsed: a file of another shape fails here saying how, instead of being trusted. */
 export function loadGolden(): GoldenVectors {
-  return JSON.parse(readFileSync(GOLDEN_PATH, "utf8")) as GoldenVectors;
+  return GoldenVectorsSchema.parse(JSON.parse(readFileSync(GOLDEN_PATH, "utf8")));
 }
 
 /**

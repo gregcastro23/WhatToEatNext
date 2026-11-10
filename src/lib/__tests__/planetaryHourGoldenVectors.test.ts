@@ -47,6 +47,7 @@ import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 
 import SunCalc from "suncalc";
+import { z } from "zod";
 
 import {
   CHALDEAN_ORDER,
@@ -93,15 +94,42 @@ const POISON = {
  * and always restored, since Date.prototype is global and jest itself uses it.
  */
 function withPoisonedLocalGetters<T>(fn: () => T): T {
-  const spies = (Object.keys(POISON) as Array<keyof typeof POISON>).map((name) =>
-    jest.spyOn(Date.prototype, name as never).mockReturnValue(POISON[name] as never),
-  );
+  const spies = [
+    jest.spyOn(Date.prototype, "getDay").mockReturnValue(POISON.getDay),
+    jest.spyOn(Date.prototype, "getDate").mockReturnValue(POISON.getDate),
+    jest.spyOn(Date.prototype, "getMonth").mockReturnValue(POISON.getMonth),
+    jest.spyOn(Date.prototype, "getFullYear").mockReturnValue(POISON.getFullYear),
+    jest.spyOn(Date.prototype, "getHours").mockReturnValue(POISON.getHours),
+    jest.spyOn(Date.prototype, "getMinutes").mockReturnValue(POISON.getMinutes),
+    jest.spyOn(Date.prototype, "getSeconds").mockReturnValue(POISON.getSeconds),
+    jest.spyOn(Date.prototype, "getTimezoneOffset").mockReturnValue(POISON.getTimezoneOffset),
+  ];
   try {
     return fn();
   } finally {
     for (const spy of spies) spy.mockRestore();
   }
 }
+
+/** The one JSON line `planetaryHourGoldenInZone.ts` prints. */
+const InZoneReportSchema = z.object({
+  zone: z.string(),
+  offsetJune: z.number(),
+  checked: z.number(),
+  wrongRuler: z.object({ day: z.number(), eveningNight: z.number(), preDawnNight: z.number() }),
+  wrongHour: z.number(),
+  wrongDayRuler: z.number(),
+  firstMismatches: z.array(
+    z.object({
+      place: z.string(),
+      localDate: z.string(),
+      hour: z.number(),
+      instant: z.string(),
+      expected: z.string(),
+      got: z.string(),
+    }),
+  ),
+});
 
 describe("planetary hour golden vectors: the vectors themselves", () => {
   // CONTROL. `it.each([])` and a loop over an empty list both pass, so an empty
@@ -301,15 +329,7 @@ describe("the answer does not depend on the host's clock", () => {
         { cwd: REPO_ROOT, env: { ...env, TZ: zone }, encoding: "utf8", timeout: 120_000 },
       );
       const line = stdout.trim().split("\n").pop() ?? "";
-      const seen = JSON.parse(line) as {
-        zone: string;
-        offsetJune: number;
-        checked: number;
-        wrongRuler: { day: number; eveningNight: number; preDawnNight: number };
-        wrongHour: number;
-        wrongDayRuler: number;
-        firstMismatches: Mismatch[];
-      };
+      const seen = InZoneReportSchema.parse(JSON.parse(line));
       // The zone took: a process that quietly stayed on UTC would pass the rest.
       expect(seen.zone).toBe(zone);
       expect(seen.offsetJune).toBe(offsetJune);
