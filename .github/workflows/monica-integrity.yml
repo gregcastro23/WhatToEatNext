@@ -345,13 +345,19 @@ jobs:
         # out where it falls on the other UTC date). The tests set the answer against the classical table
         # written out, astral, swe.azalt, hours worked by hand and the oracle above.
         #
+        # And test_planetary_hours_golden.py: planetary_hour_at reproduces every vector in
+        # backend/tests/planetary_hour_golden_vectors.json, the file the TypeScript PlanetaryHourCalculator is held
+        # to in the jest suite (the Python step "Planetary hour golden vectors" above holds the file itself to the
+        # classical table). Change the engine and this fails until the vectors are regenerated and the TypeScript
+        # half passes against them.
+        #
         # pytz is already in backend/requirements.txt (unpinned there); it is pinned here to a release
         # more than a month old. Its own throwaway venv, like the step above, so that the pytest-only
         # steps keep their install and this step does not depend on that one having run.
         run: |
           python -m venv "$RUNNER_TEMP/ephemeris"
           "$RUNNER_TEMP/ephemeris/bin/python" -m pip install --quiet pytest pydantic==2.10.6 pyswisseph==2.10.3.2 astral==3.2 pytz==2026.5
-          "$RUNNER_TEMP/ephemeris/bin/python" -m pytest backend/tests/test_transmutation_oracle.py backend/tests/test_ephemeris_path.py backend/tests/test_planetary_hours.py backend/tests/test_tokens_planetary_hour.py -q
+          "$RUNNER_TEMP/ephemeris/bin/python" -m pytest backend/tests/test_transmutation_oracle.py backend/tests/test_ephemeris_path.py backend/tests/test_planetary_hours.py backend/tests/test_planetary_hours_golden.py backend/tests/test_tokens_planetary_hour.py -q
 
       - name: Deploy-time migration runner (Python)
         # backend/scripts/run_init_migrations.py runs before uvicorn on every

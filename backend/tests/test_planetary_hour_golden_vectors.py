@@ -12,9 +12,9 @@ regenerated with an engine that has the old defects in it (the weekday indexed i
 speed; the UTC or the host's weekday; the new calendar day's row between midnight and sunrise) fails here
 instead of becoming the new contract.
 
-What it does not do is ask planetary_hour_at to reproduce the vectors: that function is added by PR #996 and
-imports pyswisseph, and this step installs pytest alone (like the kalchm parity step it sits beside). That check
-belongs in the step that installs pyswisseph, next to test_planetary_hours.py.
+What it does not do is ask planetary_hour_at to reproduce the vectors: that function imports pyswisseph, and
+this step installs pytest alone (like the kalchm parity step it sits beside). That check is
+test_planetary_hours_golden.py, in the step that installs pyswisseph, next to test_planetary_hours.py.
 
 Standard library and pytest only.
 """

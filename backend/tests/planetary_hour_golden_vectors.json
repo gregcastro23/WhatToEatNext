@@ -1,7 +1,8 @@
 {
   "_comment": [
     "SHARED golden vectors for the planetary hour: which planet rules a moment at a place. Read by BOTH runtimes:",
-    "  Python     backend/tests/test_planetary_hour_golden_vectors.py",
+    "  Python     backend/tests/test_planetary_hours_golden.py (planetary_hour_at reproduces every vector)",
+    "             backend/tests/test_planetary_hour_golden_vectors.py (the file against the classical table, no engine)",
     "  TypeScript src/lib/__tests__/planetaryHourGoldenVectors.test.ts",
     "",
     "This file is the contract. There is one planetary-hour engine per runtime (backend/utils/planetary_hours.py and",
@@ -9,12 +10,13 @@
     "reproduce every vector below.",
     "",
     "BASIS of every value. The rulers, the hour numbers and the day rulers come from the Python reference,",
-    "planetary_hour_at (PR #996, commit 6961ee36): the Sun's events from the Swiss Ephemeris (pyswisseph 2.10.3.2,",
-    "Moshier, as on Railway) at the standard depression of 0.8333 degrees, the weekday of the local mean solar date of",
-    "the sunrise that began the planetary day (UTC + longitude / 15 hours), the classical Chaldean sequence from the",
-    "planet of that weekday. The reference was asked at every stored instant (not only at the hour it was derived from).",
-    "They do NOT come from the TypeScript code under test, and both tests re-derive each ruler from the classical",
-    "table, written out in the test, without calling either engine.",
+    "planetary_hour_at (PR #996, merged as 61de751d; planetary_hours.py is as in its commit 6961ee36): the Sun's",
+    "events from the Swiss Ephemeris (pyswisseph 2.10.3.2, Moshier, as on Railway) at the standard depression of",
+    "0.8333 degrees, the weekday of the local mean solar date of the sunrise that began the planetary day (UTC +",
+    "longitude / 15 hours), the classical Chaldean sequence from the planet of that weekday. The reference was asked",
+    "at every stored instant (not only at the hour it was derived from). They do NOT come from the TypeScript code",
+    "under test, and the tests that read this file re-derive each ruler from the classical table, written out in the",
+    "test, without calling either engine.",
     "",
     "Each record is one planetary day, from one sunrise to the next: the sunrise, the sunset and the next sunrise the",
     "reference found (rounded to the second), the local mean solar date of that sunrise and its weekday, the planet of",
@@ -25,7 +27,7 @@
     "Regenerate with scripts/gen_planetary_hour_golden_vectors.py (needs backend/utils/planetary_hours.py). Do not edit by hand."
   ],
   "basis": {
-    "reference": "backend/utils/planetary_hours.py planetary_hour_at, PR #996 @ 6961ee36",
+    "reference": "backend/utils/planetary_hours.py planetary_hour_at, PR #996 (merged 61de751d; the file as in 6961ee36)",
     "ephemeris": "Swiss Ephemeris via pyswisseph 2.10.3.2, Moshier (no sweph_ephe/ files, as in the Railway image)",
     "sunCentreBelowHorizonDegrees": 0.8333,
     "weekday": "local mean solar date of the sunrise that began the planetary day: UTC + longitude / 15 hours",
