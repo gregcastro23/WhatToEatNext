@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { resetSpacetimeCircuitBreakerForTests } from "@/lib/spacetime/spacetimeCircuitBreaker";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { GET } from "../route";
@@ -39,6 +40,7 @@ describe("Live Critique & SpacetimeDB asol.agent_rating Sweep Verification", () 
   beforeEach(() => {
     mockValidateAdminRequest.mockReset();
     mockExecuteQuery.mockReset();
+    resetSpacetimeCircuitBreakerForTests();
     process.env.INTERNAL_API_SECRET = "test-internal-secret";
   });
 
@@ -138,21 +140,31 @@ describe("Live Critique & SpacetimeDB asol.agent_rating Sweep Verification", () 
     });
   });
 
-  it("reports paused status without fabricating counts when SpacetimeDB Maincloud returns 503 database is paused", async () => {
+  it("reports paused status, opens the PostgreSQL fallback circuit breaker, and emits an availability shift alert when SpacetimeDB Maincloud returns 503", async () => {
     allowAdmin();
-    mockExecuteQuery.mockResolvedValueOnce({
-      rows: [
-        {
-          live_critiques: 0,
-          degraded_critiques: 0,
-          curated_critiques: 142,
-          saved_adaptations: 12,
-          distinct_agents: 71,
-          reflections_mirrored: 142,
-          last_critique_at: "2026-11-10T18:00:00.000Z",
-        },
-      ],
-    });
+    mockExecuteQuery
+      .mockResolvedValueOnce({
+        rows: [
+          {
+            live_critiques: 0,
+            degraded_critiques: 0,
+            curated_critiques: 142,
+            saved_adaptations: 12,
+            distinct_agents: 71,
+            reflections_mirrored: 142,
+            last_critique_at: "2026-11-10T18:00:00.000Z",
+          },
+        ],
+      })
+      .mockResolvedValueOnce({
+        rows: [
+          {
+            agent_count: 71,
+            rated_critiques: 142,
+            avg_rating: 4.5,
+          },
+        ],
+      });
 
     installFetchMock(
       jest.fn(async (input: RequestInfo | URL) => {
@@ -188,6 +200,41 @@ describe("Live Critique & SpacetimeDB asol.agent_rating Sweep Verification", () 
       expectedHistoricalAgents: 71,
       unmatchedCount: null,
       detail: "SpacetimeDB module asol is currently paused on Maincloud",
+      fallback: {
+        source: "postgresql_fallback",
+        available: true,
+        agentCount: 71,
+        ratedCritiqueCount: 142,
+        averageRating: 4.5,
+      },
+    });
+    expect(body.diagnostics.agentRatingSync.circuitBreaker).toMatchObject({
+      state: "open",
+      lastClusterStatus: "paused",
+      activeReadSource: "postgresql_fallback",
+      consecutiveFailures: 1,
+    });
+    expect(body.diagnostics.agentRatingSync.circuitBreaker.shiftAlerts).toHaveLength(1);
+    expect(body.diagnostics.agentRatingSync.circuitBreaker.shiftAlerts[0]).toMatchObject({
+      previousStatus: "unknown",
+      nextStatus: "paused",
+      circuitState: "open",
+      activeReadSource: "postgresql_fallback",
+      severity: "warning",
+    });
+
+    // Verify feedDatabase routes rating reads through PostgreSQL fallback
+    mockExecuteQuery.mockResolvedValueOnce({
+      rows: [{ agent_count: 1, rated_critiques: 2, avg_rating: 5 }],
+    });
+    const fallbackSummary = await feedDatabase.getAgentRatingSummaryWithFallback("socrates");
+    expect(fallbackSummary).toEqual({
+      source: "postgresql_fallback",
+      available: true,
+      agentCount: 1,
+      ratedCritiqueCount: 2,
+      averageRating: 5,
+      circuitState: "open",
     });
   });
 

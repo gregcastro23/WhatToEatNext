@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import AdvancedMetricsPanel from "@/components/admin/AdvancedMetricsPanel";
 import ApiRouteHealthPanel from "@/components/admin/ApiRouteHealthPanel";
+import CosmicOperationsPanel from "@/components/admin/CosmicOperationsPanel";
 import FaucetResonancePanel from "@/components/admin/FaucetResonancePanel";
 import LaunchReadinessPanel from "@/components/admin/LaunchReadinessPanel";
 import LiveActivityPanel from "@/components/admin/LiveActivityPanel";
@@ -78,6 +79,9 @@ export default function AdminDashboardPage(): React.JSX.Element {
 
       {/* Omnibar Phase 7 — Top unfulfilled zero-result searches. */}
       <SearchGapsPanel />
+
+      {/* Phase 45 — Durable cosmic generation 90s leases & ledger reconciliation. */}
+      <CosmicOperationsPanel />
 
       {/* Advanced Metrics — auth rollups, suspicious IP/email brute-force radar,
           in-process slow query ring & threshold tuning, and digest triggers. */}
