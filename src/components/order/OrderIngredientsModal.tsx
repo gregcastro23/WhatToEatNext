@@ -15,6 +15,7 @@
 import { ExternalLink, Loader2, ShoppingBasket, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState, type JSX } from "react";
 import { preflightAndSubmitAmazonCart } from "@/lib/amazonCartHandoff";
+import { readJson } from "@/lib/api/json";
 import { firePractice } from "@/lib/economy/practiceClient";
 import {
   buildOrderList,
@@ -24,6 +25,7 @@ import {
   type OrderListItem,
 } from "@/lib/order/orderList";
 import type { CheckoutPreflightSource } from "@/types/checkout";
+import { parseAsinSearchResults } from "./asinSearchParser";
 
 interface OrderIngredientsModalProps {
   open: boolean;
@@ -93,10 +95,10 @@ export function OrderIngredientsModal({
           body: JSON.stringify({ ingredients: items.map((i) => i.name) }),
         });
         if (!res.ok || isCancelled()) return;
-        const json = (await res.json()) as { results?: Array<{ ingredient: string; asin: string | null }> };
-        if (!json.results) return;
+        const results = await readJson(res, { parse: parseAsinSearchResults });
+        if (!results) return;
         const map: Record<string, string> = {};
-        for (const r of json.results) {
+        for (const r of results) {
           if (!r.asin) continue;
           const match = items.find((i) => i.name.toLowerCase() === r.ingredient.toLowerCase());
           if (match) map[match.key] = r.asin;

@@ -7,6 +7,7 @@
  */
 
 
+import { TOOL_NAMES } from "@/lib/mcp/catalog";
 import { POST, OPTIONS, GET, DELETE } from "../route";
 
 describe("MCP Streamable HTTP Gateway (/api/mcp)", () => {
@@ -89,7 +90,8 @@ describe("MCP Streamable HTTP Gateway (/api/mcp)", () => {
     expect(toolNames).toContain("build_consolidated_grocery_list");
     expect(toolNames).toContain("what_to_cook_now");
     expect(toolNames).toContain("update_culinary_profile");
-    expect(toolNames.length).toBe(13);
+    expect(toolNames).toContain("simulate_hermetic_cauldron");
+    expect(toolNames.length).toBe(TOOL_NAMES.length);
   });
 
   it("returns prompts/list with structured agent blueprints", async () => {

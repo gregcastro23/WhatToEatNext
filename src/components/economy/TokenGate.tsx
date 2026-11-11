@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useCallback, useEffect, type ReactNode } from "react";
+import { parseTokenGateResponse } from "@/components/economy/tokenGateParser";
+import { readJson } from "@/lib/api/json";
 
 interface TokenGateProps {
   /** The shop item slug to check/purchase */
@@ -20,15 +22,6 @@ interface TokenGateProps {
   };
   /** Called after successful purchase */
   onUnlocked?: () => void;
-}
-
-interface TokenGateResponse {
-  success?: boolean;
-  hasAccess?: boolean;
-  message?: string;
-  item?: {
-    isOneTime?: boolean;
-  };
 }
 
 /**
@@ -69,7 +62,7 @@ export function TokenGate({
           if (mounted) setCheckingAccess(false);
           return;
         }
-        const data = (await res.json()) as TokenGateResponse;
+        const data = await readJson(res, { parse: parseTokenGateResponse });
         if (!mounted || !data.success) {
           if (mounted) setCheckingAccess(false);
           return;
@@ -98,7 +91,7 @@ export function TokenGate({
         credentials: "include",
         body: JSON.stringify({ shopItemSlug }),
       });
-      const data = (await res.json()) as TokenGateResponse;
+      const data = await readJson(res, { parse: parseTokenGateResponse });
       if (data.success) {
         if (isOneTimeItem) {
           setIsUnlocked(true);

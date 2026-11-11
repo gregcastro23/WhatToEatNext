@@ -9,6 +9,8 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { readJson } from "@/lib/api/json";
+import { parseDiscoverPeopleResponse, parseDiscoverTablesResponse } from "./parsers";
 import type { DiscoverPersonCard, DiscoverTableCard } from "./types";
 
 export interface DiscoverTablesQuery {
@@ -20,20 +22,6 @@ export interface DiscoverTablesQuery {
   q?: string;
   sort?: "soonest" | "match" | "distance";
   limit?: number;
-}
-
-interface DiscoverTablesApiResponse {
-  success?: boolean;
-  message?: string;
-  tables?: DiscoverTableCard[];
-  nextCursor?: string | null;
-}
-
-interface DiscoverPeopleApiResponse {
-  success?: boolean;
-  message?: string;
-  people?: DiscoverPersonCard[];
-  nextCursor?: string | null;
 }
 
 function buildQuery(params: Record<string, unknown>): string {
@@ -83,7 +71,7 @@ export function useDiscoverTables(query: DiscoverTablesQuery): UseDiscoverTables
         const res = await fetch(`/api/discover/tables${buildQuery({ ...query, cursor })}`, {
           credentials: "include",
         });
-        const data = (await res.json()) as DiscoverTablesApiResponse;
+        const data = await readJson(res, { parse: parseDiscoverTablesResponse });
         if (reqId !== reqIdRef.current) return; // a newer request superseded this
         if (!res.ok || data.success === false) {
           setState((s) => ({ ...s, loading: false, error: data.message ?? "Failed to load tables" }));
@@ -169,7 +157,7 @@ export function useDiscoverPeople(query: DiscoverPeopleQuery, enabled = true): U
           setState((s) => ({ ...s, loading: false }));
           return;
         }
-        const data = (await res.json()) as DiscoverPeopleApiResponse;
+        const data = await readJson(res, { parse: parseDiscoverPeopleResponse });
         if (reqId !== reqIdRef.current) return;
         if (!res.ok || data.success === false) {
           setState((s) => ({ ...s, loading: false, error: data.message ?? "Failed to load people" }));

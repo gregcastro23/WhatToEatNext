@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { z } from 'zod';
 import { TokenGate } from '@/components/economy/TokenGate';
 import { RestaurantBuilder } from '@/components/profile/RestaurantBuilder';
 import { RestaurantSearch } from '@/components/profile/RestaurantSearch';
 import { useUser } from '@/contexts/UserContext';
+import { readJson } from '@/lib/api/json';
 import { reportQuestEvent } from '@/lib/questReporter';
 import type { NatalChart } from '@/types/natalChart';
 import type { SavedRestaurant } from '@/types/restaurant';
@@ -31,29 +33,44 @@ interface UserPreferences {
   savedRestaurants?: SavedRestaurant[];
 }
 
-interface PersonalizedData {
-  chartComparison: {
-    overallHarmony: number;
-    elementalHarmony: number;
-    alchemicalAlignment: number;
-    planetaryResonance: number;
-  };
-  currentAlchemy?: {
-    kalchm: number;
-    monica: number;
-    esms: { Spirit: number; Essence: number; Matter: number; Substance: number };
-    dominantElement: string;
-    degraded?: boolean;
-  } | null;
-  recommendations: {
-    favorableElements: string[];
-    challengingElements: string[];
-    harmonicPlanets: string[];
-    insights: string[];
-    suggestedCuisines: string[];
-    suggestedCookingMethods: string[];
-  };
-}
+const PersonalizedDataSchema = z.object({
+  chartComparison: z.object({
+    overallHarmony: z.number(),
+    elementalHarmony: z.number(),
+    alchemicalAlignment: z.number(),
+    planetaryResonance: z.number(),
+  }),
+  currentAlchemy: z
+    .object({
+      kalchm: z.number(),
+      monica: z.number(),
+      esms: z.object({
+        Spirit: z.number(),
+        Essence: z.number(),
+        Matter: z.number(),
+        Substance: z.number(),
+      }),
+      dominantElement: z.string(),
+      degraded: z.boolean().optional(),
+    })
+    .nullable()
+    .optional(),
+  recommendations: z.object({
+    favorableElements: z.array(z.string()),
+    challengingElements: z.array(z.string()),
+    harmonicPlanets: z.array(z.string()),
+    insights: z.array(z.string()),
+    suggestedCuisines: z.array(z.string()),
+    suggestedCookingMethods: z.array(z.string()),
+  }),
+});
+
+type PersonalizedData = z.infer<typeof PersonalizedDataSchema>;
+
+const PersonalResultSchema = z.object({
+  success: z.boolean().optional(),
+  data: PersonalizedDataSchema.optional(),
+});
 
 type SubTab = 'cuisines' | 'methods' | 'ingredients';
 
@@ -276,7 +293,9 @@ export const RecommendationsPanel: React.FC<RecommendationsPanelProps> = ({
         ]);
 
         if (personalRes.ok) {
-          const personalResult = (await personalRes.json()) as { success?: boolean; data?: PersonalizedData };
+          const personalResult = await readJson(personalRes, {
+            parse: PersonalResultSchema.parse,
+          });
           if (personalResult.success && personalResult.data) {
             setPersonalData(personalResult.data);
           }

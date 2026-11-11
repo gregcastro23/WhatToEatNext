@@ -13,6 +13,7 @@ import {
   POST as postRestTool,
   OPTIONS as optionsRestTool,
 } from "@/app/api/mcp/rest/[tool]/route";
+import { TOOL_NAMES } from "@/lib/mcp/catalog";
 import { isTrustedOrigin } from "@/lib/mcp/httpSecurity";
 import { mapToolErrorCodeToHttpStatus } from "@/lib/mcp/openapiBridge";
 
@@ -69,7 +70,7 @@ describe("OpenAPI 3.1.0 REST Bridge & Expanded Web Agent CORS", () => {
       const paths = rawSpec.paths;
       expect(isRecord(paths)).toBe(true);
       if (!isRecord(paths)) return;
-      expect(Object.keys(paths)).toHaveLength(13);
+      expect(Object.keys(paths)).toHaveLength(TOOL_NAMES.length);
 
       // 0-ESMS readOnlyHint: true tools have optional security
       const subPath = paths["/api/mcp/rest/substitute_ingredient"];

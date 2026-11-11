@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
+import { z } from 'zod';
 import { formatNotificationTimeAgo, useNotifications } from '@/hooks/useNotifications';
 import { TOKEN_ECONOMY_EVENT } from '@/hooks/useTokenEconomy';
+import { readJson } from '@/lib/api/json';
 import { NOTIFICATION_STYLES } from '@/types/notification';
 import type { UserNotification } from '@/types/notification';
 
@@ -139,11 +141,11 @@ export function NotificationPanel(): React.JSX.Element {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ questSlug: notification.metadata.questSlug })
       });
-      interface ClaimResponse {
-        success?: boolean;
-        message?: string;
-      }
-      const data = (await res.json()) as ClaimResponse;
+      const ClaimResponseSchema = z.object({
+        success: z.boolean().optional(),
+        message: z.string().optional(),
+      });
+      const data = await readJson(res, { parse: ClaimResponseSchema.parse });
       if (data.success) {
         setStatusMessage(data.message ?? 'Reward claimed!');
         markAsRead(notification.id).catch(() => {});

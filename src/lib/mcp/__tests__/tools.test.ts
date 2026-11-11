@@ -1392,6 +1392,18 @@ describe("published output contract", () => {
       addDislikes: ["cilantro"],
       ...AUTHENTICATED,
     },
+    simulate_hermetic_cauldron: {
+      setpointC: 100,
+      pressureKpa: 101.325,
+      relativeHumidityPct: 50,
+      surfaceWet: true,
+      stages: [
+        {
+          name: "base",
+          ingredients: [{ name: "carrots", amount: 100, unit: "g" }],
+        },
+      ],
+    },
   };
 
   it("publishes a titled object output schema for every tool", () => {
@@ -1476,5 +1488,54 @@ describe("published output contract", () => {
         correlationId: "c",
       }),
     ).not.toBeNull();
+  });
+
+  describe("simulate_hermetic_cauldron & calculate_batch_circuit alias", () => {
+    it("simulates IF97 vessel and 6-field kinetic profile without stages", async () => {
+      const result = await invokeTool("simulate_hermetic_cauldron", {
+        setpointC: 120,
+        pressureKpa: 198.67,
+        relativeHumidityPct: 60,
+      });
+      expect(result.ok).toBe(true);
+      expect(result.data).toBeDefined();
+      if (result.ok && result.data) {
+        expect(result.data.saturation.boilingState).toBe("at-boil");
+        expect(result.data.profile.fields.voltage).toBeGreaterThan(0);
+        expect(result.data.profile.fields.current).toBeGreaterThan(0);
+        expect(result.data.profile.power).toBeGreaterThan(0);
+        expect(result.data.circuit).toBeNull();
+      }
+    });
+
+    it("simulates cauldron series circuit with ingredient stages", async () => {
+      const result = await invokeTool("simulate_hermetic_cauldron", {
+        setpointC: 100,
+        pressureKpa: 101.325,
+        stages: [
+          {
+            name: "aromatics",
+            ingredients: [{ name: "carrots", amount: 150, unit: "g" }],
+          },
+        ],
+      });
+      expect(result.ok).toBe(true);
+      if (result.ok && result.data) {
+        expect(result.data.circuit).not.toBeNull();
+        expect(result.data.circuit?.stages.length).toBe(1);
+      }
+    });
+
+    it("supports calculate_batch_circuit as an alias to simulate_hermetic_cauldron", async () => {
+      const result = await invokeTool("calculate_batch_circuit", {
+        setpointC: 100,
+        pressureKpa: 101.325,
+      });
+      expect(result.ok).toBe(true);
+      if (result.ok && result.data) {
+        expect(result.data.vessel.setpointC).toBe(100);
+        expect(result.data.vessel.pressureKpa).toBe(101.325);
+      }
+    });
   });
 });

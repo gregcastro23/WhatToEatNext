@@ -35,6 +35,12 @@ import {
   Readout,
 } from "@/components/recommendations/instrument";
 import {
+  parseAlignedRecipes,
+  parseCurrentMoment,
+  type AlignedRecipe,
+  type CurrentMomentPayload,
+} from "@/components/recommendations/momentParsers";
+import {
   ALCHEMICAL_PILLARS,
   calculateOptimalCookingConditions,
   calculatePillarMonicaModifiers,
@@ -54,6 +60,7 @@ import {
   calculateMonica,
 } from "@/data/unified/alchemicalCalculations";
 import { useUserElementalBias } from "@/hooks/useUserElementalBias";
+import { readJson } from "@/lib/api/json";
 import { buildMethodMetrics } from "@/lib/cooking/methodMetrics";
 import { logger as _logger } from "@/lib/logger";
 import type {
@@ -188,60 +195,6 @@ type ExpandedTab =
   | "equipment"
   | "alchemy"
   | "recipes";
-
-interface CurrentMomentPayload {
-  success: boolean;
-  timestamp: string;
-  historicalContext?: {
-    metrics: {
-      heat?: { mean: number; stdDev: number };
-      entropy?: { mean: number; stdDev: number };
-      reactivity?: { mean: number; stdDev: number };
-      charge?: { mean: number; stdDev: number };
-      power?: { mean: number; stdDev: number };
-      currentFlow?: { mean: number; stdDev: number };
-      kalchm?: { mean: number; stdDev: number };
-      monica?: { mean: number; stdDev: number };
-    };
-  };
-  quantities: {
-    Spirit: number;
-    Essence: number;
-    Matter: number;
-    Substance: number;
-  };
-  dominantElement: string;
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  energy: number;
-  kalchm: number;
-  monica: number;
-  circuit: {
-    charge: number;
-    potentialDifference: number;
-    currentFlow: number;
-    power: number;
-    inertia: number;
-    forceMagnitude: number;
-    forceClassification: "accelerating" | "decelerating" | "balanced";
-    thermalDirection: "heating" | "cooling" | "stable";
-    elementalBalance: {
-      Fire: number;
-      Water: number;
-      Earth: number;
-      Air: number;
-    };
-  };
-}
-
-interface AlignedRecipe {
-  id: string;
-  name: string;
-  matchScore: number;
-  cuisine?: string;
-  elementalProperties?: Record<string, number>;
-}
 
 const categories: CategoryConfig[] = [
 
@@ -661,8 +614,8 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       try {
         const response = await fetch("/api/alchm-quantities", { cache: "no-store" });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = (await response.json()) as CurrentMomentPayload;
-        if (!cancelled && data.success) {
+        const data = await readJson(response, { parse: parseCurrentMoment });
+        if (!cancelled && data) {
           setCurrentMoment(data);
           setMomentStatus("ready");
         }
@@ -851,10 +804,10 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
       const entropy = currentMoment?.entropy ?? 0.5;
       const reactivity = currentMoment?.reactivity ?? 0.5;
       const res = await fetch(`/api/recommendations/recipes?method=${methodId}&heat=${heat}&entropy=${entropy}&reactivity=${reactivity}`);
-      const data = (await res.json()) as { success?: boolean; recipes?: AlignedRecipe[] };
-      if (data.success && Array.isArray(data.recipes)) {
-        setAlignedRecipes(data.recipes);
-        setFetchedMethodRecipes(prev => ({ ...prev, [methodId]: data.recipes! }));
+      const recipes = await readJson(res, { parse: parseAlignedRecipes });
+      if (recipes) {
+        setAlignedRecipes(recipes);
+        setFetchedMethodRecipes(prev => ({ ...prev, [methodId]: recipes }));
       }
     } catch (err) {
       _logger.warn("Failed to fetch aligned recipes", err);

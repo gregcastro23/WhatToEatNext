@@ -8,14 +8,14 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 2706,
+    "total": 2687,
     "asAny": 35,
     "chained": 115,
-    "single": 2556,
-    "production": 2117,
+    "single": 2537,
+    "production": 2098,
     "test": 589,
     "asConst": 621,
-    "nonNull": 567
+    "nonNull": 566
   },
   "looseOptionality": {
     "total": 146,
@@ -49,7 +49,7 @@
     }
   },
   "declined": {
-    "total": 4695,
+    "total": 4694,
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 1258,
       "@typescript-eslint/explicit-module-boundary-types": 603,

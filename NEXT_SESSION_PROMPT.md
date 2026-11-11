@@ -1,8 +1,8 @@
-<session_handoff version="5.4" date="2026-11-11">
+<session_handoff version="5.5" date="2026-11-11">
 
   <metadata>
     <repository>/Users/cookingwithcastro/Desktop/WhatToEatNext-master</repository>
-    <base_branch commit="d5c4d1f2">master</base_branch>
+    <base_branch commit="PR-1010">master</base_branch>
     <hardware_profile>Apple Silicon M5 / 16 GB Unified Memory</hardware_profile>
     <runtime_policy>Bun-strict (`bun run ...`, `bunx ...`, `bun --bun run dev`). Never invoke npm or npx for project scripts.</runtime_policy>
   </metadata>
@@ -30,7 +30,7 @@
       Never import full static ingredient catalogs (1,002 items), USDA portion tables, or server database modules into `"use client"` components. Enforce all 11 route bundle ceilings in `scripts/check-route-sizes.cjs`.
     </invariant>
     <invariant id="static_ratchets">
-      New and modified files must remain under the 300-line ceiling, introduce zero `Record&lt;string, any&gt;` casts or redundant conditions, and uphold static baselines: `.bare-json-casts-baseline.json` &lt;= 36 (production), `.lint-debt-baseline.json` &lt;= 1249 (assertion sites &lt;= 2706), `testOnly` &lt;= 29, and `UNREACHABLE (dead): 0`.
+      New and modified files must remain under the 300-line ceiling, introduce zero `Record&lt;string, any&gt;` casts or redundant conditions, and uphold static baselines: `.bare-json-casts-baseline.json` &lt;= 17 (production), `.lint-debt-baseline.json` &lt;= 1249 (assertion sites &lt;= 2687, non-null &lt;= 566, declined pool &lt;= 4694), `testOnly` &lt;= 29, and `UNREACHABLE (dead): 0`.
     </invariant>
     <invariant id="circuit_breaker_and_reconciler">
       All live SpacetimeDB reads must route through `spacetimeCircuitBreaker.ts` with half-open recovery support. All cosmic generation reconcilers must use `FOR UPDATE SKIP LOCKED` and verify matching `token_transactions` debit legs before refunding.
@@ -75,16 +75,22 @@
       <item>Added multi-select checkbox controls, batch draft dispatch (`patchSearchGapRequest`), and high-velocity shortcuts in `SearchGapsPanel.tsx` with dedicated test coverage.</item>
       <item>Maintained zero port listeners, 650 passing test suites (7,120 tests), 16 pytest passes, and 100% green route bundle sizes.</item>
     </track>
+    <track id="8" name="Hermetic Cauldron MCP Tool &amp; Sub-20 Bare-JSON Ratchet (PR #1010)">
+      <item>Registered `simulate_hermetic_cauldron` as the 14th tool in MCP catalog, input/output schemas, OpenAPI 3.1.0 specification, and REST bridge (`/api/mcp/rest/[tool]`), returning IF97 saturation metrics, cited cooking regimes, and 6-field kinetic profiles ($V, I, R, \nu, \mu, F$, $P = I \cdot V$); aliased `calculate_batch_circuit` for backward compatibility.</item>
+      <item>Converted 19 production bare JSON casts across client components and hooks to `readJson` with client-safe schemas and parsers, driving production bare JSON casts down from 36 to 17 (total 26, smashing the sub-30 milestone).</item>
+      <item>Ratcheted `.lint-debt-baseline.json` down to 2687 assertion sites (-19), 566 non-null assertions (-1), and 4694 declined rules pool (-1).</item>
+      <item>Maintained zero port listeners, 654 passing Jest test suites (7,145 tests), 16 pytest passes, and 100% green route bundle sizes across all 11 routes.</item>
+    </track>
   </completed_state>
 
   <next_horizon_backlog priority_ordered="true">
-    <objective priority="P1" id="sub_30_bare_json_ratchet">
-      <title>Push Production Bare JSON Casts Below 30</title>
+    <objective priority="P1" id="sub_15_bare_json_ratchet">
+      <title>Push Production Bare JSON Casts Below 15</title>
       <context>
-        36 production bare JSON casts remain in `.bare-json-casts-baseline.json` (down from 46).
+        Only 17 production bare JSON casts remain in `.bare-json-casts-baseline.json` across 20 files (down from 55).
       </context>
       <deliverables>
-        <item>Convert at least 7 additional production bare JSON casts to `readJson` + safe Zod validators, ratcheting `.bare-json-casts-baseline.json` to &lt;= 29.</item>
+        <item>Convert remaining production bare JSON casts in onboarding/locations, order modal, and profile routes to `readJson` + safe Zod schemas, ratcheting `.bare-json-casts-baseline.json` below 15.</item>
       </deliverables>
     </objective>
 
@@ -111,8 +117,8 @@
 
   <verification_gates mandatory_before_commit="true">
     <gate order="1" command="lsof -ti:3000 -ti:5175">Verify 0 background processes listening.</gate>
-    <gate order="2" command="bun run verify:static">All 13 static gates must pass (0 TS errors, 0 ESLint errors, lint-debt &lt;= 1249, bare-json &lt;= 36, testOnly &lt;= 29, dead-modules = 0).</gate>
-    <gate order="3" command="bun run test &amp;&amp; python3 -m pytest backend/tests/test_migration_names.py">All 650 Jest suites (7,120+ tests) and 16 Python migration assertions must pass.</gate>
+    <gate order="2" command="bun run verify:static">All 13 static gates must pass (0 TS errors, 0 ESLint errors, lint-debt &lt;= 1249, assertion sites &lt;= 2687, bare-json &lt;= 17, testOnly &lt;= 29, dead-modules = 0).</gate>
+    <gate order="3" command="bun run test &amp;&amp; python3 -m pytest backend/tests/test_migration_names.py">All 654 Jest suites (7,145 tests) and 16 Python migration assertions must pass.</gate>
     <gate order="4" command="bun run build">Production build and all 11 route bundle ceilings in `scripts/check-route-sizes.cjs` must pass.</gate>
   </verification_gates>
 
