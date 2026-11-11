@@ -53,7 +53,7 @@ export const DEFAULT_VESSEL: Readonly<VesselState> = {
 
 /** One preset vessel, so a cook can jump to a recognisable configuration. */
 export interface VesselPreset {
-  id: "open" | "sealed" | "vacuum";
+  id: "open" | "sealed" | "vacuum" | "dry_sear";
   label: string;
   state: VesselState;
 }
@@ -67,9 +67,10 @@ export interface VesselPreset {
  * preset shows the saturation ceiling rather than an arbitrary temperature.
  */
 export const VESSEL_PRESETS: readonly VesselPreset[] = [
-  { id: "open", label: "Open pot", state: { pressureKpa: 101.325, temperatureC: 100, humidityPct: 50, headspaceC: 25 } },
-  { id: "sealed", label: "Pressure cooker", state: { pressureKpa: 205, temperatureC: 121, humidityPct: 100, headspaceC: 121 } },
-  { id: "vacuum", label: "Vacuum reduction", state: { pressureKpa: 20, temperatureC: 60, humidityPct: 30, headspaceC: 25 } },
+  { id: "open", label: "Classic Simmer", state: { pressureKpa: 101.325, temperatureC: 100, humidityPct: 50, headspaceC: 25 } },
+  { id: "sealed", label: "Pressure Autoclave", state: { pressureKpa: 205, temperatureC: 121, humidityPct: 100, headspaceC: 121 } },
+  { id: "vacuum", label: "Vacuum Hydrosol", state: { pressureKpa: 20, temperatureC: 60, humidityPct: 30, headspaceC: 25 } },
+  { id: "dry_sear", label: "Dry Maillard Roast", state: { pressureKpa: 101.325, temperatureC: 185, humidityPct: 12, headspaceC: 25 } },
 ];
 
 function clampTo(value: number, range: ControlRange): number {
