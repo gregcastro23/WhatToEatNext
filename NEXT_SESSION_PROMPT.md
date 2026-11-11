@@ -1,8 +1,8 @@
-<session_handoff version="5.3" date="2026-11-11">
+<session_handoff version="5.4" date="2026-11-11">
 
   <metadata>
     <repository>/Users/cookingwithcastro/Desktop/WhatToEatNext-master</repository>
-    <base_branch commit="626aaebb">master</base_branch>
+    <base_branch commit="d5c4d1f2">master</base_branch>
     <hardware_profile>Apple Silicon M5 / 16 GB Unified Memory</hardware_profile>
     <runtime_policy>Bun-strict (`bun run ...`, `bunx ...`, `bun --bun run dev`). Never invoke npm or npx for project scripts.</runtime_policy>
   </metadata>
@@ -18,7 +18,7 @@
       NEVER commit directly to `master` or run `git push origin master`. GitHub ruleset `GH013` requires 4 status checks via PR. Always branch first (`git checkout -b ...`).
     </step>
     <step order="4" name="no_reaudit_rule">
-      Do NOT re-audit, re-seed, or re-test any items listed inside `&lt;completed_state&gt;`. Treat them as validated production truth.
+      Do NOT re-audit, re-seed, or re-test any items listed inside &lt;completed_state&gt;. Treat them as validated production truth.
     </step>
   </boot_sequence>
 
@@ -27,10 +27,10 @@
       Dual-home all new migrations in BOTH `database/init/` and `src/lib/database/migrations/`. Migrations 100 (`search_zero_result_gaps`) and 101 (`cosmic_generation_operations`) are live on production Railway Postgres. The next migration MUST be numbered `102-*.sql`. All runners sort numerically by integer prefix; verify new migrations with `python3 -m pytest backend/tests/test_migration_names.py`.
     </invariant>
     <invariant id="client_bundle_isolation">
-      Never import full static ingredient catalogs (1,002 items), USDA portion tables, or server database modules into `"use client"` components. Enforce all 12 route bundle ceilings in `scripts/check-route-sizes.cjs`.
+      Never import full static ingredient catalogs (1,002 items), USDA portion tables, or server database modules into `"use client"` components. Enforce all 11 route bundle ceilings in `scripts/check-route-sizes.cjs`.
     </invariant>
     <invariant id="static_ratchets">
-      New and modified files must remain under the 300-line ceiling, introduce zero `Record&lt;string, any&gt;` casts or redundant conditions, and uphold static baselines: `.bare-json-casts-baseline.json` &lt;= 46 (production), `.lint-debt-baseline.json` &lt;= 1275 (assertion sites &lt;= 2734), `testOnly` &lt;= 39, and `UNREACHABLE (dead): 0`.
+      New and modified files must remain under the 300-line ceiling, introduce zero `Record&lt;string, any&gt;` casts or redundant conditions, and uphold static baselines: `.bare-json-casts-baseline.json` &lt;= 36 (production), `.lint-debt-baseline.json` &lt;= 1249 (assertion sites &lt;= 2706), `testOnly` &lt;= 29, and `UNREACHABLE (dead): 0`.
     </invariant>
     <invariant id="circuit_breaker_and_reconciler">
       All live SpacetimeDB reads must route through `spacetimeCircuitBreaker.ts` with half-open recovery support. All cosmic generation reconcilers must use `FOR UPDATE SKIP LOCKED` and verify matching `token_transactions` debit legs before refunding.
@@ -63,45 +63,57 @@
       <item>Ratcheted `.lint-debt-baseline.json` down to 1275 tracked debt (2734 assertion sites) and verified all 13 static gates green.</item>
       <item>Expanded test suite to 646 passing suites / 7,044 passing tests with dedicated `SearchGapsPanel.test.tsx`.</item>
     </track>
+    <track id="6" name="Hermetic Vessel &amp; IF97 Steam Physics Simulation (PR #1008)">
+      <item>Implemented full IAPWS-IF97 steam formulation (regions 1, 2, 4) across 10–250 kPa for accurate boiling points, saturation ceilings, and latent heat relative to an open pot.</item>
+      <item>Retired standalone tilt-skillet planner in favor of Hermetic Vessel tab in kitchen lab physics and integrated cauldron simulation.</item>
+      <item>Passed 12 printed computer verification values, CoolProp cross-check, and NIST IAPWS-95 comparative validation.</item>
+    </track>
+    <track id="7" name="Test-Only Module Consolidation, Bare-JSON Ratchet &amp; Gap Batch Drafting (PR #1009)">
+      <item>Consolidated 10 test-only mock clients and helpers from `src/` to `tests/helpers/`, bringing `audit:dead-modules` `testOnly` count down from 39 to 29 (`dead: 0`).</item>
+      <item>Converted 10 production bare JSON casts across 9 files to `readJson` with Zod schemas and typed parsers, ratcheting `.bare-json-casts-baseline.json` down to 36 production casts (45 total).</item>
+      <item>Ratcheted `.lint-debt-baseline.json` down to 1249 tracked debt (down from 1275/1260) and 2706 assertion sites (down from 2734/2732).</item>
+      <item>Added multi-select checkbox controls, batch draft dispatch (`patchSearchGapRequest`), and high-velocity shortcuts in `SearchGapsPanel.tsx` with dedicated test coverage.</item>
+      <item>Maintained zero port listeners, 650 passing test suites (7,120 tests), 16 pytest passes, and 100% green route bundle sizes.</item>
+    </track>
   </completed_state>
 
   <next_horizon_backlog priority_ordered="true">
-    <objective priority="P1" id="remaining_39_test_only_audit">
-      <title>Prune or Consolidate Remaining 39 `testOnly` Modules</title>
+    <objective priority="P1" id="sub_30_bare_json_ratchet">
+      <title>Push Production Bare JSON Casts Below 30</title>
       <context>
-        `audit:dead-modules` reports 39 testOnly files, primarily legacy client mock factories and dead test helpers.
+        36 production bare JSON casts remain in `.bare-json-casts-baseline.json` (down from 46).
       </context>
       <deliverables>
-        <item>Audit remaining testOnly modules and consolidate mock factories into dedicated test suites, targeting `testOnly &lt;= 32` without dropping test coverage.</item>
+        <item>Convert at least 7 additional production bare JSON casts to `readJson` + safe Zod validators, ratcheting `.bare-json-casts-baseline.json` to &lt;= 29.</item>
       </deliverables>
     </objective>
 
-    <objective priority="P2" id="sub_40_bare_json_ratchet">
-      <title>Push Production Bare JSON Casts Below 40</title>
+    <objective priority="P2" id="test_only_sub_25_consolidation">
+      <title>Consolidate Remaining 29 `testOnly` Modules Below 25</title>
       <context>
-        46 production bare JSON casts remain in `.bare-json-casts-baseline.json` (down from 55).
+        `audit:dead-modules` reports 29 testOnly files reachable only by tests.
       </context>
       <deliverables>
-        <item>Convert at least 7 additional production bare JSON casts to `readJson` + safe Zod validators, ratcheting `.bare-json-casts-baseline.json` to &lt;= 39.</item>
+        <item>Audit remaining testOnly modules and consolidate helpers/fixtures into `tests/helpers/` or inline them, targeting `testOnly &lt;= 24` without dropping test coverage.</item>
       </deliverables>
     </objective>
 
-    <objective priority="P3" id="cosmic_recipe_pipeline_batch_drafting">
-      <title>Cosmic Recipe Pipeline Batch Drafting from Search Gaps</title>
+    <objective priority="P3" id="search_gaps_auto_suggest_debouncer">
+      <title>Real-Time Omnibar Zero-Result Auto-Expansion Optimization</title>
       <context>
-        `SearchGapsPanel.tsx` now supports per-row drafting into the pipeline. Bulk drafting high-velocity queries will accelerate catalog coverage.
+        The gap resolution map operates in-memory on the server. Client-side caching and debounced pre-flight resolution can further optimize Omnibar latency.
       </context>
       <deliverables>
-        <item>Add multi-select checkbox controls in `SearchGapsPanel.tsx` to batch-draft all selected high-velocity gaps into the cosmic recipe pipeline in one click.</item>
+        <item>Add client-side caching / debouncing layer for gap resolution mappings to optimize Omnibar response latency during rapid typing.</item>
       </deliverables>
     </objective>
   </next_horizon_backlog>
 
   <verification_gates mandatory_before_commit="true">
     <gate order="1" command="lsof -ti:3000 -ti:5175">Verify 0 background processes listening.</gate>
-    <gate order="2" command="bun run verify:static">All 13 static gates must pass (0 TS errors, 0 ESLint errors, lint-debt &lt;= 1275, bare-json &lt;= 46, dead-modules = 0).</gate>
-    <gate order="3" command="bun run test &amp;&amp; python3 -m pytest backend/tests/test_migration_names.py">All 646 Jest suites (7,044+ tests) and 16 Python migration assertions must pass.</gate>
-    <gate order="4" command="bun run build">Production build and all 12 route bundle ceilings in `scripts/check-route-sizes.cjs` must pass.</gate>
+    <gate order="2" command="bun run verify:static">All 13 static gates must pass (0 TS errors, 0 ESLint errors, lint-debt &lt;= 1249, bare-json &lt;= 36, testOnly &lt;= 29, dead-modules = 0).</gate>
+    <gate order="3" command="bun run test &amp;&amp; python3 -m pytest backend/tests/test_migration_names.py">All 650 Jest suites (7,120+ tests) and 16 Python migration assertions must pass.</gate>
+    <gate order="4" command="bun run build">Production build and all 11 route bundle ceilings in `scripts/check-route-sizes.cjs` must pass.</gate>
   </verification_gates>
 
 </session_handoff>
