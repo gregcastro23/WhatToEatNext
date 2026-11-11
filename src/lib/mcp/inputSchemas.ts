@@ -209,5 +209,58 @@ export const TOOL_INPUT_SCHEMAS = {
     },
     ["recipeId", "reflection"],
   ),
+  simulate_hermetic_cauldron: input({
+    setpointC: {
+      type: "number",
+      minimum: 20,
+      maximum: 260,
+      description: "Vessel temperature setpoint in °C (20 to 260 °C).",
+    },
+    pressureKpa: {
+      type: "number",
+      minimum: 10,
+      maximum: 250,
+      description: "Absolute vessel pressure in kPa (10 to 250 kPa).",
+    },
+    relativeHumidityPct: {
+      type: "number",
+      minimum: 0,
+      maximum: 100,
+      description: "Headspace relative humidity in % (0 to 100 %). Default 50.",
+    },
+    headspaceC: {
+      type: "number",
+      minimum: 5,
+      maximum: 260,
+      description: "Headspace gas temperature in °C. Default 25.",
+    },
+    surfaceWet: {
+      type: "boolean",
+      description: "Whether the cooking surface is currently wet. Default true.",
+    },
+    stages: {
+      type: "array",
+      description: "Optional array of cauldron cooking stages with ingredients and amounts.",
+      items: {
+        type: "object",
+        properties: {
+          name: text(100),
+          ingredients: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                name: text(200),
+                amount: { type: "number", minimum: 0 },
+                unit: text(50),
+              },
+              required: ["name", "amount", "unit"],
+            },
+          },
+        },
+        required: ["ingredients"],
+      },
+    },
+  }),
   ...CULINARY_INPUT_SCHEMAS,
 };

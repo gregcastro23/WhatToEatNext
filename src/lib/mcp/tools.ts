@@ -42,7 +42,8 @@ import {
   type DebitOutcome,
   type PaymentRequest,
 } from "./billing";
-import { TOOL_COSTS, isToolName, type ToolName } from "./catalog";
+import { TOOL_ALIASES, TOOL_COSTS, isToolName, type ToolName } from "./catalog";
+import { simulateHermeticCauldronHandler } from "./cauldronTools";
 import {
   getUserCulinaryProfile,
   isRecipeSafeForProfile,
@@ -1315,6 +1316,8 @@ function executeOtherTool(
       return whatToCookNowHandler(args, caller);
     case "update_culinary_profile":
       return updateCulinaryProfileHandler(args, caller);
+    case "simulate_hermetic_cauldron":
+      return simulateHermeticCauldronHandler(args);
     default:
       return {
         ok: false,
@@ -1609,13 +1612,16 @@ async function runValidatedTool(
   options: InvocationOptions,
   state: ToolInvocationState,
 ): Promise<ToolResult> {
-  if (!isToolName(name))
+  const canonicalName: ToolName | null = isToolName(name)
+    ? (TOOL_ALIASES[name] ?? name)
+    : null;
+  if (!canonicalName)
     return toolFailure(
       "NOT_FOUND",
       `Unknown tool: ${name}`,
       "Inspect available tools via tools/list. Valid tools include get_live_sky_transits, alchemize_ingredients, generate_cosmic_recipe, get_user_allowance, etc.",
     );
-  const invalid = validateToolArguments(name, args);
+  const invalid = validateToolArguments(canonicalName, args);
   if (invalid)
     return toolFailure(
       "INVALID_ARGS",
@@ -1623,7 +1629,7 @@ async function runValidatedTool(
       "Input parameter validation failed. Check inputSchema constraints for valid types, coordinate bounds, and property requirements.",
     );
   const completed = await runMcpInvocation(options, () =>
-    executeReadyTool(name, args, state),
+    executeReadyTool(canonicalName, args, state),
   );
   return (
     completed ?? {
@@ -1752,3 +1758,8 @@ export {
   whatToCookNowHandler,
   updateCulinaryProfileHandler,
 } from "./culinaryTools";
+
+export {
+  simulateHermeticCauldronHandler,
+  type HermeticCauldronOutput,
+} from "./cauldronTools";

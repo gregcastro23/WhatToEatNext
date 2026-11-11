@@ -1,5 +1,10 @@
 import { Buffer } from "node:buffer";
-import { TOOL_DEFINITIONS, type JsonSchema, type ToolName } from "./catalog";
+import {
+  TOOL_ALIASES,
+  TOOL_DEFINITIONS,
+  type JsonSchema,
+  type ToolName,
+} from "./catalog";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -186,10 +191,11 @@ function validate(
 }
 
 export function validateToolArguments(
-  name: ToolName,
+  name: ToolName | string,
   args: Record<string, unknown>,
 ): string | null {
-  const definition = TOOL_DEFINITIONS.find((tool) => tool.name === name);
+  const canonical = typeof name === "string" && name in TOOL_ALIASES ? TOOL_ALIASES[name] : name;
+  const definition = TOOL_DEFINITIONS.find((tool) => tool.name === canonical);
   if (!definition) return "Unknown tool";
   try {
     if (Buffer.byteLength(JSON.stringify(args), "utf8") > 65536)
@@ -208,10 +214,11 @@ export function validateToolArguments(
  * to the published contract.
  */
 export function validateToolOutput(
-  name: ToolName,
+  name: ToolName | string,
   structuredContent: unknown,
 ): string | null {
-  const definition = TOOL_DEFINITIONS.find((tool) => tool.name === name);
+  const canonical = typeof name === "string" && name in TOOL_ALIASES ? TOOL_ALIASES[name] : name;
+  const definition = TOOL_DEFINITIONS.find((tool) => tool.name === canonical);
   if (!definition) return "Unknown tool";
   return validate(definition.outputSchema, structuredContent, "result", 0, {
     bounded: false,

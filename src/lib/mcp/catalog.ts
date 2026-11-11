@@ -20,14 +20,19 @@ export const TOOL_NAMES = [
   "build_consolidated_grocery_list",
   "what_to_cook_now",
   "update_culinary_profile",
+  "simulate_hermetic_cauldron",
 ] as const;
 
 export type ToolName = (typeof TOOL_NAMES)[number];
 
+export const TOOL_ALIASES: Record<string, ToolName> = {
+  calculate_batch_circuit: "simulate_hermetic_cauldron",
+};
+
 export function isToolName(name: unknown): name is ToolName {
   return (
     typeof name === "string" &&
-    TOOL_NAMES.some((candidate) => candidate === name)
+    (TOOL_NAMES.some((candidate) => candidate === name) || name in TOOL_ALIASES)
   );
 }
 
@@ -66,6 +71,7 @@ export const TOOL_COSTS: Record<ToolName, EsmsCost | null> = {
   build_consolidated_grocery_list: null,
   what_to_cook_now: perAxis(2.5),
   update_culinary_profile: null,
+  simulate_hermetic_cauldron: null,
 };
 
 export interface ToolDefinition {
@@ -205,6 +211,14 @@ export const TOOL_DEFINITIONS: ToolDefinition[] = [
     inputSchema: TOOL_INPUT_SCHEMAS.update_culinary_profile,
     outputSchema: TOOL_OUTPUT_SCHEMAS.update_culinary_profile,
     annotations: annotations(false, false, true),
+  },
+  {
+    name: "simulate_hermetic_cauldron",
+    title: "Hermetic cauldron vessel simulation",
+    description: `Simulate the IAPWS-IF97 hermetic vessel and alchemical cauldron circuit: saturation ceiling T_sat(P), vapour-pressure deficit, cited food-chemistry regimes, and 6-field kinetic profile (V, I, R, ν, μ, F). Free tool. ${AUTH_DOC}`,
+    inputSchema: TOOL_INPUT_SCHEMAS.simulate_hermetic_cauldron,
+    outputSchema: TOOL_OUTPUT_SCHEMAS.simulate_hermetic_cauldron,
+    annotations: annotations(true, false, true),
   },
 ];
 

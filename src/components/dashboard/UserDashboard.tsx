@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import React, { useState, useEffect, useCallback } from 'react';
+import { z } from 'zod';
 import { TokenBalanceBar } from '@/components/economy/TokenBalanceBar';
 import { AlchemicalConstitutionPanel } from '@/components/profile/AlchemicalConstitutionPanel';
 import { CosmicAlignmentCard } from '@/components/profile/CosmicAlignmentCard';
@@ -12,6 +13,7 @@ import { ProfileHeroCard } from '@/components/profile/ProfileHeroCard';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useActiveTransits } from '@/hooks/useActiveTransits';
 import { useTransitGroupChat } from '@/hooks/useTransitGroupChat';
+import { readJson } from '@/lib/api/json';
 import { reportQuestEvent } from '@/lib/questReporter';
 import type { NatalChart } from '@/types/natalChart';
 import type { SavedRestaurant } from '@/types/restaurant';
@@ -385,6 +387,11 @@ function BirthChartSection({ natalChart }: { natalChart: NatalChart }): React.Re
 
 /* ─── Pending Requests Badge ────────────────────────────────── */
 
+const CommensalsCountSchema = z.object({
+  success: z.boolean().optional(),
+  pendingReceived: z.array(z.unknown()).optional(),
+});
+
 function usePendingRequestCount(): number {
   const [count, setCount] = useState(0);
 
@@ -393,7 +400,7 @@ function usePendingRequestCount(): number {
       try {
         const res = await fetch('/api/commensals', { credentials: 'include' });
         if (!res.ok) return;
-        const data = (await res.json()) as { success?: boolean; pendingReceived?: unknown[] };
+        const data = await readJson(res, { parse: CommensalsCountSchema.parse });
         if (data.success && Array.isArray(data.pendingReceived)) {
           setCount(data.pendingReceived.length);
         }

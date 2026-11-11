@@ -8,11 +8,11 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 2689,
+    "total": 2684,
     "asAny": 34,
     "chained": 115,
-    "single": 2540,
-    "production": 2100,
+    "single": 2535,
+    "production": 2095,
     "test": 589,
     "asConst": 621,
     "nonNull": 566
@@ -49,9 +49,9 @@
     }
   },
   "declined": {
-    "total": 4667,
+    "total": 4666,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1255,
+      "@typescript-eslint/explicit-function-return-type": 1254,
       "@typescript-eslint/explicit-module-boundary-types": 599,
       "complexity": 305,
       "max-depth": 81,
