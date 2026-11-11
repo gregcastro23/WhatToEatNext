@@ -17,8 +17,52 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ElevationProvenance } from "@/hooks/useEnvironmentalObservation";
+import { isJsonRecord, readJson } from "@/lib/api/json";
 import { parsePostalCode, POSTAL_FORMAT_LABEL } from "@/lib/location/postalCode";
 import type { PostalCodeResolution } from "@/services/geocodingService";
+
+function isCitySuggestion(val: unknown): val is CitySuggestion {
+  if (!isJsonRecord(val)) return false;
+  return (
+    typeof val.displayName === "string" &&
+    typeof val.latitude === "number" &&
+    typeof val.longitude === "number"
+  );
+}
+
+function isPostalCodeResolution(val: unknown): val is PostalCodeResolution {
+  if (!isJsonRecord(val)) return false;
+  return (
+    typeof val.postalCode === "string" &&
+    typeof val.country === "string" &&
+    typeof val.displayName === "string" &&
+    (val.locality === null || typeof val.locality === "string") &&
+    typeof val.latitude === "number" &&
+    typeof val.longitude === "number"
+  );
+}
+
+function parseCitySearchResults(data: unknown): CitySuggestion[] {
+  if (isJsonRecord(data) && Array.isArray(data.results)) {
+    return data.results.filter(isCitySuggestion);
+  }
+  return [];
+}
+
+interface PostalResultEnvelope {
+  success?: boolean | undefined;
+  result?: PostalCodeResolution | undefined;
+  message?: string | undefined;
+}
+
+function parsePostalEnvelope(data: unknown): PostalResultEnvelope {
+  if (!isJsonRecord(data)) return {};
+  return {
+    success: typeof data.success === "boolean" ? data.success : undefined,
+    result: isPostalCodeResolution(data.result) ? data.result : undefined,
+    message: typeof data.message === "string" ? data.message : undefined,
+  };
+}
 
 /**
  * How lat/lng was obtained — the HORIZONTAL question, which
@@ -258,11 +302,7 @@ export function useUserLocation(options?: UseUserLocationOptions): UseUserLocati
       try {
         const res = await fetch(`/api/geocoding?q=${encodeURIComponent(q)}`);
         if (!res.ok) return [];
-        const data = (await res.json()) as {
-          success?: boolean;
-          results?: CitySuggestion[];
-        };
-        return Array.isArray(data.results) ? data.results : [];
+        return await readJson(res, { parse: parseCitySearchResults });
       } catch {
         return [];
       }
@@ -305,11 +345,7 @@ export function useUserLocation(options?: UseUserLocationOptions): UseUserLocati
         const res = await fetch(
           `/api/geocoding/postal?code=${encodeURIComponent(parsed.code)}`,
         );
-        const data = (await res.json()) as {
-          success?: boolean;
-          result?: PostalCodeResolution;
-          message?: string;
-        };
+        const data = await readJson(res, { parse: parsePostalEnvelope });
 
         if (!res.ok || data.success !== true || !data.result) {
           const message =

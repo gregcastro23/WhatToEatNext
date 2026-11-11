@@ -4,7 +4,7 @@
 // how this file went unrun - the same way `authCache.test.ts` did before it.
 import { CUISINES_METADATA, getCuisineData } from "@/data/cuisines/index";
 import { getAllRecipes } from "@/data/recipes/index";
-import { resolveCuisineType } from "@/types/cuisineAliases";
+import { resolveCuisineType } from "../../tests/helpers/cuisineAliases";
 
 describe("Fusion Cuisine & Chorizo Bolognese Integration", () => {
   it("Fusion is registered in CUISINES_METADATA with valid elemental properties", () => {

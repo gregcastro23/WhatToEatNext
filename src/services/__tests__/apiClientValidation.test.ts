@@ -1,4 +1,4 @@
-import { AlchemicalApiClient } from "@/services/AlchemicalApiClient";
+import { AlchemicalApiClient } from "../../../tests/helpers/AlchemicalApiClient";
 import {
   AlchemicalElementalPropertiesSchema,
   ThermodynamicsResultSchema,

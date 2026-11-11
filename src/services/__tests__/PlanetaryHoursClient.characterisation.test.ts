@@ -15,7 +15,7 @@
  *
  * These assertions pin both halves so the bug cannot return.
  */
-import { PlanetaryHoursClient } from "@/services/PlanetaryHoursClient";
+import { PlanetaryHoursClient } from "../../../tests/helpers/PlanetaryHoursClient";
 
 describe("PlanetaryHoursClient local fallback", () => {
   // New York. Any mid-latitude fix works; the assertions below are

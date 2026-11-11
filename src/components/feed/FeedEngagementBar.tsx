@@ -17,8 +17,10 @@
 
 import { MessageCircle } from "lucide-react";
 import { useCallback, useEffect, useState, type JSX, type ReactNode } from "react";
+import { z } from "zod";
 import { CommentThread } from "@/components/feed/CommentThread";
 import { LabelXS, ReactionBar, type ReactionKind } from "@/components/tables/ui";
+import { readJson } from "@/lib/api/json";
 import { revealPracticeReward } from "@/lib/economy/practiceClient";
 
 // ── lowercase (DB) ⇄ kit kind mapping ───────────────────────────────────────
@@ -77,12 +79,19 @@ function writeCacheEntry(eventId: string, kinds: string[]): void {
   }
 }
 
-interface ReactResponse {
-  success?: boolean;
-  counts?: Record<string, number>;
-  viewerKinds?: string[];
-  reward?: { tokenType: string; amount: number; hint: string } | null;
-}
+const ReactResponseSchema = z.object({
+  success: z.boolean().optional(),
+  counts: z.record(z.string(), z.number()).optional(),
+  viewerKinds: z.array(z.string()).optional(),
+  reward: z
+    .object({
+      tokenType: z.string(),
+      amount: z.number(),
+      hint: z.string(),
+    })
+    .nullable()
+    .optional(),
+});
 
 export interface FeedEngagementBarProps {
   eventId: string;
@@ -168,7 +177,7 @@ export function FeedEngagementBar({
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ eventId, kind: dbKind }),
         });
-        const json = (await res.json()) as ReactResponse;
+        const json = await readJson(res, { parse: ReactResponseSchema.parse });
         if (json.success) {
           // Server is authoritative — reconcile counts + viewer kinds.
           if (json.counts) setCounts(json.counts);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { isJsonRecord, readJson } from "@/lib/api/json";
 import type { WeeklyMenu, GroceryItem, MealSlot } from "@/types/menuPlanner";
 import { logger } from "@/utils/logger";
 
@@ -12,8 +13,15 @@ interface MenuTemplateData {
   weeklyBudget?: number | null;
 }
 
-interface MenuTemplateResponse {
-  template?: MenuTemplateData;
+function isMenuTemplateResponse(val: unknown): val is { template?: MenuTemplateData } {
+  if (!isJsonRecord(val)) return false;
+  if (!("template" in val) || val.template === undefined) return true;
+  if (!isJsonRecord(val.template)) return false;
+  return Array.isArray(val.template.meals);
+}
+
+function parseMenuTemplatePayload(val: unknown): { template?: MenuTemplateData } {
+  return isMenuTemplateResponse(val) ? val : {};
 }
 
 interface UseMenuPersistenceArgs {
@@ -110,7 +118,7 @@ export function useMenuPersistence({
         if (!response.ok) {
           throw new Error(`Template load failed with status ${response.status}`);
         }
-        const { template } = (await response.json()) as MenuTemplateResponse;
+        const { template } = await readJson(response, { parse: parseMenuTemplatePayload });
 
         if (!template) {
           throw new Error("Template not found");

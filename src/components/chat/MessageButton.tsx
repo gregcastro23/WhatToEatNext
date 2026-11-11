@@ -11,8 +11,14 @@
 import { MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { isDmsEnabledClient } from "@/lib/chat/flags";
 import type { JSX } from "react";
+
+const DmConversationResponseSchema = z.object({
+  conversation: z.object({ id: z.string() }).optional(),
+});
 
 export interface MessageButtonProps {
   otherUserId: string;
@@ -47,7 +53,7 @@ export function MessageButton({
         setBusy(false);
         return;
       }
-      const data = (await res.json()) as { conversation?: { id: string } };
+      const data = await readJson(res, { parse: DmConversationResponseSchema.parse });
       if (data.conversation?.id) {
         router.push(`/messages/${data.conversation.id}`);
         return;

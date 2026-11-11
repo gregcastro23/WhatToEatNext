@@ -1,4 +1,4 @@
-import { calculateElementalCompatibility } from '@/utils/elementalCompatibility';
+import { calculateElementalCompatibility } from '../../../tests/helpers/elementalCompatibility';
 import type { ElementalProperties } from '@/types/alchemy';
 
 describe('Food Recommendation Engine', () => {

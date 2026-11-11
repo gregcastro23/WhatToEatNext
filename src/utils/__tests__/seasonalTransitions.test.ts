@@ -4,7 +4,7 @@ import type { ElementalState } from "@/types/elemental";
 import {
   applySeasonalTransition,
   getSeasonalInfluence,
-} from "@/utils/seasonalTransitions";
+} from "../../../tests/helpers/seasonalTransitions";
 
 // getSeasonalInfluence returns baseElements (0.25) scaled by (1 + modifier).
 // Every one of these products is exactly representable as a double — 0.25 is a

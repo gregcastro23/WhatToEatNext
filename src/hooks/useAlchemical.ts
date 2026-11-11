@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { isJsonRecord, readJson } from "@/lib/api/json";
 import type { PlanetPosition } from "@/utils/astrologyUtils";
 
 export interface AlchemicalState {
@@ -16,11 +17,31 @@ interface PlanetaryCache {
   ts: number;
 }
 
+function isPlanetPositionRecord(val: unknown): val is Record<string, PlanetPosition> {
+  if (!isJsonRecord(val)) return false;
+  for (const v of Object.values(val)) {
+    if (!isJsonRecord(v) || typeof v.sign !== "string" || typeof v.degree !== "number") {
+      return false;
+    }
+  }
+  return true;
+}
+
+function parsePositionsPayload(val: unknown): Record<string, PlanetPosition> {
+  if (!isJsonRecord(val) || !isPlanetPositionRecord(val.positions)) return {};
+  return val.positions;
+}
+
+function isPlanetaryCache(val: unknown): val is PlanetaryCache {
+  return isJsonRecord(val) && typeof val.ts === "number" && isPlanetPositionRecord(val.positions);
+}
+
 function readCache(): PlanetaryCache | null {
   try {
     const raw = localStorage.getItem(CACHE_KEY);
     if (!raw) return null;
-    const parsed = JSON.parse(raw) as PlanetaryCache;
+    const parsed: unknown = JSON.parse(raw);
+    if (!isPlanetaryCache(parsed)) return null;
     if (Date.now() - parsed.ts > CACHE_TTL) return null;
     return parsed;
   } catch {
@@ -69,10 +90,7 @@ export function useAlchemical() {
         );
       }
 
-      const data = (await response.json()) as {
-        positions?: Record<string, PlanetPosition>;
-      };
-      const positions = data.positions ?? {};
+      const positions = await readJson(response, { parse: parsePositionsPayload });
       writeCache(positions);
 
       setState({

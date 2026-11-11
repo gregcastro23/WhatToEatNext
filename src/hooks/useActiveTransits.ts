@@ -18,18 +18,26 @@
  */
 
 import { useEffect, useState } from "react";
+import { z } from "zod";
 import { groupForAspect, type TransitBody, type TransitGroup } from "@/lib/agents/transitAgents";
+import { readJson } from "@/lib/api/json";
 
-interface RawAspect {
-  planet1: string;
-  planet2: string;
-  type: string;
-  orbDegrees: number;
-  sign1?: string;
-  degree1?: number;
-  sign2?: string;
-  degree2?: number;
-}
+const RawAspectSchema = z.object({
+  planet1: z.string(),
+  planet2: z.string(),
+  type: z.string(),
+  orbDegrees: z.number(),
+  sign1: z.string().optional(),
+  degree1: z.number().optional(),
+  sign2: z.string().optional(),
+  degree2: z.number().optional(),
+});
+
+type RawAspect = z.infer<typeof RawAspectSchema>;
+
+const AspectsResponseSchema = z.object({
+  aspects: z.array(RawAspectSchema).optional(),
+});
 
 const TTL_MS = 120_000;
 let cache: { at: number; aspects: RawAspect[] } | null = null;
@@ -41,14 +49,14 @@ async function loadAspects(): Promise<RawAspect[]> {
   inflight = fetch("/api/alchm-quantities/aspects")
     .then(async (r) => {
       if (!r.ok) return [];
-      const j = (await r.json()) as { aspects?: RawAspect[] };
+      const j = await readJson(r, { parse: AspectsResponseSchema.parse });
       return Array.isArray(j.aspects) ? j.aspects : [];
     })
     .then((aspects) => {
       cache = { at: Date.now(), aspects };
       return aspects;
     })
-    .catch(() => [] as RawAspect[])
+    .catch((): RawAspect[] => [])
     .finally(() => {
       inflight = null;
     });

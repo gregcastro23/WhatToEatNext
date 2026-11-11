@@ -11,6 +11,13 @@
  */
 
 import { useEffect, useState } from "react";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
+
+const UserIdentityResponseSchema = z.object({
+  success: z.boolean().optional(),
+  shareIdentity: z.boolean().optional(),
+});
 
 export interface ShareIdentityDefault {
   /** false until the GET resolves (or fails). */
@@ -30,7 +37,7 @@ export function useShareIdentityDefault(): ShareIdentityDefault {
     void fetch("/api/user/identity")
       .then(async (res) => {
         if (!res.ok) return null;
-        return (await res.json()) as { success?: boolean; shareIdentity?: boolean };
+        return await readJson(res, { parse: UserIdentityResponseSchema.parse });
       })
       .then((json) => {
         if (cancelled) return;

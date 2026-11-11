@@ -13,9 +13,11 @@
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useRef, useState, type JSX } from "react";
+import { z } from "zod";
 import { TokenRainParticles } from "@/components/economy/TokenRainParticles";
 import { useToast } from "@/components/ToastProvider";
 import { emitTokenEconomyUpdate } from "@/hooks/useTokenEconomy";
+import { readJson } from "@/lib/api/json";
 import {
   PRACTICE_REWARD_EVENT,
   discoverSurface,
@@ -32,6 +34,11 @@ const COIN_SYMBOLS: Record<string, string> = {
 };
 
 const TOKEN_TYPES = new Set(["Spirit", "Essence", "Matter", "Substance"]);
+
+const ClaimOnchainResponseSchema = z.object({
+  walletLinked: z.boolean().optional(),
+  configured: z.boolean().optional(),
+});
 
 function formatAmount(n: number): string {
   return Number.isInteger(n) ? String(n) : n.toFixed(1);
@@ -54,7 +61,7 @@ export function PracticeDelightHost(): JSX.Element {
     void fetch("/api/economy/claim-onchain", { cache: "no-store" })
       .then(async (res) => {
         if (!res.ok) return;
-        const json = (await res.json()) as { walletLinked?: boolean; configured?: boolean };
+        const json = await readJson(res, { parse: ClaimOnchainResponseSchema.parse });
         if (json.configured && json.walletLinked === false) {
           setTimeout(() => {
             showToast("Your earnings can live on-chain — claim them to a wallet of your own.", "info", {
