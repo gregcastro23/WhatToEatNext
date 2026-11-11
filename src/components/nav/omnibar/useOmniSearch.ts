@@ -4,7 +4,7 @@
  * Query → GET /api/search, debounced and cached (plan §5).
  *
  * A pause in typing fires at most one request, and every response is kept
- * (LRU), so backspacing and Enter reuse it. Requests are not aborted: the
+ * (LRU: a hit counts as a use), so backspacing and Enter reuse it. Requests are not aborted: the
  * debounce already drops the keystrokes in between, and a response that
  * arrives late is still worth caching. The key is folded the way the server
  * folds, so the CDN sees one URL per query (D2).
@@ -15,7 +15,7 @@ import { OmnibarResponseSchema, SEARCH_QUERY_MAX_LENGTH, type OmnibarResponse } 
 import type { SearchStatus } from "./omnibarTypes";
 
 const DEBOUNCE_MS = 120;
-const CACHE_SIZE = 50;
+export const CACHE_SIZE = 50;
 
 const cache = new Map<string, OmnibarResponse>();
 const inflight = new Map<string, Promise<OmnibarResponse>>();
@@ -60,7 +60,10 @@ async function request(key: string): Promise<OmnibarResponse> {
 /** The response for a key: cached, already in flight, or fetched now. */
 export function fetchOmnibar(key: string): Promise<OmnibarResponse> {
   const cached = cache.get(key);
-  if (cached) return Promise.resolve(cached);
+  if (cached) {
+    remember(key, cached);
+    return Promise.resolve(cached);
+  }
   const pending = inflight.get(key) ?? request(key).finally(() => inflight.delete(key));
   inflight.set(key, pending);
   return pending;
@@ -87,6 +90,8 @@ export function useOmniSearch(query: string): OmniSearchState {
     const cached = cache.get(key);
     if (cached) {
       // Rendered from the cache already; recorded so the next query's loading state shows it.
+      // Read again, so it is now the most recently used (an effect, not render, owns the write).
+      remember(key, cached);
       setSettled({ key, data: cached, failed: false });
       return undefined;
     }

@@ -5,13 +5,13 @@
  * Can be used to update recipe data with authentic elemental properties,
  * planetary influences, seasonal alignment, and nutritional estimates.
  *
- * @file src/utils/recipe/batchEnrichment.ts
+ * @file tests/helpers/batchEnrichment.ts
  * @created 2026-01-29
  */
 
 import { z } from "zod";
 import type { Recipe } from "@/types";
-import { createLogger } from "../logger";
+import { createLogger } from "@/utils/logger";
 import {
   RecipeDataEnricher,
   type EnrichmentResult,

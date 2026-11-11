@@ -11,7 +11,7 @@ import {
   calculateRepresentativenessWeights,
   calculateThermodynamicVariance,
   computeCuisineProperties,
-} from "@/utils/cuisine/cuisineAggregationEngine";
+} from "../tests/helpers/cuisineAggregationEngine";
 
 function makeRecipe(
   elementals: { Fire: number; Water: number; Earth: number; Air: number },

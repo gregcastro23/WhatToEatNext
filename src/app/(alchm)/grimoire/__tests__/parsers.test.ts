@@ -66,6 +66,14 @@ describe("grimoire wire parsers", (): void => {
     expect(parseGrimoireData(done).streak.nextMilestone).toBeNull();
   });
 
+  it("rejects a practice dedupe scope outside the closed set the page knows", (): void => {
+    const [practice] = grimoire.practices;
+    const weekly = { ...grimoire, practices: [{ ...practice, dedupe: "weekly" }] };
+    expect(() => parseGrimoireData(weekly)).toThrow(/dedupe/);
+    // control: the same practice with a known scope is accepted
+    expect(parseGrimoireData({ ...grimoire, practices: [{ ...practice, dedupe: "ever" }] }).practices).toHaveLength(1);
+  });
+
   it("throws on a partial body so the page's catch keeps the grimoire shut", (): void => {
     const { sky: _sky, ...withoutSky } = grimoire;
     expect(() => parseGrimoireData(withoutSky)).toThrow();

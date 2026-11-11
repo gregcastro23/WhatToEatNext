@@ -4,7 +4,7 @@ import {
   dateToJulianDay,
   longitudeToSignDegree,
   type EnhancedBirthInfo,
-} from "@/lib/enhanced-astronomical-calculator";
+} from "./helpers/enhanced-astronomical-calculator";
 
 const BIRTH_INFO: EnhancedBirthInfo = {
   year: 1991,

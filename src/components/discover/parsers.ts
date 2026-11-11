@@ -126,12 +126,19 @@ function parseEnvelope(body: Record<string, unknown>): Envelope {
   };
 }
 
-/** `undefined` when absent (the hooks read it with `?? []`); throws on a non-array. */
+/**
+ * `undefined` when absent (the hooks read it with `?? []`); throws on a non-array.
+ * A card that does not match is dropped, but if cards arrived and NONE matched the
+ * server's card shape has moved: that throws into the hook's catch ("Failed to
+ * load …") instead of reading as an empty page of results.
+ */
 function parseCards<T>(raw: unknown, guard: (value: unknown) => value is T): T[] | undefined {
   if (raw === undefined || raw === null) return undefined;
   if (!Array.isArray(raw)) throw new TypeError("Expected an array of discover cards");
   const list: readonly unknown[] = raw;
-  return list.filter(guard);
+  const kept = list.filter(guard);
+  if (list.length > 0 && kept.length === 0) throw new TypeError("No discover card matched the expected shape");
+  return kept;
 }
 
 export function parseDiscoverTablesResponse(value: unknown): DiscoverTablesApiResponse {

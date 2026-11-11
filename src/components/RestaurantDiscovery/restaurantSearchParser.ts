@@ -12,6 +12,8 @@
  * so a body that does not match throws a plain `Error` with a readable message
  * and lands in that same error state, exactly as a non-JSON body already did.
  *
+ * A row that does not match is dropped, not fatal (see `validRows`).
+ *
  * Two bodies are tolerated on purpose, because the callers already handle them
  * before they read anything else:
  *   - a body carrying a non-empty `error` string (the callers branch on
@@ -129,8 +131,9 @@ const RestaurantSchema = z.looseObject({
   isAlchemizedPartner: z.exactOptional(z.boolean()),
 });
 
+// Rows are checked one by one in `validRows`, so the envelope only needs a list.
 const SearchResponseSchema = z.looseObject({
-  restaurants: z.array(RestaurantSchema).nullish().transform((v) => v ?? []),
+  restaurants: z.array(z.unknown()).nullish().transform((v) => v ?? []),
   cosmicContext: CosmicContextSchema,
   source: SourceSchema.nullish().transform((v) => v ?? undefined),
   sourceNotice: optionalString,
@@ -139,6 +142,25 @@ const SearchResponseSchema = z.looseObject({
 
 function emptyCosmicContext(): CosmicContext {
   return { currentZodiac: "", planetaryHour: "", dominantElement: "" };
+}
+
+type Restaurant = RestaurantSearchResponse["restaurants"][number];
+
+/**
+ * One odd row (any of seven providers can send one) must not blank the whole
+ * list, so a row that fails the schema is left out. If rows arrived and NONE
+ * matched, the contract itself has moved, and that stays loud: the caller's
+ * error state, not a quiet "no results".
+ */
+function validRows(rows: readonly unknown[]): Restaurant[] {
+  const valid = rows.flatMap((row) => {
+    const parsed = RestaurantSchema.safeParse(row);
+    return parsed.success ? [parsed.data] : [];
+  });
+  if (rows.length > 0 && valid.length === 0) {
+    throw new Error("Restaurant results were malformed (no row matched).");
+  }
+  return valid;
 }
 
 /**
@@ -164,5 +186,5 @@ export function parseRestaurantSearchResponse(
         : "Restaurant results were malformed.",
     );
   }
-  return result.data;
+  return { ...result.data, restaurants: validRows(result.data.restaurants) };
 }

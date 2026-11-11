@@ -1,4 +1,4 @@
-import { extractRecipesFromCuisine } from "@/utils/recipe/batchEnrichment";
+import { extractRecipesFromCuisine } from "./helpers/batchEnrichment";
 
 describe("batch enrichment cuisine boundary", () => {
   it("returns no recipes for a non-object cuisine payload", () => {

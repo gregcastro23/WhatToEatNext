@@ -8,6 +8,11 @@
  * `mode` and `url` and nothing else, so those are the fields validated here;
  * the rest of the body is preserved untouched.
  *
+ * ⚠ The route has a third success mode, `esms` (paid, no url), that this modal
+ * cannot finish and therefore never requests. If an ESMS button is ever added to
+ * the modal, add its arm to the union below: until then `esms` is refused, and
+ * `__tests__/reservationCheckoutParser.test.ts` pins that refusal.
+ *
  * A body that does not match throws a plain `Error`; the modal runs the parse
  * inside its existing `try { … } catch (err) { setState({ kind: "error" }) }`,
  * so it surfaces as that same checkout-error state instead of navigating to

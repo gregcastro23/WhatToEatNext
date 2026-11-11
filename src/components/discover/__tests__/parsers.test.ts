@@ -43,6 +43,17 @@ describe("discover wire parsers", (): void => {
     expect(parseDiscoverTablesResponse({ success: true, tables: [tableCard, broken] }).tables).toEqual([tableCard]);
   });
 
+  it("throws when cards arrived and none matched, so drift is not read as an empty page", (): void => {
+    const broken = { ...tableCard, host: { id: "u1" } };
+    expect(() => parseDiscoverTablesResponse({ success: true, tables: [broken, { ...broken, id: "t3" }] })).toThrow(TypeError);
+    expect(() => parseDiscoverPeopleResponse({ success: true, people: [{ id: "u9" }] })).toThrow(TypeError);
+  });
+
+  it("control: a genuinely empty list is still an empty page, not an error", (): void => {
+    expect(parseDiscoverTablesResponse({ success: true, tables: [], nextCursor: null }).tables).toEqual([]);
+    expect(parseDiscoverPeopleResponse({ success: true, people: [] }).people).toEqual([]);
+  });
+
   it("passes the server's failure envelope through with its empty list", (): void => {
     const out = parseDiscoverTablesResponse({ success: false, message: "Failed to load tables", tables: [], nextCursor: null });
     expect(out).toEqual({ success: false, message: "Failed to load tables", tables: [], nextCursor: null });
@@ -61,6 +72,9 @@ describe("discover wire parsers", (): void => {
   it("parses people, including a null follow state", (): void => {
     const out = parseDiscoverPeopleResponse({ success: true, people: [personCard, { ...personCard, id: "u3", followState: "following" }] });
     expect(out.people?.map((p) => p.followState)).toEqual([null, "following"]);
-    expect(parseDiscoverPeopleResponse({ success: true, people: [{ ...personCard, isAgent: 1 }] }).people).toEqual([]);
+    // A card with a non-boolean isAgent is rejected: dropped beside a valid neighbour, a throw when it is all there is.
+    const bad = { ...personCard, id: "u4", isAgent: 1 };
+    expect(parseDiscoverPeopleResponse({ success: true, people: [personCard, bad] }).people).toEqual([personCard]);
+    expect(() => parseDiscoverPeopleResponse({ success: true, people: [bad] })).toThrow(TypeError);
   });
 });

@@ -38,6 +38,16 @@ describe("parseCurrentMoment", (): void => {
     expect(parseCurrentMoment({ success: false, error: "x" })).toBeNull();
   });
 
+  it.each([
+    ["forceClassification", "sideways"],
+    ["thermalDirection", "boiling"],
+  ])("rejects a %s outside the closed set the panel knows", (field, value): void => {
+    const drifted = { ...moment, circuit: { ...moment.circuit, [field]: value } };
+    expect(() => parseCurrentMoment(drifted)).toThrow(new RegExp(field));
+    // control: the untouched fixture still parses, so the throw is the enum's doing
+    expect(parseCurrentMoment(moment)).not.toBeNull();
+  });
+
   it("throws on a success body missing the circuit, instead of storing it", (): void => {
     const { circuit: _circuit, ...partial } = moment;
     expect(() => parseCurrentMoment(partial)).toThrow();
