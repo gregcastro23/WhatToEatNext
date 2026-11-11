@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1275,
+  "trackedTotal": 1260,
   "casts": {
     "total": 153,
     "asAny": 38,
@@ -8,11 +8,11 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 2734,
+    "total": 2732,
     "asAny": 37,
     "chained": 115,
-    "single": 2582,
-    "production": 2145,
+    "single": 2580,
+    "production": 2143,
     "test": 589,
     "asConst": 621,
     "nonNull": 567
@@ -49,15 +49,15 @@
     }
   },
   "declined": {
-    "total": 4735,
+    "total": 4710,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1272,
-      "@typescript-eslint/explicit-module-boundary-types": 606,
+      "@typescript-eslint/explicit-function-return-type": 1258,
+      "@typescript-eslint/explicit-module-boundary-types": 604,
       "complexity": 309,
       "max-depth": 81,
-      "max-lines": 513,
-      "max-lines-per-function": 1585,
-      "no-void": 369
+      "max-lines": 512,
+      "max-lines-per-function": 1578,
+      "no-void": 368
     },
     "note": "Declined rules pool, pinned at the LIVE measurement — no headroom. Ceilings above live are undetectable slack: the gate only fails when the pool EXCEEDS this total, so every granted unit is a regression the ratchet cannot see. An earlier revision carried 21 such units (4924 recorded vs 4903 live, incl. no-void 385 vs 374). Maintain this block with `bun run lint:debt:ratchet`, never by hand."
   },
@@ -79,7 +79,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 788,
+      "count": 779,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -87,7 +87,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 132,
+      "count": 129,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
@@ -95,7 +95,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 124,
+      "count": 121,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {

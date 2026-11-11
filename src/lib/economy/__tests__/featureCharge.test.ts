@@ -2,9 +2,9 @@
  * @jest-environment node
  *
  * Chart-priced ESMS charges for the formerly premium features (owner ruling
- * 2026-09-28): midpoint 3, group recommendations 5, manual insight 2, tilt
- * skillet 5, each a TOTAL split across the four axes and scaled by live
- * pricing. Operators are never charged.
+ * 2026-09-28): midpoint 3, group recommendations 5, manual insight 2, each a
+ * TOTAL split across the four axes and scaled by live pricing. Operators are
+ * never charged. (The tilt-skillet plan, 5, was retired 2026-11-11.)
  */
 
 const mockGetBalances = jest.fn();
@@ -59,7 +59,6 @@ describe("quoteFeature", () => {
     "alchemicalMidpoint",
     "groupRecommendations",
     "dailyInsight",
-    "tiltSkillet",
   ];
 
   it.each(FEATURES)(
@@ -78,7 +77,6 @@ describe("quoteFeature", () => {
       alchemicalMidpoint: 3,
       groupRecommendations: 5,
       dailyInsight: 2,
-      tiltSkillet: 5,
     });
   });
 

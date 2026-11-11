@@ -291,7 +291,7 @@ describe("routeSizes gate", () => {
   });
 
   describe("DEFAULT_THRESHOLDS defensible values", () => {
-    it("defines budgets for all 12 key routes with documented basis", () => {
+    it("defines budgets for all 11 key routes with documented basis", () => {
       const routes = [
         "/",
         "/menu-planner",
@@ -300,7 +300,6 @@ describe("routeSizes gate", () => {
         "/recipes/[recipeId]",
         "/recipes/versions/[versionId]",
         "/kitchen-lab/physics",
-        "/cooking-methods/tilt-skillet",
         "/cooking-methods",
         "/shop",
         "/account",

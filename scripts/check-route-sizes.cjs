@@ -59,13 +59,6 @@ const DEFAULT_THRESHOLDS = {
     // Basis: Measured after Track 2 dynamic tab splitting: route 3.28 kB, Next FL 113.0 kB,
     // true first-load with layouts 702,190 B = 685.7 KiB. Budget 720 KiB gives ~34.3 KiB (+5.0%) headroom.
   },
-  '/cooking-methods/tilt-skillet': {
-    maxRouteKb: 25,
-    maxFirstLoadKb: 150,
-    maxTotalFirstLoadKb: 715,
-    // Basis: Measured after Track 2 elemental catalog decoupling: route 16.1 kB, Next FL 126.0 kB,
-    // true first-load with layouts 694,128 B = 677.9 KiB. Budget 715 KiB gives ~37.1 KiB (+5.5%) headroom.
-  },
   '/cooking-methods': {
     maxRouteKb: 140,
     maxFirstLoadKb: 310,

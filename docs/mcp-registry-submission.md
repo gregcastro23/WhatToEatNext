@@ -118,7 +118,7 @@ authenticate instead.)
 ## Step 3 — Verify before publishing
 
 1. `MCP_E2E=1 bun test mcp-server/src/__tests__/stdio.test.ts` — `tools/list`
-   must return all **13** registered MCP tools (plus the companion kitchen-lab / adaptation calculators `calculate_batch_circuit` and `compile_adaptation` exposed on the WTEN web surface):
+   must return all **13** registered MCP tools. The two kitchen engines listed after the table run on the WTEN web surface and are not MCP tools, so `tools/list` does not include them:
 
    | Tool | Function | Cost (ESMS) | Annotations |
    | --- | --- | --- | --- |
@@ -136,8 +136,8 @@ authenticate instead.)
    | `what_to_cook_now` | Pantry-first recipe matching scoring available ingredients against tastes, prep time, Solar Return ephemeris, and planetary weather. | 10 ESMS | `readOnlyHint: false` |
    | `update_culinary_profile` | Persist caller allergen guardrails, dietary frameworks, disliked ingredients, and kitchen gear. | Free | `readOnlyHint: false` |
 
-   Companion WTEN deterministic kitchen engines (surfaced via `/cooking-methods/tilt-skillet` and `/api/recipes/[recipeId]/adapt` alongside the MCP catalog):
-   - **`calculate_batch_circuit`** (`src/utils/tiltSkilletCircuitCore.ts`): 4-stage thermal batch circuit planner (zone assignment, surface fill ratio, steam recovery, and sequenced pour schedules).
+   Companion WTEN deterministic kitchen engines (surfaced via `/kitchen-lab/alchm` and `/api/recipes/[recipeId]/adapt`; not MCP tools):
+   - **Cauldron vessel simulator** (`src/utils/cauldronVesselCore.ts`, `src/utils/cauldronVesselSimulation.ts`): staged ingredient circuit (ESMS → Kalchm/Monica → series P=IV) run inside the Hermetic Vessel. Its kinetic profile is read off the SI vessel on `/kitchen-lab/physics?tab=vessel` (IAPWS-IF97 saturation ceiling, vapour-pressure deficit, cited regimes), with each SI→circuit mapping shown as a ruling. It replaces the tilt-skillet planner. `calculate_batch_circuit` was never a tool in the published server; an MCP tool backed by `simulateCauldron` is a planned follow-up.
    - **`compile_adaptation`** (`src/utils/dietaryAdaptation.ts` & `src/lib/recipes/savedAdaptationService.ts`): Deterministic multi-persona dietary swap compiler with inline instruction rewriting, elemental/nutrition recomputation, and verified receipt persistence.
 
 2. Verify Full MCP Triad:

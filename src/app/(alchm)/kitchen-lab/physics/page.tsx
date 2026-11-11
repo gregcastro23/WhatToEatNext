@@ -1,9 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState, type JSX } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, type JSX } from "react";
 import { SystemBadge } from "@/components/lab/SystemBadge";
 import "../_solver/solver.css";
+import { PHYSICS_TABS, tabFromParam, urlForTab, type PhysicsTab } from "./physicsTabs";
 
 const SolverPanel = dynamic(
   () => import("../_solver/SolverPanel").then((m) => m.SolverPanel),
@@ -39,6 +41,13 @@ const BoundaryTransferCanvas = dynamic(
     ),
   { ssr: false },
 );
+const HermeticVesselPanel = dynamic(
+  () =>
+    import("@/components/lab/HermeticVesselPanel").then(
+      (m) => m.HermeticVesselPanel,
+    ),
+  { ssr: false },
+);
 
 /**
  * `/kitchen-lab/physics` — the REAL physics of a pan of food.
@@ -46,8 +55,9 @@ const BoundaryTransferCanvas = dynamic(
  * Every number on this route is SI and traces to a cited correlation or a
  * measured record: Incropera & DeWitt property tables, Churchill & Chu and
  * Rohsenow correlations, the Fleagle & Andreas latent-heat fit, Choi-Okos
- * composition thermophysics, ISA + Antoine for the altitude water ceiling, and
- * USDA FDC portion measurements.
+ * composition thermophysics, ISA + Antoine for the altitude water ceiling,
+ * IAPWS-IF97 for sealed and evacuated vessels, and USDA FDC portion
+ * measurements.
  *
  * ## Why this is its own route now
  *
@@ -68,59 +78,7 @@ const BoundaryTransferCanvas = dynamic(
  * @file src/app/(alchm)/kitchen-lab/physics/page.tsx
  */
 
-type PhysicsTab =
-  | "solver"
-  | "compare"
-  | "boundaries"
-  | "volumetrics"
-  | "latent"
-  | "reduction"
-  | "transfer";
-
-const TABS: ReadonlyArray<[PhysicsTab, string, string]> = [
-  ["solver", "Thermal solver", "One arrangement, solved end to end"],
-  ["compare", "Compare", "Three arrangements against one food"],
-  ["boundaries", "Boundaries", "Property tables and correlations"],
-  ["volumetrics", "Volumetrics", "Measured mass per volume"],
-  ["latent", "Latent heat", "Phase-change energy, through the Rust engine"],
-  ["reduction", "Reduction & Live Pot", "Simmer reduction, glaze milestones, and collaborative kitchen pot sync"],
-  ["transfer", "Medium transfer", "Heat crossing atmosphere → vessel → solution → food"],
-];
-
-export default function KitchenLabPhysicsPage(): JSX.Element {
-  const [tab, setTab] = useState<PhysicsTab>("solver");
-  const active = TABS.find(([id]) => id === tab);
-
-  return (
-    <div className="ma-solver">
-      <div className="px-5 pt-5 sm:px-6">
-        <SystemBadge
-          system="real"
-          variant="banner"
-          counterpartHref="/kitchen-lab/alchm"
-          counterpartLabel="The alchm model of the same kitchen"
-        />
-      </div>
-
-      <nav className="alchm-lab-tabs" aria-label="physics sections">
-        {TABS.map(([id, label]) => (
-          <button
-            key={id}
-            type="button"
-            onClick={() => setTab(id)}
-            aria-current={tab === id ? "page" : undefined}
-            className={tab === id ? "is-active" : undefined}
-          >
-            {label}
-          </button>
-        ))}
-      </nav>
-
-      {active ? (
-        <p className="px-5 pt-3 text-xs text-white/40 sm:px-6">{active[2]}</p>
-      ) : null}
-
-      <style>{`
+const TAB_CSS = `
         .alchm-lab-tabs {
           display: flex;
           gap: 2px;
@@ -147,19 +105,105 @@ export default function KitchenLabPhysicsPage(): JSX.Element {
           border-bottom-color: var(--accent);
         }
         .alchm-lab-tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-      `}</style>
+`;
 
-      {tab === "solver" ? <SolverPanel /> : null}
-      {tab === "compare" ? <ComparisonPanel /> : null}
-      {tab === "boundaries" ? <BoundariesPanel /> : null}
-      {tab === "volumetrics" ? <VolumetricsPanel /> : null}
-      {tab === "latent" ? <LatentHeatPanel className="px-5 py-6 sm:px-6" /> : null}
-      {tab === "reduction" ? (
-        <SimmerReductionPanel className="px-5 py-6 sm:px-6" />
+function PhysicsTabNav({
+  tab,
+  onSelect,
+}: {
+  tab: PhysicsTab;
+  onSelect: (next: PhysicsTab) => void;
+}): JSX.Element {
+  return (
+    <nav className="alchm-lab-tabs" aria-label="physics sections">
+      {PHYSICS_TABS.map(([id, label]) => (
+        <button
+          key={id}
+          type="button"
+          onClick={() => onSelect(id)}
+          aria-current={tab === id ? "page" : undefined}
+          className={tab === id ? "is-active" : undefined}
+        >
+          {label}
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+const PANEL_PADDING = "px-5 py-6 sm:px-6";
+
+function PhysicsTabPanel({ tab }: { tab: PhysicsTab }): JSX.Element {
+  switch (tab) {
+    case "solver":
+      return <SolverPanel />;
+    case "compare":
+      return <ComparisonPanel />;
+    case "boundaries":
+      return <BoundariesPanel />;
+    case "volumetrics":
+      return <VolumetricsPanel />;
+    case "latent":
+      return <LatentHeatPanel className={PANEL_PADDING} />;
+    case "reduction":
+      return <SimmerReductionPanel className={PANEL_PADDING} />;
+    case "transfer":
+      return <BoundaryTransferCanvas className={PANEL_PADDING} />;
+    case "vessel":
+      return <HermeticVesselPanel className={PANEL_PADDING} />;
+  }
+}
+
+/**
+ * The page body. The tab is DERIVED from `?tab=` on every render, so any
+ * navigation that changes the query — the redirect from
+ * /cooking-methods/tilt-skillet, the "Hermetic Vessel" nav entry, a link
+ * between two tabs of this same route — shows the tab it names. Reading it
+ * once on mount missed soft navigations within the page, which do not
+ * remount it. Clicking a tab writes the URL with history.replaceState, which
+ * Next keeps in sync with useSearchParams.
+ */
+function PhysicsLab(): JSX.Element {
+  // Typed nullable for the pages router; in the app router it is always present.
+  const tab = tabFromParam(useSearchParams()?.get("tab") ?? null);
+  const selectTab = (next: PhysicsTab): void => {
+    window.history.replaceState(null, "", urlForTab(window.location.href, next));
+  };
+  const active = PHYSICS_TABS.find(([id]) => id === tab);
+
+  return (
+    <>
+      <PhysicsTabNav tab={tab} onSelect={selectTab} />
+      {active ? (
+        <p className="px-5 pt-3 text-xs text-white/40 sm:px-6">{active[2]}</p>
       ) : null}
-      {tab === "transfer" ? (
-        <BoundaryTransferCanvas className="px-5 py-6 sm:px-6" />
-      ) : null}
+      <PhysicsTabPanel tab={tab} />
+    </>
+  );
+}
+
+/**
+ * useSearchParams needs a Suspense boundary: the route is prerendered without
+ * a query, so the server sends the badge and an empty tab strip slot, and the
+ * tab resolves on the client. The badge sits outside the boundary so "which
+ * model is this?" is answered on first paint; no panel chunk loads before
+ * the query is known.
+ */
+export default function KitchenLabPhysicsPage(): JSX.Element {
+  return (
+    <div className="ma-solver">
+      <div className="px-5 pt-5 sm:px-6">
+        <SystemBadge
+          system="real"
+          variant="banner"
+          counterpartHref="/kitchen-lab/alchm"
+          counterpartLabel="The alchm model of the same kitchen"
+        />
+      </div>
+      <style>{TAB_CSS}</style>
+      <Suspense fallback={null}>
+        <PhysicsLab />
+      </Suspense>
     </div>
   );
 }

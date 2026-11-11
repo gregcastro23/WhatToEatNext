@@ -379,6 +379,16 @@ const nextConfig = {
         destination: "/vault",
         permanent: true,
       },
+      // The standalone tilt-skillet batch planner was retired 2026-11-11; its
+      // circuit math now runs inside the Hermetic Vessel (SI tab here, alchm
+      // cauldron on /kitchen-lab/alchm). 308 by the owner's ruling. The
+      // tilt_skillet METHOD page is unaffected: the method grid links it by its
+      // key, /cooking-methods/tilt_skillet, which this source does not match.
+      {
+        source: "/cooking-methods/tilt-skillet",
+        destination: "/kitchen-lab/physics?tab=vessel",
+        permanent: true,
+      },
 
       // ── The Lab split ────────────────────────────────────────────────────
       // A single "Lab" section held eight routes spanning kitchen
