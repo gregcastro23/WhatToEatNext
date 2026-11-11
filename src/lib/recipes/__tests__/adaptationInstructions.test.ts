@@ -31,3 +31,24 @@ it("reads the actual historical seed sign/degree shape and never fabricates abse
   expect(() => readSavedChart(rows.map(row => ({ ...row, degree: undefined })), null)).toThrow("no usable saved chart");
   expect(() => readSavedChart(Array(5).fill(PLACEMENTS[0]), null)).toThrow("no usable saved chart");
 });
+
+it.each([
+  ["ground beef", "crumbled tempeh", "Brown the ground beef in olive oil.", "Brown the crumbled tempeh in olive oil."],
+  ["beef sirloin", "seitan", "Sear the beef sirloin until browned.", "Sear the seitan until browned."],
+  ["pork tenderloin", "smoked tempeh", "Slice the pork tenderloin thinly.", "Slice the smoked tempeh thinly."],
+  ["salmon fillet", "marinated tofu", "Bake the salmon fillet with herbs.", "Bake the marinated tofu with herbs."],
+  ["peeled shrimp", "hearts of palm", "Toss the peeled shrimp with lemon.", "Toss the hearts of palm with lemon."],
+])("supports verified vegetarian substitution from %s to %s", (fromName, toName, originalStep, expectedStep) => {
+  const source = prepareAdaptationSource({
+    ...sourceRecipe(),
+    ingredients: [{ name: fromName, amount: 250, unit: "g" }],
+    instructions: [originalStep],
+  });
+  expect(source.candidateSwaps[0]?.to.name).toBe(toName);
+  const applied = applyAdaptationProposal(
+    JSON.stringify({ ...PROPOSAL, instructions: [expectedStep] }),
+    source,
+    basis,
+  );
+  expect(applied.recipe.instructions).toEqual([expectedStep]);
+});

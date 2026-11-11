@@ -10,15 +10,22 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
+import { verifyAgentRatingSyncSweep } from "@/lib/spacetime/agentRatingProbe";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<Response> {
   const authResult = await validateAdminRequest(request);
   if ("error" in authResult) {
     return authResult.error;
   }
+
+  const { searchParams } = new URL(request.url);
+  const sampleAgentId = searchParams.get("agentId")?.trim() ?? undefined;
+  const agentRatingSync = await verifyAgentRatingSyncSweep(
+    sampleAgentId ? { sampleAgentId } : undefined,
+  );
 
   return NextResponse.json({
     success: true,
@@ -32,6 +39,7 @@ export async function GET(request: NextRequest) {
         NEXT_PUBLIC_SPACETIME_LIVE_CART: process.env.NEXT_PUBLIC_SPACETIME_LIVE_CART ?? null,
         NEXT_PUBLIC_SPACETIME_LIVE_FEED: process.env.NEXT_PUBLIC_SPACETIME_LIVE_FEED ?? null,
       },
+      agentRatingSync,
       timestamp: new Date().toISOString(),
       nodeEnv: process.env.NODE_ENV || null,
     },

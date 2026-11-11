@@ -18,6 +18,7 @@ import {
 } from "@/lib/feed/identity";
 import { _logger } from "@/lib/logger";
 import { invalidateCommunityAgentsCache } from "@/lib/redis";
+import { feedEmitTracker } from "@/services/feedEmitTracker";
 
 export interface FeedEvent {
   id: string;
@@ -291,6 +292,7 @@ class FeedDatabaseService {
               substitutions: Array.isArray(stampedPayload.substitutions) ? stampedPayload.substitutions : [],
               recipePayload: stampedPayload.recipePayload,
               unverifiedReadings: ["nutrition", "elemental", "esms", "planetary"],
+              ...(typeof stampedPayload.contentState === "string" ? { critiqueContentState: stampedPayload.contentState } : {}),
               ...(reflectionEconomyReceipt ? { economy: reflectionEconomyReceipt } : {}),
             },
             ...(client ? { client } : {}),
@@ -412,13 +414,11 @@ class FeedDatabaseService {
 
     fetch(`${PLANETARY_AGENTS_URL}/api/feed`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${internalSecret}`,
-      },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${internalSecret}` },
       body: JSON.stringify(payload),
     })
       .then(async (res) => {
+        feedEmitTracker.setLastEmit({ eventType: params.eventType, agentEmail, responseCode: res.status, timestamp: new Date().toISOString() });
         if (!res.ok) {
           const text = await res.text().catch(() => "");
           _logger.error(`[Webhook PA] Failed to push event to PA: ${res.status} ${text}`);
@@ -427,6 +427,7 @@ class FeedDatabaseService {
         }
       })
       .catch((err: unknown) => {
+        feedEmitTracker.setLastEmit({ eventType: params.eventType, agentEmail, responseCode: 0, timestamp: new Date().toISOString() });
         _logger.error("[Webhook PA] Error pushing to PA feed:", err);
       });
   }

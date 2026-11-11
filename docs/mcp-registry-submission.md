@@ -55,7 +55,7 @@ authenticate instead.)
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.gregcastro23/alchm-kitchen",
-  "description": "Thirteen culinary & food tools: transits, ingredients, recipes, synastry, grocery lists, substitutions, pantry recommendations, evidence snapshots and reflections.",
+  "description": "Thirteen culinary & astrological tools: transits, ingredients, recipes, synastry, pantry & swaps.",
   "version": "1.5.2",
   "repository": {
     "url": "https://github.com/gregcastro23/WhatToEatNext",

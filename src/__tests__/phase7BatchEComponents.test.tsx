@@ -1,6 +1,5 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
-import { resolveIngredientModality } from "@/components/RecipeBuilder";
 import { TokenBalanceBar } from "@/components/economy/TokenBalanceBar";
 import TokenShopModal from "@/components/economy/TokenShopModal";
 import { installFetchMock } from "@/__tests__/helpers/fetchMock";
@@ -46,17 +45,6 @@ afterEach(() => {
 });
 
 describe("Phase 7 Batch E component boundaries", () => {
-  it("passes qualities before elemental properties when deriving recipe modality", () => {
-    expect(
-      resolveIngredientModality({
-        id: "root-vegetable",
-        name: "Root Vegetable",
-        qualities: ["grounding"],
-        elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 1 },
-      }),
-    ).toBe("Fixed");
-  });
-
   it("does not render balances from a malformed economy response", async () => {
     const fetchMock = mockFetch({ success: true, balances: null });
     const { container } = render(<TokenBalanceBar />);

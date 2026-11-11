@@ -201,6 +201,7 @@ export async function POST(
           agentName: cleanName,
           dominantElement: agent.dominant_element ?? "Spirit",
           contentState,
+          mcpCatalog: true,
         },
         false,
         { share: true, explicit: true },

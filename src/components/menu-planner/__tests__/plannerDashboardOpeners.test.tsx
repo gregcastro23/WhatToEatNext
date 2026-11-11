@@ -48,7 +48,6 @@ jest.mock("next/dynamic", () => (load: () => unknown) => {
   }
   return () => null;
 });
-jest.mock("@/components/menu-builder/QuickActionsToolbar", () => () => null);
 jest.mock("@/components/menu-planner/redesign/FastStartCard", () => () => null);
 jest.mock("@/components/menu-planner/redesign/RedesignedDayCard", () => () => null);
 jest.mock("@/components/menu-planner/redesign/WeeklyInsights", () => () => null);

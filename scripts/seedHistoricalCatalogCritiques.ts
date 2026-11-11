@@ -37,7 +37,10 @@ import {
   publishSavedAdaptation,
   saveAdaptation,
 } from "../src/lib/recipes/savedAdaptationPersistence";
-import { SavedAdaptationSchema } from "../src/lib/recipes/savedAdaptationSchemas";
+import {
+  SUPPORTED_ADAPTATION_AGENTS,
+  SavedAdaptationSchema,
+} from "../src/lib/recipes/savedAdaptationSchemas";
 import { feedDatabase } from "../src/services/feedDatabaseService";
 import { LocalRecipeService } from "../src/services/LocalRecipeService";
 import type { Recipe } from "../src/types/recipe";
@@ -448,20 +451,8 @@ export function buildCatalogCritiqueText(params: {
   return `${firstSentence} ${secondSentence}`;
 }
 
-const VEGETARIAN_ADAPTATION_AGENTS = [
-  "leonardo-da-vinci",
-  "albert-einstein",
-  "jean-jacques-rousseau-1712",
-  "benjamin-franklin",
-  "siddhartha-gautama-buddha",
-  "socrates",
-  "joan-of-arc",
-  "thomas-aquinas",
-  "voltaire-1694",
-  "mahatma-gandhi",
-  "murasaki-shikibu",
-  "lao-tzu",
-];
+const VEGETARIAN_ADAPTATION_AGENTS: readonly string[] =
+  SUPPORTED_ADAPTATION_AGENTS;
 
 interface AdaptableCandidate {
   recipe: Recipe;
