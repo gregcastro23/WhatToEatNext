@@ -33,6 +33,7 @@ export interface BatchIngredient {
 export interface BatchStageInput {
   name?: string;
   ingredients: BatchIngredient[];
+  durationMinutes?: number;
 }
 
 export interface IngredientMatch {

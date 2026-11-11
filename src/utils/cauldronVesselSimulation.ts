@@ -14,6 +14,10 @@ import { ingredientsMap } from "@/data/ingredients";
 import { readVessel, type VesselReading } from "@/lib/cooking/thermoVessel";
 import type { VesselState } from "@/lib/cooking/vesselState";
 import {
+  computeStageTransformation,
+  type TransformationState,
+} from "./cauldronTransformation";
+import {
   computeCauldronCircuitWithCatalog,
   type BatchCircuit,
   type BatchStageInput,
@@ -50,6 +54,7 @@ export interface CauldronSimulation {
   reading: VesselReading;
   profile: CauldronVesselProfile;
   circuit: BatchCircuit;
+  transformation: TransformationState;
 }
 
 /** Run the cauldron: SI vessel reading → ruled profile → series circuit over the stages. */
@@ -66,5 +71,8 @@ export function simulateCauldron(
     buildIngredientElementalCatalog(),
     planetaryPositions,
   );
-  return { vessel, reading, profile, circuit };
+  const duration = vessel.durationMinutes ?? 15;
+  const transformation = computeStageTransformation(vessel, reading, duration);
+  circuit.transformation = transformation;
+  return { vessel, reading, profile, circuit, transformation };
 }

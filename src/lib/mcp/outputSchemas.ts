@@ -217,6 +217,8 @@ const hermeticCauldron = shape(
       humidityPct: number,
       headspaceC: number,
       surfaceWet: boolean,
+      sealMode: string,
+      durationMinutes: number,
     }),
     saturation: shape({
       tsatC: number,
@@ -239,6 +241,10 @@ const hermeticCauldron = shape(
       power: number,
     }),
     circuit: nullable(object),
+    hermeticOperation: object,
+    culinaryMatrix: object,
+    refluxRatio: number,
+    autogenousPressureKpa: number,
   },
   ["vessel", "saturation", "deficit", "regimes", "profile"],
 );

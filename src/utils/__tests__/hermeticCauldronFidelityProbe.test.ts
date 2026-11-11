@@ -11,6 +11,7 @@ import { readVessel } from "@/lib/cooking/thermoVessel";
 import { DEFAULT_VESSEL, VESSEL_RANGES, type VesselState } from "@/lib/cooking/vesselState";
 import { invokeTool, structuredToolContent } from "@/lib/mcp/tools";
 import { validateToolArguments, validateToolOutput } from "@/lib/mcp/validation";
+import { computeStageTransformation } from "@/utils/cauldronTransformation";
 import { cauldronVesselProfile } from "@/utils/cauldronVesselProfile";
 import { simulateCauldron } from "@/utils/cauldronVesselSimulation";
 
@@ -114,32 +115,10 @@ describe("Hermetic Cauldron Fidelity Probe", () => {
 
     it("Vector 5: multi-stage thermal shock and series circuit conservation laws", () => {
       const stages = [
-        {
-          name: "mirepoix sweat",
-          ingredients: [
-            { name: "onion", amount: 150, unit: "g" },
-            { name: "celery", amount: 100, unit: "g" },
-            { name: "carrot", amount: 100, unit: "g" },
-          ],
-        },
-        {
-          name: "cold stock deglaze",
-          ingredients: [
-            { name: "vegetable broth", amount: 500, unit: "ml" },
-            { name: "white wine", amount: 100, unit: "ml" },
-          ],
-        },
-        {
-          name: "dense legume load",
-          ingredients: [
-            { name: "lentils", amount: 200, unit: "g" },
-            { name: "chickpeas", amount: 200, unit: "g" },
-          ],
-        },
-        {
-          name: "reduction",
-          ingredients: [{ name: "tomato paste", amount: 50, unit: "g" }],
-        },
+        { name: "sweat", ingredients: [{ name: "onion", amount: 150, unit: "g" }, { name: "carrot", amount: 100, unit: "g" }] },
+        { name: "deglaze", ingredients: [{ name: "vegetable broth", amount: 500, unit: "ml" }] },
+        { name: "legumes", ingredients: [{ name: "lentils", amount: 200, unit: "g" }] },
+        { name: "reduction", ingredients: [{ name: "tomato paste", amount: 50, unit: "g" }] },
       ];
 
       const sim = simulateCauldron(stages, DEFAULT_VESSEL);
@@ -174,6 +153,42 @@ describe("Hermetic Cauldron Fidelity Probe", () => {
       expect(power).toBeGreaterThan(0);
       expect(Math.abs(power - p.voltage * p.current)).toBeLessThan(1e-6);
     });
+
+    it("Vector 6: hermetic seal transition from coagulation to circulatio at 100°C+", () => {
+      // 1. Open pot at 102 °C (rolling boil with aromatic loss and open concentration)
+      const openState: VesselState = {
+        temperatureC: 102,
+        pressureKpa: 101.325,
+        humidityPct: 50,
+        headspaceC: 25,
+        sealMode: "open",
+        durationMinutes: 25,
+      };
+      const openReading = readVessel(openState);
+      const openTrans = computeStageTransformation(openState, openReading, 25);
+
+      expect(openTrans.operation.id).toBe("coagulation");
+      expect(openTrans.matrix.volatileAromaticRetentionPct).toBeLessThan(60);
+      expect(openTrans.matrix.reductionConcentrationFactor).toBeGreaterThan(1.15);
+      expect(openReading.refluxRatio).toBe(0.0);
+
+      // 2. Sealed pot (Vas Hermeticum) at 102 °C (closed reflux, aromatic preservation)
+      const sealedState: VesselState = {
+        temperatureC: 102,
+        pressureKpa: 101.325,
+        humidityPct: 50,
+        headspaceC: 25,
+        sealMode: "hermetic_sealed",
+        durationMinutes: 25,
+      };
+      const sealedReading = readVessel(sealedState);
+      const sealedTrans = computeStageTransformation(sealedState, sealedReading, 25);
+
+      expect(sealedTrans.operation.id).toBe("circulatio");
+      expect(sealedTrans.matrix.volatileAromaticRetentionPct).toBeGreaterThan(92);
+      expect(sealedReading.refluxRatio).toBeGreaterThanOrEqual(0.95);
+      expect(sealedTrans.matrix.collagenHydrolysisPct).toBeGreaterThan(0);
+    });
   });
 
   describe("500-Point Thermodynamic & Kinetic Grid Sweep", () => {
@@ -197,35 +212,19 @@ describe("Hermetic Cauldron Fidelity Probe", () => {
             // Assert finite, non-negative physical readings
             expect(Number.isFinite(reading.saturation.tsatC)).toBe(true);
             expect(reading.saturation.tsatC).toBeGreaterThan(0);
-
             expect(Number.isFinite(reading.surfaceVaporKpa)).toBe(true);
             expect(reading.surfaceVaporKpa).toBeGreaterThanOrEqual(0);
-
             expect(Number.isFinite(reading.headspaceVaporKpa)).toBe(true);
             expect(reading.headspaceVaporKpa).toBeGreaterThanOrEqual(0);
-
             expect(Number.isFinite(reading.latentVsSeaLevel)).toBe(true);
             expect(reading.latentVsSeaLevel).toBeGreaterThan(0);
 
             // Assert kinetic profile fields 0 <= val <= 1
             const p = profile.profile;
-            expect(p.voltage).toBeGreaterThanOrEqual(0);
-            expect(p.voltage).toBeLessThanOrEqual(1);
-
-            expect(p.current).toBeGreaterThanOrEqual(0);
-            expect(p.current).toBeLessThanOrEqual(1);
-
-            expect(p.resistance).toBeGreaterThanOrEqual(0);
-            expect(p.resistance).toBeLessThanOrEqual(1);
-
-            expect(p.velocityFactor).toBeGreaterThanOrEqual(0);
-            expect(p.velocityFactor).toBeLessThanOrEqual(1);
-
-            expect(p.momentumRetention).toBeGreaterThanOrEqual(0);
-            expect(p.momentumRetention).toBeLessThanOrEqual(1);
-
-            expect(p.forceImpact).toBeGreaterThanOrEqual(0);
-            expect(p.forceImpact).toBeLessThanOrEqual(1);
+            for (const val of [p.voltage, p.current, p.resistance, p.velocityFactor, p.momentumRetention, p.forceImpact]) {
+              expect(val).toBeGreaterThanOrEqual(0);
+              expect(val).toBeLessThanOrEqual(1);
+            }
           }
         }
       }
@@ -238,14 +237,17 @@ describe("Hermetic Cauldron Fidelity Probe", () => {
   describe("MCP Tool Contract & Boundary Fuzzing", () => {
     it("executes simulate_hermetic_cauldron directly and validates schema conformance", async () => {
       const res = await invokeTool("simulate_hermetic_cauldron", {
-        setpointC: 110,
-        pressureKpa: 143.27,
-        relativeHumidityPct: 70,
+        setpointC: 118,
+        pressureKpa: 200,
+        sealMode: "hermetic_sealed",
+        durationMinutes: 30,
         surfaceWet: true,
       });
 
       expect(res.ok).toBe(true);
-      expect(res.data).not.toBeNull();
+      expect(res.data?.hermeticOperation?.id).toBe("circulatio");
+      expect(res.data?.culinaryMatrix?.volatileAromaticRetentionPct).toBeGreaterThan(92);
+      expect(res.data?.refluxRatio).toBeGreaterThanOrEqual(0.95);
       const outputError = validateToolOutput(
         "simulate_hermetic_cauldron",
         structuredToolContent(res),

@@ -238,6 +238,17 @@ export const TOOL_INPUT_SCHEMAS = {
       type: "boolean",
       description: "Whether the cooking surface is currently wet. Default true.",
     },
+    sealMode: {
+      type: "string",
+      enum: ["open", "hermetic_sealed", "pressure_regulated", "vacuum_pumped"],
+      description: "Boundary seal mode. Default 'open'.",
+    },
+    durationMinutes: {
+      type: "number",
+      minimum: 1,
+      maximum: 720,
+      description: "Cooking duration in minutes. Default 15.",
+    },
     stages: {
       type: "array",
       description: "Optional array of cauldron cooking stages with ingredients and amounts.",

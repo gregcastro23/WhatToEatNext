@@ -34,6 +34,7 @@ import {
 } from "./cauldronIngredients";
 import { calculateMethodSpecificKinetics } from "./cookingMethodKinetics";
 import { deriveESMSFromElemental } from "./quantityScaling";
+import type { TransformationState } from "./cauldronTransformation";
 
 export {
   blendStageElementalWithCatalog,
@@ -77,6 +78,7 @@ export interface StageCircuit {
   powerLosses: number;
   efficiency: number;
   kinetics: KineticMetrics;
+  transformation?: TransformationState;
 }
 
 export interface SeriesCircuit {
@@ -95,6 +97,7 @@ export interface SeriesCircuit {
 export interface BatchCircuit {
   stages: StageCircuit[];
   series: SeriesCircuit;
+  transformation?: TransformationState;
 }
 
 /** A stage's display name; a blank name falls back to its position, as an absent one does. */

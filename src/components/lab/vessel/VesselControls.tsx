@@ -3,12 +3,15 @@
 import {
   VESSEL_PRESETS,
   VESSEL_RANGES,
+  type NumericVesselKey,
+  type SealMode,
   type VesselState,
 } from "@/lib/cooking/vesselState";
 import type { JSX } from "react";
 
 /**
- * The four inputs of the Hermetic Vessel, plus three presets.
+ * The controls of the Hermetic Vessel: seal boundary mode, four SI inputs,
+ * cook duration, and four presets.
  *
  * Shared by both kitchen-lab pages, so the alchm simulator is driven by the
  * very same controls as the SI panel rather than a lookalike copy.
@@ -17,7 +20,7 @@ import type { JSX } from "react";
  */
 
 interface SliderSpec {
-  key: keyof VesselState;
+  key: NumericVesselKey;
   label: string;
   unit: string;
   digits: number;
@@ -28,6 +31,14 @@ const SLIDERS: readonly SliderSpec[] = [
   { key: "temperatureC", label: "Vessel temperature", unit: "°C", digits: 0 },
   { key: "humidityPct", label: "Headspace humidity", unit: "% RH", digits: 0 },
   { key: "headspaceC", label: "Headspace air temperature", unit: "°C", digits: 0 },
+  { key: "durationMinutes", label: "Cook duration", unit: "min", digits: 0 },
+];
+
+const SEAL_MODES: ReadonlyArray<{ id: SealMode; label: string }> = [
+  { id: "open", label: "Open Cauldron" },
+  { id: "hermetic_sealed", label: "Hermetic Reflux (Vas Hermeticum)" },
+  { id: "pressure_regulated", label: "Pressure Autoclave" },
+  { id: "vacuum_pumped", label: "Vacuum Still" },
 ];
 
 function Slider({
@@ -37,7 +48,7 @@ function Slider({
 }: {
   spec: SliderSpec;
   value: number;
-  onChange: (key: keyof VesselState, value: number) => void;
+  onChange: (key: NumericVesselKey, value: number) => void;
 }): JSX.Element {
   const range = VESSEL_RANGES[spec.key];
   const id = `vessel-${spec.key}`;
@@ -69,18 +80,44 @@ function Slider({
   );
 }
 
-export function VesselControls({
-  vessel,
-  onPatch,
-  onPreset,
+function SealModeSelector({
+  activeSeal,
+  onSelect,
 }: {
-  vessel: VesselState;
-  onPatch: (patch: Partial<VesselState>) => void;
-  onPreset: (state: VesselState) => void;
+  activeSeal: SealMode;
+  onSelect: (sealMode: SealMode) => void;
 }): JSX.Element {
-  const handle = (key: keyof VesselState, value: number): void => onPatch({ [key]: value });
   return (
-    <div className="space-y-4">
+    <div>
+      <span className="mb-1.5 block text-[10px] uppercase tracking-wider text-white/40">
+        Hermetic Boundary Condition
+      </span>
+      <div className="flex flex-wrap gap-2" role="group" aria-label="Hermetic seal mode">
+        {SEAL_MODES.map((mode) => (
+          <button
+            key={mode.id}
+            type="button"
+            onClick={() => onSelect(mode.id)}
+            className={`rounded border px-3 py-1.5 text-xs tracking-wide transition-colors ${
+              activeSeal === mode.id
+                ? "border-[var(--accent,#f0b35a)] bg-[var(--accent,#f0b35a)]/15 text-white font-medium"
+                : "border-white/15 bg-white/[0.03] text-white/70 hover:border-white/35 hover:text-white"
+            }`}
+          >
+            {mode.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PresetButtons({ onPreset }: { onPreset: (state: VesselState) => void }): JSX.Element {
+  return (
+    <div>
+      <span className="mb-1.5 block text-[10px] uppercase tracking-wider text-white/40">
+        Vessel Presets
+      </span>
       <div className="flex flex-wrap gap-2" role="group" aria-label="Vessel presets">
         {VESSEL_PRESETS.map((preset) => (
           <button
@@ -93,9 +130,34 @@ export function VesselControls({
           </button>
         ))}
       </div>
+    </div>
+  );
+}
+
+export function VesselControls({
+  vessel,
+  onPatch,
+  onPreset,
+}: {
+  vessel: VesselState;
+  onPatch: (patch: Partial<VesselState>) => void;
+  onPreset: (state: VesselState) => void;
+}): JSX.Element {
+  const handle = (key: NumericVesselKey, value: number): void => onPatch({ [key]: value });
+  const activeSeal = vessel.sealMode ?? "open";
+
+  return (
+    <div className="space-y-4">
+      <SealModeSelector activeSeal={activeSeal} onSelect={(sealMode) => onPatch({ sealMode })} />
+      <PresetButtons onPreset={onPreset} />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {SLIDERS.map((spec) => (
-          <Slider key={spec.key} spec={spec} value={vessel[spec.key]} onChange={handle} />
+          <Slider
+            key={spec.key}
+            spec={spec}
+            value={vessel[spec.key] ?? (spec.key === "durationMinutes" ? 15 : 0)}
+            onChange={handle}
+          />
         ))}
       </div>
     </div>

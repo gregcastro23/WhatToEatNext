@@ -15,6 +15,8 @@
  * @file src/lib/cooking/vesselState.ts
  */
 
+export type SealMode = "open" | "hermetic_sealed" | "pressure_regulated" | "vacuum_pumped";
+
 export interface VesselState {
   /** Absolute vessel pressure, kPa. */
   pressureKpa: number;
@@ -24,6 +26,10 @@ export interface VesselState {
   humidityPct: number;
   /** Temperature of the headspace gas the humidity refers to, °C. */
   headspaceC: number;
+  /** Boundary seal condition. Defaults to "open". */
+  sealMode?: SealMode;
+  /** Stage or hold duration in minutes. Defaults to 15. */
+  durationMinutes?: number;
 }
 
 export interface ControlRange {
@@ -32,11 +38,19 @@ export interface ControlRange {
   step: number;
 }
 
-export const VESSEL_RANGES: Readonly<Record<keyof VesselState, ControlRange>> = {
+export type NumericVesselKey =
+  | "pressureKpa"
+  | "temperatureC"
+  | "humidityPct"
+  | "headspaceC"
+  | "durationMinutes";
+
+export const VESSEL_RANGES: Readonly<Record<NumericVesselKey, ControlRange>> = {
   pressureKpa: { min: 10, max: 250, step: 0.5 },
   temperatureC: { min: 20, max: 260, step: 1 },
   humidityPct: { min: 0, max: 100, step: 1 },
   headspaceC: { min: 5, max: 260, step: 1 },
+  durationMinutes: { min: 1, max: 720, step: 1 },
 };
 
 /**
@@ -49,6 +63,8 @@ export const DEFAULT_VESSEL: Readonly<VesselState> = {
   temperatureC: 100,
   humidityPct: 50,
   headspaceC: 25,
+  sealMode: "open",
+  durationMinutes: 15,
 };
 
 /** One preset vessel, so a cook can jump to a recognisable configuration. */
@@ -67,10 +83,10 @@ export interface VesselPreset {
  * preset shows the saturation ceiling rather than an arbitrary temperature.
  */
 export const VESSEL_PRESETS: readonly VesselPreset[] = [
-  { id: "open", label: "Classic Simmer", state: { pressureKpa: 101.325, temperatureC: 100, humidityPct: 50, headspaceC: 25 } },
-  { id: "sealed", label: "Pressure Autoclave", state: { pressureKpa: 205, temperatureC: 121, humidityPct: 100, headspaceC: 121 } },
-  { id: "vacuum", label: "Vacuum Hydrosol", state: { pressureKpa: 20, temperatureC: 60, humidityPct: 30, headspaceC: 25 } },
-  { id: "dry_sear", label: "Dry Maillard Roast", state: { pressureKpa: 101.325, temperatureC: 185, humidityPct: 12, headspaceC: 25 } },
+  { id: "open", label: "Classic Simmer", state: { pressureKpa: 101.325, temperatureC: 100, humidityPct: 50, headspaceC: 25, sealMode: "open", durationMinutes: 30 } },
+  { id: "sealed", label: "Pressure Autoclave", state: { pressureKpa: 205, temperatureC: 121, humidityPct: 100, headspaceC: 121, sealMode: "pressure_regulated", durationMinutes: 45 } },
+  { id: "vacuum", label: "Vacuum Hydrosol", state: { pressureKpa: 20, temperatureC: 60, humidityPct: 30, headspaceC: 25, sealMode: "vacuum_pumped", durationMinutes: 20 } },
+  { id: "dry_sear", label: "Dry Maillard Roast", state: { pressureKpa: 101.325, temperatureC: 185, humidityPct: 12, headspaceC: 25, sealMode: "open", durationMinutes: 15 } },
 ];
 
 function clampTo(value: number, range: ControlRange): number {
@@ -78,12 +94,36 @@ function clampTo(value: number, range: ControlRange): number {
   return Math.min(range.max, Math.max(range.min, value));
 }
 
+const VALID_SEAL_MODES: readonly SealMode[] = [
+  "open",
+  "hermetic_sealed",
+  "pressure_regulated",
+  "vacuum_pumped",
+];
+
 /** Clamp every field into its control range; non-finite inputs fall to the range floor. */
-export function clampVesselState(state: VesselState): VesselState {
+export function clampVesselState(state: {
+  pressureKpa: number;
+  temperatureC: number;
+  humidityPct: number;
+  headspaceC: number;
+  sealMode?: SealMode;
+  durationMinutes?: number;
+}): VesselState {
+  const sealMode =
+    state.sealMode !== undefined && VALID_SEAL_MODES.includes(state.sealMode)
+      ? state.sealMode
+      : "open";
+  const duration =
+    typeof state.durationMinutes === "number" && Number.isFinite(state.durationMinutes)
+      ? clampTo(state.durationMinutes, VESSEL_RANGES.durationMinutes)
+      : DEFAULT_VESSEL.durationMinutes ?? 15;
   return {
     pressureKpa: clampTo(state.pressureKpa, VESSEL_RANGES.pressureKpa),
     temperatureC: clampTo(state.temperatureC, VESSEL_RANGES.temperatureC),
     humidityPct: clampTo(state.humidityPct, VESSEL_RANGES.humidityPct),
     headspaceC: clampTo(state.headspaceC, VESSEL_RANGES.headspaceC),
+    sealMode,
+    durationMinutes: duration,
   };
 }

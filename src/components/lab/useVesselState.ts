@@ -27,6 +27,8 @@ const StoredVesselSchema = z.object({
   temperatureC: z.number(),
   humidityPct: z.number(),
   headspaceC: z.number(),
+  sealMode: z.enum(["open", "hermetic_sealed", "pressure_regulated", "vacuum_pumped"]).optional(),
+  durationMinutes: z.number().optional(),
 });
 
 let current: VesselState = { ...DEFAULT_VESSEL };
@@ -37,7 +39,13 @@ function readStored(): VesselState | null {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (raw === null) return null;
     const parsed = StoredVesselSchema.safeParse(JSON.parse(raw));
-    return parsed.success ? clampVesselState(parsed.data) : null;
+    if (!parsed.success) return null;
+    const { sealMode, durationMinutes, ...rest } = parsed.data;
+    return clampVesselState({
+      ...rest,
+      ...(sealMode !== undefined ? { sealMode } : {}),
+      ...(durationMinutes !== undefined ? { durationMinutes } : {}),
+    });
   } catch {
     return null;
   }
