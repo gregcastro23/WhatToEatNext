@@ -159,4 +159,72 @@ describe("SearchGapsPanel", () => {
       );
     });
   });
+
+  it("supports multi-select checkbox controls and batch-drafting high-velocity gaps", async () => {
+    const fetchMock = jest.fn().mockImplementation(async (url: string, init?: RequestInit) => {
+      if (typeof init?.method === "string" && init.method === "PATCH") {
+        const body = JSON.parse(String(init.body));
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            success: true,
+            action: "queue_cosmic_recipe",
+            normalizedQuery: body.normalizedQuery,
+            resolvedEntitySlug: `cosmic-recipe:${body.normalizedQuery}`,
+          }),
+        };
+      }
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          success: true,
+          generatedAt: "2026-11-11T12:00:00.000Z",
+          totals: { unresolvedQueries: 2, unresolvedHits: 18, resolvedQueries: 0 },
+          gaps: [
+            {
+              id: "gap-1",
+              normalizedQuery: "galangal",
+              sampleRawQuery: "Fresh Galangal",
+              hitCount: 10,
+              firstSeenAt: new Date(Date.now() - 3600_000).toISOString(),
+              lastSeenAt: new Date(Date.now() - 600_000).toISOString(),
+              topFilters: [],
+              resolvedAt: null,
+              resolvedEntitySlug: null,
+            },
+            {
+              id: "gap-2",
+              normalizedQuery: "lemongrass",
+              sampleRawQuery: "Lemongrass",
+              hitCount: 8,
+              firstSeenAt: new Date(Date.now() - 3600_000).toISOString(),
+              lastSeenAt: new Date(Date.now() - 600_000).toISOString(),
+              topFilters: [],
+              resolvedAt: null,
+              resolvedEntitySlug: null,
+            },
+          ],
+        }),
+      };
+    });
+    installFetchMock(fetchMock);
+
+    render(<SearchGapsPanel />);
+
+    await waitFor(() =>
+      expect(screen.getByText("Select All High-Velocity")).toBeInTheDocument(),
+    );
+
+    fireEvent.click(screen.getByText("Select All High-Velocity"));
+
+    expect(screen.getByText("Draft Selected (2)")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("Draft Selected (2)"));
+
+    await waitFor(() => {
+      expect(screen.getByText(/Batch drafted 2 recipe\(s\) into pipeline/)).toBeInTheDocument();
+    });
+  });
 });

@@ -1,7 +1,7 @@
 import {
   toEngineElementalAffinity,
   toStandardElementalAffinity,
-} from "@/utils/alchemicalAdapters";
+} from "./helpers/alchemicalAdapters";
 
 describe("alchemical affinity adapters", () => {
   it("uses a complete canonical fallback for an absent engine payload", () => {

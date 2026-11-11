@@ -2,7 +2,7 @@
  * Tests for ElementalCalculator.ts — match score calculation between
  * elemental properties and current elemental state.
  */
-import { calculateMatchScore } from "@/utils/ElementalCalculator";
+import { calculateMatchScore } from "../../../tests/helpers/ElementalCalculator";
 
 describe("calculateMatchScore", () => {
   const balanced = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };

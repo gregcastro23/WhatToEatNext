@@ -7,7 +7,7 @@ jest.mock("@/lib/logger", () => ({
   },
 }));
 
-import { PlanetaryAPIClient } from "@/lib/planetary-api-client";
+import { PlanetaryAPIClient } from "./helpers/planetary-api-client";
 
 const originalFetch = global.fetch;
 

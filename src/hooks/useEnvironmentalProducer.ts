@@ -37,11 +37,13 @@
  */
 
 import { useEffect, useRef } from "react";
+import { z } from "zod";
 import {
   usePublishEnvironmentalObservation,
   type ElevationProvenance,
 } from "@/hooks/useEnvironmentalObservation";
 import { useUserLocation, type UserLocation } from "@/hooks/useUserLocation";
+import { readJson } from "@/lib/api/json";
 import { elevationBasisToProvenance } from "@/lib/environment/elevationProvenance";
 import { isLiveEnvironmentEnabled } from "@/lib/spacetime/config";
 
@@ -123,12 +125,12 @@ export interface UseEnvironmentalProducerOptions {
  * happy path: it is parsed JSON from a network call, and asserting the shape
  * would convert a runtime surprise into unchecked member access.
  */
-interface EnvironmentLookupResponse {
-  success?: unknown;
-  elevationM?: unknown;
-  elevationBasis?: unknown;
-  pressureMedianKpa?: unknown;
-}
+const EnvironmentLookupResponseSchema = z.object({
+  success: z.boolean().optional(),
+  elevationM: z.number().optional(),
+  elevationBasis: z.string().optional(),
+  pressureMedianKpa: z.number().optional(),
+});
 
 /** Room-condition inputs, all of which are absent until hardware supplies them. */
 interface RoomOverrides {
@@ -159,7 +161,7 @@ async function readingFromLookup(
   const res = await fetch(`/api/environment/lookup?${query}`);
   if (!res.ok) return null;
 
-  const data = (await res.json()) as EnvironmentLookupResponse;
+  const data = await readJson(res, { parse: EnvironmentLookupResponseSchema.parse });
   if (data.success !== true || typeof data.elevationM !== "number") return null;
 
   const basis = typeof data.elevationBasis === "string" ? data.elevationBasis : null;

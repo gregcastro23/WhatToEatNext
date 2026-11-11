@@ -1,7 +1,7 @@
 import { VALID_SEASONS, type Season } from "@/constants/seasons";
 import type { ElementalProperties } from "@/types/alchemy";
-import { LUNAR_PHASES, type LunarPhase } from "./constants";
-import type { Recipe, RecipeIngredient } from "./recipe";
+import { LUNAR_PHASES, type LunarPhase } from "@/types/constants";
+import type { Recipe, RecipeIngredient } from "@/types/recipe";
 
 /**
  * 🚀 Phase, 10: ExtendedRecipe Interface - Complete Property Access Support

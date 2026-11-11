@@ -55,7 +55,7 @@ async function clientWithBackend() {
   process.env.NEXT_PUBLIC_BACKEND_URL = "https://backend.invalid";
   process.env.NEXT_PUBLIC_TOKENS_BACKEND = "true";
   jest.resetModules();
-  const { TokensClient } = await import("@/services/TokensClient");
+  const { TokensClient } = await import("../../../tests/helpers/TokensClient");
   return new TokensClient();
 }
 
@@ -141,7 +141,7 @@ describe("TokensClient — no fabricated quantities", () => {
     process.env.NEXT_PUBLIC_TOKENS_BACKEND = "false";
     jest.resetModules();
     const [{ TokensClient }, { getCurrentAlchemicalState }] = await Promise.all([
-      import("@/services/TokensClient"),
+      import("../../../tests/helpers/TokensClient"),
       import("@/services/RealAlchemizeService"),
     ]);
     const engine = getCurrentAlchemicalState();

@@ -1,4 +1,4 @@
-import { toExtendedRecipe } from "@/types/ExtendedRecipe";
+import { toExtendedRecipe } from "./helpers/ExtendedRecipe";
 import type { Recipe } from "@/types";
 
 function makeRecipe(overrides: Partial<Recipe> = {}): Recipe {
