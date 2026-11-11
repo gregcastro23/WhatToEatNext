@@ -12,8 +12,15 @@ import { readVessel, type VesselReading } from "@/lib/cooking/thermoVessel";
 import {
   DEFAULT_VESSEL,
   VESSEL_RANGES,
+  type SealMode,
   type VesselState,
 } from "@/lib/cooking/vesselState";
+import {
+  computeStageTransformation,
+  type CulinaryMatrix,
+  type HermeticOperationInfo,
+  type TransformationState,
+} from "@/utils/cauldronTransformation";
 import {
   type BatchCircuit,
   type BatchStageInput,
@@ -32,6 +39,8 @@ export interface HermeticCauldronOutput {
     humidityPct: number;
     headspaceC: number;
     surfaceWet: boolean;
+    sealMode?: SealMode;
+    durationMinutes?: number;
   };
   saturation: {
     tsatC: number;
@@ -61,6 +70,10 @@ export interface HermeticCauldronOutput {
     power: number;
   };
   circuit: BatchCircuit | null;
+  hermeticOperation?: HermeticOperationInfo;
+  culinaryMatrix?: CulinaryMatrix;
+  refluxRatio?: number;
+  autogenousPressureKpa?: number;
 }
 
 export interface CauldronToolResult {
@@ -86,16 +99,12 @@ function extractStages(raw: unknown): BatchStageInput[] {
   const validStages: BatchStageInput[] = [];
   for (const item of raw) {
     if (!isRecord(item)) continue;
-    const rawIngredients = Array.isArray(item.ingredients)
-      ? item.ingredients
-      : [];
-    const ingredients = rawIngredients
-      .filter(isRecord)
-      .map((ing) => ({
-        name: typeof ing.name === "string" ? ing.name : "unnamed",
-        amount: typeof ing.amount === "number" ? Math.max(0, ing.amount) : 1,
-        unit: typeof ing.unit === "string" ? ing.unit : "unit",
-      }));
+    const rawIngs = Array.isArray(item.ingredients) ? item.ingredients : [];
+    const ingredients = rawIngs.filter(isRecord).map((ing) => ({
+      name: typeof ing.name === "string" ? ing.name : "unnamed",
+      amount: typeof ing.amount === "number" ? Math.max(0, ing.amount) : 1,
+      unit: typeof ing.unit === "string" ? ing.unit : "unit",
+    }));
     validStages.push({
       ...(typeof item.name === "string" ? { name: item.name } : {}),
       ingredients,
@@ -104,49 +113,25 @@ function extractStages(raw: unknown): BatchStageInput[] {
   return validStages;
 }
 
+function isSealMode(val: unknown): val is SealMode {
+  return val === "open" || val === "hermetic_sealed" || val === "pressure_regulated" || val === "vacuum_pumped";
+}
+
 function buildVesselState(args: Record<string, unknown>): VesselState {
-  const setpointC =
-    typeof args.setpointC === "number"
-      ? args.setpointC
-      : typeof args.temperatureC === "number"
-        ? args.temperatureC
-        : DEFAULT_VESSEL.temperatureC;
-  const pressureKpa =
-    typeof args.pressureKpa === "number"
-      ? args.pressureKpa
-      : DEFAULT_VESSEL.pressureKpa;
-  const humidityPct =
-    typeof args.relativeHumidityPct === "number"
-      ? args.relativeHumidityPct
-      : typeof args.humidityPct === "number"
-        ? args.humidityPct
-        : DEFAULT_VESSEL.humidityPct;
-  const headspaceC =
-    typeof args.headspaceC === "number"
-      ? args.headspaceC
-      : DEFAULT_VESSEL.headspaceC;
+  const setpointC = typeof args.setpointC === "number" ? args.setpointC : typeof args.temperatureC === "number" ? args.temperatureC : DEFAULT_VESSEL.temperatureC;
+  const pressureKpa = typeof args.pressureKpa === "number" ? args.pressureKpa : DEFAULT_VESSEL.pressureKpa;
+  const humidityPct = typeof args.relativeHumidityPct === "number" ? args.relativeHumidityPct : typeof args.humidityPct === "number" ? args.humidityPct : DEFAULT_VESSEL.humidityPct;
+  const headspaceC = typeof args.headspaceC === "number" ? args.headspaceC : DEFAULT_VESSEL.headspaceC;
+  const sealMode = isSealMode(args.sealMode) ? args.sealMode : undefined;
+  const durationMinutes = typeof args.durationMinutes === "number" && Number.isFinite(args.durationMinutes) ? clamp(args.durationMinutes, 1, 720) : 15;
 
   return {
-    temperatureC: clamp(
-      setpointC,
-      VESSEL_RANGES.temperatureC.min,
-      VESSEL_RANGES.temperatureC.max,
-    ),
-    pressureKpa: clamp(
-      pressureKpa,
-      VESSEL_RANGES.pressureKpa.min,
-      VESSEL_RANGES.pressureKpa.max,
-    ),
-    humidityPct: clamp(
-      humidityPct,
-      VESSEL_RANGES.humidityPct.min,
-      VESSEL_RANGES.humidityPct.max,
-    ),
-    headspaceC: clamp(
-      headspaceC,
-      VESSEL_RANGES.headspaceC.min,
-      VESSEL_RANGES.headspaceC.max,
-    ),
+    temperatureC: clamp(setpointC, VESSEL_RANGES.temperatureC.min, VESSEL_RANGES.temperatureC.max),
+    pressureKpa: clamp(pressureKpa, VESSEL_RANGES.pressureKpa.min, VESSEL_RANGES.pressureKpa.max),
+    humidityPct: clamp(humidityPct, VESSEL_RANGES.humidityPct.min, VESSEL_RANGES.humidityPct.max),
+    headspaceC: clamp(headspaceC, VESSEL_RANGES.headspaceC.min, VESSEL_RANGES.headspaceC.max),
+    ...(sealMode !== undefined ? { sealMode } : {}),
+    durationMinutes,
   };
 }
 
@@ -154,19 +139,8 @@ function formatRegimes(
   reading: VesselReading,
   surfaceWet: boolean,
 ): HermeticCauldronOutput["regimes"] {
-  const activeRegimes = surfaceWet
-    ? reading.regimesWhileWet
-    : reading.aboveCeiling
-      ? reading.regimesOnceDry
-      : reading.regimesWhileWet;
-  return activeRegimes.map((regime) => ({
-    id: regime.id,
-    label: regime.label,
-    moisture: regime.moisture,
-    onsetC: regime.onsetC,
-    endC: regime.endC,
-    note: regime.note,
-  }));
+  const list = surfaceWet ? reading.regimesWhileWet : reading.aboveCeiling ? reading.regimesOnceDry : reading.regimesWhileWet;
+  return list.map((r) => ({ id: r.id, label: r.label, moisture: r.moisture, onsetC: r.onsetC, endC: r.endC, note: r.note }));
 }
 
 function assembleCauldronOutput(
@@ -176,6 +150,7 @@ function assembleCauldronOutput(
   profileWithMappings: CauldronVesselProfile,
   circuit: BatchCircuit | null,
   regimes: HermeticCauldronOutput["regimes"],
+  transformation: TransformationState,
 ): HermeticCauldronOutput {
   const power =
     profileWithMappings.profile.voltage * profileWithMappings.profile.current;
@@ -186,6 +161,8 @@ function assembleCauldronOutput(
       humidityPct: vessel.humidityPct,
       headspaceC: vessel.headspaceC,
       surfaceWet,
+      sealMode: vessel.sealMode ?? "open",
+      durationMinutes: vessel.durationMinutes ?? 15,
     },
     saturation: {
       tsatC: reading.saturation.tsatC,
@@ -208,6 +185,10 @@ function assembleCauldronOutput(
       power,
     },
     circuit,
+    hermeticOperation: transformation.operation,
+    culinaryMatrix: transformation.matrix,
+    refluxRatio: reading.refluxRatio,
+    autogenousPressureKpa: reading.autogenousPressureKpa,
   };
 }
 
@@ -221,9 +202,11 @@ export function simulateHermeticCauldronHandler(
 ): CauldronToolResult {
   const vessel = buildVesselState(args);
   const surfaceWet = typeof args.surfaceWet === "boolean" ? args.surfaceWet : true;
-  const reading = readVessel(vessel);
+  const reading = readVessel(vessel, { surfaceWet });
   const profileWithMappings = cauldronVesselProfile(vessel, reading);
   const stages = extractStages(args.stages);
+  const duration = vessel.durationMinutes ?? 15;
+  const transformation = computeStageTransformation(vessel, reading, duration);
   const circuit: BatchCircuit | null =
     stages.length > 0 ? simulateCauldron(stages, vessel).circuit : null;
   const power =
@@ -236,6 +219,7 @@ export function simulateHermeticCauldronHandler(
     profileWithMappings,
     circuit,
     regimes,
+    transformation,
   );
 
   return {
@@ -244,6 +228,11 @@ export function simulateHermeticCauldronHandler(
     summary: {
       temperatureC: vessel.temperatureC,
       pressureKpa: vessel.pressureKpa,
+      sealMode: vessel.sealMode ?? "open",
+      hermeticOperation: transformation.operation.id,
+      collagenHydrolysisPct: transformation.matrix.collagenHydrolysisPct,
+      volatileAromaticRetentionPct: transformation.matrix.volatileAromaticRetentionPct,
+      reductionConcentrationFactor: transformation.matrix.reductionConcentrationFactor,
       boilingState: reading.boilingState,
       power,
       hasCircuit: circuit !== null,
