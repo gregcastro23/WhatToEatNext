@@ -172,7 +172,8 @@ describe("activePrimaryFromPathname", () => {
   });
 
   it("does not confuse /tilt or other /t* routes with the /t/ token cluster", () => {
-    // /cooking-methods/tilt-skillet must stay in discover, not commensal.
+    // /cooking-methods/tilt-skillet (now a redirect to the vessel tab, still a
+    // /t-prefixed segment) must stay in discover, not commensal.
     expect(activePrimaryFromPathname("/cooking-methods/tilt-skillet")).toBe("discover");
   });
 

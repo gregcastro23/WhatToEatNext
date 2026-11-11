@@ -3,7 +3,9 @@
  * (featureCharge.ts) and the vault's price list so the two cannot drift. Pure
  * data: safe to import from client components.
  *
- * Base totals are the owner's ruling of 2026-09-28. A base is a TOTAL across
+ * Base totals are the owner's ruling of 2026-09-28. The tilt-skillet batch
+ * plan (5) was retired with its planner on 2026-11-11 (owner ruling); its
+ * successor, the Hermetic Vessel cauldron, runs client-side and is free. A base is a TOTAL across
  * Spirit, Essence, Matter and Substance (the convention of
  * database/init/40), scaled per axis at charge time by the caller's natal chart
  * and the current sky.
@@ -14,36 +16,31 @@
 export type ChargedFeature =
   | "alchemicalMidpoint"
   | "groupRecommendations"
-  | "dailyInsight"
-  | "tiltSkillet";
+  | "dailyInsight";
 
 /** Base ESMS total per use (owner ruling 2026-09-28). */
 export const FEATURE_BASE_ESMS: Readonly<Record<ChargedFeature, number>> = {
   alchemicalMidpoint: 3,
   groupRecommendations: 5,
   dailyInsight: 2,
-  tiltSkillet: 5,
 };
 
 export const FEATURE_LABEL: Readonly<Record<ChargedFeature, string>> = {
   alchemicalMidpoint: "Alchemical Midpoint",
   groupRecommendations: "Group recommendations",
   dailyInsight: "Daily AI insight",
-  tiltSkillet: "Tilt Skillet batch plan",
 };
 
 const FEATURE_DESCRIPTION: Readonly<Record<ChargedFeature, string>> = {
   alchemicalMidpoint: "Composite chart and a harmonizing meal for two constitutions",
   groupRecommendations: "Cuisine harmony across your dining companions",
   dailyInsight: "An on-demand daily insight (the one made at sign-in is free)",
-  tiltSkillet: "Plan a large-batch recipe as a circuit",
 };
 
 const CHARGED_ORDER: readonly ChargedFeature[] = [
   "alchemicalMidpoint",
   "groupRecommendations",
   "dailyInsight",
-  "tiltSkillet",
 ];
 
 export interface PricedTool {

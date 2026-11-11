@@ -120,3 +120,21 @@ describe("next.config.js lab redirects", () => {
     expect(new Set(sources).size).toBe(sources.length);
   });
 });
+
+describe("next.config.js — retired tilt-skillet planner", () => {
+  it("sends /cooking-methods/tilt-skillet to the Hermetic Vessel tab with a 308 (owner ruling 2026-11-11)", () => {
+    const bySource = new Map(parseRedirects().map((r) => [r.source, r]));
+    expect(bySource.get("/cooking-methods/tilt-skillet")).toEqual({
+      source: "/cooking-methods/tilt-skillet",
+      destination: "/kitchen-lab/physics?tab=vessel",
+      permanent: true,
+    });
+  });
+
+  it("leaves the tilt_skillet method page's own URL alone", () => {
+    // The method grid links methods by key: /cooking-methods/tilt_skillet.
+    const sources = new Set(parseRedirects().map((r) => r.source));
+    expect(sources.has("/cooking-methods/tilt_skillet")).toBe(false);
+    expect(sources.has("/cooking-methods/:method")).toBe(false);
+  });
+});

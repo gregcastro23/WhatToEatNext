@@ -33,7 +33,7 @@ All paths absolute-rooted at `/Users/cookingwithcastro/Desktop/WhatToEatNext-mas
 | `src/calculations/kinetics.ts:286` | `inertia:  1.0 + w * 0.20` (planetary modifier keyed `inertia`) | 1 (`getPlanetaryModifiers`, consumed at :102) | **LIVE** |
 | `src/utils/kineticCalculations.ts:134` | `const inertia = Math.max(1, Matter + Earth + Substance / 2);` | 6 call sites of `calculateKineticProperties`: `mealCircuitCalculations.ts:107`, `ingredientRecommendation.ts:1301`, `ingredientRecommendation 2.ts:1306`, `EnhancedIngredientRecommender.tsx:502,507`, `PlanetaryCalculationsDemo.tsx:270` | **LIVE** (Demo + " 2" copies dead) |
 | `src/app/api/alchm-quantities/route.ts:188-195` | `Math.max(1, quantities.Matter + quantities.Substance + nowAlch.elementalProperties.Earth * 10)` | public GET route; consumed by `/quantities`, `alchm-kinetics.tsx` | **LIVE** |
-| `src/utils/cookingMethodKinetics.ts:455-458` | `Math.max(0.5, 1 + (transformedESMS.Matter + earthEmphasis + transformedESMS.Substance / 2) * 0.1)` | 4: `tiltSkilletCircuit.ts:140`, `methodAlchemicalSnapshot.ts:166`, `EnhancedCookingMethodRecommender.tsx:535` | **LIVE** |
+| `src/utils/cookingMethodKinetics.ts:455-458` | `Math.max(0.5, 1 + (transformedESMS.Matter + earthEmphasis + transformedESMS.Substance / 2) * 0.1)` | 4: `cauldronVesselCore.ts:110` (was `tiltSkilletCircuit.ts:140`, retired 2026-11-11), `methodAlchemicalSnapshot.ts:166`, `EnhancedCookingMethodRecommender.tsx:535` | **LIVE** |
 | `src/utils/hierarchicalRecipeCalculations.ts:455` | `const recipeInertia = 1 + (Matter + Substance) * 0.1;` | 1: `calculateRecipeKinetics` ← `hierarchicalRecipeCalculations.ts:367` (reached from `RecipeDataEnricher`, `UnifiedIngredientService`, `cuisineSauceProfiler`) | **LIVE** |
 | `src/lib/alchemical-kinetics.ts:459-461` | `const base = Math.max(1, 1 + input.matter + input.earth + input.substance / 2); const adjusted = base * getPlanetaryInertiaModifier(...)` | 1: `alchemical-kinetics-sampler.ts:145` — and the **sampler has zero importers** | **DEAD** |
 | `src/lib/celestial-energy-calculator.ts:25-27` | `function computeInertia(_elements: ElementVector): number { return 0 }` (stub) | 1: same file `:413`; module's only importer `degree-agent-matcher.ts` has zero importers | **DEAD** |
@@ -121,9 +121,9 @@ All paths absolute-rooted at `/Users/cookingwithcastro/Desktop/WhatToEatNext-mas
 | `src/lib/alchemical-kinetics.ts:310-327` (`computePower`) | `basePower = safeDivide(dE, dt); power = basePower * getSolarAmplification(...)` | **zero callers anywhere** (not even the dead sampler) | **DEAD** |
 | `src/lib/celestial-energy-calculator.ts:411` | `const power = metrics.Heat + metrics.Entropy + metrics.Reactivity + metrics.Energy` | dead chain | **DEAD** |
 | `src/lib/kinetics-client.ts:48-57` (`powerCurve`) | `base = 0.7 + Math.sin(phase) * 0.3 * latFactor; Math.max(0.4, Math.min(1, base))` | dead pair | **DEAD** |
-| `src/utils/recipeCircuit.ts:40-47` | `inputPower = power; losses = currentFlow ** 2 * resistance; outputPower = inputPower - losses` (resistance = entropy) | `tiltSkilletCircuit`, `mealCircuitCalculations`, `kineticCuisineCompatibility`, `circuitBasedRecipeRanking` | **LIVE** (derived) |
+| `src/utils/recipeCircuit.ts:40-47` | `inputPower = power; losses = currentFlow ** 2 * resistance; outputPower = inputPower - losses` (resistance = entropy) | `cauldronVesselCore` (mirrors it; was `tiltSkilletCircuit`), `mealCircuitCalculations`, `kineticCuisineCompatibility`, `circuitBasedRecipeRanking` | **LIVE** (derived) |
 | `src/utils/dayCircuitCalculations.ts:190` | `const expectedPower = averageCurrent * totalVoltage;` (KVL check against `totalPower` sum) | `MenuPlannerProvider` | **LIVE** |
-| `src/utils/tiltSkilletCircuit.ts:194-196` | `totalPower = Σ r.power`; `seriesCurrent = totalPotential / totalResistance` | `/api/generate-tilt-skillet-plan` | **LIVE** |
+| `src/utils/cauldronVesselCore.ts:193-194` | `totalPower = Σ r.power`; `seriesCurrent = totalPotential / totalResistance` | `CauldronVesselSimulator` on /kitchen-lab/alchm (the tilt-skillet planner and `/api/generate-tilt-skillet-plan` were retired 2026-11-11) | **LIVE** |
 
 ---
 
@@ -173,7 +173,7 @@ All paths absolute-rooted at `/Users/cookingwithcastro/Desktop/WhatToEatNext-mas
 | `src/services/UnifiedScoringService.ts:750, 816` | `const userCurrent = reactivity;` / `const itemCurrent = reactivity;` — **bare reactivity** | 4 | **LIVE** |
 | `src/services/HistoricalStatsService.ts:161` | `reactivity * charge * 0.1` | 2 | **LIVE** |
 | `src/utils/dayCircuitCalculations.ts:146-149` | `averageCurrent = mean(c.currentFlow)` | 1 | **LIVE** (derived) |
-| `src/utils/tiltSkilletCircuit.ts:195` | `seriesCurrent = totalResistance > EPS ? totalPotential / totalResistance : 0` | 1 | **LIVE** (derived) |
+| `src/utils/cauldronVesselCore.ts:194` | `seriesCurrent = totalResistance > EPS ? totalPotential / totalResistance : 0` | 1 | **LIVE** (derived) |
 
 ---
 
@@ -219,7 +219,7 @@ Scope note: I counted a **definition** as any site that computes the quantity fr
 
 | file:line | expression | callers | live/dead |
 |---|---|---|---|
-| `src/utils/monicaKalchmCalculations.ts:48` | `(spirit²+fire²)/(substance+essence+matter+water+air+earth)²`, `denominator>0 ? n/d : 0` | 15 importers (tiltSkilletCircuit, hierarchicalRecipeCalculations, cuisineAggregations, thermodynamicResonance, cuisineSauceProfiler, methodAlchemicalSnapshot, EnhancedIngredientRecommender, CookingMethodPreview, EnhancedCookingMethodRecommender, lib/recipe-nft/fingerprint, menuPlanner/nutritionalCalculator, calculations/core/alchemicalCalculations…) | **LIVE — de-facto hub** |
+| `src/utils/monicaKalchmCalculations.ts:48` | `(spirit²+fire²)/(substance+essence+matter+water+air+earth)²`, `denominator>0 ? n/d : 0` | 15 importers at the time of this audit (hierarchicalRecipeCalculations, cuisineAggregations, thermodynamicResonance, cuisineSauceProfiler, methodAlchemicalSnapshot, EnhancedIngredientRecommender, CookingMethodPreview, EnhancedCookingMethodRecommender, lib/recipe-nft/fingerprint, menuPlanner/nutritionalCalculator, calculations/core/alchemicalCalculations…) | **LIVE — de-facto hub** |
 | `src/calculations/core/kalchmEngine.ts:64` | same numerator/denominator, but `if (denominator === 0) return 0.5` | 7 importers (signVectors, nutritionalCalculator, calculations/index, core/alchemicalCalculations, core/index) | **LIVE** |
 | `src/data/unified/alchemicalCalculations.ts:75-80` | `heatNum / Math.max(heatDen, 0.01)` | 11 importers (signVectors, natalAlchemy, nutritional, ingredients, RecommendationAdapter, AlchmKitchen) | **LIVE** |
 | `src/services/RealAlchemizeService.ts:437-442` | `heatNum / (heatDen \|\| 1)` | 22 importers — planetary-chart page, `/api/alchm-quantities`, `/api/personalized-recommendations`, `/api/generate-cosmic-recipe`, `lib/economy/livePricing` | **LIVE — canonical prod path** |

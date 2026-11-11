@@ -221,7 +221,7 @@ export default function CookingMethodsPage() {
         <HubTelemetry />
       </section>
 
-      {/* ── Featured tool: Tilt Skillet Batch Planner ── */}
+      {/* ── Featured tool: the Hermetic Vessel ── */}
       <section
         className={`${accentClass("ember")} ma-panel ma-glow-border mb-12 overflow-hidden rounded-lg`}
       >
@@ -230,23 +230,23 @@ export default function CookingMethodsPage() {
             <div className="mb-2 flex flex-wrap items-center gap-2">
               <Flame className="h-5 w-5 text-[var(--ma-accent)]" aria-hidden />
               <span className="ma-label text-[var(--ma-accent-soft)]">FEATURED_TOOL</span>
-              <MaChip tone="accent">BATCH_PLANNER</MaChip>
+              <MaChip tone="accent">VESSEL_SIMULATOR</MaChip>
             </div>
             <h2 className="font-grimoire text-2xl text-ma-fg md:text-3xl">
-              Tilt Skillet — Batch Circuit Planner
+              Hermetic Vessel — Pressure, Steam &amp; Vapour
             </h2>
             <p className="mt-2 font-mono text-sm leading-relaxed text-ma-fg-dim">
-              Plan large-batch cooking as a series circuit. Stage ingredients by volume and watch
-              charge, voltage, current, resistance and power resolve in real time — then generate a
-              full staged tilt-skillet plan grounded in the live circuit.
+              Seal the pot, open it, or pull a vacuum, and watch the boiling point, latent heat and
+              vapour exchange move with it — computed from the IAPWS-IF97 steam tables. The same
+              vessel drives the staged ingredient circuit on the alchm lab.
             </p>
           </div>
           <Link
-            href="/cooking-methods/tilt-skillet"
+            href="/kitchen-lab/physics?tab=vessel"
             className="ma-label inline-flex shrink-0 items-center gap-2 rounded border border-[var(--ma-accent)]/50 px-5 py-3 text-[var(--ma-accent-soft)] transition-colors hover:bg-[rgba(var(--ma-accent-rgb),0.1)]"
           >
             <Zap className="h-4 w-4" aria-hidden />
-            OPEN_PLANNER
+            OPEN_VESSEL
           </Link>
         </div>
       </section>

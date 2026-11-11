@@ -98,7 +98,6 @@ export const NAV_IA: NavIA = {
       { label: "Cuisines", path: "/cuisines", glyph: "ring", hint: "184 traditions · ranked by sky" },
       { label: "Ingredients", path: "/ingredients", glyph: "diamond", hint: "2,901 entries · live elemental match" },
       { label: "Cooking Methods", path: "/cooking-methods", glyph: "triangle-up-bar", hint: "Dry · wet · molecular · traditional" },
-      { label: "Tilt Skillet Planner", path: "/cooking-methods/tilt-skillet", glyph: "crosshair", hint: "Large-batch planning · recipe-as-a-circuit" },
       { label: "Sauces", path: "/sauces", glyph: "wave", hint: "Mother sauces and lineages" },
       { label: "Recipes", path: "/recipes", glyph: "bookmark", hint: "12,438 · filtered to your hour" },
       { label: "Recipe Builder", path: "/recipe-builder", glyph: "plus", hint: "Compose from raw materials" },
@@ -142,6 +141,7 @@ export const NAV_IA: NavIA = {
     routes: [
       { label: "Lab Overview", path: "/kitchen-lab", glyph: "flask", hint: "Both models side by side · what each answers" },
       { label: "Real Physics", path: "/kitchen-lab/physics", glyph: "triangle-up-bar", hint: "Heat transfer · latent heat · medium boundaries", system: "real" },
+      { label: "Hermetic Vessel", path: "/kitchen-lab/physics?tab=vessel", glyph: "crosshair", hint: "Pressure · boiling ceiling · headspace vapour", system: "real" },
       { label: "Alchm Physics", path: "/kitchen-lab/alchm", glyph: "spiral", hint: "Ingredient ESMS · kalchm · monica", system: "alchm" },
       { label: "Lab Book", path: "/kitchen-lab/lab-book", glyph: "bookmark", hint: "Scan or paste recipes into your cookbook", system: "alchm" },
       { label: "Grimoire", path: "/grimoire", glyph: "mortar", hint: "The practices · today's resonance · your feats", system: "alchm" },
