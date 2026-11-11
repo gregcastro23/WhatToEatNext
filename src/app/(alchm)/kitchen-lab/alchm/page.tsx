@@ -33,6 +33,15 @@ const PlanetaryClock = dynamic(
   () => import("@/components/ui/alchm").then((m) => m.PlanetaryClock),
   { ssr: false },
 );
+// The cauldron is client-only and sizeable (stage editor, circuit tables, the
+// IF97 kernel): loaded on demand so it adds nothing to the dashboard's first paint.
+const CauldronVesselSimulator = dynamic(
+  () =>
+    import("@/components/lab/CauldronVesselSimulator").then(
+      (m) => m.CauldronVesselSimulator,
+    ),
+  { ssr: false },
+);
 
 /* ─── Mapping helpers ─────────────────────────────────────────────────────── */
 
@@ -656,6 +665,10 @@ export default function LaboratoryDashboardPage(): JSX.Element {
             </div>
           </div>
         </div>
+
+        <div className="alchm-rule" />
+
+        <CauldronVesselSimulator />
 
         <div className="alchm-rule" />
 
