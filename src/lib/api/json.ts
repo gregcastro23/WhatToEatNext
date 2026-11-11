@@ -118,6 +118,24 @@ export async function fetchJson<T>(
   return readJson<T>(response, parseOrOptions);
 }
 
+/** True when `value` is a non-null, non-array JSON object. */
+export function isJsonRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/**
+ * `parse` for {@link readJson} when the caller only needs "a JSON object" and
+ * narrows each field itself. Throws on arrays, primitives and `null`, so a
+ * malformed body takes the caller's existing error path instead of being
+ * indexed under a type that promised an object.
+ */
+export function parseJsonRecord(value: unknown): Record<string, unknown> {
+  if (!isJsonRecord(value)) {
+    throw new TypeError("Expected a JSON object response body");
+  }
+  return value;
+}
+
 export interface ParseEachResult<T> {
   items: T[];
   kept: number;

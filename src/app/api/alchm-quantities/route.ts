@@ -5,6 +5,7 @@
  * - alchm-kinetics
  */
 import { NextResponse } from "next/server";
+import { parseJsonRecord, readJson } from "@/lib/api/json";
 import { rateLimit } from "@/lib/rateLimit";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { AlchmQuantitiesApiResponseSchema } from "@/lib/validation/apiSchemas";
@@ -548,7 +549,7 @@ export async function GET(request: Request): Promise<NextResponse | Response> {
         }
 
         if (response.ok) {
-          const backendData = (await response.json()) as Record<string, unknown>;
+          const backendData = await readJson(response, parseJsonRecord);
           const backendQuantities = {
             Spirit: round(typeof backendData.spirit_score === "number" ? backendData.spirit_score : 0),
             Essence: round(typeof backendData.essence_score === "number" ? backendData.essence_score : 0),
