@@ -1,8 +1,8 @@
-<session_handoff version="5.5" date="2026-11-11">
+<session_handoff version="5.6" date="2026-11-11">
 
   <metadata>
     <repository>/Users/cookingwithcastro/Desktop/WhatToEatNext-master</repository>
-    <base_branch commit="PR-1010">master</base_branch>
+    <base_branch commit="bfc706c5">master</base_branch>
     <hardware_profile>Apple Silicon M5 / 16 GB Unified Memory</hardware_profile>
     <runtime_policy>Bun-strict (`bun run ...`, `bunx ...`, `bun --bun run dev`). Never invoke npm or npx for project scripts.</runtime_policy>
   </metadata>
@@ -30,10 +30,13 @@
       Never import full static ingredient catalogs (1,002 items), USDA portion tables, or server database modules into `"use client"` components. Enforce all 11 route bundle ceilings in `scripts/check-route-sizes.cjs`.
     </invariant>
     <invariant id="static_ratchets">
-      New and modified files must remain under the 300-line ceiling, introduce zero `Record&lt;string, any&gt;` casts or redundant conditions, and uphold static baselines: `.bare-json-casts-baseline.json` &lt;= 17 (production), `.lint-debt-baseline.json` &lt;= 1249 (assertion sites &lt;= 2687, non-null &lt;= 566, declined pool &lt;= 4694), `testOnly` &lt;= 29, and `UNREACHABLE (dead): 0`.
+      New and modified files must remain under the 300-line ceiling (pure transformation modules strictly &lt; 250 lines, functions strictly &lt; 50 lines), introduce zero `Record&lt;string, any&gt;` casts or redundant conditions, and uphold static baselines: `.bare-json-casts-baseline.json` &lt;= 17 (production), `.lint-debt-baseline.json` &lt;= 1249 (assertion sites &lt;= 2687, non-null &lt;= 566, declined pool &lt;= 4694, loose optionality &lt;= 146), `testOnly` &lt;= 29, and `UNREACHABLE (dead): 0`.
     </invariant>
     <invariant id="circuit_breaker_and_reconciler">
       All live SpacetimeDB reads must route through `spacetimeCircuitBreaker.ts` with half-open recovery support. All cosmic generation reconcilers must use `FOR UPDATE SKIP LOCKED` and verify matching `token_transactions` debit legs before refunding.
+    </invariant>
+    <invariant id="hermetic_cauldron_fidelity">
+      Hermetic Cauldron operations must honor thermodynamic physical couplings: autogenous saturation ceilings $P_{autogenous}(T) = P_{air}(T) + p_{sat}(T)$, headspace saturation convergence ($\phi \to 100\%$, $T_h \to T_{set}$ in closed configurations), dome reflux ratios, and continuous Arrhenius transformation kinetics across all 7 classical operations (*Opus Culinaris*).
     </invariant>
   </hard_invariants>
 
@@ -75,11 +78,18 @@
       <item>Added multi-select checkbox controls, batch draft dispatch (`patchSearchGapRequest`), and high-velocity shortcuts in `SearchGapsPanel.tsx` with dedicated test coverage.</item>
       <item>Maintained zero port listeners, 650 passing test suites (7,120 tests), 16 pytest passes, and 100% green route bundle sizes.</item>
     </track>
-    <track id="8" name="Hermetic Cauldron MCP Tool &amp; Sub-20 Bare-JSON Ratchet (PR #1010)">
+    <track id="8" name="Hermetic Cauldron MCP Tool &amp; Sub-20 Bare-JSON Ratchet (PR #1010, #1011)">
       <item>Registered `simulate_hermetic_cauldron` as the 14th tool in MCP catalog, input/output schemas, OpenAPI 3.1.0 specification, and REST bridge (`/api/mcp/rest/[tool]`), returning IF97 saturation metrics, cited cooking regimes, and 6-field kinetic profiles ($V, I, R, \nu, \mu, F$, $P = I \cdot V$); aliased `calculate_batch_circuit` for backward compatibility.</item>
       <item>Converted 19 production bare JSON casts across client components and hooks to `readJson` with client-safe schemas and parsers, driving production bare JSON casts down from 36 to 17 (total 26, smashing the sub-30 milestone).</item>
       <item>Ratcheted `.lint-debt-baseline.json` down to 2687 assertion sites (-19), 566 non-null assertions (-1), and 4694 declined rules pool (-1).</item>
-      <item>Maintained zero port listeners, 654 passing Jest test suites (7,145 tests), 16 pytest passes, and 100% green route bundle sizes across all 11 routes.</item>
+    </track>
+    <track id="9" name="Time-Stepped Hermetic Cooking Simulator, 7 Operations &amp; Matrix Kinetics (PR #1013)">
+      <item>Transformed Hermetic Cauldron into a time-stepped culinary simulator (*Vas Hermeticum*) with self-coupled headspace physics, autogenous saturation pressure, and dynamic dome reflux ratios ($0.96$ hermetic, $0.88$ pressure regulated, $0.05$ vacuum, $0.0$ open).</item>
+      <item>Created pure transformation engine (`src/utils/cauldronTransformation.ts`, 247 lines &lt; 250) tracking 5 culinary matrix kinetics: collagen hydrolysis (Arrhenius $k(T)$, $3.5\times$ acceleration under pressurized reflux), Maillard/fond index, volatile aromatic retention (&gt;92% in hermetic reflux), concentration factor, and starch/pectin softening.</item>
+      <item>Implemented and classified the 7 Classical Hermetic Operations (*Opus Culinaris*): Calcinatio, Solutio, Digestio, Circulatio, Distillatio, Fermentatio, and Coagulatio with dynamic ESMS and elemental transfer boosts.</item>
+      <item>Shipped interactive `SealModeSelector`, `CulinaryMatrixReadout`, and 4-step Opus Culinaris timeline presets in Kitchen Lab simulator UI.</item>
+      <item>Enriched MCP tool `simulate_hermetic_cauldron` with `sealMode`, `durationMinutes`, `hermeticOperation`, and `culinaryMatrix` telemetry; added Vector 6 fidelity probe test suite.</item>
+      <item>Maintained zero port listeners, 655 passing test suites (7,155 tests), 16 pytest passes, and 100% green route bundle sizes across all 11 routes.</item>
     </track>
   </completed_state>
 
@@ -118,7 +128,7 @@
   <verification_gates mandatory_before_commit="true">
     <gate order="1" command="lsof -ti:3000 -ti:5175">Verify 0 background processes listening.</gate>
     <gate order="2" command="bun run verify:static">All 13 static gates must pass (0 TS errors, 0 ESLint errors, lint-debt &lt;= 1249, assertion sites &lt;= 2687, bare-json &lt;= 17, testOnly &lt;= 29, dead-modules = 0).</gate>
-    <gate order="3" command="bun run test &amp;&amp; python3 -m pytest backend/tests/test_migration_names.py">All 654 Jest suites (7,145 tests) and 16 Python migration assertions must pass.</gate>
+    <gate order="3" command="bun run test &amp;&amp; python3 -m pytest backend/tests/test_migration_names.py">All 655 Jest suites (7,155 tests) and 16 Python migration assertions must pass.</gate>
     <gate order="4" command="bun run build">Production build and all 11 route bundle ceilings in `scripts/check-route-sizes.cjs` must pass.</gate>
   </verification_gates>
 
