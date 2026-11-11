@@ -4,6 +4,7 @@
  * ("vegan pasta", "spinach eggs feta", "mercury herbs") goes through
  * ./omnibarIntent (Phase 5).
  */
+import { lookupResolvedGapSlug, resolveMappedSearchTarget } from "./gapResolutionMap";
 import { hasIntent, parseIntent, type QueryIntent } from "./intent";
 import { searchWithIntent } from "./omnibarIntent";
 import {
@@ -30,6 +31,8 @@ export interface OmnibarOptions {
   now: Date;
   perKindLimit?: number;
   containingLimit?: number;
+  /** Optional `normalized_query -> resolved_entity_slug` mappings from search_zero_result_gaps. */
+  resolvedGapMappings?: ReadonlyMap<string, string> | Readonly<Record<string, string>>;
 }
 
 /**
@@ -65,10 +68,43 @@ function plainResult(index: SearchIndex, query: string, hits: readonly SearchHit
   };
 }
 
-export function searchOmnibar(index: SearchIndex, rawQuery: string, options: OmnibarOptions): OmnibarResult {
-  const query = rawQuery.trim();
-  const normalized = normalizeText(query);
+function isResultEmpty(result: OmnibarResult): boolean {
+  if (result.hero !== null) return false;
+  if (result.recipesContainingTotal > 0 || (result.coverage?.total ?? 0) > 0) return false;
+  return Object.values(result.total).reduce((acc, count) => acc + count, 0) === 0;
+}
+
+function runCoreSearch(index: SearchIndex, query: string, normalized: NormalizedText, options: OmnibarOptions): OmnibarResult {
   const hits = rankEntities(index, normalized);
   const intent = intentFor(index, normalized, hits[0], options.now);
   return intent ? searchWithIntent(index, { query, hits, intent }, options) : plainResult(index, query, hits, options);
+}
+
+export function searchOmnibar(index: SearchIndex, rawQuery: string, options: OmnibarOptions): OmnibarResult {
+  const query = rawQuery.trim();
+  const normalized = normalizeText(query);
+  const primary = runCoreSearch(index, query, normalized, options);
+  if (!isResultEmpty(primary)) return primary;
+
+  const mappedSlug =
+    lookupResolvedGapSlug(normalized.folded, options.resolvedGapMappings) ??
+    lookupResolvedGapSlug(query, options.resolvedGapMappings);
+  if (!mappedSlug) return primary;
+
+  const expandedTarget = resolveMappedSearchTarget(index, mappedSlug);
+  if (!expandedTarget) return primary;
+  const expandedNormalized = normalizeText(expandedTarget);
+  if (expandedNormalized.folded === "" || expandedNormalized.folded === normalized.folded) return primary;
+
+  const expanded = runCoreSearch(index, expandedTarget, expandedNormalized, options);
+  if (isResultEmpty(expanded)) return primary;
+  return {
+    ...expanded,
+    query,
+    corrected: {
+      from: query,
+      to: expanded.top?.name ?? expandedTarget,
+      basis: "synonym",
+    },
+  };
 }

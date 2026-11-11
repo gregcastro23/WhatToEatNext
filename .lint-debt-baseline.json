@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1280,
+  "trackedTotal": 1276,
   "casts": {
     "total": 153,
     "asAny": 38,
@@ -8,11 +8,11 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 2760,
+    "total": 2744,
     "asAny": 37,
     "chained": 115,
-    "single": 2608,
-    "production": 2171,
+    "single": 2592,
+    "production": 2155,
     "test": 589,
     "asConst": 621,
     "nonNull": 567
@@ -41,7 +41,7 @@
   },
   "subBaselines": {
     "preferNullishCoalescing": {
-      "total": 282,
+      "total": 278,
       "verifiedSafe": 0,
       "semantic": 290,
       "unclassified": 5,
@@ -49,14 +49,14 @@
     }
   },
   "declined": {
-    "total": 4740,
+    "total": 4735,
     "rules": {
-      "@typescript-eslint/explicit-function-return-type": 1275,
-      "@typescript-eslint/explicit-module-boundary-types": 607,
+      "@typescript-eslint/explicit-function-return-type": 1272,
+      "@typescript-eslint/explicit-module-boundary-types": 606,
       "complexity": 309,
       "max-depth": 81,
       "max-lines": 513,
-      "max-lines-per-function": 1586,
+      "max-lines-per-function": 1585,
       "no-void": 369
     },
     "note": "Declined rules pool, pinned at the LIVE measurement — no headroom. Ceilings above live are undetectable slack: the gate only fails when the pool EXCEEDS this total, so every granted unit is a regression the ratchet cannot see. An earlier revision carried 21 such units (4924 recorded vs 4903 live, incl. no-void 385 vs 374). Maintain this block with `bun run lint:debt:ratchet`, never by hand."
@@ -79,7 +79,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 793,
+      "count": 789,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -103,7 +103,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
-      "count": 282,
+      "count": 278,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-optional-chain": {

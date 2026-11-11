@@ -131,21 +131,26 @@ function appendAvailabilityShiftAlert(params: {
 }
 
 /**
- * Inspect whether the circuit breaker should bypass SpacetimeDB and route
+ *Inspect whether the circuit breaker should bypass SpacetimeDB and route
  * directly to PostgreSQL at `nowMs`, transitioning `open -> half-open` once
  * the cooldown window expires.
  */
 export function shouldBypassSpacetimeRead(nowMs = Date.now()): boolean {
   if (circuitStore.state === "closed") return false;
-  if (
-    circuitStore.state === "open" &&
-    circuitStore.cooldownUntilMs !== null &&
-    nowMs >= circuitStore.cooldownUntilMs
-  ) {
+  if (circuitStore.state === "open" && circuitStore.cooldownUntilMs !== null && nowMs >= circuitStore.cooldownUntilMs) {
     circuitStore.state = "half-open";
     return false;
   }
   return circuitStore.state === "open";
+}
+
+/** Explicitly move an `open` circuit into `half-open` so an admin probe tests SpacetimeDB immediately. */
+export function transitionSpacetimeCircuitToHalfOpen(nowMs = Date.now()): SpacetimeCircuitBreakerSnapshot {
+  if (circuitStore.state === "open") {
+    circuitStore.state = "half-open";
+    circuitStore.cooldownUntilMs = nowMs;
+  }
+  return getSpacetimeCircuitBreakerSnapshot(nowMs);
 }
 
 /**

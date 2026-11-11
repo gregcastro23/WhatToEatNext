@@ -9,6 +9,8 @@
  * elemental match or Monica calculation.
  */
 
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { scoreCuisineAgainstMoment } from "@/services/restaurantScoring";
 import type {
   AstrologicalState,
@@ -22,6 +24,41 @@ import type {
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("YelpService");
+
+const YelpBusinessSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    url: z.string(),
+    phone: z.string(),
+    rating: z.number(),
+    review_count: z.number(),
+    price: z.string().optional(),
+    distance: z.number().optional(),
+    categories: z.array(z.object({ alias: z.string(), title: z.string() })),
+    location: z.object({
+      address1: z.string(),
+      city: z.string(),
+      state: z.string(),
+      zip_code: z.string(),
+      display_address: z.array(z.string()),
+    }),
+    coordinates: z.object({
+      latitude: z.number(),
+      longitude: z.number(),
+    }),
+    image_url: z.string().optional(),
+    is_closed: z.boolean(),
+  })
+  .passthrough();
+
+const YelpSearchResponseSchema: z.ZodType<YelpSearchResponse> = z.object({
+  businesses: z.array(YelpBusinessSchema),
+  total: z.number(),
+  region: z.object({
+    center: z.object({ latitude: z.number(), longitude: z.number() }),
+  }),
+});
 
 // ─── Constants ─────────────────────────────────────────────────────────────
 
@@ -68,6 +105,7 @@ class YelpService {
   private async fetchYelp<T>(
     endpoint: string,
     params: Record<string, string | number | boolean>,
+    parse: (value: unknown) => T,
   ): Promise<FetchResult<T>> {
     if (!this.apiKey) {
       return { data: null, error: "Yelp API key not configured" };
@@ -95,7 +133,7 @@ class YelpService {
         return { data: null, error: "Yelp unavailable" };
       }
 
-      const data = (await response.json()) as T;
+      const data = await readJson(response, { parse });
       return { data, error: null };
     } catch (err) {
       const error =
@@ -126,7 +164,9 @@ class YelpService {
     if (params.sort_by) search.sort_by = params.sort_by;
     if (params.open_now !== undefined) search.open_now = params.open_now;
 
-    return this.fetchYelp<YelpSearchResponse>("/businesses/search", search);
+    return this.fetchYelp("/businesses/search", search, (v) =>
+      YelpSearchResponseSchema.parse(v),
+    );
   }
 
   // ─── Scored Search ────────────────────────────────────────────────────

@@ -8,6 +8,13 @@
 import { z } from "zod";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+import {
+  clearResolvedGapMappingsInMemory,
+  getCachedResolvedGapMappings,
+  setResolvedGapMappingInMemory,
+} from "./gapResolutionMap";
+
+export { getCachedResolvedGapMappings, setResolvedGapMappingInMemory };
 
 export const SEARCH_GAP_MIN_NORMALIZED_LENGTH = 3;
 export const SEARCH_GAP_MAX_NORMALIZED_LENGTH = 64;
@@ -22,6 +29,8 @@ const COMBINING_MARKS_RE = /[\u0300-\u036f]/g;
 const CONTROL_CHARS_RE = /\p{Cc}+/gu;
 
 const recentQueryTimestamps = new Map<string, number>();
+let resolvedGapCacheLoadedAtMs = 0;
+export const RESOLVED_GAP_CACHE_TTL_MS = 60_000;
 
 export const SearchGapRowSchema = z.object({
   id: z.string(),
@@ -52,13 +61,7 @@ export type SearchGapSummary = z.infer<typeof SearchGapSummarySchema>;
 
 /** Strip emails, phone numbers, and 4+ digit numeric tokens for privacy. */
 export function scrubSearchQueryPii(raw: string): string {
-  return raw
-    .replace(CONTROL_CHARS_RE, " ")
-    .replace(EMAIL_RE, " ")
-    .replace(PHONE_RE, " ")
-    .replace(LONG_NUMERIC_RE, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+  return raw.replace(CONTROL_CHARS_RE, " ").replace(EMAIL_RE, " ").replace(PHONE_RE, " ").replace(LONG_NUMERIC_RE, " ").replace(/\s+/g, " ").trim();
 }
 
 export interface NormalizedGapQuery {
@@ -71,26 +74,12 @@ export interface NormalizedGapQuery {
  * Returns null when the scrubbed query is shorter than 3 chars or has no letters.
  */
 export function normalizeZeroResultQuery(raw: string): NormalizedGapQuery | null {
-  if (typeof raw !== "string" || raw.trim().length < SEARCH_GAP_MIN_NORMALIZED_LENGTH) {
-    return null;
-  }
+  if (typeof raw !== "string" || raw.trim().length < SEARCH_GAP_MIN_NORMALIZED_LENGTH) return null;
   const scrubbed = scrubSearchQueryPii(raw);
   if (scrubbed.length < SEARCH_GAP_MIN_NORMALIZED_LENGTH) return null;
-  const normalizedQuery = scrubbed
-    .normalize("NFD")
-    .replace(COMBINING_MARKS_RE, "")
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, SEARCH_GAP_MAX_NORMALIZED_LENGTH)
-    .trim();
-  if (normalizedQuery.length < SEARCH_GAP_MIN_NORMALIZED_LENGTH || !/[a-z]/i.test(normalizedQuery)) {
-    return null;
-  }
-  return {
-    normalizedQuery,
-    sampleRawQuery: scrubbed.slice(0, SEARCH_GAP_MAX_SAMPLE_LENGTH),
-  };
+  const normalizedQuery = scrubbed.normalize("NFD").replace(COMBINING_MARKS_RE, "").toLowerCase().replace(/\s+/g, " ").trim().slice(0, SEARCH_GAP_MAX_NORMALIZED_LENGTH).trim();
+  if (normalizedQuery.length < SEARCH_GAP_MIN_NORMALIZED_LENGTH || !/[a-z]/i.test(normalizedQuery)) return null;
+  return { normalizedQuery, sampleRawQuery: scrubbed.slice(0, SEARCH_GAP_MAX_SAMPLE_LENGTH) };
 }
 
 export interface ZeroResultCheckInput {
@@ -103,8 +92,7 @@ export interface ZeroResultCheckInput {
 /** True when a search result has zero matches across every entity kind, hero, and coverage. */
 export function isZeroResultSearch(result: ZeroResultCheckInput): boolean {
   if (result.hero !== null && result.hero !== undefined) return false;
-  if (result.recipesContainingTotal > 0) return false;
-  if ((result.coverage?.total ?? 0) > 0) return false;
+  if (result.recipesContainingTotal > 0 || (result.coverage?.total ?? 0) > 0) return false;
   return Object.values(result.total).reduce((acc, count) => acc + count, 0) === 0;
 }
 
@@ -121,6 +109,32 @@ function shouldDebounceQuery(normalizedQuery: string, nowMs: number): boolean {
 
 export function resetSearchGapDebounceForTests(): void {
   recentQueryTimestamps.clear();
+  clearResolvedGapMappingsInMemory();
+  resolvedGapCacheLoadedAtMs = 0;
+}
+
+/** Load resolved `normalized_query -> resolved_entity_slug` mappings from PostgreSQL with 60s TTL cache. */
+export async function loadResolvedSearchGapMappings(options?: { forceRefresh?: boolean; nowMs?: number }): Promise<ReadonlyMap<string, string>> {
+  const nowMs = options?.nowMs ?? Date.now();
+  if (!options?.forceRefresh && resolvedGapCacheLoadedAtMs > 0 && nowMs - resolvedGapCacheLoadedAtMs < RESOLVED_GAP_CACHE_TTL_MS) {
+    return getCachedResolvedGapMappings();
+  }
+  try {
+    const res = await executeQuery<{ normalized_query: string; resolved_entity_slug: string }>(
+      `SELECT normalized_query, resolved_entity_slug FROM search_zero_result_gaps
+       WHERE resolved_at IS NOT NULL AND resolved_entity_slug IS NOT NULL ORDER BY last_seen_at DESC LIMIT 500`,
+    );
+    clearResolvedGapMappingsInMemory();
+    for (const r of res.rows) {
+      if (r.normalized_query && r.resolved_entity_slug) {
+        setResolvedGapMappingInMemory(r.normalized_query, r.resolved_entity_slug);
+      }
+    }
+    resolvedGapCacheLoadedAtMs = nowMs;
+  } catch (err) {
+    _logger.warn("[search-gaps] failed to refresh resolved gap mappings:", err);
+  }
+  return getCachedResolvedGapMappings();
 }
 
 export interface RecordGapOptions {
@@ -192,6 +206,9 @@ function toIsoString(val: Date | string): string {
 
 function mapDbGapRow(row: DbGapRow): SearchGapRow {
   const parsedFilters = z.array(z.string()).safeParse(row.top_filters);
+  if (row.resolved_at && row.resolved_entity_slug) {
+    setResolvedGapMappingInMemory(row.normalized_query, row.resolved_entity_slug);
+  }
   return {
     id: row.id,
     normalizedQuery: row.normalized_query,
@@ -206,10 +223,9 @@ function mapDbGapRow(row: DbGapRow): SearchGapRow {
 }
 
 /** List top unfulfilled search queries for the Admin console. */
-export async function listZeroResultSearchGaps(options: {
-  limit?: number;
-  includeResolved?: boolean;
-} = {}): Promise<SearchGapSummary> {
+export async function listZeroResultSearchGaps(
+  options: { limit?: number; includeResolved?: boolean } = {},
+): Promise<SearchGapSummary> {
   const safeLimit = Math.max(1, Math.min(options.limit ?? 30, 100));
   const includeResolved = options.includeResolved ?? false;
   const [rowsResult, totalsResult] = await Promise.all([
@@ -223,10 +239,9 @@ export async function listZeroResultSearchGaps(options: {
       [includeResolved, safeLimit],
     ),
     executeQuery<{ unresolved_queries: string; unresolved_hits: string; resolved_queries: string }>(
-      `SELECT
-         COUNT(*) FILTER (WHERE resolved_at IS NULL)::text AS unresolved_queries,
-         COALESCE(SUM(hit_count) FILTER (WHERE resolved_at IS NULL), 0)::text AS unresolved_hits,
-         COUNT(*) FILTER (WHERE resolved_at IS NOT NULL)::text AS resolved_queries
+      `SELECT COUNT(*) FILTER (WHERE resolved_at IS NULL)::text AS unresolved_queries,
+              COALESCE(SUM(hit_count) FILTER (WHERE resolved_at IS NULL), 0)::text AS unresolved_hits,
+              COUNT(*) FILTER (WHERE resolved_at IS NOT NULL)::text AS resolved_queries
        FROM search_zero_result_gaps`,
     ),
   ]);
@@ -250,13 +265,19 @@ export async function resolveZeroResultSearchGap(
 ): Promise<boolean> {
   const cleanKey = normalizedQuery.trim().toLowerCase();
   if (!cleanKey) return false;
+  const trimmedSlug = resolvedEntitySlug?.trim();
+  const cleanSlug = trimmedSlug && trimmedSlug.length > 0 ? trimmedSlug : null;
   const result = await executeQuery<{ id: string }>(
     `UPDATE search_zero_result_gaps
      SET resolved_at = CASE WHEN $2::text IS NULL THEN NULL ELSE NOW() END,
          resolved_entity_slug = $2
      WHERE normalized_query = $1
      RETURNING id`,
-    [cleanKey, resolvedEntitySlug],
+    [cleanKey, cleanSlug],
   );
-  return result.rows.length > 0;
+  if (result.rows.length > 0) {
+    setResolvedGapMappingInMemory(cleanKey, cleanSlug);
+    return true;
+  }
+  return false;
 }

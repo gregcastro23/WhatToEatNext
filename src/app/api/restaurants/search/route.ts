@@ -12,14 +12,15 @@
  */
 
 import { NextResponse } from "next/server";
-import { createLogger } from "@/utils/logger";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { RestaurantsSearchRequestSchema } from "@/lib/validation/apiSchemas";
-
 import {
   discoverRestaurants,
   emptyCosmicContext,
 } from "@/services/restaurantDiscoveryService";
 import type { RestaurantSearchResponse } from "@/types/yelp";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
 const logger = createLogger("api:restaurants:search");
@@ -31,23 +32,46 @@ const RESTAURANT_CATEGORY_ID = "13065"; // Foursquare "Dining and Drinking" pare
 
 // ─── Foursquare text-search GET (used by Profile > Restaurants UI) ─────────
 
-interface FoursquarePlaceRaw {
-  fsq_id?: string;
-  name?: string;
-  location?: {
-    formatted_address?: string;
-    locality?: string;
-    region?: string;
-    address?: string;
-  };
-  categories?: Array<{
-    name?: string;
-    icon?: { prefix?: string; suffix?: string };
-  }>;
-  rating?: number;
-  distance?: number;
-  link?: string;
-}
+const FoursquarePlaceRawSchema = z
+  .object({
+    fsq_id: z.string().optional(),
+    name: z.string().optional(),
+    location: z
+      .object({
+        formatted_address: z.string().optional(),
+        locality: z.string().optional(),
+        region: z.string().optional(),
+        address: z.string().optional(),
+      })
+      .passthrough()
+      .optional(),
+    categories: z
+      .array(
+        z
+          .object({
+            name: z.string().optional(),
+            icon: z
+              .object({
+                prefix: z.string().optional(),
+                suffix: z.string().optional(),
+              })
+              .passthrough()
+              .optional(),
+          })
+          .passthrough(),
+      )
+      .optional(),
+    rating: z.number().optional(),
+    distance: z.number().optional(),
+    link: z.string().optional(),
+  })
+  .passthrough();
+
+const FoursquareSearchResponseSchema = z
+  .object({
+    results: z.array(FoursquarePlaceRawSchema).optional(),
+  })
+  .passthrough();
 
 export async function GET(request: NextRequest) {
   const apiKey = process.env.FOURSQUARE_API_KEY;
@@ -105,7 +129,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const data = (await response.json()) as { results?: FoursquarePlaceRaw[] };
+    const data = await readJson(response, {
+      parse: (v) => FoursquareSearchResponseSchema.parse(v),
+    });
     const results = (data.results ?? []).map((place) => ({
       fsq_id: place.fsq_id,
       name: place.name,

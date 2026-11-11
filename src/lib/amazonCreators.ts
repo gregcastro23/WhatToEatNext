@@ -1,7 +1,9 @@
+import { z } from "zod";
 import {
   getCreatorsCredentials,
   isCreatorsConfigured as configIsCreatorsConfigured,
 } from "@/lib/amazon/config";
+import { readJson } from "@/lib/api/json";
 
 const AMAZON_CREATORS_TOKEN_URL = "https://api.amazon.com/auth/o2/token";
 const AMAZON_CREATORS_CATALOG_BASE_URL = "https://creatorsapi.amazon/catalog/v1";
@@ -15,42 +17,49 @@ interface AmazonCreatorsTokenCache {
   expiresAt: number;
 }
 
-interface AmazonCreatorsTokenResponse {
-  access_token?: string;
-  expires_in?: number;
-}
+const AmazonCreatorsTokenResponseSchema = z
+  .object({
+    access_token: z.string().optional(),
+    expires_in: z.number().optional(),
+  })
+  .passthrough();
 
-interface AmazonCreatorsSearchItem {
-  asin?: string;
-  detailPageUrl?: string;
-  itemInfo?: {
-    title?: {
-      displayValue?: string;
-      DisplayValue?: string;
-    };
-  };
-  ItemInfo?: {
-    Title?: {
-      DisplayValue?: string;
-    };
-  };
-  title?: string;
-}
+const AmazonCreatorsSearchItemSchema = z
+  .object({
+    asin: z.string().optional(),
+    detailPageUrl: z.string().optional(),
+    itemInfo: z
+      .object({
+        title: z
+          .object({ displayValue: z.string().optional(), DisplayValue: z.string().optional() })
+          .passthrough()
+          .optional(),
+      })
+      .passthrough()
+      .optional(),
+    ItemInfo: z
+      .object({
+        Title: z.object({ DisplayValue: z.string().optional() }).passthrough().optional(),
+      })
+      .passthrough()
+      .optional(),
+    title: z.string().optional(),
+  })
+  .passthrough();
 
-interface AmazonCreatorsSearchResponse {
-  items?: AmazonCreatorsSearchItem[];
-  searchResult?: {
-    items?: AmazonCreatorsSearchItem[];
-  };
-  data?: {
-    items?: AmazonCreatorsSearchItem[];
-  };
-  errors?: Array<{
-    code?: string;
-    message?: string;
-  }>;
-  message?: string;
-}
+type AmazonCreatorsSearchItem = z.infer<typeof AmazonCreatorsSearchItemSchema>;
+
+const AmazonCreatorsSearchResponseSchema = z
+  .object({
+    items: z.array(AmazonCreatorsSearchItemSchema).optional(),
+    searchResult: z.object({ items: z.array(AmazonCreatorsSearchItemSchema).optional() }).passthrough().optional(),
+    data: z.object({ items: z.array(AmazonCreatorsSearchItemSchema).optional() }).passthrough().optional(),
+    errors: z.array(z.object({ code: z.string().optional(), message: z.string().optional() }).passthrough()).optional(),
+    message: z.string().optional(),
+  })
+  .passthrough();
+
+type AmazonCreatorsSearchResponse = z.infer<typeof AmazonCreatorsSearchResponseSchema>;
 
 interface AmazonCreatorsSearchPayload {
   keywords: string;
@@ -66,7 +75,12 @@ declare global {
   var amazonCreatorsTokenCache: AmazonCreatorsTokenCache | undefined;
 }
 
-function getAmazonCreatorsCredentials() {
+function getAmazonCreatorsCredentials(): {
+  clientId: string | undefined;
+  clientSecret: string | undefined;
+  version: string | undefined;
+  partnerTag: string | undefined;
+} {
   const creds = getCreatorsCredentials();
   return {
     clientId: creds?.clientId,
@@ -102,7 +116,7 @@ function getCachedToken(): string | null {
   return cache.accessToken;
 }
 
-function setCachedToken(accessToken: string, expiresInSeconds: number) {
+function setCachedToken(accessToken: string, expiresInSeconds: number): void {
   globalThis.amazonCreatorsTokenCache = {
     accessToken,
     expiresAt: Date.now() + expiresInSeconds * 1000,
@@ -166,7 +180,9 @@ async function getAmazonCreatorsAccessToken(): Promise<string> {
     );
   }
 
-  const tokenPayload = (await tokenResponse.json()) as AmazonCreatorsTokenResponse;
+  const tokenPayload = await readJson(tokenResponse, {
+    parse: (v) => AmazonCreatorsTokenResponseSchema.parse(v),
+  });
   const accessToken = tokenPayload.access_token;
   const expiresIn = tokenPayload.expires_in ?? 3600;
 
@@ -238,7 +254,9 @@ export async function searchAmazonCreatorsCatalog(keywords: string): Promise<{
     throw buildAmazonCreatorsError(response.status, errorPayload);
   }
 
-  const payload = (await response.json()) as AmazonCreatorsSearchResponse;
+  const payload = await readJson(response, {
+    parse: (v) => AmazonCreatorsSearchResponseSchema.parse(v),
+  });
   if (payload.errors?.length) {
     const isEligibilityError = payload.errors.some(
       (e) => e.code === "AssociateNotEligible" || e.code === "403"

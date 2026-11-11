@@ -8,6 +8,8 @@
  */
 
 import { NextResponse } from "next/server";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import {
   fetchInstacartIdp,
   InstacartConfigurationError,
@@ -23,6 +25,11 @@ import type {
 import type { NextRequest } from "next/server";
 
 const FETCH_TIMEOUT_MS = 15_000;
+
+const InstacartShoppingListResponseSchema: z.ZodType<InstacartShoppingListResponse> =
+  z.object({
+    products_link_url: z.string(),
+  });
 
 // Supported Instacart units
 const IDP_UNITS = new Set([
@@ -185,7 +192,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const data = (await instacartResponse.json()) as InstacartShoppingListResponse;
+    const data = await readJson(instacartResponse, {
+      parse: (v) => InstacartShoppingListResponseSchema.parse(v),
+    });
     let productsLinkUrl = data.products_link_url;
 
     // Append affiliate UTM parameters

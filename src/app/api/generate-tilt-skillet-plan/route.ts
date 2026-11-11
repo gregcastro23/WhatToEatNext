@@ -13,6 +13,8 @@
  *   - Defensive Zod re-check of PA's response against tiltSkilletBatchSchema so schema drift
  *     surfaces at the WTEN edge.
  */
+import { z } from "zod";
+import { safeReadJson } from "@/lib/api/json";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
 import { collectOrRefuse, quoteFeature, refuseIfUnaffordable } from "@/lib/economy/featureCharge";
 import { _logger } from "@/lib/logger";
@@ -24,7 +26,13 @@ import {
 } from "@/types/tiltSkilletSchema";
 import { computeBatchCircuit } from "@/utils/tiltSkilletCircuit";
 import type { NextRequest } from "next/server";
-import type { z } from "zod";
+
+const UpstreamErrorBodySchema = z
+  .object({
+    detail: z.string().optional(),
+    message: z.string().optional(),
+  })
+  .passthrough();
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -106,7 +114,12 @@ async function handlePost(request: NextRequest) {
     });
 
     if (!agentResponse.ok) {
-      const upstreamBody = (await agentResponse.json().catch(() => ({}))) as Record<string, unknown>;
+      const upstreamBody = await safeReadJson(agentResponse, {}, {
+        parse: (v) => {
+          const parsedErr = UpstreamErrorBodySchema.safeParse(v);
+          return parsedErr.success ? parsedErr.data : {};
+        },
+      });
       const upstreamDetail =
         typeof upstreamBody.detail === "string"
           ? upstreamBody.detail
@@ -124,7 +137,7 @@ async function handlePost(request: NextRequest) {
       );
     }
 
-    const parsedResp = (await agentResponse.json()) as unknown;
+    const parsedResp: unknown = await agentResponse.json();
     const validation = tiltSkilletBatchSchema.safeParse(parsedResp);
     if (!validation.success) {
       _logger.error(

@@ -7,7 +7,11 @@ import { _logger } from "@/lib/logger";
 import { SEARCH_QUERY_MAX_LENGTH, type OmnibarResponse } from "@/lib/validation/searchSchemas";
 import { getSearchIndex } from "./loader";
 import { searchOmnibar } from "./omnibar";
-import { isZeroResultSearch, scheduleZeroResultSearchGap } from "./searchGaps";
+import {
+  isZeroResultSearch,
+  loadResolvedSearchGapMappings,
+  scheduleZeroResultSearchGap,
+} from "./searchGaps";
 import { toOmnibarResponse } from "./serialize";
 
 const PAGE_PER_KIND = 24;
@@ -28,9 +32,20 @@ export function pageQuery(raw: string | string[] | undefined): string {
 export async function searchForPage(query: string, now: Date): Promise<OmnibarResponse | null> {
   try {
     const index = await getSearchIndex();
-    const result = searchOmnibar(index, query, { now, perKindLimit: PAGE_PER_KIND, containingLimit: PAGE_CONTAINING });
+    let result = searchOmnibar(index, query, { now, perKindLimit: PAGE_PER_KIND, containingLimit: PAGE_CONTAINING });
     if (query.trim().length >= 3 && isZeroResultSearch(result)) {
-      scheduleZeroResultSearchGap(query, result.chips);
+      const resolvedGapMappings = await loadResolvedSearchGapMappings();
+      if (resolvedGapMappings.size > 0) {
+        result = searchOmnibar(index, query, {
+          now,
+          perKindLimit: PAGE_PER_KIND,
+          containingLimit: PAGE_CONTAINING,
+          resolvedGapMappings,
+        });
+      }
+      if (isZeroResultSearch(result)) {
+        scheduleZeroResultSearchGap(query, result.chips);
+      }
     }
     return toOmnibarResponse(result);
   } catch (error) {

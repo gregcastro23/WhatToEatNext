@@ -10,6 +10,8 @@
  */
 
 import { NextResponse } from "next/server";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import {
   fetchInstacartIdp,
   InstacartConfigurationError,
@@ -25,6 +27,11 @@ import { getAssetUrl } from "@/utils/urlUtils";
 import type { NextRequest } from "next/server";
 
 const FETCH_TIMEOUT_MS = 15_000;
+
+const InstacartRecipeResponseSchema: z.ZodType<InstacartRecipeResponse> =
+  z.object({
+    products_link_url: z.string(),
+  });
 
 // In-memory cache: recipe external_reference_id → products_link_url
 interface CacheEntry {
@@ -149,8 +156,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const data =
-      (await instacartResponse.json()) as InstacartRecipeResponse;
+    const data = await readJson(instacartResponse, {
+      parse: (v) => InstacartRecipeResponseSchema.parse(v),
+    });
     let productsLinkUrl = data.products_link_url;
 
     // Append affiliate UTM parameters

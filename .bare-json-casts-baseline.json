@@ -1,6 +1,6 @@
 {
-  "total": 75,
-  "production": 66,
+  "total": 64,
+  "production": 55,
   "test": 9,
   "byFile": {
     "src/__tests__/api/syncCreditDailyGuard.test.ts": 3,
@@ -13,12 +13,7 @@
     "src/app/api/agent-forge/ignite/route.ts": 2,
     "src/app/api/alchm-quantities/route.ts": 1,
     "src/app/api/economy/shop/purchase/__tests__/shopPurchaseOneTimeGuard.test.ts": 3,
-    "src/app/api/generate-tilt-skillet-plan/route.ts": 1,
     "src/app/api/health/__tests__/healthReportsDatabaseOutage.test.ts": 1,
-    "src/app/api/instacart/recipe/route.ts": 1,
-    "src/app/api/instacart/retailers/route.ts": 1,
-    "src/app/api/instacart/shopping-list/route.ts": 1,
-    "src/app/api/restaurants/search/route.ts": 1,
     "src/app/api/rituals/generate-cooking-instruction/__tests__/route.test.ts": 2,
     "src/app/t/[token]/page.tsx": 2,
     "src/components/chat/MessageButton.tsx": 1,
@@ -55,14 +50,9 @@
     "src/hooks/useMenuPersistence.ts": 1,
     "src/hooks/useShareIdentityDefault.ts": 1,
     "src/hooks/useUserLocation.ts": 2,
-    "src/lib/amazonCreators.ts": 2,
-    "src/lib/environment/openMeteoClient.ts": 1,
     "src/services/commensalRecommendationService.ts": 2,
-    "src/services/geocodingService.ts": 1,
     "src/services/planetaryScoring.ts": 1,
     "src/services/restaurantDiscoveryService.ts": 1,
-    "src/services/tripadvisorService.ts": 1,
-    "src/services/UnifiedScoringService.ts": 1,
-    "src/services/yelpService.ts": 1
+    "src/services/UnifiedScoringService.ts": 1
   }
 }
