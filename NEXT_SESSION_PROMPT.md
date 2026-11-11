@@ -1,8 +1,8 @@
-<session_handoff version="5.2" date="2026-11-11">
+<session_handoff version="5.3" date="2026-11-11">
 
   <metadata>
     <repository>/Users/cookingwithcastro/Desktop/WhatToEatNext-master</repository>
-    <base_branch commit="PR-1004">master</base_branch>
+    <base_branch commit="626aaebb">master</base_branch>
     <hardware_profile>Apple Silicon M5 / 16 GB Unified Memory</hardware_profile>
     <runtime_policy>Bun-strict (`bun run ...`, `bunx ...`, `bun --bun run dev`). Never invoke npm or npx for project scripts.</runtime_policy>
   </metadata>
@@ -30,7 +30,7 @@
       Never import full static ingredient catalogs (1,002 items), USDA portion tables, or server database modules into `"use client"` components. Enforce all 12 route bundle ceilings in `scripts/check-route-sizes.cjs`.
     </invariant>
     <invariant id="static_ratchets">
-      New and modified files must remain under the 300-line ceiling, introduce zero `Record&lt;string, any&gt;` casts or redundant conditions, and uphold static baselines: `.bare-json-casts-baseline.json` &lt;= 55 (production), `.lint-debt-baseline.json` &lt;= 1276 (assertion sites &lt;= 2744), `testOnly` &lt;= 39, and `UNREACHABLE (dead): 0`.
+      New and modified files must remain under the 300-line ceiling, introduce zero `Record&lt;string, any&gt;` casts or redundant conditions, and uphold static baselines: `.bare-json-casts-baseline.json` &lt;= 46 (production), `.lint-debt-baseline.json` &lt;= 1275 (assertion sites &lt;= 2734), `testOnly` &lt;= 39, and `UNREACHABLE (dead): 0`.
     </invariant>
     <invariant id="circuit_breaker_and_reconciler">
       All live SpacetimeDB reads must route through `spacetimeCircuitBreaker.ts` with half-open recovery support. All cosmic generation reconcilers must use `FOR UPDATE SKIP LOCKED` and verify matching `token_transactions` debit legs before refunding.
@@ -56,45 +56,51 @@
       <item>Added SpacetimeDB half-open probe recovery (`transitionSpacetimeCircuitToHalfOpen`, `POST /api/admin/diagnostics/spacetime`) and interactive reset UI in `SpacetimeDiagnosticsPanel.tsx`.</item>
       <item>Pruned legacy test-only modules (`src/data/foodTypes.ts`, `src/services/ElementalRecommendationService.ts`), bringing `testOnly` down to 39 (`dead: 0`).</item>
     </track>
+    <track id="5" name="Production Bare-JSON Ratchet &amp; Search Gap Velocity Alerts (PR #1006)">
+      <item>Converted 9 bare JSON casts across API routes and services to `readJson` / `parseJsonRecord` with 0 new type assertions; ratcheted production bare JSON casts from 55 down to 46 (total 55).</item>
+      <item>Surfaced high-velocity search gap alerts (&gt;= 5 hits in 24h) in `SearchGapsPanel.tsx` with dedicated amber banner and table row velocity badges.</item>
+      <item>Added quick action `Draft Recipe` directly queueing cosmic recipe drafts (`action: 'queue_cosmic_recipe'`) into the recipe pipeline from the gap row.</item>
+      <item>Ratcheted `.lint-debt-baseline.json` down to 1275 tracked debt (2734 assertion sites) and verified all 13 static gates green.</item>
+      <item>Expanded test suite to 646 passing suites / 7,044 passing tests with dedicated `SearchGapsPanel.test.tsx`.</item>
+    </track>
   </completed_state>
 
   <next_horizon_backlog priority_ordered="true">
-    <objective priority="P1" id="sub_50_bare_json_ratchet">
-      <title>Push Production Bare JSON Casts Below 50</title>
-      <context>
-        55 production bare JSON casts remain in `.bare-json-casts-baseline.json` (mostly in remaining administrative probes and external partner endpoints).
-      </context>
-      <deliverables>
-        <item>Convert at least 6 additional production bare JSON casts to `readJson` + Zod schemas, ratcheting `.bare-json-casts-baseline.json` to &lt;= 49.</item>
-      </deliverables>
-    </objective>
-
-    <objective priority="P2" id="search_gap_trend_analytics">
-      <title>Search Gap Velocity &amp; Repeat Trend Alerting</title>
-      <context>
-        `search_zero_result_gaps` records `hit_count`, `first_seen_at`, and `last_seen_at`. High-velocity search misses indicate emerging menu or ingredient trends.
-      </context>
-      <deliverables>
-        <item>Surface high-velocity gap alerts (&gt;= 5 hits in 24h) in `SearchGapsPanel.tsx`.</item>
-        <item>Add a quick action to draft a cosmic recipe directly from the gap row into the recipe pipeline.</item>
-      </deliverables>
-    </objective>
-
-    <objective priority="P3" id="remaining_39_test_only_audit">
+    <objective priority="P1" id="remaining_39_test_only_audit">
       <title>Prune or Consolidate Remaining 39 `testOnly` Modules</title>
       <context>
-        `audit:dead-modules` reports 39 testOnly files, primarily legacy client mock factories.
+        `audit:dead-modules` reports 39 testOnly files, primarily legacy client mock factories and dead test helpers.
       </context>
       <deliverables>
         <item>Audit remaining testOnly modules and consolidate mock factories into dedicated test suites, targeting `testOnly &lt;= 32` without dropping test coverage.</item>
+      </deliverables>
+    </objective>
+
+    <objective priority="P2" id="sub_40_bare_json_ratchet">
+      <title>Push Production Bare JSON Casts Below 40</title>
+      <context>
+        46 production bare JSON casts remain in `.bare-json-casts-baseline.json` (down from 55).
+      </context>
+      <deliverables>
+        <item>Convert at least 7 additional production bare JSON casts to `readJson` + safe Zod validators, ratcheting `.bare-json-casts-baseline.json` to &lt;= 39.</item>
+      </deliverables>
+    </objective>
+
+    <objective priority="P3" id="cosmic_recipe_pipeline_batch_drafting">
+      <title>Cosmic Recipe Pipeline Batch Drafting from Search Gaps</title>
+      <context>
+        `SearchGapsPanel.tsx` now supports per-row drafting into the pipeline. Bulk drafting high-velocity queries will accelerate catalog coverage.
+      </context>
+      <deliverables>
+        <item>Add multi-select checkbox controls in `SearchGapsPanel.tsx` to batch-draft all selected high-velocity gaps into the cosmic recipe pipeline in one click.</item>
       </deliverables>
     </objective>
   </next_horizon_backlog>
 
   <verification_gates mandatory_before_commit="true">
     <gate order="1" command="lsof -ti:3000 -ti:5175">Verify 0 background processes listening.</gate>
-    <gate order="2" command="bun run verify:static">All 13 static gates must pass (0 TS errors, 0 ESLint errors, lint-debt &lt;= 1276, bare-json &lt;= 55, dead-modules = 0).</gate>
-    <gate order="3" command="bun run test &amp;&amp; python3 -m pytest backend/tests/test_migration_names.py">All 645 Jest suites (7,038+ tests) and 16 Python migration assertions must pass.</gate>
+    <gate order="2" command="bun run verify:static">All 13 static gates must pass (0 TS errors, 0 ESLint errors, lint-debt &lt;= 1275, bare-json &lt;= 46, dead-modules = 0).</gate>
+    <gate order="3" command="bun run test &amp;&amp; python3 -m pytest backend/tests/test_migration_names.py">All 646 Jest suites (7,044+ tests) and 16 Python migration assertions must pass.</gate>
     <gate order="4" command="bun run build">Production build and all 12 route bundle ceilings in `scripts/check-route-sizes.cjs` must pass.</gate>
   </verification_gates>
 
