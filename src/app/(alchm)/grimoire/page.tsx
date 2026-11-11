@@ -16,55 +16,14 @@ import Link from "next/link";
 import { useCallback, useEffect, useState, type JSX } from "react";
 import { Button } from "@/components/ui/button";
 import { emitTokenEconomyUpdate } from "@/hooks/useTokenEconomy";
+import { readJson } from "@/lib/api/json";
 import { revealPracticeReward } from "@/lib/economy/practiceClient";
-
-interface CoinVector {
-  spirit: number;
-  essence: number;
-  matter: number;
-  substance: number;
-}
-
-interface GrimoireData {
-  success: boolean;
-  sky: {
-    dominantElement: string;
-    skyMultiplier: number;
-    rulingDayPlanet: string;
-    rulingHourPlanet: string;
-    personalized: boolean;
-  };
-  resonance: CoinVector;
-  allowance: { total: number; spent: number; remaining: number };
-  practices: Array<{
-    type: string;
-    tokenType: string;
-    description: string;
-    baseAmount: number;
-    dedupe: "daily" | "ever";
-    dailyCap: number;
-    todayAmount: number;
-    todayModifier: number;
-  }>;
-  discoveredSurfaces: string[];
-  streak: {
-    current: number;
-    longest: number;
-    nextMilestone: { days: number; totalTokens: number } | null;
-    milestones: Array<{ days: number; totalTokens: number }>;
-  };
-  feats: Array<{
-    slug: string;
-    title: string;
-    description: string | null;
-    tokenRewardType: string;
-    tokenRewardAmount: number;
-    progress: number;
-    threshold: number;
-    completedAt: string | null;
-    claimedAt: string | null;
-  }>;
-}
+import {
+  parseClaimResponse,
+  parseGrimoireData,
+  type CoinVector,
+  type GrimoireData,
+} from "./parsers";
 
 const COINS: Array<{ key: keyof CoinVector; label: string; symbol: string; color: string }> = [
   { key: "spirit", label: "Spirit", symbol: "🝇", color: "#fbbf24" },
@@ -98,7 +57,7 @@ export default function GrimoirePage(): JSX.Element {
         setAuthError(true);
         return;
       }
-      if (res.ok) setData((await res.json()) as GrimoireData);
+      if (res.ok) setData(await readJson(res, { parse: parseGrimoireData }));
     } catch {
       /* the grimoire stays shut — error state below */
     } finally {
@@ -119,7 +78,7 @@ export default function GrimoirePage(): JSX.Element {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ questSlug: slug }),
         });
-        const json = (await res.json()) as { success?: boolean; tokensAwarded?: number };
+        const json = await readJson(res, { parse: parseClaimResponse });
         if (json.success && json.tokensAwarded) {
           revealPracticeReward({
             tokenType: tokenType === "all" ? "Spirit" : tokenType,

@@ -16,7 +16,7 @@ jest.mock("@/services/commensalDatabaseService", () => ({
 }));
 
 // Import after mock
-import { computeGroupDynamics } from "@/utils/groupDynamics";
+import { computeGroupDynamics } from "../tests/helpers/groupDynamics";
 
 describe("computeGroupDynamics", () => {
   beforeEach(() => {

@@ -9,7 +9,7 @@
  * - Nutritional estimates based on ingredient categories
  * - Meal type determination
  *
- * @file src/utils/recipe/RecipeDataEnricher.ts
+ * @file tests/helpers/RecipeDataEnricher.ts
  * @created 2026-01-29
  */
 
@@ -19,7 +19,7 @@ import type {
   RecipeIngredient,
 } from "@/types/recipe";
 import { COOKING_METHOD_MODIFIERS } from "@/utils/hierarchicalRecipeCalculations";
-import { createLogger } from "../logger";
+import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("RecipeDataEnricher");
 

@@ -9,7 +9,9 @@
  */
 
 import { useRef, useState } from "react";
+import { parseReservationCheckoutResult } from "@/components/RestaurantDiscovery/reservationCheckoutParser";
 import { useToast } from "@/components/ToastProvider";
+import { readJson } from "@/lib/api/json";
 import { restaurantCryptoPaymentsEnabled } from "@/lib/payments/restaurantPayments";
 import type { RestaurantPaymentPreference } from "@/lib/payments/restaurantPayments";
 import type { AlchmScoredRestaurant, RestaurantDiscoverySource } from "@/types/yelp";
@@ -91,9 +93,7 @@ export function ReservationModal({
         return;
       }
 
-      const data = (await res.json()) as
-        | { mode: "stripe_checkout"; url: string; orderId: string }
-        | { mode: "external"; url: string; reason: string; orderId: string };
+      const data = await readJson(res, { parse: parseReservationCheckoutResult });
 
       if (data.mode === "stripe_checkout") {
         checkoutIdempotencyKey.current = null;

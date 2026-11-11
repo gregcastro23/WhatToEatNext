@@ -16,9 +16,11 @@ import { AlchemizeOptInModal } from "@/components/RestaurantDiscovery/AlchemizeO
 import { useFavoriteRestaurants } from "@/components/RestaurantDiscovery/favoriteRestaurants";
 import { RateDishModal } from "@/components/RestaurantDiscovery/RateDishModal";
 import { ReservationModal } from "@/components/RestaurantDiscovery/ReservationModal";
+import { parseRestaurantSearchResponse } from "@/components/RestaurantDiscovery/restaurantSearchParser";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
 import { useUserLocation } from "@/hooks/useUserLocation";
+import { readJson } from "@/lib/api/json";
 import type { SavedRestaurant } from "@/types/restaurant";
 import type {
   AlchmScoredRestaurant,
@@ -295,7 +297,7 @@ export function RestaurantDiscovery({
           return;
         }
 
-        const data = (await res.json()) as RestaurantSearchResponse;
+        const data = await readJson(res, { parse: parseRestaurantSearchResponse });
 
         if (
           data.error === "Yelp integration not configured" ||

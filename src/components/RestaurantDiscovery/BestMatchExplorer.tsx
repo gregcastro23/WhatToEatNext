@@ -26,6 +26,7 @@ import {
   metersToMiles,
   sourceLabel,
 } from "@/components/RestaurantDiscovery/restaurantDisplay";
+import { parseRestaurantSearchResponse } from "@/components/RestaurantDiscovery/restaurantSearchParser";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
 import {
@@ -33,6 +34,7 @@ import {
   type CitySuggestion,
   type HorizontalBasis,
 } from "@/hooks/useUserLocation";
+import { readJson } from "@/lib/api/json";
 import { firePractice } from "@/lib/economy/practiceClient";
 import { parsePostalCode } from "@/lib/location/postalCode";
 import type { SavedRestaurant } from "@/types/restaurant";
@@ -299,7 +301,7 @@ export function BestMatchExplorer({
           setStatus({ kind: "error", message: `Server error (${res.status})` });
           return;
         }
-        const data = (await res.json()) as RestaurantSearchResponse;
+        const data = await readJson(res, { parse: parseRestaurantSearchResponse });
 
         if (data.error === "Restaurant discovery is not configured.") {
           setStatus({ kind: "not-configured" });
