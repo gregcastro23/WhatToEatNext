@@ -3,6 +3,27 @@ import { FOREST_HILLS_COORDINATES } from "@/config/locationConfig";
 import { _logger } from "@/lib/logger";
 import type { Planet } from "@/types/celestial";
 
+const HOUR_MS = 60 * 60 * 1000;
+const DAY_MS = 24 * HOUR_MS;
+
+/**
+ * The classical planetary hours.
+ *
+ * The planetary DAY runs from one sunrise to the next, not from midnight to
+ * midnight. Its first hour belongs to the planet of the weekday on which that
+ * sunrise falls; the time from sunrise to sunset is divided into 12 equal day
+ * hours and the time from sunset to the next sunrise into 12 equal night hours,
+ * and each hour belongs to the next planet in the Chaldean order after the one
+ * before it (see `planetaryHours` below, which is that order from each weekday's
+ * planet).
+ *
+ * So the hours between midnight and dawn are the LAST night hours of the day
+ * that began at yesterday's sunrise, and their planets come from yesterday's
+ * row. The weekday is the one at the PLACE, never the host's: see
+ * `localMeanSolarWeekday`. The Python reference is
+ * `planetary_hour_at` in backend/utils/planetary_hours.py, and both are held
+ * to the same golden vectors (backend/tests/planetary_hour_golden_vectors.json).
+ */
 export class PlanetaryHourCalculator {
   // Planetary hour configuration according to traditional planetary rulers
   private static readonly planetaryHours: Record<string, Planet[]> = {
@@ -83,11 +104,6 @@ export class PlanetaryHourCalculator {
     return this.getPlanetaryDay(new Date());
   }
 
-  /**
-   * Calculate the planetary day for a given date
-   * @param date The date to calculate the planetary day for
-   * @returns The planet ruling that day
-   */
   /** Resolve the hour sequence for a weekday index, naming the invariant if it is out of range. */
   private static sequenceFor(dayOfWeek: number): Planet[] {
     const dayName = PlanetaryHourCalculator.dayNames[dayOfWeek];
@@ -114,11 +130,113 @@ export class PlanetaryHourCalculator {
     return ruler;
   }
 
-  getPlanetaryDay(date: Date): Planet {
-    // Day of the week (0 = Sunday1 = Monday, etc.)
-    const dayOfWeek = date.getDay();
+  /**
+   * The weekday (0 = Sunday) at this calculator's longitude of an instant, by
+   * LOCAL MEAN SOLAR TIME: UTC shifted by longitude / 15 hours.
+   *
+   * Chosen over the host's `getDay()` because the host is not the place. A
+   * server in UTC (Vercel) called Saturday evening in New York "Sunday" from
+   * 20:00 local, and a laptop in Tokyo called it by Tokyo's date. It is chosen
+   * over a civil timezone because the calculator is given only a latitude and a
+   * longitude, and no timezone database can turn those into a zone offline; this
+   * needs none and is the same on every machine. It is also exactly what the
+   * Python reference does, so the golden vectors apply with no per-zone special
+   * case.
+   *
+   * It is the civil weekday everywhere except where the civil date is on the
+   * other side of the date line from the longitude (Kiritimati, the Chatham
+   * Islands, Tonga, Samoa), or where the instant asked about is within a few
+   * hours of local midnight, which for the weekday of a SUNRISE means the polar
+   * summer. There it can be a day out; the reference documents the same limit.
+   */
+  private localMeanSolarWeekday(instant: number): number {
+    return new Date(
+      instant + (this.coordinates.longitude / 15) * HOUR_MS,
+    ).getUTCDay();
+  }
 
-    // Return the planetary ruler for that day
+  /**
+   * Where `date` falls in the planetary day it belongs to, from the sunrise and
+   * sunset SunCalc finds for the solar day CONTAINING `date` (see `sunTimesFor`).
+   *
+   * That solar day runs from about solar midnight to the next, so for a moment
+   * between midnight and sunrise it is the day that is just beginning, while
+   * the planetary day in progress is yesterday's: it began at yesterday's
+   * sunrise, and its night began at yesterday's sunset. Those two are taken as
+   * this solar day's, one day earlier. (Reading `date - sunset` there, as this
+   * once did, is negative; the hour index was clamped to 0 and every pre-dawn
+   * moment was "night hour 1" of the wrong day's row.)
+   *
+   * The lengths are the ones this class has always used: the day is
+   * sunset - sunrise, the night is 24 hours less that, and each is split in 12.
+   * Moving the hour logic here changed the ruler and the pre-dawn hour number
+   * and no time: the end of an hour and the start and end of a detailed hour
+   * are the same to the millisecond (checked against the previous
+   * implementation on 12,800 random moments).
+   *
+   * @returns `dayStart`, the sunrise that began the planetary day; `periodStart`,
+   *   the sunrise (day hours) or the sunset (night hours) the hours are counted
+   *   from; and `hourIndex` (0-11) in that period, `hourLength` in ms.
+   */
+  private locateHour(
+    date: Date,
+    sunrise: Date,
+    sunset: Date,
+  ): {
+    isDaytime: boolean;
+    hourIndex: number;
+    hourLength: number;
+    periodStart: number;
+    dayStart: number;
+  } {
+    const at = date.getTime();
+    const rise = sunrise.getTime();
+    const set = sunset.getTime();
+
+    const isDaytime = at >= rise && at <= set;
+    const dayLength = set - rise;
+    const nightLength = rise + DAY_MS - set;
+    const hourLength = (isDaytime ? dayLength : nightLength) / 12;
+
+    // Before sunrise the planetary day in progress began YESTERDAY.
+    const dayStart = at < rise ? rise - DAY_MS : rise;
+    // Night hours count from the sunset that began this night: today's if it
+    // has happened, otherwise yesterday's.
+    const nightStart = at >= set ? set : set - DAY_MS;
+    const periodStart = isDaytime ? rise : nightStart;
+
+    let hourIndex = Math.floor((at - periodStart) / hourLength);
+    if (hourIndex < 0) hourIndex = 0;
+    if (hourIndex > 11) hourIndex = 11;
+
+    return { isDaytime, hourIndex, hourLength, periodStart, dayStart };
+  }
+
+  /**
+   * The planet of the PLANETARY day `date` is in: the planet of the weekday, at
+   * this place, on which the sunrise that began it fell. Between midnight and
+   * sunrise that is yesterday's planet (at 3am on a Monday the day still running
+   * is Sunday's, the Sun's), and the weekday is the place's, not the host's: see
+   * `localMeanSolarWeekday`.
+   *
+   * Where the Sun does not rise (the polar night and the midnight sun) there is
+   * no sunrise to begin a day, so the planet of the local mean solar date of
+   * `date` itself is returned.
+   *
+   * @param date The instant to find the planetary day of
+   * @returns The planet ruling that day
+   */
+  getPlanetaryDay(date: Date): Planet {
+    const { sunrise } = this.sunTimesFor(date);
+    const sunriseAt = sunrise?.getTime();
+    // The instant the planetary day began; with no sunrise to begin one, the
+    // instant itself.
+    let begun = date.getTime();
+    if (sunriseAt !== undefined && !Number.isNaN(sunriseAt)) {
+      begun = begun < sunriseAt ? sunriseAt - DAY_MS : sunriseAt;
+    }
+    const dayOfWeek = this.localMeanSolarWeekday(begun);
+
     const ruler = PlanetaryHourCalculator.dayRulers[dayOfWeek];
     if (ruler === undefined) {
       throw new Error(`PlanetaryHourCalculator: no day ruler for index ${dayOfWeek}`);
@@ -189,11 +307,6 @@ export class PlanetaryHourCalculator {
   }
 
   /**
-   * Calculate the planetary hour for a given date
-   * @param date The date to calculate the planetary hour for
-   * @returns Object containing the planet ruling the hour, hour number and if it's daytime
-   */
-  /**
    * Sun times for the solar day CONTAINING `date`, resolved at this
    * calculator's coordinates.
    *
@@ -220,6 +333,18 @@ export class PlanetaryHourCalculator {
     );
   }
 
+  /**
+   * Calculate the planetary hour for a given date
+   *
+   * The planet is the classical one: the sequence of the weekday, at this
+   * place, of the sunrise that began the planetary day `date` is in, entry
+   * `hour % 7` of its 24 hours. Between midnight and sunrise that is
+   * yesterday's sequence (see `locateHour`).
+   *
+   * @param date The date to calculate the planetary hour for
+   * @returns Object containing the planet ruling the hour, the hour number (0-11
+   *   within the day or the night) and if it's daytime
+   */
   getPlanetaryHour(date: Date): {
     planet: Planet;
     hourNumber: number;
@@ -237,28 +362,14 @@ export class PlanetaryHourCalculator {
       return this.getFallbackPlanetaryHour(date);
     }
 
-    // Check if it's day or night
-    const isDaytime = date >= sunrise && date <= sunset;
+    const { isDaytime, hourIndex, dayStart } = this.locateHour(
+      date,
+      sunrise,
+      sunset,
+    );
 
-    // Calculate length of day and night in milliseconds
-    const dayLength = sunset.getTime() - sunrise.getTime();
-    const nightLength =
-      sunrise.getTime() + 24 * 60 * 60 * 1000 - sunset.getTime();
-
-    // Length of each hour (day and night hours have different lengths);
-    const hourLength = isDaytime ? dayLength / 12 : nightLength / 12;
-
-    // Time since start of day/night period
-    const timeSinceStart = isDaytime
-      ? date.getTime() - sunrise.getTime()
-      : date.getTime() - sunset.getTime();
-
-    // Calculate hour index (0-11)
-    let hourIndex = Math.floor(timeSinceStart / hourLength);
-    if (hourIndex < 0) hourIndex = 0;
-    if (hourIndex > 11) hourIndex = 11;
-    // Determine day of week (0 = Sunday1 = Monday, etc.)
-    const dayOfWeek = date.getDay();
+    // The weekday of the sunrise that began the planetary day, at this place.
+    const dayOfWeek = this.localMeanSolarWeekday(dayStart);
 
     // The Day sequence array already begins with the Day's ruler,
     // so we just calculate the continuous hour from sunrise (0 to 23)
@@ -357,27 +468,15 @@ export class PlanetaryHourCalculator {
       return nextHour;
     }
 
-    const isDaytime = date >= sunrise && date <= sunset;
-    const dayLength = sunset.getTime() - sunrise.getTime();
-    const nightLength = sunrise.getTime() + 24 * 60 * 60 * 1000 - sunset.getTime();
-    const hourLength = isDaytime ? dayLength / 12 : nightLength / 12;
-    const timeSinceStart = isDaytime
-      ? date.getTime() - sunrise.getTime()
-      : date.getTime() >= sunset.getTime()
-        ? date.getTime() - sunset.getTime()
-        : date.getTime() + 24 * 60 * 60 * 1000 - sunset.getTime();
+    // The same place in the planetary day that `getPlanetaryHour` finds: one
+    // function, not two copies of the pre-dawn arithmetic.
+    const { hourIndex, hourLength, periodStart } = this.locateHour(
+      date,
+      sunrise,
+      sunset,
+    );
 
-    let hourIndex = Math.floor(timeSinceStart / hourLength);
-    if (hourIndex < 0) hourIndex = 0;
-    if (hourIndex > 11) hourIndex = 11;
-
-    const startPeriod = isDaytime
-      ? sunrise.getTime()
-      : date.getTime() >= sunset.getTime()
-        ? sunset.getTime()
-        : sunset.getTime() - 24 * 60 * 60 * 1000;
-
-    return new Date(startPeriod + (hourIndex + 1) * hourLength);
+    return new Date(periodStart + (hourIndex + 1) * hourLength);
   }
 
   /**

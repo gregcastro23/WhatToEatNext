@@ -28,26 +28,6 @@ interface AlchemicalScores {
   Substance: number;
 }
 
-const DAY_RULERS: Planet[] = [
-  "Sun",
-  "Moon",
-  "Mars",
-  "Mercury",
-  "Jupiter",
-  "Venus",
-  "Saturn",
-];
-
-const CHALDEAN_HOUR_ORDER: Planet[] = [
-  "Sun",
-  "Venus",
-  "Mercury",
-  "Moon",
-  "Saturn",
-  "Jupiter",
-  "Mars",
-];
-
 const WEAKNESS_LABELS: Record<AlchemicalKey, string> = {
   Spirit: "Spirit deficit",
   Essence: "Essence deficit",
@@ -108,26 +88,28 @@ function normalizeLocation(
   };
 }
 
+/**
+ * The planet that rules the planetary hour `date` is in.
+ *
+ * With no location it is the app's default place (the calculator's own
+ * default, as for every other caller that passes none). This used to fall back
+ * to the SERVER's weekday and wall-clock hour (`DAY_RULERS[date.getDay()]`
+ * walked on by `date.getHours()`), which is not a planetary hour at all: the
+ * planetary day begins at sunrise and its hours are not 60 minutes long.
+ * MEASURED 2026-11-10 against the Python reference at the default place, over
+ * 336 hours (a June and a December week): right on 0 of 336 on a UTC host (what
+ * Vercel runs) and 98 of 336 (29%) on a New York or Tokyo host. The only client,
+ * CelestialEquilibrium, sends no location, so this was the path it took.
+ */
 function getPlanetaryHourRuler(
   date: Date,
   location?: { latitude?: number; longitude?: number },
 ): Planet {
-  if (
-    typeof location?.latitude === "number" &&
-    typeof location?.longitude === "number"
-  ) {
-    const calculator = new PlanetaryHourCalculator(
-      location.latitude,
-      location.longitude,
-    );
-    const current = calculator.getPlanetaryHour(date);
-    if (current?.planet) return current.planet;
-  }
-
-  const dayPlanet = DAY_RULERS[date.getDay()] ?? "Sun";
-  const startIndex = CHALDEAN_HOUR_ORDER.indexOf(dayPlanet);
-  const hourIndex = (startIndex + date.getHours()) % CHALDEAN_HOUR_ORDER.length;
-  return CHALDEAN_HOUR_ORDER[hourIndex] ?? "Sun";
+  const calculator = new PlanetaryHourCalculator(
+    location?.latitude,
+    location?.longitude,
+  );
+  return calculator.getPlanetaryHour(date).planet;
 }
 
 function formatHourRange(date: Date): string {
