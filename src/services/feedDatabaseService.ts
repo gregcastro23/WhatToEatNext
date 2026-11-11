@@ -18,6 +18,13 @@ import {
 } from "@/lib/feed/identity";
 import { _logger } from "@/lib/logger";
 import { invalidateCommunityAgentsCache } from "@/lib/redis";
+import {
+  getSpacetimeCircuitBreakerSnapshot,
+  queryPostgresAgentRatingFallback,
+  recordSpacetimeClusterStatus,
+  type PostgresAgentRatingFallbackSummary,
+  type SpacetimeCircuitState,
+} from "@/lib/spacetime/spacetimeCircuitBreaker";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 
 export interface FeedEvent {
@@ -421,6 +428,7 @@ class FeedDatabaseService {
         feedEmitTracker.setLastEmit({ eventType: params.eventType, agentEmail, responseCode: res.status, timestamp: new Date().toISOString() });
         if (!res.ok) {
           const text = await res.text().catch(() => "");
+          if (res.status === 503) recordSpacetimeClusterStatus({ status: "paused", detail: `PA feed webhook returned HTTP 503 for ${agentEmail}` });
           _logger.error(`[Webhook PA] Failed to push event to PA: ${res.status} ${text}`);
         } else {
           _logger.info(`[Webhook PA] Successfully pushed event ${params.eventType} to PA for agent ${agentEmail}`);
@@ -430,6 +438,21 @@ class FeedDatabaseService {
         feedEmitTracker.setLastEmit({ eventType: params.eventType, agentEmail, responseCode: 0, timestamp: new Date().toISOString() });
         _logger.error("[Webhook PA] Error pushing to PA feed:", err);
       });
+  }
+
+  /**
+   * Read live agent rating summary via the SpacetimeDB circuit breaker,
+   * automatically falling back to PostgreSQL when `asol` is paused or unreachable.
+   */
+  async getAgentRatingSummaryWithFallback(
+    agentSlug?: string,
+  ): Promise<PostgresAgentRatingFallbackSummary & { circuitState: SpacetimeCircuitState }> {
+    const fallback = await queryPostgresAgentRatingFallback(agentSlug);
+    const snapshot = getSpacetimeCircuitBreakerSnapshot();
+    return {
+      ...fallback,
+      circuitState: snapshot.state,
+    };
   }
 
   /**
