@@ -3,9 +3,9 @@
 /**
  * CosmicOperationsPanel — Phase 45 durable cosmic generation operations admin panel.
  *
- * Displays active 90s leases, expired/stranded operations, and settled totals
- * from `GET /api/admin/cosmic-operations`, and allows operators to trigger a
- * manual or dry-run reconciliation sweep via `POST /api/admin/cosmic-operations`.
+ * Displays active 90s leases, expired/stranded operations, automated cron run
+ * telemetry (`cron:reconcile-cosmic-operations`), and allows operators to
+ * trigger a manual or dry-run reconciliation sweep.
  */
 import React from "react";
 import { z } from "zod";
@@ -32,6 +32,17 @@ const StrandedOperationSchema = z.object({
 
 type StrandedOperationRow = z.infer<typeof StrandedOperationSchema>;
 
+const AutomatedRunSchema = z.object({
+  startedAt: z.string(),
+  status: z.enum(["success", "failure", "timeout"]),
+  scanned: z.number().int().nonnegative(),
+  refundedCount: z.number().int().nonnegative(),
+  failedCount: z.number().int().nonnegative(),
+  pendingCount: z.number().int().nonnegative(),
+});
+
+type AutomatedRunTelemetry = z.infer<typeof AutomatedRunSchema>;
+
 const CosmicOperationsSummarySchema = z.object({
   success: z.literal(true),
   generatedAt: z.string(),
@@ -44,6 +55,7 @@ const CosmicOperationsSummarySchema = z.object({
     failed: z.number().int().nonnegative(),
   }),
   strandedOperations: z.array(StrandedOperationSchema),
+  lastAutomatedRun: AutomatedRunSchema.nullable().optional(),
 });
 
 type CosmicOperationsSummary = z.infer<typeof CosmicOperationsSummarySchema>;
@@ -56,14 +68,12 @@ const ReconcileOutcomeSchema = z.object({
   refunded: z.boolean(),
   refundTxId: z.string().nullable(),
 });
-
 const ReconcileResponseSchema = z.object({
   success: z.literal(true),
   dryRun: z.boolean(),
   scanned: z.number().int().nonnegative(),
   outcomes: z.array(ReconcileOutcomeSchema),
 });
-
 type ReconcileResponse = z.infer<typeof ReconcileResponseSchema>;
 
 function StrandedOperationsTable({ operations }: { operations: readonly StrandedOperationRow[] }): React.JSX.Element {
@@ -97,6 +107,28 @@ function StrandedOperationsTable({ operations }: { operations: readonly Stranded
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+function AutomatedRunStrip({ run }: { run: AutomatedRunTelemetry | null | undefined }): React.JSX.Element {
+  if (!run) {
+    return (
+      <div className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-600">
+        Automated cron (<code className="font-mono">35 * * * *</code>): no scheduled run recorded yet.
+      </div>
+    );
+  }
+  return (
+    <div className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-700 flex flex-wrap items-center justify-between gap-2">
+      <span>
+        Latest automated sweep:{" "}
+        <span className="font-semibold uppercase">{run.status}</span> at{" "}
+        <span className="font-mono">{new Date(run.startedAt).toLocaleString()}</span>
+      </span>
+      <span className="font-mono text-gray-600">
+        scanned={run.scanned} · refunded={run.refundedCount} · failed={run.failedCount} · pending={run.pendingCount}
+      </span>
     </div>
   );
 }
@@ -197,11 +229,7 @@ function useReconcileAction(refresh: () => Promise<{ ok: boolean }>): {
       const parsed = await readJson(res, { parse: ReconcileResponseSchema.parse });
       setLastSweep(parsed);
       const refundedCount = parsed.outcomes.filter((o) => o.refunded).length;
-      setSweepNotice(
-        parsed.dryRun
-          ? `Dry-run scanned ${parsed.scanned} expired row(s).`
-          : `Reconciled ${parsed.scanned} expired row(s) (${refundedCount} refunded).`,
-      );
+      setSweepNotice(parsed.dryRun ? `Dry-run scanned ${parsed.scanned} expired row(s).` : `Reconciled ${parsed.scanned} expired row(s) (${refundedCount} refunded).`);
       await refresh();
     } catch {
       setSweepNotice("Unable to complete cosmic operation reconciliation sweep.");
@@ -241,6 +269,7 @@ export function CosmicOperationsPanel(): React.JSX.Element {
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 space-y-5">
       <CosmicOperationsHeader provenance={provenance} sweeping={sweeping} onTrigger={trigger} />
+      <AutomatedRunStrip run={data.lastAutomatedRun} />
       {sweepNotice && (
         <div role="status" className="rounded-lg border border-purple-200 bg-purple-50 px-3 py-2 text-xs text-purple-900">
           <span>{sweepNotice}</span>

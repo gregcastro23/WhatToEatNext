@@ -12,9 +12,9 @@ interface VerifiedSubstitutionRule {
 
 const VERIFIED_VEGETARIAN_SUBSTITUTIONS: readonly VerifiedSubstitutionRule[] = [
   {
-    fromLabel: /^(?:(?:boneless|skinless|skin-on)\s+)*chicken(?:\s+(?:breasts?|thighs?))?$/i,
+    fromLabel: /^(?:(?:boneless|skinless|skin-on|whole|medium|airline)\s+)*chicken(?:\s+(?:breasts?|thighs?|wings?|drumsticks?|legs?))?$/i,
     toName: "firm tofu",
-    mention: /\b(?:(?:boneless|skinless|skin-on)\s+)*chicken(?:\s+(?:breasts?|thighs?))?\b/gi,
+    mention: /\b(?:(?:boneless|skinless|skin-on|whole|medium|airline)\s+)*chicken(?:\s+(?:breasts?|thighs?|wings?|drumsticks?|legs?))?\b/gi,
     ambiguous: /\b(?:vegan|mock|vegetarian|plant[- ]based)\s+chicken\b|\bchicken\s+of\s+the\s+woods\b/i,
   },
   {
@@ -24,9 +24,9 @@ const VERIFIED_VEGETARIAN_SUBSTITUTIONS: readonly VerifiedSubstitutionRule[] = [
     ambiguous: /\b(?:vegan|mock|vegetarian|plant[- ]based)\s+ground\s+(?:beef|pork|turkey|chicken|meat)\b/i,
   },
   {
-    fromLabel: /^(?:(?:boneless|cubed|sliced)\s+)*(?:beef(?:\s+(?:chuck|sirloin|tenderloin|strips?))?|steak|brisket)$/i,
+    fromLabel: /^(?:(?:boneless|cubed|thinly|sliced)\s+)*(?:beef(?:\s+(?:chuck|sirloin|tenderloin|strips?|shank|ribeye|flank|brisket))?|steak|brisket)$/i,
     toName: "seitan",
-    mention: /\b(?:(?:boneless|cubed|sliced)\s+)*(?:beef(?:\s+(?:chuck|sirloin|tenderloin|strips?))?|steak|brisket)\b/gi,
+    mention: /\b(?:(?:boneless|cubed|thinly|sliced)\s+)*(?:beef(?:\s+(?:chuck|sirloin|tenderloin|strips?|shank|ribeye|flank|brisket))?|steak|brisket)\b/gi,
     ambiguous: /\b(?:vegan|mock|vegetarian|plant[- ]based)\s+(?:beef|steak)\b|\bbeefsteak\s+(?:tomato(?:es)?|mushroom(?:s)?)\b/i,
   },
   {
@@ -34,6 +34,12 @@ const VERIFIED_VEGETARIAN_SUBSTITUTIONS: readonly VerifiedSubstitutionRule[] = [
     toName: "smoked tempeh",
     mention: /\b(?:(?:boneless|diced|sliced)\s+)*(?:pork(?:\s+(?:loin|chops?|tenderloin|shoulder|belly))?|bacon|ham)\b/gi,
     ambiguous: /\b(?:vegan|mock|vegetarian|plant[- ]based|turkey|coconut|tempeh)\s+(?:pork|bacon|ham)\b/i,
+  },
+  {
+    fromLabel: /^(?:(?:boneless|cubed|diced|sliced)\s+)*(?:lamb(?:\s+(?:shoulder|chops?|leg|shank))?|duck|turkey)$/i,
+    toName: "jackfruit",
+    mention: /\b(?:(?:boneless|cubed|diced|sliced)\s+)*(?:lamb(?:\s+(?:shoulder|chops?|leg|shank))?|duck|turkey)\b/gi,
+    ambiguous: /\b(?:vegan|mock|vegetarian|plant[- ]based)\s+(?:lamb|duck|turkey)\b/i,
   },
   {
     fromLabel: /^(?:(?:fresh|wild|skinless)\s+)*(?:salmon|cod|tuna|fish)(?:\s+fillets?)?$/i,

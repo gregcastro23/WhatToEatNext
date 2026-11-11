@@ -8,7 +8,7 @@
  *
  * The red proof restores the old card values under the new basis table.
  */
-import { SODIUM_FDC_BASIS, SODIUM_UNRESOLVED } from "@/data/ingredients/sodiumFdcBasis";
+import { SODIUM_FDC_BASIS, SODIUM_UNRESOLVED } from "@/__tests__/helpers/sodiumFdcBasis";
 import { unifiedIngredients } from "@/data/unified/ingredients";
 
 /** The profile's `macros.sodium` (or flat `sodium`), or undefined when it states none. */

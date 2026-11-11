@@ -39,6 +39,12 @@ const PREP_WORDS = new Set([
   "taste", "and",
 ]);
 
+const PLANT_PROTEIN_ALIASES: Record<string, string> = {
+  "crumbled tempeh": "tempeh",
+  "smoked tempeh": "tempeh",
+  "marinated tofu": "firm tofu",
+};
+
 /** Common irregular plurals worth handling explicitly. */
 const IRREGULAR_PLURALS: Record<string, string> = {
   leaves: "leaf",
@@ -215,7 +221,8 @@ export function resolveIngredientByName(
   const idx = exactIndex!;
   const entries = tokenIndex!;
 
-  const norm = normName(name);
+  const rawNorm = normName(name);
+  const norm = PLANT_PROTEIN_ALIASES[rawNorm] ?? rawNorm;
   const exact = idx.get(norm);
   if (exact) return exact;
 

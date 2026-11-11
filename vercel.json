@@ -73,6 +73,10 @@
     {
       "path": "/api/cron/environmental-ingest",
       "schedule": "10 * * * *"
+    },
+    {
+      "path": "/api/cron/reconcile-cosmic-operations",
+      "schedule": "35 * * * *"
     }
   ],
   "build": {

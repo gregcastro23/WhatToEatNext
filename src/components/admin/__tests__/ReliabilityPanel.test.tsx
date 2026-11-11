@@ -10,7 +10,7 @@
 
 import { render, screen, waitFor } from "@testing-library/react";
 import React from "react";
-import { makeDocumentVisible } from "@/utils/testing/pollingTestEnv";
+import { makeDocumentVisible } from "@/__tests__/helpers/pollingTestEnv";
 import ReliabilityPanel from "@/components/admin/ReliabilityPanel";
 import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 

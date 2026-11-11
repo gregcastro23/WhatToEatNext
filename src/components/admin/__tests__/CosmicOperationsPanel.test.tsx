@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 import CosmicOperationsPanel from "@/components/admin/CosmicOperationsPanel";
-import { makeDocumentVisible } from "@/utils/testing/pollingTestEnv";
+import { makeDocumentVisible } from "@/__tests__/helpers/pollingTestEnv";
 
 let restoreVisibility: () => void;
 beforeAll(() => {

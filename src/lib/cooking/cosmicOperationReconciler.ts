@@ -20,6 +20,15 @@ import {
 const OPEN_STATUSES = "('claimed', 'debited', 'generating', 'refund_pending')";
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+export interface AutomatedReconcileRunTelemetry {
+  startedAt: string;
+  status: "success" | "failure" | "timeout";
+  scanned: number;
+  refundedCount: number;
+  failedCount: number;
+  pendingCount: number;
+}
+
 interface SummaryTotalsRow {
   total: number | string | null;
   active_locks: number | string | null;
@@ -27,6 +36,9 @@ interface SummaryTotalsRow {
   completed: number | string | null;
   refunded: number | string | null;
   failed: number | string | null;
+  last_run_at?: Date | string | null;
+  last_run_status?: string | null;
+  last_run_payload?: Record<string, unknown> | null;
 }
 
 interface StrandedDbRow {
@@ -70,6 +82,7 @@ export interface CosmicOperationsDiagnosticSummary {
     failed: number;
   };
   strandedOperations: StrandedOperation[];
+  lastAutomatedRun: AutomatedReconcileRunTelemetry | null;
 }
 
 export interface ReconciledOperationOutcome {
@@ -88,17 +101,35 @@ export interface ReconcileCosmicOperationsResult {
   outcomes: ReconciledOperationOutcome[];
 }
 
+let inMemoryLastAutomatedRun: AutomatedReconcileRunTelemetry | null = null;
+/** Record latest automated cron run telemetry in memory alongside DB heartbeat. */
+export function recordAutomatedCosmicReconcileRun(run: AutomatedReconcileRunTelemetry): void {
+  inMemoryLastAutomatedRun = run;
+}
 function toIso(value: Date | string): string {
   return value instanceof Date ? value.toISOString() : new Date(value).toISOString();
 }
-
-function toCount(value: number | string | null | undefined): number {
+function toCount(value: unknown): number {
   const n = Number(value ?? 0);
   return Number.isFinite(n) ? n : 0;
 }
-
 function clampLimit(limit: number | undefined): number {
   return Math.min(Math.max(1, Math.trunc(limit ?? 25)), 100);
+}
+
+function mapLastAutomatedRun(row?: SummaryTotalsRow): AutomatedReconcileRunTelemetry | null {
+  if (!row?.last_run_at) return inMemoryLastAutomatedRun;
+  const rawStatus = row.last_run_status;
+  const status = rawStatus === "failure" || rawStatus === "timeout" ? rawStatus : "success";
+  const payload = row.last_run_payload ?? {};
+  return {
+    startedAt: toIso(row.last_run_at),
+    status,
+    scanned: toCount(payload.scanned),
+    refundedCount: toCount(payload.refundedCount),
+    failedCount: toCount(payload.failedCount),
+    pendingCount: toCount(payload.pendingCount),
+  };
 }
 
 function mapStrandedRow(row: StrandedDbRow): StrandedOperation {
@@ -136,7 +167,10 @@ export async function getCosmicOperationsSummary(
               COUNT(*) FILTER (WHERE status IN ${OPEN_STATUSES} AND expires_at < NOW())::int AS expired_stranded,
               COUNT(*) FILTER (WHERE status = 'completed')::int AS completed,
               COUNT(*) FILTER (WHERE status = 'refunded')::int AS refunded,
-              COUNT(*) FILTER (WHERE status = 'failed')::int AS failed
+              COUNT(*) FILTER (WHERE status = 'failed')::int AS failed,
+              (SELECT started_at FROM synthetic_probe_results WHERE probe_name = 'cron:reconcile-cosmic-operations' ORDER BY started_at DESC LIMIT 1) AS last_run_at,
+              (SELECT status FROM synthetic_probe_results WHERE probe_name = 'cron:reconcile-cosmic-operations' ORDER BY started_at DESC LIMIT 1) AS last_run_status,
+              (SELECT response_payload FROM synthetic_probe_results WHERE probe_name = 'cron:reconcile-cosmic-operations' ORDER BY started_at DESC LIMIT 1) AS last_run_payload
          FROM cosmic_generation_operations`,
     ),
     executeQuery<StrandedDbRow>(STRANDED_SELECT, [clampLimit(limit)]),
@@ -154,6 +188,7 @@ export async function getCosmicOperationsSummary(
       failed: toCount(row?.failed),
     },
     strandedOperations: strandedRes.rows.map(mapStrandedRow),
+    lastAutomatedRun: mapLastAutomatedRun(row),
   };
 }
 
@@ -216,13 +251,8 @@ async function settleClaimedRow(row: ClaimedDbRow): Promise<ReconciledOperationO
     const legs = await readDebitLegs(row.user_id, row.debit_tx_id);
     if (!legs) return { ...base, nextStatus: "refund_pending", refunded: false, refundTxId: null };
     const outcome = await refundSpirit({
-      userId: row.user_id,
-      operationKey: row.operation_key,
-      debitTxId: row.debit_tx_id,
-      amountSpirit: legs.Spirit,
-      amountEssence: legs.Essence,
-      amountMatter: legs.Matter,
-      amountSubstance: legs.Substance,
+      userId: row.user_id, operationKey: row.operation_key, debitTxId: row.debit_tx_id,
+      amountSpirit: legs.Spirit, amountEssence: legs.Essence, amountMatter: legs.Matter, amountSubstance: legs.Substance,
     });
     if (!outcome.refunded) return { ...base, nextStatus: "refund_pending", refunded: false, refundTxId: null };
     ({ refundTxId } = outcome);

@@ -8,7 +8,7 @@
 
 import { render, waitFor } from "@testing-library/react";
 import React from "react";
-import { makeDocumentVisible } from "@/utils/testing/pollingTestEnv";
+import { makeDocumentVisible } from "@/__tests__/helpers/pollingTestEnv";
 import { useHardenedPolling } from "@/hooks/useHardenedPolling";
 
 let restoreVisibility: () => void;
