@@ -10,17 +10,25 @@
 import { Radio } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
+import { z } from "zod";
 import { PLANET_GLYPHS } from "@/components/cooking-methods/primitives";
 import { ALCHEMICAL_METHOD_PROFILES } from "@/data/cooking/profiles";
+import { readJson } from "@/lib/api/json";
 
-interface AspectEntry {
-  planet1: string;
-  planet2: string;
-  type: string;
-  orbDegrees: number;
-  applying: boolean;
-  influence?: "harmonious" | "challenging" | "neutral";
-}
+const AspectEntrySchema = z.object({
+  planet1: z.string(),
+  planet2: z.string(),
+  type: z.string(),
+  orbDegrees: z.number(),
+  applying: z.boolean(),
+  influence: z.enum(["harmonious", "challenging", "neutral"]).optional(),
+});
+
+type AspectEntry = z.infer<typeof AspectEntrySchema>;
+
+const AspectsResponseSchema = z.object({
+  aspects: z.array(AspectEntrySchema).optional(),
+});
 
 const ASPECT_SYMBOLS: Record<string, string> = {
   conjunction: "☌",
@@ -57,7 +65,7 @@ export default function LiveTransits() {
       try {
         const res = await fetch("/api/alchm-quantities/aspects");
         if (!res.ok) return;
-        const data = (await res.json()) as { aspects?: AspectEntry[] };
+        const data = await readJson(res, { parse: AspectsResponseSchema.parse });
         if (mounted && Array.isArray(data.aspects)) {
           setAspects(data.aspects.slice(0, 5));
         }

@@ -6,6 +6,8 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { parseRestaurantSearchResponse } from "@/components/RestaurantDiscovery/restaurantSearchParser";
+import { readJson } from "@/lib/api/json";
 import type {
   AlchmScoredRestaurant,
   RestaurantSearchResponse,
@@ -98,7 +100,7 @@ export function LocalCuisineGroups() {
           setStatus({ kind: "error", message: `Server error (${res.status})` });
           return;
         }
-        const data = (await res.json()) as RestaurantSearchResponse;
+        const data = await readJson(res, { parse: parseRestaurantSearchResponse });
         if (
           data.error === "Google Places integration is not configured." ||
           data.error === "Restaurant discovery is not configured."

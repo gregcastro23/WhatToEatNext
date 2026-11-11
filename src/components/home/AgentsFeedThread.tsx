@@ -3,7 +3,9 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { z } from "zod";
 import { HistoricalAgentFeedCard } from "@/components/feed/HistoricalAgentFeedItems";
+import { readJson } from "@/lib/api/json";
 import { narrateFeedEvent } from "@/lib/feed/eventNarration";
 import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
 import { fetchHistoricalAgentFeed } from "@/lib/feed/historicalAgentFeedSource";
@@ -11,27 +13,31 @@ import { _logger } from "@/lib/logger";
 
 type FeedMetadata = Record<string, unknown>;
 
-interface FeedEvent {
-  id: string;
-  actorId?: string;
-  userId?: string;
-  actorName?: string;
-  actorImage?: string;
-  actorSlug?: string;
-  user?: string;
-  actorIsAgent?: boolean;
-  isAgent?: boolean;
-  eventType?: string;
-  action?: string;
-  metadataPayload?: FeedMetadata;
-  createdAt?: string;
-}
+const FeedEventSchema = z.object({
+  id: z.string(),
+  actorId: z.string().optional(),
+  userId: z.string().optional(),
+  actorName: z.string().optional(),
+  actorImage: z.string().optional(),
+  actorSlug: z.string().optional(),
+  user: z.string().optional(),
+  actorIsAgent: z.boolean().optional(),
+  isAgent: z.boolean().optional(),
+  eventType: z.string().optional(),
+  action: z.string().optional(),
+  metadataPayload: z.record(z.string(), z.unknown()).optional(),
+  createdAt: z.string().optional(),
+});
 
-interface FeedResponse {
-  success?: boolean;
-  events?: FeedEvent[];
-  message?: string;
-}
+type FeedEvent = z.infer<typeof FeedEventSchema>;
+
+const FeedResponseSchema = z.object({
+  success: z.boolean().optional(),
+  events: z.array(FeedEventSchema).optional(),
+  message: z.string().optional(),
+});
+
+type FeedResponse = z.infer<typeof FeedResponseSchema>;
 
 const LOADING_SKELETON_KEYS = [
   "feed-skeleton-1",
@@ -122,17 +128,12 @@ export function AgentsFeedThread() {
     let isInitialFetch = true;
     let isRequestInFlight = false;
 
-    async function fetchFeed() {
-      if (isRequestInFlight) {
-        return;
-      }
-
+    async function fetchFeed(): Promise<void> {
+      if (isRequestInFlight) return;
       isRequestInFlight = true;
 
       try {
-        if (isInitialFetch) {
-          setIsLoading(true);
-        }
+        if (isInitialFetch) setIsLoading(true);
         setErrorMessage(null);
 
         const historicalPromise = fetchHistoricalAgentFeed(8);
@@ -145,12 +146,9 @@ export function AgentsFeedThread() {
           setHistoricalItems(historical);
         }
 
-        if (!response.ok) {
-          throw new Error("Feed request failed.");
-        }
+        if (!response.ok) throw new Error("Feed request failed.");
 
-        const data = (await response.json()) as FeedResponse;
-
+        const data = await readJson(response, { parse: FeedResponseSchema.parse });
         if (!data.success || !Array.isArray(data.events)) {
           throw new Error(data.message ?? "Feed response was not valid.");
         }

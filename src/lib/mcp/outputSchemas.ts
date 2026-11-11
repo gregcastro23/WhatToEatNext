@@ -209,6 +209,40 @@ const reflection = shape(
   ],
 );
 
+const hermeticCauldron = shape(
+  {
+    vessel: shape({
+      setpointC: number,
+      pressureKpa: number,
+      humidityPct: number,
+      headspaceC: number,
+      surfaceWet: boolean,
+    }),
+    saturation: shape({
+      tsatC: number,
+      boilingState: string,
+      aboveCeiling: boolean,
+      wetSurfaceC: number,
+      surfaceVaporKpa: number,
+      headspaceVaporKpa: number,
+      latentVsSeaLevel: number,
+    }),
+    deficit: shape({
+      vaporDeficitKpa: number,
+      transfer: string,
+      headspaceVaporCapped: boolean,
+    }),
+    regimes: array,
+    profile: shape({
+      fields: object,
+      mappings: array,
+      power: number,
+    }),
+    circuit: nullable(object),
+  },
+  ["vessel", "saturation", "deficit", "regimes", "profile"],
+);
+
 export const TOOL_OUTPUT_SCHEMAS = {
   get_live_sky_transits: result(sky),
   alchemize_ingredients: result(ingredientAnalysis),
@@ -218,5 +252,6 @@ export const TOOL_OUTPUT_SCHEMAS = {
   compute_triplicate_synastry: result(triplicate),
   create_evidence_snapshot: result(evidenceSnapshot, true),
   submit_recipe_reflection: result(reflection, true),
+  simulate_hermetic_cauldron: result(hermeticCauldron),
   ...CULINARY_OUTPUT_SCHEMAS,
 };
