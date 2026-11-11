@@ -17,6 +17,10 @@ import {
   type ClaimOperationResult,
   type CosmicGenerationOperationRow,
 } from "@/lib/cooking/cosmicGenerationOperations";
+import {
+  getCosmicOperationsSummary,
+  reconcileExpiredCosmicOperations,
+} from "@/lib/cooking/cosmicOperationReconciler";
 
 export {
   claimCosmicGenerationOperation,
@@ -24,6 +28,8 @@ export {
   computeCosmicRequestFingerprint,
   COSMIC_GENERATION_STALE_LOCK_SECONDS,
   failCosmicGenerationOperation,
+  getCosmicOperationsSummary,
+  reconcileExpiredCosmicOperations,
   recordCosmicOperationDebit,
   refundSpirit,
   type ClaimOperationResult,

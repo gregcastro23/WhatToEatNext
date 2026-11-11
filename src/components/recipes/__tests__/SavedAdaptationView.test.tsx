@@ -101,4 +101,36 @@ describe("SavedAdaptationView content and coverage", () => {
     expect(screen.getByText(/Nutrition unavailable/)).toBeVisible();
     expect(screen.getByText(/Elemental reading unavailable/)).toBeVisible();
   });
+
+  it("renders server-supplied RSC readings without recomputing on the client", () => {
+    const version = savedFixture();
+    version.receipt.actor = {
+      id: version.receipt.actor.id,
+      slug: "socrates",
+      name: "Socrates",
+    };
+    render(
+      <SavedAdaptationView
+        version={version}
+        publication="published"
+        readings={{
+          elementalProperties: { Fire: 0.3, Water: 0.25, Earth: 0.25, Air: 0.2 },
+          nutritionPerServing: {
+            calories: 320,
+            protein: 24,
+            carbs: 12,
+            fat: 18,
+            fiber: 4,
+            sodium: 200,
+            sugar: 2,
+          },
+          alchemicalSummary: null,
+          isComplete: true,
+        }}
+      />,
+    );
+    expect(screen.getByText(/Saved adaptation · Socrates/)).toBeVisible();
+    expect(screen.getByText(/Nutrition per serving: 320 kcal/)).toBeVisible();
+    expect(screen.getByText(/Elements: Fire 30% · Water 25% · Earth 25% · Air 20%\./)).toBeVisible();
+  });
 });

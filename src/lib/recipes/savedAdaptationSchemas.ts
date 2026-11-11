@@ -131,8 +131,34 @@ export type SavedAdaptation = z.infer<typeof SavedAdaptationSchema>;
 export type AdaptationRecipe = z.infer<typeof AdaptationRecipeSchema>;
 export type HistoricalPreferences = z.infer<typeof HistoricalPreferencesSchema>;
 
+export const SUPPORTED_ADAPTATION_AGENTS = [
+  "leonardo-da-vinci",
+  "albert-einstein",
+  "jean-jacques-rousseau-1712",
+  "benjamin-franklin",
+  "siddhartha-gautama-buddha",
+  "socrates",
+  "joan-of-arc",
+  "thomas-aquinas",
+  "voltaire-1694",
+  "mahatma-gandhi",
+  "murasaki-shikibu",
+  "lao-tzu",
+] as const;
+
+export type SupportedAdaptationAgentSlug =
+  (typeof SUPPORTED_ADAPTATION_AGENTS)[number];
+
+export const AdaptationAgentSlugSchema = z.enum(SUPPORTED_ADAPTATION_AGENTS);
+
+export function isSupportedAdaptationAgent(
+  value: unknown,
+): value is SupportedAdaptationAgentSlug {
+  return AdaptationAgentSlugSchema.safeParse(value).success;
+}
+
 export const AdaptationRequestSchema = z.object({
-  agentSlug: z.literal("leonardo-da-vinci"),
+  agentSlug: AdaptationAgentSlugSchema,
   mode: z.literal("vegetarian"),
   clientRequestId: z.string().uuid(),
 });

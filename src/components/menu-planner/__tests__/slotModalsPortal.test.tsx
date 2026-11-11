@@ -12,7 +12,6 @@
  */
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import RecipeRitualModal from "@/components/menu-planner/RecipeRitualModal";
 import RecipeSelector from "@/components/menu-planner/RecipeSelector";
 import SauceSelector from "@/components/menu-planner/SauceSelector";
 
@@ -22,7 +21,6 @@ jest.mock("@/contexts/RecipeQueueContext", () => ({
 jest.mock("@/services/UnifiedRecipeService", () => ({
   UnifiedRecipeService: { getInstance: () => ({ getAllRecipes: async () => [] }) },
 }));
-jest.mock("@/components/CelestialEquilibrium", () => () => null);
 
 function inFilteredSlot(modal: React.ReactElement): HTMLElement {
   render(
@@ -32,15 +30,6 @@ function inFilteredSlot(modal: React.ReactElement): HTMLElement {
   );
   return screen.getByTestId("slot");
 }
-
-const ritualProps = {
-  recipeId: "middleeastern-lunch-all-authentic-kofta-kebab",
-  ritualInstruction: "Cook with mindfulness and enjoy the moment.",
-  dominantTransit: null,
-  totalPotencyScore: null,
-  elementalProperties: null,
-  alchemicalQuantities: null,
-};
 
 it("RecipeSelector opens outside the slot", async () => {
   const slot = inFilteredSlot(<RecipeSelector isOpen onClose={jest.fn()} onSelectRecipe={jest.fn()} />);
@@ -55,21 +44,13 @@ it("SauceSelector opens outside the slot", () => {
   expect(slot.contains(heading)).toBe(false);
 });
 
-it("RecipeRitualModal opens outside the slot", () => {
-  const slot = inFilteredSlot(<RecipeRitualModal isOpen onClose={jest.fn()} {...ritualProps} />);
-  const heading = screen.getByText("Your Cooking Ritual");
-  expect(slot.contains(heading)).toBe(false);
-});
-
 it("control: closed, none of them renders anywhere", () => {
   inFilteredSlot(
     <>
       <RecipeSelector isOpen={false} onClose={jest.fn()} onSelectRecipe={jest.fn()} />
       <SauceSelector isOpen={false} onClose={jest.fn()} onSelectSauce={jest.fn()} />
-      <RecipeRitualModal isOpen={false} onClose={jest.fn()} {...ritualProps} />
     </>,
   );
   expect(screen.queryByPlaceholderText(/Search recipes by name/)).toBeNull();
   expect(screen.queryByText("Select a Sauce")).toBeNull();
-  expect(screen.queryByText("Your Cooking Ritual")).toBeNull();
 });

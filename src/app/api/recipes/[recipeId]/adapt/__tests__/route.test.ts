@@ -2,6 +2,7 @@
 import { NextRequest } from "next/server";
 import { POST } from "../route";
 import { AdaptationConflict, AdaptationUnavailable } from "@/lib/recipes/adaptationAgentBasis";
+import { SUPPORTED_ADAPTATION_AGENTS } from "@/lib/recipes/savedAdaptationSchemas";
 import { REQUEST, SOURCE_ID, savedFixture } from "@/lib/recipes/__tests__/helpers/adaptationFixtures";
 
 const mockAuth = jest.fn();
@@ -61,4 +62,11 @@ it("validates consumed success fields before sending a 2xx", async () => {
   const result = await post();
   expect(result.status).toBe(502);
   expect(await result.json()).toMatchObject({ success: false });
+});
+
+it.each(SUPPORTED_ADAPTATION_AGENTS)("accepts canonical vegetarian historical persona %s", async agentSlug => {
+  const personaRequest = { ...REQUEST, agentSlug };
+  const result = await post(personaRequest);
+  expect(result.status).toBe(200);
+  expect(mockCreate).toHaveBeenCalledWith("authenticated-requester", SOURCE_ID, personaRequest);
 });

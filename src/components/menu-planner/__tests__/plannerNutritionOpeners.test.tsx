@@ -14,10 +14,8 @@
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import React from "react";
 import { getServerRecipes } from "@/actions/recipes";
-import MealSlot from "@/components/menu-planner/MealSlot";
 import RecipeBrowserPanel from "@/components/menu-planner/RecipeBrowserPanel";
 import { RecipeNutritionQuickView } from "@/components/nutrition/RecipeNutritionQuickView";
-import type { MealSlot as MealSlotType } from "@/types/menuPlanner";
 import type { Recipe } from "@/types/recipe";
 
 jest.mock("@/contexts/RecipeQueueContext", () => ({
@@ -41,52 +39,18 @@ beforeAll(async () => {
   kofta = found;
 });
 
-function dinnerSlot(recipe: Recipe, servings: number): MealSlotType {
-  const at = new Date("2026-09-28T18:00:00Z");
-  return {
-    id: "monday-dinner",
-    dayOfWeek: 1,
-    mealType: "dinner",
-    recipe,
-    servings,
-    planetarySnapshot: {
-      dominantPlanet: "Moon",
-      zodiacSign: "libra",
-      lunarPhase: "waxing crescent",
-      elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-      timestamp: at,
-    },
-    createdAt: at,
-    updatedAt: at,
-  };
-}
-
 describe("a meal slot's nutrition details", () => {
-  it("opens the nutrition modal from the compact chips, outside the slot", () => {
-    render(<MealSlot mealSlot={dinnerSlot(kofta, 2)} />);
-    const slot = screen.getByRole("group", { name: "dinner meal slot" });
-    expect(screen.queryByRole("dialog")).toBeNull();
-
-    fireEvent.click(within(slot).getByRole("button", { name: "Nutrition details" }));
-
-    const dialog = screen.getByRole("dialog", { name: kofta.name });
-    expect(within(dialog).getByText("Nutrition Facts")).toBeTruthy();
-    const calories = Math.round((kofta.nutrition?.calories ?? 0) * 2);
-    expect(calories).toBeGreaterThan(0);
-    expect(within(dialog).getByText(String(calories))).toBeTruthy();
-    // The slot's backdrop-filter makes it the containing block for `fixed`,
-    // so the overlay must not render inside it (it filled only the slot).
-    expect(slot.contains(dialog)).toBe(false);
-  });
-
-  it("focuses the close button, so Escape closes it", () => {
-    render(<MealSlot mealSlot={dinnerSlot(kofta, 1)} />);
+  it("renders a details control on a compact view when an opener is provided", () => {
+    const onShowDetails = jest.fn();
+    render(
+      <RecipeNutritionQuickView
+        recipe={kofta}
+        compact
+        onShowDetails={onShowDetails}
+      />,
+    );
     fireEvent.click(screen.getByRole("button", { name: "Nutrition details" }));
-    const close = screen.getByRole("button", { name: "Close nutrition modal" });
-    expect(document.activeElement).toBe(close);
-
-    fireEvent.keyDown(close, { key: "Escape" });
-    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(onShowDetails).toHaveBeenCalledTimes(1);
   });
 
   it("control: a compact view with no opener shows no details control", () => {

@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
+import { isSupportedAdaptationAgent } from "@/lib/recipes/savedAdaptationSchemas";
 import {
   RecipeCritiqueReaderSchema,
   type RecipeCritique,
@@ -252,7 +253,13 @@ export function RecipeAgentCouncil({
           </p>
         </div>
       )}
-      {selectedAgent.slug === "leonardo-da-vinci" && <SavedAdaptationButton recipeId={recipeId} />}
+      {isSupportedAdaptationAgent(selectedAgent.slug) && (
+        <SavedAdaptationButton
+          recipeId={recipeId}
+          agentSlug={selectedAgent.slug}
+          agentName={selectedAgent.name}
+        />
+      )}
       {error && (
         <p role="alert" className="text-xs text-amber-200">
           {error}

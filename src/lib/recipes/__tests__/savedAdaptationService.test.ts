@@ -143,3 +143,48 @@ it("scopes request identities to the authenticated requester and rejects changed
   await createSavedAdaptation(requester, SOURCE_ID, REQUEST);
   await expect(createSavedAdaptation(requester, "different-recipe", REQUEST)).rejects.toThrow("different adaptation details");
 });
+
+it("persists caller provenance and verified substitutions for non-Leonardo canonical vegetarian personas", async () => {
+  const socratesRequest = {
+    agentSlug: "socrates" as const,
+    mode: "vegetarian" as const,
+    clientRequestId: "77777777-7777-4777-8777-777777777777",
+  };
+  basisRow = {
+    id: ACTOR_ID,
+    name: "Socrates",
+    natal_positions: PLACEMENTS,
+    natal_chart: null,
+    dietary_preferences: PREFERENCES,
+  };
+  mockRecipe.mockResolvedValue({
+    ...sourceRecipe(),
+    name: "Beef Skillet",
+    ingredients: [
+      { name: "beef sirloin", amount: 250, unit: "g" },
+      { name: "olive oil", amount: 1, unit: "tbsp" },
+    ],
+    instructions: ["Sear beef sirloin in olive oil until browned."],
+  });
+  mockChat.mockResolvedValue({
+    status: "live",
+    metadata: { aiGenerated: true },
+    providerAgentId: "socrates",
+    content: JSON.stringify({
+      ...PROPOSAL,
+      instructions: ["Sear seitan in olive oil until browned."],
+    }),
+  });
+  const result = await createSavedAdaptation(requester, SOURCE_ID, socratesRequest);
+  expect(result.version.receipt.actor).toEqual({
+    id: ACTOR_ID,
+    slug: "socrates",
+    name: "Socrates",
+  });
+  expect(result.version.recipe.name).toBe("Beef Skillet — Socrates's vegetarian version");
+  expect(result.version.recipe.ingredients[0]).toEqual({
+    name: "seitan",
+    amount: 250,
+    unit: "g",
+  });
+});

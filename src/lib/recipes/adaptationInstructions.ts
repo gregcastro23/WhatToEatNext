@@ -2,23 +2,83 @@ import { AdaptationUnavailable } from "./adaptationAgentBasis";
 import type { SavedAdaptation } from "./savedAdaptationSchemas";
 
 type IngredientChange = SavedAdaptation["receipt"]["changes"]["ingredients"][number];
-const chickenLabel = /^(?:(?:boneless|skinless|skin-on)\s+)*chicken(?:\s+(?:breasts?|thighs?))?$/i;
-const chickenMention = /\b(?:(?:boneless|skinless|skin-on)\s+)*chicken(?:\s+(?:breasts?|thighs?))?\b/gi;
 
-/** This first saved slice supports one known swap, never arbitrary prose edits. */
+interface VerifiedSubstitutionRule {
+  fromLabel: RegExp;
+  toName: string;
+  mention: RegExp;
+  ambiguous: RegExp;
+}
+
+const VERIFIED_VEGETARIAN_SUBSTITUTIONS: readonly VerifiedSubstitutionRule[] = [
+  {
+    fromLabel: /^(?:(?:boneless|skinless|skin-on)\s+)*chicken(?:\s+(?:breasts?|thighs?))?$/i,
+    toName: "firm tofu",
+    mention: /\b(?:(?:boneless|skinless|skin-on)\s+)*chicken(?:\s+(?:breasts?|thighs?))?\b/gi,
+    ambiguous: /\b(?:vegan|mock|vegetarian|plant[- ]based)\s+chicken\b|\bchicken\s+of\s+the\s+woods\b/i,
+  },
+  {
+    fromLabel: /^(?:lean\s+)?ground\s+(?:beef|pork|turkey|chicken|meat)$/i,
+    toName: "crumbled tempeh",
+    mention: /\b(?:lean\s+)?ground\s+(?:beef|pork|turkey|chicken|meat)\b/gi,
+    ambiguous: /\b(?:vegan|mock|vegetarian|plant[- ]based)\s+ground\s+(?:beef|pork|turkey|chicken|meat)\b/i,
+  },
+  {
+    fromLabel: /^(?:(?:boneless|cubed|sliced)\s+)*(?:beef(?:\s+(?:chuck|sirloin|tenderloin|strips?))?|steak|brisket)$/i,
+    toName: "seitan",
+    mention: /\b(?:(?:boneless|cubed|sliced)\s+)*(?:beef(?:\s+(?:chuck|sirloin|tenderloin|strips?))?|steak|brisket)\b/gi,
+    ambiguous: /\b(?:vegan|mock|vegetarian|plant[- ]based)\s+(?:beef|steak)\b|\bbeefsteak\s+(?:tomato(?:es)?|mushroom(?:s)?)\b/i,
+  },
+  {
+    fromLabel: /^(?:(?:boneless|diced|sliced)\s+)*(?:pork(?:\s+(?:loin|chops?|tenderloin|shoulder|belly))?|bacon|ham)$/i,
+    toName: "smoked tempeh",
+    mention: /\b(?:(?:boneless|diced|sliced)\s+)*(?:pork(?:\s+(?:loin|chops?|tenderloin|shoulder|belly))?|bacon|ham)\b/gi,
+    ambiguous: /\b(?:vegan|mock|vegetarian|plant[- ]based|turkey|coconut|tempeh)\s+(?:pork|bacon|ham)\b/i,
+  },
+  {
+    fromLabel: /^(?:(?:fresh|wild|skinless)\s+)*(?:salmon|cod|tuna|fish)(?:\s+fillets?)?$/i,
+    toName: "marinated tofu",
+    mention: /\b(?:(?:fresh|wild|skinless)\s+)*(?:salmon|cod|tuna|fish)(?:\s+fillets?)?\b/gi,
+    ambiguous: /\b(?:vegan|mock|vegetarian|plant[- ]based)\s+(?:salmon|cod|tuna|fish)\b|\bfish\s+(?:sauce|peppers?)\b/i,
+  },
+  {
+    fromLabel: /^(?:(?:peeled|deveined|raw|large)\s+)*(?:shrimp|prawns?)$/i,
+    toName: "hearts of palm",
+    mention: /\b(?:(?:peeled|deveined|raw|large)\s+)*(?:shrimp|prawns?)\b/gi,
+    ambiguous: /\b(?:vegan|mock|vegetarian|plant[- ]based)\s+(?:shrimp|prawns?)\b|\bshrimp\s+paste\b/i,
+  },
+];
+
+function findVerifiedRule(change: IngredientChange): VerifiedSubstitutionRule | undefined {
+  return VERIFIED_VEGETARIAN_SUBSTITUTIONS.find(
+    (rule) => rule.fromLabel.test(change.from.name) && change.to.name === rule.toName,
+  );
+}
+
+/** Checks whether an ingredient change matches a verified vegetarian substitution rule. */
 export function supportedChickenSwap(change: IngredientChange): boolean {
-  return chickenLabel.test(change.from.name) && change.to.name === "firm tofu";
+  return findVerifiedRule(change) !== undefined;
 }
 
 export function editedChickenInstructions(
   original: string[],
   changes: IngredientChange[],
 ): string[] {
-  if (changes.length !== 1 || !changes[0] || !supportedChickenSwap(changes[0]))
+  if (changes.length === 0)
     throw new AdaptationUnavailable("This recipe needs an unsupported preparation edit. No version was saved.");
-  if (original.some(step => /\b(?:vegan|mock|vegetarian|plant[- ]based)\s+chicken\b|\bchicken\s+of\s+the\s+woods\b/i.test(step)))
-    throw new AdaptationUnavailable("The preparation contains an ambiguous chicken reference. No version was saved.");
-  return original.map(step => step.replace(chickenMention, "firm tofu"));
+  const matchedRules = changes.map((change) => {
+    const rule = findVerifiedRule(change);
+    if (!rule)
+      throw new AdaptationUnavailable("This recipe needs an unsupported preparation edit. No version was saved.");
+    return rule;
+  });
+  for (const rule of matchedRules) {
+    if (original.some((step) => rule.ambiguous.test(step)))
+      throw new AdaptationUnavailable("The preparation contains an ambiguous chicken reference. No version was saved.");
+  }
+  return original.map((step) =>
+    matchedRules.reduce((acc, rule) => acc.replace(rule.mention, rule.toName), step),
+  );
 }
 
 export function checkBoundedInstructions(

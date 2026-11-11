@@ -6,6 +6,7 @@ import { readJson } from "@/lib/api/json";
 import {
   AdaptationErrorSchema,
   AdaptationSuccessSchema,
+  type SupportedAdaptationAgentSlug,
 } from "@/lib/recipes/savedAdaptationSchemas";
 import type { JSX } from "react";
 import type { z } from "zod";
@@ -15,6 +16,7 @@ class AdaptationRejected extends Error {}
 
 async function submit(
   recipeId: string,
+  agentSlug: SupportedAdaptationAgentSlug,
   requestId: string,
 ): Promise<SaveResult> {
   const response = await fetch(
@@ -23,7 +25,7 @@ async function submit(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        agentSlug: "leonardo-da-vinci",
+        agentSlug,
         mode: "vegetarian",
         clientRequestId: requestId,
       }),
@@ -53,29 +55,33 @@ interface VersionAction {
   saved: SaveResult | null;
   save: () => Promise<void>;
 }
-function useVersionAction(recipeId: string): VersionAction {
-  const pending = useRef<{ recipeId: string; requestId: string } | null>(null);
+function useVersionAction(
+  recipeId: string,
+  agentSlug: SupportedAdaptationAgentSlug,
+): VersionAction {
+  const scopeKey = `${recipeId}:${agentSlug}`;
+  const pending = useRef<{ scopeKey: string; requestId: string } | null>(null);
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<{ recipeId: string; message: string } | null>(null);
+  const [error, setError] = useState<{ scopeKey: string; message: string } | null>(null);
   const [saved, setSaved] = useState<SaveResult | null>(null);
   async function save(): Promise<void> {
-    if (pending.current?.recipeId !== recipeId)
-      pending.current = { recipeId, requestId: crypto.randomUUID() };
+    if (pending.current?.scopeKey !== scopeKey)
+      pending.current = { scopeKey, requestId: crypto.randomUUID() };
     const { requestId } = pending.current;
     setBusy(true);
     setError(null);
     try {
-      setSaved(await submit(recipeId, requestId));
+      setSaved(await submit(recipeId, agentSlug, requestId));
       if (pending.current.requestId === requestId) pending.current = null;
     } catch (error) {
-      setError({ recipeId, message: error instanceof AdaptationRejected
+      setError({ scopeKey, message: error instanceof AdaptationRejected
           ? error.message
           : "Save confirmation is unavailable. Retry the same action to check for the saved version." });
     } finally {
       setBusy(false);
     }
   }
-  return { busy, error: error?.recipeId === recipeId ? error.message : null, saved, save };
+  return { busy, error: error?.scopeKey === scopeKey ? error.message : null, saved, save };
 }
 
 function SavedStatus({ result }: { result: SaveResult }): JSX.Element {
@@ -100,10 +106,19 @@ function SavedStatus({ result }: { result: SaveResult }): JSX.Element {
 
 export function SavedAdaptationButton({
   recipeId,
+  agentSlug = "leonardo-da-vinci",
+  agentName = "Leonardo",
 }: {
   recipeId: string;
+  agentSlug?: SupportedAdaptationAgentSlug;
+  agentName?: string;
 }): JSX.Element {
-  const { busy, error, saved, save } = useVersionAction(recipeId);
+  const { busy, error, saved, save } = useVersionAction(recipeId, agentSlug);
+  const matchesCurrentSelection =
+    saved?.version.receipt.original.id === recipeId &&
+    saved.version.receipt.actor.slug === agentSlug;
+  const labelName =
+    agentSlug === "leonardo-da-vinci" ? "Leonardo" : agentName;
   return (
     <div className="space-y-2 border-t border-purple-500/20 pt-3">
       <button
@@ -116,10 +131,10 @@ export function SavedAdaptationButton({
       >
         {busy
           ? "Creating a saved version…"
-          : "Make Leonardo’s vegetarian version"}
+          : `Make ${labelName}’s vegetarian version`}
       </button>
       <p className="text-[11px] text-white/50">
-        Uses his saved chart and food preferences. A concrete edited recipe must
+        Uses saved chart and food preferences. A concrete edited recipe must
         pass text screening before it can be saved.
       </p>
       {error && (
@@ -127,7 +142,7 @@ export function SavedAdaptationButton({
           {error}
         </p>
       )}
-      {saved?.version.receipt.original.id === recipeId && (
+      {matchesCurrentSelection && saved && (
         <SavedStatus result={saved} />
       )}
     </div>
