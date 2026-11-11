@@ -6,6 +6,7 @@
  * planetary hours, critical degrees, and retrograde modifiers.
  */
 
+import { parseJsonRecord, readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 import type {
   Planet,
@@ -253,7 +254,7 @@ export class PlanetaryScoringService {
       });
 
       if (response.ok) {
-        const data = (await response.json()) as Record<string, unknown>;
+        const data = await readJson(response, parseJsonRecord);
         return this.extractPositions(data);
       }
     } catch {

@@ -7,9 +7,9 @@
  * @file src/services/restaurantDiscoveryService.ts
  */
 
-import { getCuisineProfile } from "@/data/cuisineFlavorProfiles";
 import { z } from "zod";
-import { readJson } from "@/lib/api/json";
+import { getCuisineProfile } from "@/data/cuisineFlavorProfiles";
+import { parseJsonRecord, readJson } from "@/lib/api/json";
 import { executeQuery } from "@/lib/database/connection";
 import {
   GooglePlacesResponseSchema,
@@ -565,6 +565,12 @@ function normalizeFoursquare(
   };
 }
 
+function isFoursquareNearbyArray(
+  value: unknown,
+): value is FoursquareNearbyRaw[] {
+  return Array.isArray(value);
+}
+
 async function foursquareNearby(
   input: ResolvedDiscoverInput,
 ): Promise<NormalizedRestaurant[] | null> {
@@ -589,8 +595,8 @@ async function foursquareNearby(
     });
     if (!response.ok) return null;
 
-    const data = (await response.json()) as { results?: FoursquareNearbyRaw[] };
-    const places = data.results ?? [];
+    const data = await readJson(response, parseJsonRecord);
+    const places = isFoursquareNearbyArray(data.results) ? data.results : [];
     const normalized = places
       .map((place) => normalizeFoursquare(place, input.latitude, input.longitude))
       .filter((r): r is NormalizedRestaurant => r !== null);

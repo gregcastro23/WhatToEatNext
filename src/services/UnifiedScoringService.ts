@@ -11,6 +11,7 @@
  */
 
 import { calculateKalchm as canonicalCalculateKalchm } from "@/data/unified/alchemicalCalculations";
+import { parseJsonRecord, readJson } from "@/lib/api/json";
 import { getTarotCardsForDate } from "@/lib/tarotCalculations";
 import { log } from "@/services/LoggingService";
 import {
@@ -1050,7 +1051,7 @@ export class UnifiedScoringService {
 
       if (!response.ok) return null;
 
-      const data = (await response.json()) as Record<string, unknown>;
+      const data = await readJson(response, parseJsonRecord);
 
       // Transform API response to our format
       return this.transformAstrologizeResponse(data);

@@ -16,6 +16,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { isJsonRecord, parseJsonRecord, readJson } from "@/lib/api/json";
 import { auth } from "@/lib/auth/auth";
 import { executeQuery } from "@/lib/database";
 import { getServiceUrl } from "@/lib/serviceUrls";
@@ -226,8 +227,8 @@ export async function POST(req: Request): Promise<NextResponse> {
       });
 
       if (generateRes.ok) {
-        const payload = (await generateRes.json()) as { recipe?: Record<string, unknown> } & Record<string, unknown>;
-        cosmicRecipe = payload.recipe ?? payload;
+        const payload = await readJson(generateRes, parseJsonRecord);
+        cosmicRecipe = isJsonRecord(payload.recipe) ? payload.recipe : payload;
         logger.info(`[ignite] Recipe generated successfully via local endpoint proxy.`);
       } else {
         const text = await generateRes.text();
@@ -294,8 +295,8 @@ export async function POST(req: Request): Promise<NextResponse> {
           throw new Error(`Planetary agents direct fallback failed with status ${agentResponse.status}`);
         }
 
-        const payload = (await agentResponse.json()) as { recipe?: Record<string, unknown> } & Record<string, unknown>;
-        cosmicRecipe = payload.recipe ?? payload;
+        const payload = await readJson(agentResponse, parseJsonRecord);
+        cosmicRecipe = isJsonRecord(payload.recipe) ? payload.recipe : payload;
 
         // Since we bypassed the endpoint proxy, record the limit directly in PostgreSQL for consistency
         try {

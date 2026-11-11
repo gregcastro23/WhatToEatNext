@@ -11,6 +11,7 @@
 
 import type { CookingMethodSummary } from "@/components/commensal/CookingMethodsList";
 import type { ScoredRecipeView } from "@/components/commensal/RecommendedRecipeCard";
+import { parseJsonRecord, readJson } from "@/lib/api/json";
 import type {
   BirthData,
   CompositeNatalChart,
@@ -99,7 +100,7 @@ async function postJson<T extends { success: boolean }>(
   });
   let data: Record<string, unknown> = {};
   try {
-    data = (await res.json()) as Record<string, unknown>;
+    data = await readJson(res, parseJsonRecord);
   } catch {
     // Leave data empty; we'll throw with a generic message below.
   }
@@ -140,6 +141,10 @@ export async function fetchGroupRecommendations(
   );
 }
 
+function isPlaceArray(value: unknown): value is FoursquarePlace[] {
+  return Array.isArray(value);
+}
+
 /**
  * Search for nearby restaurants by cuisine + coordinates.
  * Failures resolve to an empty list — restaurant search is best-effort and
@@ -156,12 +161,9 @@ export async function searchNearbyRestaurants(
   try {
     const res = await fetch(`/api/restaurants/search?${qs.toString()}`);
     if (!res.ok) return [];
-    const data = (await res.json()) as {
-      success?: boolean;
-      results?: FoursquarePlace[];
-    };
-    if (data?.success !== true) return [];
-    return data.results ?? [];
+    const data = await readJson(res, parseJsonRecord);
+    if (data.success !== true) return [];
+    return isPlaceArray(data.results) ? data.results : [];
   } catch {
     return [];
   }

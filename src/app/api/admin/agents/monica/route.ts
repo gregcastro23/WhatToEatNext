@@ -17,6 +17,7 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+import { isJsonRecord, parseJsonRecord, readJson } from "@/lib/api/json";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database";
@@ -214,9 +215,9 @@ async function fetchFromPa(window: MonicaWindow): Promise<MonicaTelemetryPayload
       );
     }
 
-    const json = (await res.json()) as Record<string, unknown>;
+    const json = await readJson(res, parseJsonRecord);
     // PA may wrap the body in `{ success, data }` or return the raw shape.
-    const data = (json.data ?? json) as Record<string, unknown>;
+    const data = isJsonRecord(json.data) ? json.data : json;
 
     const helpfulnessScore = asNumber(
       data.helpfulnessScore ?? data.helpfulness_score ?? data.helpfulnessRatio,
