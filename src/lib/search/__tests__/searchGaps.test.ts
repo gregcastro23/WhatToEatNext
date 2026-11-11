@@ -1,12 +1,17 @@
 /** @jest-environment node */
+import { buildIndexForRecipes } from "../loader";
+import { searchOmnibar } from "../omnibar";
 import {
+  getCachedResolvedGapMappings,
   isZeroResultSearch,
   listZeroResultSearchGaps,
+  loadResolvedSearchGapMappings,
   normalizeZeroResultQuery,
   recordZeroResultSearchGap,
   resetSearchGapDebounceForTests,
   resolveZeroResultSearchGap,
   scrubSearchQueryPii,
+  setResolvedGapMappingInMemory,
 } from "../searchGaps";
 
 const mockExecuteQuery = jest.fn();
@@ -163,6 +168,36 @@ describe("Omnibar Phase 7 — Zero-Result Search Gap Capture", () => {
 
       const resolved = await resolveZeroResultSearchGap("yuzu kosho", "yuzu-kosho");
       expect(resolved).toBe(true);
+      expect(getCachedResolvedGapMappings().get("yuzu kosho")).toBe("yuzu-kosho");
+    });
+
+    it("expands previously unfulfilled queries in searchOmnibar once mapped to a canonical slug", async () => {
+      const index = buildIndexForRecipes([]);
+      const now = new Date("2026-06-15T12:00:00Z");
+
+      // Before resolution: "chana dal legumexyz" returns zero results
+      const before = searchOmnibar(index, "chana dal legumexyz", { now });
+      expect(isZeroResultSearch(before)).toBe(true);
+
+      // Admin resolves "chana dal legumexyz" -> "chickpeas"
+      setResolvedGapMappingInMemory("chana dal legumexyz", "chickpeas");
+      const after = searchOmnibar(index, "chana dal legumexyz", { now });
+      expect(isZeroResultSearch(after)).toBe(false);
+      expect(after.hero?.key).toBe("chickpeas");
+      expect(after.corrected).toEqual({
+        from: "chana dal legumexyz",
+        to: after.top?.name ?? "Chickpeas",
+        basis: "synonym",
+      });
+
+      // Loading from DB populates the cache and reopens when set to null
+      mockExecuteQuery.mockResolvedValueOnce({
+        rows: [{ normalized_query: "kala chana beanxyz", resolved_entity_slug: "/ingredients/chickpeas" }],
+      });
+      await loadResolvedSearchGapMappings({ forceRefresh: true });
+      const dbExpanded = searchOmnibar(index, "kala chana beanxyz", { now });
+      expect(isZeroResultSearch(dbExpanded)).toBe(false);
+      expect(dbExpanded.hero?.key).toBe("chickpeas");
     });
   });
 });

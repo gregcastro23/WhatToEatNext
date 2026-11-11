@@ -15,6 +15,7 @@ import {
   queryPostgresAgentRatingFallback,
   recordSpacetimeClusterStatus,
   shouldBypassSpacetimeRead,
+  transitionSpacetimeCircuitToHalfOpen,
   type PostgresAgentRatingFallbackSummary,
   type SpacetimeCircuitBreakerSnapshot,
 } from "./spacetimeCircuitBreaker";
@@ -273,4 +274,19 @@ export async function verifyAgentRatingSyncSweep(options?: AgentRatingProbeOptio
     spacetimeAgentRating,
     circuitBreaker: getSpacetimeCircuitBreakerSnapshot(),
   };
+}
+
+/**
+ * Transition an `open` circuit to `half-open`, immediately probe SpacetimeDB
+ * `asol.agent_rating` parity, and close the circuit (`activeReadSource: "spacetimedb"`)
+ * if the cluster has recovered.
+ */
+export async function probeAndRecoverSpacetimeCircuit(
+  options?: AgentRatingProbeOptions,
+): Promise<AgentRatingSyncSweepReport> {
+  transitionSpacetimeCircuitToHalfOpen();
+  return verifyAgentRatingSyncSweep({
+    ...options,
+    respectCircuitCooldown: false,
+  });
 }

@@ -37,6 +37,15 @@ const bootstrapArg = process.argv
   ?.split("=", 2)[1];
 const bootstrap = bootstrapArg ? bootstrapArg.split(",").map((s) => s.trim()).filter(Boolean) : null;
 
+function compareMigrationNames(a: string, b: string): number {
+  const matchA = /^(\d+)-/.exec(a);
+  const matchB = /^(\d+)-/.exec(b);
+  const numA = matchA?.[1] !== undefined ? Number.parseInt(matchA[1], 10) : -1;
+  const numB = matchB?.[1] !== undefined ? Number.parseInt(matchB[1], 10) : -1;
+  if (numA !== numB) return numA - numB;
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+
 function listMigrationFiles(): string[] {
   // Exclude macOS conflict-copies ("foo 2.sql", "foo 3.sql", …). This reads the
   // FILESYSTEM, not git, so .gitignore's `*\ [0-9]*` rule does not protect it —
@@ -45,7 +54,7 @@ function listMigrationFiles(): string[] {
   // conflict, so a survivor here would be APPLIED as a real migration.
   return readdirSync(INIT_DIR)
     .filter((f) => f.endsWith(".sql") && !/ \d+\.sql$/.test(f))
-    .sort();
+    .sort(compareMigrationNames);
 }
 
 // ── No-transaction migrations ─────────────────────────────────────────────

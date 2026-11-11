@@ -24,6 +24,8 @@
  * @file src/lib/environment/openMeteoClient.ts
  */
 
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { isPlausibleStationPressure } from "./isa";
 
 const FORECAST_URL = "https://api.open-meteo.com/v1/forecast";
@@ -53,17 +55,33 @@ export interface EnvironmentSample {
  * Field names mirror Open-Meteo's wire format exactly and must not be
  * camelCased — they are the API's keys, not ours.
  */
-interface OpenMeteoHourlyResponse {
-  elevation?: number;
-  hourly?: {
-    time?: string[];
-    surface_pressure?: Array<number | null>;
-    dew_point_2m?: Array<number | null>;
-    temperature_2m?: Array<number | null>;
-  };
-}
+const OpenMeteoElevationResponseSchema = z
+  .object({
+    elevation: z.array(z.number()).optional(),
+  })
+  .passthrough();
 
-async function fetchJson<T>(url: string): Promise<T> {
+const OpenMeteoHourlyResponseSchema = z
+  .object({
+    elevation: z.number().optional(),
+    hourly: z
+      .object({
+        time: z.array(z.string()).optional(),
+        surface_pressure: z.array(z.number().nullable()).optional(),
+        dew_point_2m: z.array(z.number().nullable()).optional(),
+        temperature_2m: z.array(z.number().nullable()).optional(),
+      })
+      .passthrough()
+      .optional(),
+  })
+  .passthrough();
+
+type OpenMeteoHourlyResponse = z.infer<typeof OpenMeteoHourlyResponseSchema>;
+
+async function fetchOpenMeteoJson<T>(
+  url: string,
+  parse: (value: unknown) => T,
+): Promise<T> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
@@ -74,7 +92,7 @@ async function fetchJson<T>(url: string): Promise<T> {
     if (!response.ok) {
       throw new Error(`Open-Meteo responded ${response.status} ${response.statusText}`);
     }
-    return (await response.json()) as T;
+    return await readJson(response, { parse });
   } finally {
     clearTimeout(timer);
   }
@@ -157,7 +175,9 @@ function toSamples(
  */
 export async function fetchElevation(latitude: number, longitude: number): Promise<number> {
   const url = `${ELEVATION_URL}?latitude=${latitude}&longitude=${longitude}`;
-  const payload = await fetchJson<{ elevation?: number[] }>(url);
+  const payload = await fetchOpenMeteoJson(url, (v) =>
+    OpenMeteoElevationResponseSchema.parse(v),
+  );
   const elevation = payload.elevation?.[0];
   if (elevation == null || !Number.isFinite(elevation)) {
     throw new Error(`Open-Meteo elevation lookup returned no value for ${latitude},${longitude}`);
@@ -174,7 +194,9 @@ export async function fetchForecastSamples(
   const url =
     `${FORECAST_URL}?latitude=${latitude}&longitude=${longitude}` +
     `&hourly=surface_pressure,dew_point_2m,temperature_2m&forecast_days=1`;
-  const payload = await fetchJson<OpenMeteoHourlyResponse>(url);
+  const payload = await fetchOpenMeteoJson(url, (v) =>
+    OpenMeteoHourlyResponseSchema.parse(v),
+  );
   return toSamples(payload, elevationM, "forecast");
 }
 
@@ -199,7 +221,9 @@ export async function fetchArchiveSamples(
     `${ARCHIVE_URL}?latitude=${latitude}&longitude=${longitude}` +
     `&start_date=${startDate}&end_date=${endDate}` +
     `&hourly=surface_pressure,dew_point_2m,temperature_2m`;
-  const payload = await fetchJson<OpenMeteoHourlyResponse>(url);
+  const payload = await fetchOpenMeteoJson(url, (v) =>
+    OpenMeteoHourlyResponseSchema.parse(v),
+  );
   return toSamples(payload, elevationM, "archive");
 }
 

@@ -6,6 +6,8 @@
  */
 
 import { NextResponse } from "next/server";
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import {
   fetchInstacartIdp,
   InstacartConfigurationError,
@@ -15,6 +17,17 @@ import type { InstacartRetailersResponse } from "@/types/instacart";
 import type { NextRequest } from "next/server";
 
 const FETCH_TIMEOUT_MS = 10_000;
+
+const InstacartRetailersResponseSchema: z.ZodType<InstacartRetailersResponse> =
+  z.object({
+    retailers: z.array(
+      z.object({
+        retailer_key: z.string(),
+        name: z.string(),
+        retailer_logo_url: z.string(),
+      }),
+    ),
+  });
 
 // In-memory cache mapping postal_code to retailers response
 // Cache duration: 1 hour
@@ -75,7 +88,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const data = (await instacartResponse.json()) as InstacartRetailersResponse;
+    const data = await readJson(instacartResponse, {
+      parse: (v) => InstacartRetailersResponseSchema.parse(v),
+    });
 
     // Save to cache
     retailersCache.set(cacheKey, {

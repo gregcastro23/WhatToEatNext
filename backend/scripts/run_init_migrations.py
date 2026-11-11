@@ -26,9 +26,19 @@ import psycopg2
 INIT_DIR = Path(__file__).resolve().parents[2] / "database" / "init"
 
 
+def _migration_sort_key(filename: str) -> tuple[int, str]:
+    match = re.match(r"^(\d+)-", filename)
+    return (int(match.group(1)) if match else -1, filename)
+
+
 def list_migration_files() -> list[str]:
     return sorted(
-        p.name for p in INIT_DIR.glob("*.sql") if " 2." not in p.name
+        (
+            p.name
+            for p in INIT_DIR.glob("*.sql")
+            if not re.search(r" \d+\.sql$", p.name)
+        ),
+        key=_migration_sort_key,
     )
 
 

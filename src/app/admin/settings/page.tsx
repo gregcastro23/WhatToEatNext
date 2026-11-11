@@ -105,6 +105,7 @@ function SettingsHeader({ refreshing, onRefresh }: { refreshing: boolean; onRefr
 
 interface SettingsDiagnosticsState {
   spacetime: SpacetimeDiagnostics | null;
+  setSpacetime: React.Dispatch<React.SetStateAction<SpacetimeDiagnostics | null>>;
   spacetimeLive: boolean;
   thresholdInfo: SlowQueryThresholdInfo | null;
   setThresholdInfo: React.Dispatch<React.SetStateAction<SlowQueryThresholdInfo | null>>;
@@ -143,7 +144,7 @@ function useSettingsDiagnostics(): SettingsDiagnosticsState {
     loadDiagnostics().catch(() => {});
   }, [loadDiagnostics]);
 
-  return { spacetime, spacetimeLive, thresholdInfo, setThresholdInfo, emailStatus, emailLive, envSummary, envEndpointOk, refreshing, loadDiagnostics };
+  return { spacetime, setSpacetime, spacetimeLive, thresholdInfo, setThresholdInfo, emailStatus, emailLive, envSummary, envEndpointOk, refreshing, loadDiagnostics };
 }
 
 export default function AdminSettingsPage(): React.JSX.Element {
@@ -158,6 +159,7 @@ export default function AdminSettingsPage(): React.JSX.Element {
         spacetimeLive={s.spacetimeLive}
         thresholdInfo={s.thresholdInfo}
         onThresholdUpdated={s.setThresholdInfo}
+        onDiagnosticsUpdated={s.setSpacetime}
       />
       <EmailTestPanel emailStatus={s.emailStatus} emailLive={s.emailLive} />
       <EnvironmentalSeedPanel

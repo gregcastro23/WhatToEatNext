@@ -36,16 +36,25 @@ export interface MigrationStatusData {
   live: boolean;
 }
 
+function compareMigrationNames(a: string, b: string): number {
+  const matchA = /^(\d+)-/.exec(a);
+  const matchB = /^(\d+)-/.exec(b);
+  const numA = matchA?.[1] !== undefined ? Number.parseInt(matchA[1], 10) : -1;
+  const numB = matchB?.[1] !== undefined ? Number.parseInt(matchB[1], 10) : -1;
+  if (numA !== numB) return numA - numB;
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+
 /**
  * On-disk manifest, mirroring scripts/migrate.ts listMigrationFiles()
- * (including its " 2." backup-file exclusion) so both sides diff the same
- * set. Null when the directory is not in the deploy bundle.
+ * (including its duplicate-file exclusion and numeric prefix sort) so both
+ * sides diff the same ordered set. Null when the directory is not in the deploy bundle.
  */
 function readManifest(): string[] | null {
   try {
     return readdirSync(join(process.cwd(), "database", "init"))
-      .filter((f) => f.endsWith(".sql") && !f.includes(" 2."))
-      .sort();
+      .filter((f) => f.endsWith(".sql") && !/ \d+\.sql$/.test(f))
+      .sort(compareMigrationNames);
   } catch {
     return null;
   }

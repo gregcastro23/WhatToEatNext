@@ -1,6 +1,17 @@
 // src/data/culturalRules.ts
 
-import type { CulturalBalance } from "./foodTypes";
+export interface CulturalBalance {
+  cuisineId: string;
+  principles: string[];
+  preferredCombinations: Array<{
+    foods: string[];
+    reason: string;
+  }>;
+  avoidCombinations: Array<{
+    foods: string[];
+    reason: string;
+  }>;
+}
 
 export const culturalRules: Record<string, CulturalBalance> = {
   japanese: {

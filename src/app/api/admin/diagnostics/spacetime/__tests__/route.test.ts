@@ -2,10 +2,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
-import { resetSpacetimeCircuitBreakerForTests } from "@/lib/spacetime/spacetimeCircuitBreaker";
+import {
+  recordSpacetimeClusterStatus,
+  resetSpacetimeCircuitBreakerForTests,
+  transitionSpacetimeCircuitToHalfOpen,
+} from "@/lib/spacetime/spacetimeCircuitBreaker";
 import { feedEmitTracker } from "@/services/feedEmitTracker";
 import { feedDatabase } from "@/services/feedDatabaseService";
-import { GET } from "../route";
+import { GET, POST } from "../route";
 
 const mockExecuteQuery = jest.fn();
 
@@ -259,6 +263,48 @@ describe("Live Critique & SpacetimeDB asol.agent_rating Sweep Verification", () 
       eventType: "recipe_review",
       agentEmail: "socrates@agentic.alchm.kitchen",
       responseCode: 202,
+    });
+  });
+
+  it("transitions open -> half-open -> closed on POST /api/admin/diagnostics/spacetime probe_and_reset when SpacetimeDB recovers", async () => {
+    recordSpacetimeClusterStatus({ status: "paused", detail: "Initial 503 pause" });
+    const halfOpenSnap = transitionSpacetimeCircuitToHalfOpen();
+    expect(halfOpenSnap.state).toBe("half-open");
+
+    allowAdmin();
+    mockExecuteQuery.mockResolvedValueOnce({
+      rows: [{ live_critiques: 5, degraded_critiques: 0, curated_critiques: 142, saved_adaptations: 12, distinct_agents: 71, reflections_mirrored: 147, last_critique_at: "2026-11-11T00:00:00.000Z" }],
+    });
+    installFetchMock(
+      jest.fn(async (input: RequestInfo | URL) => {
+        const url = typeof input === "string" ? input : input.toString();
+        if (url.includes("/api/agents/rating")) {
+          return new Response(JSON.stringify({ key: "leonardo-da-vinci", provenance: "historical", ovr: 81, esmsSource: "database", sky: { source: "swiss-ephemeris" } }), { status: 200 });
+        }
+        return new Response(JSON.stringify([{ rows: [[71]] }]), { status: 200 });
+      }),
+    );
+
+    const res = await POST(
+      new NextRequest("http://localhost:3000/api/admin/diagnostics/spacetime", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "probe_and_reset" }),
+      }),
+    );
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.action).toBe("probe_and_reset");
+    expect(body.diagnostics.agentRatingSync.circuitBreaker).toMatchObject({
+      state: "closed",
+      lastClusterStatus: "synced",
+      activeReadSource: "spacetimedb",
+      consecutiveFailures: 0,
+    });
+    expect(body.diagnostics.agentRatingSync.circuitBreaker.shiftAlerts[0]).toMatchObject({
+      previousStatus: "paused",
+      nextStatus: "synced",
+      severity: "recovered",
     });
   });
 });

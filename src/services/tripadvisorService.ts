@@ -21,6 +21,8 @@
  * @file src/services/tripadvisorService.ts
  */
 
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("TripadvisorService");
@@ -52,23 +54,50 @@ export interface TripadvisorDetails {
   addressString?: string;
 }
 
-interface TaSearchResponse {
-  data?: Array<{ location_id?: string; name?: string }>;
-}
+const TaSearchResponseSchema = z
+  .object({
+    data: z
+      .array(
+        z
+          .object({
+            location_id: z.string().optional(),
+            name: z.string().optional(),
+          })
+          .passthrough(),
+      )
+      .optional(),
+  })
+  .passthrough();
 
-interface TaDetailsResponse {
-  location_id?: string;
-  name?: string;
-  web_url?: string;
-  rating?: string;
-  num_reviews?: string;
-  price_level?: string;
-  rating_image_url?: string;
-  latitude?: string;
-  longitude?: string;
-  address_obj?: { address_string?: string };
-  cuisine?: Array<{ name?: string; localized_name?: string }>;
-}
+const TaDetailsResponseSchema = z
+  .object({
+    location_id: z.string().optional(),
+    name: z.string().optional(),
+    web_url: z.string().optional(),
+    rating: z.string().optional(),
+    num_reviews: z.string().optional(),
+    price_level: z.string().optional(),
+    rating_image_url: z.string().optional(),
+    latitude: z.string().optional(),
+    longitude: z.string().optional(),
+    address_obj: z
+      .object({
+        address_string: z.string().optional(),
+      })
+      .passthrough()
+      .optional(),
+    cuisine: z
+      .array(
+        z
+          .object({
+            name: z.string().optional(),
+            localized_name: z.string().optional(),
+          })
+          .passthrough(),
+      )
+      .optional(),
+  })
+  .passthrough();
 
 function numOrUndefined(value: string | undefined): number | undefined {
   if (value === undefined) return undefined;
@@ -108,7 +137,10 @@ class TripadvisorService {
     return h;
   }
 
-  private async getJson<T>(url: URL): Promise<T | null> {
+  private async getJson<T>(
+    url: URL,
+    parse: (value: unknown) => T,
+  ): Promise<T | null> {
     try {
       const response = await fetch(url.toString(), {
         headers: this.headers(),
@@ -121,7 +153,7 @@ class TripadvisorService {
         );
         return null;
       }
-      return (await response.json()) as T;
+      return await readJson(response, { parse });
     } catch (err) {
       logger.warn(
         `Tripadvisor request failed: ${err instanceof Error ? err.message : String(err)}`,
@@ -158,7 +190,7 @@ class TripadvisorService {
     url.searchParams.set("radiusUnit", "km");
     url.searchParams.set("language", "en");
 
-    const data = await this.getJson<TaSearchResponse>(url);
+    const data = await this.getJson(url, (v) => TaSearchResponseSchema.parse(v));
     if (!data?.data) return [];
 
     return data.data
@@ -177,7 +209,7 @@ class TripadvisorService {
     url.searchParams.set("language", "en");
     url.searchParams.set("currency", "USD");
 
-    const d = await this.getJson<TaDetailsResponse>(url);
+    const d = await this.getJson(url, (v) => TaDetailsResponseSchema.parse(v));
     if (!d?.name) return null;
 
     const rating = numOrUndefined(d.rating);

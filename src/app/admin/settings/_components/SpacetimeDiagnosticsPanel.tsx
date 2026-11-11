@@ -7,7 +7,35 @@ import { fromLiveFlag } from "@/components/admin/kit/provenance";
 import { ProvenanceBadge } from "@/components/admin/kit/ProvenanceBadge";
 import { readJson } from "@/lib/api/json";
 
-export const SpacetimeDiagnosticsSchema = z
+const CircuitBreakerSchema = z
+  .object({
+    state: z.enum(["closed", "open", "half-open"]),
+    lastClusterStatus: z.string(),
+    activeReadSource: z.enum(["spacetimedb", "postgresql_fallback"]),
+    consecutiveFailures: z.number(),
+    openedAt: z.string().nullable().optional(),
+    cooldownUntil: z.string().nullable().optional(),
+    lastCheckedAt: z.string().nullable().optional(),
+  })
+  .passthrough();
+
+const AgentRatingSyncSchema = z
+  .object({
+    checkedAt: z.string(),
+    spacetimeAgentRating: z
+      .object({
+        status: z.string(),
+        publishedCount: z.number().nullable(),
+        expectedHistoricalAgents: z.number(),
+        unmatchedCount: z.number().nullable(),
+        detail: z.string().optional(),
+      })
+      .passthrough(),
+    circuitBreaker: CircuitBreakerSchema,
+  })
+  .passthrough();
+
+const InnerDiagnosticsSchema = z
   .object({
     NEXT_PUBLIC_SPACETIME_URI: z.string().nullable(),
     NEXT_PUBLIC_SPACETIME_MODULE: z.string().nullable(),
@@ -18,12 +46,18 @@ export const SpacetimeDiagnosticsSchema = z
       NEXT_PUBLIC_SPACETIME_LIVE_CART: z.string().nullable(),
       NEXT_PUBLIC_SPACETIME_LIVE_FEED: z.string().nullable(),
     }),
+    agentRatingSync: AgentRatingSyncSchema.optional(),
     timestamp: z.string(),
     nodeEnv: z.string().nullable(),
   })
   .passthrough();
 
-export type SpacetimeDiagnostics = z.infer<typeof SpacetimeDiagnosticsSchema>;
+export const SpacetimeDiagnosticsSchema = z.union([
+  z.object({ success: z.boolean().optional(), diagnostics: InnerDiagnosticsSchema }).transform((v) => v.diagnostics),
+  InnerDiagnosticsSchema,
+]);
+
+export type SpacetimeDiagnostics = z.infer<typeof InnerDiagnosticsSchema>;
 
 export interface SlowQueryThresholdInfo {
   thresholdMs: number;
@@ -88,6 +122,74 @@ function SpacetimeFlagsGrid({ flags }: { flags: SpacetimeDiagnostics["flags"] })
             </span>
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+async function executeCircuitProbe(
+  onDiagnosticsUpdated?: (next: SpacetimeDiagnostics) => void,
+): Promise<string> {
+  try {
+    const res = await fetch("/api/admin/diagnostics/spacetime", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "probe_and_reset" }),
+    });
+    const parsed = await readJson(res, { parse: (raw) => SpacetimeDiagnosticsSchema.safeParse(raw) });
+    if (res.ok && parsed.success) {
+      onDiagnosticsUpdated?.(parsed.data);
+      const nextState = parsed.data.agentRatingSync?.circuitBreaker.state ?? "unknown";
+      const nextSource = parsed.data.agentRatingSync?.circuitBreaker.activeReadSource ?? "unknown";
+      return `Circuit ${nextState} — routing reads to ${nextSource}.`;
+    }
+    return "Probe failed to verify SpacetimeDB recovery.";
+  } catch {
+    return "Network error probing SpacetimeDB circuit.";
+  }
+}
+
+function CircuitRecoveryBar({
+  spacetime,
+  onDiagnosticsUpdated,
+}: {
+  spacetime: SpacetimeDiagnostics | null;
+  onDiagnosticsUpdated?: (next: SpacetimeDiagnostics) => void;
+}): React.JSX.Element {
+  const [probing, setProbing] = useState(false);
+  const [probeMessage, setProbeMessage] = useState<string | null>(null);
+  const cb = spacetime?.agentRatingSync?.circuitBreaker;
+  const sweep = spacetime?.agentRatingSync?.spacetimeAgentRating;
+  const badgeTone =
+    cb?.state === "closed"
+      ? "bg-emerald-100 text-emerald-800"
+      : cb?.state === "half-open"
+        ? "bg-amber-100 text-amber-800"
+        : "bg-rose-100 text-rose-800";
+
+  const handleProbeAndReset = async (): Promise<void> => {
+    setProbing(true);
+    setProbeMessage(null);
+    setProbeMessage(await executeCircuitProbe(onDiagnosticsUpdated));
+    setProbing(false);
+  };
+
+  return (
+    <div className="pt-4 border-t border-gray-100 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <h3 className="text-sm font-semibold text-gray-800">SpacetimeDB Circuit Breaker &amp; Parity Probe</h3>
+          {cb && <span className={`px-2 py-0.5 rounded text-xs font-semibold uppercase ${badgeTone}`}>{cb.state} ({cb.activeReadSource})</span>}
+        </div>
+        <p className="text-xs text-gray-500 mt-0.5">
+          {sweep ? `Cluster status: ${sweep.status}${sweep.publishedCount !== null ? ` (${sweep.publishedCount}/${sweep.expectedHistoricalAgents} agents synced)` : sweep.detail ? ` — ${sweep.detail}` : ""}` : "Transitions open circuits through half-open and verifies asol.agent_rating table parity."}
+        </p>
+      </div>
+      <div className="flex items-center gap-2 flex-wrap">
+        <button type="button" disabled={probing} onClick={() => { handleProbeAndReset().catch(() => {}); }} className="px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium disabled:opacity-50">
+          {probing ? "Probing…" : "Probe & Reset Circuit"}
+        </button>
+        {probeMessage && <span className="text-xs text-gray-700 font-medium">{probeMessage}</span>}
       </div>
     </div>
   );
@@ -170,11 +272,13 @@ export function SpacetimeDiagnosticsPanel({
   spacetimeLive,
   thresholdInfo,
   onThresholdUpdated,
+  onDiagnosticsUpdated,
 }: {
   spacetime: SpacetimeDiagnostics | null;
   spacetimeLive: boolean;
   thresholdInfo: SlowQueryThresholdInfo | null;
   onThresholdUpdated: (info: SlowQueryThresholdInfo) => void;
+  onDiagnosticsUpdated?: (next: SpacetimeDiagnostics) => void;
 }): React.JSX.Element {
   return (
     <div className="bg-white rounded-xl shadow border border-gray-100 overflow-hidden">
@@ -188,6 +292,7 @@ export function SpacetimeDiagnosticsPanel({
       <div className="p-6 space-y-6">
         <SpacetimeMetricsGrid spacetime={spacetime} spacetimeLive={spacetimeLive} thresholdInfo={thresholdInfo} />
         {spacetime && <SpacetimeFlagsGrid flags={spacetime.flags} />}
+        <CircuitRecoveryBar spacetime={spacetime} {...(onDiagnosticsUpdated ? { onDiagnosticsUpdated } : {})} />
         <ThresholdTuningForm thresholdInfo={thresholdInfo} onThresholdUpdated={onThresholdUpdated} />
       </div>
     </div>

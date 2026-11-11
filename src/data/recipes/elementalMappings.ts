@@ -1,9 +1,7 @@
 import { _ELEMENTAL_CHARACTERISTICS } from "@/constants/elementalConstants";
 import { cookingMethods } from "@/data/cooking";
 import { culinaryTraditions } from "@/data/cuisines/culinaryTraditions";
-import { ElementalRecommendationService } from "@/services/ElementalRecommendationService";
 import type { AstrologicalInfluence } from "@/types/alchemy";
-import {/* _ */ } from "@/types/alchemy";
 import type { RecipeElementalMapping } from "@/types/recipes";
 
 export { _ELEMENTAL_CHARACTERISTICS as ELEMENTAL_CHARACTERISTICS };
@@ -21,7 +19,9 @@ const defaultAstrologicalInfluence: AstrologicalInfluence = {
 const safeGetAstrologicalInfluences = (
   method: unknown,
 ): AstrologicalInfluence[] => {
-  if (!method) return [defaultAstrologicalInfluence];
+  if (!method || typeof method !== "object") {
+    return [defaultAstrologicalInfluence];
+  }
   const methodData = method as {
     astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[];
   };
@@ -142,33 +142,3 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
     seasonalRecommendation: ["Summer", "Early autumn"],
   },
 };
-
-/**
- * Get enhanced elemental recommendations for a recipe
- * @param recipeId The recipe ID to get recommendations for
- * @returns Enhanced elemental recommendations
- */
-export function getRecipeEnhancedRecommendations(recipeId: string) {
-  const recipe = recipeElementalMappings[recipeId];
-  if (!recipe) return null;
-
-  // Get base recommendations from the ElementalRecommendationService
-  const baseRecommendation =
-    ElementalRecommendationService.generateRecommendation(
-      recipe.elementalProperties,
-    );
-
-  // Merge with any recipe-specific overrides
-  return {
-    ...baseRecommendation,
-    cookingTechniques:
-      recipe.cookingTechniques ?? baseRecommendation.cookingTechniques,
-    flavorProfiles: recipe.flavorProfiles ?? baseRecommendation.flavorProfiles,
-    healthBenefits: recipe.healthBenefits ?? baseRecommendation.healthBenefits,
-    culinaryHerbs:
-      recipe.complementaryHerbs ?? baseRecommendation.culinaryHerbs,
-    timeOfDay: recipe.idealTimeOfDay ?? baseRecommendation.timeOfDay,
-    seasonalBest:
-      recipe.seasonalRecommendation ?? baseRecommendation.seasonalBest,
-  };
-}

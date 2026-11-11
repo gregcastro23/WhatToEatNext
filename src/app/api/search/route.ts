@@ -12,7 +12,11 @@ import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { getSearchIndex } from "@/lib/search/loader";
 import { searchOmnibar } from "@/lib/search/omnibar";
-import { isZeroResultSearch, scheduleZeroResultSearchGap } from "@/lib/search/searchGaps";
+import {
+  isZeroResultSearch,
+  loadResolvedSearchGapMappings,
+  scheduleZeroResultSearchGap,
+} from "@/lib/search/searchGaps";
 import { toOmnibarResponse } from "@/lib/search/serialize";
 import { SearchQuerySchema } from "@/lib/validation/searchSchemas";
 
@@ -40,9 +44,16 @@ async function handleGet(request: Request): Promise<Response> {
   }
   try {
     const index = await getSearchIndex();
-    const result = searchOmnibar(index, parsed.data.q, { now: new Date() });
+    const now = new Date();
+    let result = searchOmnibar(index, parsed.data.q, { now });
     if (parsed.data.q.trim().length >= 3 && isZeroResultSearch(result)) {
-      scheduleZeroResultSearchGap(parsed.data.q, result.chips);
+      const resolvedGapMappings = await loadResolvedSearchGapMappings();
+      if (resolvedGapMappings.size > 0) {
+        result = searchOmnibar(index, parsed.data.q, { now, resolvedGapMappings });
+      }
+      if (isZeroResultSearch(result)) {
+        scheduleZeroResultSearchGap(parsed.data.q, result.chips);
+      }
     }
     return NextResponse.json(toOmnibarResponse(result), {
       headers: { "Cache-Control": `public, s-maxage=${CACHE_SECONDS}, stale-while-revalidate=${STALE_SECONDS}` },

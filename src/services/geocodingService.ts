@@ -4,6 +4,8 @@
  * Uses OpenStreetMap's Nominatim API (free, no API key required)
  */
 
+import { z } from "zod";
+import { readJson } from "@/lib/api/json";
 import type { ParsedPostalCode, PostalFormat } from "@/lib/location/postalCode";
 import { _logger } from "@/lib/logger";
 import { resolveBirthZone } from "@/utils/astrology/birthTimezone";
@@ -163,12 +165,16 @@ export interface PostalCodeResolution {
  * all). Reusing it would let this function index a possibly-absent object under
  * a type that promises it is there.
  */
-interface NominatimPostalResult {
-  display_name: string;
-  lat: string;
-  lon: string;
-  address?: Record<string, string | undefined>;
-}
+const NominatimPostalResultSchema = z
+  .object({
+    display_name: z.string(),
+    lat: z.string(),
+    lon: z.string(),
+    address: z.record(z.string(), z.string().optional()).optional(),
+  })
+  .passthrough();
+
+const NominatimPostalResultArraySchema = z.array(NominatimPostalResultSchema);
 
 /** Locality-bearing keys in a Nominatim address, most specific first. */
 const LOCALITY_KEYS = [
@@ -211,7 +217,9 @@ export async function resolvePostalCode(
     throw new Error(`Geocoding API returned ${response.status}`);
   }
 
-  const data = (await response.json()) as NominatimPostalResult[];
+  const data = await readJson(response, {
+    parse: (v) => NominatimPostalResultArraySchema.parse(v),
+  });
   const [first] = data;
   if (!first) return null;
 
