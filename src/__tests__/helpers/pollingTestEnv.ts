@@ -47,8 +47,8 @@ export function makeDocumentVisible(): () => void {
   });
 
   restore = (): void => {
-    delete (document as unknown as Record<string, unknown>).hidden;
-    delete (document as unknown as Record<string, unknown>).visibilityState;
+    Reflect.deleteProperty(document, "hidden");
+    Reflect.deleteProperty(document, "visibilityState");
     if (hiddenDescriptor) {
       Object.defineProperty(Document.prototype, "hidden", hiddenDescriptor);
     }

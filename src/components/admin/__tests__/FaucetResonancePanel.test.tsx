@@ -9,7 +9,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 import { FaucetResonancePanel } from "@/components/admin/FaucetResonancePanel";
-import { makeDocumentVisible } from "@/utils/testing/pollingTestEnv";
+import { makeDocumentVisible } from "@/__tests__/helpers/pollingTestEnv";
 
 const livePayload = {
   success: true,

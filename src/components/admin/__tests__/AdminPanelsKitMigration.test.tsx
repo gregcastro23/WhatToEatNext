@@ -16,7 +16,7 @@ import OnboardingFunnelPanel from "@/components/admin/OnboardingFunnelPanel";
 import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
 import TodaysHighlightsPanel from "@/components/admin/TodaysHighlightsPanel";
 import UserInsightsPanel from "@/components/admin/UserInsightsPanel";
-import { makeDocumentVisible } from "@/utils/testing/pollingTestEnv";
+import { makeDocumentVisible } from "@/__tests__/helpers/pollingTestEnv";
 import { installFetchMock } from "@/__tests__/helpers/fetchMock";
 
 let restoreVisibility: () => void;
