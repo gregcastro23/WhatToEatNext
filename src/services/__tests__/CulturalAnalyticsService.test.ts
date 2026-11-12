@@ -1,7 +1,7 @@
 // Test file for Cultural Analytics Service
 import { ElementalProperties } from "@/types/alchemy";
 
-import { CulturalAnalyticsService } from "../CulturalAnalyticsService";
+import { CulturalAnalyticsService } from "../../../tests/helpers/CulturalAnalyticsService";
 
 describe("CulturalAnalyticsService", () => {
   const mockElementalProfile: ElementalProperties = {

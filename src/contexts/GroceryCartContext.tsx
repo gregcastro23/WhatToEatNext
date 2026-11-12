@@ -25,7 +25,9 @@ import {
 } from "react";
 import { useSpacetime } from "@/contexts/SpacetimeContext";
 import { resolveAsin } from "@/data/amazon";
+import { parseAmazonSearchResults } from "@/lib/amazon/searchResponseParser";
 import { preflightAndSubmitAmazonCart } from "@/lib/amazonCartHandoff";
+import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 import { isLiveCartEnabled } from "@/lib/spacetime/config";
 import type { GroceryCartItem as StdbCartRow } from "@/lib/spacetime/generated/types";
@@ -275,11 +277,9 @@ export function GroceryCartProvider({ children }: { children: ReactNode }) {
           }
           if (!res.ok) return;
 
-          const payload = (await res.json()) as {
-            results?: Array<{ ingredient: string; asin: string | null }>;
-          };
+          const rows = await readJson(res, parseAmazonSearchResults);
           const byName = new Map(
-            (payload.results ?? []).map((r) => [r.ingredient.trim().toLowerCase(), r.asin]),
+            rows.map((r) => [r.ingredient.trim().toLowerCase(), r.asin]),
           );
 
           toResolve.forEach((item) => {

@@ -11,7 +11,7 @@ import {
   ELEMENTAL_CONSTANTS,
   normalizeElementalProperties,
   validateElementalProperties,
-} from "./elementalValidation";
+} from "@/utils/astrology/elementalValidation";
 import {
   TRANSIT_CONSTANTS,
   validatePlanetaryPosition,

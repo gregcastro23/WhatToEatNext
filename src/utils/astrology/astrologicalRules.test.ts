@@ -11,7 +11,7 @@ import {
   validateAstrologicalCalculation,
   validateMathematicalConstants,
   validatePlanetaryPositions,
-} from './astrologicalValidation';
+} from '../../../tests/helpers/astrologicalValidation';
 import {
   ELEMENTAL_CONSTANTS,
   calculateElementalHarmony,
@@ -28,7 +28,7 @@ import {
   validateAllTransitDates,
   validateRetrogradePhase,
   validateTransitDate,
-} from './transitValidation';
+} from '../../../tests/helpers/transitValidation';
 
 describe('Astrological Validation Utilities', () => {
   let consoleWarnSpy: jest.SpyInstance;

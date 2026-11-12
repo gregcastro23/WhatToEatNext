@@ -11,7 +11,7 @@ import {
   fixAllRecipes,
   extractFixedRecipes,
   type FixOptions,
-} from "@/utils/recipe/recipeAutoFixer";
+} from "../../../tests/helpers/recipeAutoFixer";
 
 describe("Recipe Auto-Fixer", () => {
   describe("fixRecipe", () => {
