@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.gregcastro23/alchm-kitchen",
-  "description": "Fourteen culinary, thermodynamic & astrological tools: transits, hermetic cauldron, ingredients, recipes, synastry, pantry & swaps.",
-  "version": "1.5.2",
+  "description": "14 culinary, thermodynamic & astrological tools: cauldron, transits, recipes, synastry & swaps.",
+  "version": "1.6.0",
   "repository": {
     "url": "https://github.com/gregcastro23/WhatToEatNext",
     "source": "github",
@@ -12,7 +12,7 @@
     {
       "registryType": "npm",
       "identifier": "@alchm/mcp-server",
-      "version": "1.5.2",
+      "version": "1.6.0",
       "transport": {
         "type": "stdio"
       },

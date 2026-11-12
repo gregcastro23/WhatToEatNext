@@ -4,7 +4,7 @@ import { TOOL_OUTPUT_SCHEMAS } from "./outputSchemas";
 export type { JsonSchema } from "./inputSchemas";
 
 /** Shared, dependency-free MCP discovery, input and output contract. */
-export const MCP_SERVER_VERSION = "1.5.2";
+export const MCP_SERVER_VERSION = "1.6.0";
 
 export const TOOL_NAMES = [
   "get_live_sky_transits",
