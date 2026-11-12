@@ -14,7 +14,7 @@ import {
   normalizeTimeToMinutes,
   validateElementalProperties,
   validateIngredient,
-} from "@/utils/recipe/recipeSchemaValidator";
+} from "../../../tests/helpers/recipeSchemaValidator";
 
 describe("Recipe Schema Validator", () => {
   describe("generateRecipeId", () => {

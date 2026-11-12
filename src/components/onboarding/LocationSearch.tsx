@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
-import type { GeocodingResult } from "@/services/geocodingService";
+import { parseLocationSearchResponse, type LocationSearchResult } from "./locationSearchParser";
 
 interface LocationData {
   displayName: string;
@@ -73,7 +74,7 @@ export function LocationSearch({
   placeholder = "Search for your birth city...",
 }: LocationSearchProps): React.JSX.Element {
   const [query, setQuery] = useState(defaultValue);
-  const [results, setResults] = useState<GeocodingResult[]>([]);
+  const [results, setResults] = useState<LocationSearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<LocationData | null>(
@@ -111,10 +112,7 @@ export function LocationSearch({
         `/api/geocoding?q=${encodeURIComponent(searchQuery)}`
       );
       if (!response.ok) throw new Error("Geocoding failed");
-      const data = (await response.json()) as {
-        success?: boolean;
-        results?: GeocodingResult[];
-      };
+      const data = await readJson(response, parseLocationSearchResponse);
 
       if (data.success && Array.isArray(data.results)) {
         setResults(data.results);
@@ -149,7 +147,7 @@ export function LocationSearch({
     };
   }, [query, performSearch, selectedLocation]);
 
-  const handleSelectLocation = (result: GeocodingResult): void => {
+  const handleSelectLocation = (result: LocationSearchResult): void => {
     const locationData: LocationData = {
       displayName: result.displayName,
       latitude: result.latitude,

@@ -17,7 +17,9 @@ import {
   GradientText,
   LabelXS,
 } from "@/components/tables/ui";
+import { readJson } from "@/lib/api/json";
 import type { TableInvitePreview } from "@/types/table";
+import { parseInvitePreviewBody, parseRedeemInviteBody } from "./inviteParsers";
 
 function formatWhen(iso: string): string {
   const date = new Date(iso);
@@ -62,7 +64,7 @@ function InviteLanding() {
           setNotFound(true);
           return;
         }
-        const data = (await res.json()) as { preview?: TableInvitePreview };
+        const data = await readJson(res, parseInvitePreviewBody);
         setPreview(data.preview ?? null);
         if (!data.preview) setNotFound(true);
       } catch {
@@ -88,11 +90,7 @@ function InviteLanding() {
         credentials: "include",
         body: JSON.stringify({ via }),
       });
-      const data = (await res.json()) as {
-        success?: boolean;
-        tableId?: string;
-        message?: string;
-      };
+      const data = await readJson(res, parseRedeemInviteBody);
       if (!res.ok || !data.success || !data.tableId) {
         setRedeemError(data.message || "This invite can no longer be used.");
         return;

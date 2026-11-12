@@ -16,6 +16,8 @@ import {
   AMAZON_ASSOCIATE_TAG,
   getStandardizedQuantity,
 } from "@/data/amazon";
+import { parseAmazonSearchResponse } from "@/lib/amazon/searchResponseParser";
+import { readJson } from "@/lib/api/json";
 import { firePractice } from "@/lib/economy/practiceClient";
 import { reportQuestEvent } from "@/lib/questReporter";
 import { useFavoriteRecipes } from "@/lib/recipes/favoriteRecipes";
@@ -236,14 +238,6 @@ interface AmazonResolutionState {
     paapi: boolean;
     creators: boolean;
   };
-}
-
-interface AmazonSearchApiResult {
-  ingredient: string;
-  asin: string | null;
-  searchUrl?: string;
-  source?: string;
-  reason?: string;
 }
 
 export default function GroceryListModal({
@@ -481,13 +475,10 @@ export default function GroceryListModal({
       throw new Error(`Amazon catalog lookup failed with status ${response.status}`);
     }
 
-    const payload = (await response.json()) as {
-      results?: AmazonSearchApiResult[];
-      configured?: AmazonResolutionState["configured"];
-    };
+    const payload = await readJson(response, parseAmazonSearchResponse);
 
     const byIngredient = new Map(
-      (payload.results ?? []).map((result) => [
+      payload.results.map((result) => [
         result.ingredient.toLowerCase().trim(),
         result,
       ]),
@@ -504,7 +495,7 @@ export default function GroceryListModal({
           name: item.ingredient,
           asin: result.asin,
           quantity: item.quantity,
-          ...(result.source !== undefined ? { source: result.source } : {}),
+          source: result.source,
         });
       } else {
         unresolved.push({
@@ -520,7 +511,7 @@ export default function GroceryListModal({
       total: activeShoppingItems.length,
       resolved,
       unresolved,
-      ...(payload.configured !== undefined ? { configured: payload.configured } : {}),
+      configured: payload.configured,
     };
   };
 

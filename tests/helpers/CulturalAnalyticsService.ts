@@ -9,7 +9,7 @@ import {
 import {
   culturalRules,
   getCulturalRecommendations as _getCulturalRecommendations,
-} from "@/data/culturalrules";
+} from "./culturalrules";
 import type { ElementalProperties, LunarPhase, ZodiacSign } from "@/types/alchemy";
 import { logger } from "@/utils/logger";
 

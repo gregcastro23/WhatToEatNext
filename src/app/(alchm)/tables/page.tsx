@@ -18,6 +18,8 @@ import {
   LabelXS,
 } from "@/components/tables/ui";
 import { useMyTables, type TableListScope } from "@/hooks/useTables";
+import { readJson } from "@/lib/api/json";
+import { parseCreateTableResponse } from "./createTableParser";
 
 const TABS: Array<{ id: TableListScope; label: string }> = [
   { id: "upcoming", label: "Upcoming" },
@@ -97,11 +99,7 @@ export default function TablesPage() {
           visibility: form.visibility,
         }),
       });
-      const data = (await res.json()) as {
-        success?: boolean;
-        message?: string;
-        table?: { id: string };
-      };
+      const data = await readJson(res, parseCreateTableResponse);
       if (!res.ok || !data.success || !data.table) {
         setCreateError(data.message || "Could not create the table.");
         return;
