@@ -1,8 +1,8 @@
-<session_handoff version="5.6" date="2026-11-11">
+<session_handoff version="5.7" date="2026-11-12">
 
   <metadata>
     <repository>/Users/cookingwithcastro/Desktop/WhatToEatNext-master</repository>
-    <base_branch commit="bfc706c5">master</base_branch>
+    <base_branch commit="3b998916">master</base_branch>
     <hardware_profile>Apple Silicon M5 / 16 GB Unified Memory</hardware_profile>
     <runtime_policy>Bun-strict (`bun run ...`, `bunx ...`, `bun --bun run dev`). Never invoke npm or npx for project scripts.</runtime_policy>
   </metadata>
@@ -30,7 +30,7 @@
       Never import full static ingredient catalogs (1,002 items), USDA portion tables, or server database modules into `"use client"` components. Enforce all 11 route bundle ceilings in `scripts/check-route-sizes.cjs`.
     </invariant>
     <invariant id="static_ratchets">
-      New and modified files must remain under the 300-line ceiling (pure transformation modules strictly &lt; 250 lines, functions strictly &lt; 50 lines), introduce zero `Record&lt;string, any&gt;` casts or redundant conditions, and uphold static baselines: `.bare-json-casts-baseline.json` &lt;= 17 (production), `.lint-debt-baseline.json` &lt;= 1249 (assertion sites &lt;= 2687, non-null &lt;= 566, declined pool &lt;= 4694, loose optionality &lt;= 146), `testOnly` &lt;= 29, and `UNREACHABLE (dead): 0`.
+      New and modified files must remain under the 300-line ceiling (pure transformation modules strictly &lt; 250 lines, functions strictly &lt; 50 lines), introduce zero `Record&lt;string, any&gt;` casts or redundant conditions, and uphold static baselines: `.bare-json-casts-baseline.json` &lt;= 17 (production), `.lint-debt-baseline.json` &lt;= 1249 (assertion sites &lt;= 2687, non-null &lt;= 566, declined pool &lt;= 4694, loose optionality &lt;= 146), `testOnly` &lt;= 23, and `UNREACHABLE (dead): 0`.
     </invariant>
     <invariant id="circuit_breaker_and_reconciler">
       All live SpacetimeDB reads must route through `spacetimeCircuitBreaker.ts` with half-open recovery support. All cosmic generation reconcilers must use `FOR UPDATE SKIP LOCKED` and verify matching `token_transactions` debit legs before refunding.
@@ -91,6 +91,11 @@
       <item>Enriched MCP tool `simulate_hermetic_cauldron` with `sealMode`, `durationMinutes`, `hermeticOperation`, and `culinaryMatrix` telemetry; added Vector 6 fidelity probe test suite.</item>
       <item>Maintained zero port listeners, 655 passing test suites (7,155 tests), 16 pytest passes, and 100% green route bundle sizes across all 11 routes.</item>
     </track>
+    <track id="10" name="@alchm/mcp-server@1.6.0 Release &amp; Registry Validation (PR #1015)">
+      <item>Published `@alchm/mcp-server@1.6.0` live to npm with all 14 tools (including `simulate_hermetic_cauldron`, `sealMode`, `durationMinutes`, `hermeticOperation`, and `culinaryMatrix`).</item>
+      <item>Fixed `mcp-publisher` schema constraint by condensing `server.json` description to &lt;= 100 characters; verified `server.json` passes `mcp-publisher validate` with code 0.</item>
+      <item>Synchronized versions across `catalog.ts`, `package.json`, `server.json`, `README.md`, and `docs/mcp-registry-submission.md`.</item>
+    </track>
   </completed_state>
 
   <next_horizon_backlog priority_ordered="true">
@@ -105,12 +110,12 @@
     </objective>
 
     <objective priority="P2" id="test_only_sub_25_consolidation">
-      <title>Consolidate Remaining 29 `testOnly` Modules Below 25</title>
+      <title>Consolidate Remaining 23 `testOnly` Modules Below 20</title>
       <context>
-        `audit:dead-modules` reports 29 testOnly files reachable only by tests.
+        `audit:dead-modules` reports 23 testOnly files reachable only by tests (down from 29).
       </context>
       <deliverables>
-        <item>Audit remaining testOnly modules and consolidate helpers/fixtures into `tests/helpers/` or inline them, targeting `testOnly &lt;= 24` without dropping test coverage.</item>
+        <item>Audit remaining testOnly modules and consolidate helpers/fixtures into `tests/helpers/` or inline them, targeting `testOnly &lt;= 18` without dropping test coverage.</item>
       </deliverables>
     </objective>
 
@@ -127,7 +132,7 @@
 
   <verification_gates mandatory_before_commit="true">
     <gate order="1" command="lsof -ti:3000 -ti:5175">Verify 0 background processes listening.</gate>
-    <gate order="2" command="bun run verify:static">All 13 static gates must pass (0 TS errors, 0 ESLint errors, lint-debt &lt;= 1249, assertion sites &lt;= 2687, bare-json &lt;= 17, testOnly &lt;= 29, dead-modules = 0).</gate>
+    <gate order="2" command="bun run verify:static">All 13 static gates must pass (0 TS errors, 0 ESLint errors, lint-debt &lt;= 1249, assertion sites &lt;= 2687, bare-json &lt;= 17, testOnly &lt;= 23, dead-modules = 0).</gate>
     <gate order="3" command="bun run test &amp;&amp; python3 -m pytest backend/tests/test_migration_names.py">All 655 Jest suites (7,155 tests) and 16 Python migration assertions must pass.</gate>
     <gate order="4" command="bun run build">Production build and all 11 route bundle ceilings in `scripts/check-route-sizes.cjs` must pass.</gate>
   </verification_gates>
