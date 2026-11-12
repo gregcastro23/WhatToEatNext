@@ -2,7 +2,7 @@
 
 How to list the alchm.kitchen MCP server in the official Model Context Protocol (MCP) registry.
 
-**Submission status:** ⏸ npm package ready (`@alchm/mcp-server@1.5.2`) — registry listing pending `mcp-publisher` step below.
+**Submission status:** ⏸ npm package ready (`@alchm/mcp-server@1.6.0`) — registry listing pending `mcp-publisher` step below.
 
 > ✅ **Modern Registry Model.** Servers are published to **registry.modelcontextprotocol.io**
 > via `mcp-publisher` + `server.json`. Both the local stdio bundle and the remote
@@ -12,7 +12,7 @@ How to list the alchm.kitchen MCP server in the official Model Context Protocol 
 
 ## ✅ Package Published & Transports
 
-`@alchm/mcp-server@1.5.2` is packaged for npm (`29.2 kB` tarball) and deployed remotely:
+`@alchm/mcp-server@1.6.0` is packaged for npm (`29.2 kB` tarball) and deployed remotely:
 
 ```bash
 # 1. Local stdio transport (Claude Desktop, Cursor, local tools)
@@ -55,8 +55,8 @@ authenticate instead.)
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.gregcastro23/alchm-kitchen",
-  "description": "Thirteen culinary & astrological tools: transits, ingredients, recipes, synastry, pantry & swaps.",
-  "version": "1.5.2",
+  "description": "14 culinary, thermodynamic & astrological tools: cauldron, transits, recipes, synastry & swaps.",
+  "version": "1.6.0",
   "repository": {
     "url": "https://github.com/gregcastro23/WhatToEatNext",
     "source": "github",
@@ -66,7 +66,7 @@ authenticate instead.)
     {
       "registryType": "npm",
       "identifier": "@alchm/mcp-server",
-      "version": "1.5.2",
+      "version": "1.6.0",
       "transport": {
         "type": "stdio"
       },

@@ -3,7 +3,7 @@
 [![Listed on MCP Registry](https://img.shields.io/badge/MCP_Registry-io.github.gregcastro23%2Falchm--kitchen-blueviolet)](https://registry.modelcontextprotocol.io/servers/io.github.gregcastro23/alchm-kitchen)
 [![npm](https://img.shields.io/npm/v/@alchm/mcp-server)](https://www.npmjs.com/package/@alchm/mcp-server)
 
-Version **1.5.2** exposes fourteen tools over **stdio** and hosted **Streamable HTTP** (`https://alchm.kitchen/api/mcp`), along with the full MCP triad (tools, prompts, resources, and RFC 6570 resource templates). It includes live planetary transits, curated ingredient analysis, cosmic recipe search, hermetic cauldron vessel simulation, synastry overlays, triplicate pricing, evidence snapshots, recipe reflections, pre-flight allowances, dish-context substitutions, multi-recipe grocery consolidation, single-call pantry meal recommendations (`what_to_cook_now`), and safe culinary profile management. It uses the maintained MCP TypeScript SDK v1 line and supports standard MCP initialization handshakes.
+Version **1.6.0** exposes fourteen tools over **stdio** and hosted **Streamable HTTP** (`https://alchm.kitchen/api/mcp`), along with the full MCP triad (tools, prompts, resources, and RFC 6570 resource templates). It includes live planetary transits, curated ingredient analysis, cosmic recipe search, hermetic cauldron vessel simulation, synastry overlays, triplicate pricing, evidence snapshots, recipe reflections, pre-flight allowances, dish-context substitutions, multi-recipe grocery consolidation, single-call pantry meal recommendations (`what_to_cook_now`), and safe culinary profile management. It uses the maintained MCP TypeScript SDK v1 line and supports standard MCP initialization handshakes.
 
 ## Install or run
 
