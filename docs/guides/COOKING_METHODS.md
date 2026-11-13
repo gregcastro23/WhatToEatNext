@@ -7,7 +7,7 @@ WhatToEatNext application.
 
 The cooking methods data is organized into two main levels:
 
-1. **Simplified Overview** (`/src/data/cooking/cookingMethods.ts`):
+1. **Barrel Entry Point** (`/src/data/cooking/index.ts`, re-exporting `allCookingMethods` and `cookingMethods` from `/src/data/cooking/methods/`):
    - Contains basic information for quick reference
    - Includes elemental properties, benefits, and astrological influences
    - Used for simpler UI components and quick lookups
@@ -86,7 +86,7 @@ Each cooking method includes:
 import {
   cookingMethods,
   getDetailedCookingMethod,
-} from "../data/cooking/cookingMethods";
+} from "../data/cooking";
 
 // Get basic info about roasting
 const roastingBasic = cookingMethods.roasting;
@@ -105,7 +105,7 @@ To add a new cooking method:
 1. Create a new file in the appropriate category directory
 2. Follow the template structure from `/src/data/cooking/methods/template.ts`
 3. Export the method from the category's index.ts file
-4. Add it to the simplified overview in cookingMethods.ts if needed
+4. Export the method via `/src/data/cooking/index.ts` if needed
 
 ## Related Components
 

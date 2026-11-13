@@ -5,7 +5,7 @@ cooking methods data across the application.
 
 ## Files Updated
 
-### 1. `/src/data/cooking/cookingMethods.ts`
+### 1. `/src/data/cooking/index.ts` (supersedes removed `cookingMethods.ts`)
 
 - Added more cooking methods (from 3 to 8)
 - Enhanced existing methods with more detailed information

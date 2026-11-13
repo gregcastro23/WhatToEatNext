@@ -41,7 +41,6 @@ Recipe B: { Fire: 1.8, Water: 1.2, Earth: 0.6, Air: 0.4 } // Total = 4.0
 
 **Files with normalization functions:**
 
-- `src/utils/elemental/core.ts` - `normalizeProperties()`
 - `src/utils/elementalUtils.ts` - `normalizeProperties()`
 - `src/constants/elementalCore.ts` - `normalizeElementalProperties()`
 - `src/utils/ingredientUtils.ts` - `normalizeElementalProperties()`
@@ -52,7 +51,6 @@ Recipe B: { Fire: 1.8, Water: 1.2, Earth: 0.6, Air: 0.4 } // Total = 4.0
 **Files that CALL normalization:**
 
 - `src/utils/hierarchicalRecipeCalculations.ts` - Lines 208, 247
-- `src/utils/elemental/core.ts` - Multiple locations
 - `src/utils/elementalUtils.ts` - Lines 182-187
 - `src/utils/elemental/transformations.ts` - Lines 246, 519
 - `src/lib/recipeEngine.ts` - Lines 74-81

@@ -8,6 +8,10 @@ import {
   quantizeEsms,
 } from "@/lib/economy/esmsQuantization";
 import {
+  alchemize,
+  type PlanetaryPosition as AlchemizePlanetaryPosition,
+} from "@/services/RealAlchemizeService";
+import {
   ASCENDANT_VESSEL_WEIGHT,
   calculateAlchemicalFromPlanets,
   getGravitationalInertia,
@@ -65,6 +69,52 @@ describe("ESMS 2.0 Unified Physics Model Conformance Suite", () => {
       expect(quantizeEsms(essence)).toBe(micro!.essence);
       expect(quantizeEsms(matter)).toBe(micro!.matter);
       expect(quantizeEsms(substance)).toBe(micro!.substance);
+    });
+
+    it(`produces finite RealAlchemizeService.alchemize outputs for ${chart.id} (${chart.name})`, () => {
+      const alchemizePositions: Record<string, AlchemizePlanetaryPosition> = {};
+      for (const [planet, pos] of Object.entries(chart.planetary_positions)) {
+        if (!pos) continue;
+        alchemizePositions[planet] = {
+          sign: pos.sign,
+          degree: pos.degree,
+          minute: 0,
+          ...("distance" in pos && typeof pos.distance === "number"
+            ? { distance: pos.distance }
+            : {}),
+        };
+      }
+
+      const result = alchemize(
+        alchemizePositions,
+        null,
+        new Date("2025-01-01T12:00:00.000Z"),
+        { diurnal: chart.is_diurnal ?? true },
+      );
+
+      for (const value of Object.values(result.esms)) {
+        expect(Number.isFinite(value)).toBe(true);
+      }
+      expect(result.esms.Matter).toBeGreaterThan(0);
+      expect(result.esms.Substance).toBeGreaterThan(0);
+
+      for (const value of Object.values(result.elementalProperties)) {
+        expect(Number.isFinite(value)).toBe(true);
+      }
+
+      const { heat, entropy, reactivity, gregsEnergy } = result.thermodynamicProperties;
+      for (const metric of [
+        heat,
+        entropy,
+        reactivity,
+        gregsEnergy,
+        result.kalchm,
+        result.monica,
+        result.score,
+        result.confidence,
+      ]) {
+        expect(Number.isFinite(metric)).toBe(true);
+      }
     });
   });
 

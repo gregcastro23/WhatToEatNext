@@ -12,8 +12,10 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import type { DayOfWeek, MealSlot as MealSlotType } from "@/types/menuPlanner";
+import { readJson } from "@/lib/api/json";
+import type { DayOfWeek } from "@/types/menuPlanner";
 import ProfileWeekFixture from "./ProfileWeekFixture";
+import { parsePublicWeekResponse, type WeekMealSlot } from "./weekMenuParser";
 
 /** Coarse "updated N ago" label from an ISO timestamp. */
 function relativeStamp(iso: string | null): string | undefined {
@@ -34,7 +36,7 @@ export default function AgentProfileWeekCard({
   agentName?: string | null;
 }) {
   const router = useRouter();
-  const [meals, setMeals] = useState<MealSlotType[] | null>(null);
+  const [meals, setMeals] = useState<WeekMealSlot[] | null>(null);
   const [updatedLabel, setUpdatedLabel] = useState<string | undefined>();
   const [loading, setLoading] = useState(true);
 
@@ -49,14 +51,10 @@ export default function AgentProfileWeekCard({
           if (!cancelled) setMeals([]);
           return;
         }
-        const json = (await res.json()) as {
-          success: boolean;
-          meals?: MealSlotType[];
-          updatedAt?: string | null;
-        };
+        const data = await readJson(res, parsePublicWeekResponse);
         if (!cancelled) {
-          setMeals((json?.meals ?? []));
-          setUpdatedLabel(relativeStamp(json?.updatedAt ?? null));
+          setMeals(data.meals);
+          setUpdatedLabel(relativeStamp(data.updatedAt));
         }
       } catch {
         if (!cancelled) setMeals([]);

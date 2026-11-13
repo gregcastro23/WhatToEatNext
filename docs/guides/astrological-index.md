@@ -162,7 +162,6 @@ src/data/
 src/__tests__/
 ├── alchemicalPillars.test.ts        # Core alchemical tests
 ├── astrologize-integration.test.ts  # API integration tests
-├── culinaryAstrology.test.ts        # Culinary astrology tests
 └── utils/
     └── elementalCompatibility.test.ts # Elemental compatibility tests
 ```

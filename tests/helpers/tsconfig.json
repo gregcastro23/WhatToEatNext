@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "incremental": false
+  },
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "../../next-env.d.ts",
+    "../../src/types/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "../../node_modules",
+    "../../src/types/testing-library__jest-dom.d.ts",
+    "../../src/types/testing-library__jest-dom/**",
+    "../../src/types/jest-dom.d.ts",
+    "../../src/jest-dom.d.ts",
+    "../../src/types/utils.d.ts"
+  ]
+}

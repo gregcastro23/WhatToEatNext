@@ -56,8 +56,6 @@ individual files organized by category:
 
 Components and utils updated:
 
-- `src/data/recipes/elementalMappings.ts`
-- `src/calculations/culinaryAstrology.ts`
 - `src/components/AlchemicalRecommendations.tsx`
 - `src/components/CookingMethods.tsx`
 - `src/utils/culturalMethodsAggregator.ts`

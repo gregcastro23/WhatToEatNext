@@ -11,6 +11,8 @@
  *    endpoint limited to 60 a minute, so every caller had to warm it first.
  * Each test loads a fresh service (jest.config resetModules).
  */
+import type { Recipe } from "@/types/recipe";
+import type { ScoredPlanetaryPosition } from "../planetaryScoring";
 import { installFetchMock } from "../../__tests__/helpers/fetchMock";
 
 const NOW = new Date("2026-10-31T15:30:00Z");
@@ -121,5 +123,54 @@ describe("getCurrentPlanetaryPositions in a browser", () => {
     const later = await service.getCurrentPlanetaryPositions();
     expect(spy).toHaveBeenCalledTimes(2);
     expect(later.find((p) => p.planet === "Sun")?.sign).toBe("libra");
+  });
+});
+
+function buildSunRuledRecipe(): Recipe {
+  return {
+    id: "sun-critical-degree-pin",
+    name: "Roasted Solar Citrus",
+    ingredients: [],
+    instructions: ["Roast until golden."],
+    elementalProperties: { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 },
+    planetaryInfluences: { favorable: ["Sun"], unfavorable: [] },
+  };
+}
+
+async function scoreWithSunPosition(position: ScoredPlanetaryPosition) {
+  const service = await freshService();
+  jest.spyOn(service, "getCurrentPlanetaryPositions").mockResolvedValue([position]);
+  return service.scoreRecipe(buildSunRuledRecipe());
+}
+
+describe("scoreRecipe minute fallback (planetaryScoring:286)", () => {
+  it("reads pos.minute, falls back to pos.minutes when minute is absent, and defaults to 0", async () => {
+    const withMinute = await scoreWithSunPosition({
+      planet: "Sun",
+      sign: "leo",
+      degree: 12,
+      minute: 30,
+      isRetrograde: false,
+    });
+    const withMinutesFallback = await scoreWithSunPosition({
+      planet: "Sun",
+      sign: "leo",
+      degree: 12,
+      minutes: 30,
+      isRetrograde: false,
+    });
+    const withoutMinutes = await scoreWithSunPosition({
+      planet: "Sun",
+      sign: "leo",
+      degree: 12,
+      isRetrograde: false,
+    });
+
+    // At 12 deg 30 min (12.5 deg), distance from critical degree 13 is 0.5 < 1 -> +0.1.
+    // At 12 deg 0 min (12.0 deg), distance from critical degree 13 is 1.0 (not < 1) -> 0.
+    expect(withMinute.components.criticalDegreeBonus).toBe(0.1);
+    expect(withMinutesFallback.components.criticalDegreeBonus).toBe(0.1);
+    expect(withMinutesFallback.overallScore).toBe(withMinute.overallScore);
+    expect(withoutMinutes.components.criticalDegreeBonus).toBe(0);
   });
 });

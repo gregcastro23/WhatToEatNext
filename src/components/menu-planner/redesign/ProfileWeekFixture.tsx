@@ -16,24 +16,21 @@
 
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-import type { DayOfWeek, MealSlot as MealSlotType, MealType } from "@/types/menuPlanner";
+import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 import {
   getPlanetaryDayCharacteristics,
   getShortDayName,
 } from "@/types/menuPlanner";
 import { PLANET_GLYPHS } from "../StitchTransitRibbon";
 import { dominantElement, ELEMENT_DOT } from "./elementUtils";
+import type { WeekMealSlot } from "./weekMenuParser";
 
 const MAIN_TYPES: MealType[] = ["breakfast", "lunch", "dinner"];
 const ALL_DAYS: DayOfWeek[] = [0, 1, 2, 3, 4, 5, 6];
 
-function DayTile({
-  day,
-  meals,
-  isToday,
-}: {
+function DayTile({ day, meals, isToday }: {
   day: DayOfWeek;
-  meals: MealSlotType[];
+  meals: WeekMealSlot[];
   isToday: boolean;
 }) {
   const glyph = PLANET_GLYPHS[getPlanetaryDayCharacteristics(day).planet] ?? "✶";
@@ -85,7 +82,7 @@ export default function ProfileWeekFixture({
   href = "/menu-planner",
   todayDayOfWeek = null,
 }: {
-  meals: MealSlotType[];
+  meals: WeekMealSlot[];
   variant: "user" | "agent";
   title: string;
   /** Agent variant: "UPDATED 2H AGO"-style freshness stamp. */
@@ -98,7 +95,7 @@ export default function ProfileWeekFixture({
   href?: string;
   todayDayOfWeek?: DayOfWeek | null;
 }) {
-  const mealsByDay: Record<DayOfWeek, MealSlotType[]> = {
+  const mealsByDay: Record<DayOfWeek, WeekMealSlot[]> = {
     0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [],
   };
   meals.forEach((m) => {

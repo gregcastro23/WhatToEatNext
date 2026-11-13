@@ -168,8 +168,6 @@ Advanced automated code quality improvement system:
 
 - **[Campaign System](../src/services/campaign/README.md)** - Automated quality
   improvement
-- **[Astrological Calculations](../src/calculations/README.md)** - Cosmic
-  computation engines
 - **[Testing Framework](development/testing.md)** - Quality assurance approach
 - **[Deployment Guide](technical/deployment.md)** - Production deployment
 

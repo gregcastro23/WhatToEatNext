@@ -55,11 +55,9 @@ function normalizeOrigin(origin?: string[] | string): string[] {
   return Array.isArray(origin) ? origin : [origin];
 }
 
-function normalizeMethods(methods?: Array<string | { name?: string }>): string[] {
+function normalizeMethods(methods?: string[]): string[] {
   if (!methods) return [];
-  return methods
-    .map((m) => (typeof m === "string" ? m : m?.name ?? ""))
-    .filter(Boolean);
+  return methods.filter(Boolean);
 }
 
 function storageToText(storage: IngredientData["storage"]): string | null {

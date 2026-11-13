@@ -276,15 +276,13 @@ steaming: { Fire: 0.6, Water: 1.4, Earth: 0.9, Air: 1.1 }
 
 ### Files That Need Updates
 
-13 files reference the removed functions and will need updates:
+The listed modules reference the removed functions and need updates:
 
 ```
 /src/services/RealAlchemizeService.ts
 /src/services/ThermodynamicsClient.ts
 /src/data/ingredients/index.ts
 /src/calculations/alchemicalTransformation.ts
-/src/calculations/index.ts
-/src/calculations/core/index.ts
 /src/calculations/core/kalchmEngine.ts
 /src/utils/elemental/transformations.ts
 /src/utils/alchemicalResults.ts
