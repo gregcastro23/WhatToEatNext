@@ -1,40 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
-interface TechniqueData {
-  name?: string;
-  description?: string;
-  shortDescription?: string;
-  culinaryArchetype?: string;
-  elementalEffect?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
-  duration?: { min?: number; max?: number };
-  suitable_for?: string[];
-  benefits?: string[];
-  toolsRequired?: string[];
-  commonMistakes?: string[];
-  pairingSuggestions?: string[];
-  chemicalChanges?: Record<string, boolean>;
-  optimalTemperatures?: Record<string, number>;
-  nutrientRetention?: Record<string, number>;
-  history?: string;
-  modernVariations?: string[];
-  scientificPrinciples?: string[];
-  expertTips?: string[];
-  doneness_indicators?: Record<string, string>;
-  timingConsiderations?: Record<string, string>;
-  astrologicalInfluences?: {
-    dominantPlanets?: string[];
-    favorableZodiac?: string[];
-  };
-}
-
-interface ApiResponse {
-  success: boolean;
-  technique?: TechniqueData;
-  canonicalKey?: string;
-  error?: string;
-}
+import { readJson } from "@/lib/api/json";
+import { parseTechniqueResponse, type TechniqueApiResponse } from "./techniqueParser";
 
 interface TechniqueModalProps {
   techniqueName: string | null;
@@ -73,7 +41,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export function TechniqueModal({ techniqueName, onClose }: TechniqueModalProps) {
   const open = Boolean(techniqueName);
-  const [data, setData] = useState<ApiResponse | null>(null);
+  const [data, setData] = useState<TechniqueApiResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -91,7 +59,7 @@ export function TechniqueModal({ techniqueName, onClose }: TechniqueModalProps) 
           `/api/techniques/${encodeURIComponent(techniqueName)}`,
           { signal: controller.signal },
         );
-        const json = (await res.json()) as ApiResponse;
+        const json = await readJson(res, parseTechniqueResponse);
         if (!res.ok || !json.success) {
           setError(json.error ?? "Technique not found");
           setData(null);

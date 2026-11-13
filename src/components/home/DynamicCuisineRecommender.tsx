@@ -3,35 +3,13 @@
 import React, { useState, useEffect, useCallback, useMemo, type JSX } from "react";
 import { getServerRecipes } from "@/actions/recipes";
 import { biasQueryParam, useUserElementalBias } from "@/hooks/useUserElementalBias";
+import { readJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 import { PlanetaryScoringService } from "@/services/planetaryScoring";
 import { fetchWithRetry } from "@/utils/apiUtils";
 import { CuisineCard, CuisineCardSkeleton } from "./CuisineCard";
+import { parseCuisineRecommendResponse } from "./cuisineRecommendParser";
 import type { DynamicCuisineRecommendation } from "./CuisineCard";
-
-interface ApiCuisineItem {
-  name?: string;
-  cuisine_id?: string;
-  compatibility_reason?: string;
-  nested_recipes?: Array<{
-    recipe_id?: string;
-    id?: string;
-    name?: string;
-  }>;
-}
-
-interface ApiResponseData {
-  success: boolean;
-  source?: string;
-  personalized?: boolean;
-  recipeCounts?: Record<string, number>;
-  recommendations?: {
-    cuisines?: Array<string | ApiCuisineItem>;
-  } | Array<string | ApiCuisineItem>;
-  cuisines?: Array<string | ApiCuisineItem>;
-  topCuisines?: Array<string | ApiCuisineItem>;
-  cuisineRecommendations?: Array<string | ApiCuisineItem>;
-}
 
 // Cuisine definitions with planetary rulerships
 // These must match the 14 actual cuisine data files in src/data/cuisines/
@@ -222,28 +200,15 @@ export default function DynamicCuisineRecommender({
         throw new Error(`API error: ${response.status}`);
       }
 
-      const data = (await response.json()) as ApiResponseData;
+      const data = await readJson(response, parseCuisineRecommendResponse);
       _logger.info("DynamicCuisineRecommender: API response received:", data.source);
 
       if (data.success) {
-        setPersonalized(Boolean(data.personalized));
-        // Map API response to our component's format
-        // The backend might return cuisines in several possible fields depending on the engine
-        const rawRecs = data.recommendations;
-        const apiCuisines: Array<string | ApiCuisineItem> =
-          rawRecs && typeof rawRecs === "object" && "cuisines" in rawRecs && Array.isArray(rawRecs.cuisines)
-            ? rawRecs.cuisines
-            : Array.isArray(data.cuisines)
-              ? data.cuisines
-              : Array.isArray(data.topCuisines)
-                ? data.topCuisines
-                : Array.isArray(data.cuisineRecommendations)
-                  ? data.cuisineRecommendations
-                  : Array.isArray(data.recommendations)
-                    ? data.recommendations
-                    : [];
-        
-        const recipeCounts = data.recipeCounts ?? {};
+        setPersonalized(data.personalized);
+        // Map API response to our component's format. The parser has already picked the
+        // list the engine used (recommendations.cuisines, cuisines, topCuisines,
+        // cuisineRecommendations, then recommendations as an array) and checked its rows.
+        const { cuisines: apiCuisines, recipeCounts } = data;
 
         if (apiCuisines.length === 0) {
           _logger.error("DynamicCuisineRecommender: API response contained no cuisines. Raw data:", data);

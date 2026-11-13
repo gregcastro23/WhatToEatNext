@@ -57,6 +57,13 @@
  * `import { calculateKalchm } from "@/calculations"` resolved to the
  * zero-returning implementation. The barrel was publishing the worst copy in the
  * repo. It has been delegated, not deleted.
+ *
+ * Later (2026-11-12): the barrel's only importers were two tests, and the
+ * dead-module audit classed it and its 13 dependents `testOnly`, so
+ * `src/calculations/index.ts`, `alchemicalCalculations.ts` and the rest of that
+ * closed cluster were deleted together with those two tests. The correction
+ * above stays as the record of why a reachability claim needs the resolver and
+ * not a grep.
  */
 import { calculateKAlchm as formerlyEps1 } from "@/calculations/core/kalchmEngine";
 import { calculateKalchm as canonical } from "@/data/unified/alchemicalCalculations";

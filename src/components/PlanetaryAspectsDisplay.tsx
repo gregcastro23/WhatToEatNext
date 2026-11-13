@@ -2,31 +2,11 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { FaArrowRight, FaArrowLeft, FaSyncAlt, FaComments } from "react-icons/fa";
+import { parseAspectsResponse, type AspectEntry, type AspectsData } from "@/components/planetaryAspectsParser";
 import { useTransitGroupChat } from "@/hooks/useTransitGroupChat";
 import { groupForAspect } from "@/lib/agents/transitAgents";
+import { readJson } from "@/lib/api/json";
 import { reportQuestEvent } from "@/lib/questReporter";
-
-interface AspectEntry {
-  planet1: string;
-  planet2: string;
-  type: string;
-  aspectAngle: number;
-  orbDegrees: number;
-  strength: number;
-  applying: boolean;
-  daysToExact: number;
-  influence: "harmonious" | "challenging" | "neutral";
-  // Per-planet placement (from the aspects API) for building degree-agent ids.
-  sign1?: string;
-  degree1?: number;
-  sign2?: string;
-  degree2?: number;
-}
-
-interface AspectsData {
-  aspects: AspectEntry[];
-  timestamp: string;
-}
 
 // ── Visual helpers ───────────────────────────────────────────────────────────
 
@@ -195,7 +175,7 @@ export default function PlanetaryAspectsDisplay(): React.JSX.Element {
       setLoading(true);
       const res = await fetch("/api/alchm-quantities/aspects");
       if (!res.ok) throw new Error("Failed to fetch aspects");
-      const json = (await res.json()) as AspectsData;
+      const json = await readJson(res, parseAspectsResponse);
       setData(json);
       setError(null);
       if (!questFired.current) {
