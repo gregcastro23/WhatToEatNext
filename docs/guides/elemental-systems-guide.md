@@ -78,7 +78,7 @@ function balanceElements(properties: ElementalProperties): ElementalProperties {
 ### 1. Base Elemental Properties Calculation
 
 ```typescript
-// src/calculations/core/elementalCalculations.ts
+// Example base elemental calculation pattern
 export function calculateBaseElementalProperties(planetaryPositions: {
   [key: string]: PlanetaryPosition;
 }): ElementalProperties {
@@ -624,7 +624,6 @@ function balanceRecipeElementally(recipe: Recipe): Recipe {
 
 ## Related Files
 
-- `src/calculations/core/elementalCalculations.ts` - Core elemental calculations
 - `src/utils/elemental/elementalUtils.ts` - Elemental utility functions
 - `src/constants/elementalProperties.ts` - Elemental constants and mappings
 - `src/__tests__/utils/elementalCompatibility.test.ts` - Elemental compatibility

@@ -885,7 +885,6 @@ jobs:
 
 ## Related Files
 
-- `src/__tests__/culinaryAstrology.test.ts` - Culinary astrology tests
 - `src/__tests__/astrologize-integration.test.ts` - API integration tests
 - `src/utils/__tests__/planetaryValidation.test.ts` - Planetary validation tests
 - `src/__tests__/utils/elementalCompatibility.test.ts` - Elemental compatibility

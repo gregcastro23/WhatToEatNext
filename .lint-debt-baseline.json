@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1219,
+  "trackedTotal": 1215,
   "casts": {
     "total": 147,
     "asAny": 33,
@@ -8,11 +8,11 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 2570,
+    "total": 2568,
     "asAny": 33,
     "chained": 114,
-    "single": 2423,
-    "production": 1983,
+    "single": 2421,
+    "production": 1981,
     "test": 587,
     "asConst": 618,
     "nonNull": 564
@@ -79,7 +79,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 754,
+      "count": 750,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {

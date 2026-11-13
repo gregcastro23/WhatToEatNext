@@ -23,7 +23,9 @@ automatically
 
 ### Core Components
 
-1. **CurrentMomentManager** (`src/services/CurrentMomentManager.ts`)
+> **Note:** `src/services/CurrentMomentManager.ts` has since been removed; `/api/current-moment` (`src/app/api/current-moment/route.ts`) now computes current positions directly via `getAccuratePlanetaryPositions` (`@/utils/astrology/positions`).
+
+1. **Planetary Position Engine** (`@/utils/astrology/positions`, replacing the removed `CurrentMomentManager`)
    - Central service managing all position updates
    - Handles API calls, data formatting, and file updates
    - Provides caching and error handling
@@ -307,22 +309,7 @@ Returns:
 
 ## Development Notes
 
-### Adding New Storage Locations
-
-To add a new file to the update process:
-
-1. Add update method to `CurrentMomentManager` class
-2. Include in `propagateUpdates()` method
-3. Create appropriate formatting function
-4. Test with dry-run functionality
-
-### Customizing Position Formats
-
-Each file type has its own formatting function in `CurrentMomentManager`:
-
-- `formatPositionsForNotebook()` - Python dictionary format
-- `formatPositionsForSystemDefaults()` - TypeScript with types
-- `formatPositionsForStreamlined()` - Simple object format
+The helper pipeline described below (`CurrentMomentManager` propagation and formatting helpers) has been retired; position consumers read directly from `@/utils/astrology/positions`.
 - etc.
 
 ## Testing

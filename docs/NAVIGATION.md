@@ -186,8 +186,6 @@ archive/
 
 - **[Campaign System](../src/services/campaign/README.md)** - Automated quality
   improvement
-- **[Astrological Calculations](../src/calculations/README.md)** - Cosmic
-  computation
 - **[TypeScript Guide](guides/TYPESCRIPT_QUICK_START.md)** - TS configuration
 - **[Deployment Guide](technical/deployment.md)** - Production deployment
 - **[API Integration](technical/api-integration.md)** - External services

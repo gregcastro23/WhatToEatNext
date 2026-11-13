@@ -570,7 +570,6 @@ const displayProps = normalizeForDisplay(rawProps);
 
 ### Calculation Functions
 
-- `src/utils/elemental/core.ts` - Elemental aggregation (raw values)
 - `src/utils/elemental/normalization.ts` - Display normalization utilities (UI only)
 - `src/utils/elemental/compatibility.ts` - Backwards compatibility layer
 - `src/utils/elementalUtils.ts` - Elemental utility functions

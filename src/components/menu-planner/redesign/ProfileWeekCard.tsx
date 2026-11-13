@@ -13,12 +13,14 @@
 import { CalendarDays } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import type { DayOfWeek, MealSlot as MealSlotType } from "@/types/menuPlanner";
+import { readJson } from "@/lib/api/json";
+import type { DayOfWeek } from "@/types/menuPlanner";
 import { getWeekStartDate } from "@/types/menuPlanner";
 import ProfileWeekFixture from "./ProfileWeekFixture";
+import { parseOwnerWeekMenuResponse, type WeekMealSlot } from "./weekMenuParser";
 
 export default function ProfileWeekCard() {
-  const [meals, setMeals] = useState<MealSlotType[] | null>(null);
+  const [meals, setMeals] = useState<WeekMealSlot[] | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,11 +36,8 @@ export default function ProfileWeekCard() {
           if (!cancelled) setMeals([]);
           return;
         }
-        const json = (await res.json()) as {
-          success: boolean;
-          menu?: { meals?: MealSlotType[] } | null;
-        };
-        if (!cancelled) setMeals(json?.menu?.meals ?? []);
+        const data = await readJson(res, parseOwnerWeekMenuResponse);
+        if (!cancelled) setMeals(data.meals);
       } catch {
         if (!cancelled) setMeals([]);
       } finally {

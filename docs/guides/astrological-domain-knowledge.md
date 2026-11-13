@@ -732,11 +732,8 @@ async function getPlanetaryPositions() {
 ### **Core Calculation Files**
 
 - `src/calculations/alchemicalEngine.ts` - Main alchemical calculations
-- `src/calculations/core/elementalCalculations.ts` - Elemental balance
-  calculations
 - `src/calculations/core/planetaryInfluences.ts` - Planetary influence
   calculations
-- `src/calculations/culinaryAstrology.ts` - Culinary astrology integration
 - `src/utils/reliableAstronomy.ts` - Reliable planetary position calculations
 
 ### **Type Definitions**
@@ -755,7 +752,6 @@ async function getPlanetaryPositions() {
 
 - `src/__tests__/alchemicalPillars.test.ts` - Core alchemical tests
 - `src/__tests__/astrologize-integration.test.ts` - API integration tests
-- `src/__tests__/culinaryAstrology.test.ts` - Culinary astrology tests
 - `src/utils/__tests__/planetaryValidation.test.ts` - Planetary validation tests
 
 ---

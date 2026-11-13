@@ -41,8 +41,6 @@ export interface TokenEconomyEventDetail {
   source: 'claim' | 'quest' | 'optimistic' | 'refresh';
   /** Optional per-token credit amounts for flash animations. */
   credits?: Partial<Record<Lowercase<TokenType>, number>>;
-  /** Optional resulting yield for claim events. */
-  yield?: DailyYieldResult;
 }
 
 export interface UseTokenEconomyResult {
@@ -150,7 +148,6 @@ export function useTokenEconomy(): UseTokenEconomyResult {
       dispatchEconomyEvent({
         source: 'claim',
         credits: yieldResult.distribution,
-        yield: yieldResult,
       });
       // Light vibration for tactile feedback.
       if (
