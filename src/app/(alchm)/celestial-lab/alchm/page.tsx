@@ -17,18 +17,15 @@ import PlanetaryContributionsChart from "@/components/PlanetaryContributionsChar
 import { QuantityContextStrip } from "@/components/QuantityContext";
 import { AlchemicalStatisticsProvider } from "@/contexts/AlchemicalStatisticsContext";
 import { emitTokenEconomyUpdate } from "@/hooks/useTokenEconomy";
-import { safeReadJson } from "@/lib/api/json";
+import { readJson, safeReadJson } from "@/lib/api/json";
 import { _logger } from "@/lib/logger";
 import {
   CelestialLabBalanceResponseSchema,
   CelestialLabQuantitiesResponseSchema,
   type CelestialLabQuantitiesResponse,
 } from "@/lib/validation/accountResponseSchemas";
-import type {
-  TokenBalances,
-  UserStreak,
-  DailyYieldResult,
-} from "@/types/economy";
+import type { TokenBalances, UserStreak } from "@/types/economy";
+import { parseClaimDailyResponse, type ClaimedYield } from "./claimDailyParser";
 
 const AlchmQuantitiesTrends = dynamic(
   () => import("@/components/alchm-quantities-trends"),
@@ -376,13 +373,6 @@ function MomentumTideDisplay({ momentum }: { momentum: Record<string, number> | 
 
 // ─── Economy Tab ──────────────────────────────────────────────────────────────
 
-
-interface ClaimDailyApiResponse {
-  success: boolean;
-  yield?: DailyYieldResult;
-  message?: string;
-}
-
 interface EconomyTabProps {
   autoClaim?: boolean;
   onAutoClaimHandled?: () => void;
@@ -396,7 +386,7 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
   const [streak, setStreak] = useState<UserStreak | null>(null);
   const [canClaim, setCanClaim] = useState(false);
   const [claiming, setClaiming] = useState(false);
-  const [claimResult, setClaimResult] = useState<DailyYieldResult | null>(null);
+  const [claimResult, setClaimResult] = useState<ClaimedYield | null>(null);
   const [debitFlash, setDebitFlash] = useState<string | null>(null);
   const [economyError, setEconomyError] = useState<string | null>(null);
   const autoClaimFiredRef = useRef(false);
@@ -493,7 +483,7 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
         method: "POST",
         credentials: "include",
       });
-      const data = (await res.json()) as ClaimDailyApiResponse;
+      const data = await readJson(res, parseClaimDailyResponse);
       if (data.success && data.yield) {
         setClaimResult(data.yield);
         if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
@@ -506,7 +496,6 @@ function EconomyTab({ autoClaim = false, onAutoClaimHandled, onSplash }: Economy
         emitTokenEconomyUpdate({
           source: "claim",
           credits: data.yield.distribution,
-          yield: data.yield,
         });
         setTimeout(() => setClaimResult(null), 5000);
       } else {

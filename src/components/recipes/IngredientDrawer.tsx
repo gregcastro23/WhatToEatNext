@@ -2,94 +2,14 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import {
+  parseIngredientDrawerResponse,
+  type ApiResponse,
+  type IngredientData,
+} from "@/components/recipes/ingredientDrawerParser";
+import { readJson } from "@/lib/api/json";
 
 // ===== Types =====
-
-interface IngredientData {
-  name: string;
-  category?: string;
-  subCategory?: string;
-  subcategory?: string;
-  description?: string;
-  qualities?: string[];
-  origin?: string[] | string;
-  elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
-  alchemicalProperties?: { Spirit?: number; Essence?: number; Matter?: number; Substance?: number };
-  kalchm?: number;
-  monica?: number;
-  flavorProfile?: Record<string, number>;
-  sensoryProfile?: {
-    taste?: Record<string, number>;
-    aroma?: Record<string, number> | string[];
-    texture?: Record<string, number> | string[];
-  };
-  nutritionalProfile?: {
-    serving_size?: string;
-    calories?: number;
-    macros?: { protein?: number; carbs?: number; fat?: number; fiber?: number };
-    vitamins?: Record<string, number>;
-    minerals?: Record<string, number>;
-    antioxidants?: Record<string, string>;
-    source?: string;
-  };
-  storage?:
-    | string
-    | {
-        container?: string;
-        duration?: string;
-        temperature?: string | { fahrenheit: number; celsius: number };
-        notes?: string;
-      };
-  seasonality?: string[] | string;
-  season?: string[] | string;
-  pairingRecommendations?: {
-    complementary?: string[];
-    contrasting?: string[];
-    toAvoid?: string[];
-  };
-  astrologicalProfile?: {
-    elementalAffinity?: { base?: string; secondary?: string };
-    rulingPlanets?: string[];
-    zodiacAffinity?: string[];
-  };
-  recommendedCookingMethods?: Array<string | { name?: string }>;
-  quantityBase?: { amount?: number; unit?: string };
-}
-
-interface RelatedRecipe {
-  id: string;
-  name: string;
-  cuisine?: string;
-  description?: string;
-  prepTime?: number;
-  cookTime?: number;
-  servings?: number;
-  amount?: number;
-  unit?: string;
-}
-
-interface Substitution {
-  name: string;
-  rationale: string;
-  type: "complementary" | "direct";
-}
-
-interface ApiResponse {
-  success: boolean;
-  ingredient: IngredientData | null;
-  relatedRecipes: RelatedRecipe[];
-  recipesByCuisine?: Record<string, Array<{
-    recipeId: string;
-    recipeName: string;
-    cuisine: string;
-    rawIngredientName: string;
-    amount?: number | string;
-    unit?: string;
-  }>>;
-  substitutions: Substitution[];
-  totalRecipeMatches: number;
-  error?: string;
-}
 
 interface IngredientDrawerProps {
   ingredientName: string | null;
@@ -260,7 +180,7 @@ export function IngredientDrawer({
           { signal: controller.signal },
         );
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = (await res.json()) as ApiResponse;
+        const json = await readJson(res, parseIngredientDrawerResponse);
         setData(json);
       } catch (err) {
         if ((err as { name?: string })?.name === "AbortError") return;
