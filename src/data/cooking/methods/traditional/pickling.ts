@@ -1,6 +1,5 @@
 import type { ZodiacSignType } from "@/types/celestial";
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Pickling cooking method
@@ -220,7 +219,7 @@ export const pickling: CookingMethodData = {
     reactivity: 0.7, // Significant acid-base reactions and biochemical changes
     gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity) // gregsEnergy = heat - (entropy * reactivity);
     // Intentionally cast via unknown: literal uses entropy/reactivity (non-underscore) which consumers read, but the ThermodynamicProperties interface declares _entropy/_reactivity — preserving the existing shape mismatch, not fixing it in a types-only pass.
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.15,            // Brief heat for brine (quick pickle) or ambient (lacto)

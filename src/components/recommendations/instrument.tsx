@@ -219,14 +219,16 @@ export function Panel({
  * `#f3f4f6` track read as a solid white ring with a coloured sliver on it.
  */
 export function HarmonyRing({ value, size = 44 }: { value: number; size?: number }): React.ReactElement {
+  const finite = Number.isFinite(value);
+  const clamped = finite ? Math.max(0, Math.min(100, value)) : 0;
   const band =
-    value >= 75
+    clamped >= 75
       ? "#34D399"
-      : value >= 60
+      : clamped >= 60
         ? "#6EE7B7"
-        : value >= 45
+        : clamped >= 45
           ? "#FCD34D"
-          : value >= 30
+          : clamped >= 30
             ? "#FB923C"
             : "#F87171";
   const r = 15.9;
@@ -242,7 +244,7 @@ export function HarmonyRing({ value, size = 44 }: { value: number; size?: number
           fill="none"
           stroke={band}
           strokeWidth="2"
-          strokeDasharray={`${Math.max(0, Math.min(100, value))} 100`}
+          strokeDasharray={`${clamped} 100`}
           strokeLinecap="round"
         />
       </svg>
@@ -251,7 +253,7 @@ export function HarmonyRing({ value, size = 44 }: { value: number; size?: number
           className="font-mono font-bold tabular-nums"
           style={{ color: band, fontSize: size <= 44 ? 10 : 13 }}
         >
-          {Math.round(value)}
+          {finite ? Math.round(clamped) : "—"}
         </span>
       </div>
     </div>

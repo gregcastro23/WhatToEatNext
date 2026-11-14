@@ -1,6 +1,5 @@
 import type { ZodiacSign } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Simmering cooking method
@@ -214,7 +213,7 @@ export const simmering: CookingMethodData = {
     reactivity: 0.4, // Moderate chemical reactions
     gregsEnergy: -0.35, // Calculated using heat - (entropy * reactivity) // gregsEnergy = heat - (entropy * reactivity);
     // Cast via `unknown`: literal uses entropy/reactivity but shared.ts ThermodynamicProperties expects _entropy/_reactivity (pre-existing data/interface drift previously masked by `as any`). Data preserved as-is, do not rename.
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.38,            // 185-200°F — lower temp differential than boiling

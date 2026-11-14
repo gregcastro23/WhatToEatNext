@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { CookingMethod, ThermodynamicProperties } from "@/types/shared";
+import type { CookingMethod } from "@/types/shared";
 
 /**
  * Distilling: A process that separates and concentrates flavors, aromas, and other
@@ -68,7 +68,7 @@ export const _distilling: CookingMethodData = {
     reactivity: 0.85, // High chemical transformation
     gregsEnergy: 0.1775, // heat - (entropy × reactivity)
     // as unknown as: literal uses entropy/reactivity but ThermodynamicProperties expects _entropy/_reactivity — mismatch preserved intentionally
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.88,            // 173-212°F — high heat for vaporization

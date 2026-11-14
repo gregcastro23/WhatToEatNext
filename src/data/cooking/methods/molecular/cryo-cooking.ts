@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { CookingMethod, ThermodynamicProperties } from "@/types/shared";
+import type { CookingMethod } from "@/types/shared";
 
 /**
  * Cryo-Cooking: A molecular gastronomy technique that uses extreme cold for cooking,
@@ -71,7 +71,7 @@ export const _cryoCooking: CookingMethodData = {
     entropy: 0.85, // High structural transformation from rapid freezing
     reactivity: 0.15, // Minimal chemical reactions at extreme cold
     gregsEnergy: -0.0775, // heat - (entropy × reactivity)
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.95,            // Extreme temp differential — liquid nitrogen at -321°F

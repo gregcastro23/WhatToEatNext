@@ -224,8 +224,8 @@ export type ElementalFilter = "all" | "Fire" | "Water" | "Air" | "Earth";
  */
 export interface ThermodynamicProperties {
   heat: number;
-  _entropy: number;
-  _reactivity: number;
+  entropy: number;
+  reactivity: number;
   gregsEnergy: number; // Using gregsEnergy as the single energy metric for this project
 }
 
