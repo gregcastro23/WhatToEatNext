@@ -67,6 +67,14 @@ describe.each(RESOLVERS)("%s.getMethodThermodynamics", (_label, resolve) => {
     const wet = resolve({ name: "gentle poaching" }) as Record<string, number>;
     expect(hot.heat).toBeGreaterThan(wet.heat);
   });
+
+  it("reads authored entropy and reactivity from the detailed catalog instead of defaulting to 0.5", () => {
+    expect(resolve({ name: "roasting" })).toMatchObject({
+      heat: 0.75,
+      entropy: 0.6,
+      reactivity: 0.8,
+    });
+  });
 });
 
 describe("the empty thermodynamics registry is gone", () => {

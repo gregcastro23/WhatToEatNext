@@ -1,5 +1,4 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Frying cooking method
@@ -337,7 +336,7 @@ export const frying: CookingMethodData = {
     reactivity: 0.8, // High reactivity with numerous chemical changes
     gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
     // Cast via `unknown`: literal uses entropy/reactivity but shared.ts ThermodynamicProperties expects _entropy/_reactivity (pre-existing data/interface drift previously masked by `as any`). Data preserved as-is, do not rename.
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.85,            // Very high oil temp (350-375°F)

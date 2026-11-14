@@ -1,5 +1,4 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Grilling cooking method
@@ -113,7 +112,7 @@ export const grilling: CookingMethodData = {
     reactivity: 0.85, // High chemical reactivity (Maillard, carbonization),
     gregsEnergy: -12.35, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
     // Intentionally cast via unknown: literal uses entropy/reactivity but ThermodynamicProperties expects _entropy/_reactivity (repo-wide data/interface drift, see shared.ts). Shapes do not overlap, so a direct assertion is rejected by TS2352; data preserved as-is, do not rename.
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.88,            // High radiant heat from coals/gas

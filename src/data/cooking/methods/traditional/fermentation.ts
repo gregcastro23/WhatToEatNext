@@ -1,6 +1,5 @@
 import type { ZodiacSign } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Fermentation cooking method
@@ -228,7 +227,7 @@ export const fermentation: CookingMethodData = {
     reactivity: 0.65, // Significant biochemical reactions
     gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
     // Intentionally distinct from ThermodynamicProperties: this data uses entropy/reactivity, the type declares _entropy/_reactivity. The cast-through-unknown preserves the existing (unread-at-runtime) shape without renaming keys — see cluster convention in pickling/template/raw.
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.05,            // Ambient temp — biological process, not thermal

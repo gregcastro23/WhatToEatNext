@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { CookingMethod, ThermodynamicProperties } from "@/types/shared";
+import type { CookingMethod } from "@/types/shared";
 
 /**
  * Dehydrating: A preservation method that removes moisture from food,
@@ -78,7 +78,7 @@ export const _dehydrating: CookingMethodData = {
     entropy: 0.8, // High structural change from moisture removal
     reactivity: 0.5, // Moderate chemical changes during drying
     gregsEnergy: -0.05, // heat - (entropy × reactivity)
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.35,            // 95-165°F — low temp, relies on airflow

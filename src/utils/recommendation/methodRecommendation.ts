@@ -118,6 +118,14 @@ interface CookingMethodData {
   score?: number;
   variations?: CookingMethodData[];
   relatedToMainMethod?: string;
+  thermodynamicProperties?: {
+    heat?: number;
+    _entropy?: number;
+    _reactivity?: number;
+    entropy?: number;
+    reactivity?: number;
+    gregsEnergy?: number;
+  };
 }
 
 type CookingMethodDictionary = Record<string, CookingMethodData | undefined>;
@@ -242,45 +250,36 @@ export function getMethodThermodynamics(
   const methodNameLower =
     String(method.name ?? "").toLowerCase();
 
-  const detailedMethodData = (
-    detailedCookingMethods as Record<
-      string,
-      | {
-          thermodynamicProperties?: {
-            heat?: number;
-            _entropy?: number;
-            _reactivity?: number;
-            gregsEnergy?: number;
-          };
-        }
-      | undefined
-    >
-  )[methodNameLower];
+  const detailedCookingMethodsByKey: Record<
+    string,
+    | (typeof detailedCookingMethods)[keyof typeof detailedCookingMethods]
+    | undefined
+  > = detailedCookingMethods;
+  const detailedMethodData = detailedCookingMethodsByKey[methodNameLower];
   if (detailedMethodData?.thermodynamicProperties) {
     const tp = detailedMethodData.thermodynamicProperties;
     return {
-      heat: tp.heat ?? 0.5,
-      entropy: tp._entropy ?? 0.5,
-      reactivity: tp._reactivity ?? 0.5,
-      gregsEnergy: tp.gregsEnergy ?? 0.5,
+      heat: tp.heat,
+      entropy: tp.entropy,
+      reactivity: tp.reactivity,
+      gregsEnergy: tp.gregsEnergy,
     };
   }
 
   // 2. Check if the method object itself has thermodynamic properties
-  const methodData = method as {
-    thermodynamicProperties?: {
-      heat?: number;
-      _entropy?: number;
-      _reactivity?: number;
-      gregsEnergy?: number;
-    };
-  };
-  const { thermodynamicProperties } = methodData;
+  const { thermodynamicProperties } = method;
   if (thermodynamicProperties) {
     return {
       heat: Number(thermodynamicProperties.heat) || 0.5,
-      entropy: Number(thermodynamicProperties._entropy) || 0.5,
-      reactivity: Number(thermodynamicProperties._reactivity) || 0.5,
+      entropy:
+        Number(
+          thermodynamicProperties._entropy ?? thermodynamicProperties.entropy,
+        ) || 0.5,
+      reactivity:
+        Number(
+          thermodynamicProperties._reactivity ??
+            thermodynamicProperties.reactivity,
+        ) || 0.5,
       gregsEnergy: Number(thermodynamicProperties.gregsEnergy) || 0.5,
     };
   }

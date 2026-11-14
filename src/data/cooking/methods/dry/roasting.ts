@@ -1,6 +1,5 @@
 import type { ZodiacSignType } from "@/types/celestial";
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Roasting cooking method
@@ -240,7 +239,7 @@ export const roasting: CookingMethodData = {
     entropy: 0.6, // Moderate-high structural transformations
     reactivity: 0.8, // High chemical reactivity (significant Maillard)
     gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.70,            // Moderate-high oven temp (300-450°F)
