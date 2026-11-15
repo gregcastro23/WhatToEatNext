@@ -172,7 +172,7 @@ export function usePlanActions(
 
       if (prefs.requiredIngredients.length > 0) {
         filtered = filtered.filter((r) =>
-          prefs.requiredIngredients.every((required) =>
+          prefs.requiredIngredients.some((required) =>
             r.ingredients
               .map(ingredientName)
               .some((name) => name.includes(required.toLowerCase())),

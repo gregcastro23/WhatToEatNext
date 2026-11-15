@@ -32,7 +32,7 @@ const DIETS: Array<{ key: DietKey; label: string }> = [
   { key: "pescatarian", label: "Pescatarian" },
 ];
 
-export default function FastStartCard() {
+export default function FastStartCard(): React.JSX.Element {
   const {
     generateMealsForDay,
     updateGenerationPreference,
@@ -45,8 +45,10 @@ export default function FastStartCard() {
   const [noBudget, setNoBudget] = useState(false);
   const [drafting, setDrafting] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [featuredInput, setFeaturedInput] = useState("");
+  const [mealScope, setMealScope] = useState<"3_dinners" | "5_weeknights" | "full_week">("3_dinners");
 
-  const applyPreferences = () => {
+  const applyPreferences = (parsedIngredients?: string[]): void => {
     // Map the diet chip onto the real generation-preference model.
     if (diet === "high-protein") {
       updateGenerationPreference("dietaryRestrictions", []);
@@ -59,10 +61,13 @@ export default function FastStartCard() {
     } else {
       updateGenerationPreference("dietaryRestrictions", [diet]);
     }
+    if (parsedIngredients !== undefined) {
+      updateGenerationPreference("requiredIngredients", parsedIngredients);
+    }
     setWeeklyBudget(noBudget ? null : budget);
   };
 
-  const draftWeek = async () => {
+  const draftWeek = async (): Promise<void> => {
     if (drafting) return;
     setDrafting(true);
     setProgress(0);
@@ -71,6 +76,39 @@ export default function FastStartCard() {
       for (const day of ALL_DAYS) {
          
         await generateMealsForDay(day, { mealTypes: MAIN_TYPES });
+        setProgress((p) => p + 1);
+      }
+    } finally {
+      setDrafting(false);
+    }
+  };
+
+  const handleIngredientFirstPlan = async (): Promise<void> => {
+    if (drafting) return;
+    const parsedIngredients = featuredInput
+      .split(/[,;]+/)
+      .map((s) => s.trim().toLowerCase())
+      .filter(Boolean);
+
+    setDrafting(true);
+    setProgress(0);
+    applyPreferences(parsedIngredients);
+
+    const targetDays: DayOfWeek[] =
+      mealScope === "3_dinners"
+        ? [1, 3, 5] // Mon, Wed, Fri
+        : mealScope === "5_weeknights"
+          ? [1, 2, 3, 4, 5] // Mon–Fri
+          : ALL_DAYS;
+
+    try {
+      for (const dayIdx of targetDays) {
+        await generateMealsForDay(dayIdx, {
+          mealTypes: mealScope === "full_week" ? MAIN_TYPES : ["dinner"],
+          ...(parsedIngredients.length > 0
+            ? { requiredIngredients: parsedIngredients }
+            : {}),
+        });
         setProgress((p) => p + 1);
       }
     } finally {
@@ -89,6 +127,57 @@ export default function FastStartCard() {
         <p className="mt-1 font-body-md text-[13px] text-on-surface-variant">
           Answer 3 quick things and we&apos;ll draft a balanced week you can tweak.
         </p>
+
+        {/* Plan Balanced Meals Before You Shop (Ingredient-First Bar) */}
+        <div className="mt-4 rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-3.5">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-300">
+              Plan Balanced Meals Before You Shop
+            </span>
+            <div className="flex gap-1">
+              {(
+                [
+                  { id: "3_dinners", label: "3 Meals" },
+                  { id: "5_weeknights", label: "5 Dinners" },
+                  { id: "full_week", label: "Full Week" },
+                ] as const
+              ).map((opt) => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  onClick={() => setMealScope(opt.id)}
+                  className={`px-2.5 py-1 rounded text-xs font-medium transition ${
+                    mealScope === opt.id
+                      ? "bg-emerald-500 text-slate-950"
+                      : "bg-slate-800/70 text-slate-300 hover:bg-slate-700"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-2">
+            <input
+              type="text"
+              value={featuredInput}
+              onChange={(e) => setFeaturedInput(e.target.value)}
+              placeholder="Ingredients to feature (e.g., rice, black beans, spinach, chicken)"
+              className="flex-1 rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none"
+            />
+            <button
+              type="button"
+              disabled={drafting}
+              onClick={() => {
+                handleIngredientFirstPlan().catch(() => {});
+              }}
+              className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-emerald-400 transition whitespace-nowrap disabled:opacity-60"
+            >
+              Build Plan &amp; Cart
+            </button>
+          </div>
+        </div>
 
         {/* Diet */}
         <div className="mt-4">

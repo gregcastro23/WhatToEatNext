@@ -166,19 +166,48 @@ export function calculateBangForBuck(
   };
 }
 
+function normalizeIngName(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\b(fresh|organic|dried|chopped|diced|minced|sliced|large|medium|small)\b/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 /**
  * Estimate Weekly Grocery Cost
  * 
- * Accounts for bulk purchasing:
+ * Accounts for bulk purchasing and pantry inventory:
+ * - Ingredients already in `userInventory` cost $0
  * - If 3 recipes use onion, we estimate the cost of buy-one-bulk-pack
  * - Leftover quantities are tracked and subtracted from subsequent meals
  */
 export function estimateWeeklyGroceryCost(
   recipes: Array<{ ingredients: RecipeIngredient[]; servings?: number; dietaryFlags?: string[] }>,
-  _userInventory: string[] = []
+  userInventory: Array<string | { name: string; quantity?: number; unit?: string }> = []
 ): { totalCost: number; perMealAverage: number; recipeBreakdown: RecipeCostEstimate[] } {
   const recipeBreakdown: RecipeCostEstimate[] = [];
   
+  const ownedSet = new Set(
+    userInventory
+      .map((item) => normalizeIngName(typeof item === "string" ? item : item.name))
+      .filter(Boolean),
+  );
+
+  const hasPantryMatch = (rawName: string): boolean => {
+    if (ownedSet.size === 0) return false;
+    const norm = normalizeIngName(rawName);
+    if (!norm) return false;
+    if (ownedSet.has(norm)) return true;
+    for (const owned of ownedSet) {
+      if (owned.length >= 3 && (norm.includes(owned) || owned.includes(norm))) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   // Track how much of each ingredient we've already "purchased" this week (in grams/units)
   const purchasedStock: Record<string, number> = {};
   let totalShoppedCost = 0;
@@ -194,6 +223,12 @@ export function estimateWeeklyGroceryCost(
       if (ing.optional) continue;
       
       const name = (typeof ing.name === "string" ? ing.name : "").toLowerCase();
+      if (hasPantryMatch(name)) {
+        highConfidence++;
+        breakdown.push({ ingredient: ing.name, estimatedCost: 0, confidence: "exact" });
+        continue;
+      }
+
       const amount = ing.amount ?? 1;
       const unit = ing.unit ?? "each";
       const actualQuantity = convertToGrams(name, amount, unit);
