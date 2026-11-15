@@ -23,14 +23,18 @@
  *     tabular-nums.
  *   - On-chain affordances render ONLY from configured rails (Solana SPL
  *     mirror gate); nothing is linked when nothing is deployed.
+ *   - The wire body is parsed, not asserted (priceIndexParser.ts). `supply` is
+ *     optional there: a CDN payload cached before it existed has none.
  */
 
 import Link from "next/link";
 import React from "react";
-import type {
-  PriceIndexApiPayload,
-  TokenIndexQuote,
-} from "@/lib/economy/priceIndex";
+import {
+  parsePriceIndexResponse,
+  type LiveTickerPayload,
+} from "@/components/economy/priceIndexParser";
+import { readJson } from "@/lib/api/json";
+import type { TokenIndexQuote } from "@/lib/economy/priceIndex";
 import { TOKEN_VISUALS, tokenVisualFor } from "@/lib/economy/tokenVisual";
 import {
   ESMS_SPL_UTILITY,
@@ -45,7 +49,7 @@ import {
 type TickerStatus = "loading" | "live" | "stale" | "offline";
 
 interface TickerSnapshot {
-  payload: PriceIndexApiPayload | null;
+  payload: LiveTickerPayload | null;
   status: TickerStatus;
   lastUpdatedMs: number | null;
   error: string | null;
@@ -100,14 +104,12 @@ async function poll(): Promise<void> {
       cache: "no-store",
       signal: controller.signal,
     });
-    const json = (await res.json()) as Partial<PriceIndexApiPayload> & {
-      message?: string;
-    };
+    const { payload, message } = await readJson(res, parsePriceIndexResponse);
     if (seq !== fetchSeq) return; // superseded by a newer request
-    if (res.ok && json.success === true && json.live === true) {
+    if (res.ok && payload) {
       currentIntervalMs = BASE_POLL_MS;
       emit({
-        payload: json as PriceIndexApiPayload,
+        payload,
         status: "live",
         lastUpdatedMs: Date.now(),
         error: null,
@@ -117,7 +119,7 @@ async function poll(): Promise<void> {
       emit({
         ...snapshot,
         status: snapshot.payload ? "stale" : "offline",
-        error: json.message ?? `HTTP ${res.status}`,
+        error: message ?? `HTTP ${res.status}`,
       });
     }
   } catch (error) {
@@ -258,7 +260,7 @@ function StatusChip({ status }: { status: TickerStatus }): React.JSX.Element {
   );
 }
 
-function railsLine(payload: PriceIndexApiPayload): string | null {
+function railsLine(payload: LiveTickerPayload): string | null {
   const { mintPerTokenUsd, redeemPerTokenUsd } = payload.railsUsd;
   const parts: string[] = [];
   if (mintPerTokenUsd !== null) parts.push(`mint ${fmtUsd(mintPerTokenUsd)}`);
@@ -269,7 +271,7 @@ function railsLine(payload: PriceIndexApiPayload): string | null {
 
 // ─── Ribbon ────────────────────────────────────────────────────────────────
 
-function RibbonItems({ payload }: { payload: PriceIndexApiPayload }): React.JSX.Element {
+function RibbonItems({ payload }: { payload: LiveTickerPayload }): React.JSX.Element {
   const rails = railsLine(payload);
   return (
     <>
@@ -380,24 +382,6 @@ function QuoteCard({ quote }: { quote: TokenIndexQuote }): React.JSX.Element {
   );
 }
 
-/**
- * Is the supply block present AND live?
- *
- * `PriceIndexApiPayload` declares `supply` non-optional, so `payload.supply?.live`
- * reads as provably-dead code — but this object came off the wire, where an
- * older or partial response can omit it entirely, and reading `.live` off
- * `undefined` throws in the render path. Validating an `unknown` keeps the
- * check real: unlike an optional-typed local, it cannot be narrowed away by
- * control-flow analysis.
- */
-function isSupplyLive(supply: unknown): boolean {
-  return (
-    typeof supply === "object" &&
-    supply !== null &&
-    (supply as { live?: unknown }).live === true
-  );
-}
-
 function Cards({ data }: { data: TickerSnapshot }): React.JSX.Element {
   const { payload, status } = data;
   if (!payload) {
@@ -420,7 +404,7 @@ function Cards({ data }: { data: TickerSnapshot }): React.JSX.Element {
 
   const rails = railsLine(payload);
   const splEnabled = esmsSplMirrorEnabled();
-  const supplyLive = isSupplyLive(payload.supply);
+  const { supply } = payload;
 
   return (
     <div>
@@ -447,7 +431,7 @@ function Cards({ data }: { data: TickerSnapshot }): React.JSX.Element {
       </div>
       <div className="epx-foot">
         {rails ? <span>{rails}</span> : <span>No USD rail configured.</span>}
-        {supplyLive ? (
+        {supply?.live === true ? (
           // "ledger", not "circulating": this is the off-chain balance table.
           // The SPL mirror has its own on-chain supply, which this is NOT —
           // with a Solana chip beside it, an unqualified label would conflate
@@ -456,7 +440,7 @@ function Cards({ data }: { data: TickerSnapshot }): React.JSX.Element {
             ledger supply{" "}
             {TOKEN_VISUALS.map((v) => (
               <span key={v.key} className="epx-supply" style={{ color: v.color }}>
-                {v.glyph} {Math.round(payload.supply[v.key]).toLocaleString()}
+                {v.glyph} {Math.round(supply[v.key]).toLocaleString()}
               </span>
             ))}
           </span>

@@ -84,7 +84,6 @@ const ELEMENT_COLORS: Record<string, ElementColorConfig> = {
   Water: { bg: "bg-blue-500/10", text: "text-blue-400", border: "border-blue-500/30" },
   Air: { bg: "bg-emerald-500/10", text: "text-emerald-400", border: "border-emerald-500/30" },
   Earth: { bg: "bg-purple-500/10", text: "text-purple-400", border: "border-purple-500/30" },
-  Spirit: DEFAULT_ELEMENT_COLOR,
 };
 
 const TOKEN_CHIPS = [
@@ -623,7 +622,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
                   name: agent.name,
                   description: agent.title ?? agent.personality?.core?.essence ?? "Historical Alchemist",
                   planetaryRuler: agent.consciousness?.dominantElement ?? "Sun",
-                  element: (dominantElement === "Water" || dominantElement === "Air" || dominantElement === "Earth" || dominantElement === "Spirit") ? dominantElement : "Fire",
+                  element: dominantElement,
                   consciousnessLevel: agent.consciousness?.level ?? "Master",
                   activationStrength: 100,
                   dignity: "Perpetual",

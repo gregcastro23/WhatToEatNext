@@ -7,19 +7,18 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import AgentProfileWeekCard from "@/components/menu-planner/redesign/AgentProfileWeekCard";
-import type { AgentVesselData } from "@/components/profile/AgentVesselCard";
-import type { DietaryPreferencesData } from "@/components/profile/blocks/types";
 import { CustomizeDrawer } from "@/components/profile/CustomizeDrawer";
 import { LiveAgentFeed } from "@/components/profile/LiveAgentFeed";
 import { PROFILE_BLOCKS, type ProfileTab } from "@/components/profile/ProfileBlockRegistry";
+import { EMPTY_SOCIAL } from "@/components/profile/profileSectionsParser";
+import { parsePublicProfileResponse, type PublicProfile } from "@/components/profile/publicProfileParser";
 import { CosmicIdentityPanel } from "@/components/profile/tables/CosmicIdentityPanel";
 import { FollowListSheet } from "@/components/profile/tables/FollowListSheet";
 import { ProfileIdentityPanel } from "@/components/profile/tables/ProfileIdentityPanel";
 import { ProfileStatsPanel } from "@/components/profile/tables/ProfileStatsPanel";
 import { TableMemoriesGallery } from "@/components/profile/tables/TableMemoriesGallery";
-import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
-import type { AgentAction, AgentArtifact, AgentInteraction } from "@/lib/agents/fetchAgentProfile";
-import type { ProfileSocialBlock } from "@/types/social";
+import { readJson } from "@/lib/api/json";
+import { _logger } from "@/lib/logger";
 import AgentProfile from "./AgentProfile";
 
 interface NatalPosition {
@@ -28,58 +27,11 @@ interface NatalPosition {
   degree?: number;
 }
 
-interface RecentActivity {
-  id: string;
-  eventType: string;
-  metadataPayload: Record<string, unknown> | null;
-  createdAt: string;
-}
-
-interface PublicProfile {
-  userId: string;
-  handle: string | null;
-  name: string;
-  isAgent: boolean;
-  agentSlug: string | null;
-  agentProfile: CraftedAgentProfile | null;
-  vessel?: AgentVesselData | null;
-  agentInteractions?: AgentInteraction[];
-  agentActions?: AgentAction[];
-  agentArtifacts?: AgentArtifact[];
-  bio: string | null;
-  dominantElement: string | null;
-  avatarUrl: string | null;
-  social: ProfileSocialBlock;
-  /** Owner-only: the "post anonymously by default" toggle state. */
-  shareIdentity?: boolean;
-  natalChart: unknown;
-  natalPositions: NatalPosition[];
-  birthData: { date?: string; time?: string; location?: string } | null;
-  createdAt: string;
-  balances: { spirit: number; essence: number; matter: number; substance: number };
-  recentActivity: RecentActivity[];
-  dietary_preferences?: DietaryPreferencesData;
-  profile_layout?: string[];
-  tasteGraph?: {
-    elementalAffinities?: Record<string, number>;
-    [key: string]: unknown;
-  };
-}
-
 const TOKEN_VISUAL: Record<string, { symbol: string; color: string }> = {
   spirit: { symbol: "🝇", color: "text-amber-400" },
   essence: { symbol: "🝑", color: "text-blue-400" },
   matter: { symbol: "🝙", color: "text-emerald-400" },
   substance: { symbol: "🝉", color: "text-purple-400" },
-};
-
-const EMPTY_SOCIAL: ProfileSocialBlock = {
-  followers: 0,
-  following: 0,
-  commensals: 0,
-  tablesHosted: null,
-  tablesJoined: null,
-  viewer: null,
 };
 
 function formatPlacement(placement: NatalPosition): string | null {
@@ -109,18 +61,17 @@ export default function PublicProfilePage(): React.JSX.Element {
     async function load(): Promise<void> {
       try {
         const res = await fetch(`/api/users/${userId}`);
-        const data = (await res.json()) as {
-          success?: boolean;
-          message?: string;
-          profile?: Partial<PublicProfile>;
-        };
+        const result = await readJson(res, parsePublicProfileResponse);
         if (cancelled) return;
-        if (!res.ok || !data.success || !data.profile) {
-          setError(data.message ?? "Profile unavailable");
+        if (!res.ok || result.kind === "refused") {
+          setError((result.kind === "refused" ? result.message : null) ?? "Profile unavailable");
         } else {
-          setProfile({ ...(data.profile as PublicProfile), social: data.profile.social ?? EMPTY_SOCIAL });
+          if (result.issues.length > 0) {
+            _logger.error("Profile page: dropped malformed parts of the profile response:", result.issues);
+          }
+          setProfile(result.profile);
           setLayout(
-            data.profile.profile_layout ?? [
+            result.profile.profile_layout ?? [
               "natalChart",
               "alchemicalConstitution",
               "tasteGraph",
@@ -202,9 +153,9 @@ export default function PublicProfilePage(): React.JSX.Element {
             balances={profile.balances}
             vessel={profile.vessel ?? null}
             handle={profile.handle}
-            interactions={profile.agentInteractions ?? []}
-            actions={profile.agentActions ?? []}
-            artifacts={profile.agentArtifacts ?? []}
+            interactions={profile.agentInteractions}
+            actions={profile.agentActions}
+            artifacts={profile.agentArtifacts}
             recentActivity={profile.recentActivity}
             userId={profile.userId}
             viewer={social.viewer}

@@ -1,15 +1,11 @@
 {
-  "total": 13,
-  "production": 4,
+  "total": 9,
+  "production": 0,
   "test": 9,
   "byFile": {
     "src/__tests__/api/syncCreditDailyGuard.test.ts": 3,
-    "src/app/(alchm)/generated-recipe/[id]/page.tsx": 1,
-    "src/app/(alchm)/profile/[userId]/page.tsx": 1,
     "src/app/api/economy/shop/purchase/__tests__/shopPurchaseOneTimeGuard.test.ts": 3,
     "src/app/api/health/__tests__/healthReportsDatabaseOutage.test.ts": 1,
-    "src/app/api/rituals/generate-cooking-instruction/__tests__/route.test.ts": 2,
-    "src/components/economy/LivePriceTicker.tsx": 1,
-    "src/contexts/AlchemicalStatisticsContext.tsx": 1
+    "src/app/api/rituals/generate-cooking-instruction/__tests__/route.test.ts": 2
   }
 }

@@ -16,8 +16,9 @@
 import Link from "next/link";
 import { notFound, useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState, useCallback } from "react";
-import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
+import { readJson } from "@/lib/api/json";
 import { elementalSignature } from "@/utils/elemental/signature";
+import { parseCustomRecipeResponse, type GeneratedRecipeView } from "@/utils/generatedRecipeParser";
 import { getRecipeFromStore } from "@/utils/generatedRecipeStore";
 import { createLogger } from "@/utils/logger";
 import { roundedCalories } from "@/utils/roundedCalories";
@@ -71,9 +72,9 @@ function ScoreBadge({ label, value, color }: { label: string; value: string | nu
 
 interface IngredientRowProps {
   name: string;
-  amount?: number | string | undefined;
-  unit?: string | undefined;
-  elementalProperties?: Record<string, number> | undefined;
+  amount?: number | string | null | undefined;
+  unit?: string | null | undefined;
+  elementalProperties?: Record<string, number | null> | null | undefined;
 }
 
 function IngredientRow({ name, amount, unit, elementalProperties }: IngredientRowProps): React.JSX.Element {
@@ -138,18 +139,13 @@ function IngredientRow({ name, amount, unit, elementalProperties }: IngredientRo
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
-interface CustomRecipeResponse {
-  success?: boolean;
-  recipe?: MonicaOptimizedRecipe;
-}
-
 export default function GeneratedRecipePage(): React.JSX.Element {
   const params = useParams();
   const router = useRouter();
   const idParam = params?.id;
   const id = typeof idParam === "string" ? idParam : Array.isArray(idParam) ? idParam[0] : "";
 
-  const [recipe, setRecipe] = useState<MonicaOptimizedRecipe | null>(null);
+  const [recipe, setRecipe] = useState<GeneratedRecipeView | null>(null);
   const [hasCheckedStore, setHasCheckedStore] = useState(false);
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -169,11 +165,11 @@ export default function GeneratedRecipePage(): React.JSX.Element {
       fetch(`/api/recipes/custom?id=${id}`)
         .then((res) => {
           if (!res.ok) throw new Error("Not found");
-          return res.json() as Promise<CustomRecipeResponse>;
+          return readJson(res, parseCustomRecipeResponse);
         })
-        .then((data) => {
-          if (data.success && data.recipe) {
-            setRecipe(data.recipe);
+        .then((fetched) => {
+          if (fetched) {
+            setRecipe(fetched);
           }
           setHasCheckedStore(true);
         })
@@ -432,8 +428,7 @@ export default function GeneratedRecipePage(): React.JSX.Element {
                 Elemental Profile
               </p>
               {(["Fire", "Water", "Earth", "Air"] as const).map((el) => {
-                const val =
-                  (recipe.elementalProperties as Record<string, number>)[el] ?? 0;
+                const val = recipe.elementalProperties[el] ?? 0;
                 return (
                   <div key={el} className="flex items-center gap-2 mb-1.5">
                     <span className="text-sm w-4">{elementIcon(el)}</span>
