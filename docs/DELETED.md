@@ -20,6 +20,12 @@ distinction is resolved here from git history, per file.
 Nothing here is unrecoverable. Both deletion commits are on `master`'s history via
 PR #828; any file can be restored byte-identically with one command.
 
+> **Later deletion, outside the totals above:** PR #1019 (`30406596`) deleted 14
+> more modules (5,359 LOC) and the 2 tests whose subject they were (325 lines).
+> It is not one of the two passes this register's totals cover. Its entry is at
+> the end of the [appendix](#pr-1019-commit-30406596--14-modules) and its restore
+> command is in [Section F](#f-restoring).
+
 ---
 
 ## How each file was classified
@@ -226,10 +232,23 @@ barrel — the live `/menu-planner` route imports its components individually).
 
 ## E. What was deliberately NOT deleted
 
-**53 modules are production-unreachable but imported by a test.** They are not in
-this register and remain in the tree. Several carry the only executable
-specification of the alchemical maths — `src/calculations/alchemicalCalculations.ts`,
-`enhancedAlchemicalMatching.ts`, `core/elementalCalculations.ts` among them.
+**As written for Phase 24: 53 modules were production-unreachable but imported by
+a test.** They were not in this register and remained in the tree. Several carried
+the only executable specification of the alchemical maths —
+`src/calculations/alchemicalCalculations.ts`, `enhancedAlchemicalMatching.ts`,
+`core/elementalCalculations.ts` among them.
+
+> **Update 2026-11-14: that is no longer the state of the tree.** PR #1019
+> (`30406596`) deleted those three, together with the rest of the closed
+> `src/calculations/index.ts` hub, instead of relocating them (see the
+> [appendix entry](#pr-1019-commit-30406596--14-modules)).
+> `bun run audit:dead-modules` now reports **3** test-only modules, not 53:
+> `src/lib/payments/cryptoPromo.ts` and `src/lib/validation/agentResponseSchemas.ts`
+> are kept on purpose, and `src/lib/sacred-7-stats.ts` stays because
+> `docs/physics/SYNTHESIS_MODEL.md` cites `normalizeMonicaForStats()`. The live
+> `src/calculations/core/alchemicalCalculations.ts` and
+> `src/data/unified/alchemicalCalculations.ts` are different files from the deleted
+> `src/calculations/alchemicalCalculations.ts`.
 
 Deleting a module and its test together silently discards the specification of
 behaviour that may still be wanted. These need per-file judgement against
@@ -247,6 +266,9 @@ git show 631bb256^:src/lib/structured-logger.ts > src/lib/structured-logger.ts
 
 # Phase 23 (9 modules)
 git show 31014233^:src/utils/buildQualityMonitor.ts > src/utils/buildQualityMonitor.ts
+
+# PR #1019 (14 modules + 2 tests); the at-once form below works for 30406596 too
+git show 30406596^:src/calculations/enhancedAlchemicalMatching.ts > src/calculations/enhancedAlchemicalMatching.ts
 
 # everything a commit deleted, at once
 git checkout 631bb256^ -- $(git show 631bb256 --diff-filter=D --name-only --format='')
@@ -886,3 +908,38 @@ and running the gates: the repo-root `__tests__/` directory, and `.d.ts` files
 | `src/utils/common/index.ts` | 144 | PRE-HISTORY |
 | `src/utils/nextConfigOptimizer.ts` | 213 | PRE-HISTORY |
 | `src/utils/typescriptCampaignTrigger.ts` | 788 | PRE-HISTORY |
+
+### PR #1019 (commit `30406596`) — 14 modules
+
+Not one of the two passes counted in the totals above. `src/calculations/index.ts`
+was a closed barrel with 13 dependent modules behind it. They were deleted together
+with the two tests whose subject they were:
+`src/__tests__/calculations/unifiedEngineWitness.test.ts` (234 lines; imports
+`@/calculations/index`) and `src/__tests__/culinaryAstrology.test.ts` (91 lines;
+imports `@/calculations/culinaryAstrology`).
+
+At the parent commit no file outside the deleted set imported any of the 14
+modules. The only other mentions of their paths in code were comments, one
+test-fixture string and two manual `.cjs` scripts that named
+`src/data/cooking/cookingMethods.ts` as a path string; some docs (for example
+`docs/physics/SYNTHESIS_MODEL.md` and `docs/LINTING_SITUATION_NEXT_SESSION.md`)
+also name them and are left as dated records. Class is by that
+deletion-time import graph alone; the `git log -S` history signal described above
+was not re-run for these files.
+
+| Module | LOC | Class |
+|---|---:|---|
+| `src/calculations/alchemicalCalculations.ts` | 349 | SUBTREE |
+| `src/calculations/combinationEffects.ts` | 339 | SUBTREE |
+| `src/calculations/core/elementalCalculations.ts` | 314 | SUBTREE |
+| `src/calculations/culinary/cuisineRecommendations.ts` | 272 | SUBTREE |
+| `src/calculations/culinary/recipeMatching.ts` | 282 | SUBTREE |
+| `src/calculations/culinaryAstrology.ts` | 312 | SUBTREE |
+| `src/calculations/enhancedAlchemicalMatching.ts` | 276 | SUBTREE |
+| `src/calculations/index.ts` | 612 | SUBTREE |
+| `src/data/cooking/cookingMethods.ts` | 610 | SUBTREE |
+| `src/data/recipes/elementalMappings.ts` | 144 | SUBTREE |
+| `src/services/CurrentMomentManager.ts` | 741 | SUBTREE |
+| `src/types/recipes.ts` | 49 | SUBTREE |
+| `src/utils/elemental/core.ts` | 631 | SUBTREE |
+| `src/utils/elementalMappings/ingredients.ts` | 428 | SUBTREE |
