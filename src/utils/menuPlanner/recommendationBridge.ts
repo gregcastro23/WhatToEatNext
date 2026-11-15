@@ -485,9 +485,10 @@ async function generateMealRecommendations(
       const { score, reasons, dayAlignment, planetaryAlignment } =
         scoreRecipeForDay(recipe, dayChar, mealType, astroState, options.nutritionalContext);
 
+      const synergyBoost = computeSynergyBoost(recipe, options);
       // Add small randomization (e.g., +/- 10% to score) to prevent identical
       // deterministic top choices spreading across similar days, causing repetitive menus.
-      const jitteredScore = score * (0.9 + Math.random() * 0.2);
+      const jitteredScore = (score + synergyBoost) * (0.9 + Math.random() * 0.2);
 
       return {
         mealType,
@@ -849,6 +850,36 @@ export function scoreIngredientSynergyAndTargets(
 
 export const scorePerishableSynergy = scoreIngredientSynergyAndTargets;
 
+function computeSynergyBoost(
+  recipe: Recipe,
+  options: {
+    requiredIngredients?: string[];
+    existingMeals?: Array<{
+      ingredients?: Array<string | { name: string }>;
+      recipe?: { ingredients?: Array<string | { name: string }> };
+    }>;
+    pantryInventory?: Array<string | { name: string }>;
+  },
+): number {
+  const synergy = scoreIngredientSynergyAndTargets(
+    recipe,
+    options.requiredIngredients,
+    options.existingMeals,
+    options.pantryInventory,
+  );
+  let boost = 0;
+  if (options.requiredIngredients && options.requiredIngredients.length > 0) {
+    boost += synergy.requiredMatchScore * 0.35;
+  }
+  if (options.pantryInventory && options.pantryInventory.length > 0) {
+    boost += synergy.pantryMatchScore * 0.15;
+  }
+  if (options.existingMeals && options.existingMeals.length > 0) {
+    boost += synergy.perishableSynergyScore * 0.20;
+  }
+  return boost;
+}
+
 
 /**
  * Search for recipes from the curated database appropriate for a specific day and meal type.
@@ -1164,21 +1195,11 @@ async function searchRecipesForDay(
       }
 
       // ── Target ingredient coverage, pantry boost & perishable cross-meal synergy ──
-      const synergy = scoreIngredientSynergyAndTargets(
-        recipe,
-        options.requiredIngredients,
+      score += computeSynergyBoost(recipe, {
+        ...(options.requiredIngredients !== undefined ? { requiredIngredients: options.requiredIngredients } : {}),
         existingMeals,
-        options.pantryInventory,
-      );
-      if (options.requiredIngredients && options.requiredIngredients.length > 0) {
-        score += synergy.requiredMatchScore * 0.35;
-      }
-      if (options.pantryInventory && options.pantryInventory.length > 0) {
-        score += synergy.pantryMatchScore * 0.15;
-      }
-      if (existingMeals.length > 0) {
-        score += synergy.perishableSynergyScore * 0.20;
-      }
+        ...(options.pantryInventory !== undefined ? { pantryInventory: options.pantryInventory } : {}),
+      });
 
       // ── Budget-aware scoring (weight: ±0.2) ──
       // Early return when no budget is set — avoids the per-recipe call to

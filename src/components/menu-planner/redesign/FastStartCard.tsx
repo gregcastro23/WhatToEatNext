@@ -48,7 +48,11 @@ export default function FastStartCard(): React.JSX.Element {
   const [featuredInput, setFeaturedInput] = useState("");
   const [mealScope, setMealScope] = useState<"3_dinners" | "5_weeknights" | "full_week">("3_dinners");
 
-  const applyPreferences = (parsedIngredients?: string[]): void => {
+  const resolvedRestrictions = (): string[] =>
+    diet === "balanced" || diet === "high-protein" ? [] : [diet];
+
+  const applyPreferences = (parsedIngredients?: string[]): string[] => {
+    const restrictions = resolvedRestrictions();
     // Map the diet chip onto the real generation-preference model.
     if (diet === "high-protein") {
       updateGenerationPreference("dietaryRestrictions", []);
@@ -56,26 +60,27 @@ export default function FastStartCard(): React.JSX.Element {
         ...generationPreferences.nutritionalTargets,
         prioritizeProtein: true,
       });
-    } else if (diet === "balanced") {
-      updateGenerationPreference("dietaryRestrictions", []);
     } else {
-      updateGenerationPreference("dietaryRestrictions", [diet]);
+      updateGenerationPreference("dietaryRestrictions", restrictions);
     }
     if (parsedIngredients !== undefined) {
       updateGenerationPreference("requiredIngredients", parsedIngredients);
     }
     setWeeklyBudget(noBudget ? null : budget);
+    return restrictions;
   };
 
   const draftWeek = async (): Promise<void> => {
     if (drafting) return;
     setDrafting(true);
     setProgress(0);
-    applyPreferences();
+    const dietaryRestrictions = applyPreferences();
     try {
       for (const day of ALL_DAYS) {
-         
-        await generateMealsForDay(day, { mealTypes: MAIN_TYPES });
+        await generateMealsForDay(day, {
+          mealTypes: MAIN_TYPES,
+          dietaryRestrictions,
+        });
         setProgress((p) => p + 1);
       }
     } finally {
@@ -92,7 +97,7 @@ export default function FastStartCard(): React.JSX.Element {
 
     setDrafting(true);
     setProgress(0);
-    applyPreferences(parsedIngredients);
+    const dietaryRestrictions = applyPreferences(parsedIngredients);
 
     const targetDays: DayOfWeek[] =
       mealScope === "3_dinners"
@@ -105,6 +110,7 @@ export default function FastStartCard(): React.JSX.Element {
       for (const dayIdx of targetDays) {
         await generateMealsForDay(dayIdx, {
           mealTypes: mealScope === "full_week" ? MAIN_TYPES : ["dinner"],
+          dietaryRestrictions,
           ...(parsedIngredients.length > 0
             ? { requiredIngredients: parsedIngredients }
             : {}),
