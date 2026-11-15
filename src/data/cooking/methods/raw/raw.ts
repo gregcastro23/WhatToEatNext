@@ -1,6 +1,5 @@
 import type { ZodiacSignType } from "@/types/celestial";
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Raw cooking method
@@ -206,7 +205,7 @@ export const raw: CookingMethodData = {
     // (a real latent shape bug). Cast through unknown to preserve the original `as any` boundary
     // behavior without reintroducing `any`, avoiding a data-shape change in this types-only pass;
     // do NOT rename entropy/reactivity to satisfy the type.
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.0,             // No heat applied — zero thermal differential

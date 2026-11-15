@@ -15,6 +15,15 @@
  * compile time — the guarantee has to be measured here, or a method could
  * silently vanish from the UI.
  */
+import { calculateGregsEnergy } from "@/calculations/gregsEnergy";
+import {
+  adaptCookingMethods,
+} from "@/components/recommendations/EnhancedCookingMethodRecommender";
+
+jest.mock("next-auth/react", () => ({
+  useSession: () => ({ status: "unauthenticated", data: null }),
+}));
+import { getCookingMethodThermodynamics } from "@/constants/alchemicalPillars";
 import {
   dryCookingMethods,
   wetCookingMethods,
@@ -22,7 +31,17 @@ import {
   traditionalCookingMethods,
   transformationMethods,
 } from "@/data/cooking/methods";
-import { getCookingMethodThermodynamics } from "@/constants/alchemicalPillars";
+import {
+  calculateKalchm,
+  calculateMonica,
+} from "@/data/unified/alchemicalCalculations";
+import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
+import { calculateMethodSpecificKinetics } from "@/utils/cookingMethodKinetics";
+import {
+  calculateHarmonyIndex,
+  type FocusMode,
+  type UserIntent,
+} from "@/utils/resonanceGapScoring";
 
 /** The exact five registries `categories` is built from, same ids. */
 const CATEGORIES: Record<string, Record<string, unknown>> = {
@@ -146,5 +165,120 @@ describe("every ranked method carries real thermodynamics", () => {
     // match when the literal is genuinely present as code.
     expect(code).toContain("harmonyIndex");
     expect(`x = { heat: 0.5, entropy: 0.5, reactivity: 0.5 }`).toMatch(MIDPOINT_TRIPLE);
+  });
+
+  it("adaptCookingMethods preserves finite heat, entropy, and reactivity and yields finite harmonyIndex across all intents", () => {
+    const adaptedRegistries = [
+      adaptCookingMethods(dryCookingMethods),
+      adaptCookingMethods(wetCookingMethods),
+      adaptCookingMethods(molecularCookingMethods),
+      adaptCookingMethods(traditionalCookingMethods),
+      adaptCookingMethods(transformationMethods),
+    ];
+    const focusModes: FocusMode[] = ["harmony", "quickest", "stability", "flavorful"];
+    const intents: UserIntent[] = [null, "crispy", "tender", "fast", "flavorful", "stable"];
+    const baseESMS = { Spirit: 4, Essence: 4, Matter: 4, Substance: 2 };
+    const monicaValues = new Set<number>();
+    const bad: string[] = [];
+
+    for (const registry of adaptedRegistries) {
+      for (const [id, method] of Object.entries(registry)) {
+        const tp = method.thermodynamicProperties;
+        const effect = method.elementalEffect;
+        if (!tp || !effect) {
+          bad.push(`${id}: missing adapted thermo or elementalEffect`);
+          continue;
+        }
+        if (
+          !Number.isFinite(tp.heat) ||
+          !Number.isFinite(tp.entropy) ||
+          !Number.isFinite(tp.reactivity)
+        ) {
+          bad.push(`${id}: non-finite thermo (${String(tp.heat)}, ${String(tp.entropy)}, ${String(tp.reactivity)})`);
+          continue;
+        }
+
+        const pillar = getCookingMethodPillar(id);
+        const transformedESMS = pillar
+          ? {
+              Spirit: baseESMS.Spirit + (pillar.effects.Spirit || 0),
+              Essence: baseESMS.Essence + (pillar.effects.Essence || 0),
+              Matter: baseESMS.Matter + (pillar.effects.Matter || 0),
+              Substance: baseESMS.Substance + (pillar.effects.Substance || 0),
+            }
+          : baseESMS;
+
+        const { gregsEnergy } = calculateGregsEnergy({
+          ...transformedESMS,
+          ...effect,
+        });
+        const kalchm = calculateKalchm(transformedESMS);
+        const monica = kalchm ? calculateMonica(gregsEnergy, tp.reactivity, kalchm) : null;
+        if (monica === null || !Number.isFinite(monica)) {
+          bad.push(`${id}: non-finite monica ${String(monica)}`);
+        } else {
+          monicaValues.add(monica);
+        }
+
+        const kinetics = calculateMethodSpecificKinetics({
+          methodId: id,
+          elementalEffect: effect,
+          transformedESMS,
+          thermodynamics: tp,
+          gregsEnergy,
+          monica,
+          ...(method.kineticProfile ? { kineticProfile: method.kineticProfile } : {}),
+        });
+        if (!Number.isFinite(kinetics.power) || !Number.isFinite(kinetics.currentFlow)) {
+          bad.push(`${id}: non-finite kinetics power=${String(kinetics.power)} currentFlow=${String(kinetics.currentFlow)}`);
+        }
+
+        for (const focus of focusModes) {
+          for (const intent of intents) {
+            const harmony = calculateHarmonyIndex(
+              {
+                transformedESMS,
+                elementalEffect: effect,
+                thermodynamics: tp,
+                gregsEnergy,
+                kalchm,
+                monica,
+                ...(method.duration ? { duration: method.duration } : {}),
+                kineticPower: kinetics.power,
+              },
+              intent,
+              { highStress: false },
+              focus,
+            );
+            if (!Number.isFinite(harmony.harmonyIndex)) {
+              bad.push(`${id}/${focus}/${String(intent)}: harmonyIndex=${String(harmony.harmonyIndex)}`);
+            }
+          }
+        }
+      }
+    }
+
+    expect(bad).toEqual([]);
+    // If reactivity were undefined, every method would collapse to MONICA_EQUILIBRIUM (1.618).
+    expect(monicaValues.size).toBeGreaterThan(10);
+  });
+
+  it("calculateHarmonyIndex stays finite even when passed NaN thermo or kineticPower", () => {
+    const intents: UserIntent[] = [null, "crispy", "tender", "fast", "flavorful", "stable"];
+    for (const intent of intents) {
+      const res = calculateHarmonyIndex(
+        {
+          transformedESMS: { Spirit: 4, Essence: Number.NaN, Matter: 4, Substance: 2 },
+          elementalEffect: { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 },
+          thermodynamics: { heat: Number.NaN, entropy: Number.NaN, reactivity: Number.NaN },
+          gregsEnergy: -0.5,
+          kalchm: 1.2,
+          monica: Number.NaN,
+          kineticPower: Number.NaN,
+        },
+        intent,
+      );
+      expect(Number.isFinite(res.harmonyIndex)).toBe(true);
+    }
   });
 });

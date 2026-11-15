@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { CookingMethod, ThermodynamicProperties } from "@/types/shared";
+import type { CookingMethod } from "@/types/shared";
 
 /**
  * Infusing: A technique that transfers flavors, colors, or medicinal properties
@@ -70,7 +70,7 @@ export const infusing: CookingMethodData = {
     reactivity: 0.45, // Moderate chemical transfer
     gregsEnergy: 0.12, // heat - (entropy × reactivity)
     // as unknown as: literal uses entropy/reactivity but ThermodynamicProperties expects _entropy/_reactivity — mismatch preserved intentionally
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.30,            // Warm to hot liquid — moderate temp differential

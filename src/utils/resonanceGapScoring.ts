@@ -123,7 +123,7 @@ export function calculateHarmonyIndex(
     (personalAlignment ?? 0) * weights.personal;
 
   // Clamp to 0–100
-  const harmonyIndex = Math.max(0, Math.min(100, raw));
+  const harmonyIndex = Number.isFinite(raw) ? Math.max(0, Math.min(100, raw)) : 50;
 
   return {
     harmonyIndex,
@@ -141,8 +141,12 @@ export function calculateHarmonyIndex(
 
 // ========== DIMENSION CALCULATORS ==========
 
+function finiteOr(value: number, fallback = 0.5): number {
+  return Number.isFinite(value) ? value : fallback;
+}
+
 function calculateStabilityResonance(monica: number | null): number {
-  if (monica === null || isNaN(monica)) return 50;
+  if (monica === null || !Number.isFinite(monica)) return 50;
   // Optimal Monica range: 1–5 ("Balanced" to "Transformative")
   // Use a bell curve centered on 3 with σ=3
   const center = 3;
@@ -156,32 +160,29 @@ function calculateIntentAlignment(input: ResonanceInput, intent: UserIntent): nu
   if (!intent) return 70; // Neutral when no intent specified
 
   const { elementalEffect, thermodynamics } = input;
+  const heat = finiteOr(thermodynamics.heat);
+  const entropy = finiteOr(thermodynamics.entropy);
+  const reactivity = finiteOr(thermodynamics.reactivity);
 
   switch (intent) {
     case "crispy": {
-      // Crispy wants high Fire, high Reactivity, high Heat
       const fireScore = (elementalEffect.Fire || 0) * 100;
-      const reactivityScore = thermodynamics.reactivity * 100;
-      const heatScore = thermodynamics.heat * 100;
-      return Math.min(100, (fireScore * 0.4 + reactivityScore * 0.3 + heatScore * 0.3));
+      return Math.min(100, (fireScore * 0.4 + reactivity * 100 * 0.3 + heat * 100 * 0.3));
     }
     case "tender": {
-      // Tender wants high Water, low Heat, moderate Entropy
       const waterScore = (elementalEffect.Water || 0) * 100;
-      const gentleHeatScore = (1 - thermodynamics.heat) * 100;
-      const entropyScore = Math.max(0, 100 - Math.abs(thermodynamics.entropy - 0.4) * 200);
+      const gentleHeatScore = (1 - heat) * 100;
+      const entropyScore = Math.max(0, 100 - Math.abs(entropy - 0.4) * 200);
       return Math.min(100, (waterScore * 0.4 + gentleHeatScore * 0.3 + entropyScore * 0.3));
     }
     case "fast": {
-      // Fast wants short duration, high kinetic power, high velocity
       const speedScore = calculateSpeedFactor(input.duration);
-      const powerScore = Math.min(100, (input.kineticPower ?? 0.5) * 120);
+      const powerScore = Math.min(100, finiteOr(input.kineticPower ?? 0.5) * 120);
       return Math.min(100, (speedScore * 0.6 + powerScore * 0.4));
     }
     case "flavorful": {
-      // Flavorful wants high Essence, balanced elements, good entropy
-      const essenceScore = Math.min(100, (input.transformedESMS.Essence / 6) * 100);
-      const entropyScore = Math.min(100, thermodynamics.entropy * 120);
+      const essenceScore = Math.min(100, (finiteOr(input.transformedESMS.Essence, 0) / 6) * 100);
+      const entropyScore = Math.min(100, entropy * 120);
       const earthScore = (elementalEffect.Earth || 0) * 80;
       return Math.min(100, (essenceScore * 0.4 + entropyScore * 0.3 + earthScore * 0.3));
     }

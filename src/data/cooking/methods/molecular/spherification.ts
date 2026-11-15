@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties, ZodiacSignType } from "@/types/shared";
+import type { ZodiacSignType } from "@/types/shared";
 
 /**
  * Spherification cooking method
@@ -172,7 +172,7 @@ export const spherification: CookingMethodData = {
     gregsEnergy: -0.15, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
     // NOTE: entropy/reactivity are declared as _entropy/_reactivity on ThermodynamicProperties (src/types/shared.ts).
     // This field-name mismatch is a pre-existing data bug preserved intentionally; do not rename in a types-only pass.
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.10,            // Room temp or slight warming — chemical, not thermal

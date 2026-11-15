@@ -1,6 +1,5 @@
 import type { ZodiacSignType } from "@/types/celestial";
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Stir-frying cooking method
@@ -111,7 +110,7 @@ export const _stirFrying: CookingMethodData = {
     entropy: 0.55, // Moderate structural breakdown
     reactivity: 0.85, // High reactivity (Maillard, caramelization)
     gregsEnergy: -10.35, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.95,            // Wok heat 600-900°F — highest temp differential of any method

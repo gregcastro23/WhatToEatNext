@@ -118,7 +118,7 @@ interface MethodData {
   optimalTemperatures?: Record<string, number>;
 }
 
-function adaptCookingMethod(m: CookingMethodData): MethodData {
+export function adaptCookingMethod(m: CookingMethodData): MethodData {
   const tp = m.thermodynamicProperties;
   return {
     name: m.name,
@@ -130,8 +130,8 @@ function adaptCookingMethod(m: CookingMethodData): MethodData {
       ? {
           thermodynamicProperties: {
             heat: tp.heat,
-            entropy: tp._entropy,
-            reactivity: tp._reactivity,
+            entropy: tp.entropy,
+            reactivity: tp.reactivity,
             energy: tp.gregsEnergy,
           },
         }
@@ -148,7 +148,7 @@ function adaptCookingMethod(m: CookingMethodData): MethodData {
   };
 }
 
-function adaptCookingMethods(
+export function adaptCookingMethods(
   methods: Record<string, CookingMethodData>,
 ): Record<string, MethodData> {
   const adapted: Record<string, MethodData> = {};
@@ -755,7 +755,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
           kalchm,
           monica,
           ...(duration ? { duration } : {}),
-          ...(typeof kinetics?.power === "number" ? { kineticPower: kinetics.power } : {}),
+          ...(typeof kinetics?.power === "number" && Number.isFinite(kinetics.power) ? { kineticPower: kinetics.power } : {}),
           ...(userBias ? { userElementalBias: userBias } : {}),
         },
         userIntent,

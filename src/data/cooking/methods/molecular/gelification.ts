@@ -1,5 +1,4 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { ThermodynamicProperties } from "@/types/shared";
 
 /**
  * Gelification cooking method
@@ -214,7 +213,7 @@ export const gelification: CookingMethodData = {
     gregsEnergy: -10.35, // Calculated using heat - (entropy * reactivity) // Calculated using heat - (entropy * reactivity)
     // NOTE: entropy/reactivity are declared as _entropy/_reactivity on ThermodynamicProperties (src/types/shared.ts).
     // This field-name mismatch is a pre-existing data bug preserved intentionally; do not rename in a types-only pass.
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.25,            // Warm to cool — hydrocolloids hydrate at various temps

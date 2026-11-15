@@ -1,5 +1,5 @@
 import type { CookingMethodData } from "@/types/cookingMethod";
-import type { CookingMethod, ThermodynamicProperties } from "@/types/shared";
+import type { CookingMethod } from "@/types/shared";
 
 /**
  * Marinating: A technique that soaks food in a flavorful liquid to enhance taste,
@@ -79,7 +79,7 @@ export const _marinating: CookingMethodData = {
     entropy: 0.25, // Low structural change
     reactivity: 0.5, // Moderate flavor penetration
     gregsEnergy: -0.025, // heat - (entropy × reactivity)
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.08,            // Ambient temp — minimal thermal differential
