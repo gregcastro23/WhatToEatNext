@@ -60,11 +60,9 @@ import {
 import { generateGroceryList } from "@/utils/groceryListGenerator";
 import { logger } from "@/utils/logger";
 import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
-import {
-  generateDayRecommendations,
-  getPrimaryProtein,
-  type AstrologicalState,
-  type UserPersonalizationContext,
+import type {
+  AstrologicalState,
+  UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
 import PantryManager from "@/utils/pantryManager";
 import { calculateWeeklyCircuit } from "@/utils/weeklyCircuitCalculations";
@@ -588,6 +586,10 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
                 prioritizeHarmony: true,
               }
             : undefined;
+
+        const { generateDayRecommendations, getPrimaryProtein } = await import(
+          "@/utils/menuPlanner/recommendationBridge"
+        );
 
         const liveMeals = activeMenu.meals;
         const existingMeals = liveMeals.flatMap((m) => {
