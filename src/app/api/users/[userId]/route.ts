@@ -8,8 +8,8 @@
  * relationship to the profile owner. Used by the /profile/[userId] page so
  * anyone can inspect an agent or human's alchemical identity without auth.
  */
-
 import { NextResponse, type NextRequest } from "next/server";
+import { toClassicalElement } from "@/lib/agents/consciousnessAxes";
 import type { CraftedAgentProfile, HistoricalDiet } from "@/lib/agents/craftedAgentTypes";
 import {
   agentSlugFromEmail,
@@ -251,7 +251,7 @@ export async function GET(
             bio: externalAgent.title
               ? `${externalAgent.title} (${externalAgent.era ?? "Historical Master"})`
               : "Historical Alchemical Intelligence",
-            dominantElement: externalAgent.consciousness?.dominantElement ?? "Spirit",
+            dominantElement: toClassicalElement(externalAgent.consciousness?.dominantElement),
             natalChart: externalAgent.consciousness?.natalChart ?? externalAgent.birthData ?? {},
             natalPositions: [],
             birthData: externalAgent.birthData ?? {},
@@ -428,7 +428,7 @@ export async function GET(
             symbol: "⚗️",
           },
           consciousness: {
-            dominantElement: row.dominant_element ?? "Fire",
+            dominantElement: toClassicalElement(row.dominant_element),
             level: "Master",
             natalChart,
           },

@@ -1,3 +1,5 @@
+import type { AlchemicalProperty } from "@/types/constants";
+
 export type Element = "Fire" | "Water" | "Air" | "Earth";
 
 interface NatalPlanet {
@@ -15,6 +17,7 @@ interface NatalAspect {
   orb: number;
 }
 
+/** The wire key `alchemicalElements` holds the ESMS QUANTITIES: a pre-existing misnomer kept for the wire (CONTEXT.md reserves "elements" for Fire, Water, Earth, Air). */
 interface AlchemicalElements {
   spirit: number;
   essence: number;
@@ -23,7 +26,14 @@ interface AlchemicalElements {
 }
 
 interface Consciousness {
-  dominantElement: Element | string;
+  /**
+   * The classical element (Fire, Water, Earth, Air). "Spirit" is a QUANTITY and never an element (consciousnessAxes.ts).
+   * `parseCraftedAgentProfile` guarantees this; the route forwards the service's own consciousness as it came
+   * (route.ts:246, :413), so unparsed wire data may still hold something else.
+   */
+  dominantElement: Element;
+  /** The ESMS reading, independent of the element. No in-repo producer names it (ASOL payloads were not inspected); the profile parser defaults it to Spirit. */
+  dominantAlchemicalQuantity?: AlchemicalProperty;
   dominantModality?: string;
   level?: string;
   strength?: string;

@@ -116,12 +116,14 @@ calculations
 ```
 src/calculations/
 ├── alchemicalEngine.ts              # Main alchemical calculations
-├── core/
-│   ├── elementalCalculations.ts     # Elemental balance calculations
-│   └── planetaryInfluences.ts       # Planetary influence calculations
-├── culinaryAstrology.ts             # Culinary astrology integration
-└── enhancedAlchemicalMatching.ts    # Advanced compatibility algorithms
+└── core/
+    └── planetaryInfluences.ts       # Planetary influence calculations
 ```
+
+`core/elementalCalculations.ts`, `culinaryAstrology.ts` and
+`enhancedAlchemicalMatching.ts` are no longer in the tree: PR #1019
+(`30406596`) deleted them with the rest of the closed `src/calculations/index.ts`
+hub. See [DELETED.md](../DELETED.md).
 
 ### Utility Functions
 

@@ -21,6 +21,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { parseAllPeriodsResponse } from "@/contexts/alchemicalStatisticsParser";
+import { readJson } from "@/lib/api/json";
 import type {
   PeriodStatistics,
   QuantityContext as QuantityContextValue,
@@ -44,13 +46,6 @@ export const PERIOD_LABELS: Record<StatPeriod, string> = {
   year: "Year",
   all: "All",
 };
-
-interface AllPeriodsResponse {
-  success: boolean;
-  reference: string;
-  file: { generatedAt: string; intervalHours: number; count: number };
-  periods: Record<StatPeriod, PeriodStatistics | null>;
-}
 
 interface ContextValue {
   /** Currently selected period for inline displays. */
@@ -95,8 +90,7 @@ export function AlchemicalStatisticsProvider({
           cache: "no-store",
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = (await res.json()) as AllPeriodsResponse;
-        if (!json.success) throw new Error("API reported failure");
+        const json = await readJson(res, parseAllPeriodsResponse);
         setAllPeriods(json.periods);
         setFileMeta(json.file);
       } catch (err) {

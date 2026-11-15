@@ -4,7 +4,6 @@ export function calculateMatchScore(
   options?: {
     mealType?: string;
     season?: string;
-    cuisine?: string;
     preferHigherContrast?: boolean;
   },
 ) {
@@ -132,34 +131,6 @@ export function calculateMatchScore(
       else if (mealType === "dessert") {
         if (element === "Water") elementWeight *= 1.4;
         if (element === "Earth") elementWeight *= 1.2;
-      }
-    }
-
-    // Apply cuisine-specific elemental adjustments
-    if (options?.cuisine) {
-      try {
-        // Use dynamic import to avoid circular dependencies
-        import("@/data/cuisineFlavorProfiles")
-          .then((module) => {
-            const getCuisineProfile =
-              (module as any).getCuisineProfile ??
-              (module as any)._getCuisineProfile;
-            const cuisineProfile = getCuisineProfile(options.cuisine ?? "");
-
-            if (cuisineProfile?.elementalAlignment) {
-              // If cuisine heavily emphasizes this element, weight it higher
-              const cuisineElementValue =
-                cuisineProfile.elementalAlignment[element] ?? 0;
-              if (cuisineElementValue > 0.5) {
-                elementWeight *= 1 + (cuisineElementValue - 0.5); // Up to 1.5x for element value of 1.0
-              }
-            }
-          })
-          .catch(() => {
-            // Ignore errors from importing cuisine profiles
-          });
-      } catch (_error) {
-        // Ignore errors from importing cuisine profiles
       }
     }
 

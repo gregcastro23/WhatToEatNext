@@ -6,7 +6,11 @@ import { parseAspectsResponse, type AspectEntry, type AspectsData } from "@/comp
 import { useTransitGroupChat } from "@/hooks/useTransitGroupChat";
 import { groupForAspect } from "@/lib/agents/transitAgents";
 import { readJson } from "@/lib/api/json";
+import { _logger } from "@/lib/logger";
 import { reportQuestEvent } from "@/lib/questReporter";
+
+/** Shown for every load failure; the detail goes to the logger, not the page. */
+const ASPECTS_UNAVAILABLE = "Aspects are unavailable right now.";
 
 // ── Visual helpers ───────────────────────────────────────────────────────────
 
@@ -183,7 +187,8 @@ export default function PlanetaryAspectsDisplay(): React.JSX.Element {
         reportQuestEvent('view_aspect');
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Unknown error");
+      _logger.error("PlanetaryAspectsDisplay: could not load aspects:", e);
+      setError(ASPECTS_UNAVAILABLE);
     } finally {
       setLoading(false);
     }
@@ -209,7 +214,7 @@ export default function PlanetaryAspectsDisplay(): React.JSX.Element {
   }
 
   if (error) {
-    return <p className="text-red-400 text-sm">Error: {error}</p>;
+    return <p className="text-red-400 text-sm">{error}</p>;
   }
 
   if (!data || data.aspects.length === 0) {
