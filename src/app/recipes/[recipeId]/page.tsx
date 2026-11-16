@@ -1,9 +1,8 @@
 import { notFound, permanentRedirect } from "next/navigation";
 import { cache } from "react";
-import { parseDietaryPersonaParam } from "@/data/adaptations/personas";
 import { _logger } from "@/lib/logger";
 import { loadAuthoredFacts, resolveRecipeRef, withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
-import { withAuthoredFacts } from "@/lib/search/authoredFacts";
+import { NOT_AUTHORED, withAuthoredFacts } from "@/lib/search/authoredFacts";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
@@ -183,12 +182,19 @@ async function handleMissingRecipe(recipeId: string): Promise<never> {
   notFound();
 }
 
-export default async function RecipePage({ params, searchParams }: RecipePageProps) {
+function safeAdaptedFromJsonLd(
+  adaptedFrom: Recipe["adaptedFrom"],
+): ReturnType<typeof recipeSourceJsonLd> | undefined {
+  if (!adaptedFrom) return undefined;
+  try {
+    return recipeSourceJsonLd(adaptedFrom);
+  } catch {
+    return undefined;
+  }
+}
+
+export default async function RecipePage({ params }: RecipePageProps): Promise<React.JSX.Element> {
   const { recipeId } = await params;
-  const resolvedSearch = searchParams ? await searchParams : undefined;
-  const initialPersona = parseDietaryPersonaParam(
-    resolvedSearch?.persona ?? resolvedSearch?.diet,
-  );
 
   const target = await resolveRecipePage(recipeId);
   if (target.kind === "redirect") {
@@ -205,7 +211,11 @@ export default async function RecipePage({ params, searchParams }: RecipePagePro
   const { recipe: liveRecipe } = target;
   // The live catalog's times and meal are placeholders (prep 30 + cook 30,
   // "main" on every recipe): what the page shows and publishes is authored.
-  const recipe = withAuthoredFacts(liveRecipe, await loadAuthoredFacts(liveRecipe));
+  const authoredFacts = await loadAuthoredFacts(liveRecipe).catch((err: unknown) => {
+    _logger.error(`[recipes/${recipeId}] authored facts lookup failed:`, err);
+    return NOT_AUTHORED;
+  });
+  const recipe = withAuthoredFacts(liveRecipe, authoredFacts);
 
   const cookingMethods = getCookingMethods(recipe);
 
@@ -320,7 +330,7 @@ export default async function RecipePage({ params, searchParams }: RecipePagePro
     totalTime: isoDuration(totalMinutes),
     keywords: keywordParts.length > 0 ? keywordParts.join(", ") : undefined,
     recipeIngredient: ingredientList,
-    isBasedOn: recipe.adaptedFrom ? recipeSourceJsonLd(recipe.adaptedFrom) : undefined,
+    isBasedOn: safeAdaptedFromJsonLd(recipe.adaptedFrom),
     recipeInstructions: instructionList.map((text) => ({
       "@type": "HowToStep",
       text,
@@ -370,7 +380,6 @@ export default async function RecipePage({ params, searchParams }: RecipePagePro
         recipe={recipe}
         recommendedSauces={recommendedSauces}
         recommendedRecipes={recommendedRecipes}
-        initialPersona={initialPersona}
       />
     </>
   );

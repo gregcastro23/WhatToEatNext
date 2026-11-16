@@ -220,11 +220,19 @@ function hasDietaryTag(tags: string[] | null | undefined, tag: string): boolean 
   );
 }
 
+function toStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((item): item is string => typeof item === "string" && item.length > 0);
+}
+
 function mapRowToRecipe(row: DbRecipeRow): Recipe {
   // Prefer the denormalized read_model for performance and data consistency
   if (row.read_model) {
     const rm = row.read_model;
-    const dietaryTags = rm.dietary_tags ?? row.dietary_tags ?? [];
+    const rmTags = toStringArray(rm.dietary_tags);
+    const dietaryTags = rmTags.length > 0 ? rmTags : toStringArray(row.dietary_tags);
+    const rmAllergens = toStringArray(rm.allergens);
+    const allergens = rmAllergens.length > 0 ? rmAllergens : toStringArray(row.allergens);
     
     // Extract seasons from nested contexts if available
     let seasons: string[] = [];
@@ -273,7 +281,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
         Earth: rm.elemental_properties?.earth ?? rm.elemental_properties?.Earth ?? 0.25,
         Air: rm.elemental_properties?.air ?? rm.elemental_properties?.Air ?? 0.25,
       },
-      allergens: rm.allergens ?? row.allergens ?? [],
+      allergens,
       isVegetarian: hasDietaryTag(dietaryTags, "vegetarian"),
       isVegan: hasDietaryTag(dietaryTags, "vegan"),
       isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree") || hasDietaryTag(dietaryTags, "gluten-free"),
@@ -287,7 +295,8 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
   }
 
   // Fallback to legacy row-based mapping if read_model is missing
-  const dietaryTags = row.dietary_tags ?? [];
+  const dietaryTags = toStringArray(row.dietary_tags);
+  const legacyAllergens = toStringArray(row.allergens);
   const prepTime = row.prep_time_minutes ?? 0;
   const cookTime = row.cook_time_minutes ?? 0;
   const mealTypes = row.meal_types?.length ? row.meal_types : row.category ? [row.category] : [];
@@ -315,7 +324,7 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
     mealType: mealTypes,
     ...(row.seasons ? { season: row.seasons } : {}),
     elementalProperties: DEFAULT_ELEMENTAL_PROPERTIES, // Legacy fallback
-    allergens: row.allergens ?? [],
+    allergens: legacyAllergens,
     isVegetarian: hasDietaryTag(dietaryTags, "vegetarian"),
     isVegan: hasDietaryTag(dietaryTags, "vegan"),
     isGlutenFree: hasDietaryTag(dietaryTags, "glutenfree"),
@@ -509,33 +518,33 @@ export class LocalRecipeService {
 
 
   static async getRecipeById(recipeId: string): Promise<Recipe | null> {
-    if (!recipeId) {
-      return null;
-    }
+    if (!recipeId) return null;
 
     try {
       const decodedId = decodeURIComponent(recipeId);
-      const allRecipes = await this.getAllRecipes();
-      
-      const recipe = allRecipes.find(
-        (r) => String(r.id) === decodedId || r.name === decodedId
-      );
-
-      if (recipe) return recipe;
-
-      // Fallback: check if we can query the DB directly by UUID (just in case cache missed a newly added one)
-      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(decodedId);
-      if (isUuid) {
-        const recipes = await this.fetchRecipes("AND r.id = $1", [decodedId]);
-        const [recipeFromDb] = recipes;
-        if (recipeFromDb) return recipeFromDb;
+      if (this.isCacheFresh() && this._allRecipes) {
+        const cachedHit = this._allRecipes.find(
+          (r) => String(r.id) === decodedId || r.name === decodedId,
+        );
+        if (cachedHit) return cachedHit;
       }
 
-      return null;
+      // Query single row by UUID primary key first so cold lambdas don't block
+      // on a full-catalog scan and connection pool storm before checking 1 row.
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(decodedId);
+      if (isUuid) {
+        try {
+          const [recipeFromDb] = await this.fetchRecipes("AND r.id = $1", [decodedId]);
+          if (recipeFromDb) return recipeFromDb;
+        } catch (dbErr) {
+          logger.warn(`Direct UUID query failed for '${decodedId}', falling back to catalog:`, dbErr);
+        }
+      }
+
+      const allRecipes = await this.getAllRecipes();
+      return allRecipes.find((r) => String(r.id) === decodedId || r.name === decodedId) ?? null;
     } catch (error) {
       logger.error(`Error getting recipe by id '${recipeId}':`, error);
-      
-      // Ultimate local fallback
       try {
         const decodedId = decodeURIComponent(recipeId);
         const { getServerRecipes } = await import("@/actions/recipes");
