@@ -217,8 +217,8 @@ to have somewhere to put.
 > single sentence explaining that a 60 °C bath cannot bring a core to 75 °C, ever.
 >
 > **Card 2 — Water loss.** Evaporation over the cook. A figure in grams and a figure in
-> watts, side by side — for an open 20 cm pan of boiling water these read `574 g/h` and
-> `360 W`. A small horizontal bar splits the total energy into **sensible** and **latent**
+> watts, side by side — for an open 20 cm pan of boiling water these read `645 g/h` and
+> `404 W`. A small horizontal bar splits the total energy into **sensible** and **latent**
 > shares, showing the latent term dominating a reduction. When a lid is fitted, the bar gains
 > a third **returned as condensate** segment, and the card shows the escape/return split —
 > for a tight Dutch oven, 29 kJ escaping against 335 kJ returning. This card must make the
@@ -228,7 +228,7 @@ to have somewhere to put.
 > ambient temperature up to the local boiling ceiling, with the **pinned surface temperature
 > marked as a band with an upward arrow**, not a point — it is a lower bound. A label reads
 > `AS COLD AS THE SURFACE CAN BE`. Beside it, the browning verdict: the Maillard threshold at
-> ~140 °C drawn on the same scale, so a surface pinned at 55 °C in a 200 °C oven is visibly
+> ~140 °C drawn on the same scale, so a surface pinned at 59 °C in a 200 °C oven is visibly
 > nowhere near it. One line explains why: the surface is still wet.
 >
 > **Card 4 — Bottleneck.** A compact embed of the resistance chain from Screen 2, plus a

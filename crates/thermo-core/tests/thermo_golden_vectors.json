@@ -327,15 +327,15 @@
       { "excessK": 8.0, "surface": "copper-polished", "flux": 75759.95335682204, "h": 9469.994169602754, "burnout": 0.06056344231850845 }
     ],
     "evaporation": [
-      { "case": "open pot", "h": 8.531, "surfaceC": 100.0, "airC": 20.0, "bulkVapour": 0.008609217698417453, "lewis": 0.882755801774552, "hMass": 0.008747235228753099, "massFlux": 0.0050717639868206495, "latentFlux": 11446.971318254205 },
-      { "case": "oven surface", "h": 15.0, "surfaceC": 60.0, "airC": 200.0, "bulkVapour": 0.005334021279279459, "lewis": 0.947670865333135, "hMass": 0.01771816294403408, "massFlux": 0.002195235053146788, "latentFlux": 5177.330158743511 },
-      { "case": "cold plate", "h": 10.0, "surfaceC": 5.0, "airC": 25.0, "bulkVapour": 0.018359646815181797, "lewis": 0.8371965000004016, "hMass": 0.009190528008100125, "massFlux": -0.00010671669428316664, "latentFlux": -265.1909852936691 }
+      { "case": "open pot", "h": 8.531, "surfaceC": 100.0, "airC": 20.0, "bulkVapour": 0.008609217698417453, "lewis": 0.882755801774552, "hMass": 0.008747235228753099, "massFlux": 0.005698794176405865, "latentFlux": 12862.178456148036 },
+      { "case": "oven surface", "h": 15.0, "surfaceC": 60.0, "airC": 200.0, "bulkVapour": 0.005334021279279459, "lewis": 0.947670865333135, "hMass": 0.01771816294403408, "massFlux": 0.0017812508738970648, "latentFlux": 4200.973311033794 },
+      { "case": "cold plate", "h": 10.0, "surfaceC": 5.0, "airC": 25.0, "bulkVapour": 0.018359646815181797, "lewis": 0.8371965000004016, "hMass": 0.009190528008100125, "massFlux": -0.00011472478042803363, "latentFlux": -285.0910793636636 }
     ],
     "pinnedSurface": [
-      { "case": "still oven", "airC": 200.0, "bulkVapour": 0.005334021279279459, "h": 15.0, "radiantC": 200.0, "ceilingC": 100.0, "celsius": 55.1345072909036, "convGain": 2172.982390636446, "radGain": 1964.9716378144792, "evapLoss": 4137.954028450929, "massFlux": 0.00174588584016045, "saturated": false },
-      { "case": "convection oven", "airC": 200.0, "bulkVapour": 0.005334021279279459, "h": 40.0, "radiantC": 200.0, "ceilingC": 100.0, "celsius": 48.692606345925554, "convGain": 6052.295746162978, "radGain": 2010.1443084300274, "evapLoss": 8062.440054593002, "massFlux": 0.0033796593182801814, "saturated": false },
-      { "case": "broiler", "airC": 200.0, "bulkVapour": 0.005334021279279459, "h": 15.0, "radiantC": 600.0, "ceilingC": 100.0, "celsius": 100.0, "convGain": 1500.0, "radGain": 28673.194963511316, "evapLoss": 24170.644317635277, "massFlux": 0.010709191102186653, "saturated": true },
-      { "case": "broiler at altitude", "airC": 200.0, "bulkVapour": 0.005334021279279459, "h": 15.0, "radiantC": 600.0, "ceilingC": 94.7, "celsius": 94.7, "convGain": 1579.5, "radGain": 28728.222106029512, "evapLoss": 20204.019594933518, "massFlux": 0.008898136429268831, "saturated": true }
+      { "case": "still oven", "airC": 200.0, "bulkVapour": 0.005334021279279459, "h": 15.0, "radiantC": 200.0, "ceilingC": 100.0, "celsius": 59.220065087596055, "convGain": 2111.6990236860593, "radGain": 1934.909798244841, "evapLoss": 4046.608821930905, "massFlux": 0.0017144382139919184, "saturated": false },
+      { "case": "convection oven", "airC": 200.0, "bulkVapour": 0.005334021279279459, "h": 40.0, "radiantC": 200.0, "ceilingC": 100.0, "celsius": 52.87769196050837, "convGain": 5884.892321579665, "radGain": 1981.10335103781, "evapLoss": 7865.995672617467, "massFlux": 0.0033112543108747817, "saturated": false },
+      { "case": "broiler", "airC": 200.0, "bulkVapour": 0.005334021279279459, "h": 15.0, "radiantC": 600.0, "ceilingC": 100.0, "celsius": 100.0, "convGain": 1500.0, "radGain": 28673.194963511316, "evapLoss": 21262.35359617945, "massFlux": 0.009420626316428645, "saturated": true },
+      { "case": "broiler at altitude", "airC": 200.0, "bulkVapour": 0.005334021279279459, "h": 15.0, "radiantC": 600.0, "ceilingC": 94.7, "celsius": 94.7, "convGain": 1579.5, "radGain": 28728.222106029512, "evapLoss": 17618.872915797154, "massFlux": 0.007759601211930448, "saturated": true }
     ],
     "network": [
       { "case": "oven-rack", "totalR": 10.417414456924057, "ua": 0.09599310885968815, "heatFlowW": 17.278759594743864, "controlling": "medium-to-food", "foodBiot": 0.22727272727272724,

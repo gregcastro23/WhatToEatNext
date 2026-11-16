@@ -33,6 +33,7 @@ import {
   saturationPressureKpa,
   solveBoundaryNetwork,
   vapourDensityKgM3,
+  vapourPartialPressureKpa,
 } from "@/lib/cooking/boundaryNetwork";
 import { latentHeatVaporisation } from "@/lib/cooking/latentHeat";
 import {
@@ -297,7 +298,7 @@ describe("evaporative flux", () => {
   const lc = plateCharacteristicLength((Math.PI * 0.2 * 0.2) / 4, Math.PI * 0.2);
   const h = naturalConvectionH(film, "horizontal-up", 80, lc).hWm2K;
 
-  it("costs an open 20 cm pan about 360 W and half a kilo an hour", () => {
+  it("costs an open 20 cm pan about 400 W and two-thirds of a kilo an hour", () => {
     // The number that explains why a 1.5 kW burner struggles to hold a rolling
     // boil in a wide pan, and why the same pan lidded holds it easily.
     const e = evaporativeFlux(h, 100, 20, kitchen, water.hfgJkg);
@@ -325,6 +326,50 @@ describe("evaporative flux", () => {
     expect(() => evaporativeFlux(-1, 50, 20, kitchen, 2.3e6)).toThrow(RangeError);
   });
 
+  it("drives by partial pressure: condensation stops AT the dew point, even in 200 °C air", () => {
+    // The density form stopped condensation 7.3–7.8 K below the dew point here,
+    // because heated air keeps its partial pressure while its vapour density falls.
+    for (const steam of [0.3, 0.5, 0.7]) {
+      const pv = steam * 101.325;
+      const bulk = vapourDensityKgM3(pv, 200);
+      const dewC = boilingPointC(pv);
+      const flux = (surfaceC: number): number => evaporativeFlux(20, surfaceC, 200, bulk, 2.3e6).massFluxKgM2s;
+      expect(flux(dewC - 0.5)).toBeLessThan(0);
+      expect(flux(dewC + 0.5)).toBeGreaterThan(0);
+      // At the dew point itself the driving force is the Antoine round trip's residue, nothing more.
+      expect(Math.abs(flux(dewC))).toBeLessThan(1e-9 * Math.abs(flux(dewC - 0.5)) + 1e-15);
+    }
+  });
+
+  it("matches the mass-fraction conductance form, with the TABLE air density at the film temperature", () => {
+    // An independent route to the same flux: ṁ″ = ρ_air,film · h_m · ω-difference, with
+    // ω ≈ (M_w/M_air)·p/P for dilute vapour and ρ_air from Incropera A.4 rather than the
+    // ideal gas. A boiling pot in 20 °C air puts the film 40 K below the surface, so
+    // reading the pressure difference at the wrong temperature misses by ~11 %.
+    // `[MEASURED 2026-11-15]` the two agree to 0.80 %, and that residue is entirely the
+    // table's air density at 60 °C sitting 0.80 % below the ideal gas — hence 1.5 %.
+    const e = evaporativeFlux(h, 100, 20, kitchen, water.hfgJkg);
+    const molarMassAir = 0.0289647;
+    const deltaKpa = saturationPressureKpa(100) - vapourPartialPressureKpa(kitchen, 20);
+    const conductanceForm = (e.hMassMs * airProperties(60).rhoKgM3 * (0.01801528 / molarMassAir) * deltaKpa) / 101.325;
+    expect(Math.abs(e.massFluxKgM2s / conductanceForm - 1)).toBeLessThan(0.015);
+  });
+
+  it("reduces to the density difference when surface and air share a temperature", () => {
+    const bulk = absoluteHumidityKgM3(40, 30);
+    const e = evaporativeFlux(12, 40, 40, bulk, 2.4e6);
+    const densityForm = e.hMassMs * (e.surfaceVapourKgM3 - bulk);
+    expect(Math.abs(e.massFluxKgM2s / densityForm - 1)).toBeLessThan(1e-12);
+  });
+
+  it("reads a vapour density back as the partial pressure it came from", () => {
+    const cases: ReadonlyArray<[number, number]> = [[1.17, 20], [50.66, 200], [101.325, 100]];
+    for (const [kpa, c] of cases) {
+      const back = vapourPartialPressureKpa(vapourDensityKgM3(kpa, c), c);
+      expect(Math.abs(back / kpa - 1)).toBeLessThan(1e-14);
+    }
+  });
+
   it("scales diffusion with temperature and stays inside the correlation's noise", () => {
     expect(diffusionWaterInAir(25 - 273.15 + 273.15)).toBeCloseTo(0.26e-4, 6);
     expect(diffusionWaterInAir(200)).toBeGreaterThan(diffusionWaterInAir(25));
@@ -336,7 +381,7 @@ describe("evaporative flux", () => {
 });
 
 describe("the evaporative pin", () => {
-  it("holds a wet surface 145 K below a 200 °C oven", () => {
+  it("holds a wet surface about 140 K below a 200 °C oven", () => {
     // The result that explains why a roast can spend an hour in a hot oven
     // without browning: it is not hot enough to brown, because it is still wet.
     const vapour = humidAirVapourDensity(20, 50, 200);

@@ -1883,6 +1883,14 @@ pub fn vapour_density_kg_m3(partial_pressure_kpa: f64, celsius: f64) -> f64 {
     (partial_pressure_kpa * 1000.0 * MOLAR_MASS_WATER) / (GAS_CONSTANT * (celsius + 273.15))
 }
 
+/// Partial pressure of water vapour at a stated density and temperature, kPa —
+/// the exact inverse of [`vapour_density_kg_m3`] (ideal gas). A vapour density
+/// means nothing without the temperature it was taken at: heated air keeps its
+/// partial pressure while its vapour density falls.
+pub fn vapour_partial_pressure_kpa(density_kg_m3: f64, celsius: f64) -> f64 {
+    (density_kg_m3 * GAS_CONSTANT * (celsius + 273.15)) / (MOLAR_MASS_WATER * 1000.0)
+}
+
 /// Absolute humidity of moist air, kg·m⁻³.
 ///
 /// ⚠️ Refuses above 100 °C: saturation pressure exceeds atmospheric there, so
@@ -2133,6 +2141,14 @@ pub struct EvaporationResult {
 /// ⚠️ FREE WATER, so an upper bound on evaporation: real food's crust limits
 /// moisture migration and the true flux is lower. The negative branch is
 /// condensation and is deliberately not clamped.
+///
+/// The driving force is the PARTIAL-PRESSURE difference at the film
+/// temperature, `ṁ″ = h_m·M_w·(p_s − p_∞)/(R·T_film)`, not the difference of
+/// vapour densities each taken at its own temperature — that shortcut invents
+/// a gradient when surface and air differ (heated air keeps its mole fraction
+/// while its vapour density falls) and stopped condensation 7.3–7.8 K below
+/// the dew point in 200 °C air. `bulk_vapour_kg_m3` is the density AT `air_c`.
+/// The TypeScript half evaluates the identical expression, helper for helper.
 pub fn evaporative_flux(
     h_w_m2_k: f64,
     surface_c: f64,
@@ -2147,8 +2163,11 @@ pub fn evaporative_flux(
     let film = air_properties(film_c)?;
     let lewis = film.alpha_m2_s / diffusion_water_in_air(film_c);
     let h_mass_m_s = h_w_m2_k / (film.rho_kg_m3 * film.cp_j_kg_k * lewis.powf(2.0 / 3.0));
-    let surface_vapour_kg_m3 = vapour_density_kg_m3(saturation_pressure_kpa(surface_c)?, surface_c);
-    let mass_flux_kg_m2_s = h_mass_m_s * (surface_vapour_kg_m3 - bulk_vapour_kg_m3);
+    let surface_pressure_kpa = saturation_pressure_kpa(surface_c)?;
+    let surface_vapour_kg_m3 = vapour_density_kg_m3(surface_pressure_kpa, surface_c);
+    let bulk_pressure_kpa = vapour_partial_pressure_kpa(bulk_vapour_kg_m3, air_c);
+    let mass_flux_kg_m2_s =
+        h_mass_m_s * vapour_density_kg_m3(surface_pressure_kpa - bulk_pressure_kpa, film_c);
     Ok(EvaporationResult {
         mass_flux_kg_m2_s,
         latent_flux_w_m2: mass_flux_kg_m2_s * latent_heat_j_kg,

@@ -413,6 +413,19 @@ export function vapourDensityKgM3(partialPressureKpa: number, tempC: number): nu
 }
 
 /**
+ * Partial pressure of water vapour at a stated density and temperature, kPa —
+ * the exact inverse of {@link vapourDensityKgM3} (ideal gas).
+ *
+ * A vapour DENSITY is only meaningful together with the temperature it was
+ * measured at: kitchen air heated to 200 °C keeps its partial pressure (its mole
+ * fraction is unchanged) while its density falls by the temperature ratio. This
+ * is the conversion that lets a density be compared across temperatures.
+ */
+export function vapourPartialPressureKpa(densityKgM3: number, tempC: number): number {
+  return (densityKgM3 * GAS_CONSTANT * (tempC + 273.15)) / (MOLAR_MASS_WATER * 1000);
+}
+
+/**
  * Absolute humidity of moist air, kg of water per m³.
  *
  * ⚠️ **REFUSES above 100 °C, and the reason is physics rather than an envelope.**
@@ -829,7 +842,27 @@ export interface EvaporationResult {
  * Evaporative mass and heat flux from a free water surface, by the
  * Chilton–Colburn heat-and-mass-transfer analogy.
  *
- * `h_m = h / (ρ·cp·Le^{2/3})`, then `ṁ″ = h_m·(ρ_v,s − ρ_v,∞)`.
+ * `h_m = h / (ρ·cp·Le^{2/3})`, then
+ *
+ *   ṁ″ = h_m · M_w · (p_v,s − p_v,∞) / (R · T_film)
+ *
+ * ── The driving force is a PARTIAL-PRESSURE difference at the film temperature ──
+ *
+ * The quantity the boundary layer actually transports is the vapour's mass
+ * (or mole) FRACTION; diffusion runs down its gradient. Written per unit
+ * volume at the film's total concentration that is the partial-pressure
+ * difference above, which is the form the conductance formulation of mass
+ * transfer uses (ρ_film·h_m·(ω_s − ω_∞) for dilute vapour).
+ *
+ * The textbook shortcut `h_m·(ρ_v,s − ρ_v,∞)` takes each vapour DENSITY at its
+ * own temperature. When surface and air share a temperature the two forms are
+ * identical; when they do not, the density form invents a gradient that is
+ * not there — heated air keeps its mole fraction while its vapour density
+ * falls — and the error is the ratio of absolute temperatures. `[MEASURED
+ * 2026-11-15]` in 200 °C air carrying 30/50/70 % steam, the density form
+ * stopped condensation at 61.7/74.2/83.0 °C against true dew points of
+ * 69.5/81.7/90.3 °C: 7.3–7.8 K early. This form stops it at the dew point,
+ * to the bisection's precision.
  *
  * ── What this assumes, stated rather than buried ────────────────────────────
  *
@@ -850,10 +883,12 @@ export interface EvaporationResult {
  * @param hWm2K Convective coefficient over the same surface, W·m⁻²·K⁻¹.
  * @param surfaceC Surface temperature, °C.
  * @param airC Bulk air temperature, °C.
- * @param bulkVapourKgM3 Vapour density in the bulk air, kg·m⁻³. Taken directly
- *        rather than as a relative humidity, because RH is meaningless above
- *        100 °C — see {@link absoluteHumidityKgM3}. For ambient air, convert
- *        with that function; for oven air, with {@link humidAirVapourDensity}.
+ * @param bulkVapourKgM3 Vapour density in the bulk air AT `airC`, kg·m⁻³. Taken
+ *        directly rather than as a relative humidity, because RH is meaningless
+ *        above 100 °C — see {@link absoluteHumidityKgM3}. For ambient air,
+ *        convert with that function; for oven air, with
+ *        {@link humidAirVapourDensity}. It is read back as a partial pressure at
+ *        `airC`, so it must be the density at that temperature.
  */
 export function evaporativeFlux(
   hWm2K: number,
@@ -867,8 +902,12 @@ export function evaporativeFlux(
   const film = airProperties(filmC);
   const lewis = film.alphaM2s / diffusionWaterInAir(filmC);
   const hMassMs = hWm2K / (film.rhoKgM3 * film.cpJkgK * Math.pow(lewis, 2 / 3));
-  const surfaceVapourKgM3 = vapourDensityKgM3(saturationPressureKpa(surfaceC), surfaceC);
-  const massFluxKgM2s = hMassMs * (surfaceVapourKgM3 - bulkVapourKgM3);
+  const surfacePressureKpa = saturationPressureKpa(surfaceC);
+  const surfaceVapourKgM3 = vapourDensityKgM3(surfacePressureKpa, surfaceC);
+  const bulkPressureKpa = vapourPartialPressureKpa(bulkVapourKgM3, airC);
+  // The partial-pressure difference, expressed as a vapour density at the FILM
+  // temperature: M·Δp/(R·T_film). Same helper as the Rust half, so the same bits.
+  const massFluxKgM2s = hMassMs * vapourDensityKgM3(surfacePressureKpa - bulkPressureKpa, filmC);
   return {
     massFluxKgM2s,
     latentFluxWm2: massFluxKgM2s * latentHeatJkg,
