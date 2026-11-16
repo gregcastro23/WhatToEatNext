@@ -193,13 +193,17 @@ export const RouteFlowMatrixRowSchema = z.object({
   topNextPaths: z.array(RouteFlowNextHopSchema),
 });
 
+export const VariantConfidenceLabelSchema = z.enum(["Insufficient Data", "Trending", "Statistically Significant (95%+)"]);
+
 export const VariantCohortRowSchema = z.object({
-  variant: z.string(),
-  sessions: z.number(),
-  activatedSessions: z.number(),
-  activationRatePct: z.number(),
-  frustratedSessions: z.number(),
-  frustrationRatePct: z.number(),
+  variant: z.string(), sessions: z.number(), activatedSessions: z.number(), activationRatePct: z.number(),
+  frustratedSessions: z.number(), frustrationRatePct: z.number(),
+  liftVsControlPct: z.number().nullable().optional(), confidenceLabel: VariantConfidenceLabelSchema.optional(),
+});
+
+export const RetentionCohortRowSchema = z.object({
+  cohortStart: z.string(), cohortLabel: z.string(), newVisitors: z.number(),
+  activatedFirstDayPct: z.number(), d1ReturnPct: z.number(), d3ReturnPct: z.number(), d7ReturnPct: z.number(),
 });
 
 export const ActivationStickinessSummarySchema = z.object({
@@ -278,6 +282,7 @@ export const TrafficSummarySchema = z.object({
   interactionTallies: InteractionTalliesSchema.optional(),
   routeFlowMatrix: z.array(RouteFlowMatrixRowSchema).optional(),
   activationStickiness: ActivationStickinessSummarySchema.optional(),
+  retentionCohorts: z.array(RetentionCohortRowSchema).optional(),
 });
 
 export type TrafficSummaryView = z.infer<typeof TrafficSummarySchema>;

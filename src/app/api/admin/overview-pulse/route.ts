@@ -13,11 +13,7 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
-import { memoize } from "@/lib/cache/memoryCache";
-import { getAdminPulse } from "@/services/admin/adminPulseService";
-import { readFrictionAlerts, readInteractionTallies } from "@/services/admin/trafficReaders";
-import { getLiveActivity } from "@/services/liveActivityService";
-import { getSystemStatus } from "@/services/systemStatusService";
+import { buildOverviewPulsePayload } from "@/services/admin/overviewPulseService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -25,25 +21,5 @@ export const runtime = "nodejs";
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const authResult = await validateAdminRequest(request);
   if ("error" in authResult) return authResult.error;
-
-  const [pulseRes, activityRes, statusRes, frictionRes, talliesRes] = await Promise.allSettled([
-    memoize("admin:pulse", 15_000, () => getAdminPulse()),
-    memoize("admin:live-activity", 5_000, () => getLiveActivity()),
-    memoize("admin:system-status", 15_000, () => getSystemStatus()),
-    memoize("admin:friction-alerts", 10_000, () => readFrictionAlerts()),
-    memoize("admin:interaction-tallies:24h", 15_000, () => readInteractionTallies("24 hours")),
-  ]);
-
-  return NextResponse.json({
-    success: true,
-    generatedAt: new Date().toISOString(),
-    pulse: pulseRes.status === "fulfilled" ? pulseRes.value : null,
-    liveActivity: activityRes.status === "fulfilled" ? activityRes.value : null,
-    systemStatus:
-      statusRes.status === "fulfilled"
-        ? { success: true, ...statusRes.value }
-        : null,
-    frictionAlerts: frictionRes.status === "fulfilled" ? frictionRes.value : null,
-    interactionTallies: talliesRes.status === "fulfilled" ? talliesRes.value : null,
-  });
+  return NextResponse.json(await buildOverviewPulsePayload(1));
 }

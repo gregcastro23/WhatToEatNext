@@ -12,6 +12,7 @@ jest.mock("@/lib/database/connection", () => ({
 import { executeQuery } from "@/lib/database/connection";
 import {
   buildVisitorSessions,
+  computeVariantLiftAndConfidence,
   enrichRecentPageViews,
   readActivationAndStickiness,
   readFrictionAlerts,
@@ -19,6 +20,7 @@ import {
   readLabEngagement,
   readPlannerFunnel,
   readRefRollups,
+  readRetentionCohorts,
   readRouteFlowMatrix,
   readSessionFeedback,
 } from "@/services/admin/trafficReaders";
@@ -507,5 +509,58 @@ describe("trafficReaders rollups, funnels, and friction alerts", () => {
     const fallbackRows = await readSessionFeedback(10);
     expect(fallbackRows[0]?.status).toBe("open");
     expect(fallbackRows[0]?.resolvedAt).toBeNull();
+  });
+
+  it("computes variant conversion lift and two-proportion z-test confidence labels", () => {
+    const lowN = computeVariantLiftAndConfidence([
+      { variant: "variant:fast_start_cta=control", sessions: 10, activatedSessions: 3, activationRatePct: 0.3, frustratedSessions: 0, frustrationRatePct: 0 },
+      { variant: "variant:fast_start_cta=instant_plan", sessions: 10, activatedSessions: 6, activationRatePct: 0.6, frustratedSessions: 0, frustrationRatePct: 0 },
+    ]);
+    expect(lowN[0]?.confidenceLabel).toBe("Insufficient Data");
+    expect(lowN[1]?.liftVsControlPct).toBe(100);
+    expect(lowN[1]?.confidenceLabel).toBe("Insufficient Data");
+
+    const sig = computeVariantLiftAndConfidence([
+      { variant: "variant:fast_start_cta=control", sessions: 100, activatedSessions: 20, activationRatePct: 0.2, frustratedSessions: 0, frustrationRatePct: 0 },
+      { variant: "variant:fast_start_cta=instant_plan", sessions: 100, activatedSessions: 45, activationRatePct: 0.45, frustratedSessions: 0, frustrationRatePct: 0 },
+    ]);
+    expect(sig[0]?.liftVsControlPct).toBeNull();
+    expect(sig[1]?.liftVsControlPct).toBe(125);
+    expect(sig[1]?.confidenceLabel).toBe("Statistically Significant (95%+)");
+  });
+
+  it("reads visitor retention cohorts (Day-0 activation and D1/D3/D7 returns) and degrades gracefully", async () => {
+    mockQuery.mockResolvedValueOnce({
+      rows: [
+        {
+          cohort_start: "2026-11-10",
+          new_visitors: 20,
+          activated_day0: 12,
+          returned_d1: 8,
+          returned_d3: 5,
+          returned_d7: 3,
+        },
+      ],
+      command: "SELECT",
+      rowCount: 1,
+      oid: 0,
+      fields: [],
+    });
+
+    const cohorts = await readRetentionCohorts(14);
+    expect(cohorts).toEqual([
+      {
+        cohortStart: "2026-11-10",
+        cohortLabel: "Nov 10",
+        newVisitors: 20,
+        activatedFirstDayPct: 0.6,
+        d1ReturnPct: 0.4,
+        d3ReturnPct: 0.25,
+        d7ReturnPct: 0.15,
+      },
+    ]);
+
+    mockQuery.mockRejectedValueOnce(Object.assign(new Error("relation does not exist"), { code: "42P01" }));
+    expect(await readRetentionCohorts(14)).toEqual([]);
   });
 });

@@ -21,6 +21,7 @@ import {
   ConversionFunnelsSection,
   InteractionTallyPanel,
   LiveNow,
+  RetentionCohortPanel,
   RouteFlowMatrixPanel,
   TopLists,
   TrafficBasis,
@@ -154,6 +155,7 @@ function TrafficBody(p: TrafficBodyProps): React.JSX.Element {
       <ShareLinkGenerator onTagSaved={p.onTagSaved} />
       <TrafficKpis data={data} />
       <ActivationStickinessStrip summary={data.activationStickiness ?? null} />
+      <RetentionCohortPanel cohorts={data.retentionCohorts} />
       <ConversionFunnelsSection data={data} />
       <RouteFlowMatrixPanel rows={data.routeFlowMatrix} onSelectPath={p.onSelectRoutePath} onSelectFriction={p.onSelectRouteFriction} />
       <RecentVisits

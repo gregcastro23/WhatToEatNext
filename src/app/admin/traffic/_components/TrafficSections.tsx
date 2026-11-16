@@ -225,6 +225,37 @@ export function ConversionFunnelsSection({ data }: { data: View }): React.JSX.El
   );
 }
 
+function VariantCohortGrid({ variants }: { variants: NonNullable<View["activationStickiness"]>["variants"] }): React.JSX.Element | null {
+  if (!variants || variants.length === 0) return null;
+  return (
+    <div className="rounded-xl border border-indigo-200 bg-white px-4 py-3 shadow-sm">
+      <div className="text-xs font-semibold text-gray-800 mb-2">Active UI Experiment Variants</div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+        {variants.map((v) => {
+          const liftBadge = v.liftVsControlPct != null ? `${v.liftVsControlPct > 0 ? "+" : ""}${v.liftVsControlPct.toFixed(1)}% lift` : "Control / Baseline";
+          const confTone = v.confidenceLabel === "Statistically Significant (95%+)" ? "bg-emerald-100 text-emerald-800" : v.confidenceLabel === "Trending" ? "bg-sky-100 text-sky-800" : "bg-gray-200 text-gray-700";
+          return (
+            <div key={v.variant} className="rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-2 text-xs">
+              <div className="font-mono font-semibold text-indigo-800 truncate" title={v.variant}>{v.variant}</div>
+              <div className="mt-1 flex flex-wrap items-center gap-2 font-mono text-[11px] text-gray-600">
+                <span>{fmtInt(v.sessions)}s</span>
+                <span className="text-emerald-700 font-semibold">{fmtPct(v.activationRatePct)} act</span>
+                <span className={v.frustratedSessions > 0 ? "text-amber-700 font-semibold" : "text-gray-500"}>{fmtPct(v.frustrationRatePct)} fric</span>
+              </div>
+              {(v.liftVsControlPct != null || v.confidenceLabel) && (
+                <div className="mt-1.5 flex flex-wrap items-center gap-1.5 font-mono text-[10px]">
+                  <span className="font-semibold text-gray-800">{liftBadge}</span>
+                  {v.confidenceLabel && <span className={`px-1.5 py-0.5 rounded font-semibold ${confTone}`}>{v.confidenceLabel}</span>}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export function ActivationStickinessStrip({
   summary,
   data,
@@ -235,68 +266,16 @@ export function ActivationStickinessStrip({
   const s = summary ?? data?.activationStickiness;
   if (!s) return null;
 
-  const ttfaLabel =
-    s.avgTimeToFirstActionMs !== null
-      ? ` · TTFA ${fmtDwell(s.avgTimeToFirstActionMs)}`
-      : "";
-
+  const ttfaLabel = s.avgTimeToFirstActionMs !== null ? ` · TTFA ${fmtDwell(s.avgTimeToFirstActionMs)}` : "";
   return (
     <div className="space-y-3">
       <StatGrid>
-        <Stat
-          label="Activation Rate"
-          value={fmtPct(s.activationRatePct)}
-          sub={`${fmtInt(s.activatedSessions)} core value sessions${ttfaLabel}`}
-          tone={s.activationRatePct >= 0.3 ? "ok" : "neutral"}
-        />
-        <Stat
-          label="Returning Visitors"
-          value={fmtPct(s.returningRatePct)}
-          sub={`${fmtInt(s.returningVisitors)} returning / ${fmtInt(s.totalVisitors)} (${fmtInt(s.newVisitors)} new)`}
-          tone={s.returningRatePct >= 0.2 ? "ok" : "neutral"}
-        />
-        <Stat
-          label="DAU / WAU Stickiness"
-          value={fmtPct(s.stickinessRatioPct)}
-          sub={`${fmtInt(s.dauCount)} DAU · ${fmtInt(s.wauCount)} WAU`}
-          tone={s.stickinessRatioPct >= 0.25 ? "ok" : "neutral"}
-        />
-        <Stat
-          label="Frustrated Sessions"
-          value={fmtPct(s.frustrationRatePct)}
-          sub={`${fmtInt(s.frustratedSessions)} rage/dead/quick-back/error`}
-          tone={s.frustratedSessions > 0 ? "warn" : "ok"}
-        />
+        <Stat label="Activation Rate" value={fmtPct(s.activationRatePct)} sub={`${fmtInt(s.activatedSessions)} core value sessions${ttfaLabel}`} tone={s.activationRatePct >= 0.3 ? "ok" : "neutral"} />
+        <Stat label="Returning Visitors" value={fmtPct(s.returningRatePct)} sub={`${fmtInt(s.returningVisitors)} returning / ${fmtInt(s.totalVisitors)} (${fmtInt(s.newVisitors)} new)`} tone={s.returningRatePct >= 0.2 ? "ok" : "neutral"} />
+        <Stat label="DAU / WAU Stickiness" value={fmtPct(s.stickinessRatioPct)} sub={`${fmtInt(s.dauCount)} DAU · ${fmtInt(s.wauCount)} WAU`} tone={s.stickinessRatioPct >= 0.25 ? "ok" : "neutral"} />
+        <Stat label="Frustrated Sessions" value={fmtPct(s.frustrationRatePct)} sub={`${fmtInt(s.frustratedSessions)} rage/dead/quick-back/error`} tone={s.frustratedSessions > 0 ? "warn" : "ok"} />
       </StatGrid>
-
-      {s.variants && s.variants.length > 0 && (
-        <div className="rounded-xl border border-indigo-200 bg-white px-4 py-3 shadow-sm">
-          <div className="text-xs font-semibold text-gray-800 mb-2">
-            Active UI Experiment Variants
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-            {s.variants.map((v) => (
-              <div
-                key={v.variant}
-                className="rounded-lg border border-gray-200 bg-gray-50/70 px-3 py-2 text-xs"
-              >
-                <div className="font-mono font-semibold text-indigo-800 truncate" title={v.variant}>
-                  {v.variant}
-                </div>
-                <div className="mt-1 flex flex-wrap items-center gap-2 font-mono text-[11px] text-gray-600">
-                  <span>{fmtInt(v.sessions)}s</span>
-                  <span className="text-emerald-700 font-semibold">
-                    {fmtPct(v.activationRatePct)} act
-                  </span>
-                  <span className={v.frustratedSessions > 0 ? "text-amber-700 font-semibold" : "text-gray-500"}>
-                    {fmtPct(v.frustrationRatePct)} fric
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      <VariantCohortGrid variants={s.variants} />
     </div>
   );
 }
@@ -635,6 +614,65 @@ export function InteractionTallyPanel({
           </table>
         </div>
       )}
+    </Panel>
+  );
+}
+
+function cohortCellClass(ratio: number): string {
+  if (ratio >= 0.4) return "bg-emerald-200/80 text-emerald-950 font-semibold";
+  if (ratio >= 0.2) return "bg-emerald-100 text-emerald-900 font-semibold";
+  if (ratio > 0) return "bg-teal-50 text-teal-900";
+  return "text-gray-400";
+}
+
+export function RetentionCohortPanel({
+  cohorts,
+}: {
+  cohorts?: View["retentionCohorts"];
+}): React.JSX.Element {
+  if (!cohorts || cohorts.length === 0) {
+    return (
+      <Panel
+        title="Visitor retention cohorts"
+        subtitle="first-seen cohort day activation and D1 / D3 / D7 return rates"
+        right={<Pill tone="neutral">0 cohorts</Pill>}
+      >
+        <p className="text-xs text-gray-500">Not enough multi-day human cohort history yet.</p>
+      </Panel>
+    );
+  }
+  return (
+    <Panel
+      title="Visitor retention cohorts"
+      subtitle="first-seen human cohorts · Day-0 activation and multi-day return rates"
+      right={<Pill tone="ok">{cohorts.length} cohorts</Pill>}
+    >
+      <div className="overflow-x-auto">
+        <table className="min-w-full text-xs">
+          <thead>
+            <tr className="border-b border-gray-200 text-left text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+              <th className="px-3 py-2">Cohort</th>
+              <th className="px-3 py-2">New Humans</th>
+              <th className="px-3 py-2">Day-0 Activated</th>
+              <th className="px-3 py-2">D1 Return</th>
+              <th className="px-3 py-2">D3 Return</th>
+              <th className="px-3 py-2">D7 Return</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {cohorts.map((row) => (
+              <tr key={row.cohortStart} className="hover:bg-gray-50/70 font-mono">
+                <td className="px-3 py-2 font-semibold text-gray-900">{row.cohortLabel}</td>
+                <td className="px-3 py-2 text-gray-800">{fmtInt(row.newVisitors)}</td>
+                <td className={`px-3 py-2 rounded-sm ${cohortCellClass(row.activatedFirstDayPct)}`}>{fmtPct(row.activatedFirstDayPct)}</td>
+                <td className={`px-3 py-2 rounded-sm ${cohortCellClass(row.d1ReturnPct)}`}>{fmtPct(row.d1ReturnPct)}</td>
+                <td className={`px-3 py-2 rounded-sm ${cohortCellClass(row.d3ReturnPct)}`}>{fmtPct(row.d3ReturnPct)}</td>
+                <td className={`px-3 py-2 rounded-sm ${cohortCellClass(row.d7ReturnPct)}`}>{fmtPct(row.d7ReturnPct)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </Panel>
   );
 }

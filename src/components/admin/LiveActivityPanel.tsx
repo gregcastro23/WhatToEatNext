@@ -130,12 +130,31 @@ function shortHandle(actor: Actor | null, event: ActivityEvent): string {
   return at > 0 ? actor.email.slice(0, at) : actor.email;
 }
 
+export type AdminStreamConnectionState = "live_stream" | "polling_fallback" | "paused";
+
+const STREAM_PILL_STYLE: Record<AdminStreamConnectionState, { cls: string; label: string }> = {
+  live_stream: { cls: "bg-emerald-50 text-emerald-800 border-emerald-200", label: "● Live SSE (3s)" },
+  polling_fallback: { cls: "bg-amber-50 text-amber-800 border-amber-200", label: "↻ Polling (15s)" },
+  paused: { cls: "bg-slate-100 text-slate-600 border-slate-200", label: "⏸ Paused (Tab Hidden)" },
+};
+
+export function AdminStreamStatusPill({ state }: { state: AdminStreamConnectionState }): React.JSX.Element {
+  const cfg = STREAM_PILL_STYLE[state];
+  return (
+    <span className={`inline-flex items-center px-2.5 py-1 rounded-full border font-mono text-[11px] font-semibold ${cfg.cls}`}>
+      {cfg.label}
+    </span>
+  );
+}
+
 export default function LiveActivityPanel({
   externalData,
   externalError,
+  newEventIds,
 }: {
   externalData?: ActivityPayload | null;
   externalError?: string | null;
+  newEventIds?: ReadonlySet<string>;
 } = {}): React.JSX.Element | null {
   const standalone = externalData === undefined;
   const [polledData, setPolledData] = React.useState<ActivityPayload | null>(null);
@@ -361,7 +380,7 @@ export default function LiveActivityPanel({
         ) : (
           <ul className="divide-y divide-gray-100">
             {filteredEvents.map((event) => (
-              <EventRow key={event.id} event={event} />
+              <EventRow key={event.id} event={event} isNew={newEventIds?.has(event.id) ?? false} />
             ))}
           </ul>
         )}
@@ -512,19 +531,29 @@ function VisitContextStrip({ event }: { event: ActivityEvent }): React.JSX.Eleme
   );
 }
 
-function EventRow({ event }: { event: ActivityEvent }): React.JSX.Element {
+function EventRow({ event, isNew = false }: { event: ActivityEvent; isNew?: boolean }): React.JSX.Element {
   const catStyle = CATEGORY_STYLE[event.category];
   const statusStyle = STATUS_STYLE[event.status];
   const isTrackedReviewer =
     event.category === "visit" && typeof event.context?.refTag === "string" && event.context.refTag.length > 0;
+  const rowBg = isNew
+    ? "bg-emerald-50/70 ring-1 ring-inset ring-emerald-200 transition-colors duration-700"
+    : isTrackedReviewer
+      ? "bg-purple-50/40 hover:bg-purple-50/70"
+      : "hover:bg-gray-50";
   return (
-    <li className={`px-4 sm:px-6 py-3 ${isTrackedReviewer ? "bg-purple-50/40 hover:bg-purple-50/70" : "hover:bg-gray-50"}`}>
+    <li className={`px-4 sm:px-6 py-3 ${rowBg}`}>
       <div className="flex items-start gap-3">
         <div className="flex-shrink-0 mt-1.5">
           <span className={`block h-2 w-2 rounded-full ${catStyle.dot}`} />
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-2 flex-wrap">
+            {isNew && (
+              <span className="px-1.5 py-0.5 rounded bg-emerald-600 text-white font-mono text-[9px] font-bold">
+                NEW
+              </span>
+            )}
             <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border ${catStyle.chip}`}>
               {CATEGORY_LABEL[event.category]}
             </span>

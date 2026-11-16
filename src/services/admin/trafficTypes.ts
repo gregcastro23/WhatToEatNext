@@ -207,6 +207,11 @@ export interface RouteFlowMatrixRow {
   topNextPaths: RouteFlowNextHop[];
 }
 
+export type VariantConfidenceLabel =
+  | "Insufficient Data"
+  | "Trending"
+  | "Statistically Significant (95%+)";
+
 export interface VariantCohortRow {
   variant: string;
   sessions: number;
@@ -214,6 +219,18 @@ export interface VariantCohortRow {
   activationRatePct: number;
   frustratedSessions: number;
   frustrationRatePct: number;
+  liftVsControlPct?: number | null;
+  confidenceLabel?: VariantConfidenceLabel;
+}
+
+export interface RetentionCohortRow {
+  cohortStart: string;
+  cohortLabel: string;
+  newVisitors: number;
+  activatedFirstDayPct: number;
+  d1ReturnPct: number;
+  d3ReturnPct: number;
+  d7ReturnPct: number;
 }
 
 export interface ActivationStickinessSummary {
@@ -267,6 +284,7 @@ export interface TrafficSummary extends TrafficDimensions {
   interactionTallies?: InteractionTallies;
   routeFlowMatrix?: RouteFlowMatrixRow[];
   activationStickiness?: ActivationStickinessSummary;
+  retentionCohorts?: RetentionCohortRow[];
 }
 
 export interface TrafficPulse {

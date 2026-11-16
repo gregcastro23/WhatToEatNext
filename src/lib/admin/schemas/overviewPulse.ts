@@ -24,4 +24,6 @@ export const OverviewPulseResponseSchema = z
   })
   .passthrough();
 
+export const OverviewPulseSchema = OverviewPulseResponseSchema;
+
 export type OverviewPulseView = z.infer<typeof OverviewPulseResponseSchema>;

@@ -7,14 +7,14 @@ import ApiRouteHealthPanel from "@/components/admin/ApiRouteHealthPanel";
 import CosmicOperationsPanel from "@/components/admin/CosmicOperationsPanel";
 import FaucetResonancePanel from "@/components/admin/FaucetResonancePanel";
 import LaunchReadinessPanel from "@/components/admin/LaunchReadinessPanel";
-import { useAdminResource } from "@/components/admin/live/useAdminResource";
-import LiveActivityPanel from "@/components/admin/LiveActivityPanel";
+import LiveActivityPanel, { AdminStreamStatusPill } from "@/components/admin/LiveActivityPanel";
 import PulseStrip from "@/components/admin/PulseStrip";
 import ReliabilityPanel from "@/components/admin/ReliabilityPanel";
 import SearchGapsPanel from "@/components/admin/SearchGapsPanel";
 import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
 import TodaysHighlightsPanel from "@/components/admin/TodaysHighlightsPanel";
-import { OverviewPulseResponseSchema, type OverviewPulseView } from "@/lib/admin/schemas/overviewPulse";
+import { useAdminLiveStream } from "@/hooks/useAdminLiveStream";
+import type { OverviewPulseView } from "@/lib/admin/schemas/overviewPulse";
 
 type DeepDiveTab = "audience" | "reliability" | "economy" | "consoles" | "all";
 
@@ -186,11 +186,7 @@ const CONSOLE_LINKS = [
  */
 export default function AdminDashboardPage(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<DeepDiveTab>("audience");
-  const { data: overviewData, error: overviewError } = useAdminResource(
-    "/api/admin/overview-pulse",
-    OverviewPulseResponseSchema,
-    30_000,
-  );
+  const { data: overviewData, error: overviewError, connectionState, newEventIds } = useAdminLiveStream();
 
   return (
     <div className="space-y-6 sm:space-y-8">
@@ -203,6 +199,7 @@ export default function AdminDashboardPage(): React.JSX.Element {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          <AdminStreamStatusPill state={connectionState} />
           <Link
             href="/admin/traffic"
             className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 px-3.5 py-2 text-xs font-semibold text-white shadow-sm hover:bg-teal-700 transition-colors"
@@ -247,6 +244,7 @@ export default function AdminDashboardPage(): React.JSX.Element {
       <LiveActivityPanel
         externalData={overviewData?.liveActivity ?? null}
         externalError={overviewError}
+        newEventIds={newEventIds}
       />
 
       {/* Tier 3: Core User Path vs. Async System Status */}

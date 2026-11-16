@@ -46,14 +46,31 @@ const FAUCET_RESONANCE_RETAIN_DAYS = 180;
  * table (migration not yet applied) must not fail the log sweep.
  */
 const PAGE_VIEWS_RETAIN_DAYS = 180;
+const PAGE_VIEWS_BOT_RETAIN_DAYS = 14;
 
 async function prunePageViews(): Promise<number> {
   try {
-    const result = await executeQuery<{ page_views_deleted: string }>(
-      `SELECT * FROM prune_page_views($1)`,
-      [PAGE_VIEWS_RETAIN_DAYS],
-    );
-    return Number(result.rows[0]?.page_views_deleted ?? 0);
+    let result: { rows: Array<{ page_views_deleted: string }> };
+    try {
+      result = await executeQuery<{ page_views_deleted: string }>(
+        `SELECT * FROM prune_page_views($1, $2)`,
+        [PAGE_VIEWS_RETAIN_DAYS, PAGE_VIEWS_BOT_RETAIN_DAYS],
+      );
+    } catch (err) {
+      const pgCode = typeof err === "object" && err !== null && "code" in err ? String(err.code) : "";
+      if (pgCode !== "42883") throw err;
+      result = await executeQuery<{ page_views_deleted: string }>(
+        `SELECT * FROM prune_page_views($1)`,
+        [PAGE_VIEWS_RETAIN_DAYS],
+      );
+    }
+    const deleted = Number(result.rows[0]?.page_views_deleted ?? 0);
+    _logger.info("[cron/observability-prune] pruned page_views rows:", {
+      deleted,
+      humanRetainDays: PAGE_VIEWS_RETAIN_DAYS,
+      botRetainDays: PAGE_VIEWS_BOT_RETAIN_DAYS,
+    });
+    return deleted;
   } catch (err) {
     _logger.error("[cron/observability-prune] page views prune failed:", err);
     return 0;

@@ -21,12 +21,14 @@ import { RecentVisits } from "@/app/admin/traffic/_components/RecentVisits";
 import {
   ActivationStickinessStrip,
   InteractionTallyPanel,
+  RetentionCohortPanel,
   RouteFlowMatrixPanel,
   TrafficStatusNotice,
 } from "@/app/admin/traffic/_components/TrafficSections";
 import AdminCommandPalette, {
   buildCommandPaletteItems,
 } from "@/components/admin/AdminCommandPalette";
+import { AdminStreamStatusPill } from "@/components/admin/LiveActivityPanel";
 import type { BaseView, SolanaView } from "@/lib/admin/schemas/chain";
 import type { JobsView } from "@/lib/admin/schemas/jobs";
 import type { RevenueView } from "@/lib/admin/schemas/revenue";
@@ -536,16 +538,44 @@ describe("Traffic", () => {
             stickinessRatioPct: 0.4,
             variants: [
               {
+                variant: "variant:fast_start_cta=control",
+                sessions: 50,
+                activatedSessions: 20,
+                activationRatePct: 0.4,
+                frustratedSessions: 2,
+                frustrationRatePct: 0.04,
+                liftVsControlPct: null,
+                confidenceLabel: "Trending",
+              },
+              {
                 variant: "variant:planner=compact",
-                sessions: 15,
-                activatedSessions: 9,
+                sessions: 50,
+                activatedSessions: 30,
                 activationRatePct: 0.6,
                 frustratedSessions: 1,
-                frustrationRatePct: 0.07,
+                frustrationRatePct: 0.02,
+                liftVsControlPct: 50,
+                confidenceLabel: "Statistically Significant (95%+)",
               },
             ],
           }}
         />
+        <RetentionCohortPanel
+          cohorts={[
+            {
+              cohortStart: "2026-11-10",
+              cohortLabel: "Nov 10",
+              newVisitors: 25,
+              activatedFirstDayPct: 0.64,
+              d1ReturnPct: 0.4,
+              d3ReturnPct: 0.24,
+              d7ReturnPct: 0.12,
+            },
+          ]}
+        />
+        <AdminStreamStatusPill state="live_stream" />
+        <AdminStreamStatusPill state="polling_fallback" />
+        <AdminStreamStatusPill state="paused" />
         <AdminCommandPalette />
       </>,
     );
@@ -553,6 +583,14 @@ describe("Traffic", () => {
     expect(screen.getByText("Active UI Experiment Variants")).toBeTruthy();
     expect(screen.getByText("variant:planner=compact")).toBeTruthy();
     expect(screen.getByText("60% act")).toBeTruthy();
+    expect(screen.getByText("+50.0% lift")).toBeTruthy();
+    expect(screen.getByText("Statistically Significant (95%+)")).toBeTruthy();
+    expect(screen.getByText("Visitor retention cohorts")).toBeTruthy();
+    expect(screen.getByText("Nov 10")).toBeTruthy();
+    expect(screen.getByText("64%")).toBeTruthy();
+    expect(screen.getByText("● Live SSE (3s)")).toBeTruthy();
+    expect(screen.getByText("↻ Polling (15s)")).toBeTruthy();
+    expect(screen.getByText("⏸ Paused (Tab Hidden)")).toBeTruthy();
 
     // Synthesize dynamic ⌘K jump routes
     expect(buildCommandPaletteItems("#a4f9c2")[0]?.href).toBe("/admin/traffic?q=a4f9c2");

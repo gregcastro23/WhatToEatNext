@@ -37,6 +37,7 @@ import {
   readPlannerFunnel,
   readRecent,
   readRefRollups,
+  readRetentionCohorts,
   readRouteFlowMatrix,
   readSeries,
   readSessionFeedback,
@@ -242,11 +243,12 @@ export async function getTrafficSummary(range: TrafficRange): Promise<TrafficSum
   const interval = RANGE_INTERVAL[range];
   const { unit, count } = RANGE_BUCKET[range];
   const now = new Date();
+  const retentionDays = range === "24h" ? 7 : range === "7d" ? 14 : 30;
   try {
     const [
       meta, totals, previous, activeNow, series, topPages, entryPages, dimensions, bots, rawRecent,
       refRollups, plannerFunnel, labEngagement, feedback, frictionAlerts, interactionTallies,
-      routeFlowMatrix, activationStickiness,
+      routeFlowMatrix, activationStickiness, retentionCohorts,
     ] = await Promise.all([
       readMeta(), readTotals("NOW() - $1::interval", "NOW()", interval),
       readTotals("NOW() - 2 * $1::interval", "NOW() - $1::interval", interval), readActiveNow(),
@@ -254,7 +256,7 @@ export async function getTrafficSummary(range: TrafficRange): Promise<TrafficSum
       readDimensions(interval), readBots(interval), readRecent(80, interval), readRefRollups(interval),
       readPlannerFunnel(interval), readLabEngagement(interval), readSessionFeedback(50),
       readFrictionAlerts(), readInteractionTallies(interval), readRouteFlowMatrix(interval),
-      readActivationAndStickiness(interval),
+      readActivationAndStickiness(interval), readRetentionCohorts(retentionDays),
     ]);
     const sessions = buildVisitorSessions(rawRecent, now, feedback);
     const recent = enrichRecentPageViews(rawRecent, sessions);
@@ -262,7 +264,7 @@ export async function getTrafficSummary(range: TrafficRange): Promise<TrafficSum
       generatedAt: now.toISOString(), range, status: "live", trackingSince: meta.since,
       totalPageviewsAllTime: meta.total, activeNow, totals, previous, series, bucketUnit: unit,
       topPages, entryPages, ...dimensions, bots, recent, sessions, refRollups, plannerFunnel,
-      labEngagement, feedback, frictionAlerts, interactionTallies, routeFlowMatrix, activationStickiness,
+      labEngagement, feedback, frictionAlerts, interactionTallies, routeFlowMatrix, activationStickiness, retentionCohorts,
     };
   } catch (err) {
     return failedSummary(range, err);

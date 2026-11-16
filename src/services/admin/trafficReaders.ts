@@ -29,6 +29,7 @@ import type {
   PlannerFunnelCohort,
   RecentPageView,
   RefTagRollup,
+  RetentionCohortRow,
   RouteFlowMatrixRow,
   RouteFlowNextHop,
   SessionFeedbackItem,
@@ -37,6 +38,7 @@ import type {
   TrafficDimensions,
   TrafficTotals,
   VariantCohortRow,
+  VariantConfidenceLabel,
   VisitorSession,
 } from "@/services/admin/trafficTypes";
 
@@ -902,6 +904,42 @@ const RawVariantListSchema = z.array(
   }),
 );
 
+function evaluateArmVsBaseline(arm: VariantCohortRow, baseline: VariantCohortRow): VariantCohortRow {
+  if (arm.variant === baseline.variant) {
+    return {
+      ...arm,
+      liftVsControlPct: null,
+      confidenceLabel: baseline.sessions >= 20 ? "Trending" : "Insufficient Data",
+    };
+  }
+  const p0 = baseline.activationRatePct;
+  const p1 = arm.activationRatePct;
+  const rawLift = p0 > 0 ? ((p1 - p0) / p0) * 100 : (p1 - p0) * 100;
+  const liftVsControlPct = Math.round(rawLift * 10) / 10;
+  let confidenceLabel: VariantConfidenceLabel = "Insufficient Data";
+  if (arm.sessions >= 20 && baseline.sessions >= 20) {
+    const totalN = arm.sessions + baseline.sessions;
+    const pooled = (arm.activatedSessions + baseline.activatedSessions) / totalN;
+    const se = Math.sqrt(pooled * (1 - pooled) * (1 / arm.sessions + 1 / baseline.sessions));
+    const zScore = se > 0 ? Math.abs(p1 - p0) / se : 0;
+    confidenceLabel = zScore >= 1.96 ? "Statistically Significant (95%+)" : "Trending";
+  }
+  return { ...arm, liftVsControlPct, confidenceLabel };
+}
+
+export function computeVariantLiftAndConfidence(rows: VariantCohortRow[]): VariantCohortRow[] {
+  if (rows.length === 0) return [];
+  const [first] = rows;
+  if (!first) return [];
+  if (rows.length < 2) {
+    return rows.map((r) => ({ ...r, liftVsControlPct: null, confidenceLabel: "Insufficient Data" }));
+  }
+  const baseline =
+    rows.find((r) => /[=:]control$/i.test(r.variant)) ??
+    rows.reduce((low, cur) => (cur.activationRatePct < low.activationRatePct ? cur : low), first);
+  return rows.map((arm) => evaluateArmVsBaseline(arm, baseline));
+}
+
 function parseVariantCohorts(raw: unknown): VariantCohortRow[] {
   const parsed = RawVariantListSchema.safeParse(raw);
   if (!parsed.success) return [];
@@ -920,7 +958,7 @@ function parseVariantCohorts(raw: unknown): VariantCohortRow[] {
       frustrationRatePct: frustratedSessions / sessions,
     });
   }
-  return out;
+  return computeVariantLiftAndConfidence(out);
 }
 
 export function emptyActivationStickiness(): ActivationStickinessSummary {
@@ -1341,4 +1379,89 @@ export function buildVisitorSessions(
   }
 
   return sessions.sort((a, b) => (a.lastSeenAt < b.lastSeenAt ? 1 : a.lastSeenAt > b.lastSeenAt ? -1 : 0));
+}
+
+interface RetentionCohortQueryRow {
+  cohort_start: string;
+  new_visitors: number;
+  activated_day0: number;
+  returned_d1: number;
+  returned_d3: number;
+  returned_d7: number;
+}
+
+const RETENTION_COHORTS_SQL = `WITH first_seen AS (
+   SELECT COALESCE(user_id::text, visitor_hash) AS visitor_key, MIN(at::date) AS cohort_day
+     FROM page_views
+    WHERE ${HUMAN}
+    GROUP BY COALESCE(user_id::text, visitor_hash)
+   HAVING MIN(at::date) >= CURRENT_DATE - ($1::int - 1)
+ ),
+ visitor_activity AS (
+   SELECT fs.visitor_key,
+          fs.cohort_day,
+          BOOL_OR(
+            pv.at::date = fs.cohort_day
+            AND EXISTS (
+              SELECT 1
+                FROM jsonb_array_elements_text(COALESCE(pv.interactions, '[]'::jsonb)) AS a
+               WHERE a LIKE 'plan:%'
+                  OR a LIKE 'patch:solve:%'
+                  OR a LIKE 'conversion:%'
+                  OR a LIKE 'search:query:%'
+                  OR a LIKE 'tab:cauldron_step_%'
+            )
+          ) AS activated_day0,
+          BOOL_OR(pv.at::date >= fs.cohort_day + 1) AS returned_d1,
+          BOOL_OR(pv.at::date >= fs.cohort_day + 3) AS returned_d3,
+          BOOL_OR(pv.at::date >= fs.cohort_day + 7) AS returned_d7
+     FROM first_seen fs
+     JOIN page_views pv
+       ON COALESCE(pv.user_id::text, pv.visitor_hash) = fs.visitor_key
+      AND pv.at::date >= fs.cohort_day
+      AND ${HUMAN_PV}
+    GROUP BY fs.visitor_key, fs.cohort_day
+ )
+ SELECT cohort_day::text AS cohort_start,
+        COUNT(*)::int AS new_visitors,
+        COUNT(*) FILTER (WHERE activated_day0)::int AS activated_day0,
+        COUNT(*) FILTER (WHERE returned_d1)::int AS returned_d1,
+        COUNT(*) FILTER (WHERE returned_d3)::int AS returned_d3,
+        COUNT(*) FILTER (WHERE returned_d7)::int AS returned_d7
+   FROM visitor_activity
+  GROUP BY cohort_day
+  ORDER BY cohort_day DESC
+  LIMIT 7`;
+
+function formatCohortDayLabel(cohortStart: string): string {
+  const parsed = new Date(`${cohortStart.slice(0, 10)}T12:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) return cohortStart;
+  return parsed.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+}
+
+/**
+ * Group human visitors by first-seen cohort day within the window and compute
+ * Day-0 activation plus Day-1 / Day-3 / Day-7 return percentages.
+ */
+export async function readRetentionCohorts(days = 14): Promise<RetentionCohortRow[]> {
+  const safeDays = Math.max(1, Math.min(90, Math.round(days)));
+  try {
+    const res = await executeQuery<RetentionCohortQueryRow>(RETENTION_COHORTS_SQL, [safeDays]);
+    return res.rows.map((r) => {
+      const n = Math.max(1, Number(r.new_visitors));
+      const cohortStart = String(r.cohort_start).slice(0, 10);
+      return {
+        cohortStart,
+        cohortLabel: formatCohortDayLabel(cohortStart),
+        newVisitors: Number(r.new_visitors),
+        activatedFirstDayPct: Number(r.activated_day0) / n,
+        d1ReturnPct: Number(r.returned_d1) / n,
+        d3ReturnPct: Number(r.returned_d3) / n,
+        d7ReturnPct: Number(r.returned_d7) / n,
+      };
+    });
+  } catch (err) {
+    if (isMissingColumn(err) || isMissingRelation(err)) return [];
+    throw err;
+  }
 }

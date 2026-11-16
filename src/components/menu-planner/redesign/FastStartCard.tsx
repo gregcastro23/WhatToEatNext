@@ -10,10 +10,13 @@
  */
 
 import { Loader2, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { trackViewAction } from "@/components/analytics/PageViewTracker";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import { getOrAssignUiVariant } from "@/lib/analytics/uiVariants";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
+
+const FAST_START_ARMS: readonly ["control", "instant_plan"] = ["control", "instant_plan"];
 
 const MAIN_TYPES: MealType[] = ["breakfast", "lunch", "dinner"];
 const ALL_DAYS: DayOfWeek[] = [0, 1, 2, 3, 4, 5, 6];
@@ -48,6 +51,11 @@ export default function FastStartCard(): React.JSX.Element {
   const [progress, setProgress] = useState(0);
   const [featuredInput, setFeaturedInput] = useState("");
   const [mealScope, setMealScope] = useState<"3_dinners" | "5_weeknights" | "full_week">("3_dinners");
+  const [ctaVariant, setCtaVariant] = useState<"control" | "instant_plan">("control");
+
+  useEffect(() => {
+    setCtaVariant(getOrAssignUiVariant("fast_start_cta", FAST_START_ARMS));
+  }, []);
 
   const resolvedRestrictions = (): string[] =>
     diet === "balanced" || diet === "high-protein" ? [] : [diet];
@@ -126,7 +134,10 @@ export default function FastStartCard(): React.JSX.Element {
   };
 
   return (
-    <section className="alchm-panel alchm-panel-glow regmarks rounded-2xl p-5 relative overflow-hidden">
+    <section
+      data-variant={`fast_start_cta:${ctaVariant}`}
+      className="alchm-panel alchm-panel-glow regmarks rounded-2xl p-5 relative overflow-hidden"
+    >
       <div className="absolute -top-12 -right-12 w-40 h-40 bg-active-violet/10 rounded-full blur-2xl pointer-events-none" />
 
       <div className="relative z-10">
@@ -254,6 +265,7 @@ export default function FastStartCard(): React.JSX.Element {
         {/* Draft CTA */}
         <button
           type="button"
+          data-variant={ctaVariant}
           onClick={() => {
             draftWeek().catch(() => undefined);
           }}
