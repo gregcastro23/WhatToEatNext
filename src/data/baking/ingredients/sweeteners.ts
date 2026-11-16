@@ -76,6 +76,39 @@ export const MAPLE_SYRUP: BakingIngredient = defineIngredient({
   acidMmolPerG: UNQUANTIFIED_ACID,
 });
 
+export const MAPLE_SUGAR: BakingIngredient = defineIngredient({
+  ...SWEETENER,
+  id: "maple-sugar",
+  name: "Maple sugar (crystals)",
+  roles: ["sweetener", "tenderizer", "flavor"],
+  source: { kind: "fdc", key: "maple-sugar", starch: "none", sugarsAs: "sucrose" },
+  pH: absent("not listed; maple syrup is 5.15 (FDA) but maple sugar itself is not"),
+  acidMmolPerG: UNQUANTIFIED_ACID,
+  notes: ["Maple syrup boiled to crystals: FDC reports its 84.9 g sugars unspeciated, taken as sucrose (the syrup's own speciation is 96 % sucrose)."],
+});
+
+export const MOLASSES: BakingIngredient = defineIngredient({
+  ...SWEETENER,
+  id: "molasses",
+  name: "Molasses",
+  roles: ["sweetener", "moisture", "acid", "browning", "flavor"],
+  source: { kind: "fdc", key: "molasses", starch: "none" },
+  pH: phRange(4.9, 5.4, "FDA_PH"),
+  acidMmolPerG: UNQUANTIFIED_ACID,
+  notes: ["24.7 of its 74.7 g sugars are glucose and fructose — reducing, so molasses browns fast; and it is acidic enough to react with soda, by an amount no source here quantifies."],
+});
+
+export const CORN_SYRUP: BakingIngredient = defineIngredient({
+  ...SWEETENER,
+  id: "corn-syrup",
+  name: "Corn syrup (light)",
+  roles: ["sweetener", "moisture", "browning"],
+  source: { kind: "fdc", key: "corn-syrup", starch: "none" },
+  pH: { value: 5, basis: basisOf("MEASURED", "CLEMSON_PH") },
+  acidMmolPerG: UNQUANTIFIED_ACID,
+  notes: ["FDC reports 76.8 g sugars unspeciated: glucose, maltose and longer glucose chains whose shares vary by grade, so its sweetness and softening are excluded rather than guessed."],
+});
+
 /** Invert syrup at a stated 80 °Brix, fully inverted: COMPUTED by the hydrolysis stoichiometry. */
 function invertSyrup(): IngredientSpec["source"] {
   const solids = 80;
@@ -124,6 +157,9 @@ export const SWEETENERS: readonly BakingIngredient[] = [
   POWDERED_SUGAR,
   HONEY,
   MAPLE_SYRUP,
+  MAPLE_SUGAR,
+  MOLASSES,
+  CORN_SYRUP,
   INVERT_SUGAR_SYRUP,
   ALLULOSE,
 ];

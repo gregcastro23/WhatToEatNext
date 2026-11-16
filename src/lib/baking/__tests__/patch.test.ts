@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { bakingIngredient } from "@/data/baking";
 import { BROWN_BUTTER_COOKIE, GENOISE_SPONGE } from "@/data/baking/presets";
 import { DEFAULT_PATCH_SETS, PATCH_CAPS, solvePatch } from "@/lib/baking/patchSolver";
 import { formulaTelemetry } from "@/lib/baking/telemetry";
@@ -11,8 +12,9 @@ describe("swapping", () => {
   it("a matched fat swap keeps the fat grams; a mass swap keeps the grams", () => {
     const f = { id: "f", name: "f", lines: [{ ingredientId: "butter", grams: 100 }, { ingredientId: "all-purpose-flour", grams: 200 }] };
     const matched = swapLine(f, 0, "olive-oil", "matched");
-    // Olive oil is 100 % fat, so 81.1 g of it carries butter's 81.1 g of fat.
-    expect(matched.grams).toBeCloseTo(81.1, 9);
+    // Olive oil is 100 % fat (FDC), so 81.11 g of it carries butter's 81.11 g of fat.
+    expect(matched.grams).toBeCloseTo((100 * bakingIngredient("butter").fatPct) / bakingIngredient("olive-oil").fatPct, 9);
+    expect(matched.grams).toBeCloseTo(81.11, 9);
     expect(swapLine(f, 0, "olive-oil", "mass").grams).toBe(100);
   });
 

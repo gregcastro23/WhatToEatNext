@@ -43,3 +43,35 @@ export function urlForBakingTab(href: string, tab: BakingTab): string {
   else url.searchParams.set("tab", tab);
   return url.toString();
 }
+
+/**
+ * The `?good=` contract: the good on the bench, by catalogue id — a curated
+ * formula's id ("brioche-loaf") or a served recipe's static id
+ * ("american-dessert-all-authentic-chocolate-chip-cookies"), so a shared link
+ * opens the same good. The default good drops the parameter; the canonical
+ * stays /kitchen-lab/baking (layout.tsx).
+ */
+export const DEFAULT_GOOD_ID = "sourdough-country-loaf";
+
+/** The good a `?good=` value names; absent or blank is the default. Whether the id exists is the catalogue's question. */
+export function goodFromParam(value: string | null): string {
+  const id = value?.trim() ?? "";
+  return id === "" ? DEFAULT_GOOD_ID : id;
+}
+
+/** A same-page link to a tab of a good, in the same contract (defaults drop their parameter). */
+export function bakingHref(tab: BakingTab, goodId: string): string {
+  const query = new URLSearchParams();
+  if (goodId !== DEFAULT_GOOD_ID) query.set("good", goodId);
+  if (tab !== DEFAULT_BAKING_TAB) query.set("tab", tab);
+  const qs = query.toString();
+  return qs === "" ? "/kitchen-lab/baking" : `/kitchen-lab/baking?${qs}`;
+}
+
+/** The URL for a good: the default good drops the parameter, others set it; `?tab=` and every other parameter survive. */
+export function urlForBakingGood(href: string, goodId: string): string {
+  const url = new URL(href);
+  if (goodId === DEFAULT_GOOD_ID) url.searchParams.delete("good");
+  else url.searchParams.set("good", goodId);
+  return url.toString();
+}

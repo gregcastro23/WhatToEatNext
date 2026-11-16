@@ -1,10 +1,12 @@
 /**
  * The Baking Lab ingredient registry.
  *
- * 42 functional vectors: 35 built on a pinned USDA FoodData Central record,
- * the rest derived (brown butter, levain, invert syrup), measured from a cited
- * study (aquafaba), or declared (xanthan, psyllium, allulose) — each one's
- * provenance says which.
+ * 67 functional vectors: 60 built on a pinned USDA FoodData Central record
+ * (59 records; almonds and almond flour share one), the rest derived (brown
+ * butter, levain, invert syrup), measured from a cited study (aquafaba), or
+ * declared (xanthan, psyllium, allulose) — each one's provenance says which.
+ * The 25 added 2026-11-16 (grains.ts and the rest) are the ingredients the
+ * site's own baked recipes use most that had no vector.
  *
  * @file src/data/baking/index.ts
  */
@@ -12,6 +14,7 @@ import type { BakingCategory, BakingIngredient } from "@/lib/baking/types";
 import { EGGS } from "./ingredients/eggs";
 import { FATS } from "./ingredients/fats";
 import { FLOURS } from "./ingredients/flours";
+import { GRAINS } from "./ingredients/grains";
 import { HYDROCOLLOIDS } from "./ingredients/hydrocolloids";
 import { INCLUSIONS } from "./ingredients/inclusions";
 import { LEAVENERS } from "./ingredients/leaveners";
@@ -20,6 +23,7 @@ import { SWEETENERS } from "./ingredients/sweeteners";
 
 export const BAKING_INGREDIENTS: readonly BakingIngredient[] = [
   ...FLOURS,
+  ...GRAINS,
   ...FATS,
   ...SWEETENERS,
   ...LIQUIDS,

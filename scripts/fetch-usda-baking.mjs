@@ -25,10 +25,20 @@
  *   node scripts/fetch-usda-baking.mjs              # fetch (DEMO_KEY: 10 req/h) + emit
  *   FDC_API_KEY=xxx node scripts/fetch-usda-baking.mjs
  *   node scripts/fetch-usda-baking.mjs --emit-only  # regenerate the .ts from the JSON
+ *   FDC_RAW_DIR=/tmp/fdc node scripts/fetch-usda-baking.mjs
+ *       # keep each raw batch response there and re-read it instead of
+ *       # refetching: a parsing fix then costs no DEMO_KEY request
+ *
+ * ── Portions ────────────────────────────────────────────────────────────────
+ *
+ * Each record also carries FDC's own measured household PORTIONS ("1 cup =
+ * 125 g", "1 large = 50 g") for the same fdcId, so a recipe's cups and eggs
+ * convert to grams against the record the vector is built on, never at water
+ * density. That needs `format: "full"`: the abridged format has no portions.
  *
  * @file scripts/fetch-usda-baking.mjs
  */
-import { readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
@@ -76,6 +86,32 @@ const TARGETS = [
   { key: "dark-chocolate-70", fdcId: 170273, expect: /^Chocolate, dark, 70-85% cacao solids$/ },
   { key: "semisweet-chocolate", fdcId: 167976, expect: /^Candies, semisweet chocolate$/ },
   { key: "vanilla-extract", fdcId: 173471, expect: /^Vanilla extract$/ },
+  // Added 2026-11-16 for the recipe catalogue: the most frequent unmatched
+  // ingredients of the served baked recipes, found by FDC search (SR Legacy).
+  { key: "whole-wheat-pastry-flour", fdcId: 168944, expect: /^Wheat flour, whole-grain, soft wheat$/ },
+  { key: "spelt-flour", fdcId: 169745, expect: /^Spelt, uncooked$/ },
+  { key: "semolina", fdcId: 169715, expect: /^Semolina, enriched$/ },
+  { key: "cornmeal", fdcId: 169697, expect: /^Cornmeal, whole-grain, yellow$/ },
+  { key: "rolled-oats", fdcId: 173904, expect: /^Cereals, oats, regular and quick, not fortified, dry$/ },
+  { key: "rice-flour", fdcId: 169714, expect: /^Rice flour, white, unenriched$/ },
+  { key: "tapioca-starch", fdcId: 169717, expect: /^Tapioca, pearl, dry$/ },
+  { key: "vegetable-oil", fdcId: 172336, expect: /^Oil, canola$/ },
+  { key: "maple-sugar", fdcId: 169658, expect: /^Sugars, maple$/ },
+  { key: "molasses", fdcId: 168820, expect: /^Molasses$/ },
+  { key: "sour-cream", fdcId: 171257, expect: /^Cream, sour, cultured$/ },
+  { key: "plain-yogurt", fdcId: 171284, expect: /^Yogurt, plain, whole milk$/ },
+  { key: "apple-juice", fdcId: 173933, expect: /^Apple juice, canned or bottled, unsweetened, without added ascorbic acid$/ },
+  { key: "walnuts", fdcId: 170187, expect: /^Nuts, walnuts, english$/ },
+  { key: "pecans", fdcId: 170182, expect: /^Nuts, pecans$/ },
+  { key: "raisins", fdcId: 168165, expect: /^Raisins, dark, seedless/ },
+  { key: "almond-milk", fdcId: 174832, expect: /^Beverages, almond milk, unsweetened, shelf stable$/ },
+  { key: "soy-milk", fdcId: 172446, expect: /^Soymilk, original and vanilla, unfortified$/ },
+  { key: "orange-juice", fdcId: 169098, expect: /^Orange juice, raw/ },
+  { key: "applesauce", fdcId: 171695, expect: /^Applesauce, canned, unsweetened, without added ascorbic acid/ },
+  { key: "banana", fdcId: 173944, expect: /^Bananas, raw$/ },
+  { key: "peanut-butter", fdcId: 172470, expect: /^Peanut butter, smooth style, without salt$/ },
+  { key: "corn-syrup", fdcId: 168837, expect: /^Syrups, corn, light$/ },
+  { key: "dried-cranberries", fdcId: 171723, expect: /^Cranberries, dried, sweetened/ },
 ];
 
 /** FDC nutrient NUMBER → field. Foundation reports total sugars as 269.3. */
@@ -87,14 +123,40 @@ const NUTRIENTS = {
 };
 const FIELDS = [...new Set(Object.values(NUTRIENTS))];
 
+const RAW_DIR = process.env.FDC_RAW_DIR ?? null;
+
 async function fetchBatch(ids) {
+  const cache = RAW_DIR === null ? null : join(RAW_DIR, `batch-${ids.join("-")}.json`);
+  if (cache !== null && existsSync(cache)) return JSON.parse(readFileSync(cache, "utf8"));
   const res = await fetch(`${ENDPOINT}?api_key=${API_KEY}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ fdcIds: ids, format: "abridged" }),
+    body: JSON.stringify({ fdcIds: ids, format: "full" }),
   });
+  console.log(`FDC ${res.status}; rate limit remaining ${res.headers.get("x-ratelimit-remaining")}`);
   if (!res.ok) throw new Error(`FDC ${res.status} for ids ${ids.join(",")}`);
-  return res.json();
+  const body = await res.json();
+  if (cache !== null) writeFileSync(cache, JSON.stringify(body));
+  return body;
+}
+
+/**
+ * FDC's measured household portions, verbatim. SR Legacy splits the label
+ * across `measureUnit.name` (often literally "undetermined") and `modifier`
+ * ("cup", "large", "stick"); Foundation names the unit and may leave the
+ * modifier empty. The reader (src/lib/baking/recipes) decides which measure a
+ * portion is.
+ */
+function portionsOf(food) {
+  return (food.foodPortions ?? [])
+    .filter((p) => typeof p.gramWeight === "number" && typeof p.amount === "number" && p.amount > 0)
+    .map((p) => ({
+      amount: p.amount,
+      unit: (p.measureUnit?.name ?? "").toLowerCase(),
+      modifier: p.modifier ?? "",
+      description: p.portionDescription ?? "",
+      gramWeight: p.gramWeight,
+    }));
 }
 
 function toRecord(target, food) {
@@ -103,7 +165,8 @@ function toRecord(target, food) {
   }
   const per100g = Object.fromEntries(FIELDS.map((f) => [f, null]));
   for (const n of food.foodNutrients ?? []) {
-    const field = NUTRIENTS[n.number];
+    // `full` nests the nutrient's identity; `abridged` flattens it.
+    const field = NUTRIENTS[n.nutrient?.number ?? n.number];
     if (field !== undefined && typeof n.amount === "number") per100g[field] = n.amount;
   }
   return {
@@ -113,6 +176,7 @@ function toRecord(target, food) {
     dataType: food.dataType,
     publicationDate: food.publicationDate ?? null,
     per100g,
+    portions: portionsOf(food),
   };
 }
 
@@ -129,26 +193,32 @@ async function fetchAll() {
   }
   return {
     _comment: "Generated by scripts/fetch-usda-baking.mjs. Values are g per 100 g as FDC reports them (sodium in mg); null = not reported by FDC.",
-    source: "USDA FoodData Central API v1 (SR Legacy / Foundation)",
+    source: "USDA FoodData Central API v1 (SR Legacy / Foundation), format full (nutrients + foodPortions)",
     retrieved: new Date().toISOString().slice(0, 10),
     records,
   };
 }
 
+function portionsTs(portions) {
+  return portions
+    .map((p) => `{ amount: ${p.amount}, unit: ${JSON.stringify(p.unit)}, modifier: ${JSON.stringify(p.modifier)}, description: ${JSON.stringify(p.description)}, grams: ${p.gramWeight} }`)
+    .join(", ");
+}
+
 function emitTs(evidence) {
   const lines = evidence.records.map((r) => {
     const values = FIELDS.map((f) => `${f}: ${r.per100g[f] === null ? "null" : String(r.per100g[f])}`).join(", ");
+    // Three lines per record keeps the module under the 300-line lint ceiling as the list grows.
     return [
-      `  {`,
-      `    key: ${JSON.stringify(r.key)}, fdcId: ${r.fdcId}, dataType: ${JSON.stringify(r.dataType)},`,
-      `    description: ${JSON.stringify(r.description)},`,
+      `  { key: ${JSON.stringify(r.key)}, fdcId: ${r.fdcId}, dataType: ${JSON.stringify(r.dataType)}, description: ${JSON.stringify(r.description)},`,
       `    per100g: { ${values} },`,
-      `  },`,
+      `    portions: [${portionsTs(r.portions ?? [])}] },`,
     ].join("\n");
   });
   const body = [
     "// GENERATED by scripts/fetch-usda-baking.mjs — do not edit by hand.",
     `// Source: ${evidence.source}, retrieved ${evidence.retrieved}. g per 100 g; sodium in mg; null = not reported.`,
+    "// portions: FDC's measured household measures for the same fdcId (grams per `amount` of the measure).",
     'import type { FdcBakingRecord } from "@/lib/baking/types";',
     "",
     `export const FDC_RETRIEVED = ${JSON.stringify(evidence.retrieved)};`,

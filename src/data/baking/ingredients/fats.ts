@@ -96,6 +96,18 @@ export const OLIVE_OIL: BakingIngredient = defineIngredient({
   notes: ["A liquid fat coats flour proteins and tenderises, but holds no air: swapping it for creamed butter loses the creaming lift."],
 });
 
+export const VEGETABLE_OIL: BakingIngredient = defineIngredient({
+  ...LIPID,
+  id: "vegetable-oil",
+  name: "Vegetable oil (canola)",
+  roles: ["fat", "tenderizer"],
+  source: { kind: "fdc", key: "vegetable-oil", starch: "none" },
+  solidFatIndex: LIQUID_OIL_SFI,
+  meltingPointC: absent("liquid throughout baking"),
+  pH: NO_AQUEOUS_PH,
+  notes: ["Canola stands for a recipe's 'vegetable', 'neutral' or seed oil: all are ~100 % liquid fat, which is all this vector claims."],
+});
+
 export const VEGETABLE_SHORTENING: BakingIngredient = defineIngredient({
   ...LIPID,
   id: "vegetable-shortening",
@@ -119,4 +131,4 @@ export const LARD: BakingIngredient = defineIngredient({
   pH: NO_AQUEOUS_PH,
 });
 
-export const FATS: readonly BakingIngredient[] = [BUTTER, BROWN_BUTTER, COCONUT_OIL, OLIVE_OIL, VEGETABLE_SHORTENING, LARD];
+export const FATS: readonly BakingIngredient[] = [BUTTER, BROWN_BUTTER, COCONUT_OIL, OLIVE_OIL, VEGETABLE_OIL, VEGETABLE_SHORTENING, LARD];
