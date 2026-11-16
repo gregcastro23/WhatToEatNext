@@ -700,3 +700,26 @@ fn density_comes_from_the_table_not_a_rounded_constant() {
     assert!((rho - 957.9).abs() < 1.0, "table density {rho}");
     assert_ne!(rho, 958.0, "density must be looked up, not assumed");
 }
+
+#[test]
+fn condensation_stops_at_the_dew_point_in_hot_air() {
+    // The density-difference driving force stopped condensation 7.3–7.8 K below
+    // the dew point in 200 °C air: heated air keeps its partial pressure while
+    // its vapour density falls. The partial-pressure form stops it AT the dew point.
+    for steam in [0.3_f64, 0.5, 0.7] {
+        let pv = steam * 101.325;
+        let bulk = vapour_density_kg_m3(pv, 200.0);
+        let dew = boiling_point_c(pv).unwrap();
+        let flux = |ts: f64| evaporative_flux(20.0, ts, 200.0, bulk, 2.3e6).unwrap().mass_flux_kg_m2_s;
+        assert!(flux(dew - 0.5) < 0.0, "still condensing below the dew point at steam {steam}");
+        assert!(flux(dew + 0.5) > 0.0, "evaporating above the dew point at steam {steam}");
+    }
+}
+
+#[test]
+fn vapour_partial_pressure_inverts_vapour_density() {
+    for (kpa, c) in [(1.17_f64, 20.0_f64), (50.66, 200.0), (101.325, 100.0)] {
+        let back = vapour_partial_pressure_kpa(vapour_density_kg_m3(kpa, c), c);
+        assert!((back / kpa - 1.0).abs() < 1e-14, "round trip at {kpa} kPa, {c} °C gave {back}");
+    }
+}
