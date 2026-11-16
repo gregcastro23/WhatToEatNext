@@ -1,0 +1,167 @@
+/* Baking Lab — scoped to .bl-root so nothing leaks into the rest of the lab. */
+.bl-root {
+  --bl-gap: 18px;
+  color: var(--fg);
+}
+.bl-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  border-bottom: 1px solid var(--line);
+  padding: 0 20px;
+}
+.bl-tabs button {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  cursor: pointer;
+}
+.bl-tabs button.is-active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.bl-tabs button[data-system="alchm"].is-active {
+  color: rgb(196 181 253);
+  border-bottom-color: rgb(167 139 250);
+}
+.bl-tabs button:focus-visible,
+.bl-btn:focus-visible,
+.bl-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.bl-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--bl-gap);
+  padding: 18px 20px 40px;
+}
+@media (min-width: 1100px) {
+  .bl-grid {
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+  .bl-hud {
+    position: sticky;
+    top: 84px;
+    align-self: start;
+  }
+}
+.bl-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--bg-elev) 80%, transparent);
+  padding: 16px;
+}
+.bl-card h2,
+.bl-card h3 {
+  font-family: var(--f-display);
+  margin: 0 0 10px;
+}
+.bl-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
+.bl-num {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+.bl-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.bl-table th {
+  text-align: left;
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  border-bottom: 1px solid var(--line);
+  padding: 6px 6px;
+}
+.bl-table td {
+  border-bottom: 1px solid color-mix(in oklab, var(--line) 60%, transparent);
+  padding: 6px 6px;
+  vertical-align: middle;
+}
+.bl-input {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--fg);
+  padding: 4px 6px;
+  font: inherit;
+  font-size: 13px;
+}
+.bl-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.bl-btn {
+  appearance: none;
+  border: 1px solid var(--line-hi, var(--line));
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: 12px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+.bl-btn:hover {
+  border-color: var(--accent);
+}
+.bl-btn[aria-pressed="true"],
+.bl-btn.is-primary {
+  background: color-mix(in oklab, var(--accent) 22%, transparent);
+  border-color: var(--accent);
+}
+.bl-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.bl-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  padding: 1px 7px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--fg-dim);
+  white-space: nowrap;
+}
+.bl-chip[data-kind="MEASURED"] { border-color: rgb(52 211 153 / 0.45); color: rgb(167 243 208); }
+.bl-chip[data-kind="DERIVED"] { border-color: rgb(96 165 250 / 0.45); color: rgb(191 219 254); }
+.bl-chip[data-kind="COMPUTED"] { border-color: rgb(129 140 248 / 0.45); color: rgb(199 210 254); }
+.bl-chip[data-kind="DECLARED"] { border-color: rgb(251 191 36 / 0.5); color: rgb(253 230 138); }
+.bl-chip[data-kind="ABSENT"] { border-color: var(--line); color: var(--fg-mute); }
+.bl-warn {
+  border-left: 3px solid rgb(251 191 36);
+  padding: 8px 12px;
+  background: rgb(251 191 36 / 0.06);
+  border-radius: 4px;
+}
+.bl-warn[data-severity="critical"] {
+  border-left-color: rgb(248 113 113);
+  background: rgb(248 113 113 / 0.07);
+}
+.bl-warn[data-severity="info"] {
+  border-left-color: rgb(96 165 250);
+  background: rgb(96 165 250 / 0.06);
+}
+.bl-range {
+  width: 100%;
+  accent-color: var(--accent);
+}
