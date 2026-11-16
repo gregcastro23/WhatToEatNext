@@ -10,18 +10,20 @@
  * @file src/app/(alchm)/kitchen-lab/baking/_lab/useBakingLab.ts
  */
 import { useDeferredValue, useMemo, useReducer, type Dispatch } from "react";
-import { BAKING_PRESETS } from "@/data/baking/presets";
 import { elementalReading, type ElementalReading } from "@/lib/baking/elemental";
 import type { BakeProcess, BakingPreset, Formula, FormulaTelemetry, OvenSettings, ProductGeometry, Reading } from "@/lib/baking/formulaTypes";
+import { CURATED_PRESETS } from "@/lib/baking/recipes/catalogue";
 import { scaleToLimit, setLineGrams } from "@/lib/baking/scaling";
 import { prepareBatter, type PreparedBatter } from "@/lib/baking/sim/batter";
 import { browningExtent } from "@/lib/baking/sim/browning";
 import type { SimResult } from "@/lib/baking/sim/simTypes";
 import { simulateBake } from "@/lib/baking/sim/simulate";
+import { DEFAULT_GOOD_ID } from "../bakingTabs";
 import type { TempUnit } from "./format";
 
 export interface LabState {
-  presetId: string;
+  /** The catalogue id of the good on the bench (a curated formula or a served recipe). */
+  goodId: string;
   formula: Formula;
   process: BakeProcess;
   geometry: ProductGeometry;
@@ -34,7 +36,7 @@ export interface LabState {
 }
 
 export type LabAction =
-  | { type: "preset"; id: string }
+  | { type: "good"; good: BakingPreset }
   | { type: "grams"; line: number; grams: number }
   | { type: "ingredient"; line: number; id: string }
   | { type: "add"; id: string }
@@ -50,17 +52,18 @@ export type LabAction =
   | { type: "unit"; unit: TempUnit };
 
 function fromPreset(p: BakingPreset): LabState {
-  return { presetId: p.id, formula: p.formula, process: p.process, geometry: p.geometry, oven: p.oven, doneCoreC: p.doneCoreC, limitLine: null, scrubMin: p.oven.bakeMinutes, unit: "C" };
+  return { goodId: p.id, formula: p.formula, process: p.process, geometry: p.geometry, oven: p.oven, doneCoreC: p.doneCoreC, limitLine: null, scrubMin: p.oven.bakeMinutes, unit: "C" };
 }
 
+/** A curated formula by id; unknown ids throw (a caller bug, not a fact). */
 export function presetById(id: string): BakingPreset {
-  const found = BAKING_PRESETS.find((p) => p.id === id);
-  if (found === undefined) throw new RangeError(`unknown preset "${id}"`);
+  const found = CURATED_PRESETS.find((p) => p.id === id);
+  if (found === undefined) throw new RangeError(`unknown curated good "${id}"`);
   return found;
 }
 
-export function initialLabState(presetId: string = BAKING_PRESETS[0]?.id ?? ""): LabState {
-  return fromPreset(presetById(presetId));
+export function initialLabState(good: BakingPreset = presetById(DEFAULT_GOOD_ID)): LabState {
+  return fromPreset(good);
 }
 
 function withLines(state: LabState, lines: Formula["lines"]): LabState {
@@ -88,8 +91,8 @@ function editFormula(state: LabState, action: LabAction): LabState | null {
 
 function editSetting(state: LabState, action: LabAction): LabState {
   switch (action.type) {
-    case "preset":
-      return { ...fromPreset(presetById(action.id)), unit: state.unit };
+    case "good":
+      return { ...fromPreset(action.good), unit: state.unit };
     case "lock":
       return { ...state, limitLine: action.line };
     case "oven":
@@ -166,8 +169,9 @@ export interface BakingLab {
   stale: boolean;
 }
 
-export function useBakingLab(): BakingLab {
-  const [state, dispatch] = useReducer(labReducer, undefined, () => initialLabState());
+/** The lab, opened on `initial` (the good the URL names, when it is already known). */
+export function useBakingLab(initial: BakingPreset): BakingLab {
+  const [state, dispatch] = useReducer(labReducer, initial, initialLabState);
   const deferred = useDeferredValue(state);
   const { formula, process, geometry, oven, doneCoreC } = deferred;
   const derived = useMemo(() => deriveLab({ formula, process, geometry, oven, doneCoreC }), [formula, process, geometry, oven, doneCoreC]);

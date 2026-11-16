@@ -103,12 +103,27 @@ export interface FdcNutrients {
   ethanol: number | null;
 }
 
+/**
+ * One household measure USDA weighed for a record, verbatim. SR Legacy puts
+ * the measure in `modifier` ("cup", "large", "stick") and leaves `unit`
+ * "undetermined"; Foundation names `unit` ("cup", "teaspoon").
+ */
+export interface FdcPortion {
+  amount: number;
+  unit: string;
+  modifier: string;
+  description: string;
+  /** Grams per `amount` of the measure. */
+  grams: number;
+}
+
 export interface FdcBakingRecord {
   key: string;
   fdcId: number;
   dataType: string;
   description: string;
   per100g: FdcNutrients;
+  portions: readonly FdcPortion[];
 }
 
 /** Sugar speciation, g per 100 g of ingredient. */

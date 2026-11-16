@@ -39,7 +39,7 @@ export const BREAD_FLOUR: BakingIngredient = defineIngredient({
   id: "bread-flour",
   name: "Bread flour",
   source: { kind: "fdc", key: "bread-flour", starch: "by-difference" },
-  notes: ["Strong flour: 12 g protein per 100 g. Network strength (W) is not in FDC; gluten potency scales with protein."],
+  notes: ["Strong flour: 11.98 g protein per 100 g. Network strength (W) is not in FDC; gluten potency scales with protein."],
 });
 
 export const ALL_PURPOSE_FLOUR: BakingIngredient = defineIngredient({
@@ -99,7 +99,7 @@ export const CASSAVA_FLOUR: BakingIngredient = defineIngredient({
   fiberWaterBinding: NO_FIBRE_BINDING,
   pH: absent("not found in the pH tables consulted"),
   acidMmolPerG: NEUTRAL_ACID,
-  notes: ["FDC Foundation record reports starch (79.7 g) but no sugar speciation; the 2.8 g carbohydrate residual is unassigned."],
+  notes: ["FDC Foundation record reports starch (79.72 g) but no sugar speciation; the 2.8 g carbohydrate residual is unassigned."],
 });
 
 export const CORNSTARCH: BakingIngredient = defineIngredient({

@@ -5,8 +5,10 @@ import { BAKING_INGREDIENTS, bakingIngredient } from "@/data/baking";
 import { CITATIONS, citation } from "@/lib/baking/citations";
 import { SIM } from "@/lib/baking/sim/constants";
 import type { BakingIngredient, Basis, BasisKind, ProvenanceField } from "@/lib/baking/types";
+import { CatalogueCensus } from "./CatalogueCensus";
+import type { BakingCatalogue } from "./useBakingCatalogue";
 
-function ProvenanceChip({ basis }: { basis: Basis }): JSX.Element {
+export function ProvenanceChip({ basis }: { basis: Basis }): JSX.Element {
   const c = citation(basis.source);
   const fdc = basis.fdcId === undefined ? "" : ` · FDC ${basis.fdcId}`;
   const title = [c?.full ?? basis.source, basis.note].filter((s) => s !== undefined && s !== "").join(" — ");
@@ -96,11 +98,12 @@ function ModelConstants(): JSX.Element {
   );
 }
 
-export function SourcesPanel(): JSX.Element {
+export function SourcesPanel({ catalogue }: { catalogue: BakingCatalogue }): JSX.Element {
   const [id, setId] = useState(BAKING_INGREDIENTS[0]?.id ?? "");
   const counts = census();
   return (
     <div className="space-y-4">
+      <CatalogueCensus catalogue={catalogue} />
       <div className="bl-card">
         <h2 className="text-xl">Where every number comes from</h2>
         <p className="mt-1 text-sm text-white/65">

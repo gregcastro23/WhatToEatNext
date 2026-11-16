@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { bakingIngredient } from "@/data/baking";
 import { BAKING_PRESETS } from "@/data/baking/presets";
 import { BICARBONATE_MMOL_PER_G, BITARTRATE_ACID_MMOL_PER_G, CO2_G_PER_MMOL } from "@/lib/baking/chemistry";
 import { BAKING_ELEMENTS, elementalReading } from "@/lib/baking/elemental";
@@ -10,27 +11,36 @@ function formula(lines: Array<[string, number]>): Formula {
   return { id: "t", name: "t", lines: lines.map(([ingredientId, grams]) => ({ ingredientId, grams })) };
 }
 
+/** Grams of water in `grams` of an ingredient, from its own FDC-backed vector (bottled water is 99.98 g/100 g). */
+function waterIn(id: string, grams: number): number {
+  return (grams * bakingIngredient(id).waterPct) / 100;
+}
+
 describe("true hydration — the baker's convention, with hidden water counted", () => {
-  it("a lean 70 % dough reads 70 %: the flour's own moisture stays out", () => {
+  it("a lean 70 % dough reads its water over its flour: the flour's own moisture stays out", () => {
     const t = formulaTelemetry(formula([["bread-flour", 1000], ["water", 700]]));
-    expect(t.trueHydrationPct).toBeCloseTo(70, 9);
+    expect(t.trueHydrationPct).toBeCloseTo((waterIn("water", 700) / 1000) * 100, 9);
+    expect(t.trueHydrationPct).toBeCloseTo(69.986, 9);
     expect(t.bakersPercent[0]).toBe(100);
   });
 
   it("counts even salt's trace moisture (0.2 g per 100 g) — real water is never dropped", () => {
     const t = formulaTelemetry(formula([["bread-flour", 1000], ["water", 700], ["salt", 20]]));
-    expect(t.trueHydrationPct).toBeCloseTo(70 + (20 * 0.2) / 100 / 10, 9);
+    expect(t.trueHydrationPct).toBeCloseTo(((waterIn("water", 700) + waterIn("salt", 20)) / 1000) * 100, 9);
+    expect(waterIn("salt", 20)).toBeGreaterThan(0);
   });
 
   it("a levain's flour joins the base and its water joins the hydration", () => {
     const t = formulaTelemetry(formula([["bread-flour", 450], ["water", 300], ["sourdough-levain", 100]]));
     expect(t.flourGrams).toBe(500);
-    expect(t.trueHydrationPct).toBeCloseTo(70, 9);
+    // The levain is half water by mass, and that half is the water vector (99.98 g per 100 g).
+    expect(t.trueHydrationPct).toBeCloseTo(((waterIn("water", 300) + waterIn("water", 50)) / 500) * 100, 9);
   });
 
   it("milk, egg and butter water count; plain hydration would miss them", () => {
     const t = formulaTelemetry(formula([["bread-flour", 500], ["whole-egg", 300], ["butter", 250]]));
-    const expected = ((300 * 76.2) / 100 + (250 * 16.2) / 100) / 500 * 100;
+    const expected = ((waterIn("whole-egg", 300) + waterIn("butter", 250)) / 500) * 100;
+    expect(expected).toBeCloseTo(((300 * 76.15) / 100 + (250 * 16.17) / 100) / 5, 9);
     expect(t.trueHydrationPct).toBeCloseTo(expected, 9);
   });
 

@@ -165,3 +165,35 @@
   width: 100%;
   accent-color: var(--accent);
 }
+.bl-good {
+  appearance: none;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+.bl-good:hover {
+  border-color: var(--line);
+}
+.bl-good[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: color-mix(in oklab, var(--accent) 12%, transparent);
+}
+.bl-good:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.bl-report summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--fg-dim);
+  padding: 6px 0;
+}
