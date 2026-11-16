@@ -63,7 +63,8 @@ export interface ActivityEvent {
 
 const PER_SOURCE_LIMIT = 25;
 const WINDOW_HOURS = 6;
-const MAX_RETURNED = 50;
+const MAX_RETURNED = 60;
+const MIN_HUMAN_RESERVE = 40;
 
 // ─── Source readers ──────────────────────────────────────────────────
 
@@ -436,7 +437,6 @@ async function readUserInteractions(): Promise<ActivityEvent[]> {
 
 function describeInteraction(type: string, payload: unknown): string {
   const recipeName =
-    payload &&
     typeof payload === "object" &&
     payload !== null &&
     "recipeName" in payload &&
@@ -453,7 +453,7 @@ function describeInteraction(type: string, payload: unknown): string {
     cooking_method: "tried a method",
     planetary_query: "queried planetary state",
   };
-  const verb = verbMap[type] || type.replace(/_/g, " ");
+  const verb = verbMap[type] ?? type.replace(/_/g, " ");
   return recipeName ? `${verb} ${recipeName}` : verb;
 }
 
@@ -496,7 +496,21 @@ export async function getLiveActivity(): Promise<LiveActivityPayload> {
   }
 
   events.sort((a, b) => (a.at < b.at ? 1 : a.at > b.at ? -1 : 0));
-  const limited = events.slice(0, MAX_RETURNED);
+
+  // Never allow high-frequency automated planetary-agent events to evict
+  // real human visits, signups, or interactions from the returned window.
+  const humanEvents = events.filter((e) => e.category === "visit" || e.actor?.isAgent !== true);
+  const agentEvents = events.filter((e) => e.category !== "visit" && e.actor?.isAgent === true);
+  const keptHumans = humanEvents.slice(0, Math.min(humanEvents.length, MIN_HUMAN_RESERVE));
+  const remainingSlots = Math.max(0, MAX_RETURNED - keptHumans.length);
+  const keptAgents = agentEvents.slice(0, remainingSlots);
+  const extraHumans =
+    keptHumans.length + keptAgents.length < MAX_RETURNED
+      ? humanEvents.slice(keptHumans.length, keptHumans.length + (MAX_RETURNED - keptHumans.length - keptAgents.length))
+      : [];
+  const limited = [...keptHumans, ...extraHumans, ...keptAgents].sort((a, b) =>
+    a.at < b.at ? 1 : a.at > b.at ? -1 : 0,
+  );
 
   const counts: Record<ActivityCategory, number> = {
     signup: 0,

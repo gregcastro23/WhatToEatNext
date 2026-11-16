@@ -23,7 +23,10 @@ import { createHash, randomBytes } from "node:crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import {
+  clampDurationMs,
   classifyUserAgent,
+  cleanInteractions,
+  cleanRefTag,
   cleanUtm,
   externalReferrerHost,
   isTrackablePath,
@@ -40,6 +43,11 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const BodySchema = z.object({
+  viewId: z
+    .string()
+    .regex(/^[A-Za-z0-9_-]{8,64}$/)
+    .optional()
+    .nullable(),
   path: z.string().min(1).max(2048),
   referrer: z.string().max(2048).optional().nullable(),
   sessionId: z
@@ -50,6 +58,9 @@ const BodySchema = z.object({
   utmSource: z.string().max(200).optional().nullable(),
   utmMedium: z.string().max(200).optional().nullable(),
   utmCampaign: z.string().max(200).optional().nullable(),
+  refTag: z.string().max(200).optional().nullable(),
+  durationMs: z.number().min(0).max(86_400_000).optional().nullable(),
+  interactions: z.array(z.string().max(120)).max(30).optional().nullable(),
 });
 
 /**
@@ -122,11 +133,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const now = new Date();
 
   await recordPageView({
+    viewId: parsed.data.viewId ?? null,
     path,
     referrerHost: externalReferrerHost(parsed.data.referrer, request.headers.get("host")),
     utmSource: cleanUtm(parsed.data.utmSource),
     utmMedium: cleanUtm(parsed.data.utmMedium),
     utmCampaign: cleanUtm(parsed.data.utmCampaign),
+    refTag: cleanRefTag(parsed.data.refTag),
+    durationMs: clampDurationMs(parsed.data.durationMs),
+    interactions: cleanInteractions(parsed.data.interactions),
     visitorHash: visitorHash({ secret: HASH_SECRET, day: utcDay(now), ip: clientIp(request), userAgent }),
     sessionId: parsed.data.sessionId ?? null,
     // Bots are recorded for the bot count but never attributed to a user.

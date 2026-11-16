@@ -2,44 +2,60 @@
  * Traffic analytics — who is visiting alchm.kitchen, from where, and what
  * they read. Server-only.
  *
- * Source: the first-party `page_views` table (migration 86), written by the
- * public beacon POST /api/track/pageview. Bots are recorded (is_bot) but are
- * excluded from every human-facing number and reported as their own count.
+ * Source: the first-party `page_views` table (migrations 86 + 100), written by
+ * the public beacon POST /api/track/pageview. Bots are recorded (is_bot) but
+ * are excluded from every human-facing number and reported as their own count.
  *
  * Counting rules, stated because each is a choice:
  *   - "visitors" = distinct visitor_hash. The hash rotates every UTC day, so
  *     over a multi-day range this is the SUM of daily uniques (a person who
  *     came on 3 days counts 3). Labelled "visitor-days" in the UI for 7d/30d.
- *   - "sessions" = distinct per-tab session ids.
- *   - "bounce" = a session with exactly one page view.
+ *   - "sessions" = distinct per-tab session ids (or visitor_hash when blocked).
+ *   - "bounce" = a session with 1 page view, < 15s dwell time, and 0 actions.
  *   - Buckets use the America/New_York day, matching userInsightsService.
  *
  * @file src/services/admin/trafficAnalyticsService.ts
  */
 
 import { executeQuery } from "@/lib/database/connection";
-import { isMissingRelation } from "@/lib/database/pgErrors";
+import { isMissingColumn, isMissingRelation } from "@/lib/database/pgErrors";
 import { _logger } from "@/lib/logger";
 import {
   ACTIVE_WINDOW_MINUTES,
+  buildVisitorSessions,
+  emptyActivationStickiness,
+  enrichRecentPageViews,
+  readActivationAndStickiness,
   readActiveNow,
   readBots,
   readDimensions,
   readEntryPages,
+  readFrictionAlerts,
+  readInteractionTallies,
+  readLabEngagement,
   readMeta,
+  readPlannerFunnel,
   readRecent,
+  readRefRollups,
+  readRouteFlowMatrix,
   readSeries,
+  readSessionFeedback,
   readTopPages,
   readTotals,
 } from "@/services/admin/trafficReaders";
 import type {
   PageViewInsert,
+  SessionFeedbackStatus,
   TrafficPulse,
   TrafficRange,
   TrafficStatus,
   TrafficSummary,
   TrafficTotals,
 } from "@/services/admin/trafficTypes";
+import {
+  evaluateFeedbackWebhookAlert,
+  evaluatePageViewWebhookAlerts,
+} from "@/services/admin/webhookAlertService";
 
 const RANGE_INTERVAL: Record<TrafficRange, string> = { "24h": "24 hours", "7d": "7 days", "30d": "30 days" };
 
@@ -51,25 +67,103 @@ const RANGE_BUCKET: Record<TrafficRange, { unit: "hour" | "day"; count: number }
 
 let warnedMissingTable = false;
 
+async function insertBaselinePageView(row: PageViewInsert): Promise<void> {
+  await executeQuery(
+    `INSERT INTO page_views (
+       path, referrer_host, utm_source, utm_medium, utm_campaign,
+       visitor_hash, session_id, user_id, country, region, city,
+       device_type, browser, os, is_bot
+     ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)`,
+    [
+      row.path, row.referrerHost, row.utmSource, row.utmMedium, row.utmCampaign,
+      row.visitorHash, row.sessionId, row.userId, row.country, row.region, row.city,
+      row.deviceType, row.browser, row.os, row.isBot,
+    ],
+    { logQuery: false },
+  );
+}
+
 /**
- * Insert one page view. Never throws: analytics must not be able to break a
- * page, and the beacon has no user to show an error to.
+ * When a visitor signs in mid-session, retroactively attribute earlier
+ * anonymous page views from the same browser-tab `session_id` to their user.
  */
-export async function recordPageView(row: PageViewInsert): Promise<boolean> {
+async function stitchSessionUser(sessionId: string, userId: string): Promise<void> {
+  try {
+    await executeQuery(
+      `UPDATE page_views
+          SET user_id = $1
+        WHERE session_id = $2
+          AND user_id IS NULL
+          AND NOT is_bot`,
+      [userId, sessionId],
+      { logQuery: false },
+    );
+  } catch {
+    // Non-fatal best-effort attribution
+  }
+}
+
+async function upsertExtendedPageView(
+  row: PageViewInsert,
+  viewId: string | null,
+  durationMs: number,
+  refTag: string | null,
+  interactions: string[],
+): Promise<void> {
   try {
     await executeQuery(
       `INSERT INTO page_views (
-         path, referrer_host, utm_source, utm_medium, utm_campaign,
+         view_id, path, referrer_host, utm_source, utm_medium, utm_campaign,
+         ref_tag, duration_ms, interactions, last_seen_at,
          visitor_hash, session_id, user_id, country, region, city,
          device_type, browser, os, is_bot
-       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)`,
+       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9::jsonb,NOW(),$10,$11,$12,$13,$14,$15,$16,$17,$18,$19)
+       ON CONFLICT (view_id) WHERE view_id IS NOT NULL
+       DO UPDATE SET
+         duration_ms = GREATEST(page_views.duration_ms, EXCLUDED.duration_ms),
+         last_seen_at = NOW(),
+         user_id = COALESCE(page_views.user_id, EXCLUDED.user_id),
+         ref_tag = COALESCE(page_views.ref_tag, EXCLUDED.ref_tag),
+         interactions = CASE
+           WHEN jsonb_array_length(EXCLUDED.interactions) >= jsonb_array_length(page_views.interactions)
+           THEN EXCLUDED.interactions
+           ELSE page_views.interactions
+         END
+       WHERE COALESCE(jsonb_array_length(page_views.interactions), 0) <= 60`,
       [
-        row.path, row.referrerHost, row.utmSource, row.utmMedium, row.utmCampaign,
+        viewId, row.path, row.referrerHost, row.utmSource, row.utmMedium, row.utmCampaign,
+        refTag, durationMs, JSON.stringify(interactions),
         row.visitorHash, row.sessionId, row.userId, row.country, row.region, row.city,
         row.deviceType, row.browser, row.os, row.isBot,
       ],
       { logQuery: false },
     );
+  } catch (err) {
+    if (!isMissingColumn(err)) throw err;
+    if (durationMs === 0 && interactions.length === 0) await insertBaselinePageView(row);
+  }
+}
+
+/**
+ * Insert or update one page view. Never throws: analytics must not be able to
+ * break a page, and the beacon has no user to show an error to.
+ */
+export async function recordPageView(row: PageViewInsert): Promise<boolean> {
+  const viewId = row.viewId ?? null;
+  const durationMs = row.durationMs ?? 0;
+  const refTag = row.refTag ?? null;
+  const interactions = row.interactions ?? [];
+
+  try {
+    if (viewId !== null || durationMs > 0 || refTag !== null || interactions.length > 0) {
+      await upsertExtendedPageView(row, viewId, durationMs, refTag, interactions);
+    } else {
+      await insertBaselinePageView(row);
+    }
+    if (row.userId && row.sessionId && !row.isBot) {
+      stitchSessionUser(row.sessionId, row.userId).catch(() => undefined);
+    }
+    evaluatePageViewWebhookAlerts(row).catch(() => undefined);
     return true;
   } catch (err) {
     if (!isMissingRelation(err)) {
@@ -109,6 +203,26 @@ function emptySummary(range: TrafficRange, status: TrafficStatus, detail: string
     operatingSystems: [],
     bots: 0,
     recent: [],
+    sessions: [],
+    refRollups: [],
+    plannerFunnel: { stages: [], cohorts: [] },
+    labEngagement: [],
+    feedback: [],
+    frictionAlerts: {
+      errorSessions60m: 0,
+      errorBurstTriggered: false,
+      topErrorTag: null,
+      topZeroResultQuery: null,
+      activeReviewers: [],
+    },
+    interactionTallies: {
+      totalInteractions: 0,
+      totalSessionsWithInteractions: 0,
+      categories: [],
+      rows: [],
+    },
+    routeFlowMatrix: [],
+    activationStickiness: emptyActivationStickiness(),
   };
 }
 
@@ -129,35 +243,26 @@ export async function getTrafficSummary(range: TrafficRange): Promise<TrafficSum
   const { unit, count } = RANGE_BUCKET[range];
   const now = new Date();
   try {
-    const [meta, totals, previous, activeNow, series, topPages, entryPages, dimensions, bots, recent] =
-      await Promise.all([
-        readMeta(),
-        readTotals("NOW() - $1::interval", "NOW()", interval),
-        readTotals("NOW() - 2 * $1::interval", "NOW() - $1::interval", interval),
-        readActiveNow(),
-        readSeries(interval, unit, count, now),
-        readTopPages(interval),
-        readEntryPages(interval),
-        readDimensions(interval),
-        readBots(interval),
-        readRecent(),
-      ]);
+    const [
+      meta, totals, previous, activeNow, series, topPages, entryPages, dimensions, bots, rawRecent,
+      refRollups, plannerFunnel, labEngagement, feedback, frictionAlerts, interactionTallies,
+      routeFlowMatrix, activationStickiness,
+    ] = await Promise.all([
+      readMeta(), readTotals("NOW() - $1::interval", "NOW()", interval),
+      readTotals("NOW() - 2 * $1::interval", "NOW() - $1::interval", interval), readActiveNow(),
+      readSeries(interval, unit, count, now), readTopPages(interval), readEntryPages(interval),
+      readDimensions(interval), readBots(interval), readRecent(80, interval), readRefRollups(interval),
+      readPlannerFunnel(interval), readLabEngagement(interval), readSessionFeedback(50),
+      readFrictionAlerts(), readInteractionTallies(interval), readRouteFlowMatrix(interval),
+      readActivationAndStickiness(interval),
+    ]);
+    const sessions = buildVisitorSessions(rawRecent, now, feedback);
+    const recent = enrichRecentPageViews(rawRecent, sessions);
     return {
-      generatedAt: now.toISOString(),
-      range,
-      status: "live",
-      trackingSince: meta.since,
-      totalPageviewsAllTime: meta.total,
-      activeNow,
-      totals,
-      previous,
-      series,
-      bucketUnit: unit,
-      topPages,
-      entryPages,
-      ...dimensions,
-      bots,
-      recent,
+      generatedAt: now.toISOString(), range, status: "live", trackingSince: meta.since,
+      totalPageviewsAllTime: meta.total, activeNow, totals, previous, series, bucketUnit: unit,
+      topPages, entryPages, ...dimensions, bots, recent, sessions, refRollups, plannerFunnel,
+      labEngagement, feedback, frictionAlerts, interactionTallies, routeFlowMatrix, activationStickiness,
     };
   } catch (err) {
     return failedSummary(range, err);
@@ -169,14 +274,26 @@ export async function getTrafficPulse(): Promise<TrafficPulse> {
   try {
     const res = await executeQuery<{ active: number; pv24: number; v24: number; pvprev: number; last_at: Date | null }>(
       `SELECT
-         COUNT(DISTINCT visitor_hash) FILTER (WHERE at >= NOW() - INTERVAL '${ACTIVE_WINDOW_MINUTES} minutes')::int AS active,
+         COUNT(DISTINCT visitor_hash) FILTER (WHERE COALESCE(last_seen_at, at) >= NOW() - INTERVAL '${ACTIVE_WINDOW_MINUTES} minutes')::int AS active,
          COUNT(*) FILTER (WHERE at >= NOW() - INTERVAL '24 hours')::int AS pv24,
          COUNT(DISTINCT visitor_hash) FILTER (WHERE at >= NOW() - INTERVAL '24 hours')::int AS v24,
          COUNT(*) FILTER (WHERE at < NOW() - INTERVAL '24 hours')::int AS pvprev,
-         MAX(at) AS last_at
+         MAX(COALESCE(last_seen_at, at)) AS last_at
        FROM page_views
-       WHERE at >= NOW() - INTERVAL '48 hours' AND NOT is_bot`,
-    );
+       WHERE at >= NOW() - INTERVAL '48 hours' AND NOT is_bot AND path <> '/admin' AND path NOT LIKE '/admin/%'`,
+    ).catch(async (err: unknown) => {
+      if (!isMissingColumn(err)) throw err;
+      return executeQuery<{ active: number; pv24: number; v24: number; pvprev: number; last_at: Date | null }>(
+        `SELECT
+           COUNT(DISTINCT visitor_hash) FILTER (WHERE at >= NOW() - INTERVAL '${ACTIVE_WINDOW_MINUTES} minutes')::int AS active,
+           COUNT(*) FILTER (WHERE at >= NOW() - INTERVAL '24 hours')::int AS pv24,
+           COUNT(DISTINCT visitor_hash) FILTER (WHERE at >= NOW() - INTERVAL '24 hours')::int AS v24,
+           COUNT(*) FILTER (WHERE at < NOW() - INTERVAL '24 hours')::int AS pvprev,
+           MAX(at) AS last_at
+         FROM page_views
+         WHERE at >= NOW() - INTERVAL '48 hours' AND NOT is_bot AND path <> '/admin' AND path NOT LIKE '/admin/%'`,
+      );
+    });
     const [r] = res.rows;
     return {
       status: "live",
@@ -191,5 +308,114 @@ export async function getTrafficPulse(): Promise<TrafficPulse> {
     if (!missing) _logger.error("[traffic] pulse failed:", err);
     const status: TrafficStatus = missing ? "missing-table" : "error";
     return { status, activeNow: 0, pageviews24h: 0, visitors24h: 0, pageviewsPrev24h: 0, lastVisitAt: null };
+  }
+}
+
+export interface SessionFeedbackInsert {
+  viewId: string | null;
+  sessionId: string | null;
+  visitorHash: string;
+  userId: string | null;
+  path: string;
+  refTag: string | null;
+  rating: number | null;
+  note: string;
+}
+
+/**
+ * Persist contextual micro-feedback tied to `view_id` and `session_id`, and
+ * append a conversion marker to `page_views.interactions` so the feedback event
+ * is also visible in the interaction stream.
+ */
+export async function recordSessionFeedback(input: SessionFeedbackInsert): Promise<boolean> {
+  const tag = input.rating ? `conversion:feedback_${input.rating}star` : "conversion:feedback_note";
+  try {
+    await executeQuery(
+      `INSERT INTO session_feedback (
+         view_id, session_id, visitor_hash, user_id, path, ref_tag, rating, note
+       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
+      [
+        input.viewId,
+        input.sessionId,
+        input.visitorHash,
+        input.userId,
+        input.path,
+        input.refTag,
+        input.rating,
+        input.note,
+      ],
+      { logQuery: false },
+    ).catch((err: unknown) => {
+      if (!isMissingRelation(err)) throw err;
+    });
+
+    if (input.viewId) {
+      await executeQuery(
+        `UPDATE page_views
+            SET interactions = CASE
+              WHEN NOT (interactions @> to_jsonb($2::text))
+               AND COALESCE(jsonb_array_length(interactions), 0) <= 60
+              THEN interactions || to_jsonb($2::text)
+              ELSE interactions
+            END,
+            last_seen_at = NOW()
+          WHERE view_id = $1`,
+        [input.viewId, tag],
+        { logQuery: false },
+      ).catch(() => undefined);
+    }
+    evaluateFeedbackWebhookAlert(input).catch(() => undefined);
+    return true;
+  } catch (err) {
+    _logger.error("[traffic] session feedback insert failed:", err);
+    return false;
+  }
+}
+
+export interface SessionFeedbackStatusUpdate {
+  id: string;
+  status: SessionFeedbackStatus;
+  resolvedAt: string | null;
+}
+
+/**
+ * Update `session_feedback.status` (`open` | `resolved` | `dismissed`) and
+ * `resolved_at` timestamp so operators can triage issues out of open queues.
+ */
+export async function updateSessionFeedbackStatus(
+  id: string,
+  status: SessionFeedbackStatus,
+): Promise<SessionFeedbackStatusUpdate | null> {
+  try {
+    const res = await executeQuery<{
+      id: string;
+      status: string;
+      resolved_at: Date | null;
+    }>(
+      `UPDATE session_feedback
+          SET status = $2,
+              resolved_at = CASE
+                WHEN $2 IN ('resolved', 'dismissed') THEN NOW()
+                ELSE NULL
+              END
+        WHERE id = $1::bigint
+        RETURNING id::text AS id, status, resolved_at`,
+      [id, status],
+      { logQuery: false },
+    );
+    const [row] = res.rows;
+    if (!row) return null;
+    const normalizedStatus: SessionFeedbackStatus =
+      row.status === "resolved" || row.status === "dismissed" ? row.status : "open";
+    return {
+      id: row.id,
+      status: normalizedStatus,
+      resolvedAt: row.resolved_at ? new Date(row.resolved_at).toISOString() : null,
+    };
+  } catch (err) {
+    if (isMissingColumn(err) || isMissingRelation(err)) {
+      return null;
+    }
+    throw err;
   }
 }

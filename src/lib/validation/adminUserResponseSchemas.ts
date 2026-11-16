@@ -9,6 +9,7 @@ export const AdminTimelineCategorySchema = z.enum([
   "agent",
   "diary",
   "subscription",
+  "visit",
 ]);
 
 export const AdminTimelineStatusSchema = z.enum(["success", "failure", "info"]);

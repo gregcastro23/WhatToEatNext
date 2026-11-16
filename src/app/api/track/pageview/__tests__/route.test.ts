@@ -98,4 +98,26 @@ describe("POST /api/track/pageview", () => {
     expect((await POST(beacon({ path: "/" }))).status).toBe(429);
     expect(mockRecord).not.toHaveBeenCalled();
   });
+
+  it("forwards sanitized viewId, refTag, durationMs, and interactions", async () => {
+    const res = await POST(
+      beacon({
+        viewId: "view_abc123456789",
+        path: "/menu-planner",
+        sessionId: "sess_abc123456789",
+        refTag: "Friend-Feedback",
+        durationMs: 32_500,
+        interactions: ["planner:fast-start", "invalid space tag"],
+      }),
+    );
+    expect(res.status).toBe(204);
+    expect(mockRecord.mock.calls[0]?.[0]).toMatchObject({
+      viewId: "view_abc123456789",
+      path: "/menu-planner",
+      sessionId: "sess_abc123456789",
+      refTag: "friend-feedback",
+      durationMs: 32_500,
+      interactions: ["planner:fast-start"],
+    });
+  });
 });

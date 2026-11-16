@@ -25,7 +25,12 @@ export interface AdminResource<T> {
   refresh: () => void;
 }
 
-export function useAdminResource<T>(url: string, schema: z.ZodType<T>, intervalMs: number): AdminResource<T> {
+export function useAdminResource<T>(
+  url: string,
+  schema: z.ZodType<T>,
+  intervalMs: number,
+  enabled = true,
+): AdminResource<T> {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [updatedAt, setUpdatedAt] = useState<number | null>(null);
@@ -48,17 +53,17 @@ export function useAdminResource<T>(url: string, schema: z.ZodType<T>, intervalM
     }
   }, [url, schema]);
 
-  const { refreshNow } = useHardenedPolling(poll, { baseIntervalMs: intervalMs });
+  const { refreshNow } = useHardenedPolling(poll, { baseIntervalMs: intervalMs, enabled });
 
   // A new URL (e.g. a different range) must not show the old range's numbers
   // under the new label while the next scheduled poll is pending.
   const lastUrl = useRef(url);
   useEffect(() => {
-    if (lastUrl.current === url) return;
+    if (!enabled || lastUrl.current === url) return;
     lastUrl.current = url;
     setData(null);
     refreshNow();
-  }, [url, refreshNow]);
+  }, [url, refreshNow, enabled]);
 
   return { data, error, updatedAt, refresh: refreshNow };
 }

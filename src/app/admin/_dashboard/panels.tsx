@@ -188,6 +188,7 @@ const CATEGORY_COLOR: Record<string, string> = {
   economy: "var(--el-fire)",
   agent: "var(--el-air)",
   diary: "var(--fg-dim)",
+  visit: "var(--el-water)",
 };
 
 const STATUS_TINT: Record<string, string> = {

@@ -118,8 +118,22 @@ function PulseHeader({ data, error }: { data: PulseView | null; error: string | 
   );
 }
 
-export default function PulseStrip(): React.JSX.Element {
-  const { data, error } = useAdminResource("/api/admin/pulse", PulseSchema, 30_000);
+export default function PulseStrip({
+  externalData,
+  externalError,
+}: {
+  externalData?: PulseView | null;
+  externalError?: string | null;
+} = {}): React.JSX.Element {
+  const standalone = externalData === undefined;
+  const { data: polledData, error: polledError } = useAdminResource(
+    "/api/admin/pulse",
+    PulseSchema,
+    30_000,
+    standalone,
+  );
+  const data = standalone ? polledData : externalData;
+  const error = standalone ? polledError : (externalError ?? null);
   return (
     <section aria-label="Live pulse">
       <PulseHeader data={data} error={error} />

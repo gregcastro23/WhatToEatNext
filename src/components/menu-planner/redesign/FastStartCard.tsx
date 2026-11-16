@@ -11,6 +11,7 @@
 
 import { Loader2, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { trackViewAction } from "@/components/analytics/PageViewTracker";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
 
@@ -72,6 +73,7 @@ export default function FastStartCard(): React.JSX.Element {
 
   const draftWeek = async (): Promise<void> => {
     if (drafting) return;
+    trackViewAction(`planner:draft-week:${diet}`);
     setDrafting(true);
     setProgress(0);
     const dietaryRestrictions = applyPreferences();
@@ -90,6 +92,7 @@ export default function FastStartCard(): React.JSX.Element {
 
   const handleIngredientFirstPlan = async (): Promise<void> => {
     if (drafting) return;
+    trackViewAction(`planner:ingredient-plan:${mealScope}`);
     const parsedIngredients = featuredInput
       .split(/[,;]+/)
       .map((s) => s.trim().toLowerCase())
@@ -252,7 +255,7 @@ export default function FastStartCard(): React.JSX.Element {
         <button
           type="button"
           onClick={() => {
-            void draftWeek();
+            draftWeek().catch(() => undefined);
           }}
           disabled={drafting}
           className="mt-5 w-full flex items-center justify-center gap-2 py-3 rounded-full bg-gradient-to-r from-gold-accent to-active-violet text-background font-mono text-[12px] uppercase tracking-wider font-bold shadow-[0_0_20px_rgba(184,90,240,0.25)] active:scale-[0.98] transition-transform disabled:opacity-70"

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { trackClientError } from "@/components/analytics/PageViewTracker";
 import { logger } from "@/utils/logger";
 
 export default function RouteError({
@@ -9,8 +10,9 @@ export default function RouteError({
 }: {
   error: Error & { digest?: string };
   reset: () => void;
-}) {
+}): React.JSX.Element {
   useEffect(() => {
+    trackClientError("route_boundary", error.digest ?? error.name);
     logger.error("Route error: ", error);
   }, [error]);
 

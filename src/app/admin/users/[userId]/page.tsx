@@ -25,7 +25,8 @@ type Category =
   | "economy"
   | "agent"
   | "diary"
-  | "subscription";
+  | "subscription"
+  | "visit";
 
 interface TimelineEvent {
   id: string;
@@ -99,6 +100,7 @@ const CATEGORY_STYLE: Record<Category, { dot: string; chip: string }> = {
   agent: { dot: "bg-indigo-500", chip: "bg-indigo-100 text-indigo-800 border-indigo-200" },
   diary: { dot: "bg-pink-500", chip: "bg-pink-100 text-pink-800 border-pink-200" },
   subscription: { dot: "bg-teal-500", chip: "bg-teal-100 text-teal-800 border-teal-200" },
+  visit: { dot: "bg-cyan-500", chip: "bg-cyan-100 text-cyan-800 border-cyan-200" },
 };
 
 function formatRelative(iso: string): string {
@@ -133,7 +135,7 @@ function revokeMessage(
   return rows;
 }
 
-function getElementColor(element: string | null) {
+function getElementColor(element: string | null): string {
   switch (element?.toLowerCase()) {
     case "fire":
       return "text-red-700 bg-red-100";
@@ -148,7 +150,7 @@ function getElementColor(element: string | null) {
   }
 }
 
-export default function AdminUserDeepDivePage() {
+export default function AdminUserDeepDivePage(): React.JSX.Element | null {
   const params = useParams<{ userId: string }>();
   const userId = params?.userId;
   const [data, setData] = React.useState<UserTimelinePayload | null>(null);
@@ -230,7 +232,7 @@ export default function AdminUserDeepDivePage() {
           loading: false,
           message: revokeMessage(json.revoked ?? 0, json.revocationCheck),
         });
-        void poll();
+        poll().catch(() => undefined);
       } else {
         setRevokeState({
           loading: false,
@@ -261,7 +263,7 @@ export default function AdminUserDeepDivePage() {
         const json = await readJson(res, { parse: AdminPatchUserResponseSchema.parse });
         if (res.ok && json.success) {
           setRoleState({ loading: false, message: `Role set to ${role}` });
-          void poll();
+          poll().catch(() => undefined);
         } else {
           setRoleState({
             loading: false,
@@ -302,7 +304,9 @@ export default function AdminUserDeepDivePage() {
         <p className="text-rose-700">{error}</p>
         <button
           type="button"
-          onClick={() => void poll()}
+          onClick={() => {
+            poll().catch(() => undefined);
+          }}
           className="mt-3 px-4 py-1.5 bg-rose-600 text-white rounded text-sm hover:bg-rose-700"
         >
           Retry
@@ -350,12 +354,12 @@ export default function AdminUserDeepDivePage() {
                 : "bg-gradient-to-br from-orange-400 to-pink-500"
             }`}
           >
-            {identity.isAgent ? "⚹" : (identity.name?.[0] || identity.email[0] || "?").toUpperCase()}
+            {identity.isAgent ? "⚹" : (identity.name?.[0] ?? identity.email[0] ?? "?").toUpperCase()}
           </span>
           <div className="flex-1 min-w-0">
             <div className="flex flex-wrap items-center gap-2 mb-1">
               <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">
-                {identity.name || "No name"}
+                {identity.name && identity.name.trim().length > 0 ? identity.name : "No name"}
               </h1>
               {identity.isAgent && (
                 <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-purple-800">
@@ -389,7 +393,7 @@ export default function AdminUserDeepDivePage() {
           <DetailTile
             label="Last login"
             value={identity.lastLoginAt ? formatRelative(identity.lastLoginAt) : "Never"}
-            sub={identity.lastLoginAt ? new Date(identity.lastLoginAt).toLocaleString() : undefined}
+            {...(identity.lastLoginAt ? { sub: new Date(identity.lastLoginAt).toLocaleString() } : {})}
           />
           <DetailTile
             // A count of device_sessions rows, not of devices. A sign-in whose
@@ -409,7 +413,9 @@ export default function AdminUserDeepDivePage() {
                 {identity.activeSessions > 0 && (
                   <button
                     type="button"
-                    onClick={() => void revokeSessions()}
+                    onClick={() => {
+                      revokeSessions().catch(() => undefined);
+                    }}
                     disabled={revokeState.loading}
                     className="text-xs font-medium text-rose-600 hover:text-rose-800 disabled:opacity-50"
                   >
@@ -427,7 +433,7 @@ export default function AdminUserDeepDivePage() {
           <DetailTile
             label="Onboarding"
             value={identity.hasCompletedOnboarding ? "Complete" : "Pending"}
-            sub={identity.onboardingCompletedAt ? formatRelative(identity.onboardingCompletedAt) : undefined}
+            {...(identity.onboardingCompletedAt ? { sub: formatRelative(identity.onboardingCompletedAt) } : {})}
             valueClass={identity.hasCompletedOnboarding ? "text-emerald-700" : "text-amber-700"}
           />
         </div>
@@ -451,7 +457,7 @@ export default function AdminUserDeepDivePage() {
               disabled={roleState.loading}
               onChange={(e) => {
                 const next = e.target.value;
-                if (next) void applyRole(next);
+                if (next) applyRole(next).catch(() => undefined);
               }}
               className="px-2 py-1.5 text-sm border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
             >
@@ -585,7 +591,7 @@ export default function AdminUserDeepDivePage() {
           target={{ userId: identity.id, email: identity.email }}
           onClose={() => setGrantOpen(false)}
           onGranted={() => {
-            void poll();
+            poll().catch(() => undefined);
           }}
         />
       )}
@@ -602,10 +608,10 @@ function DetailTile({
 }: {
   label: string;
   value: string;
-  sub?: string | undefined;
-  valueClass?: string | undefined;
-  action?: React.ReactNode | undefined;
-}) {
+  sub?: string;
+  valueClass?: string;
+  action?: React.ReactNode;
+}): React.JSX.Element {
   return (
     <div className="p-3 sm:p-4 border-r border-b border-gray-100 last:border-r-0 even:border-r-0 md:even:border-r md:last:border-r-0">
       <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
@@ -628,7 +634,7 @@ function BalanceChip({
   label: string;
   value: number;
   color: "amber" | "blue" | "green" | "rose";
-}) {
+}): React.JSX.Element {
   const colorClass = {
     amber: "bg-amber-50 text-amber-900 border-amber-200",
     blue: "bg-blue-50 text-blue-900 border-blue-200",
@@ -653,7 +659,7 @@ function StatTile({
   value: number;
   status?: "ok" | "warn";
   mono?: boolean;
-}) {
+}): React.JSX.Element {
   const valueClass = status === "warn" ? "text-amber-700" : "text-gray-900";
   return (
     <div className="p-3 sm:p-4 border-r border-b border-gray-100 last:border-r-0">
@@ -667,7 +673,7 @@ function StatTile({
   );
 }
 
-function EventRow({ event }: { event: TimelineEvent }) {
+function EventRow({ event }: { event: TimelineEvent }): React.JSX.Element {
   const style = CATEGORY_STYLE[event.category];
   return (
     <li className="px-4 sm:px-6 py-3 hover:bg-gray-50">

@@ -72,9 +72,18 @@ function formatRelative(iso: string): string {
 
 const CORE_FLOW_IDS = new Set(["auth", "database", "recommendations", "onboarding"]);
 
-export default function SystemStatusPanel(): React.JSX.Element | null {
-  const [data, setData] = React.useState<SystemStatusPayload | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
+export default function SystemStatusPanel({
+  externalData,
+  externalError,
+}: {
+  externalData?: SystemStatusPayload | null;
+  externalError?: string | null;
+} = {}): React.JSX.Element | null {
+  const standalone = externalData === undefined;
+  const [polledData, setPolledData] = React.useState<SystemStatusPayload | null>(null);
+  const [polledError, setPolledError] = React.useState<string | null>(null);
+  const data = standalone ? polledData : externalData;
+  const error = standalone ? polledError : (externalError ?? null);
   const [expandedFlow, setExpandedFlow] = React.useState<string | null>(null);
   const [snoozeUntil, setSnoozeUntil] = React.useState<number | null>(null);
 
@@ -94,7 +103,7 @@ export default function SystemStatusPanel(): React.JSX.Element | null {
     }
   }, []);
 
-  const handleToggleSnooze = () => {
+  const handleToggleSnooze = (): void => {
     try {
       if (snoozeUntil && snoozeUntil > Date.now()) {
         localStorage.removeItem("admin_incident_snooze_until");
@@ -120,19 +129,19 @@ export default function SystemStatusPanel(): React.JSX.Element | null {
         cache: "no-store",
       });
       if (!res.ok) {
-        setError(`Failed to load status (HTTP ${res.status})`);
+        setPolledError(`Failed to load status (HTTP ${res.status})`);
         return { ok: false };
       }
       const parsed = SystemStatusResponseSchema.safeParse(await res.json());
       if (parsed.success) {
-        setData(parsed.data);
-        setError(null);
+        setPolledData(parsed.data);
+        setPolledError(null);
         return { ok: true };
       }
-      setError("Status payload malformed");
+      setPolledError("Status payload malformed");
       return { ok: false };
     } catch (_err) {
-      setError("Failed to reach admin API");
+      setPolledError("Failed to reach admin API");
       return { ok: false };
     }
   }, []);
@@ -140,7 +149,7 @@ export default function SystemStatusPanel(): React.JSX.Element | null {
   // 60s cadence. At a 10-user product, status changes slowly enough that
   // tighter polling just wastes DB cycles. Operator can click Retry to
   // force a refresh after a deploy.
-  useHardenedPolling(poll, { baseIntervalMs: 60_000 });
+  useHardenedPolling(poll, { baseIntervalMs: 60_000, enabled: standalone });
 
   if (!data && !error) {
     return (
@@ -162,7 +171,7 @@ export default function SystemStatusPanel(): React.JSX.Element | null {
             <button
               type="button"
               onClick={() => {
-                void poll();
+                poll().catch(() => undefined);
               }}
               className="px-3 py-1.5 bg-rose-600 text-white font-bold rounded text-xs hover:bg-rose-700 transition"
             >
@@ -332,7 +341,7 @@ function FlowTile({
   flow: FlowHealth;
   expanded: boolean;
   onToggle: () => void;
-}) {
+}): React.JSX.Element {
   const style = STATUS_STYLE[flow.status];
   return (
     <button
@@ -408,7 +417,7 @@ function FlowTile({
   );
 }
 
-function DependencyTile({ dep }: { dep: DependencyHealth }) {
+function DependencyTile({ dep }: { dep: DependencyHealth }): React.JSX.Element {
   const style = STATUS_STYLE[dep.status];
   return (
     <div className={`p-3 rounded-lg border ${style.border} bg-white`}>

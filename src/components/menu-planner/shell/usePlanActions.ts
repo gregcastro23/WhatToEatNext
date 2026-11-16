@@ -19,6 +19,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getServerRecipes } from "@/actions/recipes";
+import { trackViewAction } from "@/components/analytics/PageViewTracker";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useOptionalUser } from "@/contexts/UserContext";
 import { reportQuestEvent } from "@/lib/questReporter";
@@ -233,6 +234,7 @@ export function usePlanActions(
 
   const fillNextDay = useCallback(async (): Promise<void> => {
     if (nextEmptyDay === null || busy) return;
+    trackViewAction("plan:fill_day");
     setBusy("day");
     try {
       await fillDay(nextEmptyDay);
@@ -246,6 +248,7 @@ export function usePlanActions(
 
   const fillWeek = useCallback(async (): Promise<void> => {
     if (!currentMenu || busy || nextEmptyDay === null) return;
+    trackViewAction("plan:fill_week");
     setBusy("week");
     setQuestPending(true);
     try {
@@ -280,6 +283,7 @@ export function usePlanActions(
 
   const balance = useCallback(async (): Promise<void> => {
     if (!currentMenu || busy) return;
+    trackViewAction("plan:swap_meal:balance");
     setBusy("balance");
     try {
       const allRecipes = applyPreferenceFilters(await getServerRecipes());
@@ -331,6 +335,7 @@ export function usePlanActions(
 
   const addVariety = useCallback(async (): Promise<void> => {
     if (!currentMenu || busy) return;
+    trackViewAction("plan:swap_meal:variety");
     setBusy("variety");
     try {
       const allRecipes = applyPreferenceFilters(await getServerRecipes());

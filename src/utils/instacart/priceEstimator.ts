@@ -183,100 +183,83 @@ function normalizeIngName(name: string): string {
  * - If 3 recipes use onion, we estimate the cost of buy-one-bulk-pack
  * - Leftover quantities are tracked and subtracted from subsequent meals
  */
+function matchesOwnedPantry(rawName: string, ownedSet: Set<string>): boolean {
+  if (ownedSet.size === 0) return false;
+  const norm = normalizeIngName(rawName);
+  if (!norm) return false;
+  if (ownedSet.has(norm)) return true;
+  for (const owned of ownedSet) {
+    if (owned.length >= 3 && (norm.includes(owned) || owned.includes(norm))) return true;
+  }
+  return false;
+}
+
+function estimateSingleRecipeCost(
+  recipe: { ingredients: RecipeIngredient[]; servings?: number; dietaryFlags?: string[] },
+  ownedSet: Set<string>,
+  purchasedStock: Record<string, number>,
+): { estimate: RecipeCostEstimate; shoppedDelta: number } {
+  const { ingredients } = recipe;
+  const breakdown: RecipeCostEstimate["breakdown"] = [];
+  let highConfidence = 0;
+  let shoppedDelta = 0;
+
+  for (const ing of ingredients) {
+    if (ing.optional) continue;
+    const name = (typeof ing.name === "string" ? ing.name : "").toLowerCase();
+    if (matchesOwnedPantry(name, ownedSet)) {
+      highConfidence++;
+      breakdown.push({ ingredient: ing.name, estimatedCost: 0, confidence: "exact" });
+      continue;
+    }
+    const actualQuantity = convertToGrams(name, ing.amount ?? 1, ing.unit ?? "each");
+    const currentStock = purchasedStock[name] || 0;
+    if (currentStock >= actualQuantity) {
+      purchasedStock[name] = currentStock - actualQuantity;
+      breakdown.push({ ingredient: ing.name, estimatedCost: 0, confidence: "exact" });
+    } else {
+      const result = estimateIngredientCost(ing, recipe.dietaryFlags ?? []);
+      if (result.confidence !== "fallback") highConfidence++;
+      shoppedDelta += result.cost;
+      purchasedStock[name] = actualQuantity * 2;
+      breakdown.push({ ingredient: ing.name, estimatedCost: Math.round(result.cost * 100) / 100, confidence: result.confidence });
+    }
+  }
+
+  const recipeTotal = breakdown.reduce((sum, b) => sum + b.estimatedCost, 0);
+  const matchRatio = ingredients.length > 0 ? highConfidence / ingredients.length : 0;
+  return {
+    shoppedDelta,
+    estimate: {
+      totalCost: Math.round(recipeTotal * 100) / 100,
+      costPerServing: Math.round((recipeTotal / (recipe.servings ?? 4)) * 100) / 100,
+      breakdown,
+      confidence: matchRatio >= 0.7 ? "high" : matchRatio >= 0.4 ? "medium" : "low",
+    },
+  };
+}
+
 export function estimateWeeklyGroceryCost(
   recipes: Array<{ ingredients: RecipeIngredient[]; servings?: number; dietaryFlags?: string[] }>,
   userInventory: Array<string | { name: string; quantity?: number; unit?: string }> = []
 ): { totalCost: number; perMealAverage: number; recipeBreakdown: RecipeCostEstimate[] } {
   const recipeBreakdown: RecipeCostEstimate[] = [];
-  
   const ownedSet = new Set(
-    userInventory
-      .map((item) => normalizeIngName(typeof item === "string" ? item : item.name))
-      .filter(Boolean),
+    userInventory.map((item) => normalizeIngName(typeof item === "string" ? item : item.name)).filter(Boolean),
   );
-
-  const hasPantryMatch = (rawName: string): boolean => {
-    if (ownedSet.size === 0) return false;
-    const norm = normalizeIngName(rawName);
-    if (!norm) return false;
-    if (ownedSet.has(norm)) return true;
-    for (const owned of ownedSet) {
-      if (owned.length >= 3 && (norm.includes(owned) || owned.includes(norm))) {
-        return true;
-      }
-    }
-    return false;
-  };
-
-  // Track how much of each ingredient we've already "purchased" this week (in grams/units)
   const purchasedStock: Record<string, number> = {};
   let totalShoppedCost = 0;
 
   for (const recipe of recipes) {
-    const { ingredients } = recipe;
-    const breakdown: RecipeCostEstimate["breakdown"] = [];
-
-
-    let highConfidence = 0;
-
-    for (const ing of ingredients) {
-      if (ing.optional) continue;
-      
-      const name = (typeof ing.name === "string" ? ing.name : "").toLowerCase();
-      if (hasPantryMatch(name)) {
-        highConfidence++;
-        breakdown.push({ ingredient: ing.name, estimatedCost: 0, confidence: "exact" });
-        continue;
-      }
-
-      const amount = ing.amount ?? 1;
-      const unit = ing.unit ?? "each";
-      const actualQuantity = convertToGrams(name, amount, unit);
-      
-      // Check if we have enough "purchasedStock" from previous meals
-      const currentStock = purchasedStock[name] || 0;
-      
-      if (currentStock >= actualQuantity) {
-        // We already bought enough, this meal is "free" for this item
-        purchasedStock[name] = currentStock - actualQuantity;
-        breakdown.push({ ingredient: ing.name, estimatedCost: 0, confidence: "exact" });
-      } else {
-        // Need to "buy" more.
-        const result = estimateIngredientCost(ing, recipe.dietaryFlags ?? []);
-        if (result.confidence !== "fallback") highConfidence++;
-        
-        // Cost simulation: assume we buy slightly more than needed (surplus for leftovers)
-        const costToBuy = result.cost;
-        totalShoppedCost += costToBuy;
-        
-        // Add to stock (assume we bought a surplus that covers 2-3 more uses)
-        purchasedStock[name] = actualQuantity * 2; 
-        
-        breakdown.push({
-          ingredient: ing.name,
-          estimatedCost: Math.round(costToBuy * 100) / 100,
-          confidence: result.confidence
-        });
-      }
-    }
-    
-    const recipeTotal = breakdown.reduce((sum, b) => sum + b.estimatedCost, 0);
-    const matchRatio = ingredients.length > 0 ? highConfidence / ingredients.length : 0;
-
-    recipeBreakdown.push({
-      totalCost: Math.round(recipeTotal * 100) / 100,
-      costPerServing: Math.round((recipeTotal / (recipe.servings ?? 4)) * 100) / 100,
-      breakdown,
-      confidence: matchRatio >= 0.7 ? "high" : matchRatio >= 0.4 ? "medium" : "low"
-    });
+    const { estimate, shoppedDelta } = estimateSingleRecipeCost(recipe, ownedSet, purchasedStock);
+    totalShoppedCost += shoppedDelta;
+    recipeBreakdown.push(estimate);
   }
 
-  // Final Smoothing: apply a small discount for bulk staples
   const totalCost = Math.round(totalShoppedCost * 0.9 * 100) / 100;
-
   return {
     totalCost,
     perMealAverage: recipes.length > 0 ? Math.round((totalCost / recipes.length) * 100) / 100 : 0,
-    recipeBreakdown
+    recipeBreakdown,
   };
 }
