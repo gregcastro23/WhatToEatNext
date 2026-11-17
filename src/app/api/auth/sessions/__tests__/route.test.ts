@@ -174,6 +174,22 @@ describe("GET /api/auth/sessions — current-device marking", () => {
     expect(body.source).toBe("db");
     expect(body.sessions.some((s) => s.current)).toBe(false);
   });
+
+  it("propagates 503 when Bearer token validation hits DB unavailability instead of emitting 401", async () => {
+    mockAuth.mockResolvedValue(null);
+    mockValidateToken.mockResolvedValue({
+      valid: false,
+      error: "Authentication service temporarily unavailable",
+      statusCode: 503,
+    });
+
+    const res = await GET(
+      new Request(BASE, { headers: { authorization: "Bearer probe-token" } }),
+    );
+
+    expect(res.status).toBe(503);
+    expect(mockExecuteQuery).not.toHaveBeenCalled();
+  });
 });
 
 describe("DELETE /api/auth/sessions/[id] — self-revoke guard and origin checks", () => {

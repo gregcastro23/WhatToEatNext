@@ -9,6 +9,8 @@ import {
   type CommunityTip,
   CommunityTipsResponseSchema,
   PersistResponseSchema,
+  RecipeHistoryResponseSchema,
+  type RecipeReflectionItem,
   RecipeSocialResponseSchema,
   ShareResponseSchema,
 } from "@/lib/validation/socialResponseSchemas";
@@ -59,6 +61,7 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
   const [hydrated, setHydrated] = useState(false);
   const [madeCount, setMadeCount] = useState<number>(0);
   const [tips, setTips] = useState<CommunityTip[]>([]);
+  const [agentReflections, setAgentReflections] = useState<RecipeReflectionItem[]>([]);
   const [tipsRefresh, setTipsRefresh] = useState(0);
   const [saving, setSaving] = useState(false);
   const [shareState, setShareState] = useState<"idle" | "sharing" | "shared">("idle");
@@ -149,19 +152,33 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
     };
   }, [recipeId, status]);
 
-  // Community tips
+  // Community tips & historical agent reflections
   useEffect(() => {
     let cancelled = false;
     async function loadTips(): Promise<void> {
-      try {
-        const res = await fetch(`/api/recipes/${encodeURIComponent(recipeId)}/community-tips`, {
-          cache: "no-store",
-        });
-        if (!res.ok) return;
-        const data = await readJson(res, { parse: CommunityTipsResponseSchema.parse });
-        if (!cancelled && Array.isArray(data.tips)) setTips(data.tips);
-      } catch {
-        // silent — community tips are non-critical
+      const encoded = encodeURIComponent(recipeId);
+      const [tipsRes, historyRes] = await Promise.allSettled([
+        fetch(`/api/recipes/${encoded}/community-tips`, { cache: "no-store" }),
+        fetch(`/api/recipes/${encoded}/history?authorType=agent&limit=10`, { cache: "no-store" }),
+      ]);
+
+      const isActive = (): boolean => !cancelled;
+      if (isActive() && tipsRes.status === "fulfilled" && tipsRes.value.ok) {
+        try {
+          const data = await readJson(tipsRes.value, { parse: CommunityTipsResponseSchema.parse });
+          if (isActive() && Array.isArray(data.tips)) setTips(data.tips);
+        } catch {
+          // silent — community tips are non-critical
+        }
+      }
+
+      if (isActive() && historyRes.status === "fulfilled" && historyRes.value.ok) {
+        try {
+          const hist = await readJson(historyRes.value, { parse: RecipeHistoryResponseSchema.parse });
+          if (isActive() && Array.isArray(hist.items)) setAgentReflections(hist.items);
+        } catch {
+          // silent — historical reflections are non-critical
+        }
       }
     }
     loadTips().catch(() => {});
@@ -382,6 +399,45 @@ export function SocialSection({ recipeId, recipeName }: Props): React.JSX.Elemen
         {...(recipeName ? { recipeName } : {})}
         onCritiquePublished={() => setTipsRefresh((current) => current + 1)}
       />
+
+      {/* Historical agent ratings & reflections from recipe_reflections */}
+      {agentReflections.length > 0 && (
+        <div>
+          <h3 className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-2">
+            Historical Council Ratings &amp; Notes
+          </h3>
+          <ul className="space-y-2">
+            {agentReflections.map((refItem) => {
+              const authorHref = `/profile/${refItem.author.slug ?? refItem.author.id}`;
+              return (
+                <li key={refItem.id} className="p-3 rounded-lg bg-amber-500/[0.06] border border-amber-500/20 space-y-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <Link
+                      href={authorHref}
+                      className="text-sm font-semibold text-amber-300 hover:text-amber-200 transition-colors flex items-center gap-1.5"
+                    >
+                      <span>{refItem.author.name}</span>
+                      <span className="text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-300/90 border border-amber-500/25 font-bold">
+                        Historical Agent
+                      </span>
+                    </Link>
+                    {typeof refItem.score === "number" && refItem.score > 0 ? (
+                      <span className="text-xs text-amber-200 flex items-center gap-1 font-medium">
+                        <span className="text-amber-400">{"\u2605"}</span> {refItem.score}/5
+                      </span>
+                    ) : (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300/80 border border-amber-500/20 font-medium">
+                        Council Critique
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-white/80 leading-relaxed">{refItem.review}</p>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
 
       {/* Community tips — real feed from user_recipe_interactions */}
       <div>

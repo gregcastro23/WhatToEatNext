@@ -133,7 +133,7 @@ function shortHandle(actor: Actor | null, event: ActivityEvent): string {
 export type AdminStreamConnectionState = "live_stream" | "polling_fallback" | "paused";
 
 const STREAM_PILL_STYLE: Record<AdminStreamConnectionState, { cls: string; label: string }> = {
-  live_stream: { cls: "bg-emerald-50 text-emerald-800 border-emerald-200", label: "● Live SSE (3s)" },
+  live_stream: { cls: "bg-emerald-50 text-emerald-800 border-emerald-200", label: "● Live SSE (12s)" },
   polling_fallback: { cls: "bg-amber-50 text-amber-800 border-amber-200", label: "↻ Polling (15s)" },
   paused: { cls: "bg-slate-100 text-slate-600 border-slate-200", label: "⏸ Paused (Tab Hidden)" },
 };

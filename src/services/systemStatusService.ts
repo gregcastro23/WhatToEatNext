@@ -332,8 +332,6 @@ const FIVE_MIN = 5 * 60 * 1000;
 const ONE_HOUR = 60 * 60 * 1000;
 const ONE_DAY = 24 * 60 * 60 * 1000;
 
-const STALE_15MIN = 90 * 60 * 1000; // 15-min cron → 3 missed runs.
-const STALE_30MIN = 3 * 60 * 60 * 1000; // 30-min cron → 6 missed runs.
 const STALE_HOURLY = 4 * 60 * 60 * 1000; // hourly cron → 4 missed runs.
 
 async function probeAuth(latest: LatestProbeRow[]): Promise<FlowHealth> {
@@ -342,7 +340,7 @@ async function probeAuth(latest: LatestProbeRow[]): Promise<FlowHealth> {
   // signout. It does NOT cover session pings: /api/auth/session and
   // /api/auth/sessions/* are concrete route files that shadow the catch-all
   // and carry no observability wrapper, so they are invisible here. Much of
-  // what this does see is the 15-minute auth-signin synthetic probe rather
+  // what this does see is the hourly auth-signin synthetic probe rather
   // than organic traffic.
   const session = summarizePath("/api/auth", FIVE_MIN);
   let authEventsLive = true;
@@ -368,16 +366,18 @@ async function probeAuth(latest: LatestProbeRow[]): Promise<FlowHealth> {
       ? failures24h / (signins24h + failures24h)
       : 0;
 
+  // All synthetic probes run on hourly Vercel crons (* * * *), so allow up to
+  // STALE_HOURLY (4h) before marking a probe stale.
   const handshake = evaluateSyntheticProbe(
     "auth-handshake",
     latest,
-    STALE_15MIN,
+    STALE_HOURLY,
   );
   // Real OAuth entry path + client-secret validity. This is what catches a
   // genuinely broken sign-in: organic sign-in counts can read 0 simply
   // because everyone's on long-lived JWT cookies, so without this probe the
   // auth panel is vacuously "OK" and can't tell idle from broken.
-  const signin = evaluateSyntheticProbe("auth-signin", latest, STALE_15MIN);
+  const signin = evaluateSyntheticProbe("auth-signin", latest, STALE_HOURLY);
 
   let status: FlowStatus;
   if (!session.observed && !authEventsLive) status = "UNKNOWN";
@@ -494,7 +494,7 @@ async function probeOnboarding(latest: LatestProbeRow[]): Promise<FlowHealth> {
   const synthetic = evaluateSyntheticProbe(
     "onboarding-skip",
     latest,
-    STALE_15MIN,
+    STALE_HOURLY,
   );
   const syntheticFreshFailure = synthetic.freshFailure;
   const syntheticStale = synthetic.stale;
@@ -617,7 +617,7 @@ function probeRecommendations(
   const synthetic = evaluateSyntheticProbe(
     "recommendations",
     latest,
-    STALE_15MIN,
+    STALE_HOURLY,
   );
 
   let status: FlowStatus;
@@ -891,7 +891,7 @@ async function probePayments(latest: LatestProbeRow[]): Promise<FlowHealth> {
   const synthetic = evaluateSyntheticProbe(
     "stripe-webhook",
     latest,
-    STALE_15MIN,
+    STALE_HOURLY,
   );
 
   // Is Stripe actually SENDING the events we handle? Every other signal here
@@ -1178,9 +1178,64 @@ async function probeAgents(): Promise<FlowHealth> {
   };
 }
 
+export interface McpSummaryInput {
+  combinedVerdict: FlowStatus;
+  paReachable: boolean;
+  paVerdict: FlowStatus;
+  paP95Ms: number;
+  calls1h: number;
+  errorRate: number;
+  p95Ms: number;
+  syntheticStale: boolean;
+  syntheticFreshFailure: boolean;
+}
+
+export function buildMcpSummary(input: McpSummaryInput): string {
+  const {
+    combinedVerdict,
+    paReachable,
+    paVerdict,
+    paP95Ms,
+    calls1h,
+    errorRate,
+    p95Ms,
+    syntheticStale,
+    syntheticFreshFailure,
+  } = input;
+  const paLabel = paReachable ? "PA MCP idle" : "PA telemetry unavailable";
+
+  if (combinedVerdict === "OK") {
+    if (paVerdict === "UNKNOWN") {
+      return calls1h > 0
+        ? `${calls1h} WTEN tool calls · WTEN healthy · ${paLabel}`
+        : `Idle — WTEN MCP healthy · ${paLabel}`;
+    }
+    return calls1h > 0
+      ? `${calls1h} WTEN tool calls · WTEN & PA healthy`
+      : "Idle — WTEN & PA MCP healthy";
+  }
+
+  if (combinedVerdict === "DEGRADED") {
+    if (paVerdict === "DEGRADED") {
+      return `PA MCP degraded · p95 ${formatLatency(paP95Ms)}`;
+    }
+    if (syntheticStale) return "Synthetic WTEN MCP probe stale — cron may have stopped";
+    if (errorRate >= 0.1) return `${formatPct(errorRate)} of WTEN MCP calls failing in 1h`;
+    return `WTEN MCP tool latency elevated (p95 ${formatLatency(p95Ms)})`;
+  }
+
+  if (combinedVerdict === "INCIDENT") {
+    if (paVerdict === "INCIDENT") return "PA MCP has an active INCIDENT";
+    if (syntheticFreshFailure) return "Synthetic WTEN MCP probe failing — tool layer broken";
+    return `WTEN MCP tool failure rate ${formatPct(errorRate)} in 1h`;
+  }
+
+  return "No MCP signals or PA telemetry unreachable";
+}
+
 async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
-  const synthetic = evaluateSyntheticProbe("mcp", latest, STALE_30MIN);
+  const synthetic = evaluateSyntheticProbe("mcp", latest, STALE_HOURLY);
 
   // Pull a small 1h activity snapshot from mcp_invocations. Degrades
   // independently to `live: false` so the panel never hard-fails when
@@ -1225,19 +1280,26 @@ async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
 
   // Probe Planetary Agents (PA) MCP status
   const paStatus = await getMcpNetworkSummary().catch(() => null);
-  const paVerdict = paStatus?.live ? paStatus.verdict : "UNKNOWN";
+  const paReachable = Boolean(paStatus?.live);
+  const paVerdict = paReachable && paStatus ? paStatus.verdict : "UNKNOWN";
 
   // Combine verdicts to represent the worst of both servers. PA telemetry
-  // being UNKNOWN (network summary unavailable) is an observability gap, not a
-  // tool-surface degradation — and worst() maps any UNKNOWN to DEGRADED, which
-  // was flapping this flow into a false DEGRADED (mislabelled "WTEN latency
-  // elevated") whenever PA telemetry was down. Only fold PA into the verdict
-  // when we actually have a live status for it.
+  // being UNKNOWN (idle or network summary unavailable) is not a tool-surface
+  // degradation — and worst() maps any UNKNOWN to DEGRADED, which was
+  // flapping this flow into a false DEGRADED whenever PA telemetry was idle
+  // or unreachable. Only fold PA into the verdict when PA reports concrete health.
   const combinedVerdict =
     paVerdict === "UNKNOWN" ? wtenStatus : worst([wtenStatus, paVerdict]);
 
   const issues: FlowIssue[] = [];
   if (synthetic.issue) issues.push(synthetic.issue);
+  if (p95Ms >= 5000) {
+    issues.push({
+      at: checkedAt,
+      message: `WTEN MCP p95 latency elevated at ${formatLatency(p95Ms)} (${calls1h} calls in 1h)`,
+      severity: "warn",
+    });
+  }
   if (errorRate >= 0.1 && calls1h >= 5) {
     issues.push({
       at: checkedAt,
@@ -1264,30 +1326,17 @@ async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
     description:
       "WTEN and Planetary Agents MCP server tool layers exposed to LLM clients.",
     status: combinedVerdict,
-    summary:
-      combinedVerdict === "OK"
-        ? paVerdict === "UNKNOWN"
-          ? calls1h > 0
-            ? `${calls1h} WTEN tool calls · WTEN healthy · PA telemetry unavailable`
-            : "Idle — WTEN MCP healthy · PA telemetry unavailable"
-          : calls1h > 0
-            ? `${calls1h} WTEN tool calls · WTEN & PA healthy`
-            : "Idle — WTEN & PA MCP healthy"
-        : combinedVerdict === "DEGRADED"
-          ? paVerdict === "DEGRADED"
-            ? `PA MCP degraded · p95 ${formatLatency(paStatus?.totals.p95LatencyMs ?? 0)}`
-            : synthetic.stale
-              ? "Synthetic WTEN MCP probe stale — cron may have stopped"
-              : errorRate >= 0.1
-                ? `${formatPct(errorRate)} of WTEN MCP calls failing in 1h`
-                : `WTEN MCP tool latency elevated (p95 ${formatLatency(p95Ms)})`
-          : combinedVerdict === "INCIDENT"
-            ? paVerdict === "INCIDENT"
-              ? "PA MCP has an active INCIDENT"
-              : synthetic.freshFailure
-                ? "Synthetic WTEN MCP probe failing — tool layer broken"
-                : `WTEN MCP tool failure rate ${formatPct(errorRate)} in 1h`
-            : "No MCP signals or PA telemetry unreachable",
+    summary: buildMcpSummary({
+      combinedVerdict,
+      paReachable,
+      paVerdict,
+      paP95Ms: paStatus?.totals.p95LatencyMs ?? 0,
+      calls1h,
+      errorRate,
+      p95Ms,
+      syntheticStale: synthetic.stale,
+      syntheticFreshFailure: synthetic.freshFailure,
+    }),
     metrics: [
       { label: "WTEN Calls · 1h", value: `${calls1h}`, raw: calls1h },
       { label: "WTEN p95", value: formatLatency(p95Ms), raw: p95Ms },

@@ -53,9 +53,10 @@ export const databaseConfig = {
   ssl: process.env.DB_SSL === "true",
 
   // Connection pool settings — kept small for serverless (each Vercel invocation
-  // owns its own pool; 50 concurrent connections per instance would exhaust Railway).
-  maxConnections: intFromEnv(process.env.DB_MAX_CONNECTIONS, 5),
-  idleTimeout: intFromEnv(process.env.DB_IDLE_TIMEOUT, 30000),
+  // owns its own pool and PgBouncer runs in session mode with 20 total server
+  // slots, so 30s idle retention across warm containers would pin the pooler).
+  maxConnections: intFromEnv(process.env.DB_MAX_CONNECTIONS, process.env.VERCEL ? 3 : 5),
+  idleTimeout: intFromEnv(process.env.DB_IDLE_TIMEOUT, process.env.VERCEL ? 5000 : 30000),
   connectionTimeout: intFromEnv(process.env.DB_CONNECTION_TIMEOUT, 5000),
 
   // Per-statement cap. Pool-acquisition storms (cold start + cron storms) used

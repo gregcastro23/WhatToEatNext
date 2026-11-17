@@ -588,7 +588,7 @@ describe("Traffic", () => {
     expect(screen.getByText("Visitor retention cohorts")).toBeTruthy();
     expect(screen.getByText("Nov 10")).toBeTruthy();
     expect(screen.getByText("64%")).toBeTruthy();
-    expect(screen.getByText("● Live SSE (3s)")).toBeTruthy();
+    expect(screen.getByText("● Live SSE (12s)")).toBeTruthy();
     expect(screen.getByText("↻ Polling (15s)")).toBeTruthy();
     expect(screen.getByText("⏸ Paused (Tab Hidden)")).toBeTruthy();
 

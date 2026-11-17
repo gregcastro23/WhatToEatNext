@@ -15,6 +15,7 @@
 import { NextResponse } from "next/server";
 import { listUserApiKeys, mintApiKey } from "@/lib/api-keys/queries";
 import { auth } from "@/lib/auth/auth";
+import { resolveBearerOrSessionUser } from "@/lib/auth/bearerFallback";
 import { rateLimit } from "@/lib/rateLimit";
 import { AccountMintApiKeyRequestSchema } from "@/lib/validation/apiSchemas";
 
@@ -24,36 +25,16 @@ export const runtime = "nodejs";
 const LIST_LIMIT = { window: 60_000, max: 60, bucket: "api-keys:list" };
 const MINT_LIMIT = { window: 60_000, max: 10, bucket: "api-keys:mint" };
 
-async function resolveUserId(request: Request): Promise<string | null> {
-  const session = await auth();
-  if (session?.user?.id) return session.user.id;
-
-  // Bearer JWT fallback so headless API clients (and tests) can hit the
-  // route without a NextAuth cookie. Cookie path stays primary for real users.
-  const authHeader = request.headers.get("authorization") ?? "";
-  if (authHeader.startsWith("Bearer ")) {
-    try {
-      const { validateToken } = await import("@/lib/auth/validateRequest");
-      const result = await validateToken(authHeader.slice(7));
-      if (result.valid && result.user) return result.user.userId;
-    } catch {
-      /* fall through */
-    }
-  }
-  return null;
-}
-
 export async function GET(request: Request) {
   const rl = await rateLimit(request, LIST_LIMIT);
   if (!rl.allowed) return rl.response!;
 
-  const userId = await resolveUserId(request);
-  if (!userId) {
-    return NextResponse.json(
-      { success: false, error: "Unauthorized" },
-      { status: 401 },
-    );
+  const session = await auth();
+  const identity = await resolveBearerOrSessionUser(session?.user?.id, request);
+  if ("error" in identity) {
+    return identity.error;
   }
+  const { userId } = identity;
 
   try {
     const rows = await listUserApiKeys(userId);
@@ -74,13 +55,12 @@ export async function POST(request: Request) {
   const rl = await rateLimit(request, MINT_LIMIT);
   if (!rl.allowed) return rl.response!;
 
-  const userId = await resolveUserId(request);
-  if (!userId) {
-    return NextResponse.json(
-      { success: false, error: "Unauthorized" },
-      { status: 401 },
-    );
+  const session = await auth();
+  const identity = await resolveBearerOrSessionUser(session?.user?.id, request);
+  if ("error" in identity) {
+    return identity.error;
   }
+  const { userId } = identity;
 
   let rawBody: unknown;
   try {

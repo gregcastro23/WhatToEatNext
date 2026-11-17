@@ -39,6 +39,32 @@ export const CommunityTipsResponseSchema = z
 
 export type CommunityTipsResponse = z.infer<typeof CommunityTipsResponseSchema>;
 
+export const RecipeReflectionItemSchema = z
+  .object({
+    id: z.string(),
+    author: z.object({
+      id: z.string(),
+      name: z.string(),
+      slug: z.string().optional(),
+      isAgent: z.boolean(),
+    }),
+    source: z.string(),
+    review: z.string(),
+    score: z.number().nullable().optional(),
+    createdAt: z.string(),
+  })
+  .passthrough();
+
+export type RecipeReflectionItem = z.infer<typeof RecipeReflectionItemSchema>;
+
+export const RecipeHistoryResponseSchema = z
+  .object({
+    items: z.array(RecipeReflectionItemSchema).optional(),
+  })
+  .passthrough();
+
+export type RecipeHistoryResponse = z.infer<typeof RecipeHistoryResponseSchema>;
+
 export const PracticeRewardSchema = z
   .object({
     tokenType: z.string(),

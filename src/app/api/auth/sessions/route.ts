@@ -12,6 +12,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { SELECT_DEVICE_SESSIONS_SQL } from "@/lib/auth/authQueries";
+import { resolveBearerOrSessionUser } from "@/lib/auth/bearerFallback";
 import { scheduleSessionTouch } from "@/lib/auth/sessionTouch";
 import type { AuthSessionRow as SessionRow, AuthSessionsResponse } from "@/types/authSessions";
 
@@ -63,31 +64,15 @@ function jwtFallback(
 
 export async function GET(request: Request) {
   const session = await auth();
-  let user = session?.user as
-    | { id?: string; tier?: string }
-    | undefined;
 
   // Bearer JWT fallback so API clients (and the synthetic auth-handshake
   // probe) can hit this endpoint without a NextAuth cookie. Cookie path
-  // stays primary for real users.
-  if (!user?.id) {
-    const authHeader = request.headers.get("authorization") ?? "";
-    if (authHeader.startsWith("Bearer ")) {
-      try {
-        const { validateToken } = await import("@/lib/auth/validateRequest");
-        const result = await validateToken(authHeader.slice(7));
-        if (result.valid && result.user) {
-          user = { id: result.user.userId };
-        }
-      } catch {
-        /* token rejected — fall through to 401 */
-      }
-    }
+  // stays primary for real users, and DB outages return 503 rather than 401.
+  const identity = await resolveBearerOrSessionUser(session?.user?.id, request);
+  if ("error" in identity) {
+    return identity.error;
   }
-
-  if (!user?.id) {
-    return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
-  }
+  const user = { id: identity.userId };
 
   // The requester's device_sessions row id, so that row can be marked "current".
   // Taken from auth(), whose session callback copies token.deviceSessionId ??

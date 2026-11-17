@@ -40,6 +40,29 @@ describe("prewarm-agent-recipes cron", () => {
     );
   });
 
+  it("includes upstream PA failure reasons reported via onFailure in the recorded error and details", async () => {
+    mockPrewarm.mockImplementation(async (_limit, _deadline, onFailure) => {
+      onFailure?.("HTTP 502: all configured recipe providers were unavailable");
+      return { selected: 2, attempted: 1, generated: 0, skippedForBudget: 1 };
+    });
+    await GET(request());
+    expect(mockRecord).toHaveBeenCalledWith(
+      "prewarm-agent-recipes",
+      expect.objectContaining({
+        status: "failure",
+        error:
+          "PA generated 0 of 1 attempted (HTTP 502: all configured recipe providers were unavailable)",
+        details: {
+          selected: 2,
+          attempted: 1,
+          generated: 0,
+          skippedForBudget: 1,
+          failures: ["HTTP 502: all configured recipe providers were unavailable"],
+        },
+      }),
+    );
+  });
+
   it("records success when at least one recipe landed", async () => {
     mockPrewarm.mockResolvedValue({ selected: 3, attempted: 1, generated: 1, skippedForBudget: 2 });
     await GET(request());

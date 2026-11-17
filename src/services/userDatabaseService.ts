@@ -29,6 +29,20 @@ export interface UserWithProfile extends User {
   isAgent?: boolean;
 }
 
+/**
+ * Thrown when a user identity lookup fails due to PostgreSQL unavailability
+ * or timeout, so auth verification returns 503 instead of a false 401.
+ */
+export class UserDatabaseUnavailableError extends Error {
+  constructor(message = "Database lookup failed", options?: ErrorOptions) {
+    super(message, options);
+    this.name = "UserDatabaseUnavailableError";
+  }
+}
+
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 // Check if we should use database (only in server-side contexts with DB available)
 const isServerWithDB = (): boolean => typeof window === "undefined" && !!process.env.DATABASE_URL;
 
@@ -330,6 +344,37 @@ class UserDatabaseService {
   }
 
   /**
+   * Lightweight active-flag lookup for token validation. Avoids fetching large
+   * profile JSONB columns and surfaces DB failures via `UserDatabaseUnavailableError`
+   * instead of misreporting transient timeouts as inactive/deleted accounts.
+   */
+  async isUserActiveById(userId: string): Promise<boolean | null> {
+    await this.ensureInitialized();
+    const db = await getDbModule();
+
+    if (db) {
+      if (!UUID_RE.test(userId)) {
+        return null;
+      }
+      try {
+        const result = await db.executeQuery<{ is_active: boolean | null }>(
+          `SELECT is_active FROM users WHERE id = $1::uuid`,
+          [userId],
+        );
+        const [row] = result.rows;
+        if (!row) return null;
+        return row.is_active !== false;
+      } catch (error) {
+        _logger.error("PostgreSQL query failed in isUserActiveById:", error);
+        throw new UserDatabaseUnavailableError("Database lookup failed", { cause: error });
+      }
+    }
+
+    const user = this.users.get(userId);
+    return user ? user.isActive : null;
+  }
+
+  /**
    * Get user by ID
    */
   async getUserById(userId: string): Promise<UserWithProfile | null> {
@@ -338,6 +383,9 @@ class UserDatabaseService {
 
     // Try PostgreSQL first
     if (db) {
+      if (!UUID_RE.test(userId)) {
+        return null;
+      }
       try {
         const result = await db.executeQuery<UserWithProfileRow>(
           `SELECT u.*, up.name as profile_name, up.birth_data, up.natal_chart,
@@ -352,8 +400,10 @@ class UserDatabaseService {
         if (row) {
           return this.rowToUserWithProfile(row);
         }
+        return null;
       } catch (error) {
-        _logger.warn("PostgreSQL query failed, using in-memory:", error);
+        _logger.error("PostgreSQL query failed in getUserById:", error);
+        throw new UserDatabaseUnavailableError("Database lookup failed", { cause: error });
       }
     }
 

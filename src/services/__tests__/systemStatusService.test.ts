@@ -1,4 +1,5 @@
 import {
+  buildMcpSummary,
   worst,
   rollUpOverall,
   statusFromPathHealth,
@@ -249,5 +250,39 @@ describe("statusFromPathHealth ignores client errors (the 402 false-alarm)", () 
       successRate: 0,
     });
     expect(statusFromPathHealth(health, thresholds)).toBe("DEGRADED");
+  });
+});
+
+describe("systemStatusService.buildMcpSummary", () => {
+  const combinedVerdict: FlowStatus = "OK";
+  const base = {
+    combinedVerdict,
+    paP95Ms: 0,
+    calls1h: 4,
+    errorRate: 0,
+    p95Ms: 320,
+    syntheticStale: false,
+    syntheticFreshFailure: false,
+  };
+
+  it("reports 'PA MCP idle' when PA telemetry endpoint responded live with UNKNOWN verdict", () => {
+    expect(
+      buildMcpSummary({
+        ...base,
+        paReachable: true,
+        paVerdict: "UNKNOWN",
+      }),
+    ).toBe("4 WTEN tool calls · WTEN healthy · PA MCP idle");
+  });
+
+  it("reports 'PA telemetry unavailable' only when PA telemetry was unreachable", () => {
+    expect(
+      buildMcpSummary({
+        ...base,
+        calls1h: 0,
+        paReachable: false,
+        paVerdict: "UNKNOWN",
+      }),
+    ).toBe("Idle — WTEN MCP healthy · PA telemetry unavailable");
   });
 });

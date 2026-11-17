@@ -49,4 +49,34 @@ describe("databaseConfig.statementTimeoutMs", () => {
     );
     expect(ourErrors).toHaveLength(0);
   });
+
+  it("uses tighter serverless connection defaults on VERCEL when unset, while honoring overrides", () => {
+    const savedVercel = process.env.VERCEL;
+    const savedMax = process.env.DB_MAX_CONNECTIONS;
+    const savedIdle = process.env.DB_IDLE_TIMEOUT;
+    try {
+      process.env.VERCEL = "1";
+      delete process.env.DB_MAX_CONNECTIONS;
+      delete process.env.DB_IDLE_TIMEOUT;
+      jest.resetModules();
+      const serverlessConfig = require("@/lib/database/config").databaseConfig;
+      expect(serverlessConfig.maxConnections).toBe(3);
+      expect(serverlessConfig.idleTimeout).toBe(5000);
+
+      process.env.DB_MAX_CONNECTIONS = "4";
+      process.env.DB_IDLE_TIMEOUT = "12000";
+      jest.resetModules();
+      const overriddenConfig = require("@/lib/database/config").databaseConfig;
+      expect(overriddenConfig.maxConnections).toBe(4);
+      expect(overriddenConfig.idleTimeout).toBe(12000);
+    } finally {
+      if (savedVercel === undefined) delete process.env.VERCEL;
+      else process.env.VERCEL = savedVercel;
+      if (savedMax === undefined) delete process.env.DB_MAX_CONNECTIONS;
+      else process.env.DB_MAX_CONNECTIONS = savedMax;
+      if (savedIdle === undefined) delete process.env.DB_IDLE_TIMEOUT;
+      else process.env.DB_IDLE_TIMEOUT = savedIdle;
+      jest.resetModules();
+    }
+  });
 });

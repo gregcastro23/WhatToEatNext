@@ -66,4 +66,24 @@ describe("prewarmAgentRecipes — deadline-aware", () => {
     mockExecuteQuery.mockReset().mockRejectedValue(new Error("Query read timeout"));
     await expect(prewarmAgentRecipes(3, clock + 48_000)).rejects.toThrow("Query read timeout");
   });
+
+  it("reports concise upstream PA error details via onFailure without altering PrewarmResult", async () => {
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [agent("a1")] });
+    fetchMock.mockImplementationOnce(async () => {
+      clock += 20_000;
+      return new Response(
+        JSON.stringify({
+          detail: {
+            error: "Recipe model returned malformed output after retry",
+            message: "all configured recipe providers were unavailable",
+          },
+        }),
+        { status: 502, headers: { "content-type": "application/json" } },
+      );
+    });
+    const failures: string[] = [];
+    const result = await prewarmAgentRecipes(1, clock + 48_000, (reason) => failures.push(reason));
+    expect(result).toEqual({ selected: 1, attempted: 1, generated: 0, skippedForBudget: 0 });
+    expect(failures).toEqual(["HTTP 502: all configured recipe providers were unavailable"]);
+  });
 });

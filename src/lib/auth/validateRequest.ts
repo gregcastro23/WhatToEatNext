@@ -17,8 +17,13 @@ import type { UserWithProfile } from "@/services/userDatabaseService";
 import type { NextRequest } from "next/server";
 
 type AuthResolver = typeof import("@/lib/auth/auth").auth;
-type UserDatabaseResolver =
+type FullUserDatabase =
   typeof import("@/services/userDatabaseService").userDatabase;
+type UserDatabaseResolver = Pick<
+  FullUserDatabase,
+  "getUserById" | "getUserByEmail"
+> &
+  Partial<Pick<FullUserDatabase, "isUserActiveById" | "createUser">>;
 
 type AuthLoader = () => Promise<AuthResolver | null>;
 type UserDatabaseLoader = () => Promise<UserDatabaseResolver | null>;
@@ -132,35 +137,48 @@ export function extractToken(request: NextRequest): string | null {
 /**
  * Validate JWT token and return user payload
  */
+function parseTokenPayload(raw: unknown): TokenPayload | null {
+  if (typeof raw !== "object" || raw === null || Array.isArray(raw)) return null;
+  const userId = "userId" in raw ? raw.userId : undefined;
+  const email = "email" in raw ? raw.email : undefined;
+  const roles = "roles" in raw ? raw.roles : undefined;
+  const scopes = "scopes" in raw ? raw.scopes : undefined;
+  const iat = "iat" in raw ? raw.iat : undefined;
+  const exp = "exp" in raw ? raw.exp : undefined;
+  const iss = "iss" in raw ? raw.iss : undefined;
+  if (typeof userId !== "string" || typeof email !== "string") return null;
+  return {
+    userId,
+    email,
+    roles: Array.isArray(roles)
+      ? roles.filter((r): r is string => typeof r === "string")
+      : [],
+    scopes: Array.isArray(scopes)
+      ? scopes.filter((s): s is string => typeof s === "string")
+      : [],
+    iat: typeof iat === "number" ? iat : 0,
+    exp: typeof exp === "number" ? exp : 0,
+    iss: typeof iss === "string" ? iss : "",
+  };
+}
+
 export async function validateToken(token: string): Promise<ValidationResult> {
+  let decoded: TokenPayload;
   try {
     // Validate using legacy JWT
     const { payload } = await jwtVerify(token, getJWTSecret(), {
       algorithms: ["HS256"],
     });
-
-    const decoded = payload as unknown as TokenPayload;
-
-    // Try to verify user still exists and is active (skipped on edge runtime)
-    const userDatabase = await getUserDatabase();
-    if (userDatabase) {
-      const user = await userDatabase.getUserById(decoded.userId);
-      if (!user?.isActive) {
-        return {
-          valid: false,
-          error: "User account is inactive or deleted",
-          statusCode: 401,
-        };
-      }
+    const parsed = parseTokenPayload(payload);
+    if (!parsed) {
+      return {
+        valid: false,
+        error: "Invalid token payload",
+        statusCode: 401,
+      };
     }
-    // On edge runtime, skip DB check and trust the JWT
-
-    return {
-      valid: true,
-      user: decoded,
-    };
+    decoded = parsed;
   } catch (error) {
-    // Handle JOSE specific errors
     if (error instanceof JOSEerrors.JWTExpired) {
       return {
         valid: false,
@@ -184,6 +202,44 @@ export async function validateToken(token: string): Promise<ValidationResult> {
       statusCode: 401,
     };
   }
+
+  // Verify user still exists and is active (skipped on edge runtime)
+  const userDatabase = await getUserDatabase();
+  if (userDatabase) {
+    let active: boolean | null;
+    try {
+      if (typeof userDatabase.isUserActiveById === "function") {
+        active = await userDatabase.isUserActiveById(decoded.userId);
+      } else {
+        const user = await userDatabase.getUserById(decoded.userId);
+        active = user ? user.isActive : null;
+      }
+    } catch (error) {
+      _logger.error(
+        `[validateToken] Database availability check failed for user ${decoded.userId}:`,
+        error,
+      );
+      return {
+        valid: false,
+        error: "Authentication service temporarily unavailable",
+        statusCode: 503,
+      };
+    }
+
+    if (!active) {
+      return {
+        valid: false,
+        error: "User account is inactive or deleted",
+        statusCode: 401,
+      };
+    }
+  }
+  // On edge runtime, skip DB check and trust the JWT
+
+  return {
+    valid: true,
+    user: decoded,
+  };
 }
 
 /**
@@ -405,7 +461,7 @@ export async function getDatabaseUserFromRequest(
             _logger.error("[getDatabaseUserFromRequest] Database lookup failed, attempting JIT creation:", lookupError);
           }
 
-          if (!user) {
+          if (!user && typeof userDb.createUser === "function") {
             _logger.error("[getDatabaseUserFromRequest] User authenticated via NextAuth but missing or lookup failed in Postgres. JIT healing sequence initiated.", { path: request.nextUrl.pathname, email: session.user.email });
             try {
               user = await userDb.createUser({

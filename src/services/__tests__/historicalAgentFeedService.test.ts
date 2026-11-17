@@ -112,6 +112,20 @@ describe("mapAgentEventRow", () => {
     });
     expect(item.createdAt).toBe("2026-06-02T08:30:00.000Z");
   });
+
+  it("propagates commentCount and reactionCounts when present and omits them when absent", () => {
+    const withoutEngagement = mapAgentEventRow(BASE_ROW);
+    expect(withoutEngagement.commentCount).toBeUndefined();
+    expect(withoutEngagement.reactionCounts).toBeUndefined();
+
+    const withEngagement = mapAgentEventRow({
+      ...BASE_ROW,
+      comment_count: 4,
+      reaction_by_kind: { fire: 2, insightful: 1 },
+    });
+    expect(withEngagement.commentCount).toBe(4);
+    expect(withEngagement.reactionCounts).toEqual({ fire: 2, insightful: 1 });
+  });
 });
 
 describe("mapAgentToRecipePost", () => {

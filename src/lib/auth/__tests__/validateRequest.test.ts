@@ -44,10 +44,12 @@ jest.mock("jose", () => ({
 }));
 
 // Mock auth and dependencies using the SAME paths used in dynamic imports
+import { jwtVerify } from "jose";
 import {
   __resetValidateRequestTestLoaders,
   __setValidateRequestTestLoaders,
   getUserIdFromRequest,
+  validateToken,
 } from "../validateRequest";
 
 import { NextRequest } from "next/server";
@@ -58,6 +60,7 @@ describe("validateRequest: getUserIdFromRequest", () => {
   const userDb = {
     getUserById: jest.fn(),
     getUserByEmail: jest.fn(),
+    createUser: jest.fn(),
   };
   let consoleErrorSpy: jest.SpyInstance;
 
@@ -143,5 +146,72 @@ describe("validateRequest: getUserIdFromRequest", () => {
 
     expect(userId).toBeNull();
     expect(userDb.getUserById).not.toHaveBeenCalled();
+  });
+});
+
+describe("validateRequest: validateToken DB error isolation", () => {
+  const mockedJwtVerify = jest.mocked(jwtVerify);
+  const originalJwtSecret = process.env.JWT_SECRET;
+  const userDb = {
+    getUserById: jest.fn(),
+    getUserByEmail: jest.fn(),
+    createUser: jest.fn(),
+    isUserActiveById: jest.fn(),
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    process.env.JWT_SECRET = "unit-test-secret-0123456789abcdef";
+    __setValidateRequestTestLoaders({
+      userDatabaseLoader: async () => userDb,
+    });
+  });
+
+  afterEach(() => {
+    __resetValidateRequestTestLoaders();
+    if (originalJwtSecret === undefined) delete process.env.JWT_SECRET;
+    else process.env.JWT_SECRET = originalJwtSecret;
+  });
+
+  const verifiedJwt = {
+    payload: {
+      userId: "user-123",
+      email: "probe@alchm.kitchen",
+      roles: ["user"],
+      scopes: [],
+      iat: 1,
+      exp: 9_999_999_999,
+      iss: "alchm",
+    },
+    protectedHeader: { alg: "HS256" },
+    key: new Uint8Array(),
+  };
+
+  it("returns statusCode 503 instead of 401 when the DB lookup throws/times out", async () => {
+    mockedJwtVerify.mockResolvedValue(verifiedJwt);
+    userDb.isUserActiveById.mockRejectedValue(new Error("Database read timeout"));
+
+    const result = await validateToken("valid.jwt.token");
+    expect(result.valid).toBe(false);
+    expect(result.statusCode).toBe(503);
+    expect(userDb.getUserById).not.toHaveBeenCalled();
+  });
+
+  it("returns statusCode 401 when user is inactive or deleted", async () => {
+    mockedJwtVerify.mockResolvedValue(verifiedJwt);
+    userDb.isUserActiveById.mockResolvedValue(false);
+
+    const result = await validateToken("valid.jwt.token");
+    expect(result.valid).toBe(false);
+    expect(result.statusCode).toBe(401);
+  });
+
+  it("succeeds via lightweight isUserActiveById when user is active", async () => {
+    mockedJwtVerify.mockResolvedValue(verifiedJwt);
+    userDb.isUserActiveById.mockResolvedValue(true);
+
+    const result = await validateToken("valid.jwt.token");
+    expect(result.valid).toBe(true);
+    expect(result.user?.userId).toBe("user-123");
   });
 });
