@@ -23,6 +23,8 @@ import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping"
 const CACHE_PREFIX = "agent_recipe:";
 const CACHE_TTL_SECONDS = 26 * 60 * 60; // ~26h — outlives the hourly rotating cron
 const PA_TIMEOUT_MS = 45_000;
+const MIN_CANDIDATE_POOL = 8;
+const MAX_CANDIDATE_POOL = 24;
 /**
  * Don't start a generation with less than this left: the fastest real PA
  * generation measured was 13.7s (/api/generate-cosmic-recipe, 2026-08-19),
@@ -214,37 +216,39 @@ async function selectAgents(limit: number): Promise<PrewarmAgentRow[]> {
         AND COALESCE(u.is_active, true) = true
         AND up.natal_positions IS NOT NULL
         AND up.natal_positions::text NOT IN ('[]', 'null', '{}')
-      ORDER BY c.expires_at ASC NULLS FIRST
+      ORDER BY c.expires_at ASC NULLS FIRST, u.id ASC
       LIMIT $1`,
     [limit, CACHE_PREFIX],
   );
   return result.rows;
 }
 
-/**
- * Generate + cache PA recipes for a rotating slice of chart-bearing agents
- * (oldest / missing cache first). Sequential to avoid hammering PA's LLM.
- *
- * Deadline-aware: PA generations measure 12-34s each, so three at the old
- * fixed 45s timeout could need 135s inside a 60s function, and Vercel killed
- * this cron mid-flight 15 times, taking its heartbeat with it. Each call now
- * gets at most the time left before `deadlineMs`, and no call starts with
- * less than MIN_ATTEMPT_MS left.
- *
- * Throws when the agent query fails, so the cron records a real failure
- * instead of a "success" that generated nothing.
- */
+/** Deterministically rotate candidate rows by the current UTC hour bucket. */
+export function rotateCandidatesByHour<T>(
+  rows: readonly T[],
+  nowMs: number = Date.now(),
+): T[] {
+  if (rows.length <= 1) return [...rows];
+  const hourBucket = Math.floor(nowMs / 3_600_000);
+  const offset = ((hourBucket % rows.length) + rows.length) % rows.length;
+  if (offset === 0) return [...rows];
+  return [...rows.slice(offset), ...rows.slice(0, offset)];
+}
+
+/** Rotate candidates deterministically by UTC hour bucket and advance past failures within budget. */
 export async function prewarmAgentRecipes(
   limit = 3,
   deadlineMs: number = Date.now() + PA_TIMEOUT_MS,
   onFailure?: (reason: string) => void,
 ): Promise<PrewarmResult> {
-  const rows = await selectAgents(limit);
+  const candidateLimit = Math.min(Math.max(limit * 4, MIN_CANDIDATE_POOL), MAX_CANDIDATE_POOL);
+  const rows = rotateCandidatesByHour(await selectAgents(candidateLimit), Date.now());
   const result: PrewarmResult = { selected: rows.length, attempted: 0, generated: 0, skippedForBudget: 0 };
   for (const row of rows) {
+    if (result.generated >= limit) break;
     const remaining = deadlineMs - Date.now();
     if (remaining < MIN_ATTEMPT_MS) {
-      result.skippedForBudget = rows.length - result.attempted;
+      result.skippedForBudget = Math.max(0, Math.min(limit - result.generated, rows.length - result.attempted));
       break;
     }
     result.attempted += 1;

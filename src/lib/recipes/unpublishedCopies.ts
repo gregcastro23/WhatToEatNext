@@ -49,9 +49,9 @@ export interface RecipePublication {
  */
 async function loadPublication(): Promise<RecipePublication> {
   const result = await executeQuery<{ id: string; name: string | null; cuisine: string | null; published: boolean }>(
-    `SELECT COALESCE(r.read_model->>'id', r.id::text) AS id,
-            COALESCE(r.read_model->>'name', r.name) AS name,
-            COALESCE(r.read_model->>'cuisine', r.cuisine::text) AS cuisine,
+    `SELECT r.id::text AS id,
+            COALESCE(r.name, r.read_model->>'name') AS name,
+            COALESCE(r.cuisine::text, r.read_model->>'cuisine') AS cuisine,
             (r.is_public IS TRUE) AS published
        FROM recipes r`,
   );

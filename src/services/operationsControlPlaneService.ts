@@ -274,6 +274,60 @@ function priorityFromFlow(flow: FlowHealth): OperationsPriority | null {
   };
 }
 
+function durableFeedDetail(
+  planetaryIntegration: PlanetaryIntegrationSnapshot,
+  systemStatus: SystemStatusPayload,
+): string | null {
+  const agentsFlow = findFlow(systemStatus, "agents");
+  if (agentsFlow?.live === false) return null;
+  const events24h = agentsFlow?.metrics.find((m) => m.label === "Events · 24h");
+  const lastEmitMetric = agentsFlow?.metrics.find((m) => m.label === "Last emit");
+  const rate1h = planetaryIntegration.telemetry?.transmutationRate;
+  const count24h = typeof events24h?.raw === "number" ? events24h.raw : 0;
+  const count1h = rate1h?.live && typeof rate1h.raw === "number" ? rate1h.raw : 0;
+  if (count24h <= 0 && count1h <= 0) return null;
+  const lastAge =
+    lastEmitMetric?.value && lastEmitMetric.value !== "never"
+      ? `; last emit ${lastEmitMetric.value}`
+      : "";
+  return count24h > 0
+    ? `Durable feed active (${count24h} events in 24h${lastAge}).`
+    : `Durable feed active (${count1h} events in 1h${lastAge}).`;
+}
+
+function buildAgentNetworkMaintenanceItem(
+  planetaryHealthy: boolean,
+  planetaryIntegration: PlanetaryIntegrationSnapshot,
+  systemStatus: SystemStatusPayload,
+): OperationsMaintenanceItem {
+  const { lastFeedEmit } = planetaryIntegration;
+  const durableDetail = durableFeedDetail(planetaryIntegration, systemStatus);
+  let status: OperationsMaintenanceItem["status"] = "WATCH";
+  let detail = "No in-process or durable 24h feed events have been observed.";
+
+  if (!planetaryHealthy) {
+    status = "DUE";
+    detail = lastFeedEmit
+      ? `Last feed emit: ${lastFeedEmit.eventType} (${lastFeedEmit.responseCode}).`
+      : durableDetail ?? "No in-process feed emit has been observed; confirm durable agent telemetry.";
+  } else if (lastFeedEmit) {
+    status = "CLEAR";
+    detail = `Last feed emit: ${lastFeedEmit.eventType} (${lastFeedEmit.responseCode}).`;
+  } else if (durableDetail) {
+    status = "CLEAR";
+    detail = durableDetail;
+  }
+
+  return {
+    id: "agent-network-review",
+    label: "Agent network continuity",
+    status,
+    count: planetaryHealthy ? 0 : 1,
+    detail,
+    href: "#agents",
+  };
+}
+
 /** Build the scored, actionable view consumed by the quantum control panel. */
 export function buildOperationsControlPlane(
   input: OperationsControlPlaneInput,
@@ -700,20 +754,11 @@ export function buildOperationsControlPlane(
             : "All registered rollout subsystems are ready.",
       href: "/admin/settings",
     },
-    {
-      id: "agent-network-review",
-      label: "Agent network continuity",
-      status: !planetaryHealthy
-        ? "DUE"
-        : planetaryIntegration.lastFeedEmit
-          ? "CLEAR"
-          : "WATCH",
-      count: planetaryHealthy ? 0 : 1,
-      detail: planetaryIntegration.lastFeedEmit
-        ? `Last feed emit: ${planetaryIntegration.lastFeedEmit.eventType} (${planetaryIntegration.lastFeedEmit.responseCode}).`
-        : "No in-process feed emit has been observed; confirm durable agent telemetry.",
-      href: "#agents",
-    },
+    buildAgentNetworkMaintenanceItem(
+      planetaryHealthy,
+      planetaryIntegration,
+      systemStatus,
+    ),
   ];
 
   const criticalDomains = domains.filter(

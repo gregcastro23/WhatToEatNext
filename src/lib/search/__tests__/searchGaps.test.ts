@@ -52,11 +52,13 @@ describe("Omnibar Phase 7 — Zero-Result Search Gap Capture", () => {
       expect(longResult?.normalizedQuery.length).toBeLessThanOrEqual(64);
     });
 
-    it("rejects queries shorter than 3 chars or purely numeric/PII inputs", () => {
+    it("rejects queries shorter than 3 chars, purely numeric/PII inputs, or template placeholders", () => {
       expect(normalizeZeroResultQuery("")).toBeNull();
       expect(normalizeZeroResultQuery("ab")).toBeNull();
       expect(normalizeZeroResultQuery("123456789")).toBeNull();
       expect(normalizeZeroResultQuery("user@domain.org 555-123-4567")).toBeNull();
+      expect(normalizeZeroResultQuery("{search_term_string}")).toBeNull();
+      expect(normalizeZeroResultQuery("recipe {query}")).toBeNull();
     });
   });
 
