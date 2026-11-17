@@ -378,4 +378,45 @@ describe("operationsControlPlaneService", () => {
       ]),
     );
   });
+
+  it("keeps agent-network-review CLEAR using durable feed telemetry when in-process lastFeedEmit is null", () => {
+    const input = makeInput();
+    input.planetaryIntegration.lastFeedEmit = null;
+    input.systemStatus.flows = input.systemStatus.flows.map((flow) =>
+      flow.id === "agents"
+        ? {
+            ...flow,
+            metrics: [
+              { label: "Events · 24h", value: "1133", raw: 1133 },
+              { label: "Last emit", value: "888s ago", raw: 888000 },
+            ],
+          }
+        : flow,
+    );
+
+    const withDurableActivity = buildOperationsControlPlane(input);
+    expect(
+      withDurableActivity.maintenance.find(
+        (item) => item.id === "agent-network-review",
+      ),
+    ).toMatchObject({
+      status: "CLEAR",
+      count: 0,
+    });
+
+    const quietInput = makeInput();
+    quietInput.planetaryIntegration.lastFeedEmit = null;
+    if (quietInput.planetaryIntegration.telemetry) {
+      quietInput.planetaryIntegration.telemetry.transmutationRate.raw = 0;
+    }
+    const quietResult = buildOperationsControlPlane(quietInput);
+    expect(
+      quietResult.maintenance.find(
+        (item) => item.id === "agent-network-review",
+      ),
+    ).toMatchObject({
+      status: "WATCH",
+      count: 0,
+    });
+  });
 });

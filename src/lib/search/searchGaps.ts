@@ -27,6 +27,7 @@ const PHONE_RE = /(?:\+?\d{1,3}[\s.-]?)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}\b/g;
 const LONG_NUMERIC_RE = /\b\d{4,}\b/g;
 const COMBINING_MARKS_RE = /[\u0300-\u036f]/g;
 const CONTROL_CHARS_RE = /\p{Cc}+/gu;
+const TEMPLATE_PLACEHOLDER_RE = /\{[^}]*\}/;
 
 const recentQueryTimestamps = new Map<string, number>();
 let resolvedGapCacheLoadedAtMs = 0;
@@ -75,6 +76,7 @@ export interface NormalizedGapQuery {
  */
 export function normalizeZeroResultQuery(raw: string): NormalizedGapQuery | null {
   if (typeof raw !== "string" || raw.trim().length < SEARCH_GAP_MIN_NORMALIZED_LENGTH) return null;
+  if (TEMPLATE_PLACEHOLDER_RE.test(raw)) return null;
   const scrubbed = scrubSearchQueryPii(raw);
   if (scrubbed.length < SEARCH_GAP_MIN_NORMALIZED_LENGTH) return null;
   const normalizedQuery = scrubbed.normalize("NFD").replace(COMBINING_MARKS_RE, "").toLowerCase().replace(/\s+/g, " ").trim().slice(0, SEARCH_GAP_MAX_NORMALIZED_LENGTH).trim();

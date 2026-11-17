@@ -202,6 +202,8 @@ describe("readPublication", () => {
     // LocalRecipeService reads `is_public = true`; `IS TRUE` is the same test
     // with a NULL flag counting as false, and the two halves cannot overlap.
     expect(sql).toContain("(r.is_public IS TRUE) AS published");
+    expect(sql).toContain("r.id::text AS id");
+    expect(sql).toContain("COALESCE(r.name, r.read_model->>'name')");
     expect(sql).not.toMatch(/WHERE/i);
   });
 });
