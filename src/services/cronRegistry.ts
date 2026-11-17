@@ -55,6 +55,7 @@ const FUNCTION_LIMIT_SECONDS: Readonly<Record<string, number>> = {
   "chain-reconcile": 60,
   "environmental-ingest": 60,
   "esms-reconciliation": 60,
+  "historical-agent-engagement": 60,
   "observability-prune": 30,
   "prewarm-agent-recipes": 60,
   "reconcile-cosmic-operations": 60,

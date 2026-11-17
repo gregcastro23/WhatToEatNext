@@ -1,24 +1,31 @@
 /**
  * Real-Time Admin SSE Stream — GET /api/admin/stream
  *
- * Pushes validated `OverviewPulseSchema` frames every 3 seconds (up to 55s max
- * connection lifetime) while filtering live-activity deltas after the client's
- * cursor (`last-event-id` / `?since=`) when provided.
+ * Pushes validated `OverviewPulseSchema` frames every 12 seconds (up to 50s max
+ * connection lifetime inside a 60s route budget) while filtering live-activity
+ * deltas after the client's cursor (`last-event-id` / `?since=`) when provided.
+ * Uses normal `overviewPulseService` cache TTLs (`ttlScale = 1`) and skips
+ * overlapping ticks so slow DB responses can never pile up connections.
  *
  * @requires Authentication - Admin role required
  * @file src/app/api/admin/stream/route.ts
  */
 
 import { type NextRequest } from "next/server";
-import { OverviewPulseSchema, type OverviewPulseView } from "@/lib/admin/schemas/overviewPulse";
+import {
+  ADMIN_STREAM_INTERVAL_MS,
+  OverviewPulseSchema,
+  type OverviewPulseView,
+} from "@/lib/admin/schemas/overviewPulse";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { buildOverviewPulsePayload } from "@/services/admin/overviewPulseService";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
-const STREAM_INTERVAL_MS = 3_000;
-const MAX_CONNECTION_MS = 55_000;
+const MAX_CONNECTION_MS = 50_000;
+const RETRY_MS = 5_000;
 const encoder = new TextEncoder();
 
 function formatSseFrame(event: string, data: unknown, id?: string): Uint8Array {
@@ -37,12 +44,13 @@ function withCursorFilter(payload: OverviewPulseView, sinceIso: string | null): 
 }
 
 async function readValidatedPulse(sinceIso: string | null): Promise<OverviewPulseView> {
-  const raw = await buildOverviewPulsePayload(0.2);
+  const raw = await buildOverviewPulsePayload(1);
   return OverviewPulseSchema.parse(withCursorFilter(raw, sinceIso));
 }
 
 function createPulseSseStream(signal: AbortSignal, once: boolean, initialCursor: string | null): ReadableStream<Uint8Array> {
   let closed = false;
+  let inFlight = false;
   let tickTimer: ReturnType<typeof setInterval> | null = null;
   let maxTimer: ReturnType<typeof setTimeout> | null = null;
   let cursor = initialCursor;
@@ -61,25 +69,37 @@ function createPulseSseStream(signal: AbortSignal, once: boolean, initialCursor:
         cleanup();
         try { controller.close(); } catch { /* stream already closed */ }
       };
+      const isInactive = (): boolean => closed || signal.aborted;
       const emitPulse = async (): Promise<void> => {
-        if (closed || signal.aborted) { closeStream(); return; }
-        const validated = await readValidatedPulse(cursor);
-        cursor = validated.generatedAt;
-        if (closed || signal.aborted) { closeStream(); return; }
-        controller.enqueue(formatSseFrame("pulse", validated, validated.generatedAt));
+        if (isInactive()) { closeStream(); return; }
+        inFlight = true;
+        try {
+          const validated = await readValidatedPulse(cursor);
+          cursor = validated.generatedAt;
+          if (isInactive()) { closeStream(); return; }
+          controller.enqueue(formatSseFrame("pulse", validated, validated.generatedAt));
+        } finally {
+          inFlight = false;
+        }
       };
       signal.addEventListener("abort", closeStream, { once: true });
       try {
-        controller.enqueue(encoder.encode("retry: 3000\n\n"));
+        controller.enqueue(encoder.encode(`retry: ${RETRY_MS}\n\n`));
         await emitPulse();
       } catch { closeStream(); return; }
       if (once || signal.aborted || closed) { closeStream(); return; }
       tickTimer = setInterval(() => {
+        if (inFlight || closed || signal.aborted) return;
         emitPulse().then(() => {
           if (!closed && !signal.aborted) controller.enqueue(encoder.encode("event: keepalive\n: ping\n\ndata: {}\n\n"));
         }).catch(() => closeStream());
-      }, STREAM_INTERVAL_MS);
-      maxTimer = setTimeout(closeStream, MAX_CONNECTION_MS);
+      }, ADMIN_STREAM_INTERVAL_MS);
+      maxTimer = setTimeout(() => {
+        if (!closed && !signal.aborted) {
+          try { controller.enqueue(formatSseFrame("reconnect", { reason: "lifetime" })); } catch { /* stream closed */ }
+        }
+        closeStream();
+      }, MAX_CONNECTION_MS);
     },
     cancel(): void { cleanup(); },
   });

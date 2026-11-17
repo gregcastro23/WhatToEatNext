@@ -36,6 +36,11 @@ class MockEventSource {
     for (const fn of this.listeners.pulse ?? []) fn(ev);
   }
 
+  emitReconnect(): void {
+    const ev = new MessageEvent("reconnect", { data: "{}" });
+    for (const fn of this.listeners.reconnect ?? []) fn(ev);
+  }
+
   triggerError(): void {
     if (this.onerror) this.onerror(new Event("error"));
   }
@@ -128,5 +133,30 @@ describe("useAdminLiveStream", () => {
     expect(result.current.connectionState).toBe("polling_fallback");
     await act(async () => { await Promise.resolve(); });
     expect(fetchMock).toHaveBeenCalledWith("/api/admin/overview-pulse", { cache: "no-store" });
+  });
+
+  it("reconnects cleanly on server lifetime reconnect events without falling back to polling", () => {
+    jest.useFakeTimers();
+    try {
+      const { result } = renderHook(() => useAdminLiveStream());
+      expect(MockEventSource.instances).toHaveLength(1);
+      const first = MockEventSource.instances[0];
+
+      act(() => {
+        first?.emitReconnect();
+      });
+      expect(first?.closed).toBe(true);
+      expect(result.current.connectionState).toBe("live_stream");
+      expect(result.current.error).toBeNull();
+
+      act(() => {
+        jest.advanceTimersByTime(300);
+      });
+      expect(MockEventSource.instances).toHaveLength(2);
+      expect(result.current.connectionState).toBe("live_stream");
+      expect(result.current.error).toBeNull();
+    } finally {
+      jest.useRealTimers();
+    }
   });
 });

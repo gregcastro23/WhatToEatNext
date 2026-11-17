@@ -190,11 +190,17 @@ const UNAVAILABLE: PoolerSaturationSignals = {
   maxWaitSeconds: 0, maxClientConn: 0, poolSize: 0, live: false,
 };
 
-/**
- * Reads SHOW POOLS + SHOW CONFIG from the pooler. Degrades to `live: false`
- * rather than throwing, so the Database flow reports an honest "no source".
- */
-export async function fetchPoolerSaturationSignals(): Promise<PoolerSaturationSignals> {
+const POOLER_CACHE_TTL_MS = 15_000;
+let cachedLiveSignals: { value: PoolerSaturationSignals; expiresAt: number } | null = null;
+let inFlightPoolerProbe: Promise<PoolerSaturationSignals> | null = null;
+
+/** Test helper to clear the in-memory pooler probe cache between unit specs. */
+export function resetPoolerSaturationCache(): void {
+  cachedLiveSignals = null;
+  inFlightPoolerProbe = null;
+}
+
+async function probePoolerAdmin(): Promise<PoolerSaturationSignals> {
   const dsn = resolveAdminDsn(databaseConfig.databaseUrl, databaseConfig.poolerMode);
   if (!dsn) return UNAVAILABLE;
 
@@ -224,4 +230,41 @@ export async function fetchPoolerSaturationSignals(): Promise<PoolerSaturationSi
   } finally {
     await client.end().catch(() => undefined);
   }
+}
+
+/**
+ * Reads SHOW POOLS + SHOW CONFIG from the pooler. Degrades to `live: false`
+ * rather than throwing, so the Database flow reports an honest "no source".
+ *
+ * Coalesces concurrent probes and caches live results briefly (15s) because
+ * PgBouncer's admin database only exposes 2 server slots; live:false results
+ * are never cached so recovery is observed immediately.
+ */
+export async function fetchPoolerSaturationSignals(): Promise<PoolerSaturationSignals> {
+  const now = Date.now();
+  if (cachedLiveSignals && cachedLiveSignals.expiresAt > now) {
+    return cachedLiveSignals.value;
+  }
+  if (inFlightPoolerProbe) {
+    return inFlightPoolerProbe;
+  }
+
+  const probePromise = probePoolerAdmin()
+    .then((signals) => {
+      if (signals.live) {
+        cachedLiveSignals = {
+          value: signals,
+          expiresAt: Date.now() + POOLER_CACHE_TTL_MS,
+        };
+      }
+      return signals;
+    })
+    .finally(() => {
+      if (inFlightPoolerProbe === probePromise) {
+        inFlightPoolerProbe = null;
+      }
+    });
+
+  inFlightPoolerProbe = probePromise;
+  return probePromise;
 }

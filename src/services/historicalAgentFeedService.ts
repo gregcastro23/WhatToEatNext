@@ -55,6 +55,8 @@ export interface AgentEventRow {
   name: string | null;
   dominant_element: string | null;
   natal_positions: unknown;
+  reaction_by_kind?: unknown;
+  comment_count?: number | string | null;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -112,6 +114,23 @@ export function formatNatalPlacements(value: unknown): string[] {
   return out;
 }
 
+function parseReactionCounts(raw: unknown): Record<string, number> | undefined {
+  if (raw === undefined) return undefined;
+  const parsedByKind = asRecord(raw);
+  const cleanCounts: Record<string, number> = {};
+  for (const [kind, count] of Object.entries(parsedByKind)) {
+    const n = Number(count);
+    if (Number.isFinite(n) && n > 0) cleanCounts[kind] = n;
+  }
+  return cleanCounts;
+}
+
+function parseCommentCount(raw: unknown): number | undefined {
+  if (raw === undefined || raw === null) return undefined;
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 /**
  * Pure mapper: a historical agent's feed_event row → an `agent_event` item.
  * Exported for unit testing (no DB).
@@ -129,8 +148,9 @@ export function mapAgentEventRow(row: AgentEventRow): AgentEventFeedItem {
   const esmsTag = pickEsms(signature.esmsTag) ?? pickEsms(signature.sacredStat);
   const planetaryHour = str(signature.planetaryHour) ?? str(signature.dominantPlanet);
   const natalSignature = formatNatalPlacements(signature.natalPositions ?? row.natal_positions);
-
   const audioUrl = str(meta.audioUrl) ?? str(meta.audio_url);
+  const reactionCounts = parseReactionCounts(row.reaction_by_kind);
+  const commentCount = parseCommentCount(row.comment_count);
 
   return {
     id: row.id,
@@ -150,6 +170,8 @@ export function mapAgentEventRow(row: AgentEventRow): AgentEventFeedItem {
     ...(esmsTag ? { esmsTag } : {}),
     ...(planetaryHour ? { planetaryHour } : {}),
     ...(natalSignature.length > 0 ? { natalSignature } : {}),
+    ...(reactionCounts !== undefined ? { reactionCounts } : {}),
+    ...(commentCount !== undefined ? { commentCount } : {}),
     createdAt: new Date(row.created_at).toISOString(),
   };
 }
@@ -171,10 +193,21 @@ export async function getHistoricalAgentEvents(
               u.email,
               up.name,
               up.dominant_element,
-              up.natal_positions
+              up.natal_positions,
+              COALESCE(rx.by_kind, '{}'::jsonb) AS reaction_by_kind,
+              COALESCE(cc.n, 0) AS comment_count
          FROM feed_events f
          JOIN users u ON u.id = f.actor_id
          LEFT JOIN user_profiles up ON up.user_id = u.id
+         LEFT JOIN LATERAL (
+           SELECT jsonb_object_agg(kind, n) AS by_kind FROM
+             (SELECT kind, COUNT(*)::int AS n FROM feed_reactions
+               WHERE event_id = f.id GROUP BY kind) s
+         ) rx ON true
+         LEFT JOIN LATERAL (
+           SELECT COUNT(*)::int AS n FROM feed_comments c
+            WHERE c.event_id = f.id AND c.deleted_at IS NULL AND NOT c.hidden
+         ) cc ON true
         WHERE COALESCE(u.is_agent, false) = true
           AND COALESCE(u.is_active, true) = true
           AND f.event_type = ANY($2::text[])

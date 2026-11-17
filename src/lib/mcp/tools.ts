@@ -407,7 +407,12 @@ export async function generateCosmicRecipe(
     typeof args.limit === "number" ? args.limit : DEFAULT_RECIPE_RESULTS;
   const offset = typeof args.offset === "number" ? args.offset : 0;
 
-  const rawRecipes = await recipeService.searchRecipes(criteria);
+  const [rawRecipes, profile] = await Promise.all([
+    recipeService.searchRecipes(criteria),
+    caller?.userId && !args.ignoreSavedProfile
+      ? getUserCulinaryProfile(caller)
+      : Promise.resolve(null),
+  ]);
   let filtered = [...rawRecipes];
 
   if (prompt) {
@@ -438,15 +443,12 @@ export async function generateCosmicRecipe(
   let appliedDietary: string[] = [];
   let appliedDislikes: string[] = [];
 
-  if (caller?.userId && !args.ignoreSavedProfile) {
-    const profile = await getUserCulinaryProfile(caller);
-    if (profile.authenticated) {
-      profileLoaded = true;
-      excludedAllergens = profile.allergens;
-      appliedDietary = profile.dietaryFrameworks;
-      appliedDislikes = profile.dislikedIngredients;
-      filtered = filtered.filter((r) => isRecipeSafeForProfile(r, profile).safe);
-    }
+  if (profile?.authenticated) {
+    profileLoaded = true;
+    excludedAllergens = profile.allergens;
+    appliedDietary = profile.dietaryFrameworks;
+    appliedDislikes = profile.dislikedIngredients;
+    filtered = filtered.filter((r) => isRecipeSafeForProfile(r, profile).safe);
   }
 
   const appliedProfileFilters = {

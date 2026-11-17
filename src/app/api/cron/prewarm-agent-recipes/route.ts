@@ -38,16 +38,22 @@ async function handleGet(request: NextRequest): Promise<NextResponse> {
   const deadlineMs = startedAt.getTime() + maxDuration * 1000 - HEARTBEAT_RESERVE_MS;
   try {
     const { searchParams } = new URL(request.url);
-    const limit = Math.min(Math.max(parseInt(searchParams.get("limit") ?? "1", 10), 1), 8);
-    const result = await prewarmAgentRecipes(limit, deadlineMs);
+    const limit = Math.min(Math.max(parseInt(searchParams.get("limit") ?? "2", 10), 1), 8);
+    const failures: string[] = [];
+    const result = await prewarmAgentRecipes(limit, deadlineMs, (reason) => {
+      failures.push(reason);
+    });
     // A run that started generations and landed none is PA failing, not a
     // healthy tick — record it as such so two in a row can alert.
     const status = result.attempted > 0 && result.generated === 0 ? "failure" : "success";
+    const reasonSuffix = failures.length > 0 ? ` (${failures[0]})` : "";
     await recordCronRun("prewarm-agent-recipes", {
       status,
       startedAt,
-      details: { ...result },
-      ...(status === "failure" ? { error: `PA generated 0 of ${result.attempted} attempted` } : {}),
+      details: { ...result, ...(failures.length > 0 ? { failures } : {}) },
+      ...(status === "failure"
+        ? { error: `PA generated 0 of ${result.attempted} attempted${reasonSuffix}` }
+        : {}),
     });
     return NextResponse.json({ success: true, ...result });
   } catch (error) {

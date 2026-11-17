@@ -11,6 +11,7 @@
 import { NextResponse } from "next/server";
 import { revokeApiKey } from "@/lib/api-keys/queries";
 import { auth } from "@/lib/auth/auth";
+import { resolveBearerOrSessionUser } from "@/lib/auth/bearerFallback";
 import { rateLimit } from "@/lib/rateLimit";
 
 export const dynamic = "force-dynamic";
@@ -26,34 +27,16 @@ interface Params {
   params: Promise<{ keyId: string }>;
 }
 
-async function resolveUserId(request: Request): Promise<string | null> {
-  const session = await auth();
-  if (session?.user?.id) return session.user.id;
-
-  const authHeader = request.headers.get("authorization") ?? "";
-  if (authHeader.startsWith("Bearer ")) {
-    try {
-      const { validateToken } = await import("@/lib/auth/validateRequest");
-      const result = await validateToken(authHeader.slice(7));
-      if (result.valid && result.user) return result.user.userId;
-    } catch {
-      /* fall through */
-    }
-  }
-  return null;
-}
-
 export async function DELETE(request: Request, { params }: Params) {
   const rl = await rateLimit(request, REVOKE_LIMIT);
   if (!rl.allowed) return rl.response!;
 
-  const userId = await resolveUserId(request);
-  if (!userId) {
-    return NextResponse.json(
-      { success: false, error: "Unauthorized" },
-      { status: 401 },
-    );
+  const session = await auth();
+  const identity = await resolveBearerOrSessionUser(session?.user?.id, request);
+  if ("error" in identity) {
+    return identity.error;
   }
+  const { userId } = identity;
 
   const { keyId } = await params;
   if (!keyId) {

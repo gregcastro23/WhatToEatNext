@@ -27,3 +27,5 @@ export const OverviewPulseResponseSchema = z
 export const OverviewPulseSchema = OverviewPulseResponseSchema;
 
 export type OverviewPulseView = z.infer<typeof OverviewPulseResponseSchema>;
+
+export const ADMIN_STREAM_INTERVAL_MS = 12_000;

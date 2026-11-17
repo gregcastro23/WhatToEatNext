@@ -82,8 +82,11 @@ function useSseSubscription(
 ): void {
   useEffect(() => {
     if (!active || typeof EventSource === "undefined") return undefined;
+    let disposed = false;
     let consecutiveErrors = 0;
-    const es = new EventSource(streamUrl);
+    let es: EventSource | null = null;
+    let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+
     const handleMessage = (event: MessageEvent): void => {
       if (typeof event.data !== "string" || event.data.length === 0) return;
       try {
@@ -93,16 +96,35 @@ function useSseSubscription(
         onPayload(parsed.data);
       } catch { /* ignore malformed frame */ }
     };
-    es.addEventListener("pulse", handleMessage);
-    es.onmessage = handleMessage;
-    es.onerror = (): void => {
-      consecutiveErrors += 1;
-      if (consecutiveErrors >= 2) {
-        es.close();
-        onFallback("Live SSE interrupted — using polling fallback");
-      }
+
+    const connect = (): void => {
+      if (disposed) return;
+      const source = new EventSource(streamUrl);
+      es = source;
+      source.addEventListener("pulse", handleMessage);
+      source.addEventListener("reconnect", () => {
+        source.close();
+        if (disposed) return;
+        consecutiveErrors = 0;
+        reconnectTimer = setTimeout(connect, 250);
+      });
+      source.onmessage = handleMessage;
+      source.onerror = (): void => {
+        if (disposed) return;
+        consecutiveErrors += 1;
+        if (consecutiveErrors >= 2) {
+          source.close();
+          onFallback("Live SSE interrupted — using polling fallback");
+        }
+      };
     };
-    return (): void => es.close();
+
+    connect();
+    return (): void => {
+      disposed = true;
+      if (reconnectTimer) clearTimeout(reconnectTimer);
+      es?.close();
+    };
   }, [active, streamUrl, onPayload, onFallback]);
 }
 

@@ -478,7 +478,7 @@ export default function McpAdminPage() {
 
                   <div className="bg-gray-50 border border-gray-100 rounded-lg p-3 text-center">
                     <p className="text-[10px] text-gray-500 font-medium">
-                      Probes run at a 15-minute cron interval to ensure continuous system health reporting.
+                      Synthetic probes run on an hourly cron schedule to monitor tool availability and latency.
                     </p>
                   </div>
                 </div>

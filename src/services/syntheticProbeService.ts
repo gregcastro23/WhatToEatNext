@@ -426,6 +426,78 @@ export async function runStripeWebhookProbe(options: {
   return result;
 }
 
+async function readHandshakePayload(res: Response): Promise<{
+  success: unknown;
+  sessionCount: number | null;
+}> {
+  try {
+    const raw: unknown = await res.json();
+    if (typeof raw === "object" && raw !== null && !Array.isArray(raw)) {
+      const success = "success" in raw ? raw.success : null;
+      const sessions = "sessions" in raw ? raw.sessions : null;
+      return {
+        success: success ?? null,
+        sessionCount: Array.isArray(sessions) ? sessions.length : null,
+      };
+    }
+  } catch {
+    /* non-JSON body */
+  }
+  return { success: null, sessionCount: null };
+}
+
+async function probeAuthSessionsOnce(
+  baseUrl: string,
+  bearerToken: string,
+): Promise<{
+  status: ProbeStatus;
+  httpStatus: number | null;
+  errorMessage: string | null;
+  responsePayload: Record<string, unknown>;
+}> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), PROBE_TIMEOUT_MS);
+
+  try {
+    const res = await fetch(`${baseUrl}/api/auth/sessions`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${bearerToken}`,
+      },
+      signal: controller.signal,
+    });
+    const responsePayload: Record<string, unknown> = await readHandshakePayload(res);
+    if (res.ok) {
+      return { status: "success", httpStatus: res.status, errorMessage: null, responsePayload };
+    }
+    const errorMessage =
+      res.status === 503
+        ? "Database unavailable (HTTP 503)"
+        : res.status === 401 || res.status === 403
+          ? `Auth rejected (HTTP ${res.status})`
+          : `HTTP ${res.status}`;
+    return { status: "failure", httpStatus: res.status, errorMessage, responsePayload };
+  } catch (err) {
+    if (err instanceof Error && err.name === "AbortError") {
+      return {
+        status: "timeout",
+        httpStatus: null,
+        errorMessage: `Probe timed out after ${PROBE_TIMEOUT_MS}ms`,
+        responsePayload: {},
+      };
+    }
+    return {
+      status: "failure",
+      httpStatus: null,
+      errorMessage: err instanceof Error ? err.message : "Unknown error",
+      responsePayload: {},
+    };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 /**
  * Run the auth-handshake probe: GET `/api/auth/sessions` as the
  * synthetic user. Expects 200 with the session list. Catches NextAuth
@@ -438,11 +510,6 @@ export async function runAuthHandshakeProbe(options: {
   const probeName = "auth-handshake";
   const startedAt = new Date().toISOString();
   const t0 = Date.now();
-
-  let httpStatus: number | null = null;
-  let errorMessage: string | null = null;
-  let status: ProbeStatus = "failure";
-  let responsePayload: Record<string, unknown> = {};
 
   if (!options.bearerToken) {
     const result: ProbeResult = {
@@ -460,53 +527,23 @@ export async function runAuthHandshakeProbe(options: {
     return result;
   }
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), PROBE_TIMEOUT_MS);
-
-  try {
-    const res = await fetch(`${options.baseUrl}/api/auth/sessions`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${options.bearerToken}`,
-      },
-      signal: controller.signal,
-    });
-    httpStatus = res.status;
-    const body = (await res.json().catch(() => ({}))) as Record<string, unknown>;
-    responsePayload = {
-      success: body.success ?? null,
-      sessionCount: Array.isArray(body.sessions)
-        ? (body.sessions as unknown[]).length
-        : null,
-    };
-    if (res.ok) {
-      status = "success";
-    } else {
-      status = "failure";
-      errorMessage = `HTTP ${res.status}`;
-    }
-  } catch (err) {
-    if (err instanceof Error && err.name === "AbortError") {
-      status = "timeout";
-      errorMessage = `Probe timed out after ${PROBE_TIMEOUT_MS}ms`;
-    } else {
-      status = "failure";
-      errorMessage = err instanceof Error ? err.message : "Unknown error";
-    }
-  } finally {
-    clearTimeout(timer);
+  let attempt = await probeAuthSessionsOnce(options.baseUrl, options.bearerToken);
+  // Retry once after a short backoff only on transient availability errors
+  // (503 or timeout), never masking genuine 401/403 authentication failures.
+  if (attempt.httpStatus === 503 || attempt.status === "timeout") {
+    await new Promise((resolve) => setTimeout(resolve, 750));
+    attempt = await probeAuthSessionsOnce(options.baseUrl, options.bearerToken);
   }
 
   const result: ProbeResult = {
     probeName,
     startedAt,
     completedAt: new Date().toISOString(),
-    status,
+    status: attempt.status,
     latencyMs: Date.now() - t0,
-    httpStatus,
-    errorMessage,
-    responsePayload,
+    httpStatus: attempt.httpStatus,
+    errorMessage: attempt.errorMessage,
+    responsePayload: attempt.responsePayload,
   };
   await recordProbeResult(result);
   return result;

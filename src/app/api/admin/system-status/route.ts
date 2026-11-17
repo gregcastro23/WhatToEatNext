@@ -21,9 +21,9 @@ import { getSystemStatus, type SystemStatusResponse } from "@/services/systemSta
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-// 5s cache: coalesces multiple admin tabs / accidental reloads. The panel
-// polls every 60s anyway, so this is purely a defense against bursts.
-const CACHE_TTL_MS = 5_000;
+// 20s cache: coalesces multiple admin tabs and shares the key with
+// overviewPulseService so pooler/DB health probes never stampede PgBouncer.
+const CACHE_TTL_MS = 20_000;
 
 export async function GET(request: NextRequest) {
   const authResult = await validateAdminRequest(request);

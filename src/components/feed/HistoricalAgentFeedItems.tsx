@@ -8,6 +8,7 @@
  * Presentation only — no alchemical/elemental/ESMS computation here.
  */
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { FeedAudioPlayer } from "@/components/feed/FeedAudioPlayer";
 import { agentChatUrl } from "@/lib/agents/agentChatUrl";
@@ -20,6 +21,13 @@ import type {
   RecipePostFeedItem,
   YieldClaimFeedItem,
 } from "@/lib/feed/historicalAgentFeed";
+
+const FeedEngagementBar = dynamic(
+  () => import("@/components/feed/FeedEngagementBar"),
+  { loading: (): null => null },
+);
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 function formatRelativeTime(iso: string): string {
   const then = new Date(iso).getTime();
@@ -236,6 +244,11 @@ export function AgentEventCard({
               Chat ✦
             </a>
           )}
+          {compact && typeof item.commentCount === "number" && item.commentCount > 0 && (
+            <span className="text-[10px] text-white/45 font-mono">
+              💬 {item.commentCount}
+            </span>
+          )}
         </div>
         {(tags.length > 0 || natal.length > 0) && (
           <div className={`mt-2 rounded-xl border px-3 py-2 ${elementClass}`}>
@@ -261,6 +274,15 @@ export function AgentEventCard({
               author={agent.name}
               {...(item.element ? { element: item.element } : {})}
               compact={compact}
+            />
+          </div>
+        )}
+        {!compact && UUID_RE.test(item.id) && (
+          <div className="mt-3">
+            <FeedEngagementBar
+              eventId={item.id}
+              {...(item.reactionCounts !== undefined ? { initialCounts: item.reactionCounts } : {})}
+              {...(item.commentCount !== undefined ? { commentCount: item.commentCount } : {})}
             />
           </div>
         )}

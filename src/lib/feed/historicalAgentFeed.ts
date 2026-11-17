@@ -109,6 +109,8 @@ export interface AgentEventFeedItem {
   planetaryHour?: string;
   /** Formatted natal placements, e.g. ["Sun Aquarius", "Moon Sagittarius"]. */
   natalSignature?: string[];
+  reactionCounts?: Record<string, number>;
+  commentCount?: number;
   createdAt: string;
 }
 

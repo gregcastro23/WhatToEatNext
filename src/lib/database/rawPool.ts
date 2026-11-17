@@ -92,6 +92,7 @@ export interface DatabaseConfig {
   // leased to any caller. Typed as @types/pg's PoolConfig.onConnect takes it
   // (ClientBase), so the config needs no cast to reach the constructor.
   onConnect?: (client: ClientBase) => Promise<void>;
+  allowExitOnIdle?: boolean;
 }
 
 /** The pooled-mode onConnect hook: apply the floor, or log and reject so pg-pool drops the client. */
@@ -253,6 +254,7 @@ export function initializeDatabase(): Pool {
   const poolConfig: DatabaseConfig = {
     ...config,
     ...(pooledStatementTimeoutSql ? { onConnect: applyStatementFloor(pooledStatementTimeoutSql) } : {}),
+    ...(process.env.VERCEL ? { allowExitOnIdle: true } : {}),
   };
 
   try {

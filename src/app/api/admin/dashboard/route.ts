@@ -507,9 +507,8 @@ async function assembleTelemetryCore() {
   }
 }
 
-// Coalesce polling bursts: both admin surfaces poll at 30s, and extra tabs
-// multiply that. 5s matches the sibling admin routes' memoize TTL.
-const CORE_CACHE_TTL_MS = 5_000;
+// Coalesce polling bursts across admin tabs and initial dashboard mounts.
+const CORE_CACHE_TTL_MS = 20_000;
 
 /**
  * GET /api/admin/dashboard

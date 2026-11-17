@@ -129,14 +129,35 @@ export function getPaAuthHeaders(): Record<string, string> {
   return headers;
 }
 
+type GenerateOutcome = { ok: true } | { ok: false; reason: string };
+
+async function readFailureDetail(res: Response): Promise<string> {
+  try {
+    const body: unknown = await res.json();
+    if (isRecord(body)) {
+      const detail = isRecord(body.detail) ? body.detail : body;
+      const msg =
+        (typeof detail.message === "string" && detail.message) ||
+        (typeof detail.error === "string" && detail.error);
+      if (msg) return `HTTP ${res.status}: ${msg.slice(0, 140)}`;
+    }
+  } catch {
+    /* ignore non-JSON upstream error body */
+  }
+  return `HTTP ${res.status}`;
+}
+
 /**
  * One PA generation, bounded end to end: `AbortSignal.timeout` covers the body
  * read as well as the headers, so a slow stream cannot outlive the budget the
  * caller handed us.
  */
-async function generateOne(row: PrewarmAgentRow, timeoutMs: number): Promise<boolean> {
+async function generateOne(
+  row: PrewarmAgentRow,
+  timeoutMs: number,
+): Promise<GenerateOutcome> {
   const body = buildPaRequestBody(row);
-  if (!body) return false;
+  if (!body) return { ok: false, reason: "missing natal positions" };
   const label = row.name ?? row.id;
   let parsed: unknown;
   try {
@@ -147,18 +168,20 @@ async function generateOne(row: PrewarmAgentRow, timeoutMs: number): Promise<boo
       signal: AbortSignal.timeout(timeoutMs),
     });
     if (!res.ok) {
-      _logger.error(`[prewarm] PA returned ${res.status} for ${label}`);
-      return false;
+      const reason = await readFailureDetail(res);
+      _logger.error(`[prewarm] PA returned ${reason} for ${label}`);
+      return { ok: false, reason };
     }
     parsed = await res.json();
   } catch (error) {
+    const reason = error instanceof Error ? error.message.slice(0, 140) : "request error";
     _logger.error(`[prewarm] PA call failed for ${label} (budget ${timeoutMs}ms):`, error);
-    return false;
+    return { ok: false, reason };
   }
   const validation = cosmicRecipeSchema.safeParse(parsed);
   if (!validation.success) {
     _logger.error(`[prewarm] PA recipe failed schema for ${label}`);
-    return false;
+    return { ok: false, reason: "recipe response failed schema validation" };
   }
   const recipe = validation.data;
   const cached: CachedAgentRecipe = {
@@ -168,7 +191,7 @@ async function generateOne(row: PrewarmAgentRow, timeoutMs: number): Promise<boo
     source: "pa",
   };
   await CacheService.set(`${CACHE_PREFIX}${row.id}`, cached, CACHE_TTL_SECONDS);
-  return true;
+  return { ok: true };
 }
 
 export interface PrewarmResult {
@@ -214,6 +237,7 @@ async function selectAgents(limit: number): Promise<PrewarmAgentRow[]> {
 export async function prewarmAgentRecipes(
   limit = 3,
   deadlineMs: number = Date.now() + PA_TIMEOUT_MS,
+  onFailure?: (reason: string) => void,
 ): Promise<PrewarmResult> {
   const rows = await selectAgents(limit);
   const result: PrewarmResult = { selected: rows.length, attempted: 0, generated: 0, skippedForBudget: 0 };
@@ -225,9 +249,12 @@ export async function prewarmAgentRecipes(
     }
     result.attempted += 1;
     try {
-      if (await generateOne(row, Math.min(PA_TIMEOUT_MS, remaining))) result.generated += 1;
+      const outcome = await generateOne(row, Math.min(PA_TIMEOUT_MS, remaining));
+      if (outcome.ok) result.generated += 1;
+      else onFailure?.(outcome.reason);
     } catch (error) {
       _logger.error("[prewarm] generateOne threw:", error);
+      onFailure?.(error instanceof Error ? error.message.slice(0, 140) : "unexpected error");
     }
   }
   return result;

@@ -13,13 +13,13 @@ import { getLiveActivity } from "@/services/liveActivityService";
 import { getSystemStatus } from "@/services/systemStatusService";
 
 export async function buildOverviewPulsePayload(ttlScale = 1): Promise<OverviewPulseView> {
-  const scale = Math.max(0.1, ttlScale);
+  const scale = Math.max(0.5, ttlScale);
   const [pulseRes, activityRes, statusRes, frictionRes, talliesRes] = await Promise.allSettled([
-    memoize("admin:pulse", Math.round(15_000 * scale), () => getAdminPulse()),
-    memoize("admin:live-activity", Math.round(5_000 * scale), () => getLiveActivity()),
-    memoize("admin:system-status", Math.round(15_000 * scale), () => getSystemStatus()),
-    memoize("admin:friction-alerts", Math.round(10_000 * scale), () => readFrictionAlerts()),
-    memoize("admin:interaction-tallies:24h", Math.round(15_000 * scale), () =>
+    memoize("admin:pulse", Math.round(30_000 * scale), () => getAdminPulse()),
+    memoize("admin:live-activity", Math.round(10_000 * scale), () => getLiveActivity()),
+    memoize("admin:system-status", Math.round(30_000 * scale), () => getSystemStatus()),
+    memoize("admin:friction-alerts", Math.round(30_000 * scale), () => readFrictionAlerts()),
+    memoize("admin:interaction-tallies:24h", Math.round(60_000 * scale), () =>
       readInteractionTallies("24 hours"),
     ),
   ]);
