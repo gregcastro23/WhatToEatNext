@@ -1,27 +1,27 @@
 {
-  "trackedTotal": 1193,
+  "trackedTotal": 1190,
   "casts": {
-    "total": 126,
+    "total": 125,
     "asAny": 33,
-    "asUnknownAs": 93,
-    "production": 94,
+    "asUnknownAs": 92,
+    "production": 93,
     "test": 32
   },
   "assertionSites": {
-    "total": 2523,
+    "total": 2519,
     "asAny": 33,
-    "chained": 93,
-    "single": 2397,
-    "production": 1936,
+    "chained": 92,
+    "single": 2394,
+    "production": 1932,
     "test": 587,
     "asConst": 618,
-    "nonNull": 564
+    "nonNull": 562
   },
   "looseOptionality": {
-    "total": 142,
-    "domain": 74,
+    "total": 141,
+    "domain": 73,
     "wire": 68,
-    "production": 142,
+    "production": 141,
     "test": 0,
     "wireAllowlist": [
       "src/types/yelp.ts",
@@ -49,7 +49,7 @@
     }
   },
   "declined": {
-    "total": 4595,
+    "total": 4593,
     "rules": {
       "@typescript-eslint/explicit-function-return-type": 1223,
       "@typescript-eslint/explicit-module-boundary-types": 590,
@@ -79,7 +79,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 734,
+      "count": 732,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
@@ -159,7 +159,7 @@
       "autoFixable": 0
     },
     "no-useless-assignment": {
-      "count": 29,
+      "count": 28,
       "autoFixable": 0
     },
     "no-void": {

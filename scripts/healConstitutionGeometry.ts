@@ -56,6 +56,12 @@
  *   TZ=UTC ALCHM_MCP_BACKEND_URL=https://alchm.kitchen \
  *     bun run scripts/healConstitutionGeometry.ts --apply
  *
+ *   # Mixed-era table: gate only on one row known to hold a current chart.
+ *   TZ=UTC ALCHM_MCP_BACKEND_URL=https://alchm.kitchen \
+ *     bun run scripts/healConstitutionGeometry.ts --control --control-user <uuid>
+ *
+ * Every chart write also regenerates `user_profiles.natal_positions` via
+ * `natalPositionsFromStoredChart`, exactly as `updateUserProfile` does.
  * Raw `pg` only, no ORM. Reads DATABASE_PUBLIC_URL (prod) from the environment
  * or `.env.development.local`.
  */
@@ -67,11 +73,23 @@ import * as Astronomy from "astronomy-engine";
 import { calculateNatalChart } from "@/services/natalChartService";
 import { toEsmsShares, selectArchetype } from "@/utils/alchemicalConstitution";
 import { isSectDiurnalForBirth } from "@/utils/planetaryAlchemyMapping";
+import {
+  natalPositionsJson,
+  parseControlUser,
+  scopeControlRows,
+} from "./lib/healConstitutionScope";
 
 // ───────────────────────────────── flags ─────────────────────────────────
 
 const ARGV = new Set(process.argv.slice(2));
 const CONTROL_ONLY = ARGV.has("--control");
+/**
+ * `--control-user <uuid>`: gate only on that user's healthy row. Use when the
+ * table mixes pre-#985 and post-#985 charts, so old-era rows cannot fail the
+ * gate for reasons that are not the harness's. Scopes the CONTROL pass only;
+ * heal targets are unaffected.
+ */
+const CONTROL_USER = parseControlUser(process.argv.slice(2));
 const APPLY = ARGV.has("--apply");
 /**
  * Enrich each rebuilt planet with its true geocentric distance in AU.
@@ -412,16 +430,23 @@ async function healRow(
     );
 
     await client.query(
-      `INSERT INTO user_profiles (user_id, name, birth_data, natal_chart, onboarding_completed)
-       VALUES ($1::uuid, $2, $3::jsonb, $4::jsonb, true)
+      `INSERT INTO user_profiles (user_id, name, birth_data, natal_chart, natal_positions, onboarding_completed)
+       VALUES ($1::uuid, $2, $3::jsonb, $4::jsonb, $5::jsonb, true)
        ON CONFLICT (user_id) DO UPDATE SET
          name = COALESCE(NULLIF(EXCLUDED.name, ''), user_profiles.name),
          birth_data = EXCLUDED.birth_data,
          natal_chart = EXCLUDED.natal_chart,
+         natal_positions = COALESCE(EXCLUDED.natal_positions, user_profiles.natal_positions),
          onboarding_completed = true,
          onboarding_completed_at = COALESCE(user_profiles.onboarding_completed_at, CURRENT_TIMESTAMP),
          updated_at = CURRENT_TIMESTAMP`,
-      [row.user_id, name, JSON.stringify(birth), JSON.stringify(rebuilt.chart)],
+      [
+        row.user_id,
+        name,
+        JSON.stringify(birth),
+        JSON.stringify(rebuilt.chart),
+        natalPositionsJson(rebuilt.chart),
+      ],
     );
 
     const res = await client.query(
@@ -468,9 +493,11 @@ async function refreshChartOnly(
     );
     const res = await client.query(
       `UPDATE user_profiles
-          SET natal_chart = $2::jsonb, updated_at = CURRENT_TIMESTAMP
+          SET natal_chart = $2::jsonb,
+              natal_positions = COALESCE($3::jsonb, natal_positions),
+              updated_at = CURRENT_TIMESTAMP
         WHERE user_id = $1::uuid`,
-      [row.user_id, JSON.stringify(rebuilt.chart)],
+      [row.user_id, JSON.stringify(rebuilt.chart), natalPositionsJson(rebuilt.chart)],
     );
     if (res.rowCount !== 1) {
       throw new Error(`expected to update exactly 1 profile row, got ${res.rowCount}`);
@@ -531,7 +558,11 @@ async function main(): Promise<void> {
     console.log(`  distance enrichment    : ${WITH_DISTANCE ? "ON (--with-distance)" : "off"}`);
 
     // 2. CONTROL — must reproduce prod's own output before touching anything.
-    const gatePassed = await runControl(healthy);
+    const controlRows = scopeControlRows(healthy, CONTROL_USER);
+    if (CONTROL_USER !== null) {
+      console.log(`  control scope          : ${CONTROL_USER} (${controlRows.length} row)`);
+    }
+    const gatePassed = await runControl(controlRows);
     if (CONTROL_ONLY) {
       process.exitCode = gatePassed ? 0 : 1;
       return;
@@ -600,7 +631,9 @@ async function main(): Promise<void> {
       }
 
       await healRow(client, row, birth, rebuilt);
-      console.log("    ✔ committed (users.profile + user_profiles + constitution)");
+      console.log(
+        "    ✔ committed (users.profile + user_profiles incl. natal_positions + constitution)",
+      );
     }
 
     // ── orphan charts: a stored chart with no constitution row ──────────
@@ -686,7 +719,7 @@ async function main(): Promise<void> {
         continue;
       }
       await refreshChartOnly(client, row, birth, rebuilt);
-      console.log("    ✔ committed (users.profile + user_profiles.natal_chart)");
+      console.log("    ✔ committed (users.profile + user_profiles.natal_chart + natal_positions)");
     }
   } finally {
     client.release();
