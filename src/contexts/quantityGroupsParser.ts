@@ -83,14 +83,20 @@ function parsePlanetRow(value: unknown): PlanetRow | null {
 }
 
 /** The planet rows that parse, or null when rows arrived and none did. `{}` is valid. */
-export function parsePerPlanet(value: unknown): PeriodStatistics["perPlanet"] | null {
+export function parsePerPlanet(
+  value: unknown,
+  onDropped?: (dropped: number) => void,
+): PeriodStatistics["perPlanet"] | null {
   if (!isJsonRecord(value)) return null;
   const rows: Array<[string, PlanetRow]> = [];
+  let dropped = 0;
   for (const [planet, row] of Object.entries(value)) {
     const parsed = parsePlanetRow(row);
     if (parsed !== null) rows.push([planet, parsed]);
+    else dropped++;
   }
   if (rows.length === 0 && Object.keys(value).length > 0) return null;
+  if (dropped > 0) onDropped?.(dropped);
   // fromEntries defines own properties, so a "__proto__" key stays data.
   return Object.fromEntries(rows);
 }

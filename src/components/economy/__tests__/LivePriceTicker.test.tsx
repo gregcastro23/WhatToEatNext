@@ -19,9 +19,13 @@ import { isJsonRecord } from "@/lib/api/json";
 // hooks inside a test; each test imports its own RTL (see the header), so cleanup is manual.
 process.env.RTL_SKIP_AUTO_CLEANUP = "true";
 const pendingCleanups: Array<() => void> = [];
+const mockLoggerError = jest.fn();
 
 let mockDbRows: unknown[] | null = null;
 
+jest.mock("@/lib/logger", () => ({
+  _logger: { error: (...args: unknown[]): void => { mockLoggerError(...args); } },
+}));
 jest.mock("@/lib/database", () => ({
   executeQuery: async (): Promise<{ rows: unknown[] }> => {
     if (mockDbRows === null) throw new Error("connect ECONNREFUSED");
@@ -74,6 +78,7 @@ function asResponse(body: unknown, status = 200): Response {
 
 beforeEach(() => {
   mockDbRows = null;
+  mockLoggerError.mockReset();
   // jest.config sets pretendToBeVisual: false, so jsdom reports document.hidden === true,
   // and the ticker (deliberately) never polls a hidden tab. Make the document visible.
   Object.defineProperty(document, "hidden", { configurable: true, get: () => false });
@@ -131,20 +136,40 @@ describe("LivePriceTicker over the real /api/economy/price-index handler", () =>
     expect(container.textContent).not.toContain("The price oracle is offline");
   });
 
-  it("a live body that does not hold up (the parser throws) is OFFLINE, never a render-time crash", async () => {
+  it("a live body that does not hold up (the parser throws) is OFFLINE, never a render-time crash, and logs the parser's message", async () => {
     const { container, rtl } = await mount("cards", async (route) => asResponse(withoutKey(recordOf(await (await route()).json()), "aNumber")));
     await rtl.waitFor(() => expect(container.textContent).toContain("The price oracle is offline"));
     expect(container.textContent).not.toContain("Composite");
+    expect(mockLoggerError).toHaveBeenCalledWith(
+      "[LivePriceTicker]",
+      "Invalid price-index response: aNumber must be a finite number",
+    );
+  });
+
+  it("logs partial drift when unreadable quote rows or a malformed supply block are dropped while rendering valid quotes", async () => {
+    const { container, rtl } = await mount("cards", async (route) => {
+      const body = recordOf(await (await route()).json());
+      const tokens = Array.isArray(body.tokens) ? [{ token: "Aether" }, ...body.tokens] : [];
+      return asResponse({ ...body, tokens, supply: "broken" });
+    });
+    await rtl.waitFor(() => expect(container.textContent).toContain("Composite"));
+    expect(container.textContent).toContain("LIVE");
+    expect(mockLoggerError).toHaveBeenCalledWith(
+      "[LivePriceTicker] Dropped malformed parts of price-index response:",
+      ["tokens: dropped 1 unreadable quote row(s)", "supply: malformed supply block dropped"],
+    );
   });
 
   it("a perfectly valid live body that arrives with a non-2xx status is NOT shown as live (the res.ok gate)", async () => {
     const { container, rtl } = await mount("cards", async (route) => asResponse(await (await route()).json(), 502));
     await rtl.waitFor(() => expect(container.textContent).toContain("The price oracle is offline"));
     expect(container.textContent).not.toContain("Composite");
+    expect(mockLoggerError).not.toHaveBeenCalled();
   });
 
   it("a non-JSON body (a CDN error page) is OFFLINE too", async () => {
     const { container, rtl } = await mount("cards", () => Promise.resolve(new Response("<html>502</html>", { status: 502 })));
     await rtl.waitFor(() => expect(container.textContent).toContain("The price oracle is offline"));
+    expect(mockLoggerError).not.toHaveBeenCalled();
   });
 });

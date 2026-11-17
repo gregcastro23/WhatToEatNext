@@ -102,6 +102,7 @@ describe("parsePriceIndexResponse against the real route: success bodies", () =>
 
     const parsed = await readJson(response, parsePriceIndexResponse);
     expect(parsed.message).toBeNull();
+    expect(parsed.issues).toEqual([]);
     expect(parsed.payload).toEqual({ ...oracleReads(wire), supply: { live: false } });
     expect(parsed.payload?.tokens.map((quote) => quote.token)).toEqual([
       "Spirit",
@@ -121,6 +122,7 @@ describe("parsePriceIndexResponse against the real route: success bodies", () =>
     const live = { live: true, spirit: 1234.5, essence: 10, matter: 0, substance: 7 };
     expect(wire.supply).toEqual(live);
     const parsed = await readJson(response, parsePriceIndexResponse);
+    expect(parsed.issues).toEqual([]);
     expect(parsed.payload).toEqual({ ...oracleReads(wire), supply: live });
   });
 
@@ -130,6 +132,7 @@ describe("parsePriceIndexResponse against the real route: success bodies", () =>
     const older = new Response(JSON.stringify(without(wire, "supply")));
 
     const parsed = await readJson(older, parsePriceIndexResponse);
+    expect(parsed.issues).toEqual([]);
     expect(parsed.payload).toEqual(oracleReads(wire));
     expect(parsed.payload).not.toBeNull();
     expect(parsed.payload).not.toHaveProperty("supply");
@@ -149,7 +152,7 @@ describe("parsePriceIndexResponse against the real route: refusal", () => {
       expect(response.ok).toBe(false);
       expect(response.headers.get("Cache-Control")).toBe("no-store");
       const parsed = await readJson(response, parsePriceIndexResponse);
-      expect(parsed).toEqual({ payload: null, message: REFUSAL_MESSAGE });
+      expect(parsed).toEqual({ payload: null, message: REFUSAL_MESSAGE, issues: [] });
     } finally {
       logged.mockRestore();
     }

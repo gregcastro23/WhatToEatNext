@@ -12,6 +12,7 @@ import {
   useAlchemicalStatistics,
 } from "@/contexts/AlchemicalStatisticsContext";
 import { isJsonRecord, readJson } from "@/lib/api/json";
+import { _logger } from "@/lib/logger";
 import {
   getAllPeriodStatistics,
   getSampleFileMeta,
@@ -61,6 +62,7 @@ describe("statistics wire parser against the real route", () => {
     const expected: unknown = JSON.parse(JSON.stringify(getAllPeriodStatistics(new Date(ms))));
     expect(parsed.periods).toStrictEqual(expected);
     expect(parsed.file).toStrictEqual({ generatedAt, intervalHours, count });
+    expect(parsed.issues).toStrictEqual([]);
     expect(Object.values(parsed.periods).filter((slot) => slot === null)).toHaveLength(nullSlots);
     // The measured wire: the only nulls are the empty period slots, never a number.
     expect(countNulls(wire)).toBe(nullSlots);
@@ -116,8 +118,14 @@ function Wrapper({ children }: { children: ReactNode }): ReactElement {
 
 describe("AlchemicalStatisticsProvider over the parser", () => {
   const realFetch = globalThis.fetch;
+  let errorSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    errorSpy = jest.spyOn(_logger, "error").mockImplementation(() => undefined);
+  });
 
   afterEach(() => {
+    errorSpy.mockRestore();
     globalThis.fetch = realFetch;
   });
 
@@ -130,12 +138,36 @@ describe("AlchemicalStatisticsProvider over the parser", () => {
     return hook.result.current;
   }
 
-  it("publishes periods and file meta from the real body", async () => {
+  it("publishes periods and file meta from the real body without logging issues", async () => {
     const state = await settle(await getAt(MIDDLE_MS));
     expect(state.error).toBeNull();
     expect(state.allPeriods?.all).not.toBeNull();
     expect(state.active).toStrictEqual(state.allPeriods?.month);
     expect(state.fileMeta).toStrictEqual({ generatedAt, intervalHours, count });
+    expect(errorSpy).not.toHaveBeenCalled();
+  });
+
+  it("logs partial drift when a period slot, planet row, or file block is dropped while keeping valid periods", async () => {
+    const raw: unknown = JSON.parse(await (await getAt(MIDDLE_MS)).text());
+    if (!isJsonRecord(raw) || !isJsonRecord(raw.periods) || !isJsonRecord(raw.periods.day) || !isJsonRecord(raw.periods.day.perPlanet)) {
+      throw new Error("expected real statistics wire object");
+    }
+    raw.periods.week = 5;
+    raw.periods.day.perPlanet.Pluto = { esms: 5 };
+    raw.file = null;
+    const state = await settle(new Response(JSON.stringify(raw), { status: 200 }));
+    expect(state.error).toBeNull();
+    expect(state.allPeriods?.week).toBeNull();
+    expect(state.allPeriods?.all).not.toBeNull();
+    expect(state.fileMeta).toBeNull();
+    expect(errorSpy).toHaveBeenCalledWith(
+      "[AlchemicalStatisticsContext] Dropped malformed parts of statistics response:",
+      [
+        "periods.day.perPlanet: dropped 1 malformed planet row(s)",
+        "periods.week: malformed period dropped",
+        "file: missing or malformed file metadata, set to null",
+      ],
+    );
   });
 
   it("answers a non-ok response with its HTTP status, before any parsing", async () => {

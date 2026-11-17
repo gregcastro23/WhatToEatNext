@@ -16,13 +16,21 @@
  * whole recipe (`payload: recipe`), so what the parser returns must serialise to
  * exactly the bytes the route sent, extras included.
  */
+import { NextRequest } from "next/server";
 import { GET } from "@/app/api/recipes/custom/route";
+import { POST } from "@/app/api/users/me/recipes/custom/route";
 import { isJsonRecord } from "@/lib/api/json";
-import { parseCustomRecipeResponse } from "../generatedRecipeParser";
+import {
+  parseCustomRecipeResponse,
+  parseLikeCustomRecipeResponse,
+} from "../generatedRecipeParser";
 
 let mockRows: unknown[] = [];
 let mockFail = false;
 
+jest.mock("@/lib/auth/auth", () => ({
+  auth: async (): Promise<{ user: { id: string } }> => ({ user: { id: "user-1" } }),
+}));
 jest.mock("@/lib/database/connection", () => ({
   executeQuery: async (): Promise<{ rows: unknown[] }> => {
     if (mockFail) throw new Error("connection refused");
@@ -31,6 +39,12 @@ jest.mock("@/lib/database/connection", () => ({
 }));
 jest.mock("@/lib/logger", () => ({
   _logger: { error: () => undefined, warn: () => undefined, info: () => undefined },
+}));
+jest.mock("@/services/QuestService", () => ({
+  questService: { reportEvent: async (): Promise<unknown[]> => [] },
+}));
+jest.mock("@/services/userInteractionsService", () => ({
+  recordInteraction: async (): Promise<void> => undefined,
 }));
 
 const ELEMENTS = { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 };
@@ -189,5 +203,23 @@ describe("parseCustomRecipeResponse over the real /api/recipes/custom handler", 
     const res = await GET(new Request("http://localhost/api/recipes/custom"));
     expect(res.status).toBe(400);
     expect(parseCustomRecipeResponse(await res.json())).toBeNull();
+  });
+
+  it("parseLikeCustomRecipeResponse reads the real POST /api/users/me/recipes/custom body", async () => {
+    mockRows = [{
+      id: "r-1", name: "Soup", cuisine: null, source: "cosmic", source_recipe_id: "src-1",
+      payload: cosmicPayload(), notes: null, created_at: "2026-11-15T00:00:00Z", updated_at: "2026-11-15T00:00:00Z",
+    }];
+    const req = (sourceRecipeId?: string): NextRequest =>
+      new NextRequest("http://localhost/api/users/me/recipes/custom", {
+        method: "POST",
+        body: JSON.stringify({ name: "Soup", payload: cosmicPayload(), ...(sourceRecipeId ? { sourceRecipeId } : {}) }),
+      });
+    const insertedRes = await POST(req());
+    expect(insertedRes.status).toBe(200);
+    expect(parseLikeCustomRecipeResponse(await insertedRes.json())).toStrictEqual({ wasExisting: false });
+    const existingRes = await POST(req("src-1"));
+    expect(existingRes.status).toBe(200);
+    expect(parseLikeCustomRecipeResponse(await existingRes.json())).toStrictEqual({ wasExisting: true });
   });
 });

@@ -46,8 +46,8 @@ function reach(root: unknown, path: readonly string[]): unknown {
 }
 
 /** A deep copy of the real body with the value at `path` replaced (or removed). */
-function withValue(path: readonly string[], replacement: unknown): unknown {
-  const body = clone(realBody);
+function withValue(path: readonly string[], replacement: unknown, source: unknown = realBody): unknown {
+  const body = clone(source);
   const key = path[path.length - 1];
   const parent = reach(body, path.slice(0, -1));
   if (key === undefined || typeof parent !== "object" || parent === null) {
@@ -75,6 +75,7 @@ function expectWeekDropped(wire: unknown): void {
   expect(parsed.periods.week).toBeNull();
   expect(parsed.periods.day).toStrictEqual(base.periods.day);
   expect(parsed.periods.all).toStrictEqual(base.periods.all);
+  expect(parsed.issues).toStrictEqual(["periods.week: malformed period dropped"]);
 }
 
 const BAD_FIELDS: Array<[string, string[], unknown]> = [
@@ -212,7 +213,9 @@ describe("the producer's refusals and a 200 that is not a success", () => {
 
 describe("period slots", () => {
   it("accepts six empty windows: an empty answer, not drift", () => {
-    expect(parseAllPeriodsResponse(withValue(["periods"], NULL_SLOTS)).periods).toStrictEqual(NULL_SLOTS);
+    const parsed = parseAllPeriodsResponse(withValue(["periods"], NULL_SLOTS));
+    expect(parsed.periods).toStrictEqual(NULL_SLOTS);
+    expect(parsed.issues).toStrictEqual([]);
   });
 
   it("throws when slots arrived and none parsed, even beside legitimate nulls", () => {
@@ -248,7 +251,13 @@ describe("planet rows and file meta", () => {
       const parsed = parseAllPeriodsResponse(withValue(week("perPlanet", "Pluto", ...inner), bad));
       expect(kept(parsed)).toHaveLength(9);
       expect(kept(parsed)).not.toContain("Pluto");
+      expect(parsed.issues).toStrictEqual(["periods.week.perPlanet: dropped 1 malformed planet row(s)"]);
     }
+    const twoBad = withValue(week("perPlanet", "Mars", "esms"), 5, withValue(week("perPlanet", "Pluto", "esms"), 5));
+    expect(parseAllPeriodsResponse(twoBad).issues).toStrictEqual([
+      "periods.week.perPlanet: dropped 2 malformed planet row(s)",
+    ]);
+    expectWeekDropped(withValue(week("startMs"), null, withValue(week("perPlanet", "Pluto", "esms"), 5)));
   });
 
   it("drops the period when planet rows arrived and none parsed, keeps an empty record", () => {
@@ -272,6 +281,7 @@ describe("planet rows and file meta", () => {
     const parsed = parseAllPeriodsResponse(withValue(["file"], bad));
     expect(parsed.file).toBeNull();
     expect(parsed.periods).toStrictEqual(base.periods);
+    expect(parsed.issues).toStrictEqual(["file: missing or malformed file metadata, set to null"]);
   });
 
   it("keeps the three declared file keys and treats Infinity as malformed", () => {

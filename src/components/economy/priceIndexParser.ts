@@ -52,15 +52,8 @@ export type LiveTickerSupply = { live: false } | ({ live: true } & CoinAmounts);
 export interface LiveTickerPayload
   extends Pick<
     PriceIndexApiPayload,
-    | "aNumber"
-    | "multiplier"
-    | "isDiurnal"
-    | "sunSign"
-    | "dominantElement"
-    | "tokens"
-    | "compositeIndex"
-    | "composite24hPct"
-    | "degraded"
+    | "aNumber" | "multiplier" | "isDiurnal" | "sunSign" | "dominantElement"
+    | "tokens" | "compositeIndex" | "composite24hPct" | "degraded"
   > {
   basis: Pick<PriceIndexApiPayload["basis"], "model" | "engine">;
   railsUsd: Pick<UsdRails, "mintPerTokenUsd" | "redeemPerTokenUsd">;
@@ -73,6 +66,8 @@ export interface PriceIndexResponse {
   payload: LiveTickerPayload | null;
   /** The refusal's own `message`, when it carried a string one (the 503 body does). */
   message: string | null;
+  /** Partial-drift diagnostics when a live payload dropped unreadable quote rows or supply. */
+  issues: string[];
 }
 
 function invalid(detail: string): Error {
@@ -143,7 +138,7 @@ function parseQuote(row: unknown): TokenIndexQuote | null {
   return { token: tokenType, index, change24hPct, weight, sparkline: points };
 }
 
-function parseTokens(raw: unknown): TokenIndexQuote[] {
+function parseTokens(raw: unknown, issues: string[]): TokenIndexQuote[] {
   if (!Array.isArray(raw)) throw invalid("tokens must be an array");
   const rows: readonly unknown[] = raw;
   const quotes: TokenIndexQuote[] = [];
@@ -154,6 +149,8 @@ function parseTokens(raw: unknown): TokenIndexQuote[] {
   if (rows.length > 0 && quotes.length === 0) {
     throw invalid("tokens arrived but no row was a readable quote");
   }
+  const dropped = rows.length - quotes.length;
+  if (dropped > 0) issues.push(`tokens: dropped ${dropped} unreadable quote row(s)`);
   return quotes;
 }
 
@@ -204,7 +201,7 @@ function parseSupply(raw: unknown): LiveTickerSupply | null {
   return { live: true, spirit, essence, matter, substance };
 }
 
-function parseLivePayload(body: Record<string, unknown>): LiveTickerPayload {
+function parseLivePayload(body: Record<string, unknown>, issues: string[]): LiveTickerPayload {
   const { tokens, degraded, basis, railsUsd, supply: rawSupply } = body;
   const payload: LiveTickerPayload = {
     aNumber: readNumber(body, "aNumber"),
@@ -212,7 +209,7 @@ function parseLivePayload(body: Record<string, unknown>): LiveTickerPayload {
     isDiurnal: readBoolean(body, "isDiurnal"),
     sunSign: readString(body, "sunSign"),
     dominantElement: readString(body, "dominantElement"),
-    tokens: parseTokens(tokens),
+    tokens: parseTokens(tokens, issues),
     compositeIndex: readNumber(body, "compositeIndex"),
     composite24hPct: readNumber(body, "composite24hPct"),
     degraded: parseDegraded(degraded),
@@ -221,6 +218,7 @@ function parseLivePayload(body: Record<string, unknown>): LiveTickerPayload {
   };
   const supply = parseSupply(rawSupply);
   if (supply !== null) payload.supply = supply;
+  else if (rawSupply !== undefined) issues.push("supply: malformed supply block dropped");
   return payload;
 }
 
@@ -236,7 +234,8 @@ export function parsePriceIndexResponse(value: unknown): PriceIndexResponse {
   if (!isJsonRecord(value)) throw invalid("expected a JSON object");
   if (value.success !== true || value.live !== true) {
     const { message } = value;
-    return { payload: null, message: isString(message) ? message : null };
+    return { payload: null, message: isString(message) ? message : null, issues: [] };
   }
-  return { payload: parseLivePayload(value), message: null };
+  const issues: string[] = [];
+  return { payload: parseLivePayload(value, issues), message: null, issues };
 }

@@ -98,20 +98,22 @@ describe("refusals keep the HTTP-status fallback reachable", () => {
     expect(parsePriceIndexResponse(viaJson(refusal))).toEqual({
       payload: null,
       message: REFUSAL_MESSAGE,
+      issues: [],
     });
     expect(parsePriceIndexResponse(viaJson({ success: false, live: false }))).toEqual({
       payload: null,
       message: null,
+      issues: [],
     });
     for (const message of [5, null, { text: "x" }]) {
       expect(parsePriceIndexResponse(viaJson({ ...refusal, message })).message).toBeNull();
     }
     expect(parsePriceIndexResponse(viaJson({ ...refusal, message: "" })).message).toBe("");
-    expect(parsePriceIndexResponse(viaJson({}))).toEqual({ payload: null, message: null });
+    expect(parsePriceIndexResponse(viaJson({}))).toEqual({ payload: null, message: null, issues: [] });
   });
 
   it("is live only when success AND live are both exactly true", () => {
-    const quiet = { payload: null, message: "why" };
+    const quiet = { payload: null, message: "why", issues: [] };
     expect(parsePriceIndexResponse(wire({ live: false, message: "why" }))).toEqual(quiet);
     expect(parsePriceIndexResponse(wire({ success: false, message: "why" }))).toEqual(quiet);
     expect(parsePriceIndexResponse(wire({ success: "true", message: "why" }))).toEqual(quiet);
@@ -211,7 +213,9 @@ describe("token rows: drop a bad row, throw when none is readable", () => {
   it.each(BAD_CASES)(
     "drops the row when %s, keeping the others intact",
     (_label, patch) => {
-      expect(keptTokens({ tokens: tokensWith(0, patch) })).toEqual(OTHERS);
+      const parsed = parsePriceIndexResponse(wire({ tokens: tokensWith(0, patch) }));
+      expect(parsed.payload?.tokens.map((quote) => quote.token)).toEqual(OTHERS);
+      expect(parsed.issues).toEqual(["tokens: dropped 1 unreadable quote row(s)"]);
     },
   );
 
@@ -227,6 +231,7 @@ describe("token rows: drop a bad row, throw when none is readable", () => {
   it("drops rows that are not objects", () => {
     const tokens = [null, 5, "x", [], ...SNAPSHOT.tokens];
     expect(keptTokens({ tokens })).toEqual(["Spirit", "Essence", "Matter", "Substance"]);
+    expect(parsePriceIndexResponse(wire({ tokens })).issues).toStrictEqual(["tokens: dropped 4 unreadable quote row(s)"]);
   });
 
   it("throws when rows arrived and none was readable, but accepts an empty list", () => {
@@ -254,9 +259,10 @@ describe("supply is honestly optional", () => {
   ];
 
   it.each(ABSENT)("drops the block, not the quotes: %s", (_label, overrides) => {
-    const payload = payloadOf(wire(overrides));
-    expect(payload).not.toHaveProperty("supply");
-    expect(payload.tokens).toHaveLength(4);
+    const parsed = parsePriceIndexResponse(wire(overrides));
+    expect(parsed.payload).not.toHaveProperty("supply");
+    expect(parsed.payload?.tokens).toHaveLength(4);
+    expect(parsed.issues).toEqual(overrides.supply === undefined ? [] : ["supply: malformed supply block dropped"]);
   });
 
   it.each(["spirit", "essence", "matter", "substance"])(
@@ -288,6 +294,6 @@ describe("through readJson, the way poll() calls it", () => {
     const refusal = JSON.stringify({ success: false, live: false, message: REFUSAL_MESSAGE });
     await expect(
       readJson(new Response(refusal, { status: 503 }), parsePriceIndexResponse),
-    ).resolves.toEqual({ payload: null, message: REFUSAL_MESSAGE });
+    ).resolves.toEqual({ payload: null, message: REFUSAL_MESSAGE, issues: [] });
   });
 });

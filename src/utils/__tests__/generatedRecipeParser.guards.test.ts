@@ -6,7 +6,10 @@
  * `JSON.stringify(Infinity)` is `null` and would test a different case.
  */
 import { isJsonRecord } from "@/lib/api/json";
-import { parseCustomRecipeResponse } from "../generatedRecipeParser";
+import {
+  parseCustomRecipeResponse,
+  parseLikeCustomRecipeResponse,
+} from "../generatedRecipeParser";
 
 type Patch = (recipe: Record<string, unknown>) => void;
 
@@ -217,6 +220,16 @@ describe("parseCustomRecipeResponse guards", () => {
     });
     it.each([[[]], ["recipe"], [7]])("throws for a recipe that is %j", (value) => {
       expect(() => parseCustomRecipeResponse(envelope((e) => { e.recipe = value; }))).toThrow("recipe must be an object");
+    });
+  });
+
+  describe("parseLikeCustomRecipeResponse (never-throwing POST parser)", () => {
+    it("accepts boolean true and defaults everything else to wasExisting: false without throwing", () => {
+      expect(parseLikeCustomRecipeResponse({ wasExisting: true })).toStrictEqual({ wasExisting: true });
+      expect(parseLikeCustomRecipeResponse({ wasExisting: false })).toStrictEqual({ wasExisting: false });
+      for (const bad of [JSON.parse("null"), [], "text", 42, true, {}, { wasExisting: "true" }, { wasExisting: 1 }, { wasExisting: null }]) {
+        expect(parseLikeCustomRecipeResponse(bad)).toStrictEqual({ wasExisting: false });
+      }
     });
   });
 });

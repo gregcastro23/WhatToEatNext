@@ -37,12 +37,9 @@ import { readJson } from "@/lib/api/json";
 import type { TokenIndexQuote } from "@/lib/economy/priceIndex";
 import { TOKEN_VISUALS, tokenVisualFor } from "@/lib/economy/tokenVisual";
 import {
-  ESMS_SPL_UTILITY,
-  esmsSplCluster,
-  esmsSplExplorerUrl,
-  esmsSplMintAddress,
-  esmsSplMirrorEnabled,
+  ESMS_SPL_UTILITY, esmsSplCluster, esmsSplExplorerUrl, esmsSplMintAddress, esmsSplMirrorEnabled,
 } from "@/lib/esms-chain/solanaMirror";
+import { _logger } from "@/lib/logger";
 
 // ─── Shared store: one poll loop for every mounted ticker ─────────────────
 
@@ -104,16 +101,14 @@ async function poll(): Promise<void> {
       cache: "no-store",
       signal: controller.signal,
     });
-    const { payload, message } = await readJson(res, parsePriceIndexResponse);
+    const { payload, message, issues } = await readJson(res, parsePriceIndexResponse);
     if (seq !== fetchSeq) return; // superseded by a newer request
     if (res.ok && payload) {
+      if (issues.length > 0) {
+        _logger.error("[LivePriceTicker] Dropped malformed parts of price-index response:", issues);
+      }
       currentIntervalMs = BASE_POLL_MS;
-      emit({
-        payload,
-        status: "live",
-        lastUpdatedMs: Date.now(),
-        error: null,
-      });
+      emit({ payload, status: "live", lastUpdatedMs: Date.now(), error: null });
     } else {
       currentIntervalMs = Math.min(currentIntervalMs * 2, MAX_POLL_MS);
       emit({
@@ -125,6 +120,9 @@ async function poll(): Promise<void> {
   } catch (error) {
     if (seq !== fetchSeq) return;
     if (error instanceof DOMException && error.name === "AbortError") return;
+    if (error instanceof Error && error.message.startsWith("Invalid price-index response:")) {
+      _logger.error("[LivePriceTicker]", error.message);
+    }
     currentIntervalMs = Math.min(currentIntervalMs * 2, MAX_POLL_MS);
     emit({
       ...snapshot,
