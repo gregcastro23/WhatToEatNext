@@ -904,6 +904,18 @@ export function calculateAlchemicalFromPlanets(
  * const elementals = aggregateZodiacElementals(positions);
  * // Result: { Fire: 0.33, Water: 0, Earth: 0.33, Air: 0.33 }
  */
+const ELEMENT_BY_ZODIAC_SIGN: ReadonlyMap<string, AlchemicalElement> = new Map(
+  Object.entries(ZODIAC_ELEMENTS).map(([sign, el]) => [sign.toLowerCase(), el]),
+);
+
+function lookupZodiacElement(
+  sign: string | undefined,
+): AlchemicalElement | undefined {
+  if (!sign) return undefined;
+  const normalized = sign.trim().toLowerCase();
+  return normalized ? ELEMENT_BY_ZODIAC_SIGN.get(normalized) : undefined;
+}
+
 export function aggregateZodiacElementals(planetaryPositions: {
   [planet: string]: string;
 }): ElementalProperties {
@@ -912,10 +924,7 @@ export function aggregateZodiacElementals(planetaryPositions: {
 
   for (const planet in planetaryPositions) {
     const sign = planetaryPositions[planet];
-    const element =
-      sign === undefined
-        ? undefined
-        : (ZODIAC_ELEMENTS as Record<string, AlchemicalElement | undefined>)[sign];
+    const element = lookupZodiacElement(sign);
 
     if (!element) {
       _logger.error(`Unknown zodiac sign in elemental aggregation: ${sign}`);
@@ -955,7 +964,7 @@ export function aggregateEnhancedZodiacElementals(
 
   for (const planet in planetaryPositions) {
     const sign = planetaryPositions[planet] ?? "";
-    const signElement = (ZODIAC_ELEMENTS as Record<string, AlchemicalElement | undefined>)[sign];
+    const signElement = lookupZodiacElement(sign);
 
     const sectInfo = getSectElements(planet);
     const sectElement = sectInfo ? (isDiurnal ? sectInfo.diurnal : sectInfo.nocturnal) : signElement;
@@ -1002,6 +1011,13 @@ export function getDominantAlchemicalProperty(
   return dominant[0];
 }
 
+const ALCHEMICAL_ELEMENTS: readonly AlchemicalElement[] = [
+  "Fire",
+  "Water",
+  "Earth",
+  "Air",
+];
+
 /**
  * Get the dominant element from elemental properties
  *
@@ -1010,16 +1026,20 @@ export function getDominantAlchemicalProperty(
  */
 export function getDominantElement(
   elemental: ElementalProperties,
-): keyof ElementalProperties {
-  const entries = Object.entries(elemental) as Array<
-    [keyof ElementalProperties, number]
-  >;
-  entries.sort((a, b) => b[1] - a[1]);
-  const [dominant] = entries;
+): AlchemicalElement {
+  let dominant: AlchemicalElement | null = null;
+  let maxVal = -Infinity;
+  for (const el of ALCHEMICAL_ELEMENTS) {
+    const val = elemental[el];
+    if (typeof val === "number" && val > maxVal) {
+      maxVal = val;
+      dominant = el;
+    }
+  }
   if (!dominant) {
     throw new Error("getDominantElement: no elemental properties supplied");
   }
-  return dominant[0];
+  return dominant;
 }
 
 /**

@@ -111,10 +111,10 @@ export default function SignInModal() {
     }, 10000);
 
     try {
-      // Use profile as callback so they go to onboarding if needed
-      await signIn('google', { 
-        callbackUrl: '/profile',
-        redirect: true 
+      // Route through /auth/establishing so the session & natal chart handshake finishes cleanly
+      await signIn('google', {
+        callbackUrl: '/auth/establishing?next=/profile',
+        redirect: true,
       });
     } catch (err) {
       clearTimeout(timeoutId);

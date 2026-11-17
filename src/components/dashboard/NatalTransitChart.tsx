@@ -149,7 +149,7 @@ export const NatalTransitChart: React.FC<NatalTransitChartProps> = ({
   const birthDateTime = natalChart.birthData.dateTime;
   const birthMoment = new Date(birthDateTime);
   const chartSect: 'diurnal' | 'nocturnal' =
-    isNaN(birthMoment.getTime()) || isSectDiurnalForBirth(birthMoment) ? 'diurnal' : 'nocturnal';
+    isNaN(birthMoment.getTime()) || isSectDiurnalForBirth(natalChart.birthData) ? 'diurnal' : 'nocturnal';
 
   const natalPositions: Array<{
     planet: string;

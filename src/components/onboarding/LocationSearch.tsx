@@ -14,6 +14,7 @@ interface LocationData {
 
 interface LocationSearchProps {
   onLocationSelect: (location: LocationData) => void;
+  onLocationClear?: () => void;
   defaultValue?: string;
   /** Compact mode for inline forms (e.g. commensal add) */
   compact?: boolean;
@@ -68,6 +69,7 @@ function formatDisplayName(raw: string): { primary: string; secondary: string } 
  */
 export function LocationSearch({
   onLocationSelect,
+  onLocationClear,
   defaultValue = "",
   compact = false,
   showCoordinates = true,
@@ -82,6 +84,26 @@ export function LocationSearch({
   );
   const containerRef = useRef<HTMLDivElement>(null);
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const blurTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const prevDefaultRef = useRef(defaultValue);
+  const userEditedRef = useRef(false);
+
+  useEffect(() => {
+    if (prevDefaultRef.current !== defaultValue) {
+      prevDefaultRef.current = defaultValue;
+      if (defaultValue && !selectedLocation) {
+        userEditedRef.current = false;
+        setQuery(defaultValue);
+      }
+    }
+  }, [defaultValue, selectedLocation]);
+
+  useEffect(
+    () => (): void => {
+      if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
+    },
+    [],
+  );
 
   // Handle click outside to close results
   useEffect(() => {
@@ -127,8 +149,8 @@ export function LocationSearch({
   }, []);
 
   useEffect(() => {
-    // Don't search if the query matches the selected location
-    if (query === selectedLocation?.displayName) {
+    // Only search when the user has actively typed, not from pre-filled defaultValue
+    if (!userEditedRef.current || query === selectedLocation?.displayName) {
       return;
     }
 
@@ -148,6 +170,11 @@ export function LocationSearch({
   }, [query, performSearch, selectedLocation]);
 
   const handleSelectLocation = (result: LocationSearchResult): void => {
+    if (blurTimeoutRef.current) {
+      clearTimeout(blurTimeoutRef.current);
+      blurTimeoutRef.current = null;
+    }
+    userEditedRef.current = false;
     const locationData: LocationData = {
       displayName: result.displayName,
       latitude: result.latitude,
@@ -164,9 +191,11 @@ export function LocationSearch({
   };
 
   const handleClear = (): void => {
+    userEditedRef.current = false;
     setQuery("");
     setSelectedLocation(null);
     setResults([]);
+    onLocationClear?.();
   };
 
   const inputClasses = compact
@@ -188,11 +217,24 @@ export function LocationSearch({
           type="text"
           value={query}
           onChange={(e) => {
+            userEditedRef.current = true;
             setQuery(e.target.value);
-            if (selectedLocation) setSelectedLocation(null);
+            if (selectedLocation) {
+              setSelectedLocation(null);
+              onLocationClear?.();
+            }
           }}
           onFocus={() => {
             if (results.length > 0 && !selectedLocation) setShowResults(true);
+          }}
+          onBlur={() => {
+            if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
+            blurTimeoutRef.current = setTimeout(() => {
+              const [topResult] = results;
+              if (!selectedLocation && topResult && query.trim().length >= 2) {
+                handleSelectLocation(topResult);
+              }
+            }, 150);
           }}
           placeholder={placeholder}
           className={inputClasses}
@@ -289,17 +331,17 @@ export function LocationSearch({
       {/* Selected Location Detail */}
       {selectedLocation && (
         <div className="mt-2 flex items-start gap-2">
-          <span className="text-green-500 text-sm mt-0.5">&#x2713;</span>
+          <span className="text-emerald-400 text-sm mt-0.5">&#x2713;</span>
           <div className="text-sm">
-            <span className="text-green-700 font-medium">Location set</span>
+            <span className="text-emerald-400 font-medium">Location set</span>
             {showCoordinates && (
-              <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+              <div className="flex items-center gap-3 mt-1 text-xs text-white/60">
                 <span className="font-mono">
                   {selectedLocation.latitude.toFixed(4)}&#xB0;N,{" "}
                   {selectedLocation.longitude.toFixed(4)}&#xB0;E
                 </span>
                 {selectedLocation.timezone && (
-                  <span className="px-1.5 py-0.5 bg-gray-100 rounded text-gray-600">
+                  <span className="px-1.5 py-0.5 bg-white/10 rounded text-purple-200 font-mono">
                     {selectedLocation.timezone}
                   </span>
                 )}

@@ -31,10 +31,35 @@ function clearLastUserHint(): void {
   }
 }
 
+function resolveNextPath(
+  searchParams: ReturnType<typeof useSearchParams>,
+): string {
+  const raw =
+    searchParams?.get('next') ??
+    searchParams?.get('return') ??
+    searchParams?.get('callbackUrl');
+  if (!raw) return '/profile';
+  if (raw.startsWith('/') && !raw.startsWith('//') && !raw.startsWith('/\\')) {
+    return raw;
+  }
+  if (typeof window !== 'undefined') {
+    try {
+      const parsed = new URL(raw);
+      if (parsed.origin === window.location.origin) {
+        return `${parsed.pathname}${parsed.search}${parsed.hash}` || '/profile';
+      }
+    } catch {
+      /* ignore invalid URL */
+    }
+  }
+  return '/profile';
+}
+
 function LoginContent() {
   const { status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const nextPath = resolveNextPath(searchParams);
   const [isSigningIn, setIsSigningIn] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loadingTooLong, setLoadingTooLong] = useState(false);
@@ -65,9 +90,9 @@ function LoginContent() {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.push('/profile');
+      router.push(nextPath);
     }
-  }, [status, router]);
+  }, [status, router, nextPath]);
 
   // Check for error from OAuth callback
   useEffect(() => {
@@ -92,7 +117,7 @@ function LoginContent() {
       // Route through /auth/establishing so the handshake checklist
       // and the cold-start budget UI run before the user lands.
       await signIn(provider, {
-        callbackUrl: '/auth/establishing?next=/profile',
+        callbackUrl: `/auth/establishing?next=${encodeURIComponent(nextPath)}`,
       });
     } catch {
       setError('Something went wrong. Please try again.');

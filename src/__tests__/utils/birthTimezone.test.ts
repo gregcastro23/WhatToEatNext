@@ -36,10 +36,15 @@
  */
 
 import {
+  AGENT_SENTINEL_DATETIME,
+  IGNITE_FALLBACK_PIN,
+  enrichBirthDataWithInstant,
   isIanaZone,
+  isoWallClockToDatetimeLocal,
   parseRawOffsetMinutes,
   resolveBirthZone,
   zoneOffsetMinutes,
+  wallClockInputToIso,
   wallClockToInstant,
   instantToWallClock,
 } from "@/utils/astrology/birthTimezone";
@@ -278,5 +283,59 @@ describe("round-trip", () => {
     expect(poisoned.resolution.offsetMinutes).toBe(-240);
     expect(poisoned.offset).toBe(-240);
     expect(poisoned.roundTrip.toISOString()).toBe(row.stored);
+  });
+});
+
+describe("wall-clock normalization and birth data enrichment", () => {
+  it("normalizes datetime-local wall clocks without touching local Date getters", () => {
+    const result = withPoisonedLocalGetters(() => ({
+      naive: wallClockInputToIso("1991-06-23T14:24"),
+      canonical: wallClockInputToIso("1991-06-23T14:24:00.000Z"),
+      overflow: wallClockInputToIso("1991-02-30T12:00"),
+      invalid: wallClockInputToIso("not-a-date"),
+      toLocal: isoWallClockToDatetimeLocal("1991-06-23T14:24:00.000Z"),
+      toLocalEmpty: isoWallClockToDatetimeLocal(undefined),
+    }));
+
+    expect(result.naive).toBe("1991-06-23T14:24:00.000Z");
+    expect(result.canonical).toBe("1991-06-23T14:24:00.000Z");
+    expect(result.overflow).toBeNull();
+    expect(result.invalid).toBeNull();
+    expect(result.toLocal).toBe("1991-06-23T14:24");
+    expect(result.toLocalEmpty).toBe("");
+  });
+
+  it("enriches naive birthData with coordinates-derived timezone and true utcInstant", () => {
+    const enriched = withPoisonedLocalGetters(() =>
+      enrichBirthDataWithInstant({
+        dateTime: "1991-06-23T14:24",
+        latitude: 40.6526006,
+        longitude: -73.9497211,
+        timezone: "UTC",
+      }),
+    );
+
+    expect(enriched).toMatchObject({
+      dateTime: "1991-06-23T14:24:00.000Z",
+      utcInstant: "1991-06-23T18:24:00.000Z",
+      timezone: "America/New_York",
+      timezoneBasis: "DERIVED_FROM_COORDINATES",
+    });
+  });
+
+  it("does not fabricate utcInstant for agent sentinels or fallback pins", () => {
+    const sentinel = enrichBirthDataWithInstant({
+      dateTime: AGENT_SENTINEL_DATETIME,
+      latitude: 40.7128,
+      longitude: -74.006,
+    });
+    expect(sentinel.utcInstant).toBeUndefined();
+
+    const fallback = enrichBirthDataWithInstant({
+      dateTime: "1991-06-23T14:24:00.000Z",
+      latitude: IGNITE_FALLBACK_PIN.latitude,
+      longitude: IGNITE_FALLBACK_PIN.longitude,
+    });
+    expect(fallback.utcInstant).toBeUndefined();
   });
 });

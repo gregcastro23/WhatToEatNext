@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { isoWallClockToDatetimeLocal } from "@/utils/astrology/ianaZone";
 import {
   executeOnboarding,
   fetchServerProfile,
@@ -66,16 +67,18 @@ async function handleOnboardingFlow(
   birthDateTime: string,
   updateSession: () => Promise<unknown>,
 ): Promise<{ success: boolean; message?: string }> {
-  if (!session?.user?.email || !session.user.name) {
+  if (!session?.user?.email) {
     return { success: false, message: "Session missing user info. Please log out and log in again." };
   }
-  const res = await executeOnboarding(session.user.email, session.user.name, birthLocation, birthDateTime);
+  const displayName =
+    session.user.name || session.user.email.split("@")[0] || "Practitioner";
+  const res = await executeOnboarding(session.user.email, displayName, birthLocation, birthDateTime);
   if (!res.success) return { success: false, message: res.message ?? "Chart calculation failed" };
 
   localStorage.setItem("userProfile", JSON.stringify({
     userId: session.user.id,
     email: session.user.email,
-    name: session.user.name,
+    name: displayName,
     birthData: res.birthData,
     natalChart: res.natalChart,
   }));
@@ -87,6 +90,7 @@ async function handleOnboardingFlow(
 
 function useBirthDataSubmission(
   session: ReturnType<typeof useSession>["data"],
+  profileData: UserProfileData | null,
   updateSession: () => Promise<unknown>,
   setError: React.Dispatch<React.SetStateAction<string | null>>,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
@@ -99,6 +103,27 @@ function useBirthDataSubmission(
 } {
   const [birthDateTime, setBirthDateTime] = useState("");
   const [birthLocation, setBirthLocation] = useState<LocationData | null>(null);
+  const prefilledProfileRef = useRef(false);
+
+  useEffect(() => {
+    if (prefilledProfileRef.current) return;
+    const bd = profileData?.natalChart?.birthData;
+    if (!bd) return;
+    prefilledProfileRef.current = true;
+    const localVal = isoWallClockToDatetimeLocal(bd.dateTime);
+    if (localVal) setBirthDateTime(localVal);
+    if (Number.isFinite(bd.latitude) && Number.isFinite(bd.longitude)) {
+      const label = bd.timezone
+        ? `${bd.timezone} (${bd.latitude.toFixed(2)}, ${bd.longitude.toFixed(2)})`
+        : `${bd.latitude.toFixed(4)}, ${bd.longitude.toFixed(4)}`;
+      setBirthLocation({
+        displayName: label,
+        latitude: bd.latitude,
+        longitude: bd.longitude,
+        ...(bd.timezone ? { timezone: bd.timezone } : {}),
+      });
+    }
+  }, [profileData]);
 
   const handleBirthDataSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
@@ -169,7 +194,7 @@ export function useProfileManagement(): ProfileManagementState {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const birthSub = useBirthDataSubmission(session, updateSession, setError, setIsLoading);
+  const birthSub = useBirthDataSubmission(session, profileData, updateSession, setError, setIsLoading);
   const handlePreferencesSave = usePreferencesSaver(setPreferences, setCurrentStep);
 
   useEffect(() => {

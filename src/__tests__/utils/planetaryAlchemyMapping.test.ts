@@ -9,6 +9,7 @@ import {
   ZODIAC_ELEMENTS,
   calculateAlchemicalFromPlanets,
   aggregateZodiacElementals,
+  aggregateEnhancedZodiacElementals,
   getDominantAlchemicalProperty,
   getDominantElement,
   isSectDiurnal,
@@ -207,6 +208,33 @@ describe("aggregateZodiacElementals", () => {
     // Falls back to balanced
     expect(result).toEqual({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
     errorSpy.mockRestore();
+  });
+
+  it("treats lowercase ZodiacSignType identically to Title Case signs in basic and enhanced aggregations", () => {
+    const lower = {
+      Sun: "cancer",
+      Moon: "scorpio",
+      Mercury: "pisces",
+      Venus: "cancer",
+      Mars: "scorpio",
+    };
+    const title = {
+      Sun: "Cancer",
+      Moon: "Scorpio",
+      Mercury: "Pisces",
+      Venus: "Cancer",
+      Mars: "Scorpio",
+    };
+
+    expect(aggregateZodiacElementals(lower)).toEqual(aggregateZodiacElementals(title));
+    expect(aggregateZodiacElementals(lower).Water).toBeCloseTo(1.0, 5);
+    expect(aggregateEnhancedZodiacElementals(lower, true)).toEqual(
+      aggregateEnhancedZodiacElementals(title, true),
+    );
+    expect(aggregateEnhancedZodiacElementals(lower, false)).toEqual(
+      aggregateEnhancedZodiacElementals(title, false),
+    );
+    expect(getDominantElement(aggregateEnhancedZodiacElementals(lower, true))).toBe("Water");
   });
 });
 

@@ -60,7 +60,12 @@
  */
 
 import tzLookup from "tz-lookup";
-import { isIanaZone, parseRawOffsetMinutes } from "./ianaZone";
+import {
+  isIanaZone,
+  parseRawOffsetMinutes,
+  wallClockInputToIso,
+  wallClockToInstant,
+} from "./ianaZone";
 
 // Re-exported so server-side callers have a single import for the whole
 // boundary. The primitives themselves live in `ianaZone.ts` because they need
@@ -72,6 +77,8 @@ export {
   zoneOffsetMinutes,
   wallClockToInstant,
   instantToWallClock,
+  wallClockInputToIso,
+  isoWallClockToDatetimeLocal,
 } from "./ianaZone";
 export type { WallClockResolution, InstantResolution } from "./ianaZone";
 
@@ -204,3 +211,68 @@ export function isFabricatedFallbackPin(latitude: number, longitude: number): bo
  * refuse it rather than render a chart for 1900-01-01 noon.
  */
 export const AGENT_SENTINEL_DATETIME = "1900-01-01T12:00:00.000Z";
+
+export interface EnrichableBirthData {
+  dateTime: string;
+  latitude: number;
+  longitude: number;
+  timezone?: string;
+  utcInstant?: string;
+  timezoneBasis?: "DERIVED_FROM_COORDINATES" | "STORED_IANA_STRING" | "ABSENT";
+}
+
+/**
+ * Normalize a birth record's wall-clock `dateTime` and enrich it with the
+ * derived IANA `timezone`, `timezoneBasis`, and true UTC instant `utcInstant`.
+ * Coordinates win over any client-supplied timezone string. Never fabricates
+ * an instant for agent sentinels, Fallback-NY pins, `(0, 0)`, or invalid dates.
+ */
+export function enrichBirthDataWithInstant<T extends EnrichableBirthData>(
+  input: T,
+): T & {
+  dateTime: string;
+  utcInstant?: string;
+  timezone?: string;
+  timezoneBasis?: "DERIVED_FROM_COORDINATES" | "STORED_IANA_STRING" | "ABSENT";
+} {
+  const dateTime = wallClockInputToIso(input.dateTime) ?? input.dateTime;
+  const parsedWallMs = Date.parse(dateTime);
+  if (
+    dateTime === AGENT_SENTINEL_DATETIME ||
+    isFabricatedFallbackPin(input.latitude, input.longitude) ||
+    (input.latitude === 0 && input.longitude === 0) ||
+    Number.isNaN(parsedWallMs)
+  ) {
+    return { ...input, dateTime };
+  }
+
+  const resolved = resolveBirthZone({
+    latitude: input.latitude,
+    longitude: input.longitude,
+    timezone: input.timezone ?? null,
+  });
+
+  if (resolved.zone) {
+    const { instant } = wallClockToInstant(new Date(dateTime), resolved.zone);
+    const timezoneBasis: "DERIVED_FROM_COORDINATES" | "STORED_IANA_STRING" | "ABSENT" =
+      resolved.basis === "DERIVED_FROM_COORDINATES" ||
+      resolved.basis === "STORED_IANA_STRING"
+        ? resolved.basis
+        : "ABSENT";
+    if (!Number.isNaN(instant.getTime())) {
+      return {
+        ...input,
+        dateTime,
+        utcInstant: instant.toISOString(),
+        timezone: resolved.zone,
+        timezoneBasis,
+      };
+    }
+  }
+
+  return {
+    ...input,
+    dateTime,
+    timezoneBasis: "ABSENT",
+  };
+}

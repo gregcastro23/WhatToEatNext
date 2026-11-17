@@ -104,8 +104,14 @@ export function AuthHandshake({ redirectTo }: AuthHandshakeProps = {}): JSX.Elem
     if (progress < HANDSHAKE_STEPS.length) return;
     if (status === "loading") return;
 
-    track("auth_handshake_completed", { stepsCompleted: 6 });
     setRedirected(true);
+
+    if (status === "unauthenticated") {
+      router.replace("/login");
+      return;
+    }
+
+    track("auth_handshake_completed", { stepsCompleted: 6 });
 
     void (async () => {
       // Refresh the JWT-derived session before navigating so middleware sees
@@ -117,9 +123,13 @@ export function AuthHandshake({ redirectTo }: AuthHandshakeProps = {}): JSX.Elem
       }
 
       const user = session?.user;
-      const dest =
-        redirectTo ??
-        (user?.onboardingComplete === false ? "/onboarding" : "/profile");
+      let dest = redirectTo ?? "/profile";
+      if (user?.onboardingComplete === false) {
+        dest =
+          redirectTo && redirectTo !== "/onboarding"
+            ? `/onboarding?return=${encodeURIComponent(redirectTo)}`
+            : "/onboarding";
+      }
 
       router.push(dest);
     })();

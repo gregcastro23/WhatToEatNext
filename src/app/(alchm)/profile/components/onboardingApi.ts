@@ -5,6 +5,7 @@ import {
   QuestReportResponseSchema,
 } from "@/lib/validation/serviceResponseSchemas";
 import type { BirthData, NatalChart } from "@/types/natalChart";
+import { wallClockInputToIso } from "@/utils/astrology/ianaZone";
 import {
   type UserPreferences,
   type UserProfileData,
@@ -79,11 +80,12 @@ export async function executeOnboarding(
   birthLocation: LocationData,
   birthDateTime: string,
 ): Promise<{ success: boolean; message?: string; natalChart?: NatalChart; birthData: BirthData }> {
+  const normalizedDateTime = wallClockInputToIso(birthDateTime) ?? birthDateTime;
   const birthData: BirthData = {
-    dateTime: new Date(birthDateTime).toISOString(),
+    dateTime: normalizedDateTime,
     latitude: birthLocation.latitude,
     longitude: birthLocation.longitude,
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    ...(birthLocation.timezone ? { timezone: birthLocation.timezone } : {}),
   };
 
   const response = await fetch("/api/onboarding", {
@@ -96,7 +98,18 @@ export async function executeOnboarding(
     if (response.status === 401) {
       return { success: false, message: "Your session has expired. Please log out and sign in again.", birthData };
     }
-    return { success: false, message: `Server error (${response.status})`, birthData };
+    let serverMessage = `Server error (${response.status})`;
+    try {
+      const parsed = await readJson(response, {
+        parse: OnboardingApiResponseSchema.parse,
+      });
+      if (parsed.message) {
+        serverMessage = parsed.message;
+      }
+    } catch {
+      /* leave generic HTTP status message */
+    }
+    return { success: false, message: serverMessage, birthData };
   }
   const result = await readJson(response, {
     parse: OnboardingApiResponseSchema.parse,
@@ -105,7 +118,7 @@ export async function executeOnboarding(
     success: Boolean(result.success),
     ...(result.message ? { message: result.message } : {}),
     ...(result.natalChart ? { natalChart: result.natalChart } : {}),
-    birthData,
+    birthData: result.natalChart?.birthData ?? birthData,
   };
 }
 

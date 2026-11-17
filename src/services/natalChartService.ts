@@ -12,7 +12,6 @@ import { NatalChartAstrologizeResponseSchema } from "@/lib/validation/astrologyS
 import type {
   Planet,
   ZodiacSignType,
-  Element,
   Modality,
 } from "@/types/celestial";
 import type { BirthData, NatalChart, PlanetInfo } from "@/types/natalChart";
@@ -436,7 +435,7 @@ export async function calculateNatalChart(
     const elementalBalance = aggregateEnhancedZodiacElementals(positionsForAlchemy, diurnal);
 
     // Determine dominant element and modality
-    const dominantElement = getDominantElement(elementalBalance) as Element;
+    const dominantElement = getDominantElement(elementalBalance);
     const dominantModality = calculateDominantModality(signPositions);
 
     const planets: PlanetInfo[] = Object.entries(planetaryPositions).map(

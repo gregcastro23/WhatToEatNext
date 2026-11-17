@@ -27,6 +27,12 @@ import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeServi
 import { userDatabase } from "@/services/userDatabaseService";
 import { toEsmsShares, selectArchetype } from "@/utils/alchemicalConstitution";
 import {
+  enrichBirthDataWithInstant,
+  isFabricatedFallbackPin,
+  resolveBirthZone,
+  wallClockInputToIso,
+} from "@/utils/astrology/birthTimezone";
+import {
   getAccuratePlanetaryPositions,
   isCurrentSkyDiurnal,
 } from "@/utils/astrology/positions";
@@ -84,39 +90,81 @@ export async function POST(req: Request): Promise<NextResponse> {
         { status: 400 },
       );
     }
-    const { dob, city } = parsed.data;
+    const {
+      dob,
+      city,
+      latitude: clientLat,
+      longitude: clientLon,
+      timezone: clientTimezone,
+    } = parsed.data;
 
-    // 3. Geocode location to coordinates
-    //
-    // A failed geocode used to fall back to `40.7498, -73.7976` ("Fallback NY")
-    // with a timezone of `"UTC"`. That is not a degraded chart, it is a
-    // confidently wrong one: the pin satisfies every downstream finiteness check
-    // and reads as a real birthplace forever after. MEASURED 2026-08-04, 2 of
-    // the 8 human birth records in prod carry that exact pin bit-for-bit, so
-    // their stored birthplace — and the `America/New_York` zone derived from it —
-    // was never anything the user said.
-    //
-    // Refuse instead. A chart cannot be invented for a place we could not find.
-    const geocoded = await geocodeLocationSingle(city);
-    if (!geocoded || !Number.isFinite(geocoded.latitude) || !Number.isFinite(geocoded.longitude)) {
+    const normalizedDob = wallClockInputToIso(dob);
+    if (!normalizedDob) {
       return NextResponse.json(
-        {
-          success: false,
-          error: "geocode_failed",
-          message: `Could not resolve "${city}" to a birthplace. A natal chart cannot be computed without real coordinates.`,
-        },
-        { status: 422 },
+        { success: false, error: "bad_request", message: "Invalid birth date and time format." },
+        { status: 400 },
       );
     }
-    const { latitude, longitude } = geocoded;
 
-    // 4. Temporal Analysis (retrieves the natal chart)
-    const birthData = {
-      dateTime: new Date(dob).toISOString(),
+    // 3. Resolve birthplace coordinates & IANA timezone (prefer verified client pin to avoid flaky re-geocoding)
+    let latitude: number;
+    let longitude: number;
+    let resolvedTimezone: string | null | undefined;
+
+    if (
+      typeof clientLat === "number" &&
+      Number.isFinite(clientLat) &&
+      typeof clientLon === "number" &&
+      Number.isFinite(clientLon)
+    ) {
+      if (
+        isFabricatedFallbackPin(clientLat, clientLon) ||
+        (clientLat === 0 && clientLon === 0)
+      ) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: "geocode_failed",
+            message: `Could not resolve "${city}" to a valid birthplace coordinate.`,
+          },
+          { status: 422 },
+        );
+      }
+      latitude = clientLat;
+      longitude = clientLon;
+      resolvedTimezone =
+        resolveBirthZone({
+          latitude,
+          longitude,
+          timezone: clientTimezone ?? null,
+        }).zone ?? clientTimezone;
+    } else {
+      const geocoded = await geocodeLocationSingle(city);
+      if (
+        !geocoded ||
+        !Number.isFinite(geocoded.latitude) ||
+        !Number.isFinite(geocoded.longitude) ||
+        isFabricatedFallbackPin(geocoded.latitude, geocoded.longitude)
+      ) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: "geocode_failed",
+            message: `Could not resolve "${city}" to a birthplace. A natal chart cannot be computed without real coordinates.`,
+          },
+          { status: 422 },
+        );
+      }
+      ({ latitude, longitude, timezone: resolvedTimezone } = geocoded);
+    }
+
+    // 4. Temporal Analysis (retrieves the natal chart using true UTC instant)
+    const birthData = enrichBirthDataWithInstant({
+      dateTime: normalizedDob,
       latitude,
       longitude,
-      ...(geocoded.timezone ? { timezone: geocoded.timezone } : {}),
-    };
+      ...(resolvedTimezone ? { timezone: resolvedTimezone } : {}),
+    });
 
     logger.info(`[ignite] Calculating natal chart for user ${userId} at ${dob} in ${city}...`);
     const chart = await calculateNatalChart(birthData);
@@ -321,7 +369,7 @@ export async function POST(req: Request): Promise<NextResponse> {
     }
 
     // 9. Return Response Payload
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       alchemical_constitution: {
         userId,
@@ -333,7 +381,17 @@ export async function POST(req: Request): Promise<NextResponse> {
         lastTransitSync: new Date().toISOString(),
       },
       cosmicRecipe,
+      birthData,
+      natalChart: chart,
     });
+    response.cookies?.set?.("onboarding_completed", "1", {
+      path: "/",
+      maxAge: 30 * 24 * 60 * 60,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: false,
+    });
+    return response;
   } catch (error: unknown) {
     logger.error("[ignite] Ignition process failed:", error);
     return NextResponse.json(

@@ -112,7 +112,7 @@ export function calculateCompositeNatalChart(
   };
 
   // Determine dominant element and modality
-  const dominantElement = getDominantElement(elementalBalance) as Element;
+  const dominantElement = getDominantElement(elementalBalance);
 
   let dominantModality: Modality = "Cardinal";
   let maxModalityCount = 0;

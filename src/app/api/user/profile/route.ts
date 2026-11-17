@@ -57,7 +57,7 @@ async function maybeMigrateNatalChart(
 
   _logger.info("[api/user/profile] Migrating natal chart with sub-arcminute positions");
   try {
-    const birthDate = new Date(natalChart.birthData.dateTime);
+    const birthDate = new Date(natalChart.birthData.utcInstant ?? natalChart.birthData.dateTime);
     const rawPositions = await withTimeout(
       getPlanetaryPositionsForDateTime(birthDate, {
         latitude: natalChart.birthData.latitude,

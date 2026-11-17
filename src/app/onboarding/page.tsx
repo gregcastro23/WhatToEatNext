@@ -7,6 +7,8 @@ import React, { Suspense, useState, useEffect } from "react";
 import { LocationSearch } from "@/components/onboarding/LocationSearch";
 import { RecipeCard } from "@/components/RecipeCard";
 import { _logger } from "@/lib/logger";
+import type { BirthData, NatalChart } from "@/types/natalChart";
+import { wallClockInputToIso } from "@/utils/astrology/ianaZone";
 
 interface LocationData {
   displayName: string;
@@ -29,8 +31,33 @@ interface OnboardingResponse {
   success: boolean;
   alchemical_constitution: AlchemicalConstitution;
   cosmicRecipe: any;
+  birthData?: BirthData;
+  natalChart?: NatalChart;
   error?: string;
   message?: string;
+}
+
+function formatBirthPlacement(sign: string | undefined, position: number | undefined): string {
+  if (!sign) return "—";
+  const label = sign.charAt(0).toUpperCase() + sign.slice(1);
+  if (typeof position === "number" && Number.isFinite(position) && position > 0) {
+    return `${label} ${Math.floor(position % 30)}°`;
+  }
+  return label;
+}
+
+function formatWallClockDisplay(dateTime: string | undefined): string | null {
+  if (!dateTime) return null;
+  const parsed = new Date(dateTime);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return parsed.toLocaleString("en-US", {
+    timeZone: "UTC",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 function sanitizeReturn(raw: string | null | undefined): string | null {
@@ -60,6 +87,8 @@ function OnboardingContent() {
   // Result payloads from Agent Forge
   const [constitution, setConstitution] = useState<AlchemicalConstitution | null>(null);
   const [cosmicRecipe, setCosmicRecipe] = useState<any | null>(null);
+  const [savedBirthData, setSavedBirthData] = useState<BirthData | null>(null);
+  const [computedChart, setComputedChart] = useState<NatalChart | null>(null);
   const [isFinishing, setIsFinishing] = useState(false);
 
   const loadingTexts = [
@@ -89,7 +118,7 @@ function OnboardingContent() {
     const { user } = session;
     // Bypass if they already have onboardingComplete
     if (user.onboardingComplete === true && viewState === "input") {
-      router.replace(returnTo ?? "/");
+      router.replace(returnTo ?? "/profile");
     }
   }, [status, session, router, returnTo, viewState]);
 
@@ -128,6 +157,12 @@ function OnboardingContent() {
       return;
     }
 
+    const normalizedDob = wallClockInputToIso(birthDateTime);
+    if (!normalizedDob) {
+      setError("Please enter a valid date and time of birth.");
+      return;
+    }
+
     setViewState("projecting");
     setLoadingStep(0);
 
@@ -136,20 +171,49 @@ function OnboardingContent() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          dob: birthDateTime,
-          city: birthLocation.displayName
-        })
+          dob: normalizedDob,
+          city: birthLocation.displayName,
+          latitude: birthLocation.latitude,
+          longitude: birthLocation.longitude,
+          ...(birthLocation.timezone ? { timezone: birthLocation.timezone } : {}),
+        }),
       });
 
       if (!response.ok) {
         const text = await response.text();
-        throw new Error(text || `Ignition failed with status ${response.status}`);
+        let errorMessage = `Ignition failed with status ${response.status}`;
+        if (text) {
+          try {
+            const errJson: unknown = JSON.parse(text);
+            if (
+              typeof errJson === "object" &&
+              errJson !== null &&
+              "message" in errJson &&
+              typeof errJson.message === "string" &&
+              errJson.message
+            ) {
+              errorMessage = errJson.message;
+            } else {
+              errorMessage = text;
+            }
+          } catch {
+            errorMessage = text;
+          }
+        }
+        throw new Error(errorMessage);
       }
 
       const data: OnboardingResponse = await response.json();
       if (!data.success) {
         throw new Error(data.message || "Celestial ignition failed.");
       }
+
+      const resolvedBirthData: BirthData = data.birthData ?? {
+        dateTime: normalizedDob,
+        latitude: birthLocation.latitude,
+        longitude: birthLocation.longitude,
+        ...(birthLocation.timezone ? { timezone: birthLocation.timezone } : {}),
+      };
 
       // Store in LocalStorage
       localStorage.setItem(
@@ -158,11 +222,8 @@ function OnboardingContent() {
           userId: data.alchemical_constitution.userId,
           email: session?.user?.email ?? "",
           name: session?.user?.name ?? "",
-          birthData: {
-            dateTime: new Date(birthDateTime).toISOString(),
-            latitude: birthLocation.latitude,
-            longitude: birthLocation.longitude
-          },
+          birthData: resolvedBirthData,
+          ...(data.natalChart ? { natalChart: data.natalChart } : {}),
           alchemicalConstitution: data.alchemical_constitution
         })
       );
@@ -170,12 +231,18 @@ function OnboardingContent() {
       // Save references in component state
       setConstitution(data.alchemical_constitution);
       setCosmicRecipe(data.cosmicRecipe);
+      setSavedBirthData(resolvedBirthData);
+      setComputedChart(data.natalChart ?? null);
 
       // Transition to final reveal step
       setViewState("transmuted");
-    } catch (err: any) {
+    } catch (err: unknown) {
       _logger.error("Agent Forge Onboarding Error:", err);
-      setError(err?.message || "An unexpected eclipse interrupted your onboarding. Please try again.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "An unexpected eclipse interrupted your onboarding. Please try again.",
+      );
       setViewState("input");
     }
   };
@@ -189,11 +256,11 @@ function OnboardingContent() {
       // Update NextAuth session
       await updateSession();
 
-      // Redirect user to dashboard
-      window.location.href = returnTo ?? "/";
+      // Redirect user to dashboard or return destination
+      window.location.href = returnTo ?? "/profile";
     } catch (err) {
       _logger.error("Session update failed:", err);
-      window.location.href = returnTo ?? "/";
+      window.location.href = returnTo ?? "/profile";
     }
   };
 
@@ -279,7 +346,8 @@ function OnboardingContent() {
                 {/* Geocoding Location Search */}
                 <div className="space-y-2 font-mono [&_label]:text-[10px] [&_label]:font-bold [&_label]:text-white/50 [&_label]:uppercase [&_label]:tracking-[0.25em] [&_input]:bg-white/[0.03] [&_input]:border-white/10 [&_input]:border [&_input]:rounded-2xl [&_input]:text-white [&_input]:outline-none [&_input]:px-4 [&_input]:py-3.5 [&_input]:text-sm [&_input]:shadow-inner">
                   <LocationSearch 
-                    onLocationSelect={(loc) => setBirthLocation(loc)} 
+                    onLocationSelect={(loc) => setBirthLocation(loc)}
+                    onLocationClear={() => setBirthLocation(null)}
                     placeholder="Search for birth city/region..."
                   />
                 </div>
@@ -540,6 +608,51 @@ function OnboardingContent() {
                 Your birth coordinates geocoded successfully. Your cosmic reserves are loaded.
               </p>
             </div>
+
+            {/* Celestial Birth Summary Strip */}
+            {(savedBirthData ?? computedChart) && (() => {
+              const birthSource = computedChart?.birthData ?? savedBirthData;
+              const formattedWallClock = formatWallClockDisplay(birthSource?.dateTime);
+              const sunInfo = computedChart?.planets.find((p) => p.name === "Sun");
+              const moonInfo = computedChart?.planets.find((p) => p.name === "Moon");
+              const ascInfo = computedChart?.planets.find((p) => p.name === "Ascendant");
+              return (
+                <div className="w-full mb-5 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md px-5 py-4 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex flex-wrap items-center gap-4 text-xs">
+                    {computedChart && (
+                      <>
+                        <div>
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-amber-300/70 mr-1.5">Sun</span>
+                          <span className="font-bold text-white">
+                            {formatBirthPlacement(computedChart.planetaryPositions.Sun, sunInfo?.position)}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-blue-300/70 mr-1.5">Moon</span>
+                          <span className="font-bold text-white">
+                            {formatBirthPlacement(computedChart.planetaryPositions.Moon, moonInfo?.position)}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-mono uppercase tracking-wider text-purple-300/70 mr-1.5">Rising</span>
+                          <span className="font-bold text-white">
+                            {formatBirthPlacement(computedChart.ascendant, ascInfo?.position)}
+                          </span>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-white/60">
+                    {formattedWallClock && <span>{formattedWallClock}</span>}
+                    {birthSource?.timezone && (
+                      <span className="px-2 py-0.5 rounded-md bg-purple-500/15 border border-purple-400/20 text-purple-200">
+                        {birthSource.timezone}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Content Display: Archetype & Token Yields + First Recipe */}
             <div className="w-full grid grid-cols-1 lg:grid-cols-5 gap-6 mt-4">
