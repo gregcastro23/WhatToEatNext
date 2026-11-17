@@ -70,7 +70,7 @@ jobs:
           echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
           echo "NODE_ENV=test" >> .env.local
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        uses: ./.github/actions/bun-install
       - name: Run ${{ matrix.name }}
         run: ${{ matrix.command }}
 
@@ -96,7 +96,7 @@ jobs:
           echo "NEXT_PUBLIC_API_CACHE_TIME=3600" >> .env.local
           echo "NODE_ENV=test" >> .env.local
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        uses: ./.github/actions/bun-install
       - name: Measure tsc + ESLint and post the reading
         env:
           CODE_HEALTH_INGEST_SECRET: ${{ secrets.CODE_HEALTH_INGEST_SECRET }}
