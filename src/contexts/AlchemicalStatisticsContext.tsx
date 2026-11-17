@@ -12,17 +12,11 @@
 "use client";
 
 import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ReactNode,
+  createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode,
 } from "react";
 import { parseAllPeriodsResponse } from "@/contexts/alchemicalStatisticsParser";
 import { readJson } from "@/lib/api/json";
+import { _logger } from "@/lib/logger";
 import type {
   PeriodStatistics,
   QuantityContext as QuantityContextValue,
@@ -91,6 +85,9 @@ export function AlchemicalStatisticsProvider({
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await readJson(res, parseAllPeriodsResponse);
+        if (json.issues.length > 0) {
+          _logger.error("[AlchemicalStatisticsContext] Dropped malformed parts of statistics response:", json.issues);
+        }
         setAllPeriods(json.periods);
         setFileMeta(json.file);
       } catch (err) {

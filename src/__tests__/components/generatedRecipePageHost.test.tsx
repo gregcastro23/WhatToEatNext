@@ -53,6 +53,8 @@ class Boundary extends React.Component<{ children?: React.ReactNode }, { failure
 const originalFetch = globalThis.fetch;
 let served: unknown = null;
 let posted: unknown = null;
+let likeResponseFactory: () => Response = () =>
+  new Response(JSON.stringify({ authenticated: true, wasExisting: false }), { status: 200 });
 
 function installFetch(): void {
   globalThis.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
@@ -64,7 +66,7 @@ function installFetch(): void {
     }
     if (url === "/api/users/me/recipes/custom") {
       posted = JSON.parse(String(init?.body));
-      return new Response(JSON.stringify({ success: true }), { status: 200 });
+      return likeResponseFactory();
     }
     throw new Error(`unexpected fetch ${url}`);
   };
@@ -110,6 +112,8 @@ beforeEach(() => {
   mockDbFails = false;
   served = null;
   posted = null;
+  likeResponseFactory = () =>
+    new Response(JSON.stringify({ authenticated: true, wasExisting: false }), { status: 200 });
   installFetch();
 });
 
@@ -140,6 +144,40 @@ describe("GeneratedRecipePage over the real /api/recipes/custom handler", () => 
     expect(posted).toHaveProperty("payload.nutritionalOptimization.kalchmNutritionalBalance", 0.5);
     expect(posted).toHaveProperty("payload.alchemicalProperties.thermodynamicProfile.heat", 0.6);
     expect(posted).toMatchObject({ name: "Moonlit Saffron Risotto", sourceRecipeId: "cosmic-1731576000000-a1b2c", action: "like" });
+    await waitFor(() =>
+      expect(screen.getByText("Saved to your cookbook. Recommendations will adapt.")).not.toBeNull(),
+    );
+  });
+
+  it("Like shows the refreshed message only when wasExisting is boolean true, and degrades gracefully on non-JSON 200 bodies", async () => {
+    storeRow(generatedPayload());
+    likeResponseFactory = () =>
+      new Response(JSON.stringify({ authenticated: true, wasExisting: true }), { status: 200 });
+    const first = render(<Boundary><Page /></Boundary>);
+    await waitFor(() => expect(screen.getByText("Like Recipe")).not.toBeNull());
+    fireEvent.click(screen.getByText("Like Recipe"));
+    await waitFor(() =>
+      expect(screen.getByText("Already in your cookbook. Preferences refreshed.")).not.toBeNull(),
+    );
+    first.unmount();
+
+    likeResponseFactory = () =>
+      new Response(JSON.stringify({ authenticated: true, wasExisting: "yes" }), { status: 200 });
+    const second = render(<Boundary><Page /></Boundary>);
+    await waitFor(() => expect(screen.getByText("Like Recipe")).not.toBeNull());
+    fireEvent.click(screen.getByText("Like Recipe"));
+    await waitFor(() =>
+      expect(screen.getByText("Saved to your cookbook. Recommendations will adapt.")).not.toBeNull(),
+    );
+    second.unmount();
+
+    likeResponseFactory = () => new Response("", { status: 200 });
+    render(<Boundary><Page /></Boundary>);
+    await waitFor(() => expect(screen.getByText("Like Recipe")).not.toBeNull());
+    fireEvent.click(screen.getByText("Like Recipe"));
+    await waitFor(() =>
+      expect(screen.getByText("Saved to your cookbook. Recommendations will adapt.")).not.toBeNull(),
+    );
   });
 
   it("never adopts a non-OK response, even when its body parses as a recipe", async () => {

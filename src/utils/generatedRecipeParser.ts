@@ -229,3 +229,13 @@ export function parseCustomRecipeResponse(value: unknown): GeneratedRecipeView |
   if (value.success !== true || value.recipe === undefined || value.recipe === null) return null;
   return parseGeneratedRecipe(requireRecord(value.recipe, "recipe"));
 }
+
+/**
+ * `parse` for `safeReadJson` on `POST /api/users/me/recipes/custom`
+ * (`src/app/api/users/me/recipes/custom/route.ts:268-273`). Never throws: a 2xx
+ * POST has already written the row to `user_custom_recipes`.
+ */
+export function parseLikeCustomRecipeResponse(value: unknown): { wasExisting: boolean } {
+  if (!isJsonRecord(value)) return { wasExisting: false };
+  return { wasExisting: value.wasExisting === true };
+}

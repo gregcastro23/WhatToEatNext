@@ -16,9 +16,9 @@
 import Link from "next/link";
 import { notFound, useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState, useCallback } from "react";
-import { readJson } from "@/lib/api/json";
+import { readJson, safeReadJson } from "@/lib/api/json";
 import { elementalSignature } from "@/utils/elemental/signature";
-import { parseCustomRecipeResponse, type GeneratedRecipeView } from "@/utils/generatedRecipeParser";
+import { parseCustomRecipeResponse, parseLikeCustomRecipeResponse, type GeneratedRecipeView } from "@/utils/generatedRecipeParser";
 import { getRecipeFromStore } from "@/utils/generatedRecipeStore";
 import { createLogger } from "@/utils/logger";
 import { roundedCalories } from "@/utils/roundedCalories";
@@ -235,9 +235,7 @@ export default function GeneratedRecipePage(): React.JSX.Element {
         return;
       }
       if (!res.ok) throw new Error("like failed");
-      const data = (await res.json().catch(() => ({}))) as {
-        wasExisting?: boolean;
-      };
+      const data = await safeReadJson(res, { wasExisting: false }, parseLikeCustomRecipeResponse);
       setSaved(true);
       setLikeMessage(
         data.wasExisting

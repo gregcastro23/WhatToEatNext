@@ -48,11 +48,12 @@
  * - `success` must be exactly true, otherwise the whole response throws.
  * - A period slot that is `null` is a legitimate empty window. A slot that is
  *   missing, mistyped, or fails any field of `PeriodStatistics` is DROPPED to
- *   null, which the UI shows exactly like an empty window (there is no issues
- *   channel and nothing is logged). Only TOTAL drift is loud: if some slot failed
- *   and none parsed, the whole response THROWS.
+ *   null and reported on `issues` (logged by `AlchemicalStatisticsContext`).
+ *   Only TOTAL drift throws: if some slot failed and none parsed, the whole
+ *   response THROWS.
  * - `file` only feeds a date label and the context already allows `null`, so a
- *   malformed `file` becomes `null` and the periods are unaffected.
+ *   malformed `file` becomes `null`, records an issue, and leaves the periods
+ *   unaffected.
  * - `reference` is read by nobody and is not validated.
  *
  * Key sets: none is kept here. Every record below is an ANNOTATED literal, so
@@ -88,6 +89,7 @@ export type StatisticsFileMeta = Pick<
 export interface StatisticsPayload {
   periods: PeriodStatisticsMap;
   file: StatisticsFileMeta | null;
+  issues: string[];
 }
 
 interface PeriodSlot {
@@ -126,6 +128,7 @@ function parseMeta(value: unknown): PeriodStatistics["meta"] | null {
 export function parsePeriodStatistics(
   value: unknown,
   expected: StatPeriod,
+  issues?: string[],
 ): PeriodStatistics | null {
   if (!isJsonRecord(value) || value.period !== expected) return null;
   const esms = parseEsmsGroup(value.esms);
@@ -133,7 +136,9 @@ export function parsePeriodStatistics(
   const elemental = parseElementGroup(value.elemental);
   const aNumber = parseQuantityContext(value.aNumber);
   const derived = parseDerived(value.derived);
-  const perPlanet = parsePerPlanet(value.perPlanet);
+  const perPlanet = parsePerPlanet(value.perPlanet, (n) => {
+    issues?.push(`periods.${expected}.perPlanet: dropped ${n} malformed planet row(s)`);
+  });
   const current = parseCurrent(value.current);
   const meta = parseMeta(value.meta);
   if (
@@ -167,23 +172,26 @@ export function parsePeriodStatistics(
   return read.failed() ? null : parsed;
 }
 
-function parseSlot(wire: unknown, expected: StatPeriod): PeriodSlot {
+function parseSlot(wire: unknown, expected: StatPeriod, issues?: string[]): PeriodSlot {
   if (wire === null) return { stats: null, failed: false };
-  const stats = parsePeriodStatistics(wire, expected);
+  const planetIssues: string[] = [];
+  const stats = parsePeriodStatistics(wire, expected, planetIssues);
+  if (stats === null) issues?.push(`periods.${expected}: malformed period dropped`);
+  else issues?.push(...planetIssues);
   return { stats, failed: stats === null };
 }
 
-function parsePeriods(value: unknown): PeriodStatisticsMap {
+function parsePeriods(value: unknown, issues?: string[]): PeriodStatisticsMap {
   if (!isJsonRecord(value)) {
     throw new Error("Invalid statistics response: expected a periods record");
   }
   const slots = {
-    day: parseSlot(value.day, "day"),
-    week: parseSlot(value.week, "week"),
-    month: parseSlot(value.month, "month"),
-    quarter: parseSlot(value.quarter, "quarter"),
-    year: parseSlot(value.year, "year"),
-    all: parseSlot(value.all, "all"),
+    day: parseSlot(value.day, "day", issues),
+    week: parseSlot(value.week, "week", issues),
+    month: parseSlot(value.month, "month", issues),
+    quarter: parseSlot(value.quarter, "quarter", issues),
+    year: parseSlot(value.year, "year", issues),
+    all: parseSlot(value.all, "all", issues),
   };
   const list: PeriodSlot[] = Object.values(slots);
   const failedCount = list.filter((slot) => slot.failed).length;
@@ -222,5 +230,9 @@ export function parseAllPeriodsResponse(value: unknown): StatisticsPayload {
   if (success !== true) {
     throw new Error("Invalid statistics response: success is not true");
   }
-  return { periods: parsePeriods(periods), file: parseFileMeta(file) };
+  const issues: string[] = [];
+  const parsedPeriods = parsePeriods(periods, issues);
+  const parsedFile = parseFileMeta(file);
+  if (parsedFile === null) issues.push("file: missing or malformed file metadata, set to null");
+  return { periods: parsedPeriods, file: parsedFile, issues };
 }
