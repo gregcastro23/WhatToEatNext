@@ -1,0 +1,15 @@
+name: Install Bun dependencies with cache and retry
+description: Restores ~/.bun/install/cache and runs scripts/ci-bun-install.sh with clean-cache retry
+runs:
+  using: composite
+  steps:
+    - name: Cache Bun install cache
+      uses: actions/cache@v6
+      with:
+        path: ~/.bun/install/cache
+        key: ${{ runner.os }}-bun-cache-${{ hashFiles('bun.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-bun-cache-
+    - name: Install dependencies
+      shell: bash
+      run: bash scripts/ci-bun-install.sh

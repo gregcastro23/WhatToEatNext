@@ -9,22 +9,31 @@ Standard library + pytest only; the names come from `git ls-files`, so an untrac
 import importlib.util
 import re
 import subprocess
+from collections import defaultdict
 from pathlib import Path
-from typing import List
+from typing import Dict, List, Optional
 
 import pytest
 
 REPO = Path(__file__).resolve().parents[2]
 NAME = re.compile(r"^(?:\d{2}|[1-9]\d{2})-[a-z0-9][a-z0-9.-]*\.sql$")
+# Historical migrations up through 104 share numeric prefixes in production `_migrations`
+# (19, 57, 59, 95, 96, 100, 101) and must never be renamed; all new migrations >= 105 must be unique.
+UNIQUE_PREFIX_FLOOR = 105
 MESSAGE = (
     "Both runners apply database/init files in numeric prefix order (two digits 00-99 or three digits 100-999, then a dash and "
     "lowercase words). Keep backend/scripts/run_init_migrations.py and scripts/migrate.ts sorting numerically in lockstep."
 )
 
 
-def _sort_key(name: str):
+def _extract_prefix(name: str) -> Optional[int]:
     match = re.match(r"^(\d+)-", name)
-    return (int(match.group(1)) if match else -1, name)
+    return int(match.group(1)) if match else None
+
+
+def _sort_key(name: str):
+    prefix = _extract_prefix(name)
+    return (prefix if prefix is not None else -1, name)
 
 
 def tracked_names() -> List[str]:
@@ -41,10 +50,40 @@ def problems(names: List[str]) -> List[str]:
     return found
 
 
+def prefix_collisions(names: List[str], min_prefix: int = UNIQUE_PREFIX_FLOOR) -> List[str]:
+    by_prefix: Dict[int, List[str]] = defaultdict(list)
+    for name in names:
+        prefix = _extract_prefix(name)
+        if prefix is not None and prefix >= min_prefix:
+            by_prefix[prefix].append(name)
+    return [
+        f"duplicate migration prefix {prefix} (>= {min_prefix}): {', '.join(sorted(files))}"
+        for prefix, files in sorted(by_prefix.items())
+        if len(files) > 1
+    ]
+
+
 def test_every_migration_name_keeps_the_order_both_runners_apply_it_in():
     names = tracked_names()
     assert len(names) >= 100, f"only {len(names)} migration files were found; the pathspec is wrong"
     assert problems(names) == [], MESSAGE
+
+
+def test_new_migrations_at_or_above_105_have_unique_prefixes():
+    names = tracked_names()
+    assert prefix_collisions(names) == []
+
+
+def test_database_init_is_the_sole_migration_directory():
+    retired_dir = REPO / "src" / "lib" / "database" / "migrations"
+    tracked_retired = subprocess.run(
+        ["git", "ls-files", "-z", "--", "src/lib/database/migrations"],
+        cwd=REPO,
+        capture_output=True,
+        check=True,
+    ).stdout
+    assert tracked_retired == b"", "src/lib/database/migrations/ was retired in favor of database/init/"
+    assert not retired_dir.exists(), "src/lib/database/migrations/ must not exist on disk"
 
 
 def test_three_digit_prefixes_sort_after_two_digit_prefixes(tmp_path, monkeypatch):
@@ -92,8 +131,15 @@ def test_a_name_that_is_not_valid_prefix_a_dash_and_lowercase_words_is_refused(n
     ],
 )
 def test_ordinary_names_and_repeated_prefixes_are_accepted(names):
-    # prefixes are shared by several files today (19, 57, 59, 95, 96): name order within one prefix is the same in both runners
+    # prefixes are shared by several files today (19, 57, 59, 95, 96, 100, 101): name order within one prefix is the same in both runners
     assert problems(names) == []
+
+
+def test_duplicate_prefixes_at_or_above_105_are_rejected_while_legacy_shared_prefixes_survive():
+    assert prefix_collisions(["100-a.sql", "100-b.sql", "101-c.sql", "101-d.sql", "104-e.sql", "104-f.sql"]) == []
+    assert prefix_collisions(["105-first.sql", "106-second.sql"]) == []
+    collisions = prefix_collisions(["105-first.sql", "105-second.sql", "106-only.sql"])
+    assert collisions == ["duplicate migration prefix 105 (>= 105): 105-first.sql, 105-second.sql"]
 
 
 def test_the_python_runner_sorts_the_names_numerically():
