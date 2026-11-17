@@ -158,3 +158,65 @@ export function wallClockToInstant(wallLabelledUtc: Date, zone: string): Instant
 export function instantToWallClock(instant: Date, zone: string): Date {
   return new Date(wallClockMsAt(zone, instant));
 }
+
+const WALL_CLOCK_INPUT_RE =
+  /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{1,3}))?)?Z?$/;
+
+/**
+ * Convert a naive `<input type="datetime-local">` value (`YYYY-MM-DDTHH:mm`)
+ * or UTC-labelled wall-clock ISO string into the repo's canonical UTC-labelled
+ * wall clock (`YYYY-MM-DDTHH:mm:ss.sssZ`), WITHOUT reading the browser or OS
+ * local timezone. Returns `null` on invalid or calendar-overflowing dates.
+ */
+export function wallClockInputToIso(raw: string): string | null {
+  const m = WALL_CLOCK_INPUT_RE.exec(raw.trim());
+  if (!m) return null;
+  const year = Number(m[1]);
+  const month = Number(m[2]);
+  const day = Number(m[3]);
+  const hour = Number(m[4]);
+  const minute = Number(m[5]);
+  const second = m[6] ? Number(m[6]) : 0;
+  const ms = m[7] ? Number(m[7].padEnd(3, "0")) : 0;
+
+  if (
+    month < 1 ||
+    month > 12 ||
+    day < 1 ||
+    day > 31 ||
+    hour > 23 ||
+    minute > 59 ||
+    second > 59
+  ) {
+    return null;
+  }
+
+  const parsed = new Date(Date.UTC(year, month - 1, day, hour, minute, second, ms));
+  if (
+    Number.isNaN(parsed.getTime()) ||
+    parsed.getUTCFullYear() !== year ||
+    parsed.getUTCMonth() !== month - 1 ||
+    parsed.getUTCDate() !== day ||
+    parsed.getUTCHours() !== hour ||
+    parsed.getUTCMinutes() !== minute ||
+    parsed.getUTCSeconds() !== second
+  ) {
+    return null;
+  }
+
+  return parsed.toISOString();
+}
+
+const DATETIME_LOCAL_PREFIX_RE = /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})/;
+
+/**
+ * Extract the `YYYY-MM-DDTHH:mm` wall-clock value expected by
+ * `<input type="datetime-local">` from a stored canonical `dateTime` string.
+ */
+export function isoWallClockToDatetimeLocal(
+  dateTime: string | undefined | null,
+): string {
+  if (typeof dateTime !== "string") return "";
+  const m = DATETIME_LOCAL_PREFIX_RE.exec(dateTime.trim());
+  return m?.[1] ?? "";
+}

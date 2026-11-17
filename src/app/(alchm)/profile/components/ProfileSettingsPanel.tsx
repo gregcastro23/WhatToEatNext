@@ -30,7 +30,11 @@ const IdentityCard: React.FC<{ rows: Array<{ label: string; value: string }> }> 
   </div>
 );
 
-const TemporalOriginCard: React.FC<{ chartDate: string | null; birthData?: { latitude: number; longitude: number }; onEditBirthData: () => void }> = ({
+const TemporalOriginCard: React.FC<{
+  chartDate: string | null;
+  birthData?: { latitude: number; longitude: number; timezone?: string };
+  onEditBirthData: () => void;
+}> = ({
   chartDate,
   birthData,
   onEditBirthData,
@@ -49,9 +53,16 @@ const TemporalOriginCard: React.FC<{ chartDate: string | null; birthData?: { lat
     </div>
     {chartDate && <p className="text-sm text-white/80 font-medium mb-1">{chartDate}</p>}
     {birthData && (
-      <p className="text-[10px] text-white/25 font-mono">
-        {birthData.latitude.toFixed(4)}, {birthData.longitude.toFixed(4)}
-      </p>
+      <div className="flex flex-wrap items-center gap-2 text-[10px] text-white/35 font-mono">
+        <span>
+          {birthData.latitude.toFixed(4)}, {birthData.longitude.toFixed(4)}
+        </span>
+        {birthData.timezone && (
+          <span className="px-2 py-0.5 rounded bg-white/5 text-purple-300/80">
+            {birthData.timezone}
+          </span>
+        )}
+      </div>
     )}
   </div>
 );
@@ -97,7 +108,8 @@ export const ProfileSettingsPanel: React.FC<ProfileSettingsPanelProps> = ({
 }) => {
   const { dateTime } = natalChart.birthData;
   const chartDate = dateTime
-    ? new Date(dateTime).toLocaleDateString("en-US", {
+    ? new Date(dateTime).toLocaleString("en-US", {
+        timeZone: "UTC",
         year: "numeric",
         month: "long",
         day: "numeric",

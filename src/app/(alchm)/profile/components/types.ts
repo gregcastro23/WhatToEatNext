@@ -23,6 +23,7 @@ export interface LocationData {
   displayName: string;
   latitude: number;
   longitude: number;
+  timezone?: string;
 }
 
 export interface UserProfileData {

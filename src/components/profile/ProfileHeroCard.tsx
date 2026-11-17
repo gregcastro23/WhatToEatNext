@@ -149,7 +149,7 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
                   <span className="text-3xl text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.6)] group-hover/planet:scale-110 transition-transform duration-500">{SIGN_SYMBOLS[sunSign.toLowerCase()] ?? ''}</span>
                   <span className="text-white font-black capitalize text-2xl tracking-tighter group-hover/planet:text-amber-50 transition-colors">{sunSign}</span>
                 </div>
-                <div className="text-white/20 font-mono text-[10px] mt-1.5 tracking-tighter opacity-70">{formatDeg(sunPlanet?.position)} Ascendant</div>
+                <div className="text-white/20 font-mono text-[10px] mt-1.5 tracking-tighter opacity-70">{formatDeg(sunPlanet?.position)} Solar</div>
               </div>
               {/* Moon */}
               <div className="group/planet">
@@ -158,7 +158,7 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
                   <span className="text-3xl text-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.6)] group-hover/planet:scale-110 transition-transform duration-500">{SIGN_SYMBOLS[moonSign.toLowerCase()] ?? ''}</span>
                   <span className="text-white font-black capitalize text-2xl tracking-tighter group-hover/planet:text-blue-50 transition-colors">{moonSign}</span>
                 </div>
-                <div className="text-white/20 font-mono text-[10px] mt-1.5 tracking-tighter opacity-70">{formatDeg(moonPlanet?.position)} Nocturnal</div>
+                <div className="text-white/20 font-mono text-[10px] mt-1.5 tracking-tighter opacity-70">{formatDeg(moonPlanet?.position)} Lunar</div>
               </div>
               {/* Rising */}
               <div className="group/planet">

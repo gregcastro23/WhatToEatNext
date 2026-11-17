@@ -39,8 +39,9 @@ const WhyCardsGrid: React.FC = () => (
 const BirthDataInputs: React.FC<{
   birthDateTime: string;
   setBirthDateTime: (v: string) => void;
+  birthLocation: LocationData | null;
   setBirthLocation: (v: LocationData | null) => void;
-}> = ({ birthDateTime, setBirthDateTime, setBirthLocation }) => (
+}> = ({ birthDateTime, setBirthDateTime, birthLocation, setBirthLocation }) => (
   <>
     <div>
       <label htmlFor="birthDateTime" className="block text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-2">
@@ -63,7 +64,11 @@ const BirthDataInputs: React.FC<{
         Birth Location <span className="text-red-400">*</span>
       </label>
       <div id="birthLocation" className="[&_input]:bg-white/[0.04] [&_input]:border-white/10 [&_input]:border [&_input]:rounded-2xl [&_input]:text-white [&_input]:outline-none [&_input]:px-4 [&_input]:py-3 [&_input]:w-full [&_input]:text-sm">
-        <LocationSearch onLocationSelect={(loc): void => { setBirthLocation(loc); }} />
+        <LocationSearch
+          defaultValue={birthLocation?.displayName ?? ""}
+          onLocationSelect={(loc): void => { setBirthLocation(loc); }}
+          onLocationClear={(): void => { setBirthLocation(null); }}
+        />
       </div>
     </div>
   </>
@@ -72,6 +77,7 @@ const BirthDataInputs: React.FC<{
 interface BirthDataFormProps {
   birthDateTime: string;
   setBirthDateTime: (v: string) => void;
+  birthLocation: LocationData | null;
   setBirthLocation: (v: LocationData | null) => void;
   onSubmit: (e: React.FormEvent) => void;
   isLoading: boolean;
@@ -82,6 +88,7 @@ interface BirthDataFormProps {
 const BirthDataForm: React.FC<BirthDataFormProps> = ({
   birthDateTime,
   setBirthDateTime,
+  birthLocation,
   setBirthLocation,
   onSubmit,
   isLoading,
@@ -93,6 +100,7 @@ const BirthDataForm: React.FC<BirthDataFormProps> = ({
       <BirthDataInputs
         birthDateTime={birthDateTime}
         setBirthDateTime={setBirthDateTime}
+        birthLocation={birthLocation}
         setBirthLocation={setBirthLocation}
       />
       <div className="flex gap-3 pt-1">
@@ -138,7 +146,7 @@ interface BirthDataScreenProps {
 export const BirthDataScreen: React.FC<BirthDataScreenProps> = ({
   birthDateTime,
   setBirthDateTime,
-  birthLocation: _birthLocation,
+  birthLocation,
   setBirthLocation,
   onSubmit,
   isLoading,
@@ -160,6 +168,7 @@ export const BirthDataScreen: React.FC<BirthDataScreenProps> = ({
       <BirthDataForm
         birthDateTime={birthDateTime}
         setBirthDateTime={setBirthDateTime}
+        birthLocation={birthLocation}
         setBirthLocation={setBirthLocation}
         onSubmit={onSubmit}
         isLoading={isLoading}

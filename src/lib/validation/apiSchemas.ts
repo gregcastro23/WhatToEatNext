@@ -134,9 +134,13 @@ export type ParsedCreateFoodDiaryEntry = z.infer<typeof CreateFoodDiaryEntrySche
 
 export const BirthDataSchema = z.object({
   dateTime: z.string(), // ISO 8601 format
+  utcInstant: z.string().optional(),
   latitude: z.number(),
   longitude: z.number(),
   timezone: z.string().optional(),
+  timezoneBasis: z
+    .enum(["DERIVED_FROM_COORDINATES", "STORED_IANA_STRING", "ABSENT"])
+    .optional(),
   location: z.object({
     latitude: z.number(),
     longitude: z.number(),
@@ -897,6 +901,9 @@ export type AlchmQuantitiesApiResponse = z.infer<
 export const IgniteRequestSchema = z.object({
   dob: z.string().min(1, "Date of Birth is required"),
   city: z.string().min(1, "City is required"),
+  latitude: z.number().min(-90).max(90).optional(),
+  longitude: z.number().min(-180).max(180).optional(),
+  timezone: z.string().optional(),
 });
 export type ParsedIgniteRequest = z.infer<typeof IgniteRequestSchema>;
 

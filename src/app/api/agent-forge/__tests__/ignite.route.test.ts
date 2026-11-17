@@ -90,9 +90,11 @@ const VALID_BODY = { dob: "1990-05-15T10:30:00.000Z", city: "New York" };
 
 const EXPECTED_BIRTH_DATA = {
   dateTime: "1990-05-15T10:30:00.000Z",
+  utcInstant: "1990-05-15T14:30:00.000Z",
   latitude: 40.7,
   longitude: -74,
   timezone: "America/New_York",
+  timezoneBasis: "DERIVED_FROM_COORDINATES",
 };
 
 function makeRequest(body: unknown): Request {
@@ -240,5 +242,70 @@ describe("POST /api/agent-forge/ignite", () => {
       expect.stringContaining("profile persistence failed"),
       expect.any(Error),
     );
+  });
+
+  it("normalizes naive datetime-local input and uses client-supplied coordinates without re-geocoding", async () => {
+    mockAuth.mockResolvedValue({
+      user: { id: "user-123", email: "test@example.com" },
+    });
+
+    const res = await POST(
+      makeRequest({
+        dob: "1990-05-15T10:30",
+        city: "New York, NY",
+        latitude: 40.7128,
+        longitude: -74.006,
+        timezone: "UTC",
+      }),
+    );
+    const json = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(mockGeocode).not.toHaveBeenCalled();
+    expect(mockCalcChart).toHaveBeenCalledWith({
+      dateTime: "1990-05-15T10:30:00.000Z",
+      utcInstant: "1990-05-15T14:30:00.000Z",
+      latitude: 40.7128,
+      longitude: -74.006,
+      timezone: "America/New_York",
+      timezoneBasis: "DERIVED_FROM_COORDINATES",
+    });
+    expect(json).toMatchObject({
+      success: true,
+      birthData: {
+        dateTime: "1990-05-15T10:30:00.000Z",
+        utcInstant: "1990-05-15T14:30:00.000Z",
+        timezone: "America/New_York",
+      },
+      natalChart: MOCK_CHART,
+    });
+  });
+
+  it("refuses fabricated Fallback NY or (0, 0) pins even when supplied by the client", async () => {
+    mockAuth.mockResolvedValue({
+      user: { id: "user-123", email: "test@example.com" },
+    });
+
+    const fallbackRes = await POST(
+      makeRequest({
+        dob: "1990-05-15T10:30",
+        city: "New York",
+        latitude: 40.7498,
+        longitude: -73.7976,
+      }),
+    );
+    expect(fallbackRes.status).toBe(422);
+    expect(mockCalcChart).not.toHaveBeenCalled();
+
+    const originRes = await POST(
+      makeRequest({
+        dob: "1990-05-15T10:30",
+        city: "Zero",
+        latitude: 0,
+        longitude: 0,
+      }),
+    );
+    expect(originRes.status).toBe(422);
+    expect(mockUpdateProfile).not.toHaveBeenCalled();
   });
 });

@@ -12,7 +12,7 @@ import { CreateUserChartRequestSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { userDatabase } from "@/services/userDatabaseService";
-import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
+import type { Planet, ZodiacSignType, Modality } from "@/types/celestial";
 import type {
   BirthData,
   NatalChart,
@@ -20,37 +20,23 @@ import type {
   SavedChart,
   GroupMember,
 } from "@/types/natalChart";
+import { enrichBirthDataWithInstant } from "@/utils/astrology/birthTimezone";
 import {
   calculateAlchemicalFromPlanets,
   aggregateEnhancedZodiacElementals,
-  isSectDiurnalForBirth
+  getDominantElement,
+  isSectDiurnalForBirth,
 } from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const SIGN_TO_ELEMENT: Record<ZodiacSignType, Element> = {
-  aries: "Fire", leo: "Fire", sagittarius: "Fire",
-  taurus: "Earth", virgo: "Earth", capricorn: "Earth",
-  gemini: "Air", libra: "Air", aquarius: "Air",
-  cancer: "Water", scorpio: "Water", pisces: "Water",
-};
-
 const SIGN_TO_MODALITY: Record<ZodiacSignType, Modality> = {
   aries: "Cardinal", cancer: "Cardinal", libra: "Cardinal", capricorn: "Cardinal",
   taurus: "Fixed", leo: "Fixed", scorpio: "Fixed", aquarius: "Fixed",
   gemini: "Mutable", virgo: "Mutable", sagittarius: "Mutable", pisces: "Mutable",
 };
-
-function calcDominantElement(positions: Record<Planet, ZodiacSignType>): Element {
-  const counts: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  Object.values(positions).forEach((sign) => {
-    const el = SIGN_TO_ELEMENT[sign];
-    if (el !== undefined) counts[el]++;
-  });
-  return (Object.entries(counts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? "Fire") as Element;
-}
 
 function calcDominantModality(positions: Record<Planet, ZodiacSignType>): Modality {
   const counts: Record<Modality, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
@@ -88,7 +74,7 @@ async function ensureSubArcminutePrecision(chart: StoredChart): Promise<StoredCh
   if (!hasMissingPlanetPrecision(chart)) return chart;
 
   try {
-    const birthDate = new Date(chart.birthData.dateTime);
+    const birthDate = new Date(chart.birthData.utcInstant ?? chart.birthData.dateTime);
     if (Number.isNaN(birthDate.getTime())) return chart;
 
     const rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
@@ -234,13 +220,21 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const { label, birthData } = parseResult.data;
 
-  // Calculate natal chart
-  const birthDate = new Date(birthData.dateTime);
+  // Resolve true UTC instant & coordinates-derived timezone before ephemeris query
+  const completeBirthData: BirthData = enrichBirthDataWithInstant({
+    dateTime: birthData.dateTime,
+    latitude: birthData.latitude,
+    longitude: birthData.longitude,
+    ...(birthData.timezone ? { timezone: birthData.timezone } : {}),
+  });
+
+  // Calculate natal chart at true instant
+  const birthDate = new Date(completeBirthData.utcInstant ?? completeBirthData.dateTime);
   let rawPositions;
   try {
     rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
-      latitude: birthData.latitude,
-      longitude: birthData.longitude,
+      latitude: completeBirthData.latitude,
+      longitude: completeBirthData.longitude,
     });
   } catch {
     return NextResponse.json(
@@ -275,24 +269,18 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
   const { positions, planets } = bodies;
 
-  const completeBirthData: BirthData = {
-    dateTime: birthData.dateTime,
-    latitude: birthData.latitude,
-    longitude: birthData.longitude,
-    ...(birthData.timezone ? { timezone: birthData.timezone } : {}),
-  };
-
   // Whole birthData — sect is the Sun's altitude at the birthplace.
   const diurnal = isSectDiurnalForBirth(completeBirthData);
+  const elementalBalance = aggregateEnhancedZodiacElementals(positions, diurnal);
 
   const natalChart: NatalChart = {
     birthData: completeBirthData,
     planets,
     ascendant: positions.Ascendant,
     planetaryPositions: positions,
-    dominantElement: calcDominantElement(positions),
+    dominantElement: getDominantElement(elementalBalance),
     dominantModality: calcDominantModality(positions),
-    elementalBalance: aggregateEnhancedZodiacElementals(positions, diurnal),
+    elementalBalance,
     alchemicalProperties: calculateAlchemicalFromPlanets(rawPositions, diurnal),
     calculatedAt: new Date().toISOString(),
   };

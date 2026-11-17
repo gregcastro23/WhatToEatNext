@@ -130,8 +130,8 @@ export async function calculateMomentChart(
       ),
     );
 
-    // Determine dominant element (cast keyof to Element type)
-    const dominantElement = getDominantElement(elementalBalance) as Element;
+    // Determine dominant element
+    const dominantElement = getDominantElement(elementalBalance);
 
     const momentChart: MomentChart = {
       dateTime: targetDateTime.toISOString(),

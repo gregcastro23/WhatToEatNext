@@ -26,6 +26,7 @@ jest.mock("@/lib/database", () => ({
   executeQuery: (...args: unknown[]) => mockExecuteQuery(...args),
 }));
 
+import type { NatalChart } from "@/types/natalChart";
 import { userDatabase } from "@/services/userDatabaseService";
 import {
   MIN_CHART_BODIES,
@@ -204,5 +205,118 @@ describe("createUser — persists the derived positions", () => {
     // jsonbOrNull turns an unusable chart into SQL NULL rather than '[]', which
     // would read as "positions present" to every non-null check.
     expect(profileWrite.values).toContain(null);
+  });
+});
+
+describe("updateUserProfile — persists natal_positions and migration 76 birth columns", () => {
+  const savedDatabaseUrl = process.env.DATABASE_URL;
+  beforeAll(() => {
+    process.env.DATABASE_URL = "postgresql://mock:mock@localhost:5432/mock";
+  });
+  afterAll(() => {
+    if (savedDatabaseUrl === undefined) delete process.env.DATABASE_URL;
+    else process.env.DATABASE_URL = savedDatabaseUrl;
+  });
+
+  it("enriches birthData and writes natal_positions + temporal columns on profile update", async () => {
+    const seen: Array<{ sql: string; values: unknown[] }> = [];
+    const client = {
+      query: jest.fn(async (sql: string, values: unknown[] = []) => {
+        seen.push({ sql, values });
+        return { rowCount: 1, rows: [] };
+      }),
+    };
+    mockExecuteQuery.mockResolvedValueOnce({
+      rows: [
+        {
+          id: "22222222-2222-4222-8222-222222222222",
+          email: "newuser@example.com",
+          password_hash: "TEMP_NO_PASSWORD",
+          role: "USER",
+          is_active: true,
+          is_agent: false,
+          created_at: new Date().toISOString(),
+          name: "New User",
+          profile: {},
+          preferences: {},
+          onboarding_completed: false,
+        },
+      ],
+    });
+    mockWithTransaction.mockImplementation(async (cb: (c: unknown) => Promise<void>) => {
+      await cb(client);
+    });
+
+    const completeChart: NatalChart = {
+      birthData: {
+        dateTime: "1991-06-23T14:24:00.000Z",
+        latitude: 40.6526006,
+        longitude: -73.9497211,
+      },
+      planets: [
+        { name: "Sun", sign: "aries", position: 15.5 },
+        { name: "Moon", sign: "taurus", position: 42.1 },
+        { name: "Mercury", sign: "gemini", position: 73.2 },
+        { name: "Venus", sign: "cancer", position: 100.4 },
+        { name: "Mars", sign: "leo", position: 130.9 },
+        { name: "Jupiter", sign: "virgo", position: 165.3 },
+      ],
+      ascendant: "leo",
+      planetaryPositions: {
+        Sun: "aries",
+        Moon: "taurus",
+        Mercury: "gemini",
+        Venus: "cancer",
+        Mars: "leo",
+        Jupiter: "virgo",
+        Saturn: "libra",
+        Uranus: "scorpio",
+        Neptune: "sagittarius",
+        Pluto: "capricorn",
+        Ascendant: "leo",
+      },
+      dominantElement: "Fire",
+      dominantModality: "Cardinal",
+      elementalBalance: { Fire: 0.4, Earth: 0.2, Air: 0.2, Water: 0.2 },
+      alchemicalProperties: { Spirit: 4, Essence: 3, Matter: 2, Substance: 1 },
+      calculatedAt: "2026-11-16T00:00:00.000Z",
+    };
+
+    const updated = await userDatabase.updateUserProfile(
+      "22222222-2222-4222-8222-222222222222",
+      {
+        birthData: {
+          dateTime: "1991-06-23T14:24",
+          latitude: 40.6526006,
+          longitude: -73.9497211,
+          timezone: "UTC",
+        },
+        natalChart: completeChart,
+        onboardingComplete: true,
+      },
+      "newuser@example.com",
+    );
+
+    expect(updated?.profile.birthData).toMatchObject({
+      dateTime: "1991-06-23T14:24:00.000Z",
+      utcInstant: "1991-06-23T18:24:00.000Z",
+      timezone: "America/New_York",
+      timezoneBasis: "DERIVED_FROM_COORDINATES",
+    });
+
+    const profileWrite = seen.find((s) => /INSERT INTO user_profiles/i.test(s.sql));
+    expect(profileWrite).toBeDefined();
+    if (!profileWrite) {
+      throw new Error("Expected INSERT INTO user_profiles query");
+    }
+    expect(profileWrite.sql).toContain("natal_positions");
+    expect(profileWrite.sql).toContain("birth_local_wall_time");
+    expect(profileWrite.sql).toContain("birth_true_utc_instant");
+    expect(profileWrite.sql).toContain("birth_timezone");
+    expect(profileWrite.sql).toContain("birth_timezone_basis");
+    expect(profileWrite.values).toContain("1991-06-23T14:24:00");
+    expect(profileWrite.values).toContain("1991-06-23T18:24:00.000Z");
+    expect(profileWrite.values).toContain("America/New_York");
+    expect(profileWrite.values).toContain("DERIVED_FROM_COORDINATES");
   });
 });

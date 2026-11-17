@@ -19,6 +19,7 @@ import {
   agentIsClassifiable,
 } from "@/utils/agentChartInvariant";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
+import { enrichBirthDataWithInstant } from "@/utils/astrology/birthTimezone";
 import { natalPositionsFromStoredChart } from "@/utils/fullChartMonica";
 import { safeJsonParse } from "@/utils/typeGuards";
 
@@ -712,6 +713,15 @@ class UserDatabaseService {
       ...profileData,
       userId, // Ensure userId doesn't change
     };
+    if (updatedProfile.birthData) {
+      updatedProfile.birthData = enrichBirthDataWithInstant(updatedProfile.birthData);
+      if (updatedProfile.natalChart) {
+        updatedProfile.natalChart = {
+          ...updatedProfile.natalChart,
+          birthData: updatedProfile.birthData,
+        };
+      }
+    }
     updatedProfile.onboardingComplete =
       profileData.onboardingComplete ??
       updatedProfile.onboardingComplete ??
@@ -728,6 +738,29 @@ class UserDatabaseService {
           "dietaryPreferences",
         );
         const onboardingComplete = updatedProfile.onboardingComplete === true;
+        const natalPositionsJson = jsonbOrNull(
+          natalPositionsFromStoredChart(updatedProfile.natalChart),
+        );
+        const bd = updatedProfile.birthData;
+        const rawWallMs = bd ? Date.parse(bd.dateTime) : Number.NaN;
+        const birthLocalWallTime =
+          bd && !Number.isNaN(rawWallMs)
+            ? new Date(rawWallMs).toISOString().slice(0, 19)
+            : null;
+        const birthTimezone = bd?.timezone ?? null;
+        const rawInstantMs = bd?.utcInstant ? Date.parse(bd.utcInstant) : Number.NaN;
+        const birthTrueUtcInstant =
+          bd?.utcInstant &&
+          !Number.isNaN(rawInstantMs) &&
+          birthTimezone &&
+          birthLocalWallTime
+            ? new Date(rawInstantMs).toISOString()
+            : null;
+        const birthTimezoneBasis = bd?.timezoneBasis ?? null;
+        const birthInstantMigratedAt =
+          birthLocalWallTime !== null || birthTimezoneBasis !== null
+            ? new Date().toISOString()
+            : null;
 
         await db.withTransaction(async (client) => {
           await client.query(
@@ -740,55 +773,59 @@ class UserDatabaseService {
             ],
           );
 
-          if (hasDietaryUpdate) {
-            await client.query(
-              `INSERT INTO user_profiles (user_id, name, birth_data, natal_chart, dietary_preferences, group_members, dining_groups, onboarding_completed)
-               VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-               ON CONFLICT (user_id) DO UPDATE SET
-                 name = EXCLUDED.name,
-                 birth_data = EXCLUDED.birth_data,
-                 natal_chart = EXCLUDED.natal_chart,
-                 dietary_preferences = EXCLUDED.dietary_preferences,
-                 group_members = EXCLUDED.group_members,
-                 dining_groups = EXCLUDED.dining_groups,
-                 onboarding_completed = EXCLUDED.onboarding_completed,
-                 onboarding_completed_at = CASE WHEN EXCLUDED.onboarding_completed AND NOT COALESCE(user_profiles.onboarding_completed, false) THEN CURRENT_TIMESTAMP ELSE user_profiles.onboarding_completed_at END,
-                 updated_at = CURRENT_TIMESTAMP`,
-              [
-                userId,
-                updatedProfile.name ?? "",
-                jsonbOrNull(updatedProfile.birthData),
-                jsonbOrNull(updatedProfile.natalChart),
-                JSON.stringify(updatedProfile.dietaryPreferences ?? {}),
-                JSON.stringify(updatedProfile.groupMembers ?? []),
-                JSON.stringify(updatedProfile.diningGroups ?? []),
-                onboardingComplete,
-              ],
-            );
-          } else {
-            await client.query(
-              `INSERT INTO user_profiles (user_id, name, birth_data, natal_chart, group_members, dining_groups, onboarding_completed)
-               VALUES ($1, $2, $3, $4, $5, $6, $7)
-               ON CONFLICT (user_id) DO UPDATE SET
-                 name = EXCLUDED.name,
-                 birth_data = EXCLUDED.birth_data,
-                 natal_chart = EXCLUDED.natal_chart,
-                 group_members = EXCLUDED.group_members,
-                 dining_groups = EXCLUDED.dining_groups,
-                 onboarding_completed = EXCLUDED.onboarding_completed,
-                 onboarding_completed_at = CASE WHEN EXCLUDED.onboarding_completed AND NOT COALESCE(user_profiles.onboarding_completed, false) THEN CURRENT_TIMESTAMP ELSE user_profiles.onboarding_completed_at END,
-                 updated_at = CURRENT_TIMESTAMP`,
-              [
-                userId,
-                updatedProfile.name ?? "",
-                jsonbOrNull(updatedProfile.birthData),
-                jsonbOrNull(updatedProfile.natalChart),
-                JSON.stringify(updatedProfile.groupMembers ?? []),
-                JSON.stringify(updatedProfile.diningGroups ?? []),
-                onboardingComplete,
-              ],
-            );
-          }
+          await client.query(
+            `INSERT INTO user_profiles (
+               user_id, name, birth_data, natal_chart, natal_positions,
+               birth_local_wall_time, birth_true_utc_instant,
+               birth_timezone, birth_timezone_basis, birth_instant_migrated_at,
+               dietary_preferences, group_members, dining_groups, onboarding_completed
+             )
+             VALUES (
+               $1, $2, $3, $4, $5,
+               $6::timestamp, $7::timestamptz,
+               $8, $9, $10::timestamptz,
+               $11, $12, $13, $14
+             )
+             ON CONFLICT (user_id) DO UPDATE SET
+               name = EXCLUDED.name,
+               birth_data = EXCLUDED.birth_data,
+               natal_chart = EXCLUDED.natal_chart,
+               natal_positions = COALESCE(EXCLUDED.natal_positions, user_profiles.natal_positions),
+               birth_local_wall_time = COALESCE(EXCLUDED.birth_local_wall_time, user_profiles.birth_local_wall_time),
+               birth_true_utc_instant = CASE
+                 WHEN EXCLUDED.birth_local_wall_time IS NOT NULL THEN EXCLUDED.birth_true_utc_instant
+                 ELSE user_profiles.birth_true_utc_instant
+               END,
+               birth_timezone = COALESCE(EXCLUDED.birth_timezone, user_profiles.birth_timezone),
+               birth_timezone_basis = COALESCE(EXCLUDED.birth_timezone_basis, user_profiles.birth_timezone_basis),
+               birth_instant_migrated_at = COALESCE(EXCLUDED.birth_instant_migrated_at, user_profiles.birth_instant_migrated_at),
+               dietary_preferences = CASE
+                 WHEN $15::boolean THEN EXCLUDED.dietary_preferences
+                 ELSE user_profiles.dietary_preferences
+               END,
+               group_members = EXCLUDED.group_members,
+               dining_groups = EXCLUDED.dining_groups,
+               onboarding_completed = EXCLUDED.onboarding_completed,
+               onboarding_completed_at = CASE WHEN EXCLUDED.onboarding_completed AND NOT COALESCE(user_profiles.onboarding_completed, false) THEN CURRENT_TIMESTAMP ELSE user_profiles.onboarding_completed_at END,
+               updated_at = CURRENT_TIMESTAMP`,
+            [
+              userId,
+              updatedProfile.name ?? "",
+              jsonbOrNull(updatedProfile.birthData),
+              jsonbOrNull(updatedProfile.natalChart),
+              natalPositionsJson,
+              birthLocalWallTime,
+              birthTrueUtcInstant,
+              birthTimezone,
+              birthTimezoneBasis,
+              birthInstantMigratedAt,
+              JSON.stringify(updatedProfile.dietaryPreferences ?? {}),
+              JSON.stringify(updatedProfile.groupMembers ?? []),
+              JSON.stringify(updatedProfile.diningGroups ?? []),
+              onboardingComplete,
+              hasDietaryUpdate,
+            ],
+          );
         });
 
         _logger.info("User profile updated in PostgreSQL:", { userId });

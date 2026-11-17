@@ -12,10 +12,15 @@ import { AddCommensalRequestSchema } from "@/lib/validation/apiSchemas";
 import { getPlanetaryPositionsForDateTime } from "@/services/astrologizeApi";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
-import type { Planet, ZodiacSignType, Element, Modality } from "@/types/celestial";
+import type { Planet, ZodiacSignType, Modality } from "@/types/celestial";
 import type { NatalChart } from "@/types/natalChart";
-import { isDiurnalAt } from "@/utils/astrology/positions";
-import { calculateAlchemicalFromPlanets } from "@/utils/planetaryAlchemyMapping";
+import { enrichBirthDataWithInstant } from "@/utils/astrology/birthTimezone";
+import {
+  aggregateEnhancedZodiacElementals,
+  calculateAlchemicalFromPlanets,
+  getDominantElement,
+  isSectDiurnalForBirth,
+} from "@/utils/planetaryAlchemyMapping";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -28,27 +33,11 @@ function unauthorizedResponse() {
   );
 }
 
-const SIGN_TO_ELEMENT: Record<ZodiacSignType, Element> = {
-  aries: "Fire", leo: "Fire", sagittarius: "Fire",
-  taurus: "Earth", virgo: "Earth", capricorn: "Earth",
-  gemini: "Air", libra: "Air", aquarius: "Air",
-  cancer: "Water", scorpio: "Water", pisces: "Water",
-};
-
 const SIGN_TO_MODALITY: Record<ZodiacSignType, Modality> = {
   aries: "Cardinal", cancer: "Cardinal", libra: "Cardinal", capricorn: "Cardinal",
   taurus: "Fixed", leo: "Fixed", scorpio: "Fixed", aquarius: "Fixed",
   gemini: "Mutable", virgo: "Mutable", sagittarius: "Mutable", pisces: "Mutable",
 };
-
-function calcDominantElement(positions: Record<Planet, ZodiacSignType>): Element {
-  const counts: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  Object.values(positions).forEach((sign) => {
-    const el = SIGN_TO_ELEMENT[sign];
-    if (el) counts[el]++;
-  });
-  return ((Object.entries(counts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? "Fire") as Element);
-}
 
 function calcDominantModality(positions: Record<Planet, ZodiacSignType>): Modality {
   const counts: Record<string, number> = { Cardinal: 0, Fixed: 0, Mutable: 0 };
@@ -58,21 +47,6 @@ function calcDominantModality(positions: Record<Planet, ZodiacSignType>): Modali
     if (m && modCount !== undefined) counts[m] = modCount + 1;
   });
   return ((Object.entries(counts).sort(([, a], [, b]) => b - a)[0]?.[0] ?? "Cardinal") as Modality);
-}
-
-function calcElementalBalance(positions: Record<Planet, ZodiacSignType>) {
-  const counts: Record<Element, number> = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-  Object.values(positions).forEach((sign) => {
-    const el = SIGN_TO_ELEMENT[sign];
-    if (el) counts[el]++;
-  });
-  const total = Object.values(counts).reduce((a, b) => a + b, 0) || 1;
-  return {
-    Fire: counts.Fire / total,
-    Water: counts.Water / total,
-    Earth: counts.Earth / total,
-    Air: counts.Air / total,
-  };
 }
 
 /** GET /api/user/commensals */
@@ -138,13 +112,19 @@ export async function POST(request: NextRequest) {
 
   const { name, relationship, birthData } = parseResult.data;
 
-  // Calculate natal chart for the commensal
-  const birthDate = new Date(birthData.dateTime);
+  // Normalize wall-clock + derive true instant before computing commensal chart
+  const enrichedBirthData = enrichBirthDataWithInstant({
+    dateTime: birthData.dateTime,
+    latitude: birthData.latitude,
+    longitude: birthData.longitude,
+    ...(birthData.timezone ? { timezone: birthData.timezone } : {}),
+  });
+  const birthDate = new Date(enrichedBirthData.utcInstant ?? enrichedBirthData.dateTime);
   let rawPositions;
   try {
     rawPositions = await getPlanetaryPositionsForDateTime(birthDate, {
-      latitude: birthData.latitude,
-      longitude: birthData.longitude,
+      latitude: enrichedBirthData.latitude,
+      longitude: enrichedBirthData.longitude,
     });
   } catch (error) {
     _logger.error("[POST /api/user/commensals] Planetary calculation failed", error);
@@ -179,27 +159,20 @@ export async function POST(request: NextRequest) {
     );
   }
   const { positions, planets } = bodies;
+  const diurnal = isSectDiurnalForBirth(enrichedBirthData);
+  const elementalBalance = aggregateEnhancedZodiacElementals(positions, diurnal);
 
   const natalChart: NatalChart = {
-    birthData: {
-      dateTime: birthData.dateTime,
-      latitude: birthData.latitude,
-      longitude: birthData.longitude,
-      ...(birthData.timezone ? { timezone: birthData.timezone } : {}),
-    },
+    birthData: enrichedBirthData,
     planets,
     ascendant: positions.Ascendant,
     planetaryPositions: positions,
-    dominantElement: calcDominantElement(positions),
+    dominantElement: getDominantElement(elementalBalance),
     dominantModality: calcDominantModality(positions),
-    elementalBalance: calcElementalBalance(positions),
+    elementalBalance,
     alchemicalProperties: calculateAlchemicalFromPlanets(
       rawPositions,
-      isDiurnalAt(
-        new Date(birthData.dateTime),
-        birthData.latitude,
-        birthData.longitude,
-      ),
+      diurnal,
     ),
     calculatedAt: new Date().toISOString(),
   };
