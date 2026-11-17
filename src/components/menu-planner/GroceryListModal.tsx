@@ -9,6 +9,7 @@
  */
 
 import { useState, useMemo } from "react";
+import { trackClientError, trackViewAction } from "@/components/analytics/PageViewTracker";
 import { MultiRetailerCartModal } from "@/components/grocery-cart/MultiRetailerCartModal";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
@@ -408,6 +409,7 @@ export default function GroceryListModal({
 
   // Handle export
   const handleExport = async (format: "clipboard" | "email" | "print"): Promise<void> => {
+    trackViewAction(`plan:grocery_export:${format}`);
     try {
       await exportGroceryList(combinedGroceryList, format);
 
@@ -423,6 +425,7 @@ export default function GroceryListModal({
   // (shared with recipe pages; persists, auto-resolves ASINs, unified checkout).
   const handleAddToGroceryCart = (): void => {
     if (activeShoppingItems.length === 0) return;
+    trackViewAction("conversion:cart_handoff");
     const weekKey = currentMenu?.weekStartDate
       ? new Date(currentMenu.weekStartDate).toISOString().slice(0, 10)
       : "current-week";
@@ -472,8 +475,12 @@ export default function GroceryListModal({
     }
 
     if (!response.ok) {
+      if (response.status >= 500) {
+        trackClientError(`api_${response.status}`, "amazon_search");
+      }
       throw new Error(`Amazon catalog lookup failed with status ${response.status}`);
     }
+    trackViewAction("conversion:amazon_cart");
 
     const payload = await readJson(response, parseAmazonSearchResponse);
 

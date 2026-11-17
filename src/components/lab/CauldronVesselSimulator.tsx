@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState, type JSX } from "react";
+import { trackViewAction } from "@/components/analytics/PageViewTracker";
 import { formatFixed, readVessel } from "@/lib/cooking/thermoVessel";
 import type { VesselState } from "@/lib/cooking/vesselState";
 import {
@@ -264,6 +265,7 @@ export function CauldronVesselSimulator(): JSX.Element {
   );
 
   const loadTimeline = (): void => {
+    trackViewAction("patch:solve:opus_culinaris");
     setStages(OPUS_CULINARIS_TIMELINE.map((step) => ({
       name: step.stageRow.name,
       ingredients: step.stageRow.ingredients.map((g) => ({ ...g })),
@@ -273,15 +275,13 @@ export function CauldronVesselSimulator(): JSX.Element {
   };
 
   const jumpToStep = (index: number): void => {
+    trackViewAction(`tab:cauldron_step_${index + 1}`);
     const step = OPUS_CULINARIS_TIMELINE[index];
     if (step) setVessel(step.vesselState);
   };
-
   return (
     <section className="alchm-panel" style={{ padding: "20px 22px" }} aria-label="Hermetic Vessel cauldron">
-      <div className="t-tag" style={{ marginBottom: 6, color: "var(--accent)" }}>
-        HERMETIC VESSEL · CAULDRON CIRCUIT
-      </div>
+      <div className="t-tag" style={{ marginBottom: 6, color: "var(--accent)" }}>HERMETIC VESSEL · CAULDRON CIRCUIT</div>
       <p className="mb-4 text-xs leading-relaxed text-white/50">
         Stage ingredients into the vessel and read each stage as a circuit. The vessel is shared
         with <Link href="/kitchen-lab/physics?tab=vessel" className="underline">the physics page</Link>,

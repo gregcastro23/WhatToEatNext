@@ -25,6 +25,7 @@
  */
 
 import { executeQuery } from "@/lib/database/connection";
+import { isMissingColumn, isMissingRelation } from "@/lib/database/pgErrors";
 import { _logger } from "@/lib/logger";
 
 export type TimelineCategory =
@@ -35,7 +36,8 @@ export type TimelineCategory =
   | "economy"
   | "agent"
   | "diary"
-  | "subscription";
+  | "subscription"
+  | "visit";
 
 export type TimelineStatus = "success" | "failure" | "info";
 
@@ -482,7 +484,7 @@ async function readInteractions(userId: string): Promise<TimelineEvent[]> {
         food_diary_entry: "logged a meal",
         food_rating: "rated a meal",
       };
-      const verb = verbMap[row.interaction_type] || row.interaction_type.replace(/_/g, " ");
+      const verb = verbMap[row.interaction_type] ?? row.interaction_type.replace(/_/g, " ");
       const description = recipeName ? `${verb} ${recipeName}` : verb;
       return {
         id: `interaction:${row.id}`,
@@ -495,6 +497,81 @@ async function readInteractions(userId: string): Promise<TimelineEvent[]> {
     });
   } catch (err) {
     _logger.warn("[userTimeline] interactions query failed:", err);
+    return [];
+  }
+}
+
+interface UserVisitRow {
+  sid: string;
+  first_at: Date;
+  last_at: Date;
+  pages: number;
+  duration_ms?: number | null;
+  paths?: string[] | null;
+  device_type: string | null;
+  browser: string | null;
+  os: string | null;
+}
+
+async function readUserVisits(userId: string): Promise<TimelineEvent[]> {
+  try {
+    const result = await executeQuery<UserVisitRow>(
+      `SELECT COALESCE(session_id, visitor_hash) AS sid,
+              MIN(at) AS first_at,
+              MAX(COALESCE(last_seen_at, at)) AS last_at,
+              COUNT(*)::int AS pages,
+              SUM(COALESCE(duration_ms, 0))::int AS duration_ms,
+              ARRAY_AGG(path ORDER BY at ASC) AS paths,
+              MAX(device_type) AS device_type,
+              MAX(browser) AS browser,
+              MAX(os) AS os
+         FROM page_views
+        WHERE user_id = $1 AND NOT is_bot
+        GROUP BY 1
+        ORDER BY MAX(COALESCE(last_seen_at, at)) DESC
+        LIMIT ${PER_SOURCE_LIMIT}`,
+      [userId],
+    ).catch(async (err: unknown) => {
+      if (!isMissingColumn(err)) throw err;
+      return executeQuery<UserVisitRow>(
+        `SELECT COALESCE(session_id, visitor_hash) AS sid,
+                MIN(at) AS first_at,
+                MAX(at) AS last_at,
+                COUNT(*)::int AS pages,
+                ARRAY_AGG(path ORDER BY at ASC) AS paths,
+                MAX(device_type) AS device_type,
+                MAX(browser) AS browser,
+                MAX(os) AS os
+           FROM page_views
+          WHERE user_id = $1 AND NOT is_bot
+          GROUP BY 1
+          ORDER BY MAX(at) DESC
+          LIMIT ${PER_SOURCE_LIMIT}`,
+        [userId],
+      );
+    });
+
+    return result.rows.map((row) => {
+      const uniquePaths = Array.from(new Set(Array.isArray(row.paths) ? row.paths : []));
+      const trail = uniquePaths.slice(0, 4).join(" → ") || "/";
+      const spanMs = Math.max(0, new Date(row.last_at).getTime() - new Date(row.first_at).getTime());
+      const durSec = Math.round(Math.max(Number(row.duration_ms ?? 0), spanMs) / 1_000);
+      const durLabel = durSec >= 60 ? ` · ${Math.floor(durSec / 60)}m ${durSec % 60}s` : durSec > 0 ? ` · ${durSec}s` : "";
+      const browserOs = [row.browser, row.os].filter(Boolean).join(" on ");
+      const dev = browserOs.length > 0 ? browserOs : (row.device_type ?? "");
+      return {
+        id: `visit:${row.sid}`,
+        at: new Date(row.last_at).toISOString(),
+        category: "visit",
+        type: "site_visit",
+        description: `Visited ${trail} (${row.pages} ${row.pages === 1 ? "page" : "pages"}${durLabel}${dev ? ` · ${dev}` : ""})`,
+        status: "info",
+        metadata: { pages: row.pages, paths: uniquePaths },
+      };
+    });
+  } catch (err) {
+    if (isMissingRelation(err)) return [];
+    _logger.warn("[userTimeline] visits query failed:", err);
     return [];
   }
 }
@@ -512,12 +589,13 @@ export async function getUserTimeline(
   const identityResult = await readIdentity(userId);
   if (!identityResult) return null;
 
-  const [statsResult, auth, feed, txn, interactions] = await Promise.allSettled([
+  const [statsResult, auth, feed, txn, interactions, visits] = await Promise.allSettled([
     readLifetimeStats(userId),
     readAuthEvents(userId),
     readFeedEvents(userId),
     readTokenTxns(userId),
     readInteractions(userId),
+    readUserVisits(userId),
   ]);
 
   const stats =
@@ -560,7 +638,7 @@ export async function getUserTimeline(
     });
   }
 
-  for (const r of [auth, feed, txn, interactions]) {
+  for (const r of [auth, feed, txn, interactions, visits]) {
     if (r.status === "fulfilled") {
       events.push(...r.value);
     }

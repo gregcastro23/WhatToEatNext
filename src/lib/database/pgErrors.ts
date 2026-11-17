@@ -14,6 +14,15 @@ export function isMissingRelation(err: unknown): boolean {
 }
 
 /**
+ * `42703 undefined_column` — a column added by a newer migration does not
+ * exist yet on the target database. Readers/writers use this to fall back to
+ * the baseline schema without failing the request.
+ */
+export function isMissingColumn(err: unknown): boolean {
+  return typeof err === "object" && err !== null && "code" in err && err.code === "42703";
+}
+
+/**
  * `22P02 invalid_text_representation` — specifically rejected enum value (not a UUID or integer syntax error).
  */
 export function isPgEnumMismatch(err: unknown): boolean {

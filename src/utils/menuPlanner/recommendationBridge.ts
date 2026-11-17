@@ -88,13 +88,17 @@ export interface DayRecommendationOptions {
   complexityPreference?: "simple" | "moderate" | "complex";
   /** User personalization context for chart-based recommendations */
   userContext?: UserPersonalizationContext;
-  /** Meals already planned for the week, used to avoid repetition */
+  /** Meals already planned for the week, used to avoid repetition and boost perishable overlap */
   existingMeals?: Array<{
     recipeId: string;
     recipeName: string;
     cuisine?: string;
     primaryProtein?: string;
+    ingredients?: Array<string | { name: string }>;
+    recipe?: { ingredients?: Array<string | { name: string }> };
   }>;
+  /** User pantry inventory items to prioritize owned ingredients */
+  pantryInventory?: Array<string | { name: string }>;
   /** Budget limit per meal in USD. When set, expensive recipes are penalised. */
   budgetPerMeal?: number;
   /** Maximum prep time in minutes. Recipes exceeding this are filtered out. */
@@ -154,6 +158,7 @@ function buildMealOptions(options: DayRecommendationOptions) {
     dislikedIngredients = [],
     complexityPreference,
     existingMeals = [],
+    pantryInventory = [],
     budgetPerMeal,
     maxPrepTimeMinutes,
     nutritionalContext,
@@ -169,7 +174,8 @@ function buildMealOptions(options: DayRecommendationOptions) {
     flavorPreferences,
     favoriteIngredients,
     dislikedIngredients,
-    existingMeals,
+    existingMeals: [...existingMeals],
+    pantryInventory,
     ...(complexityPreference !== undefined ? { complexityPreference } : {}),
     ...(budgetPerMeal !== undefined ? { budgetPerMeal } : {}),
     ...(maxPrepTimeMinutes !== undefined ? { maxPrepTimeMinutes } : {}),
@@ -200,7 +206,9 @@ export async function generateDayRecommendations(
     const recommendations: RecommendedMeal[] = [];
     const mealOptions = buildMealOptions(options);
 
-    // Generate recommendations for each meal type
+    // Generate recommendations for each meal type, updating live existingMeals
+    // so subsequent slots in the same day account for covered requiredIngredients
+    // and perishable overlap.
     for (const mealType of mealTypes) {
       const mealRecs = await generateMealRecommendations(
         dayOfWeek,
@@ -211,6 +219,16 @@ export async function generateDayRecommendations(
       );
 
       recommendations.push(...mealRecs);
+      for (const rec of mealRecs) {
+        const primaryProtein = getPrimaryProtein(rec.recipe);
+        mealOptions.existingMeals.push({
+          recipeId: rec.recipe.id,
+          recipeName: rec.recipe.name,
+          ...(rec.recipe.cuisine !== undefined ? { cuisine: rec.recipe.cuisine } : {}),
+          ...(primaryProtein !== undefined ? { primaryProtein } : {}),
+          ingredients: rec.recipe.ingredients,
+        });
+      }
     }
 
     // Apply personalization if user context is provided
@@ -445,7 +463,10 @@ async function generateMealRecommendations(
       recipeName: string;
       cuisine?: string;
       primaryProtein?: string;
+      ingredients?: Array<string | { name: string }>;
+      recipe?: { ingredients?: Array<string | { name: string }> };
     }>;
+    pantryInventory?: Array<string | { name: string }>;
     budgetPerMeal?: number;
     maxPrepTimeMinutes?: number | null;
     nutritionalContext?: DayRecommendationOptions["nutritionalContext"];
@@ -464,9 +485,10 @@ async function generateMealRecommendations(
       const { score, reasons, dayAlignment, planetaryAlignment } =
         scoreRecipeForDay(recipe, dayChar, mealType, astroState, options.nutritionalContext);
 
+      const synergyBoost = computeSynergyBoost(recipe, options);
       // Add small randomization (e.g., +/- 10% to score) to prevent identical
       // deterministic top choices spreading across similar days, causing repetitive menus.
-      const jitteredScore = score * (0.9 + Math.random() * 0.2);
+      const jitteredScore = (score + synergyBoost) * (0.9 + Math.random() * 0.2);
 
       return {
         mealType,
@@ -489,11 +511,8 @@ async function generateMealRecommendations(
     for (const rec of scoredRecipes) {
       if (selected.length >= options.maxRecipes) break;
 
-      // Identify the recipe's primary protein
-      const proteinIng = rec.recipe.ingredients.find(
-        (ing) => ing.category === "protein",
-      );
-      const proteinKey = proteinIng?.name.toLowerCase() ?? "";
+      // Identify the recipe's primary protein (with category + regex fallback)
+      const proteinKey = getPrimaryProtein(rec.recipe) ?? "";
 
 
       // Prefer recipes with a protein we haven't used yet
@@ -713,14 +732,152 @@ function getRecipeComplexity(
   return undefined;
 }
 
+const PRIMARY_PROTEIN_FALLBACK_RE =
+  /\b(chicken|beef|steak|pork|salmon|shrimp|prawn|tofu|tempeh|seitan|turkey|lamb|duck|cod|tuna|lentils?|chickpeas?|black beans?|pinto beans?|white beans?|edamame|paneer|halloumi|eggs?)\b/i;
+
+const PERISHABLE_SYNERGY_RE =
+  /\b(spinach|cilantro|parsley|basil|kale|arugula|avocado|scallion|green onion|Heavy cream|coconut milk|lime|lemon|ginger|celery|cabbage|zucchini|mushroom|bell pepper|jalapeño|jalapeno|broccoli|cauliflower|tomato|cucumber|lettuce|dill|mint)\b/i;
+
 /**
  * Get the primary protein from a recipe's ingredients.
+ * Checks explicit `category === "protein"` first, then falls back to protein keyword regex.
  */
-function getPrimaryProtein(recipe: Recipe): string | undefined {
-  const proteinIng = recipe.ingredients.find(
-    (ing) => ing.category === "protein",
+export function getPrimaryProtein(recipe: Recipe): string | undefined {
+  const explicit = recipe.ingredients.find(
+    (ing) => typeof ing !== "string" && ing.category?.toLowerCase() === "protein",
   );
-  return proteinIng ? proteinIng.name.toLowerCase() : undefined;
+  if (explicit && typeof explicit !== "string") {
+    return explicit.name.toLowerCase().trim();
+  }
+
+  for (const ing of recipe.ingredients) {
+    const name = typeof ing === "string" ? ing : ing.name;
+    const match = name.match(PRIMARY_PROTEIN_FALLBACK_RE);
+    if (match?.[1]) return match[1].toLowerCase();
+  }
+  return undefined;
+}
+
+export interface IngredientSynergyAndTargetScores {
+  requiredMatchScore: number;
+  pantryMatchScore: number;
+  perishableSynergyScore: number;
+}
+
+function computeRequiredMatchScore(
+  recipeIngNames: string[],
+  existingIngText: string[],
+  requiredIngredients: string[],
+): number {
+  const normalizedTargets = requiredIngredients
+    .map((r) => r.toLowerCase().trim())
+    .filter(Boolean);
+  if (normalizedTargets.length === 0) return 0.5;
+
+  const matchedTargets = normalizedTargets.filter((req) =>
+    recipeIngNames.some((name) => name.includes(req) || req.includes(name)),
+  );
+  const unfulfilledTargets = normalizedTargets.filter(
+    (req) => !existingIngText.some((ex) => ex.includes(req) || req.includes(ex)),
+  );
+  const newlyFulfilled = matchedTargets.some((req) => unfulfilledTargets.includes(req));
+  return Math.min(1, matchedTargets.length / normalizedTargets.length + (newlyFulfilled ? 0.25 : 0));
+}
+
+function computePerishableSynergyScore(
+  recipeIngNames: string[],
+  existingIngText: string[],
+): number {
+  if (existingIngText.length === 0) return 0;
+  const existingPerishables = new Set<string>();
+  for (const name of existingIngText) {
+    const m = name.match(PERISHABLE_SYNERGY_RE);
+    if (m?.[1]) existingPerishables.add(m[1].toLowerCase());
+  }
+  if (existingPerishables.size === 0) return 0;
+  let shared = 0;
+  for (const rName of recipeIngNames) {
+    const m = rName.match(PERISHABLE_SYNERGY_RE);
+    if (m?.[1] && existingPerishables.has(m[1].toLowerCase())) shared++;
+  }
+  return Math.min(1, shared * 0.35);
+}
+
+/**
+ * Scores a candidate recipe across three grocery-intelligence dimensions:
+ * 1. Proportional match to user's `requiredIngredients` + bonus for unfulfilled targets.
+ * 2. Overlap with user's `pantryInventory`.
+ * 3. Perishable ingredient synergy with `existingMeals`.
+ */
+export function scoreIngredientSynergyAndTargets(
+  recipe: Recipe,
+  requiredIngredients: string[] = [],
+  existingMeals: Array<{
+    ingredients?: Array<string | { name: string }>;
+    recipe?: { ingredients?: Array<string | { name: string }> };
+  }> = [],
+  pantryInventory: Array<string | { name: string }> = [],
+): IngredientSynergyAndTargetScores {
+  const recipeIngNames = recipe.ingredients.map((i) =>
+    (typeof i === "string" ? i : i.name).toLowerCase().trim(),
+  );
+  const existingIngText = existingMeals
+    .flatMap((m) => m.ingredients ?? m.recipe?.ingredients ?? [])
+    .map((i) => (typeof i === "string" ? i : i.name).toLowerCase().trim());
+
+  const requiredMatchScore =
+    requiredIngredients.length > 0
+      ? computeRequiredMatchScore(recipeIngNames, existingIngText, requiredIngredients)
+      : 0.5;
+
+  let pantryMatchScore = 0;
+  if (pantryInventory.length > 0 && recipeIngNames.length > 0) {
+    const pantryNames = pantryInventory
+      .map((p) => (typeof p === "string" ? p : p.name).toLowerCase().trim())
+      .filter(Boolean);
+    const hits = recipeIngNames.filter((rName) =>
+      pantryNames.some((pName) => rName.includes(pName) || pName.includes(rName)),
+    );
+    pantryMatchScore = Math.min(1, hits.length / Math.max(3, recipeIngNames.length * 0.4));
+  }
+
+  return {
+    requiredMatchScore,
+    pantryMatchScore,
+    perishableSynergyScore: computePerishableSynergyScore(recipeIngNames, existingIngText),
+  };
+}
+
+export const scorePerishableSynergy = scoreIngredientSynergyAndTargets;
+
+function computeSynergyBoost(
+  recipe: Recipe,
+  options: {
+    requiredIngredients?: string[];
+    existingMeals?: Array<{
+      ingredients?: Array<string | { name: string }>;
+      recipe?: { ingredients?: Array<string | { name: string }> };
+    }>;
+    pantryInventory?: Array<string | { name: string }>;
+  },
+): number {
+  const synergy = scoreIngredientSynergyAndTargets(
+    recipe,
+    options.requiredIngredients,
+    options.existingMeals,
+    options.pantryInventory,
+  );
+  let boost = 0;
+  if (options.requiredIngredients && options.requiredIngredients.length > 0) {
+    boost += synergy.requiredMatchScore * 0.35;
+  }
+  if (options.pantryInventory && options.pantryInventory.length > 0) {
+    boost += synergy.pantryMatchScore * 0.15;
+  }
+  if (options.existingMeals && options.existingMeals.length > 0) {
+    boost += synergy.perishableSynergyScore * 0.20;
+  }
+  return boost;
 }
 
 
@@ -747,7 +904,10 @@ async function searchRecipesForDay(
       recipeName: string;
       cuisine?: string;
       primaryProtein?: string;
+      ingredients?: Array<string | { name: string }>;
+      recipe?: { ingredients?: Array<string | { name: string }> };
     }>;
+    pantryInventory?: Array<string | { name: string }>;
     budgetPerMeal?: number;
     maxPrepTimeMinutes?: number | null;
   },
@@ -804,6 +964,23 @@ async function searchRecipesForDay(
       }
     }
 
+    // Helper to check if a recipe matches at least one required ingredient
+    const matchesRequiredIngredients = (recipe: Recipe): boolean => {
+      if (!options.requiredIngredients || options.requiredIngredients.length === 0) {
+        return true;
+      }
+      const required = options.requiredIngredients
+        .map((i) => i.toLowerCase().trim())
+        .filter(Boolean);
+      if (required.length === 0) return true;
+      const recipeIngNames = recipe.ingredients.map((ing) =>
+        (typeof ing === "string" ? ing : ing.name).toLowerCase(),
+      );
+      return required.some((req) =>
+        recipeIngNames.some((name) => name.includes(req) || req.includes(name)),
+      );
+    };
+
     let candidates = seed.filter((recipe) => {
       // Hard-exclude recipes already in the weekly plan
       if (existingRecipeIds.has(recipe.id)) return false;
@@ -820,16 +997,7 @@ async function searchRecipesForDay(
         return false;
 
       // Required ingredients (if specified, must contain at least one)
-      if (options.requiredIngredients && options.requiredIngredients.length > 0) {
-        const required = options.requiredIngredients.map((i) => i.toLowerCase());
-        const recipeIngNames = recipe.ingredients.map((ing) =>
-          (typeof ing === "string" ? ing : ing.name).toLowerCase(),
-        );
-        const hasRequired = required.some((req) =>
-          recipeIngNames.some((name) => name.includes(req)),
-        );
-        if (!hasRequired) return false;
-      }
+      if (!matchesRequiredIngredients(recipe)) return false;
 
       // Max prep time filter
       if (options.maxPrepTimeMinutes) {
@@ -844,9 +1012,11 @@ async function searchRecipesForDay(
     });
 
     // ── Step 2: Progressive fallback if filters are too restrictive ──
+    // Keep requiredIngredients active during season and mealType relaxation
+    // so "3 meals featuring rice, beans, and spinach" is not silently dropped.
 
     if (candidates.length === 0) {
-      // Relax: drop season filter (scan any season for this meal type)
+      // Relax: drop season filter (scan any season for this meal type, keeping requiredIngredients)
       candidates = recipes.filter((recipe) => {
         if (existingRecipeIds.has(recipe.id)) return false;
         if (!isSuitableForMealType(recipe, mealType)) return false;
@@ -857,12 +1027,29 @@ async function searchRecipesForDay(
           return false;
         if (containsExcludedIngredient(recipe, blockedIngredients))
           return false;
+        if (!matchesRequiredIngredients(recipe)) return false;
         return true;
       });
     }
 
     if (candidates.length === 0) {
-      // Relax further: drop meal type filter, keep dietary only
+      // Relax further: drop meal type filter, keep dietary + requiredIngredients
+      candidates = recipes.filter((recipe) => {
+        if (existingRecipeIds.has(recipe.id)) return false;
+        if (
+          options.dietaryRestrictions.length > 0 &&
+          !matchesDietaryRestrictions(recipe, options.dietaryRestrictions)
+        )
+          return false;
+        if (containsExcludedIngredient(recipe, blockedIngredients))
+          return false;
+        if (!matchesRequiredIngredients(recipe)) return false;
+        return true;
+      });
+    }
+
+    if (candidates.length === 0) {
+      // Final fallback if no recipe in the DB matches the requiredIngredients: keep dietary only
       candidates = recipes.filter((recipe) => {
         if (existingRecipeIds.has(recipe.id)) return false;
         if (
@@ -1006,6 +1193,13 @@ async function searchRecipesForDay(
       if (protein && existingProteins.includes(protein)) {
         score -= 0.10;
       }
+
+      // ── Target ingredient coverage, pantry boost & perishable cross-meal synergy ──
+      score += computeSynergyBoost(recipe, {
+        ...(options.requiredIngredients !== undefined ? { requiredIngredients: options.requiredIngredients } : {}),
+        existingMeals,
+        ...(options.pantryInventory !== undefined ? { pantryInventory: options.pantryInventory } : {}),
+      });
 
       // ── Budget-aware scoring (weight: ±0.2) ──
       // Early return when no budget is set — avoids the per-recipe call to
@@ -1298,25 +1492,73 @@ function scoreRecipeForDay(
   };
 }
 
+export interface NutritionalAlignmentTargets {
+  caloriesPerMeal?: number;
+  dailyCalories?: number;
+  proteinGramsPerMeal?: number;
+  dailyProtein?: number;
+}
+
+function readNumericField(source: unknown, key: string): number | undefined {
+  if (typeof source !== "object" || source === null) return undefined;
+  const val: unknown = Reflect.get(source, key);
+  return typeof val === "number" && Number.isFinite(val) ? val : undefined;
+}
+
+function scoreNutritionalTargetMatch(
+  calories: number | undefined,
+  protein: number,
+  targets: NutritionalAlignmentTargets,
+): number {
+  const calTarget =
+    targets.caloriesPerMeal ??
+    (targets.dailyCalories ? targets.dailyCalories / 3 : 650);
+  const proteinTarget =
+    targets.proteinGramsPerMeal ??
+    (targets.dailyProtein ? targets.dailyProtein / 3 : 30);
+
+  const calDiffRatio =
+    Math.abs((calories ?? calTarget) - calTarget) / Math.max(calTarget, 1);
+  const calScore = Math.max(0, 1 - calDiffRatio);
+  const proteinScore = Math.min(
+    1,
+    Math.min(1.2, protein / Math.max(proteinTarget, 1)),
+  );
+
+  return Number((calScore * 0.55 + proteinScore * 0.45).toFixed(3));
+}
+
 /**
- * Score nutritional alignment with day's emphasis
+ * Score nutritional alignment with day's emphasis or explicit calorie/protein targets.
+ * Reads `recipe.nutritionalProfile ?? recipe.nutrition` so computed macros from
+ * `src/actions/recipes.ts` are always respected.
  *
  * @param recipe - Recipe to score
- * @param emphasis - Nutritional emphasis
+ * @param emphasisOrTargets - Planetary nutritional emphasis or explicit macro targets
  * @returns Score (0-1)
  */
-function scoreNutritionalAlignment(
-  recipe: MonicaOptimizedRecipe,
-  emphasis: "protein" | "carbs" | "fats" | "balanced",
+export function scoreNutritionalAlignment(
+  recipe: Recipe | MonicaOptimizedRecipe,
+  emphasisOrTargets?:
+    | "protein"
+    | "carbs"
+    | "fats"
+    | "balanced"
+    | NutritionalAlignmentTargets,
 ): number {
-  if (!recipe.nutritionalProfile) return 0.5;
+  const rawProfile = recipe.nutritionalProfile ?? recipe.nutrition;
+  if (!rawProfile || !emphasisOrTargets) return 0.5;
 
-  const nutritionProfile = recipe.nutritionalProfile as Record<string, number | undefined>;
-  const protein = nutritionProfile.protein ?? 0;
-  const carbs = nutritionProfile.carbs ?? 0;
-  const fat = nutritionProfile.fat ?? 0;
+  const calories = readNumericField(rawProfile, "calories");
+  const protein = readNumericField(rawProfile, "protein") ?? 0;
+  const carbs = readNumericField(rawProfile, "carbs") ?? 0;
+  const fat = readNumericField(rawProfile, "fat") ?? 0;
+
+  if (typeof emphasisOrTargets === "object") {
+    return scoreNutritionalTargetMatch(calories, protein, emphasisOrTargets);
+  }
+
   const total = protein + carbs + fat;
-
 
   if (total === 0) return 0.5;
 
@@ -1324,7 +1566,7 @@ function scoreNutritionalAlignment(
   const carbsRatio = carbs / total;
   const fatRatio = fat / total;
 
-  switch (emphasis) {
+  switch (emphasisOrTargets) {
     case "protein":
       return proteinRatio > 0.35 ? 1.0 : proteinRatio / 0.35;
     case "carbs":

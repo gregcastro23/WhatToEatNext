@@ -63,4 +63,80 @@ describe("getLiveActivity live flag", () => {
     expect(payload.live).toBe(true);
     expect(payload.events).toEqual([]);
   });
+
+  it("reserves space for human visits so high-volume agent events never evict them", async () => {
+    const now = Date.now();
+    executeQuery.mockImplementation((sql: string) => {
+      if (sql.includes("FROM feed_events")) {
+        // 25 automated planetary-agent feed events (newest)
+        return Promise.resolve({
+          rows: Array.from({ length: 25 }, (_, i) => ({
+            id: `agent-feed-${i}`,
+            actor_id: `agent-${i}`,
+            event_type: "transit_reflection",
+            created_at: new Date(now - i * 1_000),
+            email: `agent${i}@agentic.alchm.kitchen`,
+            name: `Agent ${i}`,
+            is_agent: true,
+          })),
+        });
+      }
+      if (sql.includes("FROM token_transactions")) {
+        // 25 automated planetary-agent token sweeps (also newest)
+        return Promise.resolve({
+          rows: Array.from({ length: 25 }, (_, i) => ({
+            id: `agent-tok-${i}`,
+            user_id: `agent-${i}`,
+            token_type: "SPIRIT",
+            amount: "1.00",
+            source_type: "daily_yield",
+            description: "Agent yield",
+            created_at: new Date(now - i * 1_000),
+            email: `agent${i}@agentic.alchm.kitchen`,
+            name: `Agent ${i}`,
+            is_agent: true,
+          })),
+        });
+      }
+      if (sql.includes("FROM page_views")) {
+        // 1 human visit from 30 minutes ago (older than all 50 agent events)
+        const visitTime = new Date(now - 30 * 60_000);
+        return Promise.resolve({
+          rows: [
+            {
+              sid: "human-session-1",
+              first_at: visitTime,
+              last_at: visitTime,
+              pages: 3,
+              duration_ms: 95_000,
+              paths: ["/", "/menu-planner", "/recipes"],
+              ref_tag: "friend-review",
+              visitor_hash: "a4f9c2001122334455667788",
+              path: "/",
+              referrer_host: null,
+              city: "New York",
+              region: "NY",
+              country: "US",
+              browser: "Chrome",
+              os: "macOS",
+              device_type: "desktop",
+              user_id: null,
+              email: null,
+              name: null,
+              is_agent: false,
+            },
+          ],
+        });
+      }
+      return Promise.resolve({ rows: [] });
+    });
+
+    const payload = await getLiveActivity();
+    expect(payload.live).toBe(true);
+    expect(payload.countsByCategory.visit).toBe(1);
+    const visitEvent = payload.events.find((e) => e.category === "visit");
+    expect(visitEvent).toBeDefined();
+    expect(visitEvent?.description).toContain("(#a4f9c2)");
+    expect(visitEvent?.description).toContain("/ → /menu-planner → /recipes");
+  });
 });

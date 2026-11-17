@@ -10,6 +10,7 @@
  * folds, so the CDN sees one URL per query (D2).
  */
 import { useEffect, useState } from "react";
+import { trackClientError, trackViewAction } from "@/components/analytics/PageViewTracker";
 import { readJson } from "@/lib/api/json";
 import { OmnibarResponseSchema, SEARCH_QUERY_MAX_LENGTH, type OmnibarResponse } from "@/lib/validation/searchSchemas";
 import type { SearchStatus } from "./omnibarTypes";
@@ -42,8 +43,18 @@ const RETRY_DELAY_MS = 400;
 
 async function attempt(key: string): Promise<Response> {
   const res = await fetch(`/api/search?q=${encodeURIComponent(key)}`);
-  if (res.status >= 500) throw new Error(`search failed: HTTP ${res.status}`);
+  if (res.status >= 500) {
+    trackClientError(`api_${res.status}`, "search");
+    throw new Error(`search failed: HTTP ${res.status}`);
+  }
   return res;
+}
+
+function searchSlug(key: string): string {
+  return key
+    .replace(/[^a-z0-9_-]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 32) || "q";
 }
 
 async function request(key: string): Promise<OmnibarResponse> {
@@ -54,6 +65,15 @@ async function request(key: string): Promise<OmnibarResponse> {
   if (!res.ok) throw new Error(`search failed: HTTP ${res.status}`);
   const body = await readJson(res, OmnibarResponseSchema.parse);
   remember(key, body);
+  const totalHits =
+    body.total.ingredient +
+    body.total.recipe +
+    body.total.cuisine +
+    body.total.method +
+    body.total.sauce +
+    (body.hero ? 1 : 0);
+  const slug = searchSlug(key);
+  trackViewAction(totalHits === 0 ? `search:zero_results:${slug}` : `search:query:${slug}:${totalHits}`);
   return body;
 }
 

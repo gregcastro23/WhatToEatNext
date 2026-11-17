@@ -3,8 +3,88 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { z } from "zod";
+import AdminCommandPalette, {
+  AdminCommandPaletteTrigger,
+} from "@/components/admin/AdminCommandPalette";
 import { isAdminEmail } from "@/lib/auth/adminEmails";
 import { _logger } from "@/lib/logger";
+
+const SessionResponseSchema = z.object({
+  user: z
+    .object({
+      role: z.string().optional(),
+      email: z.string().optional(),
+    })
+    .optional(),
+});
+
+const ADMIN_NAV_GROUPS: Array<{
+  group: string;
+  items: Array<{ href: string; label: string; icon: string }>;
+}> = [
+  {
+    group: "Pulse",
+    items: [
+      { href: "/admin", label: "Overview", icon: "📊" },
+      { href: "/admin/dashboard", label: "Dashboard ✦", icon: "🔭" },
+    ],
+  },
+  {
+    group: "Audience",
+    items: [
+      { href: "/admin/traffic", label: "Traffic", icon: "📈" },
+      { href: "/admin/growth", label: "Growth", icon: "🌱" },
+      { href: "/admin/users", label: "Users", icon: "👥" },
+      { href: "/admin/onboarding", label: "Onboarding", icon: "🧭" },
+    ],
+  },
+  {
+    group: "Money & chain",
+    items: [
+      { href: "/admin/revenue", label: "Revenue", icon: "💵" },
+      { href: "/admin/settlements", label: "Settlements", icon: "💳" },
+      { href: "/admin/chain", label: "Chain", icon: "⛓️" },
+    ],
+  },
+  {
+    group: "Build",
+    items: [
+      { href: "/admin/code-health", label: "Code Health", icon: "🧪" },
+      { href: "/admin/mcp", label: "MCP Network ✦", icon: "🔌" },
+    ],
+  },
+  {
+    group: "Moderation",
+    items: [
+      { href: "/admin/chat-reports", label: "Chat Reports", icon: "🚩" },
+      { href: "/admin/feed/comment-reports", label: "Comment Reports", icon: "💬" },
+    ],
+  },
+  {
+    group: "System",
+    items: [
+      { href: "/admin/agents", label: "Agents", icon: "🪐" },
+      { href: "/admin/jobs", label: "Jobs & probes", icon: "⏱️" },
+      { href: "/admin/settings", label: "Settings", icon: "⚙️" },
+    ],
+  },
+];
+
+const ADMIN_NAV_ITEMS = ADMIN_NAV_GROUPS.flatMap((g) => g.items);
+
+async function fetchAdminAuthFlags(): Promise<{ authenticated: boolean; admin: boolean }> {
+  const response = await fetch("/api/auth/session");
+  if (!response.ok) return { authenticated: false, admin: false };
+  const raw: unknown = await response.json();
+  const parsed = SessionResponseSchema.safeParse(raw);
+  const sessionUser = parsed.success ? parsed.data.user : undefined;
+  if (!sessionUser?.email) return { authenticated: false, admin: false };
+  return {
+    authenticated: true,
+    admin: sessionUser.role === "admin" && isAdminEmail(sessionUser.email),
+  };
+}
 
 /**
  * Admin Layout - Sidebar navigation for admin panel
@@ -13,7 +93,7 @@ export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}): React.JSX.Element {
   const pathname = usePathname();
   const _router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -21,97 +101,24 @@ export default function AdminLayout({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    void checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
-    try {
-      const response = await fetch("/api/auth/session");
-      if (!response.ok) return;
-      const data = await response.json();
-
-      // NextAuth /api/auth/session returns `{ user, expires }` for signed-in
-      // users (no `authenticated` field) and `{}` when signed out. The user
-      // shape is `{ role: "admin" | "user", email, ... }` — `role` is a
-      // singular string here, not the `roles[]` array used elsewhere in the
-      // codebase for the UserWithProfile type.
-      const sessionUser = data?.user as
-        | { role?: string; email?: string }
-        | undefined;
-      const signedIn = Boolean(sessionUser?.email);
-
-      if (
-        signedIn &&
-        sessionUser?.role === "admin" &&
-        isAdminEmail(sessionUser?.email)
-      ) {
-        setIsAuthenticated(true);
-        setIsAdmin(true);
-      } else if (signedIn) {
-        setIsAuthenticated(true);
-        setIsAdmin(false);
-      } else {
+    const run = async (): Promise<void> => {
+      try {
+        const { authenticated, admin } = await fetchAdminAuthFlags();
+        setIsAuthenticated(authenticated);
+        setIsAdmin(admin);
+      } catch (error) {
+        _logger.error("Auth check failed:", error);
         setIsAuthenticated(false);
         setIsAdmin(false);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      _logger.error("Auth check failed:", error);
-      setIsAuthenticated(false);
-      setIsAdmin(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+    run().catch(() => undefined);
+  }, []);
 
-  const navGroups: Array<{ group: string; items: Array<{ href: string; label: string; icon: string }> }> = [
-    {
-      group: "Pulse",
-      items: [
-        { href: "/admin", label: "Overview", icon: "📊" },
-        { href: "/admin/dashboard", label: "Dashboard ✦", icon: "🔭" },
-      ],
-    },
-    {
-      group: "Audience",
-      items: [
-        { href: "/admin/traffic", label: "Traffic", icon: "📈" },
-        { href: "/admin/growth", label: "Growth", icon: "🌱" },
-        { href: "/admin/users", label: "Users", icon: "👥" },
-        { href: "/admin/onboarding", label: "Onboarding", icon: "🧭" },
-      ],
-    },
-    {
-      group: "Money & chain",
-      items: [
-        { href: "/admin/revenue", label: "Revenue", icon: "💵" },
-        { href: "/admin/settlements", label: "Settlements", icon: "💳" },
-        { href: "/admin/chain", label: "Chain", icon: "⛓️" },
-      ],
-    },
-    {
-      group: "Build",
-      items: [
-        { href: "/admin/code-health", label: "Code Health", icon: "🧪" },
-        { href: "/admin/mcp", label: "MCP Network ✦", icon: "🔌" },
-      ],
-    },
-    {
-      group: "Moderation",
-      items: [
-        { href: "/admin/chat-reports", label: "Chat Reports", icon: "🚩" },
-        { href: "/admin/feed/comment-reports", label: "Comment Reports", icon: "💬" },
-      ],
-    },
-    {
-      group: "System",
-      items: [
-        { href: "/admin/agents", label: "Agents", icon: "🪐" },
-        { href: "/admin/jobs", label: "Jobs & probes", icon: "⏱️" },
-        { href: "/admin/settings", label: "Settings", icon: "⚙️" },
-      ],
-    },
-  ];
-  const navItems = navGroups.flatMap((g) => g.items);
+  const navGroups = ADMIN_NAV_GROUPS;
+  const navItems = ADMIN_NAV_ITEMS;
 
   if (loading) {
     return (
@@ -177,16 +184,19 @@ export default function AdminLayout({
     <div className="min-h-screen bg-gray-100 lg:flex">
       {/* Mobile top nav (< lg). On wider screens this hides; the sidebar takes over. */}
       <header className="lg:hidden sticky top-0 z-20 bg-gray-800 text-white shadow">
-        <div className="flex items-center justify-between px-4 py-3">
+        <div className="flex items-center justify-between px-4 py-3 gap-2">
           <h1 className="text-base font-bold bg-gradient-to-r from-purple-400 to-orange-400 bg-clip-text text-transparent">
             alchm.kitchen · Admin
           </h1>
-          <Link
-            href="/"
-            className="text-xs text-gray-400 hover:text-white transition-colors"
-          >
-            ← Site
-          </Link>
+          <div className="flex items-center gap-3">
+            <AdminCommandPaletteTrigger />
+            <Link
+              href="/"
+              className="text-xs text-gray-400 hover:text-white transition-colors"
+            >
+              ← Site
+            </Link>
+          </div>
         </div>
         <nav
           className="flex overflow-x-auto border-t border-gray-700 no-scrollbar"
@@ -214,11 +224,14 @@ export default function AdminLayout({
 
       {/* Sidebar (lg+). Fixed-position so the main content scrolls underneath. */}
       <aside className="hidden lg:block w-64 bg-gray-800 text-white fixed h-full">
-        <div className="p-6">
-          <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-orange-400 bg-clip-text text-transparent">
-            alchm.kitchen
-          </h1>
-          <p className="text-sm text-gray-400 mt-1">Admin Panel</p>
+        <div className="p-6 space-y-3">
+          <div>
+            <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-orange-400 bg-clip-text text-transparent">
+              alchm.kitchen
+            </h1>
+            <p className="text-sm text-gray-400 mt-1">Admin Panel</p>
+          </div>
+          <AdminCommandPalette />
         </div>
 
         <nav className="mt-2 overflow-y-auto" style={{ maxHeight: "calc(100vh - 170px)" }}>

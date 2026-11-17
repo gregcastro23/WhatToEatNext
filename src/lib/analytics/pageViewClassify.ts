@@ -14,6 +14,33 @@
  */
 
 import { createHash } from "node:crypto";
+import {
+  classifyInteractionTag,
+  cleanInteractions,
+  cleanRefTag,
+  extractUiQueryParamTags,
+  extractVariantTags,
+  isCoreActivationTag,
+  isFrustrationOrPerfTag,
+  isInteractiveRoute,
+  normalizeInteractionTag,
+  type ClassifiedInteraction,
+  type InteractionTone,
+} from "@/lib/analytics/interactionClassify";
+
+export {
+  classifyInteractionTag,
+  cleanInteractions,
+  cleanRefTag,
+  extractUiQueryParamTags,
+  extractVariantTags,
+  isCoreActivationTag,
+  isFrustrationOrPerfTag,
+  isInteractiveRoute,
+  normalizeInteractionTag,
+  type ClassifiedInteraction,
+  type InteractionTone,
+};
 
 export type DeviceType = "desktop" | "mobile" | "tablet" | "bot";
 
@@ -30,7 +57,7 @@ export interface UserAgentClass {
  * as a human inflates the one number the operator reads first.
  */
 const BOT_PATTERN =
-  /\bbot\b|bot\/|bot;|crawl|spider|slurp|facebookexternalhit|embedly|quora link preview|whatsapp|telegrambot|discordbot|slackbot|linkedinbot|pinterest|vercel-screenshot|lighthouse|pagespeed|headlesschrome|phantomjs|puppeteer|playwright|selenium|curl\/|wget\/|python-requests|axios\/|node-fetch|go-http-client|okhttp|java\/|uptime|monitor|pingdom|statuscake|preview/i;
+  /\bbot\b|bot\/|bot;|crawl|spider|slurp|facebookexternalhit|embedly|quora link preview|link preview|bingpreview|^whatsapp\/|telegrambot|discordbot|slackbot|linkedinbot|pinterestbot|vercel-screenshot|lighthouse|pagespeed|headlesschrome|phantomjs|puppeteer|playwright|selenium|curl\/|wget\/|python-requests|axios\/|node-fetch|go-http-client|okhttp|java\/|uptime|monitor|pingdom|statuscake/i;
 
 /** First match wins; order matters where UAs overlap. */
 const OS_RULES: ReadonlyArray<readonly [RegExp, string]> = [
@@ -155,4 +182,10 @@ export function cleanUtm(value: unknown): string | null {
   if (typeof value !== "string") return null;
   const trimmed = value.trim().toLowerCase();
   return trimmed.length > 0 ? trimmed.slice(0, 80) : null;
+}
+
+/** Clamp dwell time to [0, 30 minutes] in integer milliseconds. */
+export function clampDurationMs(value: unknown): number {
+  if (typeof value !== "number" || !Number.isFinite(value) || value <= 0) return 0;
+  return Math.min(1_800_000, Math.round(value));
 }

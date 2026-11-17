@@ -60,10 +60,9 @@ import {
 import { generateGroceryList } from "@/utils/groceryListGenerator";
 import { logger } from "@/utils/logger";
 import { calculateMealCircuit } from "@/utils/mealCircuitCalculations";
-import {
-  generateDayRecommendations,
-  type AstrologicalState,
-  type UserPersonalizationContext,
+import type {
+  AstrologicalState,
+  UserPersonalizationContext,
 } from "@/utils/menuPlanner/recommendationBridge";
 import PantryManager from "@/utils/pantryManager";
 import { calculateWeeklyCircuit } from "@/utils/weeklyCircuitCalculations";
@@ -193,6 +192,10 @@ export function useMenuPlanner(): MenuPlannerContextType {
 export function MenuPlannerProvider({ children }: { children: ReactNode }): React.JSX.Element {
   // -- Core state --
   const [currentMenu, setCurrentMenu] = useState<WeeklyMenu | null>(null);
+  const currentMenuRef = useRef<WeeklyMenu | null>(null);
+  useEffect(() => {
+    currentMenuRef.current = currentMenu;
+  }, [currentMenu]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
   const [groceryList, setGroceryList] = useState<GroceryItem[]>([]);
@@ -525,7 +528,8 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
         usePersonalization?: boolean;
       } = {},
     ): Promise<void> => {
-      if (!currentMenu) return;
+      const activeMenu = currentMenuRef.current ?? currentMenu;
+      if (!activeMenu) return;
 
       try {
         const {
@@ -583,24 +587,25 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
               }
             : undefined;
 
-        const existingMeals = currentMenu.meals.flatMap((m) => {
+        const { generateDayRecommendations, getPrimaryProtein } = await import(
+          "@/utils/menuPlanner/recommendationBridge"
+        );
+
+        const liveMeals = activeMenu.meals;
+        const existingMeals = liveMeals.flatMap((m) => {
           if (!m.recipe || m.dayOfWeek === dayOfWeek) return [];
           const { recipe } = m;
-          const proteinIng = recipe.ingredients.find(
-            (i) => typeof i !== "string" && (i as { category?: string }).category === "protein",
-          );
-          const proteinName = proteinIng && typeof proteinIng !== "string"
-            ? (proteinIng as { name?: string }).name
-            : undefined;
+          const proteinName = getPrimaryProtein(recipe);
           return [{
             recipeId: recipe.id,
             recipeName: recipe.name,
             ...(recipe.cuisine !== undefined ? { cuisine: recipe.cuisine } : {}),
             ...(proteinName !== undefined ? { primaryProtein: proteinName } : {}),
+            ingredients: recipe.ingredients,
           }];
         });
 
-        const totalPlannedMeals = currentMenu.meals.filter((m) => m.recipe).length;
+        const totalPlannedMeals = liveMeals.filter((m) => m.recipe).length;
         const budgetPerMealValue = weeklyBudget
           ? weeklyBudget / Math.max(21, totalPlannedMeals)
           : undefined;
@@ -625,7 +630,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
           | undefined;
 
         if (hasNutritionalTargets) {
-          const dayMeals = currentMenu.meals.filter(
+          const dayMeals = liveMeals.filter(
             (m) => m.dayOfWeek === dayOfWeek && m.recipe,
           );
           let plannedCals = 0,
@@ -714,6 +719,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
             maxRecipesPerMeal: 1,
             ...(userContext !== undefined ? { userContext } : {}),
             existingMeals,
+            pantryInventory: inventory,
             ...(budgetPerMealValue !== undefined ? { budgetPerMeal: budgetPerMealValue } : {}),
             ...(nutritionalContext !== undefined ? { nutritionalContext } : {}),
           },
@@ -733,8 +739,9 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
         );
 
         if (recommendations.length > 0) {
+          let nextMeals = [...(currentMenuRef.current?.meals ?? liveMeals)];
           for (const recommendation of recommendations) {
-            const existingSlot = currentMenu.meals.find(
+            const existingSlot = nextMeals.find(
               (m) =>
                 m.dayOfWeek === dayOfWeek &&
                 m.mealType === recommendation.mealType &&
@@ -747,8 +754,26 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
                 recommendation.recipe,
                 1,
               );
+              nextMeals = nextMeals.map((slot) =>
+                slot.dayOfWeek === dayOfWeek && slot.mealType === recommendation.mealType
+                  ? {
+                      ...slot,
+                      recipe: recommendation.recipe,
+                      servings: 1,
+                      updatedAt: new Date(),
+                    }
+                  : slot,
+              );
               reportQuestEvent("generate_recipe");
             }
+          }
+          // Synchronously update currentMenuRef before the next day in fillWeek() runs
+          if (currentMenuRef.current) {
+            currentMenuRef.current = {
+              ...currentMenuRef.current,
+              meals: nextMeals,
+              updatedAt: new Date(),
+            };
           }
         } else {
           logger.info(
@@ -772,6 +797,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
       syncWithLunarCycle,
       generationPreferences,
       currentUser?.userId,
+      inventory,
     ],
   );
 

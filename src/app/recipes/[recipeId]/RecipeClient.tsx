@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect, useCallback, useMemo, type JSX } from "react";
+import { trackClientError } from "@/components/analytics/PageViewTracker";
 import { AddToMealPlanButton } from "@/components/recipes/AddToMealPlanButton";
 import { DiscoverySection } from "@/components/recipes/DiscoverySection";
 import { FlavorTuningPanel } from "@/components/recipes/FlavorTuningPanel";
@@ -16,6 +17,7 @@ import { SocialSection } from "@/components/recipes/SocialSection";
 import { TimeShortcutsPanel } from "@/components/recipes/TimeShortcutsPanel";
 import { useToast } from "@/components/ToastProvider";
 import { useGroceryCart } from "@/contexts/GroceryCartContext";
+import { parseDietaryPersonaParam } from "@/data/adaptations/personas";
 import { _logger } from "@/lib/logger";
 import type { Recipe, IngredientAlchemicalSummary } from "@/types/recipe";
 import {
@@ -831,6 +833,15 @@ interface RecipeClientProps {
   initialPersona?: DietaryMode | null;
 }
 
+function hasDegradedRecipeFields(ingredients: unknown, instructions: unknown): boolean {
+  return (
+    !Array.isArray(ingredients) ||
+    ingredients.length === 0 ||
+    !Array.isArray(instructions) ||
+    instructions.length === 0
+  );
+}
+
 export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes, initialPersona = null }: RecipeClientProps): JSX.Element {
   const [servings, setServings] = useState(getBaseServings(recipe));
   const [copied, setCopied] = useState(false);
@@ -841,10 +852,24 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
   const [timeBudget, setTimeBudget] = useState<TimeBudget | null>(null);
 
   useEffect(() => {
-    setDietaryMode(initialPersona ?? null);
+    if (initialPersona !== null) {
+      setDietaryMode(initialPersona);
+    } else if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const raw = params.get("persona") ?? params.get("diet");
+      setDietaryMode(raw !== null ? parseDietaryPersonaParam(raw) : null);
+    } else {
+      setDietaryMode(null);
+    }
     setTimeBudget(null);
     setHeroImageFailed(false);
   }, [recipe.id, initialPersona]);
+
+  useEffect(() => {
+    if (hasDegradedRecipeFields(recipe.ingredients, recipe.instructions)) {
+      trackClientError("recipe_degraded_fields", String(recipe.id));
+    }
+  }, [recipe.id, recipe.ingredients, recipe.instructions]);
 
   const [adaptation, setAdaptation] = useState<AdaptationResult | null>(null);
 

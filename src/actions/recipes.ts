@@ -170,6 +170,23 @@ const GLUTEN_RE =
 const GF_FLOUR_RE =
   /\b(rice|almond|coconut|chickpea|gram|corn|tapioca|buckwheat|oat|millet|sorghum|teff|cassava|potato|amaranth|quinoa|hazelnut|nut|cornmeal)\s+flour\b/i;
 
+const PROTEIN_RE =
+  /\b(chicken|beef|steak|pork|salmon|tuna|cod|shrimp|prawn|tofu|tempeh|seitan|turkey|lamb|duck|egg|lentils?|chickpeas?|black beans?|pinto beans?|white beans?|edamame|paneer|halloumi)\b/i;
+const PRODUCE_RE =
+  /\b(spinach|kale|lettuce|arugula|broccoli|cauliflower|carrot|zucchini|pepper|onion|garlic|tomato|avocado|cilantro|parsley|basil|scallion|mushroom|cabbage|asparagus|celery|cucumber|lime|lemon)\b/i;
+
+function inferIngredientCategory(
+  name: string,
+  existingCategory?: unknown,
+): string {
+  if (typeof existingCategory === "string" && existingCategory.trim().length > 0) {
+    return existingCategory.toLowerCase().trim();
+  }
+  if (PROTEIN_RE.test(name)) return "protein";
+  if (PRODUCE_RE.test(name)) return "produce";
+  return "other";
+}
+
 interface DietaryFlags {
   isVegetarian: boolean;
   isVegan: boolean;
@@ -364,14 +381,21 @@ function extractRecipesFromCuisines(
             ingredients: Array.isArray(dish.ingredients)
               ? dish.ingredients.map((ing: unknown): RecipeIngredient => {
                   if (typeof ing === "string") {
-                    return { name: ing, amount: 1, unit: "" };
+                    return {
+                      name: ing,
+                      amount: 1,
+                      unit: "",
+                      category: inferIngredientCategory(ing),
+                    };
                   }
                   const i = ing as Record<string, unknown>;
+                  const ingName = typeof i.name === "string" ? i.name : "";
                   return {
-                    name: typeof i.name === "string" ? i.name : "",
+                    name: ingName,
                     amount: Number(i.amount ?? i.quantity ?? 0),
                     unit: typeof i.unit === "string" ? i.unit : "",
                     optional: Boolean(i.optional),
+                    category: inferIngredientCategory(ingName, i.category),
                     ...(typeof i.notes === "string" ? { notes: i.notes } : {}),
                   };
                 })
@@ -469,6 +493,8 @@ function extractRecipesFromCuisines(
           const computedNutrition = computeRecipeNutritionFromIngredients(recipe);
           if (computedNutrition && isPlausibleNutrition(computedNutrition)) {
             recipe.nutrition = computedNutrition;
+            recipe.nutritionalProfile =
+              recipe.nutritionalProfile ?? computedNutrition;
             stats.fromIngredients++;
           } else {
             const normalized = normalizeRecipeNutrition(
@@ -476,6 +502,8 @@ function extractRecipesFromCuisines(
             );
             if (normalized && isPlausibleNutrition(normalized)) {
               recipe.nutrition = normalized;
+              recipe.nutritionalProfile =
+                recipe.nutritionalProfile ?? normalized;
               stats.fromSource++;
             } else {
               stats.missing++;
