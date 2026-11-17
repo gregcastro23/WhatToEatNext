@@ -372,3 +372,51 @@
   .ma-compare__bar { grid-template-columns: 1fr; gap: 4px; }
   .ma-compare__bar-value { text-align: left; }
 }
+
+/* ── Solver instrument enhancements ──────────────────────────────────────── */
+
+.ma-solver__head { grid-column: 1 / -1; }
+.ma-engine-badge {
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  font-size: 11px; color: var(--ma-accent);
+}
+
+.ma-search {
+  display: block; width: 100%; margin-bottom: 8px; padding: 7px 10px;
+  border: 1px solid var(--ma-line); border-radius: 3px;
+  background: var(--ma-bg); color: var(--ma-fg); font-size: 13px;
+}
+
+.ma-curve { display: block; width: 100%; height: auto; margin-top: 10px; }
+.ma-curve__target { stroke: var(--ma-outline); stroke-width: 1; stroke-dasharray: 4 3; }
+.ma-curve__path { fill: none; stroke: var(--ma-accent); stroke-width: 2; }
+.ma-curve__dot { fill: var(--ma-accent); }
+.ma-curve__tick { fill: var(--ma-outline); font-size: 9px; font-family: ui-monospace, monospace; }
+
+.ma-scale { margin-top: 12px; }
+.ma-scale__track {
+  position: relative; height: 10px; border: 1px solid var(--ma-line);
+  border-radius: 2px; background: var(--ma-bg); overflow: hidden;
+}
+.ma-scale__bound {
+  position: absolute; top: 0; bottom: 0;
+  background: rgba(0, 242, 255, 0.25); border-left: 2px solid var(--ma-accent);
+}
+.ma-scale__ceiling {
+  position: absolute; top: 0; bottom: 0; width: 2px; background: var(--ma-measured);
+}
+.ma-scale__maillard {
+  position: absolute; top: 0; bottom: 0; width: 2px; background: var(--ma-ember);
+}
+.ma-scale__labels {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px;
+  margin-top: 6px; font-size: 10px; font-family: ui-monospace, monospace; color: var(--ma-outline);
+}
+
+.ma-split-bar { margin-top: 10px; }
+.ma-split-bar__track {
+  display: flex; height: 10px; border: 1px solid var(--ma-line);
+  border-radius: 2px; overflow: hidden; background: var(--ma-bg);
+}
+.ma-split-bar__returned { background: var(--ma-measured); }
+.ma-split-bar__escaped { flex: 1; background: rgba(255, 87, 26, 0.4); }
