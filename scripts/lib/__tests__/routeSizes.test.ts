@@ -291,7 +291,7 @@ describe("routeSizes gate", () => {
   });
 
   describe("DEFAULT_THRESHOLDS defensible values", () => {
-    it("defines budgets for all 11 key routes with documented basis", () => {
+    it("defines budgets for all 14 key routes with documented basis", () => {
       const routes = [
         "/",
         "/menu-planner",
@@ -300,10 +300,13 @@ describe("routeSizes gate", () => {
         "/recipes/[recipeId]",
         "/recipes/versions/[versionId]",
         "/kitchen-lab/physics",
+        "/kitchen-lab/baking",
         "/cooking-methods",
         "/shop",
         "/account",
         "/ingredients/[slug]",
+        "/onboarding",
+        "/admin/traffic",
       ];
       for (const route of routes) {
         const threshold = DEFAULT_THRESHOLDS[route];

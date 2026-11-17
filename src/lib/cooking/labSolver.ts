@@ -43,6 +43,7 @@ import {
   plateCharacteristicLength,
   saturatedWaterProperties,
   solveBoundaryNetwork,
+  type BoundaryNetworkInput,
   type BoundaryNetworkResult,
 } from "@/lib/cooking/boundaryNetwork";
 import { foodProperties, type MassFractions } from "@/lib/cooking/choiOkos";
@@ -223,11 +224,16 @@ export interface SolverInput {
 
 export interface CoreTimeReading {
   minutes: number;
+  /** Medium temperature driving the transient solution, °C. */
+  mediumC: number;
   /** The coefficient that produced it, W·m⁻²·K⁻¹. */
   hWm2K: number;
   biot: number;
   /** Fourier number at the answer. */
   fourier: number;
+  /** First-term slab eigenvalue and leading coefficient for transient curve plotting. */
+  lambda1: number;
+  coefficientA1: number;
   /**
    * False when Fo ≤ 0.2 and the one-term truncation understates the early
    * transient.
@@ -293,7 +299,135 @@ const MAILLARD_THRESHOLD_C = 140;
  * id is a bug in the caller, not a fact about the world, and silently
  * degrading it would hide the bug.
  */
-export function solveArrangement(input: SolverInput): SolverResult {
+export interface SolverOptions {
+  boundarySolver?: {
+    solve(input: BoundaryNetworkInput): BoundaryNetworkResult | null;
+  };
+}
+
+function computeCoveredWaterLoss(
+  vessel: VesselDerived,
+  lid: NonNullable<VesselDerived["lid"]>,
+  perimeterM: number,
+  surfaceC: number,
+  airC: number,
+  hfgJkg: number,
+  burnerPowerW: number,
+): WaterLossReading {
+  const balance = lidHeatBalance({
+    lidAreaM2: vessel.rimAreaM2,
+    lidPerimeterM: perimeterM,
+    lidThicknessM: lid.thicknessMm / 1000,
+    lidKWmK: vessel.material.kWmK,
+    headspaceC: surfaceC,
+    ambientC: airC,
+    latentHeatJkg: latentHeatVaporisation(Math.min(100, surfaceC)),
+  });
+  const covered = coveredWaterLoss(burnerPowerW, balance.condensationCapacityKgS, hfgJkg);
+  return {
+    gramsPerHour: covered.netLossKgS * 3.6e6,
+    latentWatts: covered.netLossKgS * hfgJkg,
+    covered: {
+      returnedGramsPerHour: covered.condensateReturnedKgS * 3.6e6,
+      holding: covered.holding,
+      returnFraction: covered.returnFraction,
+    },
+  };
+}
+
+function solveWaterLossReading(
+  input: SolverInput,
+  method: NonNullable<(typeof METHOD_PHYSICS)[string]>,
+  vessel: VesselDerived | null,
+  ambient: AmbientConditions,
+  ceilingCelsius: number,
+  surfaceAreaToVolumePerM: number,
+): Reading<WaterLossReading> {
+  const hTyped = method.h?.typical;
+  if (!hTyped) {
+    return missing(
+      `${input.methodId} is ${method.rateLimiter}-limited: its mass transfer is not ` +
+        `evaporation into air, so a free-surface water loss is not the question it answers`,
+    );
+  }
+  return attempt<WaterLossReading>(() => {
+    const surfaceC = Math.min(ceilingCelsius, method.mediumC);
+    const water = saturatedWaterProperties(Math.min(100, Math.max(6.85, surfaceC)));
+    const areaM2 = vessel ? vessel.rimAreaM2 : 1 / surfaceAreaToVolumePerM;
+    const perimeterM = vessel
+      ? Math.PI * (vessel.internalDiameterMm / 1000)
+      : Math.PI * Math.sqrt((4 * areaM2) / Math.PI);
+    const lc = plateCharacteristicLength(areaM2, perimeterM);
+    const h = naturalConvectionH(
+      airProperties((surfaceC + ambient.airC) / 2),
+      "horizontal-up",
+      Math.max(1e-9, surfaceC - ambient.airC),
+      lc,
+    ).hWm2K;
+    const bulk = humidAirVapourDensity(ambient.airC, ambient.relativeHumidityPct, ambient.airC);
+    const free = evaporativeFlux(h, surfaceC, ambient.airC, bulk, water.hfgJkg);
+    const seal: LidSeal | undefined = vessel?.lid ? (input.lidSeal ?? vessel.lid.seal) : undefined;
+    if (vessel?.lid && seal !== "none" && input.burnerPowerW !== undefined) {
+      return computeCoveredWaterLoss(vessel, vessel.lid, perimeterM, surfaceC, ambient.airC, water.hfgJkg, input.burnerPowerW);
+    }
+    return {
+      gramsPerHour: free.massFluxKgM2s * areaM2 * 3.6e6,
+      latentWatts: free.latentFluxWm2 * areaM2,
+    };
+  }, "water loss");
+}
+
+function solveBottleneckReading(
+  input: SolverInput,
+  method: NonNullable<(typeof METHOD_PHYSICS)[string]>,
+  vessel: VesselDerived | null,
+  properties: Reading<ReturnType<typeof foodProperties>>,
+  surfaceAreaToVolumePerM: number,
+  boundarySolver?: SolverOptions["boundarySolver"],
+): Reading<BoundaryNetworkResult> {
+  const hTyped = method.h?.typical;
+  if (!hTyped) {
+    return missing(`${input.methodId} has no heat transfer coefficient, so there is no resistance chain to solve`);
+  }
+  if (!properties.available) {
+    return missing(`the resistance chain needs the food's conductivity, which is unavailable`);
+  }
+  return attempt(() => {
+    const foodAreaM2 = surfaceAreaToVolumePerM * (input.massKg / properties.value.densityKgM3);
+    const networkInput: BoundaryNetworkInput = {
+      sourceC: method.mediumC,
+      sinkC: input.startC,
+      ...(vessel
+        ? {
+            vessel: {
+              sourceToVesselHWm2K: hTyped,
+              areaM2: vessel.baseAreaM2,
+              kWmK: vessel.material.kWmK,
+              thicknessM: vessel.baseThicknessMm / 1000,
+              vesselToMediumHWm2K: hTyped,
+            },
+          }
+        : {}),
+      food: {
+        mediumToFoodHWm2K: hTyped,
+        geometry: input.geometry,
+        halfDimensionM: input.halfDimensionM,
+        kWmK: properties.value.conductivityWmK,
+        areaM2: foodAreaM2,
+      },
+    };
+    if (boundarySolver) {
+      const solvedNetwork = boundarySolver.solve(networkInput);
+      if (!solvedNetwork) {
+        throw new RangeError("inputs sit outside the boundary-network validity envelope");
+      }
+      return solvedNetwork;
+    }
+    return solveBoundaryNetwork(networkInput);
+  }, "resistance chain");
+}
+
+export function solveArrangement(input: SolverInput, options?: SolverOptions): SolverResult {
   const ingredient = getSolvableIngredient(input.ingredientId);
   if (!ingredient) {
     throw new RangeError(
@@ -347,79 +481,25 @@ export function solveArrangement(input: SolverInput): SolverResult {
           });
           return {
             minutes: result.minutes,
+            mediumC: method.mediumC,
             hWm2K: hTyped,
             biot: result.biot,
             fourier: result.fourier,
+            lambda1: result.lambda1,
+            coefficientA1: result.coefficientA1,
             oneTermValid: result.oneTermValid,
           };
         }, "core time")
       : missing(`core time needs the food's properties, which are unavailable`);
 
-  // ── Water loss ───────────────────────────────────────────────────────────
-  // Guarded on the same `h` as the rest. Without it the arithmetic still runs
-  // and returns a clean `0 g·h⁻¹` — the surface sits at ambient, the driving
-  // force vanishes, and the answer is a computed zero to a question nobody
-  // asked. Pickling's mass transfer is diffusion into brine, not evaporation
-  // into air, and a confident nought is the worst way to say so.
-  const waterLoss: Reading<WaterLossReading> = !hTyped
-    ? missing(
-        `${input.methodId} is ${method.rateLimiter}-limited: its mass transfer is not ` +
-          `evaporation into air, so a free-surface water loss is not the question it answers`,
-      )
-    : attempt<WaterLossReading>(() => {
-    const surfaceC = Math.min(ceiling.celsius, method.mediumC);
-    const water = saturatedWaterProperties(Math.min(100, Math.max(6.85, surfaceC)));
-    const areaM2 = vessel ? vessel.rimAreaM2 : 1 / surfaceAreaToVolumePerM;
-    const perimeterM = vessel
-      ? Math.PI * (vessel.internalDiameterMm / 1000)
-      : Math.PI * Math.sqrt((4 * areaM2) / Math.PI);
-    const lc = plateCharacteristicLength(areaM2, perimeterM);
-    const filmC = (surfaceC + ambient.airC) / 2;
-    const h = naturalConvectionH(
-      airProperties(filmC),
-      "horizontal-up",
-      Math.max(1e-9, surfaceC - ambient.airC),
-      lc,
-    ).hWm2K;
-    const bulk = humidAirVapourDensity(
-      ambient.airC,
-      ambient.relativeHumidityPct,
-      ambient.airC,
-    );
-    const free = evaporativeFlux(h, surfaceC, ambient.airC, bulk, water.hfgJkg);
-    const open: WaterLossReading = {
-      gramsPerHour: free.massFluxKgM2s * areaM2 * 3.6e6,
-      latentWatts: free.latentFluxWm2 * areaM2,
-    };
-
-    const seal: LidSeal | undefined = vessel?.lid ? (input.lidSeal ?? vessel.lid.seal) : undefined;
-    if (!vessel?.lid || seal === "none" || input.burnerPowerW === undefined) return open;
-
-    // A lid changes the question entirely: see `coveredWaterLoss`.
-    const balance = lidHeatBalance({
-      lidAreaM2: vessel.rimAreaM2,
-      lidPerimeterM: perimeterM,
-      lidThicknessM: vessel.lid.thicknessMm / 1000,
-      lidKWmK: vessel.material.kWmK,
-      headspaceC: surfaceC,
-      ambientC: ambient.airC,
-      latentHeatJkg: latentHeatVaporisation(Math.min(100, surfaceC)),
-    });
-    const covered = coveredWaterLoss(
-      input.burnerPowerW,
-      balance.condensationCapacityKgS,
-      water.hfgJkg,
-    );
-    return {
-      gramsPerHour: covered.netLossKgS * 3.6e6,
-      latentWatts: covered.netLossKgS * water.hfgJkg,
-      covered: {
-        returnedGramsPerHour: covered.condensateReturnedKgS * 3.6e6,
-        holding: covered.holding,
-        returnFraction: covered.returnFraction,
-      },
-    };
-      }, "water loss");
+  const waterLoss = solveWaterLossReading(
+    input,
+    method,
+    vessel,
+    ambient,
+    ceiling.celsius,
+    surfaceAreaToVolumePerM,
+  );
 
   // ── Surface state ────────────────────────────────────────────────────────
   const surfaceState: Reading<SurfaceStateReading> = !hTyped
@@ -464,42 +544,14 @@ export function solveArrangement(input: SolverInput): SolverResult {
         };
       }, "surface state");
 
-  // ── Bottleneck ───────────────────────────────────────────────────────────
-  const bottleneck: Reading<BoundaryNetworkResult> = !hTyped
-    ? missing(
-        `${input.methodId} has no heat transfer coefficient, so there is no resistance ` +
-          `chain to solve`,
-      )
-    : properties.available
-      ? attempt(() => {
-          const foodAreaM2 = surfaceAreaToVolumePerM * (input.massKg / properties.value.densityKgM3);
-          return solveBoundaryNetwork({
-            sourceC: method.mediumC,
-            sinkC: input.startC,
-            ...(vessel
-              ? {
-                  // Stated simplification: method h is reused for burner-to-vessel
-                  // and vessel-to-medium links as placeholders because the method
-                  // registry does not publish separate link coefficients.
-                  vessel: {
-                    sourceToVesselHWm2K: hTyped,
-                    areaM2: vessel.baseAreaM2,
-                    kWmK: vessel.material.kWmK,
-                    thicknessM: vessel.baseThicknessMm / 1000,
-                    vesselToMediumHWm2K: hTyped,
-                  },
-                }
-              : {}),
-            food: {
-              mediumToFoodHWm2K: hTyped,
-              geometry: input.geometry,
-              halfDimensionM: input.halfDimensionM,
-              kWmK: properties.value.conductivityWmK,
-              areaM2: foodAreaM2,
-            },
-          });
-        }, "resistance chain")
-      : missing(`the resistance chain needs the food's conductivity, which is unavailable`);
+  const bottleneck = solveBottleneckReading(
+    input,
+    method,
+    vessel,
+    properties,
+    surfaceAreaToVolumePerM,
+    options?.boundarySolver,
+  );
 
   return {
     ingredient,

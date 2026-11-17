@@ -87,6 +87,27 @@ const DEFAULT_THRESHOLDS = {
     // Basis: Measured on master @ 20346bc9: route 4.4 kB, Next FL 155.0 kB (155,203 B = 151.6 KiB),
     // true first-load with layouts 721,247 B = 704.3 KiB. Budget 735 KiB gives ~30.7 KiB (+4.4%) headroom.
   },
+  '/kitchen-lab/baking': {
+    maxRouteKb: 110,
+    maxFirstLoadKb: 245,
+    maxTotalFirstLoadKb: 820,
+    // Basis: Measured on master-equivalent tree (642e5872): route 93.7 kB, Next FL 225.0 kB (219.8 KiB page-only),
+    // true first-load with layouts 799,528 B = 780.8 KiB. Budget 820 KiB gives ~39.2 KiB (+5.0%) headroom.
+  },
+  '/onboarding': {
+    maxRouteKb: 25,
+    maxFirstLoadKb: 260,
+    maxTotalFirstLoadKb: 730,
+    // Basis: Measured on master-equivalent tree (642e5872): route 12.1 kB, Next FL 240.0 kB (234.5 KiB page-only),
+    // true first-load with layouts 712,917 B = 696.2 KiB. Budget 730 KiB gives ~33.8 KiB (+4.9%) headroom.
+  },
+  '/admin/traffic': {
+    maxRouteKb: 30,
+    maxFirstLoadKb: 175,
+    maxTotalFirstLoadKb: 725,
+    // Basis: Measured on master-equivalent tree (642e5872): route 19.1 kB, Next FL 154.0 kB (150.3 KiB page-only),
+    // true first-load with layouts 710,167 B = 693.5 KiB. Budget 725 KiB gives ~31.5 KiB (+4.5%) headroom.
+  },
 };
 
 /**
