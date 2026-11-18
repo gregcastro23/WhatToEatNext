@@ -11,9 +11,17 @@ import AgentProfile from "@/app/(alchm)/profile/[userId]/AgentProfile";
 import type { CraftedAgentProfile, Element } from "@/lib/agents/craftedAgentTypes";
 
 jest.mock("@/components/time-laboratory/planetary-agent-chat", () => {
-  return function MockPlanetaryAgentChat({ agent }: { agent: { element: string } }) {
+  return function MockPlanetaryAgentChat({
+    agent,
+  }: {
+    agent: { element: string; planetaryRuler: string };
+  }) {
     return (
-      <div data-testid="mock-agent-chat" data-element={agent.element}>
+      <div
+        data-testid="mock-agent-chat"
+        data-element={agent.element}
+        data-ruler={agent.planetaryRuler}
+      >
         Planetary Chat Modal
       </div>
     );
@@ -22,13 +30,24 @@ jest.mock("@/components/time-laboratory/planetary-agent-chat", () => {
 
 const BALANCES = { spirit: 15, essence: 25, matter: 10, substance: 8 };
 
-function chatElementFor(agent: CraftedAgentProfile): string | null {
+function openChatPropsFor(agent: CraftedAgentProfile): {
+  element: string | null;
+  planetaryRuler: string | null;
+} {
   render(<AgentProfile agent={agent} balances={BALANCES} handle="leonardo@agentic.alchm.kitchen" recentActivity={[]} userId="leonardo-uid" />);
   const buttons = screen.getAllByRole("button", { name: /Commune with Leonardo/i });
   const last = buttons[buttons.length - 1];
   if (last === undefined) throw new Error("no commune button");
   fireEvent.click(last);
-  return screen.getByTestId("mock-agent-chat").getAttribute("data-element");
+  const el = screen.getByTestId("mock-agent-chat");
+  return {
+    element: el.getAttribute("data-element"),
+    planetaryRuler: el.getAttribute("data-ruler"),
+  };
+}
+
+function chatElementFor(agent: CraftedAgentProfile): string | null {
+  return openChatPropsFor(agent).element;
 }
 
 const ELEMENTS: Array<[Element]> = [["Fire"], ["Water"], ["Earth"], ["Air"]];
@@ -55,4 +74,18 @@ describe("the element AgentProfile gives the chat", () => {
   it("an agent with no consciousness block gets the page's own default, Fire", () => {
     expect(chatElementFor({ name: "Leonardo da Vinci" })).toBe("Fire");
   });
+
+  it.each(ELEMENTS)(
+    "passes planetaryRuler='Sun' rather than dominantElement (%s) to the chat",
+    (element) => {
+      const agent: CraftedAgentProfile = {
+        name: "Leonardo da Vinci",
+        consciousness: { dominantElement: element },
+      };
+      expect(openChatPropsFor(agent)).toEqual({
+        element,
+        planetaryRuler: "Sun",
+      });
+    },
+  );
 });

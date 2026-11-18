@@ -28,7 +28,7 @@ import {
 import { Slider } from '@/components/ui/slider'
 
 // Filter options
-const ELEMENTS = ['Fire', 'Water', 'Air', 'Earth', 'Spirit']
+const ELEMENTS = ['Fire', 'Water', 'Air', 'Earth']
 const DIGNITIES = [
   'domicile',
   'exaltation',

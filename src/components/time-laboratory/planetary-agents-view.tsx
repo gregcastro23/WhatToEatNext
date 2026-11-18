@@ -59,7 +59,7 @@ interface AgentStrengthIndicatorProps {
     | 'detriment'
     | 'fall'
     | 'peregrine'
-  element: 'Fire' | 'Water' | 'Air' | 'Earth' | 'Spirit'
+  element: 'Fire' | 'Water' | 'Air' | 'Earth'
 }
 
 const AgentStrengthIndicator: React.FC<AgentStrengthIndicatorProps> = ({
@@ -149,7 +149,7 @@ interface PlanetaryAgentActivation {
     | 'detriment'
     | 'fall'
     | 'peregrine'
-  element: 'Fire' | 'Water' | 'Air' | 'Earth' | 'Spirit'
+  element: 'Fire' | 'Water' | 'Air' | 'Earth'
   consciousness: {
     level: string
     powerLevel: number

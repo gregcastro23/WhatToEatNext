@@ -8,11 +8,11 @@
     "test": 32
   },
   "assertionSites": {
-    "total": 2519,
+    "total": 2518,
     "asAny": 33,
     "chained": 92,
-    "single": 2394,
-    "production": 1932,
+    "single": 2393,
+    "production": 1931,
     "test": 587,
     "asConst": 618,
     "nonNull": 562

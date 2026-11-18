@@ -1,10 +1,10 @@
 'use client';
 
-import { _logger } from "@/lib/logger";
-
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import { toClassicalElement } from '@/lib/agents/consciousnessAxes';
+import { _logger } from "@/lib/logger";
 import { fetchAgentsForDate } from '@/lib/planetaryAgentsClient';
 
 interface LiveAgentItem {
@@ -53,7 +53,7 @@ const HISTORICAL_COUNCIL: LiveAgentItem[] = [
     name: 'Leonardo da Vinci',
     role: 'Tuscan Vegetarianism & Culinary Invention',
     status: 'Perpetual',
-    element: 'Spirit',
+    element: 'Fire',
     icon: '⚜️',
     strength: 100,
     esmsBalance: 5000,
@@ -121,7 +121,7 @@ export function AgentsPane(): React.ReactElement {
               name: a.agent?.name ?? a.name ?? `${planet} Degree Agent`,
               role: PLANET_ROLES[planet] ?? a.role ?? `${planet} Degree Intelligence`,
               status: 'Active',
-              element: a.element ?? 'Fire',
+              element: toClassicalElement(a.element),
               icon: PLANET_ICONS[planet] ?? '✨',
               strength: strengthVal,
               esmsBalance: balance,

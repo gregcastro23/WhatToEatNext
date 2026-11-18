@@ -76,7 +76,7 @@ interface PlanetaryAgent {
   name: string
   description: string
   planetaryRuler: string
-  element: 'Fire' | 'Water' | 'Air' | 'Earth' | 'Spirit'
+  element: 'Fire' | 'Water' | 'Air' | 'Earth'
   consciousnessLevel: string
   activationStrength: number
   dignity: string
