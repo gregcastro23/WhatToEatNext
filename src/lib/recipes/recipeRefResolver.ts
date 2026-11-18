@@ -199,22 +199,47 @@ export async function loadAuthoredLookup(): Promise<AuthoredLookup> {
   }
 }
 
-/**
- * The authored times and meal of the recipe a page renders, read from its
- * static twin (the live catalog's own are placeholders; see authoredFacts).
- */
-export async function loadAuthoredFacts(recipe: Recipe): Promise<AuthoredFacts> {
-  return (await loadAuthoredLookup())(recipe);
+function canSkipColdLiveLookup(): boolean {
+  return (
+    typeof LocalRecipeService.getCachedRecipesInMemory === "function" &&
+    LocalRecipeService.getCachedRecipesInMemory() === null &&
+    authoredMemo === null
+  );
 }
 
-/**
- * Recipes as the UI shows them: each with its authored times and meal, or
- * none. Apply it where recipes leave for display, after any scoring, so the
- * recommenders keep reading the fields they have always read.
- */
+/** Authored times and meal of the recipe a page renders, read from its static twin. */
+export async function loadAuthoredFacts(recipe: Recipe): Promise<AuthoredFacts> {
+  if (!canSkipColdLiveLookup()) return (await loadAuthoredLookup())(recipe);
+  try {
+    return buildAuthoredLookup(await getServerRecipes(), [recipe])(recipe);
+  } catch (err) {
+    _logger.error("[recipeRefResolver] authored facts unavailable:", err);
+    return NOT_AUTHORED;
+  }
+}
+
+/** Recipes with their authored times and meal applied for display. */
 export async function withAuthoredFactsAll(recipes: readonly Recipe[]): Promise<Recipe[]> {
-  const lookup = await loadAuthoredLookup();
-  return recipes.map((recipe) => withAuthoredFacts(recipe, lookup(recipe)));
+  if (recipes.length === 0) return [];
+  if (!canSkipColdLiveLookup() || recipes.length > 25) {
+    const lookup = await loadAuthoredLookup();
+    return recipes.map((recipe) => withAuthoredFacts(recipe, lookup(recipe)));
+  }
+  try {
+    const lookup = buildAuthoredLookup(await getServerRecipes(), recipes);
+    return recipes.map((recipe) => withAuthoredFacts(recipe, lookup(recipe)));
+  } catch (err) {
+    _logger.error("[recipeRefResolver] authored facts unavailable for batch:", err);
+    return recipes.map((recipe) => withAuthoredFacts(recipe, NOT_AUTHORED));
+  }
+}
+
+/** Similar-recipe candidate pool avoiding full DB scans on cold single-recipe renders. */
+export async function loadSimilarRecipePool(): Promise<Recipe[]> {
+  if (typeof LocalRecipeService.getCachedRecipesInMemory === "function") {
+    return LocalRecipeService.getCachedRecipesInMemory() ?? (await getServerRecipes());
+  }
+  return LocalRecipeService.getAllRecipes();
 }
 
 /**

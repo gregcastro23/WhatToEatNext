@@ -3,7 +3,7 @@ import { createLogger } from "@/utils/logger";
 
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
-import { loadAuthoredFacts, withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
+import { loadAuthoredFacts, loadSimilarRecipePool, withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
 import { withAuthoredFacts } from "@/lib/search/authoredFacts";
 import { RecipeSchema } from "@/lib/validation/apiSchemas";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
@@ -89,7 +89,7 @@ async function handleGet(request: Request, props: { params: Promise<{ recipeId: 
       ...(cookingMethods[0] !== undefined ? { cookingMethod: cookingMethods[0] } : {}),
     });
 
-    const allRecipes = await LocalRecipeService.getAllRecipes();
+    const allRecipes = await loadSimilarRecipePool();
     const recommendedRecipes = await withAuthoredFactsAll(
       await _recipeRecommender.recommendSimilarRecipes(liveRecipe, allRecipes),
     );

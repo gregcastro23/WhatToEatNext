@@ -85,6 +85,7 @@ const RISOTTO_DB_ROW = {
 
 describe("/recipes/af6a2673-93b0-4e4e-9aed-c35949813442 SSR & cold-start lookup regression", () => {
   beforeEach(() => {
+    mockExecuteQuery.mockReset();
     jest.clearAllMocks();
     LocalRecipeService.clearCache();
   });
@@ -128,5 +129,32 @@ describe("/recipes/af6a2673-93b0-4e4e-9aed-c35949813442 SSR & cold-start lookup 
       }
     }
     expect(renderedRecipe?.name).toBe("Authentic Risotto alla Milanese");
+    const sqlCalls = mockExecuteQuery.mock.calls.map((c) => String(c[0] ?? ""));
+    expect(sqlCalls.some((sql) => sql.includes("ORDER BY r.popularity_score DESC"))).toBe(false);
+    expect(sqlCalls.every((sql) => sql.includes("AND r.id = $1"))).toBe(true);
+  });
+
+  it("retries a transient single-row UUID query failure once and renders without full-catalog scans", async () => {
+    mockExecuteQuery
+      .mockRejectedValueOnce(new Error("Query read timeout"))
+      .mockResolvedValueOnce({ rows: [RISOTTO_DB_ROW] });
+
+    const page: ReactNode = await RecipePage({
+      params: Promise.resolve({ recipeId: RISOTTO_UUID }),
+    });
+    expect(isValidElement(page)).toBe(true);
+    expect(LocalRecipeService.isCatalogDegraded()).toBe(false);
+    const sqlCalls = mockExecuteQuery.mock.calls.map((c) => String(c[0] ?? ""));
+    expect(sqlCalls.some((sql) => sql.includes("ORDER BY r.popularity_score DESC"))).toBe(false);
+  });
+
+  it("returns null immediately when a UUID is absent in Postgres without running a full catalog scan", async () => {
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [] });
+
+    const recipe = await LocalRecipeService.getRecipeById(RISOTTO_UUID);
+    expect(recipe).toBeNull();
+    expect(LocalRecipeService.isCatalogDegraded()).toBe(false);
+    expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+    expect(String(mockExecuteQuery.mock.calls[0]?.[0] ?? "")).toContain("AND r.id = $1");
   });
 });

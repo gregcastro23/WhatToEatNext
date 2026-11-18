@@ -10,12 +10,14 @@
  * debit cannot be read is parked as `refund_pending` for manual review.
  */
 import { executeQuery } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import {
   CosmicOperationStatusSchema,
   failCosmicGenerationOperation,
   refundSpirit,
   type CosmicGenerationOperationRow,
 } from "./cosmicGenerationOperations";
+import type { QueryResultRow } from "pg";
 
 const OPEN_STATUSES = "('claimed', 'debited', 'generating', 'refund_pending')";
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -72,6 +74,7 @@ type StrandedOperation = Omit<CosmicGenerationOperationRow, "responsePayload">;
 
 export interface CosmicOperationsDiagnosticSummary {
   success: true;
+  degraded?: boolean;
   generatedAt: string;
   totals: {
     total: number;
@@ -149,43 +152,42 @@ function mapStrandedRow(row: StrandedDbRow): StrandedOperation {
   };
 }
 
-const STRANDED_SELECT = `SELECT operation_key, user_id, status, request_fingerprint, recipe_id,
-        debit_tx_id, refund_tx_id, error_message, created_at, updated_at, expires_at
-   FROM cosmic_generation_operations
-  WHERE status IN ${OPEN_STATUSES} AND expires_at < NOW()
-  ORDER BY expires_at ASC
-  LIMIT $1`;
+const TOTALS_SELECT = [
+  `SELECT agg.total, agg.active_locks, agg.expired_stranded, agg.completed, agg.refunded, agg.failed,`,
+  `spr.last_run_at, spr.last_run_status, spr.last_run_payload`,
+  `FROM (SELECT COUNT(*)::int AS total, COUNT(*) FILTER (WHERE status IN ${OPEN_STATUSES} AND expires_at >= NOW())::int AS active_locks,`,
+  `COUNT(*) FILTER (WHERE status IN ${OPEN_STATUSES} AND expires_at < NOW())::int AS expired_stranded,`,
+  `COUNT(*) FILTER (WHERE status = 'completed')::int AS completed, COUNT(*) FILTER (WHERE status = 'refunded')::int AS refunded,`,
+  `COUNT(*) FILTER (WHERE status = 'failed')::int AS failed FROM cosmic_generation_operations) agg`,
+  `LEFT JOIN LATERAL (SELECT started_at AS last_run_at, status AS last_run_status, response_payload AS last_run_payload FROM synthetic_probe_results WHERE probe_name = 'cron:reconcile-cosmic-operations' ORDER BY started_at DESC LIMIT 1) spr ON true`,
+].join(" ");
+const STRANDED_SELECT = `SELECT operation_key, user_id, status, request_fingerprint, recipe_id, debit_tx_id, refund_tx_id, error_message, created_at, updated_at, expires_at FROM cosmic_generation_operations WHERE status IN ${OPEN_STATUSES} AND expires_at < NOW() ORDER BY expires_at ASC LIMIT $1`;
+
+async function runSummaryQuery<T extends QueryResultRow>(sql: string, params: unknown[] | undefined, label: string): Promise<{ rows: T[]; degraded: boolean }> {
+  try {
+    const result = params ? await executeQuery<T>(sql, params) : await executeQuery<T>(sql);
+    return { rows: result.rows, degraded: false };
+  } catch (err) {
+    _logger.warn(`[cosmicOperationReconciler] ${label} query failed, returning degraded fallback:`, err);
+    return { rows: [], degraded: true };
+  }
+}
 
 /** Inspect active and expired open rows in `cosmic_generation_operations`. */
-export async function getCosmicOperationsSummary(
-  limit?: number,
-): Promise<CosmicOperationsDiagnosticSummary> {
-  const [totalsRes, strandedRes] = await Promise.all([
-    executeQuery<SummaryTotalsRow>(
-      `SELECT COUNT(*)::int AS total,
-              COUNT(*) FILTER (WHERE status IN ${OPEN_STATUSES} AND expires_at >= NOW())::int AS active_locks,
-              COUNT(*) FILTER (WHERE status IN ${OPEN_STATUSES} AND expires_at < NOW())::int AS expired_stranded,
-              COUNT(*) FILTER (WHERE status = 'completed')::int AS completed,
-              COUNT(*) FILTER (WHERE status = 'refunded')::int AS refunded,
-              COUNT(*) FILTER (WHERE status = 'failed')::int AS failed,
-              (SELECT started_at FROM synthetic_probe_results WHERE probe_name = 'cron:reconcile-cosmic-operations' ORDER BY started_at DESC LIMIT 1) AS last_run_at,
-              (SELECT status FROM synthetic_probe_results WHERE probe_name = 'cron:reconcile-cosmic-operations' ORDER BY started_at DESC LIMIT 1) AS last_run_status,
-              (SELECT response_payload FROM synthetic_probe_results WHERE probe_name = 'cron:reconcile-cosmic-operations' ORDER BY started_at DESC LIMIT 1) AS last_run_payload
-         FROM cosmic_generation_operations`,
-    ),
-    executeQuery<StrandedDbRow>(STRANDED_SELECT, [clampLimit(limit)]),
-  ]);
+export async function getCosmicOperationsSummary(limit?: number): Promise<CosmicOperationsDiagnosticSummary> {
+  // Run sequentially to consume at most 1 pooled connection at a time under admin bursts.
+  const totalsRes = await runSummaryQuery<SummaryTotalsRow>(TOTALS_SELECT, undefined, "totals");
+  const strandedRes = await runSummaryQuery<StrandedDbRow>(STRANDED_SELECT, [clampLimit(limit)], "stranded");
   const [row] = totalsRes.rows;
+  const degraded = totalsRes.degraded || strandedRes.degraded;
   return {
     success: true,
+    ...(degraded ? { degraded: true } : {}),
     generatedAt: new Date().toISOString(),
     totals: {
-      total: toCount(row?.total),
-      activeLocks: toCount(row?.active_locks),
-      expiredStranded: toCount(row?.expired_stranded),
-      completed: toCount(row?.completed),
-      refunded: toCount(row?.refunded),
-      failed: toCount(row?.failed),
+      total: toCount(row?.total), activeLocks: toCount(row?.active_locks),
+      expiredStranded: toCount(row?.expired_stranded), completed: toCount(row?.completed),
+      refunded: toCount(row?.refunded), failed: toCount(row?.failed),
     },
     strandedOperations: strandedRes.rows.map(mapStrandedRow),
     lastAutomatedRun: mapLastAutomatedRun(row),

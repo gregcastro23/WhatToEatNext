@@ -218,5 +218,29 @@ describe("/api/admin/cosmic-operations", () => {
     ]);
     expect(mockCreditMultipleTokensDetailed).not.toHaveBeenCalled();
   });
+
+  it("GET degrades gracefully to HTTP 200 empty defaults on query timeout instead of 503", async () => {
+    allowAdmin();
+    mockExecuteQuery
+      .mockRejectedValueOnce(new Error("Query read timeout"))
+      .mockRejectedValueOnce(new Error("Query read timeout"));
+
+    const res = await GET(
+      new NextRequest("http://localhost:3000/api/admin/cosmic-operations?limit=15"),
+    );
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.success).toBe(true);
+    expect(body.degraded).toBe(true);
+    expect(body.totals).toEqual({
+      total: 0,
+      activeLocks: 0,
+      expiredStranded: 0,
+      completed: 0,
+      refunded: 0,
+      failed: 0,
+    });
+    expect(body.strandedOperations).toEqual([]);
+  });
 });
 
