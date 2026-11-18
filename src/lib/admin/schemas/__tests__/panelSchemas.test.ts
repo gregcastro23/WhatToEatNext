@@ -11,6 +11,7 @@ import { ReliabilityResponseSchema } from "../reliability";
 import { SettlementActionSuccessSchema, SettlementListResponseSchema } from "../settlement";
 import { SystemStatusResponseSchema } from "../systemStatus";
 import { TodaysHighlightsResponseSchema } from "../todaysHighlights";
+import { TrafficDigestResponseSchema } from "../trafficDigest";
 import { UserInsightsResponseSchema } from "../userInsights";
 
 const wire = (value: unknown): unknown => JSON.parse(JSON.stringify(value));
@@ -168,5 +169,59 @@ describe("admin panel schemas accept each route's degraded payload", () => {
   it("a report queue body without `reports` is unreadable, not empty", () => {
     expect(ReportQueueCountSchema.safeParse({ success: true, reports: [] }).success).toBe(true);
     expect(ReportQueueCountSchema.safeParse({ success: false, message: "nope" }).success).toBe(false);
+  });
+
+  it("traffic digest degraded payload when all sources and AI are unavailable", () => {
+    const emptyTotals = { pageviews: 0, visitors: 0, sessions: 0, signedInUsers: 0, bounceRate: null, pagesPerSession: null };
+    expect(
+      TrafficDigestResponseSchema.safeParse(
+        wire({
+          success: true,
+          generatedAt: at,
+          range: "24h",
+          live: false,
+          synthesisMode: "deterministic",
+          model: null,
+          fallbackReason: "telemetry sources unavailable",
+          narrative: {
+            headline: "Traffic & friction telemetry temporarily unavailable",
+            severity: "watch",
+            executiveSummary: "Withheld rather than shown as zero.",
+            topFindings: [],
+            recommendedActions: [],
+          },
+          facts: {
+            range: "24h",
+            liveSources: 0,
+            totalSources: 7,
+            degradedSources: ["totals", "previous", "routes", "frictionAlerts", "interactions", "activation", "feedback"],
+            totals: emptyTotals,
+            previous: emptyTotals,
+            pageviewsDeltaPct: null,
+            activationRatePct: null,
+            frustrationRatePct: null,
+            dauCount: null,
+            wauCount: null,
+            topRoutes: [],
+            frictionSummary: {
+              rageClicks: 0,
+              deadClicks: 0,
+              quickBacks: 0,
+              slowCwvHits: 0,
+              errorSessions60m: 0,
+              errorBurstTriggered: false,
+              topErrorTag: null,
+              topZeroResultQuery: null,
+              activeReviewerCount: 0,
+            },
+            frictionSignals: [],
+            experiment: null,
+            openFeedbackCount: 0,
+            openLowRatingCount: 0,
+            openFeedback: [],
+          },
+        }),
+      ).success,
+    ).toBe(true);
   });
 });
