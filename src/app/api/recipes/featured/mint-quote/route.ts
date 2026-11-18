@@ -1,8 +1,8 @@
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { featuredRecipe } from "@/data/featuredRecipe";
 import { _logger } from "@/lib/logger";
 import { buildMintQuote } from "@/lib/recipe-nft/quote";
+import type { NextRequest } from "next/server";
 
 // Cost floats with the planetary hour/day — never cache.
 export const dynamic = "force-dynamic";
@@ -14,7 +14,7 @@ export const runtime = "nodejs";
  * cost, and the premium chart-weighted redistribution preview. The
  * authenticated mint route personalizes this with the user's natal chart.
  */
-export async function GET(req: NextRequest): Promise<NextResponse> {
+export async function GET(_req: NextRequest): Promise<NextResponse> {
   try {
     const quote = await buildMintQuote(featuredRecipe);
     return NextResponse.json(quote);

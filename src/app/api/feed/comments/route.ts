@@ -13,9 +13,7 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { isBlockedBetween, sanitizeCommentBody } from "@/lib/feed/commentEnforcement";
-import { createLogger } from "@/utils/logger";
 import { notifyCommentReceived } from "@/lib/notifications/engagementNotify";
-
 import { rateLimit } from "@/lib/rateLimit";
 import { FeedCommentRequestSchema } from "@/lib/validation/apiSchemas";
 import {
@@ -24,6 +22,7 @@ import {
   type FeedCommentPostResponse,
 } from "@/services/feedCommentsDatabaseService";
 import { practiceRewardService } from "@/services/practiceRewardService";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
 const logger = createLogger("feed:comments");

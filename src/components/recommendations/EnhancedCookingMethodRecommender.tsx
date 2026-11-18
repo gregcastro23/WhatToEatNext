@@ -603,7 +603,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         }
       })
       .catch(() => {
-        _logger.warn("[EnhancedCookingMethodRecommender] Failed to refresh planetary positions");
+        _logger.warn("[EnhancedCookingMethodRecommender] Failed to refresh planetary positions").catch(() => {});
       });
   }, [refreshPlanetaryPositions]);
 
@@ -810,7 +810,7 @@ export default function EnhancedCookingMethodRecommender({ onDoubleClickMethod }
         setFetchedMethodRecipes(prev => ({ ...prev, [methodId]: recipes }));
       }
     } catch (err) {
-      _logger.warn("Failed to fetch aligned recipes", err);
+      _logger.warn("Failed to fetch aligned recipes", err).catch(() => {});
     } finally {
       setIsLoadingRecipes(false);
     }

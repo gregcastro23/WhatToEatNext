@@ -6,10 +6,9 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { createLogger } from "@/utils/logger";
 import { tableDatabase } from "@/services/tableDatabaseService";
-
 import type { TableRecord } from "@/types/table";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
 const logger = createLogger("api:tables:go-live");

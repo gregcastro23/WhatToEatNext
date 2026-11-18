@@ -22,13 +22,12 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSpacetime } from "@/contexts/SpacetimeContext";
+import { readJson, parseEach } from "@/lib/api/json";
 import { isLiveTableChatEnabled } from "@/lib/spacetime/config";
 import {
   publishLiveTableChatDelete,
   publishLiveTableChatMessage,
 } from "@/lib/spacetime/liveTableChatPublish";
-import type { ChatMessage } from "@/types/chat";
-import { readJson, parseEach } from "@/lib/api/json";
 import {
   TableConversationEnsureResponseSchema,
   ConversationMessagesEnvelopeSchema,
@@ -36,6 +35,7 @@ import {
   toDomainChatMessage,
   SendMessageResponseSchema,
 } from "@/lib/validation/chatResponseSchemas";
+import type { ChatMessage } from "@/types/chat";
 import { clientLogger } from "@/utils/clientLogger";
 
 const CANONICAL_RECONCILE_MS = 20_000;

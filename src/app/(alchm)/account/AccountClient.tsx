@@ -15,8 +15,8 @@ import { PrivyProvider, usePrivy, useWallets, useFundWallet } from "@privy-io/re
 import { ArrowLeft, Check, CheckCircle2, Copy, ShieldAlert, Sparkles, Wallet } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useState, type JSX } from "react";
-import { z } from "zod";
 import { base, baseSepolia } from "viem/chains";
+import { z } from "zod";
 import { OnchainEsmsPanel } from "@/components/account/OnchainEsmsPanel";
 import {
   AlertDialog,

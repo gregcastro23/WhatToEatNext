@@ -9,8 +9,8 @@
 
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
-import { createLogger } from "@/utils/logger";
 import { CreateSessionRequestSchema } from "@/lib/validation/apiSchemas";
+import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("api:sessions");
 

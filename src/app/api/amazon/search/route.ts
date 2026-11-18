@@ -23,13 +23,13 @@ import {
 } from "@/lib/amazonCreators";
 import { rateLimit } from "@/lib/rateLimit";
 import { AmazonSearchBatchRequestSchema } from "@/lib/validation/apiSchemas";
-import { createLogger } from "@/utils/logger";
-
 import type {
   AmazonMatchConfidence,
   AmazonSearchResult,
   AmazonSubstitutionReason,
 } from "@/types/amazon";
+import { createLogger } from "@/utils/logger";
+
 
 const logger = createLogger("amazon:search");
 

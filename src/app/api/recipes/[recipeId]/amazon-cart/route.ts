@@ -1,9 +1,9 @@
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { resolveAsin, getStandardizedQuantity } from "@/data/amazon";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import type { NextRequest } from "next/server";
 
 interface IngredientAsin {
   ingredient_name: string;

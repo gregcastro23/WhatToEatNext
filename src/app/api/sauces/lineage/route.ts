@@ -1,4 +1,3 @@
-import type { NextRequest } from "next/server";
 /**
  * GET /api/sauces/lineage?root=<id>
  *
@@ -18,6 +17,7 @@ import { NextResponse } from "next/server";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import { SauceLineageResponseSchema } from "@/lib/schemas/dashboard";
+import type { NextRequest } from "next/server";
 
 export const revalidate = 86400;
 

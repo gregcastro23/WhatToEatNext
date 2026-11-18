@@ -102,7 +102,13 @@ for (const [key, ing] of Object.entries(unifiedIngredients)) {
   };
   const entry: IndexedEntry = { key, elemental };
 
-  const display = (ing as any).name as string | undefined;
+  const display =
+    typeof ing === "object" &&
+    ing !== null &&
+    "name" in ing &&
+    typeof ing.name === "string"
+      ? ing.name
+      : undefined;
   for (const v of buildVariants(key)) indexUnder(v, entry);
   if (display) for (const v of buildVariants(display)) indexUnder(v, entry);
 }

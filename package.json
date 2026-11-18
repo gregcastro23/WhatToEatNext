@@ -89,7 +89,7 @@
     "lint:type-aware": "eslint --config eslint.config.mjs src --max-warnings=10000",
     "lint:incremental": "eslint --config eslint.config.fast.mjs --cache $({ git diff --name-only --diff-filter=ACMR HEAD; git ls-files --others --exclude-standard; } | grep -E '\\.(ts|tsx|js|jsx|mjs|cjs)$' | tr '\\n' ' ')",
     "lint:changed": "bun scripts/lintChanged.ts",
-    "lint:scripts": "eslint --config eslint.config.mjs scripts --max-warnings=25",
+    "lint:scripts": "eslint --config eslint.config.mjs scripts --max-warnings=0",
     "lint:performance": "time eslint --config eslint.config.mjs src --format=json --output-file=.eslint-results.json",
     "lint:profile": "TIMING=1 eslint --config eslint.config.fast.mjs src --format=json --output-file=.eslint-profile.json",
     "lint:parallel": "eslint --config eslint.config.mjs src --max-warnings=10000 --cache",

@@ -1,6 +1,4 @@
 import { NextResponse } from "next/server";
-import { createLogger } from "@/utils/logger";
-
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { loadAuthoredFacts, loadSimilarRecipePool, withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
@@ -8,6 +6,7 @@ import { withAuthoredFacts } from "@/lib/search/authoredFacts";
 import { RecipeSchema } from "@/lib/validation/apiSchemas";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
+import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("recipes:detail");
 

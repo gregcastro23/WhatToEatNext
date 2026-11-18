@@ -34,12 +34,19 @@ import { getCookingMethodPillar } from "@/utils/alchemicalPillarUtils";
 import { buildMethodMetrics, getMethodCorpusStats } from "@/lib/cooking/methodMetrics";
 import { cToF } from "@/lib/cooking/thermo";
 
-const CATEGORIES: Record<string, Record<string, any>> = {
-  dry: dryCookingMethods as any,
-  wet: wetCookingMethods as any,
-  molecular: molecularCookingMethods as any,
-  traditional: traditionalCookingMethods as any,
-  transformation: transformationMethods as any,
+interface AuditCookingMethod {
+  thermodynamicProperties?: { heat: number; entropy: number; reactivity: number };
+  elementalEffect: { Fire: number; Water: number; Air: number; Earth: number };
+  duration?: { min: number; max: number };
+  time_range?: { min: number; max: number };
+}
+
+const CATEGORIES: Record<string, Record<string, AuditCookingMethod>> = {
+  dry: dryCookingMethods,
+  wet: wetCookingMethods,
+  molecular: molecularCookingMethods,
+  traditional: traditionalCookingMethods,
+  transformation: transformationMethods,
 };
 
 // The component's own documented fallback, so this run is reproducible offline

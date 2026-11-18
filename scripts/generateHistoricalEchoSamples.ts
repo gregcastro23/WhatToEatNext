@@ -135,7 +135,10 @@ async function main() {
 
   for (let i = 0, ts = snappedStart; ts <= endMs; i++, ts += stepMs) {
     const date = new Date(ts);
-    let positions: Record<string, any>;
+    let positions: Record<
+      string,
+      { sign?: string; degree?: number; minute?: number; exactLongitude?: number } | undefined
+    >;
     try {
       positions = await calculatePlanetaryPositions(date);
     } catch {

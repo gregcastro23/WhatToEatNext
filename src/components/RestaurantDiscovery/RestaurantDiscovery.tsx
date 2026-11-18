@@ -107,7 +107,7 @@ export function RestaurantDiscovery({
   userLongitude,
   className,
 }: RestaurantDiscoveryProps) {
-  const { location: userLocation, requestBrowserLocation } = useUserLocation();
+  const { location: userLocation } = useUserLocation();
   const [status, setStatus] = useState<FetchStatus>({ kind: "idle" });
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(
     typeof userLatitude === "number" && typeof userLongitude === "number"
@@ -630,14 +630,14 @@ export function RestaurantDiscovery({
                         <div className="flex gap-1.5 flex-1 sm:w-32">
                           <button
                             type="button"
-                            onClick={() =>
+                            onClick={() => {
                               toggleFavorite({
                                 id: entry.partnerRestaurantId || business.id,
                                 name: business.name,
                                 cuisine: entry.cuisineLabel || cuisineType,
                                 source,
-                              })
-                            }
+                              }).catch(() => {});
+                            }}
                             className={`flex-1 px-2 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider text-center transition-all border ${
                               isFav
                                 ? "bg-rose-500/20 text-rose-200 border-rose-400/50 shadow-sm"

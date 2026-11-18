@@ -3,13 +3,13 @@ import { getStandardizedQuantity, AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
 import { auth } from "@/lib/auth/auth";
 import { CheckoutPreflightRequestSchema } from "@/lib/validation/apiSchemas";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
-import { createLogger } from "@/utils/logger";
-
 import type {
   CheckoutPreflightItem,
   CheckoutPreflightResponse,
   CheckoutPreflightSource,
 } from "@/types/checkout";
+import { createLogger } from "@/utils/logger";
+
 
 const logger = createLogger("checkout:preflight");
 

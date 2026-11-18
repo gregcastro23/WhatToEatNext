@@ -12,8 +12,6 @@ import {
   calculateGregsEnergy,
   type ElementalAlchemicalCounts,
 } from "@/calculations/gregsEnergy";
-import { createLogger } from "@/utils/logger";
-
 import type {
   AlchemicalProperties,
   ElementalProperties,
@@ -21,6 +19,7 @@ import type {
 import type { PlanetaryPositions } from "@/types/astrology";
 import type { MealCircuitMetrics, KineticMetrics } from "@/types/kinetics";
 import type { MealSlot } from "@/types/menuPlanner";
+import { createLogger } from "@/utils/logger";
 import { calculateKineticProperties } from "./kineticCalculations";
 import { validateRecipeCircuit } from "./recipeCircuit";
 

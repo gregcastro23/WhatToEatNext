@@ -15,10 +15,9 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { createLogger } from "@/utils/logger";
 import { rateLimit } from "@/lib/rateLimit";
-
 import { tableDatabase, type JoinRequestFailureReason } from "@/services/tableDatabaseService";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
 const logger = createLogger("api:tables:join-request");

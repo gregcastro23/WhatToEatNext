@@ -34,8 +34,6 @@ const FeedShareResponseSchema = z.object({
     .optional(),
 });
 
-type FeedShareResponse = z.infer<typeof FeedShareResponseSchema>;
-
 interface ShareMenuModalProps {
   isOpen: boolean;
   onClose: () => void;

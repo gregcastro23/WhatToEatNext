@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-import { createLogger } from "@/utils/logger";
-
 import { CompanionSuggestions } from "@/components/commensal/CompanionSuggestions";
 import { CompositeEnergyVisualizer } from "@/components/commensal/CompositeEnergyVisualizer";
 import { CookingMethodsList } from "@/components/commensal/CookingMethodsList";
@@ -25,6 +23,7 @@ import {
   type SearchLocation,
 } from "@/hooks/useCommensalRecommendations";
 import type { BirthData, NatalChart } from "@/types/natalChart";
+import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("commensal:page");
 

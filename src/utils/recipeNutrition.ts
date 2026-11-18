@@ -9,8 +9,8 @@
 // Legacy dishes may use `nutritionalProfile` or `nutrition`. This helper
 // accepts all three and produces a single canonical object.
 
-import type { DailyValueFractions } from "./dailyValueFractions";
 import { setStated } from "./nutrientCompleteness";
+import type { DailyValueFractions } from "./dailyValueFractions";
 
 /**
  * Flat nutrition shape consumed by NutritionTrackingService.extractMealNutrition.

@@ -17,8 +17,6 @@ import { ZERO_ELEMENTAL_PROPERTIES } from "@/constants/elementalCore";
 import { performAlchemicalAnalysis } from "@/data/unified/alchemicalCalculations";
 import type { ThermodynamicMetrics } from "@/data/unified/alchemicalCalculations";
 import { unifiedIngredientService } from "@/services/UnifiedIngredientService";
-import { createLogger } from "@/utils/logger";
-
 import type {
   CookingMethod,
   ElementalProperties,
@@ -33,6 +31,7 @@ import type {
   KineticMetrics /*, KineticsCalculationInput */,
 } from "@/types/kinetics";
 import type { RecipeIngredient } from "@/types/recipe";
+import { createLogger } from "@/utils/logger";
 import { isCurrentSkyDiurnal } from "./astrology/positions";
 import {
   aggregateZodiacElementals,

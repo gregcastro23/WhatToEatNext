@@ -274,7 +274,10 @@ function endpointFromEnv(pathname: string, explicitEnv: string): string {
   return `${baseUrl.replace(/\/$/, "")}${pathname}`;
 }
 
-async function postJson(url: string, payload: unknown): Promise<any> {
+async function postJson(
+  url: string,
+  payload: unknown,
+): Promise<Record<string, string | undefined>> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
@@ -317,9 +320,11 @@ async function enrichIngredient(
   };
 
   const data = await postJson(enrichmentUrl, payload);
+  const description = data.description || data.synopsis || data.text;
+  const imageUrl = data.image_url || data.imageUrl || data.url;
   return {
-    description: data.description || data.synopsis || data.text,
-    imageUrl: data.image_url || data.imageUrl || data.url,
+    ...(description ? { description } : {}),
+    ...(imageUrl ? { imageUrl } : {}),
   };
 }
 

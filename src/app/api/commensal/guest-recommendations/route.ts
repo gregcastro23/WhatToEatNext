@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { createLogger } from "@/utils/logger";
-
 import { rateLimit } from "@/lib/rateLimit";
 import { EnhancedRecommendationService } from "@/services/EnhancedRecommendationService";
 import { calculateCompositeNatalChart } from "@/services/groupNatalChartService";
@@ -9,6 +7,7 @@ import { calculateNatalChart } from "@/services/natalChartService";
 import type { ElementalProperties as AlchemyElementalProperties } from "@/types/alchemy";
 import type { GroupMember, NatalChart, BirthData } from "@/types/natalChart";
 import { getCuisineRecommendations } from "@/utils/cuisineRecommender";
+import { createLogger } from "@/utils/logger";
 import { getRecommendedCookingMethods } from "@/utils/recommendation/methodRecommendation";
 
 const logger = createLogger("commensal:guest-recommendations");

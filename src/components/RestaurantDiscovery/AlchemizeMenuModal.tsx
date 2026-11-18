@@ -363,7 +363,7 @@ export function AlchemizeMenuModal({
             </div>
           ) : (
             /* Ingest Form */
-            <form onSubmit={handleIngestMenu} className="mt-6 space-y-4">
+            <form onSubmit={(e) => { handleIngestMenu(e).catch(() => {}); }} className="mt-6 space-y-4">
               <div className="rounded-2xl border border-white/10 bg-black/40 p-5 space-y-4">
                 <div>
                   <label htmlFor="ingest-website-url" className="block text-xs font-bold uppercase tracking-wider text-amber-300 mb-1">

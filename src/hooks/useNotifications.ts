@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { UserNotification } from '@/types/notification';
 import { readJson, parseEach } from '@/lib/api/json';
 import {
   NotificationListEnvelopeSchema,
@@ -10,6 +9,7 @@ import {
   NotificationActionResponseSchema,
   toDomainNotification,
 } from '@/lib/validation/notificationResponseSchemas';
+import type { UserNotification } from '@/types/notification';
 import { clientLogger } from '@/utils/clientLogger';
 
 const NOTIFICATION_REFRESH_EVENT = 'notifications:refresh';

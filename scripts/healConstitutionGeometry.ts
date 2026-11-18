@@ -186,6 +186,24 @@ interface BirthData {
   timezone?: string;
 }
 
+interface StoredChartPlanet {
+  name: string;
+  sign?: string;
+  position?: number;
+  distance?: number;
+}
+
+interface StoredNatalChart {
+  planets?: StoredChartPlanet[];
+  alchemicalProperties?: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  };
+  geometryBasis?: Record<string, unknown>;
+}
+
 interface CandidateRow {
   user_id: string;
   email: string | null;
@@ -195,7 +213,7 @@ interface CandidateRow {
   profile_birth_data: BirthData | Record<string, never> | null;
   jsonb_birth_data: BirthData | null;
   users_profile: Record<string, unknown> | null;
-  stored_chart: any | null;
+  stored_chart: StoredNatalChart | null;
 }
 
 function isUsableBirthData(b: unknown): b is BirthData {
@@ -255,7 +273,11 @@ async function reignite(birthData: BirthData, opts: { useWallClock?: boolean } =
     source = rest;
   }
 
-  const chart: any = await calculateNatalChart(source);
+  const rawChart = await calculateNatalChart(source);
+  const chart: StoredNatalChart = {
+    ...rawChart,
+    planets: rawChart.planets.map((p) => ({ ...p })),
+  };
 
   if (WITH_DISTANCE) {
     // The distance must come from the same instant the sky did.
@@ -271,7 +293,7 @@ async function reignite(birthData: BirthData, opts: { useWallClock?: boolean } =
     };
   }
 
-  const shares = toEsmsShares(chart.alchemicalProperties);
+  const shares = toEsmsShares(rawChart.alchemicalProperties);
   // Whole birthData: sect is the Sun's altitude at the birthplace, so it
   // needs the true instant AND the coordinates.
   const diurnal = isSectDiurnalForBirth(source);
@@ -341,8 +363,8 @@ async function runControl(healthy: CandidateRow[]): Promise<boolean> {
     const { chart: control, esms } = await reignite(birth, {
       useWallClock: CONTROL_WALL_CLOCK,
     });
-    const storedPlanets: any[] = row.stored_chart?.planets ?? [];
-    const controlPlanets: any[] = control.planets ?? [];
+    const storedPlanets: StoredChartPlanet[] = row.stored_chart?.planets ?? [];
+    const controlPlanets: StoredChartPlanet[] = control.planets ?? [];
 
     const diffs: string[] = [];
     for (const sp of storedPlanets) {
@@ -420,7 +442,8 @@ async function healRow(
     natalChart: rebuilt.chart,
     onboardingComplete: true,
   };
-  const name = (mergedProfile as any).name ?? "";
+  const name =
+    typeof row.users_profile?.name === "string" ? row.users_profile.name : "";
 
   await client.query("BEGIN");
   try {
@@ -612,7 +635,7 @@ async function main(): Promise<void> {
       }
 
       const withDist = (rebuilt.chart.planets ?? []).filter(
-        (p: any) => typeof p.distance === "number",
+        (p: StoredChartPlanet) => typeof p.distance === "number",
       ).length;
 
       console.log(`\n  ${row.user_id}  (${row.email ?? "no email"})`);

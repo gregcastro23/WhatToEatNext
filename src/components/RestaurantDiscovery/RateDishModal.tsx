@@ -266,7 +266,7 @@ export function RateDishModal({
 
         {/* Content */}
         <div className="relative z-10 flex-1 overflow-y-auto p-6 space-y-6">
-          <form id="rate-dish-form" onSubmit={handleSubmit} className="space-y-5">
+          <form id="rate-dish-form" onSubmit={(e) => { handleSubmit(e).catch(() => {}); }} className="space-y-5">
             {/* Dish Name */}
             <div>
               <label
