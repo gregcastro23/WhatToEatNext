@@ -1,7 +1,13 @@
 import { notFound, permanentRedirect } from "next/navigation";
 import { cache } from "react";
 import { _logger } from "@/lib/logger";
-import { loadAuthoredFacts, resolveRecipeRef, withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
+import { withTimeout } from "@/lib/performance/withTimeout";
+import {
+  loadAuthoredFacts,
+  loadSimilarRecipePool,
+  resolveRecipeRef,
+  withAuthoredFactsAll,
+} from "@/lib/recipes/recipeRefResolver";
 import { NOT_AUTHORED, withAuthoredFacts } from "@/lib/search/authoredFacts";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
 import { _recipeRecommender } from "@/services/recipeRecommendations";
@@ -36,6 +42,7 @@ interface RecipePageProps {
 }
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const ENRICHMENT_TIMEOUT_MS = 2500;
 
 /**
  * What a `/recipes/[recipeId]` request resolves to. `canonicalId` is the id the
@@ -239,17 +246,33 @@ export default async function RecipePage({ params }: RecipePageProps): Promise<R
     const [vegetable] = vegetables;
     const [cookingMethod] = cookingMethods;
 
-    recommendedSauces = await sauceRecommender.recommendSauce(recipe.cuisine ?? "", {
-      ...(protein !== undefined ? { protein } : {}),
-      ...(vegetable !== undefined ? { vegetable } : {}),
-      ...(cookingMethod !== undefined ? { cookingMethod } : {}),
-    });
-
-    const allRecipes = await LocalRecipeService.getAllRecipes();
-    // Compared like for like: the other recipes carry the placeholders too.
-    // Shown like the page: with their authored times and meal, or none.
-    recommendedRecipes = await withAuthoredFactsAll(
-      await _recipeRecommender.recommendSimilarRecipes(liveRecipe, allRecipes),
+    [recommendedSauces, recommendedRecipes] = await withTimeout(
+      Promise.all([
+        sauceRecommender
+          .recommendSauce(recipe.cuisine ?? "", {
+            ...(protein !== undefined ? { protein } : {}),
+            ...(vegetable !== undefined ? { vegetable } : {}),
+            ...(cookingMethod !== undefined ? { cookingMethod } : {}),
+          })
+          .catch((err: unknown) => {
+            _logger.error(`[recipes/${recipeId}] sauce recommendation failed:`, err);
+            return [];
+          }),
+        (async (): Promise<Recipe[]> => {
+          const allRecipes = await loadSimilarRecipePool();
+          // Compared like for like: the other recipes carry the placeholders too.
+          // Shown like the page: with their authored times and meal, or none.
+          return withAuthoredFactsAll(
+            await _recipeRecommender.recommendSimilarRecipes(liveRecipe, allRecipes),
+          );
+        })().catch((err: unknown) => {
+          _logger.error(`[recipes/${recipeId}] similar recipe recommendation failed:`, err);
+          return [];
+        }),
+      ]),
+      ENRICHMENT_TIMEOUT_MS,
+      [[], []],
+      `recipes/${recipeId} enrichment`,
     );
   } catch (err) {
     _logger.error(

@@ -392,6 +392,15 @@ function deferAfterResponse(work: () => void): void {
   }
 }
 
+function hasUnref(value: unknown): value is { unref: () => void } {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "unref" in value &&
+    typeof value.unref === "function"
+  );
+}
+
 export class LocalRecipeService {
   private static _allRecipes: Recipe[] | null = null;
   private static _allRecipesLoadedAt: number | null = null;
@@ -407,6 +416,11 @@ export class LocalRecipeService {
    */
   static isCatalogDegraded(): boolean {
     return this._catalogDegraded;
+  }
+
+  /** Returns the warm in-memory catalog without triggering Redis or Postgres reads. */
+  static getCachedRecipesInMemory(): Recipe[] | null {
+    return this.isCacheFresh() ? this._allRecipes : null;
   }
 
   private static isCacheFresh(): boolean {
@@ -498,6 +512,14 @@ export class LocalRecipeService {
    * Asynchronously warms the Redis cache for all recipe images.
    */
   private static warmImageAssetCache(recipes: Recipe[]): void {
+    if (
+      process.env.NODE_ENV === "test" ||
+      !process.env.UPSTASH_REDIS_REST_URL ||
+      !process.env.UPSTASH_REDIS_REST_TOKEN
+    ) {
+      return;
+    }
+
     // Process in small batches to avoid Redis/Network congestion
     const batchSize = 20;
     const recipesWithImages = recipes.filter((r) => r.imageUrl && !r.imageUrl.startsWith("http"));
@@ -506,8 +528,13 @@ export class LocalRecipeService {
       for (let i = 0; i < recipesWithImages.length; i += batchSize) {
         const batch = recipesWithImages.slice(i, i + batchSize);
         await Promise.allSettled(batch.map((r) => getValidatedAssetUrl(r.imageUrl)));
-        // Tiny pause between batches
-        await new Promise((resolve) => setTimeout(resolve, 50));
+        // Tiny pause between batches; unref so serverless shutdown is never blocked.
+        await new Promise((resolve) => {
+          const timer: unknown = setTimeout(resolve, 50);
+          if (hasUnref(timer)) {
+            timer.unref();
+          }
+        });
       }
       logger.debug(`[AssetCache] Warmed ${recipesWithImages.length} image paths`);
     })();
@@ -516,6 +543,34 @@ export class LocalRecipeService {
     });
   }
 
+
+  private static async getRecipeByUuid(decodedId: string): Promise<Recipe | null> {
+    let recipeFromDb: Recipe | undefined;
+    let querySucceeded = false;
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      try {
+        [recipeFromDb] = await this.fetchRecipes("AND r.id = $1", [decodedId]);
+        querySucceeded = true;
+        break;
+      } catch (dbErr) {
+        logger.warn(`Direct UUID query attempt ${attempt + 1} failed for '${decodedId}':`, dbErr);
+      }
+    }
+    if (querySucceeded) {
+      this._catalogDegraded = false;
+      return recipeFromDb ?? null;
+    }
+    // Check Redis catalog cache before giving up; never launch two full-table
+    // Postgres scans against a contended pool when the single-row PK query failed.
+    const cached = await getCachedCatalogFromRedis().catch(() => null);
+    const redisHit = Array.isArray(cached) ? cached.find((r) => String(r.id) === decodedId) : undefined;
+    if (redisHit) {
+      this._catalogDegraded = false;
+      return redisHit;
+    }
+    this._catalogDegraded = true;
+    return null;
+  }
 
   static async getRecipeById(recipeId: string): Promise<Recipe | null> {
     if (!recipeId) return null;
@@ -533,12 +588,7 @@ export class LocalRecipeService {
       // on a full-catalog scan and connection pool storm before checking 1 row.
       const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(decodedId);
       if (isUuid) {
-        try {
-          const [recipeFromDb] = await this.fetchRecipes("AND r.id = $1", [decodedId]);
-          if (recipeFromDb) return recipeFromDb;
-        } catch (dbErr) {
-          logger.warn(`Direct UUID query failed for '${decodedId}', falling back to catalog:`, dbErr);
-        }
+        return await this.getRecipeByUuid(decodedId);
       }
 
       const allRecipes = await this.getAllRecipes();

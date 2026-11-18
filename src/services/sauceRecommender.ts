@@ -1,13 +1,6 @@
-import { alchmAPI } from "@/lib/api/alchm-client";
+import { getCuisineData, PRIMARY_CUISINE_KEYS } from "@/data/cuisines/index";
 import { _logger } from "@/lib/logger";
-
-interface CuisineSauceMapping {
-  sauceRecommender?: {
-    forProtein?: Record<string, string[]>;
-    forVegetable?: Record<string, string[]>;
-    forCookingMethod?: Record<string, string[]>;
-  };
-}
+import type { Cuisine } from "@/types/cuisine";
 
 export class SauceRecommender {
   private static instance: SauceRecommender | undefined;
@@ -27,17 +20,24 @@ export class SauceRecommender {
       cookingMethod?: string;
     },
   ): Promise<string[]> {
-    let cuisinesMap: Record<string, CuisineSauceMapping>;
-    try {
-      cuisinesMap = (await alchmAPI.getCuisines()) as Record<
-        string,
-        CuisineSauceMapping
-      >;
-    } catch (err) {
-      _logger.error("[SauceRecommender] cuisines fetch failed, skipping:", err);
+    const normalized = cuisineName.trim().toLowerCase().replace(/[\s_-]+/g, "");
+    if (!normalized) {
       return [];
     }
-    const cuisine = cuisinesMap[cuisineName];
+    const matchedKey = PRIMARY_CUISINE_KEYS.find(
+      (key) => key.toLowerCase().replace(/[\s_-]+/g, "") === normalized,
+    );
+    if (!matchedKey) {
+      return [];
+    }
+
+    let cuisine: Cuisine | null;
+    try {
+      cuisine = await getCuisineData(matchedKey);
+    } catch (err) {
+      _logger.error("[SauceRecommender] static cuisine load failed, skipping:", err);
+      return [];
+    }
     if (!cuisine?.sauceRecommender) {
       return [];
     }
@@ -45,23 +45,14 @@ export class SauceRecommender {
     const { forProtein, forVegetable, forCookingMethod } =
       cuisine.sauceRecommender;
     const recommendations = new Set<string>();
-
-    if (criteria.protein) {
-      const sauces = forProtein?.[criteria.protein];
-      if (sauces) {
-        sauces.forEach((sauce: string) => recommendations.add(sauce));
-      }
-    }
-
-    if (criteria.vegetable) {
-      const sauces = forVegetable?.[criteria.vegetable];
-      if (sauces) {
-        sauces.forEach((sauce: string) => recommendations.add(sauce));
-      }
-    }
-
-    if (criteria.cookingMethod) {
-      const sauces = forCookingMethod?.[criteria.cookingMethod];
+    const pairs: Array<[string | undefined, Record<string, string[]> | undefined]> = [
+      [criteria.protein, forProtein],
+      [criteria.vegetable, forVegetable],
+      [criteria.cookingMethod, forCookingMethod],
+    ];
+    for (const [key, map] of pairs) {
+      if (!key || !map) continue;
+      const sauces = map[key];
       if (sauces) {
         sauces.forEach((sauce: string) => recommendations.add(sauce));
       }
