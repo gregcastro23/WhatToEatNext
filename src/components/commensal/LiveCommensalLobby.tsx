@@ -17,12 +17,12 @@ import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { useSpacetime } from "@/contexts/SpacetimeContext";
 import { isLiveCommensalEnabled } from "@/lib/spacetime/config";
-import { createLogger } from "@/utils/logger";
-
 import type {
   CommensalMember as MemberRow,
   CommensalSession as SessionRow,
 } from "@/lib/spacetime/generated/types";
+import { createLogger } from "@/utils/logger";
+
 
 const logger = createLogger("LiveCommensalLobby");
 

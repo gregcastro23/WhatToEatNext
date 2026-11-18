@@ -1,5 +1,5 @@
-import type { NextRequest } from "next/server";
 import { createLogger } from "@/utils/logger";
+import type { NextRequest } from "next/server";
 
 const logger = createLogger("auth-origin");
 

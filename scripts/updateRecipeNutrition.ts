@@ -1,4 +1,4 @@
-import { Project, SyntaxKind, ObjectLiteralExpression } from 'ts-morph';
+import { Node, Project, SyntaxKind, ObjectLiteralExpression } from 'ts-morph';
 import { allRecipes } from '../src/data/recipes/index.js';
 import ingredientData from '../src/data/ingredients/ingredients.js';
 import { allIngredients } from '../src/data/ingredients/index.js';
@@ -140,7 +140,7 @@ async function main() {
 
   for (const sourceFile of project.getSourceFiles()) {
     let modifiedFile = false;
-    const objectsToUpdate: { obj: ObjectLiteralExpression, recipe: any }[] = [];
+    const objectsToUpdate: { obj: ObjectLiteralExpression, recipe: RecipeToAnalyze }[] = [];
 
     // Collect first
     const objectLiterals = sourceFile.getDescendantsOfKind(SyntaxKind.ObjectLiteralExpression);
@@ -149,9 +149,9 @@ async function main() {
       if (!nameProp) continue;
       
       let nameStr = '';
-      if (nameProp.getKind() === SyntaxKind.PropertyAssignment) {
-        const initializer = (nameProp as any).getInitializer();
-        if (initializer && initializer.getKind() === SyntaxKind.StringLiteral) {
+      if (Node.isPropertyAssignment(nameProp)) {
+        const initializer = nameProp.getInitializer();
+        if (initializer && Node.isStringLiteral(initializer)) {
           nameStr = initializer.getLiteralText();
         }
       }

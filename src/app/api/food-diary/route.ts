@@ -8,13 +8,12 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { createLogger } from "@/utils/logger";
-
 import { rateLimit } from "@/lib/rateLimit";
 import { CreateFoodDiaryEntrySchema } from "@/lib/validation/apiSchemas";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { CreateFoodDiaryEntryInput } from "@/types/foodDiary";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
 const logger = createLogger("food-diary");

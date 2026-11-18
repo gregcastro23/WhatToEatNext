@@ -119,10 +119,20 @@ function geocentricDistanceAu(planet: string, instant: Date): number | null {
   return Math.hypot(v.x, v.y, v.z);
 }
 
+interface StoredPlanet {
+  name?: string;
+  distance?: number;
+}
+
+interface StoredChart {
+  planets?: StoredPlanet[];
+  geometryBasis?: Record<string, unknown>;
+}
+
 interface Row {
   user_id: string;
   email: string | null;
-  natal_chart: any;
+  natal_chart: StoredChart;
   planets_type: string | null;
   birth_dt: string | null;
   jsonb_chart_has_planets: boolean;
@@ -171,7 +181,7 @@ async function main(): Promise<void> {
 
     console.log(`\n━━━ ${APPLY ? "APPLY" : "DRY RUN"} ━━━`);
 
-    const planned: Array<{ row: Row; chart: any; added: number; instant: string }> = [];
+    const planned: Array<{ row: Row; chart: StoredChart; added: number; instant: string }> = [];
 
     for (const row of arrayShaped) {
       if (!row.birth_dt || Number.isNaN(Date.parse(row.birth_dt))) {
@@ -180,7 +190,7 @@ async function main(): Promise<void> {
       }
       const instant = new Date(row.birth_dt);
       const chart = structuredClone(row.natal_chart);
-      const planets: any[] = chart.planets ?? [];
+      const planets: StoredPlanet[] = chart.planets ?? [];
 
       let added = 0;
       let alreadyHad = 0;
@@ -190,12 +200,12 @@ async function main(): Promise<void> {
           alreadyHad++;
           continue;
         }
-        const d = geocentricDistanceAu(planet?.name, instant);
+        const d = planet?.name ? geocentricDistanceAu(planet.name, instant) : null;
         if (d === null) continue; // Ascendant & friends: no distance concept
         planet.distance = d;
         added++;
-        const rBar = PLANET_MEAN_GEOCENTRIC_AU[planet.name];
-        if (rBar !== undefined) {
+        const rBar = planet.name ? PLANET_MEAN_GEOCENTRIC_AU[planet.name] : undefined;
+        if (rBar !== undefined && planet.name) {
           detail.push(`${planet.name} r=${d.toFixed(4)} (r̄/r)²=${((rBar / d) ** 2).toFixed(3)}`);
         }
       }

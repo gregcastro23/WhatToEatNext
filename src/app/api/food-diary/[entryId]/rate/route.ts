@@ -7,12 +7,11 @@
  */
 
 import { NextResponse } from "next/server";
-import { createLogger } from "@/utils/logger";
-
 import { FoodDiaryRatingSchema } from "@/lib/validation/apiSchemas";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type { FoodRating, MoodTag } from "@/types/foodDiary";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
 const logger = createLogger("food-diary:rate");

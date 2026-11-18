@@ -90,8 +90,16 @@ function round(n: number, digits = 5): number {
   return Math.round(n * f) / f;
 }
 
+interface RawPlanetEntry {
+  sign?: unknown;
+  degree?: unknown;
+  minute?: unknown;
+  isRetrograde?: unknown;
+  exactLongitude?: unknown;
+}
+
 function toRecord(
-  positions: Record<string, any>,
+  positions: Record<string, RawPlanetEntry | undefined>,
 ): Record<string, PlanetaryPosition> {
   const out: Record<string, PlanetaryPosition> = {};
   for (const [planet, p] of Object.entries(positions)) {
@@ -100,7 +108,9 @@ function toRecord(
       degree: Number(p?.degree) || 0,
       minute: Number(p?.minute) || 0,
       isRetrograde: Boolean(p?.isRetrograde),
-      exactLongitude: typeof p?.exactLongitude === "number" ? p.exactLongitude : undefined,
+      ...(typeof p?.exactLongitude === "number"
+        ? { exactLongitude: p.exactLongitude }
+        : {}),
     };
   }
   return out;
@@ -138,7 +148,7 @@ async function main() {
 
   for (let i = 0, ts = snappedStart; ts <= endMs; i++, ts += stepMs) {
     const date = new Date(ts);
-    let positions: Record<string, any>;
+    let positions: Record<string, RawPlanetEntry | undefined>;
     try {
       positions = await calculatePlanetaryPositions(date);
     } catch {

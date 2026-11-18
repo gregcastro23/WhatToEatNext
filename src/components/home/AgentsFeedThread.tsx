@@ -11,8 +11,6 @@ import type { HistoricalAgentFeedItem } from "@/lib/feed/historicalAgentFeed";
 import { fetchHistoricalAgentFeed } from "@/lib/feed/historicalAgentFeedSource";
 import { _logger } from "@/lib/logger";
 
-type FeedMetadata = Record<string, unknown>;
-
 const FeedEventSchema = z.object({
   id: z.string(),
   actorId: z.string().optional(),
@@ -36,8 +34,6 @@ const FeedResponseSchema = z.object({
   events: z.array(FeedEventSchema).optional(),
   message: z.string().optional(),
 });
-
-type FeedResponse = z.infer<typeof FeedResponseSchema>;
 
 const LOADING_SKELETON_KEYS = [
   "feed-skeleton-1",

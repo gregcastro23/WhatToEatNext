@@ -9,11 +9,17 @@
 
 import { z } from "zod";
 import { getCuisineProfile } from "@/data/cuisineFlavorProfiles";
+import {
+  CURATED_RESTAURANTS,
+  type CuratedRestaurantTemplate,
+  getSignatureDishes,
+} from "@/data/restaurant/curatedCatalog";
 import { parseJsonRecord, readJson } from "@/lib/api/json";
 import { executeQuery } from "@/lib/database/connection";
+import type {
+  GooglePlaceRawSchema} from "@/lib/validation/serviceResponseSchemas";
 import {
-  GooglePlacesResponseSchema,
-  GooglePlaceRawSchema,
+  GooglePlacesResponseSchema
 } from "@/lib/validation/serviceResponseSchemas";
 import { scoreCuisineAgainstMoment } from "@/services/restaurantScoring";
 import {
@@ -803,19 +809,11 @@ async function nominatimNearby(
 // Ensures that even if third-party network providers are blocked or unconfigured,
 // users immediately receive authentic, scored, orderable local restaurants.
 
-import {
-  CURATED_RESTAURANTS,
-  type CuratedRestaurantTemplate,
-  getSignatureDishes,
-} from "@/data/restaurant/curatedCatalog";
-
 export {
   CURATED_RESTAURANTS,
   type CuratedRestaurantTemplate,
   getSignatureDishes,
 };
-
-type CuratedTemplate = CuratedRestaurantTemplate;
 
 function curatedNearby(
   input: ResolvedDiscoverInput,

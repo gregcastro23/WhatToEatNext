@@ -8,9 +8,9 @@
  * while delivering full EIP-712 signing functionality on client mount.
  */
 
+import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import type { JSX } from "react";
-import { Loader2 } from "lucide-react";
 
 const ShopStorefront = dynamic(() => import("./ShopStorefront"), {
   ssr: false,

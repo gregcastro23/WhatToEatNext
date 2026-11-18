@@ -774,14 +774,14 @@ export function BestMatchExplorer({
               isFavorite(hero.business.id) ||
               (hero.partnerRestaurantId ? isFavorite(hero.partnerRestaurantId) : false)
             }
-            onToggleFavorite={() =>
+            onToggleFavorite={() => {
               toggleFavorite({
                 id: hero.partnerRestaurantId || hero.business.id,
                 name: hero.business.name,
                 cuisine: hero.cuisineLabel || cuisine,
                 source,
-              })
-            }
+              }).catch(() => {});
+            }}
             onAlchemize={() => setAlchemizeModalItem(hero)}
             onReserve={() => {
               firePractice("recommendation_acted", `restaurant:${hero.business.id}`);
@@ -819,14 +819,14 @@ export function BestMatchExplorer({
                         ? isFavorite(entry.partnerRestaurantId)
                         : false)
                     }
-                    onToggleFavorite={() =>
+                    onToggleFavorite={() => {
                       toggleFavorite({
                         id: entry.partnerRestaurantId || entry.business.id,
                         name: entry.business.name,
                         cuisine: entry.cuisineLabel || cuisine,
                         source,
-                      })
-                    }
+                      }).catch(() => {});
+                    }}
                     onAlchemize={() => setAlchemizeModalItem(entry)}
                     onReserve={() => {
                       firePractice("recommendation_acted", `restaurant:${entry.business.id}`);

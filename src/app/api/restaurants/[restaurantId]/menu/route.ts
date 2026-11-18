@@ -9,8 +9,8 @@
 
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database/connection";
-import { createLogger } from "@/utils/logger";
 import { oloService } from "@/services/oloService";
+import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("api:restaurants:menu");
 

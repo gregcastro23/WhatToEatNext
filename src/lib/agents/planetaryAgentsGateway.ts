@@ -1,4 +1,25 @@
+/**
+ * Planetary Agents Gateway Module
+ *
+ * Centralized server-side gateway for communicating with Alchemical Agents (ASOL).
+ *
+ * Host routing:
+ *   - agentsUi (https://agents.alchm.kitchen): Next.js app routes (activations, degrees, degree/:deg)
+ *   - planetaryAgentsApi (https://api.agents.alchm.kitchen): Python/FastAPI routes (/api/chat, /api/multi_agent_chat)
+ *
+ * Responsibilities:
+ *   1. Host selection & URL resolution
+ *   2. Exact-transit degree activation verification (prevents dormant degree agent chat)
+ *   3. Session continuity (maintains stable sessionId across turns)
+ *   4. Kitchen context enrichment (ingredients, dietary preferences, cuisine, live sky)
+ *   5. Response metadata preservation (MCP live sky, ingredient scans, model/provider provenance)
+ *   6. Resilient timeouts & graceful degradation
+ */
+
 import { z } from "zod";
+import { readJson } from "@/lib/api/json";
+import { _logger } from "@/lib/logger";
+import { getServiceUrlSafe } from "@/lib/serviceUrls";
 
 function toActiveDegreeAgent(a: RawActivationEntry | undefined): ActiveDegreeAgent | undefined {
   if (!a) return undefined;
@@ -24,28 +45,6 @@ function toActiveDegreeAgent(a: RawActivationEntry | undefined): ActiveDegreeAge
   if (a.consciousnessState) out.consciousnessState = a.consciousnessState;
   return out;
 }
-
-import { readJson } from "@/lib/api/json";
-/**
- * Planetary Agents Gateway Module
- *
- * Centralized server-side gateway for communicating with Alchemical Agents (ASOL).
- *
- * Host routing:
- *   - agentsUi (https://agents.alchm.kitchen): Next.js app routes (activations, degrees, degree/:deg)
- *   - planetaryAgentsApi (https://api.agents.alchm.kitchen): Python/FastAPI routes (/api/chat, /api/multi_agent_chat)
- *
- * Responsibilities:
- *   1. Host selection & URL resolution
- *   2. Exact-transit degree activation verification (prevents dormant degree agent chat)
- *   3. Session continuity (maintains stable sessionId across turns)
- *   4. Kitchen context enrichment (ingredients, dietary preferences, cuisine, live sky)
- *   5. Response metadata preservation (MCP live sky, ingredient scans, model/provider provenance)
- *   6. Resilient timeouts & graceful degradation
- */
-
-import { _logger } from "@/lib/logger";
-import { getServiceUrlSafe } from "@/lib/serviceUrls";
 
 export interface ActiveDegreeAgent {
   id: string;

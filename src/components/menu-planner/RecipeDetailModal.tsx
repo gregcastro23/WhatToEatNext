@@ -161,7 +161,7 @@ export default function RecipeDetailModal({
       name: recipe.name,
       ingredients: ingredientNames,
       ...(recipe.cuisine ? { cuisine: recipe.cuisine } : {}),
-    });
+    }).catch(() => {});
   };
 
   // Mark as viewed on open

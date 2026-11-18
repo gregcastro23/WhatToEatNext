@@ -5,13 +5,12 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
-import { createLogger } from "@/utils/logger";
-
 import { CommensalRequestSchema } from "@/lib/validation/apiSchemas";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { feedDatabase } from "@/services/feedDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { userDatabase, type UserWithProfile } from "@/services/userDatabaseService";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
 const logger = createLogger("commensals:request");

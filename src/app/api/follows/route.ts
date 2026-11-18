@@ -17,13 +17,12 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
-import { createLogger } from "@/utils/logger";
 import { rateLimit } from "@/lib/rateLimit";
-
 import { FollowTargetRequestSchema } from "@/lib/validation/apiSchemas";
 import { followDatabase } from "@/services/followDatabaseService";
 import { notificationDatabase } from "@/services/notificationDatabaseService";
 import { practiceRewardService } from "@/services/practiceRewardService";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
 const logger = createLogger("follows");

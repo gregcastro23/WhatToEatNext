@@ -17,8 +17,6 @@
  * the vault on /account — the storefront cross-links when balance is short.
  */
 
-import { useCallback, useEffect, useMemo, useState, type JSX } from "react";
-import Link from "next/link";
 import { PrivyProvider, usePrivy, useWallets } from "@privy-io/react-auth";
 import {
   ArrowLeft,
@@ -29,6 +27,8 @@ import {
   Sparkles,
   Wallet,
 } from "lucide-react";
+import Link from "next/link";
+import { useCallback, useEffect, useMemo, useState, type JSX } from "react";
 import { base, baseSepolia } from "viem/chains";
 import LivePriceTicker from "@/components/economy/LivePriceTicker";
 import { Button } from "@/components/ui/button";
@@ -81,13 +81,6 @@ interface OnchainStatus {
   offchain: CoinAmounts;
   onchain: CoinAmounts | null;
   chain: { chainName: string; testnet: boolean; explorerBaseUrl: string | null };
-}
-
-interface SignChallenge {
-  domain: { name: string; version: string; chainId: number; verifyingContract: string };
-  types: Record<string, Array<{ name: string; type: string }>>;
-  primaryType: string;
-  message: Record<string, unknown>;
 }
 
 type BuyPhase = "idle" | "requesting" | "signing" | "settling";

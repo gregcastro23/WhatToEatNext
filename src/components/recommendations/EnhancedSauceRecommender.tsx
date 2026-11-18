@@ -24,8 +24,8 @@ import {
   type FlavorAxis,
   type SauceRole,
 } from "@/utils/cuisine/cuisineSauceProfiler";
-import { scaleSauceIngredients, parseYieldToServings } from "@/utils/sauceScaling";
 import { roundedCalories } from "@/utils/roundedCalories";
+import { scaleSauceIngredients, parseYieldToServings } from "@/utils/sauceScaling";
 
 // ============================================================================
 // Constants & Config

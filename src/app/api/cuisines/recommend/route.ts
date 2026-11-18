@@ -20,13 +20,12 @@
  */
 import { NextResponse } from "next/server";
 import { getAllRecipes } from "@/data/recipes/index";
-import { createLogger } from "@/utils/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
-
 import { CuisinesQuerySchema, parseCuisinesResponse } from "@/lib/validation/railway";
 import { getAccuratePlanetaryPositions } from "@/utils/astrology/positions";
 import { elementalSignature } from "@/utils/elemental/signature";
+import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("cuisines:recommend");
 

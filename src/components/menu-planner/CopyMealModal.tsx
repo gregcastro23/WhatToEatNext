@@ -9,10 +9,10 @@
  */
 
 import React, { useState, useMemo } from "react";
-import { createLogger } from "@/utils/logger";
 import type { MealSlot, DayOfWeek, MealType } from "@/types/menuPlanner";
 import { getDayName, getShortDayName } from "@/types/menuPlanner";
 import { emptyDayRecord } from "@/utils/dayCircuitCalculations";
+import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("CopyMealModal");
 

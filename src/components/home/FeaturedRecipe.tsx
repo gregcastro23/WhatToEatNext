@@ -17,7 +17,7 @@ export function RecipeMintPromo() {
 
   const handleCopyAddress = () => {
     if (!REGISTRY_ADDRESS) return;
-    navigator.clipboard.writeText(REGISTRY_ADDRESS);
+    navigator.clipboard.writeText(REGISTRY_ADDRESS).catch(() => {});
     setCopiedAddress(true);
     setTimeout(() => setCopiedAddress(false), 2000);
   };

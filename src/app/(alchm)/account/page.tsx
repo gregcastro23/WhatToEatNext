@@ -8,9 +8,9 @@
  * while delivering full identity attunement and wallet management on client mount.
  */
 
+import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import type { JSX } from "react";
-import { Loader2 } from "lucide-react";
 
 const AccountClient = dynamic(() => import("./AccountClient"), {
   ssr: false,

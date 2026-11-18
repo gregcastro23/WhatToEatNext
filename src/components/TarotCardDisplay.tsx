@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { createLogger } from "@/utils/logger";
 import { getTarotCardsForDate } from '@/lib/tarotCalculations';
+import { createLogger } from "@/utils/logger";
 import styles from './TarotCardDisplay.module.css';
 
 const logger = createLogger("TarotCardDisplay");

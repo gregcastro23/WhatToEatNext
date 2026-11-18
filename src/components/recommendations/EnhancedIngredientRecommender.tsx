@@ -34,9 +34,9 @@ import type { AlchemicalProperties } from "@/types/celestial";
 import { normalizeForDisplay } from "@/utils/elemental/normalization";
 import { calculateKineticProperties } from "@/utils/kineticCalculations";
 import { deriveLiveSkyQuantities } from "@/utils/liveSkyQuantities";
+import { roundedCalories } from "@/utils/roundedCalories";
 import { looseIncludes } from "@/utils/searchNormalize";
 import { getAssetUrl } from "@/utils/urlUtils";
-import { roundedCalories } from "@/utils/roundedCalories";
 
 
 // Pagination constant - items shown before expansion
@@ -878,7 +878,7 @@ export const EnhancedIngredientRecommender: React.FC<
         .filter((ing) => !isBoilerplateCoverageIngredient(ing));
       setIngredients(allIngredients);
     } catch (error) {
-      _logger.error("Error loading ingredients:", error);
+      _logger.error("Error loading ingredients:", error).catch(() => {});
     } finally {
       setLoading(false);
     }

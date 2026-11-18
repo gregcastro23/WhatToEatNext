@@ -1,4 +1,3 @@
-import type { NextRequest } from "next/server";
 /**
  * Recipe Audit API Endpoint
  * GET /api/recipes/audit
@@ -13,10 +12,11 @@ import {
   auditRecipeCompleteness,
   formatAuditSummary,
 } from "@/utils/recipeSearchEngine";
+import type { NextRequest } from "next/server";
 
 const logger = createLogger("RecipeAuditAPI");
 
-export async function GET(req: NextRequest): Promise<NextResponse> {
+export async function GET(_req: NextRequest): Promise<NextResponse> {
   try {
     logger.info("Running recipe audit...");
 

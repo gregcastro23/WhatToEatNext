@@ -567,7 +567,7 @@ function computeElementBoost(activations: TransitActivation[]): {
   }
   let boostElement: "fire" | "earth" | "air" | "water" | null = null;
   let maxVote = 0;
-  const elements: ("fire" | "earth" | "air" | "water")[] = [
+  const elements: Array<"fire" | "earth" | "air" | "water"> = [
     "fire",
     "earth",
     "air",

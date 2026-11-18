@@ -10,10 +10,9 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { recognizeTableJoin } from "@/lib/economy/tableJoin";
-import { createLogger } from "@/utils/logger";
 import { rateLimit } from "@/lib/rateLimit";
-
 import { tableDatabase } from "@/services/tableDatabaseService";
+import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
 
 const logger = createLogger("api:tables:rsvp");

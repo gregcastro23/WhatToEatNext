@@ -28,9 +28,9 @@ import {
   getSpacetimeConfig,
   SPACETIME_TOKEN_STORAGE_KEY,
 } from "@/lib/spacetime/config";
+import { DbConnection } from "@/lib/spacetime/generated";
 import { createLogger } from "@/utils/logger";
 
-import { DbConnection } from "@/lib/spacetime/generated";
 
 const logger = createLogger("SpacetimeContext");
 

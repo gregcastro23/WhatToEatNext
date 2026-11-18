@@ -17,7 +17,8 @@ async function run() {
   console.log(`Loaded ${recipes.length} raw HSCA recipes!`);
 
   // Organise by mealType and season
-  const dishes: any = {
+  type BuiltDish = ReturnType<typeof buildHscaDish>["dish"];
+  const dishes: Record<string, Record<string, BuiltDish[]>> = {
     breakfast: { all: [], spring: [], summer: [], autumn: [], winter: [] },
     lunch: { all: [], spring: [], summer: [], autumn: [], winter: [] },
     dinner: { all: [], spring: [], summer: [], autumn: [], winter: [] },
@@ -33,16 +34,19 @@ async function run() {
     matchedIngredientsCount += built.matchedIngredients;
     const { dish, mealType, seasons } = built;
 
-    // Append to every matched season (excluding 'all' to prevent duplicates)
-    seasons.forEach((s: string) => {
-      const seasonKey = s.toLowerCase();
-      if (seasonKey !== "all" && dishes[mealType][seasonKey]) {
-        dishes[mealType][seasonKey].push(dish);
-      }
-    });
+    const mealBucket = dishes[mealType];
+    if (mealBucket) {
+      // Append to every matched season (excluding 'all' to prevent duplicates)
+      seasons.forEach((s: string) => {
+        const seasonKey = s.toLowerCase();
+        if (seasonKey !== "all") {
+          mealBucket[seasonKey]?.push(dish);
+        }
+      });
 
-    // Also always append to the 'all' category for the dynamic load
-    dishes[mealType].all.push(dish);
+      // Also always append to the 'all' category for the dynamic load
+      mealBucket.all?.push(dish);
+    }
   }
 
   const matchRate = (matchedIngredientsCount / totalIngredientsCount) * 100;

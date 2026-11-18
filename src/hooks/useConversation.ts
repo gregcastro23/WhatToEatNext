@@ -10,7 +10,6 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ChatMessage } from "@/types/chat";
 import { readJson, parseEach } from "@/lib/api/json";
 import {
   ConversationMessagesEnvelopeSchema,
@@ -18,6 +17,7 @@ import {
   toDomainChatMessage,
   SendMessageResponseSchema,
 } from "@/lib/validation/chatResponseSchemas";
+import type { ChatMessage } from "@/types/chat";
 import { clientLogger } from "@/utils/clientLogger";
 
 const FOCUSED_MS = 5_000;
