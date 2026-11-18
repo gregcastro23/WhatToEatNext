@@ -421,4 +421,77 @@ describe("POST /api/recipes/[recipeId]/critique", () => {
     expect(body.critique.tip).not.toContain("another agent");
   });
 
+  it.each([null, "Spirit", "Essence"])(
+    "normalizes non-classical dominant_element (%s) to Fire in feed events and null in response",
+    async (rawElement) => {
+      mockExecuteQuery.mockImplementation((sql: string) => {
+        if (sql.includes("FROM recipes")) {
+          return Promise.resolve({
+            rows: [
+              {
+                id: RECIPE_ID,
+                name: "Roasted Winter Squash Bowl",
+                description: "A nourishing botanical preparation.",
+                cuisine: "Seasonal",
+              },
+            ],
+          });
+        }
+        if (sql.includes("FROM users u")) {
+          return Promise.resolve({
+            rows: [
+              {
+                id: AGENT_ID,
+                email: "unknown-alchemist@agentic.alchm.kitchen",
+                name: "Unknown Alchemist",
+                dominant_element: rawElement,
+                bio: "Classical Alchemist",
+                dietary_preferences: {},
+              },
+            ],
+          });
+        }
+        return Promise.resolve({ rows: [] });
+      });
+      mockChatWithAgent.mockRejectedValue(new Error("Gateway offline"));
+
+      const res = await POST(
+        makeRequest({ agentSlug: "unknown-alchemist" }),
+        { params: Promise.resolve({ recipeId: RECIPE_ID }) },
+      );
+
+      expect(res.status).toBe(200);
+      const data = await res.json();
+      expect(data.critique.dominantElement).toBeNull();
+      expect(data.review.dominantElement).toBeNull();
+      expect(data.critique.tip).toContain("the Fire element harmonizes");
+      expect(data.critique.tip).not.toContain("the Spirit element");
+      expect(mockCreateEvent).toHaveBeenCalledWith(
+        AGENT_ID,
+        "recipe_review",
+        expect.objectContaining({ dominantElement: "Fire" }),
+        false,
+        { share: true, explicit: true },
+      );
+    },
+  );
+
+  it("preserves a classical dominant_element on both feed event and response", async () => {
+    const res = await POST(
+      makeRequest({ agentSlug: "leonardo-da-vinci" }),
+      { params: Promise.resolve({ recipeId: RECIPE_ID }) },
+    );
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.critique.dominantElement).toBe("Air");
+    expect(data.review.dominantElement).toBe("Air");
+    expect(mockCreateEvent).toHaveBeenCalledWith(
+      AGENT_ID,
+      "recipe_review",
+      expect.objectContaining({ dominantElement: "Air" }),
+      false,
+      { share: true, explicit: true },
+    );
+  });
+
 });

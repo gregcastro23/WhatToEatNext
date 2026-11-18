@@ -2,21 +2,6 @@ import type { AlchemicalProperty } from "@/types/constants";
 
 export type Element = "Fire" | "Water" | "Air" | "Earth";
 
-interface NatalPlanet {
-  sign: string;
-  degree: number;
-  house?: number | string;
-  retrograde?: boolean;
-}
-
-interface NatalAspect {
-  planet1: string;
-  type: string;
-  planet2: string;
-  exact?: boolean;
-  orb: number;
-}
-
 /** The wire key `alchemicalElements` holds the ESMS QUANTITIES: a pre-existing misnomer kept for the wire (CONTEXT.md reserves "elements" for Fire, Water, Earth, Air). */
 interface AlchemicalElements {
   spirit: number;

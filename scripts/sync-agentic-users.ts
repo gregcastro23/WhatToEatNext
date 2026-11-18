@@ -18,8 +18,13 @@
  */
 
 import crypto from "crypto";
+import {
+  isClassicalElement,
+  toClassicalElement,
+} from "../src/lib/agents/consciousnessAxes";
 import { executeQuery, closeDatabase } from "../src/lib/database/connection";
 import { _logger } from "../src/lib/logger";
+import type { ElementType } from "../src/types/constants";
 import { fullChartMonica } from "../src/utils/fullChartMonica";
 import { AGENT_ESMS_SEED_SQL } from "./lib/agentEsmsSeed";
 
@@ -182,6 +187,15 @@ interface AgentsListResponse {
   agents?: RawAgent[];
 }
 
+export function resolveSyncedAgentElement(
+  consciousnessElement: unknown,
+  dietMetadataElement?: unknown,
+): ElementType {
+  return isClassicalElement(consciousnessElement)
+    ? consciousnessElement
+    : toClassicalElement(dietMetadataElement);
+}
+
 export function derivePositionsFromChart(
   chart: unknown,
 ): Array<{ planet: string; sign: string; degree: number }> {
@@ -297,10 +311,10 @@ async function main(): Promise<void> {
     const bio =
       agentData.personality?.core?.essence ||
       (title ? `${title} (${era})` : "Historical Alchemical Intelligence");
-    const dominantElement =
-      agentData.consciousness?.dominantElement ||
-      dietProfile?.alchemicalState?.metadata?.dominantElement ||
-      "Spirit";
+    const dominantElement = resolveSyncedAgentElement(
+      agentData.consciousness?.dominantElement,
+      dietProfile?.alchemicalState?.metadata?.dominantElement,
+    );
 
     const historicalDiet =
       agentData.historicalDiet ||

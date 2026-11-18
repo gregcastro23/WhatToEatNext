@@ -122,7 +122,7 @@ const DegreeSegment: React.FC<DegreeSegmentProps> = ({
   const getSegmentColor = (): string => {
     if (!agent) return '#374151' // gray-700
 
-    const element = agent.config?.element ?? 'Spirit'
+    const element = agent.config?.element ?? 'Fire'
     const strength = agent.activationStrength ?? 0
 
     const baseColors: Record<string, string> = {
@@ -130,7 +130,6 @@ const DegreeSegment: React.FC<DegreeSegmentProps> = ({
       Water: '#2563EB', // blue-600
       Air: '#7C3AED', // violet-600
       Earth: '#16A34A', // green-600
-      Spirit: '#F59E0B', // amber-500
     }
 
     const baseColor = baseColors[element] ?? '#6B7280'

@@ -29,7 +29,7 @@ interface PlanetaryAgent {
   id: string
   name: string
   planetaryRuler: string
-  element: 'Fire' | 'Water' | 'Air' | 'Earth' | 'Spirit'
+  element: 'Fire' | 'Water' | 'Air' | 'Earth'
   consciousnessLevel: string
   activationStrength: number
   dignity: string
@@ -61,7 +61,6 @@ const getElementIcon = (element: string): string => {
     Water: '💧',
     Air: '💨',
     Earth: '🏔️',
-    Spirit: '✨',
   }
   return icons[element as keyof typeof icons] || '⭐'
 }
@@ -72,7 +71,6 @@ const getElementColor = (element: string): string => {
     Water: 'bg-blue-500/20 border-blue-500/50',
     Air: 'bg-cyan-500/20 border-cyan-500/50',
     Earth: 'bg-green-500/20 border-green-500/50',
-    Spirit: 'bg-amber-500/20 border-amber-500/50',
   }
   return colors[element as keyof typeof colors] || 'bg-purple-500/20 border-purple-500/50'
 }
@@ -145,7 +143,7 @@ const MessageBubble: React.FC<{ message: ConversationMessage }> = ({ message }) 
             id: message.agentId,
             name: message.agentName,
             planetaryRuler: '',
-            element: 'Spirit',
+            element: 'Fire',
             consciousnessLevel: '',
             activationStrength: 0,
             dignity: '',

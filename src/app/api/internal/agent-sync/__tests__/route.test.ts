@@ -12,6 +12,7 @@ jest.mock("next/server", () => ({
 }));
 
 import { withTransaction } from "@/lib/database";
+import { _logger } from "@/lib/logger";
 import { agentMonica } from "@/utils/agentMonica";
 import { MIN_CHART_BODIES } from "@/utils/fullChartMonica";
 import { POST } from "../route";
@@ -481,5 +482,86 @@ describe("POST /api/internal/agent-sync", () => {
       // to contain no bodies, which is a different statement from "no chart".
       expect(captureUserProfilesParams(mockClient)[5]).toBeNull();
     });
+  });
+
+  describe("dominantElement is restricted to classical elements", () => {
+    function captureUserProfilesParams(mockClient: {
+      query: jest.Mock;
+    }): unknown[] {
+      const call = mockClient.query.mock.calls.find(([sql]: [string]) =>
+        sql.includes("INSERT INTO user_profiles"),
+      );
+      if (!call) throw new Error("INSERT INTO user_profiles was never called");
+      return call[1];
+    }
+
+    const newUserClient = () => {
+      const mockClient = {
+        query: jest.fn().mockImplementation((queryStr: string) => {
+          if (queryStr.includes("SELECT id FROM users")) {
+            return Promise.resolve({ rows: [] });
+          }
+          return Promise.resolve({ rowCount: 1, rows: [] });
+        }),
+      };
+      jest.mocked(withTransaction).mockImplementation((callback) =>
+        Reflect.apply(callback, undefined, [mockClient]),
+      );
+      return mockClient;
+    };
+
+    it.each(["Fire", "Water", "Earth", "Air"])(
+      "persists classical dominantElement %s into $11",
+      async (element) => {
+        const mockClient = newUserClient();
+        const warnSpy = jest.spyOn(_logger, "warn").mockImplementation(() => {});
+        try {
+          const res = await POST(
+            makeRequest(
+              {
+                email: "hildegard@agentic.alchm.kitchen",
+                displayName: "Hildegard of Bingen",
+                dominantElement: element,
+              },
+              { "X-Sync-Secret": mockSyncSecret },
+            ),
+          );
+          expect(res.status).toBe(200);
+          expect((await res.json()).ok).toBe(true);
+          expect(captureUserProfilesParams(mockClient)[10]).toBe(element);
+          expect(warnSpy).not.toHaveBeenCalled();
+        } finally {
+          warnSpy.mockRestore();
+        }
+      },
+    );
+
+    it.each(["Spirit", "Essence", "InvalidElement"])(
+      "drops non-classical dominantElement %s to null with a warning",
+      async (badElement) => {
+        const mockClient = newUserClient();
+        const warnSpy = jest.spyOn(_logger, "warn").mockImplementation(() => {});
+        try {
+          const res = await POST(
+            makeRequest(
+              {
+                email: "hildegard@agentic.alchm.kitchen",
+                displayName: "Hildegard of Bingen",
+                dominantElement: badElement,
+              },
+              { "X-Sync-Secret": mockSyncSecret },
+            ),
+          );
+          expect(res.status).toBe(200);
+          expect((await res.json()).ok).toBe(true);
+          expect(captureUserProfilesParams(mockClient)[10]).toBeNull();
+          expect(warnSpy).toHaveBeenCalledWith(
+            expect.stringContaining(`Ignoring non-classical dominantElement "${badElement}"`),
+          );
+        } finally {
+          warnSpy.mockRestore();
+        }
+      },
+    );
   });
 });

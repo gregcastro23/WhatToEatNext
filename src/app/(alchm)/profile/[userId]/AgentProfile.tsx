@@ -29,6 +29,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { agentChatUrl, agentSlugFromEmail } from "@/lib/agents/agentChatUrl";
+import { toClassicalElement } from "@/lib/agents/consciousnessAxes";
 import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
 import type { AgentInteraction, AgentAction, AgentArtifact } from "@/lib/agents/fetchAgentProfile";
 import { computeAgentProgression } from "@/lib/agents/levelingService";
@@ -112,7 +113,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
   const chatUrl = agentChatUrl(slug);
   const galleryUrl = `${asolUiUrl}/gallery/chat/${encodeURIComponent(slug)}`;
 
-  const dominantElement = agent.consciousness?.dominantElement ?? "Fire";
+  const dominantElement = toClassicalElement(agent.consciousness?.dominantElement);
   const elementStyle: ElementColorConfig =
     ELEMENT_COLORS[dominantElement] ?? DEFAULT_ELEMENT_COLOR;
 
@@ -621,7 +622,7 @@ export default function AgentProfile(props: AgentProfileProps): React.ReactEleme
                   id: slug,
                   name: agent.name,
                   description: agent.title ?? agent.personality?.core?.essence ?? "Historical Alchemist",
-                  planetaryRuler: agent.consciousness?.dominantElement ?? "Sun",
+                  planetaryRuler: "Sun",
                   element: dominantElement,
                   consciousnessLevel: agent.consciousness?.level ?? "Master",
                   activationStrength: 100,

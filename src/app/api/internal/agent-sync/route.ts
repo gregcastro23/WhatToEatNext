@@ -11,6 +11,7 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
+import { isClassicalElement } from "@/lib/agents/consciousnessAxes";
 import { withTransaction } from "@/lib/database";
 import { safeEqual } from "@/lib/hooks/secureCompare";
 import { _logger } from "@/lib/logger";
@@ -129,6 +130,15 @@ export async function POST(req: NextRequest | Request) {
       natalPositions,
       dominantElement,
     } = body;
+
+    const resolvedDominantElement = isClassicalElement(dominantElement)
+      ? dominantElement
+      : null;
+    if (dominantElement !== undefined && resolvedDominantElement === null) {
+      _logger.warn(
+        `[agent-sync] Ignoring non-classical dominantElement "${dominantElement}" for ${email}`,
+      );
+    }
 
     // 3. Map & Reconstruct Birth Data
     let birthData: SyncedBirthData | null = null;
@@ -311,7 +321,7 @@ export async function POST(req: NextRequest | Request) {
             resolvedMonica?.diurnal ?? null,
             resolvedMonica?.nocturnal ?? null,
             resolved?.method ?? null,
-            dominantElement ?? null,
+            resolvedDominantElement,
           ],
         );
       } else {
@@ -356,7 +366,7 @@ export async function POST(req: NextRequest | Request) {
             resolvedMonica?.diurnal ?? null,
             resolvedMonica?.nocturnal ?? null,
             resolved?.method ?? null,
-            dominantElement ?? null,
+            resolvedDominantElement,
           ],
         );
 

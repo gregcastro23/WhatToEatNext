@@ -11,6 +11,10 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
+import {
+  isClassicalElement,
+  toClassicalElement,
+} from "@/lib/agents/consciousnessAxes";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database/connection";
 import { bearerMatches } from "@/lib/hooks/secureCompare";
@@ -176,10 +180,14 @@ export async function POST(
         .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
         .join(" ");
     const diet = agent.dietary_preferences ?? {};
+    const storedDominantElement = isClassicalElement(agent.dominant_element)
+      ? agent.dominant_element
+      : null;
+    const eventDominantElement = toClassicalElement(agent.dominant_element);
 
     const { text: critiqueText, contentState } = await generateHistoricalReflection({
       agentSlug, agentName: cleanName, diet, cuisine, recipeName, recipeId,
-      dominantElement: agent.dominant_element,
+      dominantElement: storedDominantElement,
     });
 
     // 4. Record to feed_events (Dual-writes into user_recipe_interactions)
@@ -199,7 +207,7 @@ export async function POST(
           source: "catalog_critique",
           agentSlug,
           agentName: cleanName,
-          dominantElement: agent.dominant_element ?? "Spirit",
+          dominantElement: eventDominantElement,
           contentState,
           mcpCatalog: true,
         },
@@ -223,7 +231,7 @@ export async function POST(
         author: cleanName,
         tip: critiqueText,
         agentSlug,
-        dominantElement: agent.dominant_element,
+        dominantElement: storedDominantElement,
         contentState,
         published,
         ...(persistedAt ? { persistedAt } : {}),
@@ -232,7 +240,7 @@ export async function POST(
         author: cleanName,
         tip: critiqueText,
         agentSlug,
-        dominantElement: agent.dominant_element,
+        dominantElement: storedDominantElement,
         contentState,
         published,
         ...(persistedAt ? { postedAt: persistedAt } : {}),
