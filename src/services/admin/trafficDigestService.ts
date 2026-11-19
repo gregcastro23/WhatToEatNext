@@ -9,6 +9,7 @@
  */
 
 import { classifyInteractionTag } from "@/lib/analytics/interactionClassify";
+import { createConcurrencyLimiter } from "@/lib/async/concurrency";
 import { invalidate, memoize } from "@/lib/cache/memoryCache";
 import { synthesizeDigestNarrative } from "@/services/admin/trafficDigestSynthesis";
 import type {
@@ -239,14 +240,15 @@ export async function getTrafficFrictionDigest(
   opts: { skipAi?: boolean } = {},
 ): Promise<TrafficDigestResponse> {
   const interval = range === "7d" ? "7 days" : "24 hours";
+  const dbLimit = createConcurrencyLimiter(2);
   const settled: SettledDigestSources = await Promise.allSettled([
-    readTotals("NOW() - $1::interval", "NOW()", interval),
-    readTotals("NOW() - 2 * $1::interval", "NOW() - $1::interval", interval),
-    readRouteFlowMatrix(interval),
-    readFrictionAlerts(),
-    readInteractionTallies(interval),
-    readActivationAndStickiness(interval),
-    readSessionFeedback(30),
+    dbLimit(() => readTotals("NOW() - $1::interval", "NOW()", interval)),
+    dbLimit(() => readTotals("NOW() - 2 * $1::interval", "NOW() - $1::interval", interval)),
+    dbLimit(() => readRouteFlowMatrix(interval)),
+    dbLimit(() => readFrictionAlerts()),
+    dbLimit(() => readInteractionTallies(interval)),
+    dbLimit(() => readActivationAndStickiness(interval)),
+    dbLimit(() => readSessionFeedback(30)),
   ]);
   const facts = assembleDigestFacts(range, settled);
   const synthesis = await synthesizeDigestNarrative(facts, opts);

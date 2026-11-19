@@ -13,6 +13,7 @@
 
 import { NextResponse } from "next/server";
 import { executeQuery } from "@/lib/database";
+import { relationExists } from "@/lib/database/relationExists";
 import { rateLimit } from "@/lib/rateLimit";
 import { createLogger } from "@/utils/logger";
 import type { NextRequest } from "next/server";
@@ -34,10 +35,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   if (!rl.allowed) return rl.response!;
 
   try {
-    const reg = await executeQuery<{ present: boolean }>(
-      `SELECT to_regclass('public.tables') IS NOT NULL AS present`,
-    );
-    if (reg.rows[0]?.present === true) {
+    if (await relationExists("public.tables", executeQuery)) {
       // Schema exists but the service wiring is deferred to the PR 2
       // integration rebase — make that visible to operators.
       logger.warn(

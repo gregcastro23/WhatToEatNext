@@ -19,6 +19,7 @@ jest.mock("openai", () => ({
   },
 }));
 
+import { _logger } from "@/lib/logger";
 import {
   buildDeterministicDigestNarrative,
   sanitizeInternalHref,
@@ -304,12 +305,18 @@ describe("trafficDigestSynthesis", () => {
       expect(JSON.stringify(passedArgs)).toContain("<untrusted_user_feedback>");
     });
 
-    it("falls back to deterministic mode when OpenAI throws", async () => {
+    it("falls back to deterministic mode and logs via _logger.error when OpenAI throws", async () => {
       process.env.OPENAI_API_KEY = "sk-test-123";
+      const errSpy = jest.spyOn(_logger, "error").mockImplementation(() => {});
       mockCreateCompletion.mockRejectedValueOnce(new Error("timeout"));
       const result = await synthesizeDigestNarrative(makeFacts());
       expect(result.synthesisMode).toBe("deterministic");
       expect(result.fallbackReason).toBe("AI synthesis unavailable — deterministic fallback");
+      expect(errSpy).toHaveBeenCalledWith(
+        "[traffic-digest] AI synthesis failed, using deterministic fallback:",
+        expect.any(Error),
+      );
+      errSpy.mockRestore();
     });
   });
 });

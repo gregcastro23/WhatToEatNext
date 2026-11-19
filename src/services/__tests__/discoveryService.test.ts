@@ -279,6 +279,7 @@ jest.mock("@/lib/logger", () => ({
   _logger: { info: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() },
 }));
 
+import { resetRelationExistsCache } from "@/lib/database/relationExists";
 import { discoverTables, discoverPeople } from "@/services/discoveryService";
 
 function seedUsers() {
@@ -313,6 +314,7 @@ function makeTable(over: Partial<FakeTable>): FakeTable {
 }
 
 beforeEach(() => {
+  resetRelationExistsCache();
   reset();
   seedUsers();
 });

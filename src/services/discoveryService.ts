@@ -24,6 +24,7 @@
  */
 
 import { executeQuery } from "@/lib/database/connection";
+import { memoizeRelationPresent } from "@/lib/database/relationExists";
 import { _logger } from "@/lib/logger";
 import { commensalDatabase } from "@/services/commensalDatabaseService";
 import { haversineMeters } from "@/services/restaurantDiscoveryService";
@@ -398,20 +399,17 @@ interface PersonRow {
 }
 
 /**
- * Whether PR 4's `follows` table exists (it does on master). Probed per request
- * via a catalog lookup — `to_regclass` is a cheap constant-time system-catalog
- * read, and probing each call keeps follow-state degradation truthful in every
- * environment (rather than latching a stale answer for the process lifetime).
+ * Whether PR 4's `follows` table exists (it does on master). Positive hits are
+ * memoized per process so subsequent discovery requests skip the catalog probe,
+ * while false/failing probes remain un-latched for graceful degradation.
  */
-async function hasFollowsTable(): Promise<boolean> {
-  try {
+function hasFollowsTable(): Promise<boolean> {
+  return memoizeRelationPresent("public.follows", async (): Promise<boolean> => {
     const res = await executeQuery<{ reg: string | null }>(
       "SELECT to_regclass('public.follows') AS reg",
     );
     return Boolean(res.rows[0]?.reg);
-  } catch {
-    return false;
-  }
+  });
 }
 
 /**
