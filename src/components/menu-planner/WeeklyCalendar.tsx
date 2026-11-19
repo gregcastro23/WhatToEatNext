@@ -9,6 +9,7 @@
  * @file src/components/menu-planner/WeeklyCalendar.tsx
  */
 
+import dynamic from "next/dynamic";
 import React, { useMemo, useState } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import { useAstrologicalState } from "@/hooks/useAstrologicalState";
@@ -16,12 +17,13 @@ import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import { _logger } from "@/lib/logger";
 import type { DayOfWeek, MealSlot as MealSlotType } from "@/types/menuPlanner";
 import WeekBoard from "./board/WeekBoard";
-import CopyMealModal from "./CopyMealModal";
-import FocusedDayView from "./FocusedDayView";
 import RedesignedMobilePlanner from "./redesign/RedesignedMobilePlanner";
 import { usePlannerUI } from "./shell/PlannerUIContext";
 import RecipePlacementBanner from "./shell/RecipePlacementBanner";
 import { useRecipePlacement } from "./shell/useRecipePlacement";
+
+const CopyMealModal = dynamic(() => import("./CopyMealModal"));
+const FocusedDayView = dynamic(() => import("./FocusedDayView"));
 
 export interface WeeklyCalendarProps {
   onMealClick?: (mealSlot: MealSlotType) => void;
@@ -71,7 +73,7 @@ export default function WeeklyCalendar({
     dayOfWeek: DayOfWeek;
   }>({
     isOpen: false,
-    dayOfWeek: 0 as DayOfWeek,
+    dayOfWeek: 0,
   });
 
   // 7-day date resolution for mobile planner & focused day

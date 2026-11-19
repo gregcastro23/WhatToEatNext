@@ -315,6 +315,21 @@ export interface WeeklyMenuStats {
   averageGregsEnergy: number;
   averageMonica: number;
   elementalDistribution: ElementalProperties;
+  esmsTotals?: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+    totalASharp: number;
+    mealsWithEsms: number;
+  };
+  esmsDistribution?: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  };
+  natalEsmsAffinity?: number | null;
   cuisineDistribution: Record<string, number>;
   dietaryCompliance: {
     vegetarian: boolean;

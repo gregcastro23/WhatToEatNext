@@ -17,6 +17,8 @@
  */
 
 import {
+  CheckCircle2,
+  ChefHat,
   Copy,
   ExternalLink,
   Flame,
@@ -29,12 +31,20 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { cookAndLogPlannedMeal } from "@/actions/foodDiary";
 import SauceSelector from "@/components/menu-planner/SauceSelector";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import { revealPracticeReward } from "@/lib/economy/practiceClient";
 import type { MealSlot as MealSlotType } from "@/types/menuPlanner";
 import { getDayName } from "@/types/menuPlanner";
-import { dominantElement, ELEMENT_DOT } from "../redesign/elementUtils";
+import {
+  ALL_ESMS_NAMES,
+  dominantElement,
+  ELEMENT_DOT,
+  ESMS_META,
+  readRecipeEsms,
+} from "../redesign/elementUtils";
 import { usePlannerUI } from "../shell/PlannerUIContext";
 import Sheet from "../shell/Sheet";
 import { recipeImage, slotKcal } from "./BoardSlot";
@@ -67,6 +77,12 @@ export default function MealDetailSheet({
   const { notify } = usePlannerUI();
 
   const [showSauceSelector, setShowSauceSelector] = useState(false);
+  const [isLoggingMeal, setIsLoggingMeal] = useState(false);
+  const [mealLogged, setMealLogged] = useState(false);
+
+  useEffect(() => {
+    setMealLogged(false);
+  }, [slot?.id]);
 
   const ingredientsList = useMemo(() => {
     if (!slot?.recipe?.ingredients) return [];
@@ -106,6 +122,37 @@ export default function MealDetailSheet({
   const el = dominantElement(recipe.elementalProperties);
   const kcal = slotKcal(slot);
   const { sauce } = slot;
+  const mealEsms = readRecipeEsms(recipe, slot.servings || 1);
+  const baseEsms = readRecipeEsms(recipe, 1);
+  const sauceAlch =
+    recipe.mappedAlchemy ??
+    (baseEsms
+      ? {
+          Spirit: baseEsms.Spirit,
+          Essence: baseEsms.Essence,
+          Matter: baseEsms.Matter,
+          Substance: baseEsms.Substance,
+        }
+      : undefined);
+
+  const handleCookAndLog = async (): Promise<void> => {
+    if (isLoggingMeal || mealLogged) return;
+    setIsLoggingMeal(true);
+    try {
+      const res = await cookAndLogPlannedMeal({ mealSlot: slot });
+      if (res.reward && res.reward.amount > 0) {
+        revealPracticeReward(res.reward);
+        notify(`Cooked & logged "${recipe.name}" (+${res.reward.amount} ${res.reward.tokenType})`);
+      } else {
+        notify(`Logged "${recipe.name}" to Food Diary`);
+      }
+      setMealLogged(true);
+    } catch {
+      notify("Could not log meal right now");
+    } finally {
+      setIsLoggingMeal(false);
+    }
+  };
 
   const handleUpdateServings = (newServings: number) => {
     if (newServings < 1 || newServings > 20) return;
@@ -209,6 +256,54 @@ export default function MealDetailSheet({
               </span>
             )}
           </div>
+
+          {/* Orthogonal Alchemical ESMS Quantities */}
+          {mealEsms && (
+            <div className="p-3 rounded-xl bg-surface-container-low border border-muted space-y-2 font-mono text-xs">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">
+                  Alchemical ESMS Quantities
+                </span>
+                <span className="text-gold-accent font-bold">
+                  A# {mealEsms.totalASharp.toFixed(1)}
+                </span>
+              </div>
+              <div className="flex w-full h-1.5 rounded-full overflow-hidden bg-surface-container-high">
+                {ALL_ESMS_NAMES.map((key) => {
+                  const pct = Math.max(
+                    2,
+                    Math.round((mealEsms[key] / mealEsms.totalASharp) * 100),
+                  );
+                  return (
+                    <div
+                      key={key}
+                      className={`${ESMS_META[key].bar} h-full`}
+                      style={{ width: `${pct}%` }}
+                      title={`${ESMS_META[key].symbol} ${key}: ${mealEsms[key].toFixed(1)}`}
+                    />
+                  );
+                })}
+              </div>
+              <div className="grid grid-cols-4 gap-1.5 pt-0.5 text-[11px]">
+                {ALL_ESMS_NAMES.map((key) => {
+                  const meta = ESMS_META[key];
+                  return (
+                    <div
+                      key={key}
+                      className="px-2 py-1 rounded-lg bg-surface-container/60 border border-muted/50 flex items-center justify-between"
+                    >
+                      <span className={meta.text} title={meta.label}>
+                        {meta.symbol}
+                      </span>
+                      <span className="text-primary font-semibold">
+                        {mealEsms[key].toFixed(1)}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Servings Control & Lock */}
           <div className="p-4 rounded-xl bg-surface-container-low border border-muted space-y-3">
@@ -387,8 +482,32 @@ export default function MealDetailSheet({
             </div>
           )}
 
-          {/* Full Recipe Link */}
-          <div>
+          {/* Cooked & Log Meal (ESMS Matter Reward) + Full Recipe Link */}
+          <div className="space-y-2">
+            <button
+              type="button"
+              disabled={isLoggingMeal || mealLogged}
+              onClick={() => {
+                handleCookAndLog().catch(() => {});
+              }}
+              className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border font-mono text-xs uppercase tracking-wider font-semibold transition-colors ${
+                mealLogged
+                  ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-300"
+                  : "border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 cursor-pointer"
+              }`}
+            >
+              {mealLogged ? (
+                <>
+                  <CheckCircle2 className="h-4 w-4" />
+                  <span>Cooked &amp; Logged to Diary</span>
+                </>
+              ) : (
+                <>
+                  <ChefHat className="h-4 w-4" />
+                  <span>{isLoggingMeal ? "Logging Meal…" : "I Cooked This · Log & Earn 🝙 Matter"}</span>
+                </>
+              )}
+            </button>
             <Link
               href={`/recipes/${recipe.id}`}
               className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-muted bg-surface-container-high hover:border-active-violet text-primary font-mono text-xs uppercase tracking-wider font-semibold transition-colors"
@@ -436,8 +555,8 @@ export default function MealDetailSheet({
             setShowSauceSelector(false);
           }}
           recipeElementalProperties={recipe.elementalProperties}
-          {...(recipe.mappedAlchemy
-            ? { recipeAlchemicalProperties: recipe.mappedAlchemy }
+          {...(sauceAlch
+            ? { recipeAlchemicalProperties: sauceAlch }
             : {})}
         />
       )}

@@ -1,6 +1,5 @@
 "use server";
 
-import { auth } from "@/lib/auth/auth";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type {
@@ -29,33 +28,16 @@ import {
 const GUEST_USER_ID = "guest";
 
 /**
- * Server Actions are public endpoints. Their action ids ship inside the client
- * bundle (`useFoodDiary` imports these), so anyone who loads the site can invoke
- * them with arguments of their own choosing. A `userId` PARAMETER is therefore
- * untrusted input — it is a claim, never identity.
- *
- * Without this check these actions read and write an arbitrary account's diary:
- * `getEntries` turns the argument straight into `WHERE user_id = $1`, and the
- * write actions (create/update/delete/rate) accept it just as readily. That also
- * bypasses `/api/food-diary`, which authenticates properly via
- * `getUserIdFromRequest` — leaving the actions as the way around the front door.
- *
- * Guest mode is deliberate and stays open: `useFoodDiary` passes "guest" for
- * signed-out visitors, and only authenticated users are routed to the REST API
- * (see the branch at useFoodDiary.ts:142). Anything that is NOT the guest id has
- * to match the caller's own session.
+ * Server Actions are public endpoints; `userId` is untrusted input.
+ * Guest mode ("guest") stays open for signed-out visitors; any other `userId`
+ * must match the caller's authenticated session.
  */
 async function requireOwnUserId(userId: string): Promise<string> {
   if (userId === GUEST_USER_ID) return GUEST_USER_ID;
-
+  const { auth } = await import("@/lib/auth/auth");
   const session = await auth();
-  const sessionUserId =
-    typeof session?.user?.id === "string" ? session.user.id : "";
-
-
+  const sessionUserId = typeof session?.user?.id === "string" ? session.user.id : "";
   if (!sessionUserId || sessionUserId !== userId) {
-    // Deliberately does not distinguish "signed out" from "wrong user" — that
-    // difference tells a caller whether a given id exists.
     throw new Error("Not authorized for this food diary");
   }
   return userId;
@@ -249,5 +231,86 @@ export async function logServerMealFromPlan(
   }
 
   return entry;
+}
+
+export interface CookAndLogPlannedMealInput {
+  mealSlot?: MealSlot;
+  recipe?: Recipe;
+  mealType?: MealType;
+  servings?: number;
+  date?: Date;
+  time?: string;
+  notes?: string;
+}
+
+export interface CookAndLogPlannedMealResult {
+  entry: FoodDiaryEntry;
+  reward: {
+    tokenType: string;
+    amount: number;
+    hint: string;
+  } | null;
+}
+
+/**
+ * Mark a planned meal as cooked, log it to the user's Food Diary, and credit
+ * both the Food Diary quests and the server-only `cooked_recipe` ESMS practice
+ * reward (`+4 🝙 Matter`, daily-deduped per recipe).
+ */
+export async function cookAndLogPlannedMeal(
+  inputOrUserId: CookAndLogPlannedMealInput | string,
+  maybeInput?: CookAndLogPlannedMealInput,
+): Promise<CookAndLogPlannedMealResult> {
+  let userId: string;
+  let input: CookAndLogPlannedMealInput;
+  if (typeof inputOrUserId === "string") {
+    userId = inputOrUserId;
+    input = maybeInput ?? {};
+  } else {
+    input = inputOrUserId;
+    try {
+      const { auth } = await import("@/lib/auth/auth");
+      const session = await auth();
+      userId =
+        typeof session?.user?.id === "string" && session.user.id
+          ? session.user.id
+          : GUEST_USER_ID;
+    } catch {
+      userId = GUEST_USER_ID;
+    }
+  }
+
+  const entry = await logServerMealFromPlan(userId, input);
+  const recipeId =
+    entry.sourceId ??
+    input.mealSlot?.recipe?.id ??
+    input.recipe?.id ??
+    null;
+
+  let reward: CookAndLogPlannedMealResult["reward"] = null;
+  if (userId !== GUEST_USER_ID && recipeId) {
+    try {
+      await reportQuestEventBestEffort(userId, "cook_recipe");
+      const { practiceRewardService } = await import(
+        "@/services/practiceRewardService"
+      );
+      const result = await practiceRewardService.recognize(
+        userId,
+        "cooked_recipe",
+        String(recipeId),
+      );
+      if (result.rewarded && result.tokenType && result.amount && result.hint) {
+        reward = {
+          tokenType: result.tokenType,
+          amount: result.amount,
+          hint: result.hint,
+        };
+      }
+    } catch {
+      // Reward failures must not fail diary logging.
+    }
+  }
+
+  return { entry, reward };
 }
 

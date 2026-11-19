@@ -12,10 +12,12 @@ import {
   getServerRecipeIndex,
   getServerRecipes,
 } from "@/actions/recipes";
+import { readRecipeEsms } from "@/components/menu-planner/redesign/elementUtils";
 import type { AlchemicalProfile } from "@/contexts/UserContext";
 import type { MonicaOptimizedRecipe } from "@/data/unified/recipeBuilding";
+import { chartQuantities, esmsAffinity } from "@/lib/recipes/alchemicalMatch";
 import type { ChartComparison } from "@/services/ChartComparisonService";
-import type { AlchemicalProperties, Season } from "@/types/alchemy";
+import type { Season } from "@/types/alchemy";
 import type { LunarPhase } from "@/types/celestial";
 import type { IndexedRecipe } from "@/types/indexedRecipe";
 import type { DayOfWeek, MealType } from "@/types/menuPlanner";
@@ -356,17 +358,6 @@ function applyUserPersonalization(
  * @param chartComparison - Optional chart comparison with current moment
  * @returns Boost multiplier (0.7 to 1.3)
  */
-function isAlchemicalProperties(val: unknown): val is AlchemicalProperties {
-  return (
-    typeof val === "object" &&
-    val !== null &&
-    "Spirit" in val &&
-    "Essence" in val &&
-    "Matter" in val &&
-    "Substance" in val
-  );
-}
-
 function calculatePersonalizationBoost(
   recipe: MonicaOptimizedRecipe,
   natalChart: NatalChart,
@@ -400,31 +391,17 @@ function calculatePersonalizationBoost(
     }
   }
 
-  // 3. Alchemical property alignment (±5%)
-  const recipeAlch = isAlchemicalProperties(recipe.alchemicalProperties)
-    ? recipe.alchemicalProperties
-    : undefined;
-  if (recipeAlch) {
-    const userAlch = natalChart.alchemicalProperties;
-
-
-    // Simple dot product similarity for alchemical properties
-    let similarity = 0;
-    const props = ["Spirit", "Essence", "Matter", "Substance"] as const;
-    let userTotal = 0;
-    let recipeTotal = 0;
-
-    for (const prop of props) {
-      similarity += userAlch[prop] * recipeAlch[prop];
-      userTotal += userAlch[prop] ** 2;
-      recipeTotal += recipeAlch[prop] ** 2;
-    }
-
-    if (userTotal > 0 && recipeTotal > 0) {
-      const cosineSim =
-        similarity / (Math.sqrt(userTotal) * Math.sqrt(recipeTotal));
-      boost += (cosineSim - 0.5) * 0.1; // ±0.05
-    }
+  // 3. Alchemical ESMS quantity alignment (±5%)
+  const recipeEsms = readRecipeEsms(recipe);
+  const userEsms = chartQuantities(natalChart.alchemicalProperties);
+  if (recipeEsms && userEsms) {
+    const affinity = esmsAffinity(userEsms, {
+      spirit: recipeEsms.Spirit,
+      essence: recipeEsms.Essence,
+      matter: recipeEsms.Matter,
+      substance: recipeEsms.Substance,
+    });
+    boost += (affinity / 100 - 0.5) * 0.1; // ±0.05
   }
 
   // Clamp to valid range
