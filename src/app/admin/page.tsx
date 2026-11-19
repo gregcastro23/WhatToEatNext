@@ -13,6 +13,7 @@ import ReliabilityPanel from "@/components/admin/ReliabilityPanel";
 import SearchGapsPanel from "@/components/admin/SearchGapsPanel";
 import SystemStatusPanel from "@/components/admin/SystemStatusPanel";
 import TodaysHighlightsPanel from "@/components/admin/TodaysHighlightsPanel";
+import TrafficFrictionDigestPanel from "@/components/admin/TrafficFrictionDigestPanel";
 import { useAdminLiveStream } from "@/hooks/useAdminLiveStream";
 import type { OverviewPulseView } from "@/lib/admin/schemas/overviewPulse";
 
@@ -114,7 +115,7 @@ function FrictionAlertBanners({
 }
 
 const DEEP_DIVE_TABS: ReadonlyArray<{ id: DeepDiveTab; label: string; badge: string }> = [
-  { id: "audience", label: "Today & Search Gaps", badge: "2 panels" },
+  { id: "audience", label: "Digest, Today & Gaps", badge: "3 panels" },
   { id: "reliability", label: "API & Reliability", badge: "3 panels" },
   { id: "economy", label: "Launch, Faucet & Cosmic", badge: "3 panels" },
   { id: "consoles", label: "Dedicated Consoles", badge: "7 routes" },
@@ -359,6 +360,7 @@ export default function AdminDashboardPage(): React.JSX.Element {
                 </div>
               </div>
             )}
+            <TrafficFrictionDigestPanel />
             <TodaysHighlightsPanel />
             <SearchGapsPanel />
           </div>
