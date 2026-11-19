@@ -46,9 +46,29 @@ function OvenFields({ lab }: { lab: BakingLab }): JSX.Element {
   const { oven, unit } = lab.state;
   const set = (patch: Partial<typeof oven>): void => lab.dispatch({ type: "oven", patch });
   const shown = unit === "C" ? oven.ovenC : cToF(oven.ovenC);
+  const stage2C = oven.stage2OvenC ?? null;
+  const shown2 = stage2C === null ? null : unit === "C" ? stage2C : cToF(stage2C);
+  const stage1Min = oven.stage1Minutes ?? (oven.steamMinutes > 0 ? oven.steamMinutes : Math.max(1, Math.round(oven.bakeMinutes / 2)));
   return (
-    <div className="flex flex-wrap gap-4">
-      <NumberField id="bl-oven" label="Oven" value={shown} min={unit === "C" ? 100 : 212} max={unit === "C" ? 320 : 608} step={5} suffix={`°${unit}`} onChange={(v) => set({ ovenC: unit === "C" ? v : fToC(v) })} />
+    <div className="flex flex-wrap items-end gap-4">
+      <NumberField id="bl-oven" label={stage2C === null ? "Oven" : "Stage 1 oven"} value={shown} min={unit === "C" ? 100 : 212} max={unit === "C" ? 320 : 608} step={5} suffix={`°${unit}`} onChange={(v) => set({ ovenC: unit === "C" ? v : fToC(v) })} />
+      {stage2C !== null && shown2 !== null ? (
+        <>
+          <NumberField id="bl-stage1-min" label="Stage 1 for" value={stage1Min} min={1} max={240} step={1} suffix="min" onChange={(v) => set({ stage1Minutes: v })} />
+          <NumberField id="bl-oven2" label="Stage 2 oven" value={shown2} min={unit === "C" ? 100 : 212} max={unit === "C" ? 320 : 608} step={5} suffix={`°${unit}`} onChange={(v) => set({ stage2OvenC: unit === "C" ? v : fToC(v) })} />
+          <button type="button" className="bl-btn" onClick={() => set({ stage2OvenC: null, stage1Minutes: null })}>
+            Single stage
+          </button>
+        </>
+      ) : (
+        <button
+          type="button"
+          className="bl-btn"
+          onClick={() => set({ stage2OvenC: Math.max(100, oven.ovenC - 20), stage1Minutes: oven.steamMinutes > 0 ? oven.steamMinutes : Math.max(1, Math.round(oven.bakeMinutes / 3)) })}
+        >
+          + Stage 2 temp
+        </button>
+      )}
       <label htmlFor="bl-mode" className="flex flex-col gap-1 text-[12px]">
         <span className="bl-label">Mode</span>
         <select id="bl-mode" className="bl-input" value={oven.mode} onChange={(e) => set({ mode: MODES.find(([m]) => m === e.target.value)?.[0] ?? oven.mode })}>

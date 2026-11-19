@@ -1,8 +1,8 @@
 /**
  * The Baking Lab ingredient registry.
  *
- * 67 functional vectors: 60 built on a pinned USDA FoodData Central record
- * (59 records; almonds and almond flour share one), the rest derived (brown
+ * 100 functional vectors: 93 built on a pinned USDA FoodData Central record
+ * (88 records; shared where two forms come from the same FDC food), the rest derived (brown
  * butter, levain, invert syrup), measured from a cited study (aquafaba), or
  * declared (xanthan, psyllium, allulose) — each one's provenance says which.
  * The 25 added 2026-11-16 (grains.ts and the rest) are the ingredients the

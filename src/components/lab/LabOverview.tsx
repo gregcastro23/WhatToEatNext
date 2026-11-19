@@ -22,6 +22,8 @@ import type { JSX } from "react";
 
 interface ModelCard {
   system: "real" | "alchm";
+  title?: string;
+  claim?: string;
   href: string;
   answers: string[];
   cannot: string;
@@ -46,6 +48,21 @@ const CONTENT: Record<
         ],
         cannot:
           "It cannot tell you what to cook. Nothing here knows about your chart, the hour, or your taste.",
+      },
+      {
+        system: "real",
+        title: "Baking Lab — Formula, Swap & 1D Oven",
+        claim:
+          "USDA-measured baker's formulas, Norrish water activity, POD/PAC sweetness and softening, counter-balanced swaps, and a 1D implicit finite-volume oven simulator.",
+        href: "/kitchen-lab/baking",
+        answers: [
+          "What are the baker's percentages, true hydration, and water activity (a_w)?",
+          "What does a flour, fat, or sugar swap break, and what counter-balances it?",
+          "When do starch gelatinisation and protein coagulation finish at the core?",
+          "Which of the site's baked recipes can a 1D slab honestly simulate?",
+        ],
+        cannot:
+          "It cannot simulate laminated pastries or two-material filled pies, and its elemental tab is an alchm projection kept separate from the physics.",
       },
       {
         system: "alchm",
@@ -102,7 +119,7 @@ export function LabOverview({
     <div className="px-4 py-8 sm:px-6">
       <p className="max-w-3xl text-sm leading-relaxed text-white/60">{lede}</p>
 
-      <div className="mt-8 grid gap-4 lg:grid-cols-2">
+      <div className={`mt-8 grid gap-4 ${cards.length > 2 ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
         {cards.map((card) => {
           const d = SYSTEM_DESCRIPTORS[card.system];
           return (
@@ -119,12 +136,12 @@ export function LabOverview({
                 <h2
                   className={`text-xs font-bold uppercase tracking-wider ${d.text}`}
                 >
-                  {d.label}
+                  {card.title ?? d.label}
                 </h2>
               </div>
 
               <p className="mt-2 text-sm leading-relaxed text-white/60">
-                {d.claim}
+                {card.claim ?? d.claim}
               </p>
 
               <p className="mt-5 text-[11px] font-semibold uppercase tracking-wider text-white/35">

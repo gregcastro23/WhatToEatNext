@@ -9,7 +9,7 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 import { getServerRecipes } from "@/actions/recipes";
-import { CURATED_PRESETS } from "@/lib/baking/recipes/catalogue";
+import { CURATED_PRESETS, isSimulable, recipeEntries } from "@/lib/baking/recipes/catalogue";
 import { buildCatalogueFile, parseCatalogueFile, type CatalogueFile } from "@/lib/baking/recipes/catalogueFile";
 import { convertRecipe } from "@/lib/baking/recipes/convertRecipe";
 import type { RecipeSource } from "@/lib/baking/recipes/sourceTypes";
@@ -61,6 +61,15 @@ describe("the generated recipe catalogue", () => {
     const [first] = file.sources;
     expect(() => parseCatalogueFile({ ...file, sources: [{ ...first, category: "soufflé" }] })).toThrow();
     expect(() => parseCatalogueFile({ ...file, sources: "none" })).toThrow();
+  });
+
+  it("has simulable site recipes in every single-batter category", () => {
+    const entries = recipeEntries(committed().sources);
+    const singleBatter = ["bread", "enriched-bread", "flatbread", "quick-bread", "muffin", "biscuit-scone", "cookie", "bar", "cake", "cracker"] as const;
+    for (const cat of singleBatter) {
+      const simulable = entries.filter((e) => e.category === cat && isSimulable(e)).length;
+      expect({ cat, hasSimulable: simulable >= 2 }).toEqual({ cat, hasSimulable: true });
+    }
   });
 });
 

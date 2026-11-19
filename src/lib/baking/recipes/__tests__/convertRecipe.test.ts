@@ -181,14 +181,16 @@ describe("converting a recipe", () => {
 });
 
 describe("review findings (2026-11-16)", () => {
-  it("reads both stages of a two-stage bake in one sentence, and declares baking at the first temperature", () => {
+  it("reads both stages of a two-stage bake in one sentence, and wires stage-2 oven settings", () => {
     const steps = ["Preheat the oven to 450°F.", "Bake at 450°F for 15 minutes, then reduce to 375°F and bake 30 minutes more."];
     const r = readInstructions(steps);
     expect(r.bakeMinutes?.value).toEqual([45, 45]);
+    expect(r.stage1Minutes).toBe(15);
     expect(r.ovenC?.value.celsius).toBeCloseTo(((450 - 32) * 5) / 9, 9);
     expect(r.laterOvenC).toBeCloseTo(((375 - 32) * 5) / 9, 9);
-    const { report } = convertRecipe(cookie({ steps }));
-    expect(report.assumptions.some((a) => a.field === "oven temperature" && /first stated temperature/.test(a.basis.note ?? ""))).toBe(true);
+    const { preset, report } = convertRecipe(cookie({ steps }));
+    expect(preset?.oven).toMatchObject({ ovenC: 232, stage2OvenC: 191, stage1Minutes: 15, bakeMinutes: 45 });
+    expect(report.stated.some((s) => s.field === "stage-2 oven temperature" && /191 °C after 15 min/.test(s.value))).toBe(true);
   });
 
   it("never sums an alternative bake time, a rest, or a cut count", () => {

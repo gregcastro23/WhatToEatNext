@@ -37,6 +37,8 @@ export interface InstructionReading {
   ovenC: Quoted<OvenTemperature> | null;
   /** A different oven temperature stated later (a two-stage bake), °C. */
   laterOvenC: number | null;
+  /** Duration of the first stage of a two-stage bake, minutes, when stated. */
+  stage1Minutes?: number | null;
   bakeMinutes: Quoted<readonly [number, number]> | null;
   pan: Quoted<PanCue> | null;
   plate: Quoted<PlateCue> | null;
@@ -75,11 +77,12 @@ function fahrenheit(degrees: string, unitAssumed: boolean): OvenTemperature {
  * read as Fahrenheit and flagged.
  */
 function temperaturesIn(sentence: string): OvenTemperature[] {
-  const c = [...sentence.matchAll(/(\d{2,3})\s*°\s*C\b|(\d{2,3})\s*degrees\s*C(elsius)?\b/gi)];
+  const cleaned = sentence.replace(/\([^)]*\b(convection|conventional)\b[^)]*\)/gi, " ");
+  const c = [...cleaned.matchAll(/(\d{2,3})\s*°\s*C\b|(\d{2,3})\s*degrees\s*C(elsius)?\b/gi)];
   if (c.length > 0) return c.map((m) => ({ celsius: Number(m[1] ?? m[2]), fromFahrenheit: false, unitAssumed: false }));
-  const f = [...sentence.matchAll(/(\d{3})\s*°?\s*(?:degrees\s*)?F(ahrenheit)?\b/gi)];
+  const f = [...cleaned.matchAll(/(\d{3})\s*°?\s*(?:degrees\s*)?F(ahrenheit)?\b/gi)];
   if (f.length > 0) return f.map((m) => fahrenheit(m[1] ?? "", false));
-  return [...sentence.matchAll(/(\d{3})\s*(°|degrees)/gi)].map((m) => fahrenheit(m[1] ?? "", true));
+  return [...cleaned.matchAll(/(\d{3})\s*(°|degrees)/gi)].map((m) => fahrenheit(m[1] ?? "", true));
 }
 
 function readOven(all: readonly string[]): Pick<InstructionReading, "ovenC" | "laterOvenC"> {
@@ -119,17 +122,21 @@ function periodsIn(sentence: string): Array<[number, number]> {
 }
 
 /** The bake time: the first sentence that states one, plus each later sentence that says it continues the bake. */
-function readTime(all: readonly string[]): Quoted<readonly [number, number]> | null {
+function readTime(all: readonly string[]): { bakeMinutes: Quoted<readonly [number, number]> | null; stage1Minutes: number | null } {
   let total: [number, number] | null = null;
+  let firstStage: number | null = null;
   const quotes: string[] = [];
   for (const s of all) {
     const periods = periodsIn(s);
     if (periods.length === 0) continue;
     if (total !== null && !/\b(more|another|additional|further|longer)\b/i.test(s)) continue;
+    const [firstPeriod] = periods;
+    if (firstStage === null && firstPeriod !== undefined) [, firstStage] = firstPeriod;
     total = periods.reduce<[number, number]>((acc, p) => [acc[0] + p[0], acc[1] + p[1]], total ?? [0, 0]);
     quotes.push(s);
   }
-  return total === null ? null : { value: total, quote: quotes.join(" … ") };
+  if (total === null) return { bakeMinutes: null, stage1Minutes: null };
+  return { bakeMinutes: { value: total, quote: quotes.join(" … ") }, stage1Minutes: firstStage !== null && firstStage < total[1] ? firstStage : null };
 }
 
 const PANS: ReadonlyArray<[RegExp, (m: RegExpExecArray) => PanCue | null]> = [
@@ -202,9 +209,12 @@ export function readInstructions(steps: readonly string[]): InstructionReading {
   const text = all.join(" ");
   const steamMatch = /\bsteam\b|ice cubes|spray (the )?oven|pan of (hot|boiling) water/i.exec(text);
   const pieces = readPieces(text);
+  const oven = readOven(all);
+  const time = readTime(all);
   return {
-    ...readOven(all),
-    bakeMinutes: readTime(all),
+    ...oven,
+    stage1Minutes: oven.laterOvenC === null ? null : time.stage1Minutes,
+    bakeMinutes: time.bakeMinutes,
     pan: readPan(text),
     plate: readPlate(text),
     doneC: readDone(all),

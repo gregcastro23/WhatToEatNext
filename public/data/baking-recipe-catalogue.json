@@ -7751,6 +7751,163 @@
    ]
   },
   {
+   "id": "hsca-dessert-all-light-lemon-tart",
+   "name": "LIGHT LEMON TART",
+   "cuisine": "hsca",
+   "category": "pie-tart",
+   "servings": 9,
+   "cookMinutes": 15,
+   "lines": [
+    {
+     "name": "agar flakes",
+     "amount": 0.25,
+     "unit": "cup",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "apple juice or white grape juice",
+     "amount": 2,
+     "unit": "cups",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "rice syrup",
+     "amount": 1,
+     "unit": "cup",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "grade a maple syrup",
+     "amount": 0.5,
+     "unit": "cup",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "turmeric",
+     "amount": 0.125,
+     "unit": "teaspoon",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "pinch sea salt",
+     "amount": 1,
+     "unit": "piece",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "kuzu mixed with 1/2 cup water",
+     "amount": 0.25,
+     "unit": "cup",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "vanilla",
+     "amount": 1,
+     "unit": "teaspoon",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "lemon juice",
+     "amount": 0.75,
+     "unit": "cup",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "lemon zest",
+     "amount": 1.5,
+     "unit": "tablespoons",
+     "notes": null,
+     "optional": false
+    }
+   ],
+   "steps": [
+    "In 2 1/2 quart pot, simmer agar in apple juice until agar is completely dissolved.",
+    "Add rice syrup, maple syrup, turmeric and pinch of salt.",
+    "Combine kuzu slurry with vanilla; add to agar-juice mixture. Cook until kuzu begins to thicken and goes from cloudy to clear.",
+    "Add lemon juice and zest.",
+    "Pour mixture into shallow bowl or pan and cool completely. Whisk frequently so that it does not 'set up.'",
+    "When mixture is cooled, pour into pre-baked and cooled tart crust.",
+    "Refrigerate tart to set filling.",
+    "Note: There may be lemon filling left after filling tart. Let it set totally and blend it in food processor for creamy smooth pudding."
+   ]
+  },
+  {
+   "id": "hsca-dessert-all-amaretti-cookies",
+   "name": "AMARETTI COOKIES",
+   "cuisine": "hsca",
+   "category": "cookie",
+   "servings": 16,
+   "cookMinutes": 15,
+   "lines": [
+    {
+     "name": "large egg whites",
+     "amount": 3,
+     "unit": "piece",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "maple crystals",
+     "amount": 10,
+     "unit": "tablespoons",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "almond extract",
+     "amount": 1,
+     "unit": "teaspoon",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "vanilla extract",
+     "amount": 1,
+     "unit": "teaspoon",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "pinch salt",
+     "amount": 1,
+     "unit": "piece",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "almond flour",
+     "amount": 1,
+     "unit": "cup",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "pignoli nuts",
+     "amount": 0.75,
+     "unit": "cup",
+     "notes": null,
+     "optional": false
+    }
+   ],
+   "steps": [
+    "Pre-heat oven to 325°F. Line 2 half-sheet pans with Silpats.",
+    "Beat egg whites to soft peaks; add maple crystals one tablespoon at a time and continue whipping until incorporated.",
+    "Add extracts and salt; whip 10 seconds more.",
+    "Using rubber spatula, fold almond flour into egg white mixture. Mixture will be soft and 'meringue-like' in consistency.",
+    "Scoop dough onto sheet tray with 1-ounce ice cream scoop. Top each cookie with 8-10 pignoli nuts.",
+    "Bake 18-20 minutes or until cookies are golden. Cool cookies before carefully removing from pan with metal offset spatula."
+   ]
+  },
+  {
    "id": "hsca-dessert-all-fresh-berry-tart-with-nut-crust",
    "name": "FRESH BERRY TART WITH NUT CRUST",
    "cuisine": "hsca",
@@ -11783,6 +11940,98 @@
    ]
   },
   {
+   "id": "hsca-dessert-all-almond-fruit-torte",
+   "name": "Almond Fruit Torte",
+   "cuisine": "hsca",
+   "category": "cake",
+   "servings": 6,
+   "cookMinutes": 15,
+   "lines": [
+    {
+     "name": "blanched almonds",
+     "amount": 1.5,
+     "unit": "cups",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "eggs",
+     "amount": 3,
+     "unit": "piece",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "maple syrup",
+     "amount": 0.75,
+     "unit": "cup",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "almond extract",
+     "amount": 1,
+     "unit": "teaspoon",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "agar flakes",
+     "amount": 1,
+     "unit": "tablespoon",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "water",
+     "amount": 0.75,
+     "unit": "cup",
+     "notes": null,
+     "optional": false
+    },
+    {
+     "name": "strawberries",
+     "amount": 1,
+     "unit": "pint",
+     "notes": "sliced",
+     "optional": false
+    },
+    {
+     "name": "kuzu",
+     "amount": 1,
+     "unit": "tablespoon",
+     "notes": "dissolved in tablespoon water",
+     "optional": false
+    },
+    {
+     "name": "kiwis",
+     "amount": 2,
+     "unit": "piece",
+     "notes": "sliced thinly",
+     "optional": false
+    },
+    {
+     "name": "oranges",
+     "amount": 2,
+     "unit": "piece",
+     "notes": "suprême",
+     "optional": false
+    }
+   ],
+   "steps": [
+    "Oil and flour 8 1/2 inch spring form pan.",
+    "Powder almonds in food processor. Add eggs, 1/2 cup maple syrup, and almond extract. Process until smooth. Pour batter into pan.",
+    "Bake at 350°F for 20 minutes. Top should be firm to touch and brown. Do not remove cake from pan.",
+    "In one-quart saucepan, soften agar flakes in water for 10 minutes. Cook covered, stirring often until agar is dissolved.",
+    "In separate pot, combine strawberries with 1/4 cup maple syrup and cook over medium flame, covered, until soft. Puree in blender, and put through sieve to remove seeds.",
+    "Add strawberry puree to agar mixture, stirring well. Add dissolved kuzu to pot stirring constantly until thick and clear and mixture comes to boil.",
+    "Adjust sweetness with remaining maple syrup, if desired.",
+    "Let strawberry mixture cool slightly. Pour over cake before removing sides of spring-form pan.",
+    "Let mixture set, then remove sides of spring-form pan.",
+    "Garnish with kiwis and oranges and serve."
+   ]
+  },
+  {
    "id": "hsca-dessert-all-rugelach",
    "name": "RUGELACH",
    "cuisine": "hsca",
@@ -12654,7 +12903,7 @@
    "id": "american-lunch-winter-authentic-loaded-baked-potato-soup",
    "name": "Authentic Loaded Baked Potato Soup",
    "reason": "not-a-baked-good",
-   "structureShare": 0.024221050999844985
+   "structureShare": 0.011297086255512977
   },
   {
    "id": "american-dinner-all-authentic-boston-baked-beans",
@@ -12714,7 +12963,7 @@
    "id": "french-dinner-all-authentic-boeuf-bourguignon",
    "name": "Authentic Boeuf Bourguignon",
    "reason": "not-a-baked-good",
-   "structureShare": 0.014345061855906721
+   "structureShare": 0.012195359909461648
   },
   {
    "id": "french-dinner-all-authentic-gratin-dauphinois",
@@ -12990,7 +13239,7 @@
    "id": "hsca-dinner-all-tempeh-vegetable-kebobs",
    "name": "TEMPEH VEGETABLE KEBOBS",
    "reason": "not-a-baked-good",
-   "structureShare": 0.01653360054303908
+   "structureShare": 0.005823564203278789
   },
   {
    "id": "hsca-dinner-all-miso-marinated-salmon",
@@ -13073,8 +13322,8 @@
   {
    "id": "hsca-dinner-all-gnocchi",
    "name": "GNOCCHI",
-   "reason": "not-a-baked-good",
-   "structureShare": 0
+   "reason": "no-structure-line",
+   "structureShare": null
   },
   {
    "id": "hsca-dinner-all-cassoulet",
@@ -13083,20 +13332,8 @@
    "structureShare": null
   },
   {
-   "id": "hsca-dessert-all-light-lemon-tart",
-   "name": "LIGHT LEMON TART",
-   "reason": "no-structure-line",
-   "structureShare": null
-  },
-  {
    "id": "hsca-dessert-all-gluten-free-chocolate-macaroons",
    "name": "GLUTEN-FREE CHOCOLATE MACAROONS",
-   "reason": "no-structure-line",
-   "structureShare": null
-  },
-  {
-   "id": "hsca-dessert-all-amaretti-cookies",
-   "name": "AMARETTI COOKIES",
    "reason": "no-structure-line",
    "structureShare": null
   },
@@ -13127,12 +13364,6 @@
   {
    "id": "hsca-dessert-all-coconut-macaroons",
    "name": "COCONUT MACAROONS",
-   "reason": "no-structure-line",
-   "structureShare": null
-  },
-  {
-   "id": "hsca-dessert-all-almond-fruit-torte",
-   "name": "Almond Fruit Torte",
    "reason": "no-structure-line",
    "structureShare": null
   },

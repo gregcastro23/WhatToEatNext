@@ -188,4 +188,42 @@ export const APPLESAUCE: BakingIngredient = defineIngredient({
   notes: ["Used in place of fat or egg in vegan baking: 88 g water and 8.2 g reducing sugars per 100 g, with pectin the model does not count. pH is the FDA's 'Apples, sauce'."],
 });
 
-export const LIQUIDS: readonly BakingIngredient[] = [WATER, WHOLE_MILK, BUTTERMILK, HEAVY_CREAM, LEMON_JUICE, SOUR_CREAM, PLAIN_YOGURT, APPLE_JUICE, ORANGE_JUICE, APPLESAUCE, ALMOND_MILK, SOY_MILK];
+export const OAT_MILK: BakingIngredient = defineIngredient({
+  ...LIQUID,
+  ...PLANT_MILK,
+  id: "oat-milk",
+  name: "Oat milk (unsweetened)",
+  source: { kind: "fdc", key: "oat-milk", starch: "by-difference" },
+  pH: absent("not in the FDA or Clemson tables consulted"),
+  acidMmolPerG: NEUTRAL_ACID,
+  notes: ["FDC Foundation 2257046: 90.6 g water, 2.75 g fat and 2.32 g sugars (0.77 g glucose, the rest maltose/oligosaccharides from amylase hydrolysis) per 100 g."],
+});
+
+export const COCONUT_MILK: BakingIngredient = defineIngredient({
+  ...LIQUID,
+  id: "coconut-milk",
+  name: "Coconut milk",
+  roles: ["moisture", "fat", "tenderizer"],
+  source: { kind: "fdc", key: "coconut-milk", starch: "none", sugarsAs: "sucrose" },
+  solidFatIndex: declared<number | null>(0.35, "representative coconut-fat solid fraction at 20 °C"),
+  meltingPointC: declared<number | null>(25, "representative clear point of coconut fat"),
+  pH: phRange(6.1, 7.0, "FDA_PH"),
+  acidMmolPerG: NEUTRAL_ACID,
+});
+
+export const LIQUIDS: readonly BakingIngredient[] = [
+  WATER,
+  WHOLE_MILK,
+  BUTTERMILK,
+  HEAVY_CREAM,
+  LEMON_JUICE,
+  SOUR_CREAM,
+  PLAIN_YOGURT,
+  APPLE_JUICE,
+  ORANGE_JUICE,
+  APPLESAUCE,
+  ALMOND_MILK,
+  SOY_MILK,
+  OAT_MILK,
+  COCONUT_MILK,
+];

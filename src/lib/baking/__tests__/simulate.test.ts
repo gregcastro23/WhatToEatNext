@@ -129,4 +129,26 @@ describe("failure modes and refusals", () => {
     expect(r.available).toBe(false);
     if (!r.available) expect(r.reason).toMatch(/oven temperature/);
   });
+
+  it("simulates a two-stage oven step-down and validates stage2OvenC", () => {
+    const single = bake(SOURDOUGH_COUNTRY_LOAF);
+    const twoStage = bake(SOURDOUGH_COUNTRY_LOAF, {
+      oven: { ...SOURDOUGH_COUNTRY_LOAF.oven, stage2OvenC: 210, stage1Minutes: 15 },
+    });
+    const lastSingle = single.frames[single.frames.length - 1];
+    const lastTwoStage = twoStage.frames[twoStage.frames.length - 1];
+    expect(lastTwoStage?.surfaceC ?? 0).toBeLessThan(lastSingle?.surfaceC ?? 0);
+    expect(lastTwoStage?.browningDose ?? 0).toBeLessThan(lastSingle?.browningDose ?? 0);
+
+    const { batter } = prepareBatter(SOURDOUGH_COUNTRY_LOAF.formula, SOURDOUGH_COUNTRY_LOAF.process);
+    const badStage2 = simulateReading({
+      batter,
+      geometry: SOURDOUGH_COUNTRY_LOAF.geometry,
+      oven: { ...SOURDOUGH_COUNTRY_LOAF.oven, stage2OvenC: 50, stage1Minutes: 10 },
+      ambient: AMBIENT,
+      doneCoreC: SOURDOUGH_COUNTRY_LOAF.doneCoreC,
+    });
+    expect(badStage2.available).toBe(false);
+    if (!badStage2.available) expect(badStage2.reason).toMatch(/stage-2 oven temperature/);
+  });
 });

@@ -6,7 +6,7 @@ import type { FormulaTelemetry } from "@/lib/baking/formulaTypes";
 import type { BakingCategory } from "@/lib/baking/types";
 import { DraftNumberInput } from "./DraftNumberInput";
 import { fmtNum } from "./format";
-import type { BakingLab } from "./useBakingLab";
+import { isModifiedFromBaseline, type BakingLab, type LabState } from "./useBakingLab";
 
 const CATEGORIES = Object.keys(CATEGORY_LABELS).filter((k): k is BakingCategory => Object.hasOwn(CATEGORY_LABELS, k));
 
@@ -116,17 +116,69 @@ function AddLine({ lab }: { lab: BakingLab }): JSX.Element {
   );
 }
 
+export function formatFormulaMarkdown(state: LabState, t: FormulaTelemetry | null): string {
+  const rows = state.formula.lines.map((l, i) => {
+    const ing = bakingIngredient(l.ingredientId);
+    const bp = t?.bakersPercent[i] ?? null;
+    return `| ${ing.name} | ${l.grams.toFixed(1)} g | ${bp === null ? "—" : `${bp.toFixed(1)} %`} |`;
+  });
+  const hydration = t?.trueHydrationPct === null || t === null ? "—" : `${t.trueHydrationPct.toFixed(1)} %`;
+  const aw = t?.waterActivity.available ? t.waterActivity.value.aw.toFixed(3) : "—";
+  const stage2 = state.oven.stage2OvenC ? ` → ${state.oven.stage2OvenC} °C after ${state.oven.stage1Minutes ?? Math.round(state.oven.bakeMinutes / 2)} min` : "";
+  return [
+    `### ${state.formula.name}`,
+    `Flour base: ${fmtNum(t?.flourGrams ?? null, 0)} g · True hydration: ${hydration} · Water activity (a_w): ${aw} · Oven: ${state.oven.ovenC} °C${stage2} for ${state.oven.bakeMinutes} min (${state.oven.mode})`,
+    "",
+    "| Ingredient | Grams | Baker's % |",
+    "| :--- | ---: | ---: |",
+    ...rows,
+  ].join("\n");
+}
+
+function FormulaHeader({ lab, t }: { lab: BakingLab; t: FormulaTelemetry | null }): JSX.Element {
+  const modified = isModifiedFromBaseline(lab.state);
+  const [copied, setCopied] = useState(false);
+  const copyFormula = (): void => {
+    const md = formatFormulaMarkdown(lab.state, t);
+    navigator.clipboard
+      .writeText(md)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1800);
+      })
+      .catch(() => {
+        setCopied(false);
+      });
+  };
+  return (
+    <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center gap-2">
+        <h2 className="text-xl">{lab.state.formula.name}</h2>
+        {modified ? <span className="bl-chip text-amber-300">Modified from preset</span> : null}
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="bl-num text-xs text-white/50">
+          flour base {fmtNum(t?.flourGrams ?? null, 0)} g · true hydration {t?.trueHydrationPct === null || t === null ? "—" : `${t.trueHydrationPct.toFixed(1)} %`}
+        </span>
+        {modified ? (
+          <button type="button" className="bl-btn" onClick={() => lab.dispatch({ type: "reset" })}>
+            Reset to original
+          </button>
+        ) : null}
+        <button type="button" className="bl-btn" onClick={copyFormula}>
+          {copied ? "Copied formula" : "Copy baker's formula"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function FormulaPanel({ lab }: { lab: BakingLab }): JSX.Element {
   const { telemetry } = lab.derived;
   const t = telemetry.available ? telemetry.value : null;
   return (
     <div className="bl-card">
-      <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="text-xl">{lab.state.formula.name}</h2>
-        <span className="bl-num text-xs text-white/50">
-          flour base {fmtNum(t?.flourGrams ?? null, 0)} g · true hydration {t?.trueHydrationPct === null || t === null ? "—" : `${t.trueHydrationPct.toFixed(1)} %`}
-        </span>
-      </div>
+      <FormulaHeader lab={lab} t={t} />
       <div className="overflow-x-auto">
         <table className="bl-table">
           <thead>

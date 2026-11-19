@@ -65,8 +65,20 @@ function ovenTemperature(reading: InstructionReading, profile: ProcessProfile, n
   const c = Math.round(stated.value.celsius);
   notes.stated.push({ field: "oven temperature", value: `${c} °C${stated.value.fromFahrenheit ? " (from °F)" : ""}`, quote: stated.quote });
   if (stated.value.unitAssumed) notes.assumptions.push({ field: "oven temperature", value: `${c} °C`, basis: basisOf("DECLARED", "MODEL", "the recipe gives degrees with no unit; read as °F (a US recipe)") });
-  if (reading.laterOvenC !== null) notes.assumptions.push({ field: "oven temperature", value: `${c} °C throughout`, basis: basisOf("DECLARED", "MODEL", `the recipe later changes to ${Math.round(reading.laterOvenC)} °C; the lab bakes at the first stated temperature`) });
   return c;
+}
+
+function secondStageOven(reading: InstructionReading, bakeMinutes: number, notes: Notes): { stage2OvenC: number | null; stage1Minutes: number | null } {
+  if (reading.laterOvenC === null) return { stage2OvenC: null, stage1Minutes: null };
+  const stage2OvenC = Math.round(reading.laterOvenC);
+  const statedSplit = reading.stage1Minutes ?? null;
+  if (statedSplit !== null && statedSplit > 0 && statedSplit < bakeMinutes) {
+    notes.stated.push({ field: "stage-2 oven temperature", value: `${stage2OvenC} °C after ${statedSplit} min`, quote: reading.ovenC?.quote ?? `${stage2OvenC} °C` });
+    return { stage2OvenC, stage1Minutes: statedSplit };
+  }
+  const stage1Minutes = Math.max(1, Math.round(bakeMinutes / 2));
+  notes.assumptions.push({ field: "stage-2 oven temperature", value: `${stage2OvenC} °C after ${stage1Minutes} min`, basis: basisOf("DECLARED", "MODEL", `the recipe later changes to ${stage2OvenC} °C without a first-stage duration; stepped at half the bake`) });
+  return { stage2OvenC, stage1Minutes };
 }
 
 function bakeTime(source: RecipeSource, reading: InstructionReading, profile: ProcessProfile, notes: Notes): number {
@@ -89,11 +101,12 @@ function bakeTime(source: RecipeSource, reading: InstructionReading, profile: Pr
 function ovenFor(source: RecipeSource, reading: InstructionReading, profile: ProcessProfile, notes: Notes): OvenSettings {
   const ovenC = ovenTemperature(reading, profile, notes);
   const bakeMinutes = Math.min(Math.max(bakeTime(source, reading, profile, notes), 1), 240);
+  const { stage2OvenC, stage1Minutes } = secondStageOven(reading, bakeMinutes, notes);
   const plate = notes.use("pan", plateFor(reading.plate?.value ?? null), (p) => `${p.materialId}, ${p.thicknessMm} mm`);
   const stone = reading.plate?.value === "stone";
   const steam = reading.steam === null ? null : notes.use("steam", { value: { fraction: 0.5, minutes: 15 }, why: `the recipe calls for steam ("${reading.steam.quote}"); 50 % vapour for 15 min as the sourdough preset` }, (s) => `${s.fraction * 100} % for ${s.minutes} min`);
   notes.use("elevation", { value: 0, why: "sea level, as the curated presets (set your own)" }, (m) => `${m} m`);
-  return { ovenC, mode: stone ? "deck" : "conventional", fanMs: 0, steamFraction: steam?.fraction ?? 0, steamMinutes: steam?.minutes ?? 0, bakeMinutes, elevationM: 0, plate };
+  return { ovenC, stage2OvenC, stage1Minutes, mode: stone ? "deck" : "conventional", fanMs: 0, steamFraction: steam?.fraction ?? 0, steamMinutes: steam?.minutes ?? 0, bakeMinutes, elevationM: 0, plate };
 }
 
 function fixedShapeOf(source: RecipeSource): Declared<ProductGeometry> | null {

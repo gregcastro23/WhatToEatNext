@@ -176,7 +176,7 @@ function MethodCard({
             ) : null}
           </div>
         </div>
-        <div>
+        <div className="flex flex-wrap items-center gap-2">
           <Link
             href={`/cooking-methods/${id}`}
             className="ma-label inline-flex items-center gap-2 rounded border border-[var(--ma-accent)]/50 px-4 py-2.5 text-[var(--ma-accent-soft)] transition-colors hover:bg-[rgba(var(--ma-accent-rgb),0.08)]"
@@ -184,6 +184,15 @@ function MethodCard({
             <Eye className="h-4 w-4" aria-hidden />
             VIEW_SCHEMATIC
           </Link>
+          {id === "baking" ? (
+            <Link
+              href="/kitchen-lab/baking"
+              className="ma-label inline-flex items-center gap-2 rounded border border-[var(--ma-accent)]/50 px-4 py-2.5 text-[var(--ma-accent-soft)] transition-colors hover:bg-[rgba(var(--ma-accent-rgb),0.08)]"
+            >
+              <FlaskConical className="h-4 w-4" aria-hidden />
+              OPEN_BAKING_LAB
+            </Link>
+          ) : null}
         </div>
       </div>
     </article>

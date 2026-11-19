@@ -2,6 +2,8 @@
 import { curatedEntries, recipeEntries } from "@/lib/baking/recipes/catalogue";
 import type { RecipeSource } from "@/lib/baking/recipes/sourceTypes";
 import { benchFor, benchGoodId, benchNotice, defaultPreset, presetToLoad, showsHud } from "../_lab/bench";
+import { formatFormulaMarkdown } from "../_lab/FormulaPanel";
+import { deriveLab, initialLabState, isModifiedFromBaseline, labReducer } from "../_lab/useBakingLab";
 import { BAKING_TABS, DEFAULT_GOOD_ID } from "../bakingTabs";
 
 function source(id: string, name: string, category: RecipeSource["category"], lines: RecipeSource["lines"]): RecipeSource {
@@ -55,5 +57,21 @@ describe("what is on the bench", () => {
     const bench = benchFor("r-cake", ENTRIES, "ready");
     expect(BAKING_TABS.filter(([tab]) => showsHud(tab, bench)).map(([tab]) => tab)).toEqual(["formula", "swap", "oven", "sources"]);
     expect(benchNotice(bench)).toBeNull();
+  });
+
+  it("tracks modifications from baseline, resets to original, and formats a baker's formula in Markdown", () => {
+    const s0 = initialLabState();
+    expect(isModifiedFromBaseline(s0)).toBe(false);
+    const s1 = labReducer(s0, { type: "grams", line: 0, grams: 600 });
+    expect(isModifiedFromBaseline(s1)).toBe(true);
+    const reset = labReducer(s1, { type: "reset" });
+    expect(isModifiedFromBaseline(reset)).toBe(false);
+    expect(reset.formula.lines[0]?.grams).toBe(s0.formula.lines[0]?.grams);
+
+    const derived = deriveLab(s0);
+    const md = formatFormulaMarkdown(s0, derived.telemetry.available ? derived.telemetry.value : null);
+    expect(md).toContain(`### ${s0.formula.name}`);
+    expect(md).toContain("| Ingredient | Grams | Baker's % |");
+    expect(md).toContain("Bread flour");
   });
 });

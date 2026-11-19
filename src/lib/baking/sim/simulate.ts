@@ -35,6 +35,9 @@ function validate(input: SimInput, numerics: SimNumerics): void {
   requireRange("span (m)", geometry.spanM, 0.01, 2);
   requireRange("contact fraction", geometry.contactFraction, 0, 1);
   requireRange("oven temperature (°C)", oven.ovenC, 100, 320);
+  if (oven.stage2OvenC !== undefined && oven.stage2OvenC !== null) {
+    requireRange("stage-2 oven temperature (°C)", oven.stage2OvenC, 100, 320);
+  }
   requireRange("bake time (min)", oven.bakeMinutes, 1, 240);
   requireRange("steam vapour fraction", oven.steamFraction, 0, 0.9);
   requireRange("fan speed (m/s)", oven.fanMs, 0, 15);
@@ -68,6 +71,17 @@ interface RunOutput {
   events: EventTimes;
 }
 
+function stepInputAt(input: SimInput, tS: number): SimInput {
+  const { stage2OvenC, stage1Minutes, steamMinutes, bakeMinutes } = input.oven;
+  if (stage2OvenC === undefined || stage2OvenC === null) return input;
+  const splitMin = stage1Minutes !== undefined && stage1Minutes !== null && stage1Minutes > 0
+    ? stage1Minutes
+    : steamMinutes > 0
+      ? steamMinutes
+      : bakeMinutes / 2;
+  return tS / 60 < splitMin ? input : { ...input, oven: { ...input.oven, ovenC: stage2OvenC } };
+}
+
 function run(input: SimInput, numerics: SimNumerics, doneC: number): RunOutput {
   const state = initialState(input, numerics);
   const runtime: FaceRuntime[] = exposedFaces(state, input).map(() => ({ surfaceC: input.batter.startC, latentWm2: 0 }));
@@ -77,16 +91,17 @@ function run(input: SimInput, numerics: SimNumerics, doneC: number): RunOutput {
   const framesEvery = Math.max(Math.round(numerics.frameEveryS / numerics.dtS), 1);
   for (let step = 1; step <= steps; step += 1) {
     const previousMaxC = state.nodes.map((n) => n.maxC);
-    thermalStep(state, input, runtime, numerics.dtS);
+    const activeInput = stepInputAt(input, state.tS);
+    thermalStep(state, activeInput, runtime, numerics.dtS);
     const growth = updateNodes(state, input.batter, previousMaxC);
     state.tS += numerics.dtS;
     if (growth / numerics.dtS > state.peakGasRate) {
       state.peakGasRate = growth / numerics.dtS;
       state.peakGasS = state.tS;
     }
-    advanceBrowning(state, input, runtime, numerics.dtS);
-    observeEvents(events, state, input, doneC);
-    if (step % framesEvery === 0 || step === steps) frames.push(buildFrame(state, input, runtime));
+    advanceBrowning(state, activeInput, runtime, numerics.dtS);
+    observeEvents(events, state, activeInput, doneC);
+    if (step % framesEvery === 0 || step === steps) frames.push(buildFrame(state, activeInput, runtime));
   }
   return { state, frames, events };
 }

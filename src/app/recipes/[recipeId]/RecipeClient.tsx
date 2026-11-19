@@ -831,6 +831,7 @@ interface RecipeClientProps {
   recommendedSauces: string[];
   recommendedRecipes: Recipe[];
   initialPersona?: DietaryMode | null;
+  bakingGoodId?: string | null;
 }
 
 function hasDegradedRecipeFields(ingredients: unknown, instructions: unknown): boolean {
@@ -842,7 +843,7 @@ function hasDegradedRecipeFields(ingredients: unknown, instructions: unknown): b
   );
 }
 
-export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes, initialPersona = null }: RecipeClientProps): JSX.Element {
+export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes, initialPersona = null, bakingGoodId = null }: RecipeClientProps): JSX.Element {
   const [servings, setServings] = useState(getBaseServings(recipe));
   const [copied, setCopied] = useState(false);
   const [heroImageFailed, setHeroImageFailed] = useState(false);
@@ -1149,6 +1150,16 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
             </button>
 
             <RiffOnThisLink recipe={recipe} />
+
+            {bakingGoodId !== null && bakingGoodId.length > 0 ? (
+              <Link
+                href={`/kitchen-lab/baking?good=${encodeURIComponent(bakingGoodId)}`}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-200 bg-amber-500/15 border border-amber-400/40 text-amber-200 hover:bg-amber-500/25 hover:border-amber-300"
+              >
+                <span aria-hidden>🥖</span>
+                Open in Baking Lab →
+              </Link>
+            ) : null}
 
             <button
               onClick={() => {
