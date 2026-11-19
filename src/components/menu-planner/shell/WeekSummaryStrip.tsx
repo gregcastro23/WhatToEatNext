@@ -6,20 +6,24 @@
  * Provides at-a-glance weekly stats:
  *  - Planned meal count & progress
  *  - Elemental balance mini-bar (Fire, Water, Earth, Air)
+ *  - Orthogonal Alchemical ESMS mini-bar (Spirit, Essence, Matter, Substance & A#)
  *  - Grocery budget vs estimated cost
  *  - Action button to open the full Nutrition Dashboard
- *
- * Replaces the heavy 12-column WeeklyInsights block and CircuitMetricsPanel.
  *
  * @file src/components/menu-planner/shell/WeekSummaryStrip.tsx
  */
 
 import { BarChart3, ChevronRight, Sparkles } from "lucide-react";
-import React from "react";
+import React, { useMemo } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
 import type { ElementalProperties } from "@/types/recipe";
+import {
+  ALL_ESMS_NAMES,
+  computeWeeklyEsmsSnapshot,
+  ESMS_META,
+  type ElementName,
+} from "../redesign/elementUtils";
 import { usePlannerUI } from "./PlannerUIContext";
-import type { ElementName } from "../redesign/elementUtils";
 
 const ELEMENTS: Array<{ key: ElementName; bar: string; label: string }> = [
   { key: "Fire", bar: "bg-fire-spirit", label: "Fire" },
@@ -50,6 +54,15 @@ export default function WeekSummaryStrip(): React.ReactElement {
 
   const dist = weeklyStats?.elementalDistribution ?? null;
   const verdict = balanceVerdict(dist, totalPlanned);
+
+  const esms = useMemo(
+    () => computeWeeklyEsmsSnapshot(currentMenu?.meals),
+    [currentMenu?.meals],
+  );
+  const esmsVerdict =
+    esms.mealsWithEsms > 0 && esms.dominant
+      ? `A# ${esms.totalASharp.toFixed(1)} · ${ESMS_META[esms.dominant].symbol} ${esms.dominant}`
+      : "Add meals for A#";
 
   const cost = Math.round(estimatedWeeklyCost ?? 0);
   const hasBudget = typeof weeklyBudget === "number" && weeklyBudget > 0;
@@ -93,6 +106,38 @@ export default function WeekSummaryStrip(): React.ReactElement {
                   className={`${e.bar} h-full ${dist && totalPlanned > 0 ? "" : "opacity-30"}`}
                   style={{ width: `${pct}%` }}
                   title={`${e.label}: ${pct}%`}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </button>
+
+      {/* Orthogonal Alchemical ESMS Mini-Meter & Opener */}
+      <button
+        type="button"
+        onClick={() => openModal("harmony")}
+        title="Inspect Weekly Alchemical ESMS Quantities"
+        className="flex items-center gap-3 p-1.5 -m-1.5 rounded-xl hover:bg-surface-container-high/60 transition-colors text-left group focus:outline-none focus-visible:ring-1 focus-visible:ring-active-violet"
+      >
+        <div className="flex flex-col">
+          <div className="flex items-center justify-between text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">
+            <span className="group-hover:text-primary transition-colors">ESMS</span>
+            <span className="text-primary font-semibold ml-2">{esmsVerdict}</span>
+          </div>
+          <div className="flex w-32 h-1.5 rounded-full overflow-hidden bg-surface-container-high">
+            {ALL_ESMS_NAMES.map((key) => {
+              const meta = ESMS_META[key];
+              const pct =
+                esms.mealsWithEsms > 0
+                  ? Math.max(2, Math.round(esms.dist[key] * 100))
+                  : 25;
+              return (
+                <div
+                  key={key}
+                  className={`${meta.bar} h-full ${esms.mealsWithEsms > 0 ? "" : "opacity-30"}`}
+                  style={{ width: `${pct}%` }}
+                  title={`${meta.symbol} ${meta.label}: ${pct}%`}
                 />
               );
             })}

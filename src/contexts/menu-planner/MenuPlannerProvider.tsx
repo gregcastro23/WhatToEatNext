@@ -880,7 +880,7 @@ export function MenuPlannerProvider({ children }: { children: ReactNode }): Reac
     persistMenu,
   });
 
-  const weeklyStats = useMenuStats(currentMenu);
+  const weeklyStats = useMenuStats(currentMenu, natalChart?.alchemicalProperties);
   const refreshStats = useCallback((): void => {
     // Stats are computed eagerly via useMenuStats — no-op for backward compat
   }, []);

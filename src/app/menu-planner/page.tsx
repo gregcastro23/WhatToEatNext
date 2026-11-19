@@ -24,9 +24,26 @@ import {
 import {
   RecipeQueueProvider,
 } from "@/contexts/RecipeQueueContext";
+import { useMealPlan } from "@/hooks/useMealPlan";
 import { useNutritionTracking } from "@/hooks/useNutritionTracking";
 import { useRecipeRefResolver } from "@/hooks/useRecipeRefResolver";
 import { useSpacetimePlannerSync } from "@/hooks/useSpacetimePlannerSync";
+import type { DayOfWeek, MealType } from "@/types/menuPlanner";
+
+function toLocalIsoDate(d: Date): string {
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+function isPlannerMealType(val: string | undefined): val is MealType {
+  return val === "breakfast" || val === "lunch" || val === "dinner" || val === "snack";
+}
+
+function isPlannerDayOfWeek(val: number): val is DayOfWeek {
+  return val >= 0 && val <= 6 && Number.isInteger(val);
+}
 
 // Lazy-loaded modals, drawers and calendar per master architecture
 const WeeklyCalendar = dynamic(
@@ -74,9 +91,10 @@ function MenuPlannerContent(): React.ReactElement {
   const planActions = usePlanActions(state.showSnacks ? ALL_MEAL_TYPES : MAIN_MEAL_TYPES);
   const { toast, showSuccess, showError } = useToast();
 
-  // Rehydration sources for remote-slot materialization
+  // Rehydration sources for remote-slot materialization & recipe-page meal plan bridge
   const [rehydrationActive, setRehydrationActive] = useState(false);
   const resolveRecipeRef = useRecipeRefResolver(rehydrationActive);
+  const { plan: queuedPlanEntries, removeEntry: removeQueuedEntry } = useMealPlan();
 
   // Syncs the plan with SpacetimeDB when the live-planner flag is on
   const plannerSync = useSpacetimePlannerSync(
@@ -85,8 +103,44 @@ function MenuPlannerContent(): React.ReactElement {
     resolveRecipeRef,
   );
   useEffect(() => {
-    if (plannerSync.unappliedRemoteSlots > 0) setRehydrationActive(true);
-  }, [plannerSync.unappliedRemoteSlots]);
+    if (plannerSync.unappliedRemoteSlots > 0 || queuedPlanEntries.length > 0) {
+      setRehydrationActive(true);
+    }
+  }, [plannerSync.unappliedRemoteSlots, queuedPlanEntries.length]);
+
+  // Drain any recipes scheduled via AddToMealPlanButton (/recipes/[recipeId]) for the displayed week
+  useEffect(() => {
+    if (
+      !currentMenu ||
+      queuedPlanEntries.length === 0 ||
+      typeof menuPlannerActions.addMealToSlot !== "function"
+    ) {
+      return;
+    }
+    const baseStart = currentMenu.weekStartDate;
+    if (!(baseStart instanceof Date) || Number.isNaN(baseStart.getTime())) return;
+    const dayByIso = new Map<string, DayOfWeek>();
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(baseStart);
+      d.setDate(d.getDate() + i);
+      if (isPlannerDayOfWeek(i)) dayByIso.set(toLocalIsoDate(d), i);
+    }
+    for (const entry of queuedPlanEntries) {
+      const dayOfWeek = dayByIso.get(entry.date);
+      if (dayOfWeek === undefined) continue;
+      const mealType: MealType = isPlannerMealType(entry.mealType)
+        ? entry.mealType
+        : "dinner";
+      const resolved =
+        resolveRecipeRef(entry.recipeId) ??
+        (entry.recipeName ? resolveRecipeRef(entry.recipeName) : null);
+      if (!resolved) continue;
+      removeQueuedEntry(entry.id);
+      menuPlannerActions
+        .addMealToSlot(dayOfWeek, mealType, resolved, entry.servings ?? 1)
+        .catch(() => {});
+    }
+  }, [currentMenu, queuedPlanEntries, removeQueuedEntry, resolveRecipeRef, menuPlannerActions]);
 
   const syncInfo = useMemo<PlannerSyncInfo>(
     () => ({

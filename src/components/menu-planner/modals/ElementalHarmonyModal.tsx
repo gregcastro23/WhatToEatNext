@@ -10,10 +10,19 @@
 import { Flame, Sparkles, Wind, Droplets, Mountain } from "lucide-react";
 import React, { useMemo } from "react";
 import { useMenuPlanner } from "@/contexts/MenuPlannerContext";
+import { chartQuantities, esmsAffinity } from "@/lib/recipes/alchemicalMatch";
 import type { DayOfWeek, MealSlot } from "@/types/menuPlanner";
 import { getDayName } from "@/types/menuPlanner";
 import { PLANETARY_DAY_RULERS } from "@/utils/planetaryDayRecommendations";
-import { readElemental, type ElementName, ELEMENT_TEXT } from "../redesign/elementUtils";
+import {
+  ALL_ESMS_NAMES,
+  computeWeeklyEsmsSnapshot,
+  ELEMENT_TEXT,
+  ESMS_META,
+  readElemental,
+  type ElementName,
+  type WeeklyEsmsSnapshot,
+} from "../redesign/elementUtils";
 import Sheet from "../shell/Sheet";
 import { useWeekDates } from "../shell/useWeekDates";
 
@@ -28,22 +37,10 @@ const ELEMENT_ICONS: Record<ElementName, React.ReactNode> = {
 };
 
 const ELEMENT_EXPLANATIONS: Record<ElementName, { principle: string; foods: string }> = {
-  Fire: {
-    principle: "Metabolic vitality, digestive heat, and dynamic energy.",
-    foods: "Warming spices, ginger, roasted peppers, garlic, rosemary.",
-  },
-  Water: {
-    principle: "Cellular hydration, soothing recovery, and fluid balance.",
-    foods: "Simmered broths, melons, cucumbers, leafy greens, cooling teas.",
-  },
-  Earth: {
-    principle: "Physical grounding, mineral density, and steady satiety.",
-    foods: "Root vegetables, lentils, whole grains, seeds, hearty squashes.",
-  },
-  Air: {
-    principle: "Mental clarity, digestive lightness, and active movement.",
-    foods: "Fresh bitter greens, crisp sprouts, herbs, citrus, fermented items.",
-  },
+  Fire: { principle: "Metabolic vitality, digestive heat, and dynamic energy.", foods: "Warming spices, ginger, roasted peppers, garlic, rosemary." },
+  Water: { principle: "Cellular hydration, soothing recovery, and fluid balance.", foods: "Simmered broths, melons, cucumbers, leafy greens, cooling teas." },
+  Earth: { principle: "Physical grounding, mineral density, and steady satiety.", foods: "Root vegetables, lentils, whole grains, seeds, hearty squashes." },
+  Air: { principle: "Mental clarity, digestive lightness, and active movement.", foods: "Fresh bitter greens, crisp sprouts, herbs, citrus, fermented items." },
 };
 
 interface DailyBreakdownItem {
@@ -190,18 +187,79 @@ function WeeklyMeter({ dist, totalMeals }: { dist: Record<ElementName, number>; 
   );
 }
 
+function WeeklyEsmsMeter({ summary, natalAffinity }: { summary: WeeklyEsmsSnapshot; natalAffinity: number | null }): React.JSX.Element {
+  return (
+    <div className="p-4 rounded-xl border border-muted bg-surface-container-low space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <span className="font-mono text-xs uppercase tracking-wider text-on-surface-variant font-bold">Alchemical ESMS Quantities (A#)</span>
+        <div className="flex items-center gap-2 font-mono text-xs">
+          <span className="text-primary font-semibold">A# {summary.totalASharp.toFixed(1)} · {summary.mealsWithEsms} Meals</span>
+          {natalAffinity !== null && (
+            <span className="px-2 py-0.5 rounded-full bg-gold-accent/15 border border-gold-accent/30 text-gold-accent text-[10px] font-bold">
+              ✦ {natalAffinity}% Natal ESMS Affinity
+            </span>
+          )}
+        </div>
+      </div>
+      <div className="flex w-full h-3 rounded-full overflow-hidden bg-surface-container-high">
+        {ALL_ESMS_NAMES.map((key) => {
+          const meta = ESMS_META[key];
+          const pct = summary.mealsWithEsms > 0 ? Math.round(summary.dist[key] * 100) : 25;
+          return <div key={key} className={`${meta.bar} h-full transition-all duration-300`} style={{ width: `${Math.max(2, pct)}%` }} title={`${meta.symbol} ${meta.label}: ${pct}% (${summary.totals[key].toFixed(1)})`} />;
+        })}
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+        {ALL_ESMS_NAMES.map((key) => {
+          const meta = ESMS_META[key];
+          const pct = summary.mealsWithEsms > 0 ? Math.round(summary.dist[key] * 100) : 0;
+          return (
+            <div key={key} className="p-2.5 rounded-lg border border-muted/60 bg-surface-container/60 flex flex-col gap-1">
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-1.5 font-bold text-xs"><span className={meta.text}>{meta.symbol}</span><span className={meta.text}>{meta.label}</span></span>
+                <span className="font-mono text-xs font-bold text-primary">{summary.totals[key].toFixed(1)} <span className="text-on-surface-variant font-normal">({pct}%)</span></span>
+              </div>
+              <p className="text-[10px] text-on-surface-variant line-clamp-2 leading-tight">{meta.principle}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export interface ElementalHarmonyModalProps {
   isOpen: boolean;
   onClose: () => void;
+  natalAlchemical?: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  } | null;
 }
 
-export default function ElementalHarmonyModal({ isOpen, onClose }: ElementalHarmonyModalProps): React.JSX.Element | null {
+export default function ElementalHarmonyModal({ isOpen, onClose, natalAlchemical }: ElementalHarmonyModalProps): React.JSX.Element | null {
   const { currentMenu, weeklyStats } = useMenuPlanner();
   const { weekDates } = useWeekDates();
   const dist = useMemo<Record<ElementName, number>>(() => readElemental(weeklyStats?.elementalDistribution ?? null), [weeklyStats?.elementalDistribution]);
   const totalMeals = weeklyStats?.totalMeals ?? 0;
   const dailyBreakdown = useMemo(() => computeDailyBreakdown(currentMenu?.meals, weekDates), [currentMenu?.meals, weekDates]);
   const guidance = useMemo(() => computeGuidance(totalMeals, dist), [totalMeals, dist]);
+  const esmsSummary = useMemo(() => computeWeeklyEsmsSnapshot(currentMenu?.meals), [currentMenu?.meals]);
+  const natalAffinity = useMemo<number | null>(() => {
+    if (typeof weeklyStats?.natalEsmsAffinity === "number") return weeklyStats.natalEsmsAffinity;
+    if (!natalAlchemical || esmsSummary.totalASharp <= 0) return null;
+    const target = chartQuantities(natalAlchemical);
+    if (!target) return null;
+    return Math.round(
+      esmsAffinity(target, {
+        spirit: esmsSummary.totals.Spirit,
+        essence: esmsSummary.totals.Essence,
+        matter: esmsSummary.totals.Matter,
+        substance: esmsSummary.totals.Substance,
+      }),
+    );
+  }, [weeklyStats?.natalEsmsAffinity, natalAlchemical, esmsSummary]);
 
   if (!isOpen) return null;
   return (
@@ -209,12 +267,13 @@ export default function ElementalHarmonyModal({ isOpen, onClose }: ElementalHarm
       open={isOpen}
       onOpenChange={(open) => { if (!open) onClose(); }}
       title="Elemental Harmony & Astrological Resonance"
-      description="Holistic balance of Fire, Water, Earth, and Air across your planned week."
+      description="Holistic balance of Fire, Water, Earth, and Air plus orthogonal Spirit, Essence, Matter, and Substance (A#)."
       width="max-w-2xl"
       footer={<div className="flex justify-end"><button type="button" onClick={onClose} className="px-4 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-primary font-mono text-xs uppercase font-semibold transition-colors">Close</button></div>}
     >
       <div className="space-y-6">
         <WeeklyMeter dist={dist} totalMeals={totalMeals} />
+        <WeeklyEsmsMeter summary={esmsSummary} natalAffinity={natalAffinity} />
         <div className="p-4 rounded-xl border border-gold-accent/30 bg-gold-accent/5 space-y-1.5">
           <div className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-gold-accent" />

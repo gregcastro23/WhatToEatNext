@@ -1,22 +1,32 @@
 "use client";
 
 import { useMemo } from "react";
+import { readRecipeEsms } from "@/components/menu-planner/redesign/elementUtils";
+import { chartQuantities, esmsAffinity } from "@/lib/recipes/alchemicalMatch";
 import type { WeeklyMenu, WeeklyMenuStats } from "@/types/menuPlanner";
 
 export function useMenuStats(
   currentMenu: WeeklyMenu | null,
+  natalAlchemical?: {
+    Spirit: number;
+    Essence: number;
+    Matter: number;
+    Substance: number;
+  } | null,
 ): WeeklyMenuStats | null {
   return useMemo(() => {
     if (!currentMenu) return null;
 
-    const filledMeals = currentMenu.meals.filter((m) => m.recipe);
+    const filledMeals = currentMenu.meals.flatMap((m) =>
+      m.recipe ? [{ meal: m, recipe: m.recipe }] : [],
+    );
     const totalMeals = filledMeals.length;
-    const totalRecipes = new Set(filledMeals.map((m) => m.recipe!.id)).size;
+    const totalRecipes = new Set(filledMeals.map((m) => m.recipe.id)).size;
 
     // Elemental distribution: sum then normalize
     const rawElemental = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    for (const meal of filledMeals) {
-      const ep = meal.recipe!.elementalProperties;
+    for (const { recipe } of filledMeals) {
+      const ep = recipe.elementalProperties;
       rawElemental.Fire += ep.Fire ?? 0;
       rawElemental.Water += ep.Water ?? 0;
       rawElemental.Earth += ep.Earth ?? 0;
@@ -34,9 +44,53 @@ export function useMenuStats(
           }
         : { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
+    // Orthogonal Alchemical ESMS quantities (Spirit, Essence, Matter, Substance)
+    const rawEsms = { Spirit: 0, Essence: 0, Matter: 0, Substance: 0, mealsWithEsms: 0 };
+    for (const { meal, recipe } of filledMeals) {
+      const esms = readRecipeEsms(recipe, meal.servings || 1);
+      if (esms) {
+        rawEsms.Spirit += esms.Spirit;
+        rawEsms.Essence += esms.Essence;
+        rawEsms.Matter += esms.Matter;
+        rawEsms.Substance += esms.Substance;
+        rawEsms.mealsWithEsms += 1;
+      }
+    }
+    const totalASharp =
+      rawEsms.Spirit + rawEsms.Essence + rawEsms.Matter + rawEsms.Substance;
+    const esmsTotals = {
+      Spirit: rawEsms.Spirit,
+      Essence: rawEsms.Essence,
+      Matter: rawEsms.Matter,
+      Substance: rawEsms.Substance,
+      totalASharp,
+      mealsWithEsms: rawEsms.mealsWithEsms,
+    };
+    const esmsDistribution =
+      totalASharp > 0
+        ? {
+            Spirit: rawEsms.Spirit / totalASharp,
+            Essence: rawEsms.Essence / totalASharp,
+            Matter: rawEsms.Matter / totalASharp,
+            Substance: rawEsms.Substance / totalASharp,
+          }
+        : { Spirit: 0, Essence: 0, Matter: 0, Substance: 0 };
+    const natalTarget = natalAlchemical ? chartQuantities(natalAlchemical) : null;
+    const natalEsmsAffinity =
+      natalTarget && totalASharp > 0
+        ? Math.round(
+            esmsAffinity(natalTarget, {
+              spirit: rawEsms.Spirit,
+              essence: rawEsms.Essence,
+              matter: rawEsms.Matter,
+              substance: rawEsms.Substance,
+            }),
+          )
+        : null;
+
     // averageGregsEnergy: mean of monicaScore across filled meals
     const monicaScores = filledMeals
-      .map((m) => m.recipe!.monicaScore)
+      .map((m) => m.recipe.monicaScore)
       .filter((s): s is number => s != null);
     const averageGregsEnergy =
       monicaScores.length > 0
@@ -45,15 +99,10 @@ export function useMenuStats(
 
     // averageMonica: mean of (spirit + essence + matter + substance) / 4
     const monicaValues: number[] = [];
-    for (const meal of filledMeals) {
-      const r = meal.recipe!;
-      if (
-        r.spirit != null &&
-        r.essence != null &&
-        r.matter != null &&
-        r.substance != null
-      ) {
-        monicaValues.push((r.spirit + r.essence + r.matter + r.substance) / 4);
+    for (const { recipe } of filledMeals) {
+      const esms = readRecipeEsms(recipe, 1);
+      if (esms) {
+        monicaValues.push(esms.totalASharp / 4);
       }
     }
     const averageMonica =
@@ -63,8 +112,8 @@ export function useMenuStats(
 
     // Cuisine distribution: count by cuisine, sort descending
     const cuisineCounts: Record<string, number> = {};
-    for (const meal of filledMeals) {
-      const c = meal.recipe!.cuisine;
+    for (const { recipe } of filledMeals) {
+      const c = recipe.cuisine;
       if (c) {
         cuisineCounts[c] = (cuisineCounts[c] ?? 0) + 1;
       }
@@ -76,13 +125,13 @@ export function useMenuStats(
     // Dietary compliance: true only if ALL filled meals satisfy the constraint
     const dietaryCompliance = {
       vegetarian:
-        totalMeals > 0 && filledMeals.every((m) => m.recipe!.isVegetarian === true),
+        totalMeals > 0 && filledMeals.every((m) => m.recipe.isVegetarian === true),
       vegan:
-        totalMeals > 0 && filledMeals.every((m) => m.recipe!.isVegan === true),
+        totalMeals > 0 && filledMeals.every((m) => m.recipe.isVegan === true),
       glutenFree:
-        totalMeals > 0 && filledMeals.every((m) => m.recipe!.isGlutenFree === true),
+        totalMeals > 0 && filledMeals.every((m) => m.recipe.isGlutenFree === true),
       dairyFree:
-        totalMeals > 0 && filledMeals.every((m) => m.recipe!.isDairyFree === true),
+        totalMeals > 0 && filledMeals.every((m) => m.recipe.isDairyFree === true),
     };
 
     // Missing meals: slots with no recipe
@@ -96,9 +145,12 @@ export function useMenuStats(
       averageGregsEnergy,
       averageMonica,
       elementalDistribution,
+      esmsTotals,
+      esmsDistribution,
+      natalEsmsAffinity,
       cuisineDistribution,
       dietaryCompliance,
       missingMeals,
     };
-  }, [currentMenu]);
+  }, [currentMenu, natalAlchemical]);
 }
