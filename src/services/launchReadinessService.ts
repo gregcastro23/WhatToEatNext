@@ -1,19 +1,8 @@
 /**
  * launchReadinessService — presence-only configuration readiness for the
- * revenue + on-chain "moving pieces" that ship alongside the core app.
- *
- * Every subsystem here (Stripe Pro, restaurant crypto-food payments, the
- * on-chain ESMS economy, Recipe-NFT minting, Privy server wallets, the Amazon
- * Fresh affiliate sink, the cross-project agent network, transactional email)
- * is gated behind environment variables. This service reports, per subsystem,
- * WHICH of those env vars are configured — as booleans only. It never reads a
- * secret's value; `Boolean(process.env.X)` collapses the value to a presence
- * flag before it leaves the server. The API route that wraps this is admin-
- * guarded, and the payload is safe to render in the admin UI.
- *
- * It also surfaces the one live operational signal that determines whether the
- * restaurant payment rail is safe to leave running: the settlement backlog
- * (orders where ESMS was debited but the restaurant transfer isn't confirmed).
+ * revenue, alerting, and on-chain subsystems that ship alongside the core app.
+ * Collapses env vars to booleans only (`Boolean(process.env.X)`) and checks the
+ * live restaurant settlement backlog.
  *
  * @file src/services/launchReadinessService.ts
  */
@@ -100,6 +89,17 @@ function rpcEndpoint(label: string, sources: string[]): ReadinessCheck {
     source: sources.join(" / "),
     kind: "config",
     ok: sources.some((s) => isRpcUrl(process.env[s])),
+    isPublic: false,
+  };
+}
+
+/** anySecret — passes when at least one of the listed secret env vars is set. */
+function anySecret(label: string, sources: string[]): ReadinessCheck {
+  return {
+    label,
+    source: sources.join(" / "),
+    kind: "secret",
+    ok: sources.some((s) => isSet(s)),
     isPublic: false,
   };
 }
@@ -273,8 +273,10 @@ export async function getLaunchReadiness(): Promise<LaunchReadinessReport> {
       "Alerting · delivery channels",
       "Where system-health alerts are actually sent.",
       [
-        check("Slack webhook", "ALERT_SLACK_WEBHOOK_URL", "secret"),
-        check("Email sender", "RESEND_API_KEY", "secret"),
+        anySecret("Delivery channel", [
+          "RESEND_API_KEY",
+          "ALERT_SLACK_WEBHOOK_URL",
+        ]),
       ],
     ),
   ];

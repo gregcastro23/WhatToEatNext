@@ -28,6 +28,25 @@ describe("Admin Response Schemas Producer-Bound Round-Trip", () => {
     expect(typeof parsed.settlement.live).toBe("boolean");
   });
 
+  it("marks alerting READY when RESEND_API_KEY is set without ALERT_SLACK_WEBHOOK_URL", async () => {
+    const prevResend = process.env.RESEND_API_KEY;
+    const prevSlack = process.env.ALERT_SLACK_WEBHOOK_URL;
+    try {
+      process.env.RESEND_API_KEY = "re_test_key";
+      delete process.env.ALERT_SLACK_WEBHOOK_URL;
+      const report = await getLaunchReadiness();
+      const alerting = report.subsystems.find((s) => s.key === "alerting");
+      expect(alerting?.status).toBe("READY");
+      expect(alerting?.configured).toBe(1);
+      expect(alerting?.total).toBe(1);
+    } finally {
+      if (prevResend === undefined) delete process.env.RESEND_API_KEY;
+      else process.env.RESEND_API_KEY = prevResend;
+      if (prevSlack === undefined) delete process.env.ALERT_SLACK_WEBHOOK_URL;
+      else process.env.ALERT_SLACK_WEBHOOK_URL = prevSlack;
+    }
+  });
+
   it("validates real observability producer output through ObservabilityResponseSchema", () => {
     const summary = summarizeRecent();
     const recent = getRecentRequests({ limit: 10 });

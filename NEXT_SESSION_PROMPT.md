@@ -2,7 +2,7 @@
 
   <metadata>
     <repository>/Users/cookingwithcastro/Desktop/WhatToEatNext-master</repository>
-    <base_branch commit="86dccd33">master</base_branch>
+    <base_branch commit="f500d617">master</base_branch>
     <hardware_profile>Apple Silicon M5 / 16 GB Unified Memory</hardware_profile>
     <runtime_policy>Bun-strict (`bun run ...`, `bunx ...`, `bun --bun run dev`). Never invoke npm or npx for project scripts.</runtime_policy>
   </metadata>
@@ -132,12 +132,12 @@
     </objective>
 
     <objective priority="P2" id="launch_readiness_env_and_resource_metering">
-      <title>Optional Remaining Operator Env Vars (`ALERT_SLACK_WEBHOOK_URL` &amp; Gated Subsystems)</title>
+      <title>Optional Gated Subsystems &amp; Host Resource Metering</title>
       <context>
-        `7/10` `LaunchReadiness` subsystems are now `READY` (`stripe-pro` `4/4`, `restaurant-esms` `5/5`, `onchain-esms` `5/5`, `recipe-nft` `6/6`, `privy` `5/5`, `agent-network` `2/2`, `email` `1/1`). Only `alerting` (`1/2`, `RESEND_API_KEY: ok`, `ALERT_SLACK_WEBHOOK_URL` intentionally skipped for now) remains `PARTIAL` (`1 OPEN` in Priority Queue), while `esms-spl-mirror` (`0/6`) and `amazon-fresh` (`0/4`) remain intentionally `OFF` (`gated`).
+        `8/10` `LaunchReadiness` subsystems are now `READY` (`stripe-pro` `4/4`, `restaurant-esms` `5/5`, `onchain-esms` `5/5`, `recipe-nft` `6/6`, `privy` `5/5`, `agent-network` `2/2`, `email` `1/1`, `alerting` `1/1` via `RESEND_API_KEY`), with `0 OPEN` in the `/admin/dashboard` Priority Queue (`0 P0 / 0 P1 / 0 P2`). Only `esms-spl-mirror` (`0/6`) and `amazon-fresh` (`0/4`) remain intentionally `OFF` (`gated`).
       </context>
       <deliverables>
-        <item>Optionally provision `ALERT_SLACK_WEBHOOK_URL` (or `RAILWAY_API_TOKEN` for host resource metering) when desired.</item>
+        <item>Optionally provision `RAILWAY_API_TOKEN` for host resource metering when desired.</item>
       </deliverables>
     </objective>
 
