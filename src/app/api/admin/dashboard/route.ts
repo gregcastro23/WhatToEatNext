@@ -13,6 +13,7 @@
 
 import { NextResponse, type NextRequest } from "next/server";
 import type { AdminDashboardData } from "@/app/admin/_dashboard/data";
+import { createConcurrencyLimiter } from "@/lib/async/concurrency";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database";
@@ -262,6 +263,10 @@ async function safeCount(label: string, sql: string): Promise<number | null> {
  */
 async function assembleTelemetryCore() {
   {
+    // Cap concurrent DB readers per invocation to 2 so a single /api/admin/dashboard
+    // fan-out (~34 DB tasks) never swamps the max:3 per-Lambda pool or Supavisor.
+    const dbLimit = createConcurrencyLimiter(2);
+
     // SQL aggregates replace the former getAllUsers() full-table read; the
     // stats payload now carries its own honest `live` flag instead of
     // silently rendering zeros on failure.
@@ -273,21 +278,27 @@ async function assembleTelemetryCore() {
       totalSubscriptions,
       totalTransactions,
     ] = await Promise.all([
-      getAdminUserStats(),
-      getRecentHumanSignups(),
-      safeCount("recipes", "SELECT COUNT(*)::integer AS count FROM recipes"),
-      safeCount(
-        "ingredients",
-        "SELECT COUNT(*)::integer AS count FROM ingredients",
+      dbLimit(() => getAdminUserStats()),
+      dbLimit(() => getRecentHumanSignups()),
+      dbLimit(() => safeCount("recipes", "SELECT COUNT(*)::integer AS count FROM recipes")),
+      dbLimit(() =>
+        safeCount(
+          "ingredients",
+          "SELECT COUNT(*)::integer AS count FROM ingredients",
+        ),
       ),
       // Only Stripe-backed subs are paying customers. Falls back to null on
       // failure, matching the safeCount() degradation pattern.
-      getSubscriptionRevenueBreakdown()
-        .then((b): number | null => b.paidSubs)
-        .catch(() => null),
-      safeCount(
-        "token transactions",
-        "SELECT COUNT(*)::integer AS count FROM token_transactions",
+      dbLimit(() =>
+        getSubscriptionRevenueBreakdown()
+          .then((b): number | null => b.paidSubs)
+          .catch(() => null),
+      ),
+      dbLimit(() =>
+        safeCount(
+          "token transactions",
+          "SELECT COUNT(*)::integer AS count FROM token_transactions",
+        ),
       ),
     ]);
 
@@ -316,40 +327,41 @@ async function assembleTelemetryCore() {
 
     const recentUsers = recentSignups.users;
 
-    // Kick off live telemetry + sky-conditions aggregation in parallel with
-    // the PA backend probe below. Neither rejects — degraded sources surface
-    // as `live: false`.
-    const telemetryPromise = getAgentNetworkTelemetry();
-    const skyConditionsPromise = getSkyConditions();
-    const cosmicYieldPromise = getCosmicYield();
-    const dbObservabilityPromise = getDatabaseObservability();
-    const catalogTrendingPromise = getCatalogTrending();
-    const auditEventsPromise = getAuditEvents();
-    const platformPulsePromise = getPlatformPulse();
-    const enginePerformancePromise = getEnginePerformance();
-    const practitionerCohortsPromise = getPractitionerCohorts();
-    const commerceTelemetryPromise = getCommerceTelemetry();
-    const pageTelemetryPromise = getPageTelemetry();
-    const systemStatusPromise = getSystemStatus();
-    const liveActivityPromise = getLiveActivity();
-    const recentAlertsPromise = getRecentAlerts();
-    const livingEconomyPromise = getLivingEconomyMetrics();
-    const errorGroupsPromise = getErrorGroupSummary();
-    const securityPromise = getSecuritySummary();
+    // Kick off live DB telemetry under `dbLimit` so external/memory probes
+    // (`probePlanetaryAgentsBackend`, deploys, feature flags, triage queue)
+    // overlap cleanly with the bounded DB workers. Neither rejects — degraded
+    // sources surface as `live: false`.
+    const telemetryPromise = dbLimit(() => getAgentNetworkTelemetry());
+    const skyConditionsPromise = dbLimit(() => getSkyConditions());
+    const cosmicYieldPromise = dbLimit(() => getCosmicYield());
+    const dbObservabilityPromise = dbLimit(() => getDatabaseObservability());
+    const catalogTrendingPromise = dbLimit(() => getCatalogTrending());
+    const auditEventsPromise = dbLimit(() => getAuditEvents());
+    const platformPulsePromise = dbLimit(() => getPlatformPulse());
+    const enginePerformancePromise = dbLimit(() => getEnginePerformance());
+    const practitionerCohortsPromise = dbLimit(() => getPractitionerCohorts());
+    const commerceTelemetryPromise = dbLimit(() => getCommerceTelemetry());
+    const pageTelemetryPromise = dbLimit(() => getPageTelemetry());
+    const systemStatusPromise = dbLimit(() => getSystemStatus());
+    const liveActivityPromise = dbLimit(() => getLiveActivity());
+    const recentAlertsPromise = dbLimit(() => getRecentAlerts());
+    const livingEconomyPromise = dbLimit(() => getLivingEconomyMetrics());
+    const errorGroupsPromise = dbLimit(() => getErrorGroupSummary());
+    const securityPromise = dbLimit(() => getSecuritySummary());
     const deploysPromise = getDeployHistoryLive();
     const featureFlagsPromise = Promise.resolve(getFeatureFlags());
-    const practitionerGeoPromise = getPractitionerGeo();
-    const cohortRetentionPromise = getCohortRetention();
-    const onboardingHealthPromise = getOnboardingHealth();
-    const launchReadinessPromise = getLaunchReadiness();
-    const resourceUsagePromise = getResourceUsage();
-    const requestSeriesPromise = getRequestHourlySeries();
-    const economyIntegrityPromise = getEconomyIntegrity();
-    const migrationStatusPromise = getMigrationStatus();
-    const cronHeartbeatsPromise = getCronHeartbeats();
+    const practitionerGeoPromise = dbLimit(() => getPractitionerGeo());
+    const cohortRetentionPromise = dbLimit(() => getCohortRetention());
+    const onboardingHealthPromise = dbLimit(() => getOnboardingHealth());
+    const launchReadinessPromise = dbLimit(() => getLaunchReadiness());
+    const resourceUsagePromise = dbLimit(() => getResourceUsage());
+    const requestSeriesPromise = dbLimit(() => getRequestHourlySeries());
+    const economyIntegrityPromise = dbLimit(() => getEconomyIntegrity());
+    const migrationStatusPromise = dbLimit(() => getMigrationStatus());
+    const cronHeartbeatsPromise = dbLimit(() => getCronHeartbeats());
     const triageQueuePromise = getTriageQueue();
-    const semsDistributionPromise = getSemsDistribution();
-    const routeHeatmapPromise = getRouteHeatmap();
+    const semsDistributionPromise = dbLimit(() => getSemsDistribution());
+    const routeHeatmapPromise = dbLimit(() => getRouteHeatmap());
 
     const { paHealth, paAgentCount, resolvedPaBackendUrl } =
       await probePlanetaryAgentsBackend();

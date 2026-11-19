@@ -143,7 +143,7 @@ export async function synthesizeDigestNarrative(
     const parsed = DigestNarrativeSchema.parse(JSON.parse(content));
     return { narrative: sanitizeNarrativeLinks(parsed), synthesisMode: "ai", model, fallbackReason: null };
   } catch (err) {
-    _logger.warn("[traffic-digest] AI synthesis failed, using deterministic fallback:", err);
+    _logger.error("[traffic-digest] AI synthesis failed, using deterministic fallback:", err);
     return { narrative: fallback, synthesisMode: "deterministic", model: null, fallbackReason: "AI synthesis unavailable — deterministic fallback" };
   }
 }

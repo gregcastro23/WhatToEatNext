@@ -17,6 +17,7 @@ jest.mock("@/utils/ingredient/ingredientIndex", () => ({ findTopIngredientsForEl
 jest.mock("@/utils/planetaryAlchemyMapping", () => ({ calculateAlchemicalFromPlanets: (): unknown => ({}) }));
 jest.mock("@/lib/serviceUrls", () => ({ getServiceUrl: (): string => "https://pa.test" }));
 
+import { CacheService } from "@/lib/database";
 import {
   prewarmAgentRecipes,
   rotateCandidatesByHour,
@@ -176,5 +177,30 @@ describe("prewarmAgentRecipes — deadline-aware", () => {
     const result = await prewarmAgentRecipes(1, clock + 48_000);
     expect(fetchMock).toHaveBeenCalledTimes(2);
     expect(result).toEqual({ selected: 3, attempted: 2, generated: 1, skippedForBudget: 0 });
+  });
+
+  it("finishes candidate DB selection before PA fetch and writes cache only after fetch resolves", async () => {
+    const events: string[] = [];
+    mockExecuteQuery.mockImplementationOnce(async () => {
+      events.push("db-select");
+      return { rows: [agent("a1")] };
+    });
+    fetchMock.mockImplementationOnce(async () => {
+      events.push("pa-fetch-start");
+      clock += 10_000;
+      events.push("pa-fetch-end");
+      return new Response(JSON.stringify(VALID_PA_RECIPE), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      });
+    });
+    const setSpy = jest.mocked(CacheService.set).mockImplementationOnce(async () => {
+      events.push("db-cache-set");
+    });
+
+    const result = await prewarmAgentRecipes(1, clock + 48_000);
+    expect(result).toEqual({ selected: 1, attempted: 1, generated: 1, skippedForBudget: 0 });
+    expect(events).toEqual(["db-select", "pa-fetch-start", "pa-fetch-end", "db-cache-set"]);
+    expect(setSpy).toHaveBeenCalledTimes(1);
   });
 });

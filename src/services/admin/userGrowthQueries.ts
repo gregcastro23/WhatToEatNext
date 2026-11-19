@@ -13,6 +13,7 @@
  */
 
 import { executeQuery } from "@/lib/database/connection";
+import { relationExists } from "@/lib/database/relationExists";
 
 export const AGENT_DOMAIN = "%@agentic.alchm.kitchen";
 export const LEGACY_AGENT_DOMAIN = "%@agents.alchm.kitchen";
@@ -24,13 +25,9 @@ export const COHORT_WEEKS = 8;
 /** Activity window: every cohort week plus two weeks of margin. */
 export const ACTIVITY_DAYS = COHORT_WEEKS * 7 + 14;
 
-export async function pageViewsAvailable(): Promise<boolean> {
-  try {
-    const res = await executeQuery<{ present: boolean }>(`SELECT to_regclass('public.page_views') IS NOT NULL AS present`);
-    return res.rows[0]?.present === true;
-  } catch {
-    return false;
-  }
+/** Check whether `public.page_views` exists, caching positive hits per process. */
+export function pageViewsAvailable(): Promise<boolean> {
+  return relationExists("public.page_views", executeQuery);
 }
 
 /** `humans` and `human_activity(uid, at)` CTEs for a WITH clause. */

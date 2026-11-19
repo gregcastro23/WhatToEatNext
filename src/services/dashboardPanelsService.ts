@@ -8,6 +8,7 @@
 
 import { execSync } from "child_process";
 import { PRIMARY_CUISINE_KEYS } from "@/data/cuisines/index";
+import { createConcurrencyLimiter } from "@/lib/async/concurrency";
 import { checkDatabaseHealth, executeQuery } from "@/lib/database";
 import { getDatabasePool } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
@@ -328,20 +329,26 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
   }
 
   try {
+    const limit = createConcurrencyLimiter(2);
     const [sizeRes, connRes, slowRes, tablesRes] = await Promise.all([
-      executeQuery(
-        `SELECT pg_database_size(current_database())::float8 AS bytes`,
+      limit(() =>
+        executeQuery(
+          `SELECT pg_database_size(current_database())::float8 AS bytes`,
+        ),
       ),
-      executeQuery(
-        `SELECT COUNT(*)::int AS count FROM pg_stat_activity
+      limit(() =>
+        executeQuery(
+          `SELECT COUNT(*)::int AS count FROM pg_stat_activity
          WHERE datname = current_database()`,
+        ),
       ),
       // Filter on metric_value explicitly: the write side gates at the same
       // threshold, but a future env override on either side would otherwise
       // silently desynchronize the panel. Sort by duration so operators see
       // the worst offenders first, not just the most recent.
-      executeQuery(
-        `SELECT
+      limit(() =>
+        executeQuery(
+          `SELECT
            tags->>'query' AS query,
            metric_value::float8 AS duration_ms
          FROM system_metrics
@@ -350,19 +357,22 @@ export async function getDatabaseObservability(): Promise<DatabaseObservabilityD
            AND timestamp > now() - INTERVAL '24 hours'
          ORDER BY metric_value DESC
          LIMIT 5`,
-        [slowQueryThresholdMs],
-      ).catch(err => {
-        _logger.warn("[dbObservability] failed to query system_metrics for slow queries, falling back:", err);
-        return { rows: [] };
-      }),
-      executeQuery(
-        `SELECT
+          [slowQueryThresholdMs],
+        ).catch(err => {
+          _logger.warn("[dbObservability] failed to query system_metrics for slow queries, falling back:", err);
+          return { rows: [] };
+        }),
+      ),
+      limit(() =>
+        executeQuery(
+          `SELECT
            relname AS name,
            n_live_tup::float8 AS rows,
            pg_total_relation_size(relid)::float8 AS size_bytes
          FROM pg_stat_user_tables
          ORDER BY size_bytes DESC
          LIMIT 8`,
+        ),
       ),
     ]);
 
@@ -763,8 +773,10 @@ function buildEngineEvaluation(evalRow?: {
 
 export async function getEnginePerformance(): Promise<EnginePerformanceData> {
   try {
+    const limit = createConcurrencyLimiter(2);
     const [interactionsRes, calculationsRes, stagesRes, evalRes] = await Promise.all([
-      executeQuery(`
+      limit(() =>
+        executeQuery(`
         SELECT
           (
             (SELECT COUNT(*) FROM user_interactions WHERE interaction_type IN ('recipe_cook', 'food_diary_entry'))
@@ -777,7 +789,9 @@ export async function getEnginePerformance(): Promise<EnginePerformanceData> {
             + (SELECT COUNT(*) FROM user_recipe_interactions)
           )::float8 AS view_count
       `),
-      executeQuery(`
+      ),
+      limit(() =>
+        executeQuery(`
         SELECT
           (
             (SELECT COUNT(*) FROM user_calculations)
@@ -802,12 +816,14 @@ export async function getEnginePerformance(): Promise<EnginePerformanceData> {
             0
           )::float8 AS avg_latency
       `),
-      executeQuery<{
-        stage: string;
-        calls: number;
-        p50_ms: number | null;
-        p95_ms: number | null;
-      }>(`
+      ),
+      limit(() =>
+        executeQuery<{
+          stage: string;
+          calls: number;
+          p50_ms: number | null;
+          p95_ms: number | null;
+        }>(`
         SELECT
           stage,
           calls::int AS calls,
@@ -853,14 +869,16 @@ export async function getEnginePerformance(): Promise<EnginePerformanceData> {
             NULL::float8 AS p95_ms
         ) t
       `).catch(() => ({ rows: [] })),
-      executeQuery<{
-        total_recipes: number;
-        total_critiques: number;
-        critiqued_recipes: number;
-        verified_critiques: number;
-        proposed_critiques: number;
-        mean_rating: number | null;
-      }>(`
+      ),
+      limit(() =>
+        executeQuery<{
+          total_recipes: number;
+          total_critiques: number;
+          critiqued_recipes: number;
+          verified_critiques: number;
+          proposed_critiques: number;
+          mean_rating: number | null;
+        }>(`
         SELECT
           (SELECT COUNT(*)::int FROM recipes) AS total_recipes,
           (SELECT COUNT(*)::int FROM recipe_reflections WHERE deleted_at IS NULL AND COALESCE(hidden, false) = false) AS total_critiques,
@@ -873,6 +891,7 @@ export async function getEnginePerformance(): Promise<EnginePerformanceData> {
             SELECT rating::float8 AS rating FROM user_recipe_interactions WHERE rating IS NOT NULL
           ) r) AS mean_rating
       `).catch(() => ({ rows: [] })),
+      ),
     ]);
 
     const cookCount = Number((interactionsRes.rows[0] as { cook_count?: unknown } | undefined)?.cook_count ?? 0);
@@ -913,14 +932,16 @@ export async function getEnginePerformance(): Promise<EnginePerformanceData> {
 
 export async function getPractitionerCohorts(): Promise<PractitionerCohortsData> {
   try {
+    const limit = createConcurrencyLimiter(2);
     // Read onboarding + elemental signature from the canonical user_profiles
     // columns, NOT the vestigial users.profile JSONB (which rowToUserWithProfile
     // never reads back).
     const [totalUsersRes, onboardedRes, activeRes, firstCookRes, revenue, elementalRes] = await Promise.all([
-      executeQuery("SELECT COUNT(*)::integer AS count FROM users"),
-      executeQuery("SELECT COUNT(*)::integer AS count FROM user_profiles WHERE onboarding_completed = true"),
-      executeQuery("SELECT COUNT(*)::integer AS count FROM users WHERE is_active = true"),
-      executeQuery(`
+      limit(() => executeQuery("SELECT COUNT(*)::integer AS count FROM users")),
+      limit(() => executeQuery("SELECT COUNT(*)::integer AS count FROM user_profiles WHERE onboarding_completed = true")),
+      limit(() => executeQuery("SELECT COUNT(*)::integer AS count FROM users WHERE is_active = true")),
+      limit(() =>
+        executeQuery(`
         SELECT COUNT(DISTINCT user_id)::integer AS count
         FROM (
           SELECT user_id FROM user_interactions WHERE interaction_type IN ('recipe_cook', 'food_diary_entry', 'planetary_query')
@@ -928,8 +949,10 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
           SELECT user_id FROM user_recipe_interactions
         ) t
       `),
-      getSubscriptionRevenueBreakdown().catch(() => ({ paidSubs: 0, mrr: 0 })),
-      executeQuery(`
+      ),
+      limit(() => getSubscriptionRevenueBreakdown().catch(() => ({ paidSubs: 0, mrr: 0 }))),
+      limit(() =>
+        executeQuery(`
         SELECT
           INITCAP(LOWER(COALESCE(dominant_element, 'Unknown'))) AS element,
           COUNT(*)::integer AS count
@@ -938,6 +961,7 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
         GROUP BY INITCAP(LOWER(COALESCE(dominant_element, 'Unknown')))
         ORDER BY count DESC
       `),
+      ),
     ]);
 
     const signup = Number((totalUsersRes.rows[0] as { count?: unknown } | undefined)?.count ?? 0);
@@ -982,14 +1006,18 @@ export async function getPractitionerCohorts(): Promise<PractitionerCohortsData>
 
 export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
   try {
+    const limit = createConcurrencyLimiter(2);
     const [revenue, ordersRes, subMixRes, shopStatsRes, webhookEventsRes] = await Promise.all([
-      getSubscriptionRevenueBreakdown()
-        .then((res) => ({ ...res, live: true }))
-        .catch((err) => {
-          _logger.warn("[getCommerceTelemetry] revenue breakdown failed:", err);
-          return { paidSubs: 0, mrr: 0, live: false };
-        }),
-      executeQuery(`
+      limit(() =>
+        getSubscriptionRevenueBreakdown()
+          .then((res) => ({ ...res, live: true }))
+          .catch((err) => {
+            _logger.warn("[getCommerceTelemetry] revenue breakdown failed:", err);
+            return { paidSubs: 0, mrr: 0, live: false };
+          }),
+      ),
+      limit(() =>
+        executeQuery(`
         SELECT
           c.id::text AS id,
           COALESCE(u.email, 'Guest') AS user_email,
@@ -1022,16 +1050,18 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
         ORDER BY created_at DESC
         LIMIT 5;
       `)
-        .then((res) => ({ rows: res.rows, live: true }))
-        .catch((err) => {
-          _logger.warn("[getCommerceTelemetry] order-intents query failed:", err);
-          return { rows: [], live: false };
-        }),
-      executeQuery<{
-        tier: string;
-        status: string;
-        count: number;
-      }>(`
+          .then((res) => ({ rows: res.rows, live: true }))
+          .catch((err) => {
+            _logger.warn("[getCommerceTelemetry] order-intents query failed:", err);
+            return { rows: [], live: false };
+          }),
+      ),
+      limit(() =>
+        executeQuery<{
+          tier: string;
+          status: string;
+          count: number;
+        }>(`
         SELECT
           COALESCE(tier, 'free') AS tier,
           COALESCE(status, 'active') AS status,
@@ -1040,20 +1070,24 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
         GROUP BY tier, status
         ORDER BY count DESC
       `).catch(() => ({ rows: [] })),
-      executeQuery<{
-        cnt: number;
-        total_usd: number;
-      }>(`
+      ),
+      limit(() =>
+        executeQuery<{
+          cnt: number;
+          total_usd: number;
+        }>(`
         SELECT
           COUNT(*)::int AS cnt,
           0::float8 AS total_usd
         FROM user_purchases
       `).catch(() => ({ rows: [{ cnt: 0, total_usd: 0 }] })),
-      executeQuery<{
-        event_type: string;
-        status: string;
-        cnt: number;
-      }>(`
+      ),
+      limit(() =>
+        executeQuery<{
+          event_type: string;
+          status: string;
+          cnt: number;
+        }>(`
         SELECT
           event_type,
           status,
@@ -1065,8 +1099,9 @@ export async function getCommerceTelemetry(): Promise<CommerceSummaryData> {
         ORDER BY cnt DESC
         LIMIT 8
       `)
-        .then((res) => ({ rows: res.rows, live: true }))
-        .catch(() => ({ rows: [], live: false })),
+          .then((res) => ({ rows: res.rows, live: true }))
+          .catch(() => ({ rows: [], live: false })),
+      ),
     ]);
 
     const { paidSubs, mrr } = revenue;
@@ -1408,21 +1443,25 @@ export interface SecuritySummaryData {
 export async function getSecuritySummary(): Promise<SecuritySummaryData> {
   const emptyHourly = Array.from({ length: 24 }, () => 0);
   try {
+    const limit = createConcurrencyLimiter(2);
     const [counts, ips, hourly] = await Promise.all([
-      executeQuery<{
-        success: number;
-        failure: number;
-        unique_ips: number;
-      }>(
-        `SELECT
+      limit(() =>
+        executeQuery<{
+          success: number;
+          failure: number;
+          unique_ips: number;
+        }>(
+          `SELECT
            COUNT(*) FILTER (WHERE status = 'success')::int AS success,
            COUNT(*) FILTER (WHERE status = 'failure')::int AS failure,
            COUNT(DISTINCT ip_hash) FILTER (WHERE ip_hash IS NOT NULL)::int AS unique_ips
          FROM auth_events
          WHERE created_at > NOW() - INTERVAL '24 hours'`,
+        ),
       ),
-      executeQuery<{ ip_hash: string; failures: number }>(
-        `SELECT ip_hash, COUNT(*)::int AS failures
+      limit(() =>
+        executeQuery<{ ip_hash: string; failures: number }>(
+          `SELECT ip_hash, COUNT(*)::int AS failures
          FROM auth_events
          WHERE created_at > NOW() - INTERVAL '24 hours'
            AND status = 'failure'
@@ -1430,15 +1469,18 @@ export async function getSecuritySummary(): Promise<SecuritySummaryData> {
          GROUP BY ip_hash
          ORDER BY failures DESC
          LIMIT 5`,
+        ),
       ),
-      executeQuery<{ hour_bucket: number; count: number }>(
-        // Bucket attempts into 24 hourly slots from oldest to newest.
-        `SELECT FLOOR(EXTRACT(EPOCH FROM (NOW() - created_at)) / 3600)::int AS hour_bucket,
+      limit(() =>
+        executeQuery<{ hour_bucket: number; count: number }>(
+          // Bucket attempts into 24 hourly slots from oldest to newest.
+          `SELECT FLOOR(EXTRACT(EPOCH FROM (NOW() - created_at)) / 3600)::int AS hour_bucket,
                 COUNT(*)::int AS count
          FROM auth_events
          WHERE created_at > NOW() - INTERVAL '24 hours'
          GROUP BY hour_bucket
          ORDER BY hour_bucket`,
+        ),
       ),
     ]);
 
@@ -1945,14 +1987,16 @@ export async function getRouteHeatmap(): Promise<RouteHeatmapData> {
     "-10h", "-8h", "-6h", "-4h", "-2h", "now",
   ];
   try {
+    const limit = createConcurrencyLimiter(2);
     const [topRoutesRes, bucketsRes, pageViewsRes] = await Promise.all([
-      executeQuery<{
-        path: string;
-        total: number;
-        p95_ms: number | null;
-        err_5xx: number;
-        err_4xx: number;
-      }>(`
+      limit(() =>
+        executeQuery<{
+          path: string;
+          total: number;
+          p95_ms: number | null;
+          err_5xx: number;
+          err_4xx: number;
+        }>(`
         SELECT
           path,
           COUNT(*)::int AS total,
@@ -1966,11 +2010,13 @@ export async function getRouteHeatmap(): Promise<RouteHeatmapData> {
         ORDER BY total DESC
         LIMIT 8
       `),
-      executeQuery<{
-        path: string;
-        slot: number;
-        cnt: number;
-      }>(`
+      ),
+      limit(() =>
+        executeQuery<{
+          path: string;
+          slot: number;
+          cnt: number;
+        }>(`
         SELECT
           path,
           LEAST(11, GREATEST(0, FLOOR(EXTRACT(EPOCH FROM (NOW() - at)) / 7200)::int)) AS slot,
@@ -1979,11 +2025,13 @@ export async function getRouteHeatmap(): Promise<RouteHeatmapData> {
         WHERE at >= NOW() - INTERVAL '24 hours'
         GROUP BY path, slot
       `),
-      executeQuery<{
-        path: string;
-        views: number;
-        visitors: number;
-      }>(`
+      ),
+      limit(() =>
+        executeQuery<{
+          path: string;
+          views: number;
+          visitors: number;
+        }>(`
         SELECT
           path,
           COUNT(*)::int AS views,
@@ -1992,6 +2040,7 @@ export async function getRouteHeatmap(): Promise<RouteHeatmapData> {
         WHERE at >= NOW() - INTERVAL '7 days'
         GROUP BY path
       `),
+      ),
     ]);
 
     const bucketMap = new Map<string, number[]>();

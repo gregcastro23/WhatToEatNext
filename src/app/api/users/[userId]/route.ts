@@ -25,6 +25,7 @@ import { computeAgentProgression } from "@/lib/agents/levelingService";
 import { resolveAgentAppearance } from "@/lib/agents/vessel-appearance-manifest";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { relationExists } from "@/lib/database/relationExists";
 import { followDatabase } from "@/services/followDatabaseService";
 import { computeTasteGraph } from "@/services/userInteractionsService";
 import type { ProfileSocialBlock } from "@/types/social";
@@ -100,10 +101,7 @@ async function commensalCount(userId: string): Promise<number> {
 async function tableCounts(
   userId: string,
 ): Promise<{ hosted: number; joined: number } | null> {
-  const reg = await executeQuery<{ present: boolean }>(
-    `SELECT to_regclass('public.tables') IS NOT NULL AS present`,
-  );
-  if (reg.rows[0]?.present !== true) return null;
+  if (!(await relationExists("public.tables", executeQuery))) return null;
   const res = await executeQuery<{ hosted: string; joined: string }>(
     `SELECT
        (SELECT COUNT(*) FROM tables t

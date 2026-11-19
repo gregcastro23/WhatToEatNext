@@ -18,6 +18,7 @@
  * @file src/services/systemStatusService.ts
  */
 
+import { createConcurrencyLimiter } from "@/lib/async/concurrency";
 import { checkDatabaseHealth, executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
 import {
@@ -1729,6 +1730,7 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
   // consumes synthetic data reads from this snapshot to avoid 5+
   // redundant DB queries per dashboard refresh.
   const latestProbes = await getLatestProbeResults().catch(() => []);
+  const dbLimit = createConcurrencyLimiter(2);
 
   const [
     auth,
@@ -1742,23 +1744,31 @@ export async function getSystemStatus(): Promise<SystemStatusPayload> {
     database,
     paDep,
   ] = await Promise.all([
-    probeAuth(latestProbes).catch(unknownFlow("auth", "Authentication")),
-    probeOnboarding(latestProbes).catch(
-      unknownFlow("onboarding", "New-User Onboarding"),
+    dbLimit(() => probeAuth(latestProbes).catch(unknownFlow("auth", "Authentication"))),
+    dbLimit(() =>
+      probeOnboarding(latestProbes).catch(
+        unknownFlow("onboarding", "New-User Onboarding"),
+      ),
     ),
-    probeRecommendations(latestProbes).catch(
-      unknownFlow("recommendations", "Recipe Recommendations"),
+    dbLimit(() =>
+      probeRecommendations(latestProbes).catch(
+        unknownFlow("recommendations", "Recipe Recommendations"),
+      ),
     ),
-    probeAIGeneration(latestProbes).catch(
-      unknownFlow("ai-generation", "AI Recipe Generation"),
+    dbLimit(() =>
+      probeAIGeneration(latestProbes).catch(
+        unknownFlow("ai-generation", "AI Recipe Generation"),
+      ),
     ),
-    probeTokenEconomy().catch(unknownFlow("economy", "Token Economy")),
-    probePayments(latestProbes).catch(
-      unknownFlow("payments", "Payments · Stripe"),
+    dbLimit(() => probeTokenEconomy().catch(unknownFlow("economy", "Token Economy"))),
+    dbLimit(() =>
+      probePayments(latestProbes).catch(
+        unknownFlow("payments", "Payments · Stripe"),
+      ),
     ),
-    probeAgents().catch(unknownFlow("agents", "Planetary Agents")),
-    probeMcp(latestProbes).catch(unknownFlow("mcp", "MCP Tool Surface")),
-    probeDatabase().catch(unknownFlow("database", "Database")),
+    dbLimit(() => probeAgents().catch(unknownFlow("agents", "Planetary Agents"))),
+    dbLimit(() => probeMcp(latestProbes).catch(unknownFlow("mcp", "MCP Tool Surface"))),
+    dbLimit(() => probeDatabase().catch(unknownFlow("database", "Database"))),
     probePADependency().catch(
       (): DependencyHealth => ({
         id: "planetary-agents",

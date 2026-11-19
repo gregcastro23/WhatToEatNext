@@ -71,7 +71,7 @@ async function handleGet(request: NextRequest): Promise<NextResponse> {
 }
 
 export const GET = withObservability(
-  { routeName: "/api/cron/prewarm-agent-recipes" },
+  { routeName: "/api/cron/prewarm-agent-recipes", skipUserResolution: true },
   handleGet,
 );
 

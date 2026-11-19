@@ -10,6 +10,7 @@
  * `res.json()` and handed to the parser, as `readJson` does in the page.
  */
 import { NextRequest } from "next/server";
+import { resetRelationExistsCache } from "@/lib/database/relationExists";
 import { GET } from "@/app/api/users/[userId]/route";
 import type { CraftedAgentProfile } from "@/lib/agents/craftedAgentTypes";
 import type { AgentAction, AgentArtifact, AgentInteraction } from "@/lib/agents/fetchAgentProfile";
@@ -137,6 +138,7 @@ function profileOf(parsed: PublicProfileResponse): Extract<PublicProfileResponse
 }
 
 beforeEach(() => {
+  resetRelationExistsCache();
   mockProfileRows = [humanRow()];
   mockFeedRows = [
     { id: "e1", event_type: "recipe_review", metadata_payload: { rating: 5 }, created_at: new Date("2025-11-01T08:00:00Z") },

@@ -20,6 +20,7 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+import { createConcurrencyLimiter, type ConcurrencyLimiter } from "@/lib/async/concurrency";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
 import { executeQuery } from "@/lib/database";
@@ -35,7 +36,8 @@ export const runtime = "nodejs";
 const DEFAULT_DISPATCH_LIMIT = 20;
 const DEFAULT_LEADERBOARD_LIMIT = 10;
 const MAX_LIMIT = 50;
-const CACHE_TTL_MS = 5_000;
+const CACHE_TTL_MS = 20_000;
+const ADMIN_DB_CONCURRENCY = 2;
 
 export interface AgentRoleSlice {
   id: string;
@@ -184,6 +186,26 @@ function readInteractionMetadata(value: unknown): Record<string, unknown> {
     : {};
 }
 
+const TOTALS_SQL = `
+  WITH recent_actors AS (
+    SELECT
+      f.actor_id,
+      BOOL_OR(f.created_at > NOW() - INTERVAL '24 hours') AS active_24h
+    FROM feed_events f
+    WHERE f.created_at > NOW() - INTERVAL '7 days'
+    GROUP BY f.actor_id
+  )
+  SELECT
+    COUNT(*)::int AS total,
+    COUNT(*) FILTER (WHERE u.is_active = true AND COALESCE(ra.active_24h, false) = true)::int AS live,
+    COUNT(*) FILTER (WHERE u.is_active = true AND COALESCE(ra.active_24h, false) = false AND ra.actor_id IS NOT NULL)::int AS idle,
+    COUNT(*) FILTER (WHERE u.is_active = true AND ra.actor_id IS NULL)::int AS warn,
+    COUNT(*) FILTER (WHERE u.is_active = false)::int AS draining
+  FROM users u
+  LEFT JOIN recent_actors ra ON ra.actor_id = u.id
+  WHERE u.is_agent = true
+`;
+
 async function getTotals(): Promise<AgentNetworkPayload["totals"]> {
   try {
     const result = await executeQuery<{
@@ -192,46 +214,10 @@ async function getTotals(): Promise<AgentNetworkPayload["totals"]> {
       idle: number;
       warn: number;
       draining: number;
-    }>(
-      `SELECT
-         COUNT(*) FILTER (WHERE u.is_agent = true)::int AS total,
-         COUNT(*) FILTER (
-           WHERE u.is_agent = true
-             AND u.is_active = true
-             AND EXISTS (
-               SELECT 1 FROM feed_events f
-               WHERE f.actor_id = u.id
-                 AND f.created_at > NOW() - INTERVAL '24 hours'
-             )
-         )::int AS live,
-         COUNT(*) FILTER (
-           WHERE u.is_agent = true
-             AND u.is_active = true
-             AND NOT EXISTS (
-               SELECT 1 FROM feed_events f
-               WHERE f.actor_id = u.id
-                 AND f.created_at > NOW() - INTERVAL '24 hours'
-             )
-             AND EXISTS (
-               SELECT 1 FROM feed_events f
-               WHERE f.actor_id = u.id
-                 AND f.created_at > NOW() - INTERVAL '7 days'
-             )
-         )::int AS idle,
-         COUNT(*) FILTER (
-           WHERE u.is_agent = true
-             AND u.is_active = true
-             AND NOT EXISTS (
-               SELECT 1 FROM feed_events f
-               WHERE f.actor_id = u.id
-                 AND f.created_at > NOW() - INTERVAL '7 days'
-             )
-         )::int AS warn,
-         COUNT(*) FILTER (WHERE u.is_agent = true AND u.is_active = false)::int AS draining
-       FROM users u`,
-    );
+    }>(TOTALS_SQL);
 
-    const row = result.rows[0] ?? {
+    const [firstRow] = result.rows;
+    const row = firstRow ?? {
       total: 0,
       live: 0,
       idle: 0,
@@ -252,6 +238,41 @@ async function getTotals(): Promise<AgentNetworkPayload["totals"]> {
   }
 }
 
+const ROLES_SQL = `
+  WITH per_actor_type AS (
+    SELECT
+      f.actor_id,
+      split_part(f.event_type, '.', 1) AS role_prefix,
+      COUNT(*) AS type_cnt,
+      COUNT(*) FILTER (WHERE f.created_at > NOW() - INTERVAL '24 hours') AS cnt_24h,
+      BOOL_OR(f.created_at > NOW() - INTERVAL '7 days') AS has_7d
+    FROM feed_events f
+    GROUP BY f.actor_id, split_part(f.event_type, '.', 1)
+  ),
+  per_actor AS (
+    SELECT
+      actor_id,
+      (ARRAY_AGG(role_prefix ORDER BY type_cnt DESC, role_prefix ASC))[1] AS top_role,
+      SUM(cnt_24h) AS events_24h,
+      BOOL_OR(has_7d) AS active_7d
+    FROM per_actor_type
+    GROUP BY actor_id
+  )
+  SELECT
+    COALESCE(pa.top_role, 'dormant') AS role,
+    COUNT(*)::int AS agent_count,
+    COUNT(*) FILTER (WHERE u.is_active = true AND COALESCE(pa.events_24h, 0) > 0)::int AS live_count,
+    COUNT(*) FILTER (WHERE u.is_active = true AND COALESCE(pa.events_24h, 0) = 0 AND COALESCE(pa.active_7d, false) = true)::int AS idle_count,
+    COUNT(*) FILTER (WHERE u.is_active = true AND COALESCE(pa.active_7d, false) = false)::int AS warn_count,
+    COUNT(*) FILTER (WHERE u.is_active = false)::int AS draining_count,
+    COALESCE(SUM(pa.events_24h), 0)::int AS events_24h
+  FROM users u
+  LEFT JOIN per_actor pa ON pa.actor_id = u.id
+  WHERE u.is_agent = true
+  GROUP BY COALESCE(pa.top_role, 'dormant')
+  ORDER BY agent_count DESC, events_24h DESC
+`;
+
 async function getRoles(): Promise<AgentNetworkPayload["roles"]> {
   try {
     // Each agent's "role" is approximated by the most-common prefix of its
@@ -265,56 +286,7 @@ async function getRoles(): Promise<AgentNetworkPayload["roles"]> {
       warn_count: number;
       draining_count: number;
       events_24h: number;
-    }>(
-      `WITH agent_role AS (
-         SELECT u.id AS agent_id,
-                u.is_active,
-                EXISTS (
-                  SELECT 1 FROM feed_events f
-                  WHERE f.actor_id = u.id
-                    AND f.created_at > NOW() - INTERVAL '24 hours'
-                ) AS active_24h,
-                EXISTS (
-                  SELECT 1 FROM feed_events f
-                  WHERE f.actor_id = u.id
-                    AND f.created_at > NOW() - INTERVAL '7 days'
-                ) AS active_7d,
-                COALESCE(
-                  (
-                    SELECT split_part(f.event_type, '.', 1)
-                    FROM feed_events f
-                    WHERE f.actor_id = u.id
-                    GROUP BY split_part(f.event_type, '.', 1)
-                    ORDER BY COUNT(*) DESC
-                    LIMIT 1
-                  ),
-                  'dormant'
-                ) AS role
-         FROM users u
-         WHERE u.is_agent = true
-       )
-       SELECT
-         ar.role,
-         COUNT(DISTINCT ar.agent_id)::int AS agent_count,
-         COUNT(DISTINCT ar.agent_id) FILTER (WHERE ar.is_active = true AND ar.active_24h = true)::int AS live_count,
-         COUNT(DISTINCT ar.agent_id) FILTER (WHERE ar.is_active = true AND ar.active_24h = false AND ar.active_7d = true)::int AS idle_count,
-         COUNT(DISTINCT ar.agent_id) FILTER (WHERE ar.is_active = true AND ar.active_7d = false)::int AS warn_count,
-         COUNT(DISTINCT ar.agent_id) FILTER (WHERE ar.is_active = false)::int AS draining_count,
-         COALESCE(
-           SUM(
-             (
-               SELECT COUNT(*)
-               FROM feed_events f
-               WHERE f.actor_id = ar.agent_id
-                 AND f.created_at > NOW() - INTERVAL '24 hours'
-             )
-           ),
-           0
-         )::int AS events_24h
-       FROM agent_role ar
-       GROUP BY ar.role
-       ORDER BY agent_count DESC, events_24h DESC`,
-    );
+    }>(ROLES_SQL);
 
     const entries: AgentRoleSlice[] = result.rows.map((row) => ({
       id: row.role,
@@ -572,197 +544,315 @@ const ROLE_OPS_DEFS: ReadonlyArray<{
 const ROLE_OPS_ACTIONS_CAP = 6;
 const REASONING_LIMIT = 8;
 
-async function getRoleOps(): Promise<AgentNetworkPayload["roleOps"]> {
-  try {
-    // GROUPING SETS gives us, per role, one role-level rollup row (action IS
-    // NULL — correct DISTINCT agent count + 24h/7d totals + last activity) plus
-    // one row per action for the breakdown.
-    const result = await executeQuery<{
-      role: string;
-      action: string | null;
-      agent_count: number;
-      events_24h: number;
-      events_7d: number;
-      events_total: number;
-      last_activity: Date | null;
-    }>(
-      `WITH agent_events AS (
-         SELECT f.actor_id,
-                f.created_at,
-                CASE
-                  WHEN split_part(f.event_type, '.', 1) IN ('sous-chef', 'galileo', 'substitution', 'pantry', 'procurement', 'lineage')
-                    THEN split_part(f.event_type, '.', 1)
-                  WHEN f.event_type IN ('recipe_generation', 'weekly_menu') THEN 'sous-chef'
-                  WHEN f.event_type IN ('insight', 'transit_attunement') THEN 'galileo'
-                  WHEN f.event_type IN ('recipe_adapted', 'recipe_review') THEN 'substitution'
-                  WHEN f.event_type = 'lab_entry' THEN 'pantry'
-                  WHEN f.event_type = 'claim_daily' THEN 'procurement'
-                  WHEN f.event_type IN ('agent_chat', 'word_duel') THEN 'lineage'
-                  ELSE NULL
-                END AS role,
-                COALESCE(
-                  NULLIF(split_part(f.event_type, '.', 2), ''),
-                  NULLIF(f.metadata_payload->>'messageType', ''),
-                  NULLIF(f.metadata_payload->>'internalTrigger', ''),
-                  NULLIF(f.metadata_payload->>'source', ''),
-                  f.event_type
-                ) AS action
-         FROM feed_events f
-         JOIN users u ON u.id = f.actor_id AND u.is_agent = true
-       )
-       SELECT
-         role,
-         action,
-         COALESCE(
-           NULLIF(COUNT(DISTINCT actor_id) FILTER (WHERE created_at > NOW() - INTERVAL '7 days'), 0),
-           COUNT(DISTINCT actor_id)
-         )::int AS agent_count,
-         COUNT(*) FILTER (WHERE created_at > NOW() - INTERVAL '24 hours')::int AS events_24h,
-         COUNT(*) FILTER (WHERE created_at > NOW() - INTERVAL '7 days')::int AS events_7d,
-         COUNT(*)::int AS events_total,
-         MAX(created_at) AS last_activity
-       FROM agent_events
-       WHERE role IS NOT NULL
-       GROUP BY GROUPING SETS ((role), (role, action))
-       ORDER BY role`,
-    );
+const ROLE_OPS_LEGACY_TYPES: Record<string, readonly string[]> = {
+  "sous-chef": ["recipe_generation", "weekly_menu"],
+  galileo: ["insight", "transit_attunement"],
+  substitution: ["recipe_adapted", "recipe_review"],
+  pantry: ["lab_entry"],
+  procurement: ["claim_daily"],
+  lineage: ["agent_chat", "word_duel"],
+};
 
-    interface Bucket {
-      agentCount: number;
-      events24h: number;
-      events7d: number;
-      lastActivityAt: string | null;
-      actions: AgentRoleOpsAction[];
+const ROLE_OPS_CASE_SQL = `CASE
+  WHEN split_part(f.event_type, '.', 1) IN ('sous-chef', 'galileo', 'substitution', 'pantry', 'procurement', 'lineage')
+    THEN split_part(f.event_type, '.', 1)
+  WHEN f.event_type IN ('recipe_generation', 'weekly_menu') THEN 'sous-chef'
+  WHEN f.event_type IN ('insight', 'transit_attunement') THEN 'galileo'
+  WHEN f.event_type IN ('recipe_adapted', 'recipe_review') THEN 'substitution'
+  WHEN f.event_type = 'lab_entry' THEN 'pantry'
+  WHEN f.event_type = 'claim_daily' THEN 'procurement'
+  WHEN f.event_type IN ('agent_chat', 'word_duel') THEN 'lineage'
+  ELSE NULL
+END`;
+
+const ROLE_OPS_ACTION_SQL = `LEFT(
+  COALESCE(
+    NULLIF(split_part(f.event_type, '.', 2), ''),
+    NULLIF(f.metadata_payload->>'messageType', ''),
+    NULLIF(f.metadata_payload->>'internalTrigger', ''),
+    NULLIF(f.metadata_payload->>'source', ''),
+    f.event_type::text
+  ),
+  120
+)`;
+
+const ROLE_OPS_ROLLUP_SQL = `
+  WITH role_events AS (
+    SELECT f.actor_id, f.created_at, ${ROLE_OPS_CASE_SQL} AS role
+    FROM feed_events f
+    JOIN users u ON u.id = f.actor_id AND u.is_agent = true
+  )
+  SELECT
+    role,
+    COALESCE(
+      NULLIF(COUNT(DISTINCT actor_id) FILTER (WHERE created_at > NOW() - INTERVAL '7 days'), 0),
+      COUNT(DISTINCT actor_id)
+    )::int AS agent_count,
+    COUNT(*) FILTER (WHERE created_at > NOW() - INTERVAL '24 hours')::int AS events_24h,
+    COUNT(*) FILTER (WHERE created_at > NOW() - INTERVAL '7 days')::int AS events_7d,
+    COUNT(*)::int AS events_total,
+    MAX(created_at) AS last_activity
+  FROM role_events
+  WHERE role IS NOT NULL
+  GROUP BY role
+  ORDER BY role
+`;
+
+const ROLE_OPS_RECENT_ACTIONS_SQL = `
+  SELECT
+    ${ROLE_OPS_CASE_SQL} AS role,
+    ${ROLE_OPS_ACTION_SQL} AS action,
+    COUNT(*)::int AS count
+  FROM feed_events f
+  JOIN users u ON u.id = f.actor_id AND u.is_agent = true
+  WHERE f.created_at > NOW() - INTERVAL '7 days'
+    AND (${ROLE_OPS_CASE_SQL}) IS NOT NULL
+  GROUP BY 1, 2
+`;
+
+const ROLE_OPS_DORMANT_ACTIONS_SQL = `
+  SELECT
+    ${ROLE_OPS_CASE_SQL} AS role,
+    ${ROLE_OPS_ACTION_SQL} AS action,
+    COUNT(*)::int AS count
+  FROM feed_events f
+  JOIN users u ON u.id = f.actor_id AND u.is_agent = true
+  WHERE (
+    f.event_type = ANY($1::text[])
+    OR split_part(f.event_type, '.', 1) = ANY($2::text[])
+  )
+  GROUP BY 1, 2
+`;
+
+interface RoleOpsBucket {
+  agentCount: number;
+  events24h: number;
+  events7d: number;
+  eventsTotal: number;
+  lastActivityAt: string | null;
+  actions: AgentRoleOpsAction[];
+}
+
+interface RoleOpsRollupRow {
+  role: string;
+  agent_count: number;
+  events_24h: number;
+  events_7d: number;
+  events_total: number;
+  last_activity: Date | null;
+}
+
+interface RoleOpsActionRow {
+  role: string;
+  action: string | null;
+  count: number;
+}
+
+function createRoleOpsBuckets(): Map<string, RoleOpsBucket> {
+  const byRole = new Map<string, RoleOpsBucket>();
+  for (const def of ROLE_OPS_DEFS) {
+    byRole.set(def.id, {
+      agentCount: 0,
+      events24h: 0,
+      events7d: 0,
+      eventsTotal: 0,
+      lastActivityAt: null,
+      actions: [],
+    });
+  }
+  return byRole;
+}
+
+function appendRoleActions(
+  byRole: Map<string, RoleOpsBucket>,
+  rows: RoleOpsActionRow[],
+): void {
+  for (const row of rows) {
+    const bucket = byRole.get(row.role);
+    if (!bucket || !row.action || row.count <= 0) continue;
+    bucket.actions.push({ action: row.action, count: row.count });
+  }
+}
+
+function collectDormantFilter(
+  byRole: Map<string, RoleOpsBucket>,
+): { eventTypes: string[]; prefixes: string[] } | null {
+  const prefixes: string[] = [];
+  const eventTypes: string[] = [];
+  for (const [roleId, bucket] of byRole.entries()) {
+    if (bucket.events7d === 0 && bucket.eventsTotal > 0) {
+      prefixes.push(roleId);
+      const legacy = ROLE_OPS_LEGACY_TYPES[roleId];
+      if (legacy) eventTypes.push(...legacy);
     }
-    const byRole = new Map<string, Bucket>();
-    for (const def of ROLE_OPS_DEFS) {
-      byRole.set(def.id, {
+  }
+  return prefixes.length > 0 ? { eventTypes, prefixes } : null;
+}
+
+function finalizeRoleOpsEntries(byRole: Map<string, RoleOpsBucket>): AgentRoleOpsEntry[] {
+  return ROLE_OPS_DEFS.map((def): AgentRoleOpsEntry => {
+    const bucket = byRole.get(def.id);
+    if (!bucket) {
+      return {
+        id: def.id,
+        label: def.label,
+        mandate: def.mandate,
         agentCount: 0,
         events24h: 0,
         events7d: 0,
         lastActivityAt: null,
         actions: [],
-      });
-    }
-    for (const row of result.rows) {
-      const bucket = byRole.get(row.role);
-      if (!bucket) continue;
-      if (row.action === null) {
-        bucket.agentCount = row.agent_count;
-        bucket.events24h = row.events_24h;
-        bucket.events7d = row.events_7d;
-        bucket.lastActivityAt = row.last_activity
-          ? new Date(row.last_activity).toISOString()
-          : null;
-      } else {
-        const count = row.events_7d > 0 ? row.events_7d : row.events_total;
-        if (count > 0) {
-          bucket.actions.push({ action: row.action, count });
-        }
-      }
-    }
-
-    const entries: AgentRoleOpsEntry[] = ROLE_OPS_DEFS.map((def) => {
-      const b = byRole.get(def.id) as Bucket;
-      return {
-        id: def.id,
-        label: def.label,
-        mandate: def.mandate,
-        agentCount: b.agentCount,
-        events24h: b.events24h,
-        events7d: b.events7d,
-        lastActivityAt: b.lastActivityAt,
-        actions: b.actions
-          .sort((a, c) => c.count - a.count)
-          .slice(0, ROLE_OPS_ACTIONS_CAP),
       };
-    });
-
-    return { entries, live: true };
-  } catch (error) {
-    _logger.error("[admin/agents/network] roleOps query failed", error);
-    // Still hand back the canonical role shells so the panels render an honest
-    // "telemetry offline" state instead of disappearing.
-    const entries: AgentRoleOpsEntry[] = ROLE_OPS_DEFS.map((def) => ({
+    }
+    return {
       id: def.id,
       label: def.label,
       mandate: def.mandate,
-      agentCount: 0,
-      events24h: 0,
-      events7d: 0,
-      lastActivityAt: null,
-      actions: [],
-    }));
-    return { entries, live: false };
+      agentCount: bucket.agentCount,
+      events24h: bucket.events24h,
+      events7d: bucket.events7d,
+      lastActivityAt: bucket.lastActivityAt,
+      actions: bucket.actions
+        .sort((a, c) => c.count - a.count)
+        .slice(0, ROLE_OPS_ACTIONS_CAP),
+    };
+  });
+}
+
+async function getRoleOps(dbLimit: ConcurrencyLimiter): Promise<AgentNetworkPayload["roleOps"]> {
+  try {
+    const [rollupRes, recentActionsRes] = await Promise.all([
+      dbLimit(() => executeQuery<RoleOpsRollupRow>(ROLE_OPS_ROLLUP_SQL)),
+      dbLimit(() => executeQuery<RoleOpsActionRow>(ROLE_OPS_RECENT_ACTIONS_SQL)),
+    ]);
+
+    const byRole = createRoleOpsBuckets();
+    for (const row of rollupRes.rows) {
+      const bucket = byRole.get(row.role);
+      if (!bucket) continue;
+      bucket.agentCount = row.agent_count;
+      bucket.events24h = row.events_24h;
+      bucket.events7d = row.events_7d;
+      bucket.eventsTotal = row.events_total;
+      bucket.lastActivityAt = row.last_activity
+        ? new Date(row.last_activity).toISOString()
+        : null;
+    }
+
+    appendRoleActions(byRole, recentActionsRes.rows);
+    const dormant = collectDormantFilter(byRole);
+    if (dormant) {
+      const dormantRes = await dbLimit(() =>
+        executeQuery<RoleOpsActionRow>(ROLE_OPS_DORMANT_ACTIONS_SQL, [
+          dormant.eventTypes,
+          dormant.prefixes,
+        ]),
+      );
+      appendRoleActions(byRole, dormantRes.rows);
+    }
+
+    return { entries: finalizeRoleOpsEntries(byRole), live: true };
+  } catch (error) {
+    _logger.error("[admin/agents/network] roleOps query failed", error);
+    return { entries: finalizeRoleOpsEntries(createRoleOpsBuckets()), live: false };
   }
 }
+
+const REASONING_SQL = `
+  WITH recent_reflections AS (
+    SELECT DISTINCT ON (r.author_id)
+      r.author_id AS actor_id,
+      r.created_at,
+      r.review AS reflection_preview,
+      NULL::uuid AS feed_id
+    FROM recipe_reflections r
+    WHERE r.is_agent = true
+      AND r.deleted_at IS NULL
+      AND COALESCE(r.hidden, false) = false
+    ORDER BY r.author_id, r.created_at DESC
+  ),
+  recent_feed_window AS (
+    SELECT f.id AS feed_id, f.actor_id, f.created_at
+    FROM feed_events f
+    WHERE f.event_type IN ('agent_chat', 'recipe_generation', 'recipe_review', 'recipe_adapted', 'insight', 'lab_entry')
+      AND COALESCE(
+        NULLIF(f.metadata_payload->>'responsePreview', ''),
+        NULLIF(f.metadata_payload->>'messagePreview', ''),
+        NULLIF(f.metadata_payload->>'review', ''),
+        NULLIF(f.metadata_payload->>'summary', ''),
+        NULLIF(f.metadata_payload->>'message', '')
+      ) IS NOT NULL
+    ORDER BY f.created_at DESC
+    LIMIT GREATEST($1::int * 50, 400)
+  ),
+  recent_feed AS (
+    SELECT DISTINCT ON (rf.actor_id)
+      rf.actor_id,
+      rf.created_at,
+      NULL::text AS reflection_preview,
+      rf.feed_id
+    FROM recent_feed_window rf
+    ORDER BY rf.actor_id, rf.created_at DESC
+  ),
+  per_agent AS (
+    SELECT DISTINCT ON (s.actor_id)
+      s.actor_id,
+      s.created_at,
+      s.reflection_preview,
+      s.feed_id
+    FROM (
+      SELECT * FROM recent_reflections
+      UNION ALL
+      SELECT * FROM recent_feed
+    ) s
+    JOIN users u ON u.id = s.actor_id AND u.is_agent = true
+    ORDER BY s.actor_id, s.created_at DESC
+  ),
+  top_candidates AS (
+    SELECT actor_id, created_at, reflection_preview, feed_id
+    FROM per_agent
+    ORDER BY created_at DESC
+    LIMIT $1
+  )
+  SELECT
+    c.actor_id::text AS agent_id,
+    COALESCE(
+      up.name,
+      u.name,
+      NULLIF(f.metadata_payload->>'agentName', ''),
+      split_part(u.email, '@', 1)
+    ) AS handle,
+    c.created_at,
+    COALESCE(
+      c.reflection_preview,
+      COALESCE(
+        NULLIF(f.metadata_payload->>'responsePreview', ''),
+        NULLIF(f.metadata_payload->>'messagePreview', ''),
+        NULLIF(f.metadata_payload->>'review', ''),
+        NULLIF(f.metadata_payload->>'summary', ''),
+        NULLIF(f.metadata_payload->>'message', '')
+      )
+    ) AS preview
+  FROM top_candidates c
+  JOIN users u ON u.id = c.actor_id
+  LEFT JOIN user_profiles up ON up.user_id = u.id
+  LEFT JOIN feed_events f ON f.id = c.feed_id
+  ORDER BY c.created_at DESC
+`;
 
 async function getReasoning(
   limit = REASONING_LIMIT,
 ): Promise<AgentNetworkPayload["reasoning"]> {
   try {
     // Union structured critiques/reflections from recipe_reflections with
-    // decision logs from feed_events across distinct agents.
+    // decision logs from feed_events across distinct agents, detoasting only
+    // the top N winners after picking per-agent winners.
     const result = await executeQuery<{
       agent_id: string;
       handle: string | null;
       created_at: Date;
       preview: string;
-    }>(
-      `SELECT t.agent_id, t.handle, t.created_at, t.preview
-         FROM (
-           SELECT DISTINCT ON (s.agent_id)
-             s.agent_id,
-             s.handle,
-             s.created_at,
-             s.preview
-           FROM (
-             SELECT
-               r.author_id::text AS agent_id,
-               COALESCE(up.name, u.name, split_part(u.email, '@', 1)) AS handle,
-               r.created_at,
-               r.review AS preview
-             FROM recipe_reflections r
-             JOIN users u ON u.id = r.author_id AND u.is_agent = true
-             LEFT JOIN user_profiles up ON up.user_id = u.id
-             WHERE r.is_agent = true
-               AND r.deleted_at IS NULL
-               AND COALESCE(r.hidden, false) = false
-             UNION ALL
-             SELECT
-               f.actor_id::text AS agent_id,
-               COALESCE(
-                 up.name,
-                 u.name,
-                 NULLIF(f.metadata_payload->>'agentName', ''),
-                 split_part(u.email, '@', 1)
-               ) AS handle,
-               f.created_at,
-               COALESCE(
-                 NULLIF(f.metadata_payload->>'responsePreview', ''),
-                 NULLIF(f.metadata_payload->>'messagePreview', ''),
-                 NULLIF(f.metadata_payload->>'review', ''),
-                 NULLIF(f.metadata_payload->>'summary', ''),
-                 NULLIF(f.metadata_payload->>'message', '')
-               ) AS preview
-             FROM feed_events f
-             JOIN users u ON u.id = f.actor_id AND u.is_agent = true
-             LEFT JOIN user_profiles up ON up.user_id = u.id
-             WHERE f.event_type IN ('agent_chat', 'recipe_generation', 'recipe_review', 'recipe_adapted', 'insight', 'lab_entry')
-               AND COALESCE(
-                 NULLIF(f.metadata_payload->>'responsePreview', ''),
-                 NULLIF(f.metadata_payload->>'messagePreview', ''),
-                 NULLIF(f.metadata_payload->>'review', ''),
-                 NULLIF(f.metadata_payload->>'summary', ''),
-                 NULLIF(f.metadata_payload->>'message', '')
-               ) IS NOT NULL
-           ) s
-           ORDER BY s.agent_id, s.created_at DESC
-         ) t
-        ORDER BY t.created_at DESC
-        LIMIT $1`,
-      [limit],
-    );
+    }>(REASONING_SQL, [limit]);
 
     const entries: AgentReasoningEntry[] = result.rows.map((row) => ({
       agentId: row.agent_id,
@@ -778,39 +868,80 @@ async function getReasoning(
   }
 }
 
-export async function GET(request: NextRequest) {
+function parseBoundParam(raw: string | null, fallback: number): number {
+  return Math.min(Math.max(parseInt(raw ?? "0", 10) || fallback, 1), MAX_LIMIT);
+}
+
+async function fetchAgentNetworkPayload(opts: {
+  dispatchLimit: number;
+  leaderboardLimit: number;
+  withFilter: string | null;
+  topicFilter: string | null;
+}): Promise<AgentNetworkPayload> {
+  // Bound all DB-backed readers so a single telemetry poll fits cleanly inside
+  // the per-Lambda max:3 pool while the external ephemeris lookup overlaps.
+  const dbLimit = createConcurrencyLimiter(ADMIN_DB_CONCURRENCY);
+  const modifierTask = getCosmicModifiers()
+    .then((r) => ({
+      entries: r.modifiers,
+      netVelocity: r.netVelocity,
+      live: r.live,
+    }))
+    .catch((error) => {
+      _logger.error("[admin/agents/network] cosmic modifiers failed", error);
+      return { entries: [], netVelocity: 0, live: false };
+    });
+
+  const [
+    totals,
+    roles,
+    dispatch,
+    leaderboard,
+    interactions,
+    roleOps,
+    reasoning,
+    modifiers,
+  ] = await Promise.all([
+    dbLimit(() => getTotals()),
+    dbLimit(() => getRoles()),
+    dbLimit(() => getDispatch(opts.dispatchLimit)),
+    dbLimit(() => getLeaderboard(opts.leaderboardLimit)),
+    dbLimit(() =>
+      getInteractions(15, {
+        withAgent: opts.withFilter,
+        topic: opts.topicFilter,
+      }),
+    ),
+    getRoleOps(dbLimit),
+    dbLimit(() => getReasoning()),
+    modifierTask,
+  ]);
+
+  return {
+    generatedAt: new Date().toISOString(),
+    totals,
+    roles,
+    dispatch,
+    leaderboard,
+    interactions,
+    roleOps,
+    reasoning,
+    modifiers,
+  };
+}
+
+export async function GET(request: NextRequest): Promise<NextResponse> {
   const authResult = await validateAdminRequest(request);
   if ("error" in authResult) {
     return authResult.error;
   }
 
   const { searchParams } = new URL(request.url);
-  const dispatchLimit = Math.min(
-    Math.max(
-      parseInt(searchParams.get("dispatch") ?? "0", 10) ||
-        DEFAULT_DISPATCH_LIMIT,
-      1,
-    ),
-    MAX_LIMIT,
-  );
-  const leaderboardLimit = Math.min(
-    Math.max(
-      parseInt(searchParams.get("leaderboard") ?? "0", 10) ||
-        DEFAULT_LEADERBOARD_LIMIT,
-      1,
-    ),
-    MAX_LIMIT,
-  );
-  // Trim+lower so cache keys are stable regardless of input casing/padding.
-  // Empty strings collapse to null so the route still hits the full-history
-  // cache slot when the operator clears the search bar.
-  const withFilter =
-    (searchParams.get("with") ?? "").trim().toLowerCase() || null;
-  const topicFilter =
-    (searchParams.get("topic") ?? "").trim().toLowerCase() || null;
+  const dispatchLimit = parseBoundParam(searchParams.get("dispatch"), DEFAULT_DISPATCH_LIMIT);
+  const leaderboardLimit = parseBoundParam(searchParams.get("leaderboard"), DEFAULT_LEADERBOARD_LIMIT);
+  const withFilter = (searchParams.get("with") ?? "").trim().toLowerCase() || null;
+  const topicFilter = (searchParams.get("topic") ?? "").trim().toLowerCase() || null;
 
-  // Cache key includes limits + filters so two callers with different
-  // ?dispatch=N / ?with= / ?topic= values don't share each other's payload.
   const cacheKey = [
     "admin:agents/network",
     dispatchLimit,
@@ -821,55 +952,13 @@ export async function GET(request: NextRequest) {
   const payload = await memoize<AgentNetworkPayload>(
     cacheKey,
     CACHE_TTL_MS,
-    async () => {
-      // Run all sub-queries in parallel — each degrades independently to a
-      // `live: false` empty result on error, so a single failed table or a
-      // missing ephemeris source can't take out the whole panel.
-      const modifierTask = getCosmicModifiers()
-        .then((r) => ({
-          entries: r.modifiers,
-          netVelocity: r.netVelocity,
-          live: r.live,
-        }))
-        .catch((error) => {
-          _logger.error(
-            "[admin/agents/network] cosmic modifiers failed",
-            error,
-          );
-          return { entries: [], netVelocity: 0, live: false };
-        });
-
-      const [
-        totals,
-        roles,
-        dispatch,
-        leaderboard,
-        interactions,
-        roleOps,
-        reasoning,
-        modifiers,
-      ] = await Promise.all([
-        getTotals(),
-        getRoles(),
-        getDispatch(dispatchLimit),
-        getLeaderboard(leaderboardLimit),
-        getInteractions(15, { withAgent: withFilter, topic: topicFilter }),
-        getRoleOps(),
-        getReasoning(),
-        modifierTask,
-      ]);
-      return {
-        generatedAt: new Date().toISOString(),
-        totals,
-        roles,
-        dispatch,
-        leaderboard,
-        interactions,
-        roleOps,
-        reasoning,
-        modifiers,
-      };
-    },
+    () =>
+      fetchAgentNetworkPayload({
+        dispatchLimit,
+        leaderboardLimit,
+        withFilter,
+        topicFilter,
+      }),
   );
 
   return NextResponse.json({ success: true, ...payload });
