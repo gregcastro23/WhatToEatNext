@@ -565,17 +565,6 @@ const ROLE_OPS_CASE_SQL = `CASE
   ELSE NULL
 END`;
 
-const ROLE_OPS_ACTION_SQL = `LEFT(
-  COALESCE(
-    NULLIF(split_part(f.event_type, '.', 2), ''),
-    NULLIF(f.metadata_payload->>'messageType', ''),
-    NULLIF(f.metadata_payload->>'internalTrigger', ''),
-    NULLIF(f.metadata_payload->>'source', ''),
-    f.event_type::text
-  ),
-  120
-)`;
-
 const ROLE_OPS_ROLLUP_SQL = `
   WITH role_events AS (
     SELECT f.actor_id, f.created_at, ${ROLE_OPS_CASE_SQL} AS role
@@ -601,7 +590,7 @@ const ROLE_OPS_ROLLUP_SQL = `
 const ROLE_OPS_RECENT_ACTIONS_SQL = `
   SELECT
     ${ROLE_OPS_CASE_SQL} AS role,
-    ${ROLE_OPS_ACTION_SQL} AS action,
+    COALESCE(f.action_label, f.event_type::text) AS action,
     COUNT(*)::int AS count
   FROM feed_events f
   JOIN users u ON u.id = f.actor_id AND u.is_agent = true
@@ -613,7 +602,7 @@ const ROLE_OPS_RECENT_ACTIONS_SQL = `
 const ROLE_OPS_DORMANT_ACTIONS_SQL = `
   SELECT
     ${ROLE_OPS_CASE_SQL} AS role,
-    ${ROLE_OPS_ACTION_SQL} AS action,
+    COALESCE(f.action_label, f.event_type::text) AS action,
     COUNT(*)::int AS count
   FROM feed_events f
   JOIN users u ON u.id = f.actor_id AND u.is_agent = true

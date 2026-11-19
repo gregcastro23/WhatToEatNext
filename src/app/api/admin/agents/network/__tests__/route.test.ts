@@ -246,6 +246,15 @@ describe("GET /api/admin/agents/network", () => {
       { action: "scrabble_bingo", count: 25 },
     ]);
     expect(body.reasoning.entries[0]?.agentHandle).toBe("Galileo");
+
+    const actionSqlCalls = mockExecuteQuery.mock.calls
+      .map(([sql]) => String(sql))
+      .filter((sql) => sql.includes("AS action"));
+    expect(actionSqlCalls).toHaveLength(2);
+    for (const sql of actionSqlCalls) {
+      expect(sql).toContain("f.action_label");
+      expect(sql).not.toContain("metadata_payload");
+    }
   });
 
   it("skips dormant role query when no role has 0 7d events and nonzero historical total", async () => {
