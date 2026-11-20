@@ -8,6 +8,7 @@
 
 import { cuisinesMap } from "@/data/cuisines";
 import { allSauces } from "@/data/sauces";
+import { makeSauceId } from "@/lib/sauces/catalogueFile";
 
 
 // ============================================================================
@@ -299,8 +300,69 @@ const FAMILY_DESCRIPTION: Record<BaseFamily, string> = Object.fromEntries(
 // Node collection
 // ============================================================================
 
-function makeId(parts: string[]): string {
-  return parts.map((p) => norm(p).replace(/\s+/g, "-")).join(":");
+function isRecord(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null && !Array.isArray(val);
+}
+
+function readStr(obj: Record<string, unknown>, key: string): string | undefined {
+  const v = obj[key];
+  return typeof v === "string" ? v : undefined;
+}
+
+function readStrArr(obj: Record<string, unknown>, key: string): string[] | undefined {
+  const v = obj[key];
+  if (!Array.isArray(v)) return undefined;
+  return v.filter((item): item is string => typeof item === "string");
+}
+
+function toRawSauceEntry(raw: unknown): RawSauceEntry | null {
+  if (!isRecord(raw)) return null;
+  const name = readStr(raw, "name");
+  const base = readStr(raw, "base");
+  const description = readStr(raw, "description");
+  const keyIngredients = readStrArr(raw, "keyIngredients");
+  const derivatives = readStrArr(raw, "derivatives");
+  const variants = readStrArr(raw, "variants");
+  const astrologicalInfluences = readStrArr(raw, "astrologicalInfluences");
+  const seasonality = readStr(raw, "seasonality");
+  const difficulty = readStr(raw, "difficulty");
+  const preparationNotes = readStr(raw, "preparationNotes");
+  const technicalTips = readStr(raw, "technicalTips");
+  return {
+    ...(name !== undefined ? { name } : {}),
+    ...(base !== undefined ? { base } : {}),
+    ...(description !== undefined ? { description } : {}),
+    ...(keyIngredients !== undefined ? { keyIngredients } : {}),
+    ...(derivatives !== undefined ? { derivatives } : {}),
+    ...(variants !== undefined ? { variants } : {}),
+    ...(astrologicalInfluences !== undefined ? { astrologicalInfluences } : {}),
+    ...(seasonality !== undefined ? { seasonality } : {}),
+    ...(difficulty !== undefined ? { difficulty } : {}),
+    ...(preparationNotes !== undefined ? { preparationNotes } : {}),
+    ...(technicalTips !== undefined ? { technicalTips } : {}),
+  };
+}
+
+function toRawSauceMap(raw: unknown): Record<string, RawSauceEntry> | undefined {
+  if (!isRecord(raw)) return undefined;
+  const out: Record<string, RawSauceEntry> = {};
+  for (const [k, v] of Object.entries(raw)) {
+    const parsed = toRawSauceEntry(v);
+    if (parsed) out[k] = parsed;
+  }
+  return out;
+}
+
+function toRawCuisineEntry(raw: unknown): RawCuisineEntry | null {
+  if (!isRecord(raw)) return null;
+  const name = readStr(raw, "name");
+  const motherSauces = toRawSauceMap(raw.motherSauces);
+  const traditionalSauces = toRawSauceMap(raw.traditionalSauces);
+  return {
+    ...(name !== undefined ? { name } : {}),
+    ...(motherSauces !== undefined ? { motherSauces } : {}),
+    ...(traditionalSauces !== undefined ? { traditionalSauces } : {}),
+  };
 }
 
 function buildNode(args: {
@@ -362,25 +424,27 @@ interface RawCuisineEntry {
   traditionalSauces?: Record<string, RawSauceEntry | undefined>;
 }
 
-function collectNodes(cuisinesData: Record<string, RawCuisineEntry | undefined>): {
+function collectNodes(cuisinesData: Record<string, unknown>): {
   nodes: Map<string, SauceNode>;
   nameIndex: Map<string, SauceNode>;
 } {
   const nodes = new Map<string, SauceNode>();
   const nameIndex = new Map<string, SauceNode>();
 
-  for (const [cuisineKey, cuisine] of Object.entries(cuisinesData)) {
-    if (!cuisine || typeof cuisine !== "object") continue;
+  for (const [cuisineKey, rawEntry] of Object.entries(cuisinesData)) {
+    const cuisine = toRawCuisineEntry(rawEntry);
+    if (!cuisine) continue;
+    const owner = cuisine.name ?? cuisineKey;
 
     if (cuisine.motherSauces) {
       for (const [k, raw] of Object.entries(cuisine.motherSauces)) {
         if (!raw) continue;
-        const id = makeId([cuisineKey, "mother", k]);
+        const id = makeSauceId([owner, "mother", k]);
         const node = buildNode({
           rawId: id,
           name: raw.name ?? k,
           origin: "mother",
-          cuisine: cuisine.name ?? cuisineKey,
+          cuisine: owner,
           ...(raw.base !== undefined ? { base: raw.base } : {}),
           ...(raw.description !== undefined ? { description: raw.description } : {}),
           ...(raw.keyIngredients !== undefined ? { keyIngredients: raw.keyIngredients } : {}),
@@ -403,15 +467,15 @@ function collectNodes(cuisinesData: Record<string, RawCuisineEntry | undefined>)
       for (const [k, raw] of Object.entries(cuisine.traditionalSauces)) {
         if (!raw) continue;
         const nameKey = norm(raw.name ?? k);
-        if (nameIndex.has(nameKey) && nameIndex.get(nameKey)?.cuisine === (cuisine.name ?? cuisineKey)) {
+        if (nameIndex.has(nameKey) && nameIndex.get(nameKey)?.cuisine === owner) {
           continue;
         }
-        const id = makeId([cuisineKey, "traditional", k]);
+        const id = makeSauceId([owner, "traditional", k]);
         const node = buildNode({
           rawId: id,
           name: raw.name ?? k,
           origin: "traditional",
-          cuisine: cuisine.name ?? cuisineKey,
+          cuisine: owner,
           ...(raw.base !== undefined ? { base: raw.base } : {}),
           ...(raw.description !== undefined ? { description: raw.description } : {}),
           ...(raw.keyIngredients !== undefined ? { keyIngredients: raw.keyIngredients } : {}),
@@ -433,7 +497,7 @@ function collectNodes(cuisinesData: Record<string, RawCuisineEntry | undefined>)
   for (const [key, sauce] of Object.entries(allSauces)) {
     const nameKey = norm(sauce.name);
     if (nameIndex.has(nameKey)) continue;
-    const id = makeId(["global", key]);
+    const id = makeSauceId(["global", key]);
     const node = buildNode({
       rawId: id,
       name: sauce.name,
@@ -516,9 +580,10 @@ function deriveEdges(
           similarity: sim,
         });
       } else {
-        const leafId = makeId([node.id, "variant", trimmed]);
-        if (!variantLeaves.has(node.id)) variantLeaves.set(node.id, []);
-        const arr = variantLeaves.get(node.id)!;
+        const leafId = `${node.id}:variant:${makeSauceId([trimmed])}`;
+        const existingArr = variantLeaves.get(node.id);
+        const arr = existingArr ?? [];
+        if (!existingArr) variantLeaves.set(node.id, arr);
         if (!arr.find((v) => v.id === leafId)) {
           arr.push({
             id: leafId,
@@ -713,15 +778,19 @@ function assembleForest(
 // Public API (memoized)
 // ============================================================================
 
-let _cached: SauceForest | null = null;
+let _defaultForestCache: SauceForest | null = null;
+const _forestCacheBySource = new WeakMap<object, SauceForest>();
 
 /** Build (or return cached) sauce forest. Idempotent across calls. */
 export function getSauceForest(cuisinesData?: Record<string, unknown>): SauceForest {
-  if (_cached && !cuisinesData) return _cached;
-  
-  // If no data provided, we return the cached one or collect from legacy map (if still populated)
-  const sourceData = (cuisinesData ?? cuisinesMap) as unknown as Record<string, RawCuisineEntry | undefined>;
-  
+  if (!cuisinesData && _defaultForestCache) return _defaultForestCache;
+  if (cuisinesData) {
+    const hit = _forestCacheBySource.get(cuisinesData);
+    if (hit) return hit;
+  }
+
+  const sourceData: Record<string, unknown> = cuisinesData ?? cuisinesMap;
+
   const { nodes, nameIndex } = collectNodes(sourceData);
   const { parentOf, childrenOf, variantLeaves, edges } = deriveEdges(nodes, nameIndex, {
     similarityFloor: 0.18,
@@ -730,8 +799,37 @@ export function getSauceForest(cuisinesData?: Record<string, unknown>): SauceFor
     similarityFloor: 0.22,
     perNodeLimit: 5,
   });
-  _cached = assembleForest(nodes, parentOf, childrenOf, fusionByNode, edges, variantLeaves);
-  return _cached;
+  const forest = assembleForest(nodes, parentOf, childrenOf, fusionByNode, edges, variantLeaves);
+  if (cuisinesData) {
+    _forestCacheBySource.set(cuisinesData, forest);
+  } else {
+    _defaultForestCache = forest;
+  }
+  return forest;
+}
+
+/**
+ * Resolve either a canonical node ID or a fallback name/named-only ID to a
+ * node ID in `forest`, returning `null` if no match exists.
+ */
+export function resolveNodeId(forest: SauceForest, idOrName: string): string | null {
+  if (forest.nodes.has(idOrName)) return idOrName;
+  const parts = idOrName.split(":");
+  const candidate = parts.length >= 3 ? (parts[parts.length - 1] ?? idOrName) : idOrName;
+  const target = norm(candidate);
+  if (!target) return null;
+  for (const node of forest.nodes.values()) {
+    if (norm(node.name) === target || makeSauceId([node.name]) === candidate) {
+      return node.id;
+    }
+  }
+  for (const node of forest.nodes.values()) {
+    const nName = norm(node.name);
+    if (nName.includes(target) || target.includes(nName)) {
+      return node.id;
+    }
+  }
+  return null;
 }
 
 

@@ -7,6 +7,7 @@ import Link from "next/link";
 import type { Sauce } from "@/data/sauces";
 import { resolveCatalogIngredient } from "@/lib/ingredients/ingredientCatalog";
 import { ingredientHref } from "@/lib/ingredients/ingredientSlug";
+import { findSaucePresetId } from "@/lib/sauces/physics/presets";
 import type { JSX } from "react";
 
 function Label({ children }: { children: string }): JSX.Element {
@@ -47,13 +48,17 @@ function facts(sauce: Sauce): string[] {
 }
 
 export function SauceFocusCard({ sauce }: { sauce: Sauce }): JSX.Element {
+  const labPresetId = findSaucePresetId(sauce.name);
+  const labHref = labPresetId
+    ? `/kitchen-lab/sauces?sauce=${encodeURIComponent(labPresetId)}`
+    : "/kitchen-lab/sauces";
   return (
     <section
       id="sauce-focus"
       aria-labelledby="sauce-focus-name"
       className="rounded-2xl border border-violet-400/40 bg-[#0e0c16]/95 p-6 md:p-8 space-y-6 shadow-[0_0_35px_rgba(139,92,246,0.15)] backdrop-blur-xl relative"
     >
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
             <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-violet-300">Focused Sauce Dossier</p>
@@ -66,14 +71,23 @@ export function SauceFocusCard({ sauce }: { sauce: Sauce }): JSX.Element {
           <p className="mt-1 text-xs font-mono text-white/50">{facts(sauce).join(" · ")}</p>
         </div>
 
-        <Link
-          href="/sauces"
-          prefetch={false}
-          className="text-xs font-mono text-white/40 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/20 bg-white/[0.02] transition-colors"
-          title="Return to full sauce matrix"
-        >
-          Clear Focus ✕
-        </Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href={labHref}
+            prefetch={false}
+            className="text-xs font-mono text-emerald-200 hover:text-white px-3 py-1.5 rounded-lg border border-emerald-400/30 hover:border-emerald-300/60 bg-emerald-400/10 transition-colors"
+          >
+            Bench Physics in Sauce Lab →
+          </Link>
+          <Link
+            href="/sauces"
+            prefetch={false}
+            className="text-xs font-mono text-white/40 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/20 bg-white/[0.02] transition-colors"
+            title="Return to full sauce matrix"
+          >
+            Clear Focus ✕
+          </Link>
+        </div>
       </div>
 
       <p className="max-w-3xl text-sm text-white/80 leading-relaxed font-body">{sauce.description}</p>

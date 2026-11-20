@@ -8,8 +8,10 @@
  * and where ingredient divergences happen.
  */
 
-import React, { useCallback, useMemo, useState, useEffect } from "react";
-import { useAlchemicalData } from "@/contexts/AlchemicalDataContext";
+import Link from "next/link";
+import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { useSauceCatalogue } from "@/hooks/useSauceCatalogue";
+import { ingredientHref } from "@/lib/ingredients/ingredientSlug";
 import {
   getSauceForest,
   getLineage,
@@ -17,6 +19,7 @@ import {
   getFusionBridges,
   getChildren,
   getVariantLeaves,
+  resolveNodeId,
   searchNodes,
   FAMILY_DESCRIPTIONS,
   type BaseFamily,
@@ -65,7 +68,7 @@ const ORIGIN_BADGES: Record<
   },
 };
 
-function CuisineChip({ cuisine }: { cuisine?: string | undefined }) {
+function CuisineChip({ cuisine }: { cuisine?: string | undefined }): React.ReactElement | null {
   if (!cuisine) return null;
   return (
     <span className="text-[9px] font-mono uppercase tracking-wider bg-white/[0.04] text-white/60 border border-white/10 px-1.5 py-0.5 rounded">
@@ -74,7 +77,7 @@ function CuisineChip({ cuisine }: { cuisine?: string | undefined }) {
   );
 }
 
-function OriginBadge({ origin }: { origin: SauceNode["origin"] }) {
+function OriginBadge({ origin }: { origin: SauceNode["origin"] }): React.ReactElement {
   const meta = ORIGIN_BADGES[origin];
   return (
     <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-medium ${meta.className}`}>
@@ -105,7 +108,7 @@ function NodeRow({
   onToggle,
   onSelect,
   cuisinesData,
-}: NodeRowProps) {
+}: NodeRowProps): React.ReactElement {
   const forest = useMemo(() => getSauceForest(cuisinesData), [cuisinesData]);
   const children = getChildren(forest, node.id);
   const variants = getVariantLeaves(forest, node.id);
@@ -125,11 +128,12 @@ function NodeRow({
       >
         {hasChildren ? (
           <button
+            type="button"
             onClick={(e) => {
               e.stopPropagation();
               onToggle(node.id);
             }}
-            className="w-4 h-4 flex items-center justify-center text-white/50 hover:text-violet-300 text-xs transition-colors"
+            className="w-4 h-4 flex items-center justify-center text-white/50 hover:text-violet-300 text-xs transition-colors rounded focus-visible:outline-2 focus-visible:outline-violet-400"
             aria-label={isOpen ? "Collapse" : "Expand"}
           >
             {isOpen ? "▾" : "▸"}
@@ -140,7 +144,7 @@ function NodeRow({
 
         <button
           type="button"
-          className="flex min-w-0 flex-1 items-center gap-2 text-left"
+          className="flex min-w-0 flex-1 items-center gap-2 text-left rounded focus-visible:outline-2 focus-visible:outline-violet-400"
           onClick={() => onSelect(node.id)}
         >
           <OriginBadge origin={node.origin} />
@@ -205,11 +209,13 @@ function DetailPane({
   selectedId,
   onSelect,
   cuisinesData,
+  ingredientSlugs,
 }: {
   selectedId: string | null;
   onSelect: (id: string) => void;
-  cuisinesData?: Record<string, unknown> | undefined;
-}) {
+  cuisinesData?: Record<string, unknown>;
+  ingredientSlugs: Record<string, string>;
+}): React.ReactElement | null {
   const forest = useMemo(() => getSauceForest(cuisinesData), [cuisinesData]);
 
   if (!selectedId) {
@@ -271,6 +277,7 @@ function DetailPane({
               <React.Fragment key={n.id}>
                 {i > 0 && <span className="text-white/30 font-mono">→</span>}
                 <button
+                  type="button"
                   onClick={() => onSelect(n.id)}
                   className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all ${
                     n.id === selectedId
@@ -285,6 +292,37 @@ function DetailPane({
             ))}
           </div>
         </div>
+
+        {/* Key Ingredients with Dossier Links */}
+        {node.keyIngredients.length > 0 && (
+          <div>
+            <div className="text-[10px] font-mono uppercase tracking-widest text-white/40 mb-2">
+              Key Ingredients
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {node.keyIngredients.map((ing) => {
+                const slug = ingredientSlugs[ing.trim().toLowerCase()];
+                return slug ? (
+                  <Link
+                    key={ing}
+                    href={ingredientHref(slug)}
+                    prefetch={false}
+                    className="text-[11px] font-mono px-2.5 py-0.5 rounded-full border border-violet-400/35 bg-violet-500/10 text-violet-200 hover:border-violet-300 hover:text-white transition-colors"
+                  >
+                    {ing}
+                  </Link>
+                ) : (
+                  <span
+                    key={ing}
+                    className="text-[11px] font-mono px-2.5 py-0.5 rounded-full border border-white/10 bg-white/[0.03] text-white/70"
+                  >
+                    {ing}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Divergence */}
         <div>
@@ -415,8 +453,9 @@ function DetailPane({
                 return (
                   <button
                     key={b.toId}
+                    type="button"
                     onClick={() => onSelect(b.toId)}
-                    className="w-full text-left rounded-xl border border-white/10 bg-white/[0.02] hover:bg-violet-950/25 hover:border-violet-500/40 p-3.5 transition-all group"
+                    className="w-full text-left rounded-xl border border-white/10 bg-white/[0.02] hover:bg-violet-950/25 hover:border-violet-500/40 p-3.5 transition-all group focus-visible:outline-2 focus-visible:outline-violet-400 focus-visible:outline-offset-2"
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
@@ -519,9 +558,11 @@ export default function SauceLineageTree({
   initialSelectedId,
   onSelectSauce,
   className = "",
-}: SauceLineageTreeProps) {
-  const { cuisines, loading } = useAlchemicalData();
-  const forest = useMemo(() => getSauceForest(cuisines ?? undefined), [cuisines]);
+}: SauceLineageTreeProps): React.ReactElement {
+  const searchInputId = useId();
+  const lastAppliedInitialRef = useRef<string | null>(null);
+  const { cuisinesMap, ingredientSlugs, status } = useSauceCatalogue();
+  const forest = useMemo(() => getSauceForest(cuisinesMap), [cuisinesMap]);
   const [activeFamily, setActiveFamily] = useState<BaseFamily>("tomato");
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [selectedId, setSelectedId] = useState<string | null>(initialSelectedId ?? null);
@@ -555,10 +596,14 @@ export default function SauceLineageTree({
   );
 
   useEffect(() => {
-    if (initialSelectedId && initialSelectedId !== selectedId) {
-      onSelect(initialSelectedId);
+    if (!initialSelectedId) return;
+    const resolved = resolveNodeId(forest, initialSelectedId);
+    const sig = resolved ? `${initialSelectedId}=>${resolved}` : null;
+    if (resolved && sig !== lastAppliedInitialRef.current) {
+      lastAppliedInitialRef.current = sig;
+      onSelect(resolved);
     }
-  }, [initialSelectedId, selectedId, onSelect]);
+  }, [initialSelectedId, forest, onSelect]);
 
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return null;
@@ -578,15 +623,13 @@ export default function SauceLineageTree({
   }, [selectedId, forest]);
 
   useEffect(() => {
-    if (forest && forest.families.length > 0) {
-      if (!activeFamily || !forest.families.find((f) => f.family === activeFamily)) {
-        const [firstFamily] = forest.families;
-        if (firstFamily) setActiveFamily(firstFamily.family);
-      }
+    if (forest.families.length > 0 && !forest.families.some((f) => f.family === activeFamily)) {
+      const [firstFamily] = forest.families;
+      if (firstFamily) setActiveFamily(firstFamily.family);
     }
   }, [forest, activeFamily]);
 
-  if (loading && !forest.nodes.size) {
+  if (status === "loading" && !forest.nodes.size) {
     return (
       <div className="p-12 text-center text-white/50 font-mono text-sm animate-pulse">
         Mapping phylogenetic culinary lineages...
@@ -636,8 +679,10 @@ export default function SauceLineageTree({
             return (
               <button
                 key={f.family}
+                type="button"
+                aria-pressed={isActive}
                 onClick={() => setActiveFamily(f.family)}
-                className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-2 border ${
+                className={`min-h-[38px] px-3 py-1.5 rounded-full text-xs font-mono transition-all flex items-center gap-2 border focus-visible:outline-2 focus-visible:outline-violet-400 focus-visible:outline-offset-2 ${
                   isActive
                     ? "bg-violet-600/30 border-violet-400 text-white shadow-[0_0_15px_rgba(139,92,246,0.3)] ring-1 ring-violet-400/40"
                     : "bg-white/[0.03] border-white/10 text-white/60 hover:border-white/20 hover:text-white"
@@ -674,18 +719,23 @@ export default function SauceLineageTree({
       </div>
 
       {/* Search Input */}
-      <div className="relative">
+      <div role="search" className="relative">
+        <label htmlFor={searchInputId} className="sr-only">
+          Search sauce lineage by name, cuisine, or ingredient
+        </label>
         <input
-          type="text"
+          id={searchInputId}
+          type="search"
           placeholder="Search by sauce name, cuisine, or key ingredient (e.g. mole, velouté, soy, chili)..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full bg-[#0e0c16]/90 text-white border border-white/15 rounded-2xl px-4 py-3 text-sm focus:border-violet-400 focus:ring-1 focus:ring-violet-400 outline-none backdrop-blur-xl placeholder-white/40 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
+          className="w-full min-h-[44px] bg-[#0e0c16]/90 text-white border border-white/15 rounded-2xl pl-4 pr-16 py-3 text-base sm:text-sm [&::-webkit-search-cancel-button]:hidden focus:border-violet-400 focus-visible:outline-2 focus-visible:outline-violet-400 focus-visible:outline-offset-2 backdrop-blur-xl placeholder-white/40 transition-all shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
         />
         {searchQuery && (
           <button
+            type="button"
             onClick={() => setSearchQuery("")}
-            className="absolute right-4 top-3 text-xs font-mono text-white/40 hover:text-white"
+            className="absolute right-3 top-1/2 -translate-y-1/2 min-h-[32px] px-2 text-xs font-mono text-white/60 hover:text-white rounded-md focus-visible:outline-2 focus-visible:outline-violet-400"
           >
             Clear ✕
           </button>
@@ -715,8 +765,9 @@ export default function SauceLineageTree({
                 searchResults.map((n) => (
                   <button
                     key={n.id}
+                    type="button"
                     onClick={() => onSelect(n.id)}
-                    className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-xl transition-all ${
+                    className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-xl transition-all focus-visible:outline-2 focus-visible:outline-violet-400 focus-visible:outline-offset-2 ${
                       selectedId === n.id
                         ? "bg-violet-950/60 ring-1 ring-violet-500 text-white border-l-2 border-violet-400"
                         : "hover:bg-white/[0.04] text-white/80"
@@ -739,7 +790,7 @@ export default function SauceLineageTree({
                   expanded={expanded}
                   onToggle={onToggle}
                   onSelect={onSelect}
-                  cuisinesData={cuisines ?? undefined}
+                  cuisinesData={cuisinesMap}
                 />
               ))
             ) : (
@@ -755,7 +806,8 @@ export default function SauceLineageTree({
           <DetailPane
             selectedId={selectedId}
             onSelect={onSelect}
-            cuisinesData={cuisines ?? undefined}
+            cuisinesData={cuisinesMap}
+            ingredientSlugs={ingredientSlugs}
           />
         </div>
       </div>

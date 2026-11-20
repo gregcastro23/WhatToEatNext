@@ -80,6 +80,21 @@ const CONTENT: Record<
           "It does not predict individual animal breed or dry-age enzymatic variability beyond USDA SR Legacy tissue composition, and its Elements tab is an alchm projection.",
       },
       {
+        system: "real",
+        title: "Sauce Lab — Emulsions, Reduction & Rheology",
+        claim:
+          "Choi & Okos thermophysical properties, Krieger–Dougherty emulsion viscosity, Stokes creaming stability, starch gelatinisation windows, and simmering reduction mass balance.",
+        href: "/kitchen-lab/sauces",
+        answers: [
+          "What is the dispersed-fat phase fraction φ, and when does an emulsion risk inversion or splitting?",
+          "How does droplet radius (whisk vs immersion blender) change Stokes creaming stability?",
+          "Which starch or egg-yolk thermal window thickens the base cleanly without curdling?",
+          "How long does simmering reduction take at this wattage, and what happens to dissolved salinity?",
+        ],
+        cannot:
+          "It cannot capture non-Newtonian shear-thinning hydrocolloids beyond monodisperse Krieger–Dougherty spheres, and its Pairing Studio & Phylogeny tabs are Alchm projections kept under their own banner.",
+      },
+      {
         system: "alchm",
         href: "/kitchen-lab/alchm",
         answers: [
