@@ -58,6 +58,10 @@ export interface ContactPlate {
 
 export interface OvenSettings {
   ovenC: number;
+  /** Optional second-stage oven setpoint, °C, applied after `stage1Minutes`. */
+  stage2OvenC?: number | null;
+  /** Duration of stage 1 at `ovenC`, minutes, before switching to `stage2OvenC`. */
+  stage1Minutes?: number | null;
   mode: OvenMode;
   /** Fan air speed over the product, m/s. Used in convection mode only. */
   fanMs: number;

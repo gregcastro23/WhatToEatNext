@@ -116,7 +116,8 @@ describe("grams from the vector's own FDC portions", () => {
   it("borrows a stated record where FDC weighed another form, and never weighs one it cannot", () => {
     const pastry = matchedLineGrams(line(1, "cup", "whole wheat pastry flour"), "whole-wheat-pastry-flour");
     expect(pastry).toMatchObject({ ok: true, grams: 120, basis: { kind: "DECLARED", fdcId: 168893 } });
-    expect(matchedLineGrams(line(1, "cup", "almond flour"), "almond-flour")).toMatchObject({ ok: false, reason: expect.stringMatching(/kernels/) });
+    expect(matchedLineGrams(line(1, "cup", "almond flour"), "almond-flour")).toMatchObject({ ok: true, grams: 80, basis: { kind: "DECLARED", fdcId: 170187 } });
+    expect(matchedLineGrams(line(1, "cup", "cassava flour"), "cassava-flour")).toMatchObject({ ok: false, reason: expect.stringMatching(/30 g reference/) });
     expect(grams(line(1, "cup", "almond milk"), "almond-milk")).toBe(237);
   });
 
@@ -179,9 +180,9 @@ describe("review findings (2026-11-16)", () => {
     expect(vectorOf("active dry yeast")).toBe("instant-yeast");
   });
 
-  it("reads only white rice flour as rice flour", () => {
-    expect(matchIngredient("brown rice flour").outcome).toMatchObject({ kind: "unmatched", structural: true });
-    expect(matchIngredient("white sweet rice flour").outcome).toMatchObject({ kind: "unmatched", structural: true });
+  it("keeps white, brown and sweet rice flours apart", () => {
+    expect(vectorOf("brown rice flour")).toBe("brown-rice-flour");
+    expect(vectorOf("white sweet rice flour")).toBe("sweet-rice-flour");
     expect(vectorOf("white rice flour")).toBe("rice-flour");
     expect(vectorOf("rice flour")).toBe("rice-flour");
   });

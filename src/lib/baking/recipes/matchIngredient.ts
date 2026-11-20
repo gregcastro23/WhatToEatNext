@@ -21,7 +21,9 @@ export interface IngredientMatch {
 
 /** Words that describe the state of an ingredient, never which ingredient it is. */
 const DESCRIPTORS =
-  /\b(softened|melted|cold|chilled|room[- ]temperature|warm|lukewarm|hot|boiling|cool|cooled|sifted|un-?sifted|packed|lightly packed|firmly packed|fresh(?!\s+yeast)|freshly|pure|organic|large|extra[- ]large|medium|small|jumbo|beaten|lightly beaten|whisked|divided|plus more|for dusting|cubed|diced|grated|unsalted|salted|good quality|high quality|fine|finely|level(l)?ed|spooned|scooped|heaping|chopped|minced|sliced|shredded|crushed|toasted|mashed|halved|quartered|roughly|coarsely|thinly|peeled|pitted|seeded)\b/g;
+  /\b(softened|melted|cold|chilled|room[- ]temperature|warm|lukewarm|hot|boiling|cool|cooled|sifted|un-?sifted|packed|lightly packed|firmly packed|fresh(?!\s+yeast)|freshly|pure|organic|large|extra[- ]large|medium|small|jumbo|beaten|lightly beaten|whisked|divided|plus more|for dusting|cubed|diced|grated|unsalted|salted|good quality|high quality|fine|finely|level(l)?ed|spooned|scooped|heaping|chopped|minced|sliced|shredded|crushed|toasted|mashed|halved|quartered|roughly|coarsely|thinly|peeled|pitted|seeded|cooked|baked|boiled|frozen|ripe|unripe|cored|drained)\b/g;
+
+const SHARED_NOUN_PREFIX = /^(light|dark|sesame|poppy|orange|lemon)$/;
 
 function foldAccents(text: string): string {
   return text.normalize("NFD").replace(/\p{M}/gu, "");
@@ -34,9 +36,11 @@ export function normaliseName(name: string): { normalised: string; setAside: str
     .replace(/[,;].*$/, " ")
     .replace(/[’']/g, "")
     .replace(/[*"]/g, " ");
-  const [first = "", ...rest] = base.split(/\s+or\s+/);
   const clean = (s: string): string => s.replace(DESCRIPTORS, " ").replace(/\s+/g, " ").trim();
-  return { normalised: clean(first), setAside: rest.map(clean).filter((s) => s.length > 0) };
+  const [first = "", ...rest] = base.split(/\s+or\s+/).map(clean).filter((s) => s.length > 0);
+  const second = rest[0] ?? "";
+  const tail = SHARED_NOUN_PREFIX.test(first) && /\s/.test(second) ? second.replace(/^\S+\s+/, "") : "";
+  return { normalised: tail.length > 0 ? `${first} ${tail}` : first, setAside: rest };
 }
 
 /** The first rule that reads this name, or the stated miss. */

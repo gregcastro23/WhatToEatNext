@@ -131,4 +131,16 @@ export const LARD: BakingIngredient = defineIngredient({
   pH: NO_AQUEOUS_PH,
 });
 
-export const FATS: readonly BakingIngredient[] = [BUTTER, BROWN_BUTTER, COCONUT_OIL, OLIVE_OIL, VEGETABLE_OIL, VEGETABLE_SHORTENING, LARD];
+export const GHEE: BakingIngredient = defineIngredient({
+  ...LIPID,
+  id: "ghee",
+  name: "Ghee (anhydrous butterfat)",
+  roles: ["fat", "tenderizer", "flavor"],
+  source: { kind: "fdc", key: "ghee", starch: "none" },
+  solidFatIndex: MILK_FAT_SFI,
+  meltingPointC: MILK_FAT_MELT,
+  pH: NO_AQUEOUS_PH,
+  notes: ["Clarified butter (FDC 'Butter oil, anhydrous'): 99.5 g fat and 0.24 g water per 100 g, so unlike whole butter it adds no hydration."],
+});
+
+export const FATS: readonly BakingIngredient[] = [BUTTER, BROWN_BUTTER, GHEE, COCONUT_OIL, OLIVE_OIL, VEGETABLE_OIL, VEGETABLE_SHORTENING, LARD];

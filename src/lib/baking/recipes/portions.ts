@@ -31,18 +31,20 @@ export interface PortionWeight {
 
 export type PortionResult = { ok: true; value: PortionWeight } | { ok: false; reason: string };
 
-type Source = { kind: "none"; reason: string } | { kind: "borrow"; from: string; reason: string };
+type Source = { kind: "none"; reason: string } | { kind: "borrow"; from: string; tag?: string; reason: string };
 
 /** Vectors whose own FDC portions do not weigh the vector's form, and what stands in. */
 const PORTION_SOURCE: Readonly<Record<string, Source>> = {
-  "almond-flour": { kind: "none", reason: "FDC weighed whole blanched kernels, not the ground flour" },
+  "almond-flour": { kind: "borrow", from: "walnuts", tag: "ground", reason: "FDC 170568 weighed whole blanched kernels, not the ground flour; ground English walnuts' measured cup (FDC 170187: 1 cup, ground = 80 g, a ground tree-nut meal) is applied" },
   "cassava-flour": { kind: "none", reason: "FDC publishes only a 30 g reference serving, no household measure" },
   "spelt-flour": { kind: "borrow", from: "whole-wheat-flour", reason: "FDC weighs spelt as whole grain; whole wheat flour's measured measure (a whole-grain flour of like grind) is applied" },
+  "sweet-rice-flour": { kind: "borrow", from: "rice-flour", reason: "FDC 168883 weighs glutinous rice as whole grain; white rice flour's measured cup (FDC 169714: 1 cup = 158 g) is applied" },
   "whole-wheat-pastry-flour": { kind: "borrow", from: "whole-wheat-flour", reason: "FDC 168944 publishes no portion; whole wheat flour's measured measure is applied" },
   "tapioca-starch": { kind: "borrow", from: "cornstarch", reason: "FDC weighs tapioca as pearls; cornstarch's measured measure (a fine pure starch) is applied" },
   "brown-butter": { kind: "borrow", from: "butter", reason: "brown butter is not weighed by FDC; butter's measured measure is applied" },
   aquafaba: { kind: "borrow", from: "water", reason: "aquafaba (94 % water) is not weighed by FDC; water's measured measure is applied" },
   "almond-milk": { kind: "borrow", from: "water", reason: "FDC 174832 weighs a cup at 262 g, 11 % denser than water, implausible for a drink 96.5 % water; water's measured measure is applied" },
+  "oat-milk": { kind: "borrow", from: "whole-milk", reason: "FDC 2257046 publishes no portion; whole milk's measured measure (FDC 171265: 1 cup = 244 g) is applied" },
 };
 
 /** A line naming another form of a vector than the one FDC weighed: no portion applies. */
@@ -52,15 +54,23 @@ const LINE_FORM_REFUSALS: Readonly<Record<string, [RegExp, string]>> = {
 
 /** Where a recipe names no qualifier and FDC weighed only qualified forms, the US convention taken. */
 const DEFAULT_TAG: Readonly<Record<string, [string, string]>> = {
+  "almond-flour": ["ground", "ground nut meal (FDC 170187: 1 cup, ground = 80 g)"],
   "brown-sugar": ["packed", "US recipes measure brown sugar packed"],
+  "coconut-sugar": ["unpacked", "granulated coconut sugar read at the unpacked cup weight (FDC 168833: 1 cup unpacked = 145 g)"],
   "powdered-sugar": ["unsifted", "measured as it comes from the bag (unsifted)"],
   walnuts: ["chopped", "nuts read as chopped, the usual form in a batter"],
   pecans: ["chopped", "nuts read as chopped, the usual form in a batter"],
   raisins: ["unpacked", "raisins read as loosely filled (not packed)"],
   "semisweet-chocolate": ["chips", "read as regular chips (FDC's 6 oz-package chips)"],
+  "fresh-cranberries": ["whole", "cranberries read as whole berries (FDC 171722: 1 cup, whole = 100 g) unless chopped is named"],
+  "grated-carrot": ["grated", "carrot in a batter read as grated (FDC 170393: 1 cup grated = 110 g)"],
+  zucchini: ["chopped", "zucchini read at FDC's chopped cup weight (FDC 169291: 1 cup, chopped = 124 g)"],
+  apple: ["chopped", "cut apple read at FDC's chopped cup weight (FDC 171688: 1 cup, quartered or chopped = 125 g)"],
+  pear: ["cubes", "cut pear read at FDC's cubed cup weight (FDC 169118: 1 cup, cubes = 161 g)"],
+  flaxseed: ["whole", "flaxseed read as whole seed unless ground is named"],
 };
 
-const FOREIGN = /whipped|in shell|whole kernels|brownulated|edible yield|serving|racc/;
+const FOREIGN = /whipped|in shell|whole kernels|brownulated|edible yield|serving|racc|with hulls|with pits/;
 
 /** Order matters: "unpacked" before "packed", "unsifted" before "sifted". */
 const TAGS: ReadonlyArray<[RegExp, string]> = [
@@ -69,12 +79,15 @@ const TAGS: ReadonlyArray<[RegExp, string]> = [
   [/\bunsifted\b/, "unsifted"],
   [/\bsifted\b/, "sifted"],
   [/\bchopped\b/, "chopped"],
+  [/\b(grated|shredded)\b/, "grated"],
+  [/\b(cubes?|diced)\b/, "cubes"],
   [/\bground\b/, "ground"],
+  [/\bwhole\b/, "whole"],
   [/\bhalves\b/, "halves"],
   [/\bpieces\b/, "pieces"],
   [/\bmini\b/, "mini"],
   [/\bmashed\b/, "mashed"],
-  [/\bsliced\b/, "sliced"],
+  [/\bslices?\b|\bsliced\b/, "sliced"],
   [/\blarge chips\b/, "large chips"],
   [/\bchips\b/, "chips"],
 ];
@@ -90,7 +103,7 @@ const MEASURE_WORDS: ReadonlyArray<[RegExp, string, number]> = [
   [/^fl oz\b/, "floz", 1],
   [/^ml\b/, "ml", 1],
   [/^quarts?\b/, "cup", 4],
-  [/^(extra large|large|medium|small|jumbo|stick|packet)\b/, "count", 1],
+  [/^(?:potato\s+)?(extra large|large|medium|small|jumbo|stick|packet)\b/, "count", 1],
 ];
 
 interface Parsed {
@@ -108,9 +121,9 @@ function parsePortion(p: FdcPortion): Parsed | null {
   for (const [pattern, measure, scale] of MEASURE_WORDS) {
     const m = pattern.exec(label);
     if (m === null) continue;
-    const [word] = m;
+    const [word, captured] = m;
     const rest = label.slice(word.length).replace(/\([^)]*\)/g, " ");
-    return { measure: measure === "count" ? word : measure, tag: tagOf(rest), gramsPerOne: p.grams / p.amount / scale, label: `${p.amount} ${label} = ${p.grams} g` };
+    return { measure: measure === "count" ? (captured ?? word) : measure, tag: tagOf(rest), gramsPerOne: p.grams / p.amount / scale, label: `${p.amount} ${label} = ${p.grams} g` };
   }
   return null;
 }
@@ -167,7 +180,8 @@ export function portionWeight(vectorId: string, measure: string, lineText: strin
   const recordId = source?.kind === "borrow" ? source.from : vectorId;
   const record = recordOf(recordId);
   if (record === null) return { ok: false, reason: `no FDC record, so no measured ${measure} weight` };
-  const found = weightFrom(record, measure, tagOf(lineText.toLowerCase()), vectorId);
+  const lineTag = source?.kind === "borrow" && source.tag !== undefined ? source.tag : tagOf(lineText.toLowerCase());
+  const found = weightFrom(record, measure, lineTag, vectorId);
   if (found === null) return { ok: false, reason: `FDC ${record.fdcId} weighed no ${measure} of it` };
   if (source?.kind !== "borrow") return { ok: true, value: found };
   return { ok: true, value: { ...found, basis: { ...basisOf("DECLARED", "USDA_FDC", `${source.reason} (${found.how})`), fdcId: record.fdcId } } };

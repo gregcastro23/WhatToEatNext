@@ -30,6 +30,11 @@ const UNSIZED: Readonly<Record<string, [string, string]>> = {
   "egg-white": ["large", "an egg white of unstated size read as from a US large egg"],
   "egg-yolk": ["large", "an egg yolk of unstated size read as from a US large egg"],
   banana: ["medium", "a banana of unstated size read as medium (FDC: 7 to 7-7/8 in long)"],
+  apple: ["medium", "an apple of unstated size read as medium (FDC 171688: 3 in dia, 182 g)"],
+  pear: ["medium", "a pear of unstated size read as medium (FDC 169118: 178 g)"],
+  potato: ["medium", "a potato of unstated size read as medium (FDC 170026: 2-1/4 to 3-1/4 in dia, 213 g)"],
+  "grated-carrot": ["medium", "a carrot of unstated size read as medium (FDC 170393: 61 g)"],
+  zucchini: ["medium", "a zucchini of unstated size read as medium (FDC 169291: 196 g)"],
 };
 
 function lineText(line: SourceLine): string {

@@ -8,6 +8,7 @@ import type { BakingIngredient } from "@/lib/baking/types";
 import { absent, declared, derived, measured, phRange } from "../basis";
 import { COCOA_BUTTER_MELT, COCOA_BUTTER_SFI, LIQUID_OIL_SFI, NEUTRAL_ACID, NO_FIBRE_BINDING, NO_GLUTEN, NO_LIPID_PHASE, NO_SETTING, NO_STARCH_GEL, UNQUANTIFIED_ACID } from "../common";
 import { defineIngredient, fdcNutrient, type IngredientSpec } from "../defineIngredient";
+import { FRUIT_AND_SEEDS } from "./fruitAndSeeds";
 
 const INCLUSION: Pick<IngredientSpec, "category" | "glutenPotency" | "coagulation" | "gelatinizationTempC" | "fiberWaterBinding"> = {
   category: "inclusion_flavor",
@@ -153,4 +154,4 @@ export const RAISINS: BakingIngredient = defineIngredient({
   notes: ["Counted as dissolved into the batter: in a real bake a raisin keeps most of its sugar inside its skin, so the batter's water activity reads lower than it is."],
 });
 
-export const INCLUSIONS: readonly BakingIngredient[] = [DARK_CHOCOLATE_70, SEMISWEET_CHOCOLATE, SALT, VANILLA_EXTRACT, WALNUTS, PECANS, ALMONDS, PEANUT_BUTTER, RAISINS, DRIED_CRANBERRIES, BANANA];
+export const INCLUSIONS: readonly BakingIngredient[] = [DARK_CHOCOLATE_70, SEMISWEET_CHOCOLATE, SALT, VANILLA_EXTRACT, WALNUTS, PECANS, ALMONDS, PEANUT_BUTTER, RAISINS, DRIED_CRANBERRIES, BANANA, ...FRUIT_AND_SEEDS];

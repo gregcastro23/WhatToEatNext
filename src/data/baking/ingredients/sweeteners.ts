@@ -151,6 +151,39 @@ export const ALLULOSE: BakingIngredient = defineIngredient({
   notes: ["A reducing hexose with ~70 % of sucrose's sweetness but nearly twice its colligative power per gram: softer, browner, less sweet."],
 });
 
+export const COCONUT_SUGAR: BakingIngredient = defineIngredient({
+  ...SWEETENER,
+  id: "coconut-sugar",
+  name: "Coconut sugar",
+  roles: ["sweetener", "tenderizer", "browning", "flavor"],
+  source: { kind: "fdc", key: "brown-sugar", starch: "none" },
+  pH: absent("not in the FDA or Clemson tables consulted"),
+  acidMmolPerG: UNQUANTIFIED_ACID,
+  notes: ["USDA SR Legacy and Foundation publish no unbranded coconut-palm sugar record; FDC 'Sugars, brown' (168833, ~95 % sucrose with ~2.5 % invert sugars and 0.45 % mineral ash) stands in."],
+});
+
+export const DATE_SUGAR: BakingIngredient = defineIngredient({
+  ...SWEETENER,
+  id: "date-sugar",
+  name: "Date sugar (ground dried dates)",
+  roles: ["sweetener", "tenderizer", "browning", "flavor"],
+  source: { kind: "fdc", key: "pitted-dates", starch: "none" },
+  pH: phRange(5.3, 6.2, "FDA_PH"),
+  acidMmolPerG: UNQUANTIFIED_ACID,
+  notes: ["Date sugar is finely ground dehydrated dates: composition is FDC 'Dates, deglet noor' (171726), which carries the fruit's 8 g fibre per 100 g alongside its 63.4 g speciated sucrose, glucose and fructose."],
+});
+
+export const BROWN_RICE_SYRUP: BakingIngredient = defineIngredient({
+  ...SWEETENER,
+  id: "brown-rice-syrup",
+  name: "Brown rice syrup",
+  roles: ["sweetener", "moisture", "browning"],
+  source: { kind: "fdc", key: "corn-syrup", starch: "none" },
+  pH: absent("not in the FDA or Clemson tables consulted"),
+  acidMmolPerG: UNQUANTIFIED_ACID,
+  notes: ["USDA SR Legacy and Foundation publish no unbranded brown rice syrup record; FDC 'Syrups, corn, light' (168837, an enzyme-hydrolysed starch syrup at 76.8 % carbohydrate solids and 22.8 % water) stands in."],
+});
+
 export const SWEETENERS: readonly BakingIngredient[] = [
   GRANULATED_SUGAR,
   BROWN_SUGAR,
@@ -162,4 +195,7 @@ export const SWEETENERS: readonly BakingIngredient[] = [
   CORN_SYRUP,
   INVERT_SUGAR_SYRUP,
   ALLULOSE,
+  COCONUT_SUGAR,
+  DATE_SUGAR,
+  BROWN_RICE_SYRUP,
 ];

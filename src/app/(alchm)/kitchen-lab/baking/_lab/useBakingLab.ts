@@ -24,6 +24,8 @@ import type { TempUnit } from "./format";
 export interface LabState {
   /** The catalogue id of the good on the bench (a curated formula or a served recipe). */
   goodId: string;
+  /** The unloaded baseline preset of the current good, for diff and reset. */
+  baseline: BakingPreset;
   formula: Formula;
   process: BakeProcess;
   geometry: ProductGeometry;
@@ -37,6 +39,7 @@ export interface LabState {
 
 export type LabAction =
   | { type: "good"; good: BakingPreset }
+  | { type: "reset" }
   | { type: "grams"; line: number; grams: number }
   | { type: "ingredient"; line: number; id: string }
   | { type: "add"; id: string }
@@ -52,7 +55,26 @@ export type LabAction =
   | { type: "unit"; unit: TempUnit };
 
 function fromPreset(p: BakingPreset): LabState {
-  return { goodId: p.id, formula: p.formula, process: p.process, geometry: p.geometry, oven: p.oven, doneCoreC: p.doneCoreC, limitLine: null, scrubMin: p.oven.bakeMinutes, unit: "C" };
+  return { goodId: p.id, baseline: p, formula: p.formula, process: p.process, geometry: p.geometry, oven: p.oven, doneCoreC: p.doneCoreC, limitLine: null, scrubMin: p.oven.bakeMinutes, unit: "C" };
+}
+
+/** True when formula lines, grams, or oven/process settings differ from the loaded good's baseline preset. */
+export function isModifiedFromBaseline(state: LabState): boolean {
+  const b = state.baseline;
+  if (state.formula.lines.length !== b.formula.lines.length) return true;
+  if (
+    state.formula.lines.some((l, i) => {
+      const baseLine = b.formula.lines[i];
+      if (!baseLine) return true;
+      return l.ingredientId !== baseLine.ingredientId || Math.abs(l.grams - baseLine.grams) > 1e-4;
+    })
+  ) {
+    return true;
+  }
+  if (state.oven.ovenC !== b.oven.ovenC || state.oven.bakeMinutes !== b.oven.bakeMinutes || state.oven.mode !== b.oven.mode) return true;
+  if ((state.oven.stage2OvenC ?? null) !== (b.oven.stage2OvenC ?? null) || (state.oven.stage1Minutes ?? null) !== (b.oven.stage1Minutes ?? null)) return true;
+  if (state.oven.steamFraction !== b.oven.steamFraction || state.oven.steamMinutes !== b.oven.steamMinutes) return true;
+  return state.doneCoreC !== b.doneCoreC;
 }
 
 /** A curated formula by id; unknown ids throw (a caller bug, not a fact). */
@@ -93,6 +115,8 @@ function editSetting(state: LabState, action: LabAction): LabState {
   switch (action.type) {
     case "good":
       return { ...fromPreset(action.good), unit: state.unit };
+    case "reset":
+      return { ...fromPreset(state.baseline), unit: state.unit };
     case "lock":
       return { ...state, limitLine: action.line };
     case "oven":

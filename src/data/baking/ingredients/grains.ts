@@ -127,4 +127,112 @@ export const TAPIOCA_STARCH: BakingIngredient = defineIngredient({
   notes: ["Composition is FDC 'Tapioca, pearl, dry' — the same cassava starch, pearled. Its 1 cup = 152 g weighs pearls, not powder, and is not used for a starch line."],
 });
 
-export const GRAINS: readonly BakingIngredient[] = [WHOLE_WHEAT_PASTRY_FLOUR, SPELT_FLOUR, SEMOLINA, CORNMEAL, ROLLED_OATS, RICE_FLOUR, TAPIOCA_STARCH];
+export const SORGHUM_FLOUR: BakingIngredient = defineIngredient({
+  ...GRAIN,
+  ...NON_WHEAT,
+  id: "sorghum-flour",
+  name: "Sorghum flour (whole-grain)",
+  roles: ["structure"],
+  source: { kind: "fdc", key: "sorghum-flour", starch: "reported" },
+  gelatinizationTempC: declared<number | null>(CORN_STARCH_GEL_ONSET.value, "sorghum is a C4 panicoid cereal alongside maize; dent-corn starch DSC onset (Allan et al. 2020) is applied", "ALLAN_2020"),
+  pH: absent("not found in the pH tables consulted"),
+});
+
+export const BUCKWHEAT_FLOUR: BakingIngredient = defineIngredient({
+  ...GRAIN,
+  ...NON_WHEAT,
+  id: "buckwheat-flour",
+  name: "Buckwheat flour (whole-groat)",
+  roles: ["structure", "flavor"],
+  source: { kind: "fdc", key: "buckwheat-flour", starch: "by-difference" },
+  gelatinizationTempC: declared<number | null>(WHEAT_STARCH_GEL_ONSET.value, "buckwheat starch onset read as wheat starch (Allan et al. 2020); no buckwheat DSC measurement in the sources read", "ALLAN_2020"),
+  pH: absent("not found in the pH tables consulted"),
+});
+
+export const BROWN_RICE_FLOUR: BakingIngredient = defineIngredient({
+  ...GRAIN,
+  ...NON_WHEAT,
+  id: "brown-rice-flour",
+  name: "Brown rice flour",
+  roles: ["structure"],
+  source: { kind: "fdc", key: "brown-rice-flour", starch: "by-difference" },
+  gelatinizationTempC: derived<number | null>(59.2, "WANG_2018", "brown rice flour's starch is rice starch: the native rice starch DSC onset (Wang et al. 2018)"),
+  pH: absent("FDA lists cooked rice, not rice flour"),
+});
+
+export const SWEET_RICE_FLOUR: BakingIngredient = defineIngredient({
+  ...GRAIN,
+  ...NON_WHEAT,
+  id: "sweet-rice-flour",
+  name: "Sweet (glutinous) rice flour",
+  roles: ["structure", "binder"],
+  source: { kind: "fdc", key: "sweet-rice-flour", starch: "by-difference" },
+  gelatinizationTempC: derived<number | null>(59.2, "WANG_2018", "waxy rice starch read at the native rice starch DSC onset (Wang et al. 2018)"),
+  pH: absent("FDA lists cooked rice, not rice flour"),
+  notes: ["Composition is FDC 'Rice, white, glutinous, unenriched, uncooked': sweet rice flour is that grain milled. Its 1 cup = 185 g weighs whole grain, so white rice flour's measured cup (158 g) stands in for a flour line."],
+});
+
+export const BARLEY_FLOUR: BakingIngredient = defineIngredient({
+  ...GRAIN,
+  id: "barley-flour",
+  name: "Barley flour",
+  roles: ["structure", "flavor"],
+  source: { kind: "fdc", key: "barley-flour", starch: "by-difference" },
+  glutenPotency: declared(0.15, "barley hordein does not form an elastic network on its own; a low residual potency is declared"),
+  coagulation: { value: GLUTEN_SETTING.value, basis: basisOf("DECLARED", "ROMBOUTS_2012", "Triticeae prolamin setting window applied to barley") },
+  gelatinizationTempC: declared<number | null>(WHEAT_STARCH_GEL_ONSET.value, "barley is a Triticeae cereal alongside wheat; wheat starch DSC onset (Allan et al. 2020) is applied", "ALLAN_2020"),
+  pH: absent("not found in the pH tables consulted"),
+});
+
+export const RYE_FLOUR: BakingIngredient = defineIngredient({
+  ...GRAIN,
+  id: "rye-flour",
+  name: "Rye flour (medium)",
+  roles: ["structure", "flavor"],
+  source: { kind: "fdc", key: "rye-flour", starch: "by-difference" },
+  glutenPotency: declared(0.2, "rye secalin is hindered by arabinoxylans from forming a wheat-like gluten network; a reduced potency is declared"),
+  coagulation: { value: GLUTEN_SETTING.value, basis: basisOf("DECLARED", "ROMBOUTS_2012", "Triticeae prolamin setting window applied to rye") },
+  gelatinizationTempC: declared<number | null>(WHEAT_STARCH_GEL_ONSET.value, "rye is a Triticeae cereal alongside wheat; wheat starch DSC onset (Allan et al. 2020) is applied", "ALLAN_2020"),
+  pH: absent("not found in the pH tables consulted"),
+});
+
+export const ARROWROOT_STARCH: BakingIngredient = defineIngredient({
+  ...GRAIN,
+  ...NON_WHEAT,
+  id: "arrowroot-starch",
+  name: "Arrowroot starch (flour)",
+  roles: ["structure", "binder", "tenderizer"],
+  source: { kind: "fdc", key: "arrowroot-starch", starch: "by-difference" },
+  gelatinizationTempC: { value: CASSAVA_STARCH_GEL_ONSET.value, basis: basisOf("DECLARED", "CASSAVA_DSC_2019", "arrowroot is a tropical root starch alongside cassava; the cassava DSC onset midpoint is applied") },
+  pH: absent("not found in the pH tables consulted"),
+});
+
+export const BULGUR: BakingIngredient = defineIngredient({
+  ...GRAIN,
+  ...NON_WHEAT,
+  id: "bulgur",
+  name: "Bulgur wheat",
+  roles: ["structure", "flavor"],
+  source: { kind: "fdc", key: "bulgur", starch: "by-difference" },
+  gelatinizationTempC: absent("parboiled cracked wheat kernels are an inclusion, not a flour that sets the crumb"),
+  pH: absent("not found in the pH tables consulted"),
+  flour: { share: 0, waterPct: 0, basis: basisOf("DECLARED", "MODEL", "parboiled cracked kernels are an inclusion, not part of the baker's flour base") },
+});
+
+export const GRAINS: readonly BakingIngredient[] = [
+  WHOLE_WHEAT_PASTRY_FLOUR,
+  SPELT_FLOUR,
+  SEMOLINA,
+  CORNMEAL,
+  ROLLED_OATS,
+  RICE_FLOUR,
+  TAPIOCA_STARCH,
+  SORGHUM_FLOUR,
+  BUCKWHEAT_FLOUR,
+  BROWN_RICE_FLOUR,
+  SWEET_RICE_FLOUR,
+  BARLEY_FLOUR,
+  RYE_FLOUR,
+  ARROWROOT_STARCH,
+  BULGUR,
+];

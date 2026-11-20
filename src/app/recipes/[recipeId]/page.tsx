@@ -14,8 +14,19 @@ import { _recipeRecommender } from "@/services/recipeRecommendations";
 import { sauceRecommender } from "@/services/sauceRecommender";
 import type { Recipe } from "@/types/recipe";
 import { recipeSourceJsonLd } from "@/utils/recipe/recipeSource";
+import bakingCatalogue from "../../../../public/data/baking-recipe-catalogue.json";
 import RecipeClient from "./RecipeClient";
 import type { Metadata } from "next";
+
+const BAKING_GOOD_IDS = new Set(bakingCatalogue.sources.map((s) => s.id));
+const BAKING_GOOD_BY_NAME = new Map(bakingCatalogue.sources.map((s) => [s.name.toLowerCase(), s.id]));
+
+function findBakingGoodId(routeId: string, recipe: Recipe): string | null {
+  for (const candidate of [recipe.id, routeId]) {
+    if (BAKING_GOOD_IDS.has(candidate)) return candidate;
+  }
+  return BAKING_GOOD_BY_NAME.get(recipe.name.toLowerCase()) ?? null;
+}
 
 // Recipe pages are generated on demand (generateStaticParams is normally
 // disabled below) and would otherwise stay cached until the next deploy —
@@ -403,6 +414,7 @@ export default async function RecipePage({ params }: RecipePageProps): Promise<R
         recipe={recipe}
         recommendedSauces={recommendedSauces}
         recommendedRecipes={recommendedRecipes}
+        bakingGoodId={findBakingGoodId(recipeId, recipe)}
       />
     </>
   );

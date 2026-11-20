@@ -36,21 +36,31 @@ const NAME_COMPONENT = /\b(frostings?|glazes?|fillings?|toppings?|egg wash|garni
  */
 const NOTE_COMPONENT = /\b(frostings?|icings?|glazes?|fillings?|toppings?|egg wash|garnish(es)?)\b|\b(for|in|into|of) the (sauce|syrup|custard|caramel|soak\w*)\b/i;
 /** A seasoning the catalogue served as "1 piece" — the static loader's fill for a missing amount. */
-const UNQUANTIFIED_SEASONING = /\b(salt|pepper|peppercorns?|spices?|herbs?|zest|nutmeg|cinnamon|cardamom|cloves|allspice|vanilla)\b/i;
+const UNQUANTIFIED_SEASONING = /\b(salt|pepper|peppercorns?|spices?|herbs?|zest|nutmeg|cinnamon|cardamom|cloves|allspice|vanilla|(sesame|poppy|caraway|anise|fennel)\s+seeds?)\b/i;
+
+function pieceAside(line: SourceLine): string | null {
+  const unit = line.unit.trim();
+  if (/^(jars?|pieces?)$/i.test(unit) && /\b(jam|preserves)\b/i.test(line.name)) return "a jam or preserves filling/topping, not the cookie dough";
+  if (!/^pieces?$/i.test(unit)) return null;
+  if (/\bvanilla beans?\b/i.test(line.name)) return "a vanilla bean pod scraped for its seeds (a trace aromatic)";
+  if (line.amount !== 1) return null;
+  if (/^\s*up to\b/i.test(line.name)) return "an as-needed adjustment (\"up to…\"), not a fixed batter quantity";
+  if (UNQUANTIFIED_SEASONING.test(line.name)) return "a seasoning with no amount (served as \"1 piece\", the catalogue's fill for a missing amount)";
+  return null;
+}
 
 /** Why a line is not part of the batter, or null when it is. */
 export function setAsideReason(line: SourceLine): string | null {
   const notes = line.notes ?? "";
-  if (line.optional) return "marked optional by the recipe";
+  if (line.optional || /^\s*optional\b/i.test(notes)) return "marked optional by the recipe";
   const named = NAME_PURPOSE.exec(line.name) ?? LEADING_PURPOSE.exec(notes);
   if (named !== null) return `used outside the batter ("${named[0].trim()}")`;
   // "Plus extra for the glaze" or "2 for the dough, 1 for the wash": most of the line is in the batter.
   const shared = /\bplus\b|\b(dough|batter)\b/i.test(notes);
   const component = NAME_COMPONENT.exec(line.name) ?? (shared ? null : NOTE_COMPONENT.exec(notes));
   if (component !== null) return `part of another component ("${component[0].toLowerCase()}"), not the batter`;
-  if (readUnit(line.unit).kind === "trace" || /^\s*(a )?(pinch|dash)\b/i.test(line.name)) return "a trace amount (a pinch or dash names no quantity)";
-  if (line.amount === 1 && /^pieces?$/i.test(line.unit.trim()) && UNQUANTIFIED_SEASONING.test(line.name)) return "a seasoning with no amount (served as \"1 piece\", the catalogue's fill for a missing amount)";
-  return null;
+  if (readUnit(line.unit).kind === "trace" || /^\s*(a |large )?(pinch|dash)\b/i.test(line.name)) return "a trace amount (a pinch or dash names no quantity)";
+  return pieceAside(line);
 }
 
 function label(line: SourceLine): string {
@@ -63,7 +73,8 @@ function readOne(line: SourceLine, out: ReadLines): void {
     out.setAside.push({ source: line, reason: aside });
     return;
   }
-  const match = matchIngredient(line.name);
+  const primary = matchIngredient(line.name);
+  const match = primary.normalised.length === 0 && line.notes ? matchIngredient(`${line.name} ${line.notes}`) : primary;
   if (match.setAside.length > 0) {
     out.assumptions.push({ field: label(line), value: `"${match.normalised}"`, basis: basisOf("DECLARED", "MODEL", `the recipe's first choice is read; set aside: ${match.setAside.map((a) => `"${a}"`).join(", ")}`) });
   }
