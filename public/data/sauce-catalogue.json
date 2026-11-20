@@ -1,0 +1,7294 @@
+{
+ "source": "scripts/generate-sauce-catalogue.ts over public cuisine modules (src/data/cuisines/*)",
+ "cuisineCount": 15,
+ "sauceCount": 83,
+ "cuisines": {
+  "African": {
+   "id": "african",
+   "name": "African",
+   "description": "Rich and diverse culinary traditions from across the African continent.",
+   "elementalProperties": {
+    "Fire": 0.3303,
+    "Water": 0.2592,
+    "Earth": 0.3079,
+    "Air": 0.1026
+   },
+   "motherSauces": {},
+   "traditionalSauces": {
+    "berbere": {
+     "name": "Berbere",
+     "description": "Ethiopian hot spice blend made from chili peppers, garlic, ginger and various spices",
+     "base": "dried chili peppers",
+     "keyIngredients": [
+      "chili peppers",
+      "garlic",
+      "ginger",
+      "fenugreek",
+      "cardamom",
+      "coriander"
+     ],
+     "culinaryUses": [
+      "stews",
+      "meat dishes",
+      "lentil dishes",
+      "vegetable preparations"
+     ],
+     "variants": [
+      "Mild Berbere",
+      "Extra-hot Berbere",
+      "Awaze (berbere paste)"
+     ],
+     "elementalProperties": {
+      "Fire": 0.8,
+      "Water": 0,
+      "Earth": 0.1,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun",
+      "Aries"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditionally dry-roasted and ground by hand, though now commercial versions are widely available.",
+     "technicalTips": "Toast the spices before grinding for maximum flavor development."
+    },
+    "harissa": {
+     "name": "Harissa",
+     "description": "North African hot chili pepper paste with garlic, olive oil and spices",
+     "base": "red chili peppers",
+     "keyIngredients": [
+      "chili peppers",
+      "garlic",
+      "olive oil",
+      "caraway",
+      "coriander",
+      "cumin"
+     ],
+     "culinaryUses": [
+      "couscous",
+      "stews",
+      "marinades",
+      "dips"
+     ],
+     "variants": [
+      "Rose Harissa",
+      "Preserved Lemon Harissa",
+      "Tunisian Harissa"
+     ],
+     "elementalProperties": {
+      "Fire": 0.7,
+      "Water": 0.1,
+      "Earth": 0.2,
+      "Air": 0
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Mercury",
+      "Aries"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Can be preserved in olive oil for months when refrigerated.",
+     "technicalTips": "For milder harissa, remove seeds from peppers before processing."
+    },
+    "duqqa": {
+     "name": "Duqqa",
+     "description": "Egyptian dry spice blend with nuts, herbs, and spices",
+     "base": "toasted nuts",
+     "keyIngredients": [
+      "hazelnuts",
+      "sesame seeds",
+      "coriander",
+      "cumin",
+      "mint",
+      "salt"
+     ],
+     "culinaryUses": [
+      "dipping with bread",
+      "sprinkled on vegetables",
+      "coating for meats"
+     ],
+     "variants": [
+      "Hazelnut-dominant",
+      "Sesame-dominant",
+      "Herb-forward"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0,
+      "Earth": 0.5,
+      "Air": 0.3
+     },
+     "astrologicalInfluences": [
+      "Mercury",
+      "Saturn",
+      "Virgo"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Each family has their own recipe - proportions vary significantly.",
+     "technicalTips": "Allow to cool completely before storing to maintain crunch."
+    },
+    "chermoula": {
+     "name": "Chermoula",
+     "description": "A vibrant Moroccan marinade and sauce made with fresh herbs, aromatic spices, lemon, and olive oil - widely used in North African cuisine",
+     "base": "fresh herbs",
+     "keyIngredients": [
+      "cilantro",
+      "parsley",
+      "olive oil",
+      "lemon juice",
+      "garlic",
+      "cumin",
+      "paprika",
+      "coriander",
+      "preserved lemon"
+     ],
+     "culinaryUses": [
+      "fish marinades",
+      "tagine seasoning",
+      "grilled meats",
+      "roasted vegetables",
+      "couscous dishes"
+     ],
+     "variants": [
+      "Red Chermoula (with paprika)",
+      "Spicy Chermoula (with harissa)",
+      "Preserved Lemon Chermoula"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.4,
+      "Earth": 0.3,
+      "Air": 0.2
+     },
+     "astrologicalInfluences": [
+      "Venus",
+      "Neptune",
+      "Pisces"
+     ],
+     "seasonality": "spring, summer",
+     "preparationNotes": "Traditionally prepared by hand-grinding all ingredients in a mortar and pestle to release maximum flavor. Best made fresh, but can be stored for up to a week refrigerated.",
+     "technicalTips": "Balance acidity with enough olive oil for a smooth emulsion. For best results, allow flavors to marry for at least 30 minutes before using."
+    },
+    "peanut": {
+     "name": "West African Peanut Sauce",
+     "description": "Rich, creamy sauce made from ground peanuts, tomatoes, and spices",
+     "base": "ground peanuts",
+     "keyIngredients": [
+      "peanut butter",
+      "tomatoes",
+      "onions",
+      "ginger",
+      "chili peppers"
+     ],
+     "culinaryUses": [
+      "stews",
+      "grilled meats",
+      "rice dishes",
+      "vegetable dishes"
+     ],
+     "variants": [
+      "Mafe (Senegalese)",
+      "Groundnut Soup (Ghanaian)",
+      "Spicy Peanut Sauce"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.6,
+      "Air": 0
+     },
+     "astrologicalInfluences": [
+      "Jupiter",
+      "Saturn",
+      "Taurus"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "The sauce thickens significantly as it cools.",
+     "technicalTips": "Roast raw peanuts before grinding for deeper flavor."
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "chicken": [
+      "chermoula",
+      "harissa",
+      "yassa sauce"
+     ],
+     "fish": [
+      "chermoula",
+      "harissa",
+      "yassa sauce"
+     ],
+     "beef": [
+      "berbere",
+      "peanut sauce",
+      "harissa"
+     ],
+     "lamb": [
+      "harissa",
+      "chermoula",
+      "duqqa"
+     ],
+     "goat": [
+      "berbere",
+      "peanut sauce",
+      "suya spice"
+     ]
+    },
+    "forVegetable": {
+     "okra": [
+      "peanut sauce",
+      "palm oil sauce"
+     ],
+     "eggplant": [
+      "chermoula",
+      "harissa",
+      "shito"
+     ],
+     "greens": [
+      "peanut sauce",
+      "palm oil",
+      "berbere"
+     ],
+     "squash": [
+      "moroccan spice",
+      "harissa",
+      "duqqa"
+     ],
+     "legumes": [
+      "berbere",
+      "peanut sauce",
+      "zhug"
+     ]
+    },
+    "forCookingMethod": {
+     "grilling": [
+      "suya spice",
+      "chermoula",
+      "pili pili"
+     ],
+     "stewing": [
+      "berbere",
+      "peanut sauce",
+      "ras el hanout"
+     ],
+     "roasting": [
+      "duqqa",
+      "harissa",
+      "chermoula"
+     ],
+     "frying": [
+      "shito",
+      "harissa",
+      "berbere"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "berbere",
+      "harissa",
+      "pili pili"
+     ],
+     "Earth": [
+      "peanut sauce",
+      "duqqa",
+      "suya spice"
+     ],
+     "Air": [
+      "chermoula",
+      "duqqa",
+      "moroccan spice"
+     ],
+     "Water": [
+      "palm oil sauce",
+      "peanut sauce",
+      "dipping sauce"
+     ]
+    },
+    "byDietary": {
+     "vegetarian": [
+      "chermoula",
+      "duqqa",
+      "harissa"
+     ],
+     "vegan": [
+      "harissa",
+      "chermoula",
+      "peanut sauce"
+     ],
+     "glutenFree": [
+      "pili pili",
+      "suya spice",
+      "chermoula"
+     ],
+     "dairyFree": [
+      "harissa",
+      "duqqa",
+      "berbere"
+     ]
+    },
+    "byRegion": {
+     "northAfrican": [
+      "harissa",
+      "chermoula",
+      "ras el hanout"
+     ],
+     "westAfrican": [
+      "peanut sauce",
+      "palm oil sauce",
+      "suya spice"
+     ],
+     "eastAfrican": [
+      "berbere",
+      "pili pili",
+      "mchuzi mix"
+     ],
+     "southAfrican": [
+      "chakalaka",
+      "monkey gland sauce",
+      "atchar"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "northAfrican",
+     "name": "North African Cuisine",
+     "description": "Mediterranean and Arabic influenced cuisine featuring tagines, couscous, and aromatic spices",
+     "signature": [
+      "tagine",
+      "couscous",
+      "harissa",
+      "shakshuka"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.1,
+      "Earth": 0.3,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "westAfrican",
+     "name": "West African Cuisine",
+     "description": "Bold, spicy cuisine with staples like rice, cassava, plantains and palm oil",
+     "signature": [
+      "jollof rice",
+      "fufu",
+      "peanut stew",
+      "egusi soup"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.1,
+      "Earth": 0.5,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "eastAfrican",
+     "name": "East African Cuisine",
+     "description": "Diverse cuisine influenced by Arabic, Indian and indigenous traditions",
+     "signature": [
+      "injera with wat",
+      "ugali",
+      "pilau",
+      "berbere spice"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.2,
+      "Earth": 0.4,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "southernAfrican",
+     "name": "Southern African Cuisine",
+     "description": "Hearty cuisine combining indigenous, Dutch, Malaysian and British influences",
+     "signature": [
+      "bobotie",
+      "biltong",
+      "pap",
+      "chakalaka"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.5,
+      "Air": 0.1
+     }
+    }
+   ],
+   "astrologicalInfluences": []
+  },
+  "American": {
+   "id": "american",
+   "name": "American",
+   "description": "Diverse culinary influences reflecting the melting pot of American culture.",
+   "elementalProperties": {
+    "Fire": 0.2391,
+    "Water": 0.2875,
+    "Earth": 0.3368,
+    "Air": 0.1366
+   },
+   "motherSauces": {},
+   "traditionalSauces": {
+    "bbqSauce": {
+     "name": "BBQ Sauce",
+     "description": "Sweet, tangy, and smoky tomato-based sauce for grilled and smoked meats",
+     "base": "tomato",
+     "keyIngredients": [
+      "tomato paste",
+      "vinegar",
+      "molasses",
+      "brown sugar",
+      "smoke flavor",
+      "spices"
+     ],
+     "culinaryUses": [
+      "marinade",
+      "basting sauce",
+      "dipping sauce",
+      "flavor base"
+     ],
+     "variants": [
+      "Kansas City (sweet)",
+      "Carolina (vinegar-based)",
+      "Texas (spicy)",
+      "Alabama (white)"
+     ],
+     "elementalProperties": {
+      "Fire": 0.5,
+      "Water": 0.2,
+      "Earth": 0.3,
+      "Air": 0
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun",
+      "Aries"
+     ],
+     "seasonality": "summer",
+     "preparationNotes": "Traditionally simmered slowly to develop deep flavor and thicken",
+     "technicalTips": "Balance acid, sweetness, and spice to complement the meat it will accompany"
+    },
+    "ranchDressing": {
+     "name": "Ranch Dressing",
+     "description": "Creamy, herb-flecked dressing with buttermilk and garlic notes",
+     "base": "buttermilk and mayonnaise",
+     "keyIngredients": [
+      "buttermilk",
+      "mayonnaise",
+      "sour cream",
+      "dill",
+      "parsley",
+      "garlic"
+     ],
+     "culinaryUses": [
+      "salad dressing",
+      "dipping sauce",
+      "sandwich spread",
+      "vegetable dip"
+     ],
+     "variants": [
+      "Classic",
+      "Spicy",
+      "Avocado",
+      "Chipotle"
+     ],
+     "elementalProperties": {
+      "Fire": 0,
+      "Water": 0.6,
+      "Earth": 0.2,
+      "Air": 0.2
+     },
+     "astrologicalInfluences": [
+      "Venus",
+      "Moon",
+      "Taurus"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Best when made fresh and allowed to rest for flavors to meld",
+     "technicalTips": "Use fresh herbs when possible for brightest flavor"
+    },
+    "frenchOnionDip": {
+     "name": "French Onion Dip",
+     "description": "Classic American tavern and party dip of slow-caramelized onions folded into tangy sour cream and mayonnaise",
+     "base": "sour cream and mayonnaise",
+     "keyIngredients": [
+      "caramelized yellow onions",
+      "sour cream",
+      "mayonnaise",
+      "garlic",
+      "Worcestershire sauce",
+      "fresh chives"
+     ],
+     "culinaryUses": [
+      "vegetable dip",
+      "chip dip",
+      "sandwich spread",
+      "baked potato topping"
+     ],
+     "variants": [
+      "Classic",
+      "Greek Yogurt (High-Protein)",
+      "Smoked Garlic",
+      "Shallot & Chive"
+     ],
+     "elementalProperties": {
+      "Fire": 0.32,
+      "Water": 0.2,
+      "Earth": 0.32,
+      "Air": 0.16
+     },
+     "astrologicalInfluences": [
+      "Moon",
+      "Venus",
+      "Saturn",
+      "Taurus",
+      "Cancer"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Cool caramelized onions completely before folding into dairy to prevent thermal splitting",
+     "technicalTips": "Refrigerate for at least 2 hours before serving for flavor infusion and ideal dip viscosity"
+    },
+    "hotSauce": {
+     "name": "Hot Sauce",
+     "description": "Fiery, vinegar-based sauce with chili peppers for heat",
+     "base": "chili peppers and vinegar",
+     "keyIngredients": [
+      "chili peppers",
+      "vinegar",
+      "salt",
+      "garlic",
+      "spices"
+     ],
+     "culinaryUses": [
+      "condiment",
+      "marinade component",
+      "flavor enhancer",
+      "heat source"
+     ],
+     "variants": [
+      "Louisiana-style",
+      "Sriracha-inspired",
+      "Habanero",
+      "Smoky Chipotle"
+     ],
+     "elementalProperties": {
+      "Fire": 0.9,
+      "Water": 0.1,
+      "Earth": 0,
+      "Air": 0
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Pluto",
+      "Aries"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Can be fermented for complex flavor or used fresh for bright heat",
+     "technicalTips": "Control heat level by adjusting pepper types and quantity"
+    },
+    "gravySauce": {
+     "name": "Gravy",
+     "description": "Rich, savory sauce made from meat drippings and thickened with flour",
+     "base": "meat drippings",
+     "keyIngredients": [
+      "meat drippings",
+      "flour",
+      "stock",
+      "herbs",
+      "seasonings"
+     ],
+     "culinaryUses": [
+      "sauce for meats",
+      "topping for potatoes",
+      "biscuit accompaniment",
+      "casserole base"
+     ],
+     "variants": [
+      "Brown Gravy",
+      "Country Gravy",
+      "Mushroom Gravy",
+      "Turkey Gravy"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0.5,
+      "Air": 0
+     },
+     "astrologicalInfluences": [
+      "Saturn",
+      "Jupiter",
+      "Taurus"
+     ],
+     "seasonality": "autumn and winter",
+     "preparationNotes": "Must be made while cooking protein for authentic flavor from drippings",
+     "technicalTips": "Use a whisk to prevent lumps and incorporate flour smoothly"
+    },
+    "mapleGlaze": {
+     "name": "Maple Glaze",
+     "description": "Sweet and rich syrup reduction for breakfast items and desserts",
+     "base": "maple syrup",
+     "keyIngredients": [
+      "maple syrup",
+      "butter",
+      "vanilla",
+      "cinnamon"
+     ],
+     "culinaryUses": [
+      "topping for pancakes",
+      "glaze for ham",
+      "dessert sauce",
+      "marinade component"
+     ],
+     "variants": [
+      "Traditional",
+      "Bourbon-infused",
+      "Spiced",
+      "Savory"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.5,
+      "Earth": 0.4,
+      "Air": 0
+     },
+     "astrologicalInfluences": [
+      "Venus",
+      "Jupiter",
+      "Libra"
+     ],
+     "seasonality": "autumn and winter",
+     "preparationNotes": "Grade B maple syrup offers more robust flavor for cooking",
+     "technicalTips": "Reduce slowly to prevent burning the sugars"
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "beef": [
+      "bbqSauce",
+      "gravySauce",
+      "steak sauce",
+      "horseradish sauce"
+     ],
+     "chicken": [
+      "bbqSauce",
+      "ranchDressing",
+      "honey mustard",
+      "buffalo sauce"
+     ],
+     "pork": [
+      "bbqSauce",
+      "mapleGlaze",
+      "apple sauce",
+      "mustard sauce"
+     ],
+     "seafood": [
+      "tartar sauce",
+      "cocktail sauce",
+      "lemon butter",
+      "remoulade"
+     ],
+     "turkey": [
+      "gravySauce",
+      "cranberry sauce",
+      "mapleGlaze",
+      "herb butter"
+     ]
+    },
+    "forVegetable": {
+     "greens": [
+      "ranchDressing",
+      "balsamic vinaigrette",
+      "blue cheese dressing",
+      "lemon vinaigrette"
+     ],
+     "roots": [
+      "bbqSauce",
+      "honey glaze",
+      "gravySauce",
+      "herb butter"
+     ],
+     "nightshades": [
+      "ranchDressing",
+      "hotSauce",
+      "aioli",
+      "chipotle mayo"
+     ],
+     "cruciferous": [
+      "cheese sauce",
+      "ranchDressing",
+      "lemon butter",
+      "hollandaise"
+     ],
+     "alliums": [
+      "bbqSauce",
+      "gravySauce",
+      "butter sauce",
+      "balsamic glaze"
+     ]
+    },
+    "forCookingMethod": {
+     "grilling": [
+      "bbqSauce",
+      "chimichurri",
+      "herb butter",
+      "hotSauce"
+     ],
+     "frying": [
+      "ranchDressing",
+      "aioli",
+      "hotSauce",
+      "ketchup"
+     ],
+     "baking": [
+      "gravySauce",
+      "cheese sauce",
+      "herb butter",
+      "honey glaze"
+     ],
+     "roasting": [
+      "gravySauce",
+      "mapleGlaze",
+      "herb oil",
+      "pan sauce"
+     ],
+     "steaming": [
+      "lemon butter",
+      "hollandaise",
+      "herb oil",
+      "remoulade"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "hotSauce",
+      "bbqSauce",
+      "spicy aioli",
+      "chipotle sauce"
+     ],
+     "Earth": [
+      "gravySauce",
+      "mushroom sauce",
+      "herb butter",
+      "cheese sauce"
+     ],
+     "Air": [
+      "light vinaigrettes",
+      "herb oils",
+      "lemon butter",
+      "citrus sauce"
+     ],
+     "Water": [
+      "ranchDressing",
+      "cream sauces",
+      "tartar sauce",
+      "remoulade"
+     ]
+    },
+    "byDietary": {
+     "vegan": [
+      "cashew cream",
+      "avocado sauce",
+      "olive oil",
+      "nutritional yeast sauce"
+     ],
+     "keto": [
+      "butter sauces",
+      "mayonnaise-based",
+      "oil-based vinaigrettes",
+      "alfredo sauce"
+     ],
+     "glutenFree": [
+      "corn-thickened sauces",
+      "reduction sauces",
+      "pureed vegetable sauces",
+      "egg-based sauces"
+     ],
+     "dairyFree": [
+      "oil-based",
+      "vinaigrettes",
+      "nut creams",
+      "coconut-based sauces"
+     ],
+     "lowSodium": [
+      "herb oils",
+      "fruit reductions",
+      "vinegar-based",
+      "spice blends"
+     ]
+    },
+    "byRegion": {
+     "southern": [
+      "bbqSauce",
+      "gravySauce",
+      "hot sauce",
+      "remoulade"
+     ],
+     "newEngland": [
+      "tartar sauce",
+      "clam sauce",
+      "maple syrup",
+      "cranberry sauce"
+     ],
+     "southwest": [
+      "hotSauce",
+      "salsa",
+      "chipotle sauce",
+      "queso"
+     ],
+     "midwest": [
+      "ranchDressing",
+      "gravySauce",
+      "cheese sauce",
+      "steak sauce"
+     ],
+     "westCoast": [
+      "avocado sauce",
+      "citrus vinaigrette",
+      "herb oils",
+      "fresh salsa"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "southern",
+     "name": "Southern Cuisine",
+     "description": "Soul-warming food with African, European and Native American influences",
+     "signature": [
+      "fried chicken",
+      "collard greens",
+      "cornbread",
+      "biscuits and gravy",
+      "peach cobbler"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.2,
+      "Earth": 0.4,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "newEngland",
+     "name": "New England Cuisine",
+     "description": "Seafood-forward cuisine with British colonial roots and seasonal emphasis",
+     "signature": [
+      "clam chowder",
+      "lobster rolls",
+      "baked beans",
+      "cranberry sauce",
+      "apple pie"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.5,
+      "Earth": 0.3,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "southwest",
+     "name": "Southwestern Cuisine",
+     "description": "Bold flavors influenced by Mexican, Spanish, and Native American traditions",
+     "signature": [
+      "chili con carne",
+      "tex-mex",
+      "barbecue",
+      "corn dishes",
+      "pecan pie"
+     ],
+     "elementalProperties": {
+      "Fire": 0.6,
+      "Water": 0,
+      "Earth": 0.3,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "midwest",
+     "name": "Midwestern Cuisine",
+     "description": "Hearty comfort food emphasizing locally grown ingredients and German influence",
+     "signature": [
+      "casseroles",
+      "corn on the cob",
+      "meat and potatoes",
+      "wild rice dishes",
+      "fruit pies"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.1,
+      "Earth": 0.6,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "california",
+     "name": "California Cuisine",
+     "description": "Fresh, produce-forward cooking with Mediterranean and Asian influences",
+     "signature": [
+      "farm-to-table",
+      "avocado toast",
+      "fish tacos",
+      "sourdough bread",
+      "wine country cuisine"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.3,
+      "Air": 0.3
+     }
+    }
+   ],
+   "astrologicalInfluences": [
+    "Jupiter",
+    "Mars",
+    "Venus"
+   ]
+  },
+  "Chinese": {
+   "id": "chinese",
+   "name": "Chinese",
+   "description": "Ancient culinary traditions with a focus on balance and wok hei.",
+   "elementalProperties": {
+    "Fire": 0.3012,
+    "Water": 0.2924,
+    "Earth": 0.2692,
+    "Air": 0.1372
+   },
+   "motherSauces": {},
+   "traditionalSauces": {
+    "soy": {
+     "name": "Soy Sauce",
+     "description": "Fermented soybean sauce that forms the foundation of Chinese cooking",
+     "base": "fermented soybeans",
+     "keyIngredients": [
+      "soybeans",
+      "wheat",
+      "salt",
+      "fermenting agents"
+     ],
+     "culinaryUses": [
+      "marinades",
+      "dipping sauce",
+      "flavor base",
+      "coloring agent"
+     ],
+     "variants": [
+      "Light soy",
+      "Dark soy",
+      "Sweet soy",
+      "Double black"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.3,
+      "Earth": 0.5,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Saturn",
+      "Neptune",
+      "capricorn"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditionally fermented for months or years to develop complexity",
+     "technicalTips": "Use light soy for flavor, dark soy for color and deeper notes"
+    },
+    "hoisin": {
+     "name": "Hoisin Sauce",
+     "description": "Sweet and savory sauce with a thick consistency",
+     "base": "fermented soybeans",
+     "keyIngredients": [
+      "fermented soybean paste",
+      "garlic",
+      "chili",
+      "sugar",
+      "spices"
+     ],
+     "culinaryUses": [
+      "glazing",
+      "dipping",
+      "stir-fry sauce",
+      "marinade"
+     ],
+     "variants": [
+      "Cantonese style",
+      "Northern style",
+      "Spicy hoisin"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.2,
+      "Earth": 0.4,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Venus",
+      "Jupiter",
+      "taurus"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Balance of sweet and savory can vary by region and brand",
+     "technicalTips": "Thin with water or rice wine for a lighter glaze"
+    },
+    "xo": {
+     "name": "XO Sauce",
+     "description": "Luxury seafood sauce with deep umami flavors",
+     "base": "dried seafood",
+     "keyIngredients": [
+      "dried scallops",
+      "dried shrimp",
+      "Jinhua ham",
+      "chili",
+      "garlic",
+      "shallots"
+     ],
+     "culinaryUses": [
+      "flavor enhancer",
+      "stir-fries",
+      "noodle dishes",
+      "premium condiment"
+     ],
+     "variants": [
+      "Traditional Hong Kong style",
+      "Spicy XO",
+      "Vegetarian XO"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.4,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Neptune",
+      "Mars",
+      "scorpio"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditionally requires expensive ingredients and significant preparation time",
+     "technicalTips": "A little goes a long way - use sparingly to add depth"
+    },
+    "black_bean": {
+     "name": "Black Bean Sauce",
+     "description": "Savory sauce made from fermented black soybeans",
+     "base": "fermented black soybeans",
+     "keyIngredients": [
+      "fermented black soybeans",
+      "garlic",
+      "soy sauce",
+      "rice wine"
+     ],
+     "culinaryUses": [
+      "stir-fries",
+      "steamed dishes",
+      "marinades",
+      "flavor base"
+     ],
+     "variants": [
+      "Garlic black bean",
+      "Chili black bean",
+      "Douchi (whole beans)"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.5,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Pluto",
+      "Saturn",
+      "capricorn"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Beans are typically rinsed before use to moderate saltiness",
+     "technicalTips": "Mash beans slightly to release more flavor when cooking"
+    },
+    "oyster": {
+     "name": "Oyster Sauce",
+     "description": "Rich, savory sauce with sweet undertones made from oyster extracts",
+     "base": "oyster extract",
+     "keyIngredients": [
+      "oyster extract",
+      "sugar",
+      "salt",
+      "cornstarch",
+      "soy sauce"
+     ],
+     "culinaryUses": [
+      "stir-fries",
+      "marinades",
+      "dipping sauce",
+      "flavor enhancer"
+     ],
+     "variants": [
+      "Premium",
+      "Vegetarian (mushroom-based)"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.6,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Neptune",
+      "Moon",
+      "pisces"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Modern versions are thickened with cornstarch",
+     "technicalTips": "Add at the end of cooking to preserve flavor complexity"
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "chicken": [
+      "oyster sauce",
+      "black bean sauce",
+      "hoisin sauce"
+     ],
+     "beef": [
+      "black bean sauce",
+      "oyster sauce",
+      "soy sauce"
+     ],
+     "pork": [
+      "sweet and sour sauce",
+      "hoisin sauce",
+      "black bean sauce"
+     ],
+     "fish": [
+      "ginger-scallion sauce",
+      "sweet soy glaze",
+      "Sichuan garlic sauce"
+     ],
+     "tofu": [
+      "mapo sauce",
+      "brown bean sauce",
+      "garlic sauce"
+     ]
+    },
+    "forVegetable": {
+     "leafy": [
+      "garlic sauce",
+      "oyster sauce",
+      "light soy sauce"
+     ],
+     "root": [
+      "brown bean sauce",
+      "XO sauce",
+      "sweet and sour sauce"
+     ],
+     "mushrooms": [
+      "oyster sauce",
+      "ginger sauce",
+      "light soy sauce"
+     ],
+     "eggplant": [
+      "garlic sauce",
+      "yuxiang sauce",
+      "sweet bean sauce"
+     ],
+     "beans": [
+      "sichuan pepper oil",
+      "black bean sauce",
+      "chili garlic sauce"
+     ]
+    },
+    "forCookingMethod": {
+     "stir_fry": [
+      "light soy sauce",
+      "oyster sauce",
+      "hoisin sauce"
+     ],
+     "steaming": [
+      "ginger-scallion oil",
+      "black bean sauce",
+      "light soy sauce"
+     ],
+     "braising": [
+      "master stock",
+      "dark soy sauce",
+      "red cooking sauce"
+     ],
+     "roasting": [
+      "maltose glaze",
+      "five-spice marinade",
+      "hoisin sauce"
+     ],
+     "boiling": [
+      "dipping sauce",
+      "chili oil",
+      "sesame sauce"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "chili oil",
+      "spicy bean paste",
+      "XO sauce"
+     ],
+     "Earth": [
+      "dark soy sauce",
+      "black bean sauce",
+      "hoisin sauce"
+     ],
+     "Air": [
+      "white pepper sauce",
+      "light vinegar dressing",
+      "clear broths"
+     ],
+     "Water": [
+      "oyster sauce",
+      "ginger sauce",
+      "delicate seafood-based sauces"
+     ]
+    },
+    "byDietary": {
+     "vegetarian": [
+      "mushroom sauce",
+      "sweet bean sauce",
+      "light soy sauce"
+     ],
+     "vegan": [
+      "garlic sauce",
+      "rice vinegar dressing",
+      "sweet and sour sauce"
+     ],
+     "glutenFree": [
+      "tamari",
+      "rice wine sauce",
+      "ginger scallion sauce"
+     ],
+     "dairyFree": [
+      "light soy sauce",
+      "black bean sauce",
+      "garlic sauce"
+     ]
+    },
+    "byRegion": {
+     "cantonese": [
+      "oyster sauce",
+      "hoisin sauce",
+      "sweet soy sauce"
+     ],
+     "sichuan": [
+      "chili oil",
+      "doubanjiang",
+      "fish-fragrant sauce"
+     ],
+     "hunan": [
+      "black bean chili sauce",
+      "sour-hot sauce",
+      "salted chili sauce"
+     ],
+     "shanghainese": [
+      "sweet soy sauce",
+      "rice wine sauce",
+      "red cooking sauce"
+     ],
+     "northern": [
+      "bean paste",
+      "garlic sauce",
+      "sesame paste"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "cantonese",
+     "name": "Cantonese Cuisine",
+     "description": "Light, fresh flavors that highlight natural tastes of ingredients, with an emphasis on steaming and stir-frying",
+     "signature": [
+      "dim sum",
+      "steamed fish",
+      "char siu",
+      "wonton noodles"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.4,
+      "Earth": 0.3,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "sichuan",
+     "name": "Sichuan Cuisine",
+     "description": "Bold, spicy flavors featuring Sichuan peppercorns' numbing sensation (málà) and complex layering of flavors",
+     "signature": [
+      "mapo tofu",
+      "kung pao chicken",
+      "dan dan noodles",
+      "hot pot"
+     ],
+     "elementalProperties": {
+      "Fire": 0.7,
+      "Water": 0.1,
+      "Earth": 0.2,
+      "Air": 0
+     }
+    },
+    {
+     "key": "shandong",
+     "name": "Shandong Cuisine",
+     "description": "One of China's oldest cuisines, featuring fresh seafood, quick frying, and clear soups",
+     "signature": [
+      "braised sea cucumber",
+      "sweet and sour carp",
+      "Dezhou chicken"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.4,
+      "Earth": 0.3,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "jiangsu",
+     "name": "Jiangsu Cuisine",
+     "description": "Refined, artistically presented cuisine emphasizing seasonal ingredients and precise cutting techniques",
+     "signature": [
+      "Nanjing salted duck",
+      "sweet and sour mandarin fish",
+      "beggar's chicken"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.4,
+      "Earth": 0.2,
+      "Air": 0.3
+     }
+    }
+   ],
+   "astrologicalInfluences": []
+  },
+  "French": {
+   "id": "french",
+   "name": "French",
+   "description": "Classical techniques and a focus on high-quality ingredients and sauces.",
+   "elementalProperties": {
+    "Fire": 0.1864,
+    "Water": 0.3171,
+    "Earth": 0.3321,
+    "Air": 0.1643
+   },
+   "motherSauces": {
+    "bechamel": {
+     "name": "Béchamel",
+     "description": "A white sauce made from milk thickened with a white roux",
+     "base": "milk",
+     "thickener": "white roux (butter and flour)",
+     "keyIngredients": [
+      "milk",
+      "butter",
+      "flour",
+      "nutmeg"
+     ],
+     "culinaryUses": [
+      "lasagna",
+      "croque monsieur",
+      "soufflé",
+      "gratins"
+     ],
+     "derivatives": [
+      "Mornay",
+      "Soubise",
+      "Nantua",
+      "Cream sauce"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.5,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Moon",
+      "Cancer",
+      "Venus"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Heat should be gentle to prevent scorching. Whisk constantly when adding milk to prevent lumps.",
+     "technicalTips": "For a smoother sauce, heat the milk before adding it to the roux.",
+     "difficulty": "medium",
+     "yield": "2 cups",
+     "storageInstructions": "Refrigerate up to 3 days, cover surface with plastic wrap to prevent skin formation"
+    },
+    "veloute": {
+     "name": "Velouté",
+     "description": "A light stock-based sauce thickened with a blonde roux",
+     "base": "light stock (chicken, fish, or veal)",
+     "thickener": "blonde roux (butter and flour)",
+     "keyIngredients": [
+      "light stock",
+      "butter",
+      "flour"
+     ],
+     "culinaryUses": [
+      "poultry dishes",
+      "fish dishes",
+      "vegetable preparations"
+     ],
+     "derivatives": [
+      "Allemande",
+      "Suprême",
+      "Bercy",
+      "Hungarian"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.4,
+      "Earth": 0.3,
+      "Air": 0.2
+     },
+     "astrologicalInfluences": [
+      "Jupiter",
+      "Mercury",
+      "Pisces"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "The stock must be relatively clear and the roux cooked to a blonde stage.",
+     "technicalTips": "Choose the stock type based on the protein it will accompany.",
+     "difficulty": "medium",
+     "yield": "2 cups",
+     "storageInstructions": "Refrigerate up to 2 days, reheat gently while whisking"
+    },
+    "espagnole": {
+     "name": "Espagnole (Brown Sauce)",
+     "description": "A brown stock-based sauce thickened with a brown roux",
+     "base": "brown stock (traditionally veal)",
+     "thickener": "brown roux (butter and flour)",
+     "keyIngredients": [
+      "brown stock",
+      "mirepoix",
+      "tomato paste",
+      "butter",
+      "flour"
+     ],
+     "culinaryUses": [
+      "red meat dishes",
+      "game",
+      "rich preparations"
+     ],
+     "derivatives": [
+      "Demi-glace",
+      "Bordelaise",
+      "Charcutière",
+      "Robert",
+      "Chasseur"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.2,
+      "Earth": 0.4,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Saturn",
+      "Scorpio"
+     ],
+     "seasonality": "autumn, winter",
+     "preparationNotes": "The roux must be browned correctly to develop the deep color and flavor.",
+     "technicalTips": "Skim regularly during simmering to achieve clarity.",
+     "difficulty": "hard",
+     "yield": "3 cups",
+     "storageInstructions": "Refrigerate up to 4 days, freeze up to 3 months"
+    },
+    "hollandaise": {
+     "name": "Hollandaise",
+     "description": "An emulsion of butter and lemon juice using egg yolks as the emulsifier",
+     "base": "clarified butter",
+     "thickener": "egg yolks",
+     "keyIngredients": [
+      "egg yolks",
+      "clarified butter",
+      "lemon juice",
+      "white pepper"
+     ],
+     "culinaryUses": [
+      "eggs benedict",
+      "asparagus",
+      "fish",
+      "vegetables"
+     ],
+     "derivatives": [
+      "Béarnaise",
+      "Maltaise",
+      "Mousseline",
+      "Choron"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.2,
+      "Earth": 0.1,
+      "Air": 0.3
+     },
+     "astrologicalInfluences": [
+      "Sun",
+      "Mercury",
+      "Leo"
+     ],
+     "seasonality": "spring, summer",
+     "preparationNotes": "Temperature control is critical to prevent curdling or breaking.",
+     "technicalTips": "Use a double boiler or bain-marie and add butter gradually.",
+     "difficulty": "hard",
+     "yield": "1 cup",
+     "storageInstructions": "Best served immediately, can hold warm for up to 1 hour in bain-marie"
+    },
+    "tomato": {
+     "name": "Tomato Sauce",
+     "description": "A sauce based on tomatoes, with aromatic vegetables and stock",
+     "base": "tomatoes",
+     "thickener": "tomato reduction and occasionally roux",
+     "keyIngredients": [
+      "tomatoes",
+      "mirepoix",
+      "garlic",
+      "herbs"
+     ],
+     "culinaryUses": [
+      "pasta",
+      "meat dishes",
+      "fish",
+      "vegetables"
+     ],
+     "derivatives": [
+      "Provençale",
+      "Spanish",
+      "Creole",
+      "Portuguese"
+     ],
+     "elementalProperties": {
+      "Fire": 0.5,
+      "Water": 0.1,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Leo",
+      "Aries"
+     ],
+     "seasonality": "summer, autumn",
+     "preparationNotes": "Can be smooth or chunky depending on the preparation method.",
+     "technicalTips": "For a deeper flavor, roast the tomatoes beforehand.",
+     "difficulty": "easy",
+     "yield": "2.5 cups",
+     "storageInstructions": "Refrigerate up to 5 days, freeze up to 6 months"
+    }
+   },
+   "traditionalSauces": {},
+   "sauceRecommender": {
+    "forProtein": {
+     "chicken": [
+      "veloute",
+      "supreme",
+      "allemande"
+     ],
+     "fish": [
+      "hollandaise",
+      "bercy",
+      "normandy"
+     ],
+     "beef": [
+      "espagnole",
+      "bordelaise",
+      "robert"
+     ],
+     "lamb": [
+      "espagnole",
+      "mint",
+      "rosemary jus"
+     ],
+     "pork": [
+      "robert",
+      "charcutiere",
+      "diable"
+     ],
+     "game": [
+      "grand veneur",
+      "poivrade",
+      "chasseur"
+     ]
+    },
+    "forVegetable": {
+     "asparagus": [
+      "hollandaise",
+      "maltaise",
+      "mousseline"
+     ],
+     "potatoes": [
+      "bechamel",
+      "mornay",
+      "cream sauce"
+     ],
+     "mushrooms": [
+      "espagnole",
+      "duxelles",
+      "forestiere"
+     ],
+     "greens": [
+      "vinaigrette",
+      "ravigote",
+      "gribiche"
+     ]
+    },
+    "forCookingMethod": {
+     "roasting": [
+      "jus lie",
+      "demi-glace",
+      "au poivre"
+     ],
+     "poaching": [
+      "veloute",
+      "vin blanc",
+      "nage"
+     ],
+     "grilling": [
+      "bearnaise",
+      "bordelaise",
+      "maitre d'hotel butter"
+     ],
+     "braising": [
+      "espagnole",
+      "romesco",
+      "chasseur"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "espagnole",
+      "bearnaise",
+      "spicy tomato"
+     ],
+     "Earth": [
+      "bechamel",
+      "mornay",
+      "mushroom"
+     ],
+     "Air": [
+      "vinaigrette",
+      "ravigote",
+      "herb-infused"
+     ],
+     "Water": [
+      "veloute",
+      "hollandaise",
+      "beurre blanc"
+     ]
+    },
+    "byDietary": {
+     "vegetarian": [
+      "bechamel",
+      "tomato",
+      "romesco"
+     ],
+     "vegan": [
+      "tomato",
+      "mushroom",
+      "herb oil"
+     ],
+     "glutenFree": [
+      "hollandaise",
+      "beurre blanc",
+      "herb oil"
+     ],
+     "dairyFree": [
+      "tomato",
+      "herb oils",
+      "jus"
+     ]
+    },
+    "byRegion": {
+     "provence": [
+      "rouille",
+      "pistou",
+      "tapenade"
+     ],
+     "burgundy": [
+      "meurette",
+      "dijon mustard",
+      "red wine"
+     ],
+     "normandy": [
+      "cream",
+      "apple",
+      "calvados"
+     ],
+     "alsace": [
+      "riesling",
+      "beer",
+      "sauerkraut"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "provence",
+     "name": "Provençal Cuisine",
+     "description": "Mediterranean-influenced cuisine from Southern France, featuring olive oil, herbs, tomatoes, and seafood",
+     "signature": [
+      "bouillabaisse",
+      "ratatouille",
+      "tapenade",
+      "aioli"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.3,
+      "Earth": 0.3,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "normandy",
+     "name": "Norman Cuisine",
+     "description": "Butter and cream-based cuisine from Northern France, featuring apples, dairy, and seafood",
+     "signature": [
+      "calvados",
+      "camembert",
+      "tarte aux pommes",
+      "tripes à la mode de Caen"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.4,
+      "Earth": 0.4,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "burgundy",
+     "name": "Burgundian Cuisine",
+     "description": "Wine-centric cuisine known for slow-cooked dishes, mustard, and escargot",
+     "signature": [
+      "beef bourguignon",
+      "coq au vin",
+      "escargots de Bourgogne",
+      "jambon persillé"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.5,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "alsace",
+     "name": "Alsatian Cuisine",
+     "description": "German-influenced cuisine featuring charcuterie, sauerkraut, and white wines",
+     "signature": [
+      "choucroute garnie",
+      "tarte flambée",
+      "baeckeoffe",
+      "kugelhopf"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.1,
+      "Earth": 0.4,
+      "Air": 0.2
+     }
+    }
+   ],
+   "astrologicalInfluences": [
+    "Venus - Governs the sensual, pleasure-seeking aspects of French cuisine",
+    "Jupiter - Influences the celebratory and abundant nature of French dining",
+    "Mercury - Shapes the precise techniques and articulate presentation"
+   ]
+  },
+  "Greek": {
+   "id": "greek",
+   "name": "Greek",
+   "description": "Mediterranean flavors with fresh herbs, olive oil, and seafood.",
+   "elementalProperties": {
+    "Fire": 0.2468,
+    "Water": 0.2706,
+    "Earth": 0.3587,
+    "Air": 0.1238
+   },
+   "motherSauces": {},
+   "traditionalSauces": {
+    "tzatziki": {
+     "name": "Tzatziki",
+     "description": "Cooling yogurt and cucumber sauce with garlic and herbs",
+     "base": "yogurt",
+     "keyIngredients": [
+      "Greek yogurt",
+      "cucumber",
+      "garlic",
+      "olive oil",
+      "dill"
+     ],
+     "culinaryUses": [
+      "dipping sauce",
+      "condiment",
+      "marinade",
+      "meze"
+     ],
+     "variants": [
+      "Mint tzatziki",
+      "Spicy tzatziki",
+      "Avocado tzatziki"
+     ],
+     "elementalProperties": {
+      "Fire": 0,
+      "Water": 0.6,
+      "Earth": 0.2,
+      "Air": 0.2
+     },
+     "astrologicalInfluences": [
+      "Moon",
+      "Venus",
+      "Cancer"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Properly draining the cucumber is key to a thick consistency",
+     "technicalTips": "Salt and drain cucumbers for at least 30 minutes before mixing"
+    },
+    "avgolemono": {
+     "name": "Avgolemono",
+     "description": "Silky egg and lemon sauce that thickens soups and stews",
+     "base": "eggs and lemon",
+     "keyIngredients": [
+      "eggs",
+      "lemon juice",
+      "broth",
+      "rice or orzo (optional)"
+     ],
+     "culinaryUses": [
+      "soup base",
+      "sauce for dolmades",
+      "fish sauce",
+      "vegetable dressing"
+     ],
+     "variants": [
+      "Thick sauce",
+      "Soup form",
+      "Vegetable avgolemono"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.4,
+      "Earth": 0.1,
+      "Air": 0.3
+     },
+     "astrologicalInfluences": [
+      "Mercury",
+      "Moon",
+      "Gemini"
+     ],
+     "seasonality": "winter, spring",
+     "preparationNotes": "The key is to temper the eggs properly to avoid curdling",
+     "technicalTips": "Add hot broth to eggs very slowly while whisking constantly"
+    },
+    "ladolemono": {
+     "name": "Ladolemono",
+     "description": "Simple but powerful emulsion of olive oil and lemon juice",
+     "base": "olive oil and lemon",
+     "keyIngredients": [
+      "extra virgin olive oil",
+      "lemon juice",
+      "garlic",
+      "oregano"
+     ],
+     "culinaryUses": [
+      "dressing for grilled foods",
+      "marinade",
+      "seafood sauce",
+      "vegetable dressing"
+     ],
+     "variants": [
+      "Mustard ladolemono",
+      "Herb-infused",
+      "Spicy version"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.1,
+      "Earth": 0.2,
+      "Air": 0.5
+     },
+     "astrologicalInfluences": [
+      "Sun",
+      "Mercury",
+      "Leo"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "The ratio is typically 3 parts oil to 1 part lemon juice",
+     "technicalTips": "Whisk vigorously or blend for proper emulsification"
+    },
+    "skordalia": {
+     "name": "Skordalia",
+     "description": "Pungent garlic sauce made with potato, bread, or nuts",
+     "base": "garlic and starch",
+     "keyIngredients": [
+      "garlic",
+      "potato or bread",
+      "olive oil",
+      "vinegar",
+      "almonds (optional)"
+     ],
+     "culinaryUses": [
+      "fish accompaniment",
+      "vegetable dip",
+      "spread",
+      "meze"
+     ],
+     "variants": [
+      "Potato skordalia",
+      "Bread skordalia",
+      "Almond skordalia"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.1,
+      "Earth": 0.4,
+      "Air": 0.2
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Saturn",
+      "Aries"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Achieving the right balance of garlic is crucial - adjust to taste",
+     "technicalTips": "Slowly incorporate oil while blending for proper emulsification"
+    },
+    "htipiti": {
+     "name": "Htipiti",
+     "description": "Spicy roasted red pepper and feta dip",
+     "base": "roasted peppers and cheese",
+     "keyIngredients": [
+      "roasted red peppers",
+      "feta cheese",
+      "olive oil",
+      "garlic",
+      "chili"
+     ],
+     "culinaryUses": [
+      "bread spread",
+      "vegetable dip",
+      "sandwich filling",
+      "meze"
+     ],
+     "variants": [
+      "Spicy htipiti",
+      "Smoky htipiti",
+      "Creamy htipiti"
+     ],
+     "elementalProperties": {
+      "Fire": 0.5,
+      "Water": 0.1,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun",
+      "Leo"
+     ],
+     "seasonality": "summer, autumn",
+     "preparationNotes": "The smokiness of the peppers is essential for authentic flavor",
+     "technicalTips": "Roast peppers directly over flame for best smoky taste"
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "chicken": [
+      "ladolemono",
+      "avgolemono",
+      "tomato-based sauce"
+     ],
+     "lamb": [
+      "tzatziki",
+      "ladolemono",
+      "minty yogurt sauce"
+     ],
+     "fish": [
+      "skordalia",
+      "ladolemono",
+      "avgolemono",
+      "lemon sauce"
+     ],
+     "beef": [
+      "tomato-based sauce",
+      "yogurt-based sauce",
+      "red wine reduction"
+     ],
+     "vegetable": [
+      "skordalia",
+      "tzatziki",
+      "tahini sauce"
+     ],
+     "seafood": [
+      "ladolemono",
+      "skordalia",
+      "garlic oil",
+      "lemon sauce"
+     ],
+     "pork": [
+      "ladolemono",
+      "htipiti",
+      "mustard sauce"
+     ]
+    },
+    "forVegetable": {
+     "leafy": [
+      "ladolemono",
+      "tahini sauce",
+      "yogurt-based sauce"
+     ],
+     "root": [
+      "skordalia",
+      "olive oil and lemon",
+      "tomato-based sauce"
+     ],
+     "eggplant": [
+      "tzatziki",
+      "tomato sauce",
+      "tahini sauce",
+      "garlic sauce"
+     ],
+     "legumes": [
+      "olive oil and lemon",
+      "tomato sauce",
+      "herb oil",
+      "vinegar sauce"
+     ],
+     "squash": [
+      "yogurt sauce",
+      "tahini",
+      "olive oil and herbs"
+     ],
+     "zucchini": [
+      "tzatziki",
+      "mint sauce",
+      "ladolemono"
+     ]
+    },
+    "forCookingMethod": {
+     "grilling": [
+      "tzatziki",
+      "ladolemono",
+      "herb oil",
+      "htipiti"
+     ],
+     "roasting": [
+      "skordalia",
+      "yogurt sauce",
+      "olive oil and lemon",
+      "avgolemono"
+     ],
+     "braising": [
+      "avgolemono",
+      "tomato sauce",
+      "olive oil finish",
+      "red wine sauce"
+     ],
+     "frying": [
+      "tzatziki",
+      "skordalia",
+      "lemon wedges",
+      "garlic sauce"
+     ],
+     "stewing": [
+      "avgolemono",
+      "olive oil finish",
+      "herb oil",
+      "red wine reduction"
+     ],
+     "baking": [
+      "ladolemono",
+      "yogurt sauce",
+      "lemon sauce"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "spicy yogurt sauce",
+      "red pepper-based sauce",
+      "garlic oil",
+      "htipiti"
+     ],
+     "Earth": [
+      "skordalia",
+      "mushroom-based sauce",
+      "tahini sauce",
+      "olive tapenade"
+     ],
+     "Air": [
+      "ladolemono",
+      "herb-infused oil",
+      "light yogurt sauce",
+      "lemon vinaigrette"
+     ],
+     "Water": [
+      "avgolemono",
+      "tzatziki",
+      "cucumber-based sauce",
+      "fish sauce"
+     ]
+    },
+    "byDietary": {
+     "vegetarian": [
+      "tahini sauce",
+      "skordalia",
+      "olive oil and lemon",
+      "htipiti"
+     ],
+     "vegan": [
+      "ladolemono",
+      "tahini sauce",
+      "herb oil",
+      "olive tapenade"
+     ],
+     "glutenFree": [
+      "tzatziki",
+      "ladolemono",
+      "herb oil",
+      "yogurt-based sauces"
+     ],
+     "dairyFree": [
+      "ladolemono",
+      "tomato-based sauce",
+      "herb oil",
+      "garlic sauce"
+     ],
+     "lowCarb": [
+      "tzatziki",
+      "olive oil dips",
+      "lemon sauce",
+      "herb sauce"
+     ]
+    },
+    "byRegion": {
+     "mainland": [
+      "skordalia",
+      "tomato-based sauces",
+      "avgolemono",
+      "htipiti"
+     ],
+     "islands": [
+      "ladolemono",
+      "herb oils",
+      "fish-based sauces",
+      "lemon sauces"
+     ],
+     "northern": [
+      "butter-based sauces",
+      "yogurt sauces",
+      "paprika oil",
+      "garlic sauce"
+     ],
+     "crete": [
+      "herb-infused olive oil",
+      "wine reductions",
+      "dakos-style sauce",
+      "ancient grain sauces"
+     ],
+     "peloponnese": [
+      "oil and lemon sauces",
+      "oregano-infused oils",
+      "wine reductions"
+     ],
+     "cyclades": [
+      "caper sauces",
+      "olive pastes",
+      "fresh herb oils",
+      "seafood reductions"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "crete",
+     "name": "Cretan Cuisine",
+     "description": "Focused on local ingredients, wild greens, olive oil, and rustic preparation methods",
+     "signature": [
+      "dakos",
+      "gamopilafo",
+      "staka",
+      "sfakian pie"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.1,
+      "Earth": 0.5,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "macedonia",
+     "name": "Macedonian Cuisine",
+     "description": "Northern Greek cuisine with strong Balkan influences and hearty dishes",
+     "signature": [
+      "bougatsa",
+      "pastitsada",
+      "gigantes plaki",
+      "trahana soup"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0.4,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "cyclades",
+     "name": "Cycladic Cuisine",
+     "description": "Island cuisine featuring seafood, local cheeses, and sun-dried ingredients",
+     "signature": [
+      "fava dip",
+      "kakavia fish soup",
+      "matsata pasta",
+      "louza cured pork"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.5,
+      "Earth": 0.1,
+      "Air": 0.3
+     }
+    },
+    {
+     "key": "peloponnese",
+     "name": "Peloponnesian Cuisine",
+     "description": "Rich in olive oil, citrus, and slow-cooked meat and bean dishes",
+     "signature": [
+      "rooster kokkinisto",
+      "diples",
+      "kagianas",
+      "lagoto rabbit stew"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.2,
+      "Earth": 0.4,
+      "Air": 0.1
+     }
+    }
+   ],
+   "astrologicalInfluences": []
+  },
+  "Indian": {
+   "id": "indian",
+   "name": "Indian",
+   "description": "Complex spice blends and traditional cooking methods like the tandoor.",
+   "elementalProperties": {
+    "Fire": 0.3019,
+    "Water": 0.2532,
+    "Earth": 0.3192,
+    "Air": 0.1256
+   },
+   "motherSauces": {},
+   "traditionalSauces": {
+    "tandoori": {
+     "name": "Tandoori Marinade",
+     "description": "Yogurt-based marinade with vibrant spices for traditional tandoor cooking",
+     "base": "yogurt",
+     "keyIngredients": [
+      "yogurt",
+      "ginger-garlic paste",
+      "red chili powder",
+      "garam masala",
+      "lemon juice"
+     ],
+     "culinaryUses": [
+      "marinating meats",
+      "vegetable preparation",
+      "flavor base",
+      "coloring agent"
+     ],
+     "variants": [
+      "Achari tandoori",
+      "Hariyali tandoori",
+      "Malai tandoori"
+     ],
+     "elementalProperties": {
+      "Fire": 0.5,
+      "Water": 0.2,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun",
+      "Aries"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Allow marination for at least 4 hours, preferably overnight for best flavor",
+     "technicalTips": "For authentic color, use Kashmiri chili powder which adds color without excess heat"
+    },
+    "tikka_masala": {
+     "name": "Tikka Masala",
+     "description": "Rich tomato-based curry sauce with cream and aromatic spices",
+     "base": "tomato and cream",
+     "keyIngredients": [
+      "tomatoes",
+      "cream",
+      "garam masala",
+      "fenugreek leaves",
+      "butter"
+     ],
+     "culinaryUses": [
+      "sauce for grilled meats",
+      "vegetable curry base",
+      "dipping sauce",
+      "rice accompaniment"
+     ],
+     "variants": [
+      "Butter masala",
+      "Paneer tikka masala",
+      "Vegetable tikka masala"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.3,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Venus",
+      "Moon",
+      "Taurus"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Allow the sauce to simmer gently to develop complex flavors",
+     "technicalTips": "Add kasuri methi (dried fenugreek leaves) at the end for authentic aroma"
+    },
+    "raita": {
+     "name": "Raita",
+     "description": "Cooling yogurt condiment with vegetables and spices",
+     "base": "yogurt",
+     "keyIngredients": [
+      "yogurt",
+      "cucumber",
+      "cumin",
+      "mint",
+      "cilantro"
+     ],
+     "culinaryUses": [
+      "cooling accompaniment",
+      "side dish",
+      "dip",
+      "spice balancer"
+     ],
+     "variants": [
+      "Boondi raita",
+      "Pineapple raita",
+      "Spinach raita",
+      "Onion raita"
+     ],
+     "elementalProperties": {
+      "Fire": 0,
+      "Water": 0.6,
+      "Earth": 0.2,
+      "Air": 0.2
+     },
+     "astrologicalInfluences": [
+      "Moon",
+      "Venus",
+      "Cancer"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Use thick, strained yogurt for best texture",
+     "technicalTips": "Salt and drain cucumber to prevent watery raita"
+    },
+    "tamarind_chutney": {
+     "name": "Tamarind Chutney",
+     "description": "Sweet and sour condiment made from tamarind pulp, jaggery and spices",
+     "base": "tamarind",
+     "keyIngredients": [
+      "tamarind pulp",
+      "jaggery",
+      "cumin",
+      "ginger",
+      "black salt"
+     ],
+     "culinaryUses": [
+      "chaat accompaniment",
+      "appetizer dip",
+      "sandwich spread",
+      "glaze"
+     ],
+     "variants": [
+      "Date-tamarind chutney",
+      "Spicy tamarind chutney",
+      "Garlic tamarind chutney"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.4,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mercury",
+      "Saturn",
+      "Gemini"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Balance sweet, sour, and spicy elements carefully",
+     "technicalTips": "Strain thoroughly for smooth consistency"
+    },
+    "coriander_mint_chutney": {
+     "name": "Coriander-Mint Chutney",
+     "description": "Fresh, vibrant green chutney with herbs and green chilies",
+     "base": "herbs",
+     "keyIngredients": [
+      "cilantro",
+      "mint",
+      "green chilies",
+      "lemon juice",
+      "cumin"
+     ],
+     "culinaryUses": [
+      "sandwich spread",
+      "chaat topping",
+      "dipping sauce",
+      "marinade component"
+     ],
+     "variants": [
+      "Coconut green chutney",
+      "Garlic green chutney",
+      "Yogurt green chutney"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0,
+      "Air": 0.5
+     },
+     "astrologicalInfluences": [
+      "Mercury",
+      "Moon",
+      "Virgo"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Use ice water when blending to maintain bright green color",
+     "technicalTips": "Add a small amount of yogurt for creamier texture and longer shelf life"
+    },
+    "coconut_curry": {
+     "name": "Coconut Curry Sauce",
+     "description": "Creamy, aromatic sauce with coconut milk and south Indian spices",
+     "base": "coconut milk",
+     "keyIngredients": [
+      "coconut milk",
+      "curry leaves",
+      "mustard seeds",
+      "turmeric",
+      "green chilies"
+     ],
+     "culinaryUses": [
+      "seafood sauce",
+      "vegetable curry base",
+      "braising liquid",
+      "rice accompaniment"
+     ],
+     "variants": [
+      "Kerala-style",
+      "Goan curry",
+      "Vegetable stew base",
+      "Seafood moilee"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.5,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Moon",
+      "Neptune",
+      "Pisces"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Temper spices properly to release their flavors into the coconut milk",
+     "technicalTips": "Use full-fat coconut milk for richness, light coconut milk may separate"
+    },
+    "onion_tomato_masala": {
+     "name": "Onion-Tomato Masala",
+     "description": "Foundational sauce of caramelized onions and tomatoes for North Indian curries",
+     "base": "onion and tomato",
+     "keyIngredients": [
+      "onions",
+      "tomatoes",
+      "ginger-garlic paste",
+      "cumin",
+      "coriander powder"
+     ],
+     "culinaryUses": [
+      "curry base",
+      "gravy foundation",
+      "rice flavoring",
+      "legume enhancement"
+     ],
+     "variants": [
+      "Bhuna masala",
+      "Restaurant-style base",
+      "Home-style gravy",
+      "Spicy version"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.2,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun",
+      "Leo"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Properly caramelizing onions (bhunao) is the key to depth of flavor",
+     "technicalTips": "Prepare in large batches and freeze in portions for quick weeknight cooking"
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "chicken": [
+      "tandoori marinade",
+      "tikka masala",
+      "korma",
+      "kadhai masala",
+      "coconut curry"
+     ],
+     "lamb": [
+      "rogan josh",
+      "bhuna masala",
+      "achari masala",
+      "dopiaza",
+      "onion_tomato_masala"
+     ],
+     "fish": [
+      "moilee sauce",
+      "amritsari masala",
+      "mustard sauce",
+      "malvani masala",
+      "coconut_curry"
+     ],
+     "paneer": [
+      "makhani sauce",
+      "palak sauce",
+      "kadhai masala",
+      "shahi sauce",
+      "tikka_masala"
+     ],
+     "legumes": [
+      "chana masala",
+      "dal makhani sauce",
+      "sambar",
+      "rasam",
+      "tadka"
+     ],
+     "goat": [
+      "kosha mangsho sauce",
+      "kolhapuri rassa",
+      "laal maas gravy",
+      "saag base",
+      "achari masala"
+     ],
+     "eggs": [
+      "mughlai gravy",
+      "onion_tomato_masala",
+      "curry leaf tempering",
+      "mirchi ka salan",
+      "tomato chutney base"
+     ]
+    },
+    "forVegetable": {
+     "leafy": [
+      "palak sauce",
+      "methi masala",
+      "coconut sauce",
+      "mustard paste",
+      "sarson ka saag base"
+     ],
+     "root": [
+      "korma",
+      "vindaloo",
+      "do pyaza",
+      "bharta masala",
+      "coconut curry"
+     ],
+     "eggplant": [
+      "bharta masala",
+      "salan",
+      "bagara masala",
+      "achari sauce",
+      "tamarind base"
+     ],
+     "okra": [
+      "bhindi masala",
+      "sambhariya masala",
+      "achari masala",
+      "yogurt sauce",
+      "onion_tomato_masala"
+     ],
+     "potato": [
+      "aloo dum masala",
+      "jeera aloo spice mix",
+      "chaat masala",
+      "tikki masala",
+      "mustard paste"
+     ],
+     "cauliflower": [
+      "aloo gobi masala",
+      "coconut curry",
+      "kasundi paste",
+      "achari masala",
+      "onion_tomato_masala"
+     ],
+     "gourds": [
+      "dahi wali kaddu",
+      "lauki chana dal",
+      "coconut curry",
+      "sambhar base",
+      "peanut sauce"
+     ]
+    },
+    "forCookingMethod": {
+     "tandoor": [
+      "tandoori marinade",
+      "hariyali marinade",
+      "malai marinade",
+      "achari marinade",
+      "yogurt-based marinades"
+     ],
+     "curry": [
+      "garam masala base",
+      "dhansak sauce",
+      "xacuti masala",
+      "chettinad sauce",
+      "onion_tomato_masala"
+     ],
+     "frying": [
+      "pakora batter",
+      "kathi masala",
+      "besan masala",
+      "amritsari masala",
+      "ajwain tempering"
+     ],
+     "steaming": [
+      "mustard paste",
+      "moilee sauce",
+      "patrani masala",
+      "coconut sauce",
+      "coriander_mint_chutney"
+     ],
+     "grilling": [
+      "boti kabab marinade",
+      "tikka marinade",
+      "malai kabab paste",
+      "reshmi kabab mixture",
+      "hariyali paste"
+     ],
+     "stir-frying": [
+      "kadhai masala",
+      "chilli paneer sauce",
+      "manchurian sauce",
+      "ginger-garlic base",
+      "dry mango spice"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "laal maas sauce",
+      "vindaloo paste",
+      "phaal curry sauce",
+      "chettinad masala",
+      "achari sauce"
+     ],
+     "Earth": [
+      "dal makhani sauce",
+      "korma paste",
+      "malai sauce",
+      "shahi gravy",
+      "tempering oil"
+     ],
+     "Air": [
+      "raita",
+      "green chutney",
+      "kadhi sauce",
+      "tamarind chutney",
+      "coriander_mint_chutney"
+     ],
+     "Water": [
+      "coconut curry sauce",
+      "moilee gravy",
+      "dahi wali gravy",
+      "rasam",
+      "kadhi"
+     ]
+    },
+    "byDietary": {
+     "vegetarian": [
+      "palak sauce",
+      "coconut curry",
+      "kadhi sauce",
+      "sambar",
+      "tikka_masala"
+     ],
+     "vegan": [
+      "chana masala",
+      "tadka dal",
+      "bharta masala",
+      "amchur sauce",
+      "coconut_curry"
+     ],
+     "glutenFree": [
+      "rasam",
+      "chettinad masala",
+      "moilee gravy",
+      "dhansak sauce",
+      "tamarind_chutney"
+     ],
+     "dairyFree": [
+      "tamarind chutney",
+      "vindaloo paste",
+      "mustard sauce",
+      "phaal curry",
+      "coconut_curry"
+     ],
+     "jain": [
+      "jain masala",
+      "no-onion garlic base",
+      "raw banana curry",
+      "suran masala",
+      "arbi gravy"
+     ]
+    },
+    "byRegion": {
+     "north": [
+      "makhani sauce",
+      "korma",
+      "kadhai masala",
+      "yakhni",
+      "onion_tomato_masala"
+     ],
+     "south": [
+      "sambar",
+      "rasam",
+      "chettinad masala",
+      "moilee gravy",
+      "coconut_curry"
+     ],
+     "east": [
+      "mustard sauce",
+      "doi maach sauce",
+      "posto paste",
+      "panch phoron oil",
+      "kalia gravy"
+     ],
+     "west": [
+      "malvani masala",
+      "goda masala",
+      "koli masala",
+      "dhansak sauce",
+      "kolhapuri masala"
+     ],
+     "central": [
+      "bhopali sauce",
+      "safed maas gravy",
+      "rogan josh",
+      "nihari masala",
+      "salan"
+     ],
+     "northeast": [
+      "bamboo shoot sauce",
+      "fermented soybean paste",
+      "axone base",
+      "bhut jolokia oil",
+      "fish sauce"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "punjabi",
+     "name": "Punjabi Cuisine",
+     "description": "Hearty, rich cuisine with generous use of dairy, robust spices, and tandoor cooking",
+     "signature": [
+      "butter chicken",
+      "dal makhani",
+      "amritsari kulcha",
+      "sarson da saag"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.2,
+      "Earth": 0.4,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "bengali",
+     "name": "Bengali Cuisine",
+     "description": "Delicate flavors with emphasis on fish, mustard, panch phoron spice blend and sweets",
+     "signature": [
+      "maacher jhol",
+      "shorshe ilish",
+      "mishti doi",
+      "rasgulla"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.5,
+      "Earth": 0.2,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "south_indian",
+     "name": "South Indian Cuisine",
+     "description": "Predominantly rice-based with coconut, curry leaves, tamarind and complex spice blends",
+     "signature": [
+      "dosa",
+      "idli",
+      "sambar",
+      "rasam"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.4,
+      "Earth": 0.2,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "gujarati",
+     "name": "Gujarati Cuisine",
+     "description": "Vegetarian cuisine with balance of sweet, salty and spicy flavors",
+     "signature": [
+      "dhokla",
+      "thepla",
+      "undhiyu",
+      "fafda-jalebi"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.2,
+      "Earth": 0.3,
+      "Air": 0.4
+     }
+    }
+   ],
+   "astrologicalInfluences": []
+  },
+  "Italian": {
+   "id": "italian",
+   "name": "Italian",
+   "description": "Regional specialties with a focus on fresh pasta, tomatoes, and olive oil.",
+   "elementalProperties": {
+    "Fire": 0.202,
+    "Water": 0.3259,
+    "Earth": 0.3171,
+    "Air": 0.155
+   },
+   "motherSauces": {
+    "marinaraBase": {
+     "name": "Marinara Base",
+     "description": "Simple tomato sauce that forms the foundation of many Italian dishes",
+     "base": "tomato",
+     "thickener": "reduction",
+     "keyIngredients": [
+      "tomatoes",
+      "garlic",
+      "olive oil",
+      "basil",
+      "oregano"
+     ],
+     "culinaryUses": [
+      "pasta sauce",
+      "pizza base",
+      "dipping sauce",
+      "casserole base"
+     ],
+     "derivatives": [
+      "Arrabbiata",
+      "Puttanesca",
+      "Alla Norma"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.2,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun",
+      "Leo"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Best when made with San Marzano tomatoes for authentic flavor",
+     "technicalTips": "Simmer gently to maintain brightness of flavor",
+     "difficulty": "easy",
+     "yield": "2 cups",
+     "storageInstructions": "Store in airtight container for up to 5 days in refrigerator"
+    },
+    "besciamella": {
+     "name": "Besciamella",
+     "description": "Italian white sauce made from roux and milk",
+     "base": "milk",
+     "thickener": "roux",
+     "keyIngredients": [
+      "butter",
+      "flour",
+      "milk",
+      "nutmeg",
+      "bay leaf"
+     ],
+     "culinaryUses": [
+      "lasagna layer",
+      "cannelloni filling base",
+      "vegetable gratin",
+      "creamed spinach"
+     ],
+     "derivatives": [
+      "Mornay sauce",
+      "Soubise",
+      "Infused besciamella"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.4,
+      "Earth": 0.4,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Moon",
+      "Venus",
+      "Cancer"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "For silky texture, add hot milk to roux gradually while whisking constantly",
+     "technicalTips": "Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor",
+     "difficulty": "medium",
+     "yield": "2 cups",
+     "storageInstructions": "Store refrigerated in airtight container for up to 3 days"
+    }
+   },
+   "traditionalSauces": {
+    "marinara": {
+     "name": "Marinara",
+     "description": "Simple tomato sauce with garlic, olive oil and herbs",
+     "base": "tomato",
+     "keyIngredients": [
+      "tomatoes",
+      "garlic",
+      "olive oil",
+      "basil",
+      "oregano"
+     ],
+     "culinaryUses": [
+      "pasta sauce",
+      "pizza base",
+      "dipping sauce",
+      "casserole base"
+     ],
+     "variants": [
+      "Arrabbiata",
+      "Puttanesca",
+      "Alla Norma"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.2,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun",
+      "leo"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Best when made with San Marzano tomatoes for authentic flavor",
+     "technicalTips": "Simmer gently to maintain brightness of flavor"
+    },
+    "pesto": {
+     "name": "Pesto alla Genovese",
+     "description": "Fresh basil sauce with pine nuts, garlic, Parmesan and olive oil",
+     "base": "herb",
+     "keyIngredients": [
+      "basil leaves",
+      "pine nuts",
+      "garlic",
+      "Parmigiano-Reggiano",
+      "Pecorino",
+      "olive oil"
+     ],
+     "culinaryUses": [
+      "pasta sauce",
+      "sandwich spread",
+      "marinade",
+      "flavor enhancer"
+     ],
+     "variants": [
+      "Red pesto",
+      "Pesto alla Siciliana",
+      "Pesto alla Trapanese"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.1,
+      "Earth": 0.3,
+      "Air": 0.4
+     },
+     "astrologicalInfluences": [
+      "Mercury",
+      "Venus",
+      "gemini"
+     ],
+     "seasonality": "summer",
+     "preparationNotes": "Traditionally made in a marble mortar with wooden pestle",
+     "technicalTips": "Blanch basil briefly to preserve color if making ahead"
+    },
+    "carbonara": {
+     "name": "Carbonara",
+     "description": "Silky sauce of eggs, hard cheese, cured pork and black pepper",
+     "base": "egg",
+     "keyIngredients": [
+      "eggs",
+      "Pecorino Romano",
+      "guanciale",
+      "black pepper"
+     ],
+     "culinaryUses": [
+      "pasta sauce",
+      "sauce for gnocchi",
+      "savory custard base"
+     ],
+     "variants": [
+      "Carbonara with pancetta",
+      "Lighter carbonara with less egg yolks",
+      "Vegetarian carbonara"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.1,
+      "Earth": 0.4,
+      "Air": 0.3
+     },
+     "astrologicalInfluences": [
+      "Jupiter",
+      "Mars",
+      "aries"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Never add cream - authentic carbonara is creamy from eggs alone",
+     "technicalTips": "Temper eggs carefully to prevent scrambling, use pasta water to adjust consistency"
+    },
+    "ragu": {
+     "name": "Ragù alla Bolognese",
+     "description": "Rich, slow-cooked meat sauce from Bologna",
+     "base": "meat",
+     "keyIngredients": [
+      "beef",
+      "pork",
+      "soffritto",
+      "tomato paste",
+      "wine",
+      "milk"
+     ],
+     "culinaryUses": [
+      "pasta sauce",
+      "lasagna filling",
+      "polenta topping",
+      "stuffed pasta filling"
+     ],
+     "variants": [
+      "Ragù Napoletano",
+      "White ragù",
+      "Wild boar ragù",
+      "Vegetarian mushroom ragù"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.1,
+      "Earth": 0.5,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Saturn",
+      "Mars",
+      "taurus"
+     ],
+     "seasonality": "autumn, winter",
+     "preparationNotes": "True Bolognese takes hours of gentle simmering for depth of flavor",
+     "technicalTips": "Add milk toward the end of cooking for authentic richness and tenderness"
+    },
+    "bechamel": {
+     "name": "Besciamella",
+     "description": "Classic white sauce made from roux and milk",
+     "base": "dairy",
+     "keyIngredients": [
+      "butter",
+      "flour",
+      "milk",
+      "nutmeg",
+      "bay leaf"
+     ],
+     "culinaryUses": [
+      "lasagna layer",
+      "cannelloni filling base",
+      "vegetable gratin",
+      "creamed spinach"
+     ],
+     "variants": [
+      "Mornay sauce",
+      "Soubise",
+      "Infused besciamella"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.4,
+      "Earth": 0.4,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Moon",
+      "Venus",
+      "cancer"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "For silky texture, add hot milk to roux gradually while whisking constantly",
+     "technicalTips": "Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor"
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "beef": [
+      "ragù alla Bolognese",
+      "sugo di carne",
+      "salsa alla pizzaiola",
+      "Barolo wine sauce"
+     ],
+     "pork": [
+      "agrodolce",
+      "marsala",
+      "porchetta herbs",
+      "black pepper sauce"
+     ],
+     "chicken": [
+      "cacciatore",
+      "piccata",
+      "marsala",
+      "salt-crusted herbs"
+     ],
+     "fish": [
+      "acqua pazza",
+      "salmoriglio",
+      "livornese",
+      "al limone"
+     ],
+     "vegetarian": [
+      "pesto",
+      "pomodoro",
+      "aglio e olio",
+      "burro e salvia"
+     ]
+    },
+    "forVegetable": {
+     "leafy": [
+      "aglio e olio",
+      "parmigiano",
+      "lemon butter",
+      "anchovy"
+     ],
+     "root": [
+      "besciamella",
+      "gremolata",
+      "herbed butter",
+      "balsamic glaze"
+     ],
+     "nightshades": [
+      "marinara",
+      "alla Norma",
+      "sugo di pomodoro",
+      "caponata"
+     ],
+     "squash": [
+      "brown butter sage",
+      "gorgonzola cream",
+      "agrodolce",
+      "walnut pesto"
+     ],
+     "mushroom": [
+      "porcini sauce",
+      "marsala",
+      "truffle oil",
+      "white wine garlic"
+     ]
+    },
+    "forCookingMethod": {
+     "grilling": [
+      "salmoriglio",
+      "rosemary oil",
+      "balsamic glaze",
+      "salsa verde"
+     ],
+     "baking": [
+      "marinara",
+      "besciamella",
+      "pesto",
+      "ragù"
+     ],
+     "frying": [
+      "aioli",
+      "lemon dip",
+      "arrabiata",
+      "garlic-herb dip"
+     ],
+     "braising": [
+      "osso buco sauce",
+      "wine reduction",
+      "pomodoro",
+      "cacciatora"
+     ],
+     "raw": [
+      "pinzimonio",
+      "olio nuovo",
+      "citronette",
+      "bagna cauda"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "arrabiata",
+      "puttanesca",
+      "aglio e olio with peperoncino",
+      "spicy pomodoro"
+     ],
+     "Earth": [
+      "mushroom ragu",
+      "tartufo",
+      "carbonara",
+      "ragù alla Bolognese"
+     ],
+     "Air": [
+      "lemon sauces",
+      "herb oils",
+      "white wine sauce",
+      "pesto"
+     ],
+     "Water": [
+      "seafood sauces",
+      "acqua pazza",
+      "clam sauce",
+      "besciamella"
+     ]
+    },
+    "byDietary": {
+     "vegetarian": [
+      "pomodoro",
+      "pesto",
+      "aglio e olio",
+      "burro e salvia"
+     ],
+     "vegan": [
+      "marinara",
+      "pomodoro",
+      "aglio e olio",
+      "salsa verde"
+     ],
+     "glutenFree": [
+      "salsa verde",
+      "salmoriglio",
+      "sugo di pomodoro",
+      "lemon sauce"
+     ],
+     "dairyFree": [
+      "marinara",
+      "aglio e olio",
+      "puttanesca",
+      "arrabbiata"
+     ]
+    },
+    "byRegion": {
+     "northern": [
+      "pesto alla Genovese",
+      "bagna cauda",
+      "fonduta",
+      "ragù alla Bolognese"
+     ],
+     "central": [
+      "carbonara",
+      "cacio e pepe",
+      "amatriciana",
+      "sugo finto"
+     ],
+     "southern": [
+      "marinara",
+      "puttanesca",
+      "aglio e olio",
+      "alla Norma"
+     ],
+     "insular": [
+      "sarde a beccafico",
+      "nero di seppia",
+      "bottarga",
+      "caponata"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "sicilian",
+     "name": "Sicilian Cuisine",
+     "description": "Bold flavors reflecting diverse cultural influences with emphasis on seafood, citrus, and Arab-influenced sweets",
+     "signature": [
+      "pasta alla Norma",
+      "arancini",
+      "cannoli",
+      "caponata"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.3,
+      "Earth": 0.2,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "tuscan",
+     "name": "Tuscan Cuisine",
+     "description": "Rustic simplicity focusing on high-quality ingredients with an emphasis on beans, bread, and olive oil",
+     "signature": [
+      "ribollita",
+      "panzanella",
+      "bistecca alla fiorentina",
+      "pappa al pomodoro"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.1,
+      "Earth": 0.5,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "emilian",
+     "name": "Emilian Cuisine",
+     "description": "Rich, indulgent cuisine from Italy's food valley, known for pasta, cured meats, and aged cheeses",
+     "signature": [
+      "tagliatelle al ragù",
+      "tortellini in brodo",
+      "lasagne alla bolognese",
+      "prosciutto di Parma"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.5,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "neapolitan",
+     "name": "Neapolitan Cuisine",
+     "description": "Vibrant and tomato-forward cuisine with iconic pizza, pasta, and seafood dishes",
+     "signature": [
+      "pizza napoletana",
+      "spaghetti alle vongole",
+      "pastiera napoletana",
+      "ragù napoletano"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.3,
+      "Earth": 0.2,
+      "Air": 0.1
+     }
+    }
+   ],
+   "astrologicalInfluences": [
+    "Venus - Roman goddess of love and beauty influences the sensory pleasures of Italian cuisine",
+    "Jupiter - Brings abundance and generosity to communal Italian dining traditions",
+    "Mercury - Governs the communication and conviviality central to Italian food culture"
+   ]
+  },
+  "Japanese": {
+   "id": "japanese",
+   "name": "Japanese",
+   "description": "Precision and seasonality with a focus on umami and fresh seafood.",
+   "elementalProperties": {
+    "Fire": 0.2522,
+    "Water": 0.3111,
+    "Earth": 0.2944,
+    "Air": 0.1422
+   },
+   "motherSauces": {
+    "dashi": {
+     "name": "Dashi",
+     "description": "Fundamental Japanese stock that serves as the base for many soups and sauces",
+     "base": "kombu and/or katsuobushi",
+     "thickener": "none",
+     "keyIngredients": [
+      "kombu (dried kelp)",
+      "katsuobushi (dried bonito flakes)"
+     ],
+     "culinaryUses": [
+      "miso soup",
+      "noodle broths",
+      "sauce base",
+      "braising liquid"
+     ],
+     "derivatives": [
+      "Awase dashi",
+      "Kombu dashi",
+      "Shiitake dashi",
+      "Iriko dashi"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.6,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Neptune",
+      "Moon",
+      "Pisces"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Never boil kombu, gently heat to extract umami without bitterness",
+     "technicalTips": "Remove kombu before water boils, then add katsuobushi off heat",
+     "difficulty": "easy",
+     "yield": "1 liter",
+     "storageInstructions": "Store refrigerated up to 3 days or freeze up to 1 month"
+    },
+    "tare": {
+     "name": "Tare",
+     "description": "Concentrated seasoning sauce used as a flavoring base for many Japanese dishes",
+     "base": "soy sauce",
+     "thickener": "reduction",
+     "keyIngredients": [
+      "soy sauce",
+      "mirin",
+      "sake",
+      "sugar"
+     ],
+     "culinaryUses": [
+      "ramen seasoning",
+      "glazes",
+      "marinades",
+      "dipping sauces"
+     ],
+     "derivatives": [
+      "Shoyu tare",
+      "Shio tare",
+      "Miso tare",
+      "Karaage tare"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0.4,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Saturn",
+      "Mercury",
+      "Taurus"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Often simmered with aromatics like ginger, garlic, and scallions",
+     "technicalTips": "Balance sweet, salty, and umami carefully; adjust with kombu or bonito",
+     "difficulty": "medium",
+     "yield": "500 ml",
+     "storageInstructions": "Store refrigerated up to 1 month"
+    }
+   },
+   "traditionalSauces": {
+    "shoyu": {
+     "name": "Shoyu (Soy Sauce)",
+     "description": "Fermented soybean sauce that forms the foundation of Japanese cuisine",
+     "base": "soybean",
+     "keyIngredients": [
+      "soybeans",
+      "wheat",
+      "salt",
+      "koji mold"
+     ],
+     "culinaryUses": [
+      "dipping sauce",
+      "seasoning",
+      "marinade",
+      "flavor base"
+     ],
+     "variants": [
+      "Koikuchi",
+      "Usukuchi",
+      "Tamari",
+      "Saishikomi"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.4,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Saturn",
+      "Pluto",
+      "Scorpio"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditional brewing takes months of fermentation",
+     "technicalTips": "Different shoyu types are suited for different applications, usukuchi is lighter and saltier"
+    },
+    "miso": {
+     "name": "Miso",
+     "description": "Fermented soybean paste with complex umami flavor",
+     "base": "soybean",
+     "keyIngredients": [
+      "soybeans",
+      "koji",
+      "salt",
+      "rice or barley"
+     ],
+     "culinaryUses": [
+      "soup base",
+      "marinade",
+      "sauce base",
+      "pickling agent"
+     ],
+     "variants": [
+      "Shiro (white)",
+      "Aka (red)",
+      "Awase (mixed)",
+      "Hatcho (soybean-only)"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.5,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Jupiter",
+      "Moon",
+      "Taurus"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Fermentation period determines color and flavor intensity",
+     "technicalTips": "Never boil miso to preserve live cultures and flavor complexity"
+    },
+    "ponzu": {
+     "name": "Ponzu",
+     "description": "Tangy citrus-based sauce with soy and dashi",
+     "base": "citrus juice",
+     "keyIngredients": [
+      "yuzu or sudachi juice",
+      "soy sauce",
+      "rice vinegar",
+      "dashi"
+     ],
+     "culinaryUses": [
+      "dipping sauce",
+      "dressing",
+      "marinade"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.4,
+      "Earth": 0.2,
+      "Air": 0.3
+     },
+     "seasonality": "all",
+     "preparationNotes": "Best when aged for several days to develop flavor",
+     "difficulty": "easy",
+     "yield": "500ml"
+    },
+    "mentsuyu": {
+     "name": "Mentsuyu",
+     "description": "Multipurpose noodle soup base and seasoning sauce",
+     "base": "soy sauce and dashi",
+     "keyIngredients": [
+      "soy sauce",
+      "mirin",
+      "sake",
+      "sugar",
+      "dashi"
+     ],
+     "culinaryUses": [
+      "noodle dipping sauce",
+      "soup base",
+      "seasoning"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.4,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "seasonality": "all",
+     "preparationNotes": "Can be prepared concentrated and diluted as needed",
+     "difficulty": "easy",
+     "yield": "750ml"
+    },
+    "teriyaki": {
+     "name": "Teriyaki",
+     "description": "Sweet-savory glaze with soy sauce, mirin, and sugar",
+     "base": "soy sauce",
+     "keyIngredients": [
+      "soy sauce",
+      "mirin",
+      "sake",
+      "sugar",
+      "ginger"
+     ],
+     "culinaryUses": [
+      "glazing",
+      "marinade",
+      "finishing sauce"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.2,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "seasonality": "all",
+     "preparationNotes": "Traditionally applied in layers while grilling",
+     "difficulty": "easy",
+     "yield": "500ml"
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "fish": [
+      "ponzu",
+      "mentsuyu",
+      "teriyaki",
+      "ginger sauce"
+     ],
+     "chicken": [
+      "teriyaki",
+      "katsu sauce",
+      "yuzu kosho",
+      "sesame sauce"
+     ],
+     "beef": [
+      "yakiniku sauce",
+      "ponzu",
+      "warishita",
+      "ginger sauce"
+     ],
+     "tofu": [
+      "ponzu",
+      "sesame sauce",
+      "ginger sauce",
+      "miso sauce"
+     ],
+     "pork": [
+      "tonkatsu sauce",
+      "shogayaki sauce",
+      "miso sauce",
+      "teriyaki"
+     ]
+    },
+    "forVegetable": {
+     "leafy": [
+      "sesame dressing",
+      "ponzu",
+      "shiro dashi",
+      "miso dressing"
+     ],
+     "root": [
+      "miso sauce",
+      "mentsuyu",
+      "kinpira sauce",
+      "sesame sauce"
+     ],
+     "seaweed": [
+      "ponzu",
+      "soy vinegar",
+      "miso sauce",
+      "sesame dressing"
+     ],
+     "mushroom": [
+      "butter shoyu",
+      "mirin glaze",
+      "dashi-based",
+      "mentsuyu"
+     ]
+    },
+    "forCookingMethod": {
+     "grilling": [
+      "teriyaki",
+      "yakitori tare",
+      "miso glaze",
+      "yuzu kosho"
+     ],
+     "simmering": [
+      "mentsuyu",
+      "kake sauce",
+      "dashi-based",
+      "warishita"
+     ],
+     "deep-frying": [
+      "tentsuyu",
+      "tonkatsu sauce",
+      "ponzu",
+      "curry sauce"
+     ],
+     "steaming": [
+      "ponzu",
+      "ginger sauce",
+      "yuzu sauce",
+      "dashi vinegar"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "spicy yuzu kosho",
+      "karashi mustard sauce",
+      "wasabi dressing",
+      "chili oil"
+     ],
+     "Water": [
+      "clear dashi-based sauces",
+      "gentle ponzu",
+      "light broths",
+      "nikiri"
+     ],
+     "Earth": [
+      "miso-based sauces",
+      "thick teriyaki",
+      "rich tonkatsu sauce",
+      "sesame"
+     ],
+     "Air": [
+      "citrus dressings",
+      "light vinaigrettes",
+      "delicate herb sauces",
+      "yuzu"
+     ]
+    },
+    "byDietary": {
+     "vegetarian": [
+      "kombu dashi-based",
+      "shiitake broth",
+      "vegan ponzu",
+      "miso-based"
+     ],
+     "vegan": [
+      "mushroom dashi",
+      "soy-based sauces",
+      "yuzu dressing",
+      "umeboshi sauce"
+     ],
+     "glutenFree": [
+      "tamari-based sauces",
+      "rice vinegar dressings",
+      "citrus sauces"
+     ],
+     "lowSodium": [
+      "yuzu dressing",
+      "vinegar-based",
+      "herb oils",
+      "mirin glazes"
+     ]
+    },
+    "byRegion": {
+     "kanto": [
+      "thick sweet sauces",
+      "dark soy-based",
+      "rich dashi"
+     ],
+     "kansai": [
+      "light dashi",
+      "delicate seasonings",
+      "subtle umami"
+     ],
+     "hokkaido": [
+      "butter-miso",
+      "rich seafood sauces",
+      "hearty broths"
+     ],
+     "kyushu": [
+      "intense tonkotsu",
+      "spicy yuzu kosho",
+      "bold marinades"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "kansai",
+     "name": "Kansai/Kyoto Cuisine",
+     "description": "Refined, delicate flavors emphasizing natural taste of ingredients with minimal seasoning",
+     "signature": [
+      "kaiseki ryori",
+      "yudofu",
+      "obanzai",
+      "kyogashi"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.4,
+      "Earth": 0.3,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "kanto",
+     "name": "Kanto/Tokyo Cuisine",
+     "description": "Bolder, more soy-focused flavors with urban innovations",
+     "signature": [
+      "edomae sushi",
+      "monjayaki",
+      "chankonabe",
+      "deep-fried foods"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.2,
+      "Earth": 0.4,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "hokkaido",
+     "name": "Hokkaido Cuisine",
+     "description": "Hearty, dairy-influenced northern cuisine with abundant seafood",
+     "signature": [
+      "soup curry",
+      "jingisukan",
+      "seafood bowls",
+      "miso ramen"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0.4,
+      "Air": 0.1
+     }
+    }
+   ],
+   "astrologicalInfluences": [
+    "Neptune - Governs the subtle dashi broths and seafood elements",
+    "Mercury - Influences the precision and attention to detail",
+    "Moon - Shapes the cyclical nature of seasonal cuisine"
+   ]
+  },
+  "Korean": {
+   "id": "korean",
+   "name": "Korean",
+   "description": "Bold flavors from fermentation and grilling.",
+   "elementalProperties": {
+    "Fire": 0.329,
+    "Water": 0.2729,
+    "Earth": 0.2906,
+    "Air": 0.1075
+   },
+   "motherSauces": {},
+   "traditionalSauces": {
+    "gochujang": {
+     "name": "Gochujang",
+     "description": "Fermented red chili paste with sweet, savory, and spicy notes",
+     "base": "fermented soybean and red chili",
+     "keyIngredients": [
+      "glutinous rice",
+      "fermented soybeans",
+      "red chili powder",
+      "salt"
+     ],
+     "culinaryUses": [
+      "marinade base",
+      "stew seasoning",
+      "dipping sauce",
+      "bibimbap topping"
+     ],
+     "variants": [
+      "Mild",
+      "Medium",
+      "Hot",
+      "Extra Hot"
+     ],
+     "elementalProperties": {
+      "Fire": 0.6,
+      "Water": 0.1,
+      "Earth": 0.3,
+      "Air": 0
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Aries",
+      "Leo"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditionally fermented for months in earthenware pots called onggi",
+     "technicalTips": "Balance with sweeteners like honey or sugar to mellow its intensity"
+    },
+    "doenjang": {
+     "name": "Doenjang",
+     "description": "Fermented soybean paste with rich umami flavor and earthy notes",
+     "base": "fermented soybean",
+     "keyIngredients": [
+      "fermented soybeans",
+      "salt",
+      "meju (fermented soybean block)"
+     ],
+     "culinaryUses": [
+      "soup base",
+      "stew seasoning",
+      "vegetable dipping sauce",
+      "marinade component"
+     ],
+     "variants": [
+      "Homemade",
+      "Commercial",
+      "Aged",
+      "Premium"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.2,
+      "Earth": 0.7,
+      "Air": 0
+     },
+     "astrologicalInfluences": [
+      "Saturn",
+      "Taurus",
+      "Capricorn"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditionally separated from soy sauce during fermentation of meju",
+     "technicalTips": "Add at the beginning of cooking to develop depth of flavor"
+    },
+    "ssamjang": {
+     "name": "Ssamjang",
+     "description": "Thick, spicy dipping sauce for wrapped meat and vegetables",
+     "base": "doenjang and gochujang",
+     "keyIngredients": [
+      "doenjang",
+      "gochujang",
+      "sesame oil",
+      "garlic",
+      "green onions"
+     ],
+     "culinaryUses": [
+      "wrap dipping sauce",
+      "vegetable dip",
+      "meat accompaniment",
+      "rice topping"
+     ],
+     "variants": [
+      "Traditional",
+      "Sweet",
+      "Extra garlic",
+      "Sesame-heavy"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.1,
+      "Earth": 0.4,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Saturn",
+      "Scorpio"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Mix ingredients fresh before serving for best flavor",
+     "technicalTips": "Balance sweet, savory, and spicy elements to complement the main dish"
+    },
+    "ganjang": {
+     "name": "Ganjang (Korean Soy Sauce)",
+     "description": "Traditional Korean soy sauce, often more complex than Chinese or Japanese varieties",
+     "base": "fermented soybean",
+     "keyIngredients": [
+      "fermented soybeans",
+      "salt",
+      "water"
+     ],
+     "culinaryUses": [
+      "seasoning",
+      "dipping sauce",
+      "marinade base",
+      "soup flavoring"
+     ],
+     "variants": [
+      "Yangjo (regular)",
+      "Jin (dark)",
+      "Mulyang (double-brewed)",
+      "Jorang (aged)"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.4,
+      "Earth": 0.4,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Neptune",
+      "Pisces",
+      "Cancer"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditionally separated from doenjang during fermentation",
+     "technicalTips": "Use premium varieties for dipping sauces and everyday ones for cooking"
+    },
+    "chogochujang": {
+     "name": "Chogochujang",
+     "description": "Sweet and sour chili sauce with vinegar",
+     "base": "gochujang and vinegar",
+     "keyIngredients": [
+      "gochujang",
+      "rice vinegar",
+      "sugar",
+      "sesame oil"
+     ],
+     "culinaryUses": [
+      "raw fish dipping",
+      "cold noodle sauce",
+      "blanched vegetable dressing",
+      "rice cake topping"
+     ],
+     "variants": [
+      "Sweet",
+      "Sour",
+      "Spicy",
+      "Fruity (with pear juice)"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.2,
+      "Earth": 0.1,
+      "Air": 0.3
+     },
+     "astrologicalInfluences": [
+      "Mercury",
+      "Gemini",
+      "Sagittarius"
+     ],
+     "seasonality": "summer",
+     "preparationNotes": "Best made fresh rather than stored long-term",
+     "technicalTips": "Adjust vinegar and sugar ratio to complement the dish being served"
+    },
+    "yangnyeom": {
+     "name": "Yangnyeom Sauce",
+     "description": "Sweet and spicy sauce used for Korean fried chicken and other dishes",
+     "base": "gochujang and corn syrup",
+     "keyIngredients": [
+      "gochujang",
+      "corn syrup",
+      "ketchup",
+      "garlic",
+      "ginger"
+     ],
+     "culinaryUses": [
+      "fried chicken coating",
+      "stir-fry sauce",
+      "dipping sauce",
+      "marinade"
+     ],
+     "variants": [
+      "Extra sweet",
+      "Extra spicy",
+      "Garlic-heavy",
+      "Honey-based"
+     ],
+     "elementalProperties": {
+      "Fire": 0.5,
+      "Water": 0.2,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun",
+      "Aries"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Mix thoroughly and cook briefly to develop flavors",
+     "technicalTips": "The sauce should coat the back of a spoon but still be pourable"
+    },
+    "bulgogi": {
+     "name": "Bulgogi Marinade",
+     "description": "Sweet and savory marinade for grilled beef and other meats",
+     "base": "soy sauce and fruit",
+     "keyIngredients": [
+      "soy sauce",
+      "Asian pear",
+      "onion",
+      "garlic",
+      "sesame oil",
+      "sugar"
+     ],
+     "culinaryUses": [
+      "beef marinade",
+      "pork marinade",
+      "stir-fry base",
+      "vegetable seasoning"
+     ],
+     "variants": [
+      "Traditional",
+      "Spicy",
+      "Fruit-forward",
+      "Premium (with rice wine)"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0.3,
+      "Air": 0.2
+     },
+     "astrologicalInfluences": [
+      "Venus",
+      "Taurus",
+      "Libra"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Asian pear helps tenderize meat while adding subtle sweetness",
+     "technicalTips": "Marinate beef for at least 2 hours, preferably overnight for best flavor penetration"
+    },
+    "sesameOil": {
+     "name": "Chamgireum (Sesame Oil Dressing)",
+     "description": "Aromatic oil-based dressing used for many Korean dishes",
+     "base": "toasted sesame oil",
+     "keyIngredients": [
+      "toasted sesame oil",
+      "salt",
+      "green onions",
+      "toasted sesame seeds"
+     ],
+     "culinaryUses": [
+      "vegetable seasoning",
+      "meat finishing sauce",
+      "bibimbap component",
+      "dipping sauce"
+     ],
+     "variants": [
+      "Plain",
+      "With garlic",
+      "With chili",
+      "With perilla oil"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.1,
+      "Earth": 0.4,
+      "Air": 0.4
+     },
+     "astrologicalInfluences": [
+      "Mercury",
+      "Gemini",
+      "Virgo"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Use high-quality freshly toasted sesame oil for best flavor",
+     "technicalTips": "Add at the end of cooking to preserve volatile aromatics"
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "beef": [
+      "bulgogi sauce",
+      "kalbi marinade",
+      "doenjang",
+      "ssamjang"
+     ],
+     "pork": [
+      "ssamjang",
+      "gochujang",
+      "doenjang",
+      "spicy chili sauce"
+     ],
+     "chicken": [
+      "gochujang-based sauce",
+      "doenjang",
+      "soy garlic sauce",
+      "ganjang"
+     ],
+     "seafood": [
+      "chogochujang",
+      "soy garlic",
+      "sesame oil with salt",
+      "citrus soy"
+     ],
+     "tofu": [
+      "doenjang",
+      "gochujang",
+      "ganjang",
+      "sesame sauce"
+     ]
+    },
+    "forVegetable": {
+     "leafy": [
+      "ssamjang",
+      "sesame oil and salt",
+      "doenjang-based dressing"
+     ],
+     "root": [
+      "chogochujang",
+      "yangnyeom sauce",
+      "doenjang-based"
+     ],
+     "mushroom": [
+      "bulgogi sauce",
+      "sesame oil",
+      "doenjang soup base"
+     ],
+     "fermented": [
+      "gochujang-based dressing",
+      "garlic soy",
+      "chili oil"
+     ],
+     "freshCrunch": [
+      "gochujang vinaigrette",
+      "chogochujang",
+      "sesame dressing"
+     ]
+    },
+    "forCookingMethod": {
+     "grilling": [
+      "ssamjang",
+      "gochujang glaze",
+      "doenjang marinade",
+      "bulgogi sauce"
+     ],
+     "stewing": [
+      "doenjang jjigae base",
+      "kimchi jjigae base",
+      "sundubu base"
+     ],
+     "steaming": [
+      "sesame oil dipping sauce",
+      "vinegar soy",
+      "chili oil"
+     ],
+     "panFrying": [
+      "yangnyeom sauce",
+      "ganjang-based",
+      "sweet soy glaze"
+     ],
+     "raw": [
+      "chogochujang",
+      "sesame oil and salt",
+      "gojuchang vinaigrette"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "hot gochujang sauce",
+      "spicy tteokbokki sauce",
+      "chili oil",
+      "yangnyeom sauce",
+      "maewoon sauce"
+     ],
+     "Earth": [
+      "doenjang",
+      "aged ganjang",
+      "fermented bean paste sauces",
+      "perilla oil",
+      "wild sesame sauce"
+     ],
+     "Air": [
+      "vinegar-based sauces",
+      "citrus soy",
+      "light sesame dressings",
+      "yuzu dressing",
+      "tangerine soy"
+     ],
+     "Water": [
+      "clear soups",
+      "mild doenjang",
+      "anchovy broth bases",
+      "seaweed-infused dipping sauce",
+      "jeotgal sauce"
+     ]
+    },
+    "byDietary": {
+     "vegan": [
+      "doenjang",
+      "gochujang",
+      "ganjang",
+      "sesame-based sauces",
+      "mushroom-based sauces"
+     ],
+     "vegetarian": [
+      "doenjang",
+      "gochujang",
+      "vegetable-based sauces",
+      "herb-infused oils",
+      "perilla seed sauce"
+     ],
+     "glutenFree": [
+      "rice-based sauces",
+      "pure gochujang",
+      "traditional doenjang",
+      "sesame oil blends",
+      "citrus dressings"
+     ],
+     "dairyFree": [
+      "most traditional Korean sauces",
+      "vinegar-based dips",
+      "chili oils",
+      "sesame dressings",
+      "fruit reductions"
+     ],
+     "lowCarb": [
+      "sesame oil dressings",
+      "vinegar soy dips",
+      "garlic chili oil",
+      "perilla oil",
+      "citrus-infused oils"
+     ]
+    },
+    "byRegion": {
+     "seoul": [
+      "balanced sweetness",
+      "refined doenjang",
+      "mild heat",
+      "bulgogi sauce",
+      "modern fusion sauces"
+     ],
+     "jeonju": [
+      "rich ganjang",
+      "artisanal doenjang",
+      "complex fermented flavors",
+      "bibimbap sauce",
+      "traditional herb oils"
+     ],
+     "busan": [
+      "seafood-focused sauces",
+      "spicier profiles",
+      "anchovy-based",
+      "haemul broth",
+      "dried fish sauces"
+     ],
+     "jeju": [
+      "citrus notes",
+      "fresh seafood pairings",
+      "lighter preparations",
+      "hallabong dressing",
+      "black pork marinades"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "seoul",
+     "name": "Seoul (Capital) Cuisine",
+     "description": "Refined, royal-influenced cuisine with balanced flavors",
+     "signature": [
+      "royal court dishes",
+      "japchae",
+      "bulgogi",
+      "refined banchan"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0.4,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "jeonju",
+     "name": "Jeonju (Southwest) Cuisine",
+     "description": "Known as Korea's food capital, with emphasis on quality ingredients and tradition",
+     "signature": [
+      "bibimbap",
+      "kongnamul gukbap",
+      "makgeolli",
+      "traditional banchan"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.5,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "gyeongsang",
+     "name": "Gyeongsang (Southeast) Cuisine",
+     "description": "Bold, spicy flavors with substantial seafood influence",
+     "signature": [
+      "dwaeji gukbap",
+      "milmyeon",
+      "agujjim",
+      "spicy seafood soups"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.3,
+      "Earth": 0.2,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "jeju",
+     "name": "Jeju Island Cuisine",
+     "description": "Unique island cuisine with distinctive ingredients like black pork and abalone",
+     "signature": [
+      "black pork",
+      "haemul dishes",
+      "abalone porridge",
+      "hallabong citrus"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.5,
+      "Earth": 0.2,
+      "Air": 0.2
+     }
+    }
+   ],
+   "astrologicalInfluences": []
+  },
+  "Mexican": {
+   "id": "mexican",
+   "name": "Mexican",
+   "description": "Vibrant flavors with a focus on chilies, corn, and traditional salsas.",
+   "elementalProperties": {
+    "Fire": 0.2675,
+    "Water": 0.3111,
+    "Earth": 0.312,
+    "Air": 0.1094
+   },
+   "motherSauces": {},
+   "traditionalSauces": {
+    "mole": {
+     "name": "Mole",
+     "description": "Complex sauce combining chiles, spices, nuts, and chocolate",
+     "base": "dried chiles and toasted ingredients",
+     "keyIngredients": [
+      "dried chiles",
+      "chocolate",
+      "nuts",
+      "spices",
+      "bread or tortillas"
+     ],
+     "culinaryUses": [
+      "sauce for poultry",
+      "special occasion dishes",
+      "enchilada topping",
+      "flavor base"
+     ],
+     "variants": [
+      "Mole Poblano",
+      "Mole Negro",
+      "Mole Verde",
+      "Mole Amarillo",
+      "Mole Coloradito"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.2,
+      "Earth": 0.4,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "pluto",
+      "mars",
+      "scorpio"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditionally prepared over multiple days for celebrations and special occasions",
+     "technicalTips": "Toast ingredients separately to develop maximum flavor complexity"
+    },
+    "salsaVerde": {
+     "name": "Salsa Verde",
+     "description": "Tangy green sauce made from tomatillos, chiles, and herbs",
+     "base": "tomatillo",
+     "keyIngredients": [
+      "tomatillos",
+      "serrano chiles",
+      "cilantro",
+      "onion",
+      "garlic"
+     ],
+     "culinaryUses": [
+      "taco topping",
+      "enchilada sauce",
+      "marinade",
+      "flavor enhancer"
+     ],
+     "variants": [
+      "Cruda (raw)",
+      "Cocida (cooked)",
+      "Asada (roasted)",
+      "Cremosa (creamy with avocado)"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.4,
+      "Earth": 0.1,
+      "Air": 0.2
+     },
+     "astrologicalInfluences": [
+      "venus",
+      "mercury",
+      "gemini"
+     ],
+     "seasonality": "spring, summer",
+     "preparationNotes": "Can be served raw or cooked depending on desired flavor profile",
+     "technicalTips": "Roasting ingredients before blending adds smoky depth"
+    },
+    "salsaRoja": {
+     "name": "Salsa Roja",
+     "description": "Rich red sauce made from tomatoes and dried chiles",
+     "base": "tomato and dried chiles",
+     "keyIngredients": [
+      "tomatoes",
+      "dried chiles",
+      "garlic",
+      "onion",
+      "cumin"
+     ],
+     "culinaryUses": [
+      "taco dressing",
+      "enchilada sauce",
+      "flavor base",
+      "marinade"
+     ],
+     "variants": [
+      "Asada (roasted)",
+      "Cruda (raw)",
+      "Molcajeteada (stone-ground)",
+      "Chile de Árbol"
+     ],
+     "elementalProperties": {
+      "Fire": 0.5,
+      "Water": 0.1,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "mars",
+      "sun",
+      "aries"
+     ],
+     "seasonality": "summer, autumn",
+     "preparationNotes": "Most traditional version uses dried chiles rehydrated and blended with tomatoes",
+     "technicalTips": "Straining after blending creates a smoother texture"
+    },
+    "adobo": {
+     "name": "Adobo",
+     "description": "Chile-based marinade with vinegar and spices",
+     "base": "dried chiles and vinegar",
+     "keyIngredients": [
+      "guajillo chiles",
+      "ancho chiles",
+      "vinegar",
+      "oregano",
+      "cumin",
+      "garlic"
+     ],
+     "culinaryUses": [
+      "meat marinade",
+      "flavor base",
+      "preservation method",
+      "stew seasoning"
+     ],
+     "variants": [
+      "Rojo (red)",
+      "Norteño (northern style)",
+      "Húmedo (wet)",
+      "Seco (dry rub)"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.1,
+      "Earth": 0.2,
+      "Air": 0.3
+     },
+     "astrologicalInfluences": [
+      "mars",
+      "mercury",
+      "sagittarius"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Originally used as a preservation technique, now primarily for flavor",
+     "technicalTips": "Longer marinating creates deeper flavor, but can break down delicate proteins"
+    },
+    "pipian": {
+     "name": "Pipián",
+     "description": "Pre-Hispanic sauce based on ground pumpkin seeds",
+     "base": "pumpkin seeds",
+     "keyIngredients": [
+      "pepitas (pumpkin seeds)",
+      "tomatillos",
+      "chiles",
+      "spices",
+      "herbs"
+     ],
+     "culinaryUses": [
+      "sauce for poultry",
+      "vegetable topping",
+      "enchilada sauce",
+      "special dishes"
+     ],
+     "variants": [
+      "Verde (green)",
+      "Rojo (red)",
+      "Oaxaqueño (Oaxacan style)",
+      "Blanco (white)"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.2,
+      "Earth": 0.5,
+      "Air": 0.2
+     },
+     "astrologicalInfluences": [
+      "saturn",
+      "moon",
+      "capricorn"
+     ],
+     "seasonality": "autumn, winter",
+     "preparationNotes": "Pre-Hispanic sauce that predates European influence in Mexican cuisine",
+     "technicalTips": "Toast seeds until fragrant but not burnt for optimal flavor"
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "chicken": [
+      "mole poblano",
+      "pipián verde",
+      "salsa verde",
+      "adobo",
+      "tinga sauce"
+     ],
+     "beef": [
+      "salsa roja",
+      "chile colorado",
+      "adobo",
+      "salsa macha",
+      "borracha sauce"
+     ],
+     "pork": [
+      "adobada",
+      "salsa verde",
+      "recado negro",
+      "achiote paste",
+      "pibil marinade"
+     ],
+     "seafood": [
+      "salsa veracruzana",
+      "salsa verde cruda",
+      "mojo de ajo",
+      "salsa diabla",
+      "aguachile dressing"
+     ],
+     "vegetables": [
+      "pipián",
+      "salsa ranchera",
+      "mole verde",
+      "chipotle cream",
+      "salsa de semillas"
+     ]
+    },
+    "forVegetable": {
+     "root": [
+      "mole colorado",
+      "pipián",
+      "chile colorado",
+      "adobo",
+      "salsa macha"
+     ],
+     "leafy": [
+      "salsa verde",
+      "pepita dressing",
+      "avocado crema",
+      "lime dressing",
+      "cilantro sauce"
+     ],
+     "squash": [
+      "mole amarillo",
+      "pipián",
+      "salsa de pepitas",
+      "chipotle butter",
+      "crema poblana"
+     ],
+     "cactus": [
+      "salsa cruda",
+      "chile lime dressing",
+      "salsa mexicana",
+      "adobo",
+      "tomatillo dressing"
+     ],
+     "corn": [
+      "crema mexicana",
+      "chile lime butter",
+      "cotija cream",
+      "salsa macha",
+      "epazote butter"
+     ]
+    },
+    "forCookingMethod": {
+     "grilling": [
+      "salsa roja asada",
+      "chimichurri mexicano",
+      "adobo",
+      "mojo de ajo",
+      "salsa borracha"
+     ],
+     "simmering": [
+      "mole",
+      "tinga sauce",
+      "chile colorado",
+      "salsa verde cocida",
+      "guisado base"
+     ],
+     "frying": [
+      "salsa mexicana",
+      "chipotle mayonnaise",
+      "crema ácida",
+      "valentina cream",
+      "habanero sauce"
+     ],
+     "steaming": [
+      "salsa verde",
+      "chimichurri",
+      "lime-cilantro sauce",
+      "salsa marisquera",
+      "mojo de ajo"
+     ],
+     "raw": [
+      "aguachile",
+      "leche de tigre mexicana",
+      "salsa bandera",
+      "pico de gallo",
+      "salsa cruda"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "salsa macha",
+      "habanero-based sauces",
+      "chile de árbol salsa",
+      "adobo picante",
+      "chipotle salsas"
+     ],
+     "Earth": [
+      "mole poblano",
+      "pipián",
+      "salsa de cacahuate",
+      "recado negro",
+      "adobo seco"
+     ],
+     "Water": [
+      "aguachile",
+      "salsa verde",
+      "avocado crema",
+      "salsa veracruzana",
+      "mole verde"
+     ],
+     "Air": [
+      "pico de gallo",
+      "salsa bandera",
+      "lime-cilantro dressing",
+      "chimichurri mexicano",
+      "citrus salsas"
+     ]
+    },
+    "byDietary": {
+     "vegetarian": [
+      "salsa verde",
+      "guacamole",
+      "pico de gallo",
+      "pipián verde",
+      "mole verde"
+     ],
+     "vegan": [
+      "salsa roja",
+      "salsa cruda",
+      "salsa macha",
+      "chimichurri mexicano",
+      "salsa bandera"
+     ],
+     "glutenFree": [
+      "all traditional salsas",
+      "mojo de ajo",
+      "salsa macha",
+      "adobo",
+      "aguachile"
+     ],
+     "dairyFree": [
+      "salsa verde",
+      "salsa roja",
+      "pico de gallo",
+      "salsa macha",
+      "mole negro"
+     ]
+    },
+    "byRegion": {
+     "oaxaca": [
+      "mole negro",
+      "mole coloradito",
+      "salsa de chicatana",
+      "chile pasilla mixe",
+      "chilhuacle sauce"
+     ],
+     "yucatan": [
+      "recado rojo",
+      "xnipec",
+      "chiltomate",
+      "habanero salsas",
+      "recado negro"
+     ],
+     "north": [
+      "salsa roja norteña",
+      "machaca sauce",
+      "chile colorado",
+      "chimichurri norteño",
+      "salsa tatemada"
+     ],
+     "centralMexico": [
+      "borracha sauce",
+      "salsa de pulque",
+      "adobo de Toluca",
+      "mole verde",
+      "salsa ranchera"
+     ],
+     "pacific": [
+      "salsa huichol",
+      "chamoy",
+      "salsa negra",
+      "salsa de mariscos",
+      "aguachile"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "oaxaca",
+     "name": "Oaxacan Cuisine",
+     "description": "Known as the 'land of seven moles' with rich indigenous culinary traditions",
+     "signature": [
+      "mole negro",
+      "tlayudas",
+      "chapulines",
+      "quesillo",
+      "tamales oaxaqueños"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.5,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "yucatan",
+     "name": "Yucatecan Cuisine",
+     "description": "Maya-influenced cuisine with distinctive achiote and citrus flavors",
+     "signature": [
+      "cochinita pibil",
+      "papadzules",
+      "sopa de lima",
+      "poc chuc",
+      "panuchos"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.4,
+      "Earth": 0.3,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "northern",
+     "name": "Northern Cuisine",
+     "description": "Meat-focused cuisine with flour tortillas and grilled specialties",
+     "signature": [
+      "carne asada",
+      "machaca",
+      "flour tortillas",
+      "chihuahua cheese",
+      "burritos"
+     ],
+     "elementalProperties": {
+      "Fire": 0.5,
+      "Water": 0.1,
+      "Earth": 0.3,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "centralMexico",
+     "name": "Central Mexican Cuisine",
+     "description": "Home to Mexico City with ancient Aztec influences and modern street food",
+     "signature": [
+      "tacos al pastor",
+      "pozole",
+      "chiles en nogada",
+      "mole poblano",
+      "street corn"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.2,
+      "Earth": 0.4,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "pacific",
+     "name": "Pacific Coast Cuisine",
+     "description": "Seafood-forward cuisine with tropical fruits and fresh preparations",
+     "signature": [
+      "pescado a la talla",
+      "aguachile",
+      "ceviche",
+      "zarandeado",
+      "camarones"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.5,
+      "Earth": 0.1,
+      "Air": 0.2
+     }
+    }
+   ],
+   "astrologicalInfluences": []
+  },
+  "Middle Eastern": {
+   "id": "middle-eastern",
+   "name": "Middle Eastern",
+   "description": "Aromatic spices, grains, and grilled meats with fresh vegetable salads.",
+   "elementalProperties": {
+    "Fire": 0.2857,
+    "Water": 0.2526,
+    "Earth": 0.3628,
+    "Air": 0.0989
+   },
+   "motherSauces": {},
+   "traditionalSauces": {
+    "tahini": {
+     "name": "Tahini",
+     "description": "Creamy sesame seed paste used as a base for many Middle Eastern sauces",
+     "base": "sesame seeds",
+     "keyIngredients": [
+      "hulled sesame seeds",
+      "neutral oil",
+      "salt"
+     ],
+     "culinaryUses": [
+      "sauce base",
+      "dressing",
+      "dip",
+      "condiment",
+      "dessert ingredient"
+     ],
+     "variants": [
+      "Light tahini",
+      "Dark tahini",
+      "Whole seed tahini",
+      "Lebanese-style",
+      "Sweet tahini"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.2,
+      "Earth": 0.5,
+      "Air": 0.2
+     },
+     "astrologicalInfluences": [
+      "Venus",
+      "Moon",
+      "taurus"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditionally ground with stone mills to preserve flavor and nutrients",
+     "technicalTips": "Stir well before using as natural separation occurs. Add water slowly when thinning"
+    },
+    "hummus": {
+     "name": "Hummus",
+     "description": "Creamy chickpea dip with tahini, garlic, and lemon",
+     "base": "chickpeas and tahini",
+     "keyIngredients": [
+      "chickpeas",
+      "tahini",
+      "garlic",
+      "lemon juice",
+      "olive oil"
+     ],
+     "culinaryUses": [
+      "dip",
+      "spread",
+      "sandwich filling",
+      "appetizer",
+      "mezze component"
+     ],
+     "variants": [
+      "Classic",
+      "With pine nuts",
+      "With roasted peppers",
+      "Musabaha (chunky)",
+      "Ful-hummus (with fava beans)"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.3,
+      "Earth": 0.4,
+      "Air": 0.2
+     },
+     "astrologicalInfluences": [
+      "Jupiter",
+      "Mercury",
+      "virgo"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Each region claims to make the most authentic version. Texture can range from rustic to silky smooth",
+     "technicalTips": "Cook chickpeas with baking soda to help break down skins for smoother texture"
+    },
+    "zaatar": {
+     "name": "Za'atar Oil",
+     "description": "Herb and sesame blend mixed with olive oil for dipping and spreading",
+     "base": "dried herbs and sesame",
+     "keyIngredients": [
+      "thyme",
+      "oregano",
+      "marjoram",
+      "sumac",
+      "sesame seeds",
+      "olive oil",
+      "salt"
+     ],
+     "culinaryUses": [
+      "bread dipping",
+      "marinade",
+      "topping",
+      "seasoning",
+      "flavor enhancer"
+     ],
+     "variants": [
+      "Lebanese",
+      "Palestinian",
+      "Jordanian",
+      "Syrian",
+      "Israeli"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.1,
+      "Earth": 0.3,
+      "Air": 0.4
+     },
+     "astrologicalInfluences": [
+      "Mercury",
+      "Venus",
+      "gemini"
+     ],
+     "seasonality": "all, with fresh variations in spring",
+     "preparationNotes": "Family recipes are closely guarded secrets, with regional variations in proportions",
+     "technicalTips": "Mix with high-quality olive oil just before serving to preserve aromatics"
+    },
+    "harissa": {
+     "name": "Harissa",
+     "description": "Hot chile paste with garlic, spices, and olive oil",
+     "base": "dried chiles",
+     "keyIngredients": [
+      "dried chiles",
+      "garlic",
+      "coriander",
+      "cumin",
+      "caraway",
+      "olive oil"
+     ],
+     "culinaryUses": [
+      "condiment",
+      "marinade",
+      "flavor base",
+      "sauce enhancer",
+      "stew ingredient"
+     ],
+     "variants": [
+      "Rose harissa",
+      "Mild harissa",
+      "Tunisian",
+      "Moroccan",
+      "Algerian"
+     ],
+     "elementalProperties": {
+      "Fire": 0.6,
+      "Water": 0.1,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun",
+      "aries"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditional preservation technique for chiles in North African cuisine",
+     "technicalTips": "A little goes a long way. Store with a layer of olive oil on top to preserve freshness"
+    },
+    "toum": {
+     "name": "Toum",
+     "description": "Intense garlic sauce with an airy, creamy texture",
+     "base": "garlic and oil",
+     "keyIngredients": [
+      "garlic",
+      "neutral oil",
+      "lemon juice",
+      "salt"
+     ],
+     "culinaryUses": [
+      "grilled meat accompaniment",
+      "sandwich spread",
+      "dip",
+      "marinade base"
+     ],
+     "variants": [
+      "Lebanese",
+      "Syrian",
+      "Traditional (egg-free)",
+      "Modern (with egg white)",
+      "Mint-infused"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.2,
+      "Earth": 0.1,
+      "Air": 0.4
+     },
+     "astrologicalInfluences": [
+      "Mercury",
+      "Mars",
+      "gemini"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditionally made by hand pounding in a mortar and pestle until emulsified",
+     "technicalTips": "Slow oil incorporation is essential for proper emulsification and fluffy texture"
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "lamb": [
+      "yogurt-mint sauce",
+      "pomegranate molasses",
+      "tahini sauce",
+      "harissa",
+      "baharat marinade"
+     ],
+     "chicken": [
+      "toum",
+      "sumac-onion sauce",
+      "tarator",
+      "amba",
+      "preserved lemon dressing"
+     ],
+     "beef": [
+      "tahini sauce",
+      "Turkish pepper paste",
+      "harissa",
+      "chermoula",
+      "cumin-chili oil"
+     ],
+     "seafood": [
+      "chermoula",
+      "tahini-lemon",
+      "harissa-yogurt",
+      "saffron-citrus",
+      "sesame-herb oil"
+     ],
+     "vegetarian": [
+      "tahini sauce",
+      "pomegranate molasses",
+      "garlic-yogurt",
+      "zhug",
+      "spiced tomato"
+     ]
+    },
+    "forVegetable": {
+     "root": [
+      "tahini sauce",
+      "beet-tahini",
+      "ras el hanout oil",
+      "harissa",
+      "preserved lemon dressing"
+     ],
+     "leafy": [
+      "sumac-onion dressing",
+      "pomegranate vinaigrette",
+      "lemon-garlic",
+      "za'atar oil",
+      "tahini-yogurt"
+     ],
+     "eggplant": [
+      "pomegranate molasses",
+      "tahini sauce",
+      "garlic-yogurt",
+      "tomato charmoula",
+      "mint oil"
+     ],
+     "legume": [
+      "tahini sauce",
+      "cumin-garlic oil",
+      "lemon-parsley",
+      "olive-herb dressing",
+      "harissa oil"
+     ],
+     "grain": [
+      "saffron butter",
+      "olive-herb oil",
+      "pomegranate reduction",
+      "tahini",
+      "preserved lemon"
+     ]
+    },
+    "forCookingMethod": {
+     "grilling": [
+      "toum",
+      "harissa",
+      "chermoula",
+      "sumac-onion",
+      "zhug"
+     ],
+     "baking": [
+      "za'atar oil",
+      "sesame paste",
+      "pomegranate glaze",
+      "rose water syrup",
+      "orange blossom honey"
+     ],
+     "stewing": [
+      "baharat sauce",
+      "ras el hanout",
+      "saffron-tomato",
+      "preserved lemon",
+      "tamarind"
+     ],
+     "frying": [
+      "tahini sauce",
+      "garlic-yogurt",
+      "lemon-herb",
+      "tomato ezme",
+      "tahini-yogurt"
+     ],
+     "raw": [
+      "olive oil-lemon",
+      "herb-garlic",
+      "sumac dressing",
+      "pomegranate vinaigrette",
+      "tahini-citrus"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "harissa",
+      "zhug",
+      "chermoula",
+      "hot pepper paste",
+      "garlic-chili oil"
+     ],
+     "Earth": [
+      "tahini",
+      "hummus",
+      "baba ganoush",
+      "walnut-pomegranate",
+      "chickpea-olive"
+     ],
+     "Water": [
+      "yogurt sauces",
+      "tarator",
+      "cucumber-mint",
+      "lemon-herb",
+      "rosewater-honey"
+     ],
+     "Air": [
+      "za'atar oil",
+      "herb-infused oils",
+      "citrus dressings",
+      "sumac-onion",
+      "mint-lemon"
+     ]
+    },
+    "byDietary": {
+     "vegetarian": [
+      "tahini sauce",
+      "yogurt-based sauces",
+      "herb oils",
+      "pomegranate molasses",
+      "za'atar oil"
+     ],
+     "vegan": [
+      "tahini sauce",
+      "harissa",
+      "chermoula",
+      "herb oils",
+      "pomegranate molasses"
+     ],
+     "glutenFree": [
+      "tahini sauce",
+      "harissa",
+      "chermoula",
+      "yogurt-based sauces",
+      "herb oils"
+     ],
+     "dairyFree": [
+      "tahini sauce",
+      "pomegranate molasses",
+      "herb oils",
+      "chermoula",
+      "zhug"
+     ]
+    },
+    "byRegion": {
+     "levant": [
+      "tahini sauce",
+      "toum",
+      "za'atar oil",
+      "yogurt-cucumber",
+      "pomegranate molasses"
+     ],
+     "northAfrica": [
+      "harissa",
+      "chermoula",
+      "preserved lemon paste",
+      "ras el hanout oil",
+      "caraway seed sauce"
+     ],
+     "persian": [
+      "walnut-pomegranate",
+      "saffron-lime",
+      "herb-yogurt",
+      "barberry sauce",
+      "dried lime dressing"
+     ],
+     "arabian": [
+      "date syrup",
+      "tamarind sauce",
+      "cardamom-rosewater",
+      "baharat oil",
+      "saffron-honey"
+     ],
+     "turkish": [
+      "red pepper paste",
+      "yogurt-garlic",
+      "isot butter",
+      "pomegranate",
+      "sumac-onion"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "levantine",
+     "name": "Levantine Cuisine",
+     "description": "Cuisine of the Eastern Mediterranean coast, featuring olive oil, herbs, and za'atar",
+     "signature": [
+      "mezze",
+      "kibbeh",
+      "tabbouleh",
+      "manakish",
+      "knafeh"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.4,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "persian",
+     "name": "Persian Cuisine",
+     "description": "Ancient Iranian culinary tradition with complex rice dishes and delicate use of herbs and fruits",
+     "signature": [
+      "tahdig",
+      "fesenjan",
+      "jeweled rice",
+      "koresh",
+      "barbari bread"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.3,
+      "Air": 0.3
+     }
+    },
+    {
+     "key": "northAfrican",
+     "name": "North African Cuisine",
+     "description": "Bold, spicy flavors with influences from Berber, Arab, Mediterranean, and Sub-Saharan traditions",
+     "signature": [
+      "couscous",
+      "tagine",
+      "harissa",
+      "merguez",
+      "pastilla"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.1,
+      "Earth": 0.3,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "arabian",
+     "name": "Arabian Peninsula Cuisine",
+     "description": "Desert-adapted cuisine with dates, rice, camel products, and distinctive spice blends",
+     "signature": [
+      "kabsa",
+      "harees",
+      "mandi",
+      "margoog",
+      "dates with camel milk"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.1,
+      "Earth": 0.4,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "turkish",
+     "name": "Turkish-Influenced Cuisine",
+     "description": "Ottoman culinary legacy with layered flavors, yogurt, and regional variations",
+     "signature": [
+      "lahmacun",
+      "pide",
+      "gözleme",
+      "imam bayildi",
+      "künefe"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0.3,
+      "Air": 0.2
+     }
+    }
+   ],
+   "astrologicalInfluences": []
+  },
+  "Russian": {
+   "id": "russian",
+   "name": "Russian",
+   "description": "Hearty soups, grains, and preserved foods suitable for cold climates.",
+   "elementalProperties": {
+    "Fire": 0.1833,
+    "Water": 0.3526,
+    "Earth": 0.3436,
+    "Air": 0.1205
+   },
+   "motherSauces": {},
+   "traditionalSauces": {
+    "smetana": {
+     "name": "Smetana",
+     "description": "Cultured sour cream with rich texture and tangy flavor",
+     "base": "milk fat",
+     "keyIngredients": [
+      "cream",
+      "bacterial culture"
+     ],
+     "culinaryUses": [
+      "soup topping",
+      "sauce base",
+      "baking ingredient",
+      "dressing",
+      "dollop on savory dishes"
+     ],
+     "variants": [
+      "Homestyle thick",
+      "Commercial lighter",
+      "Reduced fat",
+      "Infused with herbs",
+      "Fermented longer"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.4,
+      "Earth": 0.3,
+      "Air": 0.2
+     },
+     "astrologicalInfluences": [
+      "Moon",
+      "Venus",
+      "Cancer"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditionally fermented at room temperature for 24-48 hours to develop flavor and texture",
+     "technicalTips": "Use as a finishing touch, adding after cooking to preserve its probiotic properties"
+    },
+    "adjika": {
+     "name": "Adjika",
+     "description": "Spicy pepper and herb paste from the Caucasus region",
+     "base": "hot peppers",
+     "keyIngredients": [
+      "red peppers",
+      "garlic",
+      "herbs",
+      "salt",
+      "walnuts"
+     ],
+     "culinaryUses": [
+      "meat marinade",
+      "flavor enhancer",
+      "bread spread",
+      "vegetable seasoning",
+      "stew base"
+     ],
+     "variants": [
+      "Abkhazian",
+      "Georgian",
+      "Russian style",
+      "Green adjika",
+      "Preserved version"
+     ],
+     "elementalProperties": {
+      "Fire": 0.6,
+      "Water": 0.1,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun",
+      "Aries"
+     ],
+     "seasonality": "summer preparation, year-round use",
+     "preparationNotes": "Traditionally ground with stone mortar and pestle, then fermented in clay pots",
+     "technicalTips": "Can be used raw or cooked intensity mellows with cooking"
+    },
+    "khrenovina": {
+     "name": "Khrenovina",
+     "description": "Fiery horseradish and tomato sauce",
+     "base": "horseradish root",
+     "keyIngredients": [
+      "horseradish",
+      "tomatoes",
+      "garlic",
+      "salt",
+      "sugar"
+     ],
+     "culinaryUses": [
+      "cold meat accompaniment",
+      "sandwich spread",
+      "appetizer dip",
+      "zakuski component",
+      "sauce for fatty foods"
+     ],
+     "variants": [
+      "Siberian",
+      "With beets",
+      "Extra hot",
+      "Tomato-forward",
+      "With apples"
+     ],
+     "elementalProperties": {
+      "Fire": 0.5,
+      "Water": 0.2,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Saturn",
+      "Scorpio"
+     ],
+     "seasonality": "made in autumn, consumed year-round",
+     "preparationNotes": "Often prepared during harvest season when horseradish is at its most pungent",
+     "technicalTips": "Grate horseradish in well-ventilated area or underwater to prevent eye irritation"
+    },
+    "gribnoj_soys": {
+     "name": "Gribnoj Sous",
+     "description": "Rich mushroom sauce with sour cream base",
+     "base": "mushrooms",
+     "keyIngredients": [
+      "forest mushrooms",
+      "onions",
+      "butter",
+      "flour",
+      "sour cream"
+     ],
+     "culinaryUses": [
+      "potato topping",
+      "meat sauce",
+      "dumpling accompaniment",
+      "grain topping",
+      "casserole base"
+     ],
+     "variants": [
+      "Wild mushroom",
+      "White mushroom",
+      "Creamy",
+      "Clear stock version",
+      "With wine"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.3,
+      "Earth": 0.5,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Saturn",
+      "Neptune",
+      "Virgo"
+     ],
+     "seasonality": "autumn mushroom harvest, preserved for year-round use",
+     "preparationNotes": "Traditionally made with foraged wild mushrooms dried mushrooms are reconstituted in winter",
+     "technicalTips": "Brown mushrooms thoroughly to develop full umami flavor before adding liquids"
+    },
+    "ikra": {
+     "name": "Ikra Baklazhanaya",
+     "description": "Smoky eggplant caviar spread",
+     "base": "eggplant",
+     "keyIngredients": [
+      "eggplants",
+      "tomatoes",
+      "onions",
+      "carrots",
+      "garlic",
+      "herbs"
+     ],
+     "culinaryUses": [
+      "bread spread",
+      "appetizer",
+      "side dish",
+      "filling",
+      "vegetable topping"
+     ],
+     "variants": [
+      "Odessa style",
+      "Smoky style",
+      "With peppers",
+      "Chunky rustic",
+      "Smooth pureed"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.2,
+      "Earth": 0.4,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Venus",
+      "Mars",
+      "Taurus"
+     ],
+     "seasonality": "summer preparation, preserved for winter use",
+     "preparationNotes": "Traditional preparation involves roasting eggplants over open flame for smoky flavor",
+     "technicalTips": "Let flavors marry overnight for best taste, serve at room temperature"
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "beef": [
+      "gribnoj sous",
+      "smetana with dill",
+      "mustard sauce",
+      "horseradish",
+      "black pepper sauce"
+     ],
+     "pork": [
+      "mustard sauce",
+      "prune sauce",
+      "apple-horseradish",
+      "sour cherry sauce",
+      "garlic sauce"
+     ],
+     "poultry": [
+      "sour cream sauce",
+      "mushroom sauce",
+      "cranberry sauce",
+      "adjika marinade",
+      "garlic butter"
+     ],
+     "fish": [
+      "ukha reduction",
+      "sorrel sauce",
+      "smetana with chives",
+      "mustard-dill",
+      "white wine sauce"
+     ],
+     "game": [
+      "lingonberry sauce",
+      "juniper sauce",
+      "sour cream with mushrooms",
+      "blackcurrant sauce",
+      "adjika"
+     ]
+    },
+    "forVegetable": {
+     "root": [
+      "smetana",
+      "brown butter",
+      "dill sauce",
+      "mushroom gravy",
+      "beet sauce"
+     ],
+     "leafy": [
+      "smetana-garlic",
+      "sunflower oil dressing",
+      "mustard vinaigrette",
+      "kvas reduction",
+      "sour cream with herbs"
+     ],
+     "mushroom": [
+      "sour cream",
+      "garlic butter",
+      "dill sauce",
+      "wine reduction",
+      "walnut oil"
+     ],
+     "pickled": [
+      "honey drizzle",
+      "sunflower oil",
+      "mustard sauce",
+      "smetana",
+      "herb oil"
+     ],
+     "preserved": [
+      "horseradish cream",
+      "mustard sauce",
+      "herb oil",
+      "garlic sauce",
+      "sour cream"
+     ]
+    },
+    "forCookingMethod": {
+     "baking": [
+      "smetana glaze",
+      "egg wash",
+      "honey glaze",
+      "mushroom sauce",
+      "garlic butter"
+     ],
+     "boiling": [
+      "butter with herbs",
+      "sour cream",
+      "mustard sauce",
+      "vinegar reduction",
+      "horseradish cream"
+     ],
+     "frying": [
+      "mushroom sauce",
+      "garlic sauce",
+      "adjika",
+      "sour cream",
+      "berry sauce"
+     ],
+     "stewing": [
+      "broth reduction",
+      "sour cream finish",
+      "dill sauce",
+      "wine sauce",
+      "tomato-pepper sauce"
+     ],
+     "smoking": [
+      "horseradish cream",
+      "mustard sauce",
+      "lingonberry sauce",
+      "kvas reduction",
+      "sour pickle sauce"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "adjika",
+      "hot mustard",
+      "pepper sauce",
+      "horseradish cream",
+      "spicy tomato"
+     ],
+     "Earth": [
+      "mushroom sauce",
+      "potato sauce",
+      "beet sauce",
+      "dill-sour cream",
+      "cabbage sauce"
+     ],
+     "Water": [
+      "fish sauce",
+      "sorrel sauce",
+      "sour cream",
+      "kvass sauce",
+      "berry sauce"
+     ],
+     "Air": [
+      "light herb oils",
+      "vinaigrettes",
+      "whipped smetana",
+      "honey-herb dressing",
+      "berry vinegar"
+     ]
+    },
+    "byDietary": {
+     "vegetarian": [
+      "mushroom sauce",
+      "berry sauce",
+      "herb oil",
+      "smetana",
+      "vegetable reductions"
+     ],
+     "vegan": [
+      "herb oil",
+      "berry sauce",
+      "kvass reduction",
+      "mushroom broth",
+      "vegetable purees"
+     ],
+     "glutenFree": [
+      "smetana",
+      "herb butter",
+      "berry sauce",
+      "vegetable purees",
+      "nut-based sauces"
+     ],
+     "dairyFree": [
+      "herb oil",
+      "vegetable broth",
+      "berry reduction",
+      "kvass sauce",
+      "tomato-based sauce"
+     ]
+    },
+    "byRegion": {
+     "northern": [
+      "mushroom sauce",
+      "fish broth",
+      "berry sauce",
+      "herb butter",
+      "sour milk sauce"
+     ],
+     "southern": [
+      "adjika",
+      "tomato sauces",
+      "garlic sauce",
+      "herb oils",
+      "fruit compotes"
+     ],
+     "siberian": [
+      "pine nut sauce",
+      "game reductions",
+      "sea buckthorn sauce",
+      "wild herb oil",
+      "cedar infusions"
+     ],
+     "ural": [
+      "mushroom gravy",
+      "root vegetable sauce",
+      "black pepper sauce",
+      "honey-herb",
+      "berry reductions"
+     ],
+     "volga": [
+      "fish sauce",
+      "mustard sauce",
+      "sour cream",
+      "dill sauce",
+      "horseradish cream"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "northern",
+     "name": "Northern Russian Cuisine",
+     "description": "Fish-forward cuisine with berries, mushrooms, and hearty grains adapted to cold climate",
+     "signature": [
+      "ukha",
+      "pies with fish",
+      "lingonberry dishes",
+      "mushroom preparations",
+      "grain porridges"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.4,
+      "Earth": 0.3,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "central",
+     "name": "Central Russian Cuisine",
+     "description": "Classic Russian dishes with simple ingredients and traditional cooking methods",
+     "signature": [
+      "shchi",
+      "kasha",
+      "olivier salad",
+      "kotlety",
+      "black bread"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.5,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "siberian",
+     "name": "Siberian Cuisine",
+     "description": "Hearty, calorie-rich food designed for extreme cold, featuring game and wild plants",
+     "signature": [
+      "pelmeni",
+      "stroganina",
+      "cedar nuts",
+      "game meats",
+      "fish pie"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0.4,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "caucasian",
+     "name": "Caucasian-Influenced Russian Cuisine",
+     "description": "Southern Russian cooking with strong influences from Georgia, Armenia, and Azerbaijan",
+     "signature": [
+      "shashlik",
+      "adjika",
+      "khachapuri adaptations",
+      "herb-forward dishes",
+      "fruit preserves"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.1,
+      "Earth": 0.3,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "volga",
+     "name": "Volga Region Cuisine",
+     "description": "Diverse cuisine reflecting the multicultural Volga river basin with Tatar influences",
+     "signature": [
+      "belish",
+      "ukha",
+      "river fish dishes",
+      "pastries",
+      "honey-based desserts"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.4,
+      "Earth": 0.3,
+      "Air": 0.1
+     }
+    }
+   ],
+   "astrologicalInfluences": []
+  },
+  "Thai": {
+   "id": "thai",
+   "name": "Thai",
+   "description": "Perfect balance of sour, sweet, salty, and spicy flavors.",
+   "elementalProperties": {
+    "Fire": 0.3091,
+    "Water": 0.3299,
+    "Earth": 0.247,
+    "Air": 0.114
+   },
+   "motherSauces": {},
+   "traditionalSauces": {
+    "namPlaWaan": {
+     "name": "Nam Pla Wan (Sweet Fish Sauce)",
+     "description": "Sweet, spicy, and salty sauce combining fish sauce with palm sugar and chili",
+     "base": "fish sauce",
+     "keyIngredients": [
+      "fish sauce",
+      "palm sugar",
+      "lime juice",
+      "garlic",
+      "chili"
+     ],
+     "culinaryUses": [
+      "dipping sauce",
+      "dressing",
+      "flavor base",
+      "marinade",
+      "condiment"
+     ],
+     "variants": [
+      "Nam Jim seafood",
+      "Nam Jim Jaew",
+      "Nam Jim Gai",
+      "Spicy version",
+      "Mild version"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.4,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Neptune",
+      "Mars",
+      "Pisces"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Balance is key - should achieve equal sweet, sour, and salty notes with heat according to preference",
+     "technicalTips": "Palm sugar can be melted with a little water to help it dissolve more easily"
+    },
+    "namPhrik": {
+     "name": "Nam Phrik (Chili Paste)",
+     "description": "Foundation of Thai cuisine, a versatile chili-based paste with regional variations",
+     "base": "chili peppers",
+     "keyIngredients": [
+      "chili peppers",
+      "garlic",
+      "shallots",
+      "fermented shrimp paste",
+      "lime juice"
+     ],
+     "culinaryUses": [
+      "flavor base",
+      "dipping sauce",
+      "stir-fry paste",
+      "marinade",
+      "soup enhancer"
+     ],
+     "variants": [
+      "Nam Phrik Num",
+      "Nam Phrik Ong",
+      "Nam Phrik Kapi",
+      "Nam Phrik Pao",
+      "Nam Phrik Narok"
+     ],
+     "elementalProperties": {
+      "Fire": 0.6,
+      "Water": 0.1,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun",
+      "Aries"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditional preparation involves pounding in a mortar and pestle to develop complex flavors",
+     "technicalTips": "Roasting ingredients before pounding enhances aroma and reduces raw spiciness"
+    },
+    "padThaiSauce": {
+     "name": "Pad Thai Sauce",
+     "description": "Sweet-sour-salty sauce that defines Thailand's most famous noodle dish",
+     "base": "tamarind paste",
+     "keyIngredients": [
+      "tamarind paste",
+      "fish sauce",
+      "palm sugar",
+      "rice vinegar",
+      "preserved radish"
+     ],
+     "culinaryUses": [
+      "noodle sauce",
+      "stir-fry sauce",
+      "marinade",
+      "dressing",
+      "glaze"
+     ],
+     "variants": [
+      "Traditional",
+      "Vegetarian/Vegan",
+      "Spicy",
+      "Royal-style",
+      "Street vendor style"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0.4,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Venus",
+      "Mercury",
+      "Taurus"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Balance of sour from tamarind, sweet from palm sugar, and salty from fish sauce is crucial",
+     "technicalTips": "Prepare in advance and reduce to concentrate flavors before adding to noodles"
+    },
+    "currySauces": {
+     "name": "Curry Pastes/Sauces",
+     "description": "Aromatic spice and herb pastes that form the foundation of Thai curries",
+     "base": "chilies and aromatics",
+     "keyIngredients": [
+      "chilies",
+      "galangal",
+      "lemongrass",
+      "kaffir lime",
+      "shallots",
+      "garlic",
+      "shrimp paste"
+     ],
+     "culinaryUses": [
+      "curry base",
+      "stir-fry paste",
+      "marinade",
+      "flavor enhancer",
+      "soup base"
+     ],
+     "variants": [
+      "Green (Kaeng Khiao Wan)",
+      "Red (Kaeng Phet)",
+      "Yellow (Kaeng Kari)",
+      "Massaman",
+      "Panang"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.2,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Jupiter",
+      "Leo"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditional preparation requires significant time pounding ingredients to release oils and flavor compounds",
+     "technicalTips": "Fry paste in coconut cream (the thick part that rises to the top of coconut milk) until aromatic and oil separates"
+    },
+    "srirachaSauce": {
+     "name": "Sriracha Sauce",
+     "description": "Fermented chili sauce with garlic and vinegar that has gained worldwide popularity",
+     "base": "fermented chili peppers",
+     "keyIngredients": [
+      "red chili peppers",
+      "garlic",
+      "vinegar",
+      "sugar",
+      "salt"
+     ],
+     "culinaryUses": [
+      "condiment",
+      "marinade component",
+      "stir-fry addition",
+      "dipping sauce",
+      "flavor enhancer"
+     ],
+     "variants": [
+      "Original Thai style",
+      "Vietnamese style",
+      "American style",
+      "Extra garlic",
+      "Aged version"
+     ],
+     "elementalProperties": {
+      "Fire": 0.5,
+      "Water": 0.2,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Mercury",
+      "Sagittarius"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditional Thai version is tangier and thinner than the popular American version",
+     "technicalTips": "Fermentation develops depth of flavor beyond simple chili heat"
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "chicken": [
+      "nam jim gai",
+      "green curry",
+      "prik king",
+      "pad thai sauce",
+      "nam jim jaew"
+     ],
+     "pork": [
+      "nam phrik ong",
+      "red curry",
+      "nam jim jaew",
+      "sweet soy glaze",
+      "tamarind sauce"
+     ],
+     "beef": [
+      "nam tok dressing",
+      "massaman curry",
+      "nam jim jaew",
+      "oyster sauce blend",
+      "panang curry"
+     ],
+     "seafood": [
+      "seafood nam jim",
+      "yellow curry",
+      "lime-chili-garlic sauce",
+      "sweet fish sauce",
+      "green curry"
+     ],
+     "tofu": [
+      "peanut sauce",
+      "massaman curry",
+      "sweet soy glaze",
+      "tamarind sauce",
+      "red curry"
+     ]
+    },
+    "forVegetable": {
+     "leafy": [
+      "nam jim",
+      "sweet fish sauce",
+      "sesame-soy dressing",
+      "coconut-lime",
+      "peanut sauce"
+     ],
+     "root": [
+      "naam phrik phao",
+      "massaman curry",
+      "ginger sauce",
+      "tamarind glaze",
+      "sweet fish sauce"
+     ],
+     "fruiting": [
+      "nam pla wan",
+      "sriracha-lime",
+      "sweet chili sauce",
+      "nam phrik",
+      "lime dressing"
+     ],
+     "herbs": [
+      "coconut milk",
+      "simple fish sauce",
+      "lime dressing",
+      "chili oil",
+      "garlic-pepper sauce"
+     ],
+     "mushroom": [
+      "oyster sauce blend",
+      "nam prik pao",
+      "golden mountain sauce",
+      "black pepper sauce",
+      "light soy"
+     ]
+    },
+    "forCookingMethod": {
+     "grilling": [
+      "nam jim jaew",
+      "nam jim seafood",
+      "tamarind glaze",
+      "sriracha marinade",
+      "sweet fish sauce"
+     ],
+     "stirFrying": [
+      "pad thai sauce",
+      "oyster sauce blend",
+      "holy basil sauce",
+      "black pepper sauce",
+      "golden mountain"
+     ],
+     "steaming": [
+      "lime-garlic-chili",
+      "ginger sauce",
+      "soy-sesame",
+      "nam jim",
+      "seafood dipping sauce"
+     ],
+     "currying": [
+      "curry pastes with coconut milk",
+      "massaman curry",
+      "panang curry",
+      "jungle curry",
+      "khao soi"
+     ],
+     "salads": [
+      "som tam dressing",
+      "yam dressing",
+      "larb dressing",
+      "nam tok",
+      "plaa dressing"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "nam phrik",
+      "jungle curry",
+      "dried chili dip",
+      "sriracha",
+      "prik king"
+     ],
+     "Water": [
+      "green curry",
+      "nam jim seafood",
+      "coconut-based sauces",
+      "fish sauce blends",
+      "herb infusions"
+     ],
+     "Earth": [
+      "massaman curry",
+      "peanut sauce",
+      "tamarind-based sauces",
+      "nam phrik ong",
+      "sweet soy"
+     ],
+     "Air": [
+      "lime-based dressings",
+      "herb-infused oils",
+      "light nam pla prik",
+      "citrus vinaigrettes",
+      "lemongrass dips"
+     ]
+    },
+    "byDietary": {
+     "vegetarian": [
+      "peanut sauce",
+      "sweet soy glaze",
+      "tamarind sauce",
+      "mushroom sauce",
+      "coconut curry"
+     ],
+     "vegan": [
+      "lime-herb dressing",
+      "tamarind-based sauces",
+      "vegetable curry",
+      "sesame-soy dressing",
+      "chili jam"
+     ],
+     "glutenFree": [
+      "nam jim",
+      "green curry",
+      "herb infusions",
+      "fish sauce-based",
+      "coconut-based sauces"
+     ],
+     "dairyFree": [
+      "all traditional Thai sauces",
+      "curry pastes",
+      "oil-based dressings",
+      "chili dips",
+      "herb infused oils"
+     ]
+    },
+    "byRegion": {
+     "northern": [
+      "nam phrik num",
+      "nam phrik ong",
+      "jaew bong",
+      "sai ua paste",
+      "hang lay curry"
+     ],
+     "northeastern": [
+      "nam jim jaew",
+      "som tam sauce",
+      "larb dressing",
+      "fermented fish sauce",
+      "tamarind dipping"
+     ],
+     "central": [
+      "green curry",
+      "red curry",
+      "nam prik kapi",
+      "pad thai sauce",
+      "sweet chili sauce"
+     ],
+     "southern": [
+      "southern curry paste",
+      "khua kling paste",
+      "nam phrik goong siap",
+      "sator sauce",
+      "gaeng tai pla"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "Northern Thai (Lanna)",
+     "name": "Northern Thai (Lanna)",
+     "description": "More mild and less spicy cuisine with Burmese and Lao influences, featuring sticky rice and pork",
+     "signature": [
+      "Khao Soi",
+      "Nam Prik Ong",
+      "Sai Ua",
+      "Gaeng Hang Lay",
+      "Khao Lam"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.2,
+      "Earth": 0.4,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "Northeastern Thai (Isaan)",
+     "name": "Northeastern Thai (Isaan)",
+     "description": "Intense flavors with Lao influence, featuring fermentation, spicy chilies, and sticky rice",
+     "signature": [
+      "Som Tam",
+      "Larb",
+      "Gai Yang",
+      "Nam Tok",
+      "Moo Nam Tok"
+     ],
+     "elementalProperties": {
+      "Fire": 0.5,
+      "Water": 0.1,
+      "Earth": 0.3,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "Central Thai",
+     "name": "Central Thai",
+     "description": "The royal court cuisine with balanced flavors combining sweet, sour, salty, and spicy elements",
+     "signature": [
+      "Pad Thai",
+      "Tom Yum Goong",
+      "Gaeng Keow Wan",
+      "Massaman Curry",
+      "Hoy Tod"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.3,
+      "Earth": 0.2,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "Southern Thai",
+     "name": "Southern Thai",
+     "description": "Intensely spicy and aromatic cuisine with Malaysian influences and abundant seafood",
+     "signature": [
+      "Gaeng Tai Pla",
+      "Khua Kling",
+      "Gaeng Som",
+      "Sataw Pad Kapi Goong",
+      "Khao Yam"
+     ],
+     "elementalProperties": {
+      "Fire": 0.6,
+      "Water": 0.2,
+      "Earth": 0.1,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "Royal Thai Cuisine",
+     "name": "Royal Thai Cuisine",
+     "description": "Refined, artistic cuisine developed in the royal palace with intricate preparation techniques",
+     "signature": [
+      "Mee Krob",
+      "Pla Dook Foo",
+      "Chor Muang",
+      "Massaman Curry",
+      "Foi Thong"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.2,
+      "Earth": 0.3,
+      "Air": 0.3
+     }
+    }
+   ],
+   "astrologicalInfluences": []
+  },
+  "Vietnamese": {
+   "id": "vietnamese",
+   "name": "Vietnamese",
+   "description": "Fresh, light flavors with an emphasis on herbs and clear broths.",
+   "elementalProperties": {
+    "Fire": 0.272,
+    "Water": 0.3366,
+    "Earth": 0.2537,
+    "Air": 0.1378
+   },
+   "motherSauces": {},
+   "traditionalSauces": {
+    "nuocCham": {
+     "name": "Nước Chấm",
+     "description": "Quintessential Vietnamese dipping sauce combining fish sauce, lime, sugar, and chili",
+     "base": "fish sauce",
+     "keyIngredients": [
+      "fish sauce",
+      "lime juice",
+      "sugar",
+      "garlic",
+      "chili",
+      "water"
+     ],
+     "culinaryUses": [
+      "dipping sauce",
+      "dressing",
+      "marinade",
+      "noodle sauce",
+      "flavor enhancer"
+     ],
+     "variants": [
+      "Northern style (less sweet)",
+      "Southern style (sweeter)",
+      "Vegetarian (soy-based)",
+      "Extra spicy",
+      "Garlic-forward"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.4,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Neptune",
+      "Mars",
+      "Pisces"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Balance is critical - should harmonize sweet, sour, salty, and spicy flavors in perfect proportion",
+     "technicalTips": "Let sit for at least 15 minutes before serving to allow flavors to meld"
+    },
+    "nuocMam": {
+     "name": "Nước Mắm (Fish Sauce)",
+     "description": "Fermented anchovy sauce that forms the foundation of Vietnamese cuisine",
+     "base": "fermented anchovies",
+     "keyIngredients": [
+      "anchovies",
+      "salt",
+      "time"
+     ],
+     "culinaryUses": [
+      "base for dipping sauces",
+      "seasoning",
+      "marinade",
+      "broth enhancer",
+      "dressing component"
+     ],
+     "variants": [
+      "Phú Quốc (premium)",
+      "Phan Thiết",
+      "Northern style",
+      "Southern style",
+      "Aged premium"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.5,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Neptune",
+      "Moon",
+      "Scorpio"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditional production takes at least 12 months of fermentation in wooden barrels",
+     "technicalTips": "High-quality fish sauce should have a deep amber color and complex aroma beyond just fishiness"
+    },
+    "tuongOt": {
+     "name": "Tương Ớt (Chili Sauce)",
+     "description": "Vietnamese-style fermented chili sauce with garlic and vinegar",
+     "base": "chili peppers",
+     "keyIngredients": [
+      "red chili peppers",
+      "garlic",
+      "vinegar",
+      "salt",
+      "sugar"
+     ],
+     "culinaryUses": [
+      "condiment",
+      "stir-fry enhancement",
+      "marinade component",
+      "dipping sauce",
+      "soup enhancer"
+     ],
+     "variants": [
+      "Huế style (extra spicy)",
+      "Saigon style",
+      "Garlic-heavy",
+      "Sweet version",
+      "Northern style"
+     ],
+     "elementalProperties": {
+      "Fire": 0.5,
+      "Water": 0.2,
+      "Earth": 0.2,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun",
+      "Aries"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Traditional recipes often include fermentation to develop deeper flavor",
+     "technicalTips": "Roasting or charring chilies first adds complexity and tempers raw heat"
+    },
+    "tuongDen": {
+     "name": "Tương Đen (Black Bean Sauce)",
+     "description": "Fermented soybean sauce used in Vietnamese-Chinese fusion dishes",
+     "base": "fermented soybeans",
+     "keyIngredients": [
+      "black beans",
+      "soy sauce",
+      "garlic",
+      "sugar",
+      "oil"
+     ],
+     "culinaryUses": [
+      "stir-fry sauce",
+      "marinade",
+      "dipping sauce",
+      "vegetable seasoning",
+      "flavor base"
+     ],
+     "variants": [
+      "Sweet style",
+      "Garlicky style",
+      "Spicy style",
+      "Clear style",
+      "Chinese-influenced"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0.4,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Saturn",
+      "Jupiter",
+      "Capricorn"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Often used in dishes showing Chinese culinary influence in Vietnamese cuisine",
+     "technicalTips": "Toast in oil before using to release aromatics and reduce raw bean flavor"
+    },
+    "saTe": {
+     "name": "Sa Tế (Vietnamese Sateay Sauce)",
+     "description": "Aromatic lemongrass and chili paste used in soups and stir-fries",
+     "base": "lemongrass and chilies",
+     "keyIngredients": [
+      "lemongrass",
+      "chilies",
+      "garlic",
+      "shallots",
+      "annatto oil",
+      "fish sauce"
+     ],
+     "culinaryUses": [
+      "soup enhancement",
+      "stir-fry sauce",
+      "marinade",
+      "grilling sauce",
+      "flavor paste"
+     ],
+     "variants": [
+      "Northern style",
+      "Huế style (extra spicy)",
+      "Vegetarian (no fish sauce)",
+      "Extra lemongrass",
+      "Chinese-influenced"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.1,
+      "Earth": 0.2,
+      "Air": 0.3
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Mercury",
+      "Leo"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Most authentic when chilies and aromatics are pounded by hand in a mortar and pestle",
+     "technicalTips": "The oil should separate when fried properly, creating a vibrant red layer on top"
+    }
+   },
+   "sauceRecommender": {
+    "forProtein": {
+     "beef": [
+      "nước chấm",
+      "sa tế",
+      "lime-pepper-salt dip",
+      "ginger fish sauce",
+      "hoisin sauce"
+     ],
+     "pork": [
+      "nước chấm",
+      "nước mắm gừng",
+      "tương đen",
+      "chili fish sauce",
+      "tamarind sauce"
+     ],
+     "chicken": [
+      "ginger fish sauce",
+      "nước chấm",
+      "caramel sauce",
+      "lime-pepper-salt dip",
+      "fermented bean curd"
+     ],
+     "seafood": [
+      "ginger fish sauce",
+      "sour fish sauce",
+      "green chili sauce",
+      "garlic lime sauce",
+      "tamarind dip"
+     ],
+     "tofu": [
+      "nước chấm chay",
+      "tương đen",
+      "ginger soy sauce",
+      "tamarind sauce",
+      "peanut sauce"
+     ]
+    },
+    "forVegetable": {
+     "leafy": [
+      "nước chấm",
+      "lime-garlic sauce",
+      "fermented bean curd",
+      "peanut sauce",
+      "sesame sauce"
+     ],
+     "root": [
+      "gừng nước mắm",
+      "tamarind sauce",
+      "soy-scallion sauce",
+      "coconut sauce",
+      "caramel sauce"
+     ],
+     "herbs": [
+      "simple nước chấm",
+      "lime juice",
+      "chili oil",
+      "peanut sauce",
+      "black pepper dip"
+     ],
+     "mushroom": [
+      "five-spice sauce",
+      "tương đen",
+      "ginger fish sauce",
+      "lemongrass sauce",
+      "sa tế"
+     ],
+     "sprouts": [
+      "light nước chấm",
+      "lime juice dressing",
+      "soy-vinegar dip",
+      "sesame oil",
+      "sweet-sour sauce"
+     ]
+    },
+    "forCookingMethod": {
+     "grilling": [
+      "lime-pepper-salt dip",
+      "nước chấm",
+      "lemongrass sauce",
+      "hoisin sauce",
+      "peanut sauce"
+     ],
+     "boiling": [
+      "ginger fish sauce",
+      "simple nước chấm",
+      "scallion oil",
+      "chili vinegar",
+      "fermented shrimp paste"
+     ],
+     "steaming": [
+      "ginger fish sauce",
+      "soy scallion sauce",
+      "lime juice",
+      "spicy fish sauce",
+      "garlic oil"
+     ],
+     "frying": [
+      "sweet and sour sauce",
+      "nước chấm",
+      "tamarind sauce",
+      "pickled vegetable dip",
+      "sa tế"
+     ],
+     "raw": [
+      "spicy nước chấm",
+      "lime-chili sauce",
+      "salty-sweet fish sauce",
+      "herbs and lime",
+      "mắm nêm"
+     ]
+    },
+    "byAstrological": {
+     "Fire": [
+      "sa tế",
+      "tương ớt",
+      "spicy nước chấm",
+      "chili oil",
+      "black pepper sauce"
+     ],
+     "Water": [
+      "simple nước mắm",
+      "sour tamarind sauce",
+      "lime juice dressings",
+      "mild nước chấm",
+      "coconut sauces"
+     ],
+     "Earth": [
+      "tương đen",
+      "peanut sauce",
+      "fermented bean curd",
+      "mắm nêm",
+      "mắm ruốc"
+     ],
+     "Air": [
+      "herb-infused dressings",
+      "lime-pepper-salt dip",
+      "citrus vinaigrettes",
+      "scallion oil",
+      "light herb sauces"
+     ]
+    },
+    "byDietary": {
+     "vegan": [
+      "soy sauce dip",
+      "vegan nước chấm",
+      "fermented tofu sauce",
+      "peanut sauce",
+      "tamarind sauce"
+     ],
+     "vegetarian": [
+      "mushroom sauce",
+      "soy-based fish sauce",
+      "sesame-soy dip",
+      "herb oil",
+      "chili-lime sauce"
+     ],
+     "glutenFree": [
+      "rice vinegar dressing",
+      "fish sauce dip",
+      "coconut-based sauces",
+      "lime-chili sauce",
+      "herb sauces"
+     ],
+     "dairyFree": [
+      "nước chấm",
+      "soy-based dipping sauce",
+      "garlic-lime sauce",
+      "ginger sauce",
+      "chili oil"
+     ]
+    },
+    "byRegion": {
+     "northern": [
+      "simple nước chấm",
+      "mắm tôm",
+      "dipping vinegar",
+      "garlic fish sauce",
+      "scallion oil"
+     ],
+     "central": [
+      "spicy nước chấm",
+      "mắm ruốc huế",
+      "sa tế",
+      "fermented fish",
+      "lime-chili dips"
+     ],
+     "southern": [
+      "sweet nước chấm",
+      "tamarind sauce",
+      "coconut sauces",
+      "caramel sauce",
+      "hoisin sauce"
+     ],
+     "mekong": [
+      "fermented mudfish sauce",
+      "sweet fish sauce",
+      "pineapple fish sauce",
+      "spicy nước mắm",
+      "mắm nêm"
+     ]
+    }
+   },
+   "regionalCuisines": [
+    {
+     "key": "Northern Vietnamese",
+     "name": "Northern Vietnamese",
+     "description": "More subtle and delicate flavors with Chinese influence and less spice and sugar",
+     "signature": [
+      "Phở Hà Nội",
+      "Bún Chả",
+      "Chả Cá Lã Vọng",
+      "Bánh Cuốn",
+      "Xôi"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.3,
+      "Earth": 0.4,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "Central Vietnamese",
+     "name": "Central Vietnamese",
+     "description": "Bold, spicy flavors influenced by royal cuisine with elaborate presentation",
+     "signature": [
+      "Bún Bò Huế",
+      "Bánh Xèo",
+      "Mì Quảng",
+      "Bánh Bèo",
+      "Cơm Hến"
+     ],
+     "elementalProperties": {
+      "Fire": 0.4,
+      "Water": 0.2,
+      "Earth": 0.3,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "Southern Vietnamese",
+     "name": "Southern Vietnamese",
+     "description": "Sweet, vibrant flavors with abundant fresh herbs and tropical ingredients",
+     "signature": [
+      "Hủ Tiếu Nam Vang",
+      "Cơm Tấm",
+      "Canh Chua",
+      "Bánh Xèo",
+      "Lẩu"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0.3,
+      "Air": 0.2
+     }
+    },
+    {
+     "key": "Mekong Delta",
+     "name": "Mekong Delta",
+     "description": "Emphasizes freshwater fish, tropical fruits, and rice with Khmer influences",
+     "signature": [
+      "Cá Kho Tộ",
+      "Canh Chua Cá",
+      "Bánh Tét",
+      "Mắm (fermented fish dishes)",
+      "Lẩu Mắm"
+     ],
+     "elementalProperties": {
+      "Fire": 0.1,
+      "Water": 0.5,
+      "Earth": 0.3,
+      "Air": 0.1
+     }
+    },
+    {
+     "key": "Highland Vietnamese",
+     "name": "Highland Vietnamese",
+     "description": "Rustic, earthy cuisine utilizing mountain ingredients and ethnic minority traditions",
+     "signature": [
+      "Thịt Nướng Cây Rừng",
+      "Cơm Lam",
+      "Gà Nướng",
+      "Thịt Heo Gác Bếp",
+      "Rau Rừng Xào"
+     ],
+     "elementalProperties": {
+      "Fire": 0.3,
+      "Water": 0.1,
+      "Earth": 0.5,
+      "Air": 0.1
+     }
+    }
+   ],
+   "astrologicalInfluences": []
+  },
+  "Fusion": {
+   "id": "fusion",
+   "name": "Fusion",
+   "description": "Innovative culinary intersections bridging traditions across cultures through elemental harmony.",
+   "elementalProperties": {
+    "Fire": 0.3967,
+    "Water": 0.1667,
+    "Earth": 0.35,
+    "Air": 0.0867
+   },
+   "motherSauces": {
+    "sambalRomesco": {
+     "name": "Sambal Romesco",
+     "description": "Catalan roasted red pepper and toasted almond romesco invigorated with fiery fermented Indonesian sambal oelek and lime zest.",
+     "base": "Roasted red peppers and crushed nuts",
+     "thickener": "Toasted Marcona almonds and stale rustic bread",
+     "keyIngredients": [
+      "roasted red peppers",
+      "toasted almonds",
+      "sambal oelek",
+      "garlic",
+      "sherry vinegar",
+      "extra-virgin olive oil"
+     ],
+     "culinaryUses": [
+      "Grilled seafood",
+      "Roasted vegetables",
+      "Seared steaks",
+      "Crusty bread dip"
+     ],
+     "derivatives": [
+      "Smoked Paprika Sambal Dip",
+      "Citrus Romesco Glaze"
+     ],
+     "elementalProperties": {
+      "Fire": 0.5,
+      "Water": 0.1,
+      "Earth": 0.3,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Mars",
+      "Sun"
+     ],
+     "seasonality": "all",
+     "preparationNotes": "Blend toasted almonds with garlic and vinegar first before streaming in oil for a creamy emulsion.",
+     "technicalTips": "Toast the nuts deeply for earthy undertones to balance the bright chili fire.",
+     "difficulty": "easy",
+     "yield": "2 cups",
+     "storageInstructions": "Refrigerate up to 7 days in airtight glass jar."
+    },
+    "misoBechamel": {
+     "name": "Miso Béchamel",
+     "description": "French classical white roux and infused whole milk enriched with sweet, umami-dense Japanese shiro miso and white pepper.",
+     "base": "Whole milk and butter roux",
+     "thickener": "Flour and butter roux",
+     "keyIngredients": [
+      "unsalted butter",
+      "all-purpose flour",
+      "whole milk",
+      "shiro miso",
+      "nutmeg",
+      "white pepper"
+     ],
+     "culinaryUses": [
+      "Fusion lasagnas",
+      "Baked gratins",
+      "Croque monsieur variants",
+      "Creamy pasta bakes"
+     ],
+     "derivatives": [
+      "Miso Mornay Sauce",
+      "Ginger Cream Sauce"
+     ],
+     "elementalProperties": {
+      "Fire": 0.15,
+      "Water": 0.3,
+      "Earth": 0.45,
+      "Air": 0.1
+     },
+     "astrologicalInfluences": [
+      "Moon",
+      "Jupiter"
+     ],
+     "seasonality": "autumn, winter",
+     "preparationNotes": "Dissolve miso in a ladle of warm milk before whisking into the finished béchamel to avoid graininess.",
+     "technicalTips": "Do not let the roux brown; keep it pale white to preserve delicate sweetness.",
+     "difficulty": "medium",
+     "yield": "3 cups",
+     "storageInstructions": "Refrigerate up to 4 days; reheat gently over low heat whisking in splash of milk."
+    },
+    "ponzuChimichurri": {
+     "name": "Ponzu Chimichurri",
+     "description": "Argentine fresh parsley, oregano, and garlic vinaigrette brightened with Japanese yuzu ponzu and sesame oil.",
+     "base": "Extra-virgin olive oil and yuzu ponzu",
+     "thickener": "Finely hand-chopped fresh herbs",
+     "keyIngredients": [
+      "flat-leaf parsley",
+      "fresh oregano",
+      "garlic",
+      "yuzu ponzu",
+      "extra-virgin olive oil",
+      "toasted sesame oil",
+      "red chili flake"
+     ],
+     "culinaryUses": [
+      "Wood-grilled meats",
+      "Seared tuna and salmon",
+      "Roasted potatoes",
+      "Tacos and grain bowls"
+     ],
+     "derivatives": [
+      "Wasabi Herb Chimichurri",
+      "Charred Scallion Ponzu Salsa"
+     ],
+     "elementalProperties": {
+      "Fire": 0.2,
+      "Water": 0.3,
+      "Earth": 0.1,
+      "Air": 0.4
+     },
+     "astrologicalInfluences": [
+      "Mercury",
+      "Venus"
+     ],
+     "seasonality": "spring, summer",
+     "preparationNotes": "Always chop herbs by hand — food processors bruise herbs and release bitter moisture.",
+     "technicalTips": "Rest the sauce for 30 minutes before serving so flavors bloom into the oil.",
+     "difficulty": "easy",
+     "yield": "1.5 cups",
+     "storageInstructions": "Store refrigerated up to 5 days. Bring to room temp before serving."
+    }
+   },
+   "traditionalSauces": {},
+   "sauceRecommender": {
+    "forProtein": {},
+    "forVegetable": {},
+    "forCookingMethod": {},
+    "byAstrological": {},
+    "byDietary": {},
+    "byRegion": {}
+   },
+   "regionalCuisines": [],
+   "astrologicalInfluences": [
+    "Mars",
+    "Saturn",
+    "Jupiter",
+    "Venus",
+    "Moon"
+   ]
+  }
+ },
+ "ingredientSlugs": {
+  "all-purpose flour": "all-purpose-flour",
+  "ancho chiles": "ancho-chiles",
+  "anchovies": "anchovies",
+  "annatto oil": "annatto-oil",
+  "asian pear": "asian-pear",
+  "avocado": "avocado",
+  "basil": "basil",
+  "bay leaf": "bay-leaf",
+  "beef": "beef",
+  "berbere": "berbere",
+  "black beans": "black-beans",
+  "black pepper": "black-pepper",
+  "black salt": "black-salt",
+  "bouquet garni": "bouquet-garni",
+  "brown roux": "brown-roux",
+  "brown stock": "brown-stock",
+  "brown sugar": "brown-sugar",
+  "butter": "butter",
+  "buttermilk": "buttermilk",
+  "cabbage": "cabbage",
+  "cardamom": "cardamom",
+  "cayenne pepper": "cayenne-pepper",
+  "chickpeas": "chickpeas",
+  "chocolate": "chocolate",
+  "cilantro": "cilantro",
+  "cinnamon": "cinnamon",
+  "clarified butter": "clarified-butter",
+  "cloves": "cloves",
+  "coconut milk": "coconut-milk",
+  "coriander": "coriander",
+  "corn": "corn",
+  "cornstarch": "cornstarch",
+  "cucumber": "cucumber",
+  "cumin": "cumin",
+  "curry leaves": "curry-leaf",
+  "curry powder": "curry-powder",
+  "dashi": "dashi",
+  "dill": "dill",
+  "doenjang": "doenjang",
+  "dried red chilies": "dried-red-chilies",
+  "fish sauce": "fish-sauce",
+  "flat-leaf parsley": "flat-leaf-parsley",
+  "flour": "flour",
+  "garam masala": "garam-masala",
+  "garlic": "garlic",
+  "ghee": "ghee",
+  "ginger": "ginger",
+  "glutinous rice": "glutinous-rice",
+  "gochujang": "gochujang",
+  "greek yogurt": "greek-yogurt",
+  "green chilies": "green-chilies",
+  "green onions": "green-onions",
+  "guajillo chiles": "guajillo-chiles",
+  "guanciale": "guanciale",
+  "horseradish": "horseradish",
+  "katsuobushi": "katsuobushi",
+  "ketchup": "ketchup",
+  "kimchi": "kimchi",
+  "kombu": "kombu",
+  "lemongrass": "lemongrass",
+  "lime": "lime",
+  "maple syrup": "maple-syrup",
+  "mayonnaise": "mayonnaise",
+  "milk": "milk",
+  "millet": "millet",
+  "mint": "mint",
+  "mirepoix": "mirepoix",
+  "mirin": "mirin",
+  "molasses": "molasses",
+  "mustard seeds": "mustard-seeds",
+  "neutral oil": "neutral-oil",
+  "nutmeg": "nutmeg",
+  "nuts": "nuts",
+  "oil": "oil",
+  "olive oil": "olive-oil",
+  "onion": "onion",
+  "oregano": "oregano",
+  "palm sugar": "palm-sugar",
+  "paprika": "paprika",
+  "parmesan": "parmesan",
+  "parsley": "parsley",
+  "peanuts": "peanuts",
+  "pecorino romano": "pecorino-romano",
+  "pine nuts": "pine-nuts",
+  "pork": "pork",
+  "rice": "rice",
+  "rice vinegar": "rice-vinegar",
+  "sake": "sake",
+  "salt": "salt",
+  "serrano chiles": "serrano-chiles",
+  "sesame oil": "sesame-oil",
+  "sesame seeds": "sesame-seeds",
+  "sherry vinegar": "sherry-vinegar",
+  "shrimp paste": "shrimp-paste",
+  "sour cream": "sour-cream",
+  "soy sauce": "soy-sauce",
+  "stock": "stock",
+  "sugar": "sugar",
+  "sumac": "sumac",
+  "tahini": "tahini",
+  "thyme": "thyme",
+  "tomatillos": "tomatillos",
+  "tomato paste": "tomato-paste",
+  "turmeric": "turmeric",
+  "unsalted butter": "unsalted-butter",
+  "vanilla": "vanilla",
+  "vinegar": "vinegar",
+  "walnuts": "walnuts",
+  "water": "water",
+  "white pepper": "white-pepper",
+  "whole milk": "whole-milk",
+  "worcestershire sauce": "worcestershire-sauce",
+  "yogurt": "yogurt"
+ }
+}

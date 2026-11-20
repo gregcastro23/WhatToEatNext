@@ -40,4 +40,20 @@ describe("/sauces?focus=", () => {
     expect(focused.alternates).toEqual({ canonical: "/sauces" });
     expect(plain.alternates).toEqual({ canonical: "/sauces" });
   });
+
+  it("resolves canonical catalogue sauce IDs such as italian:mother:besciamella and japanese:mother:dashi", async () => {
+    const besciamella = await html("italian:mother:besciamella");
+    expect(besciamella).toContain('id="sauce-focus"');
+    expect(besciamella).toContain(">Besciamella</h2>");
+
+    const dashi = await html("japanese:mother:dashi");
+    expect(dashi).toContain('id="sauce-focus"');
+    expect(dashi).toContain(">Dashi</h2>");
+
+    const dashiMeta = await generateMetadata({
+      searchParams: Promise.resolve({ focus: "japanese:mother:dashi" }),
+    });
+    expect(dashiMeta.title).toBe("Dashi · Sauces");
+    expect(dashiMeta.alternates).toEqual({ canonical: "/sauces" });
+  });
 });

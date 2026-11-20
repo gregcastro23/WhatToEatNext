@@ -59,28 +59,38 @@ function adaptCuisine(
 // Map metadata to AlchemyCuisine objects asynchronously or use a function
 // For backward compatibility with synchronous access, we use the metadata
 export const cuisines: Record<string, AlchemyCuisine> = {
+  african: adaptCuisine(CUISINES_METADATA.African, { targetKAlchm: 2.3, tolerance: 0.6 }),
   american: adaptCuisine(CUISINES_METADATA.American, { targetKAlchm: 1.2, tolerance: 0.3 }),
+  chinese: adaptCuisine(CUISINES_METADATA.Chinese, { targetKAlchm: 1.9, tolerance: 0.5 }),
+  french: adaptCuisine(CUISINES_METADATA.French, { targetKAlchm: 1.6, tolerance: 0.4 }),
   greek: adaptCuisine(CUISINES_METADATA.Greek, { targetKAlchm: 1.5, tolerance: 0.4 }),
   indian: adaptCuisine(CUISINES_METADATA.Indian, { targetKAlchm: 2.5, tolerance: 0.6 }),
   italian: adaptCuisine(CUISINES_METADATA.Italian, { targetKAlchm: 1.8, tolerance: 0.5 }),
+  japanese: adaptCuisine(CUISINES_METADATA.Japanese, { targetKAlchm: 1.7, tolerance: 0.4 }),
+  korean: adaptCuisine(CUISINES_METADATA.Korean, { targetKAlchm: 2.3, tolerance: 0.6 }),
+  mexican: adaptCuisine(CUISINES_METADATA.Mexican, { targetKAlchm: 2.4, tolerance: 0.6 }),
   middleEastern: adaptCuisine(CUISINES_METADATA.MiddleEastern, { targetKAlchm: 2.0, tolerance: 0.5 }),
+  russian: adaptCuisine(CUISINES_METADATA.Russian, { targetKAlchm: 0.9, tolerance: 0.3 }),
   thai: adaptCuisine(CUISINES_METADATA.Thai, { targetKAlchm: 2.8, tolerance: 0.7 }),
   vietnamese: adaptCuisine(CUISINES_METADATA.Vietnamese, { targetKAlchm: 2.2, tolerance: 0.6 }),
-  african: adaptCuisine(CUISINES_METADATA.African, { targetKAlchm: 2.3, tolerance: 0.6 }),
-  russian: adaptCuisine(CUISINES_METADATA.Russian, { targetKAlchm: 0.9, tolerance: 0.3 }),
   fusion: adaptCuisine(CUISINES_METADATA.Fusion, { targetKAlchm: 2.1, tolerance: 0.5 }),
 };
 
 const SIGNATURES: Record<string, AlchemicalSignature> = {
+  african: { targetKAlchm: 2.3, tolerance: 0.6 },
   american: { targetKAlchm: 1.2, tolerance: 0.3 },
+  chinese: { targetKAlchm: 1.9, tolerance: 0.5 },
+  french: { targetKAlchm: 1.6, tolerance: 0.4 },
   greek: { targetKAlchm: 1.5, tolerance: 0.4 },
   indian: { targetKAlchm: 2.5, tolerance: 0.6 },
   italian: { targetKAlchm: 1.8, tolerance: 0.5 },
+  japanese: { targetKAlchm: 1.7, tolerance: 0.4 },
+  korean: { targetKAlchm: 2.3, tolerance: 0.6 },
+  mexican: { targetKAlchm: 2.4, tolerance: 0.6 },
   middleeastern: { targetKAlchm: 2.0, tolerance: 0.5 },
+  russian: { targetKAlchm: 0.9, tolerance: 0.3 },
   thai: { targetKAlchm: 2.8, tolerance: 0.7 },
   vietnamese: { targetKAlchm: 2.2, tolerance: 0.6 },
-  african: { targetKAlchm: 2.3, tolerance: 0.6 },
-  russian: { targetKAlchm: 0.9, tolerance: 0.3 },
   fusion: { targetKAlchm: 2.1, tolerance: 0.5 },
 };
 

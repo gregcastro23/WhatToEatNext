@@ -18,20 +18,32 @@ function group(match: RegExpMatchArray | null, i: number): string {
 }
 
 export function parseYieldToServings(yieldStr: string): number {
-  if (!yieldStr) return 1;
+  const trimmed = yieldStr.trim();
+  if (!trimmed) return 1;
 
   // Match "Serves N" pattern
-  const servesMatch = yieldStr.match(/serves?\s+(\d+)/i);
-  if (servesMatch) return parseInt(group(servesMatch, 1), 10);
+  const servesMatch = trimmed.match(/serves?\s+(\d+(?:\.\d+)?)/i);
+  if (servesMatch) return parseFloat(group(servesMatch, 1));
 
-  // Match "Makes about N cups/cup" or "Makes about N-N servings"
-  const makesMatch = yieldStr.match(/makes?\s+(?:about\s+)?(\d+(?:\.\d+)?)/i);
-  if (makesMatch) return parseFloat(group(makesMatch, 1));
+  // Match "Makes about 1/2 cup" or "Makes about 3 cups" before bare numbers
+  const makesMatch = trimmed.match(
+    /makes?\s+(?:about\s+)?(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)/i,
+  );
+  if (makesMatch) {
+    const parsed = parseFraction(group(makesMatch, 1));
+    if (parsed !== null) return parsed;
+  }
 
-  // Match fraction patterns like "1/2 cup"
-  const fractionMatch = yieldStr.match(/(\d+)\/(\d+)/);
-  if (fractionMatch)
-    return parseInt(group(fractionMatch, 1), 10) / parseInt(group(fractionMatch, 2), 10);
+  // Match bare fraction patterns like "1/2 cup" or "2 1/2 cups"
+  const fractionMatch = trimmed.match(/(\d+\s+\d+\/\d+|\d+\/\d+)/);
+  if (fractionMatch) {
+    const parsed = parseFraction(group(fractionMatch, 1));
+    if (parsed !== null) return parsed;
+  }
+
+  // Match leading count like "2 cups"
+  const leadingMatch = trimmed.match(/^(\d+(?:\.\d+)?)\b/);
+  if (leadingMatch) return parseFloat(group(leadingMatch, 1));
 
   return 1;
 }
@@ -88,7 +100,15 @@ function formatQuantity(value: number): string {
   }
 
   // Find closest fraction
-  const closestFraction = fractions.find(([frac]) => Math.abs(remainder - frac) < 0.05);
+  let closestFraction: [number, string] | undefined;
+  let minDiff = 0.05;
+  for (const entry of fractions) {
+    const diff = Math.abs(remainder - entry[0]);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestFraction = entry;
+    }
+  }
 
   if (closestFraction) {
     return whole > 0 ? `${whole} ${closestFraction[1]}` : closestFraction[1];
@@ -123,7 +143,7 @@ export function scaleIngredientString(ingredient: string, factor: number): strin
   // Scale range patterns like "4-6"
   scaled = scaled.replace(
     /^(\d+)-(\d+)/,
-    (_match, low, high) => {
+    (_match: string, low: string, high: string): string => {
       const lowNum = parseInt(low, 10) * factor;
       const highNum = parseInt(high, 10) * factor;
       return `${formatQuantity(lowNum)}-${formatQuantity(highNum)}`;
@@ -133,7 +153,7 @@ export function scaleIngredientString(ingredient: string, factor: number): strin
   // Scale parenthetical metric quantities: "(900g)", "(60ml)", "(115g)"
   scaled = scaled.replace(
     /\((\d+(?:\.\d+)?)(g|ml|kg|l)\)/gi,
-    (_match, num, unit) => {
+    (_match: string, num: string, unit: string): string => {
       const scaledNum = parseFloat(num) * factor;
       return `(${formatQuantity(scaledNum)}${unit})`;
     },
@@ -151,6 +171,58 @@ export function scaleSauceIngredients(
 ): string[] {
   if (scaleFactor === 1) return [...ingredients];
   return ingredients.map((ing) => scaleIngredientString(ing, scaleFactor));
+}
+
+const UNIT_INFLECTIONS = new Map<string, { singular: string; plural: string }>([
+  ["cup", { singular: "cup", plural: "cups" }],
+  ["cups", { singular: "cup", plural: "cups" }],
+  ["serving", { singular: "serving", plural: "servings" }],
+  ["servings", { singular: "serving", plural: "servings" }],
+  ["quart", { singular: "quart", plural: "quarts" }],
+  ["quarts", { singular: "quart", plural: "quarts" }],
+  ["pint", { singular: "pint", plural: "pints" }],
+  ["pints", { singular: "pint", plural: "pints" }],
+  ["liter", { singular: "liter", plural: "liters" }],
+  ["liters", { singular: "liter", plural: "liters" }],
+  ["tbsp", { singular: "tbsp", plural: "tbsp" }],
+  ["ml", { singular: "ml", plural: "ml" }],
+]);
+
+function formatYieldUnit(unitToken: string | undefined, qty: number): string {
+  if (!unitToken) return "";
+  const entry = UNIT_INFLECTIONS.get(unitToken.toLowerCase());
+  if (!entry) return unitToken;
+  return qty > 1 ? entry.plural : entry.singular;
+}
+
+/**
+ * Format a yield string scaled by `factor` while preserving its original unit
+ * and agreeing singular/plural forms (e.g. "2 cups" * 0.5 -> "1 cup").
+ */
+export function formatScaledYield(yieldStr: string | undefined, factor: number): string {
+  const trimmed = yieldStr?.trim() ?? "";
+  if (!trimmed) {
+    const qty = 4 * factor;
+    return `Serves ${formatQuantity(qty)}`;
+  }
+  if (factor === 1) return trimmed;
+
+  return trimmed.replace(
+    /(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?)(?:-(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:\.\d+)?))?(?:([ \t]*)(cups?|servings?|quarts?|pints?|liters?|tbsp|ml)\b)?/gi,
+    (match, rawLow: string, rawHigh?: string, ws?: string, rawUnit?: string) => {
+      const lowVal = parseFraction(rawLow);
+      if (lowVal === null) return match;
+      const scaledLow = lowVal * factor;
+      const highVal = rawHigh ? parseFraction(rawHigh) : null;
+      const scaledHigh = highVal !== null ? highVal * factor : null;
+      const qtyPart =
+        scaledHigh !== null
+          ? `${formatQuantity(scaledLow)}-${formatQuantity(scaledHigh)}`
+          : formatQuantity(scaledLow);
+      const unitOut = formatYieldUnit(rawUnit, scaledHigh ?? scaledLow);
+      return unitOut ? `${qtyPart}${ws ?? " "}${unitOut}` : qtyPart;
+    },
+  );
 }
 
 /**

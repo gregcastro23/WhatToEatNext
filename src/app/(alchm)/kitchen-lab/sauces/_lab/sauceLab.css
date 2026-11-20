@@ -1,0 +1,133 @@
+/* Sauce Lab — scoped to .sl-root so nothing leaks into sibling lab routes. */
+.sl-root {
+  --sl-gap: 18px;
+  color: var(--fg);
+}
+.sl-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  border-bottom: 1px solid var(--line);
+  padding: 0 20px;
+}
+.sl-tabs button {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  min-height: 44px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  cursor: pointer;
+}
+.sl-tabs button.is-active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.sl-tabs button[data-system="alchm"].is-active {
+  color: rgb(196 181 253);
+  border-bottom-color: rgb(167 139 250);
+}
+.sl-tabs button:focus-visible,
+.sl-btn:focus-visible,
+.sl-input:focus-visible,
+.sl-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.sl-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sl-gap);
+  padding: 18px 20px 40px;
+}
+@media (min-width: 1100px) {
+  .sl-grid {
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+  .sl-hud {
+    position: sticky;
+    top: 84px;
+    align-self: start;
+  }
+}
+.sl-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--bg-elev) 80%, transparent);
+  padding: 16px;
+}
+.sl-card h2,
+.sl-card h3 {
+  font-family: var(--f-display);
+  margin: 0 0 10px;
+}
+.sl-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+}
+.sl-num {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+.sl-input {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--fg);
+  color-scheme: dark;
+  min-height: 44px;
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 14px;
+}
+@media (max-width: 639px) {
+  .sl-input {
+    font-size: 16px;
+  }
+}
+.sl-input:focus {
+  border-color: var(--accent);
+}
+.sl-btn {
+  appearance: none;
+  border: 1px solid var(--line-hi, var(--line));
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: 12px;
+  min-height: 38px;
+  padding: 6px 13px;
+  cursor: pointer;
+}
+.sl-btn:hover {
+  border-color: var(--accent);
+}
+.sl-btn[aria-pressed="true"],
+.sl-btn.is-primary {
+  background: color-mix(in oklab, var(--accent) 22%, transparent);
+  border-color: var(--accent);
+}
+.sl-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  padding: 2px 9px;
+  font-size: 11px;
+}
+.sl-warn {
+  border-left: 2px solid var(--accent);
+  padding: 8px 12px;
+  background: color-mix(in oklab, var(--accent) 8%, transparent);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+}
