@@ -26,6 +26,10 @@ import {
   createMuscleGrainGeometry,
   createSlicingPlaneGeometry,
 } from "@/lib/butcher/stage/carcassLofting";
+import {
+  BUTCHER_CAMERA_FRAMINGS,
+  computeResponsiveStageRadius,
+} from "@/lib/butcher/stage/cameraFramings";
 import type { ColorOverlayMode } from "@/lib/butcher/types";
 import { sharedButcherGeometryStats } from "@/lib/butcher/stage/sharedButcherGeometry";
 
@@ -265,6 +269,50 @@ describe("Pentacles-derived 3D carcass engine", () => {
       expect(picked?.primalId).toBe(targetCut.primalId);
 
       disposeCarcassRig(rig);
+    }
+  });
+
+  it("frames all 5 species inside the camera frustum at 100% explode on desktop and narrow mobile aspect", () => {
+    const viewports = [
+      { aspect: 880 / 360, framing: "whole-carcass" as const, explodeFactor: 1.0 },
+      { aspect: 880 / 360, framing: "exploded-primal" as const, explodeFactor: 1.0 },
+      { aspect: 350 / 280, framing: "whole-carcass" as const, explodeFactor: 0.25 },
+      { aspect: 350 / 280, framing: "exploded-primal" as const, explodeFactor: 1.0 },
+    ];
+
+    for (const vp of viewports) {
+      const spec = BUTCHER_CAMERA_FRAMINGS[vp.framing];
+      const baseRadius = Math.hypot(spec.pos[0] - spec.lookAt[0], spec.pos[2] - spec.lookAt[2]);
+      const radius = computeResponsiveStageRadius({
+        baseRadius,
+        aspect: vp.aspect,
+        explodeFactor: vp.explodeFactor,
+        framing: vp.framing,
+      });
+      const camera = new THREE.PerspectiveCamera(spec.fov, vp.aspect, 0.1, 40);
+      camera.position.set(spec.lookAt[0], spec.pos[1] + 0.08 * 1.4, spec.lookAt[2] + radius);
+      camera.lookAt(...spec.lookAt);
+      camera.updateMatrixWorld(true);
+
+      for (const species of SPECIES_LIST) {
+        const rig = createCarcassRig(species.id);
+        setCarcassExplodeFactor(rig, vp.explodeFactor);
+        rig.updateMatrixWorld(true);
+        rig.traverse((node) => {
+          if (!(node instanceof THREE.Mesh) || !node.name.startsWith("SubPrimalMesh_")) return;
+          const box = new THREE.Box3().setFromObject(node);
+          for (const x of [box.min.x, box.max.x]) {
+            for (const y of [box.min.y, box.max.y]) {
+              for (const z of [box.min.z, box.max.z]) {
+                const projected = new THREE.Vector3(x, y, z).project(camera);
+                expect(Math.abs(projected.x)).toBeLessThanOrEqual(1);
+                expect(Math.abs(projected.y)).toBeLessThanOrEqual(1);
+              }
+            }
+          }
+        });
+        disposeCarcassRig(rig);
+      }
     }
   });
 });

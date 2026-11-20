@@ -162,6 +162,7 @@ function StepEnvironment({
   onUpdate: (patch: Partial<SolverInputState>) => void;
 }): React.JSX.Element {
   const unitLabel = unit === "fahrenheit" ? "F" : "C";
+  const methodProfile = METHOD_PHYSICS[state.methodId];
   return (
     <fieldset className="ma-step">
       <legend><span>03</span> cooking method &amp; environment</legend>
@@ -170,11 +171,18 @@ function StepEnvironment({
       </select>
       <p className="ma-chip">standard atmosphere · editable</p>
       <div className="ma-fields">
-        <Field label="ambient / medium temp" unit={`°${unitLabel}`} value={toDisplayTemp(state.airC, unit)} onChange={(v) => onUpdate({ airC: fromDisplayTemp(v, unit) })} />
+        <Field label="kitchen ambient temp" unit={`°${unitLabel}`} value={toDisplayTemp(state.airC, unit)} onChange={(v) => onUpdate({ airC: fromDisplayTemp(v, unit) })} />
         <Field label="humidity" unit="%" value={state.rhPct} onChange={(v) => onUpdate({ rhPct: v })} min={0} max={100} />
         <Field label="air velocity" unit="m/s" value={state.airVelocityMs} onChange={(v) => onUpdate({ airVelocityMs: v })} min={0} />
         <Field label="elevation" unit="m" value={state.elevationM} onChange={(v) => onUpdate({ elevationM: v })} />
       </div>
+      {methodProfile ? (
+        <Derived
+          label="method medium"
+          value={formatTemp(methodProfile.mediumC)}
+          {...(methodProfile.h === null ? { note: `${methodProfile.rateLimiter}-limited (no heat-transfer h)` } : {})}
+        />
+      ) : null}
       {result ? (
         <Derived
           label="local boiling ceiling"

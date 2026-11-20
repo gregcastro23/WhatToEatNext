@@ -90,7 +90,7 @@ function initialLabCore(cut: AnatomicalCut): LabCoreState {
     speciesId: cut.speciesId,
     cutId: cut.id,
     hoveredCutId: null,
-    explodeFactor: 0.25,
+    explodeFactor: 0,
     colorMode: "anatomical",
     framing: "whole-carcass",
     coreTempC: cut.targetCoreTempC.ideal,
@@ -128,9 +128,29 @@ function useLabCoreSetters(
   return useMemo(
     () => ({
       setHoveredCutId: (hoveredCutId: string | null): void => setCore((s) => ({ ...s, hoveredCutId })),
-      setExplodeFactor: (explodeFactor: number): void => setCore((s) => ({ ...s, explodeFactor })),
+      setExplodeFactor: (explodeFactor: number): void =>
+        setCore((s) => ({
+          ...s,
+          explodeFactor,
+          framing:
+            s.framing === "butcher-block-slice"
+              ? s.framing
+              : explodeFactor >= 0.5
+                ? "exploded-primal"
+                : "whole-carcass",
+        })),
       setColorMode: (colorMode: ColorOverlayMode): void => setCore((s) => ({ ...s, colorMode })),
-      setFraming: (framing: CameraFramingId): void => setCore((s) => ({ ...s, framing })),
+      setFraming: (framing: CameraFramingId): void =>
+        setCore((s) => ({
+          ...s,
+          framing,
+          explodeFactor:
+            framing === "whole-carcass"
+              ? 0
+              : framing === "exploded-primal"
+                ? 1
+                : Math.max(s.explodeFactor, 0.25),
+        })),
       setCoreTempC: (coreTempC: number): void => setCore((s) => ({ ...s, coreTempC })),
       setHoldMinutes: (holdMinutes: number): void => setCore((s) => ({ ...s, holdMinutes })),
       setSliceAngleDeg: (sliceAngleDeg: number): void => setCore((s) => ({ ...s, sliceAngleDeg })),

@@ -4,6 +4,10 @@
   color: var(--fg);
 }
 
+.bt-root * {
+  scroll-margin-top: 152px;
+}
+
 .bt-tabs {
   display: flex;
   flex-wrap: nowrap;
@@ -69,9 +73,12 @@
   .bt-grid {
     grid-template-columns: minmax(0, 1fr) 340px;
   }
+  .bt-grid.bt-grid--single {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .bt-hud {
     position: sticky;
-    top: 84px;
+    top: 144px;
     align-self: start;
   }
 }
@@ -179,15 +186,24 @@
   border-radius: var(--radius-sm);
   border: 1px solid var(--line);
   background: radial-gradient(circle at 50% 35%, rgb(58 34 26 / 0.45), rgb(14 14 18 / 0.94));
-  min-height: 360px;
+  min-height: 280px;
 }
 
 .bt-stage-canvas {
   display: block;
   width: 100%;
-  height: 360px;
+  height: 280px;
   cursor: grab;
   touch-action: pan-y;
+}
+
+@media (min-width: 640px) {
+  .bt-stage-frame {
+    min-height: 360px;
+  }
+  .bt-stage-canvas {
+    height: 360px;
+  }
 }
 
 .bt-stage-canvas:active {

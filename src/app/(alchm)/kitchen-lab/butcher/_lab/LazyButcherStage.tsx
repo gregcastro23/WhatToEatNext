@@ -17,7 +17,7 @@ const DynamicButcherStageCanvas = dynamic<ButcherStageProps>(
   {
     ssr: false,
     loading: () => (
-      <div className="bt-stage-frame flex items-center justify-center text-xs text-white/50">
+      <div className="bt-stage-frame flex h-[280px] items-center justify-center text-xs text-white/50 sm:h-[360px]">
         Loading Butcher Stage…
       </div>
     ),
