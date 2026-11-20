@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useMemo, useState, type JSX } from "react";
 import { knifeNormalAtAngle } from "@/lib/butcher/science/butcherGame";
+import {
+  defaultTrajectoryMethodForCut,
+  simulateCoupledCutTrajectory,
+  type TrajectoryMethodId,
+} from "@/lib/butcher/science/coupledMeatTrajectory";
 import {
   celsiusToFahrenheit,
   evaluateGrainSlice,
@@ -15,8 +21,8 @@ import type {
   ThermalCurvePoint,
   ThermalEvaluation,
 } from "@/lib/butcher/types";
+import { DonenessBandBar } from "./DonenessBandBar";
 import type { ButcherLabState } from "./useButcherLab";
-import type { JSX } from "react";
 
 /**
  * Tab 3 — `Thermal & Grain` (Meat Biophysics & Shear Force Lab).
@@ -169,11 +175,65 @@ function GrainShearSection({
   );
 }
 
+function ThermalDenaturationCard({
+  lab,
+  bounds,
+  thermal,
+  curve,
+}: {
+  readonly lab: ButcherLabState;
+  readonly bounds: ReturnType<typeof thermalCurveBoundsFor>;
+  readonly thermal: ThermalEvaluation;
+  readonly curve: readonly ThermalCurvePoint[];
+}): JSX.Element {
+  const { cut } = lab;
+  return (
+    <div className="bt-card space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h2 className="text-xl">Protein Denaturation &amp; Collagen Hydrolysis</h2>
+          <p className="text-xs text-white/60">
+            {cut.name} · {thermal.phaseLabel} · {thermal.donenessLabel}
+          </p>
+        </div>
+        <Link href={buildSolverHref(cut, lab.coreTempC)} className="bt-btn is-primary no-underline">
+          Simulate in Real Physics Solver →
+        </Link>
+      </div>
+      <ThermalSliderPair
+        coreTempC={lab.coreTempC}
+        holdMinutes={lab.holdMinutes}
+        minC={bounds.minC}
+        maxC={bounds.maxC}
+        onTempChange={lab.setCoreTempC}
+        onHoldChange={lab.setHoldMinutes}
+      />
+      <ThermalStatsGrid thermal={thermal} />
+      {thermal.warning ? <p className="bt-warn text-xs text-amber-100">{thermal.warning}</p> : null}
+      <ThermalCurveChart curve={curve} coreTempC={lab.coreTempC} minC={bounds.minC} maxC={bounds.maxC} />
+    </div>
+  );
+}
+
 export function ThermalGrainPanel({ lab }: { readonly lab: ButcherLabState }): JSX.Element {
   const { cut } = lab;
+  const [method, setMethod] = useState<TrajectoryMethodId>(() => defaultTrajectoryMethodForCut(cut));
+  useEffect(() => {
+    setMethod(defaultTrajectoryMethodForCut(cut));
+  }, [cut]);
+
   const bounds = thermalCurveBoundsFor(cut.speciesId);
   const thermal = evaluateThermalProfile(cut, lab.coreTempC, lab.holdMinutes);
   const curve = generateThermalCurve(cut, lab.holdMinutes);
+  const trajectory = useMemo(
+    () =>
+      simulateCoupledCutTrajectory(cut, {
+        method,
+        targetCoreTempC: lab.coreTempC,
+        holdMinutes: lab.holdMinutes,
+      }),
+    [cut, method, lab.coreTempC, lab.holdMinutes],
+  );
   const slice = evaluateGrainSlice(
     cut,
     knifeNormalAtAngle(lab.sliceAngleDeg, cut.grainVector),
@@ -183,30 +243,8 @@ export function ThermalGrainPanel({ lab }: { readonly lab: ButcherLabState }): J
 
   return (
     <div className="space-y-4">
-      <div className="bt-card space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div>
-            <h2 className="text-xl">Protein Denaturation &amp; Collagen Hydrolysis</h2>
-            <p className="text-xs text-white/60">
-              {cut.name} · {thermal.phaseLabel} · {thermal.donenessLabel}
-            </p>
-          </div>
-          <Link href={buildSolverHref(cut, lab.coreTempC)} className="bt-btn is-primary no-underline">
-            Simulate in Real Physics Solver →
-          </Link>
-        </div>
-        <ThermalSliderPair
-          coreTempC={lab.coreTempC}
-          holdMinutes={lab.holdMinutes}
-          minC={bounds.minC}
-          maxC={bounds.maxC}
-          onTempChange={lab.setCoreTempC}
-          onHoldChange={lab.setHoldMinutes}
-        />
-        <ThermalStatsGrid thermal={thermal} />
-        {thermal.warning ? <p className="bt-warn text-xs text-amber-100">{thermal.warning}</p> : null}
-        <ThermalCurveChart curve={curve} coreTempC={lab.coreTempC} minC={bounds.minC} maxC={bounds.maxC} />
-      </div>
+      <ThermalDenaturationCard lab={lab} bounds={bounds} thermal={thermal} curve={curve} />
+      <DonenessBandBar method={method} onSelectMethod={setMethod} result={trajectory} />
       <GrainShearSection sliceAngleDeg={lab.sliceAngleDeg} slice={slice} onAngleChange={lab.setSliceAngleDeg} />
     </div>
   );
