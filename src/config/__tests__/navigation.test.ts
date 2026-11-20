@@ -68,6 +68,7 @@ describe("NAV_IA — the Lab split", () => {
       expect(systems).toContain("alchm");
     }
     expect(NAV_IA.kitchenLab.routes.map((r) => r.path)).toContain("/kitchen-lab/physics");
+    expect(NAV_IA.kitchenLab.routes.map((r) => r.path)).toContain("/kitchen-lab/butcher");
     expect(NAV_IA.kitchenLab.routes.map((r) => r.path)).toContain("/kitchen-lab/alchm");
     expect(NAV_IA.celestialLab.routes.map((r) => r.path)).toContain("/celestial-lab/mechanics");
     expect(NAV_IA.celestialLab.routes.map((r) => r.path)).toContain("/celestial-lab/alchm");
@@ -196,6 +197,7 @@ describe("activePrimaryFromPathname", () => {
 describe("systemFromPathname", () => {
   it("reports the system for each lab leaf", () => {
     expect(systemFromPathname("/kitchen-lab/physics")).toBe("real");
+    expect(systemFromPathname("/kitchen-lab/butcher")).toBe("real");
     expect(systemFromPathname("/kitchen-lab/alchm")).toBe("alchm");
     expect(systemFromPathname("/celestial-lab/mechanics")).toBe("real");
     expect(systemFromPathname("/celestial-lab/alchm")).toBe("alchm");

@@ -9,6 +9,7 @@
 import { notFound, permanentRedirect } from "next/navigation";
 import { cache, type JSX } from "react";
 import { IngredientDossierView } from "@/components/ingredients/dossier/IngredientDossierView";
+import { matchIngredientToButcherCut } from "@/lib/butcher/recipeCutMatch";
 import {
   dossierJsonLd,
   dossierSummary,
@@ -75,10 +76,15 @@ export default async function IngredientDossierPage({ params }: DossierPageProps
   if (target.kind === "redirect") permanentRedirect(ingredientHref(target.slug));
   const dossier = await loadDossier(target.entry.slug);
   if (!dossier) notFound();
+  const butcherMatch = matchIngredientToButcherCut(dossier.slug, dossier.card.name);
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: dossierJsonLd(dossier) }} />
-      <IngredientDossierView dossier={dossier} />
+      <IngredientDossierView
+        dossier={dossier}
+        butcherHref={butcherMatch?.href ?? null}
+        butcherCutName={butcherMatch?.cutName ?? null}
+      />
     </>
   );
 }

@@ -23,6 +23,7 @@ export const SITEMAP_STATIC_ROUTES: ReadonlyArray<{
   { path: "/kitchen-lab", changeFrequency: "weekly", priority: 0.8 },
   { path: "/kitchen-lab/physics", changeFrequency: "weekly", priority: 0.75 },
   { path: "/kitchen-lab/baking", changeFrequency: "weekly", priority: 0.7 },
+  { path: "/kitchen-lab/butcher", changeFrequency: "weekly", priority: 0.7 },
   { path: "/kitchen-lab/alchm", changeFrequency: "daily", priority: 0.7 },
   { path: "/celestial-lab", changeFrequency: "weekly", priority: 0.8 },
   { path: "/celestial-lab/mechanics", changeFrequency: "hourly", priority: 0.8 },
