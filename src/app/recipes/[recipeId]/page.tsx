@@ -1,5 +1,6 @@
 import { notFound, permanentRedirect } from "next/navigation";
 import { cache } from "react";
+import { matchRecipeToButcherCut } from "@/lib/butcher/recipeCutMatch";
 import { _logger } from "@/lib/logger";
 import { withTimeout } from "@/lib/performance/withTimeout";
 import {
@@ -403,6 +404,8 @@ export default async function RecipePage({ params }: RecipePageProps): Promise<R
         : undefined,
   };
 
+  const butcherMatch = matchRecipeToButcherCut(recipe);
+
   return (
     <>
       <script
@@ -415,6 +418,8 @@ export default async function RecipePage({ params }: RecipePageProps): Promise<R
         recommendedSauces={recommendedSauces}
         recommendedRecipes={recommendedRecipes}
         bakingGoodId={findBakingGoodId(recipeId, recipe)}
+        butcherHref={butcherMatch?.href ?? null}
+        butcherCutName={butcherMatch?.cutName ?? null}
       />
     </>
   );

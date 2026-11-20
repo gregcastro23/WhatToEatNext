@@ -13,7 +13,19 @@ import { cookHref } from "@/lib/recipe-builder/prefillLink";
 const BUTTON =
   "inline-flex items-center gap-2 min-h-[40px] rounded-full border px-4 text-sm no-underline transition-colors";
 
-export function IngredientActions({ name, category, label }: { name: string; category: string; label: string }): JSX.Element {
+export function IngredientActions({
+  name,
+  category,
+  label,
+  butcherHref = null,
+  butcherCutName = null,
+}: {
+  name: string;
+  category: string;
+  label: string;
+  butcherHref?: string | null;
+  butcherCutName?: string | null;
+}): JSX.Element {
   const { hasItem, addItem, isLoaded } = usePantry();
   const [failed, setFailed] = useState(false);
   const stocked = isLoaded && hasItem(name);
@@ -27,6 +39,11 @@ export function IngredientActions({ name, category, label }: { name: string; cat
       <Link href={cookHref(name)} prefetch={false} className={BUTTON} style={{ borderColor: "var(--line-hi)", color: "var(--fg)" }}>
         Cook with this
       </Link>
+      {butcherHref !== null && butcherHref.length > 0 ? (
+        <Link href={butcherHref} prefetch={false} className={BUTTON} style={{ borderColor: "var(--el-fire)", color: "var(--fg)" }}>
+          Inspect {butcherCutName ?? "Cut"} in 3D Butcher Shop →
+        </Link>
+      ) : null}
       {stocked ? (
         <Link href="/pantry" prefetch={false} className={BUTTON} style={{ borderColor: "var(--line)", color: "var(--el-earth)" }}>
           In your pantry

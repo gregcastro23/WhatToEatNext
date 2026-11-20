@@ -832,6 +832,8 @@ interface RecipeClientProps {
   recommendedRecipes: Recipe[];
   initialPersona?: DietaryMode | null;
   bakingGoodId?: string | null;
+  butcherHref?: string | null;
+  butcherCutName?: string | null;
 }
 
 function hasDegradedRecipeFields(ingredients: unknown, instructions: unknown): boolean {
@@ -843,7 +845,7 @@ function hasDegradedRecipeFields(ingredients: unknown, instructions: unknown): b
   );
 }
 
-export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes, initialPersona = null, bakingGoodId = null }: RecipeClientProps): JSX.Element {
+export default function RecipeClient({ recipe, recommendedSauces, recommendedRecipes, initialPersona = null, bakingGoodId = null, butcherHref = null, butcherCutName = null }: RecipeClientProps): JSX.Element {
   const [servings, setServings] = useState(getBaseServings(recipe));
   const [copied, setCopied] = useState(false);
   const [heroImageFailed, setHeroImageFailed] = useState(false);
@@ -1158,6 +1160,16 @@ export default function RecipeClient({ recipe, recommendedSauces, recommendedRec
               >
                 <span aria-hidden>🥖</span>
                 Open in Baking Lab →
+              </Link>
+            ) : null}
+
+            {butcherHref !== null && butcherHref.length > 0 ? (
+              <Link
+                href={butcherHref}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all duration-200 bg-rose-500/15 border border-rose-400/40 text-rose-200 hover:bg-rose-500/25 hover:border-rose-300"
+              >
+                <span aria-hidden>🔪</span>
+                Inspect {butcherCutName ?? "Cut"} in 3D Butcher Shop →
               </Link>
             ) : null}
 

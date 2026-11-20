@@ -30,7 +30,15 @@ function procurementFor({ slug, card }: IngredientDossier): ProcurementItem[] {
   return [{ sym, n: `${card.name}, market unit`, src: "", px: "", qty: 1, ingredientId: slug }];
 }
 
-export function IngredientDossierView({ dossier }: { dossier: IngredientDossier }): JSX.Element {
+export function IngredientDossierView({
+  dossier,
+  butcherHref = null,
+  butcherCutName = null,
+}: {
+  dossier: IngredientDossier;
+  butcherHref?: string | null;
+  butcherCutName?: string | null;
+}): JSX.Element {
   const { card, recipes, recipeCount } = dossier;
   const [now] = useState(() => new Date());
   return (
@@ -43,7 +51,13 @@ export function IngredientDossierView({ dossier }: { dossier: IngredientDossier 
           <SkyMatchPanel card={card} />
           <UsagePanel card={card} recipeCount={recipeCount} />
         </section>
-        <IngredientActions name={card.name} category={card.category} label={titleCase(card.name)} />
+        <IngredientActions
+          name={card.name}
+          category={card.category}
+          label={titleCase(card.name)}
+          butcherHref={butcherHref}
+          butcherCutName={butcherCutName}
+        />
         <section className="ihero-charts">
           <SeasonalityPanel seasons={card.seasons} now={now} />
           <SensoryPanel flavorProfile={card.flavorProfile} />

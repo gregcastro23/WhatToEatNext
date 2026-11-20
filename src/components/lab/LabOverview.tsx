@@ -65,6 +65,21 @@ const CONTENT: Record<
           "It cannot simulate laminated pastries or two-material filled pies, and its elemental tab is an alchm projection kept separate from the physics.",
       },
       {
+        system: "real",
+        title: "Butcher Shop — 3D Primal Cuts, Grain & Collagen",
+        claim:
+          "Procedural 3D anatomical rigs across 5 species and 52 USDA-pinned cuts, directional muscle-fiber slicing physics, collagen-to-gelatin kinetics, and the Butcher's Block order game.",
+        href: "/kitchen-lab/butcher",
+        answers: [
+          "Where does each retail sub-primal sit on the carcass and which way do its fibers run?",
+          "How does knife slice angle (0°–90°) change effective fiber length and shear force?",
+          "When do myosin, actin, and collagen hydrolysis balance tenderness against moisture?",
+          "Which site recipes pair directly with each primal cut?",
+        ],
+        cannot:
+          "It does not predict individual animal breed or dry-age enzymatic variability beyond USDA SR Legacy tissue composition, and its Elements tab is an alchm projection.",
+      },
+      {
         system: "alchm",
         href: "/kitchen-lab/alchm",
         answers: [
@@ -107,6 +122,72 @@ const CONTENT: Record<
   },
 };
 
+function LabOverviewCard({ card }: { card: ModelCard }): JSX.Element {
+  const d = SYSTEM_DESCRIPTORS[card.system];
+  return (
+    <Link
+      href={card.href}
+      className={`group flex flex-col rounded-xl border ${d.border} ${d.bg} p-5 transition hover:border-white/25`}
+    >
+      <div className="flex items-center gap-2">
+        <span className={`h-2 w-2 rounded-full ${d.dot}`} aria-hidden="true" />
+        <h2 className={`text-xs font-bold uppercase tracking-wider ${d.text}`}>
+          {card.title ?? d.label}
+        </h2>
+      </div>
+      <p className="mt-2 text-sm leading-relaxed text-white/60">
+        {card.claim ?? d.claim}
+      </p>
+      <p className="mt-5 text-[11px] font-semibold uppercase tracking-wider text-white/35">
+        Questions it answers
+      </p>
+      <ul className="mt-2 space-y-1.5">
+        {card.answers.map((a) => (
+          <li key={a} className="flex gap-2 text-sm leading-relaxed text-white/75">
+            <span aria-hidden="true" className="text-white/25">·</span>
+            {a}
+          </li>
+        ))}
+      </ul>
+      <p className="mt-5 text-[11px] font-semibold uppercase tracking-wider text-white/35">
+        What it cannot do
+      </p>
+      <p className="mt-2 text-sm leading-relaxed text-white/45">{card.cannot}</p>
+      <span className="mt-5 text-sm font-medium text-white/70 group-hover:text-white">
+        Open →
+      </span>
+    </Link>
+  );
+}
+
+function LabOverviewRouteItem({
+  route,
+}: {
+  route: (typeof NAV_IA)["kitchenLab"]["routes"][number];
+}): JSX.Element {
+  return (
+    <li>
+      <Link
+        href={route.path}
+        className="flex flex-col rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 transition hover:border-white/20"
+      >
+        <span className="flex items-center gap-1.5 text-sm text-white/80">
+          {route.system ? (
+            <span
+              aria-hidden="true"
+              className={`h-1.5 w-1.5 rounded-full ${
+                route.system === "real" ? "bg-emerald-400" : "bg-violet-400"
+              }`}
+            />
+          ) : null}
+          {route.label}
+        </span>
+        <span className="mt-0.5 text-xs text-white/40">{route.hint}</span>
+      </Link>
+    </li>
+  );
+}
+
 export function LabOverview({
   lab,
 }: {
@@ -119,61 +200,10 @@ export function LabOverview({
     <div className="px-4 py-8 sm:px-6">
       <p className="max-w-3xl text-sm leading-relaxed text-white/60">{lede}</p>
 
-      <div className={`mt-8 grid gap-4 ${cards.length > 2 ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
-        {cards.map((card) => {
-          const d = SYSTEM_DESCRIPTORS[card.system];
-          return (
-            <Link
-              key={card.href}
-              href={card.href}
-              className={`group flex flex-col rounded-xl border ${d.border} ${d.bg} p-5 transition hover:border-white/25`}
-            >
-              <div className="flex items-center gap-2">
-                <span
-                  className={`h-2 w-2 rounded-full ${d.dot}`}
-                  aria-hidden="true"
-                />
-                <h2
-                  className={`text-xs font-bold uppercase tracking-wider ${d.text}`}
-                >
-                  {card.title ?? d.label}
-                </h2>
-              </div>
-
-              <p className="mt-2 text-sm leading-relaxed text-white/60">
-                {card.claim ?? d.claim}
-              </p>
-
-              <p className="mt-5 text-[11px] font-semibold uppercase tracking-wider text-white/35">
-                Questions it answers
-              </p>
-              <ul className="mt-2 space-y-1.5">
-                {card.answers.map((a) => (
-                  <li
-                    key={a}
-                    className="flex gap-2 text-sm leading-relaxed text-white/75"
-                  >
-                    <span aria-hidden="true" className="text-white/25">
-                      ·
-                    </span>
-                    {a}
-                  </li>
-                ))}
-              </ul>
-
-              <p className="mt-5 text-[11px] font-semibold uppercase tracking-wider text-white/35">
-                What it cannot do
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-white/45">
-                {card.cannot}
-              </p>
-
-              <span className="mt-5 text-sm font-medium text-white/70 group-hover:text-white">
-                Open →
-              </span>
-            </Link>
-          );
-        })}
+      <div className={`mt-8 grid gap-4 ${cards.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
+        {cards.map((card) => (
+          <LabOverviewCard key={card.href} card={card} />
+        ))}
       </div>
 
       <div className="mt-8">
@@ -184,25 +214,7 @@ export function LabOverview({
           {section.routes
             .filter((r) => r.path !== section.path)
             .map((r) => (
-              <li key={r.path}>
-                <Link
-                  href={r.path}
-                  className="flex flex-col rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 transition hover:border-white/20"
-                >
-                  <span className="flex items-center gap-1.5 text-sm text-white/80">
-                    {r.system ? (
-                      <span
-                        aria-hidden="true"
-                        className={`h-1.5 w-1.5 rounded-full ${
-                          r.system === "real" ? "bg-emerald-400" : "bg-violet-400"
-                        }`}
-                      />
-                    ) : null}
-                    {r.label}
-                  </span>
-                  <span className="mt-0.5 text-xs text-white/40">{r.hint}</span>
-                </Link>
-              </li>
+              <LabOverviewRouteItem key={r.path} route={r} />
             ))}
         </ul>
       </div>

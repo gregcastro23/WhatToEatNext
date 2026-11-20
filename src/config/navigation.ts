@@ -143,6 +143,7 @@ export const NAV_IA: NavIA = {
       { label: "Real Physics", path: "/kitchen-lab/physics", glyph: "triangle-up-bar", hint: "Heat transfer · latent heat · medium boundaries", system: "real" },
       { label: "Hermetic Vessel", path: "/kitchen-lab/physics?tab=vessel", glyph: "crosshair", hint: "Pressure · boiling ceiling · headspace vapour", system: "real" },
       { label: "Baking Lab", path: "/kitchen-lab/baking", glyph: "triangle-up", hint: "Formula · substitution · oven phase transitions", system: "real" },
+      { label: "Butcher Shop", path: "/kitchen-lab/butcher", glyph: "crosshair", hint: "3D primal cuts · grain angle · collagen & sear physics", system: "real" },
       { label: "Alchm Physics", path: "/kitchen-lab/alchm", glyph: "spiral", hint: "Ingredient ESMS · kalchm · monica", system: "alchm" },
       { label: "Lab Book", path: "/kitchen-lab/lab-book", glyph: "bookmark", hint: "Scan or paste recipes into your cookbook", system: "alchm" },
       { label: "Grimoire", path: "/grimoire", glyph: "mortar", hint: "The practices · today's resonance · your feats", system: "alchm" },

@@ -11,8 +11,14 @@
  */
 import { useEffect, useMemo, useState } from "react";
 import { TemperatureUnitToggle } from "@/components/lab/TemperatureUnitToggle";
+import { METHOD_PHYSICS } from "@/data/cooking/methodPhysics";
 import { VESSELS_DERIVED, type VesselDerived } from "@/data/cooking/vessels";
-import { DEFAULT_AMBIENT, solveArrangement, type SolverInput } from "@/lib/cooking/labSolver";
+import {
+  DEFAULT_AMBIENT,
+  getSolvableIngredient,
+  solveArrangement,
+  type SolverInput,
+} from "@/lib/cooking/labSolver";
 import { useTemperatureUnit } from "@/lib/cooking/temperatureUnits";
 import { createBoundarySolver, type BoundarySolver } from "@/lib/wasm/thermoEngine";
 import { SolverInputs, type SolverInputState } from "./SolverInputs";
@@ -36,6 +42,24 @@ const INITIAL_STATE: SolverInputState = {
   lidSeal: "",
   burnerW: 800,
 };
+
+function initialStateFromLocation(): SolverInputState {
+  if (typeof window === "undefined") return INITIAL_STATE;
+  const params = new URLSearchParams(window.location.search);
+  const ing = params.get("ingredient");
+  const method = params.get("method");
+  const massG = Number(params.get("massG"));
+  const halfMm = Number(params.get("halfMm"));
+  const targetC = Number(params.get("targetC"));
+  return {
+    ...INITIAL_STATE,
+    ...(ing && getSolvableIngredient(ing) ? { ingredientId: ing } : {}),
+    ...(method && Object.hasOwn(METHOD_PHYSICS, method) ? { methodId: method } : {}),
+    ...(Number.isFinite(massG) && massG >= 20 && massG <= 5000 ? { massG } : {}),
+    ...(Number.isFinite(halfMm) && halfMm >= 2 && halfMm <= 100 ? { halfDimensionMm: halfMm } : {}),
+    ...(Number.isFinite(targetC) && targetC >= 20 && targetC <= 100 ? { targetC } : {}),
+  };
+}
 
 function useBoundarySolver(): BoundarySolver | null {
   const [boundarySolver, setBoundarySolver] = useState<BoundarySolver | null>(null);
@@ -102,7 +126,7 @@ function SolverHeader({ engine }: { engine: BoundarySolver["engine"] | null }): 
 
 export function SolverPanel(): React.JSX.Element {
   const { unit, formatTemp } = useTemperatureUnit();
-  const [state, setState] = useState<SolverInputState>(INITIAL_STATE);
+  const [state, setState] = useState<SolverInputState>(initialStateFromLocation);
   const boundarySolver = useBoundarySolver();
   const vessel = VESSELS_DERIVED.find((v) => v.id === state.vesselId) ?? null;
 
