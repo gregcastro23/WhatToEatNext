@@ -2,6 +2,7 @@
 
 import { SPECIES_LIST, getCutsForPrimal, getSpeciesSpec } from "@/data/butcher/cutsCatalogue";
 import { BUTCHER_CAMERA_FRAMINGS } from "@/lib/butcher/stage/cameraFramings";
+import { OVERLAY_COLOR_LEGEND } from "@/lib/butcher/stage/overlayLegend";
 import type { CameraFramingId, ColorOverlayMode, SpeciesId, SpeciesSpec } from "@/lib/butcher/types";
 import { LazyButcherStage } from "./LazyButcherStage";
 import type { ButcherLabState } from "./useButcherLab";
@@ -92,6 +93,14 @@ function BreakdownOverlayRow({
             <button key={m.id} type="button" className="bt-btn" aria-pressed={colorMode === m.id} onClick={() => onColorModeChange(m.id)}>
               {m.label}
             </button>
+          ))}
+        </div>
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-white/65" aria-label="Color overlay legend">
+          {OVERLAY_COLOR_LEGEND[colorMode].map((item) => (
+            <span key={item.label} className="inline-flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-sm border border-white/20" style={{ backgroundColor: item.colorHex }} aria-hidden="true" />
+              {item.label}
+            </span>
           ))}
         </div>
       </div>

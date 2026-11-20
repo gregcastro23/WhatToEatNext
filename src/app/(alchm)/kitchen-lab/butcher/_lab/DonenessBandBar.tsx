@@ -28,7 +28,13 @@ function DonenessBandSvg({ result }: { readonly result: CoupledTrajectoryResult 
 
   return (
     <div className="space-y-1.5">
-      <svg viewBox={`0 0 ${fullW} ${barH}`} className="h-7 w-full overflow-hidden rounded-md border border-white/15 bg-black/40" role="img" aria-label={aria}>
+      <svg
+        viewBox={`0 0 ${fullW} ${barH}`}
+        preserveAspectRatio="none"
+        className="h-7 w-full overflow-hidden rounded-md border border-white/15 bg-black/40"
+        role="img"
+        aria-label={aria}
+      >
         <rect x={0} y={0} width={crustPx} height={barH} fill="#7c2d12" />
         <rect x={crustPx} y={0} width={grayPx} height={barH} fill="#78716c" />
         <rect x={crustPx + grayPx} y={0} width={corePx} height={barH} fill="#fb7185" />

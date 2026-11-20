@@ -1,8 +1,9 @@
 import type { CameraFramingId, Vec3Tuple } from "@/lib/butcher/types";
 
 /**
- * Coaxial camera choreography & quintic ease-out curves adapted from Pentacles
- * `seeker-vessel-stage.js` (`ARMILLARY_FRAMINGS` & `armillaryEaseOut`).
+ * Coaxial camera choreography, responsive explode/aspect framing, and quintic
+ * ease-out curves adapted from Pentacles `seeker-vessel-stage.js`
+ * (`ARMILLARY_FRAMINGS` & `armillaryEaseOut`).
  *
  * @file src/lib/butcher/stage/cameraFramings.ts
  */
@@ -38,4 +39,32 @@ export const BUTCHER_CAMERA_FRAMINGS: Readonly<Record<CameraFramingId, CameraFra
 export function armillaryEaseOut(t: number): number {
   const clamped = Math.max(0, Math.min(1, t));
   return 1 - Math.pow(1 - clamped, 3.4);
+}
+
+/**
+ * Pulls camera distance back smoothly when primals explode toward 100% (preventing
+ * dorsal cuts from clipping the upper viewport edge) and when canvas aspect narrows
+ * below desktop proportions (preventing mobile horizontal carcass clipping).
+ */
+export function computeResponsiveStageRadius(params: {
+  readonly baseRadius: number;
+  readonly aspect: number;
+  readonly explodeFactor: number;
+  readonly framing: CameraFramingId;
+}): number {
+  const safeBase = Math.max(1, params.baseRadius);
+  const safeAspect = Number.isFinite(params.aspect) && params.aspect > 0 ? params.aspect : 1.6;
+  const explode = Math.min(1, Math.max(0, Number.isFinite(params.explodeFactor) ? params.explodeFactor : 0));
+
+  if (params.framing === "butcher-block-slice") {
+    const narrowScale = safeAspect < 1.4 ? Math.min(1.32, 1.4 / Math.max(0.75, safeAspect)) : 1;
+    return safeBase * narrowScale;
+  }
+
+  const explodeScale =
+    params.framing === "exploded-primal"
+      ? 1 + Math.max(0, explode - 0.45) * 0.44
+      : 1 + Math.max(0, explode - 0.15) * 0.5;
+  const aspectScale = safeAspect < 1.65 ? Math.min(1.68, 1.65 / Math.max(0.75, safeAspect)) : 1;
+  return safeBase * explodeScale * aspectScale;
 }

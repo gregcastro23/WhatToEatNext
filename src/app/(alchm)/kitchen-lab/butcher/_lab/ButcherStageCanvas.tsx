@@ -82,7 +82,7 @@ export function ButcherStageCanvas(props: ButcherStageProps): JSX.Element {
         onToggleMotion={() => runtime.setMotionPaused((prev) => !prev)}
         onSwitchSvg={() => runtime.setForceSvg(true)}
       />
-      <div ref={runtime.wrapRef} className="relative h-[360px] w-full">
+      <div ref={runtime.wrapRef} className="relative h-[280px] w-full sm:h-[360px]">
         <canvas
           ref={runtime.canvasRef}
           tabIndex={0}

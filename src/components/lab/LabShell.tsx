@@ -57,7 +57,7 @@ function LabSubpageRail({
   isActive: (path: string) => boolean;
 }): JSX.Element {
   return (
-    <div className="flex flex-wrap items-center gap-x-1 gap-y-2 pb-px pt-2">
+    <div className="flex flex-nowrap items-center gap-x-1 gap-y-2 overflow-x-auto pb-1.5 pt-2 [scrollbar-width:none] sm:flex-wrap sm:overflow-visible sm:pb-px [&::-webkit-scrollbar]:hidden">
       {routes.map((route) => {
         const current = isActive(route.path);
         return (
@@ -71,7 +71,7 @@ function LabSubpageRail({
             }
             aria-current={current ? "page" : undefined}
             title={route.hint}
-            className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition ${
+            className={`flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md px-2.5 py-1.5 text-xs font-medium transition ${
               current
                 ? "bg-white/10 text-white"
                 : "text-white/45 hover:bg-white/5 hover:text-white/80"

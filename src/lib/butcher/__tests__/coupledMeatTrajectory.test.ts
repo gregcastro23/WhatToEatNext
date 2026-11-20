@@ -43,6 +43,37 @@ describe("Coupled 1D Meat Heat-Moisture-Denaturation Trajectory", () => {
     expect(seared.carryoverRiseC).toBeGreaterThan(0);
   });
 
+  it("calibrates 35 mm ribeye carryover to realistic +3-6 C on direct sear and +1-3 C on reverse sear", () => {
+    const ribeye = getCutById("ribeye");
+    expect(ribeye).not.toBeNull();
+    if (!ribeye) return;
+
+    const seared = simulateCoupledCutTrajectory(ribeye, {
+      method: "searing",
+      targetCoreTempC: 56,
+      thicknessMm: 35,
+      holdMinutes: 12,
+    });
+    const reverseSeared = simulateCoupledCutTrajectory(ribeye, {
+      method: "reverse-sear",
+      targetCoreTempC: 56,
+      thicknessMm: 35,
+      holdMinutes: 12,
+    });
+    const sousVide = simulateCoupledCutTrajectory(ribeye, {
+      method: "sous-vide",
+      targetCoreTempC: 56,
+      thicknessMm: 35,
+    });
+
+    expect(seared.carryoverRiseC).toBeGreaterThanOrEqual(3);
+    expect(seared.carryoverRiseC).toBeLessThanOrEqual(6);
+    expect(reverseSeared.carryoverRiseC).toBeGreaterThanOrEqual(1);
+    expect(reverseSeared.carryoverRiseC).toBeLessThanOrEqual(3);
+    expect(sousVide.carryoverRiseC).toBeLessThanOrEqual(0.5);
+    expect(reverseSeared.grayBandMm).toBeLessThan(seared.grayBandMm);
+  });
+
   it("reproduces a 65-78 C evaporative BBQ stall and monotonic collagen hydrolysis during smoking + rest", () => {
     const brisket = getCutById("brisket-flat");
     expect(brisket).not.toBeNull();

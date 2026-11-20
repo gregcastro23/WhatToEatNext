@@ -43,21 +43,35 @@ const INITIAL_STATE: SolverInputState = {
   burnerW: 800,
 };
 
+function parseBoundedParam(
+  params: URLSearchParams,
+  key: string,
+  min: number,
+  max: number,
+): number | undefined {
+  const raw = params.get(key);
+  if (raw === null || raw.trim() === "") return undefined;
+  const val = Number(raw);
+  return Number.isFinite(val) && val >= min && val <= max ? val : undefined;
+}
+
 function initialStateFromLocation(): SolverInputState {
   if (typeof window === "undefined") return INITIAL_STATE;
   const params = new URLSearchParams(window.location.search);
   const ing = params.get("ingredient");
   const method = params.get("method");
-  const massG = Number(params.get("massG"));
-  const halfMm = Number(params.get("halfMm"));
-  const targetC = Number(params.get("targetC"));
+  const massG = parseBoundedParam(params, "massG", 20, 5000);
+  const halfMm = parseBoundedParam(params, "halfMm", 2, 100);
+  const targetC = parseBoundedParam(params, "targetC", 20, 100);
+  const airC = parseBoundedParam(params, "airC", 0, 95);
   return {
     ...INITIAL_STATE,
     ...(ing && getSolvableIngredient(ing) ? { ingredientId: ing } : {}),
     ...(method && Object.hasOwn(METHOD_PHYSICS, method) ? { methodId: method } : {}),
-    ...(Number.isFinite(massG) && massG >= 20 && massG <= 5000 ? { massG } : {}),
-    ...(Number.isFinite(halfMm) && halfMm >= 2 && halfMm <= 100 ? { halfDimensionMm: halfMm } : {}),
-    ...(Number.isFinite(targetC) && targetC >= 20 && targetC <= 100 ? { targetC } : {}),
+    ...(massG !== undefined ? { massG } : {}),
+    ...(halfMm !== undefined ? { halfDimensionMm: halfMm } : {}),
+    ...(targetC !== undefined ? { targetC } : {}),
+    ...(airC !== undefined ? { airC } : {}),
   };
 }
 

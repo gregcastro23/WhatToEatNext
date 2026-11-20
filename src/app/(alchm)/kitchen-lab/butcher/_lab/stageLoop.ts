@@ -6,6 +6,7 @@ import {
 import {
   BUTCHER_CAMERA_FRAMINGS,
   armillaryEaseOut,
+  computeResponsiveStageRadius,
 } from "@/lib/butcher/stage/cameraFramings";
 import {
   applyCarcassColorMode,
@@ -105,13 +106,15 @@ export function stepStageCamera(
     camera.updateProjectionMatrix();
   }
 
-  const radius = Math.hypot(
+  const baseRadius = Math.hypot(
     refs.camCurrPos.current.x - refs.camCurrLook.current.x,
     refs.camCurrPos.current.z - refs.camCurrLook.current.z,
   );
+  const radius = computeResponsiveStageRadius({
+    baseRadius, aspect: camera.aspect, explodeFactor: refs.propsRef.current.explodeFactor, framing: refs.propsRef.current.framing,
+  });
   const totalYaw = refs.orbitYawRef.current + refs.pointerXRef.current * 0.1;
   const totalPitch = refs.orbitPitchRef.current - refs.pointerYRef.current * 0.06;
-
   camera.position.set(
     refs.camCurrLook.current.x + Math.sin(totalYaw) * radius,
     refs.camCurrPos.current.y + totalPitch * 1.4,
@@ -120,21 +123,13 @@ export function stepStageCamera(
   camera.lookAt(refs.camCurrLook.current);
 }
 
-function createWebGLSession(
-  canvas: HTMLCanvasElement,
-  refs: StageMutableRefs,
-): {
+function createWebGLSession(canvas: HTMLCanvasElement, refs: StageMutableRefs): {
   readonly renderer: THREE.WebGLRenderer;
   readonly scene: THREE.Scene;
   readonly camera: THREE.PerspectiveCamera;
   readonly envTarget: THREE.WebGLRenderTarget | undefined;
 } {
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    alpha: true,
-    antialias: true,
-    powerPreference: "high-performance",
-  });
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -171,7 +166,7 @@ function attachResizeAndLoop(
   const handleResize = (): void => {
     const rect = wrap.getBoundingClientRect();
     const width = Math.max(240, Math.floor(rect.width || 600));
-    const height = Math.max(260, Math.floor(rect.height || 360));
+    const height = Math.max(220, Math.floor(rect.height || 280));
     session.camera.aspect = width / height;
     session.camera.updateProjectionMatrix();
     session.renderer.setSize(width, height, false);

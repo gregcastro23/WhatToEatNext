@@ -67,10 +67,11 @@ describe("<ButcherLabApp />", () => {
     }
     expect(window.location.search).toContain("cut=pork-belly");
 
-    // Switch to Elements tab -> banner must flip to `alchm`
+    // Switch to Elements tab -> banner must flip to `alchm` and grid switches to full-width single column
     fireEvent.click(screen.getByRole("button", { name: "Elements" }));
     expect(screen.getByRole("note")).toHaveAttribute("data-system", "alchm");
     expect(screen.getByText(/pork belly: .*-led projection/i)).toBeInTheDocument();
+    expect(document.querySelector(".bt-grid--single")).not.toBeNull();
 
     // Switch to Sources & Recipes tab -> displays USDA FDC record and mocked recipe link
     fireEvent.click(screen.getByRole("button", { name: "Sources & Recipes" }));
@@ -78,6 +79,32 @@ describe("<ButcherLabApp />", () => {
     await waitFor(() => {
       expect(screen.getByText("Cast-Iron Pan-Seared Ribeye")).toBeInTheDocument();
     });
+  });
+
+  it("syncs explode presets, renders overlay color legends, and sets full-width DonenessBandBar SVG", async () => {
+    render(<ButcherLabApp />);
+
+    const wholeBtn = screen.getByRole("button", { name: "Whole Carcass" });
+    const explodedBtn = screen.getByRole("button", { name: "Exploded Primals" });
+    const explodeSlider = screen.getByLabelText(/explode primals/i);
+
+    expect(wholeBtn).toHaveAttribute("aria-pressed", "true");
+    expect(explodeSlider).toHaveValue("0");
+
+    fireEvent.change(explodeSlider, { target: { value: "1" } });
+    expect(explodedBtn).toHaveAttribute("aria-pressed", "true");
+    expect(wholeBtn).toHaveAttribute("aria-pressed", "false");
+
+    fireEvent.click(wholeBtn);
+    expect(wholeBtn).toHaveAttribute("aria-pressed", "true");
+    expect(explodeSlider).toHaveValue("0");
+
+    fireEvent.click(screen.getByRole("button", { name: "Marbling / Fat %" }));
+    expect(screen.getByLabelText("Color overlay legend")).toHaveTextContent(/≥20 g fat/i);
+
+    fireEvent.click(screen.getByRole("button", { name: "Thermal & Grain" }));
+    const bandSvg = screen.getByRole("img", { name: /cross-section thickness/i });
+    expect(bandSvg).toHaveAttribute("preserveAspectRatio", "none");
   });
 
   it("runs a complete Butcher's Block order and carve round via the headless SVG stage controls", async () => {

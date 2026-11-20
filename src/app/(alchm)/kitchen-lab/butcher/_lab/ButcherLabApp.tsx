@@ -110,7 +110,7 @@ function ButcherLabBody({
   return (
     <>
       {hint === undefined ? null : <p className="px-5 pt-3 text-xs text-white/45">{hint}</p>}
-      <div className="bt-grid">
+      <div className={tab === "elements" ? "bt-grid bt-grid--single" : "bt-grid"}>
         <section aria-label={panelLabel}>
           <Panel tab={tab} lab={lab} onSelectSpecies={onSelectSpecies} onSelectCut={onSelectCut} />
         </section>

@@ -40,9 +40,35 @@ export interface MethodBoundarySpec {
   readonly dtSec: number;
   readonly maxCookMin: number;
   readonly pullOffsetC: number;
+  readonly initialSearMaxSec: number;
+  readonly initialSearStopSurfaceC: number;
+  readonly initialSearMediumC: number;
+  readonly initialSearHWm2K: number;
   readonly finishSec: number;
   readonly finishMediumC: number;
   readonly finishHWm2K: number;
+  readonly dryBeforeFinish: boolean;
+  readonly crustConductivityFactor: number;
+  readonly supportsHold: boolean;
+}
+
+export const PAN_CONTACT_SURFACE_C = 205;
+export const PAN_CONTACT_H_WM2K = 438;
+export const PAN_AIR_SIDE_H_WM2K = 12;
+export const PAN_AIR_SIDE_C = 25;
+export const SEAR_PULL_OFFSET_C = 4;
+export const ROAST_PULL_OFFSET_C = 5;
+
+/** Flip-averaged oiled-pan boundary (`185–210 °C` contact cap) for a symmetric 1D slab. */
+export function flipAveragedPanBoundary(
+  panSurfaceC: number = PAN_CONTACT_SURFACE_C,
+): { readonly mediumC: number; readonly hWm2K: number } {
+  const panC = clamp(panSurfaceC, 185, 210);
+  const hSum = PAN_CONTACT_H_WM2K + PAN_AIR_SIDE_H_WM2K;
+  return {
+    mediumC: Number(((PAN_CONTACT_H_WM2K * panC + PAN_AIR_SIDE_H_WM2K * PAN_AIR_SIDE_C) / hSum).toFixed(1)),
+    hWm2K: Number((hSum / 2).toFixed(1)),
+  };
 }
 
 export function defaultTrajectoryMethodForCut(cut: AnatomicalCut): TrajectoryMethodId {
@@ -63,50 +89,67 @@ export function defaultTrajectoryMethodForCut(cut: AnatomicalCut): TrajectoryMet
   }
 }
 
+const DEFAULT_BOUNDARY_BASE: MethodBoundarySpec = {
+  mediumC: 185, hWm2K: 26, wetMedium: false, initialSurfaceWaterKgM2: 0.3,
+  evapScale: 1.0, dtSec: 2, maxCookMin: 240, pullOffsetC: 0,
+  initialSearMaxSec: 0, initialSearStopSurfaceC: 0, initialSearMediumC: 0, initialSearHWm2K: 0,
+  finishSec: 0, finishMediumC: 185, finishHWm2K: 26, dryBeforeFinish: false,
+  crustConductivityFactor: 1.0, supportsHold: false,
+};
+
+const STATIC_BOUNDARY_OVERRIDES: Partial<Record<TrajectoryMethodId, Partial<MethodBoundarySpec>>> = {
+  smoking: {
+    mediumC: 120, hWm2K: 24, initialSurfaceWaterKgM2: 2.0, evapScale: 1.15,
+    dtSec: 4, maxCookMin: 720, finishMediumC: 120, finishHWm2K: 24, supportsHold: true,
+  },
+  roasting: {
+    mediumC: 185, hWm2K: 26, initialSurfaceWaterKgM2: 0.3, pullOffsetC: ROAST_PULL_OFFSET_C,
+    crustConductivityFactor: 0.24,
+  },
+};
+
 export function boundarySpecForMethod(
   method: TrajectoryMethodId,
   targetCoreTempC: number,
+  halfThicknessMm = 17.5,
 ): MethodBoundarySpec {
-  switch (method) {
-    case "searing":
-      return {
-        mediumC: 230, hWm2K: 420, wetMedium: false,
-        initialSurfaceWaterKgM2: 0.16, evapScale: 1.0, dtSec: 2, maxCookMin: 60,
-        pullOffsetC: 0, finishSec: 0, finishMediumC: 230, finishHWm2K: 420,
-      };
-    case "reverse-sear":
-      return {
-        mediumC: 110, hWm2K: 26, wetMedium: false,
-        initialSurfaceWaterKgM2: 0.18, evapScale: 0.9, dtSec: 4, maxCookMin: 360,
-        pullOffsetC: 6, finishSec: 60, finishMediumC: 235, finishHWm2K: 420,
-      };
-    case "smoking":
-      return {
-        mediumC: 120, hWm2K: 24, wetMedium: false,
-        initialSurfaceWaterKgM2: 2.0, evapScale: 1.15, dtSec: 4, maxCookMin: 720,
-        pullOffsetC: 0, finishSec: 0, finishMediumC: 120, finishHWm2K: 24,
-      };
-    case "braising":
-      return {
-        mediumC: Math.min(99, Math.max(94, targetCoreTempC + 4)),
-        hWm2K: 950, wetMedium: true,
-        initialSurfaceWaterKgM2: 1.0, evapScale: 0, dtSec: 4, maxCookMin: 480,
-        pullOffsetC: 0, finishSec: 0, finishMediumC: 96, finishHWm2K: 950,
-      };
-    case "sous-vide":
-      return {
-        mediumC: Math.min(98, targetCoreTempC + 0.5),
-        hWm2K: 600, wetMedium: true,
-        initialSurfaceWaterKgM2: 1.0, evapScale: 0, dtSec: 4, maxCookMin: 360,
-        pullOffsetC: 0, finishSec: 0, finishMediumC: targetCoreTempC + 0.5, finishHWm2K: 600,
-      };
-    case "roasting":
-      return {
-        mediumC: 190, hWm2K: 32, wetMedium: false,
-        initialSurfaceWaterKgM2: 0.3, evapScale: 1.0, dtSec: 2, maxCookMin: 240,
-        pullOffsetC: 0, finishSec: 0, finishMediumC: 190, finishHWm2K: 32,
-      };
+  if (method === "searing") {
+    const pan = flipAveragedPanBoundary();
+    return {
+      ...DEFAULT_BOUNDARY_BASE,
+      mediumC: Math.max(100, targetCoreTempC + 24), hWm2K: 72,
+      initialSurfaceWaterKgM2: 0.12, maxCookMin: 60, pullOffsetC: SEAR_PULL_OFFSET_C,
+      initialSearMaxSec: Math.round(clamp(halfThicknessMm * 8, 44, 150)),
+      initialSearStopSurfaceC: 158, initialSearMediumC: 202, initialSearHWm2K: pan.hWm2K,
+      finishMediumC: pan.mediumC, finishHWm2K: pan.hWm2K, crustConductivityFactor: 0.24,
+    };
   }
+  if (method === "reverse-sear") {
+    return {
+      ...DEFAULT_BOUNDARY_BASE,
+      mediumC: clamp(targetCoreTempC + 24, 92, 118), hWm2K: 13,
+      initialSurfaceWaterKgM2: 0.14, evapScale: 0.9, dtSec: 4, maxCookMin: 360, pullOffsetC: 2,
+      finishSec: Math.round(clamp(halfThicknessMm * 0.95, 14, 18)),
+      finishMediumC: 210, finishHWm2K: 280, dryBeforeFinish: true, crustConductivityFactor: 0.24,
+    };
+  }
+  if (method === "braising") {
+    return {
+      ...DEFAULT_BOUNDARY_BASE,
+      mediumC: Math.min(99, Math.max(94, targetCoreTempC + 4)), hWm2K: 950, wetMedium: true,
+      initialSurfaceWaterKgM2: 1.0, evapScale: 0, dtSec: 4, maxCookMin: 480,
+      finishMediumC: 96, finishHWm2K: 950, supportsHold: true,
+    };
+  }
+  if (method === "sous-vide") {
+    return {
+      ...DEFAULT_BOUNDARY_BASE,
+      mediumC: Math.min(98, targetCoreTempC + 0.5), hWm2K: 600, wetMedium: true,
+      initialSurfaceWaterKgM2: 1.0, evapScale: 0, dtSec: 4, maxCookMin: 360,
+      finishMediumC: targetCoreTempC + 0.5, finishHWm2K: 600, supportsHold: true,
+    };
+  }
+  return { ...DEFAULT_BOUNDARY_BASE, ...STATIC_BOUNDARY_OVERRIDES[method] };
 }
 
 export function grayBandThresholdForCut(
@@ -127,7 +170,6 @@ function clamp(v: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, v));
 }
 
-/** Antoine saturated vapor pressure (kPa) for water over 1–100 °C. */
 function saturationPressureKPa(tempC: number): number {
   const t = clamp(tempC, 1, 100);
   const log10MmHg = 8.07131 - 1730.63 / (233.426 + t);

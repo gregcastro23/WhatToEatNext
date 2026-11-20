@@ -61,4 +61,22 @@ describe("SolverPanel", () => {
     expect(text).not.toMatch(/\bNaN\b/);
     expect(text).not.toMatch(/\bN\/A\b/);
   });
+
+  it("hydrates smoking handoff parameters cleanly and surfaces method medium beside kitchen ambient temp", async () => {
+    window.history.replaceState(
+      null,
+      "",
+      "/kitchen-lab/physics?method=smoking&massG=140&halfMm=8&targetC=51",
+    );
+    try {
+      await renderSettled();
+      expect(screen.getByLabelText("Cooking method")).toHaveValue("smoking");
+      expect(screen.getByLabelText(/kitchen ambient temp/i)).toHaveValue(68);
+      expect(screen.getAllByText(/225°F/).length).toBeGreaterThanOrEqual(1);
+      expect(screen.getByText(/140 g · smoking/i)).toBeInTheDocument();
+      expect(screen.queryByText(/water loss:.*not a usable variable/i)).not.toBeInTheDocument();
+    } finally {
+      window.history.replaceState(null, "", "/");
+    }
+  });
 });
