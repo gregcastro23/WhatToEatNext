@@ -182,7 +182,7 @@ function OrderScorecard({
   readonly gameTier: ButcherOrderTier;
 }): JSX.Element {
   return (
-    <div className="rounded-lg border border-white/15 bg-black/35 p-4" role="status" aria-live="polite">
+    <div className="rounded-lg border border-white/15 bg-black/35 p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <strong className="text-base text-white">
           Scorecard: Grade {score.grade} ({score.totalScore}/100) — {score.passed ? "Ticket Fulfilled" : "Needs Refinement"}
@@ -242,7 +242,9 @@ export function ButchersBlockPanel({
             Next Order Ticket →
           </button>
         </div>
-        {lab.lastScore ? <OrderScorecard score={lab.lastScore} gameTier={lab.gameTier} /> : null}
+        <div role="status" aria-live="polite" aria-atomic="true">
+          {lab.lastScore ? <OrderScorecard score={lab.lastScore} gameTier={lab.gameTier} /> : null}
+        </div>
       </div>
     </div>
   );

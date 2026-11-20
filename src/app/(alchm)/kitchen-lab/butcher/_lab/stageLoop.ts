@@ -15,6 +15,7 @@ import {
   setCarcassExplodeFactor,
   updateSlicingPlane,
 } from "@/lib/butcher/stage/carcassAvatar3d";
+import { attachWebGLContextLifecycle, releaseRendererContext } from "./stageContext";
 import type { ButcherStageProps } from "./stageTypes";
 
 /**
@@ -164,9 +165,9 @@ function attachResizeAndLoop(
   wrap: HTMLDivElement,
   session: ReturnType<typeof createWebGLSession>,
   refs: StageMutableRefs,
-  isDisposed: () => boolean,
+  shouldStop: () => boolean,
   setRafId: (id: number) => void,
-): ResizeObserver | null {
+): { readonly observer: ResizeObserver | null; readonly startLoop: () => void } {
   const handleResize = (): void => {
     const rect = wrap.getBoundingClientRect();
     const width = Math.max(240, Math.floor(rect.width || 600));
@@ -182,15 +183,81 @@ function attachResizeAndLoop(
 
   let lastTs = performance.now();
   const tick = (ts: number): void => {
-    if (isDisposed() || !refs.sceneRef.current || !refs.cameraRef.current) return;
+    if (shouldStop() || !refs.sceneRef.current || !refs.cameraRef.current) return;
     const dt = Math.min(0.05, Math.max(0.001, (ts - lastTs) / 1000));
     lastTs = ts;
     stepStageCamera(refs.cameraRef.current, refs, dt);
     session.renderer.render(refs.sceneRef.current, refs.cameraRef.current);
     setRafId(requestAnimationFrame(tick));
   };
-  setRafId(requestAnimationFrame(tick));
-  return observer;
+  const startLoop = (): void => {
+    lastTs = performance.now();
+    setRafId(requestAnimationFrame(tick));
+  };
+  startLoop();
+  return { observer, startLoop };
+}
+
+interface MountedSessionHandles {
+  disposed: boolean;
+  contextLost: boolean;
+  rafId: number | null;
+}
+
+function disposeSessionResources(
+  session: ReturnType<typeof createWebGLSession>,
+  refs: StageMutableRefs,
+  envTarget: THREE.WebGLRenderTarget | undefined,
+): void {
+  if (refs.rigRef.current) {
+    disposeCarcassRig(refs.rigRef.current);
+    refs.rigRef.current = null;
+  }
+  session.scene.environment = null;
+  envTarget?.dispose();
+  releaseRendererContext(session.renderer);
+  refs.sceneRef.current = null;
+  refs.cameraRef.current = null;
+}
+
+function wireSessionLifecycle(
+  canvas: HTMLCanvasElement,
+  wrap: HTMLDivElement,
+  session: ReturnType<typeof createWebGLSession>,
+  refs: StageMutableRefs,
+  onFallbackSvg: () => void,
+): () => void {
+  const handles: MountedSessionHandles = { disposed: false, contextLost: false, rafId: null };
+  let { envTarget } = session;
+  const loop = attachResizeAndLoop(wrap, session, refs, () => handles.disposed || handles.contextLost, (id) => {
+    handles.rafId = id;
+  });
+  const detachContext = attachWebGLContextLifecycle({
+    canvas,
+    renderer: session.renderer,
+    scene: session.scene,
+    getEnvTarget: () => envTarget,
+    setEnvTarget: (next) => { envTarget = next; },
+    isDisposed: () => handles.disposed,
+    onPauseRaf: () => {
+      handles.contextLost = true;
+      if (handles.rafId !== null) { cancelAnimationFrame(handles.rafId); handles.rafId = null; }
+    },
+    onResumeLoop: () => {
+      handles.contextLost = false;
+      if (refs.rigRef.current) syncCarcassRigOverlay(refs.rigRef.current, refs.propsRef.current);
+      loop.startLoop();
+    },
+    onFallbackSvg,
+  });
+
+  return (): void => {
+    handles.disposed = true;
+    if (handles.rafId !== null) cancelAnimationFrame(handles.rafId);
+    loop.observer?.disconnect();
+    detachContext();
+    disposeSessionResources(session, refs, envTarget);
+  };
 }
 
 export function mountButcherWebGLStage(
@@ -199,35 +266,15 @@ export function mountButcherWebGLStage(
   refs: StageMutableRefs,
   onFallbackSvg: () => void,
 ): () => void {
-  let disposed = false;
-  let rafId: number | null = null;
-  let resizeObserver: ResizeObserver | null = null;
-  let renderer: THREE.WebGLRenderer | null = null;
-  let envTarget: THREE.WebGLRenderTarget | undefined;
-
+  let session: ReturnType<typeof createWebGLSession> | null = null;
   try {
-    const session = createWebGLSession(canvas, refs);
-    ({ renderer, envTarget } = session);
-    resizeObserver = attachResizeAndLoop(wrap, session, refs, () => disposed, (id) => {
-      rafId = id;
-    });
+    session = createWebGLSession(canvas, refs);
+    return wireSessionLifecycle(canvas, wrap, session, refs, onFallbackSvg);
   } catch {
+    if (session) disposeSessionResources(session, refs, session.envTarget);
     onFallbackSvg();
+    return (): void => undefined;
   }
-
-  return (): void => {
-    disposed = true;
-    if (rafId !== null) cancelAnimationFrame(rafId);
-    resizeObserver?.disconnect();
-    if (refs.rigRef.current) {
-      disposeCarcassRig(refs.rigRef.current);
-      refs.rigRef.current = null;
-    }
-    envTarget?.dispose();
-    renderer?.dispose();
-    refs.sceneRef.current = null;
-    refs.cameraRef.current = null;
-  };
 }
 
 export function pickCutAtClientPoint(

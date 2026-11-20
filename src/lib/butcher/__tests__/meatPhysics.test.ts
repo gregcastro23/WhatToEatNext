@@ -20,7 +20,9 @@ import {
   evaluateGrainSlice,
   evaluateThermalProfile,
   generateThermalCurve,
+  thermalCurveBoundsFor,
 } from "@/lib/butcher/science/meatPhysics";
+import { knifeNormalAtAngle } from "@/lib/butcher/science/butcherGame";
 import type { Recipe } from "@/types/recipe";
 
 describe("USDA FDC Butcher Catalogue & Meat Biophysics", () => {
@@ -100,7 +102,26 @@ describe("USDA FDC Butcher Catalogue & Meat Biophysics", () => {
     expect(Number.isFinite(parallelEval.shearForceMultiplier)).toBe(true);
     expect(parallelEval.effectiveFiberLengthMm).toBeLessThanOrEqual(skirt.maxFiberLengthMm);
     expect(parallelEval.shearForceMultiplier).toBeGreaterThan(2.5);
-    expect(parallelEval.grainAngleScore).toBeLessThan(30);
+    expect(parallelEval.grainAngleScore).toBeLessThan(15);
+
+    // 20-degree steep parallel bias degrades sharply (<35)
+    const steepEval = evaluateGrainSlice(
+      skirt,
+      knifeNormalAtAngle(20, skirt.grainVector),
+      225,
+      225,
+    );
+    expect(steepEval.grainAngleScore).toBeLessThan(35);
+
+    // Valid 45-degree bias cut still retains most cross-grain tenderness benefit (>=80)
+    const bias45Eval = evaluateGrainSlice(
+      skirt,
+      knifeNormalAtAngle(45, skirt.grainVector),
+      225,
+      225,
+    );
+    expect(bias45Eval.grainAngleScore).toBeGreaterThanOrEqual(80);
+    expect(bias45Eval.verdict).toBe("Bias Cross-Grain Cut");
 
     // 90-degree cross-grain vector aligned along grainVector -> dot === 1 -> theta === 90 deg
     const crossEval = evaluateGrainSlice(skirt, skirt.grainVector, 225, 225);
@@ -108,6 +129,45 @@ describe("USDA FDC Butcher Catalogue & Meat Biophysics", () => {
     expect(crossEval.shearForceMultiplier).toBe(1);
     expect(crossEval.grainAngleScore).toBe(100);
     expect(crossEval.portionPrecisionScore).toBe(100);
+  });
+
+  it("models species-specific DSC windows for finfish myocommata, poultry breast/thigh, and mammalian actin", () => {
+    const brisket = getCutById("brisket-flat");
+    const salmonBelly = getCutById("belly-toro");
+    const chickenBreast = getCutById("breast-supreme");
+    const chickenThigh = getCutById("chicken-thigh");
+    expect(brisket && salmonBelly && chickenBreast && chickenThigh).toBeTruthy();
+    if (!brisket || !salmonBelly || !chickenBreast || !chickenThigh) return;
+
+    // Mammalian DSC distinction: 69.5 °C drives moisture expulsion while actin peaks at 80–83 °C
+    const midShrink = evaluateThermalProfile(brisket, 70, 5);
+    const actinPeak = evaluateThermalProfile(brisket, 82, 5);
+    expect(midShrink.actinCoagulatedPct).toBeLessThan(10);
+    expect(actinPeak.actinCoagulatedPct).toBeGreaterThan(55);
+
+    // Finfish myocommata gelatinize around 45–55 °C (0% at 40 °C), and warn on >=60 °C albumin loss
+    const coolFish = evaluateThermalProfile(salmonBelly, 40, 12);
+    const miCuitFish = evaluateThermalProfile(salmonBelly, 50, 12);
+    const overcookedFish = evaluateThermalProfile(salmonBelly, 64, 12);
+    expect(coolFish.gelatinConversionPct).toBe(0);
+    expect(miCuitFish.gelatinConversionPct).toBeGreaterThan(50);
+    expect(miCuitFish.warning).toBeNull();
+    expect(overcookedFish.warning).toMatch(/albumin expulsion/i);
+    expect(miCuitFish.moistureRetentionPct).toBeGreaterThan(overcookedFish.moistureRetentionPct + 15);
+    expect(thermalCurveBoundsFor("finfish")).toEqual({ minC: 35, maxC: 75, stepC: 2 });
+    const fishCurve = generateThermalCurve(salmonBelly, 12);
+    expect(fishCurve[0]?.tempC).toBe(35);
+    expect(fishCurve[fishCurve.length - 1]?.tempC).toBe(75);
+
+    // Poultry white meat dries & warns past 72 °C whereas dark meat tolerates 82 °C collagen softening
+    const juicyBreast = evaluateThermalProfile(chickenBreast, 65, 10);
+    const dryBreast = evaluateThermalProfile(chickenBreast, 75, 10);
+    const tenderThigh = evaluateThermalProfile(chickenThigh, 82, 45);
+    expect(juicyBreast.warning).toBeNull();
+    expect(dryBreast.warning).toMatch(/white-meat drying/i);
+    expect(juicyBreast.moistureRetentionPct).toBeGreaterThan(dryBreast.moistureRetentionPct + 15);
+    expect(tenderThigh.gelatinConversionPct).toBeGreaterThan(50);
+    expect(tenderThigh.warning).toBeNull();
   });
 
   it("matches protein ingredients and recipes while returning null for vegan dishes", () => {

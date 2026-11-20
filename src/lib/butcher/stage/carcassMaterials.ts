@@ -45,7 +45,7 @@ export function attachFresnelRim(
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <dithering_fragment>",
       `#include <dithering_fragment>
-       float fRim = pow(1.0 - clamp(dot(normalize(vNormal), normalize(-vViewPosition)), 0.0, 1.0), uFresnelPower);
+       float fRim = pow(1.0 - clamp(dot(normalize(normal), normalize(vViewPosition)), 0.0, 1.0), uFresnelPower);
        gl_FragColor.rgb += uFresnelRimColor * (fRim * uFresnelIntensity);`,
     );
   };

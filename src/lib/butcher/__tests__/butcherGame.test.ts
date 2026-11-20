@@ -46,6 +46,27 @@ describe("Butcher's Block order tickets & scoring", () => {
     expect(passing.totalScore).toBeGreaterThanOrEqual(95);
     expect(passing.grade).toBe("S");
 
+    const bias45Pass = scoreOrderFulfillment(skirtTicket, {
+      selectedCutId: "outside-skirt",
+      sliceAngleDeg: 45,
+      portionMassG: 225,
+      selectedMethod: "high-heat-sear",
+      selectedCoreTempC: 55,
+    });
+    expect(bias45Pass.passed).toBe(true);
+    expect(bias45Pass.grade).toBe("A");
+    expect(bias45Pass.totalScore).toBeGreaterThanOrEqual(85);
+
+    const steep20Fail = scoreOrderFulfillment(skirtTicket, {
+      selectedCutId: "outside-skirt",
+      sliceAngleDeg: 20,
+      portionMassG: 225,
+      selectedMethod: "high-heat-sear",
+      selectedCoreTempC: 55,
+    });
+    expect(steep20Fail.grainAngleScore).toBeLessThan(35);
+    expect(steep20Fail.passed).toBe(false);
+
     const parallelFail = scoreOrderFulfillment(skirtTicket, {
       selectedCutId: "outside-skirt",
       sliceAngleDeg: 0,
@@ -53,7 +74,7 @@ describe("Butcher's Block order tickets & scoring", () => {
       selectedMethod: "high-heat-sear",
       selectedCoreTempC: 55,
     });
-    expect(parallelFail.grainAngleScore).toBeLessThan(35);
+    expect(parallelFail.grainAngleScore).toBeLessThan(15);
     expect(parallelFail.totalScore).toBeLessThan(75);
     expect(parallelFail.passed).toBe(false);
   });

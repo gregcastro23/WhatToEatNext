@@ -34,8 +34,8 @@ function StageHeaderBar({
     <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 px-3 py-2 text-xs">
       <span className="text-white/75">
         <strong className="text-white">{species.name}</strong>{" "}
-        <span className="text-white/45">({species.latinName})</span> · Drag to orbit · Click cut to inspect
-        {showSlicePlane ? " · Shift+drag to tilt knife" : ""}
+        <span className="text-white/45">({species.latinName})</span> · Drag or Arrow keys to orbit · Click cut to inspect
+        {showSlicePlane ? " · Shift+drag or Shift+Arrows to tilt knife" : ""}
       </span>
       <div className="flex items-center gap-2">
         <button type="button" className="bt-btn" onClick={onToggleMotion}>
@@ -85,6 +85,7 @@ export function ButcherStageCanvas(props: ButcherStageProps): JSX.Element {
       <div ref={runtime.wrapRef} className="relative h-[360px] w-full">
         <canvas
           ref={runtime.canvasRef}
+          tabIndex={0}
           className="bt-stage-canvas"
           aria-label={`Interactive 3D ${species.name} carcass stage`}
           {...runtime.pointerHandlers}

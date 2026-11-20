@@ -204,6 +204,8 @@ describe("Pentacles-derived 3D carcass engine", () => {
 
     Reflect.apply(material.onBeforeCompile, material, [shaderParams]);
     expect(shaderParams.uniforms.uFresnelRimColor).toBeDefined();
+    expect(shaderParams.fragmentShader).toContain("dot(normalize(normal), normalize(vViewPosition))");
+    expect(shaderParams.fragmentShader).not.toContain("-vViewPosition");
     expect(shaderParams.fragmentShader).toContain("gl_FragColor.rgb +=");
 
     const mesh = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 0.1), material);

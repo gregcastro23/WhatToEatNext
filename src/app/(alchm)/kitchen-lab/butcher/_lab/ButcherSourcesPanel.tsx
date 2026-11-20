@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useState, type JSX } from "react";
 import { z } from "zod";
 import { BUTCHER_CUTS, SPECIES_LIST, getFdcRecordForCut } from "@/data/butcher/cutsCatalogue";
+import { dscReferenceSummary } from "@/lib/butcher/science/thermalProfiles";
+import type { SpeciesId } from "@/lib/butcher/types";
 import type { ButcherLabState } from "./useButcherLab";
 
 type ResolvedFdcRecord = NonNullable<ReturnType<typeof getFdcRecordForCut>>;
@@ -66,7 +68,13 @@ function useMatchingRecipes(query: string): {
   return { recipes, loading };
 }
 
-function FdcCitationTable({ fdc }: { readonly fdc: ResolvedFdcRecord }): JSX.Element {
+function FdcCitationTable({
+  fdc,
+  speciesId,
+}: {
+  readonly fdc: ResolvedFdcRecord;
+  readonly speciesId: SpeciesId;
+}): JSX.Element {
   return (
     <table className="bt-table">
       <thead>
@@ -100,7 +108,7 @@ function FdcCitationTable({ fdc }: { readonly fdc: ResolvedFdcRecord }): JSX.Ele
         </tr>
         <tr>
           <td>Thermal &amp; Shear References</td>
-          <td className="bt-num">Myosin 51.5 °C · Actin 68.5 °C</td>
+          <td className="bt-num">{dscReferenceSummary(speciesId)}</td>
           <td className="text-xs text-white/70">Tornberg (2005) Meat Science 70:493–508; McGee (2004) On Food &amp; Cooking</td>
         </tr>
       </tbody>
@@ -162,7 +170,7 @@ export function ButcherSourcesPanel({ lab }: { readonly lab: ButcherLabState }):
         <p className="text-xs text-white/60">
           Catalogue census: {SPECIES_LIST.length} species · {totalPrimals} anatomical primals · {BUTCHER_CUTS.length} USDA-pinned retail cuts.
         </p>
-        {fdc ? <FdcCitationTable fdc={fdc} /> : null}
+        {fdc ? <FdcCitationTable fdc={fdc} speciesId={cut.speciesId} /> : null}
       </div>
       <RecipeMatchesCard cutName={cut.name} recipeSearchQuery={cut.recipeSearchQuery} loading={loading} recipes={recipes} />
     </div>

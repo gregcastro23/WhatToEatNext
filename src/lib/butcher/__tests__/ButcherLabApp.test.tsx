@@ -104,9 +104,15 @@ describe("<ButcherLabApp />", () => {
     const massSlider = screen.getByLabelText(/portion trim mass/i);
     fireEvent.change(massSlider, { target: { value: "350" } });
 
+    // Execute order via persistent aria-live="polite" scorecard region
+    const liveStatus = screen.getByRole("status");
+    expect(liveStatus).toHaveAttribute("aria-live", "polite");
+    expect(liveStatus).toBeEmptyDOMElement();
+
     fireEvent.click(screen.getByRole("button", { name: /execute cut & fulfill order/i }));
 
     expect(screen.getByText(/scorecard: grade s/i)).toBeInTheDocument();
     expect(screen.getByText(/ticket fulfilled/i)).toBeInTheDocument();
+    expect(liveStatus).toHaveTextContent(/scorecard: grade s/i);
   });
 });

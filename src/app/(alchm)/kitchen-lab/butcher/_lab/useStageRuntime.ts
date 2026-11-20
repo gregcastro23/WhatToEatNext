@@ -1,6 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, type Dispatch, type PointerEvent, type RefObject, type SetStateAction } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type KeyboardEvent,
+  type PointerEvent,
+  type RefObject,
+  type SetStateAction,
+} from "react";
 import * as THREE from "three";
 import { BUTCHER_CAMERA_FRAMINGS } from "@/lib/butcher/stage/cameraFramings";
 import { createCarcassRig, disposeCarcassRig } from "@/lib/butcher/stage/carcassAvatar3d";
@@ -25,6 +34,7 @@ export interface StagePointerHandlers {
   readonly onPointerMove: (e: PointerEvent<HTMLCanvasElement>) => void;
   readonly onPointerUp: (e: PointerEvent<HTMLCanvasElement>) => void;
   readonly onPointerLeave: () => void;
+  readonly onKeyDown: (e: KeyboardEvent<HTMLCanvasElement>) => void;
 }
 
 export interface ButcherStageRuntime {
@@ -126,6 +136,28 @@ function handleActiveDragMove(
   refs.orbitPitchRef.current = Math.min(0.65, Math.max(-0.35, refs.orbitPitchRef.current + dy * 0.005));
 }
 
+function handleCanvasKeyDown(
+  e: KeyboardEvent<HTMLCanvasElement>,
+  props: ButcherStageProps,
+  refs: StageRefsBundle,
+): void {
+  if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+    e.preventDefault();
+    const dir = e.key === "ArrowLeft" ? -1 : 1;
+    if (props.showSlicePlane && e.shiftKey) {
+      props.onSliceAngleChange(Math.min(90, Math.max(0, props.sliceAngleDeg + dir * 5)));
+      return;
+    }
+    refs.orbitYawRef.current += dir * 0.14;
+    return;
+  }
+  if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+    e.preventDefault();
+    const delta = e.key === "ArrowUp" ? 0.08 : -0.08;
+    refs.orbitPitchRef.current = Math.min(0.65, Math.max(-0.35, refs.orbitPitchRef.current + delta));
+  }
+}
+
 function useStagePointerHandlers(
   props: ButcherStageProps,
   refs: StageRefsBundle,
@@ -172,6 +204,7 @@ function useStagePointerHandlers(
       refs.pointerYRef.current = 0;
       if (props.hoveredCutId !== null) props.onHoverCut(null);
     },
+    onKeyDown: (e): void => handleCanvasKeyDown(e, props, refs),
   };
 }
 
