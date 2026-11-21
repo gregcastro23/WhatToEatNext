@@ -10,6 +10,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { recognizeTableJoin } from "@/lib/economy/tableJoin";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { rateLimit } from "@/lib/rateLimit";
 import { tableDatabase } from "@/services/tableDatabaseService";
 import { createLogger } from "@/utils/logger";
@@ -93,7 +94,10 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     if (parsed.data.response === "joined") {
       const guestName = result.member.name ?? "A guest";
-      void notifyHostOfRsvp(tableId, result.table.hostId, result.table.title, guestName);
+      const { hostId, title } = result.table;
+      runAfterResponse("tables.notifyRsvp", () =>
+        notifyHostOfRsvp(tableId, hostId, title, guestName),
+      );
       // Ambient recognition of the join (server-anchored, no visible amounts).
       recognizeTableJoin(userId, tableId);
     }

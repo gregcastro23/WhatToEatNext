@@ -9,6 +9,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { rateLimit } from "@/lib/rateLimit";
 import {
   tableDatabase,
@@ -153,7 +154,8 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     }
 
     if (parsed.data.userId) {
-      void notifyTableInvite(tableId, hostId, result.member);
+      const { member } = result;
+      runAfterResponse("tables.notifyInvite", () => notifyTableInvite(tableId, hostId, member));
     }
 
     return NextResponse.json({ success: true, member: result.member }, { status: 201 });

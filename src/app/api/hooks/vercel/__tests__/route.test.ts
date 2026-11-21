@@ -19,7 +19,7 @@ jest.mock("@/lib/observability/withObservability", () => ({
   withObservability: (_opts: unknown, handler: unknown): unknown => handler,
 }));
 
-import { POST } from "../route";
+import { maxDuration, POST } from "../route";
 import { claimWebhookEvent, completeWebhookEvent } from "@/lib/hooks/inbox";
 import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { dispatchAlert } from "@/services/alertService";
@@ -142,5 +142,9 @@ describe("POST /api/hooks/vercel", () => {
     mockAlert.mockRejectedValue(new Error("alert_events unwritable"));
     const res = await POST(post(body("deployment.error", "production")));
     expect(res.status).toBe(500);
+  });
+
+  it("sets a 60s maxDuration so post-deploy after() probes are not cut off at 15s", () => {
+    expect(maxDuration).toBe(60);
   });
 });

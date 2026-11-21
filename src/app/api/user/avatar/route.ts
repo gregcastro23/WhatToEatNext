@@ -13,6 +13,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { _logger } from "@/lib/logger";
 import {
   avatarStorageConfigured,
@@ -95,7 +96,7 @@ export async function POST(request: NextRequest) {
 
     // Replaced a different object → clear the old one (own-prefix guarded).
     if (previous && previous !== avatarUrl) {
-      void deleteAvatarObject(userId, previous);
+      runAfterResponse("avatar.deletePrevious", () => deleteAvatarObject(userId, previous));
     }
 
     // First-ever visage: the ever-dedupe in the ledger keeps this once-only.
@@ -125,7 +126,7 @@ export async function DELETE(request: NextRequest) {
     const previous = await currentAvatarUrl(userId);
     await writeAvatarUrl(userId, null);
     if (previous) {
-      void deleteAvatarObject(userId, previous);
+      runAfterResponse("avatar.deletePrevious", () => deleteAvatarObject(userId, previous));
     }
     return NextResponse.json({ success: true, avatarUrl: null });
   } catch (error) {

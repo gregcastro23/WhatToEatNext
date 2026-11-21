@@ -14,6 +14,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database/connection";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { _logger } from "@/lib/logger";
 import { RestaurantDishRatingSchema } from "@/lib/validation/apiSchemas";
 import { foodDiaryService } from "@/services/FoodDiaryService";
@@ -243,11 +244,9 @@ export async function POST(request: NextRequest) {
 
     // Record interaction for personalized recommendations
     if (userId) {
-      try {
-        const { recordInteraction } = await import(
-          "@/services/userInteractionsService"
-        );
-        void recordInteraction({
+      runAfterResponse("restaurants.recordRating", async () => {
+        const { recordInteraction } = await import("@/services/userInteractionsService");
+        await recordInteraction({
           userId,
           type: "food_rating",
           payload: {
@@ -260,9 +259,7 @@ export async function POST(request: NextRequest) {
             wouldEatAgain,
           },
         });
-      } catch {
-        // non-fatal
-      }
+      });
     }
 
     return NextResponse.json(

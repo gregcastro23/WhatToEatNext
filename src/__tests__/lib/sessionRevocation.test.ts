@@ -141,5 +141,36 @@ describe("isJtiRevoked", () => {
     expect(await isJtiRevoked("jti-2")).toBe(false);
     expect(redisGetMock).toHaveBeenCalledTimes(1);
     expect(executeQueryMock).toHaveBeenCalledTimes(2);
+    expect(loggerWarnMock).not.toHaveBeenCalled();
+  });
+
+  it("suppresses duplicate caller warning when Redis write fails on quota, while logging non-quota Redis failures", async () => {
+    redisGetMock.mockResolvedValue(null);
+    executeQueryMock.mockResolvedValue({
+      rowCount: 1,
+      rows: [{ revoked_at: new Date("2026-05-01T00:00:00Z") }],
+    });
+    redisSetMock.mockRejectedValueOnce(
+      new Error("ERR This database has reached current Fixed plan limits"),
+    );
+
+    const { isJtiRevoked } = await import("@/lib/auth/sessionRevocation");
+    expect(await isJtiRevoked("jti-quota-write")).toBe(true);
+    await new Promise((r) => setTimeout(r, 0));
+    expect(redisSetMock).toHaveBeenCalledTimes(1);
+    expect(loggerWarnMock).not.toHaveBeenCalled();
+
+    jest.resetModules();
+    redisGetMock.mockRejectedValueOnce(new Error("ECONNRESET"));
+    executeQueryMock.mockResolvedValue({
+      rowCount: 1,
+      rows: [{ revoked_at: null }],
+    });
+    const fresh = await import("@/lib/auth/sessionRevocation");
+    expect(await fresh.isJtiRevoked("jti-nonquota")).toBe(false);
+    expect(loggerWarnMock).toHaveBeenCalledWith(
+      "[sessionRevocation] Redis check failed:",
+      expect.objectContaining({ err: expect.stringContaining("ECONNRESET") }),
+    );
   });
 });

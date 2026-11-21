@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { rateLimit } from "@/lib/rateLimit";
 import { CreateFoodDiaryEntrySchema } from "@/lib/validation/apiSchemas";
 import { foodDiaryService } from "@/services/FoodDiaryService";
@@ -152,9 +153,9 @@ export async function POST(request: NextRequest) {
     await reportQuestEventBestEffort(userId, `log_${entry.mealType}`);
 
     // Track interaction for personalization (Data Hose injection)
-    try {
+    runAfterResponse("food-diary.recordInteraction", async () => {
       const { recordInteraction } = await import("@/services/userInteractionsService");
-      void recordInteraction({
+      await recordInteraction({
         userId,
         type: "food_diary_entry",
         payload: {
@@ -163,10 +164,8 @@ export async function POST(request: NextRequest) {
           mealType: entry.mealType,
           foodSource: entry.foodName,
         },
-      }).catch((err) => logger.error("Failed to record food_diary_entry interaction:", err));
-    } catch (err) {
-      logger.warn("Food diary entry interaction tracking skipped:", err);
-    }
+      });
+    });
 
     // Streak-aware events: fire log_streak_3_days / log_streak_7_days when
     // today's entry pushes the user across a threshold.

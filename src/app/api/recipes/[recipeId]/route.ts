@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { resolveTrackingUserId } from "@/lib/auth/resolveTrackingUserId";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { withObservability } from "@/lib/observability/withObservability";
 import { rateLimit } from "@/lib/rateLimit";
 import { loadAuthoredFacts, loadSimilarRecipePool, withAuthoredFactsAll } from "@/lib/recipes/recipeRefResolver";
@@ -93,28 +95,22 @@ async function handleGet(request: Request, props: { params: Promise<{ recipeId: 
       await _recipeRecommender.recommendSimilarRecipes(liveRecipe, allRecipes),
     );
 
-    // Track interaction if user is logged in (Data Hose injection)
-    try {
-      const { auth } = await import("@/lib/auth/auth");
-      const session = await auth();
-      if (session?.user?.id) {
+    // Track interaction if user is logged in (Data Hose injection). The user is
+    // resolved pre-response; the INSERT runs in the after() lifecycle.
+    const viewerId = await resolveTrackingUserId(request);
+    if (viewerId) {
+      const payload = {
+        recipeId,
+        cuisine: recipe.cuisine,
+        cookingMethod: cookingMethods[0],
+        ingredients: recipe.ingredients.map((i) => i.name),
+        complexity: "complexity" in recipe && typeof recipe.complexity === "string" ? recipe.complexity : "moderate",
+        elementalBalance: recipe.elementalProperties,
+      };
+      runAfterResponse("recipes.recordView", async () => {
         const { recordInteraction } = await import("@/services/userInteractionsService");
-        void recordInteraction({
-          userId: session.user.id,
-          type: "recipe_view",
-          payload: {
-            recipeId,
-            cuisine: recipe.cuisine,
-            cookingMethod: cookingMethods[0],
-            ingredients: recipe.ingredients.map((i: any) => i.name),
-            complexity: (recipe as any).complexity ?? "moderate",
-            elementalBalance: recipe.elementalProperties,
-          },
-        }).catch((err) => logger.error("Failed to record recipe_view interaction:", err));
-      }
-    } catch (err) {
-      // Best effort; don't break the response if auth/tracking fails
-      logger.warn("Interaction tracking skipped:", err);
+        await recordInteraction({ userId: viewerId, type: "recipe_view", payload });
+      });
     }
 
     return NextResponse.json({ success: true, recipe, recommendedSauces, recommendedRecipes });

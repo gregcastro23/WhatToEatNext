@@ -1,7 +1,7 @@
 import { unstable_cache } from "next/cache";
-import { after } from "next/server";
 import { getValidatedAssetUrl } from "@/lib/assets";
 import { executeQuery } from "@/lib/database";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { _logger } from "@/lib/logger";
 import { storedQuantities } from "@/lib/recipes/alchemicalMatch";
 import { CATALOG_TTL_MS } from "@/lib/recipes/catalogTtl";
@@ -387,21 +387,6 @@ async function getCachedCatalogFromRedis(): Promise<Recipe[] | null> {
   }
 }
 
-/**
- * Defer a fire-and-forget write until after the response is sent, via
- * next/server's `after()` — keeps it outside the render's dynamic-API
- * detection window. Falls back to firing immediately when called outside a
- * Next.js request scope (e.g. the standalone Hono API server), where
- * `after()` throws.
- */
-function deferAfterResponse(work: () => void): void {
-  try {
-    after(work);
-  } catch {
-    work();
-  }
-}
-
 function hasUnref(value: unknown): value is { unref: () => void } {
   return (
     typeof value === "object" &&
@@ -504,9 +489,9 @@ export class LocalRecipeService {
       // detection window (same reasoning as getCachedCatalogFromRedis above).
       // Disabled by default because the serialized catalog exceeds ~500 KB per write.
       if (isRedisCatalogCacheEnabled()) {
-        deferAfterResponse(() => {
-          redisSet(REDIS_CATALOG_KEY, recipes, REDIS_TTL_SECONDS).catch(() => {});
-        });
+        runAfterResponse("recipes.cacheCatalog", () =>
+          redisSet(REDIS_CATALOG_KEY, recipes, REDIS_TTL_SECONDS),
+        );
       }
 
       // Part 3: Warm Image Asset Cache

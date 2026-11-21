@@ -151,10 +151,11 @@ describe("rateLimit", () => {
     expect((await rateLimit(request, { window: 60_000, max: 1, bucket: "route-a" })).allowed).toBe(false);
   });
 
-  it("trips quota circuit breaker on Upstash Fixed-plan pipeline error and uses memory fallback without hitting Redis again", async () => {
+  it("trips quota circuit breaker on Upstash Fixed-plan pipeline error and suppresses duplicate RateLimit warning", async () => {
     process.env.UPSTASH_REDIS_REST_URL = "https://example.upstash.io";
     process.env.UPSTASH_REDIS_REST_TOKEN = "test-token";
     jest.spyOn(Date, "now").mockReturnValue(50_000);
+    const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => undefined);
     mockPipelineExec.mockRejectedValueOnce(
       new Error(
         'ERR This database has reached current Fixed plan limits, command was: [["zcard"]]',
@@ -172,5 +173,29 @@ describe("rateLimit", () => {
     expect(second.allowed).toBe(false);
     expect(second.response?.status).toBe(429);
     expect(mockPipelineExec).toHaveBeenCalledTimes(1);
+
+    const warnMessages = warnSpy.mock.calls.map(([msg]) => String(msg));
+    expect(warnMessages.filter((m) => m.includes("[WARN][Redis]"))).toHaveLength(1);
+    expect(warnMessages.some((m) => m.includes("[WARN][RateLimit]"))).toBe(false);
+  });
+
+  it("logs RateLimit warning on non-quota Redis failures when falling back to memory", async () => {
+    process.env.UPSTASH_REDIS_REST_URL = "https://example.upstash.io";
+    process.env.UPSTASH_REDIS_REST_TOKEN = "test-token";
+    const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => undefined);
+    mockPipelineExec.mockRejectedValueOnce(new Error("ECONNRESET"));
+
+    const { rateLimit } = await import("@/lib/rateLimit");
+    const res = await rateLimit(makeRequest({ "x-forwarded-for": "203.0.113.77" }), {
+      window: 60_000,
+      max: 1,
+      bucket: "nonquota",
+    });
+
+    expect(res.allowed).toBe(true);
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining("[WARN][RateLimit] Redis failed, falling back to Memory:"),
+      expect.stringContaining("ECONNRESET"),
+    );
   });
 });

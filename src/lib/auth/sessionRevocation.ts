@@ -20,6 +20,7 @@
  * Gated by AUTH_REVOCATION_CHECK=on at the call site (middleware).
  */
 
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { logger } from "../logger";
 import { SELECT_REVOKED_AT_BY_JTI_SQL } from "./authQueries";
 
@@ -59,14 +60,14 @@ export async function isJtiRevoked(jti: string | null | undefined): Promise<bool
 
   // Lazy-populate Redis so the next request from any instance is fast.
   if (dbRevoked) {
-    void writeRedis(jti);
+    runAfterResponse("sessionRevocation.populateRedis", () => writeRedis(jti));
   }
   return dbRevoked;
 }
 
 async function checkRedis(jti: string): Promise<boolean | null> {
   try {
-    const { getRedisClient, noteRedisError } = await import("../redis");
+    const { getRedisClient, isRedisQuotaError, noteRedisError } = await import("../redis");
     const client = getRedisClient();
     if (!client) return null;
     try {
@@ -78,11 +79,13 @@ async function checkRedis(jti: string): Promise<boolean | null> {
         err,
         REDIS_KEY_PREFIX + jti,
       );
-      void logger.warn("[sessionRevocation] Redis check failed:", { err: summary });
+      if (!isRedisQuotaError(err)) {
+        await logger.warn("[sessionRevocation] Redis check failed:", { err: summary });
+      }
       return null;
     }
   } catch (err) {
-    void logger.warn("[sessionRevocation] Redis check failed:", { err: String(err) });
+    await logger.warn("[sessionRevocation] Redis check failed:", { err: String(err) });
     return null;
   }
 }
@@ -109,20 +112,20 @@ async function checkPostgres(jti: string): Promise<boolean | null> {
       // silently in auth.ts — would loop the user back to /login. The
       // warning below surfaces that scenario so it can be detected before
       // turning the feature on in production.
-      void logger.warn("[sessionRevocation] No device_sessions row for jti", { jti });
+      await logger.warn("[sessionRevocation] No device_sessions row for jti", { jti });
       return true;
     }
     const row = result.rows[0] as { revoked_at: Date | null };
     return row.revoked_at !== null;
   } catch (err) {
-    void logger.warn("[sessionRevocation] Postgres check failed:", { err: String(err) });
+    await logger.warn("[sessionRevocation] Postgres check failed:", { err: String(err) });
     return null;
   }
 }
 
 async function writeRedis(jti: string): Promise<void> {
   try {
-    const { getRedisClient, noteRedisError } = await import("../redis");
+    const { getRedisClient, isRedisQuotaError, noteRedisError } = await import("../redis");
     const client = getRedisClient();
     if (!client) return;
     try {
@@ -133,9 +136,11 @@ async function writeRedis(jti: string): Promise<void> {
         err,
         REDIS_KEY_PREFIX + jti,
       );
-      void logger.warn("[sessionRevocation] Redis populate failed:", { err: summary });
+      if (!isRedisQuotaError(err)) {
+        await logger.warn("[sessionRevocation] Redis populate failed:", { err: summary });
+      }
     }
   } catch (err) {
-    void logger.warn("[sessionRevocation] Redis populate failed:", { err: String(err) });
+    await logger.warn("[sessionRevocation] Redis populate failed:", { err: String(err) });
   }
 }

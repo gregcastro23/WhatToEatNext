@@ -9,10 +9,13 @@ jest.mock("@/lib/database/connection", () => ({
   executeQuery: jest.fn().mockResolvedValue({ rows: [] }),
 }));
 
+import * as invocationLog from "@/lib/mcp/invocationLog";
+import * as mcpTools from "@/lib/mcp/tools";
 import {
   COSMIC_RECIPE_PROBE_TIMEOUT_MS,
   runAuthSigninProbe,
   runCosmicRecipeProbe,
+  runMcpProbe,
   runOnboardingSkipProbe,
 } from "@/services/syntheticProbeService";
 
@@ -340,5 +343,39 @@ describe("runAuthSigninProbe", () => {
 
     expect(result.status).toBe("success");
     expect(result.responsePayload).toMatchObject({ secretCheck: "valid" });
+  });
+});
+
+describe("runMcpProbe", () => {
+  beforeEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it("drains pending mcp_invocations writes before returning", async () => {
+    jest.spyOn(mcpTools, "invokeTool").mockResolvedValue({
+      ok: true,
+      data: null,
+      summary: { dominantElement: "Fire", returnedCount: 1 },
+    });
+    const drainSpy = jest
+      .spyOn(invocationLog, "drainMcpInvocations")
+      .mockResolvedValue(undefined);
+
+    const result = await runMcpProbe();
+
+    expect(result.status).toBe("success");
+    expect(drainSpy).toHaveBeenCalledWith(2_000);
+  });
+
+  it("still drains pending mcp_invocations writes when invokeTool throws", async () => {
+    jest.spyOn(mcpTools, "invokeTool").mockRejectedValue(new Error("boom"));
+    const drainSpy = jest
+      .spyOn(invocationLog, "drainMcpInvocations")
+      .mockResolvedValue(undefined);
+
+    const result = await runMcpProbe();
+
+    expect(result.status).toBe("failure");
+    expect(drainSpy).toHaveBeenCalledWith(2_000);
   });
 });

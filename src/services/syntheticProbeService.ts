@@ -36,6 +36,7 @@
 
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+import { drainMcpInvocations } from "@/lib/mcp/invocationLog";
 import { invokeTool } from "@/lib/mcp/tools";
 
 export const DEFAULT_PROBE_TIMEOUT_MS = 10_000;
@@ -880,6 +881,8 @@ export async function runMcpProbe(): Promise<ProbeResult> {
   } catch (err) {
     errorMessage = err instanceof Error ? err.message : String(err);
     responsePayload = { thrown: true };
+  } finally {
+    await drainMcpInvocations(2_000);
   }
 
   const result: ProbeResult = {

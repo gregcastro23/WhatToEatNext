@@ -9,6 +9,8 @@
  */
 
 import { NextResponse } from "next/server";
+import { scheduleAstrologyTracking } from "@/lib/astrology/astrologizeTracking";
+import { resolveTrackingUserId } from "@/lib/auth/resolveTrackingUserId";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
 import {
@@ -354,28 +356,32 @@ function parseParams(searchParams: URLSearchParams): PlanetaryRequest {
 
 // ─── Route handlers ───────────────────────────────────────────────────────────
 
+/** Hono gateway → Railway (pyswisseph) → local astronomy-engine fallback chain. */
+async function computeAstrologize(params: PlanetaryRequest): Promise<AstrologizeResponse> {
+  const honoData = await fetchFromHono(params);
+  if (honoData) return honoData;
+  const railwayData = await fetchFromRailway(params);
+  if (railwayData) return formatRailwayResponse(railwayData, params);
+  return calculateLocally(params);
+}
+
+async function respondAndTrack(
+  request: NextRequest,
+  params: PlanetaryRequest,
+): Promise<NextResponse> {
+  // Resolve the user concurrently with the calculation so auth adds no latency
+  // and never runs after the response has been returned.
+  const userIdPromise = resolveTrackingUserId(request);
+  const data = await computeAstrologize(params);
+  scheduleAstrologyTracking(await userIdPromise, data);
+  return NextResponse.json(data);
+}
+
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const rl = await rateLimit(request, { window: 60_000, max: 60, bucket: "astrologize" });
   if (!rl.allowed) return rl.response!;
   const { searchParams } = new URL(request.url);
-  const params = parseParams(searchParams);
-
-  const honoData = await fetchFromHono(params);
-  if (honoData) {
-    void trackAstrologyQuery(honoData);
-    return NextResponse.json(honoData);
-  }
-
-  const railwayData = await fetchFromRailway(params);
-  if (railwayData) {
-    const formatted = formatRailwayResponse(railwayData, params);
-    void trackAstrologyQuery(formatted);
-    return NextResponse.json(formatted);
-  }
-
-  const localData = calculateLocally(params);
-  void trackAstrologyQuery(localData);
-  return NextResponse.json(localData);
+  return respondAndTrack(request, parseParams(searchParams));
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -396,24 +402,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const params = parsed.data;
-
-    const honoData = await fetchFromHono(params);
-    if (honoData) {
-      void trackAstrologyQuery(honoData);
-      return NextResponse.json(honoData);
-    }
-
-    const railwayData = await fetchFromRailway(params);
-    if (railwayData) {
-      const formatted = formatRailwayResponse(railwayData, params);
-      void trackAstrologyQuery(formatted);
-      return NextResponse.json(formatted);
-    }
-
-    const localData = calculateLocally(params);
-    void trackAstrologyQuery(localData);
-    return NextResponse.json(localData);
+    return await respondAndTrack(request, parsed.data);
   } catch (error) {
     _logger.error("Astrologize API error:", error);
     return NextResponse.json(
@@ -424,33 +413,5 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       },
       { status: 500 },
     );
-  }
-}
-
-/**
- * Best-effort interaction tracking for astrology queries
- */
-async function trackAstrologyQuery(data: AstrologizeResponse): Promise<void> {
-  try {
-    const { auth } = await import("@/lib/auth/auth");
-    const session = await auth();
-    if (session?.user?.id) {
-      const { recordInteraction } = await import("@/services/userInteractionsService");
-      // Record engagement with the sun/ascendant as proxies for planetary interest
-      const dominantPlanet =
-        data._celestialBodies && "sun" in data._celestialBodies ? "Sun" : "Planets";
-      await recordInteraction({
-        userId: session.user.id,
-        type: "planetary_query",
-        payload: {
-          planet: dominantPlanet,
-          engagement: 1.0,
-          source: data.source,
-          precision: data.precision,
-        },
-      });
-    }
-  } catch (err) {
-    _logger.error("Astrology interaction tracking failed:", err);
   }
 }

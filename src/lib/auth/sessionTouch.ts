@@ -17,7 +17,7 @@
  * @file src/lib/auth/sessionTouch.ts
  */
 
-import { after } from "next/server";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { createLogger } from "@/utils/logger";
 import { TOUCH_SESSION_SQL } from "./authQueries";
 import { extractDeviceMetadata } from "./deviceLabels";
@@ -31,7 +31,7 @@ type HeaderSource = Request | Headers | { headers: Headers };
 
 async function checkRedisThrottle(cleanId: string): Promise<boolean> {
   try {
-    const { getRedisClient, noteRedisError } = await import("../redis");
+    const { getRedisClient, isRedisQuotaError, noteRedisError } = await import("../redis");
     const client = getRedisClient();
     if (client) {
       try {
@@ -49,10 +49,12 @@ async function checkRedisThrottle(cleanId: string): Promise<boolean> {
           err,
           REDIS_TOUCH_PREFIX + cleanId,
         );
-        logger.warn(
-          "[sessionTouch] Redis throttle check failed (falling back to SQL):",
-          { err: summary },
-        );
+        if (!isRedisQuotaError(err)) {
+          logger.warn(
+            "[sessionTouch] Redis throttle check failed (falling back to SQL):",
+            { err: summary },
+          );
+        }
       }
     }
   } catch (err) {
@@ -130,18 +132,5 @@ export function scheduleSessionTouch(
     return;
   }
 
-  const run = async (): Promise<void> => {
-    try {
-      await touchSession(sessionId, source);
-    } catch (err) {
-      logger.warn("[sessionTouch] Background touch error:", { err: String(err) });
-    }
-  };
-
-  try {
-    after(run);
-  } catch {
-    // If called outside Next.js request scope (e.g. in unit tests), execute directly
-    run().catch(() => {});
-  }
+  runAfterResponse("sessionTouch", () => touchSession(sessionId, source));
 }

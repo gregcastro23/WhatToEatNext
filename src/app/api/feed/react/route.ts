@@ -20,6 +20,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { _logger } from "@/lib/logger";
 import { notifyReactionReceived } from "@/lib/notifications/engagementNotify";
 import { rateLimit } from "@/lib/rateLimit";
@@ -124,7 +125,9 @@ export async function POST(request: NextRequest) {
     // insert, kinds.length === 1 means this is their first current reaction.
     // (Fire-and-forget; deduped + self/blocked/agent-safe in the dispatcher.)
     if (isNew && kinds.length === 1) {
-      void notifyReactionReceived({ eventId, actorId: userId, recipientId: posterId, kind });
+      runAfterResponse("feed.notifyReaction", () =>
+        notifyReactionReceived({ eventId, actorId: userId, recipientId: posterId, kind }),
+      );
     }
 
     return NextResponse.json({

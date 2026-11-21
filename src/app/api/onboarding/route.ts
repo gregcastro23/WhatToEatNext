@@ -12,6 +12,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { natalBodiesFromRawPositions, unusableChartMessage } from "@/lib/astrology/natalBodies";
 import { auth } from "@/lib/auth/auth";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { _logger } from "@/lib/logger";
 import { withObservability } from "@/lib/observability/withObservability";
 import { OnboardingRequestSchema, SkipOnboardingRequestSchema } from "@/lib/validation/apiSchemas";
@@ -247,10 +248,10 @@ export const POST = withObservability(
       emailService.ensureInitialized();
       if (emailService.isConfigured()) {
         const userName = name ?? user.profile.name ?? user.email;
-        void emailService.sendAdminNotificationEmail(
-          user.email,
-          userName,
-          natalChart.dominantElement,
+        const { email } = user;
+        const { dominantElement } = natalChart;
+        runAfterResponse("onboarding.adminNotification", () =>
+          emailService.sendAdminNotificationEmail(email, userName, dominantElement),
         );
       }
     } catch (err) {

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getStandardizedQuantity, AMAZON_ASSOCIATE_TAG } from "@/data/amazon";
 import { auth } from "@/lib/auth/auth";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { CheckoutPreflightRequestSchema } from "@/lib/validation/apiSchemas";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
 import type {
@@ -258,10 +259,12 @@ export async function POST(request: Request) {
   });
 
   if (userId) {
-    void reportQuestEventBestEffort(userId, "amazon_cart_send");
-    try {
+    runAfterResponse("quests.amazonCartSend", () =>
+      reportQuestEventBestEffort(userId, "amazon_cart_send"),
+    );
+    runAfterResponse("feed.cartHandoff", async () => {
       const { feedDatabase } = await import("@/services/feedDatabaseService");
-      void feedDatabase.createEvent(userId, "other", {
+      await feedDatabase.createEvent(userId, "other", {
         subtype: "cart_handoff",
         source,
         itemCount: items.length,
@@ -270,9 +273,7 @@ export async function POST(request: Request) {
         associateTag: AMAZON_ASSOCIATE_TAG,
         handoffId,
       });
-    } catch {
-      // Best-effort feed emission
-    }
+    });
   }
 
   const response: CheckoutPreflightResponse = {

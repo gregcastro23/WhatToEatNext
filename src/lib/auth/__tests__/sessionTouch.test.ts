@@ -1,9 +1,13 @@
 let mockRedisClient: { set: jest.Mock } | null = null;
 const mockExecuteQuery = jest.fn();
 const mockNoteRedisError = jest.fn((_op: string, err: unknown) => String(err));
+const mockIsRedisQuotaError = jest.fn((err: unknown) =>
+  String(err).toLowerCase().includes("fixed plan limits"),
+);
 
 jest.mock("@/lib/redis", () => ({
   getRedisClient: () => mockRedisClient,
+  isRedisQuotaError: (err: unknown) => mockIsRedisQuotaError(err),
   noteRedisError: (op: string, err: unknown, key?: string) =>
     mockNoteRedisError(op, err, key),
 }));
@@ -159,27 +163,58 @@ describe("sessionTouch", () => {
     expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
   });
 
-  it("notes Redis errors and falls back to SQL when client.set rejects", async () => {
-    mockRedisClient = {
-      set: jest
-        .fn()
-        .mockRejectedValueOnce(
-          new Error("ERR This database has reached current Fixed plan limits"),
-        ),
-    };
-    mockExecuteQuery.mockResolvedValueOnce({
-      rowCount: 1,
-      rows: [{ id: "session-err" }],
-    });
+  it("notes Redis errors and suppresses duplicate caller warning on Fixed-plan quota errors", async () => {
+    const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => undefined);
+    try {
+      mockRedisClient = {
+        set: jest
+          .fn()
+          .mockRejectedValueOnce(
+            new Error("ERR This database has reached current Fixed plan limits"),
+          ),
+      };
+      mockExecuteQuery.mockResolvedValueOnce({
+        rowCount: 1,
+        rows: [{ id: "session-err" }],
+      });
 
-    const touched = await touchSession("session-err");
-    expect(touched).toBe(true);
-    expect(mockNoteRedisError).toHaveBeenCalledWith(
-      "sessionTouch",
-      expect.any(Error),
-      "session:touch:session-err",
-    );
-    expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+      const touched = await touchSession("session-err");
+      expect(touched).toBe(true);
+      expect(mockNoteRedisError).toHaveBeenCalledWith(
+        "sessionTouch",
+        expect.any(Error),
+        "session:touch:session-err",
+      );
+      expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+      expect(warnSpy).not.toHaveBeenCalledWith(
+        expect.stringContaining("[WARN][sessionTouch]"),
+        expect.anything(),
+      );
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("logs caller warning on non-quota Redis errors when falling back to SQL", async () => {
+    const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => undefined);
+    try {
+      mockRedisClient = {
+        set: jest.fn().mockRejectedValueOnce(new Error("ECONNRESET")),
+      };
+      mockExecuteQuery.mockResolvedValueOnce({
+        rowCount: 1,
+        rows: [{ id: "session-nonquota" }],
+      });
+
+      const touched = await touchSession("session-nonquota");
+      expect(touched).toBe(true);
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("[sessionTouch] Redis throttle check failed"),
+        expect.objectContaining({ err: expect.stringContaining("ECONNRESET") }),
+      );
+    } finally {
+      warnSpy.mockRestore();
+    }
   });
 
   it("scheduleSessionTouch executes without throwing outside request context", async () => {

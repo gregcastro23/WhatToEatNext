@@ -16,18 +16,26 @@
  */
 
 import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { resolveCaller, type ResolvedCaller } from "@/lib/mcp/auth";
 import {
   buildCorsHeaders,
   checkOriginSecurity,
   redactSensitiveString,
 } from "@/lib/mcp/httpSecurity";
+import { drainMcpInvocations } from "@/lib/mcp/invocationLog";
 import { createAlchmMcpServer } from "@/lib/mcp/serverFactory";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
 const MAX_PAYLOAD_BYTES = 256 * 1024; // 256 KB max payload cap
+/**
+ * Upper bound for flushing `mcp_invocations` telemetry inside the `after()`
+ * lifecycle. Without this, the INSERT is left in flight when the response
+ * returns and Vercel freezes the lambda mid-socket (observed 86s read timeouts).
+ */
+const INVOCATION_DRAIN_TIMEOUT_MS = 4_000;
 
 function isRecord(val: unknown): val is Record<string, unknown> {
   return typeof val === "object" && val !== null && !Array.isArray(val);
@@ -170,10 +178,16 @@ async function executeStatelessRpc(
   });
   await server.connect(transport);
   const normalizedReq = normalizeRequest(req);
-  const response = await transport.handleRequest(normalizedReq, {
-    parsedBody: body,
-  });
-  return addCorsHeaders(response, req);
+  try {
+    const response = await transport.handleRequest(normalizedReq, {
+      parsedBody: body,
+    });
+    return addCorsHeaders(response, req);
+  } finally {
+    runAfterResponse("mcp.drainInvocations", () =>
+      drainMcpInvocations(INVOCATION_DRAIN_TIMEOUT_MS),
+    );
+  }
 }
 
 export async function POST(req: Request): Promise<Response> {

@@ -26,6 +26,7 @@ import { withObservability } from "@/lib/observability/withObservability";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 /** Deployment payloads are a few KB; anything this large is not from Vercel. */
 const MAX_BODY_BYTES = 256 * 1024;
