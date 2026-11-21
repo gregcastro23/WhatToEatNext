@@ -21,6 +21,8 @@ const NON_SHADOW_PREFIXES: readonly string[] = [
   "GrainLines_",
   "SlicingPlane",
   "ButcherSlicingPlane",
+  "SliceSectionRing",
+  "SkeletonLandmark_",
 ];
 
 export function attachFresnelRim(

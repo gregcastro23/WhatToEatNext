@@ -52,6 +52,60 @@ export class ThermoEngine {
 }
 
 /**
+ * Stateful 3D conduction grid. See `thermo_core::voxel` for the formulation.
+ */
+export class VoxelEngine {
+    free(): void;
+    [Symbol.dispose](): void;
+    /**
+     * Σ C·T, J relative to 0 °C.
+     */
+    energy_j(): number;
+    /**
+     * Hottest cell of `material`; NaN when none.
+     */
+    max_temp_where(material: number): number;
+    /**
+     * Coldest cell of `material`; NaN when none.
+     */
+    min_temp_where(material: number): number;
+    /**
+     * `material` is one u8 per cell (index `i + nx·(j + ny·k)`) into the
+     * `k` / `rho_c` tables. Refuses more than 65 536 cells.
+     */
+    constructor(nx: number, ny: number, nz: number, dx_m: number, dy_m: number, dz_m: number, material: Uint8Array, k: Float64Array, rho_c: Float64Array, initial_c: number);
+    /**
+     * Copy of the per-cell running maxima, °C.
+     */
+    peaks(): Float64Array;
+    reset_peaks(): void;
+    /**
+     * `[h, medium] × 6` in face order x−, x+, y−, y+, z−, z+.
+     */
+    set_faces(faces: Float64Array): void;
+    /**
+     * Forward-Euler bound `min C/ΣG`, seconds (+∞ when fully adiabatic).
+     */
+    stable_dt(): number;
+    /**
+     * Advance `n` steps of `dt_s` seconds.
+     */
+    step(dt_s: number, n: number): void;
+    /**
+     * One cell's temperature; NaN past the end.
+     */
+    temp_at(index: number): number;
+    /**
+     * Copy of the cell temperatures, °C.
+     */
+    temps(): Float64Array;
+    readonly cell_count: number;
+    readonly nx: number;
+    readonly ny: number;
+    readonly nz: number;
+}
+
+/**
  * Altitude time multiplier. `pasteurisation = false` selects the softening
  * (van 't Hoff) regime; the two differ by more than 6× at Denver.
  */
@@ -288,6 +342,7 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 export interface InitOutput {
     readonly memory: WebAssembly.Memory;
     readonly __wbg_thermoengine_free: (a: number, b: number) => void;
+    readonly __wbg_voxelengine_free: (a: number, b: number) => void;
     readonly altitude_time_multiplier: (a: number, b: number) => number;
     readonly boiling_point_at_elevation: (a: number) => number;
     readonly boiling_point_c: (a: number) => number;
@@ -309,6 +364,18 @@ export interface InitOutput {
     readonly thermoengine_particle_count: (a: number) => number;
     readonly thermoengine_resize: (a: number, b: number) => void;
     readonly thermoengine_step: (a: number, b: number, c: number, d: number, e: number, f: number) => number;
+    readonly voxelengine_cell_count: (a: number) => number;
+    readonly voxelengine_energy_j: (a: number) => number;
+    readonly voxelengine_max_temp_where: (a: number, b: number) => number;
+    readonly voxelengine_min_temp_where: (a: number, b: number) => number;
+    readonly voxelengine_new: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number, n: number) => void;
+    readonly voxelengine_peaks: (a: number, b: number) => void;
+    readonly voxelengine_reset_peaks: (a: number) => void;
+    readonly voxelengine_set_faces: (a: number, b: number, c: number, d: number) => void;
+    readonly voxelengine_stable_dt: (a: number) => number;
+    readonly voxelengine_step: (a: number, b: number, c: number, d: number) => void;
+    readonly voxelengine_temp_at: (a: number, b: number) => number;
+    readonly voxelengine_temps: (a: number, b: number) => void;
     readonly contact_temperature_c: (a: number, b: number, c: number, d: number) => number;
     readonly biot_number: (a: number, b: number, c: number) => number;
     readonly latent_as_temperature_rise: (a: number, b: number) => number;
@@ -321,6 +388,9 @@ export interface InitOutput {
     readonly max_wall_layers: () => number;
     readonly simmer_step_fields: () => number;
     readonly water_fusion_j_kg: () => number;
+    readonly voxelengine_nx: (a: number) => number;
+    readonly voxelengine_ny: (a: number) => number;
+    readonly voxelengine_nz: (a: number) => number;
     readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
     readonly __wbindgen_export: (a: number, b: number, c: number) => void;
     readonly __wbindgen_export2: (a: number, b: number) => number;

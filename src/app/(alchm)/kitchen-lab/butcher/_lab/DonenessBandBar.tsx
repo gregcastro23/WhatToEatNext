@@ -8,52 +8,91 @@ import {
 import type { JSX } from "react";
 
 /**
- * Compact 1D slab cross-section doneness band (Crust · Gray Band · Ideal Core)
- * and carryover/Maillard/stall telemetry readout for `ThermalGrainPanel`.
+ * Full-thickness cross-section doneness band, face A → face B: fat cap ·
+ * crust · gray band · ideal core (split by a core bone) · gray band · crust ·
+ * bone plate, plus carryover / Maillard / stall telemetry.
  *
  * @file src/app/(alchm)/kitchen-lab/butcher/_lab/DonenessBandBar.tsx
  */
 
+const COLORS = {
+  fat: "#e7d49b",
+  crust: "#7c2d12",
+  gray: "#78716c",
+  core: "#fb7185",
+  bone: "#f5eedc",
+} as const;
+
+interface BandSegment {
+  readonly key: string;
+  readonly mm: number;
+  readonly fill: string;
+}
+
+function bandSegments(result: CoupledTrajectoryResult): readonly BandSegment[] {
+  const [a, b] = result.faces;
+  const meat = result.column.meatThicknessMm;
+  const ideal = Math.max(0, meat - a.crustDepthMm - a.grayBandMm - b.crustDepthMm - b.grayBandMm);
+  const isCore = result.column.bonePlacement === "core" && result.column.boneMm > 0;
+  const middle: BandSegment[] = isCore
+    ? [
+        { key: "core-a", mm: Math.max(0, meat / 2 - a.crustDepthMm - a.grayBandMm), fill: COLORS.core },
+        { key: "bone-core", mm: result.column.boneMm, fill: COLORS.bone },
+        { key: "core-b", mm: Math.max(0, meat / 2 - b.crustDepthMm - b.grayBandMm), fill: COLORS.core },
+      ]
+    : [{ key: "core", mm: ideal, fill: COLORS.core }];
+  return [
+    { key: "fat", mm: result.column.fatCapMm, fill: COLORS.fat },
+    { key: "crust-a", mm: a.crustDepthMm, fill: COLORS.crust },
+    { key: "gray-a", mm: a.grayBandMm, fill: COLORS.gray },
+    ...middle,
+    { key: "gray-b", mm: b.grayBandMm, fill: COLORS.gray },
+    { key: "crust-b", mm: b.crustDepthMm, fill: COLORS.crust },
+    { key: "bone-face", mm: isCore ? 0 : result.column.boneMm, fill: COLORS.bone },
+  ].filter((s) => s.mm > 0);
+}
+
 function DonenessBandSvg({ result }: { readonly result: CoupledTrajectoryResult }): JSX.Element {
-  const half = Math.max(0.5, result.halfThicknessMm);
   const fullW = 480;
   const barH = 26;
-  const halfPx = fullW * 0.5;
-  const crustPx = Math.min(halfPx * 0.4, (result.crustDepthMm / half) * halfPx);
-  const grayPx = Math.min(halfPx - crustPx, (result.grayBandMm / half) * halfPx);
-  const corePx = Math.max(0, fullW - 2 * (crustPx + grayPx));
-  const rightGrayX = crustPx + grayPx + corePx;
-  const rightCrustX = rightGrayX + grayPx;
-  const aria = `Cross-section thickness ${(half * 2).toFixed(0)} mm: crust ${result.crustDepthMm.toFixed(1)} mm, gray band ${result.grayBandMm.toFixed(1)} mm (${result.grayBandPct}%), ideal core ${result.idealCoreMm.toFixed(1)} mm radial.`;
-
+  const segments = bandSegments(result);
+  const totalMm = Math.max(0.5, segments.reduce((acc, s) => acc + s.mm, 0));
+  const scale = fullW / totalMm;
+  const starts = segments.map((_, i) => segments.slice(0, i).reduce((acc, s) => acc + s.mm, 0) * scale);
+  const centreX = (result.column.fatCapMm + result.column.thermalCentreFromAMm) * scale;
+  const [a, b] = result.faces;
+  const aria = `Cross-section thickness ${result.column.meatThicknessMm.toFixed(0)} mm of meat: face A (${a.outer}) crust ${a.crustDepthMm.toFixed(1)} mm, gray band ${a.grayBandMm.toFixed(1)} mm; face B (${b.outer}) crust ${b.crustDepthMm.toFixed(1)} mm, gray band ${b.grayBandMm.toFixed(1)} mm; ideal core ${result.idealCoreMm.toFixed(1)} mm radial.`;
   return (
-    <div className="space-y-1.5">
-      <svg
-        viewBox={`0 0 ${fullW} ${barH}`}
-        preserveAspectRatio="none"
-        className="h-7 w-full overflow-hidden rounded-md border border-white/15 bg-black/40"
-        role="img"
-        aria-label={aria}
-      >
-        <rect x={0} y={0} width={crustPx} height={barH} fill="#7c2d12" />
-        <rect x={crustPx} y={0} width={grayPx} height={barH} fill="#78716c" />
-        <rect x={crustPx + grayPx} y={0} width={corePx} height={barH} fill="#fb7185" />
-        <rect x={rightGrayX} y={0} width={grayPx} height={barH} fill="#78716c" />
-        <rect x={rightCrustX} y={0} width={crustPx} height={barH} fill="#7c2d12" />
-      </svg>
-      <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-white/65">
-        <span className="inline-flex items-center gap-1.5">
-          <span className="h-2 w-2 rounded-sm bg-[#7c2d12]" aria-hidden="true" />
-          Crust {result.crustDepthMm.toFixed(1)} mm
-          <span className="ml-2 h-2 w-2 rounded-sm bg-[#78716c]" aria-hidden="true" />
-          Gray Band {result.grayBandMm.toFixed(1)} mm
-          <span className="ml-2 h-2 w-2 rounded-sm bg-[#fb7185]" aria-hidden="true" />
-          Ideal Core {result.idealCoreMm.toFixed(1)} mm
-        </span>
-        <span className="bt-num text-white/55">
-          Half-slab {result.halfThicknessMm.toFixed(1)} mm · Cook {result.cookMinutes} min
-        </span>
-      </div>
+    <svg viewBox={`0 0 ${fullW} ${barH}`} preserveAspectRatio="none" className="h-7 w-full overflow-hidden rounded-md border border-white/15 bg-black/40" role="img" aria-label={aria}>
+      {segments.map((s, i) => (
+        <rect key={s.key} x={starts[i] ?? 0} y={0} width={s.mm * scale} height={barH} fill={s.fill} />
+      ))}
+      <line x1={centreX} y1={0} x2={centreX} y2={barH} stroke="#fbbf24" strokeWidth={2} strokeDasharray="3 2" />
+    </svg>
+  );
+}
+
+function BandLegend({ result }: { readonly result: CoupledTrajectoryResult }): JSX.Element {
+  const [a, b] = result.faces;
+  const chip = (color: string, label: string): JSX.Element => (
+    <span className="inline-flex items-center gap-1.5">
+      <span className="h-2 w-2 rounded-sm" style={{ backgroundColor: color }} aria-hidden="true" />
+      {label}
+    </span>
+  );
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-white/65">
+      <span className="inline-flex flex-wrap items-center gap-x-3 gap-y-1">
+        {result.column.fatCapMm > 0 ? chip(COLORS.fat, `Fat cap ${result.column.fatCapMm} mm`) : null}
+        {chip(COLORS.crust, `Crust ${a.crustDepthMm.toFixed(1)} | ${b.crustDepthMm.toFixed(1)} mm`)}
+        {chip(COLORS.gray, `Gray band ${a.grayBandMm.toFixed(1)} | ${b.grayBandMm.toFixed(1)} mm`)}
+        {chip(COLORS.core, `Ideal core ${result.idealCoreMm.toFixed(1)} mm`)}
+        {result.column.boneMm > 0 ? chip(COLORS.bone, `Bone ${result.column.boneMm.toFixed(0)} mm`) : null}
+        {chip("#fbbf24", "Thermal centre")}
+      </span>
+      <span className="bt-num text-white/55">
+        Face A {a.outer} · Face B {b.outer} · Cook {result.cookMinutes} min
+      </span>
     </div>
   );
 }
@@ -96,7 +135,7 @@ export function DonenessBandBar({
         <div>
           <h3 className="text-lg">1D Coupled Heat-Moisture Trajectory</h3>
           <p className="text-xs text-white/60">
-            Transient spatial gradient, evaporative cooling, and {result.restMinutes}-min ambient rest carryover.
+            Full-thickness column (face A → face B), evaporative cooling on each face, and {result.restMinutes}-min ambient rest carryover.
           </p>
         </div>
         <span className="bt-num text-xs text-purple-200">
@@ -110,7 +149,10 @@ export function DonenessBandBar({
           </button>
         ))}
       </div>
-      <DonenessBandSvg result={result} />
+      <div className="space-y-1.5">
+        <DonenessBandSvg result={result} />
+        <BandLegend result={result} />
+      </div>
       <DonenessTelemetryGrid result={result} />
     </div>
   );

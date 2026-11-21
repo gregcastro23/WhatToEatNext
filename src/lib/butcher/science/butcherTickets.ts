@@ -195,4 +195,60 @@ export const ORDER_TICKETS: readonly ButcherOrderTicket[] = [
       maxCollagenG: 0.6,
     },
   },
+
+  // Master Butcher — Fabrication (break one sub-primal into several retail cuts)
+  {
+    id: "mst-fab-short-loin",
+    tier: "master",
+    title: "Steakhouse Short Loin Breakdown",
+    prompt:
+      "Break down a Beef Short Loin for tonight's service: pull a 220 g Tenderloin Filet, then a 350 g NY Strip — both cut 90° across their own grain.",
+    speciesId: "beef",
+    expectedCutId: "tenderloin-filet",
+    targetMassG: 220,
+    targetAngleDeg: 90,
+    targetMethod: "high-heat-sear",
+    targetCoreTempC: 54,
+    physicsConstraint: null,
+    fabricationSteps: [
+      { label: "Pull 1 · Tenderloin Filet", expectedCutId: "tenderloin-filet", targetMassG: 220, targetAngleDeg: 90 },
+      { label: "Pull 2 · NY Strip", expectedCutId: "ny-strip", targetMassG: 350, targetAngleDeg: 90 },
+    ],
+  },
+  {
+    id: "mst-fab-packer-brisket",
+    tier: "master",
+    title: "Packer Brisket Separation",
+    prompt:
+      "Separate a whole packer brisket: slice a 300 g portion from the lean Flat, then a 250 g portion from the fatty Point, each across its own grain.",
+    speciesId: "beef",
+    expectedCutId: "brisket-flat",
+    targetMassG: 300,
+    targetAngleDeg: 90,
+    targetMethod: "low-and-slow-smoke",
+    targetCoreTempC: 93,
+    physicsConstraint: null,
+    fabricationSteps: [
+      { label: "Pull 1 · Brisket Flat", expectedCutId: "brisket-flat", targetMassG: 300, targetAngleDeg: 90 },
+      { label: "Pull 2 · Brisket Point", expectedCutId: "brisket-point", targetMassG: 250, targetAngleDeg: 90 },
+    ],
+  },
+  {
+    id: "mst-fab-whole-chicken",
+    tier: "master",
+    title: "Whole-Bird Breakdown",
+    prompt:
+      "Break down a whole chicken for a two-plate order: a 210 g Breast Supreme and a 180 g bone-in Thigh.",
+    speciesId: "poultry",
+    expectedCutId: "breast-supreme",
+    targetMassG: 210,
+    targetAngleDeg: 90,
+    targetMethod: "sous-vide",
+    targetCoreTempC: 65,
+    physicsConstraint: null,
+    fabricationSteps: [
+      { label: "Pull 1 · Breast Supreme", expectedCutId: "breast-supreme", targetMassG: 210, targetAngleDeg: 90 },
+      { label: "Pull 2 · Chicken Thigh", expectedCutId: "chicken-thigh", targetMassG: 180, targetAngleDeg: 90 },
+    ],
+  },
 ];

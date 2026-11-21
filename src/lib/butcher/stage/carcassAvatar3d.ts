@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { getCutsForSpecies, getSpeciesSpec } from "@/data/butcher/cutsCatalogue";
-import { knifeNormalAtAngle } from "@/lib/butcher/science/butcherGame";
+import { knifeNormalAtAngle } from "@/lib/butcher/science/knifeGeometry";
 import type { ColorOverlayMode, SpeciesId, Vec3Tuple } from "@/lib/butcher/types";
 import {
   applyButcherShadowPolicy,
@@ -12,15 +12,31 @@ import {
   createCutRigNode,
   createPlinthMesh,
   createSlicingPlaneOverlay,
-  meshMetaMap,
 } from "./carcassNodes";
+import {
+  applySkeletonXray,
+  attachPrimalSkeleton,
+  createSkeletonMaterial,
+  normalizeMuscleOpacity,
+} from "./carcassSkeleton";
 import { releaseButcherGeometries } from "./sharedButcherGeometry";
+import { sliceAngleCue } from "./sliceAngleCue";
+import {
+  type SliceSectionRing,
+  type SliceSectionState,
+  createSliceSectionRing,
+  disposeSliceSectionRing,
+  hideSliceSectionRing,
+  sliceSectionSnapshot,
+  updateSliceSectionRing,
+} from "./sliceSectionRing";
 
 export {
   applyButcherShadowPolicy,
   attachFresnelRim,
   setButcherRimUniforms,
 } from "./carcassMaterials";
+export { type PickedButcherCutResult, pickButcherCut } from "./carcassPicking";
 
 /**
  * Articulated 3D Carcass Rig & Picking System adapted from Pentacles `vessel-avatar-3d.ts`.
@@ -45,30 +61,42 @@ interface CarcassRigState {
   readonly slicingPlaneGroup: THREE.Group;
   readonly slicingPlaneMat: THREE.MeshBasicMaterial;
   readonly slicingEdgeMat: THREE.LineBasicMaterial;
+  readonly sectionRing: SliceSectionRing;
+  readonly skeletonMeshes: readonly THREE.Mesh[];
+  xrayVisible: boolean;
+  xrayOpacity: number;
   disposed: boolean;
 }
 
-export interface PickedButcherCutResult {
-  readonly speciesId: SpeciesId;
-  readonly primalId: string;
-  readonly cutId: string;
-  readonly hitPoint: Vec3Tuple;
-  readonly grainVector: Vec3Tuple;
+export interface BoneLandmarkState {
+  readonly visible: boolean;
+  readonly landmarkCount: number;
+  readonly muscleOpacity: number;
 }
+
 
 const rigStateMap = new WeakMap<THREE.Group, CarcassRigState>();
 
-export function createCarcassRig(speciesId: SpeciesId): THREE.Group {
+interface PrimalBuild {
+  readonly primals: PrimalRigNode[];
+  readonly cutsById: Map<string, CutRigNode>;
+  readonly skeletonMeshes: THREE.Mesh[];
+}
+
+/** Builds every primal group with its cuts and (hidden) skeletal landmarks. */
+function buildPrimals(
+  speciesId: SpeciesId,
+  root: THREE.Group,
+  leases: Set<string>,
+  materials: THREE.Material[],
+): PrimalBuild {
   const species = getSpeciesSpec(speciesId);
   const cuts = getCutsForSpecies(speciesId);
-  const leases = new Set<string>();
-  const materials: THREE.Material[] = [];
-  const root = new THREE.Group();
-  root.name = `CarcassRoot_${speciesId}`;
-  root.add(createPlinthMesh(leases, materials));
-
   const primals: PrimalRigNode[] = [];
   const cutsById = new Map<string, CutRigNode>();
+  const skeletonMaterial = createSkeletonMaterial();
+  materials.push(skeletonMaterial);
+  const skeletonMeshes: THREE.Mesh[] = [];
 
   for (const primal of species.primals) {
     const primalGroup = new THREE.Group();
@@ -76,6 +104,7 @@ export function createCarcassRig(speciesId: SpeciesId): THREE.Group {
     primalGroup.position.set(primal.restPosition[0], primal.restPosition[1], primal.restPosition[2]);
     root.add(primalGroup);
     primals.push({ group: primalGroup, restPosition: primal.restPosition, explodeVector: primal.explodeVector });
+    skeletonMeshes.push(...attachPrimalSkeleton(speciesId, primal.id, primalGroup, leases, skeletonMaterial));
 
     for (const cut of cuts.filter((c) => c.primalId === primal.id)) {
       const cutNode = createCutRigNode(cut, leases, materials);
@@ -83,9 +112,21 @@ export function createCarcassRig(speciesId: SpeciesId): THREE.Group {
       cutsById.set(cut.id, cutNode);
     }
   }
+  return { primals, cutsById, skeletonMeshes };
+}
+
+export function createCarcassRig(speciesId: SpeciesId): THREE.Group {
+  const leases = new Set<string>();
+  const materials: THREE.Material[] = [];
+  const root = new THREE.Group();
+  root.name = `CarcassRoot_${speciesId}`;
+  root.add(createPlinthMesh(leases, materials));
+  const { primals, cutsById, skeletonMeshes } = buildPrimals(speciesId, root, leases, materials);
 
   const slicingOverlay = createSlicingPlaneOverlay(leases, materials);
   root.add(slicingOverlay.slicingPlaneGroup);
+  const sectionRing = createSliceSectionRing();
+  root.add(sectionRing.line);
   applyButcherShadowPolicy(root);
 
   rigStateMap.set(root, {
@@ -96,6 +137,10 @@ export function createCarcassRig(speciesId: SpeciesId): THREE.Group {
     slicingPlaneGroup: slicingOverlay.slicingPlaneGroup,
     slicingPlaneMat: slicingOverlay.slicingPlaneMat,
     slicingEdgeMat: slicingOverlay.slicingEdgeMat,
+    sectionRing,
+    skeletonMeshes,
+    xrayVisible: false,
+    xrayOpacity: 1,
     disposed: false,
   });
   return root;
@@ -147,6 +192,53 @@ export function applyCarcassColorMode(
             : "default";
     applyCutVisualHighlight(node.mesh, node.material, node.grainMaterial, highlight);
   }
+  if (state.xrayVisible) applyRigXray(state);
+}
+
+function applyRigXray(state: CarcassRigState): void {
+  const muscles = [...state.cutsById.values()].map((node) => node.material);
+  applySkeletonXray(state.skeletonMeshes, muscles, state.xrayVisible, state.xrayOpacity);
+}
+
+/**
+ * Toggles the skeletal "X-ray": shows every landmark bone and dims every cut
+ * muscle to `muscleOpacity` (transparent, no depth write), or hides them and
+ * restores opaque muscles. Survives repeated toggles and colour-mode changes.
+ */
+export function setBoneLandmarksVisible(rig: THREE.Group, visible: boolean, muscleOpacity?: number): void {
+  const state = rigStateMap.get(rig);
+  if (!state || state.disposed) return;
+  state.xrayVisible = visible;
+  state.xrayOpacity = visible ? normalizeMuscleOpacity(muscleOpacity) : 1;
+  applyRigXray(state);
+}
+
+export function getBoneLandmarkState(rig: THREE.Group): BoneLandmarkState | null {
+  const state = rigStateMap.get(rig);
+  if (!state || state.disposed) return null;
+  return {
+    visible: state.xrayVisible,
+    landmarkCount: state.skeletonMeshes.length,
+    muscleOpacity: state.xrayOpacity,
+  };
+}
+
+export function getSliceSectionState(rig: THREE.Group): SliceSectionState | null {
+  const state = rigStateMap.get(rig);
+  if (!state || state.disposed) return null;
+  return sliceSectionSnapshot(state.sectionRing);
+}
+
+const _cutWorldPos = new THREE.Vector3();
+
+/** World position of a cut's mesh (after explode), for aiming the Butcher Block camera at it. */
+export function getCutWorldPosition(rig: THREE.Group, cutId: string): Vec3Tuple | null {
+  const state = rigStateMap.get(rig);
+  const node = state?.cutsById.get(cutId);
+  if (!state || state.disposed || !node) return null;
+  rig.updateMatrixWorld(true);
+  node.mesh.getWorldPosition(_cutWorldPos);
+  return [_cutWorldPos.x, _cutWorldPos.y, _cutWorldPos.z];
 }
 
 const _sliceTargetWorld = new THREE.Vector3();
@@ -162,6 +254,7 @@ export function updateSlicingPlane(
   const cutNode = state.cutsById.get(opts.cutId);
   if (!opts.visible || !cutNode) {
     state.slicingPlaneGroup.visible = false;
+    hideSliceSectionRing(state.sectionRing);
     return;
   }
 
@@ -175,34 +268,10 @@ export function updateSlicingPlane(
   state.slicingPlaneGroup.position.copy(_sliceTargetWorld);
   state.slicingPlaneGroup.quaternion.setFromUnitVectors(_sliceZAxis, _slicePlaneNormal);
 
-  const bladeColor = opts.angleDeg >= 75 ? "#34d399" : opts.angleDeg >= 45 ? "#fbbf24" : "#f87171";
-  state.slicingPlaneMat.color.set(bladeColor);
-  state.slicingEdgeMat.color.set(bladeColor);
-}
-
-export function pickButcherCut(
-  raycaster: THREE.Raycaster,
-  rig: THREE.Object3D,
-): PickedButcherCutResult | null {
-  const intersects = raycaster.intersectObjects(rig.children, true);
-  for (const hit of intersects) {
-    if (!(hit.object instanceof THREE.Mesh)) continue;
-    const meta = meshMetaMap.get(hit.object);
-    if (meta) {
-      return {
-        speciesId: meta.speciesId,
-        primalId: meta.primalId,
-        cutId: meta.cutId,
-        hitPoint: [
-          Number(hit.point.x.toFixed(4)),
-          Number(hit.point.y.toFixed(4)),
-          Number(hit.point.z.toFixed(4)),
-        ],
-        grainVector: meta.grainVector,
-      };
-    }
-  }
-  return null;
+  const { colorHex } = sliceAngleCue(opts.angleDeg);
+  state.slicingPlaneMat.color.set(colorHex);
+  state.slicingEdgeMat.color.set(colorHex);
+  updateSliceSectionRing(state.sectionRing, { rig, mesh: cutNode.mesh, normal: _slicePlaneNormal, colorHex });
 }
 
 export function disposeCarcassRig(rig: THREE.Group): void {
@@ -212,6 +281,7 @@ export function disposeCarcassRig(rig: THREE.Group): void {
   for (const mat of state.materials) {
     mat.dispose();
   }
+  disposeSliceSectionRing(state.sectionRing);
   releaseButcherGeometries(state.leases);
   rigStateMap.delete(rig);
 }

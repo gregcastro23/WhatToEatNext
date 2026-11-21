@@ -2874,3 +2874,13 @@ pub fn simmer_trajectory_step(
     };
     Ok([elapsed_s, remaining_l, concentration_ratio, net_loss_kg_s])
 }
+
+// ============================================================================
+// Voxel engine — 3D transient conduction (bone-through steaks and chops)
+// ============================================================================
+//
+// Appended at the END of this file on purpose: every line above keeps its
+// number, so the panic-location records already compiled into the browser
+// artifact do not move. See `voxel.rs` for the formulation.
+pub mod voxel;
+pub use voxel::{VoxelError, VoxelGrid, VOXEL_FACE_COUNT, VOXEL_FACE_FLOATS, VOXEL_MAX_CELLS};

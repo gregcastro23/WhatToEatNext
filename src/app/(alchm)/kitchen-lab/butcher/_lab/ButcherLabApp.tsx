@@ -124,15 +124,24 @@ function ButcherLabBody({
   );
 }
 
+/**
+ * `useSearchParams()` is typed nullable by Next's pages-router compatibility
+ * types (what `tsc` sees after `next typegen`) but non-null in the ESLint
+ * program, so the null guard lives behind a parameter that says so honestly.
+ */
+function readParam(params: { readonly get: (name: string) => string | null } | null, name: string): string | null {
+  return params ? params.get(name) : null;
+}
+
 export function ButcherLabApp(): JSX.Element {
   const params = useSearchParams();
-  const urlTab = butcherTabFromParam(params?.get("tab") ?? null);
+  const urlTab = butcherTabFromParam(readParam(params, "tab"));
   const [tab, setTab] = useState<ButcherTab>(urlTab);
   useEffect(() => {
     setTab(urlTab);
   }, [urlTab]);
 
-  const resolved = resolveSpeciesAndCutFromParams(params?.get("species") ?? null, params?.get("cut") ?? null);
+  const resolved = resolveSpeciesAndCutFromParams(readParam(params, "species"), readParam(params, "cut"));
   const lab = useButcherLab(resolved.speciesId, resolved.cutId);
 
   const selectTab = (next: ButcherTab): void => {

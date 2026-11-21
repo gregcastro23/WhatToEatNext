@@ -7,6 +7,7 @@ import {
   createSlicingPlaneGeometry,
 } from "./carcassLofting";
 import { attachFresnelRim } from "./carcassMaterials";
+import { computeCutBoneSpec } from "./loftProfile";
 import { leaseButcherGeometry } from "./sharedButcherGeometry";
 
 /**
@@ -54,6 +55,12 @@ export function createPlinthMesh(
   return blockMesh;
 }
 
+/** Rotation (about Z) that lays the Y-axis bone cylinder along the loft axis with its wide end at the knuckle. */
+function boneRotationZ(axis: "x" | "y", knuckleSign: 1 | -1): number {
+  if (axis === "x") return knuckleSign > 0 ? Math.PI * 0.5 : -Math.PI * 0.5;
+  return knuckleSign > 0 ? Math.PI : 0;
+}
+
 function attachCutBoneLandmark(
   cut: AnatomicalCut,
   cutGroup: THREE.Group,
@@ -62,8 +69,11 @@ function attachCutBoneLandmark(
   materials: THREE.Material[],
 ): void {
   if (!cut.geometry3d.hasBone) return;
-  const boneGeom = leaseButcherGeometry(leases, "bone-landmark-std", () =>
-    createBoneLandmarkGeometry(0.18, 0.028),
+  const spec = computeCutBoneSpec(cut.geometry3d.sections, cut.geometry3d.loftAxis);
+  if (!spec) return;
+  const key = `bone-landmark_${spec.length.toFixed(4)}x${spec.radius.toFixed(4)}`;
+  const boneGeom = leaseButcherGeometry(leases, key, () =>
+    createBoneLandmarkGeometry(spec.length, spec.radius),
   );
   const boneMat = new THREE.MeshStandardMaterial({
     color: "#f5eedc",
@@ -73,8 +83,8 @@ function attachCutBoneLandmark(
   materials.push(boneMat);
   const boneMesh = new THREE.Mesh(boneGeom, boneMat);
   boneMesh.name = `BoneLandmark_${cut.id}`;
-  boneMesh.position.set(0, 0.02, -0.05);
-  boneMesh.rotation.set(Math.PI * 0.5, 0, 0.2);
+  boneMesh.position.set(spec.center[0], spec.center[1], spec.center[2]);
+  boneMesh.rotation.set(0, 0, boneRotationZ(cut.geometry3d.loftAxis, spec.knuckleSign));
   meshMetaMap.set(boneMesh, meta);
   cutGroup.add(boneMesh);
 }

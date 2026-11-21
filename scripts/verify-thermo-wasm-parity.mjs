@@ -437,6 +437,39 @@ for (const c of golden.simulation.regimes) {
   }
 }
 
+// ── Voxel engine (3D conduction): EXACT, not ULP-budgeted ───────────────────
+// The voxel kernel uses only + − × ÷ in a fixed order (no libm), so the
+// compiled module must reproduce crates/thermo-core/tests/voxel_golden_vectors.json
+// bit for bit, exactly as the TypeScript twin does.
+const VOXEL_FIXTURE = "crates/thermo-core/tests/voxel_golden_vectors.json";
+let voxelChecks = 0;
+if (typeof mod.VoxelEngine !== "function") {
+  failures.push("VoxelEngine export missing from the compiled module");
+} else {
+  const voxel = JSON.parse(readFileSync(VOXEL_FIXTURE, "utf8"));
+  const exact = (what, got, expected) => {
+    voxelChecks += 1;
+    if (!Object.is(got, expected ?? Number.NaN)) failures.push(`${what}: got ${got}, fixture ${expected}`);
+  };
+  for (const c of voxel.cases) {
+    const e = new mod.VoxelEngine(c.nx, c.ny, c.nz, c.dx, c.dy, c.dz, Uint8Array.from(c.material), Float64Array.from(c.k), Float64Array.from(c.rhoC), c.initialC);
+    exact(`${c.name} initial energy`, e.energy_j(), c.initialEnergyJ);
+    c.stages.forEach((st, si) => {
+      e.set_faces(Float64Array.from(st.faces));
+      if (st.resetPeaks) e.reset_peaks();
+      exact(`${c.name}#${si} stable_dt`, e.stable_dt(), st.stableDt);
+      e.step(st.dt, st.steps);
+      exact(`${c.name}#${si} energy`, e.energy_j(), st.energyJ);
+      Array.from(e.temps()).forEach((t, i) => exact(`${c.name}#${si} T[${i}]`, t, st.temps[i]));
+      Array.from(e.peaks()).forEach((t, i) => exact(`${c.name}#${si} peak[${i}]`, t, st.peaks[i]));
+      st.minByMaterial.forEach((m, mi) => exact(`${c.name}#${si} min[${mi}]`, e.min_temp_where(mi), m));
+      st.maxByMaterial.forEach((m, mi) => exact(`${c.name}#${si} max[${mi}]`, e.max_temp_where(mi), m));
+    });
+    e.free();
+  }
+}
+console.log(`  checked ${voxelChecks} voxel values EXACTLY against ${VOXEL_FIXTURE}`);
+
 console.log(`  checked ${checks} values against ${FIXTURE}`);
 console.log(`  worst divergence: ${worst} ULP — ${worstWhat}`);
 console.log(`  budget: ${MAX_ULP} ULP`);

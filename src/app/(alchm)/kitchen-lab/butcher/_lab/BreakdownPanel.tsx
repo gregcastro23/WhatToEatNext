@@ -3,7 +3,9 @@
 import { SPECIES_LIST, getCutsForPrimal, getSpeciesSpec } from "@/data/butcher/cutsCatalogue";
 import { BUTCHER_CAMERA_FRAMINGS } from "@/lib/butcher/stage/cameraFramings";
 import { OVERLAY_COLOR_LEGEND } from "@/lib/butcher/stage/overlayLegend";
+import { SKELETON_LANDMARKS } from "@/lib/butcher/stage/skeletonLandmarks";
 import type { CameraFramingId, ColorOverlayMode, SpeciesId, SpeciesSpec } from "@/lib/butcher/types";
+import { CutCompareDrawer } from "./CutCompareDrawer";
 import { LazyButcherStage } from "./LazyButcherStage";
 import type { ButcherLabState } from "./useButcherLab";
 import type { JSX } from "react";
@@ -108,6 +110,33 @@ function BreakdownOverlayRow({
   );
 }
 
+function BoneLandmarkToggle({
+  speciesId,
+  show,
+  onToggle,
+}: {
+  readonly speciesId: SpeciesId;
+  readonly show: boolean;
+  readonly onToggle: (next: boolean) => void;
+}): JSX.Element {
+  return (
+    <div className="space-y-2">
+      <button type="button" className="bt-btn" aria-pressed={show} onClick={() => onToggle(!show)}>
+        Show Bone Landmarks
+      </button>
+      {show ? (
+        <ul className="grid gap-1.5 text-[11px] text-white/70 sm:grid-cols-2" aria-label="Bone landmarks and the cuts they explain">
+          {SKELETON_LANDMARKS[speciesId].map((lm) => (
+            <li key={lm.id} className="rounded-md border border-white/10 bg-black/25 px-2 py-1.5">
+              <strong className="text-white/90">{lm.label}</strong> — {lm.note}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
+
 function PrimalSubCutGrid({
   species,
   activeCutId,
@@ -169,6 +198,7 @@ export function BreakdownPanel({
         <BreakdownTopRow speciesId={lab.speciesId} framing={lab.framing} onSelectSpecies={onSelectSpecies} onSetFraming={lab.setFraming} />
         <p className="text-xs text-white/60">{species.summary}</p>
         <BreakdownOverlayRow explodeFactor={lab.explodeFactor} colorMode={lab.colorMode} onExplodeChange={lab.setExplodeFactor} onColorModeChange={lab.setColorMode} />
+        <BoneLandmarkToggle speciesId={lab.speciesId} show={lab.showBoneLandmarks} onToggle={lab.setShowBoneLandmarks} />
       </div>
 
       <LazyButcherStage
@@ -180,12 +210,14 @@ export function BreakdownPanel({
         colorMode={lab.colorMode}
         framing={lab.framing}
         showSlicePlane={false}
+        showBoneLandmarks={lab.showBoneLandmarks}
         sliceAngleDeg={lab.sliceAngleDeg}
         onSelectCut={(nextCutId) => onSelectCut(lab.speciesId, nextCutId)}
         onHoverCut={lab.setHoveredCutId}
         onSliceAngleChange={lab.setSliceAngleDeg}
       />
 
+      <CutCompareDrawer cut={lab.cut} comparePins={lab.comparePins} onTogglePin={lab.togglePin} />
       <PrimalSubCutGrid species={species} activeCutId={lab.cut.id} onHoverCut={lab.setHoveredCutId} onSelectCut={onSelectCut} />
     </div>
   );

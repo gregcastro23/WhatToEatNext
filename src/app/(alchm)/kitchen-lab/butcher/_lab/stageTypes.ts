@@ -20,6 +20,8 @@ export interface ButcherStageProps {
   readonly colorMode: ColorOverlayMode;
   readonly framing: CameraFramingId;
   readonly showSlicePlane: boolean;
+  /** X-ray: show procedural skeletal landmarks and dim the muscle meshes. */
+  readonly showBoneLandmarks: boolean;
   readonly sliceAngleDeg: number;
   readonly onSelectCut: (cutId: string) => void;
   readonly onHoverCut: (cutId: string | null) => void;

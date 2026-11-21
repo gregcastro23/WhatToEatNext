@@ -1,7 +1,9 @@
 "use client";
 
 import { getCutsForSpecies, getSpeciesSpec } from "@/data/butcher/cutsCatalogue";
-import type { AnatomicalCut, ColorOverlayMode, Vec3Tuple } from "@/lib/butcher/types";
+import { projectLandmarksToSvg } from "@/lib/butcher/stage/skeletonLandmarks";
+import { sliceAngleCue } from "@/lib/butcher/stage/sliceAngleCue";
+import type { AnatomicalCut, ColorOverlayMode, SpeciesId, Vec3Tuple } from "@/lib/butcher/types";
 import type { ButcherStageProps } from "./stageTypes";
 import type { JSX } from "react";
 
@@ -50,6 +52,7 @@ interface SvgCutShapeProps {
   readonly isTarget: boolean;
   readonly showSlicePlane: boolean;
   readonly sliceAngleDeg: number;
+  readonly dimmed: boolean;
 }
 
 function SvgCutShape(p: SvgCutShapeProps): JSX.Element {
@@ -69,13 +72,13 @@ function SvgCutShape(p: SvgCutShapeProps): JSX.Element {
       <path
         d={p.cut.svg2d.path}
         fill={fillForCut(p.cut, p.colorMode)}
-        fillOpacity={p.isSelected ? 0.92 : p.isHovered ? 0.78 : 0.54}
+        fillOpacity={(p.isSelected ? 0.92 : p.isHovered ? 0.78 : 0.54) * (p.dimmed ? 0.45 : 1)}
         stroke={strokeForCutState(p.isSelected, p.isTarget, p.isHovered)}
         strokeWidth={p.isSelected ? 2.6 : p.isTarget ? 2 : 1.1}
       />
       <line x1={lx - gx} y1={ly - gy} x2={lx + gx} y2={ly + gy} stroke="rgba(254, 240, 138, 0.72)" strokeWidth={1.4} strokeDasharray="3 2" />
       {p.showSlicePlane && p.isSelected ? (
-        <line x1={lx - kx} y1={ly - ky} x2={lx + kx} y2={ly + ky} stroke={p.sliceAngleDeg >= 75 ? "#34d399" : "#38bdf8"} strokeWidth={2.8} strokeLinecap="round" />
+        <line x1={lx - kx} y1={ly - ky} x2={lx + kx} y2={ly + ky} stroke={sliceAngleCue(p.sliceAngleDeg).colorHex} strokeWidth={2.8} strokeLinecap="round" />
       ) : null}
     </g>
   );
@@ -125,6 +128,18 @@ function SvgCutButtonStrip({
   );
 }
 
+function SvgSkeletonOverlay({ speciesId }: { readonly speciesId: SpeciesId }): JSX.Element {
+  return (
+    <g aria-label="Bone landmarks (X-ray)" data-testid="bt-svg-skeleton">
+      {projectLandmarksToSvg(speciesId).map((lm) => (
+        <line key={lm.id} x1={lm.x1} y1={lm.y1} x2={lm.x2} y2={lm.y2} stroke="#f5eedc" strokeOpacity={0.85} strokeWidth={4} strokeLinecap="round">
+          <title>{lm.label}</title>
+        </line>
+      ))}
+    </g>
+  );
+}
+
 export function ButcherSvgStage(props: ButcherStageProps): JSX.Element {
   const species = getSpeciesSpec(props.speciesId);
   const cuts = getCutsForSpecies(props.speciesId);
@@ -146,8 +161,9 @@ export function ButcherSvgStage(props: ButcherStageProps): JSX.Element {
         <svg viewBox={species.svgViewBox} className="h-auto w-full select-none" role="img" aria-label={`${species.name} anatomical primal and sub-primal cut map`}>
           <path d={species.svgOutlinePath} fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.22)" strokeWidth={2} />
           {cuts.map((cut) => (
-            <SvgCutShape key={cut.id} cut={cut} explodeVec={primalById.get(cut.primalId)?.explodeVector ?? null} explodeFactor={props.explodeFactor} colorMode={props.colorMode} isSelected={cut.id === props.selectedCutId} isHovered={cut.id === props.hoveredCutId} isTarget={cut.id === props.targetCutId} showSlicePlane={props.showSlicePlane} sliceAngleDeg={props.sliceAngleDeg} />
+            <SvgCutShape key={cut.id} cut={cut} explodeVec={primalById.get(cut.primalId)?.explodeVector ?? null} explodeFactor={props.explodeFactor} colorMode={props.colorMode} isSelected={cut.id === props.selectedCutId} isHovered={cut.id === props.hoveredCutId} isTarget={cut.id === props.targetCutId} showSlicePlane={props.showSlicePlane} sliceAngleDeg={props.sliceAngleDeg} dimmed={props.showBoneLandmarks} />
           ))}
+          {props.showBoneLandmarks ? <SvgSkeletonOverlay speciesId={props.speciesId} /> : null}
         </svg>
       </div>
       {props.showSlicePlane && selectedCut ? (
