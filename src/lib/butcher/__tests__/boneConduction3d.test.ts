@@ -7,10 +7,11 @@
 import { BUTCHER_CUTS, getCutById } from "@/data/butcher/cutsCatalogue";
 import { CUT_BONE_ANATOMY } from "@/lib/butcher/science/boneAnatomy";
 import { simulateBoneConduction3d, simulateBoneConduction3dWith } from "@/lib/butcher/science/boneConduction3d";
-import { VOXEL_BONE, VOXEL_MARROW, buildBoneVoxelLayout } from "@/lib/butcher/science/boneVoxelGeometry";
+import { VOXEL_BONE, VOXEL_LEAN, VOXEL_MARROW, buildBoneVoxelLayout } from "@/lib/butcher/science/boneVoxelGeometry";
+import { cellIndex, readoutColumns } from "@/lib/butcher/science/boneVoxelReadout";
 import { defaultTrajectoryMethodForCut } from "@/lib/butcher/science/trajectoryMethods";
 import { biotNumber, slabCoefficient, slabEigenvalue } from "@/lib/cooking/thermo";
-import { createTsVoxelEngine } from "@/lib/cooking/voxelConduction";
+import { createTsVoxelEngine, type VoxelEngineLike, type VoxelGridSpec } from "@/lib/cooking/voxelConduction";
 import type { AnatomicalCut } from "@/lib/butcher/types";
 
 function cutOrThrow(id: string): AnatomicalCut {
@@ -107,14 +108,16 @@ describe("bone-through 3D simulation", () => {
       const method = defaultTrajectoryMethodForCut(cut);
       const r = simulateBoneConduction3dWith(createTsVoxelEngine, "typescript", { cut, method });
       if (!r) throw new Error(id);
-      for (const col of [r.boneAdjacent, r.boneAdjacentBoneless, r.awayFromBone]) {
+      for (const col of [r.boneAdjacent, r.boneAdjacentBoneless, r.thermalCentre]) {
         for (const v of Object.values(col)) expect(Number.isFinite(v)).toBe(true);
         expect(col.carryoverPeakC).toBeGreaterThanOrEqual(col.coreAtRemovalC);
       }
-      expect(r.boneAdjacent.distanceFromBoneMm).toBeLessThan(r.awayFromBone.distanceFromBoneMm);
+      expect(r.boneAdjacent.distanceFromBoneMm).toBeLessThan(r.thermalCentre.distanceFromBoneMm);
       expect(r.boneAdjacentBoneless.distanceFromBoneMm).toBe(r.boneAdjacent.distanceFromBoneMm);
-      expect(r.awayFromBone.coreAtRemovalC).toBeGreaterThanOrEqual(r.pullCoreTempC - 0.5);
-      expect(r.awayFromBone.coreAtRemovalC).toBeLessThan(r.pullCoreTempC + 6);
+      // The probe ends the main stage within one step of the pull; only a finishing sear can lift it further.
+      expect(r.thermalCentre.coreAtRemovalC).toBeGreaterThanOrEqual(r.pullCoreTempC - 0.05);
+      expect(r.thermalCentre.coreAtRemovalC).toBeLessThan(r.pullCoreTempC + 3);
+      for (const col of [r.boneAdjacent, r.thermalCentre]) expect(col.grayBandMm).toBeLessThanOrEqual(cut.typicalThicknessMm / 2 + 1e-9);
       expect(r.slice.material).toHaveLength(r.slice.nx * r.slice.ny);
       expect(r.slice.peakTemps).toHaveLength(r.slice.nx * r.slice.ny);
       expect(r.basis.length).toBeGreaterThanOrEqual(4);
@@ -128,6 +131,56 @@ describe("bone-through 3D simulation", () => {
       if (!r) throw new Error(id);
       expect(r.boneEffectAtRemovalC).toBeCloseTo(r.boneAdjacentBoneless.coreAtRemovalC - r.boneAdjacent.coreAtRemovalC, 0);
       expect(Math.abs(r.boneEffectAtRemovalC)).toBeLessThan(3);
+    }
+  });
+
+  it("replays the bone-in step log EXACTLY on the boneless counterfactual (same faces, dt and step counts)", () => {
+    const logs: string[][] = [];
+    const spyFactory = (spec: VoxelGridSpec): VoxelEngineLike => {
+      const engine = createTsVoxelEngine(spec);
+      const log: string[] = [];
+      logs.push(log);
+      const step = engine.step.bind(engine);
+      const setFaces = engine.setFaces.bind(engine);
+      engine.step = (dt: number, n: number): void => { log.push(`step ${dt} x${n}`); step(dt, n); };
+      engine.setFaces = (f: ArrayLike<number>): void => { log.push(`faces ${Array.from(f).join(",")}`); setFaces(f); };
+      return engine;
+    };
+    for (const id of ["lamb-loin-chop", "ribeye", "osso-buco-shank"]) {
+      logs.length = 0;
+      const cut = cutOrThrow(id);
+      simulateBoneConduction3dWith(spyFactory, "typescript", { cut, method: defaultTrajectoryMethodForCut(cut) });
+      const [boneIn = [], boneless = []] = logs;
+      // Expand "step dt xN" so a batched replay and step-by-step cooking compare as the same dt sequence.
+      const steps = (l: readonly string[]): string[] => l.filter((x) => x.startsWith("step")).flatMap((x) => {
+        const [, dt = "", times = "x1"] = x.split(" ");
+        return new Array<string>(Number(times.slice(1))).fill(dt);
+      });
+      expect(steps(boneIn).length).toBeGreaterThan(10);
+      expect(steps(boneless)).toEqual(steps(boneIn));
+    }
+  });
+
+  it("caps each face's gray band at half the thickness even when a column is gray through", () => {
+    const r = simulateBoneConduction3dWith(createTsVoxelEngine, "typescript", { cut: cutOrThrow("ribeye"), method: "reverse-sear", targetCoreTempC: 74 });
+    if (!r) throw new Error("ribeye");
+    expect(r.thermalCentre.grayBandMm).toBeLessThanOrEqual(cutOrThrow("ribeye").typicalThicknessMm / 2 + 1e-9);
+    expect(r.boneAdjacent.grayBandMm).toBeLessThanOrEqual(cutOrThrow("ribeye").typicalThicknessMm / 2 + 1e-9);
+  });
+
+  it("reads 'beside the bone' from the voxelised bone in the readout slice (cylinder slice passes through the axis)", () => {
+    for (const id of THROUGH_IDS) {
+      const cut = cutOrThrow(id);
+      const layout = buildBoneVoxelLayout(cut, cut.typicalThicknessMm);
+      if (!layout) throw new Error(id);
+      const cols = readoutColumns(layout);
+      const mat = (i: number): number => Number(layout.spec.material[cellIndex(layout.spec, i, cols.jMid, cols.kMid)]);
+      expect(mat(cols.adjacentI)).toBe(VOXEL_LEAN);
+      const towardBone = mat(cols.adjacentI - 1) !== VOXEL_LEAN ? cols.adjacentI - 1 : cols.adjacentI + 1;
+      expect(mat(towardBone)).not.toBe(VOXEL_LEAN);
+      expect(cols.adjacentMm).toBeCloseTo(layout.dxMm / 2, 9);
+      expect(mat(cols.probeI)).toBe(VOXEL_LEAN);
+      if (layout.anatomy.through?.kind === "cylinder") expect(layout.spec.nz % 2).toBe(1);
     }
   });
 

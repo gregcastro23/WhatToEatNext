@@ -41,7 +41,7 @@ export interface TrajectoryColumnSummary {
   readonly bonePlacement: BonePlacement | null;
   /** True when the cut's bone runs through the thickness (steaks/chops): the 1D column is the meat away from the bone. */
   readonly boneNeeds3d: boolean;
-  /** Distance of the thermal centre (coldest meat node at removal) from face A's meat surface, mm. */
+  /** Lean-only distance of the thermal centre (coldest meat node at removal) from face A's meat surface, mm (bone in between is not counted). */
   readonly thermalCentreFromAMm: number;
 }
 

@@ -1,11 +1,6 @@
 import type { AnatomicalCut } from "@/lib/butcher/types";
 import type { VoxelGridSpec } from "@/lib/cooking/voxelConduction";
-import {
-  PORTION_LEAN_DENSITY_KG_M3,
-  STEAK_FOOTPRINT_ASPECT,
-  boneAnatomyForCut,
-  type CutBoneAnatomy,
-} from "./boneAnatomy";
+import { STEAK_FOOTPRINT_ASPECT, boneAnatomyForCut, type CutBoneAnatomy } from "./boneAnatomy";
 import { ITIS_TISSUE } from "./slabColumn";
 import { thermophysicalForProximate } from "./slabDiffusion";
 
@@ -49,9 +44,13 @@ function itisRhoC(kind: "bone" | "marrow"): number {
   return ITIS_TISSUE[kind].densityKgM3 * ITIS_TISSUE[kind].specificHeatJkgK;
 }
 
-/** Lean footprint area, mm², from the cut's typical portion and thickness. */
-function leanFootprintMm2(cut: AnatomicalCut, thicknessMm: number): number {
-  return ((cut.typicalPortionG / 1000 / PORTION_LEAN_DENSITY_KG_M3) * 1e9) / thicknessMm;
+/**
+ * Lean footprint area, mm², from the cut's typical portion and thickness —
+ * COMPUTED with the same Choi-Okos lean density the voxels use, so the
+ * simulated lean mass round-trips to `typicalPortionG`.
+ */
+function leanFootprintMm2(cut: AnatomicalCut, thicknessMm: number, leanDensityKgM3: number): number {
+  return ((cut.typicalPortionG / 1000 / leanDensityKgM3) * 1e9) / thicknessMm;
 }
 
 interface Lateral {
@@ -91,11 +90,13 @@ function cellMaterial(anatomy: CutBoneAnatomy, lat: Lateral, xMm: number, zMm: n
   return xMm >= lat.boneXMm[0] && xMm < lat.boneXMm[1] ? VOXEL_BONE : VOXEL_LEAN;
 }
 
-function gridCounts(lat: Lateral, thicknessMm: number): { nx: number; ny: number; nz: number } {
+/** Cylinders get an odd `nz` so the mid-length readout slice passes through the bone's axis. */
+function gridCounts(lat: Lateral, thicknessMm: number, oddNz: boolean): { nx: number; ny: number; nz: number } {
   const nx = Math.max(3, Math.round(lat.widthMm / lat.dxMm));
   const ny = Math.max(8, Math.ceil(thicknessMm / MAX_DY_MM));
   let nz = Math.max(3, Math.round(lat.lengthMm / lat.dzMm));
   while (nx * ny * nz > CELL_BUDGET && nz > 3) nz -= 1;
+  if (oddNz && nz % 2 === 0) nz -= 1;
   return { nx, ny, nz };
 }
 
@@ -103,9 +104,11 @@ function gridCounts(lat: Lateral, thicknessMm: number): { nx: number; ny: number
 export function buildBoneVoxelLayout(cut: AnatomicalCut, thicknessMm: number): BoneVoxelLayout | null {
   const anatomy = boneAnatomyForCut(cut);
   if (anatomy?.placement !== "through" || !anatomy.through) return null;
-  const leanArea = leanFootprintMm2(cut, thicknessMm);
+  const lean = thermophysicalForProximate(cut.proximate);
+  const leanArea = leanFootprintMm2(cut, thicknessMm, lean.densityKgM3);
+  const isCylinder = anatomy.through.kind === "cylinder";
   const lat = anatomy.through.kind === "plate" ? plateLateral(anatomy, leanArea, anatomy.through.positionFrac) : cylinderLateral(anatomy, leanArea);
-  const { nx, ny, nz } = gridCounts(lat, thicknessMm);
+  const { nx, ny, nz } = gridCounts(lat, thicknessMm, isCylinder);
   const dzMm = lat.lengthMm / nz;
   const material = new Array<number>(nx * ny * nz);
   for (let k = 0; k < nz; k += 1) {
@@ -114,7 +117,6 @@ export function buildBoneVoxelLayout(cut: AnatomicalCut, thicknessMm: number): B
       for (let j = 0; j < ny; j += 1) material[i + nx * (j + ny * k)] = m;
     }
   }
-  const lean = thermophysicalForProximate(cut.proximate);
   const dyMm = thicknessMm / ny;
   return {
     spec: {

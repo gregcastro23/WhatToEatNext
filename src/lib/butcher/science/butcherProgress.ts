@@ -22,6 +22,8 @@ import type {
 
 export const BUTCHER_PROGRESS_STORAGE_KEY_V1 = "alchm.butcher.progress.v1";
 export const BUTCHER_PROGRESS_STORAGE_KEY = "alchm.butcher.progress.v2";
+/** Where an unreadable v2 record is set aside (never silently replaced by an older v1 record). */
+export const BUTCHER_PROGRESS_INVALID_KEY = "alchm.butcher.progress.v2.invalid";
 
 export const MASTERY_SPECIES: readonly SpeciesId[] = ["beef", "pork", "lamb", "poultry", "finfish"];
 
@@ -77,9 +79,13 @@ export function masteryRank(stats: SpeciesMasteryStats): MasteryRank {
   return "Unranked";
 }
 
+/** `window.localStorage` itself can THROW (blocked site data, sandboxed iframes), so even the lookup is guarded. */
 function storage(): Storage | null {
-  if (typeof window === "undefined" || typeof window.localStorage === "undefined") return null;
-  return window.localStorage;
+  try {
+    return typeof window === "undefined" ? null : window.localStorage;
+  } catch {
+    return null;
+  }
 }
 
 function writeProgress(store: Storage, progress: ButcherProgressStats): void {
@@ -93,7 +99,8 @@ function writeProgress(store: Storage, progress: ButcherProgressStats): void {
 function parseJson(raw: string | null): unknown {
   if (!raw) return null;
   try {
-    return JSON.parse(raw) as unknown;
+    const parsed: unknown = JSON.parse(raw);
+    return parsed;
   } catch {
     return null;
   }
@@ -105,14 +112,25 @@ export function migrateProgressV1(raw: unknown): ButcherProgressStats | null {
   return v1.success ? { ...v1.data, speciesMastery: emptyMastery() } : null;
 }
 
+/**
+ * v2 wins when valid. v1 is migrated ONLY when no v2 record exists; a v2
+ * record that fails validation is copied to `BUTCHER_PROGRESS_INVALID_KEY`
+ * and play starts fresh, so an old v1 record can never overwrite newer
+ * species mastery.
+ */
 export function readButcherProgress(): ButcherProgressStats {
   const store = storage();
   if (!store) return defaultButcherProgress();
   try {
-    const v2 = ProgressV2Schema.safeParse(parseJson(store.getItem(BUTCHER_PROGRESS_STORAGE_KEY)));
-    if (v2.success) {
-      const { version: _version, ...progress } = v2.data;
-      return progress;
+    const rawV2 = store.getItem(BUTCHER_PROGRESS_STORAGE_KEY);
+    if (rawV2 !== null) {
+      const v2 = ProgressV2Schema.safeParse(parseJson(rawV2));
+      if (v2.success) {
+        const { version: _version, ...progress } = v2.data;
+        return progress;
+      }
+      store.setItem(BUTCHER_PROGRESS_INVALID_KEY, rawV2);
+      return defaultButcherProgress();
     }
     const migrated = migrateProgressV1(parseJson(store.getItem(BUTCHER_PROGRESS_STORAGE_KEY_V1)));
     if (migrated) {

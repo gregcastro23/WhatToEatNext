@@ -67,6 +67,20 @@ describe("layered slab column", () => {
   });
 });
 
+describe("asymmetric faces", () => {
+  it("drives each outer node from ITS face's boundary (face A hot, face B cold → linear steady profile)", () => {
+    const column = buildSlabColumn({ meatThicknessMm: 20, maxSegmentMm: 1, lean: LEAN, fatCapMm: 0, bone: null });
+    const temps = column.positionsM.map(() => 50);
+    const hot = { hWm2K: 500, tMediumC: 100, qEvapWm2: 0 };
+    const cold = { hWm2K: 500, tMediumC: 0, qEvapWm2: 0 };
+    for (let s = 0; s < 4000; s += 1) stepLayeredSlab({ temps, column, dt: 5, faceA: hot, faceB: cold });
+    const n = temps.length;
+    expect(temps[0] ?? 0).toBeGreaterThan(80);
+    expect(temps[n - 1] ?? 100).toBeLessThan(20);
+    expect((temps[0] ?? 0) + (temps[n - 1] ?? 0)).toBeCloseTo(100, 6);
+  });
+});
+
 describe("fat cap (face A)", () => {
   it("insulates its own face, shifts the thermal centre toward it, and lengthens the cook", () => {
     const brisket = cutOrThrow("brisket-flat");
@@ -80,6 +94,9 @@ describe("fat cap (face A)", () => {
     expect(six.cookMinutes).toBeGreaterThan(bare.cookMinutes);
     expect(twelve.cookMinutes).toBeGreaterThan(six.cookMinutes);
     expect(twelve.column.fatCapMm).toBe(12);
+    // The headline bands are the MEAN of the two faces (so crust + gray + ideal = half the meat).
+    expect(six.grayBandMm).toBeCloseTo((six.faces[0].grayBandMm + six.faces[1].grayBandMm) / 2, 2);
+    expect(six.crustDepthMm + six.grayBandMm + six.idealCoreMm).toBeCloseTo(six.halfThicknessMm, 1);
   });
 
   it("clamps the fat cap to 0–15 mm", () => {
@@ -114,10 +131,11 @@ describe("bone-in", () => {
     const drum = cutOrThrow("chicken-drumstick");
     const bone = simulateCoupledCutTrajectory(drum, { method: "roasting", targetCoreTempC: 80 });
     const none = simulateCoupledCutTrajectory(drum, { method: "roasting", targetCoreTempC: 80, boneIn: false });
-    const half = bone.column.meatThicknessMm / 2;
-    const nearInterface = [half, half + bone.column.boneMm].some((d) => Math.abs(bone.column.thermalCentreFromAMm - d) < 0.5);
     expect(bone.column.bonePlacement).toBe("core");
-    expect(nearInterface).toBe(true);
+    // Lean-only distance: the probe sits on the bone's face, half the meat from face A, whichever face it is.
+    expect(bone.column.thermalCentreFromAMm).toBeCloseTo(bone.column.meatThicknessMm / 2, 6);
+    const shank = simulateCoupledCutTrajectory(cutOrThrow("lamb-shank"), { method: "braising", targetCoreTempC: 93, holdMinutes: 90 });
+    expect(shank.column.thermalCentreFromAMm).toBeCloseTo(shank.column.meatThicknessMm / 2, 6);
     expect(bone.cookMinutes).toBeGreaterThan(none.cookMinutes);
   });
 

@@ -83,6 +83,9 @@ export function useButcherGame(selection: ButcherGameSelection): ButcherGameStat
   }, []);
 
   const submitGameOrder = useCallback((): ButcherOrderScore => {
+    // One score per ticket: a repeat click returns the recorded score instead of
+    // crediting progress and Species Mastery again (Next Order / Undo clear it).
+    if (game.lastScore) return game.lastScore;
     const result = scoreOrderFulfillment(activeTicket, {
       selectedCutId: cut.id, sliceAngleDeg, portionMassG, selectedMethod: gameMethod, selectedCoreTempC: gameCoreTempC,
       fabricationPicks: game.fabricationPicks,
@@ -93,7 +96,7 @@ export function useButcherGame(selection: ButcherGameSelection): ButcherGameStat
       progress: recordButcherResult(prev.progress, result, prev.gameTier, activeTicket.speciesId),
     }));
     return result;
-  }, [activeTicket, cut.id, sliceAngleDeg, portionMassG, gameMethod, gameCoreTempC, game.fabricationPicks]);
+  }, [activeTicket, cut.id, sliceAngleDeg, portionMassG, gameMethod, gameCoreTempC, game.fabricationPicks, game.lastScore]);
 
   const nextGameOrder = useCallback((): void => {
     setGame((prev) => ({ ...prev, ticketIndex: prev.ticketIndex + 1, fabricationPicks: [], lastScore: null }));

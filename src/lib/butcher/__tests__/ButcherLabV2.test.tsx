@@ -84,6 +84,21 @@ describe("<ButcherLabApp /> v2", () => {
     expect(screen.getByText(/basis for dry-aged 28 d/i)).toBeInTheDocument();
   });
 
+  it("resets bone-in and the fat cap to each cut's own defaults on a cut change", async () => {
+    window.history.replaceState(null, "", "/kitchen-lab/butcher?tab=thermal&species=beef&cut=prime-rib");
+    render(<ButcherLabApp />);
+    await waitFor(() => expect(screen.getByRole("group", { name: "Pre-cook prep" })).toBeInTheDocument());
+    fireEvent.click(screen.getByRole("checkbox", { name: /bone-in/i }));
+    fireEvent.change(screen.getByLabelText(/fat cap on face a/i), { target: { value: "9" } });
+    expect(screen.getByRole("checkbox", { name: /bone-in/i })).not.toBeChecked();
+
+    fireEvent.click(screen.getByRole("button", { name: "Breakdown" }));
+    clickFirst(/^ribeye steak/i);
+    fireEvent.click(screen.getByRole("button", { name: "Thermal & Grain" }));
+    expect(screen.getByLabelText(/fat cap on face a: 0 mm/i)).toBeInTheDocument();
+    expect(screen.getByRole("checkbox", { name: /bone-in/i })).toBeChecked();
+  });
+
   it("disables dry aging for poultry", async () => {
     window.history.replaceState(null, "", "/kitchen-lab/butcher?tab=thermal&species=poultry&cut=breast-supreme");
     render(<ButcherLabApp />);
@@ -121,5 +136,12 @@ describe("<ButcherLabApp /> v2", () => {
     expect(within(yields).getAllByText("USDA")).toHaveLength(2);
     expect(screen.getByRole("list", { name: /species mastery/i })).toHaveTextContent(/beef: initiate/i);
     expect(window.localStorage.getItem(BUTCHER_PROGRESS_STORAGE_KEY)).toContain('"version":2');
+
+    // One score per ticket: the button locks, and a forced second submit credits nothing.
+    const execute = screen.getByRole("button", { name: /execute cut & fulfill order/i });
+    expect(execute).toBeDisabled();
+    fireEvent.click(execute);
+    const stored: unknown = JSON.parse(window.localStorage.getItem(BUTCHER_PROGRESS_STORAGE_KEY) ?? "null");
+    expect(stored).toMatchObject({ completedOrders: 1, speciesMastery: { beef: { passed: 1, masterPassed: 1 } } });
   });
 });

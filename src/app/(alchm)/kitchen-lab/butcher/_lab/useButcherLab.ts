@@ -66,7 +66,7 @@ export interface ButcherLabState extends LabCoreState, LabCoreSetters, ButcherGa
 }
 
 /** Per-cut fields reset whenever the selected cut changes. */
-function cutDefaults(cut: AnatomicalCut): Pick<LabCoreState, "speciesId" | "cutId" | "coreTempC" | "holdMinutes" | "portionMassG" | "gameMethod" | "gameCoreTempC" | "boneIn"> {
+function cutDefaults(cut: AnatomicalCut): Pick<LabCoreState, "speciesId" | "cutId" | "coreTempC" | "holdMinutes" | "portionMassG" | "gameMethod" | "gameCoreTempC" | "boneIn" | "fatCapMm"> {
   return {
     speciesId: cut.speciesId,
     cutId: cut.id,
@@ -76,6 +76,8 @@ function cutDefaults(cut: AnatomicalCut): Pick<LabCoreState, "speciesId" | "cutI
     gameMethod: recommendThermalStrategy(cut),
     gameCoreTempC: cut.targetCoreTempC.ideal,
     boneIn: defaultBoneInForCut(cut),
+    // A fat cap belongs to the cut it was set on (a 12 mm brisket cap must not follow you to a salmon fillet).
+    fatCapMm: 0,
   };
 }
 
@@ -89,7 +91,6 @@ function initialLabCore(cut: AnatomicalCut): LabCoreState {
     showBoneLandmarks: false,
     sliceAngleDeg: 45,
     prep: "none",
-    fatCapMm: 0,
     comparePins: [],
   };
 }

@@ -38,17 +38,16 @@ export interface BoneConduction3dResult {
     readonly widthMm: number; readonly lengthMm: number;
   };
   readonly cookMinutes: number;
+  readonly targetCoreTempC: number;
   readonly pullCoreTempC: number;
   /** The meat column touching the bone. */
   readonly boneAdjacent: BoneColumnReadout;
   /** The SAME column in a counterfactual block whose bone cells are lean, cooked on the identical schedule. */
   readonly boneAdjacentBoneless: BoneColumnReadout;
-  /** The probe column: middle of the meat on the bone's larger side (where a thermometer goes). */
-  readonly awayFromBone: BoneColumnReadout;
+  /** The probe column that ends the cook: middle of the meat on the bone's larger side (a doneness reference, not a bone comparison). */
+  readonly thermalCentre: BoneColumnReadout;
   /** Boneless minus bone-in temperature next to the bone at removal, °C (positive = the bone kept its neighbour cooler). */
   readonly boneEffectAtRemovalC: number;
-  /** Away-from-bone minus bone-adjacent temperature at removal, °C, in the bone-in block. */
-  readonly lagAtRemovalC: number;
   /** Mid-length XY cross-section (index i + nx·j), for the heat map. */
   readonly slice: {
     readonly nx: number; readonly ny: number;

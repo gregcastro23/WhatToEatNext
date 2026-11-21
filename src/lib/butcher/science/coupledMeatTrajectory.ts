@@ -1,7 +1,7 @@
 import type { AnatomicalCut } from "@/lib/butcher/types";
 import { boneAnatomyForCut, columnBoneSpec, defaultBoneInForCut } from "./boneAnatomy";
 import { effectivePrep, shiftWaterMass, surfaceWaterFactorFor, type PrepProfile } from "./prepModifiers";
-import { buildSlabColumn, coldestMeatNode, type SlabColumn } from "./slabColumn";
+import { buildSlabColumn, coldestMeatNode, meatDistanceMm, type SlabColumn } from "./slabColumn";
 import { clampVal, stepLayeredSlab, thermophysicalForProximate } from "./slabDiffusion";
 import { thermalSpecForCut } from "./thermalProfiles";
 import { MAILLARD_TEMP_C, buildSurfaceSummary, computeColumnBands, moistureRetentionPct } from "./trajectoryBands";
@@ -279,7 +279,7 @@ function finalizeTrajectory(
       meatThicknessMm: s.column.meatThicknessMm, fatCapMm: s.column.fatCapModelMm, boneMm: s.column.boneModelMm,
       boneIn: s.boneIn, bonePlacement: s.boneIn ? (anatomy?.placement ?? null) : null,
       boneNeeds3d: s.boneIn && anatomy?.placement === "through",
-      thermalCentreFromAMm: Number(Math.abs(((s.column.positionsM[probe] ?? 0) - (s.column.positionsM[s.column.meatSurfaceA] ?? 0)) * 1000).toFixed(2)),
+      thermalCentreFromAMm: Number(meatDistanceMm(s.column, s.column.meatSurfaceA, probe).toFixed(2)),
     },
     prep: prepSummary(s.prep, s.surfaceWaterFactor),
     maillardOnsetMin: state.maillardOnsetMin, stallDurationMin, stallPlateauTempC, gelatinConversionPct,

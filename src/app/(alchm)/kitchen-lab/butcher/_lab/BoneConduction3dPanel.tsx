@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type JSX } from "react";
-import { simulateBoneConduction3d, type BoneConduction3dResult } from "@/lib/butcher/science/boneConduction3d";
+import type { BoneConduction3dResult } from "@/lib/butcher/science/boneConduction3dTypes";
 import { VOXEL_BONE, VOXEL_MARROW } from "@/lib/butcher/science/boneVoxelGeometry";
 import { grayBandThresholdForCut, type TrajectoryMethodId } from "@/lib/butcher/science/trajectoryMethods";
 import type { AnatomicalCut } from "@/lib/butcher/types";
@@ -50,6 +50,7 @@ function SliceHeatmap({ result, targetC, grayC }: { readonly result: BoneConduct
     <svg
       viewBox={`0 0 ${nx} ${ny}`}
       preserveAspectRatio="none"
+      shapeRendering="crispEdges"
       className="h-28 w-full rounded-md border border-white/15"
       role="img"
       aria-label={`Mid-length cross-section, ${result.grid.widthMm.toFixed(0)} mm wide by ${(result.grid.dyMm * ny).toFixed(0)} mm thick: peak temperature with the bone in ivory`}
@@ -70,23 +71,51 @@ function ColumnCard({ title, col, tone }: { readonly title: string; readonly col
   );
 }
 
-function useBoneConduction(cut: AnatomicalCut, method: TrajectoryMethodId, targetCoreTempC: number): { readonly result: BoneConduction3dResult | null; readonly pending: boolean } {
-  const [state, setState] = useState<{ readonly key: string; readonly result: BoneConduction3dResult | null } | null>(null);
-  const key = `${cut.id}|${method}|${targetCoreTempC}`;
+const DEBOUNCE_MS = 250;
+
+function useDebounced<T>(value: T, ms: number): T {
+  const [settled, setSettled] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setSettled(value), ms);
+    return (): void => clearTimeout(timer);
+  }, [value, ms]);
+  return settled;
+}
+
+interface RunState {
+  readonly key: string;
+  readonly cutMethod: string;
+  readonly result: BoneConduction3dResult | null;
+}
+
+/**
+ * Runs the 3D model off the render path: the temperature is debounced (one run
+ * per settled slider position, not per 1 °C step), the module is loaded on
+ * demand (keeps the voxel engine out of the route's first-load JS), and a
+ * stale result for the same cut and method stays on screen while the next
+ * one computes.
+ */
+function useBoneConduction(cut: AnatomicalCut, method: TrajectoryMethodId, targetCoreTempC: number): { readonly result: BoneConduction3dResult | null; readonly stale: boolean } {
+  const settledTemp = useDebounced(targetCoreTempC, DEBOUNCE_MS);
+  const [state, setState] = useState<RunState | null>(null);
+  const cutMethod = `${cut.id}|${method}`;
+  const key = `${cutMethod}|${settledTemp}`;
   useEffect(() => {
     let cancelled = false;
-    simulateBoneConduction3d({ cut, method, targetCoreTempC })
+    import("@/lib/butcher/science/boneConduction3d")
+      .then(({ simulateBoneConduction3d }) => simulateBoneConduction3d({ cut, method, targetCoreTempC: settledTemp }))
       .then((result) => {
-        if (!cancelled) setState({ key, result });
+        if (!cancelled) setState({ key, cutMethod, result });
       })
       .catch(() => {
-        if (!cancelled) setState({ key, result: null });
+        if (!cancelled) setState({ key, cutMethod, result: null });
       });
     return (): void => {
       cancelled = true;
     };
-  }, [cut, method, targetCoreTempC, key]);
-  return { result: state?.key === key ? state.result : null, pending: state?.key !== key };
+  }, [cut, method, settledTemp, key, cutMethod]);
+  const usable = state?.cutMethod === cutMethod ? state : null;
+  return { result: usable?.result ?? null, stale: usable?.key !== key || settledTemp !== targetCoreTempC };
 }
 
 function BoneEffectSummary({ result }: { readonly result: BoneConduction3dResult }): JSX.Element {
@@ -113,12 +142,13 @@ export function BoneConduction3dPanel({
   readonly method: TrajectoryMethodId;
   readonly targetCoreTempC: number;
 }): JSX.Element | null {
-  const { result, pending } = useBoneConduction(cut, method, targetCoreTempC);
-  if (pending) return <div className="bt-card text-xs text-white/55">Running the 3D bone conduction model…</div>;
-  if (!result) return null;
-  const grayC = grayBandThresholdForCut(cut, targetCoreTempC);
+  const { result, stale } = useBoneConduction(cut, method, targetCoreTempC);
+  if (!result) {
+    return stale ? <div className="bt-card text-xs text-white/55">Running the 3D bone conduction model…</div> : null;
+  }
+  const grayC = grayBandThresholdForCut(cut, result.targetCoreTempC);
   return (
-    <section className="bt-card space-y-3" aria-label="3D bone conduction">
+    <section className={`bt-card space-y-3 transition-opacity ${stale ? "opacity-60" : ""}`} aria-label="3D bone conduction" aria-busy={stale}>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h3 className="text-lg">3D Bone-In Conduction</h3>
@@ -130,12 +160,12 @@ export function BoneConduction3dPanel({
           {result.runtime === "rust-wasm" ? "RUST · WASM" : "TypeScript"}
         </span>
       </div>
-      <SliceHeatmap result={result} targetC={targetCoreTempC} grayC={grayC} />
+      <SliceHeatmap result={result} targetC={result.targetCoreTempC} grayC={grayC} />
       <BoneEffectSummary result={result} />
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         <ColumnCard title="Beside the bone" col={result.boneAdjacent} tone="text-amber-200" />
         <ColumnCard title="Same spot, boneless" col={result.boneAdjacentBoneless} tone="text-white/85" />
-        <ColumnCard title="Thermal centre (probe)" col={result.awayFromBone} tone="text-white" />
+        <ColumnCard title="Thermal centre (probe)" col={result.thermalCentre} tone="text-white" />
       </div>
       <details className="text-[11px] text-white/55">
         <summary className="cursor-pointer text-white/70">Model basis</summary>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, type JSX } from "react";
+import { useMemo, useState, type JSX } from "react";
 import { knifeNormalAtAngle } from "@/lib/butcher/science/butcherGame";
 import {
   defaultTrajectoryMethodForCut,
@@ -154,12 +154,19 @@ function ThermalDenaturationCard({
   );
 }
 
+/**
+ * The trajectory method belongs to one cut: derived on the same render as a cut
+ * change, so no stale (new cut, old method) trajectory or 3D run ever starts.
+ */
+function useCutMethod(cut: AnatomicalCut): readonly [TrajectoryMethodId, (next: TrajectoryMethodId) => void] {
+  const [choice, setChoice] = useState<{ readonly cutId: string; readonly method: TrajectoryMethodId } | null>(null);
+  const method = choice?.cutId === cut.id ? choice.method : defaultTrajectoryMethodForCut(cut);
+  return [method, (next: TrajectoryMethodId): void => setChoice({ cutId: cut.id, method: next })];
+}
+
 export function ThermalGrainPanel({ lab }: { readonly lab: ButcherLabState }): JSX.Element {
   const { cut } = lab;
-  const [method, setMethod] = useState<TrajectoryMethodId>(() => defaultTrajectoryMethodForCut(cut));
-  useEffect(() => {
-    setMethod(defaultTrajectoryMethodForCut(cut));
-  }, [cut]);
+  const [method, setMethod] = useCutMethod(cut);
 
   const bounds = thermalCurveBoundsFor(cut.speciesId);
   const prepProfile = effectivePrep(lab.prep, cut);

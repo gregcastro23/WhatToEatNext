@@ -32,6 +32,8 @@ const DIFF_STEP = 1e-3;
 
 type Vec3 = [number, number, number];
 
+const ZERO_VEC3: Vec3 = [0, 0, 0];
+
 interface SurfaceCtx {
   readonly dense: readonly LoftSection[];
   readonly axis: "x" | "y";
@@ -71,7 +73,7 @@ function surfaceTangents(ctx: SurfaceCtx, rowT: number, angle: number): readonly
   const tRow =
     rowSpan > 0
       ? scaled(sub(surfaceLocal(ctx, hi, angle, 1), surfaceLocal(ctx, lo, angle, 1)), 1 / rowSpan)
-      : ([0, 0, 0] as Vec3);
+      : ZERO_VEC3;
   const tAngle = scaled(
     sub(surfaceLocal(ctx, rowT, angle + DIFF_STEP, 1), surfaceLocal(ctx, rowT, angle - DIFF_STEP, 1)),
     1 / (2 * DIFF_STEP),

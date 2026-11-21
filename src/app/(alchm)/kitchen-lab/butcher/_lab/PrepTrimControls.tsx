@@ -82,7 +82,7 @@ export function PrepTrimControls({
   const anatomy = boneAnatomyForCut(cut);
   const profile = PREP_PROFILES[prepAvailableForCut(prep, cut) ? prep : "none"];
   return (
-    <div className="space-y-2.5 rounded-lg border border-white/10 bg-black/20 p-3" aria-label="Prep and trim">
+    <div className="space-y-2.5 rounded-lg border border-white/10 bg-black/20 p-3" role="group" aria-label="Prep and trim">
       <span className="bt-label block">Prep &amp; Trim</span>
       <PrepButtons cut={cut} prep={prep} onPrepChange={onPrepChange} />
       <div className="grid gap-3 sm:grid-cols-2">

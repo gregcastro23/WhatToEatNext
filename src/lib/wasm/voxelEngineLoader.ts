@@ -115,6 +115,12 @@ class WasmVoxelEngineAdapter implements VoxelEngineLike {
 
 let modulePromise: Promise<VoxelWasmModule | null> | null = null;
 
+/** Runtime check of the dynamically imported module: a stale cached bundle may predate `VoxelEngine`. */
+function isVoxelWasmModule(mod: unknown): mod is VoxelWasmModule {
+  if (typeof mod !== "object" || mod === null) return false;
+  return typeof Reflect.get(mod, "default") === "function" && typeof Reflect.get(mod, "VoxelEngine") === "function";
+}
+
 /** Load once per page; resolve null on any failure. Mirrors thermoEngine.ts `loadModule()`. */
 function loadModule(): Promise<VoxelWasmModule | null> {
   if (typeof window === "undefined" || typeof WebAssembly === "undefined") return Promise.resolve(null);
@@ -124,8 +130,8 @@ function loadModule(): Promise<VoxelWasmModule | null> {
       // dynamic import surfaces as an error toast in Next's dev overlay.
       const probe = await fetch(WASM_MODULE_URL, { method: "HEAD" });
       if (!probe.ok) return null;
-      const mod = (await import(/* webpackIgnore: true */ WASM_MODULE_URL)) as VoxelWasmModule;
-      if (typeof mod.default !== "function" || typeof mod.VoxelEngine !== "function") return null;
+      const mod: unknown = await import(/* webpackIgnore: true */ WASM_MODULE_URL);
+      if (!isVoxelWasmModule(mod)) return null;
       await mod.default();
       return mod;
     } catch {

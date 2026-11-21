@@ -5,6 +5,7 @@
  * `alchm.butcher.progress.v1`, and rank thresholds.
  */
 import {
+  BUTCHER_PROGRESS_INVALID_KEY,
   BUTCHER_PROGRESS_STORAGE_KEY,
   BUTCHER_PROGRESS_STORAGE_KEY_V1,
   defaultButcherProgress,
@@ -51,10 +52,29 @@ describe("butcher progress v2 + species mastery", () => {
   });
 
   it("falls back to defaults on corrupt or invalid storage", () => {
-    window.localStorage.setItem(BUTCHER_PROGRESS_STORAGE_KEY, "{not json");
     window.localStorage.setItem(BUTCHER_PROGRESS_STORAGE_KEY_V1, JSON.stringify({ ...V1_RECORD, bestScore: 140 }));
     expect(readButcherProgress()).toEqual(defaultButcherProgress());
     expect(migrateProgressV1({ completedOrders: -1 })).toBeNull();
+  });
+
+  it("never lets an old v1 record overwrite an unreadable v2 record: the v2 is set aside", () => {
+    window.localStorage.setItem(BUTCHER_PROGRESS_STORAGE_KEY, "{not json");
+    window.localStorage.setItem(BUTCHER_PROGRESS_STORAGE_KEY_V1, JSON.stringify(V1_RECORD));
+    expect(readButcherProgress()).toEqual(defaultButcherProgress());
+    expect(window.localStorage.getItem(BUTCHER_PROGRESS_INVALID_KEY)).toBe("{not json");
+    expect(window.localStorage.getItem(BUTCHER_PROGRESS_STORAGE_KEY)).toBe("{not json");
+  });
+
+  it("survives a localStorage getter that throws (blocked site data)", () => {
+    const spy = jest.spyOn(window, "localStorage", "get").mockImplementation(() => {
+      throw new DOMException("blocked", "SecurityError");
+    });
+    try {
+      expect(readButcherProgress()).toEqual(defaultButcherProgress());
+      expect(() => recordButcherResult(defaultButcherProgress(), score(true, 90), "apprentice", "beef")).not.toThrow();
+    } finally {
+      spy.mockRestore();
+    }
   });
 
   it("credits the ticket's species and counts master passes separately", () => {

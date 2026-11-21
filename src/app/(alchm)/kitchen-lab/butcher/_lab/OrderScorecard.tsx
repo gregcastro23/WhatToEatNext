@@ -70,8 +70,8 @@ export function OrderScorecard({
   return (
     <div className="rounded-lg border border-white/15 bg-black/35 p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <strong className="text-base text-white">
-          Scorecard: Grade {score.grade} ({score.totalScore}/100) — {score.passed ? "Ticket Fulfilled" : "Needs Refinement"}
+        <strong className="text-base text-white" aria-hidden="true">
+          Grade {score.grade} · {score.totalScore}/100 · {score.passed ? "fulfilled" : "needs refinement"}
         </strong>
         <span className="bt-num text-xs text-emerald-200">
           Cut {score.cutAccuracyScore}% · Grain {score.grainAngleScore}% · Mass {score.portionPrecisionScore}%

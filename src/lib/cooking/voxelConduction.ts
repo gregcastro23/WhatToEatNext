@@ -170,7 +170,8 @@ export class TsVoxelEngine implements VoxelEngineLike {
       if (!Number.isFinite(h) || h < 0) throw new RangeError(VOXEL_ERRORS.faces);
       if (!Number.isFinite(f[2 * face + 1])) throw new RangeError(VOXEL_ERRORS.temperature);
     }
-    const [h0, , h1, , h2, , h3, , h4, , h5] = f as [number, number, number, number, number, number, number, number, number, number, number];
+    const hAt = (face: number): number => f[2 * face] ?? 0; // validated above; `?? 0` only types the index
+    const [h0, h1, h2, h3, h4, h5] = [hAt(0), hAt(1), hAt(2), hAt(3), hAt(4), hAt(5)];
     const { nx, ny, nz, dx, dy, dz, kCell, g } = this;
     const [ax, ay, az] = [dy * dz, dx * dz, dx * dy];
     for (let k = 0; k < nz; k += 1) {
@@ -283,11 +284,6 @@ export class TsVoxelEngine implements VoxelEngineLike {
 
   tempAt(index: number): number {
     return Number.isInteger(index) && index >= 0 && index < this.cellCount ? this.cur[index]! : Number.NaN;
-  }
-
-  /** Volumetric heat capacity × cell volume per cell, J/K (read-only copy). */
-  capacities(): Float64Array {
-    return Float64Array.from(this.cap);
   }
 
   free(): void {

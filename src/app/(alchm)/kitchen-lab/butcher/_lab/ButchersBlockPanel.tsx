@@ -187,16 +187,17 @@ function BlockOrderActions({ lab }: { readonly lab: ButcherLabState }): JSX.Elem
   return (
     <>
       <div className="flex flex-wrap items-center gap-3">
-        <button type="button" className="bt-btn is-primary" onClick={() => lab.submitGameOrder()}>
+        <button type="button" className="bt-btn is-primary" onClick={() => lab.submitGameOrder()} disabled={lab.lastScore !== null}>
           Execute Cut &amp; Fulfill Order
         </button>
         <button type="button" className="bt-btn" onClick={() => lab.nextGameOrder()}>
           Next Order Ticket →
         </button>
       </div>
-      <div role="status" aria-live="polite" aria-atomic="true">
-        {lab.lastScore ? <OrderScorecard score={lab.lastScore} gameTier={lab.gameTier} /> : null}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {lab.lastScore ? `Scorecard: Grade ${lab.lastScore.grade} (${lab.lastScore.totalScore}/100) — ${lab.lastScore.passed ? "Ticket Fulfilled" : "Needs Refinement"}` : ""}
       </div>
+      {lab.lastScore ? <OrderScorecard score={lab.lastScore} gameTier={lab.gameTier} /> : null}
     </>
   );
 }

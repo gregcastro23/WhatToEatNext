@@ -48,9 +48,16 @@ interface GoldenCase {
   stages: GoldenStage[];
 }
 
-const fixture = JSON.parse(
+const rawFixture: unknown = JSON.parse(
   readFileSync(join(process.cwd(), "crates/thermo-core/tests/voxel_golden_vectors.json"), "utf8"),
-) as { cases: GoldenCase[] };
+);
+
+function isFixture(x: unknown): x is { cases: GoldenCase[] } {
+  return typeof x === "object" && x !== null && Array.isArray(Reflect.get(x, "cases"));
+}
+
+if (!isFixture(rawFixture)) throw new Error("voxel_golden_vectors.json has no cases array");
+const fixture = rawFixture;
 
 function exact(actual: number, expected: number | null, what: string): void {
   const want = expected ?? Number.NaN;

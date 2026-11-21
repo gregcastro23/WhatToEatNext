@@ -172,13 +172,31 @@ export function buildSlabColumn(spec: ColumnSpec): SlabColumn {
   };
 }
 
-/** Index of the coldest meat node (the thermal centre a probe thermometer finds). */
+/** Lean-only distance (mm) between two nodes: bone and marrow segments in between are not counted. */
+export function meatDistanceMm(column: SlabColumn, from: number, to: number): number {
+  const [lo, hi] = from <= to ? [from, to] : [to, from];
+  let mm = 0;
+  for (let i = lo; i < hi; i += 1) {
+    if (column.segKind[i] === "lean") mm += ((column.positionsM[i + 1] ?? 0) - (column.positionsM[i] ?? 0)) * 1000;
+  }
+  return mm;
+}
+
+/**
+ * Index of the coldest meat node (the thermal centre a probe thermometer
+ * finds). Ties within 1e-9 °C — e.g. the two faces of a symmetric core bone —
+ * go to the node whose lean distance from face A is nearest half the meat, so
+ * the choice never rests on floating-point order.
+ */
 export function coldestMeatNode(column: SlabColumn, temps: readonly number[]): number {
+  const halfMeat = column.meatThicknessMm / 2;
+  const offCentre = (i: number): number => Math.abs(meatDistanceMm(column, column.meatSurfaceA, i) - halfMeat);
   let best = column.meatSurfaceA;
   let bestTemp = Infinity;
   for (let i = column.meatSurfaceA; i <= column.meatSurfaceB; i += 1) {
     const t = temps[i] ?? Infinity;
-    if (column.isMeatNode[i] === true && t < bestTemp) {
+    if (column.isMeatNode[i] !== true) continue;
+    if (t < bestTemp - 1e-9 || (Math.abs(t - bestTemp) <= 1e-9 && offCentre(i) < offCentre(best))) {
       bestTemp = t;
       best = i;
     }

@@ -40,12 +40,11 @@ export interface CutBoneAnatomy {
 const EST = "ANATOMICAL MODEL ESTIMATE" as const;
 
 /**
- * ASSUMPTION shared by the yield estimator and the 3D voxel model: a steak's
- * footprint is 1.5× as long as it is wide (area = portion ÷ (ρ_lean · thickness)).
+ * MODEL ASSUMPTION shared by the yield estimator and the 3D voxel model: a
+ * steak's footprint is 1.5× as long as it is wide (footprint area = portion ÷
+ * (Choi-Okos lean density × thickness)).
  */
 export const STEAK_FOOTPRINT_ASPECT = 1.5;
-/** Lean muscle density used to turn a portion mass into a footprint, kg/m³ (IT'IS v4.1 Muscle ≈ 1090; 1060 keeps parity with the yield model). */
-export const PORTION_LEAN_DENSITY_KG_M3 = 1060;
 
 function face(boneName: string, plateMm: number): CutBoneAnatomy {
   return { placement: "face", boneName, corticalMm: plateMm, marrowMm: 0, through: null, basis: EST };

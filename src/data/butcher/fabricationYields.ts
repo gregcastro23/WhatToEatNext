@@ -1,5 +1,6 @@
-import { PORTION_LEAN_DENSITY_KG_M3, STEAK_FOOTPRINT_ASPECT, boneAnatomyForCut } from "@/lib/butcher/science/boneAnatomy";
+import { STEAK_FOOTPRINT_ASPECT, boneAnatomyForCut } from "@/lib/butcher/science/boneAnatomy";
 import { ITIS_TISSUE } from "@/lib/butcher/science/slabColumn";
+import { thermophysicalForProximate } from "@/lib/butcher/science/slabDiffusion";
 import type { AnatomicalCut, MarblingGrade, OrderYieldTelemetry, SpeciesId, YieldBasis } from "@/lib/butcher/types";
 import { getCutById } from "./cutsCatalogue";
 import { LITERATURE_YIELDS } from "./literatureYields";
@@ -39,37 +40,38 @@ const OTHER_LOSS_PCT_BY_SPECIES: Readonly<Record<SpeciesId, number>> = {
 };
 
 const STEAK_ASPECT = STEAK_FOOTPRINT_ASPECT;
-const LEAN_DENSITY_KG_M3 = PORTION_LEAN_DENSITY_KG_M3;
 
 /** Bone share of the as-purchased mass, % — COMPUTED from the anatomical estimate. */
 export function estimatedBoneSharePct(cut: AnatomicalCut): number {
   const anatomy = boneAnatomyForCut(cut);
   if (!anatomy) return 0;
   const t = cut.typicalThicknessMm;
-  const meatAreaMm2 = (cut.typicalPortionG / 1000 / LEAN_DENSITY_KG_M3) * 1e9 / t;
+  // COMPUTED: the cut's own Choi-Okos lean density (the same value the 3D voxel model uses).
+  const leanDensityKgM3 = thermophysicalForProximate(cut.proximate).densityKgM3;
+  const meatAreaMm2 = (cut.typicalPortionG / 1000 / leanDensityKgM3) * 1e9 / t;
   let bone: number;
   let meat: number;
   if (anatomy.placement === "face" || (anatomy.placement === "core" && anatomy.marrowMm === 0)) {
     // A plate (rib, or a scapula blade inside a shoulder roast) under the full meat thickness.
     const plateMm = anatomy.placement === "face" ? anatomy.corticalMm : anatomy.corticalMm * 2;
     bone = ITIS_TISSUE.bone.densityKgM3 * plateMm;
-    meat = LEAN_DENSITY_KG_M3 * t;
+    meat = leanDensityKgM3 * t;
   } else if (anatomy.placement === "core") {
     const rBone = anatomy.corticalMm + anatomy.marrowMm / 2;
     const rMarrow = anatomy.marrowMm / 2;
     const rOuter = rBone + t / 2;
     bone = ITIS_TISSUE.bone.densityKgM3 * (rBone ** 2 - rMarrow ** 2) + ITIS_TISSUE.marrow.densityKgM3 * rMarrow ** 2;
-    meat = LEAN_DENSITY_KG_M3 * (rOuter ** 2 - rBone ** 2);
+    meat = leanDensityKgM3 * (rOuter ** 2 - rBone ** 2);
   } else if (anatomy.through?.kind === "cylinder") {
     const rBone = anatomy.corticalMm + anatomy.marrowMm / 2;
     const rMarrow = anatomy.marrowMm / 2;
     bone = (ITIS_TISSUE.bone.densityKgM3 * (rBone ** 2 - rMarrow ** 2) + ITIS_TISSUE.marrow.densityKgM3 * rMarrow ** 2) * Math.PI * t;
-    meat = LEAN_DENSITY_KG_M3 * meatAreaMm2 * t;
+    meat = leanDensityKgM3 * meatAreaMm2 * t;
   } else {
     // Plate through the full thickness t, running the steak's length L = √(A·aspect).
     const lengthMm = Math.sqrt(meatAreaMm2 * STEAK_ASPECT);
     bone = ITIS_TISSUE.bone.densityKgM3 * anatomy.corticalMm * t * lengthMm;
-    meat = LEAN_DENSITY_KG_M3 * meatAreaMm2 * t;
+    meat = leanDensityKgM3 * meatAreaMm2 * t;
   }
   return Number(((bone / (bone + meat)) * 100).toFixed(1));
 }

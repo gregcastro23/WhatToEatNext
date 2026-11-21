@@ -72,7 +72,7 @@ export const PREP_PROFILES: Readonly<Record<PrepId, PrepProfile>> = {
 export const PREP_IDS: readonly PrepId[] = ["none", "dry-brine-24h", "wet-brine", "dry-aged-28d"];
 
 export function isPrepId(value: string): value is PrepId {
-  return (PREP_IDS as readonly string[]).includes(value);
+  return PREP_IDS.some((id) => id === value);
 }
 
 export function prepAvailableForCut(prep: PrepId, cut: AnatomicalCut): boolean {
