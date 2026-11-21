@@ -1,8 +1,11 @@
 let mockRedisClient: { set: jest.Mock } | null = null;
 const mockExecuteQuery = jest.fn();
+const mockNoteRedisError = jest.fn((_op: string, err: unknown) => String(err));
 
 jest.mock("@/lib/redis", () => ({
   getRedisClient: () => mockRedisClient,
+  noteRedisError: (op: string, err: unknown, key?: string) =>
+    mockNoteRedisError(op, err, key),
 }));
 
 jest.mock("@/lib/database", () => ({
@@ -153,6 +156,29 @@ describe("sessionTouch", () => {
 
     const touched = await touchSession("session-already-revoked");
     expect(touched).toBe(false);
+    expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
+  });
+
+  it("notes Redis errors and falls back to SQL when client.set rejects", async () => {
+    mockRedisClient = {
+      set: jest
+        .fn()
+        .mockRejectedValueOnce(
+          new Error("ERR This database has reached current Fixed plan limits"),
+        ),
+    };
+    mockExecuteQuery.mockResolvedValueOnce({
+      rowCount: 1,
+      rows: [{ id: "session-err" }],
+    });
+
+    const touched = await touchSession("session-err");
+    expect(touched).toBe(true);
+    expect(mockNoteRedisError).toHaveBeenCalledWith(
+      "sessionTouch",
+      expect.any(Error),
+      "session:touch:session-err",
+    );
     expect(mockExecuteQuery).toHaveBeenCalledTimes(1);
   });
 

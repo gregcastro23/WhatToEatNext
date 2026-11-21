@@ -66,11 +66,21 @@ export async function isJtiRevoked(jti: string | null | undefined): Promise<bool
 
 async function checkRedis(jti: string): Promise<boolean | null> {
   try {
-    const { getRedisClient } = await import("../redis");
+    const { getRedisClient, noteRedisError } = await import("../redis");
     const client = getRedisClient();
     if (!client) return null;
-    const value = await client.get<string>(REDIS_KEY_PREFIX + jti);
-    return value !== null;
+    try {
+      const value = await client.get<string>(REDIS_KEY_PREFIX + jti);
+      return value !== null;
+    } catch (err) {
+      const summary = noteRedisError(
+        "sessionRevocation.get",
+        err,
+        REDIS_KEY_PREFIX + jti,
+      );
+      void logger.warn("[sessionRevocation] Redis check failed:", { err: summary });
+      return null;
+    }
   } catch (err) {
     void logger.warn("[sessionRevocation] Redis check failed:", { err: String(err) });
     return null;
@@ -112,10 +122,19 @@ async function checkPostgres(jti: string): Promise<boolean | null> {
 
 async function writeRedis(jti: string): Promise<void> {
   try {
-    const { getRedisClient } = await import("../redis");
+    const { getRedisClient, noteRedisError } = await import("../redis");
     const client = getRedisClient();
     if (!client) return;
-    await client.set(REDIS_KEY_PREFIX + jti, "1", { ex: getJwtMaxAgeSeconds() });
+    try {
+      await client.set(REDIS_KEY_PREFIX + jti, "1", { ex: getJwtMaxAgeSeconds() });
+    } catch (err) {
+      const summary = noteRedisError(
+        "sessionRevocation.set",
+        err,
+        REDIS_KEY_PREFIX + jti,
+      );
+      void logger.warn("[sessionRevocation] Redis populate failed:", { err: summary });
+    }
   } catch (err) {
     void logger.warn("[sessionRevocation] Redis populate failed:", { err: String(err) });
   }

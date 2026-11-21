@@ -108,6 +108,27 @@ const DEFAULT_THRESHOLDS = {
     // Basis: Measured on master-equivalent tree (642e5872): route 19.1 kB, Next FL 154.0 kB (150.3 KiB page-only),
     // true first-load with layouts 710,167 B = 693.5 KiB. Budget 725 KiB gives ~31.5 KiB (+4.5%) headroom.
   },
+  '/kitchen-lab/butcher': {
+    maxRouteKb: 50,
+    maxFirstLoadKb: 190,
+    maxTotalFirstLoadKb: 765,
+    // Basis: Measured on master-equivalent tree (410965f3): route 37.7 kB, Next FL 171.0 kB (167.4 KiB page-only),
+    // true first-load with layouts 747,634 B = 730.1 KiB. Budget 765 KiB gives ~34.9 KiB (+4.8%) headroom.
+  },
+  '/kitchen-lab/sauces': {
+    maxRouteKb: 25,
+    maxFirstLoadKb: 145,
+    maxTotalFirstLoadKb: 740,
+    // Basis: Measured on master-equivalent tree (410965f3): route 12.2 kB, Next FL 125.0 kB (122.1 KiB page-only),
+    // true first-load with layouts 722,198 B = 705.3 KiB. Budget 740 KiB gives ~34.7 KiB (+4.9%) headroom.
+  },
+  '/sauces': {
+    maxRouteKb: 15,
+    maxFirstLoadKb: 135,
+    maxTotalFirstLoadKb: 700,
+    // Basis: Measured on master-equivalent tree (410965f3): route 2.6 kB, Next FL 113.0 kB (110.6 KiB page-only),
+    // true first-load with layouts 685,617 B = 669.5 KiB. Budget 700 KiB gives ~30.5 KiB (+4.6%) headroom.
+  },
 };
 
 /**
