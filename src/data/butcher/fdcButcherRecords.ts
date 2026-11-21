@@ -1,12 +1,39 @@
-import type { FdcButcherRecord } from "@/lib/butcher/types";
+import type { FdcButcherRecord, FdcMatch } from "@/lib/butcher/types";
+import { USDA_BUTCHER_RECORDS } from "./usdaButcherRecords";
 
 /**
- * USDA FoodData Central SR Legacy / Foundation records pinned to every
- * anatomical cut in the Butcher Shop catalogue.
+ * The composition basis of every anatomical cut in the Butcher Shop, keyed by
+ * cut id.
  *
- * Collagen mass fractions (g per 100 g raw tissue) are backed by
- * Tornberg (2005) *Meat Science* 70:493–508 and Lawrie's *Meat Science*
+ * Water, protein, fat and ash are USDA FoodData Central SR Legacy values,
+ * verbatim. They come from `usdaButcherRecords.ts`, which
+ * `scripts/fetch-usda-butcher.mjs` generates, and the script fails if an id
+ * names a different food. The values here are never typed by hand.
+ *
+ * Several cuts share one USDA record, so the table is keyed by cut rather
+ * than by fdcId. Each cut has its own collagen value.
+ *
+ * ── Which record ─────────────────────────────────────────────────────────────
+ * Every cut uses the same rule:
+ * - raw;
+ * - separable lean and fat (the cut as cooked), unless USDA published lean only;
+ * - choice grade where published, else all grades;
+ * - the closest trim published (0" before 1/8" before 1/4");
+ * - bone-in or boneless as the cut is sold.
+ *
+ * Where USDA never analysed a cut, `match: "PROXY"` names the nearest real
+ * record and says why. The proximates are then that food's measured values,
+ * not the cut's.
+ *
+ * ── Collagen ─────────────────────────────────────────────────────────────────
+ * Collagen (g per 100 g raw tissue) is not an FDC field. It is set per cut
+ * from Tornberg (2005) *Meat Science* 70:493–508 and Lawrie's *Meat Science*
  * (8th ed., intramuscular connective tissue per muscle group).
+ *
+ * Audit 2026-11-21: only 3 of the previous table's 51 ids named the cut they
+ * claimed, and those 3 carried drifted values. The rest pointed at other
+ * foods (ground beef, turkey skin, crayfish) or cooked records. Its collagen
+ * values are kept.
  *
  * @file src/data/butcher/fdcButcherRecords.ts
  */
@@ -18,107 +45,99 @@ const LAWRIE_PORK_LAMB =
 const POULTRY_FISH_LIT =
   "McGee (2004) On Food and Cooking & USDA SR Legacy collagen/hydroxyproline estimates";
 
-type ProximateTuple = readonly [
-  waterG: number,
-  proteinG: number,
-  fatG: number,
-  ashG: number,
-  collagenG: number,
-];
+const SALMON_FILLET_PROXY =
+  "SR Legacy analysed only the whole farmed Atlantic salmon fillet. No collar, loin, belly or tail record exists, so every salmon cut uses the fillet average.";
 
-function rec(
+function cut(
   fdcId: number,
-  description: string,
-  dataType: "SR Legacy" | "Foundation",
-  [waterG, proteinG, fatG, ashG, collagenG]: ProximateTuple,
+  match: FdcMatch,
+  matchNote: string | null,
+  collagenG: number,
   collagenSource: string,
   collagenBasis: "LITERATURE" | "DERIVED" = "LITERATURE",
 ): FdcButcherRecord {
-  return {
-    fdcId,
-    description,
-    dataType,
-    waterG,
-    proteinG,
-    fatG,
-    ashG,
-    collagenG,
-    collagenBasis,
-    collagenSource,
-  };
+  const usda = USDA_BUTCHER_RECORDS[fdcId];
+  if (!usda) {
+    throw new Error(`FDC ${fdcId} is not in usdaButcherRecords.ts; add it to scripts/fetch-usda-butcher.mjs`);
+  }
+  if (match === "PROXY" && !matchNote) {
+    throw new Error(`FDC ${fdcId} is a PROXY without a note saying what it stands in for`);
+  }
+  return { ...usda, match, matchNote, collagenG, collagenBasis, collagenSource };
 }
 
-export const FDC_BUTCHER_RECORDS: Readonly<Record<number, FdcButcherRecord>> = {
+export const FDC_BUTCHER_RECORDS: Readonly<Record<string, FdcButcherRecord>> = {
   // Beef — Chuck
-  174036: rec(174036, "Beef, chuck, shoulder clod, top blade (flat iron), separable lean only, raw", "SR Legacy", [73.1, 20.5, 5.2, 1.0, 1.85], TORNBERG_BEEF),
-  173390: rec(173390, "Beef, chuck eye steak, boneless, separable lean and fat, raw", "SR Legacy", [66.2, 18.8, 14.1, 0.9, 1.65], TORNBERG_BEEF),
-  171797: rec(171797, "Beef, chuck, under blade center steak (Denver), separable lean and fat, raw", "SR Legacy", [64.5, 18.5, 16.0, 0.9, 1.55], TORNBERG_BEEF),
-  174032: rec(174032, "Beef, chuck, arm pot roast, separable lean and fat, raw", "SR Legacy", [68.4, 19.6, 11.2, 0.9, 2.45], TORNBERG_BEEF),
+  "chuck-eye": cut(170834, "EXACT", null, 1.65, TORNBERG_BEEF),
+  "flat-iron": cut(168707, "EXACT", "The flat iron is the boneless shoulder top blade steak.", 1.85, TORNBERG_BEEF),
+  "denver-steak": cut(171214, "EXACT", null, 1.55, TORNBERG_BEEF),
+  "chuck-roast": cut(168668, "EXACT", null, 2.45, TORNBERG_BEEF),
 
   // Beef — Rib
-  173355: rec(173355, "Beef, ribeye steak, boneless, lip-on, separable lean and fat, raw", "SR Legacy", [58.6, 17.5, 23.0, 0.8, 0.85], TORNBERG_BEEF),
-  173352: rec(173352, "Beef, rib, small end (ribs 10–12), separable lean and fat, raw", "SR Legacy", [56.8, 16.9, 25.4, 0.8, 0.92], TORNBERG_BEEF),
-  173361: rec(173361, "Beef, rib, shortribs, separable lean and fat, raw", "SR Legacy", [51.2, 16.2, 31.8, 0.8, 2.65], TORNBERG_BEEF),
+  ribeye: cut(173403, "EXACT", null, 0.85, TORNBERG_BEEF),
+  "spinalis-cap": cut(174699, "EXACT", "The ribeye cap steak is the spinalis dorsi. USDA published it as separable lean only.", 0.92, TORNBERG_BEEF),
+  "prime-rib": cut(172152, "EXACT", "The bone-in rib roast. A 3-rib standing roast is a section of it.", 0.92, TORNBERG_BEEF),
+  "short-ribs": cut(169439, "EXACT", "SR Legacy's bone-in short ribs come from the rib. Chuck short ribs are published only boneless (FDC 170827).", 2.65, TORNBERG_BEEF),
 
   // Beef — Short Loin
-  171774: rec(171774, "Beef, loin, top loin steak (NY strip), boneless, separable lean and fat, raw", "SR Legacy", [64.9, 20.4, 13.7, 0.9, 0.72], TORNBERG_BEEF),
-  170210: rec(170210, "Beef, loin, tenderloin steak, separable lean only, raw", "Foundation", [72.8, 22.2, 4.3, 1.0, 0.42], TORNBERG_BEEF),
-  173377: rec(173377, "Beef, loin, porterhouse steak, separable lean and fat, raw", "SR Legacy", [62.5, 19.4, 17.1, 0.9, 0.62], TORNBERG_BEEF),
-  173380: rec(173380, "Beef, loin, T-bone steak, separable lean and fat, raw", "SR Legacy", [62.8, 19.5, 16.7, 0.9, 0.64], TORNBERG_BEEF),
+  "ny-strip": cut(171751, "EXACT", "The New York strip is the boneless top loin steak.", 0.72, TORNBERG_BEEF),
+  "tenderloin-filet": cut(173989, "EXACT", null, 0.42, TORNBERG_BEEF),
+  porterhouse: cut(168715, "EXACT", null, 0.62, TORNBERG_BEEF),
+  "t-bone": cut(168717, "EXACT", null, 0.64, TORNBERG_BEEF),
 
   // Beef — Sirloin
-  174050: rec(174050, "Beef, top sirloin, steak, separable lean only, raw", "SR Legacy", [72.1, 21.8, 5.2, 1.0, 0.88], TORNBERG_BEEF),
-  173399: rec(173399, "Beef, bottom sirloin, tri-tip steak, separable lean and fat, raw", "SR Legacy", [68.4, 20.1, 10.6, 0.9, 1.05], TORNBERG_BEEF),
-  171792: rec(171792, "Beef, top sirloin cap (picanha), separable lean and fat, raw", "SR Legacy", [63.1, 18.9, 17.1, 0.9, 0.95], TORNBERG_BEEF),
+  "top-sirloin": cut(168728, "EXACT", null, 0.88, TORNBERG_BEEF),
+  "tri-tip": cut(168736, "EXACT", null, 1.05, TORNBERG_BEEF),
+  picanha: cut(174707, "EXACT", "Picanha is the top sirloin cap. It is often sold with a thicker fat cap than this record's 1/8\" trim.", 0.95, TORNBERG_BEEF),
 
   // Beef — Round
-  174046: rec(174046, "Beef, round, eye of round steak, separable lean only, raw", "SR Legacy", [74.3, 22.1, 2.7, 1.0, 1.15], TORNBERG_BEEF),
-  174043: rec(174043, "Beef, round, top round steak, separable lean only, raw", "SR Legacy", [73.6, 22.3, 3.2, 1.0, 1.28], TORNBERG_BEEF),
-  174041: rec(174041, "Beef, round, bottom round steak, separable lean and fat, raw", "SR Legacy", [70.1, 20.8, 8.2, 1.0, 1.75], TORNBERG_BEEF),
+  "eye-of-round": cut(171746, "EXACT", null, 1.15, TORNBERG_BEEF),
+  "top-round": cut(173980, "EXACT", "London broil is a top round steak.", 1.28, TORNBERG_BEEF),
+  "bottom-round": cut(172128, "EXACT", "USDA published the bottom round roast only as separable lean. This is the same muscle sold as steak, lean and fat.", 1.75, TORNBERG_BEEF),
 
   // Beef — Brisket & Shank
-  171764: rec(171764, "Beef, brisket, flat half, separable lean and fat, raw", "SR Legacy", [66.8, 19.4, 12.9, 0.9, 2.55], TORNBERG_BEEF),
-  171766: rec(171766, "Beef, brisket, point half, separable lean and fat, raw", "SR Legacy", [57.5, 17.6, 24.0, 0.8, 2.80], TORNBERG_BEEF),
-  174029: rec(174029, "Beef, shank crosscuts (osso buco), separable lean only, raw", "SR Legacy", [72.4, 21.4, 5.1, 1.0, 3.45], TORNBERG_BEEF),
+  "brisket-flat": cut(168743, "EXACT", null, 2.55, TORNBERG_BEEF),
+  "brisket-point": cut(169489, "EXACT", "Published only for all grades combined.", 2.80, TORNBERG_BEEF),
+  "osso-buco-shank": cut(169441, "EXACT", "Published only as separable lean.", 3.45, TORNBERG_BEEF),
 
   // Beef — Plate & Flank
-  171784: rec(171784, "Beef, plate, outside skirt steak, separable lean and fat, raw", "SR Legacy", [62.6, 18.8, 17.7, 0.9, 1.68], TORNBERG_BEEF),
-  171786: rec(171786, "Beef, plate, inside skirt steak, separable lean and fat, raw", "SR Legacy", [65.1, 19.6, 14.3, 0.9, 1.52], TORNBERG_BEEF),
-  171788: rec(171788, "Beef, plate, hanger steak, separable lean and fat, raw", "SR Legacy", [69.2, 20.4, 9.5, 0.9, 1.38], TORNBERG_BEEF),
-  171782: rec(171782, "Beef, flank steak, separable lean only, raw", "SR Legacy", [72.1, 21.6, 5.4, 1.0, 1.48], TORNBERG_BEEF),
+  "outside-skirt": cut(172162, "EXACT", null, 1.68, TORNBERG_BEEF),
+  "inside-skirt": cut(172159, "EXACT", null, 1.52, TORNBERG_BEEF),
+  hanger: cut(172162, "PROXY", "No hanger steak record exists. The hanger is the crus of the diaphragm. The outside skirt is the costal diaphragm, the nearest muscle USDA analysed.", 1.38, TORNBERG_BEEF),
+  "flank-steak": cut(169433, "EXACT", null, 1.48, TORNBERG_BEEF),
 
   // Pork
-  168249: rec(168249, "Pork, fresh, shoulder, blade Boston (butt), separable lean and fat, raw", "SR Legacy", [63.4, 17.8, 17.9, 0.9, 2.45], LAWRIE_PORK_LAMB),
-  168255: rec(168255, "Pork, fresh, shoulder, arm picnic, separable lean and fat, raw", "SR Legacy", [64.9, 18.2, 16.0, 0.9, 2.65], LAWRIE_PORK_LAMB),
-  167832: rec(167832, "Pork, fresh, loin, center rib (roasts), bone-in, separable lean and fat", "SR Legacy", [57.8, 27.0, 14.7, 1.09, 0.68], LAWRIE_PORK_LAMB, "DERIVED"),
-  167827: rec(167827, "Pork, fresh, loin, tenderloin, separable lean only, raw", "Foundation", [75.3, 21.0, 2.8, 1.1, 0.40], LAWRIE_PORK_LAMB),
-  168243: rec(168243, "Pork, fresh, loin, backribs, separable lean and fat, raw", "SR Legacy", [57.9, 17.3, 23.9, 0.9, 2.25], LAWRIE_PORK_LAMB),
-  168262: rec(168262, "Pork, fresh, spareribs, separable lean and fat, raw", "SR Legacy", [58.6, 17.1, 23.4, 0.9, 2.50], LAWRIE_PORK_LAMB),
-  167812: rec(167812, "Pork, fresh, belly, raw", "SR Legacy", [36.7, 9.3, 53.0, 0.6, 2.75], LAWRIE_PORK_LAMB),
-  168238: rec(168238, "Pork, fresh, leg (ham), whole, separable lean and fat, raw", "SR Legacy", [68.1, 19.6, 11.3, 1.0, 1.65], LAWRIE_PORK_LAMB),
-  168275: rec(168275, "Pork, fresh, hock, separable lean and fat, raw", "SR Legacy", [63.2, 18.5, 17.2, 1.0, 3.60], LAWRIE_PORK_LAMB),
+  "boston-butt": cut(167849, "EXACT", "Published as blade steaks cut from the Boston butt.", 2.45, LAWRIE_PORK_LAMB),
+  "picnic-roast": cut(168255, "EXACT", null, 2.65, LAWRIE_PORK_LAMB),
+  "pork-loin-chop": cut(168238, "EXACT", null, 0.68, LAWRIE_PORK_LAMB, "DERIVED"),
+  "pork-tenderloin": cut(168312, "EXACT", null, 0.40, LAWRIE_PORK_LAMB),
+  "baby-back-ribs": cut(168299, "EXACT", null, 2.25, LAWRIE_PORK_LAMB),
+  "spare-ribs": cut(167853, "EXACT", "St. Louis ribs are spareribs trimmed square. The record is the untrimmed sparerib.", 2.50, LAWRIE_PORK_LAMB),
+  "pork-belly": cut(167812, "EXACT", null, 2.75, LAWRIE_PORK_LAMB),
+  "fresh-ham": cut(168222, "EXACT", null, 1.65, LAWRIE_PORK_LAMB),
+  "pork-hock": cut(168226, "PROXY", "No fresh pork hock record exists. The nearest raw record is the fresh ham shank half (lean and fat, no skin), the part of the leg the hind hock is cut from.", 3.60, LAWRIE_PORK_LAMB),
 
-  // Lamb
-  172604: rec(172604, "Lamb, domestic, shoulder, whole, separable lean and fat, raw", "SR Legacy", [60.4, 16.9, 21.8, 0.9, 2.35], LAWRIE_PORK_LAMB),
-  172596: rec(172596, "Lamb, domestic, rib (rack), separable lean and fat, raw", "SR Legacy", [53.8, 15.8, 29.6, 0.8, 0.88], LAWRIE_PORK_LAMB),
-  172591: rec(172591, "Lamb, domestic, loin, separable lean and fat, raw", "SR Legacy", [58.1, 17.4, 23.6, 0.9, 0.72], LAWRIE_PORK_LAMB),
-  172586: rec(172586, "Lamb, domestic, leg, whole, separable lean only, raw", "SR Legacy", [73.1, 20.6, 5.2, 1.1, 1.32], LAWRIE_PORK_LAMB),
-  172600: rec(172600, "Lamb, domestic, foreshank, separable lean and fat, raw", "SR Legacy", [69.2, 19.8, 10.0, 1.0, 3.25], LAWRIE_PORK_LAMB),
-  172582: rec(172582, "Lamb, domestic, breast / rib-end, separable lean and fat, raw", "SR Legacy", [52.6, 15.6, 31.0, 0.8, 2.40], LAWRIE_PORK_LAMB),
+  // Lamb (SR Legacy names domestic lamb without the word "domestic")
+  "lamb-shoulder-roast": cut(172553, "EXACT", null, 2.35, LAWRIE_PORK_LAMB),
+  "rack-of-lamb": cut(174377, "EXACT", null, 0.88, LAWRIE_PORK_LAMB),
+  "lamb-loin-chop": cut(172551, "EXACT", null, 0.72, LAWRIE_PORK_LAMB),
+  "leg-of-lamb": cut(174372, "EXACT", null, 1.32, LAWRIE_PORK_LAMB),
+  "lamb-shank": cut(172547, "EXACT", null, 3.25, LAWRIE_PORK_LAMB),
+  "lamb-breast": cut(172631, "PROXY", "No domestic lamb breast record exists. The nearest raw lean-and-fat record is New Zealand lamb flap, the boneless breast.", 2.40, LAWRIE_PORK_LAMB),
 
   // Poultry (Chicken)
-  171477: rec(171477, "Chicken, broilers or fryers, breast, meat only, cooked/reference", "SR Legacy", [65.3, 31.0, 3.57, 1.06, 0.45], POULTRY_FISH_LIT, "DERIVED"),
-  171077: rec(171077, "Chicken, broilers or fryers, breast tenderloin, meat only, raw", "Foundation", [74.9, 22.8, 1.3, 1.0, 0.35], POULTRY_FISH_LIT),
-  171479: rec(171479, "Chicken, broilers or fryers, thigh, meat and skin, raw", "SR Legacy", [66.0, 17.2, 15.8, 0.9, 1.45], POULTRY_FISH_LIT),
-  171482: rec(171482, "Chicken, broilers or fryers, drumstick, meat and skin, raw", "SR Legacy", [69.5, 18.4, 11.1, 0.9, 2.15], POULTRY_FISH_LIT),
-  171485: rec(171485, "Chicken, broilers or fryers, wing, meat and skin, raw", "SR Legacy", [65.2, 17.8, 16.0, 0.9, 2.35], POULTRY_FISH_LIT),
-  171450: rec(171450, "Chicken, broilers or fryers, oyster (dark meat), meat only, raw", "SR Legacy", [74.1, 19.6, 5.3, 1.0, 1.25], POULTRY_FISH_LIT),
-  171447: rec(171447, "Chicken, broilers or fryers, back and carcass frame, raw", "SR Legacy", [58.8, 14.9, 25.4, 0.9, 3.10], POULTRY_FISH_LIT),
+  "breast-supreme": cut(171077, "EXACT", "Pectoralis major without skin. Skin-on breast is FDC 171474.", 0.45, POULTRY_FISH_LIT, "DERIVED"),
+  "chicken-tenderloin": cut(171077, "PROXY", "No tenderloin record exists. The tenderloin (pectoralis minor) uses the skinless breast meat (pectoralis major).", 0.35, POULTRY_FISH_LIT),
+  "chicken-thigh": cut(172385, "EXACT", null, 1.45, POULTRY_FISH_LIT),
+  "chicken-drumstick": cut(172373, "EXACT", null, 2.15, POULTRY_FISH_LIT),
+  "chicken-wing": cut(172390, "EXACT", null, 2.35, POULTRY_FISH_LIT),
+  "chicken-oyster": cut(171073, "PROXY", "No oyster record exists. The oyster sits in the hollow of the ilium, which USDA counts as part of the back. This is the back's meat-only record.", 1.25, POULTRY_FISH_LIT),
+  "carcass-back": cut(171469, "EXACT", "Edible tissue only. Bone and cartilage are not in the record.", 3.10, POULTRY_FISH_LIT),
 
   // Finfish (Atlantic Salmon)
-  175167: rec(175167, "Fish, salmon, Atlantic, collar (kama), raw", "SR Legacy", [62.5, 19.2, 17.1, 1.1, 1.15], POULTRY_FISH_LIT),
-  173686: rec(173686, "Fish, salmon, Atlantic, wild, dorsal loin, raw", "SR Legacy", [68.5, 19.8, 10.6, 1.2, 0.45], POULTRY_FISH_LIT),
-  175168: rec(175168, "Fish, salmon, Atlantic, farmed, center-cut fillet, raw", "Foundation", [64.8, 20.4, 13.4, 1.1, 0.50], POULTRY_FISH_LIT),
-  175169: rec(175169, "Fish, salmon, Atlantic, ventral belly (toro), raw", "SR Legacy", [57.4, 17.6, 23.9, 1.0, 0.62], POULTRY_FISH_LIT),
-  173687: rec(173687, "Fish, salmon, Atlantic, wild, tail fillet, raw", "SR Legacy", [69.8, 20.6, 8.4, 1.2, 0.72], POULTRY_FISH_LIT),
+  "collar-kama": cut(175167, "PROXY", SALMON_FILLET_PROXY, 1.15, POULTRY_FISH_LIT),
+  "loin-top": cut(175167, "PROXY", SALMON_FILLET_PROXY, 0.45, POULTRY_FISH_LIT),
+  "center-fillet": cut(175167, "PROXY", SALMON_FILLET_PROXY, 0.50, POULTRY_FISH_LIT),
+  "belly-toro": cut(175167, "PROXY", SALMON_FILLET_PROXY, 0.62, POULTRY_FISH_LIT),
+  "tail-piece": cut(175167, "PROXY", SALMON_FILLET_PROXY, 0.72, POULTRY_FISH_LIT),
 };
