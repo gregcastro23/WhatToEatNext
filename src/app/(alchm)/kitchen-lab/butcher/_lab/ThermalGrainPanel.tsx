@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, type JSX } from "react";
+import { useMemo, useState, type JSX } from "react";
 import { knifeNormalAtAngle } from "@/lib/butcher/science/butcherGame";
 import {
   defaultTrajectoryMethodForCut,
@@ -15,13 +15,18 @@ import {
   generateThermalCurve,
   thermalCurveBoundsFor,
 } from "@/lib/butcher/science/meatPhysics";
+import { applyToughnessReduction, effectivePrep } from "@/lib/butcher/science/prepModifiers";
 import type {
   AnatomicalCut,
   GrainSliceEvaluation,
   ThermalCurvePoint,
   ThermalEvaluation,
 } from "@/lib/butcher/types";
+import { BoneConduction3dPanel } from "./BoneConduction3dPanel";
+import { CutCompareDrawer } from "./CutCompareDrawer";
 import { DonenessBandBar } from "./DonenessBandBar";
+import { PrepTrimControls } from "./PrepTrimControls";
+import { ThermalCurveChart, ThermalStatsGrid } from "./ThermalCharts";
 import type { ButcherLabState } from "./useButcherLab";
 
 /**
@@ -39,78 +44,6 @@ function buildSolverHref(cut: AnatomicalCut, coreTempC: number): string {
   });
   if (cut.solverIngredientId) query.set("ingredient", cut.solverIngredientId);
   return `/kitchen-lab/physics?${query.toString()}`;
-}
-
-function ThermalStatsGrid({ thermal }: { readonly thermal: ThermalEvaluation }): JSX.Element {
-  return (
-    <div className="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4">
-      <div className="rounded-lg border border-white/10 bg-black/25 p-2.5">
-        <span className="bt-label block">Myosin Denatured</span>
-        <span className="bt-num text-base text-white">{thermal.myosinDenaturedPct}%</span>
-      </div>
-      <div className="rounded-lg border border-white/10 bg-black/25 p-2.5">
-        <span className="bt-label block">Actin Coagulated</span>
-        <span className="bt-num text-base text-amber-200">{thermal.actinCoagulatedPct}%</span>
-      </div>
-      <div className="rounded-lg border border-white/10 bg-black/25 p-2.5">
-        <span className="bt-label block">Collagen → Gelatin</span>
-        <span className="bt-num text-base text-purple-300">{thermal.gelatinConversionPct}%</span>
-      </div>
-      <div className="rounded-lg border border-white/10 bg-black/25 p-2.5">
-        <span className="bt-label block">Tenderness / Moisture</span>
-        <span className="bt-num text-base text-emerald-300">
-          {thermal.tendernessScore} / {thermal.moistureRetentionPct}%
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function ThermalCurveChart({
-  curve,
-  coreTempC,
-  minC,
-  maxC,
-}: {
-  readonly curve: readonly ThermalCurvePoint[];
-  readonly coreTempC: number;
-  readonly minC: number;
-  readonly maxC: number;
-}): JSX.Element {
-  const w = 480;
-  const h = 166;
-  const plotTop = 32;
-  const plotBottom = h - 20;
-  const span = Math.max(1, maxC - minC);
-  const toX = (tempC: number): number => ((tempC - minC) / span) * (w - 40) + 25;
-  const toY = (pct: number): number => plotBottom - (pct / 100) * (plotBottom - plotTop);
-  const clampedMarkerX = toX(Math.min(maxC, Math.max(minC, coreTempC)));
-  const tendernessPts = curve.map((pt) => `${toX(pt.tempC).toFixed(1)},${toY(pt.tendernessScore).toFixed(1)}`).join(" ");
-  const moisturePts = curve.map((pt) => `${toX(pt.tempC).toFixed(1)},${toY(pt.moistureRetentionPct).toFixed(1)}`).join(" ");
-  const gelatinPts = curve.map((pt) => `${toX(pt.tempC).toFixed(1)},${toY(pt.gelatinConversionPct).toFixed(1)}`).join(" ");
-
-  return (
-    <svg
-      viewBox={`0 0 ${w} ${h}`}
-      className="h-auto w-full rounded-lg border border-white/10 bg-black/30 p-2"
-      role="img"
-      aria-label={`Tenderness, moisture retention, and gelatin conversion across ${minC} to ${maxC} degrees Celsius`}
-    >
-      <line x1={25} y1={12} x2={37} y2={12} stroke="#34d399" strokeWidth={2.2} />
-      <text x={42} y={15} fill="#34d399" fontSize={10}>Tenderness</text>
-      <line x1={110} y1={12} x2={122} y2={12} stroke="#38bdf8" strokeWidth={1.8} strokeDasharray="4 3" />
-      <text x={127} y={15} fill="#38bdf8" fontSize={10}>Moisture %</text>
-      <line x1={194} y1={12} x2={206} y2={12} stroke="#c084fc" strokeWidth={2} />
-      <text x={211} y={15} fill="#c084fc" fontSize={10}>Gelatin %</text>
-      <line x1={25} y1={plotTop - 4} x2={w - 15} y2={plotTop - 4} stroke="rgba(255,255,255,0.08)" strokeWidth={1} />
-      <polyline fill="none" stroke="#34d399" strokeWidth={2.2} points={tendernessPts} />
-      <polyline fill="none" stroke="#38bdf8" strokeWidth={1.8} strokeDasharray="4 3" points={moisturePts} />
-      <polyline fill="none" stroke="#c084fc" strokeWidth={2} points={gelatinPts} />
-      <line x1={clampedMarkerX} y1={plotTop - 4} x2={clampedMarkerX} y2={plotBottom + 2} stroke="#fbbf24" strokeWidth={1.5} />
-      <text x={25} y={h - 4} fill="rgba(255,255,255,0.6)" fontSize={9}>{minC} °C</text>
-      <text x={w - 42} y={h - 4} fill="rgba(255,255,255,0.6)" fontSize={9}>{maxC} °C</text>
-    </svg>
-  );
 }
 
 function ThermalSliderPair({
@@ -221,15 +154,24 @@ function ThermalDenaturationCard({
   );
 }
 
+/**
+ * The trajectory method belongs to one cut: derived on the same render as a cut
+ * change, so no stale (new cut, old method) trajectory or 3D run ever starts.
+ */
+function useCutMethod(cut: AnatomicalCut): readonly [TrajectoryMethodId, (next: TrajectoryMethodId) => void] {
+  const [choice, setChoice] = useState<{ readonly cutId: string; readonly method: TrajectoryMethodId } | null>(null);
+  const method = choice?.cutId === cut.id ? choice.method : defaultTrajectoryMethodForCut(cut);
+  return [method, (next: TrajectoryMethodId): void => setChoice({ cutId: cut.id, method: next })];
+}
+
 export function ThermalGrainPanel({ lab }: { readonly lab: ButcherLabState }): JSX.Element {
   const { cut } = lab;
-  const [method, setMethod] = useState<TrajectoryMethodId>(() => defaultTrajectoryMethodForCut(cut));
-  useEffect(() => {
-    setMethod(defaultTrajectoryMethodForCut(cut));
-  }, [cut]);
+  const [method, setMethod] = useCutMethod(cut);
 
   const bounds = thermalCurveBoundsFor(cut.speciesId);
-  const thermal = evaluateThermalProfile(cut, lab.coreTempC, lab.holdMinutes);
+  const prepProfile = effectivePrep(lab.prep, cut);
+  const rawThermal = evaluateThermalProfile(cut, lab.coreTempC, lab.holdMinutes);
+  const thermal = { ...rawThermal, tendernessScore: applyToughnessReduction(rawThermal.tendernessScore, prepProfile) };
   const curve = generateThermalCurve(cut, lab.holdMinutes);
   const trajectory = useMemo(
     () =>
@@ -237,8 +179,11 @@ export function ThermalGrainPanel({ lab }: { readonly lab: ButcherLabState }): J
         method,
         targetCoreTempC: lab.coreTempC,
         holdMinutes: lab.holdMinutes,
+        prep: lab.prep,
+        fatCapMm: lab.fatCapMm,
+        boneIn: lab.boneIn,
       }),
-    [cut, method, lab.coreTempC, lab.holdMinutes],
+    [cut, method, lab.coreTempC, lab.holdMinutes, lab.prep, lab.fatCapMm, lab.boneIn],
   );
   const slice = evaluateGrainSlice(
     cut,
@@ -250,8 +195,19 @@ export function ThermalGrainPanel({ lab }: { readonly lab: ButcherLabState }): J
   return (
     <div className="space-y-4">
       <ThermalDenaturationCard lab={lab} bounds={bounds} thermal={thermal} curve={curve} />
+      <PrepTrimControls
+        cut={cut}
+        prep={lab.prep}
+        fatCapMm={lab.fatCapMm}
+        boneIn={lab.boneIn}
+        onPrepChange={lab.setPrep}
+        onFatCapChange={lab.setFatCapMm}
+        onBoneInChange={lab.setBoneIn}
+      />
       <DonenessBandBar method={method} onSelectMethod={setMethod} result={trajectory} />
+      {trajectory.column.boneNeeds3d ? <BoneConduction3dPanel cut={cut} method={method} targetCoreTempC={lab.coreTempC} /> : null}
       <GrainShearSection sliceAngleDeg={lab.sliceAngleDeg} slice={slice} onAngleChange={lab.setSliceAngleDeg} />
+      <CutCompareDrawer cut={cut} comparePins={lab.comparePins} onTogglePin={lab.togglePin} />
     </div>
   );
 }

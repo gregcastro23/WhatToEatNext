@@ -1,13 +1,15 @@
 import { getCutById } from "@/data/butcher/cutsCatalogue";
+import { orderYieldTelemetry } from "@/data/butcher/fabricationYields";
 import type {
   AnatomicalCut,
   ButcherOrderScore,
   ButcherOrderSubmission,
   ButcherOrderTicket,
   ButcherOrderTier,
-  Vec3Tuple,
 } from "@/lib/butcher/types";
+import { scoreFabricationOrder } from "./butcherFabrication";
 import { ORDER_TICKETS } from "./butcherTickets";
+import { knifeNormalAtAngle } from "./knifeGeometry";
 import { evaluateGrainSlice, strategyLabel } from "./meatPhysics";
 
 export {
@@ -17,6 +19,11 @@ export {
   recordButcherResult,
 } from "./butcherProgress";
 export { ORDER_TICKETS } from "./butcherTickets";
+export { knifeNormalAtAngle } from "./knifeGeometry";
+
+export function isFabricationTicket(ticket: ButcherOrderTicket): boolean {
+  return (ticket.fabricationSteps?.length ?? 0) > 0;
+}
 
 /**
  * "The Butcher's Block" interactive order & carve game engine.
@@ -39,40 +46,6 @@ export function getTicketForTier(
     throw new Error("ORDER_TICKETS cannot be empty");
   }
   return ticket;
-}
-
-/**
- * Constructs a unit knife normal vector at the requested slice angle $\theta \in [0^\circ, 90^\circ]$
- * relative to a cut's grain unit vector $\hat{g}$, so $\arcsin(|\hat{n} \cdot \hat{g}|) = \theta$.
- */
-export function knifeNormalAtAngle(
-  angleDeg: number,
-  grainVector: Vec3Tuple,
-): Vec3Tuple {
-  const len = Math.hypot(grainVector[0], grainVector[1], grainVector[2]);
-  const gx = len > 1e-8 ? grainVector[0] / len : 1;
-  const gy = len > 1e-8 ? grainVector[1] / len : 0;
-  const gz = len > 1e-8 ? grainVector[2] / len : 0;
-
-  // Pick a reference vector not collinear with g to form orthogonal basis u
-  const ref: Vec3Tuple = Math.abs(gx) < 0.85 ? [1, 0, 0] : [0, 1, 0];
-  // Cross product g x ref -> perp1
-  let px = gy * ref[2] - gz * ref[1];
-  let py = gz * ref[0] - gx * ref[2];
-  let pz = gx * ref[1] - gy * ref[0];
-  const pLen = Math.hypot(px, py, pz) || 1;
-  px /= pLen;
-  py /= pLen;
-  pz /= pLen;
-
-  const rad = (Math.min(90, Math.max(0, angleDeg)) * Math.PI) / 180;
-  const sinT = Math.sin(rad);
-  const cosT = Math.cos(rad);
-  return [
-    gx * sinT + px * cosT,
-    gy * sinT + py * cosT,
-    gz * sinT + pz * cosT,
-  ];
 }
 
 function satisfiesPhysicsConstraint(
@@ -186,6 +159,8 @@ function emptyOrderScore(): ButcherOrderScore {
     grade: "D",
     passed: false,
     feedback: ["No valid cut selected."],
+    stepScores: [],
+    yields: [],
   };
 }
 
@@ -205,8 +180,10 @@ export function scoreOrderFulfillment(
   ticket: ButcherOrderTicket,
   submission: ButcherOrderSubmission,
 ): ButcherOrderScore {
+  if (isFabricationTicket(ticket)) return scoreFabricationOrder(ticket, submission);
   const selectedCut = getCutById(submission.selectedCutId);
   if (!selectedCut) return emptyOrderScore();
+  const orderYield = orderYieldTelemetry(selectedCut.id, submission.portionMassG);
 
   const constraintCheck = satisfiesPhysicsConstraint(selectedCut, ticket);
   const cutAccuracyScore = evaluateCutAccuracy(selectedCut, ticket, constraintCheck.matches);
@@ -243,5 +220,7 @@ export function scoreOrderFulfillment(
       grainEval.coachingNote,
       grainEval.portionPrecisionScore,
     ),
+    stepScores: [],
+    yields: orderYield ? [orderYield] : [],
   };
 }

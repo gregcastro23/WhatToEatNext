@@ -1,10 +1,13 @@
 import * as THREE from "three";
-import type { LoftSection, Vec3Tuple } from "@/lib/butcher/types";
+import type { LoftSection } from "@/lib/butcher/types";
+import { DEFAULT_ORGANIC_RIBBING, loftContour, subdivideSections } from "./loftProfile";
+
+export { createMuscleGrainGeometry } from "./muscleGrain";
 
 /**
  * Procedural cross-section lofting adapted from Pentacles `vessel-tailoring.ts`
  * (`tailoredSurface`), extended with organic cut capping, directional muscle
- * fiber grain ribbons, bone-cap landmarks, and knife slicing plane builders.
+ * fiber grain ticks (see `muscleGrain.ts`), bone-cap landmarks, and knife slicing plane builders.
  *
  * @file src/lib/butcher/stage/carcassLofting.ts
  */
@@ -14,29 +17,6 @@ export interface LoftOptions {
   readonly radialSegments?: number;
   readonly organicRibbing?: number;
   readonly capEnds?: boolean;
-}
-
-function subdivideSections(
-  sections: readonly LoftSection[],
-): readonly LoftSection[] {
-  if (sections.length <= 1) return sections;
-  const dense: LoftSection[] = [];
-  for (let i = 0; i < sections.length; i += 1) {
-    const curr = sections[i];
-    if (!curr) continue;
-    dense.push(curr);
-    const next = sections[i + 1];
-    if (next) {
-      dense.push([
-        (curr[0] + next[0]) * 0.5,
-        (curr[1] + next[1]) * 0.5,
-        (curr[2] + next[2]) * 0.5,
-        (curr[3] + next[3]) * 0.5,
-        (curr[4] + next[4]) * 0.5,
-      ]);
-    }
-  }
-  return dense;
 }
 
 function pushPointByAxis(
@@ -76,10 +56,7 @@ function appendSectionRing(
   for (let col = 0; col <= cfg.segments; col += 1) {
     const t = col / cfg.segments;
     const angle = t * Math.PI * 2;
-    const contour =
-      1 +
-      Math.cos(angle * 3) * cfg.ribbing +
-      Math.sin(angle * 2 + row * 0.4) * cfg.ribbing * 0.5;
+    const contour = loftContour(angle, row, cfg.ribbing);
     pushPointByAxis(
       buffers.vertices,
       cfg.axis,
@@ -148,7 +125,7 @@ export function createLoftedAnatomicalGeometry(
 ): THREE.BufferGeometry {
   const axis = options.axis ?? "x";
   const segments = Math.max(12, options.radialSegments ?? 28);
-  const ribbing = options.organicRibbing ?? 0.035;
+  const ribbing = options.organicRibbing ?? DEFAULT_ORGANIC_RIBBING;
   const capEnds = options.capEnds ?? true;
 
   const dense = subdivideSections(sections);
@@ -175,75 +152,6 @@ export function createLoftedAnatomicalGeometry(
   geometry.computeBoundingBox();
   geometry.computeBoundingSphere();
   geometry.name = "LoftedAnatomicalCut";
-  return geometry;
-}
-
-const GRAIN_RIBBON_OFFSETS: ReadonlyArray<readonly [number, number]> = [
-  [-0.08, -0.04],
-  [-0.04, -0.02],
-  [0, 0],
-  [0.04, 0.02],
-  [0.08, 0.04],
-  [-0.05, 0.05],
-  [0.05, -0.05],
-];
-
-function buildGrainPositions(
-  first: LoftSection,
-  mid: LoftSection,
-  last: LoftSection,
-  grainVector: Vec3Tuple,
-  axis: "x" | "y",
-): number[] {
-  const len = Math.hypot(grainVector[0], grainVector[1], grainVector[2]) || 1;
-  const gx = grainVector[0] / len;
-  const gy = grainVector[1] / len;
-  const gz = grainVector[2] / len;
-
-  const spanX = axis === "x" ? Math.abs(last[0] - first[0]) * 0.42 : mid[1] * 0.85;
-  const spanY = axis === "y" ? Math.abs(last[0] - first[0]) * 0.42 : mid[1] * 0.85;
-  const spanZ = mid[2] * 0.95;
-  const halfLen = Math.min(spanX, spanY, spanZ) * 0.72 + 0.06;
-  const surfaceZ = spanZ * 1.06;
-  const surfaceY = axis === "x" ? mid[1] * 0.75 : 0;
-
-  const positions: number[] = [];
-  for (const [ox, oy] of GRAIN_RIBBON_OFFSETS) {
-    const cx = ox * 1.4;
-    const cy = surfaceY * 0.45 + oy;
-    const cz = surfaceZ * 0.88;
-    positions.push(
-      cx - gx * halfLen,
-      cy - gy * halfLen,
-      cz - gz * halfLen,
-      cx + gx * halfLen,
-      cy + gy * halfLen,
-      cz + gz * halfLen,
-    );
-  }
-  return positions;
-}
-
-/**
- * Generates directional surface-hugging muscle fiber lines (`THREE.LineSegments`)
- * aligned with the cut's true 3D sarcomere grain vector $\vec{g}$.
- */
-export function createMuscleGrainGeometry(
-  sections: readonly LoftSection[],
-  grainVector: Vec3Tuple,
-  axis: "x" | "y" = "x",
-): THREE.BufferGeometry {
-  const [first] = sections;
-  const last = sections[sections.length - 1];
-  const mid = sections[Math.floor(sections.length / 2)] ?? first;
-  if (!first || !last || !mid) {
-    return new THREE.BufferGeometry();
-  }
-  const positions = buildGrainPositions(first, mid, last, grainVector, axis);
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-  geometry.computeBoundingSphere();
-  geometry.name = "MuscleGrainLines";
   return geometry;
 }
 

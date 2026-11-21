@@ -1,11 +1,10 @@
 "use client";
 
 import { SPECIES_LIST, getCutsForSpecies } from "@/data/butcher/cutsCatalogue";
-import { knifeNormalAtAngle } from "@/lib/butcher/science/butcherGame";
+import { isFabricationTicket, knifeNormalAtAngle } from "@/lib/butcher/science/butcherGame";
 import { evaluateGrainSlice, strategyLabel } from "@/lib/butcher/science/meatPhysics";
 import type {
   AnatomicalCut,
-  ButcherOrderScore,
   ButcherOrderTicket,
   ButcherOrderTier,
   ButcherProgressStats,
@@ -13,7 +12,9 @@ import type {
   GrainSliceEvaluation,
   SpeciesId,
 } from "@/lib/butcher/types";
+import { FabricationStepsCard, MasteryBadges, SliceCueChip } from "./BlockExtras";
 import { LazyButcherStage } from "./LazyButcherStage";
+import { OrderScorecard } from "./OrderScorecard";
 import type { ButcherLabState } from "./useButcherLab";
 import type { JSX } from "react";
 
@@ -37,6 +38,11 @@ const STRATEGIES: readonly CookingStrategy[] = [
   "sous-vide",
   "poach-confit",
 ];
+
+/** The mass target of the pull in progress (fabrication tickets) or of the ticket itself. */
+function currentTargetMassG(ticket: ButcherOrderTicket, pulled: number): number {
+  return ticket.fabricationSteps?.[pulled]?.targetMassG ?? ticket.targetMassG;
+}
 
 function ActiveTicketCard({ ticket }: { readonly ticket: ButcherOrderTicket }): JSX.Element {
   return (
@@ -79,6 +85,7 @@ function BlockTicketHeader(p: BlockTicketHeaderProps): JSX.Element {
           <span>Best: {p.progress.bestScore}%</span>
         </div>
       </div>
+      <MasteryBadges progress={p.progress} />
       <ActiveTicketCard ticket={p.ticket} />
       <div className="flex flex-wrap items-center gap-2">
         <span className="bt-label">Carcass Species:</span>
@@ -142,6 +149,7 @@ function BlockCarveControls({
   readonly liveSliceEval: GrainSliceEvaluation;
   readonly onSelectCut: (speciesId: SpeciesId, cutId: string) => void;
 }): JSX.Element {
+  const targetMassG = currentTargetMassG(ticket, lab.fabricationPicks.length);
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       <div>
@@ -154,7 +162,7 @@ function BlockCarveControls({
       </div>
       <div>
         <label htmlFor="bt-game-mass-range" className="bt-label block">
-          Portion Trim Mass ({lab.portionMassG} g vs {ticket.targetMassG} g)
+          Portion Trim Mass ({lab.portionMassG} g vs {targetMassG} g)
         </label>
         <input id="bt-game-mass-range" type="range" min={60} max={1500} step={5} value={lab.portionMassG} onChange={(e) => lab.setPortionMassG(Number(e.target.value))} className="bt-range mt-2" />
       </div>
@@ -163,41 +171,34 @@ function BlockCarveControls({
           Knife Plane vs Muscle Grain ({lab.sliceAngleDeg}°) — {liveSliceEval.verdict}
         </label>
         <input id="bt-game-angle-range" type="range" min={0} max={90} step={1} value={lab.sliceAngleDeg} onChange={(e) => lab.setSliceAngleDeg(Number(e.target.value))} className="bt-range mt-2" />
-        <p className="bt-num mt-1 text-xs text-white/60">
+        <p className="bt-num mt-1 flex flex-wrap items-center gap-2 text-xs text-white/60">
+          <SliceCueChip angleDeg={lab.sliceAngleDeg} />
           Effective Fiber: {liveSliceEval.effectiveFiberLengthMm} mm · Shear: {liveSliceEval.shearForceMultiplier}×
         </p>
       </div>
-      {lab.gameTier === "master" ? (
+      {lab.gameTier === "master" && !isFabricationTicket(ticket) ? (
         <MasterThermalControls gameMethod={lab.gameMethod} gameCoreTempC={lab.gameCoreTempC} onMethodChange={lab.setGameMethod} onTempChange={lab.setGameCoreTempC} />
       ) : null}
     </div>
   );
 }
 
-function OrderScorecard({
-  score,
-  gameTier,
-}: {
-  readonly score: ButcherOrderScore;
-  readonly gameTier: ButcherOrderTier;
-}): JSX.Element {
+function BlockOrderActions({ lab }: { readonly lab: ButcherLabState }): JSX.Element {
   return (
-    <div className="rounded-lg border border-white/15 bg-black/35 p-4">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <strong className="text-base text-white">
-          Scorecard: Grade {score.grade} ({score.totalScore}/100) — {score.passed ? "Ticket Fulfilled" : "Needs Refinement"}
-        </strong>
-        <span className="bt-num text-xs text-emerald-200">
-          Cut {score.cutAccuracyScore}% · Grain {score.grainAngleScore}% · Mass {score.portionPrecisionScore}%
-          {gameTier === "master" ? ` · Thermal ${score.thermalPairingScore}%` : ""}
-        </span>
+    <>
+      <div className="flex flex-wrap items-center gap-3">
+        <button type="button" className="bt-btn is-primary" onClick={() => lab.submitGameOrder()} disabled={lab.lastScore !== null}>
+          Execute Cut &amp; Fulfill Order
+        </button>
+        <button type="button" className="bt-btn" onClick={() => lab.nextGameOrder()}>
+          Next Order Ticket →
+        </button>
       </div>
-      <ul className="mt-2 space-y-1 text-xs text-white/75">
-        {score.feedback.map((line) => (
-          <li key={line}>• {line}</li>
-        ))}
-      </ul>
-    </div>
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {lab.lastScore ? `Scorecard: Grade ${lab.lastScore.grade} (${lab.lastScore.totalScore}/100) — ${lab.lastScore.passed ? "Ticket Fulfilled" : "Needs Refinement"}` : ""}
+      </div>
+      {lab.lastScore ? <OrderScorecard score={lab.lastScore} gameTier={lab.gameTier} /> : null}
+    </>
   );
 }
 
@@ -213,7 +214,7 @@ export function ButchersBlockPanel({
   const ticket = lab.activeTicket;
   const cuts = getCutsForSpecies(lab.speciesId);
   const knifeNormal = knifeNormalAtAngle(lab.sliceAngleDeg, lab.cut.grainVector);
-  const liveSliceEval = evaluateGrainSlice(lab.cut, knifeNormal, lab.portionMassG, ticket.targetMassG);
+  const liveSliceEval = evaluateGrainSlice(lab.cut, knifeNormal, lab.portionMassG, currentTargetMassG(ticket, lab.fabricationPicks.length));
 
   return (
     <div className="space-y-4">
@@ -227,6 +228,7 @@ export function ButchersBlockPanel({
         colorMode={lab.gameTier === "master" ? "collagen" : "anatomical"}
         framing="butcher-block-slice"
         showSlicePlane
+        showBoneLandmarks={false}
         sliceAngleDeg={lab.sliceAngleDeg}
         onSelectCut={(nextCutId) => onSelectCut(lab.speciesId, nextCutId)}
         onHoverCut={lab.setHoveredCutId}
@@ -234,17 +236,10 @@ export function ButchersBlockPanel({
       />
       <div className="bt-card space-y-4">
         <BlockCarveControls lab={lab} cuts={cuts} ticket={ticket} liveSliceEval={liveSliceEval} onSelectCut={onSelectCut} />
-        <div className="flex flex-wrap items-center gap-3">
-          <button type="button" className="bt-btn is-primary" onClick={() => lab.submitGameOrder()}>
-            Execute Cut &amp; Fulfill Order
-          </button>
-          <button type="button" className="bt-btn" onClick={() => lab.nextGameOrder()}>
-            Next Order Ticket →
-          </button>
-        </div>
-        <div role="status" aria-live="polite" aria-atomic="true">
-          {lab.lastScore ? <OrderScorecard score={lab.lastScore} gameTier={lab.gameTier} /> : null}
-        </div>
+        {isFabricationTicket(ticket) ? (
+          <FabricationStepsCard ticket={ticket} picks={lab.fabricationPicks} currentCutName={lab.cut.name} onPull={lab.pullFabricationStep} onUndo={lab.undoFabricationStep} />
+        ) : null}
+        <BlockOrderActions lab={lab} />
       </div>
     </div>
   );

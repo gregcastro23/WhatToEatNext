@@ -13,6 +13,7 @@ import {
   createCarcassRig,
   disposeCarcassRig,
   pickButcherCut,
+  setBoneLandmarksVisible,
   setCarcassExplodeFactor,
   updateSlicingPlane,
 } from "@/lib/butcher/stage/carcassAvatar3d";
@@ -69,6 +70,7 @@ export function syncCarcassRigOverlay(
     | "targetCutId"
     | "showSlicePlane"
     | "sliceAngleDeg"
+    | "showBoneLandmarks"
   >,
 ): void {
   setCarcassExplodeFactor(rig, props.explodeFactor);
@@ -83,6 +85,7 @@ export function syncCarcassRigOverlay(
     cutId: props.selectedCutId,
     angleDeg: props.sliceAngleDeg,
   });
+  setBoneLandmarksVisible(rig, props.showBoneLandmarks);
 }
 
 export function stepStageCamera(

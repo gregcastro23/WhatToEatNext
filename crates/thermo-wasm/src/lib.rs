@@ -685,9 +685,145 @@ pub fn simmer_trajectory_step(
     }
 }
 
+// ============================================================================
+// Voxel engine — 3D transient conduction (thermo_core::voxel)
+// ============================================================================
+//
+// Memory contract: unlike `ThermoEngine`, nothing here hands JS a pointer.
+// `temps()` / `peaks()` return COPIES (a fresh Float64Array each call), so no
+// view can be detached by linear-memory growth. A 16k-cell grid is 128 KB per
+// copy; callers read them at stage boundaries, not every step — the per-step
+// readouts (`min_temp_where`, `max_temp_where`, `temp_at`) are scalars.
+//
+// Refusals are JsErrors, not panics: `panic = "abort"` in the release profile
+// would take the whole module down with a bad argument from JS.
+
+fn voxel_err(e: thermo_core::VoxelError) -> JsError {
+    JsError::new(e.message())
+}
+
+/// Stateful 3D conduction grid. See `thermo_core::voxel` for the formulation.
+#[wasm_bindgen]
+pub struct VoxelEngine {
+    grid: thermo_core::VoxelGrid,
+}
+
+#[wasm_bindgen]
+impl VoxelEngine {
+    /// `material` is one u8 per cell (index `i + nx·(j + ny·k)`) into the
+    /// `k` / `rho_c` tables. Refuses more than 65 536 cells.
+    #[wasm_bindgen(constructor)]
+    #[allow(clippy::too_many_arguments)]
+    pub fn new(
+        nx: usize,
+        ny: usize,
+        nz: usize,
+        dx_m: f64,
+        dy_m: f64,
+        dz_m: f64,
+        material: &[u8],
+        k: &[f64],
+        rho_c: &[f64],
+        initial_c: f64,
+    ) -> Result<VoxelEngine, JsError> {
+        thermo_core::VoxelGrid::new(nx, ny, nz, dx_m, dy_m, dz_m, material, k, rho_c, initial_c)
+            .map(|grid| VoxelEngine { grid })
+            .map_err(voxel_err)
+    }
+
+    /// `[h, medium] × 6` in face order x−, x+, y−, y+, z−, z+.
+    pub fn set_faces(&mut self, faces: &[f64]) -> Result<(), JsError> {
+        self.grid.set_faces(faces).map_err(voxel_err)
+    }
+
+    /// Forward-Euler bound `min C/ΣG`, seconds (+∞ when fully adiabatic).
+    pub fn stable_dt(&self) -> f64 {
+        self.grid.stable_dt()
+    }
+
+    /// Advance `n` steps of `dt_s` seconds.
+    pub fn step(&mut self, dt_s: f64, n: u32) -> Result<(), JsError> {
+        self.grid.step(dt_s, n).map_err(voxel_err)
+    }
+
+    /// Copy of the cell temperatures, °C.
+    pub fn temps(&self) -> Vec<f64> {
+        self.grid.temps().to_vec()
+    }
+
+    /// Copy of the per-cell running maxima, °C.
+    pub fn peaks(&self) -> Vec<f64> {
+        self.grid.peaks().to_vec()
+    }
+
+    pub fn reset_peaks(&mut self) {
+        self.grid.reset_peaks();
+    }
+
+    /// Coldest cell of `material`; NaN when none.
+    pub fn min_temp_where(&self, material: u8) -> f64 {
+        self.grid.min_temp_where(material)
+    }
+
+    /// Hottest cell of `material`; NaN when none.
+    pub fn max_temp_where(&self, material: u8) -> f64 {
+        self.grid.max_temp_where(material)
+    }
+
+    /// Σ C·T, J relative to 0 °C.
+    pub fn energy_j(&self) -> f64 {
+        self.grid.energy_j()
+    }
+
+    /// One cell's temperature; NaN past the end.
+    pub fn temp_at(&self, index: usize) -> f64 {
+        self.grid.temp_at(index)
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn nx(&self) -> usize {
+        self.grid.nx()
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn ny(&self) -> usize {
+        self.grid.ny()
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn nz(&self) -> usize {
+        self.grid.nz()
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn cell_count(&self) -> usize {
+        self.grid.cell_count()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Host-side happy path only: a refusal constructs a JsError, which calls a
+    /// wasm-bindgen import that does not exist off wasm32. Refusals are covered
+    /// in `thermo_core::voxel`'s own tests.
+    #[test]
+    fn voxel_engine_wraps_the_core_grid() {
+        let mut e = VoxelEngine::new(2, 3, 1, 0.002, 0.002, 0.002, &[0; 6], &[0.45], &[3.675e6], 10.0)
+            .unwrap_or_else(|_| unreachable!());
+        let mut faces = [0.0; 12];
+        faces[4] = 100.0;
+        faces[5] = 90.0;
+        e.set_faces(&faces).unwrap_or_else(|_| unreachable!());
+        let dt = 0.9 * e.stable_dt();
+        e.step(dt, 10).unwrap_or_else(|_| unreachable!());
+        assert_eq!(e.cell_count(), 6);
+        assert_eq!(e.temps().len(), 6);
+        assert!(e.max_temp_where(0) > 10.0);
+        assert_eq!(e.temp_at(0), e.temps()[0]);
+        assert!(e.temp_at(6).is_nan());
+    }
 
     /// `boundary_network_link_ids` hand-mirrors the push order inside the
     /// core's solver. A mirror drifts: this caught `food-internal` vs the
