@@ -104,7 +104,8 @@ export function ButcherTelemetryHUD({
 
       {fdc ? (
         <p className="text-[11px] text-white/45">
-          Basis: {fdc.description} ({fdc.dataType}).
+          Basis ({fdc.match === "PROXY" ? "proxy" : "exact"}): {fdc.description} ({fdc.dataType}).
+          {fdc.matchNote ? ` ${fdc.matchNote}` : null}
         </p>
       ) : null}
 

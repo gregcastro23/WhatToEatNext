@@ -52,9 +52,12 @@ function normalizeUnitVector(v: Vec3Tuple): Vec3Tuple {
  * from FDC_BUTCHER_RECORDS so data and citations cannot diverge.
  */
 export function defineButcherCut(input: CutDefinitionInput): AnatomicalCut {
-  const fdc = FDC_BUTCHER_RECORDS[input.fdcId];
+  const fdc = FDC_BUTCHER_RECORDS[input.id];
   if (!fdc) {
-    throw new Error(`Missing FDC record ${input.fdcId} for cut ${input.id}`);
+    throw new Error(`Missing FDC record for cut ${input.id}`);
+  }
+  if (fdc.fdcId !== input.fdcId) {
+    throw new Error(`Cut ${input.id} names FDC ${input.fdcId} but its record is FDC ${fdc.fdcId}`);
   }
   return {
     ...input,
