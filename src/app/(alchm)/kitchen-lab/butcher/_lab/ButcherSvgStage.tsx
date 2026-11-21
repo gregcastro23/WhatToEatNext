@@ -1,6 +1,7 @@
 "use client";
 
 import { getCutsForSpecies, getSpeciesSpec } from "@/data/butcher/cutsCatalogue";
+import { colorHexForOverlay } from "@/lib/butcher/stage/overlayLegend";
 import { projectLandmarksToSvg } from "@/lib/butcher/stage/skeletonLandmarks";
 import { sliceAngleCue } from "@/lib/butcher/stage/sliceAngleCue";
 import type { AnatomicalCut, ColorOverlayMode, SpeciesId, Vec3Tuple } from "@/lib/butcher/types";
@@ -16,23 +17,9 @@ import type { JSX } from "react";
  * @file src/app/(alchm)/kitchen-lab/butcher/_lab/ButcherSvgStage.tsx
  */
 
+/** One colour scale with the 3D overlay (`overlayLegend.ts`). */
 function fillForCut(cut: AnatomicalCut, mode: ColorOverlayMode): string {
-  if (mode === "anatomical") return cut.geometry3d.colorHex;
-  if (mode === "marbling") {
-    if (cut.proximate.fatG >= 20) return "#f59e0b";
-    if (cut.proximate.fatG >= 12) return "#fb7185";
-    if (cut.proximate.fatG >= 6) return "#be123c";
-    return "#6b2135";
-  }
-  if (mode === "collagen") {
-    if (cut.proximate.collagenG >= 2.2) return "#a855f7";
-    if (cut.proximate.collagenG >= 1.3) return "#f59e0b";
-    return "#10b981";
-  }
-  const [primary] = cut.optimalMethods;
-  if (primary === "collagen-braise" || primary === "low-and-slow-smoke") return "#6366f1";
-  if (primary === "sous-vide" || primary === "poach-confit") return "#06b6d4";
-  return "#f97316";
+  return colorHexForOverlay(cut, mode);
 }
 
 function strokeForCutState(isSelected: boolean, isTarget: boolean, isHovered: boolean): string {

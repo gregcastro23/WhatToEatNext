@@ -6,6 +6,7 @@ import { z } from "zod";
 import { BUTCHER_CUTS, SPECIES_LIST, getFdcRecordForCut } from "@/data/butcher/cutsCatalogue";
 import { dscReferenceSummary } from "@/lib/butcher/science/thermalProfiles";
 import type { SpeciesId } from "@/lib/butcher/types";
+import { ProvenanceIndex, countByMatch } from "./ProvenanceIndex";
 import type { ButcherLabState } from "./useButcherLab";
 
 type ResolvedFdcRecord = NonNullable<ReturnType<typeof getFdcRecordForCut>>;
@@ -179,10 +180,11 @@ export function ButcherSourcesPanel({ lab }: { readonly lab: ButcherLabState }):
       <div className="bt-card space-y-3">
         <h2 className="text-xl">USDA FoodData Central Citation — {cut.name}</h2>
         <p className="text-xs text-white/60">
-          Catalogue census: {SPECIES_LIST.length} species · {totalPrimals} anatomical primals · {BUTCHER_CUTS.length} USDA-pinned retail cuts.
+          Catalogue census: {SPECIES_LIST.length} species · {totalPrimals} anatomical primals · {BUTCHER_CUTS.length} retail cuts: {countByMatch("EXACT")} on their own USDA record, {countByMatch("PROXY")} on a stated proxy.
         </p>
         {fdc ? <FdcCitationTable fdc={fdc} speciesId={cut.speciesId} /> : null}
       </div>
+      <ProvenanceIndex activeCutId={cut.id} />
       <RecipeMatchesCard cutName={cut.name} recipeSearchQuery={cut.recipeSearchQuery} loading={loading} recipes={recipes} />
     </div>
   );

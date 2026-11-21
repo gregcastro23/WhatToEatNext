@@ -48,7 +48,8 @@ export function getTicketForTier(
   return ticket;
 }
 
-function satisfiesPhysicsConstraint(
+/** Whether `cut` meets the ticket's cut requirement; `reason` names the first one it misses. */
+export function satisfiesPhysicsConstraint(
   cut: AnatomicalCut,
   ticket: ButcherOrderTicket,
 ): { matches: boolean; reason: string | null } {

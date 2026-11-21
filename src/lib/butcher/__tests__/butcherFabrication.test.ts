@@ -130,11 +130,11 @@ describe("fabrication yields", () => {
 describe("cut comparison", () => {
   it("builds six rows and flags the higher side numerically", () => {
     const rows = buildCutComparison(cutOrThrow("ribeye"), cutOrThrow("ny-strip"));
-    expect(rows.map((r) => r.id)).toEqual(["marbling", "collagen", "method", "gray-band", "core-temp", "thickness"]);
-    expect(rows.find((r) => r.id === "marbling")?.higher).toBe("a");
+    expect(rows.map((r) => r.id)).toEqual(["fat", "collagen", "method", "gray-band", "core-temp", "thickness"]);
+    expect(rows.find((r) => r.id === "fat")?.higher).toBe("a");
     expect(rows.find((r) => r.id === "method")?.higher).toBeNull();
     const flatPoint = buildCutComparison(cutOrThrow("brisket-flat"), cutOrThrow("brisket-point"));
-    expect(flatPoint.find((r) => r.id === "marbling")?.higher).toBe("b");
+    expect(flatPoint.find((r) => r.id === "fat")?.higher).toBe("b");
   });
 
   it("toggles pins and keeps at most the two most recent", () => {

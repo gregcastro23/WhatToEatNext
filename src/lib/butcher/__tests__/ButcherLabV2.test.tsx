@@ -74,7 +74,7 @@ describe("<ButcherLabApp /> v2", () => {
     clickFirst(/^new york strip/i);
     fireEvent.click(screen.getByRole("button", { name: /pin new york strip to compare/i }));
     const table = await screen.findByRole("table", { name: /comparison of ribeye steak and new york strip/i });
-    expect(within(table).getByRole("rowheader", { name: /marbling/i })).toBeInTheDocument();
+    expect(within(table).getByRole("rowheader", { name: /fat \(g\/100 g, usda\)/i })).toBeInTheDocument();
     expect(within(table).getByRole("rowheader", { name: /gray band/i })).toBeInTheDocument();
   });
 

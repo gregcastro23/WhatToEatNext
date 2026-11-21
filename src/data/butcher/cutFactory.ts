@@ -1,3 +1,4 @@
+import { fatClassFor } from "@/lib/butcher/science/fatClass";
 import type {
   AnatomicalCut,
   CookingStrategy,
@@ -5,7 +6,6 @@ import type {
   CutCoreTempWindow,
   CutGeometry3D,
   CutSvg2D,
-  MarblingGrade,
   SpeciesId,
   Vec3Tuple,
 } from "@/lib/butcher/types";
@@ -18,7 +18,6 @@ export interface CutDefinitionInput {
   readonly primalId: string;
   readonly primalName: string;
   readonly fdcId: number;
-  readonly marblingGrade: MarblingGrade;
   readonly grainVector: Vec3Tuple;
   readonly fiberLengthFactor: number;
   readonly maxFiberLengthMm: number;
@@ -62,6 +61,7 @@ export function defineButcherCut(input: CutDefinitionInput): AnatomicalCut {
   return {
     ...input,
     grainVector: normalizeUnitVector(input.grainVector),
+    fatClass: fatClassFor(fdc.fatG),
     proximate: {
       waterG: fdc.waterG,
       proteinG: fdc.proteinG,
