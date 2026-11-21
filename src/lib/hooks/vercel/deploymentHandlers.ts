@@ -17,6 +17,7 @@
  */
 
 import { getCronBaseUrl } from "@/app/api/cron/_lib/cronAuth";
+import { createConcurrencyLimiter } from "@/lib/async/concurrency";
 import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import type { HookEvent, HookHandler } from "@/lib/hooks/types";
 import type { VercelDeploymentEventType, VercelDeploymentPayload } from "@/lib/hooks/vercel/vercelEvent";
@@ -61,18 +62,25 @@ function shortSha(event: DeployEvent): string {
   return typeof sha === "string" ? sha.slice(0, 7) : (event.data.deployment?.id ?? "unknown");
 }
 
-/** Every post-deploy probe, in parallel; each records its own result row. */
+const POST_DEPLOY_PROBE_CONCURRENCY = 2;
+
+/**
+ * Post-deploy probes capped at concurrency 2 so a fresh deployment's `after()`
+ * fan-out stays inside the serverless `pg` pool cap (`DB_MAX_CONNECTIONS=4`).
+ */
 export async function runPostDeployProbes(): Promise<ProbeResult[]> {
   const baseUrl = getCronBaseUrl();
   const bearerToken = process.env.SYNTHETIC_PROBE_TOKEN ?? null;
-  const settled = await Promise.allSettled([
-    runOnboardingSkipProbe({ baseUrl, bearerToken }),
-    runRecommendationsProbe({ baseUrl, bearerToken }),
-    runAuthHandshakeProbe({ baseUrl, bearerToken }),
-    runAuthSigninProbe({ baseUrl }),
-    runStripeWebhookProbe({ baseUrl }),
-    runMcpProbe(),
-  ]);
+  const limit = createConcurrencyLimiter(POST_DEPLOY_PROBE_CONCURRENCY);
+  const probeTasks: Array<() => Promise<ProbeResult>> = [
+    () => runOnboardingSkipProbe({ baseUrl, bearerToken }),
+    () => runRecommendationsProbe({ baseUrl, bearerToken }),
+    () => runAuthHandshakeProbe({ baseUrl, bearerToken }),
+    () => runAuthSigninProbe({ baseUrl }),
+    () => runStripeWebhookProbe({ baseUrl }),
+    () => runMcpProbe(),
+  ];
+  const settled = await Promise.allSettled(probeTasks.map((task) => limit(task)));
   return settled.flatMap((s) => (s.status === "fulfilled" ? [s.value] : []));
 }
 

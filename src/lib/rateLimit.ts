@@ -11,7 +11,7 @@
  */
 import { NextResponse } from "next/server";
 import { createLogger } from "@/utils/logger";
-import { getRedisClient, noteRedisError } from "./redis";
+import { getRedisClient, isRedisQuotaError, noteRedisError } from "./redis";
 
 const logger = createLogger("RateLimit");
 
@@ -114,7 +114,10 @@ export async function rateLimit(
       }
     } catch (err) {
       const summary = noteRedisError("rateLimit", err, key);
-      logger.warn("Redis failed, falling back to Memory:", summary);
+      // Quota trips are already reported once per cooldown window by noteRedisError.
+      if (!isRedisQuotaError(err)) {
+        logger.warn("Redis failed, falling back to Memory:", summary);
+      }
     }
   }
 

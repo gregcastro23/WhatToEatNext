@@ -15,6 +15,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { rateLimit } from "@/lib/rateLimit";
 import { tableDatabase, type JoinRequestFailureReason } from "@/services/tableDatabaseService";
 import { createLogger } from "@/utils/logger";
@@ -117,7 +118,10 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    void notifyHostOfJoinRequest(result.hostId, tableId, result.tableTitle, requesterId);
+    const { hostId, tableTitle } = result;
+    runAfterResponse("tables.notifyJoinRequest", () =>
+      notifyHostOfJoinRequest(hostId, tableId, tableTitle, requesterId),
+    );
 
     return NextResponse.json({ success: true, message: "Your request has been sent" }, { status: 201 });
   } catch (error) {

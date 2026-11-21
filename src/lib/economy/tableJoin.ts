@@ -13,12 +13,11 @@
  * @file src/lib/economy/tableJoin.ts
  */
 
-import { _logger } from "@/lib/logger";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 
 export function recognizeTableJoin(userId: string, tableId: string): void {
-  void import("@/services/practiceRewardService")
-    .then(({ practiceRewardService }) =>
-      practiceRewardService.recognize(userId, "recommendation_acted", `table:${tableId}`),
-    )
-    .catch((err) => _logger.warn("recognizeTableJoin failed (non-blocking):", err));
+  runAfterResponse("economy.recognizeTableJoin", async () => {
+    const { practiceRewardService } = await import("@/services/practiceRewardService");
+    await practiceRewardService.recognize(userId, "recommendation_acted", `table:${tableId}`);
+  });
 }

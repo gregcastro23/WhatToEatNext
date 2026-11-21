@@ -7,6 +7,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { FoodDiaryRatingSchema } from "@/lib/validation/apiSchemas";
 import { foodDiaryService } from "@/services/FoodDiaryService";
 import { reportQuestEventBestEffort } from "@/services/questEventReporter";
@@ -89,9 +90,9 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     }
 
     // Track interaction for personalization (Data Hose injection)
-    try {
+    runAfterResponse("food-diary.recordRating", async () => {
       const { recordInteraction } = await import("@/services/userInteractionsService");
-      void recordInteraction({
+      await recordInteraction({
         userId,
         type: "food_rating",
         payload: {
@@ -100,10 +101,8 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
           rating,
           moodTags,
         },
-      }).catch((err) => logger.error("Failed to record food_rating interaction:", err));
-    } catch (err) {
-      logger.warn("Food rating interaction tracking skipped:", err);
-    }
+      });
+    });
 
     // Update wouldEatAgain if provided
     if (wouldEatAgain !== undefined) {

@@ -8,6 +8,7 @@
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database/connection";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { _logger } from "@/lib/logger";
 import { UserRecipeInteractionSchema } from "@/lib/validation/apiSchemas";
 import { practiceRewardService } from "@/services/practiceRewardService";
@@ -161,7 +162,9 @@ export async function POST(
     let reward: { tokenType: string; amount: number; hint: string } | null = null;
     const priorMadeIt = upsert.rows[0]?.prior_made_it === true;
     if (madeIt && !priorMadeIt) {
-      void reportQuestEventBestEffort(userId, "cook_recipe");
+      runAfterResponse("quests.cookRecipe", () =>
+        reportQuestEventBestEffort(userId, "cook_recipe"),
+      );
       const result = await practiceRewardService.recognize(userId, "cooked_recipe", resolvedId);
       if (result.rewarded && result.tokenType && result.amount && result.hint) {
         reward = { tokenType: result.tokenType, amount: result.amount, hint: result.hint };

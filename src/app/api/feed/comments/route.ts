@@ -13,6 +13,7 @@ import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { isBlockedBetween, sanitizeCommentBody } from "@/lib/feed/commentEnforcement";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { notifyCommentReceived } from "@/lib/notifications/engagementNotify";
 import { rateLimit } from "@/lib/rateLimit";
 import { FeedCommentRequestSchema } from "@/lib/validation/apiSchemas";
@@ -142,12 +143,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
       // Fire-and-forget bell to the event actor (deduped; self/blocked/agent-safe
       // — the dispatcher re-checks agent + block before writing).
-      void notifyCommentReceived({
-        eventId,
-        actorId: userId,
-        recipientId: actorId,
-        excerpt: cleanBody.slice(0, 120),
-      });
+      const excerpt = cleanBody.slice(0, 120);
+      runAfterResponse("feed.notifyComment", () =>
+        notifyCommentReceived({ eventId, actorId: userId, recipientId: actorId, excerpt }),
+      );
     }
 
     return NextResponse.json<FeedCommentPostResponse>({ success: true, comment, reward });

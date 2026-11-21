@@ -9,6 +9,7 @@
 
 import { NextResponse } from "next/server";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { tableDatabase } from "@/services/tableDatabaseService";
 import type { TableRecord } from "@/types/table";
 import { createLogger } from "@/utils/logger";
@@ -84,7 +85,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    void notifyCancelled(tableId, table);
+    runAfterResponse("tables.notifyCancelled", () => notifyCancelled(tableId, table));
 
     return NextResponse.json({ success: true, table });
   } catch (error) {
