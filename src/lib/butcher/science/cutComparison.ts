@@ -1,9 +1,10 @@
 import type { AnatomicalCut } from "@/lib/butcher/types";
 import { defaultTrajectoryMethodForCut, simulateCoupledCutTrajectory, TRAJECTORY_METHODS } from "./coupledMeatTrajectory";
+import { FAT_CLASS_LABEL } from "./fatClass";
 import { strategyLabel } from "./meatPhysics";
 
 /**
- * Side-by-side comparison rows for the Cut Comparison drawer: marbling,
+ * Side-by-side comparison rows for the Cut Comparison drawer: fat class,
  * collagen, best method and the 1D trajectory's gray-band depth at each cut's
  * own ideal core temperature, default method and typical thickness.
  *
@@ -13,7 +14,7 @@ import { strategyLabel } from "./meatPhysics";
 export { MAX_PINNED_CUTS, togglePinnedCut } from "./comparePins";
 
 export interface CutComparisonRow {
-  readonly id: "marbling" | "collagen" | "method" | "gray-band" | "core-temp" | "thickness";
+  readonly id: "fat" | "collagen" | "method" | "gray-band" | "core-temp" | "thickness";
   readonly label: string;
   readonly a: string;
   readonly b: string;
@@ -38,8 +39,8 @@ export function buildCutComparison(a: AnatomicalCut, b: AnatomicalCut): readonly
   const methodOf = (c: AnatomicalCut): string => strategyLabel(c.optimalMethods[0] ?? "high-heat-sear");
   return [
     {
-      id: "marbling", label: "Marbling (fat g/100 g)",
-      a: `${a.proximate.fatG.toFixed(1)} · ${a.marblingGrade}`, b: `${b.proximate.fatG.toFixed(1)} · ${b.marblingGrade}`,
+      id: "fat", label: "Fat (g/100 g, USDA)",
+      a: `${a.proximate.fatG.toFixed(1)} · ${FAT_CLASS_LABEL[a.fatClass]}`, b: `${b.proximate.fatG.toFixed(1)} · ${FAT_CLASS_LABEL[b.fatClass]}`,
       higher: higherOf(a.proximate.fatG, b.proximate.fatG),
     },
     {

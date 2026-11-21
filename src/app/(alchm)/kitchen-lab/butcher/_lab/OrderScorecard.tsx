@@ -2,6 +2,7 @@
 
 import { getCutById } from "@/data/butcher/cutsCatalogue";
 import type { ButcherOrderScore, ButcherOrderTier, OrderYieldTelemetry } from "@/lib/butcher/types";
+import { ScoreMeter } from "./TicketChecklist";
 import type { JSX } from "react";
 
 /**
@@ -68,15 +69,18 @@ export function OrderScorecard({
 }): JSX.Element {
   const isFabrication = score.stepScores.length > 0;
   return (
-    <div className="rounded-lg border border-white/15 bg-black/35 p-4">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <strong className="text-base text-white" aria-hidden="true">
-          Grade {score.grade} · {score.totalScore}/100 · {score.passed ? "fulfilled" : "needs refinement"}
+    <div className="bt-scorecard" data-passed={score.passed}>
+      <div className="flex flex-wrap items-center justify-between gap-2" aria-hidden="true">
+        <strong className="text-base text-white">
+          Grade <span className="bt-num">{score.grade}</span> · <span className="bt-num">{score.totalScore}</span>/100
         </strong>
-        <span className="bt-num text-xs text-emerald-200">
-          Cut {score.cutAccuracyScore}% · Grain {score.grainAngleScore}% · Mass {score.portionPrecisionScore}%
-          {gameTier === "master" && !isFabrication ? ` · Thermal ${score.thermalPairingScore}%` : ""}
-        </span>
+        <span className="bt-verdict">{score.passed ? "Fulfilled" : "Needs refinement"}</span>
+      </div>
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        <ScoreMeter label="Cut accuracy" pct={score.cutAccuracyScore} />
+        <ScoreMeter label="Grain" pct={score.grainAngleScore} />
+        <ScoreMeter label="Mass" pct={score.portionPrecisionScore} />
+        {gameTier === "master" && !isFabrication ? <ScoreMeter label="Thermal pairing" pct={score.thermalPairingScore} /> : null}
       </div>
       <ul className="mt-2 space-y-1 text-xs text-white/75">
         {score.feedback.map((line) => (

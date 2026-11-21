@@ -1,7 +1,7 @@
 import { STEAK_FOOTPRINT_ASPECT, boneAnatomyForCut } from "@/lib/butcher/science/boneAnatomy";
 import { ITIS_TISSUE } from "@/lib/butcher/science/slabColumn";
 import { thermophysicalForProximate } from "@/lib/butcher/science/slabDiffusion";
-import type { AnatomicalCut, MarblingGrade, OrderYieldTelemetry, SpeciesId, YieldBasis } from "@/lib/butcher/types";
+import type { AnatomicalCut, FatClass, OrderYieldTelemetry, SpeciesId, YieldBasis } from "@/lib/butcher/types";
 import { getCutById } from "./cutsCatalogue";
 import { LITERATURE_YIELDS } from "./literatureYields";
 
@@ -12,7 +12,7 @@ import { LITERATURE_YIELDS } from "./literatureYields";
  *  - `LITERATURE` — a published cutting test (see `literatureYields.ts`).
  *  - `MODEL ESTIMATE` — every other cut, generated here from the catalogue:
  *    bone share COMPUTED from the anatomical bone model (`boneAnatomy.ts`) and
- *    IT'IS tissue densities; trim fat by marbling grade and other losses by
+ *    IT'IS tissue densities; trim fat by USDA fat class and other losses by
  *    species are stated assumptions. The UI badges these as estimates.
  *
  * @file src/data/butcher/fabricationYields.ts
@@ -29,9 +29,13 @@ export interface FabricationYieldRow {
   readonly source: string;
 }
 
-/** ASSUMPTION: external fat trimmed to a ~3 mm retail spec, by marbling grade. */
-const TRIM_FAT_PCT_BY_GRADE: Readonly<Record<MarblingGrade, number>> = {
-  lean: 3, moderate: 6, "well-marbled": 9, rich: 12,
+/**
+ * ASSUMPTION: external fat trimmed to a ~3 mm retail spec, by fat class. The
+ * class is derived from the cut's USDA fat (fatClassFor); the percentages are
+ * the assumption.
+ */
+const TRIM_FAT_PCT_BY_FAT_CLASS: Readonly<Record<FatClass, number>> = {
+  lean: 3, moderate: 6, high: 9, "very-high": 12,
 };
 
 /** ASSUMPTION: silverskin, connective tissue, purge and saw loss by species (finfish adds skin and pin bones). */
@@ -78,7 +82,7 @@ export function estimatedBoneSharePct(cut: AnatomicalCut): number {
 
 export function estimatedYieldForCut(cut: AnatomicalCut): FabricationYieldRow {
   const boneWastePct = estimatedBoneSharePct(cut);
-  const trimFatPct = TRIM_FAT_PCT_BY_GRADE[cut.marblingGrade];
+  const trimFatPct = TRIM_FAT_PCT_BY_FAT_CLASS[cut.fatClass];
   const otherLossPct = OTHER_LOSS_PCT_BY_SPECIES[cut.speciesId];
   return {
     cutId: cut.id,
@@ -88,7 +92,7 @@ export function estimatedYieldForCut(cut: AnatomicalCut): FabricationYieldRow {
     boneWastePct,
     otherLossPct,
     basis: "MODEL ESTIMATE",
-    source: "Bone share computed from the anatomical bone model and IT'IS v4.1 densities; trim fat by marbling grade and other losses by species are assumptions.",
+    source: "Bone share computed from the anatomical bone model and IT'IS v4.1 densities; trim fat by USDA fat class and other losses by species are assumptions.",
   };
 }
 

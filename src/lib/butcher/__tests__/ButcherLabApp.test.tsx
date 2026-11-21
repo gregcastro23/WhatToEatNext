@@ -113,7 +113,7 @@ describe("<ButcherLabApp />", () => {
     expect(wholeBtn).toHaveAttribute("aria-pressed", "true");
     expect(explodeSlider).toHaveValue("0");
 
-    fireEvent.click(screen.getByRole("button", { name: "Marbling / Fat %" }));
+    fireEvent.click(screen.getByRole("button", { name: "Fat class" }));
     expect(screen.getByLabelText("Color overlay legend")).toHaveTextContent(/≥20 g fat/i);
 
     fireEvent.click(screen.getByRole("button", { name: "Thermal & Grain" }));
