@@ -177,7 +177,8 @@ async function generateOne(
     parsed = await res.json();
   } catch (error) {
     const reason = error instanceof Error ? error.message.slice(0, 140) : "request error";
-    _logger.error(`[prewarm] PA call failed for ${label} (budget ${timeoutMs}ms):`, error);
+    const summary = error instanceof Error ? `${error.name}: ${reason}` : String(error).slice(0, 140);
+    _logger.error(`[prewarm] PA call failed for ${label} (budget ${timeoutMs}ms): ${summary}`);
     return { ok: false, reason };
   }
   const validation = cosmicRecipeSchema.safeParse(parsed);
