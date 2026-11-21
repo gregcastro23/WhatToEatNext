@@ -1,4 +1,6 @@
 // Mock @upstash/redis to avoid ESM issues in Jest
+const mockPipelineExec = jest.fn().mockResolvedValue(null);
+
 jest.mock("@upstash/redis", () => ({
   Redis: jest.fn().mockImplementation(() => ({
     pipeline: jest.fn().mockReturnValue({
@@ -6,7 +8,7 @@ jest.mock("@upstash/redis", () => ({
       zadd: jest.fn().mockReturnThis(),
       zcard: jest.fn().mockReturnThis(),
       pexpire: jest.fn().mockReturnThis(),
-      exec: jest.fn().mockResolvedValue(null), // Force fallback to memory by default
+      exec: mockPipelineExec, // Force fallback to memory by default
     }),
     get: jest.fn().mockResolvedValue(null),
     set: jest.fn().mockResolvedValue("OK"),
@@ -21,8 +23,17 @@ function makeRequest(headers: Record<string, string> = {}): Request {
 }
 
 describe("rateLimit", () => {
+  const ORIGINAL_ENV = process.env;
+
   beforeEach(() => {
     jest.resetModules();
+    mockPipelineExec.mockReset().mockResolvedValue(null);
+    process.env = { ...ORIGINAL_ENV };
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+    process.env = ORIGINAL_ENV;
   });
 
   it("allows requests up to the limit and returns 429 metadata after that", async () => {
@@ -138,5 +149,28 @@ describe("rateLimit", () => {
 
     nowSpy.mockReturnValue(21_000);
     expect((await rateLimit(request, { window: 60_000, max: 1, bucket: "route-a" })).allowed).toBe(false);
+  });
+
+  it("trips quota circuit breaker on Upstash Fixed-plan pipeline error and uses memory fallback without hitting Redis again", async () => {
+    process.env.UPSTASH_REDIS_REST_URL = "https://example.upstash.io";
+    process.env.UPSTASH_REDIS_REST_TOKEN = "test-token";
+    jest.spyOn(Date, "now").mockReturnValue(50_000);
+    mockPipelineExec.mockRejectedValueOnce(
+      new Error(
+        'ERR This database has reached current Fixed plan limits, command was: [["zcard"]]',
+      ),
+    );
+
+    const { rateLimit } = await import("@/lib/rateLimit");
+    const request = makeRequest({ "x-forwarded-for": "203.0.113.99" });
+
+    const first = await rateLimit(request, { window: 60_000, max: 1, bucket: "quota" });
+    expect(first.allowed).toBe(true);
+    expect(mockPipelineExec).toHaveBeenCalledTimes(1);
+
+    const second = await rateLimit(request, { window: 60_000, max: 1, bucket: "quota" });
+    expect(second.allowed).toBe(false);
+    expect(second.response?.status).toBe(429);
+    expect(mockPipelineExec).toHaveBeenCalledTimes(1);
   });
 });

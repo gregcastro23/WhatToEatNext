@@ -27,10 +27,14 @@ jest.mock("@/lib/database", () => ({
       });
     }),
 }));
+const mockRedisGet = jest.fn(async () => null);
+const mockRedisSet = jest.fn(async () => undefined);
+const mockRedisDel = jest.fn(async () => undefined);
+
 jest.mock("@/lib/redis", () => ({
-  redisGet: async () => null,
-  redisSet: async () => undefined,
-  redisDel: async () => undefined,
+  redisGet: (...args: unknown[]) => mockRedisGet(...args),
+  redisSet: (...args: unknown[]) => mockRedisSet(...args),
+  redisDel: (...args: unknown[]) => mockRedisDel(...args),
 }));
 jest.mock("@/lib/assets", () => ({ getValidatedAssetUrl: async (url: string) => url }));
 jest.mock("@/lib/logger", () => ({
@@ -73,6 +77,9 @@ async function settle(): Promise<void> {
 
 beforeEach(() => {
   queries.length = 0;
+  mockRedisGet.mockClear();
+  mockRedisSet.mockClear();
+  mockRedisDel.mockClear();
   LocalRecipeService.clearCache();
 });
 
@@ -143,5 +150,24 @@ describe("LocalRecipeService.getAllRecipes under concurrent cold loads", () => {
     expect(queries).toHaveLength(2);
     queries[1]?.resolve([row("b")]);
     expect((await second).map((r) => r.id)).toEqual(["b"]);
+  });
+
+  it("does not touch Redis catalog cache by default when REDIS_RECIPE_CATALOG_ENABLED is unset", async () => {
+    const prevFlag = process.env.REDIS_RECIPE_CATALOG_ENABLED;
+    delete process.env.REDIS_RECIPE_CATALOG_ENABLED;
+    try {
+      const pending = LocalRecipeService.getAllRecipes();
+      await settle();
+      queries[0]?.resolve([row("a")]);
+      await pending;
+      LocalRecipeService.clearCache();
+      expect(mockRedisGet).not.toHaveBeenCalled();
+      expect(mockRedisSet).not.toHaveBeenCalled();
+      expect(mockRedisDel).not.toHaveBeenCalled();
+    } finally {
+      if (prevFlag !== undefined) {
+        process.env.REDIS_RECIPE_CATALOG_ENABLED = prevFlag;
+      }
+    }
   });
 });

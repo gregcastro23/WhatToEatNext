@@ -340,12 +340,21 @@ function mapRowToRecipe(row: DbRecipeRow): Recipe {
 const REDIS_CATALOG_KEY = "recipes:catalog:all";
 const REDIS_TTL_SECONDS = CATALOG_TTL_MS / 1000; // 5 minutes — matches in-process TTL
 
+function isRedisCatalogCacheEnabled(): boolean {
+  return process.env.REDIS_RECIPE_CATALOG_ENABLED === "true";
+}
+
+function isRedisAssetWarmEnabled(): boolean {
+  return process.env.REDIS_ASSET_WARM_ENABLED === "true";
+}
+
 // The Upstash Redis client's GET call is a plain uncached fetch(), which
 // Next 15 (uncached-by-default) flags as "dynamic API usage" — fatal for
 // /recipes/[recipeId], which relies on ISR (revalidate = 3600). Wrapping the
 // read in unstable_cache tells Next's Data Cache to own this read instead,
 // so it no longer forces the route to bail from static to dynamic mid-render.
 async function readCatalogFromRedis(): Promise<Recipe[] | null> {
+  if (!isRedisCatalogCacheEnabled()) return null;
   try {
     return await redisGet<Recipe[]>(REDIS_CATALOG_KEY);
   } catch (err) {
@@ -368,6 +377,7 @@ const getCachedCatalogFromNextRedis = unstable_cache(
  * Any other error is Next's to handle (prerender control flow included).
  */
 async function getCachedCatalogFromRedis(): Promise<Recipe[] | null> {
+  if (!isRedisCatalogCacheEnabled()) return null;
   try {
     return await getCachedCatalogFromNextRedis();
   } catch (err) {
@@ -492,9 +502,12 @@ export class LocalRecipeService {
       // Populate Redis asynchronously, after the response is sent — keeps
       // this fire-and-forget write outside the render's dynamic-API
       // detection window (same reasoning as getCachedCatalogFromRedis above).
-      deferAfterResponse(() => {
-        redisSet(REDIS_CATALOG_KEY, recipes, REDIS_TTL_SECONDS).catch(() => {});
-      });
+      // Disabled by default because the serialized catalog exceeds ~500 KB per write.
+      if (isRedisCatalogCacheEnabled()) {
+        deferAfterResponse(() => {
+          redisSet(REDIS_CATALOG_KEY, recipes, REDIS_TTL_SECONDS).catch(() => {});
+        });
+      }
 
       // Part 3: Warm Image Asset Cache
       this.warmImageAssetCache(recipes);
@@ -513,6 +526,7 @@ export class LocalRecipeService {
    */
   private static warmImageAssetCache(recipes: Recipe[]): void {
     if (
+      !isRedisAssetWarmEnabled() ||
       process.env.NODE_ENV === "test" ||
       !process.env.UPSTASH_REDIS_REST_URL ||
       !process.env.UPSTASH_REDIS_REST_TOKEN
@@ -705,6 +719,8 @@ export class LocalRecipeService {
     this._catalogDegraded = false;
     // Callers after an invalidation must not join a load that began before it.
     this._inFlightLoad = null;
-    redisDel(REDIS_CATALOG_KEY).catch(() => {});
+    if (isRedisCatalogCacheEnabled()) {
+      redisDel(REDIS_CATALOG_KEY).catch(() => {});
+    }
   }
 }

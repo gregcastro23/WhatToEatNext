@@ -80,4 +80,21 @@ describe("memoryCache", () => {
     // b is still cached.
     expect(await memoize("b", 60_000, compute)).toBe(2);
   });
+
+  it("evicts oldest entries in FIFO order once cache reaches 256 entries", async () => {
+    let counter = 0;
+    const compute = jest.fn(async () => ++counter);
+    for (let i = 0; i < 257; i += 1) {
+      await memoize(`fifo-${i}`, 60_000, compute);
+    }
+    expect(compute).toHaveBeenCalledTimes(257);
+
+    // fifo-1..fifo-256 remain cached hits; fifo-0 was evicted when fifo-256 arrived.
+    await memoize("fifo-1", 60_000, compute);
+    await memoize("fifo-256", 60_000, compute);
+    expect(compute).toHaveBeenCalledTimes(257);
+
+    await memoize("fifo-0", 60_000, compute);
+    expect(compute).toHaveBeenCalledTimes(258);
+  });
 });

@@ -124,4 +124,22 @@ describe("isJtiRevoked", () => {
     expect(await isJtiRevoked("jti-no-redis")).toBe(true);
     expect(redisGetMock).not.toHaveBeenCalled();
   });
+
+  it("trips quota circuit breaker on Fixed-plan limit error so subsequent calls skip Redis and query Postgres directly", async () => {
+    redisGetMock.mockRejectedValue(
+      new Error(
+        'ERR This database has reached current Fixed plan limits, command was: [["get","session:revoked:jti-1"]]',
+      ),
+    );
+    executeQueryMock.mockResolvedValue({
+      rowCount: 1,
+      rows: [{ revoked_at: null }],
+    });
+
+    const { isJtiRevoked } = await import("@/lib/auth/sessionRevocation");
+    expect(await isJtiRevoked("jti-1")).toBe(false);
+    expect(await isJtiRevoked("jti-2")).toBe(false);
+    expect(redisGetMock).toHaveBeenCalledTimes(1);
+    expect(executeQueryMock).toHaveBeenCalledTimes(2);
+  });
 });

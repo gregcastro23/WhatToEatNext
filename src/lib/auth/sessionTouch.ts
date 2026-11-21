@@ -31,16 +31,28 @@ type HeaderSource = Request | Headers | { headers: Headers };
 
 async function checkRedisThrottle(cleanId: string): Promise<boolean> {
   try {
-    const { getRedisClient } = await import("../redis");
+    const { getRedisClient, noteRedisError } = await import("../redis");
     const client = getRedisClient();
     if (client) {
-      const setResult = await client.set(
-        REDIS_TOUCH_PREFIX + cleanId,
-        "1",
-        { nx: true, ex: TOUCH_THROTTLE_SECONDS },
-      );
-      if (!setResult) {
-        return false;
+      try {
+        const setResult = await client.set(
+          REDIS_TOUCH_PREFIX + cleanId,
+          "1",
+          { nx: true, ex: TOUCH_THROTTLE_SECONDS },
+        );
+        if (!setResult) {
+          return false;
+        }
+      } catch (err) {
+        const summary = noteRedisError(
+          "sessionTouch",
+          err,
+          REDIS_TOUCH_PREFIX + cleanId,
+        );
+        logger.warn(
+          "[sessionTouch] Redis throttle check failed (falling back to SQL):",
+          { err: summary },
+        );
       }
     }
   } catch (err) {

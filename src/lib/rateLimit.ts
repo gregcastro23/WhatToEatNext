@@ -11,7 +11,7 @@
  */
 import { NextResponse } from "next/server";
 import { createLogger } from "@/utils/logger";
-import { getRedisClient } from "./redis";
+import { getRedisClient, noteRedisError } from "./redis";
 
 const logger = createLogger("RateLimit");
 
@@ -113,7 +113,8 @@ export async function rateLimit(
         };
       }
     } catch (err) {
-      logger.warn("Redis failed, falling back to Memory:", err);
+      const summary = noteRedisError("rateLimit", err, key);
+      logger.warn("Redis failed, falling back to Memory:", summary);
     }
   }
 

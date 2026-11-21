@@ -27,6 +27,8 @@ interface PendingEntry<T> {
   promise: Promise<T>;
 }
 
+const MAX_CACHE_ENTRIES = 256;
+
 const cache = new Map<string, CacheEntry<unknown>>();
 const pending = new Map<string, PendingEntry<unknown>>();
 
@@ -58,6 +60,12 @@ export async function memoize<T>(
   const promise = (async () => {
     try {
       const value = await compute();
+      if (!cache.has(key) && cache.size >= MAX_CACHE_ENTRIES) {
+        const oldestKey = cache.keys().next().value;
+        if (oldestKey !== undefined) {
+          cache.delete(oldestKey);
+        }
+      }
       cache.set(key, { value, expiresAt: Date.now() + ttlMs });
       return value;
     } finally {
