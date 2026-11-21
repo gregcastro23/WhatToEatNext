@@ -1,3 +1,4 @@
+import { fatClassFor } from "@/lib/butcher/science/fatClass";
 import type {
   AnatomicalCut,
   CookingStrategy,
@@ -5,7 +6,6 @@ import type {
   CutCoreTempWindow,
   CutGeometry3D,
   CutSvg2D,
-  MarblingGrade,
   SpeciesId,
   Vec3Tuple,
 } from "@/lib/butcher/types";
@@ -18,7 +18,6 @@ export interface CutDefinitionInput {
   readonly primalId: string;
   readonly primalName: string;
   readonly fdcId: number;
-  readonly marblingGrade: MarblingGrade;
   readonly grainVector: Vec3Tuple;
   readonly fiberLengthFactor: number;
   readonly maxFiberLengthMm: number;
@@ -52,13 +51,17 @@ function normalizeUnitVector(v: Vec3Tuple): Vec3Tuple {
  * from FDC_BUTCHER_RECORDS so data and citations cannot diverge.
  */
 export function defineButcherCut(input: CutDefinitionInput): AnatomicalCut {
-  const fdc = FDC_BUTCHER_RECORDS[input.fdcId];
+  const fdc = FDC_BUTCHER_RECORDS[input.id];
   if (!fdc) {
-    throw new Error(`Missing FDC record ${input.fdcId} for cut ${input.id}`);
+    throw new Error(`Missing FDC record for cut ${input.id}`);
+  }
+  if (fdc.fdcId !== input.fdcId) {
+    throw new Error(`Cut ${input.id} names FDC ${input.fdcId} but its record is FDC ${fdc.fdcId}`);
   }
   return {
     ...input,
     grainVector: normalizeUnitVector(input.grainVector),
+    fatClass: fatClassFor(fdc.fatG),
     proximate: {
       waterG: fdc.waterG,
       proteinG: fdc.proteinG,

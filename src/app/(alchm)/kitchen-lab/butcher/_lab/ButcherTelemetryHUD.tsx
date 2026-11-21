@@ -1,78 +1,119 @@
 "use client";
 
 import { getFdcRecordForCut, getSpeciesSpec } from "@/data/butcher/cutsCatalogue";
+import { FAT_CLASS_COLOR } from "@/lib/butcher/science/fatClass";
 import {
   celsiusToFahrenheit,
   recommendThermalStrategy,
   strategyLabel,
 } from "@/lib/butcher/science/meatPhysics";
-import type { AnatomicalCut, CookingStrategy } from "@/lib/butcher/types";
+import type { AnatomicalCut } from "@/lib/butcher/types";
+import {
+  CATALOGUE_MAX,
+  COLLAGEN_TICKS_G,
+  CompositionBar,
+  FAT_TICKS_G,
+  FatClassChip,
+  MetricBar,
+  ProvenanceBadge,
+} from "./TelemetryPrimitives";
 import type { JSX } from "react";
 
 /**
- * Sticky SI / USDA proximate & thermal telemetry HUD sidebar for the
- * real-physics tabs of `/kitchen-lab/butcher`.
+ * Sticky cut telemetry for the real-physics tabs of `/kitchen-lab/butcher`.
+ *
+ * Reading order is the order a butcher decides in: which cut and how sure the
+ * numbers are (USDA EXACT / PROXY), fat and collagen (what the cut will do in
+ * heat), the full composition, then the thermal target. Anatomy prose comes
+ * last.
  *
  * @file src/app/(alchm)/kitchen-lab/butcher/_lab/ButcherTelemetryHUD.tsx
  */
 
-function ProximateGrid({ cut }: { readonly cut: AnatomicalCut }): JSX.Element {
+/** "Beef · Chuck", dropping the primal when it only repeats the cut's name. */
+export function cutLineage(cut: AnatomicalCut): string {
+  const species = getSpeciesSpec(cut.speciesId).name;
+  return cut.primalName === cut.name ? species : `${species} · ${cut.primalName}`;
+}
+
+function HudHeader({ cut }: { readonly cut: AnatomicalCut }): JSX.Element {
+  const fdc = getFdcRecordForCut(cut);
   return (
-    <div className="grid grid-cols-2 gap-2 text-xs">
-      <div className="rounded-lg border border-white/10 bg-black/25 p-2.5">
-        <span className="bt-label block">Water</span>
-        <span className="bt-num text-base text-white">{cut.proximate.waterG.toFixed(1)} g</span>
+    <header key={cut.id} className="bt-swap space-y-2">
+      <div className="flex items-start justify-between gap-2">
+        <p className="bt-label pt-1">Active cut</p>
+        {fdc ? <ProvenanceBadge record={fdc} /> : null}
       </div>
-      <div className="rounded-lg border border-white/10 bg-black/25 p-2.5">
-        <span className="bt-label block">Protein</span>
-        <span className="bt-num text-base text-white">{cut.proximate.proteinG.toFixed(1)} g</span>
+      <div>
+        <h2 className="text-xl leading-tight text-white">{cut.name}</h2>
+        <p className="text-xs text-white/55">{cutLineage(cut)}</p>
       </div>
-      <div className="rounded-lg border border-white/10 bg-black/25 p-2.5">
-        <span className="bt-label block">Fat / Marbling</span>
-        <span className="bt-num text-base text-amber-200">{cut.proximate.fatG.toFixed(1)} g</span>
+    </header>
+  );
+}
+
+function HeroMetric({
+  label,
+  value,
+  unit,
+  children,
+}: {
+  readonly label: string;
+  readonly value: string;
+  readonly unit: string;
+  readonly children: JSX.Element;
+}): JSX.Element {
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-baseline justify-between gap-2">
+        <span className="bt-label">{label}</span>
+        <span>
+          <span className="bt-num bt-hero">{value}</span>
+          <span className="bt-num ml-1 text-[11px] text-white/50">{unit}</span>
+        </span>
       </div>
-      <div className="rounded-lg border border-white/10 bg-black/25 p-2.5">
-        <span className="bt-label block">Collagen</span>
-        <span className="bt-num text-base text-purple-300">{cut.proximate.collagenG.toFixed(2)} g</span>
-      </div>
+      {children}
     </div>
   );
 }
 
-function TelemetryStatsList({
-  cut,
-  strategy,
-}: {
-  readonly cut: AnatomicalCut;
-  readonly strategy: CookingStrategy;
-}): JSX.Element {
+function FatCollagenMetrics({ cut }: { readonly cut: AnatomicalCut }): JSX.Element {
+  const { fatG, collagenG } = cut.proximate;
   return (
-    <dl className="space-y-1.5 border-t border-white/10 pt-3 text-xs">
-      <div className="flex justify-between gap-2">
-        <dt className="text-white/55">Optimal Strategy</dt>
-        <dd className="font-medium text-emerald-200">{strategyLabel(strategy)}</dd>
+    <section aria-label="Fat and collagen" className="space-y-3">
+      <HeroMetric label="Fat" value={fatG.toFixed(1)} unit="g/100 g">
+        <>
+          <MetricBar value={fatG} max={CATALOGUE_MAX.fatG} ticks={FAT_TICKS_G} color={FAT_CLASS_COLOR[cut.fatClass]} />
+          <FatClassChip fatClass={cut.fatClass} />
+        </>
+      </HeroMetric>
+      <HeroMetric label="Collagen" value={collagenG.toFixed(2)} unit="g/100 g">
+        <MetricBar value={collagenG} max={CATALOGUE_MAX.collagenG} ticks={COLLAGEN_TICKS_G} color="rgb(192 132 252)" />
+      </HeroMetric>
+      <p className="text-[10px] text-white/40">
+        Bars span 0 to the catalogue maximum ({CATALOGUE_MAX.fatG.toFixed(1)} g fat, {CATALOGUE_MAX.collagenG.toFixed(2)} g collagen). Ticks mark the fat-class and collagen bands.
+      </p>
+    </section>
+  );
+}
+
+function ThermalTarget({ cut }: { readonly cut: AnatomicalCut }): JSX.Element {
+  const { ideal } = cut.targetCoreTempC;
+  return (
+    <section aria-label="Thermal target" className="bt-thermal">
+      <div>
+        <span className="bt-label block">Target core</span>
+        <span className="bt-num bt-hero">{ideal} °C</span>
+        <span className="bt-num ml-1.5 text-xs text-white/55">{celsiusToFahrenheit(ideal).toFixed(0)} °F</span>
       </div>
-      <div className="flex justify-between gap-2">
-        <dt className="text-white/55">Target Core Temp</dt>
-        <dd className="bt-num text-white">
-          {cut.targetCoreTempC.ideal} °C ({celsiusToFahrenheit(cut.targetCoreTempC.ideal).toFixed(0)} °F)
-        </dd>
-      </div>
-      <div className="flex justify-between gap-2">
-        <dt className="text-white/55">Carryover Rise</dt>
-        <dd className="bt-num text-white/80">+{cut.targetCoreTempC.carryoverC} °C</dd>
-      </div>
-      <div className="flex justify-between gap-2">
-        <dt className="text-white/55">Fiber Shear Factor</dt>
-        <dd className="bt-num text-white/80">{cut.fiberLengthFactor.toFixed(2)}×</dd>
-      </div>
-      <div className="flex justify-between gap-2">
-        <dt className="text-white/55">Standard Portion</dt>
-        <dd className="bt-num text-white/80">
-          {cut.typicalPortionG} g · {cut.typicalThicknessMm} mm
-        </dd>
-      </div>
-    </dl>
+      <dl className="bt-kv">
+        <div><dt>Method</dt><dd className="text-emerald-200">{strategyLabel(recommendThermalStrategy(cut))}</dd></div>
+        <div><dt>Window</dt><dd className="bt-num">{cut.targetCoreTempC.min}–{cut.targetCoreTempC.max} °C</dd></div>
+        <div><dt>Carryover</dt><dd className="bt-num">+{cut.targetCoreTempC.carryoverC} °C</dd></div>
+        <div><dt>Fiber shear</dt><dd className="bt-num">{cut.fiberLengthFactor.toFixed(2)}×</dd></div>
+        <div><dt>Portion</dt><dd className="bt-num">{cut.typicalPortionG} g · {cut.typicalThicknessMm} mm</dd></div>
+      </dl>
+    </section>
   );
 }
 
@@ -83,31 +124,16 @@ export function ButcherTelemetryHUD({
   readonly cut: AnatomicalCut;
   readonly onShowElements: () => void;
 }): JSX.Element {
-  const species = getSpeciesSpec(cut.speciesId);
-  const fdc = getFdcRecordForCut(cut);
-  const strategy = recommendThermalStrategy(cut);
-
   return (
-    <div className="bt-card space-y-4">
-      <div>
-        <p className="bt-label">Active Sub-Primal</p>
-        <h2 className="mt-1 text-xl text-white">{cut.name}</h2>
-        <p className="text-xs text-white/60">
-          {species.name} · {cut.primalName} · FDC{" "}
-          <span className="bt-num text-emerald-300">{cut.fdcId}</span>
-        </p>
-      </div>
-
-      <p className="text-xs leading-relaxed text-white/70">{cut.anatomicalNotes}</p>
-      <ProximateGrid cut={cut} />
-      <TelemetryStatsList cut={cut} strategy={strategy} />
-
-      {fdc ? (
-        <p className="text-[11px] text-white/45">
-          Basis: {fdc.description} ({fdc.dataType}).
-        </p>
-      ) : null}
-
+    <div className="bt-card bt-hud-card space-y-4">
+      <HudHeader cut={cut} />
+      <FatCollagenMetrics cut={cut} />
+      <section aria-label="Composition per 100 g raw">
+        <span className="bt-label mb-1.5 block">Composition · per 100 g raw</span>
+        <CompositionBar proximate={cut.proximate} />
+      </section>
+      <ThermalTarget cut={cut} />
+      <p className="border-t border-white/10 pt-3 text-xs leading-relaxed text-white/60">{cut.anatomicalNotes}</p>
       <button type="button" onClick={onShowElements} className="bt-btn w-full text-center text-violet-200">
         Read {cut.name} in Alchm Elements →
       </button>

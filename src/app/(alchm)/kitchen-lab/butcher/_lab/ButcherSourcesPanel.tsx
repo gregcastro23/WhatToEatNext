@@ -6,6 +6,7 @@ import { z } from "zod";
 import { BUTCHER_CUTS, SPECIES_LIST, getFdcRecordForCut } from "@/data/butcher/cutsCatalogue";
 import { dscReferenceSummary } from "@/lib/butcher/science/thermalProfiles";
 import type { SpeciesId } from "@/lib/butcher/types";
+import { ProvenanceIndex, countByMatch } from "./ProvenanceIndex";
 import type { ButcherLabState } from "./useButcherLab";
 
 type ResolvedFdcRecord = NonNullable<ReturnType<typeof getFdcRecordForCut>>;
@@ -68,6 +69,24 @@ function useMatchingRecipes(query: string): {
   return { recipes, loading };
 }
 
+/** The USDA record behind the cut, and whether it is the cut itself or a stated proxy. */
+function FdcRecordRow({ fdc }: { readonly fdc: ResolvedFdcRecord }): JSX.Element {
+  return (
+    <tr>
+      <td>FDC Record</td>
+      <td className="bt-num">
+        <a href={`https://fdc.nal.usda.gov/food-details/${fdc.fdcId}/nutrients`} target="_blank" rel="noreferrer" className="underline">
+          FDC {fdc.fdcId}
+        </a>
+      </td>
+      <td className="text-xs text-white/70">
+        {fdc.match} · {fdc.description} ({fdc.dataType}, NDB {fdc.ndbNumber})
+        {fdc.matchNote ? <span className="mt-1 block text-white/55">{fdc.matchNote}</span> : null}
+      </td>
+    </tr>
+  );
+}
+
 function FdcCitationTable({
   fdc,
   speciesId,
@@ -85,20 +104,13 @@ function FdcCitationTable({
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>FDC Record</td>
-          <td className="bt-num">
-            <a href={`https://fdc.nal.usda.gov/food-details/${fdc.fdcId}/nutrients`} target="_blank" rel="noreferrer" className="underline">
-              FDC {fdc.fdcId}
-            </a>
-          </td>
-          <td className="text-xs text-white/70">{fdc.description} ({fdc.dataType})</td>
-        </tr>
+        <FdcRecordRow fdc={fdc} />
         <tr>
           <td>Proximate Composition (per 100 g)</td>
           <td className="bt-num">W {fdc.waterG} · P {fdc.proteinG} · F {fdc.fatG} · A {fdc.ashG} g</td>
           <td className="text-xs text-white/70">
             Measured mass sum: {(fdc.waterG + fdc.proteinG + fdc.fatG + fdc.ashG).toFixed(1)} g / 100 g
+            {fdc.match === "PROXY" ? " · measured on the proxy record above, not on this cut" : ""}
           </td>
         </tr>
         <tr>
@@ -168,10 +180,11 @@ export function ButcherSourcesPanel({ lab }: { readonly lab: ButcherLabState }):
       <div className="bt-card space-y-3">
         <h2 className="text-xl">USDA FoodData Central Citation — {cut.name}</h2>
         <p className="text-xs text-white/60">
-          Catalogue census: {SPECIES_LIST.length} species · {totalPrimals} anatomical primals · {BUTCHER_CUTS.length} USDA-pinned retail cuts.
+          Catalogue census: {SPECIES_LIST.length} species · {totalPrimals} anatomical primals · {BUTCHER_CUTS.length} retail cuts: {countByMatch("EXACT")} on their own USDA record, {countByMatch("PROXY")} on a stated proxy.
         </p>
         {fdc ? <FdcCitationTable fdc={fdc} speciesId={cut.speciesId} /> : null}
       </div>
+      <ProvenanceIndex activeCutId={cut.id} />
       <RecipeMatchesCard cutName={cut.name} recipeSearchQuery={cut.recipeSearchQuery} loading={loading} recipes={recipes} />
     </div>
   );

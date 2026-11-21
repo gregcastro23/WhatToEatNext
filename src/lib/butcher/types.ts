@@ -27,7 +27,8 @@ export type ButcherTab = "breakdown" | "game" | "thermal" | "elements" | "source
 
 export type ButcherOrderTier = "apprentice" | "journeyman" | "master";
 
-export type MarblingGrade = "lean" | "moderate" | "well-marbled" | "rich";
+/** Fat class from USDA total fat; bands and labels live in src/lib/butcher/science/fatClass.ts. */
+export type FatClass = "lean" | "moderate" | "high" | "very-high";
 
 export type ButcherElement = "Fire" | "Water" | "Earth" | "Air";
 
@@ -39,14 +40,31 @@ export type Vec3Tuple = readonly [number, number, number];
  */
 export type LoftSection = readonly [number, number, number, number, number];
 
-export interface FdcButcherRecord {
+/** One USDA FoodData Central record, verbatim (g per 100 g edible portion). */
+export interface UsdaProximateRecord {
   readonly fdcId: number;
+  /** SR Legacy's NDB number for the same food (SR28 FOOD_DES / NUT_DATA key). */
+  readonly ndbNumber: number;
   readonly description: string;
   readonly dataType: "SR Legacy" | "Foundation";
   readonly waterG: number;
   readonly proteinG: number;
   readonly fatG: number;
   readonly ashG: number;
+}
+
+/**
+ * How a cut relates to the USDA record its proximates come from.
+ * EXACT: the record is this cut (its description may add trim and grade).
+ * PROXY: USDA never analysed this cut; the record is the nearest real one, and
+ * `matchNote` says which and why.
+ */
+export type FdcMatch = "EXACT" | "PROXY";
+
+/** A cut's composition basis: the USDA record (verbatim) plus the cut's own collagen. */
+export interface FdcButcherRecord extends UsdaProximateRecord {
+  readonly match: FdcMatch;
+  readonly matchNote: string | null;
   readonly collagenG: number;
   readonly collagenBasis: "LITERATURE" | "DERIVED";
   readonly collagenSource: string;
@@ -103,7 +121,8 @@ export interface AnatomicalCut {
   readonly primalName: string;
   readonly fdcId: number;
   readonly proximate: CutProximate;
-  readonly marblingGrade: MarblingGrade;
+  /** Derived from `proximate.fatG` by `fatClassFor`; never set by hand. */
+  readonly fatClass: FatClass;
   readonly grainVector: Vec3Tuple;
   readonly fiberLengthFactor: number;
   readonly maxFiberLengthMm: number;
