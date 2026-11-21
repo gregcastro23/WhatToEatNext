@@ -10,7 +10,7 @@ import { strategyLabel } from "./meatPhysics";
  * @file src/lib/butcher/science/cutComparison.ts
  */
 
-export const MAX_PINNED_CUTS = 2;
+export { MAX_PINNED_CUTS, togglePinnedCut } from "./comparePins";
 
 export interface CutComparisonRow {
   readonly id: "marbling" | "collagen" | "method" | "gray-band" | "core-temp" | "thickness";
@@ -64,10 +64,4 @@ export function buildCutComparison(a: AnatomicalCut, b: AnatomicalCut): readonly
       higher: higherOf(a.typicalThicknessMm, b.typicalThicknessMm),
     },
   ];
-}
-
-/** Pin list update: toggling a pinned cut unpins it; pinning a third drops the oldest. */
-export function togglePinnedCut(pins: readonly string[], cutId: string): readonly string[] {
-  if (pins.includes(cutId)) return pins.filter((id) => id !== cutId);
-  return [...pins, cutId].slice(-MAX_PINNED_CUTS);
 }

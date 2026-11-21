@@ -106,6 +106,11 @@ function validateSpec(spec: VoxelGridSpec): number {
 type FaceArrays = readonly [Float64Array, Float64Array, Float64Array, Float64Array, Float64Array, Float64Array];
 
 /** The TypeScript engine. Mirrors `VoxelGrid` in voxel.rs line for line. */
+/** Kernel read: indices are always in range, so `?? 0` never fires — it types the index, the bits are unchanged. */
+function at(a: ArrayLike<number>, i: number): number {
+  return a[i] ?? 0;
+}
+
 export class TsVoxelEngine implements VoxelEngineLike {
   readonly nx: number;
   readonly ny: number;
@@ -154,9 +159,9 @@ export class TsVoxelEngine implements VoxelEngineLike {
       for (let j = 0; j < ny; j += 1) {
         for (let i = 0; i < nx; i += 1) {
           const c = i + nx * (j + ny * k);
-          if (i + 1 < nx) g[0][c + 1] = g[1][c] = interiorG(ax, dx, kc[c]!, kc[c + 1]!);
-          if (j + 1 < ny) g[2][c + nx] = g[3][c] = interiorG(ay, dy, kc[c]!, kc[c + nx]!);
-          if (k + 1 < nz) g[4][c + sz] = g[5][c] = interiorG(az, dz, kc[c]!, kc[c + sz]!);
+          if (i + 1 < nx) g[0][c + 1] = g[1][c] = interiorG(ax, dx, at(kc, c), at(kc, c + 1));
+          if (j + 1 < ny) g[2][c + nx] = g[3][c] = interiorG(ay, dy, at(kc, c), at(kc, c + nx));
+          if (k + 1 < nz) g[4][c + sz] = g[5][c] = interiorG(az, dz, at(kc, c), at(kc, c + sz));
         }
       }
     }
@@ -178,7 +183,7 @@ export class TsVoxelEngine implements VoxelEngineLike {
       for (let j = 0; j < ny; j += 1) {
         for (let i = 0; i < nx; i += 1) {
           const c = i + nx * (j + ny * k);
-          const kc = kCell[c]!;
+          const kc = at(kCell, c);
           if (i === 0) g[0][c] = boundaryG(ax, dx, h0, kc);
           if (i + 1 === nx) g[1][c] = boundaryG(ax, dx, h1, kc);
           if (j === 0) g[2][c] = boundaryG(ay, dy, h2, kc);
@@ -188,16 +193,16 @@ export class TsVoxelEngine implements VoxelEngineLike {
         }
       }
     }
-    for (let face = 0; face < VOXEL_FACE_COUNT; face += 1) this.medium[face] = f[2 * face + 1]!;
+    for (let face = 0; face < VOXEL_FACE_COUNT; face += 1) this.medium[face] = at(f, 2 * face + 1);
   }
 
   stableDt(): number {
     const [g0, g1, g2, g3, g4, g5] = this.g;
     let best = Number.POSITIVE_INFINITY;
     for (let c = 0; c < this.cellCount; c += 1) {
-      const s = g0[c]! + g1[c]! + g2[c]! + g3[c]! + g4[c]! + g5[c]!;
+      const s = at(g0, c) + at(g1, c) + at(g2, c) + at(g3, c) + at(g4, c) + at(g5, c);
       if (s > 0) {
-        const r = this.cap[c]! / s;
+        const r = at(this.cap, c) / s;
         if (r < best) best = r;
       }
     }
@@ -207,34 +212,33 @@ export class TsVoxelEngine implements VoxelEngineLike {
   step(dtS: number, n: number): void {
     if (!finitePositive(dtS)) throw new RangeError(VOXEL_ERRORS.timeStep);
     if (dtS !== this.factorDt) {
-      for (let c = 0; c < this.cellCount; c += 1) this.factor[c] = dtS / this.cap[c]!;
+      for (let c = 0; c < this.cellCount; c += 1) this.factor[c] = dtS / at(this.cap, c);
       this.factorDt = dtS;
     }
     for (let s = 0; s < n; s += 1) this.stepOnce();
   }
 
-  // Non-null assertions in the kernels: every index is bounded by the loop
-  // limits and the arrays are all `cellCount` long, by construction above.
   private stepOnce(): void {
     const { nx, ny, nz, cur, nxt, peak, factor } = this;
     const [g0, g1, g2, g3, g4, g5] = this.g;
-    const [m0, m1, m2, m3, m4, m5] = this.medium;
+    const { medium } = this;
+    const [m0, m1, m2, m3, m4, m5] = [at(medium, 0), at(medium, 1), at(medium, 2), at(medium, 3), at(medium, 4), at(medium, 5)];
     const sz = nx * ny;
     for (let k = 0; k < nz; k += 1) {
       for (let j = 0; j < ny; j += 1) {
         for (let i = 0; i < nx; i += 1) {
           const c = i + nx * (j + ny * k);
-          const t = cur[c]!;
+          const t = at(cur, c);
           let s = 0;
-          s += g0[c]! * ((i > 0 ? cur[c - 1]! : m0!) - t);
-          s += g1[c]! * ((i + 1 < nx ? cur[c + 1]! : m1!) - t);
-          s += g2[c]! * ((j > 0 ? cur[c - nx]! : m2!) - t);
-          s += g3[c]! * ((j + 1 < ny ? cur[c + nx]! : m3!) - t);
-          s += g4[c]! * ((k > 0 ? cur[c - sz]! : m4!) - t);
-          s += g5[c]! * ((k + 1 < nz ? cur[c + sz]! : m5!) - t);
-          const v = t + factor[c]! * s;
+          s += at(g0, c) * ((i > 0 ? at(cur, c - 1) : m0) - t);
+          s += at(g1, c) * ((i + 1 < nx ? at(cur, c + 1) : m1) - t);
+          s += at(g2, c) * ((j > 0 ? at(cur, c - nx) : m2) - t);
+          s += at(g3, c) * ((j + 1 < ny ? at(cur, c + nx) : m3) - t);
+          s += at(g4, c) * ((k > 0 ? at(cur, c - sz) : m4) - t);
+          s += at(g5, c) * ((k + 1 < nz ? at(cur, c + sz) : m5) - t);
+          const v = t + at(factor, c) * s;
           nxt[c] = v;
-          if (v > peak[c]!) peak[c] = v;
+          if (v > at(peak, c)) peak[c] = v;
         }
       }
     }
@@ -259,7 +263,7 @@ export class TsVoxelEngine implements VoxelEngineLike {
     let best = 0;
     for (let c = 0; c < this.cellCount; c += 1) {
       if (this.material[c] !== material) continue;
-      const t = this.cur[c]!;
+      const t = at(this.cur, c);
       if (!found || (wantMin && t < best) || (!wantMin && t > best)) {
         best = t;
         found = true;
@@ -278,12 +282,12 @@ export class TsVoxelEngine implements VoxelEngineLike {
 
   energyJ(): number {
     let e = 0;
-    for (let c = 0; c < this.cellCount; c += 1) e += this.cap[c]! * this.cur[c]!;
+    for (let c = 0; c < this.cellCount; c += 1) e += at(this.cap, c) * at(this.cur, c);
     return e;
   }
 
   tempAt(index: number): number {
-    return Number.isInteger(index) && index >= 0 && index < this.cellCount ? this.cur[index]! : Number.NaN;
+    return Number.isInteger(index) && index >= 0 && index < this.cellCount ? at(this.cur, index) : Number.NaN;
   }
 
   free(): void {

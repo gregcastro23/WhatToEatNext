@@ -1,9 +1,9 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { SPECIES_LIST, getCutsForPrimal, getSpeciesSpec } from "@/data/butcher/cutsCatalogue";
 import { BUTCHER_CAMERA_FRAMINGS } from "@/lib/butcher/stage/cameraFramings";
 import { OVERLAY_COLOR_LEGEND } from "@/lib/butcher/stage/overlayLegend";
-import { SKELETON_LANDMARKS } from "@/lib/butcher/stage/skeletonLandmarks";
 import type { CameraFramingId, ColorOverlayMode, SpeciesId, SpeciesSpec } from "@/lib/butcher/types";
 import { CutCompareDrawer } from "./CutCompareDrawer";
 import { LazyButcherStage } from "./LazyButcherStage";
@@ -110,6 +110,8 @@ function BreakdownOverlayRow({
   );
 }
 
+const BoneLandmarkNotes = dynamic(() => import("./BoneLandmarkNotes").then((m) => m.BoneLandmarkNotes));
+
 function BoneLandmarkToggle({
   speciesId,
   show,
@@ -124,15 +126,7 @@ function BoneLandmarkToggle({
       <button type="button" className="bt-btn" aria-pressed={show} onClick={() => onToggle(!show)}>
         Show Bone Landmarks
       </button>
-      {show ? (
-        <ul className="grid gap-1.5 text-[11px] text-white/70 sm:grid-cols-2" aria-label="Bone landmarks and the cuts they explain">
-          {SKELETON_LANDMARKS[speciesId].map((lm) => (
-            <li key={lm.id} className="rounded-md border border-white/10 bg-black/25 px-2 py-1.5">
-              <strong className="text-white/90">{lm.label}</strong> — {lm.note}
-            </li>
-          ))}
-        </ul>
-      ) : null}
+      {show ? <BoneLandmarkNotes speciesId={speciesId} /> : null}
     </div>
   );
 }

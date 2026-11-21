@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getCutById, getSpeciesSpec } from "@/data/butcher/cutsCatalogue";
 import { defaultBoneInForCut } from "@/lib/butcher/science/boneAnatomy";
-import { togglePinnedCut } from "@/lib/butcher/science/cutComparison";
+import { togglePinnedCut } from "@/lib/butcher/science/comparePins";
 import { recommendThermalStrategy } from "@/lib/butcher/science/meatPhysics";
 import type { PrepId } from "@/lib/butcher/science/prepModifiers";
 import type {

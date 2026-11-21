@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, type JSX } from "react";
 import { SystemBadge } from "@/components/lab/SystemBadge";
@@ -16,12 +17,22 @@ import {
   urlForButcherTab,
 } from "../butcherTabs";
 import { BreakdownPanel } from "./BreakdownPanel";
-import { ButcherElementsPanel } from "./ButcherElementsPanel";
-import { ButchersBlockPanel } from "./ButchersBlockPanel";
-import { ButcherSourcesPanel } from "./ButcherSourcesPanel";
 import { ButcherTelemetryHUD } from "./ButcherTelemetryHUD";
-import { ThermalGrainPanel } from "./ThermalGrainPanel";
 import { useButcherLab, type ButcherLabState } from "./useButcherLab";
+
+/**
+ * Breakdown is the default tab and ships with the route; the other panels
+ * (game engine + yield data, the thermal solver + 3D model, Elements, Sources)
+ * load when their tab opens, which keeps /kitchen-lab/butcher inside its
+ * route-size budget.
+ */
+function PanelLoading(): JSX.Element {
+  return <div className="bt-card text-xs text-white/50">Loading panel…</div>;
+}
+const ButchersBlockPanel = dynamic(() => import("./ButchersBlockPanel").then((m) => m.ButchersBlockPanel), { loading: PanelLoading });
+const ThermalGrainPanel = dynamic(() => import("./ThermalGrainPanel").then((m) => m.ThermalGrainPanel), { loading: PanelLoading });
+const ButcherElementsPanel = dynamic(() => import("./ButcherElementsPanel").then((m) => m.ButcherElementsPanel), { loading: PanelLoading });
+const ButcherSourcesPanel = dynamic(() => import("./ButcherSourcesPanel").then((m) => m.ButcherSourcesPanel), { loading: PanelLoading });
 
 /**
  * Main 5-tab Alchm Kitchen Butcher Shop workbench (`/kitchen-lab/butcher`).

@@ -14,11 +14,23 @@ jest.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(window.location.search),
 }));
 
-jest.mock("next/dynamic", () => () => {
-  const mod = jest.requireActual<
-    typeof import("@/app/(alchm)/kitchen-lab/butcher/_lab/ButcherStageCanvas")
-  >("@/app/(alchm)/kitchen-lab/butcher/_lab/ButcherStageCanvas");
-  return mod.ButcherStageCanvas;
+// Synchronous next/dynamic stand-in. jest.config sets resetModules, so an async
+// import() inside a test would load a second React and break hooks; instead the
+// loader's `.then((m) => m.X)` names the export and it is required up front.
+jest.mock("next/dynamic", () => (loader: () => unknown): unknown => {
+  const LAZY_MODULES: Readonly<Record<string, string>> = {
+    ButcherStageCanvas: "ButcherStageCanvas",
+    ButchersBlockPanel: "ButchersBlockPanel",
+    ThermalGrainPanel: "ThermalGrainPanel",
+    ButcherElementsPanel: "ButcherElementsPanel",
+    ButcherSourcesPanel: "ButcherSourcesPanel",
+    BoneLandmarkNotes: "BoneLandmarkNotes",
+    ComparisonTable: "CutComparisonTable",
+  };
+  const name = /\.then\(\(?(\w+)\)?\s*=>\s*\1\.(\w+)\)/.exec(String(loader))?.[2] ?? "";
+  const file = LAZY_MODULES[name];
+  if (file === undefined) throw new Error(`next/dynamic mock: unmapped loader ${String(loader)}`);
+  return jest.requireActual<Record<string, unknown>>(`@/app/(alchm)/kitchen-lab/butcher/_lab/${file}`)[name];
 });
 
 function clickFirst(name: RegExp): void {
@@ -26,6 +38,8 @@ function clickFirst(name: RegExp): void {
   if (!btn) throw new Error(`no button ${String(name)}`);
   fireEvent.click(btn);
 }
+
+
 
 describe("<ButcherLabApp /> v2", () => {
   beforeEach(() => {
@@ -44,7 +58,7 @@ describe("<ButcherLabApp /> v2", () => {
     fireEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByTestId("bt-svg-skeleton").querySelectorAll("line").length).toBeGreaterThanOrEqual(4);
-    const notes = screen.getByRole("list", { name: /bone landmarks and the cuts they explain/i });
+    const notes = await screen.findByRole("list", { name: /bone landmarks and the cuts they explain/i });
     expect(within(notes).getAllByRole("listitem").length).toBeGreaterThanOrEqual(4);
 
     fireEvent.click(toggle);
@@ -59,7 +73,7 @@ describe("<ButcherLabApp /> v2", () => {
 
     clickFirst(/^new york strip/i);
     fireEvent.click(screen.getByRole("button", { name: /pin new york strip to compare/i }));
-    const table = screen.getByRole("table", { name: /comparison of ribeye steak and new york strip/i });
+    const table = await screen.findByRole("table", { name: /comparison of ribeye steak and new york strip/i });
     expect(within(table).getByRole("rowheader", { name: /marbling/i })).toBeInTheDocument();
     expect(within(table).getByRole("rowheader", { name: /gray band/i })).toBeInTheDocument();
   });
@@ -95,7 +109,7 @@ describe("<ButcherLabApp /> v2", () => {
     fireEvent.click(screen.getByRole("button", { name: "Breakdown" }));
     clickFirst(/^ribeye steak/i);
     fireEvent.click(screen.getByRole("button", { name: "Thermal & Grain" }));
-    expect(screen.getByLabelText(/fat cap on face a: 0 mm/i)).toBeInTheDocument();
+    expect(await screen.findByLabelText(/fat cap on face a: 0 mm/i)).toBeInTheDocument();
     expect(screen.getByRole("checkbox", { name: /bone-in/i })).toBeChecked();
   });
 
@@ -110,7 +124,7 @@ describe("<ButcherLabApp /> v2", () => {
   it("runs a two-pull Master fabrication order, shows yield economics, and ranks beef mastery", async () => {
     render(<ButcherLabApp />);
     fireEvent.click(screen.getByRole("button", { name: "Butcher's Block" }));
-    fireEvent.click(screen.getByRole("button", { name: /master butcher/i }));
+    fireEvent.click(await screen.findByRole("button", { name: /master butcher/i }));
     for (let i = 0; i < 4; i += 1) fireEvent.click(screen.getByRole("button", { name: /next order ticket/i }));
     await waitFor(() => expect(screen.getByText(/steakhouse short loin breakdown/i)).toBeInTheDocument());
 
