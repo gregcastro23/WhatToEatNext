@@ -120,5 +120,5 @@ export function getCutsForPrimal(
 }
 
 export function getFdcRecordForCut(cut: AnatomicalCut): FdcButcherRecord | null {
-  return FDC_BUTCHER_RECORDS[cut.fdcId] ?? null;
+  return FDC_BUTCHER_RECORDS[cut.id] ?? null;
 }
