@@ -203,4 +203,19 @@ describe("prewarmAgentRecipes — deadline-aware", () => {
     expect(events).toEqual(["db-select", "pa-fetch-start", "pa-fetch-end", "db-cache-set"]);
     expect(setSpy).toHaveBeenCalledTimes(1);
   });
+
+  it("logs a single-line TimeoutError summary without dumping raw DOMException constants", async () => {
+    const errorSpy = jest.spyOn(console, "error").mockImplementation(() => undefined);
+    mockExecuteQuery.mockResolvedValueOnce({ rows: [agent("a1")] });
+    fetchMock.mockRejectedValueOnce(
+      new DOMException("The operation was aborted due to timeout", "TimeoutError"),
+    );
+
+    const result = await prewarmAgentRecipes(1, clock + 48_000);
+    expect(result).toEqual({ selected: 1, attempted: 1, generated: 0, skippedForBudget: 0 });
+    expect(errorSpy).toHaveBeenCalledWith(
+      "[ERROR] [prewarm] PA call failed for a1 (budget 45000ms): TimeoutError: The operation was aborted due to timeout",
+      "",
+    );
+  });
 });
