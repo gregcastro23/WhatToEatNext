@@ -2,6 +2,7 @@ import {
   getRecipeCountForIngredient,
   getRecipesForIngredient,
   resolveIngredientSlug,
+  resolveIngredientSlugMatch,
 } from "@/data/ingredientRecipeIndex";
 
 describe("ingredientRecipeIndex", () => {
@@ -38,10 +39,20 @@ describe("ingredientRecipeIndex", () => {
       expect(resolveIngredientSlug("bottled clam juice")).toBe("clam_juice");
     });
 
-    it("an uncarded nut butter is neither the nut nor dairy butter", () => {
-      expect(resolveIngredientSlug("unsweetened peanut butter")).toBeNull();
-      expect(resolveIngredientSlug("creamy almond butter")).toBe("almond_butter");
-      expect(resolveIngredientSlug("salted butter")).toBe("butter");
+    it("an uncarded derived product attributes to its base ingredient; dedicated cards stay non-derived", () => {
+      expect(resolveIngredientSlug("unsweetened peanut butter")).toBe("peanuts");
+      expect(resolveIngredientSlugMatch("unsweetened peanut butter")).toEqual({
+        slug: "peanuts",
+        derived: true,
+      });
+      expect(resolveIngredientSlugMatch("creamy almond butter")).toEqual({
+        slug: "almond_butter",
+        derived: false,
+      });
+      expect(resolveIngredientSlugMatch("salted butter")).toEqual({
+        slug: "butter",
+        derived: false,
+      });
     });
   });
 

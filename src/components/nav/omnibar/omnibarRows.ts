@@ -10,8 +10,15 @@ export function link(kind: RowKind, id: string, label: string, hint: string, hre
   return { type: "link", id, kind, label, hint, href, icon: KIND_ICON[kind], external: false };
 }
 
-export function recipeRow(section: string, recipe: RecipeWire, alternative = false): LinkRow {
-  const hint = `${(recipe.cuisine ?? "recipe").toUpperCase()}${alternative ? " · AS AN ALTERNATIVE" : ""}`;
+export interface RecipeRowFlags {
+  alternative?: boolean;
+  derived?: boolean;
+}
+
+export function recipeRow(section: string, recipe: RecipeWire, flags: RecipeRowFlags = {}): LinkRow {
+  const { alternative = false, derived = false } = flags;
+  const suffix = `${derived ? " · DERIVED" : ""}${alternative ? " · AS AN ALTERNATIVE" : ""}`;
+  const hint = `${(recipe.cuisine ?? "recipe").toUpperCase()}${suffix}`;
   return link("recipe", `${section}:${recipe.id}`, recipe.name, hint, recipe.href);
 }
 

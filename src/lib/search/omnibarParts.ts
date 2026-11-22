@@ -62,7 +62,7 @@ export function recipeRow(index: SearchIndex, id: string): RecipeRow | null {
   return { id, name, href: recipeHref(id), cuisine, totalMinutes, imageUrl };
 }
 
-/** The recipes that use an ingredient and pass `keep`, ranked (title mentions, then required, then name). */
+/** The recipes that use an ingredient and pass `keep`, ranked (title mentions, required direct, derived, alternative, name). */
 export function containingRows(index: SearchIndex, key: string, limit: number, keep: (id: string) => boolean = KEEP_ALL): { rows: ContainingRecipeRow[]; total: number } {
   const uses = (index.recipeUses.get(key) ?? []).filter((use) => keep(use.recipeId));
   const nameOf = (id: string): string => index.recipes.get(id)?.name ?? id;
@@ -70,7 +70,7 @@ export function containingRows(index: SearchIndex, key: string, limit: number, k
     .slice(0, limit)
     .flatMap((use) => {
       const row = recipeRow(index, use.recipeId);
-      return row ? [{ ...row, alternative: use.alternative }] : [];
+      return row ? [{ ...row, alternative: use.alternative, derived: use.derived }] : [];
     });
   return { rows, total: uses.length };
 }

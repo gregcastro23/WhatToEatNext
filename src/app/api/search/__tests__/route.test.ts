@@ -9,6 +9,7 @@
  *      a body cached before them still parses.
  */
 import { NextRequest } from "next/server";
+import type { IngredientKeyResolver } from "@/lib/search/recipeIngredientIndex";
 import { buildSearchIndex, type SearchIndex } from "@/lib/search/searchIndex";
 import type { SearchCatalogs } from "@/lib/search/types";
 import { OmnibarResponseSchema, SEARCH_QUERY_MAX_LENGTH } from "@/lib/validation/searchSchemas";
@@ -30,13 +31,18 @@ const CATALOGS: SearchCatalogs = {
   recipes: [
     { id: "11111111-1111-4111-8111-111111111111", name: "Spinach Pasta", cuisine: "Italian", totalMinutes: 30, meals: ["dinner"], imageUrl: "https://example.test/a.png", ingredientLines: ["spinach", "garlic"] },
     { id: "22222222-2222-4222-8222-222222222222", name: "Dan Dan Noodles", cuisine: "Chinese", totalMinutes: 45, meals: ["lunch"], imageUrl: null, ingredientLines: ["bok choy or spinach"] },
+    { id: "33333333-3333-4333-8333-333333333333", name: "Toum Bowl", cuisine: "Lebanese", totalMinutes: 20, meals: ["dinner"], imageUrl: null, ingredientLines: ["garlic sauce"] },
   ],
   cuisines: [{ key: "Thai", name: "Thai", href: "/cuisines/thai", terms: [] }],
   methods: [{ key: "braising", name: "Braising", href: "/cooking-methods/braising", terms: [] }],
   sauces: [],
 };
 
-const KEYS: Record<string, string> = { spinach: "spinach", garlic: "garlic" };
+const KEYS: Record<string, ReturnType<IngredientKeyResolver>> = {
+  spinach: "spinach",
+  garlic: "garlic",
+  "garlic sauce": { key: "garlic", derived: true },
+};
 const index: SearchIndex = buildSearchIndex(CATALOGS, (text) => KEYS[text.toLowerCase()] ?? null);
 
 async function get(query: string): Promise<Response> {
@@ -63,7 +69,17 @@ describe("GET /api/search", () => {
       { name: "nutmeg", href: null },
     ]);
     expect(body.recipesContaining.map((r) => r.name)).toEqual(["Spinach Pasta", "Dan Dan Noodles"]);
+    expect(body.recipesContaining[0]?.derived).toBe(false);
     expect(body.recipesContaining[1]?.alternative).toBe(true);
+    expect(body.recipesContaining[1]?.derived).toBe(false);
+  });
+
+  it("lists derived uses after direct uses with derived=true on the wire", async () => {
+    const body = OmnibarResponseSchema.parse(await (await get("garlic")).json());
+    expect(body.recipesContaining.map((r) => ({ name: r.name, derived: r.derived }))).toEqual([
+      { name: "Spinach Pasta", derived: false },
+      { name: "Toum Bowl", derived: true },
+    ]);
   });
 
   it("sends recipe rows as text only", async () => {
@@ -118,12 +134,26 @@ describe("GET /api/search", () => {
     expect(body.hero?.recipeCount).toBe(2);
   });
 
-  it("a body cached before the intent fields still parses, with none", () => {
-    const cached = { success: true, query: "x", top: null, corrected: null, hero: null, recipesContaining: [], recipes: [], ingredients: [], cuisines: [], methods: [], sauces: [], total: { ingredient: 0, recipe: 0, cuisine: 0, method: 0, sauce: 0 } };
+  it("a body cached before the intent and derived fields still parses, with defaults", () => {
+    const cached = {
+      success: true,
+      query: "x",
+      top: null,
+      corrected: null,
+      hero: null,
+      recipesContaining: [{ id: "r1", name: "Spinach Pasta", href: "/recipes/r1", cuisine: "Italian", alternative: false }],
+      recipes: [],
+      ingredients: [],
+      cuisines: [],
+      methods: [],
+      sauces: [],
+      total: { ingredient: 0, recipe: 0, cuisine: 0, method: 0, sauce: 0 },
+    };
     const body = OmnibarResponseSchema.parse(cached);
     expect(body.chips).toEqual([]);
     expect(body.coverage).toBeNull();
     expect(body.recipesContainingTotal).toBeUndefined();
+    expect(body.recipesContaining[0]?.derived).toBe(false);
   });
 
   it("answers 503 no-store when the index can't load", async () => {

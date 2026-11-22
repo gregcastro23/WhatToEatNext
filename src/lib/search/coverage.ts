@@ -3,8 +3,8 @@
  * use them together, most of the named ingredients first (plan §3).
  *
  * Order, each a named rule: more of the named ingredients; then more of them
- * in the title; then more of them required rather than "X or Y"; then name
- * A→Z. No quality tie-breaks (owner decision, round 2).
+ * in the title; then more of them required (direct, non-derived) rather than
+ * "X or Y" or derived; then name A→Z. No quality tie-breaks (owner decision, round 2).
  */
 import { ingredientHref } from "@/lib/ingredients/ingredientSlug";
 import { recipeHref, type SearchIndex } from "./searchIndex";
@@ -29,7 +29,7 @@ function tally(index: SearchIndex, keys: readonly string[], keep: Keep): Tally[]
       const entry = byRecipe.get(use.recipeId) ?? { id: use.recipeId, used: new Set<string>(), inTitle: 0, required: 0 };
       entry.used.add(key);
       entry.inTitle += Number(use.inTitle);
-      entry.required += Number(!use.alternative);
+      entry.required += Number(!use.alternative && !use.derived);
       byRecipe.set(use.recipeId, entry);
     }
   }

@@ -72,7 +72,9 @@ export function heroSections(response: OmnibarResponse, state: HeroState, contai
   if (!hero) return [];
   const name = titleCase(hero.name);
   const heroRow: HeroRow = { type: "hero", id: `hero:${hero.key}`, kind: "ingredient", label: name, hint: hero.category.toUpperCase(), href: hero.href, hero };
-  const withRows = response.recipesContaining.slice(0, containing).map((r) => recipeRow("with", r, r.alternative));
+  const withRows = response.recipesContaining
+    .slice(0, containing)
+    .map((r) => recipeRow("with", r, { alternative: r.alternative, derived: r.derived }));
   return [
     { id: "hero", title: "INGREDIENT", rows: [heroRow] },
     { id: "hero-actions", title: "", rows: heroActions(hero, state), layout: "chips", label: `Actions for ${name}` },

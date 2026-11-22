@@ -14,7 +14,7 @@
 import { writeFileSync } from "node:fs";
 
 import { getServerRecipes } from "@/actions/recipes";
-import { resolveIngredientSlug } from "@/data/ingredientRecipeIndex";
+import { resolveIngredientSlugMatch } from "@/data/ingredientRecipeIndex";
 import { getIngredientCatalog } from "@/lib/ingredients/ingredientCatalog";
 import { ingredientRecords } from "@/lib/search/catalogRecords";
 import { buildIngredientKeyResolver } from "@/lib/search/ingredientKeys";
@@ -30,23 +30,28 @@ function outPath(argv: readonly string[]): string | null {
 async function main(): Promise<void> {
   const recipes = await getServerRecipes();
   const ingredients = ingredientRecords(getIngredientCatalog().entries);
-  const keyOf = buildIngredientKeyResolver(ingredients, resolveIngredientSlug);
+  const keyOf = buildIngredientKeyResolver(ingredients, resolveIngredientSlugMatch);
   const audit = createLineAuditor(ingredients, keyOf);
   const lines = [...new Set(recipes.flatMap((r) => r.ingredients.map((i) => i.name)).filter(Boolean))].sort();
   const audits: LineAudit[] = lines.map(audit);
 
   const summary = summarizeLineAudits(audits);
-  console.log(`\n${recipes.length} recipes, ${summary.lines} distinct lines, ${summary.unresolved} resolve to no card`);
+  console.log(
+    `\n${recipes.length} recipes, ${summary.lines} distinct lines, ${summary.unresolved} resolve to no card, ${summary.derived} carry derived attribution`,
+  );
   for (const flag of FLAGS) {
     const hits = audits.filter((a) => a.flags.includes(flag));
     console.log(`\n${flag}: ${hits.length}`);
-    for (const a of hits) console.log(`  ${a.line}  →  ${a.keys.join(", ")}`);
+    for (const a of hits) {
+      const derivedTag = a.derived.length > 0 ? ` (derived: ${a.derived.join(", ")})` : "";
+      console.log(`  ${a.line}  →  ${a.keys.join(", ")}${derivedTag}`);
+    }
   }
 
   const out = outPath(process.argv);
   if (out !== null) {
-    const rows = audits.map((a) => [a.line, a.keys.join(","), a.flags.join(",")].join("\t"));
-    writeFileSync(out, `line\tkeys\tflags\n${rows.join("\n")}\n`);
+    const rows = audits.map((a) => [a.line, a.keys.join(","), a.derived.join(","), a.flags.join(",")].join("\t"));
+    writeFileSync(out, `line\tkeys\tderived\tflags\n${rows.join("\n")}\n`);
     console.log(`\nwrote ${audits.length} lines to ${out}`);
   }
 }

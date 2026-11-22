@@ -28,7 +28,7 @@ export function toOmnibarResponse(result: OmnibarResult): OmnibarResponse {
           pairings: result.hero.pairings.map(({ name, slug }) => ({ name, href: slug === null ? null : ingredientHref(slug) })),
         }
       : null,
-    recipesContaining: result.recipesContaining.map((row) => ({ ...textRow(row), alternative: row.alternative })),
+    recipesContaining: result.recipesContaining.map((row) => ({ ...textRow(row), alternative: row.alternative, derived: row.derived })),
     recipesContainingTotal: result.recipesContainingTotal,
     chips: result.chips.map((chip) => ({ ...chip })),
     coverage: result.coverage

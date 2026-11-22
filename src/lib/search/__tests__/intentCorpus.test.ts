@@ -4,7 +4,7 @@
  * shown). Recipes come from the static catalog, as in corpus.test.
  */
 import { getServerRecipes } from "@/actions/recipes";
-import { resolveIngredientSlug } from "@/data/ingredientRecipeIndex";
+import { resolveIngredientSlugMatch } from "@/data/ingredientRecipeIndex";
 import { classifyIngredientDiet } from "@/utils/ingredientDietaryClassification";
 import { buildIngredientKeyResolver } from "../ingredientKeys";
 import { buildIndexForRecipes } from "../loader";
@@ -20,7 +20,7 @@ let keyOf: IngredientKeyResolver;
 
 beforeAll(async () => {
   index = buildIndexForRecipes(await getServerRecipes());
-  keyOf = buildIngredientKeyResolver([...index.ingredients.values()], resolveIngredientSlug);
+  keyOf = buildIngredientKeyResolver([...index.ingredients.values()], resolveIngredientSlugMatch);
 }, 120_000);
 
 function search(query: string, limits: { perKindLimit?: number; containingLimit?: number } = {}): OmnibarResult {
@@ -104,6 +104,25 @@ describe("diet: derived from ingredients, the basis shown", () => {
     expect(vegetarian.has("Authentic Spaghetti alla Carbonara")).toBe(false);
     expect(vegetarian.has("Authentic Lasagna al Forno")).toBe(false);
     expect(search("vegan", ALL).recipes.map((r) => r.name)).toContain("Authentic Baba Ganoush");
+  });
+
+  it("step 2 derived diet diff controls: plant-derived recipes stay vegan, animal-derived stay excluded", () => {
+    const vegan = new Set(search("vegan", ALL).recipes.map((r) => r.name));
+    const vegetarian = new Set(search("vegetarian", ALL).recipes.map((r) => r.name));
+    // Positive controls: vegan recipes with derived lines (peanut butter, coconut butter,
+    // garbanzo flour, oat flour, ginger-garlic paste) preserve compliant verdicts.
+    for (const name of [
+      "CABBAGE SALAD WITH PEANUT DRESSING",
+      "LEMON WHIPPED COCONUT CREAM",
+      "HIGH-PROTEIN GLUTEN-FREE FLOUR MIX",
+      "Vegan Béchamel",
+      "Authentic Aloo Gobi",
+    ]) {
+      expect(vegan.has(name)).toBe(true);
+    }
+    // Negative controls: animal-derived lines stay excluded from vegetarian and vegan.
+    expect(vegetarian.has("Authentic Natto Gohan")).toBe(false);
+    expect(vegetarian.has("Authentic Malian Peanut Stew (Tigadèguèna)")).toBe(false);
   });
 
   it("gluten-free is recognised but not applied: the results are the plain search's", () => {

@@ -1,6 +1,6 @@
 # Ingredient Reverse-Index Rulings (2026-09-24)
 
-**Status:** Step 1 (`#883`) and Ruling 16 (`#882`) are **DONE**; Steps 2–7 remain **OPEN** (verified read-only against `master` `e5af9229`, 2026-11-21).
+**Status:** Steps 1 (`#883`) and 2 (derived products + hyphen rule) and Ruling 16 (`#882`) are **DONE**; Steps 3–7 remain **OPEN**.
 **Provenance:** Owner rulings answered 2026-09-24 after PR `#882` (omnibar recipe-line mapping). Transcribed into the repository from operator session notes so the decisions and build sequence are versioned alongside `docs/plans/omnibar-search-plan.md`.
 
 ---
@@ -10,11 +10,12 @@
 1. **Step 1 — Non-card slug fallback + plurals** ✅ **DONE (`#883` / `9fbdc617`, `db07fa0c`)**
    - `resolveIngredientSlug(input, accepts?)` slug filter, plural last-word matching, NFKD mark stripping, matcher moved to `src/data/ingredientContainment.ts`.
    - Unresolved lines dropped `377 -> 273`; beef `43 -> 86`.
-2. **Step 2 — Derived products (`derived` flag + hyphen rule; Rulings 1, 2, 4, 12)** — **OPEN (unblocked)**
-   - Needs a typed derived-head table plus a `derived` flag on `RecipeUse` / `keysForLine` / Zod schema / coverage / dossier / UI.
-   - `PRODUCT_HEADS` in `src/data/ingredientContainment.ts:37` currently still holds only `{ "butter" }`.
-   - Note: `src/lib/search/recipeDiet.ts:40` reads `keysForLine`, so filing a derived line (e.g., `chicken stock` -> `chicken`) changes a diet verdict input. Ship with a measured before/after diet diff containing both a positive and a negative control.
-3. **Step 3 — List split + exact-name guard (Rulings 9–11)** — **OPEN (blocked)**
+2. **Step 2 — Derived products (`derived` flag + hyphen rule; Rulings 1, 2, 4, 11 hyphen, 12, 17)** ✅ **DONE**
+   - Added typed `DERIVED_HEADS` table (`src/lib/search/derivedHeads.ts`: 15 heads across `butter`, `flour`/`meal`/`starch`, `milk`/`cream`/`water`, `oil`/`vinegar`/`extract`/`syrup`, `stock`/`broth`, `sauce`/`paste`) plus `NON_DERIVED_HEAD_MODIFIERS` (`"ice"`, `"white bread"`, `"nuoc cham"`) and `DERIVED_GAP_BLOCKERS`.
+   - Replaced `PRODUCT_HEADS = {"butter"}` exclusion with clause-preserving `containmentDetailMatcher` (`src/data/ingredientContainment.ts`), `resolveIngredientSlugMatch` (`src/data/ingredientRecipeIndex.ts`), plural-only catalog derived fallback & Ruling 11 hyphen compound splitting (`src/lib/search/ingredientKeys.ts`).
+   - Added `derived: boolean` to `RecipeUse` / `keysForLine` / `rankRecipeUses` (`src/lib/search/recipeIngredientIndex.ts`), `coverage.ts`, `ContainingRecipeRow`, `OmnibarResponseSchema` (`.default(false)` for cached payloads), `DossierRecipe`, `omnibarRows.ts`, `SearchResultsView.tsx`, `DossierDetailPanels.tsx`, `lineAudit.ts`, and `scripts/probeRecipeLineKeys.ts`.
+   - Measured over `1,113` static recipes / `2,675` distinct lines (`2026-11-22`): `unit-word: 0 -> 0`, `generic: 5 -> 2` (`corn`/`garbanzo`/`oat flour` resolved; `date sugar` & `ice water` left), `modifier: 44 -> 19`, `unresolved: 248 -> 243` (`peanut`/`coconut butter`, `white miso paste`), `derived: 80`; hero recipeCount deltas (`peanuts` `-> 26`, `oats` `-> 11`, `ginger` `-> 121`, `miso` `0 -> 1`, `fig` `0 -> 1`); before/after diet diff across all `1,113` recipes: `vegan 412 -> 412`, `vegetarian 676 -> 676` (`0` regressions, verified with plant-derived positive and animal-derived negative controls).
+3. **Step 3 — List split + exact-name guard (Rulings 9–11 `"and"` / `"&"` / comma lists)** — **OPEN (blocked)**
    - Blocked on an unruled disambiguation rule: distinguishing a comma **list** (`"thyme, rosemary"`) from a comma **prep note** (`"garlic, minced"`).
 4. **Step 4 — Curated tables (class heads, compounds, meat cuts) + parentheses (Rulings 5, 7, 8, 15, 17; Part words Ruling 6)** — **OPEN**
    - Typed tables in `src/lib/search/` with a stale-row detector; the corpus probe's `modifier` list is the worklist.

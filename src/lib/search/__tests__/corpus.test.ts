@@ -5,9 +5,10 @@
  */
 import { getServerRecipes } from "@/actions/recipes";
 import { allCookingMethods } from "@/data/cooking";
-import { resolveIngredientSlug } from "@/data/ingredientRecipeIndex";
+import { resolveIngredientSlugMatch } from "@/data/ingredientRecipeIndex";
 import { getIngredientCatalog } from "@/lib/ingredients/ingredientCatalog";
 import { slugToCuisineKey } from "@/utils/cuisineSlug";
+import { DERIVED_HEADS } from "../derivedHeads";
 import { buildIngredientKeyResolver } from "../ingredientKeys";
 import { createLineAuditor, summarizeLineAudits } from "../lineAudit";
 import { buildIndexForRecipes } from "../loader";
@@ -28,7 +29,7 @@ beforeAll(async () => {
   index = buildIndexForRecipes(await getServerRecipes());
   ingredients = [...index.ingredients.values()];
   // The resolver the loader builds, rebuilt here so lines can be probed one at a time.
-  keyOf = buildIngredientKeyResolver(ingredients, resolveIngredientSlug);
+  keyOf = buildIngredientKeyResolver(ingredients, resolveIngredientSlugMatch);
 }, 120_000);
 
 function search(query: string, now: Date = SEPTEMBER): OmnibarResult {
@@ -101,27 +102,77 @@ describe("destinations resolve", () => {
 
 describe("reverse index: a recipe line is filed under its head ingredient", () => {
   it.each([
-    ["garlic cloves", ["garlic"], false],
-    ["-4 cloves garlic", ["garlic"], false],
-    ["ground cloves", ["cloves"], false],
-    ["fresh lemon juice", ["lemon"], false],
-    ["lemon juice", ["lemon"], false],
-    ["freshly squeezed lime juice", ["lime"], false],
-    ["lemon or lime juice", ["lemon", "lime"], true],
-    ["unsweetened peanut butter", [], false],
-    ["lamb or mutton", ["lamb", "mutton"], true],
-    ["lamb, beef, or chicken", ["lamb", "beef", "chicken"], true],
+    ["garlic cloves", ["garlic"], false, []],
+    ["-4 cloves garlic", ["garlic"], false, []],
+    ["ground cloves", ["cloves"], false, []],
+    ["fresh lemon juice", ["lemon"], false, []],
+    ["lemon juice", ["lemon"], false, []],
+    ["freshly squeezed lime juice", ["lime"], false, []],
+    ["lemon or lime juice", ["lemon", "lime"], true, []],
+    ["unsweetened peanut butter", ["peanuts"], false, ["peanuts"]],
+    ["peanut butter", ["peanuts"], false, ["peanuts"]],
+    ["coconut butter", ["coconut"], false, ["coconut"]],
+    ["almond flour", ["almonds"], false, ["almonds"]],
+    ["corn flour", ["corn"], false, ["corn"]],
+    ["oat flour", ["oats"], false, ["oats"]],
+    ["garbanzo flour", ["chickpeas"], false, ["chickpeas"]],
+    ["almond meal", ["almonds"], false, ["almonds"]],
+    ["cashew cream", ["cashews"], false, ["cashews"]],
+    ["coconut water", ["coconut"], false, ["coconut"]],
+    ["lemon oil", ["lemon"], false, ["lemon"]],
+    ["umeboshi vinegar", ["umeboshi"], false, ["umeboshi"]],
+    ["anise extract", ["anise"], false, ["anise"]],
+    ["rice syrup", ["rice"], false, ["rice"]],
+    ["shrimp stock", ["shrimp"], false, ["shrimp"]],
+    ["shrimp stock or water", ["shrimp", "water"], true, ["shrimp"]],
+    ["dashi broth", ["dashi"], false, ["dashi"]],
+    ["peanut sauce", ["peanuts"], false, ["peanuts"]],
+    ["ginger-garlic paste", ["ginger", "garlic"], false, ["ginger", "garlic"]],
+    ["dashi-soy sauce", ["dashi", "soy_sauce"], false, ["dashi"]],
+    ["creamy almond butter", ["almond_butter"], false, []],
+    ["salted butter", ["butter"], false, []],
+    ["salted water", ["water"], false, []],
+    ["ice water", ["water"], false, []],
+    ["anchovies in oil", ["anchovies"], false, []],
+    ["oil-cured black olives", ["black_olives"], false, []],
+    ["tomato sauce/vinegar", ["tomato_sauce"], false, []],
+    ["potato starch flour", ["potato_starch"], false, []],
+    ["lamb or mutton", ["lamb", "mutton"], true, []],
+    ["lamb, beef, or chicken", ["lamb", "beef", "chicken"], true, []],
     // An index slug with no catalog card is skipped, not a dead end.
-    ["ground beef or lamb", ["beef", "lamb"], true],
-    ["beef chuck", ["beef"], false],
-    ["boneless chicken thighs", ["chicken"], false],
-    ["whole vanilla bean", ["vanilla"], false],
+    ["ground beef or lamb", ["beef", "lamb"], true, []],
+    ["beef chuck", ["beef"], false, []],
+    ["boneless chicken thighs", ["chicken"], false, []],
+    ["whole vanilla bean", ["vanilla"], false, []],
     // Plurals and accents in the line.
-    ["juice of 2 lemons", ["lemon"], false],
-    ["navel oranges", ["orange"], false],
-    ["-2 jalapeño peppers", ["jalapenos"], false],
-  ])("%s → %j", (line, keys, alternative) => {
-    expect(keysForLine(line, keyOf)).toEqual({ keys, alternative });
+    ["juice of 2 lemons", ["lemon"], false, []],
+    ["navel oranges", ["orange"], false, []],
+    ["-2 jalapeño peppers", ["jalapenos"], false, []],
+  ])("%s → %j (alt=%s, derived=%j)", (line, keys, alternative, derived) => {
+    expect(keysForLine(line, keyOf)).toEqual({ keys, alternative, derived });
+  });
+
+  it("derived-head table (Ruling 17) is well-formed and active heads resolve real corpus lines", () => {
+    const heads = DERIVED_HEADS.map((entry) => entry.head);
+    expect(new Set(heads).size).toBe(heads.length);
+    for (const entry of DERIVED_HEADS) {
+      expect(entry.head).toMatch(/^[a-z]+$/);
+      expect(entry.basis.trim().length).toBeGreaterThan(10);
+    }
+    const lines = [...new Set([...index.recipes.values()].flatMap((r) => r.ingredientLines))];
+    const activeDerivedHeads = [
+      "butter", "flour", "meal", "cream", "water", "oil", "vinegar",
+      "extract", "syrup", "stock", "broth", "sauce", "paste",
+    ];
+    for (const head of activeDerivedHeads) {
+      const hasSingleClauseHit = lines.some((line) => {
+        if (/\bor\b/i.test(line)) return false;
+        const tokens = normalizeText(line).tokens;
+        const hasWord = tokens.some((t) => t === head || t === `${head}s` || t === `${head}es`);
+        return hasWord && keysForLine(line, keyOf).derived.length > 0;
+      });
+      expect(hasSingleClauseHit).toBe(true);
+    }
   });
 
   it("the probe flags a resolver that files a line under a portion, generic or modifier card", () => {
@@ -130,6 +181,9 @@ describe("reverse index: a recipe line is filed under its head ingredient", () =
     expect(createLineAuditor(ingredients, wrong("cloves"))("garlic cloves").flags).toEqual(["unit-word"]);
     expect(createLineAuditor(ingredients, wrong("juice"))("juice of 1 lemon").flags).toEqual(["generic"]);
     expect(createLineAuditor(ingredients, wrong("peanuts"))("peanut butter").flags).toEqual(["modifier"]);
+    expect(
+      createLineAuditor(ingredients, () => ({ key: "turkey", derived: true }))("brown turkey figs").flags,
+    ).toEqual(["modifier"]);
   });
 
   it("no line is filed under a unit word; generic, modifier and unresolved lines may not grow", () => {
@@ -154,13 +208,18 @@ describe("reverse index: a recipe line is filed under its head ingredient", () =
     // [MEASURED 2026-10-05] after the importer's parser was corrected and hsca.ts rebuilt
     // (ranges, Unicode fractions, "of ...", "to taste", size patterns, adjective lists), over
     // 2,675 distinct lines: generic 7 → 5, modifier 44 → 44, unresolved 270 → 248.
+    // [MEASURED 2026-11-22] step 2 (derived products + hyphen compound splitting) over
+    // 2,675 distinct lines: generic 5 → 2 (corn/garbanzo/oat flour resolved; date sugar &
+    // ice water left), modifier 44 → 19, unresolved 248 → 243 (peanut/coconut butter,
+    // white miso paste), derived 80.
     expect(summary.flagged["unit-word"]).toBe(0);
-    expect(summary.flagged.generic).toBeLessThanOrEqual(5);
-    expect(summary.flagged.modifier).toBeLessThanOrEqual(44);
-    expect(summary.unresolved).toBeLessThanOrEqual(248);
+    expect(summary.flagged.generic).toBeLessThanOrEqual(2);
+    expect(summary.flagged.modifier).toBeLessThanOrEqual(19);
+    expect(summary.unresolved).toBeLessThanOrEqual(243);
+    expect(summary.derived).toBeGreaterThanOrEqual(75);
   });
 
-  it("hero recipe counts follow the head: lemon and garlic, not juice and cloves", () => {
+  it("hero recipe counts follow the head and derived products rank after required direct uses (Ruling 12)", () => {
     const count = (query: string): number => search(query).hero?.recipeCount ?? -1;
     // [MEASURED 2026-09-24] static catalog, master before #882 → #882 → step 1:
     // lemon 61 → 172 → 174, lime 22 → 64 → 64, garlic 267 → 280 → 280,
@@ -173,6 +232,17 @@ describe("reverse index: a recipe line is filed under its head ingredient", () =
     expect(count("cloves")).toBeLessThanOrEqual(25);
     expect(count("beef")).toBeGreaterThanOrEqual(80);
     expect(count("chicken")).toBeGreaterThanOrEqual(90);
+    expect(count("peanuts")).toBeGreaterThanOrEqual(25);
+    expect(count("oats")).toBeGreaterThanOrEqual(10);
+    expect(count("ginger")).toBeGreaterThanOrEqual(120);
+
+    const peanuts = searchOmnibar(index, "peanuts", { now: SEPTEMBER, containingLimit: 30 }).recipesContaining;
+    const directIdx = peanuts.findIndex((r) => r.name === "Authentic Cameroonian Ndolé");
+    const derivedIdx = peanuts.findIndex((r) => r.name === "Authentic Goi Cuon (Fresh Spring Rolls)");
+    expect(directIdx).toBeGreaterThanOrEqual(0);
+    expect(derivedIdx).toBeGreaterThan(directIdx);
+    expect(peanuts[directIdx]?.derived).toBe(false);
+    expect(peanuts[derivedIdx]?.derived).toBe(true);
   });
 });
 

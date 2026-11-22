@@ -122,9 +122,13 @@ export interface RecipeRow {
   imageUrl: string | null;
 }
 
-/** A recipe that uses the hero ingredient; `alternative` = an "X or Y" line. */
+/**
+ * A recipe that uses the hero ingredient; `alternative` = an "X or Y" line,
+ * `derived` = only named via a derived product ("peanut butter" → peanuts).
+ */
 export interface ContainingRecipeRow extends RecipeRow {
   alternative: boolean;
+  derived: boolean;
 }
 
 export interface Correction {

@@ -206,4 +206,4 @@ Full record: issue #870. Where these differ from earlier sections, they win.
 
 ## 11. Reverse-Index Rulings (2026-09-24)
 
-See [reverse-index-rulings.md](./reverse-index-rulings.md) for the 20 owner rulings governing recipe-line attribution (`derived` uses, part words, lists, non-card slugs, curated tables, drawer rebuild, and the zero-unruled-flag ratchet) across build steps 1–7. Step 1 (`#883`) and Ruling 16 (`#882`) are shipped; Steps 2–7 remain open.
+See [reverse-index-rulings.md](./reverse-index-rulings.md) for the 20 owner rulings governing recipe-line attribution (`derived` uses, part words, lists, non-card slugs, curated tables, drawer rebuild, and the zero-unruled-flag ratchet) across build steps 1–7. Steps 1 (`#883`), 2 (derived products + hyphen rule), and Ruling 16 (`#882`) are shipped; Steps 3–7 remain open.
