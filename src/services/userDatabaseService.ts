@@ -6,6 +6,10 @@
 
 import { randomUUID } from "crypto";
 import type { UserProfile } from "@/contexts/UserContext";
+import {
+  AGENTIC_EMAIL_DOMAIN,
+  canonicalizeAgentEmail,
+} from "@/lib/agents/canonicalizeAgentEmail";
 import type { User, UserRole } from "@/lib/auth/jwt-auth";
 import { _logger } from "@/lib/logger";
 import {
@@ -417,7 +421,7 @@ class UserDatabaseService {
   async getUserByEmail(email: string): Promise<UserWithProfile | null> {
     await this.ensureInitialized();
     const db = await getDbModule();
-    const normalizedEmail = email.toLowerCase();
+    const normalizedEmail = canonicalizeAgentEmail(email);
 
     // Try PostgreSQL first
     if (db) {
@@ -490,17 +494,18 @@ class UserDatabaseService {
     await this.ensureInitialized();
     const db = await getDbModule();
 
-    const normalizedEmail = email.toLowerCase().trim();
-    if (!normalizedEmail.endsWith("@agentic.alchm.kitchen")) {
+    const normalizedEmail = canonicalizeAgentEmail(email);
+    if (!normalizedEmail.endsWith(AGENTIC_EMAIL_DOMAIN)) {
       throw new Error(
         `ensurePlanetaryAgent: refusing to auto-provision outside @agentic.alchm.kitchen namespace (got: ${normalizedEmail})`,
       );
     }
 
     const [localPart] = normalizedEmail.split("@");
+    const fallbackSlug = (localPart ?? "").replace(/^planetary-/, "");
     const resolvedName =
       displayName?.trim() ||
-      (localPart ?? "")
+      fallbackSlug
         .split("-")
         .filter(Boolean)
         .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
@@ -1132,7 +1137,7 @@ class UserDatabaseService {
   async emailExists(email: string): Promise<boolean> {
     await this.ensureInitialized();
     const db = await getDbModule();
-    const normalizedEmail = email.toLowerCase();
+    const normalizedEmail = canonicalizeAgentEmail(email);
 
     // Try PostgreSQL first
     if (db) {

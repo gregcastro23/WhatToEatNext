@@ -16,6 +16,10 @@
  */
 
 import { NextResponse } from "next/server";
+import {
+  AGENTIC_EMAIL_DOMAIN,
+  canonicalizeAgentEmail,
+} from "@/lib/agents/canonicalizeAgentEmail";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { getServiceUrl } from "@/lib/serviceUrls";
@@ -34,7 +38,6 @@ function localPart(email: string): string {
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
 const PA_SYNC_TIMEOUT_MS = 5000;
 const BATCH_CONCURRENCY = 4;
 
@@ -149,7 +152,7 @@ async function resolveSyncTargets(
   }
 
   if (body.email) {
-    const email = body.email.toLowerCase().trim();
+    const email = canonicalizeAgentEmail(body.email);
     if (!email.endsWith(AGENTIC_EMAIL_DOMAIN)) {
       return {
         ok: false,
@@ -179,8 +182,9 @@ async function resolveSyncTargets(
   }
 
   if (body.agentId) {
-    const agentId = body.agentId.trim();
-    const email = `${agentId}${AGENTIC_EMAIL_DOMAIN}`;
+    const rawAgentId = body.agentId.trim();
+    const email = canonicalizeAgentEmail(`${rawAgentId}${AGENTIC_EMAIL_DOMAIN}`);
+    const agentId = localPart(email);
     const user = await userDatabase
       .getUserByEmail(email)
       .catch(() => null);

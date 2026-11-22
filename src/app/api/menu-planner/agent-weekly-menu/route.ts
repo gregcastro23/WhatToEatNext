@@ -17,6 +17,10 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+import {
+  AGENTIC_EMAIL_DOMAIN,
+  canonicalizeAgentEmail,
+} from "@/lib/agents/canonicalizeAgentEmail";
 import { bearerMatches } from "@/lib/hooks/secureCompare";
 import { resolvePublicationDeliveryKey } from "@/lib/publications/deliveryKey";
 import { calculateSemanticFingerprint } from "@/lib/publications/semanticFingerprint";
@@ -37,7 +41,6 @@ const logger = createLogger("agent-weekly-menu");
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
 const MAX_AGENT_EMAIL_LENGTH = 320;
 const MAX_TITLE_LENGTH = 120;
 const MAX_SUMMARY_LENGTH = 280;
@@ -120,9 +123,11 @@ function normalizeAgentEmail(body: AgentWeeklyMenuBody): string | null {
   const rawSlug = asString(body.agentSlug, 160);
   const candidate = (rawEmail ?? rawSlug ?? "").toLowerCase().trim();
   if (!candidate) return null;
-  const email = candidate.includes("@")
-    ? candidate
-    : `${candidate}${AGENTIC_EMAIL_DOMAIN}`;
+  const email = canonicalizeAgentEmail(
+    candidate.includes("@")
+      ? candidate
+      : `${candidate}${AGENTIC_EMAIL_DOMAIN}`,
+  );
   if (!email.endsWith(AGENTIC_EMAIL_DOMAIN)) return null;
   return email;
 }

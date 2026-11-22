@@ -10,6 +10,10 @@
  * old opt-in rule, so the default flip can never de-anonymize an existing row.
  */
 
+import {
+  AGENTIC_EMAIL_DOMAIN,
+  canonicalizeAgentEmail,
+} from "@/lib/agents/canonicalizeAgentEmail";
 import { executeQuery } from "@/lib/database/connection";
 import {
   buildIdentityStamp,
@@ -397,11 +401,12 @@ class FeedDatabaseService {
     eventType: string;
     metadataPayload: Record<string, unknown>;
   }): Promise<void> {
-    let agentEmail = params.agentEmail.toLowerCase().trim();
-    if (!agentEmail.endsWith("@agentic.alchm.kitchen")) {
-      const [agentId] = agentEmail.split("@");
-      agentEmail = `${agentId}@agentic.alchm.kitchen`;
-    }
+    const normalizedInput = canonicalizeAgentEmail(params.agentEmail);
+    const agentEmail = normalizedInput.endsWith(AGENTIC_EMAIL_DOMAIN)
+      ? normalizedInput
+      : canonicalizeAgentEmail(
+          `${normalizedInput.split("@")[0] ?? normalizedInput}${AGENTIC_EMAIL_DOMAIN}`,
+        );
 
     const { getServiceUrlSafe } = await import("@/lib/serviceUrls");
     const PLANETARY_AGENTS_URL = getServiceUrlSafe("planetaryAgentsApi");
