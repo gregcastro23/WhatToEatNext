@@ -45,6 +45,7 @@ jest.mock("jose", () => ({
 
 // Mock auth and dependencies using the SAME paths used in dynamic imports
 import { jwtVerify } from "jose";
+import { _logger } from "@/lib/logger";
 import {
   __resetValidateRequestTestLoaders,
   __setValidateRequestTestLoaders,
@@ -213,5 +214,91 @@ describe("validateRequest: validateToken DB error isolation", () => {
     const result = await validateToken("valid.jwt.token");
     expect(result.valid).toBe(true);
     expect(result.user?.userId).toBe("user-123");
+  });
+});
+
+describe("validateRequest: validateToken fail-closed JWT_SECRET guard", () => {
+  const mockedJwtVerify = jest.mocked(jwtVerify);
+  const originalJwtSecret = process.env.JWT_SECRET;
+  const userDb = {
+    getUserById: jest.fn(),
+    getUserByEmail: jest.fn(),
+    createUser: jest.fn(),
+    isUserActiveById: jest.fn(),
+  };
+  let loggerErrorSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    __resetValidateRequestTestLoaders();
+    __setValidateRequestTestLoaders({
+      userDatabaseLoader: async () => userDb,
+    });
+    loggerErrorSpy = jest.spyOn(_logger, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    __resetValidateRequestTestLoaders();
+    loggerErrorSpy.mockRestore();
+    if (originalJwtSecret === undefined) delete process.env.JWT_SECRET;
+    else process.env.JWT_SECRET = originalJwtSecret;
+  });
+
+  it("returns statusCode 503 and skips jwtVerify when JWT_SECRET is unset", async () => {
+    delete process.env.JWT_SECRET;
+
+    const result = await validateToken("any.jwt.token");
+    expect(result).toEqual({
+      valid: false,
+      error: "Authentication service misconfigured",
+      statusCode: 503,
+    });
+    expect(mockedJwtVerify).not.toHaveBeenCalled();
+    expect(loggerErrorSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("returns statusCode 503 and skips jwtVerify when JWT_SECRET is whitespace-only", async () => {
+    process.env.JWT_SECRET = "   ";
+
+    const result = await validateToken("any.jwt.token");
+    expect(result).toEqual({
+      valid: false,
+      error: "Authentication service misconfigured",
+      statusCode: 503,
+    });
+    expect(mockedJwtVerify).not.toHaveBeenCalled();
+    expect(loggerErrorSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("fails closed with 503 after cache reset when JWT_SECRET is subsequently deleted", async () => {
+    process.env.JWT_SECRET = "unit-test-secret-0123456789abcdef";
+    mockedJwtVerify.mockResolvedValue({
+      payload: {
+        userId: "user-123",
+        email: "probe@alchm.kitchen",
+        roles: ["user"],
+        scopes: [],
+        iat: 1,
+        exp: 9_999_999_999,
+        iss: "alchm",
+      },
+      protectedHeader: { alg: "HS256" },
+      key: new Uint8Array(),
+    });
+    userDb.isUserActiveById.mockResolvedValue(true);
+
+    const first = await validateToken("valid.jwt.token");
+    expect(first.valid).toBe(true);
+
+    __resetValidateRequestTestLoaders();
+    delete process.env.JWT_SECRET;
+
+    const second = await validateToken("valid.jwt.token");
+    expect(second).toEqual({
+      valid: false,
+      error: "Authentication service misconfigured",
+      statusCode: 503,
+    });
+    expect(mockedJwtVerify).toHaveBeenCalledTimes(1);
   });
 });

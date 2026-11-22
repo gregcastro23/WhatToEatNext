@@ -68,22 +68,30 @@ export function __setValidateRequestTestLoaders(loaders: {
 export function __resetValidateRequestTestLoaders(): void {
   authLoader = defaultAuthLoader;
   userDatabaseLoader = defaultUserDatabaseLoader;
+  _jwtSecret = null;
 }
 
 const getAuth = () => authLoader();
 const getUserDatabase = () => userDatabaseLoader();
 
+/** Thrown when `JWT_SECRET` is unset or empty at token verification time. */
+export class JwtSecretMissingError extends Error {
+  constructor() {
+    super("JWT_SECRET environment variable is not set");
+    this.name = "JwtSecretMissingError";
+  }
+}
+
 // JWT Secret - lazy initialization
 let _jwtSecret: Uint8Array | null = null;
 function getJWTSecret(): Uint8Array {
   if (_jwtSecret) return _jwtSecret;
-  const secret = process.env.JWT_SECRET;
+  const secret = process.env.JWT_SECRET?.trim();
   if (!secret) {
     _logger.error(
-      "JWT_SECRET environment variable is not set. This may cause authentication issues in development/preview environments.",
+      "[validateRequest] JWT_SECRET environment variable is not set; refusing bearer JWT verification.",
     );
-    // Return a dummy secret to prevent immediate crash if not required
-    return new TextEncoder().encode("dummy-secret-not-for-production");
+    throw new JwtSecretMissingError();
   }
   // jose expects a Uint8Array for the secret
   _jwtSecret = new TextEncoder().encode(secret);
@@ -179,6 +187,13 @@ export async function validateToken(token: string): Promise<ValidationResult> {
     }
     decoded = parsed;
   } catch (error) {
+    if (error instanceof JwtSecretMissingError) {
+      return {
+        valid: false,
+        error: "Authentication service misconfigured",
+        statusCode: 503,
+      };
+    }
     if (error instanceof JOSEerrors.JWTExpired) {
       return {
         valid: false,

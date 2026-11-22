@@ -101,6 +101,39 @@ describe("Admin Response Schemas Producer-Bound Round-Trip", () => {
     expect(parsed.live).toBe(true);
   });
 
+  it("marks auth-jwt READY, PARTIAL, and OFF accurately across AUTH_SECRET and JWT_SECRET states", async () => {
+    const prevAuth = process.env.AUTH_SECRET;
+    const prevJwt = process.env.JWT_SECRET;
+    try {
+      process.env.AUTH_SECRET = "test-auth-secret";
+      process.env.JWT_SECRET = "test-jwt-secret";
+      const readyReport = await getLaunchReadiness();
+      const readyAuthJwt = readyReport.subsystems.find((s) => s.key === "auth-jwt");
+      expect(readyAuthJwt?.status).toBe("READY");
+      expect(readyAuthJwt?.configured).toBe(2);
+      expect(readyAuthJwt?.total).toBe(2);
+
+      delete process.env.JWT_SECRET;
+      const partialReport = await getLaunchReadiness();
+      const partialAuthJwt = partialReport.subsystems.find((s) => s.key === "auth-jwt");
+      expect(partialAuthJwt?.status).toBe("PARTIAL");
+      expect(partialAuthJwt?.configured).toBe(1);
+      expect(partialAuthJwt?.total).toBe(2);
+
+      delete process.env.AUTH_SECRET;
+      const offReport = await getLaunchReadiness();
+      const offAuthJwt = offReport.subsystems.find((s) => s.key === "auth-jwt");
+      expect(offAuthJwt?.status).toBe("OFF");
+      expect(offAuthJwt?.configured).toBe(0);
+      expect(offAuthJwt?.total).toBe(2);
+    } finally {
+      if (prevAuth === undefined) delete process.env.AUTH_SECRET;
+      else process.env.AUTH_SECRET = prevAuth;
+      if (prevJwt === undefined) delete process.env.JWT_SECRET;
+      else process.env.JWT_SECRET = prevJwt;
+    }
+  });
+
   it("rejects malformed admin payload cleanly", () => {
     const badPayload = {
       success: true,

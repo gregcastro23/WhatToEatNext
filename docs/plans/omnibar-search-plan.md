@@ -201,3 +201,9 @@ Full record: issue #870. Where these differ from earlier sections, they win.
 - **Data:** union catalog (src/data wins) now, then migrate the 89 unified-only entries into src/data and retire the unified catalog; slug dossiers with SSR and sitemap; the dossier's "used in" list from the live reverse index; pantry stays local for now; data blockers get fixed inline in the phase that needs them.
 - **Sequence:** 2 → 2.5 → 3 → 4 → 5 → 6 → 7 (table above).
 - **Process:** Claude merges each phase PR once CI is green and the preview or local-prod checks pass, then verifies production.
+
+---
+
+## 11. Reverse-Index Rulings (2026-09-24)
+
+See [reverse-index-rulings.md](./reverse-index-rulings.md) for the 20 owner rulings governing recipe-line attribution (`derived` uses, part words, lists, non-card slugs, curated tables, drawer rebuild, and the zero-unruled-flag ratchet) across build steps 1–7. Step 1 (`#883`) and Ruling 16 (`#882`) are shipped; Steps 2–7 remain open.
