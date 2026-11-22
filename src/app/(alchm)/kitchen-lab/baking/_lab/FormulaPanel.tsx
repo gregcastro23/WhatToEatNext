@@ -3,6 +3,7 @@
 import { useState, type JSX } from "react";
 import { BAKING_INGREDIENTS, bakingIngredient, CATEGORY_LABELS } from "@/data/baking";
 import type { FormulaTelemetry } from "@/lib/baking/formulaTypes";
+import { householdMeasure } from "@/lib/baking/householdMeasure";
 import type { BakingCategory } from "@/lib/baking/types";
 import { DraftNumberInput } from "./DraftNumberInput";
 import { fmtNum } from "./format";
@@ -12,7 +13,7 @@ const CATEGORIES = Object.keys(CATEGORY_LABELS).filter((k): k is BakingCategory 
 
 function IngredientSelect({ value, onChange, label }: { value: string; onChange: (id: string) => void; label: string }): JSX.Element {
   return (
-    <select className="bl-input max-w-[15rem]" aria-label={label} value={value} onChange={(e) => onChange(e.target.value)}>
+    <select className="bl-input w-[9.5rem] sm:w-auto sm:max-w-[15rem]" aria-label={label} value={value} onChange={(e) => onChange(e.target.value)}>
       {CATEGORIES.map((category) => (
         <optgroup key={category} label={CATEGORY_LABELS[category]}>
           {BAKING_INGREDIENTS.filter((i) => i.category === category).map((i) => (
@@ -24,6 +25,50 @@ function IngredientSelect({ value, onChange, label }: { value: string; onChange:
       ))}
     </select>
   );
+}
+
+/** "≈ 2 ¼ cups" for a line's grams; hover names the USDA portion it divides by. */
+function MeasureLabel({ ingredientId, grams }: { ingredientId: string; grams: number }): JSX.Element {
+  const m = householdMeasure(ingredientId, grams);
+  if (!m.ok) {
+    return (
+      <span className="text-white/35" title={`No US measure: ${m.reason}`}>
+        —
+      </span>
+    );
+  }
+  return (
+    <span className="text-white/80" title={`${m.basis.kind}: ${m.basis.note ?? m.how}`}>
+      ≈ {m.text}
+    </span>
+  );
+}
+
+/** The grams input; below `md` the household measure sits under it, so a phone needs no sideways scroll. */
+function GramsCell({ lab, index, ingredientId, grams, name }: { lab: BakingLab; index: number; ingredientId: string; grams: number; name: string }): JSX.Element {
+  return (
+    <td>
+      <DraftNumberInput
+        className="bl-input bl-num w-24 text-right"
+        label={`${name} grams`}
+        value={grams}
+        min={0}
+        max={100000}
+        step={1}
+        digits={1}
+        onCommit={(g) => lab.dispatch({ type: "grams", line: index, grams: g })}
+      />
+      <span className="bl-num mt-0.5 block whitespace-nowrap text-right text-[11px] md:hidden">
+        <MeasureLabel ingredientId={ingredientId} grams={grams} />
+      </span>
+    </td>
+  );
+}
+
+/** Markdown cell for the copied formula: the same measure, or a dash. */
+function measureText(ingredientId: string, grams: number): string {
+  const m = householdMeasure(ingredientId, grams);
+  return m.ok ? `≈ ${m.text}` : "—";
 }
 
 interface RowProps {
@@ -43,17 +88,9 @@ function FormulaRow({ lab, index, telemetry }: RowProps): JSX.Element | null {
       <td>
         <IngredientSelect label={`Ingredient on line ${index + 1}`} value={line.ingredientId} onChange={(id) => lab.dispatch({ type: "ingredient", line: index, id })} />
       </td>
-      <td>
-        <DraftNumberInput
-          className="bl-input bl-num w-24 text-right"
-          label={`${ingredient.name} grams`}
-          value={line.grams}
-          min={0}
-          max={100000}
-          step={1}
-          digits={1}
-          onCommit={(grams) => lab.dispatch({ type: "grams", line: index, grams })}
-        />
+      <GramsCell lab={lab} index={index} ingredientId={line.ingredientId} grams={line.grams} name={ingredient.name} />
+      <td className="bl-num hidden whitespace-nowrap text-right md:table-cell">
+        <MeasureLabel ingredientId={line.ingredientId} grams={line.grams} />
       </td>
       <td className="bl-num text-right">{bakers === null ? "—" : `${bakers.toFixed(1)} %`}</td>
       <td className="hidden md:table-cell">
@@ -120,7 +157,7 @@ export function formatFormulaMarkdown(state: LabState, t: FormulaTelemetry | nul
   const rows = state.formula.lines.map((l, i) => {
     const ing = bakingIngredient(l.ingredientId);
     const bp = t?.bakersPercent[i] ?? null;
-    return `| ${ing.name} | ${l.grams.toFixed(1)} g | ${bp === null ? "—" : `${bp.toFixed(1)} %`} |`;
+    return `| ${ing.name} | ${l.grams.toFixed(1)} g | ${measureText(l.ingredientId, l.grams)} | ${bp === null ? "—" : `${bp.toFixed(1)} %`} |`;
   });
   const hydration = t?.trueHydrationPct === null || t === null ? "—" : `${t.trueHydrationPct.toFixed(1)} %`;
   const aw = t?.waterActivity.available ? t.waterActivity.value.aw.toFixed(3) : "—";
@@ -129,9 +166,11 @@ export function formatFormulaMarkdown(state: LabState, t: FormulaTelemetry | nul
     `### ${state.formula.name}`,
     `Flour base: ${fmtNum(t?.flourGrams ?? null, 0)} g · True hydration: ${hydration} · Water activity (a_w): ${aw} · Oven: ${state.oven.ovenC} °C${stage2} for ${state.oven.bakeMinutes} min (${state.oven.mode})`,
     "",
-    "| Ingredient | Grams | Baker's % |",
-    "| :--- | ---: | ---: |",
+    "| Ingredient | Grams | ≈ US measure | Baker's % |",
+    "| :--- | ---: | ---: | ---: |",
     ...rows,
+    "",
+    "≈ US measures divide by USDA FoodData Central household portions for each ingredient; grams are the quantity of record.",
   ].join("\n");
 }
 
@@ -185,6 +224,7 @@ export function FormulaPanel({ lab }: { lab: BakingLab }): JSX.Element {
             <tr>
               <th scope="col">Ingredient</th>
               <th scope="col" className="text-right">Grams</th>
+              <th scope="col" className="hidden whitespace-nowrap text-right md:table-cell">≈ US measure</th>
               <th scope="col" className="text-right">Baker&apos;s %</th>
               <th scope="col" className="hidden md:table-cell">Function</th>
               <th scope="col" className="text-right">
@@ -199,6 +239,9 @@ export function FormulaPanel({ lab }: { lab: BakingLab }): JSX.Element {
           </tbody>
         </table>
       </div>
+      <p className="mt-2 text-[11px] text-white/45">
+        ≈ US measures divide each line&apos;s grams by USDA FoodData Central&apos;s own household weight for that ingredient (1 cup bread flour = 137 g, 1 large egg = 50 g). Hover a measure for its record. Grams stay the quantity of record.
+      </p>
       <AddLine lab={lab} />
       <LimitScaler lab={lab} />
       {telemetry.available ? null : <p className="mt-3 text-sm text-amber-200/80">{telemetry.reason}</p>}

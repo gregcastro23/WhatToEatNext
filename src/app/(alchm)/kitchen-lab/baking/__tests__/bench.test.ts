@@ -71,7 +71,10 @@ describe("what is on the bench", () => {
     const derived = deriveLab(s0);
     const md = formatFormulaMarkdown(s0, derived.telemetry.available ? derived.telemetry.value : null);
     expect(md).toContain(`### ${s0.formula.name}`);
-    expect(md).toContain("| Ingredient | Grams | Baker's % |");
+    expect(md).toContain("| Ingredient | Grams | ≈ US measure | Baker's % |");
     expect(md).toContain("Bread flour");
+    // Each row carries the household measure beside its grams (bread flour: USDA 1 cup = 137 g).
+    const flourRow = md.split("\n").find((r) => r.startsWith("| Bread flour |"));
+    expect(flourRow).toMatch(/\| ≈ [\d ¼⅓½⅔¾]+ cups? \|/);
   });
 });
