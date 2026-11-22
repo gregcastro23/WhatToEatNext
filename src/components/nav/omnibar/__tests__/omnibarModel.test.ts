@@ -7,6 +7,7 @@ import type { OmnibarResponse } from "@/lib/validation/searchSchemas";
 import { matchNav } from "../navMatches";
 import { buildOmnibarModel, LIMITS, smartEnterTarget, type OmnibarModel } from "../omnibarModel";
 import { NO_HERO_STATE, type HeroState } from "../omnibarHero";
+import { recipeRow } from "../omnibarRows";
 import type { LinkRow, OmnibarRow, SearchStatus } from "../omnibarTypes";
 import { loadRecent, pushRecent } from "../recentPicks";
 import { loadIndex, wire } from "./helpers/wireSearch";
@@ -59,6 +60,20 @@ describe("buildOmnibarModel", () => {
     const ids = (id: string): string[] => (m.sections.find((s) => s.id === id)?.rows ?? []).map((r) => r.href);
     const shown = new Set(ids("with"));
     expect(ids("recipes").filter((href) => shown.has(href))).toEqual([]);
+  });
+
+  it("labels derived recipes with DERIVED (and DERIVED · AS AN ALTERNATIVE when optional)", () => {
+    const m = model("oats");
+    const withRows = m.sections.find((s) => s.id === "with")?.rows ?? [];
+    const crust = withRows.find((r) => r.label === "ALMOND-OAT CRUST (FOR ALMOND-FRUIT TART)");
+    const direct = withRows.find((r) => r.label === "CORNMEAL CRUST");
+    const tart = withRows.find((r) => r.label === "ALMOND-FRUIT TART WITH ALMOND CRUST");
+    expect(crust?.hint).toMatch(/· DERIVED$/);
+    expect(direct?.hint).not.toContain("DERIVED");
+    expect(tart?.hint).toMatch(/· DERIVED$/);
+    expect(
+      recipeRow("with", { id: "1", name: "Test", href: "/recipes/1", cuisine: "Thai" }, { alternative: true, derived: true }).hint,
+    ).toBe("THAI · DERIVED · AS AN ALTERNATIVE");
   });
 
   it("pantry: the Pantry page leads and suppresses the server's fuzzy hero and correction (merge rule)", () => {

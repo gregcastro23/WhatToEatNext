@@ -78,6 +78,7 @@ function RecipeRow({ recipe }: { recipe: DossierRecipe }): JSX.Element {
         <div style={{ fontSize: 13, color: "var(--fg)" }}>{recipe.name}</div>
         <div className="t-mono" style={{ fontSize: 9, color: "var(--fg-mute)", marginTop: 2, letterSpacing: "0.1em" }}>
           {recipe.cuisine?.toUpperCase() ?? "—"}
+          {recipe.derived ? " · DERIVED" : ""}
           {recipe.alternative ? " · OR ALTERNATIVE" : ""}
         </div>
       </div>

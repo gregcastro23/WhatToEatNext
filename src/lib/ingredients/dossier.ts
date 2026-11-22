@@ -28,6 +28,8 @@ export interface DossierRecipe {
   totalMinutes: number | null;
   /** Used only as one side of an "X or Y" line. */
   alternative: boolean;
+  /** Only named via a derived product ("peanut butter" → peanuts). */
+  derived: boolean;
 }
 
 export interface IngredientDossier {
@@ -58,13 +60,14 @@ export function resolveDossierTarget(param: string): DossierTarget {
 export async function getIngredientDossier(entry: CatalogIngredient): Promise<IngredientDossier> {
   const index = await getSearchIndex();
   const recipes = containingRows(index, entry.key, DEFAULT_CONTAINING).rows.map(
-    ({ id, name, href, cuisine, totalMinutes, alternative }): DossierRecipe => ({
+    ({ id, name, href, cuisine, totalMinutes, alternative, derived }): DossierRecipe => ({
       id,
       name,
       href,
       cuisine,
       totalMinutes,
       alternative,
+      derived,
     }),
   );
   const card = toDossierCard(catalogRecord(entry), entry.name);

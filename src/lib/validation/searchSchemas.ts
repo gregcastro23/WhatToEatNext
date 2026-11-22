@@ -86,7 +86,9 @@ export const OmnibarResponseSchema = z.object({
   top: EntitySchema.extend({ exact: z.boolean() }).nullable(),
   corrected: CorrectionSchema.nullable(),
   hero: HeroSchema.nullable(),
-  recipesContaining: z.array(RecipeRowSchema.extend({ alternative: z.boolean() })),
+  recipesContaining: z.array(
+    RecipeRowSchema.extend({ alternative: z.boolean(), derived: z.boolean().default(false) }),
+  ),
   /**
    * Phase 5 fields. Tolerant, so a response cached before them still parses:
    * a missing total falls back to the hero's own count.

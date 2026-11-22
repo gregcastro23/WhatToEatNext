@@ -14,7 +14,7 @@
 
 import { isInternalCuisineCode } from "@/utils/internalCuisineCodes";
 import rawIndex from "./generated/ingredientRecipeIndex.json";
-import { containmentMatcher, type SlugFilter } from "./ingredientContainment";
+import { containmentDetailMatcher, type ContainmentMatch, type SlugFilter } from "./ingredientContainment";
 
 export interface IngredientRecipeMatch {
   recipeId: string;
@@ -124,8 +124,10 @@ const CONTAINMENT_STOPWORDS = new Set([
   "to taste", "for garnish", "for serving", "optional",
 ]);
 
+const CLAUSE_CAPTURE = /([,;()/])/;
+
 /** Containment over every alias of 4+ characters that is not a bare descriptor. */
-const containedSlug = containmentMatcher(
+const containedMatch = containmentDetailMatcher(
   new Map(
     Array.from(ALIAS_TO_SLUG.entries()).filter(
       ([alias]) => alias.length >= 4 && !CONTAINMENT_STOPWORDS.has(alias),
@@ -134,13 +136,60 @@ const containedSlug = containmentMatcher(
 );
 const ANY_SLUG: SlugFilter = () => true;
 
-function slugFor(candidate: string, accepts: SlugFilter): string | null {
-  const exact = toSlug(candidate);
-  if (INDEX_KEYS.has(exact) && accepts(exact)) return exact;
-  const byAlias = ALIAS_TO_SLUG.get(candidate);
-  if (byAlias !== undefined && accepts(byAlias)) return byAlias;
-  // Containment fallback for prefixed names like "fresh pandan leaves".
-  return containedSlug(candidate, accepts);
+interface CandidateText {
+  plain: string;
+  claused: string;
+}
+
+function normalizePreservingClauses(value: string): string {
+  return value
+    .split(CLAUSE_CAPTURE)
+    .map((part) => (/^[,;()/]$/.test(part) ? part : normalizeIngredientInput(part)))
+    .join(" ");
+}
+
+function buildCandidates(input: string): CandidateText[] {
+  const plain = normalizeIngredientInput(input);
+  const claused = normalizePreservingClauses(input);
+  const candidates: CandidateText[] = [{ plain, claused }];
+  for (const prefix of [/^foundation of\s+/, /^warm\s+/, /^caramel sauce\s+/]) {
+    if (prefix.test(plain)) {
+      candidates.push({ plain: plain.replace(prefix, ""), claused: claused.replace(prefix, "") });
+    }
+  }
+  const splitPlain = plain.split(/\s+or\s+/).map((s) => s.trim()).filter(Boolean);
+  if (splitPlain.length > 1) {
+    const splitClaused = claused.split(/\s+or\s+/).map((s) => s.trim()).filter(Boolean);
+    splitPlain.forEach((p, idx) => {
+      candidates.push({ plain: p, claused: splitClaused[idx] ?? p });
+    });
+  }
+  return candidates;
+}
+
+function slugMatchFor({ plain, claused }: CandidateText, accepts: SlugFilter): ContainmentMatch | null {
+  const exact = toSlug(plain);
+  if (INDEX_KEYS.has(exact) && accepts(exact)) return { slug: exact, derived: false };
+  const byAlias = ALIAS_TO_SLUG.get(plain);
+  if (byAlias !== undefined && accepts(byAlias)) return { slug: byAlias, derived: false };
+  // Containment fallback for prefixed names and derived products.
+  return containedMatch(claused, accepts);
+}
+
+/**
+ * Resolve a canonical index slug and derived-product attribution from a
+ * user-facing ingredient input. Returns null when no slug can be resolved.
+ */
+export function resolveIngredientSlugMatch(
+  input: string,
+  accepts: SlugFilter = ANY_SLUG,
+): ContainmentMatch | null {
+  if (!input) return null;
+  for (const candidate of buildCandidates(input)) {
+    const match = slugMatchFor(candidate, accepts);
+    if (match !== null) return match;
+  }
+  return null;
 }
 
 /**
@@ -152,23 +201,7 @@ function slugFor(candidate: string, accepts: SlugFilter): string | null {
  * the index has a ground_beef slug, but the catalog has no card for it.
  */
 export function resolveIngredientSlug(input: string, accepts: SlugFilter = ANY_SLUG): string | null {
-  if (!input) return null;
-  const normalized = normalizeIngredientInput(input);
-  const candidates = new Set<string>();
-  candidates.add(normalized);
-  if (normalized.startsWith("foundation of ")) candidates.add(normalized.replace(/^foundation of\s+/, ""));
-  if (normalized.startsWith("warm ")) candidates.add(normalized.replace(/^warm\s+/, ""));
-  if (normalized.startsWith("caramel sauce ")) candidates.add(normalized.replace(/^caramel sauce\s+/, ""));
-  const splitOr = normalized.split(/\s+or\s+/).map((s) => s.trim()).filter(Boolean);
-  if (splitOr.length > 1) {
-    for (const p of splitOr) candidates.add(p);
-  }
-
-  for (const candidateInput of candidates) {
-    const slug = slugFor(candidateInput, accepts);
-    if (slug !== null) return slug;
-  }
-  return null;
+  return resolveIngredientSlugMatch(input, accepts)?.slug ?? null;
 }
 
 /**

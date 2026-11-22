@@ -68,6 +68,16 @@ describe("getIngredientDossier", () => {
     expect(dossier.card).toMatchObject({ name: "Chicken Egg", category: "protein" });
     expect(dossier.recipeCount).toBeGreaterThanOrEqual(100);
   });
+
+  it("surfaces derived uses on the dossier ranked after non-title direct uses", async () => {
+    const dossier = await getIngredientDossier(entry("oats"));
+    const directIdx = dossier.recipes.findIndex((r) => r.name === "CORNMEAL CRUST");
+    const derivedIdx = dossier.recipes.findIndex((r) => r.name === "Vegan Béchamel");
+    expect(directIdx).toBeGreaterThanOrEqual(0);
+    expect(derivedIdx).toBeGreaterThan(directIdx);
+    expect(dossier.recipes[directIdx]?.derived).toBe(false);
+    expect(dossier.recipes[derivedIdx]?.derived).toBe(true);
+  });
 });
 
 describe("dossierJsonLd", () => {

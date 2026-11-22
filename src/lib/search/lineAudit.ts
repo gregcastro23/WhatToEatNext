@@ -14,10 +14,11 @@
  *   generic    the card is a generic head and another card's name modifies
  *              it: "lemon juice" or "juice of 1 lemon" resolved to juice.
  *   modifier   the card's name is directly followed by another card's name,
- *              other than a portion word, so it modifies that noun: "peanut
- *              butter" resolved to peanuts. This is for review, not a defect
- *              count: "jalapeno pepper" → jalapeno is right.
+ *              other than a portion word (or a derived head/hyphen peer when
+ *              the resolver marked the key derived), so it modifies that noun:
+ *              "jalapeno pepper" → jalapeno (for review, not always wrong).
  */
+import { isDerivedHead } from "./derivedHeads";
 import { keysForLine, type IngredientKeyResolver } from "./recipeIngredientIndex";
 import { INGREDIENT_SYNONYMS } from "./synonyms";
 import { normalizeText } from "./text";
@@ -28,12 +29,14 @@ export type LineFlag = "unit-word" | "generic" | "modifier";
 export interface LineAudit {
   line: string;
   keys: readonly string[];
+  derived: readonly string[];
   flags: readonly LineFlag[];
 }
 
 export interface LineAuditSummary {
   lines: number;
   unresolved: number;
+  derived: number;
   flagged: Record<LineFlag, number>;
 }
 
@@ -54,6 +57,15 @@ interface Catalog {
   forms: ReadonlyMap<string, string>;
   maxTokens: number;
   roles: ReadonlyMap<string, Role>;
+}
+
+interface FlagContext {
+  role: Role;
+  span: Span;
+  clause: Clause;
+  isDerived: boolean;
+  keySet: ReadonlySet<string>;
+  hyphenPairs: ReadonlySet<string>;
 }
 
 /**
@@ -82,6 +94,7 @@ const GENERIC_STEMS = new Set(
 );
 const SOURCE_WORDS = new Set(["of", "from"]);
 const CLAUSE_SPLIT = /[,;()/]/;
+const HYPHEN_PAIR = /\b([a-z]+)-([a-z]+)\b/g;
 
 function nameForms(ingredients: readonly IngredientRecord[]): Map<string, string> {
   const forms = new Map<string, string>();
@@ -129,7 +142,32 @@ function clausesOf(line: string, catalog: Catalog): Clause[] {
   });
 }
 
-function flagFor(role: Role, span: Span, clause: Clause): LineFlag | null {
+function hyphenJoinedPairs(line: string): Set<string> {
+  const folded = line.toLowerCase().normalize("NFKD").replace(/\p{M}/gu, "");
+  const pairs = new Set<string>();
+  for (const match of folded.matchAll(HYPHEN_PAIR)) {
+    const left = singular(match[1] ?? "");
+    const right = singular(match[2] ?? "");
+    if (left && right) pairs.add(`${left}-${right}`);
+  }
+  return pairs;
+}
+
+function isDerivedHeadSpan(clause: Clause, after: Span): boolean {
+  const tail = clause.tokens[after.end - 1] ?? "";
+  return isDerivedHead(tail);
+}
+
+function isClearedByDerived({ span, clause, isDerived, keySet, hyphenPairs }: FlagContext, after: Span): boolean {
+  if (!isDerived) return false;
+  if (isDerivedHeadSpan(clause, after)) return true;
+  const left = clause.tokens[span.end - 1] ?? "";
+  const right = clause.tokens[after.start] ?? "";
+  return keySet.has(after.key) && hyphenPairs.has(`${left}-${right}`);
+}
+
+function flagFor(ctx: FlagContext): LineFlag | null {
+  const { role, span, clause } = ctx;
   const others = clause.spans.filter((s) => s.key !== span.key);
   const before = others.some((s) => s.end === span.start);
   const after = others.find((s) => s.start === span.end);
@@ -138,7 +176,8 @@ function flagFor(role: Role, span: Span, clause: Clause): LineFlag | null {
     SOURCE_WORDS.has(clause.tokens[span.end] ?? "") && others.some((s) => s.start > span.end && s.start <= span.end + 3);
   if (role === "unit") return before || after !== undefined || source ? "unit-word" : null;
   if (role === "generic") return before || source ? "generic" : null;
-  return after !== undefined && !afterIsPortion ? "modifier" : null;
+  if (after === undefined || afterIsPortion || isClearedByDerived(ctx, after)) return null;
+  return "modifier";
 }
 
 /** Audits one recipe line at a time against the catalog and the resolver. */
@@ -148,24 +187,33 @@ export function createLineAuditor(
 ): (line: string) => LineAudit {
   const catalog = buildCatalog(ingredients);
   return (line) => {
-    const { keys } = keysForLine(line, keyOf);
+    const { keys, derived } = keysForLine(line, keyOf);
+    const keySet = new Set(keys);
+    const derivedSet = new Set(derived);
     const clauses = clausesOf(line, catalog);
+    const hyphenPairs = hyphenJoinedPairs(line);
     const flags = new Set<LineFlag>();
     for (const key of keys) {
       const role = catalog.roles.get(key) ?? "other";
+      const isDerived = derivedSet.has(key);
       for (const clause of clauses) {
         for (const span of clause.spans.filter((s) => s.key === key)) {
-          const flag = flagFor(role, span, clause);
+          const flag = flagFor({ role, span, clause, isDerived, keySet, hyphenPairs });
           if (flag !== null) flags.add(flag);
         }
       }
     }
-    return { line, keys, flags: [...flags] };
+    return { line, keys, derived, flags: [...flags] };
   };
 }
 
 export function summarizeLineAudits(audits: readonly LineAudit[]): LineAuditSummary {
   const flagged: Record<LineFlag, number> = { "unit-word": 0, generic: 0, modifier: 0 };
   for (const { flags } of audits) flags.forEach((flag) => (flagged[flag] += 1));
-  return { lines: audits.length, unresolved: audits.filter((a) => a.keys.length === 0).length, flagged };
+  return {
+    lines: audits.length,
+    unresolved: audits.filter((a) => a.keys.length === 0).length,
+    derived: audits.filter((a) => a.derived.length > 0).length,
+    flagged,
+  };
 }

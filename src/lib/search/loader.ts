@@ -8,7 +8,7 @@
  */
 import { getServerRecipes } from "@/actions/recipes";
 import { CUISINES_METADATA } from "@/data/cuisines/index";
-import { resolveIngredientSlug } from "@/data/ingredientRecipeIndex";
+import { resolveIngredientSlugMatch } from "@/data/ingredientRecipeIndex";
 import { allSauces } from "@/data/sauces";
 import { getIngredientCatalog } from "@/lib/ingredients/ingredientCatalog";
 import { LocalRecipeService } from "@/services/LocalRecipeService";
@@ -56,7 +56,7 @@ function catalogsWithout(): Omit<SearchCatalogs, "recipes"> {
 export function buildIndexForRecipes(recipes: readonly Recipe[], staticRecipes: readonly Recipe[] = recipes): SearchIndex {
   const base = catalogsWithout();
   const { ingredients } = base;
-  const keyOf = buildIngredientKeyResolver(ingredients, resolveIngredientSlug);
+  const keyOf = buildIngredientKeyResolver(ingredients, resolveIngredientSlugMatch);
   const authored = buildAuthoredLookup(staticRecipes, recipes);
   return buildSearchIndex({ ...base, recipes: recipeRecords(recipes, authored) }, keyOf);
 }

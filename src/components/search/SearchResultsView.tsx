@@ -122,7 +122,7 @@ function HeroBlock({ result }: { result: OmnibarResponse }): JSX.Element | null 
         rows={result.recipesContaining.map((r) => ({
           key: r.id,
           label: r.name,
-          hint: `${(r.cuisine ?? "recipe").toUpperCase()}${r.alternative ? " · AS AN ALTERNATIVE" : ""}`,
+          hint: `${(r.cuisine ?? "recipe").toUpperCase()}${r.derived ? " · DERIVED" : ""}${r.alternative ? " · AS AN ALTERNATIVE" : ""}`,
           href: r.href,
         }))}
       />
