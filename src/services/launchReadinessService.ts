@@ -167,23 +167,11 @@ export async function getLaunchReadiness(): Promise<LaunchReadinessReport> {
       "Restaurant · crypto-food payments",
       "Pay a restaurant bill in ESMS; Stripe transfer settles the fiat leg.",
       [
-        check(
-          "Payments enabled",
-          "NEXT_PUBLIC_ESMS_RESTAURANT_PAYMENTS_ENABLED",
-          "flag",
-        ),
-        check(
-          "Stripe crypto rail enabled",
-          "NEXT_PUBLIC_STRIPE_RESTAURANT_CRYPTO_ENABLED",
-          "flag",
-        ),
+        check("Payments enabled", "NEXT_PUBLIC_ESMS_RESTAURANT_PAYMENTS_ENABLED", "flag"),
+        check("Stripe crypto rail enabled", "NEXT_PUBLIC_STRIPE_RESTAURANT_CRYPTO_ENABLED", "flag"),
         check("Connect country", "STRIPE_RESTAURANT_CONNECT_COUNTRY", "config"),
         check("Order price id", "STRIPE_RESTAURANT_ORDER_PRICE_ID", "config"),
-        check(
-          "Cents-per-token rate",
-          "NEXT_PUBLIC_ESMS_RESTAURANT_CENTS_PER_TOKEN",
-          "config",
-        ),
+        check("Cents-per-token rate", "NEXT_PUBLIC_ESMS_RESTAURANT_CENTS_PER_TOKEN", "config"),
       ],
     ),
     subsystem(
@@ -272,11 +260,15 @@ export async function getLaunchReadiness(): Promise<LaunchReadinessReport> {
       "alerting",
       "Alerting · delivery channels",
       "Where system-health alerts are actually sent.",
+      [anySecret("Delivery channel", ["RESEND_API_KEY", "ALERT_SLACK_WEBHOOK_URL"])],
+    ),
+    subsystem(
+      "auth-jwt",
+      "Auth · JWT & session secrets",
+      "HS256 bearer-JWT verification and Auth.js session signing.",
       [
-        anySecret("Delivery channel", [
-          "RESEND_API_KEY",
-          "ALERT_SLACK_WEBHOOK_URL",
-        ]),
+        check("Auth secret", "AUTH_SECRET", "secret"),
+        check("JWT secret", "JWT_SECRET", "secret"),
       ],
     ),
   ];

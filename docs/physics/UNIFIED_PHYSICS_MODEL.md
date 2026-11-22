@@ -1,6 +1,6 @@
 # The Unified Alchm Physics Model (v2)
 
-Status: **design settled, unimplemented.** Twenty decisions taken 2026-07-20.
+Status: **PARTIALLY implemented** (verified against `master`; original 20 decisions taken 2026-07-20).
 Scope: WhatToEatNext (WTEN), AlchmAgentsETH, Pentacles, and PlanetaryAgents.
 
 This supersedes the per-repo engines. Today all four repos compute ESMS
@@ -12,6 +12,15 @@ differently and **disagree axiomatically** — verified from source, not recalle
 | Pentacles | `math.js:78` — `compToEsms = (c) => [c.Fire, c.Water, c.Earth, c.Air]`. ESMS **is** elements, by identity cast |
 | AlchmAgentsETH | `astrological-dignities-engine.ts:305` — `spirit * dignity_multiplier * signQuality.fire`. ESMS **times** elemental quality |
 | PlanetaryAgents | ≥5 live ESMS/dignity sources; dignity multiplier `(strength+5)/10`, Neutral = **0.5** |
+
+## Implementation Status (verified 2026-11-21 / 2026-11-22)
+
+- **Implemented via ESMS 2.0 (`642872c2`, `#683`, `#685`, `#695`, `#721`):**
+  - Decisions `1` (planet identity × sect), `3` (positional Ascendant vessel, though Ascendant-only and using a different function than `SYNTHESIS_MODEL.md §7`), `4–6, 9` as `Λ = M̂ · (r̄ / r)²` (`getGravitationalInertia`) and `M̂ · (r̄ / r)³` (`getTidalPull`) in `src/utils/planetaryAlchemyMapping.ts:408-425` (`getTidalPull` is currently exercised in tests only), `7` (by deletion of the unused food scale in `src/utils/dignityScales.ts:12-17`; no lint rule enforces separation), `10` (cosine-bell falloff), `12` (10 planets + Ascendant aspect universe), and `16` (reconciliation invariant).
+- **Still open:**
+  - Decisions `2` (sect still defaults diurnal at ~25 call sites), `8, 15` (decan modulation of the 60/40 elemental spine), `11` (applying bonus), `13` & `14, 19` (inverse-inertia × dignity attribution and derived 45-pair rule — **blocked on Open Problems 1 and 2 below; do not code before formulas exist**), `17` (`inertia` has ~9 meanings/aliases across the engine), and `20` (no model version stamped per stored value). No shared bun package exists yet in WTEN.
+  - **ESMS 2.0 residuals:** `esmsForce` coupling clamp lacks a Moon test; under `Λ = C`, distance minima still let non-solar bodies dominate without a bounding ruling (e.g., Venus ~`5.39x` Sun in the stress fixture); Python `/api/user/onboarding` uses a clock-only sect proxy ignoring lat/long (and has no in-repo caller); the claim bridge should route through `quantizeEsms` (`src/lib/economy/esmsQuantization.ts:63`); and `backend/utils/esms_wavefunction.py` is dead code (zero importers).
+- **Open contradiction awaiting operator ruling:** `docs/physics/SYNTHESIS_MODEL.md` §1a (dual-axis Moon + Uranus inversion) conflicts with `docs/physics/ESMS_WAVE_FUNCTION_SPECIFICATION.md` §3 (single-axis Moon). Resolve canonical sect-table cutover, `Λ` bounding, and diurnal-default removal before further physics code changes.
 
 Why this matters more than it looks: the free-body diagram's entire premise is
 that the **element compass** and the **ESMS compass** are two independent
