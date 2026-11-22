@@ -2,66 +2,25 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getCutById, getSpeciesSpec } from "@/data/butcher/cutsCatalogue";
-import {
-  defaultButcherProgress,
-  getTicketForTier,
-  readButcherProgress,
-  recordButcherResult,
-  scoreOrderFulfillment,
-} from "@/lib/butcher/science/butcherGame";
+import { defaultBoneInForCut } from "@/lib/butcher/science/boneAnatomy";
+import { togglePinnedCut } from "@/lib/butcher/science/comparePins";
 import { recommendThermalStrategy } from "@/lib/butcher/science/meatPhysics";
+import type { PrepId } from "@/lib/butcher/science/prepModifiers";
 import type {
   AnatomicalCut,
-  ButcherOrderScore,
-  ButcherOrderTicket,
-  ButcherOrderTier,
-  ButcherProgressStats,
   CameraFramingId,
   ColorOverlayMode,
   CookingStrategy,
   SpeciesId,
 } from "@/lib/butcher/types";
+import { useButcherGame, type ButcherGameState } from "./useButcherGame";
 
 /**
  * Stateful hook orchestrating anatomical exploration, meat thermal curves,
- * and the Butcher's Block order & carve game loop.
+ * prep & trim modifiers, cut comparison, and the Butcher's Block game loop.
  *
  * @file src/app/(alchm)/kitchen-lab/butcher/_lab/useButcherLab.ts
  */
-
-export interface ButcherLabState {
-  readonly speciesId: SpeciesId;
-  readonly cut: AnatomicalCut;
-  readonly hoveredCutId: string | null;
-  readonly explodeFactor: number;
-  readonly colorMode: ColorOverlayMode;
-  readonly framing: CameraFramingId;
-  readonly coreTempC: number;
-  readonly holdMinutes: number;
-  readonly sliceAngleDeg: number;
-  readonly gameTier: ButcherOrderTier;
-  readonly ticketIndex: number;
-  readonly activeTicket: ButcherOrderTicket;
-  readonly portionMassG: number;
-  readonly gameMethod: CookingStrategy;
-  readonly gameCoreTempC: number;
-  readonly lastScore: ButcherOrderScore | null;
-  readonly progress: ButcherProgressStats;
-  readonly setHoveredCutId: (id: string | null) => void;
-  readonly setExplodeFactor: (factor: number) => void;
-  readonly setColorMode: (mode: ColorOverlayMode) => void;
-  readonly setFraming: (framing: CameraFramingId) => void;
-  readonly setCoreTempC: (tempC: number) => void;
-  readonly setHoldMinutes: (mins: number) => void;
-  readonly setSliceAngleDeg: (angleDeg: number) => void;
-  readonly setGameTier: (tier: ButcherOrderTier) => void;
-  readonly setPortionMassG: (massG: number) => void;
-  readonly setGameMethod: (method: CookingStrategy) => void;
-  readonly setGameCoreTempC: (tempC: number) => void;
-  readonly syncFromCut: (nextSpeciesId: SpeciesId, nextCutId: string) => void;
-  readonly submitGameOrder: () => ButcherOrderScore;
-  readonly nextGameOrder: () => void;
-}
 
 interface LabCoreState {
   readonly speciesId: SpeciesId;
@@ -70,36 +29,17 @@ interface LabCoreState {
   readonly explodeFactor: number;
   readonly colorMode: ColorOverlayMode;
   readonly framing: CameraFramingId;
+  readonly showBoneLandmarks: boolean;
   readonly coreTempC: number;
   readonly holdMinutes: number;
   readonly sliceAngleDeg: number;
   readonly portionMassG: number;
   readonly gameMethod: CookingStrategy;
   readonly gameCoreTempC: number;
-}
-
-interface LabGameState {
-  readonly gameTier: ButcherOrderTier;
-  readonly ticketIndex: number;
-  readonly lastScore: ButcherOrderScore | null;
-  readonly progress: ButcherProgressStats;
-}
-
-function initialLabCore(cut: AnatomicalCut): LabCoreState {
-  return {
-    speciesId: cut.speciesId,
-    cutId: cut.id,
-    hoveredCutId: null,
-    explodeFactor: 0,
-    colorMode: "anatomical",
-    framing: "whole-carcass",
-    coreTempC: cut.targetCoreTempC.ideal,
-    holdMinutes: cut.braiseHoldMinutes > 0 ? cut.braiseHoldMinutes : 12,
-    sliceAngleDeg: 45,
-    portionMassG: cut.typicalPortionG,
-    gameMethod: recommendThermalStrategy(cut),
-    gameCoreTempC: cut.targetCoreTempC.ideal,
-  };
+  readonly prep: PrepId;
+  readonly fatCapMm: number;
+  readonly boneIn: boolean;
+  readonly comparePins: readonly string[];
 }
 
 interface LabCoreSetters {
@@ -107,132 +47,102 @@ interface LabCoreSetters {
   readonly setExplodeFactor: (factor: number) => void;
   readonly setColorMode: (mode: ColorOverlayMode) => void;
   readonly setFraming: (framing: CameraFramingId) => void;
+  readonly setShowBoneLandmarks: (show: boolean) => void;
   readonly setCoreTempC: (tempC: number) => void;
   readonly setHoldMinutes: (mins: number) => void;
   readonly setSliceAngleDeg: (angleDeg: number) => void;
   readonly setPortionMassG: (massG: number) => void;
   readonly setGameMethod: (method: CookingStrategy) => void;
   readonly setGameCoreTempC: (tempC: number) => void;
+  readonly setPrep: (prep: PrepId) => void;
+  readonly setFatCapMm: (mm: number) => void;
+  readonly setBoneIn: (boneIn: boolean) => void;
+  readonly togglePin: (cutId: string) => void;
 }
 
-interface LabGameActions {
-  readonly activeTicket: ButcherOrderTicket;
-  readonly setGameTier: (tier: ButcherOrderTier) => void;
-  readonly submitGameOrder: () => ButcherOrderScore;
-  readonly nextGameOrder: () => void;
+export interface ButcherLabState extends LabCoreState, LabCoreSetters, ButcherGameState {
+  readonly cut: AnatomicalCut;
+  readonly syncFromCut: (nextSpeciesId: SpeciesId, nextCutId: string) => void;
 }
 
-function useLabCoreSetters(
-  setCore: React.Dispatch<React.SetStateAction<LabCoreState>>,
-): LabCoreSetters {
-  return useMemo(
-    () => ({
-      setHoveredCutId: (hoveredCutId: string | null): void => setCore((s) => ({ ...s, hoveredCutId })),
+/** Per-cut fields reset whenever the selected cut changes. */
+function cutDefaults(cut: AnatomicalCut): Pick<LabCoreState, "speciesId" | "cutId" | "coreTempC" | "holdMinutes" | "portionMassG" | "gameMethod" | "gameCoreTempC" | "boneIn" | "fatCapMm"> {
+  return {
+    speciesId: cut.speciesId,
+    cutId: cut.id,
+    coreTempC: cut.targetCoreTempC.ideal,
+    holdMinutes: cut.braiseHoldMinutes > 0 ? cut.braiseHoldMinutes : 12,
+    portionMassG: cut.typicalPortionG,
+    gameMethod: recommendThermalStrategy(cut),
+    gameCoreTempC: cut.targetCoreTempC.ideal,
+    boneIn: defaultBoneInForCut(cut),
+    // A fat cap belongs to the cut it was set on (a 12 mm brisket cap must not follow you to a salmon fillet).
+    fatCapMm: 0,
+  };
+}
+
+function initialLabCore(cut: AnatomicalCut): LabCoreState {
+  return {
+    ...cutDefaults(cut),
+    hoveredCutId: null,
+    explodeFactor: 0,
+    colorMode: "anatomical",
+    framing: "whole-carcass",
+    showBoneLandmarks: false,
+    sliceAngleDeg: 45,
+    prep: "none",
+    comparePins: [],
+  };
+}
+
+function framingForExplode(framing: CameraFramingId, explodeFactor: number): CameraFramingId {
+  if (framing === "butcher-block-slice") return framing;
+  return explodeFactor >= 0.5 ? "exploded-primal" : "whole-carcass";
+}
+
+function explodeForFraming(framing: CameraFramingId, current: number): number {
+  if (framing === "whole-carcass") return 0;
+  if (framing === "exploded-primal") return 1;
+  return Math.max(current, 0.25);
+}
+
+function useLabCoreSetters(setCore: React.Dispatch<React.SetStateAction<LabCoreState>>): LabCoreSetters {
+  return useMemo(() => {
+    const patch = <K extends keyof LabCoreState>(key: K) => (value: LabCoreState[K]): void =>
+      setCore((s) => ({ ...s, [key]: value }));
+    return {
+      setHoveredCutId: patch("hoveredCutId"),
       setExplodeFactor: (explodeFactor: number): void =>
-        setCore((s) => ({
-          ...s,
-          explodeFactor,
-          framing:
-            s.framing === "butcher-block-slice"
-              ? s.framing
-              : explodeFactor >= 0.5
-                ? "exploded-primal"
-                : "whole-carcass",
-        })),
-      setColorMode: (colorMode: ColorOverlayMode): void => setCore((s) => ({ ...s, colorMode })),
+        setCore((s) => ({ ...s, explodeFactor, framing: framingForExplode(s.framing, explodeFactor) })),
+      setColorMode: patch("colorMode"),
       setFraming: (framing: CameraFramingId): void =>
-        setCore((s) => ({
-          ...s,
-          framing,
-          explodeFactor:
-            framing === "whole-carcass"
-              ? 0
-              : framing === "exploded-primal"
-                ? 1
-                : Math.max(s.explodeFactor, 0.25),
-        })),
-      setCoreTempC: (coreTempC: number): void => setCore((s) => ({ ...s, coreTempC })),
-      setHoldMinutes: (holdMinutes: number): void => setCore((s) => ({ ...s, holdMinutes })),
-      setSliceAngleDeg: (sliceAngleDeg: number): void => setCore((s) => ({ ...s, sliceAngleDeg })),
-      setPortionMassG: (portionMassG: number): void => setCore((s) => ({ ...s, portionMassG })),
-      setGameMethod: (gameMethod: CookingStrategy): void => setCore((s) => ({ ...s, gameMethod })),
-      setGameCoreTempC: (gameCoreTempC: number): void => setCore((s) => ({ ...s, gameCoreTempC })),
-    }),
-    [setCore],
-  );
+        setCore((s) => ({ ...s, framing, explodeFactor: explodeForFraming(framing, s.explodeFactor) })),
+      setShowBoneLandmarks: patch("showBoneLandmarks"),
+      setCoreTempC: patch("coreTempC"),
+      setHoldMinutes: patch("holdMinutes"),
+      setSliceAngleDeg: patch("sliceAngleDeg"),
+      setPortionMassG: patch("portionMassG"),
+      setGameMethod: patch("gameMethod"),
+      setGameCoreTempC: patch("gameCoreTempC"),
+      setPrep: patch("prep"),
+      setFatCapMm: (mm: number): void => setCore((s) => ({ ...s, fatCapMm: Math.min(15, Math.max(0, mm)) })),
+      setBoneIn: patch("boneIn"),
+      togglePin: (cutId: string): void => setCore((s) => ({ ...s, comparePins: togglePinnedCut(s.comparePins, cutId) })),
+    };
+  }, [setCore]);
 }
 
-function useButcherGameActions(
-  cut: AnatomicalCut,
-  core: LabCoreState,
-  game: LabGameState,
-  setGame: React.Dispatch<React.SetStateAction<LabGameState>>,
-): LabGameActions {
-  const activeTicket = getTicketForTier(game.gameTier, game.ticketIndex);
-
-  const setGameTier = useCallback(
-    (gameTier: ButcherOrderTier): void => {
-      setGame((prev) => ({ ...prev, gameTier, ticketIndex: 0, lastScore: null }));
-    },
-    [setGame],
-  );
-
-  const submitGameOrder = useCallback((): ButcherOrderScore => {
-    const result = scoreOrderFulfillment(activeTicket, {
-      selectedCutId: cut.id,
-      sliceAngleDeg: core.sliceAngleDeg,
-      portionMassG: core.portionMassG,
-      selectedMethod: core.gameMethod,
-      selectedCoreTempC: core.gameCoreTempC,
-    });
-    setGame((prev) => ({
-      ...prev,
-      lastScore: result,
-      progress: recordButcherResult(prev.progress, result, prev.gameTier),
-    }));
-    return result;
-  }, [activeTicket, cut.id, core.sliceAngleDeg, core.portionMassG, core.gameMethod, core.gameCoreTempC, setGame]);
-
-  const nextGameOrder = useCallback((): void => {
-    setGame((prev) => ({ ...prev, ticketIndex: prev.ticketIndex + 1, lastScore: null }));
-  }, [setGame]);
-
-  return { activeTicket, setGameTier, submitGameOrder, nextGameOrder };
-}
-
-export function useButcherLab(
-  initialSpeciesId: SpeciesId,
-  initialCutId: string,
-): ButcherLabState {
+export function useButcherLab(initialSpeciesId: SpeciesId, initialCutId: string): ButcherLabState {
   const resolvedInitialCut =
     getCutById(initialCutId) ?? getCutById(getSpeciesSpec(initialSpeciesId).defaultCutId);
   if (!resolvedInitialCut) throw new Error("Butcher Shop cut catalogue is empty");
 
   const [core, setCore] = useState<LabCoreState>(() => initialLabCore(resolvedInitialCut));
-  const [game, setGame] = useState<LabGameState>(() => ({
-    gameTier: "apprentice",
-    ticketIndex: 0,
-    lastScore: null,
-    progress: defaultButcherProgress(),
-  }));
-
-  useEffect(() => {
-    setGame((prev) => ({ ...prev, progress: readButcherProgress() }));
-  }, []);
 
   const syncFromCut = useCallback((nextSpeciesId: SpeciesId, nextCutId: string): void => {
     const nextCut = getCutById(nextCutId) ?? getCutById(getSpeciesSpec(nextSpeciesId).defaultCutId);
     if (!nextCut) return;
-    setCore((prev) => ({
-      ...prev,
-      speciesId: nextCut.speciesId,
-      cutId: nextCut.id,
-      coreTempC: nextCut.targetCoreTempC.ideal,
-      holdMinutes: nextCut.braiseHoldMinutes > 0 ? nextCut.braiseHoldMinutes : 12,
-      portionMassG: nextCut.typicalPortionG,
-      gameMethod: recommendThermalStrategy(nextCut),
-      gameCoreTempC: nextCut.targetCoreTempC.ideal,
-    }));
+    setCore((prev) => ({ ...prev, ...cutDefaults(nextCut) }));
   }, []);
 
   useEffect(() => {
@@ -241,7 +151,10 @@ export function useButcherLab(
 
   const cut = getCutById(core.cutId) ?? resolvedInitialCut;
   const setters = useLabCoreSetters(setCore);
-  const actions = useButcherGameActions(cut, core, game, setGame);
+  const game = useButcherGame({
+    cut, sliceAngleDeg: core.sliceAngleDeg, portionMassG: core.portionMassG,
+    gameMethod: core.gameMethod, gameCoreTempC: core.gameCoreTempC,
+  });
 
-  return { ...core, cut, ...game, ...setters, ...actions, syncFromCut };
+  return { ...core, cut, ...setters, ...game, syncFromCut };
 }

@@ -211,6 +211,21 @@ export interface ButcherOrderTicket {
   readonly targetMethod: CookingStrategy;
   readonly targetCoreTempC: number;
   readonly physicsConstraint: OrderPhysicsConstraint | null;
+  /** Master fabrication orders: pull every listed retail cut from one sub-primal, in order. */
+  readonly fabricationSteps?: readonly FabricationStep[];
+}
+
+export interface FabricationStep {
+  readonly label: string;
+  readonly expectedCutId: string;
+  readonly targetMassG: number;
+  readonly targetAngleDeg: number;
+}
+
+export interface FabricationPick {
+  readonly selectedCutId: string;
+  readonly sliceAngleDeg: number;
+  readonly portionMassG: number;
 }
 
 export interface ButcherOrderSubmission {
@@ -219,6 +234,35 @@ export interface ButcherOrderSubmission {
   readonly portionMassG: number;
   readonly selectedMethod: CookingStrategy;
   readonly selectedCoreTempC: number;
+  /** One pick per `fabricationSteps` entry, in order (fabrication tickets only). */
+  readonly fabricationPicks?: readonly FabricationPick[];
+}
+
+export type YieldBasis = "LITERATURE" | "MODEL ESTIMATE";
+
+export interface OrderYieldTelemetry {
+  readonly cutId: string;
+  readonly fromSubprimal: string;
+  readonly usableYieldPct: number;
+  readonly trimFatPct: number;
+  readonly boneWastePct: number;
+  readonly otherLossPct: number;
+  readonly basis: YieldBasis;
+  readonly source: string;
+  /** As-purchased sub-primal mass needed to net the portion: portion ÷ usable yield. */
+  readonly asPurchasedG: number;
+  readonly trimFatG: number;
+  readonly boneG: number;
+}
+
+export interface FabricationStepScore {
+  readonly label: string;
+  readonly expectedCutId: string;
+  readonly selectedCutId: string | null;
+  readonly cutAccuracyScore: number;
+  readonly grainAngleScore: number;
+  readonly portionPrecisionScore: number;
+  readonly stepScore: number;
 }
 
 export interface ButcherOrderScore {
@@ -230,6 +274,10 @@ export interface ButcherOrderScore {
   readonly grade: "S" | "A" | "B" | "C" | "D";
   readonly passed: boolean;
   readonly feedback: readonly string[];
+  /** One entry per retail cut pulled (empty for single-cut tickets). */
+  readonly stepScores: readonly FabricationStepScore[];
+  /** Yield of every cut pulled, in order. */
+  readonly yields: readonly OrderYieldTelemetry[];
 }
 
 export interface ButcherProgressStats {
@@ -238,4 +286,11 @@ export interface ButcherProgressStats {
   readonly bestStreak: number;
   readonly bestScore: number;
   readonly tierCompleted: Readonly<Record<ButcherOrderTier, number>>;
+  readonly speciesMastery: Readonly<Record<SpeciesId, SpeciesMasteryStats>>;
+}
+
+export interface SpeciesMasteryStats {
+  readonly passed: number;
+  readonly masterPassed: number;
+  readonly bestScore: number;
 }

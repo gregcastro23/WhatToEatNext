@@ -90,6 +90,205 @@ export class ThermoEngine {
 if (Symbol.dispose) ThermoEngine.prototype[Symbol.dispose] = ThermoEngine.prototype.free;
 
 /**
+ * Stateful 3D conduction grid. See `thermo_core::voxel` for the formulation.
+ */
+export class VoxelEngine {
+    __destroy_into_raw() {
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
+        VoxelEngineFinalization.unregister(this);
+        return ptr;
+    }
+    free() {
+        const ptr = this.__destroy_into_raw();
+        wasm.__wbg_voxelengine_free(ptr, 0);
+    }
+    /**
+     * @returns {number}
+     */
+    get cell_count() {
+        const ret = wasm.voxelengine_cell_count(this.__wbg_ptr);
+        return ret >>> 0;
+    }
+    /**
+     * Σ C·T, J relative to 0 °C.
+     * @returns {number}
+     */
+    energy_j() {
+        const ret = wasm.voxelengine_energy_j(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * Hottest cell of `material`; NaN when none.
+     * @param {number} material
+     * @returns {number}
+     */
+    max_temp_where(material) {
+        const ret = wasm.voxelengine_max_temp_where(this.__wbg_ptr, material);
+        return ret;
+    }
+    /**
+     * Coldest cell of `material`; NaN when none.
+     * @param {number} material
+     * @returns {number}
+     */
+    min_temp_where(material) {
+        const ret = wasm.voxelengine_min_temp_where(this.__wbg_ptr, material);
+        return ret;
+    }
+    /**
+     * `material` is one u8 per cell (index `i + nx·(j + ny·k)`) into the
+     * `k` / `rho_c` tables. Refuses more than 65 536 cells.
+     * @param {number} nx
+     * @param {number} ny
+     * @param {number} nz
+     * @param {number} dx_m
+     * @param {number} dy_m
+     * @param {number} dz_m
+     * @param {Uint8Array} material
+     * @param {Float64Array} k
+     * @param {Float64Array} rho_c
+     * @param {number} initial_c
+     */
+    constructor(nx, ny, nz, dx_m, dy_m, dz_m, material, k, rho_c, initial_c) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArray8ToWasm0(material, wasm.__wbindgen_export2);
+            const len0 = WASM_VECTOR_LEN;
+            const ptr1 = passArrayF64ToWasm0(k, wasm.__wbindgen_export2);
+            const len1 = WASM_VECTOR_LEN;
+            const ptr2 = passArrayF64ToWasm0(rho_c, wasm.__wbindgen_export2);
+            const len2 = WASM_VECTOR_LEN;
+            wasm.voxelengine_new(retptr, nx, ny, nz, dx_m, dy_m, dz_m, ptr0, len0, ptr1, len1, ptr2, len2, initial_c);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var r2 = getDataViewMemory0().getInt32(retptr + 4 * 2, true);
+            if (r2) {
+                throw takeObject(r1);
+            }
+            this.__wbg_ptr = r0;
+            VoxelEngineFinalization.register(this, this.__wbg_ptr, this);
+            return this;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * @returns {number}
+     */
+    get nx() {
+        const ret = wasm.voxelengine_nx(this.__wbg_ptr);
+        return ret >>> 0;
+    }
+    /**
+     * @returns {number}
+     */
+    get ny() {
+        const ret = wasm.voxelengine_ny(this.__wbg_ptr);
+        return ret >>> 0;
+    }
+    /**
+     * @returns {number}
+     */
+    get nz() {
+        const ret = wasm.voxelengine_nz(this.__wbg_ptr);
+        return ret >>> 0;
+    }
+    /**
+     * Copy of the per-cell running maxima, °C.
+     * @returns {Float64Array}
+     */
+    peaks() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.voxelengine_peaks(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var v1 = getArrayF64FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export(r0, r1 * 8, 8);
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    reset_peaks() {
+        wasm.voxelengine_reset_peaks(this.__wbg_ptr);
+    }
+    /**
+     * `[h, medium] × 6` in face order x−, x+, y−, y+, z−, z+.
+     * @param {Float64Array} faces
+     */
+    set_faces(faces) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            const ptr0 = passArrayF64ToWasm0(faces, wasm.__wbindgen_export2);
+            const len0 = WASM_VECTOR_LEN;
+            wasm.voxelengine_set_faces(retptr, this.__wbg_ptr, ptr0, len0);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            if (r1) {
+                throw takeObject(r0);
+            }
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * Forward-Euler bound `min C/ΣG`, seconds (+∞ when fully adiabatic).
+     * @returns {number}
+     */
+    stable_dt() {
+        const ret = wasm.voxelengine_stable_dt(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * Advance `n` steps of `dt_s` seconds.
+     * @param {number} dt_s
+     * @param {number} n
+     */
+    step(dt_s, n) {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.voxelengine_step(retptr, this.__wbg_ptr, dt_s, n);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            if (r1) {
+                throw takeObject(r0);
+            }
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+    /**
+     * One cell's temperature; NaN past the end.
+     * @param {number} index
+     * @returns {number}
+     */
+    temp_at(index) {
+        const ret = wasm.voxelengine_temp_at(this.__wbg_ptr, index);
+        return ret;
+    }
+    /**
+     * Copy of the cell temperatures, °C.
+     * @returns {Float64Array}
+     */
+    temps() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.voxelengine_temps(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            var v1 = getArrayF64FromWasm0(r0, r1).slice();
+            wasm.__wbindgen_export(r0, r1 * 8, 8);
+            return v1;
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+        }
+    }
+}
+if (Symbol.dispose) VoxelEngine.prototype[Symbol.dispose] = VoxelEngine.prototype.free;
+
+/**
  * Altitude time multiplier. `pasteurisation = false` selects the softening
  * (van 't Hoff) regime; the two differ by more than 6× at Denver.
  * @param {number} elevation_m
@@ -542,6 +741,10 @@ export function water_fusion_j_kg() {
 function __wbg_get_imports() {
     const import0 = {
         __proto__: null,
+        __wbg_Error_408e67f47ca7b58b: function(arg0, arg1) {
+            const ret = Error(getStringFromWasm0(arg0, arg1));
+            return addHeapObject(ret);
+        },
         __wbg___wbindgen_throw_bb96b2010945f0bc: function(arg0, arg1) {
             throw new Error(getStringFromWasm0(arg0, arg1));
         },
@@ -555,6 +758,24 @@ function __wbg_get_imports() {
 const ThermoEngineFinalization = (typeof FinalizationRegistry === 'undefined')
     ? { register: () => {}, unregister: () => {} }
     : new FinalizationRegistry(ptr => wasm.__wbg_thermoengine_free(ptr, 1));
+const VoxelEngineFinalization = (typeof FinalizationRegistry === 'undefined')
+    ? { register: () => {}, unregister: () => {} }
+    : new FinalizationRegistry(ptr => wasm.__wbg_voxelengine_free(ptr, 1));
+
+function addHeapObject(obj) {
+    if (heap_next === heap.length) heap.push(heap.length + 1);
+    const idx = heap_next;
+    heap_next = heap[idx];
+
+    heap[idx] = obj;
+    return idx;
+}
+
+function dropObject(idx) {
+    if (idx < 1028) return;
+    heap[idx] = heap_next;
+    heap_next = idx;
+}
 
 function getArrayF64FromWasm0(ptr, len) {
     ptr = ptr >>> 0;
@@ -589,11 +810,31 @@ function getUint8ArrayMemory0() {
     return cachedUint8ArrayMemory0;
 }
 
+function getObject(idx) { return heap[idx]; }
+
+let heap = new Array(1024).fill(undefined);
+heap.push(undefined, null, true, false);
+
+let heap_next = heap.length;
+
+function passArray8ToWasm0(arg, malloc) {
+    const ptr = malloc(arg.length * 1, 1) >>> 0;
+    getUint8ArrayMemory0().set(arg, ptr / 1);
+    WASM_VECTOR_LEN = arg.length;
+    return ptr;
+}
+
 function passArrayF64ToWasm0(arg, malloc) {
     const ptr = malloc(arg.length * 8, 8) >>> 0;
     getFloat64ArrayMemory0().set(arg, ptr / 8);
     WASM_VECTOR_LEN = arg.length;
     return ptr;
+}
+
+function takeObject(idx) {
+    const ret = getObject(idx);
+    dropObject(idx);
+    return ret;
 }
 
 let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });

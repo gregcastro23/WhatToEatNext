@@ -1,87 +1,43 @@
 import type { AnatomicalCut } from "@/lib/butcher/types";
-import type { FoodThermophysicalProperties } from "@/lib/cooking/choiOkos";
-import {
-  clampVal,
-  depthExceedingThresholdMm,
-  sigmoid,
-  stepImplicitSlab,
-  thermophysicalForCut,
-} from "./slabDiffusion";
+import { boneAnatomyForCut, columnBoneSpec, defaultBoneInForCut } from "./boneAnatomy";
+import { effectivePrep, shiftWaterMass, surfaceWaterFactorFor, type PrepProfile } from "./prepModifiers";
+import { buildSlabColumn, coldestMeatNode, meatDistanceMm, type SlabColumn } from "./slabColumn";
+import { clampVal, stepLayeredSlab, thermophysicalForProximate } from "./slabDiffusion";
 import { thermalSpecForCut } from "./thermalProfiles";
-import {
-  boundarySpecForMethod,
-  computeSurfaceEvaporation,
-  grayBandThresholdForCut,
-  type MethodBoundarySpec,
-  type TrajectoryMethodId,
-} from "./trajectoryMethods";
+import { MAILLARD_TEMP_C, buildSurfaceSummary, computeColumnBands, moistureRetentionPct } from "./trajectoryBands";
+import { boundarySpecForMethod, computeSurfaceEvaporation, type MethodBoundarySpec } from "./trajectoryMethods";
+import type { CoupledTrajectoryOptions, CoupledTrajectoryResult } from "./trajectoryTypes";
 
-export {
-  TRAJECTORY_METHODS,
-  defaultTrajectoryMethodForCut,
-  type TrajectoryMethodId,
-} from "./trajectoryMethods";
+export { TRAJECTORY_METHODS, defaultTrajectoryMethodForCut, type TrajectoryMethodId } from "./trajectoryMethods";
+export type { CoupledTrajectoryOptions, CoupledTrajectoryResult, TrajectoryFaceBand } from "./trajectoryTypes";
 
 /**
- * 1D transient heat, surface evaporation, Maillard onset, gray-band depth,
- * and time-integrated collagen hydrolysis trajectory kernel.
+ * 1D transient heat, two-face surface evaporation, Maillard onset, per-face
+ * gray-band depth, and time-integrated collagen hydrolysis on a one-sided,
+ * full-thickness layered column (fat cap · lean · bone).
  *
  * @file src/lib/butcher/science/coupledMeatTrajectory.ts
  */
 
+/** Nodes per lean half-thickness; sets the column's maximum segment size. */
 const SLAB_NODES = 15;
-const MAILLARD_TEMP_C = 140;
 const REST_DRY_WATER_KGM2 = 0.7;
 const REST_CONV_RAD_H_WM2K = 22;
 const REST_EVAP_H_WM2K = 42;
 const REST_EVAP_SCALE = 1.5;
 
-export interface CoupledTrajectoryOptions {
-  readonly method: TrajectoryMethodId;
-  readonly targetCoreTempC?: number;
-  readonly thicknessMm?: number;
-  readonly initialTempC?: number;
-  readonly holdMinutes?: number;
-  readonly restMinutes?: number;
-  readonly ambientTempC?: number;
-}
-
-export interface CoupledTrajectoryResult {
-  readonly method: TrajectoryMethodId;
-  readonly halfThicknessMm: number;
-  readonly cookMinutes: number;
-  readonly restMinutes: number;
-  readonly targetCoreTempC: number;
-  readonly pullCoreTempC: number;
-  /** Core temperature at the instant the meat leaves the heat (after any finishing sear). */
-  readonly removedCoreTempC: number;
-  readonly carryoverPeakC: number;
-  readonly carryoverRiseC: number;
-  readonly finalSurfaceTempC: number;
-  readonly peakSurfaceTempC: number;
-  readonly peakNodeTempsC: readonly number[];
-  readonly grayBandMm: number;
-  readonly grayBandPct: number;
-  readonly crustDepthMm: number;
-  readonly idealCoreMm: number;
-  readonly maillardOnsetMin: number | null;
-  readonly stallDurationMin: number;
-  readonly stallPlateauTempC: number | null;
-  readonly gelatinConversionPct: number;
-  readonly restGelatinGainPct: number;
-  readonly moistureRetentionPct: number;
-  readonly surfaceEventSummary: string;
-}
-
 interface SimState {
   readonly temps: number[];
   readonly peakNodeTemps: number[];
   remainingCollagenFrac: number;
-  surfaceWaterKgM2: number;
+  waterA: number;
+  waterB: number;
   elapsedSec: number;
   maillardOnsetMin: number | null;
   stallSec: number;
   stallTempWeightedSum: number;
+  /** Frozen thermal-centre node once the meat leaves the heat. */
+  probe: number | null;
 }
 
 interface StepConfig {
@@ -96,200 +52,239 @@ interface StepConfig {
   readonly trackEvents: boolean;
 }
 
-function updateCoreCollagen(cut: AnatomicalCut, state: SimState, dtSec: number): void {
-  const coreTemp = state.temps[state.temps.length - 1] ?? 10;
-  const thermalSpec = thermalSpecForCut(cut);
+interface SimContext {
+  readonly cut: AnatomicalCut;
+  readonly column: SlabColumn;
+  readonly state: SimState;
+}
+
+function probeIndex(ctx: SimContext): number {
+  return ctx.state.probe ?? coldestMeatNode(ctx.column, ctx.state.temps);
+}
+
+function probeTemp(ctx: SimContext): number {
+  return ctx.state.temps[probeIndex(ctx)] ?? 10;
+}
+
+function updateCoreCollagen(ctx: SimContext, dtSec: number): void {
+  const coreTemp = probeTemp(ctx);
+  const thermalSpec = thermalSpecForCut(ctx.cut);
   if (coreTemp < thermalSpec.gelatinOnsetC) return;
   const delta = Math.min(coreTemp, thermalSpec.gelatinCapC) - thermalSpec.gelatinOnsetC;
   const kGel = thermalSpec.gelatinRateA * Math.exp(thermalSpec.gelatinRateK * delta);
-  state.remainingCollagenFrac *= Math.exp(-kGel * (dtSec / 60));
+  ctx.state.remainingCollagenFrac *= Math.exp(-kGel * (dtSec / 60));
 }
 
-function recordSurfaceEvents(state: SimState, qEvapWm2: number, cfg: StepConfig): void {
-  if (!cfg.trackEvents || cfg.wetMedium) return;
-  const surfaceTemp = state.temps[0] ?? 10;
-  const moistureFrac = cfg.initialWaterKgM2 > 0 ? state.surfaceWaterKgM2 / cfg.initialWaterKgM2 : 0;
-  if (state.maillardOnsetMin === null && surfaceTemp >= MAILLARD_TEMP_C && moistureFrac <= 0.15) {
+interface FaceSample {
+  readonly tempC: number;
+  readonly moistureFrac: number;
+  readonly qEvapWm2: number;
+}
+
+function recordSurfaceEvents(ctx: SimContext, samples: readonly FaceSample[], cfg: StepConfig): void {
+  const { state } = ctx;
+  if (!cfg.trackEvents || cfg.wetMedium || samples.length === 0) return;
+  if (state.maillardOnsetMin === null && samples.some((s) => s.tempC >= MAILLARD_TEMP_C && s.moistureFrac <= 0.15)) {
     state.maillardOnsetMin = Number((state.elapsedSec / 60).toFixed(2));
   }
-  if (moistureFrac > 0.05 && qEvapWm2 > 120 && surfaceTemp >= 64 && surfaceTemp <= 78) {
+  const mean = (pick: (s: FaceSample) => number): number => samples.reduce((acc, s) => acc + pick(s), 0) / samples.length;
+  const surfaceTemp = mean((s) => s.tempC);
+  if (mean((s) => s.moistureFrac) > 0.05 && mean((s) => s.qEvapWm2) > 120 && surfaceTemp >= 64 && surfaceTemp <= 78) {
     state.stallSec += cfg.dtSec;
     state.stallTempWeightedSum += surfaceTemp * cfg.dtSec;
   }
 }
 
-function advanceTrajectoryStep(
-  cut: AnatomicalCut, state: SimState, props: FoodThermophysicalProperties, dx: number, cfg: StepConfig,
-): void {
-  const evap = cfg.wetMedium
-    ? { qEvapWm2: 0, waterRemovedKgM2: 0 }
-    : computeSurfaceEvaporation({
-        surfaceTempC: state.temps[0] ?? 10, hWm2K: cfg.evapHWm2K ?? cfg.hWm2K,
-        surfaceWaterKgM2: state.surfaceWaterKgM2, initialWaterKgM2: cfg.initialWaterKgM2,
-        evapScale: cfg.evapScale, dtSec: cfg.dtSec,
-      });
+function faceEvaporation(tempC: number, water: number, cfg: StepConfig): { qEvapWm2: number; waterRemovedKgM2: number } {
+  if (cfg.wetMedium) return { qEvapWm2: 0, waterRemovedKgM2: 0 };
+  return computeSurfaceEvaporation({
+    surfaceTempC: tempC, hWm2K: cfg.evapHWm2K ?? cfg.hWm2K, surfaceWaterKgM2: water,
+    initialWaterKgM2: cfg.initialWaterKgM2, evapScale: cfg.evapScale, dtSec: cfg.dtSec,
+  });
+}
 
-  state.surfaceWaterKgM2 = Math.max(0, state.surfaceWaterKgM2 - evap.waterRemovedKgM2);
-  stepImplicitSlab({
-    temps: state.temps, dx, dt: cfg.dtSec, props,
-    hWm2K: cfg.hWm2K, tMediumC: cfg.mediumC, qEvapWm2: evap.qEvapWm2,
-    crustConductivityFactor: cfg.crustConductivityFactor,
+function advanceTrajectoryStep(ctx: SimContext, cfg: StepConfig): void {
+  const { state, column } = ctx;
+  const last = state.temps.length - 1;
+  const tA = state.temps[0] ?? 10;
+  const tB = state.temps[last] ?? 10;
+  const evapA = faceEvaporation(tA, state.waterA, cfg);
+  const evapB = faceEvaporation(tB, state.waterB, cfg);
+  state.waterA = Math.max(0, state.waterA - evapA.waterRemovedKgM2);
+  state.waterB = Math.max(0, state.waterB - evapB.waterRemovedKgM2);
+  stepLayeredSlab({
+    temps: state.temps, column, dt: cfg.dtSec, crustConductivityFactor: cfg.crustConductivityFactor,
+    faceA: { hWm2K: cfg.hWm2K, tMediumC: cfg.mediumC, qEvapWm2: evapA.qEvapWm2 },
+    faceB: { hWm2K: cfg.hWm2K, tMediumC: cfg.mediumC, qEvapWm2: evapB.qEvapWm2 },
   });
   state.elapsedSec += cfg.dtSec;
+  state.temps.forEach((t, i) => {
+    if (t > (state.peakNodeTemps[i] ?? -Infinity)) state.peakNodeTemps[i] = t;
+  });
+  updateCoreCollagen(ctx, cfg.dtSec);
 
-  for (let i = 0; i < state.temps.length; i += 1) {
-    const tNode = state.temps[i] ?? 0;
-    if (tNode > (state.peakNodeTemps[i] ?? -Infinity)) state.peakNodeTemps[i] = tNode;
-  }
-  updateCoreCollagen(cut, state, cfg.dtSec);
-  recordSurfaceEvents(state, evap.qEvapWm2, cfg);
+  const frac = (w: number): number => (cfg.initialWaterKgM2 > 0 ? w / cfg.initialWaterKgM2 : 0);
+  const samples: FaceSample[] = [];
+  if (column.faceAKind !== "bone") samples.push({ tempC: state.temps[0] ?? 10, moistureFrac: frac(state.waterA), qEvapWm2: evapA.qEvapWm2 });
+  if (column.faceBKind !== "bone") samples.push({ tempC: state.temps[last] ?? 10, moistureFrac: frac(state.waterB), qEvapWm2: evapB.qEvapWm2 });
+  recordSurfaceEvents(ctx, samples, cfg);
+}
+
+function hottestSurface(state: SimState): number {
+  return Math.max(state.temps[0] ?? 0, state.temps[state.temps.length - 1] ?? 0);
 }
 
 function runCookStages(
-  cut: AnatomicalCut, state: SimState, props: FoodThermophysicalProperties, dx: number,
-  spec: MethodBoundarySpec, cfg: { readonly pullCoreTempC: number; readonly holdMinutes: number },
+  ctx: SimContext, spec: MethodBoundarySpec,
+  cfg: { readonly pullCoreTempC: number; readonly holdMinutes: number; readonly initialWaterKgM2: number },
 ): number {
+  const { state } = ctx;
+  const base = { initialWaterKgM2: cfg.initialWaterKgM2, crustConductivityFactor: spec.crustConductivityFactor, trackEvents: true };
   const initialSearSteps = Math.round(spec.initialSearMaxSec / 2);
-  for (let s = 0; s < initialSearSteps && (state.temps[SLAB_NODES - 1] ?? 0) < cfg.pullCoreTempC; s += 1) {
-    advanceTrajectoryStep(cut, state, props, dx, {
-      dtSec: 2, mediumC: spec.initialSearMediumC, hWm2K: spec.initialSearHWm2K,
-      wetMedium: false, initialWaterKgM2: spec.initialSurfaceWaterKgM2, evapScale: spec.evapScale,
-      crustConductivityFactor: spec.crustConductivityFactor, trackEvents: true,
-    });
-    if ((state.temps[0] ?? 0) >= spec.initialSearStopSurfaceC) break;
+  for (let s = 0; s < initialSearSteps && probeTemp(ctx) < cfg.pullCoreTempC; s += 1) {
+    advanceTrajectoryStep(ctx, { ...base, dtSec: 2, mediumC: spec.initialSearMediumC, hWm2K: spec.initialSearHWm2K, wetMedium: false, evapScale: spec.evapScale });
+    if (hottestSurface(state) >= spec.initialSearStopSurfaceC) break;
   }
-
   const maxCookSteps = Math.round((spec.maxCookMin * 60) / spec.dtSec);
-  for (let s = 0; s < maxCookSteps && (state.temps[SLAB_NODES - 1] ?? 0) < cfg.pullCoreTempC; s += 1) {
-    advanceTrajectoryStep(cut, state, props, dx, {
-      dtSec: spec.dtSec, mediumC: spec.mediumC, hWm2K: spec.hWm2K,
-      wetMedium: spec.wetMedium, initialWaterKgM2: spec.initialSurfaceWaterKgM2, evapScale: spec.evapScale,
-      crustConductivityFactor: spec.crustConductivityFactor, trackEvents: true,
-    });
+  for (let s = 0; s < maxCookSteps && probeTemp(ctx) < cfg.pullCoreTempC; s += 1) {
+    advanceTrajectoryStep(ctx, { ...base, dtSec: spec.dtSec, mediumC: spec.mediumC, hWm2K: spec.hWm2K, wetMedium: spec.wetMedium, evapScale: spec.evapScale });
   }
-
-  if (spec.dryBeforeFinish) state.surfaceWaterKgM2 = 0;
-  const finishSteps = Math.round(spec.finishSec / 2);
-  for (let s = 0; s < finishSteps; s += 1) {
-    advanceTrajectoryStep(cut, state, props, dx, {
-      dtSec: 2, mediumC: spec.finishMediumC, hWm2K: spec.finishHWm2K,
-      wetMedium: false, initialWaterKgM2: spec.initialSurfaceWaterKgM2, evapScale: 1.0,
-      crustConductivityFactor: spec.crustConductivityFactor, trackEvents: true,
-    });
+  if (spec.dryBeforeFinish) {
+    state.waterA = 0;
+    state.waterB = 0;
   }
-
+  for (let s = 0; s < Math.round(spec.finishSec / 2); s += 1) {
+    advanceTrajectoryStep(ctx, { ...base, dtSec: 2, mediumC: spec.finishMediumC, hWm2K: spec.finishHWm2K, wetMedium: false, evapScale: 1.0 });
+  }
   const holdSteps = spec.supportsHold ? Math.round((cfg.holdMinutes * 60) / spec.dtSec) : 0;
   const holdTempC = Math.min(99, Math.max(cfg.pullCoreTempC, spec.wetMedium ? spec.mediumC : cfg.pullCoreTempC + 0.5));
   for (let s = 0; s < holdSteps; s += 1) {
-    advanceTrajectoryStep(cut, state, props, dx, {
-      dtSec: spec.dtSec, mediumC: holdTempC, hWm2K: spec.hWm2K,
-      wetMedium: spec.wetMedium, initialWaterKgM2: spec.initialSurfaceWaterKgM2, evapScale: spec.evapScale,
-      crustConductivityFactor: 1.0, trackEvents: false,
+    advanceTrajectoryStep(ctx, {
+      ...base, dtSec: spec.dtSec, mediumC: holdTempC, hWm2K: spec.hWm2K, wetMedium: spec.wetMedium,
+      evapScale: spec.evapScale, crustConductivityFactor: 1.0, trackEvents: false,
     });
   }
   return Number((state.elapsedSec / 60).toFixed(1));
 }
 
 function runRestStage(
-  cut: AnatomicalCut, state: SimState, props: FoodThermophysicalProperties, dx: number,
-  spec: MethodBoundarySpec, cfg: { readonly restMinutes: number; readonly ambientTempC: number },
+  ctx: SimContext, spec: MethodBoundarySpec, cfg: { readonly restMinutes: number; readonly ambientTempC: number },
 ): { readonly removedCoreTempC: number; readonly carryoverPeakC: number; readonly restGelatinGainPct: number } {
+  const { state } = ctx;
+  state.probe = coldestMeatNode(ctx.column, state.temps);
   const gelatinBeforeRest = (1 - state.remainingCollagenFrac) * 100;
-  const removedCoreTempC = state.temps[SLAB_NODES - 1] ?? 10;
+  const removedCoreTempC = probeTemp(ctx);
   let carryoverPeakC = removedCoreTempC;
-
-  if (!spec.wetMedium) state.surfaceWaterKgM2 = REST_DRY_WATER_KGM2;
-  const restSteps = Math.round((cfg.restMinutes * 60) / 5);
-  for (let s = 0; s < restSteps; s += 1) {
-    advanceTrajectoryStep(cut, state, props, dx, {
+  if (!spec.wetMedium) {
+    state.waterA = REST_DRY_WATER_KGM2;
+    state.waterB = REST_DRY_WATER_KGM2;
+  }
+  for (let s = 0; s < Math.round((cfg.restMinutes * 60) / 5); s += 1) {
+    advanceTrajectoryStep(ctx, {
       dtSec: 5, mediumC: cfg.ambientTempC, hWm2K: spec.wetMedium ? 10 : REST_CONV_RAD_H_WM2K,
       wetMedium: spec.wetMedium, initialWaterKgM2: REST_DRY_WATER_KGM2,
       evapScale: spec.wetMedium ? 0 : REST_EVAP_SCALE, evapHWm2K: REST_EVAP_H_WM2K,
       crustConductivityFactor: 1.0, trackEvents: false,
     });
-    const coreNow = state.temps[SLAB_NODES - 1] ?? carryoverPeakC;
-    if (coreNow > carryoverPeakC) carryoverPeakC = coreNow;
+    carryoverPeakC = Math.max(carryoverPeakC, probeTemp(ctx));
   }
   const gelatinAfterRest = (1 - state.remainingCollagenFrac) * 100;
+  return { removedCoreTempC, carryoverPeakC, restGelatinGainPct: Number(Math.max(0, gelatinAfterRest - gelatinBeforeRest).toFixed(1)) };
+}
+
+function prepSummary(prep: PrepProfile, surfaceWaterFactor: number): CoupledTrajectoryResult["prep"] {
   return {
-    removedCoreTempC, carryoverPeakC,
-    restGelatinGainPct: Number(Math.max(0, gelatinAfterRest - gelatinBeforeRest).toFixed(1)),
+    prep: prep.id, label: prep.label, surfaceWaterFactor: Number(surfaceWaterFactor.toFixed(3)), waterMassChangeG: prep.waterMassChangeG,
+    cookLossReductionFrac: prep.cookLossReductionFrac, toughnessReductionFrac: prep.toughnessReductionFrac,
   };
 }
 
-function buildSurfaceSummary(
-  wetMedium: boolean, maillardOnsetMin: number | null, stallDurationMin: number, stallPlateauTempC: number | null,
-): string {
-  if (wetMedium) return "No crust (wet medium)";
-  if (maillardOnsetMin !== null) return `Maillard at ${maillardOnsetMin.toFixed(1)} min`;
-  if (stallDurationMin >= 15 && stallPlateauTempC !== null) {
-    return `Stall plateau ~${Math.round(stallPlateauTempC)} °C (${Math.round(stallDurationMin)} min)`;
-  }
-  return "Sub-Maillard dry crust";
+interface Setup {
+  readonly halfThicknessMm: number;
+  readonly targetCoreTempC: number;
+  readonly pullCoreTempC: number;
+  readonly restMinutes: number;
+  readonly spec: MethodBoundarySpec;
+  readonly prep: PrepProfile;
+  readonly boneIn: boolean;
+  readonly column: SlabColumn;
+  readonly proximate: AnatomicalCut["proximate"];
+  readonly surfaceWaterFactor: number;
+  readonly initialTempC: number;
 }
 
-function finalizeTrajectoryResult(
-  cut: AnatomicalCut, method: TrajectoryMethodId, spec: MethodBoundarySpec, state: SimState,
-  timing: {
-    readonly halfThicknessMm: number; readonly targetCoreTempC: number; readonly pullCoreTempC: number;
-    readonly cookMinutes: number; readonly restMinutes: number; readonly removedCoreTempC: number;
-    readonly carryoverPeakC: number; readonly restGelatinGainPct: number;
-  },
-): CoupledTrajectoryResult {
-  const gelatinConversionPct = Number(((1 - state.remainingCollagenFrac) * 100).toFixed(1));
-  const crustDepthMm = spec.wetMedium ? 0 : Number(depthExceedingThresholdMm(state.peakNodeTemps, MAILLARD_TEMP_C, timing.halfThicknessMm).toFixed(2));
-  const overcookDepthMm = depthExceedingThresholdMm(state.peakNodeTemps, grayBandThresholdForCut(cut, timing.targetCoreTempC), timing.halfThicknessMm);
-  const grayBandMm = Number(clampVal(overcookDepthMm - crustDepthMm, 0, timing.halfThicknessMm - crustDepthMm).toFixed(2));
-  const idealCoreMm = Number(Math.max(0, timing.halfThicknessMm - crustDepthMm - grayBandMm).toFixed(2));
-  const tSpec = thermalSpecForCut(cut);
-  const avgLoss = state.peakNodeTemps.reduce((acc, t) => acc + sigmoid(t, tSpec.moistureExpulsionMidC, tSpec.moistureExpulsionSlopeC) * 26 + sigmoid(t, tSpec.actinMidC, tSpec.actinSlopeC) * 6, 0) / SLAB_NODES;
-  const moistureRetentionPct = Number(clampVal(95 - avgLoss + Math.min(10, cut.proximate.fatG * 0.35) + (gelatinConversionPct / 100) * cut.proximate.collagenG * 3.8, 45, 98).toFixed(1));
-  const stallDurationMin = Number((state.stallSec / 60).toFixed(1));
-  const stallPlateauTempC = state.stallSec > 0 ? Number((state.stallTempWeightedSum / state.stallSec).toFixed(1)) : null;
-
-  return {
-    method, halfThicknessMm: timing.halfThicknessMm, cookMinutes: timing.cookMinutes, restMinutes: timing.restMinutes,
-    targetCoreTempC: timing.targetCoreTempC, pullCoreTempC: timing.pullCoreTempC,
-    removedCoreTempC: Number(timing.removedCoreTempC.toFixed(1)),
-    carryoverPeakC: Number(timing.carryoverPeakC.toFixed(1)),
-    carryoverRiseC: Number(Math.max(0, timing.carryoverPeakC - timing.removedCoreTempC).toFixed(1)),
-    finalSurfaceTempC: Number((state.temps[0] ?? 10).toFixed(1)),
-    peakSurfaceTempC: Number((state.peakNodeTemps[0] ?? 10).toFixed(1)),
-    peakNodeTempsC: state.peakNodeTemps.map((t) => Number(t.toFixed(1))),
-    grayBandMm, grayBandPct: Number(((grayBandMm / timing.halfThicknessMm) * 100).toFixed(0)),
-    crustDepthMm, idealCoreMm, maillardOnsetMin: state.maillardOnsetMin,
-    stallDurationMin, stallPlateauTempC, gelatinConversionPct,
-    restGelatinGainPct: timing.restGelatinGainPct, moistureRetentionPct,
-    surfaceEventSummary: buildSurfaceSummary(spec.wetMedium, state.maillardOnsetMin, stallDurationMin, stallPlateauTempC),
-  };
-}
-
-export function simulateCoupledCutTrajectory(
-  cut: AnatomicalCut, options: CoupledTrajectoryOptions,
-): CoupledTrajectoryResult {
+function setupTrajectory(cut: AnatomicalCut, options: CoupledTrajectoryOptions): Setup {
   const halfThicknessMm = Number((clampVal(options.thicknessMm ?? cut.typicalThicknessMm, 8, 140) * 0.5).toFixed(2));
   const initialTempC = clampVal(options.initialTempC ?? 10, 0, 45);
   const targetCoreTempC = clampVal(options.targetCoreTempC ?? cut.targetCoreTempC.ideal, 35, 98);
-  const restMinutes = clampVal(options.restMinutes ?? 10, 0, 30);
   const spec = boundarySpecForMethod(options.method, targetCoreTempC, halfThicknessMm);
-  const pullCoreTempC = Math.max(initialTempC + 2, targetCoreTempC - spec.pullOffsetC);
-  const dx = (halfThicknessMm / 1000) / (SLAB_NODES - 1);
-  const props = thermophysicalForCut(cut);
-
-  const state: SimState = {
-    temps: new Array<number>(SLAB_NODES).fill(initialTempC),
-    peakNodeTemps: new Array<number>(SLAB_NODES).fill(initialTempC),
-    remainingCollagenFrac: 1, surfaceWaterKgM2: spec.initialSurfaceWaterKgM2,
-    elapsedSec: 0, maillardOnsetMin: null, stallSec: 0, stallTempWeightedSum: 0,
+  const prep = effectivePrep(options.prep, cut);
+  const boneIn = (options.boneIn ?? defaultBoneInForCut(cut)) && cut.geometry3d.hasBone;
+  const proximate = shiftWaterMass(cut.proximate, prep.waterMassChangeG);
+  const props = thermophysicalForProximate(proximate);
+  const column = buildSlabColumn({
+    meatThicknessMm: halfThicknessMm * 2, maxSegmentMm: halfThicknessMm / (SLAB_NODES - 1),
+    lean: { kWmK: props.conductivityWmK, rhoCJm3K: props.densityKgM3 * props.specificHeatJkgK },
+    fatCapMm: clampVal(options.fatCapMm ?? 0, 0, 15),
+    bone: boneIn ? columnBoneSpec(boneAnatomyForCut(cut)) : null,
+  });
+  return {
+    halfThicknessMm, targetCoreTempC, pullCoreTempC: Math.max(initialTempC + 2, targetCoreTempC - spec.pullOffsetC),
+    restMinutes: clampVal(options.restMinutes ?? 10, 0, 30), spec, prep, boneIn, column, proximate, initialTempC,
+    surfaceWaterFactor: surfaceWaterFactorFor(prep, cut.proximate, proximate),
   };
-  const cookMinutes = runCookStages(cut, state, props, dx, spec, {
-    pullCoreTempC, holdMinutes: clampVal(options.holdMinutes ?? 0, 0, 480),
-  });
-  const rest = runRestStage(cut, state, props, dx, spec, {
-    restMinutes, ambientTempC: options.ambientTempC ?? 22,
-  });
+}
 
-  return finalizeTrajectoryResult(cut, options.method, spec, state, {
-    halfThicknessMm, targetCoreTempC, pullCoreTempC, cookMinutes, restMinutes, ...rest,
+export function simulateCoupledCutTrajectory(cut: AnatomicalCut, options: CoupledTrajectoryOptions): CoupledTrajectoryResult {
+  const s = setupTrajectory(cut, options);
+  const n = s.column.positionsM.length;
+  const initialWaterKgM2 = s.spec.initialSurfaceWaterKgM2 * s.surfaceWaterFactor;
+  const state: SimState = {
+    temps: new Array<number>(n).fill(s.initialTempC), peakNodeTemps: new Array<number>(n).fill(s.initialTempC),
+    remainingCollagenFrac: 1, waterA: initialWaterKgM2, waterB: initialWaterKgM2,
+    elapsedSec: 0, maillardOnsetMin: null, stallSec: 0, stallTempWeightedSum: 0, probe: null,
+  };
+  const ctx: SimContext = { cut, column: s.column, state };
+  const cookMinutes = runCookStages(ctx, s.spec, {
+    pullCoreTempC: s.pullCoreTempC, holdMinutes: clampVal(options.holdMinutes ?? 0, 0, 480), initialWaterKgM2,
   });
+  const rest = runRestStage(ctx, s.spec, { restMinutes: s.restMinutes, ambientTempC: options.ambientTempC ?? 22 });
+  return finalizeTrajectory(cut, options, s, state, { cookMinutes, ...rest });
+}
+
+function finalizeTrajectory(
+  cut: AnatomicalCut, options: CoupledTrajectoryOptions, s: Setup, state: SimState,
+  timing: { readonly cookMinutes: number; readonly removedCoreTempC: number; readonly carryoverPeakC: number; readonly restGelatinGainPct: number },
+): CoupledTrajectoryResult {
+  const probe = state.probe ?? s.column.meatSurfaceA;
+  const gelatinConversionPct = Number(((1 - state.remainingCollagenFrac) * 100).toFixed(1));
+  const bands = computeColumnBands(cut, s.column, state.peakNodeTemps, { wetMedium: s.spec.wetMedium, targetCoreTempC: s.targetCoreTempC, probe });
+  const stallDurationMin = Number((state.stallSec / 60).toFixed(1));
+  const stallPlateauTempC = state.stallSec > 0 ? Number((state.stallTempWeightedSum / state.stallSec).toFixed(1)) : null;
+  const anatomy = boneAnatomyForCut(cut);
+  const surfaceNode = s.column.faceAKind !== "lean" && s.column.faceBKind === "lean" ? state.temps.length - 1 : 0;
+  return {
+    method: options.method, halfThicknessMm: s.halfThicknessMm, cookMinutes: timing.cookMinutes, restMinutes: s.restMinutes,
+    targetCoreTempC: s.targetCoreTempC, pullCoreTempC: s.pullCoreTempC,
+    removedCoreTempC: Number(timing.removedCoreTempC.toFixed(1)),
+    carryoverPeakC: Number(timing.carryoverPeakC.toFixed(1)),
+    carryoverRiseC: Number(Math.max(0, timing.carryoverPeakC - timing.removedCoreTempC).toFixed(1)),
+    finalSurfaceTempC: Number((state.temps[surfaceNode] ?? 10).toFixed(1)),
+    peakSurfaceTempC: Number(Math.max(state.peakNodeTemps[0] ?? 10, state.peakNodeTemps[state.peakNodeTemps.length - 1] ?? 10).toFixed(1)),
+    peakNodeTempsC: state.peakNodeTemps.map((t) => Number(t.toFixed(1))),
+    nodePositionsMm: s.column.positionsM.map((x) => Number((x * 1000).toFixed(3))),
+    grayBandMm: bands.grayBandMm, grayBandPct: Number(((bands.grayBandMm / s.halfThicknessMm) * 100).toFixed(0)),
+    crustDepthMm: bands.crustDepthMm, idealCoreMm: bands.idealCoreMm, faces: bands.faces,
+    column: {
+      meatThicknessMm: s.column.meatThicknessMm, fatCapMm: s.column.fatCapModelMm, boneMm: s.column.boneModelMm,
+      boneIn: s.boneIn, bonePlacement: s.boneIn ? (anatomy?.placement ?? null) : null,
+      boneNeeds3d: s.boneIn && anatomy?.placement === "through",
+      thermalCentreFromAMm: Number(meatDistanceMm(s.column, s.column.meatSurfaceA, probe).toFixed(2)),
+    },
+    prep: prepSummary(s.prep, s.surfaceWaterFactor),
+    maillardOnsetMin: state.maillardOnsetMin, stallDurationMin, stallPlateauTempC, gelatinConversionPct,
+    restGelatinGainPct: timing.restGelatinGainPct,
+    moistureRetentionPct: moistureRetentionPct(cut, s.proximate, s.column, state.peakNodeTemps, gelatinConversionPct, s.prep),
+    surfaceEventSummary: buildSurfaceSummary(s.spec.wetMedium, state.maillardOnsetMin, stallDurationMin, stallPlateauTempC),
+  };
 }

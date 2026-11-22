@@ -583,6 +583,10 @@ export default [
       // SpacetimeDB generated bindings (regenerate via `spacetime generate`)
       "src/lib/spacetime/generated/",
 
+      // wasm-bindgen output for the thermo engine (regenerate via `bun run build:wasm`);
+      // generated browser glue that was never lint-clean (WebAssembly/fetch globals).
+      "public/wasm/",
+
       // Yarn
       ".yarn/",
       ".pnp.*",

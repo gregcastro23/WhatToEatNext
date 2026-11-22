@@ -12,7 +12,7 @@ import {
 } from "react";
 import * as THREE from "three";
 import { BUTCHER_CAMERA_FRAMINGS } from "@/lib/butcher/stage/cameraFramings";
-import { createCarcassRig, disposeCarcassRig } from "@/lib/butcher/stage/carcassAvatar3d";
+import { createCarcassRig, disposeCarcassRig, getCutWorldPosition } from "@/lib/butcher/stage/carcassAvatar3d";
 import {
   type DragState,
   type StageMutableRefs,
@@ -232,7 +232,7 @@ function useStageRigSync(
   useEffect(() => {
     if (refs.rigRef.current) syncCarcassRigOverlay(refs.rigRef.current, props);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.explodeFactor, props.colorMode, props.selectedCutId, props.hoveredCutId, props.targetCutId, props.showSlicePlane, props.sliceAngleDeg]);
+  }, [props.explodeFactor, props.colorMode, props.selectedCutId, props.hoveredCutId, props.targetCutId, props.showSlicePlane, props.sliceAngleDeg, props.showBoneLandmarks]);
 }
 
 export function useButcherStageRuntime(props: ButcherStageProps): ButcherStageRuntime {
@@ -254,15 +254,18 @@ export function useButcherStageRuntime(props: ButcherStageProps): ButcherStageRu
 
   useEffect(() => {
     const spec = BUTCHER_CAMERA_FRAMINGS[props.framing];
+    // Butcher Block carve: aim at the cut on the block so its knife plane and section ring stay in frame.
+    const rig = refs.rigRef.current;
+    const look = (props.framing === "butcher-block-slice" && rig ? getCutWorldPosition(rig, props.selectedCutId) : null) ?? spec.lookAt;
     refs.camFromPos.current.copy(refs.camCurrPos.current);
     refs.camFromLook.current.copy(refs.camCurrLook.current);
     refs.camFromFov.current = refs.cameraRef.current ? refs.cameraRef.current.fov : refs.camToFov.current;
-    refs.camToPos.current.set(spec.pos[0], spec.pos[1], spec.pos[2]);
-    refs.camToLook.current.set(spec.lookAt[0], spec.lookAt[1], spec.lookAt[2]);
+    refs.camToPos.current.set(look[0] + spec.pos[0] - spec.lookAt[0], look[1] + spec.pos[1] - spec.lookAt[1], look[2] + spec.pos[2] - spec.lookAt[2]);
+    refs.camToLook.current.set(look[0], look[1], look[2]);
     refs.camToFov.current = spec.fov;
     refs.camTransElapsed.current = motionPaused ? 0.48 : 0;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.framing, motionPaused]);
+  }, [props.framing, motionPaused, props.selectedCutId, props.speciesId]);
 
   const pointerHandlers = useStagePointerHandlers(props, refs);
   return {
