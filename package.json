@@ -79,7 +79,7 @@
     "verify:static": "bun run check:untracked && bun run check:route-validation && bun run check:read-json && bun run check:bare-json && bun run check:diff-assertions && bun run check:snapshot-witness && bun run test:gates && bun run check:scripts && bun run check:helpers-typecheck && bun run typecheck && bun run lint && bun run lint:scripts && bun run lint:debt && bun run audit:dead-modules",
     "verify": "bun run verify:static && bun run test --passWithNoTests",
     "verify:full": "bun run verify && bun run build",
-    "lint": "eslint --config eslint.config.mjs --cache --cache-location .eslintcache --cache-strategy content src --max-warnings=10000",
+    "lint": "eslint --config eslint.config.mjs --cache --cache-location .eslintcache --cache-strategy content src --max-warnings=0",
     "lint:debt": "NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkLintDebt.ts",
     "health:snapshot": "NODE_OPTIONS=--max-old-space-size=8192 bun scripts/codeHealthSnapshot.ts",
     "lint:debt:ratchet": "NODE_OPTIONS=--max-old-space-size=8192 bun scripts/checkLintDebt.ts --ratchet",

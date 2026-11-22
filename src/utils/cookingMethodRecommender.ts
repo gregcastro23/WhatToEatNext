@@ -684,17 +684,25 @@ function isDaytime(date: Date = new Date()): boolean {
   return hour >= 6 && hour < 18;
 }
 
+/** Optional refinements for {@link getRecommendedCookingMethods}. */
+export interface CookingMethodRecommendationOptions {
+  culturalPreference?: string;
+  dietaryPreferences?: string[];
+  availableTools?: string[];
+  /** Instant the lunar phase is evaluated at; defaults to now. */
+  date?: Date;
+}
+
 // Improved scoring algorithm for cooking method recommendations
 export async function getRecommendedCookingMethods(
   elementalComposition: ElementalProperties,
   currentZodiac?: string,
   planets?: string[],
   season = getCurrentSeason(),
-  culturalPreference?: string,
-  dietaryPreferences: string[] = [],
-  availableTools?: string[],
-  date: Date = new Date(),
+  options: CookingMethodRecommendationOptions = {},
 ): Promise<CookingMethodData[]> {
+  const { culturalPreference, dietaryPreferences = [], availableTools, date = new Date() } = options;
+
   // Convert cooking methods to array for easier processing
   const methodsArray = Object.entries(allCookingMethodsCombined)
     .map(([_id, method]) => ({

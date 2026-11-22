@@ -29,6 +29,11 @@ import globals from "globals";
 export default [
   // Start with recommended JS rules
   js.configs.recommended,
+  // Stale `eslint-disable` hygiene is enforced by the stricter audit config:
+  // eslint.config.audit.mjs sets reportUnusedDisableDirectives to "error" for src/** and is what
+  // `lint:debt` runs. Here it only misfires on directives that suppress an AUDITED rule which is
+  // "off" in this config (`no-console`), so it is off to keep `lint` at zero warnings.
+  { linterOptions: { reportUnusedDisableDirectives: "off" } },
   // Register @next/next in flat-config object format (v15 plugin exports it
   // in eslintrc array-of-strings format which ESLint flat config rejects).
   {
@@ -268,7 +273,10 @@ export default [
       // Import/Export Rules
       // ======================================================================
 
-      "import/no-unresolved": ["warn", { ignore: ["^@/"] }],
+      // `@/` is a tsconfig path alias, and `@modelcontextprotocol/sdk/*` subpaths resolve through
+      // the SDK's `"./*"` exports map (`types` -> `*.d.ts`), which this resolver cannot follow.
+      // `tsc` (moduleResolution: bundler) is the authority for both and fails on a bad import.
+      "import/no-unresolved": ["warn", { ignore: ["^@/", "^@modelcontextprotocol/sdk/"] }],
       "import/named": "warn",
       "import/default": "warn",
       "import/namespace": "warn",

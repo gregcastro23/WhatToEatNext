@@ -40,16 +40,27 @@ const VALID_SORTS: readonly BestMatchSort[] = [
 const CACHE_TTL_MS = 5 * 60 * 1000;
 const cache = new Map<string, { at: number; data: RestaurantSearchResponse }>();
 
-function cacheKey(
-  cuisine: string,
-  lat: number,
-  lng: number,
-  radius: number | null,
-  limit: number | null,
-  sort: BestMatchSort,
-  openNow: boolean,
+interface CacheKeyInput {
+  cuisine: string;
+  lat: number;
+  lng: number;
+  radius: number | null;
+  limit: number | null;
+  sort: BestMatchSort;
+  openNow: boolean;
+  userKey?: string;
+}
+
+function cacheKey({
+  cuisine,
+  lat,
+  lng,
+  radius,
+  limit,
+  sort,
+  openNow,
   userKey = "",
-): string {
+}: CacheKeyInput): string {
   // Round coordinates to ~1km so nearby requests share a cache entry, and bucket
   // by the wall-clock hour so cosmic scoring refreshes each planetary hour.
   const rLat = lat.toFixed(2);
@@ -112,7 +123,16 @@ export async function GET(request: NextRequest) {
     : undefined;
   const userKey = userId || (favoriteIds && favoriteIds.length > 0 ? favoriteIds.sort().join(",") : "");
 
-  const key = cacheKey(cuisine, latitude, longitude, radius, limit, sort, openNow, userKey);
+  const key = cacheKey({
+    cuisine,
+    lat: latitude,
+    lng: longitude,
+    radius,
+    limit,
+    sort,
+    openNow,
+    userKey,
+  });
   const hit = cache.get(key);
   if (hit && Date.now() - hit.at < CACHE_TTL_MS) {
     return NextResponse.json(hit.data, { status: 200 });

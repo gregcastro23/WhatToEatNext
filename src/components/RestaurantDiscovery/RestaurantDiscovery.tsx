@@ -19,6 +19,7 @@ import { ReservationModal } from "@/components/RestaurantDiscovery/ReservationMo
 import { parseRestaurantSearchResponse } from "@/components/RestaurantDiscovery/restaurantSearchParser";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { useUserLocation } from "@/hooks/useUserLocation";
 import { readJson } from "@/lib/api/json";
 import type { SavedRestaurant } from "@/types/restaurant";
@@ -128,6 +129,10 @@ export function RestaurantDiscovery({
   const [favoritesOnly, setFavoritesOnly] = useState(false);
 
   const { isFavorite, toggleFavorite, favoriteIds } = useFavoriteRestaurants();
+  // Favourites and the signed-in user only bias scoring. Read the latest through refs so
+  // toggling a favourite or the session resolving does not refetch.
+  const favoriteIdsRef = useLatestRef(favoriteIds);
+  const userIdRef = useLatestRef(currentUser?.userId);
 
   useEffect(() => {
     const ids = new Set<string>();
@@ -285,8 +290,10 @@ export function RestaurantDiscovery({
           lat: String(coords.lat),
           lng: String(coords.lng),
         });
-        if (favoriteIds.length > 0) params.set("favorites", favoriteIds.join(","));
-        if (currentUser?.userId) params.set("userId", currentUser.userId);
+        const favorites = favoriteIdsRef.current;
+        const userId = userIdRef.current;
+        if (favorites.length > 0) params.set("favorites", favorites.join(","));
+        if (userId) params.set("userId", userId);
 
         const res = await fetch(`/api/restaurants/discover?${params.toString()}`, {
           signal: controller.signal,
@@ -326,7 +333,7 @@ export function RestaurantDiscovery({
     })();
 
     return () => controller.abort();
-  }, [cuisineType, coords]);
+  }, [cuisineType, coords, favoriteIdsRef, userIdRef]);
 
   const displayedRestaurants = useMemo(() => {
     if (status.kind !== "ready") return [];
