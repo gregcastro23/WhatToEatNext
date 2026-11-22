@@ -262,10 +262,7 @@ export async function generateSnapshot() {
     "Aries",
     ["Sun", "Mars"],
     "spring",
-    undefined,
-    [],
-    undefined,
-    new Date("2026-09-18T04:36:58Z"),
+    { date: new Date("2026-09-18T04:36:58Z") },
   );
   const syncMethods = getRecommendedCookingMethodsSync(
     testElements,

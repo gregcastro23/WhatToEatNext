@@ -17,6 +17,7 @@ import { sourceLabel } from "@/components/RestaurantDiscovery/restaurantDisplay"
 import { parseRestaurantSearchResponse } from "@/components/RestaurantDiscovery/restaurantSearchParser";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import { readJson } from "@/lib/api/json";
 import type { SavedRestaurant } from "@/types/restaurant";
 import type {
@@ -102,6 +103,8 @@ export function CuisineRestaurantFinder({
   const [alchemizeModalItem, setAlchemizeModalItem] = useState<AlchmScoredRestaurant | null>(null);
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const { isFavorite, toggleFavorite, favoriteIds } = useFavoriteRestaurants();
+  // Favourites only bias scoring. Read the latest through a ref so toggling one does not refetch.
+  const favoriteIdsRef = useLatestRef(favoriteIds);
   const abortRef = useRef<AbortController | null>(null);
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const { currentUser, updateProfile } = useUser();
@@ -263,8 +266,9 @@ export function CuisineRestaurantFinder({
           lat: String(coords.lat),
           lng: String(coords.lng),
         });
-        if (favoriteIds.length > 0) {
-          params.set("favorites", favoriteIds.join(","));
+        const favorites = favoriteIdsRef.current;
+        if (favorites.length > 0) {
+          params.set("favorites", favorites.join(","));
         }
         const res = await fetch(`/api/restaurants/discover?${params.toString()}`, {
           signal: controller.signal,
@@ -304,7 +308,7 @@ export function CuisineRestaurantFinder({
     })();
 
     return () => controller.abort();
-  }, [cuisineType, coords]);
+  }, [cuisineType, coords, favoriteIdsRef]);
 
   const cosmicLine = useMemo(() => {
     if (status.kind !== "ready" && status.kind !== "empty") return null;

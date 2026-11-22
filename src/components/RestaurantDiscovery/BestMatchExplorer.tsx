@@ -29,6 +29,7 @@ import {
 import { parseRestaurantSearchResponse } from "@/components/RestaurantDiscovery/restaurantSearchParser";
 import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
+import { useLatestRef } from "@/hooks/useLatestRef";
 import {
   useUserLocation,
   type CitySuggestion,
@@ -199,6 +200,9 @@ export function BestMatchExplorer({
   const [favoritesOnly, setFavoritesOnly] = useState(false);
 
   const { isFavorite, toggleFavorite, favoriteIds } = useFavoriteRestaurants();
+  // Favourites only bias scoring. Read the latest through a ref so toggling one neither
+  // refetches (Yelp quota) nor flashes the loading state.
+  const favoriteIdsRef = useLatestRef(favoriteIds);
 
   // ── Saved restaurants (hydrate from profile + localStorage) ──
   useEffect(() => {
@@ -292,7 +296,8 @@ export function BestMatchExplorer({
           radius: String(Math.round(radiusMi * MI_TO_M)),
         });
         if (openNow) params.set("openNow", "true");
-        if (favoriteIds.length > 0) params.set("favorites", favoriteIds.join(","));
+        const favorites = favoriteIdsRef.current;
+        if (favorites.length > 0) params.set("favorites", favorites.join(","));
 
         const res = await fetch(`/api/restaurants/best-match?${params.toString()}`, {
           signal: controller.signal,
@@ -326,7 +331,7 @@ export function BestMatchExplorer({
     })();
 
     return () => controller.abort();
-  }, [cuisine, location, radiusMi, openNow]);
+  }, [cuisine, location, radiusMi, openNow, favoriteIdsRef]);
 
   const saveRestaurant = useCallback(
     async (entry: AlchmScoredRestaurant, source: RestaurantDiscoverySource) => {
