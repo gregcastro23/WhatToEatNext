@@ -125,6 +125,24 @@ describe("diet: derived from ingredients, the basis shown", () => {
     expect(vegetarian.has("Authentic Malian Peanut Stew (Tigadèguèna)")).toBe(false);
   });
 
+  it("step 4 diet diff controls: curated tables and parentheses preserve vegan/vegetarian verdicts", () => {
+    const vegan = new Set(search("vegan", ALL).recipes.map((r) => r.name));
+    const vegetarian = new Set(search("vegetarian", ALL).recipes.map((r) => r.name));
+    expect(vegan.size).toBe(412);
+    expect(vegetarian.size).toBe(676);
+    for (const name of ["BASIL-WALNUT PESTO", "BASIC SEITAN RECIPE", "MUHAMMARA", "Authentic Churros"]) {
+      expect(vegan.has(name)).toBe(true);
+    }
+    for (const name of [
+      "Authentic Bún Thịt Nướng",
+      "Kimchi Braised Carnitas",
+      "Classic Philadelphia Cheesesteak",
+      "Authentic Nigiri Sushi (Tuna & Salmon)",
+    ]) {
+      expect(vegetarian.has(name)).toBe(false);
+    }
+  });
+
   it("gluten-free is recognised but not applied: the results are the plain search's", () => {
     const result = search("gluten free pasta", ALL);
     expect(result.chips).toEqual([expect.objectContaining({ kind: "unverified", applied: false, label: "Gluten-free · not verified" })]);

@@ -64,6 +64,25 @@ describe("keysForLine", () => {
     });
   });
 
+  it("does not split 'or' or commas inside parentheses, while still splitting outside parentheses (Ruling 15)", () => {
+    const parenKeyOf: IngredientKeyResolver = (text) =>
+      ({
+        "firm cooking apples (braeburn or cox)": "apple",
+        "baocui (crispy fried cracker)": "baocui",
+        youtiao: "youtiao",
+      })[text.toLowerCase()] ?? null;
+    expect(keysForLine("firm cooking apples (braeburn or cox)", parenKeyOf)).toEqual({
+      keys: ["apple"],
+      alternative: false,
+      derived: [],
+    });
+    expect(keysForLine("baocui (crispy fried cracker) or youtiao", parenKeyOf)).toEqual({
+      keys: ["baocui", "youtiao"],
+      alternative: true,
+      derived: [],
+    });
+  });
+
   it("tracks derived keys on single, mixed 'or', and hyphen-compound lines", () => {
     expect(keysForLine("peanut butter", keyOf)).toEqual({
       keys: ["peanuts"],
