@@ -11,6 +11,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { canonicalizeAgentEmail } from "@/lib/agents/canonicalizeAgentEmail";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database/connection";
 import { safeEqual } from "@/lib/hooks/secureCompare";
@@ -88,7 +89,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     if (emailParam && safeEqual(syncHeader, syncSecret)) {
       const userRes = await executeQuery<{ id: string }>(
         "SELECT id FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1",
-        [emailParam.trim()],
+        [canonicalizeAgentEmail(emailParam)],
       );
       const [u] = userRes.rows;
       if (!u) {

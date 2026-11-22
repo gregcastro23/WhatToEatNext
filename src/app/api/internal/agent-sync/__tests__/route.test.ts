@@ -196,6 +196,11 @@ describe("POST /api/internal/agent-sync", () => {
     expect(data.created).toBe(false);
     expect(data.wtenUserId).toBe(existingId);
 
+    // Canonicalizes @agents.alchm.kitchen -> @agentic.alchm.kitchen before lookup
+    expect(mockClient.query).toHaveBeenCalledWith(
+      "SELECT id FROM users WHERE email = $1",
+      ["hildegard@agentic.alchm.kitchen"],
+    );
     // Verify UPDATE users is triggered
     expect(mockClient.query).toHaveBeenCalledWith(
       expect.stringContaining("UPDATE users"),
@@ -563,5 +568,48 @@ describe("POST /api/internal/agent-sync", () => {
         }
       },
     );
+  });
+
+  describe("canonicalizes incoming planetary degree and legacy domain emails", () => {
+    it.each([
+      [
+        "mercury-leo-7@agentic.alchm.kitchen",
+        "planetary-mercury-leo-7@agentic.alchm.kitchen",
+      ],
+      [
+        "mars-leo-8@agents.alchm.kitchen",
+        "planetary-mars-leo-8@agentic.alchm.kitchen",
+      ],
+    ])("persists %s as %s", async (inputEmail, expectedEmail) => {
+      const mockClient = {
+        query: jest.fn().mockImplementation((queryStr: string) => {
+          if (queryStr.includes("SELECT id FROM users")) {
+            return Promise.resolve({ rows: [] });
+          }
+          return Promise.resolve({ rowCount: 1, rows: [] });
+        }),
+      };
+      jest.mocked(withTransaction).mockImplementation((callback) =>
+        Reflect.apply(callback, undefined, [mockClient]),
+      );
+
+      const res = await POST(
+        makeRequest(
+          { email: inputEmail, displayName: "Mercury Leo 7" },
+          { "X-Sync-Secret": mockSyncSecret },
+        ),
+      );
+      expect(res.status).toBe(200);
+      expect((await res.json()).ok).toBe(true);
+
+      expect(mockClient.query).toHaveBeenCalledWith(
+        "SELECT id FROM users WHERE email = $1",
+        [expectedEmail],
+      );
+      expect(mockClient.query).toHaveBeenCalledWith(
+        expect.stringContaining("INSERT INTO users"),
+        expect.arrayContaining([expectedEmail]),
+      );
+    });
   });
 });

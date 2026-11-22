@@ -1,5 +1,9 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
+import {
+  AGENTIC_EMAIL_DOMAIN,
+  canonicalizeAgentEmail,
+} from "@/lib/agents/canonicalizeAgentEmail";
 import { executeQuery, withTransaction } from "@/lib/database";
 import type {
   AutoSwapExecution,
@@ -41,15 +45,13 @@ export const runtime = "nodejs";
  *   500 { ok: false, reason: "internal_error", message }
  */
 
-const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
-
 function deriveAgentDisplayName(
   email: string,
   metadata: Record<string, unknown> | undefined,
 ): string {
   const fromMeta = typeof metadata?.agentName === "string" ? metadata.agentName.trim() : "";
   if (fromMeta) return fromMeta;
-  const local = email.split("@")[0] ?? "";
+  const local = (email.split("@")[0] ?? "").replace(/^planetary-/, "");
   if (!local) return "Agent";
   return local
     .split("-")
@@ -129,7 +131,7 @@ async function handlePost(req: NextRequest) {
   const sMatter = matter.toFixed(4);
   const sSubstance = substance.toFixed(4);
 
-  const email = userEmail.toLowerCase();
+  const email = canonicalizeAgentEmail(userEmail);
   const description = [
     operationType ? `Agent op: ${operationType}` : "Agent op",
     source ? `(${source})` : null,

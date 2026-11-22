@@ -1,4 +1,8 @@
 import { NextResponse } from "next/server";
+import {
+  AGENTIC_EMAIL_DOMAIN,
+  canonicalizeAgentEmail,
+} from "@/lib/agents/canonicalizeAgentEmail";
 import { executeQuery } from "@/lib/database";
 import { uncoveredPentacleRefund } from "@/lib/economy/pentacleRefundGuard";
 import { safeEqual } from "@/lib/hooks/secureCompare";
@@ -86,15 +90,16 @@ async function handlePost(req: NextRequest) {
     const resolvedSource = source ?? "agents_yield";
     const isDailyYield = DAILY_YIELD_SOURCE_SET.has(resolvedSource);
 
+    const normalizedEmail = canonicalizeAgentEmail(userEmail);
+
     // 2. Look up user ID by email.
     let userResult = await executeQuery<{ id: string }>(
       "SELECT id FROM users WHERE email = $1 LIMIT 1",
-      [userEmail]
+      [normalizedEmail]
     );
 
     if (userResult.rows.length === 0) {
-      const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
-      if (!userEmail.toLowerCase().endsWith(AGENTIC_EMAIL_DOMAIN)) {
+      if (!normalizedEmail.endsWith(AGENTIC_EMAIL_DOMAIN)) {
         return NextResponse.json(
           { ok: false, reason: "user_not_found", error: "user_not_found" },
           { status: 404 }
@@ -126,7 +131,7 @@ async function handlePost(req: NextRequest) {
          VALUES ($1, 'AGENT_NO_LOGIN', 'USER'::user_role, true, true, true, $2, '{}'::jsonb, 0, now(), now())
          ON CONFLICT (email) DO UPDATE SET is_agent = true
          RETURNING id`,
-        [userEmail.toLowerCase(), JSON.stringify({ email: userEmail, isAgent: true })]
+        [normalizedEmail, JSON.stringify({ email: normalizedEmail, isAgent: true })]
       );
     }
 

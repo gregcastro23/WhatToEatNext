@@ -20,6 +20,10 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import {
+  AGENTIC_EMAIL_DOMAIN,
+  canonicalizeAgentEmail,
+} from "@/lib/agents/canonicalizeAgentEmail";
+import {
   buildDeliverySummary,
   claimInboundEvent,
   completeWebhookEvent,
@@ -52,8 +56,6 @@ import { createLogger } from "@/utils/logger";
 const logger = createLogger("feed");
 
 export const dynamic = "force-dynamic";
-
-const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
 
 // Edge-case ceilings: bound agent-supplied fields so a malformed or hostile
 const MAX_DISPLAY_NAME_LENGTH = 120;
@@ -267,7 +269,7 @@ export const POST = withObservability(
       );
     }
 
-    const normalizedEmail = incomingAgentEmail.toLowerCase().trim();
+    const normalizedEmail = canonicalizeAgentEmail(incomingAgentEmail);
     agentEmail = normalizedEmail;
     const isAgenticNamespace = normalizedEmail.endsWith(AGENTIC_EMAIL_DOMAIN);
 

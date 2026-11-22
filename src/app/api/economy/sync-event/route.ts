@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { canonicalizeAgentEmail } from "@/lib/agents/canonicalizeAgentEmail";
 import { executeQuery } from "@/lib/database";
 import {
   buildDeliverySummary,
@@ -140,12 +141,13 @@ export async function POST(req: NextRequest) {
     }
 
     const { userEmail, event, metadata: rawMetadata } = parseResult.data;
+    const normalizedEmail = canonicalizeAgentEmail(userEmail);
     const metadata = parseEventMetadata(rawMetadata);
 
     // 2. Look up user ID by email (and confirm they're an agentic account)
     const userResult = await executeQuery<{ id: string; is_agent: boolean | null }>(
       "SELECT id, is_agent FROM users WHERE email = $1 LIMIT 1",
-      [userEmail.toLowerCase()],
+      [normalizedEmail],
     );
 
     const [eventUser] = userResult.rows;
@@ -165,8 +167,8 @@ export async function POST(req: NextRequest) {
       source: "asol-sync-event",
       key: delivery.effectiveKey,
       eventType: "sync-event",
-      subjectId: userEmail,
-      summary: buildDeliverySummary({ userEmail, event }, delivery),
+      subjectId: normalizedEmail,
+      summary: buildDeliverySummary({ userEmail: normalizedEmail, event }, delivery),
       data: rawBody,
     });
 

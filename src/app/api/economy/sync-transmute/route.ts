@@ -1,4 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
+import {
+  AGENTIC_EMAIL_DOMAIN,
+  canonicalizeAgentEmail,
+} from "@/lib/agents/canonicalizeAgentEmail";
 import { safeEqual } from "@/lib/hooks/secureCompare";
 import { withObservability } from "@/lib/observability/withObservability";
 import { SyncTransmuteRequestSchema, type ParsedSyncTransmuteRequest } from "@/lib/validation/apiSchemas";
@@ -40,8 +44,6 @@ export const runtime = "nodejs";
  * (402 insufficient_funds, 409 offer_closed, 422 off_market, 503 rates_unavailable…).
  */
 
-const AGENTIC_EMAIL_DOMAIN = "@agentic.alchm.kitchen";
-
 function refused(failure: TransmutationFailure): NextResponse {
   return NextResponse.json(
     { ok: false, reason: failure.reason, message: failure.message },
@@ -81,11 +83,12 @@ async function readAgentAct(
 
 /** The acting account, which must be an agent. */
 async function resolveAgent(email: string): Promise<{ ok: true; id: string } | { ok: false; response: NextResponse }> {
-  const agent = await transmutationService.findParticipantIdByEmail(email);
+  const normalizedEmail = canonicalizeAgentEmail(email);
+  const agent = await transmutationService.findParticipantIdByEmail(normalizedEmail);
   if (!agent) {
     return { ok: false, response: NextResponse.json({ ok: false, reason: "agent_not_found" }, { status: 404 }) };
   }
-  if (!agent.isAgent && !email.endsWith(AGENTIC_EMAIL_DOMAIN)) {
+  if (!agent.isAgent && !normalizedEmail.endsWith(AGENTIC_EMAIL_DOMAIN)) {
     return {
       ok: false,
       response: NextResponse.json(
@@ -104,7 +107,7 @@ async function resolveAgent(email: string): Promise<{ ok: true; id: string } | {
 type AgentOfferAct = Extract<ParsedSyncTransmuteRequest, { action: "offer" }>;
 
 function counterpartyOf(body: AgentOfferAct): CounterpartyRef | null {
-  if (body.counterpartyEmail) return { email: body.counterpartyEmail };
+  if (body.counterpartyEmail) return { email: canonicalizeAgentEmail(body.counterpartyEmail) };
   if (body.counterpartyId) return { id: body.counterpartyId };
   return null;
 }

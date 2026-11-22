@@ -4,6 +4,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { canonicalizeAgentEmail } from "@/lib/agents/canonicalizeAgentEmail";
 import { getUserIdFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
 import { safeEqual } from "@/lib/hooks/secureCompare";
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
     if (emailParam && safeEqual(syncHeader, syncSecret)) {
       const userRow = await executeQuery<{ id: string }>(
         "SELECT id FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1",
-        [emailParam.trim()],
+        [canonicalizeAgentEmail(emailParam)],
       );
       if (userRow.rows.length === 0) {
         return NextResponse.json({ error: "user_not_found" }, { status: 404 });

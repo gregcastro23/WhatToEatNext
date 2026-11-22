@@ -11,6 +11,11 @@
 import { randomUUID } from "crypto";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
+import {
+  AGENTIC_EMAIL_DOMAIN,
+  canonicalizeAgentEmail,
+  LEGACY_AGENTS_EMAIL_DOMAIN,
+} from "@/lib/agents/canonicalizeAgentEmail";
 import { isClassicalElement } from "@/lib/agents/consciousnessAxes";
 import { withTransaction } from "@/lib/database";
 import { safeEqual } from "@/lib/hooks/secureCompare";
@@ -30,8 +35,8 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const ALLOWED_AGENT_DOMAINS = [
-  "@agentic.alchm.kitchen",
-  "@agents.alchm.kitchen",
+  AGENTIC_EMAIL_DOMAIN,
+  LEGACY_AGENTS_EMAIL_DOMAIN,
 ];
 
 const syncBodySchema = z.object({
@@ -106,10 +111,8 @@ export async function POST(req: NextRequest | Request) {
     }
     const body = parsedBody.data;
 
-    const email = body.email.toLowerCase().trim();
-    const isDomainAllowed = ALLOWED_AGENT_DOMAINS.some((domain) =>
-      email.endsWith(domain),
-    );
+    const email = canonicalizeAgentEmail(body.email);
+    const isDomainAllowed = email.endsWith(AGENTIC_EMAIL_DOMAIN);
     if (!isDomainAllowed) {
       return NextResponse.json(
         {
