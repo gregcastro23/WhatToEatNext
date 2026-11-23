@@ -101,6 +101,10 @@ export const McpVerdictSchema = z.enum([
 export const McpNetworkSummarySchema = z
   .object({
     live: z.boolean().optional(),
+    // Set by the WTEN proxy (`/api/admin/mcp-summary`), never by Planetary Agents:
+    // `wten-local` means these are WTEN's own tables, not PA's view. See mcpFallback.ts.
+    source: z.enum(["pa", "wten-local"]).optional(),
+    fallbackReason: z.string().optional(),
     generatedAt: z.string().optional(),
     windowMinutes: z.number().optional(),
     verdict: McpVerdictSchema.optional(),
