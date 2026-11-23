@@ -94,6 +94,15 @@ describe("normalizePath / isTrackablePath", () => {
     expect(isTrackablePath("/api/track/pageview")).toBe(false);
     expect(isTrackablePath("/administrator-guide")).toBe(true);
   });
+  it("never records them in another casing either", () => {
+    // Next routing is case-sensitive, so these are 404 hits, not the admin area,
+    // but they used to be stored as ordinary page views.
+    expect(isTrackablePath("/ADMIN")).toBe(false);
+    expect(isTrackablePath("/Admin/traffic")).toBe(false);
+    expect(isTrackablePath("/API/track/pageview")).toBe(false);
+    expect(isTrackablePath("/_NEXT/static/x.js")).toBe(false);
+    expect(isTrackablePath("/Administrator-Guide")).toBe(true);
+  });
 });
 
 describe("visitorHash", () => {
