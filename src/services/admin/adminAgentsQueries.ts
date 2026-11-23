@@ -93,12 +93,16 @@ interface ActionMetricRow {
   path: string;
   total: number;
   successes: number;
-  failures: number;
+  client_failures: number;
+  refusals: number;
   server_failures: number;
   p50_ms: number | null;
   p95_ms: number | null;
   last_seen: Date | string | null;
 }
+
+/** A count the query did not return (no rows for that path in the window) is a measured zero. */
+const asCount = (value: number | undefined): number => Number(value ?? 0);
 
 function formatActionMetric(
   def: (typeof MONITORED_AGENT_ACTIONS)[number],
@@ -112,7 +116,8 @@ function formatActionMetric(
       path: def.path,
       calls24h: null,
       successes24h: null,
-      failures24h: null,
+      clientFailures24h: null,
+      refusals24h: null,
       serverFailures24h: null,
       p50Ms: null,
       p95Ms: null,
@@ -123,10 +128,11 @@ function formatActionMetric(
     action: def.action,
     label: def.label,
     path: def.path,
-    calls24h: Number(data?.total ?? 0),
-    successes24h: Number(data?.successes ?? 0),
-    failures24h: Number(data?.failures ?? 0),
-    serverFailures24h: Number(data?.server_failures ?? 0),
+    calls24h: asCount(data?.total),
+    successes24h: asCount(data?.successes),
+    clientFailures24h: asCount(data?.client_failures),
+    refusals24h: asCount(data?.refusals),
+    serverFailures24h: asCount(data?.server_failures),
     p50Ms: data?.p50_ms !== null && data?.p50_ms !== undefined ? Number(data.p50_ms) : null,
     p95Ms: data?.p95_ms !== null && data?.p95_ms !== undefined ? Number(data.p95_ms) : null,
     lastSeenAt: data?.last_seen ? new Date(data.last_seen).toISOString() : null,

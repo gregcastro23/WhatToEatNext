@@ -12,7 +12,7 @@
  *   1. Imports the live SQL statements from `asolHealthQueries.ts`, `inbox.ts`,
  *      idempotency, and shared admin SQL with ZERO regex scraping.
  *   2. Proves the gate detects broken SQL using a failing control (undefined column).
- *   3. PREPAREs all 12 shipped statements against live PostgreSQL (parse + type analysis).
+ *   3. PREPAREs all 13 shipped statements against live PostgreSQL (parse + type analysis).
  *   4. Establishes session-local TEMP tables shadowing `webhook_events` and `users`,
  *      verifying `relnamespace = pg_my_temp_schema()` so writes never touch shared tables.
  *   5. Exercises the complete claim, conflict, duplicate, completion, failure,
@@ -48,6 +48,7 @@ import {
 import {
   AGENT_ACTION_METRICS_SQL,
   AGENT_PULSE_ROSTER_SQL as ROSTER_QUERY,
+  AGENT_ROSTER_STATS_SQL,
 } from "../src/services/admin/adminAgentSql";
 
 function resolveDatabaseUrl(): string | undefined {
@@ -111,7 +112,7 @@ async function checkAdminInboxInTransaction(client: pg.Client): Promise<number> 
   }
   console.log("✓ Control: PREPARE rejects invalid column query (code 42703)");
 
-  // ── 1. PREPARE all 12 shipped statements against PostgreSQL ───────────────
+  // ── 1. PREPARE all 13 shipped statements against PostgreSQL ───────────────
   const statements = [
     { name: "_stmt_overall", sql: OVERALL_HEALTH_24H_QUERY },
     { name: "_stmt_source", sql: SOURCE_HEALTH_24H_QUERY },
@@ -125,6 +126,7 @@ async function checkAdminInboxInTransaction(client: pg.Client): Promise<number> 
     { name: "_stmt_idempotency", sql: IDEMPOTENCY_QUERY },
     { name: "_stmt_roster", sql: ROSTER_QUERY },
     { name: "_stmt_actions", sql: AGENT_ACTION_METRICS_SQL },
+    { name: "_stmt_roster_stats", sql: AGENT_ROSTER_STATS_SQL },
   ];
 
   for (const stmt of statements) {
@@ -292,16 +294,53 @@ async function checkAdminInboxInTransaction(client: pg.Client): Promise<number> 
   passedScenarios += 1;
   console.log("PASS Scenario 8: ROSTER_QUERY accurately filters is_agent = true");
 
+  // Both edges of every class: 399 is a success, 400/499 are client failures,
+  // 402 and 409 are expected refusals (insufficient_funds, already_applied),
+  // 500/599 are server failures.
   await client.query(`INSERT INTO pg_temp.request_log_entries(path,status,latency_ms)
-    VALUES ('/api/feed',200,10),('/api/feed',500,30),('/api/other',200,5)`);
+    VALUES ('/api/feed',200,10),('/api/feed',399,10),('/api/feed',400,10),('/api/feed',499,10),
+           ('/api/feed',402,10),('/api/feed',409,10),('/api/feed',500,30),('/api/feed',599,30),
+           ('/api/other',200,5)`);
   const actions = await client.query(AGENT_ACTION_METRICS_SQL, [["/api/feed"]]);
   assert.equal(actions.rows.length, 1);
-  assert.equal(actions.rows[0].total, 2);
-  assert.equal(actions.rows[0].successes, 1);
-  assert.equal(actions.rows[0].failures, 1);
-  assert.equal(actions.rows[0].server_failures, 1);
+  assert.equal(actions.rows[0].total, 8);
+  assert.equal(actions.rows[0].successes, 2);
+  assert.equal(actions.rows[0].client_failures, 2, "400 and 499 are failures; 402 and 409 are not");
+  assert.equal(actions.rows[0].refusals, 2, "402 and 409 only");
+  assert.equal(actions.rows[0].server_failures, 2);
+  assert.equal(
+    actions.rows[0].successes + actions.rows[0].client_failures + actions.rows[0].refusals + actions.rows[0].server_failures,
+    actions.rows[0].total,
+    "every status lands in exactly one column",
+  );
   passedScenarios += 1;
   console.log("PASS Scenario 9: shipped action metrics filter and aggregate the TEMP request log");
+
+  // ── Scenario 10: an agent is ACTIVE when it has a feed event, not when it signed in ──
+  await client.query(
+    "CREATE TEMP TABLE feed_events (actor_id uuid, created_at timestamptz NOT NULL DEFAULT now())",
+  );
+  const feedIso = await client.query<{ isolated: boolean }>(
+    "SELECT relnamespace = pg_my_temp_schema() AS isolated FROM pg_class WHERE oid = to_regclass('feed_events')",
+  );
+  assert.equal(feedIso.rows[0]?.isolated, true, "feed_events must resolve to the temporary fixture");
+  await client.query("INSERT INTO pg_temp.users (name, is_agent) VALUES ('Idle Agent', true)");
+  await client.query(`INSERT INTO pg_temp.feed_events (actor_id)
+    SELECT u.id FROM pg_temp.users u, generate_series(1, 3) WHERE u.name = 'Solana Agent'`);
+  await client.query(
+    "INSERT INTO pg_temp.feed_events (actor_id) SELECT id FROM pg_temp.users WHERE name = 'Human User'",
+  );
+  await client.query(`INSERT INTO pg_temp.feed_events (actor_id, created_at)
+    SELECT id, now() - interval '2 days' FROM pg_temp.users WHERE name = 'Idle Agent'`);
+  const roster = await client.query<{ total_agents: number; active_agents: number }>(AGENT_ROSTER_STATS_SQL);
+  assert.equal(roster.rows[0]?.total_agents, 2);
+  assert.equal(
+    roster.rows[0]?.active_agents,
+    1,
+    "three events by one agent count once; a human's event and a 2-day-old event do not count",
+  );
+  passedScenarios += 1;
+  console.log("PASS Scenario 10: active agents are counted from feed events in the last 24 h");
 
   console.log(`Admin/Inbox SQL: ${passedScenarios} isolated PostgreSQL scenarios passed.`);
   return passedScenarios;
