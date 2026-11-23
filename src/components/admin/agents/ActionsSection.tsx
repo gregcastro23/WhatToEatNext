@@ -7,6 +7,7 @@
  */
 
 import React from "react";
+import { DebitRefusalsCard } from "@/components/admin/agents/DebitRefusalsCard";
 import { fmtAgo, fmtInt } from "@/components/admin/live/format";
 import { Pill } from "@/components/admin/live/primitives";
 import type { AdminAgentsView } from "@/lib/admin/schemas/agents";
@@ -257,6 +258,8 @@ export function ActionsSection({
         <CronList cronHeartbeats={actions.cronHeartbeats} />
         <ActionMetricsTable actionMetrics={actions.actionMetrics} />
       </div>
+
+      <DebitRefusalsCard />
     </div>
   );
 }
