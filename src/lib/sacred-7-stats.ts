@@ -348,27 +348,20 @@ export const MONICA_POPULATION_SCALE: Partial<Record<MonicaMethod, number>> = {
   // repeating across signs) rather than one anomalous row — but re-audit it, not
   // just re-run it, after any change to kalchm or the vessel.
   'two-body': 2.208277339500193,
-  // ⚠️ RE-DERIVED. The first value shipped here was 0.016851, taken from
-  // |max| 0.033702 / 2 across all 71 rows. That maximum was NOT a real agent's
-  // monica: Carl Jung and Frida Kahlo share a byte-identical natal_positions
-  // blob, and it produced the only chart in the population where nocturnal
-  // (0.049297) exceeds diurnal (0.018108) with both positive. A duplicated,
-  // shape-anomalous row was setting the scale for the other 61.
+  // ⚠️ RE-DERIVED [MEASURED 2026-11-22, n=64 distinct / 72 total, 8 ancient clones excluded].
+  // Earlier values: 0.016851 (dominated by the degenerate Aries-0° Jung/Kahlo clone),
+  // then 0.0047205 (|max| 0.009441 / 2, measured 2026-07-25 over n=61 distinct pre-ADR-009).
   //
-  // Re-measured over the 61 rows with their OWN distinct chart:
-  //   |max| 0.009441 / 2 = 0.004720   (3.6x smaller than the value it replaces)
+  // On 2026-11-22, Carl Jung and Frida Kahlo were updated to distinct historical
+  // 10-body charts (clones 10 -> 8) and the 72 full-chart rows were backfilled
+  // under the current ADR-009 inertial-mass / 5-fold dignity weights:
+  //   range [-0.140228, 0.043083], extremum René Descartes (-0.140228),
+  //   |max| 0.140228 / 2 = 0.070114 (exact half of NUMERIC(_,6) stored max).
   //
-  // ⚠️ RE-DERIVE THIS when the 10 cloned charts are fixed (8 ancients share one
-  // blob, Jung/Kahlo share another). If a real chart is authored for any of
-  // them, re-run scripts/measureThreeOpenNumbers.ts and update this line —
-  // do not assume it still holds.
-  //
-  // The stated max is the exact stored value: monica_full_chart is NUMERIC(_,6),
-  // so 0.009441 is the whole number, not a rounded print of it. The scale is
-  // therefore its exact half — 0.0047205, NOT the 0.004720 that shipped first.
-  // That earlier value was a 4-dp rounding of an exact half, so it could not be
-  // reproduced from its own stated basis (off by 5e-7, relative 1e-4).
-  'full-chart': 0.0047205, // |max| 0.009441 / 2  [MEASURED 2026-07-25, n=61, clones excluded]
+  // ⚠️ RE-DERIVE THIS if the remaining 8 ancient clones are replaced with
+  // distinct charts or if the monica engine changes: re-run
+  // scripts/measureThreeOpenNumbers.ts and update this line.
+  'full-chart': 0.070114, // |max| 0.140228 / 2  [MEASURED 2026-11-22, n=64 distinct, 8 ancient clones excluded]
 }
 
 const DEFAULT_MONICA_SCALE = MONICA_POPULATION_SCALE['single-body'] as number

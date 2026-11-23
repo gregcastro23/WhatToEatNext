@@ -9,27 +9,29 @@
  * produced the two groups this repo already carries:
  *
  *   8 agents (Alexander, Archimedes, Aristotle, Herodotus, Homer, Caesar,
- *     Cicero, Plato) share ONE chart, monica_full_chart 0.003160
- *   2 agents (Jung, Kahlo) share a chart in which ALL TEN bodies sit at
- *     Aries 0°, degree 0 — degenerate, not merely duplicated
+ *     Cicero, Plato) share ONE chart, monica_full_chart 0.011100
+ *
+ * (Previously a second group — Carl Jung & Frida Kahlo, all ten bodies at
+ * Aries 0° — held 2 cloned rows. Both were resolved on 2026-11-22 to distinct
+ * 10-body charts, reducing the known clone baseline from 10 to 8, and the
+ * Sacred-7 full-chart scale was re-measured accordingly.)
  *
  * So the gate asserts the known baseline and fails when the count GROWS.
  *
  * ── Why it matters beyond tidiness ──────────────────────────────────────────
  *
- * A |max|-derived constant is hostage to its least-trustworthy row. The
- * Jung/Kahlo chart holds the full-chart population maximum (0.033702); including
- * it would set the Sacred-7 full-chart scale to 0.0168, against 0.0047205 from
- * the 61 rows with distinct charts — a 3.6× error of exactly the kind that has
- * shipped before. A cloned chart is therefore a live hazard to a constant, not
- * just duplicated data.
+ * A |max|-derived constant is hostage to its least-trustworthy row. The old
+ * Jung/Kahlo clone once held the full-chart population maximum (0.033702);
+ * including it set the Sacred-7 full-chart scale 3.6× wrong against the
+ * distinct-chart baseline. A cloned chart is therefore a live hazard to a
+ * constant, not just duplicated data.
  *
  * ── Controls ────────────────────────────────────────────────────────────────
  *
  * A zero result here is a claim requiring a control test, because a broken query
  * and a clean database are indistinguishable from the outside. This script
  * therefore asserts that it can (a) reach a populated agent table at all,
- * (b) see chart-bearing agents, and (c) still detect the two clone groups it
+ * (b) see chart-bearing agents, and (c) still detect the clone group it
  * already knows about. If any control fails it exits non-zero and says the scan
  * was unsound — it never reports "clean".
  *
@@ -39,12 +41,11 @@
  */
 import pg from "pg";
 
-/** The clone groups that exist as of 2026-07-26 and are tracked, not new. */
+/** The clone groups that remain as of 2026-11-22 and are tracked, not new. */
 const KNOWN_GROUPS: Array<{ size: number; note: string }> = [
   { size: 8, note: "the 8 ancients sharing one fallback chart" },
-  { size: 2, note: "Jung + Kahlo, all ten bodies at Aries 0° (degenerate)" },
 ];
-const KNOWN_CLONED_ROWS = KNOWN_GROUPS.reduce((n, g) => n + g.size, 0); // 10
+const KNOWN_CLONED_ROWS = KNOWN_GROUPS.reduce((n, g) => n + g.size, 0); // 8
 
 interface CloneRow {
   chart_hash: string;

@@ -75,29 +75,26 @@ describe("normalizeMonicaForStats", () => {
   });
 
   it("spreads the real full-chart range instead of flattening it to ~0.50", () => {
-    // The measured range across the 61 agents with their OWN distinct chart.
-    // 0.009441 (Wangari Maathai), NOT 0.033702 — that larger value belongs to the
-    // Carl Jung / Frida Kahlo duplicated chart and is not a real agent's monica.
-    const lo = normalizeMonicaForStats(0.0018, "full-chart");
-    const hi = normalizeMonicaForStats(0.009441, "full-chart");
+    // Re-measured 2026-11-22 across n=64 distinct full-chart rows (range
+    // [-0.140228, 0.043083], scale 0.070114): Mark Twain (-0.024565) to David
+    // Hume (0.043083) spans > 0.25 on [0, 1].
+    const lo = normalizeMonicaForStats(-0.024565, "full-chart");
+    const hi = normalizeMonicaForStats(0.043083, "full-chart");
     expect(hi - lo).toBeGreaterThan(0.25);
 
-    // Control: prove the old behaviour really was degenerate, so this test
-    // cannot quietly pass for the wrong reason.
-    const loOld = normalizeMonicaForStats(0.0018, "single-body");
-    const hiOld = normalizeMonicaForStats(0.009441, "single-body");
-    expect(hiOld - loOld).toBeLessThan(0.01);
+    // Control: prove the old single-body scale compressed the same span near 0.50.
+    const loOld = normalizeMonicaForStats(-0.024565, "single-body");
+    const hiOld = normalizeMonicaForStats(0.043083, "single-body");
+    expect(hiOld - loOld).toBeLessThan(0.02);
   });
 
-  it("saturates the duplicated-chart outlier instead of letting it set the scale", () => {
-    // 0.033702 comes from a chart shared by two different people. Under the
-    // corrected scale it saturates near 1.0, which is the right signal for an
-    // anomalous value — rather than compressing the other 61 agents to make room
-    // for it, which is what deriving the scale from it did.
-    expect(normalizeMonicaForStats(0.033702, "full-chart")).toBeGreaterThan(0.99);
-
-    // And the honest agents still occupy a usable spread below it.
-    expect(normalizeMonicaForStats(0.009441, "full-chart")).toBeLessThan(0.99);
+  it("keeps distinct extrema unclamped inside (0.01, 0.99) while gross outliers saturate", () => {
+    // Honest extrema (René Descartes -0.140228 and David Hume 0.043083) sit
+    // comfortably inside (0.01, 0.99), whereas a gross outlier (0.5) saturates.
+    expect(normalizeMonicaForStats(0.5, "full-chart")).toBeGreaterThan(0.99);
+    expect(normalizeMonicaForStats(-0.140228, "full-chart")).toBeGreaterThan(0.01);
+    expect(normalizeMonicaForStats(-0.140228, "full-chart")).toBeLessThan(0.5);
+    expect(normalizeMonicaForStats(0.043083, "full-chart")).toBeLessThan(0.99);
   });
 
   it("returns the neutral 0.5 for non-finite input, never NaN", () => {

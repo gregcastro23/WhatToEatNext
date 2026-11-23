@@ -14,7 +14,7 @@ jest.mock("next/server", () => ({
 import { withTransaction } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { agentMonica } from "@/utils/agentMonica";
-import { MIN_CHART_BODIES } from "@/utils/fullChartMonica";
+import { fullChartMonica, MIN_CHART_BODIES } from "@/utils/fullChartMonica";
 import { POST } from "../route";
 
 jest.mock("@/lib/database", () => ({
@@ -610,6 +610,149 @@ describe("POST /api/internal/agent-sync", () => {
         expect.stringContaining("INSERT INTO users"),
         expect.arrayContaining([expectedEmail]),
       );
+    });
+  });
+
+  describe("full-chart monica is computed and refreshed when natal_positions changes", () => {
+    const POSITIONS_A = [
+      { planet: "Sun", sign: "Leo", degree: 3.31 },
+      { planet: "Moon", sign: "Taurus", degree: 15.51 },
+      { planet: "Mercury", sign: "Cancer", degree: 13.77 },
+      { planet: "Venus", sign: "Cancer", degree: 17.5 },
+      { planet: "Mars", sign: "Sagittarius", degree: 21.37 },
+      { planet: "Jupiter", sign: "Libra", degree: 23.8 },
+    ];
+    const POSITIONS_B = [
+      { planet: "Sun", sign: "Aries", degree: 10.95 },
+      { planet: "Moon", sign: "Taurus", degree: 10.09 },
+      { planet: "Mercury", sign: "Aries", degree: 29.8 },
+      { planet: "Venus", sign: "Taurus", degree: 6.25 },
+      { planet: "Mars", sign: "Gemini", degree: 22.23 },
+      { planet: "Jupiter", sign: "Aries", degree: 15.49 },
+    ];
+
+    function makeClient(existingUserId: string | null): { query: jest.Mock } {
+      const mockClient = {
+        query: jest.fn().mockImplementation((queryStr: string) => {
+          if (queryStr.includes("SELECT id FROM users")) {
+            return Promise.resolve({
+              rows: existingUserId ? [{ id: existingUserId }] : [],
+            });
+          }
+          return Promise.resolve({ rowCount: 1, rows: [] });
+        }),
+      };
+      jest.mocked(withTransaction).mockImplementation((callback) =>
+        Reflect.apply(callback, undefined, [mockClient]),
+      );
+      return mockClient;
+    }
+
+    function captureProfileCall(mockClient: {
+      query: jest.Mock;
+    }): { sql: string; params: unknown[] } {
+      const call = mockClient.query.mock.calls.find(([sql]: [string]) =>
+        sql.includes("INSERT INTO user_profiles"),
+      );
+      if (!call) throw new Error("INSERT INTO user_profiles was never called");
+      return { sql: String(call[0]), params: call[1] };
+    }
+
+    it("computes and stores full-chart monica on initial insert for a chart-bearing historical agent", async () => {
+      const mockClient = makeClient(null);
+      const expected = fullChartMonica(POSITIONS_A);
+      expect(expected).not.toBeNull();
+
+      const res = await POST(
+        makeRequest(
+          {
+            email: "carl-jung@agentic.alchm.kitchen",
+            displayName: "Carl Jung",
+            natalPositions: POSITIONS_A,
+          },
+          { "X-Sync-Secret": mockSyncSecret },
+        ),
+      );
+      expect(res.status).toBe(200);
+      const { sql, params } = captureProfileCall(mockClient);
+      expect(sql).toContain("monica_full_chart");
+      expect(sql).toContain("CASE WHEN $10 = 'full-chart'  THEN $7::numeric END");
+      expect(params[6]).toBeCloseTo(expected?.combined ?? 0, 10);
+      expect(params[7]).toBeCloseTo(expected?.diurnal ?? 0, 10);
+      expect(params[8]).toBeCloseTo(expected?.nocturnal ?? 0, 10);
+      expect(params[9]).toBe("full-chart");
+    });
+
+    it("recomputes full-chart monica on conflict when an existing historical agent syncs updated positions", async () => {
+      const mockClient = makeClient("existing-jung-id");
+      const expected = fullChartMonica(POSITIONS_B);
+      expect(expected).not.toBeNull();
+
+      const res = await POST(
+        makeRequest(
+          {
+            email: "carl-jung@agentic.alchm.kitchen",
+            displayName: "Carl Jung",
+            natalPositions: POSITIONS_B,
+          },
+          { "X-Sync-Secret": mockSyncSecret },
+        ),
+      );
+      expect(res.status).toBe(200);
+      const { sql, params } = captureProfileCall(mockClient);
+      expect(sql).toContain("ON CONFLICT (user_id) DO UPDATE SET");
+      expect(sql).toContain(
+        "WHEN EXCLUDED.monica_method = 'full-chart' AND (user_profiles.monica_method IS NULL OR user_profiles.monica_method = 'full-chart') THEN EXCLUDED.monica_full_chart",
+      );
+      expect(sql).toContain(
+        "WHEN EXCLUDED.monica_method = 'full-chart' AND (user_profiles.monica_method IS NULL OR user_profiles.monica_method = 'full-chart') THEN NULL",
+      );
+      expect(params[6]).toBeCloseTo(expected?.combined ?? 0, 10);
+      expect(params[7]).toBeCloseTo(expected?.diurnal ?? 0, 10);
+      expect(params[8]).toBeCloseTo(expected?.nocturnal ?? 0, 10);
+      expect(params[9]).toBe("full-chart");
+    });
+
+    it("passes null monica on bio-only re-sync so existing full-chart values are preserved", async () => {
+      const mockClient = makeClient("existing-jung-id");
+
+      const res = await POST(
+        makeRequest(
+          {
+            email: "carl-jung@agentic.alchm.kitchen",
+            displayName: "Carl Jung",
+            bio: "Swiss psychiatrist",
+          },
+          { "X-Sync-Secret": mockSyncSecret },
+        ),
+      );
+      expect(res.status).toBe(200);
+      const { params } = captureProfileCall(mockClient);
+      expect(params[5]).toBeNull();
+      expect(params[6]).toBeNull();
+      expect(params[7]).toBeNull();
+      expect(params[8]).toBeNull();
+      expect(params[9]).toBeNull();
+    });
+
+    it("keeps single-body placement classification ahead of full-chart even when positions are sent", async () => {
+      const mockClient = makeClient("existing-jupiter-id");
+      const expected = agentMonica("Jupiter", "Leo", 2);
+
+      const res = await POST(
+        makeRequest(
+          {
+            email: "planetary-jupiter-leo-2@agentic.alchm.kitchen",
+            displayName: "Jupiter Leo 2",
+            natalPositions: POSITIONS_A,
+          },
+          { "X-Sync-Secret": mockSyncSecret },
+        ),
+      );
+      expect(res.status).toBe(200);
+      const { params } = captureProfileCall(mockClient);
+      expect(params[6]).toBeCloseTo(expected.combined, 10);
+      expect(params[9]).toBe("single-body");
     });
   });
 });

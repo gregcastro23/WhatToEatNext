@@ -266,38 +266,37 @@ describe("the Sacred-7 monica scales are derived from their populations", () => 
 
   describe("full-chart — measured from the DB, so guarded by invariant", () => {
     /**
-     * ⚠️ This one cannot be re-derived in-process: its population is 71 authored
+     * ⚠️ This one cannot be re-derived in-process: its population is 72 authored
      * charts in production, not a grid. Re-measure with
      * scripts/measureThreeOpenNumbers.ts after ANY change to kalchm, monica, or
      * the chart data itself.
      *
-     * MEASURED-PENDING as of 2026-07-25: the current value excludes 10 rows whose
-     * natal_positions are duplicates of another row's — 8 ancients sharing one
-     * fallback blob, plus Jung/Kahlo. Those 10 are being re-based, and this number
-     * must be re-measured when they are.
+     * MEASURED [2026-11-22]: n=64 distinct charts / 72 total (Jung/Kahlo clone
+     * resolved on 2026-11-22; 8 ancients still share one fallback chart at
+     * 0.011100). Population extremum is René Descartes (-0.140228) across range
+     * [-0.140228, 0.043083] under ADR-009 inertial-mass / 5-fold dignity weights.
+     * Re-measure again if the remaining 8 ancient clones are resolved.
      */
-    const FULL_CHART_POPULATION_MAX = 0.009441;
+    const FULL_CHART_POPULATION_MAX = 0.140228;
 
     it("is EXACTLY half its stated population max", () => {
       // The one part of this scale that CAN be checked in-process: the arithmetic
       // between the stated basis and the constant. monica_full_chart is NUMERIC(_,6)
-      // so 0.009441 is the stored value in full, not a rounded print — its half is
-      // exact. The first shipped value, 0.004720, was that half rounded to 4 dp and
-      // so failed this check by 5e-7.
+      // so 0.140228 is the stored magnitude in full, not a rounded print — its
+      // half is exact.
       expect(MONICA_POPULATION_SCALE["full-chart"]).toBe(FULL_CHART_POPULATION_MAX / 2);
-      expect(MONICA_POPULATION_SCALE["full-chart"]).toBe(0.0047205);
+      expect(MONICA_POPULATION_SCALE["full-chart"]).toBe(0.070114);
     });
 
     it("is the smallest of the three scales, by orders of magnitude", () => {
       // A full chart sums ~10 bodies, so its ESMS axes are large and its kalchm
-      // sits far from the degenerate region — monica comes out 2-3 orders of
-      // magnitude smaller than a single body's. If this ever inverts, the value
-      // was measured from the wrong column (the failure mode that produced the
-      // "full-chart monica is 200x LARGER" claim, which was 12-43x SMALLER).
+      // sits far from the degenerate region — monica comes out an order of
+      // magnitude smaller than a single body's (29.3x smaller: 2.056055 / 0.070114).
+      // If this ever inverts, the value was measured from the wrong column.
       const full = MONICA_POPULATION_SCALE["full-chart"] as number;
       expect(full).toBeLessThan(MONICA_POPULATION_SCALE["two-body"] as number);
       expect(full).toBeLessThan(MONICA_POPULATION_SCALE["single-body"] as number);
-      expect(full * 100).toBeLessThan(MONICA_POPULATION_SCALE["single-body"] as number);
+      expect(full * 10).toBeLessThan(Number(MONICA_POPULATION_SCALE["single-body"]));
     });
   });
 
