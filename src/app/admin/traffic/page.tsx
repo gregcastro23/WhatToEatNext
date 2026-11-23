@@ -15,6 +15,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { ErrorBlock, LoadingBlock, PageHeader } from "@/components/admin/live/primitives";
 import { useAdminResource } from "@/components/admin/live/useAdminResource";
 import { TrafficSummarySchema, type TrafficSummaryView } from "@/lib/admin/schemas/traffic";
+import { TRAFFIC_POLL_MS } from "@/lib/admin/trafficPoll";
 import { RecentVisits, type DiagnosticPreset } from "./_components/RecentVisits";
 import {
   ActivationStickinessStrip,
@@ -262,7 +263,7 @@ export default function TrafficPage(): React.JSX.Element {
   }, []);
 
   useTrafficUrlListeners(applySearchParams, setSavedRefTags);
-  const { data, error, updatedAt, refresh } = useAdminResource(`/api/admin/traffic?range=${range}`, TrafficSummarySchema, 10_000);
+  const { data, error, updatedAt, refresh } = useAdminResource(`/api/admin/traffic?range=${range}`, TrafficSummarySchema, TRAFFIC_POLL_MS);
   return (
     <div className="space-y-6">
       <PageHeader
