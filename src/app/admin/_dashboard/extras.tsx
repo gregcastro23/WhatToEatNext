@@ -13,6 +13,7 @@ import type {
 } from "@/services/dashboardPanelsService";
 import { Glyph } from "./atoms";
 import { Card } from "./hero";
+import { routeErrorCell } from "./routeErrorCell";
 
 // ============================================================
 // SUBDOMAIN MATRIX
@@ -377,13 +378,13 @@ export function APIHeatmap({ db, routeHeatmap }: APIHeatmapProps): React.ReactEl
               className="t-tag"
               style={{ fontSize: 8, textAlign: "right" }}
             >
-              ERR
+              5XX
             </span>
           </div>
           {routeHeatmap.routes.slice(0, 8).map((r, i) => {
             const p95 = r.p95Ms ?? 0;
             const p95Color = p95 > 500 ? "var(--el-fire)" : p95 > 200 ? "var(--accent-2)" : "var(--fg)";
-            const errColor = r.errors5xx > 0 ? "var(--el-fire)" : r.errors4xx > 0 ? "var(--accent-2)" : "var(--fg-mute)";
+            const errCell = routeErrorCell(r.errors5xx, r.errors4xx);
             return (
               <div
                 key={r.path}
@@ -407,7 +408,7 @@ export function APIHeatmap({ db, routeHeatmap }: APIHeatmapProps): React.ReactEl
                 ))}
                 <span className="t-num" style={{ textAlign: "right", color: "var(--fg-dim)" }}>{r.totalRequests.toLocaleString()}</span>
                 <span className="t-num" style={{ textAlign: "right", color: p95Color }}>{r.p95Ms !== null ? `${r.p95Ms}ms` : "—"}</span>
-                <span className="t-num" style={{ textAlign: "right", color: errColor }} title={`${r.errors5xx} 5xx · ${r.errors4xx} 4xx`}>{r.errors5xx + r.errors4xx}</span>
+                <span className="t-num" style={{ textAlign: "right", color: errCell.color }} title={errCell.title}>{errCell.text}</span>
               </div>
             );
           })}
