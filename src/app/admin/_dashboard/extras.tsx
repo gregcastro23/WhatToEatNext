@@ -13,6 +13,7 @@ import type {
 } from "@/services/dashboardPanelsService";
 import { Glyph } from "./atoms";
 import { Card } from "./hero";
+import { resourceUsageNoSourceCopy } from "./resourceUsageCopy";
 
 // ============================================================
 // SUBDOMAIN MATRIX
@@ -1440,13 +1441,14 @@ export function ResourceUsage({ data }: { data?: ResourceUsageData }) {
     provider = "Railway",
     periodLabel = "",
     live = false,
+    status = "unread",
+    failure = null,
   } = data ?? {};
+  const noSource = resourceUsageNoSourceCopy({ status, failure });
   return (
     <Card
       title="Resource Usage · MTD"
-      subtitle={
-        live ? `${provider} · ${periodLabel}` : "Railway usage not connected"
-      }
+      subtitle={live ? `${provider} · ${periodLabel}` : noSource.subtitle}
       right={
         <span
           className="t-mono"
@@ -1472,13 +1474,13 @@ export function ResourceUsage({ data }: { data?: ResourceUsageData }) {
           <div
             style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}
           >
-            Railway usage not connected
+            {noSource.headline}
           </div>
           <div
             className="t-mono"
-            style={{ fontSize: 9, color: "var(--fg-mute)" }}
+            style={{ fontSize: 9, color: "var(--fg-mute)", overflowWrap: "anywhere" }}
           >
-            set RAILWAY_API_TOKEN to populate
+            {noSource.detail}
           </div>
         </div>
       ) : (

@@ -19,7 +19,8 @@ import {
 } from "@/lib/observability/slowQueryLog";
 import { redisCached } from "@/lib/redis";
 import {
-  fetchRailwayResourceUsage,
+  readRailwayResourceUsage,
+  type RailwayUsageOutcome,
   type ResourceUsageItem,
 } from "@/services/railwayUsageService";
 import { getSubscriptionRevenueBreakdown } from "@/services/subscriptionRevenueService";
@@ -1633,14 +1634,33 @@ export interface ResourceUsageData {
   provider: string;
   periodLabel: string;
   live: boolean;
+  /**
+   * Why there is (or is not) data. `token-unset`: RAILWAY_API_TOKEN is not set.
+   * `call-failed`: the token IS set but Railway's API did not give usable data;
+   * `failure` says why. `unread`: this payload was never produced (the
+   * dashboard's loading / load-error fallback). `live` is true only for `live`.
+   */
+  status: "live" | "token-unset" | "call-failed" | "unread";
+  /** One token-free line (HTTP status or Railway's first error, and which query). Non-null only for `call-failed`. */
+  failure: string | null;
 }
 
-const RESOURCE_USAGE_NO_SOURCE: ResourceUsageData = {
-  items: [],
-  provider: "Railway",
-  periodLabel: "",
-  live: false,
-};
+function resourceUsageNoSource(
+  status: "token-unset" | "call-failed",
+  failure: string | null,
+): ResourceUsageData {
+  return { items: [], provider: "Railway", periodLabel: "", live: false, status, failure };
+}
+
+/** Thrown inside the cache loader so a failed read is retried on the next poll instead of cached for 15 minutes. */
+class RailwayUsageUnavailable extends Error {
+  readonly outcome: Exclude<RailwayUsageOutcome, { status: "ok" }>;
+
+  constructor(outcome: Exclude<RailwayUsageOutcome, { status: "ok" }>) {
+    super(`Railway usage unavailable: ${outcome.status}`);
+    this.outcome = outcome;
+  }
+}
 
 /**
  * Real Railway resource usage (month-to-date actual + projected month-end), in
@@ -1648,20 +1668,31 @@ const RESOURCE_USAGE_NO_SOURCE: ResourceUsageData = {
  * authoritative cost, and Vercel exposes no spend on this plan, so a dollar
  * panel can't be built without fabricating; this replaced the old fabricated
  * "Cost Burndown" — see railwayUsageService.) Cached ~15 min because the
- * Railway GraphQL call is slow/rate-limited and usage moves slowly. Falls back
- * to the honest "not connected" state when RAILWAY_API_TOKEN is unset or the
- * call fails, so the panel never invents numbers.
+ * Railway GraphQL call is slow/rate-limited and usage moves slowly. When there
+ * is no data the panel is told WHICH honest state it is in — token unset, or
+ * token set and the call failed (with the reason) — so it never invents
+ * numbers and never tells the operator to set a token that is already set.
  */
 export async function getResourceUsage(): Promise<ResourceUsageData> {
   try {
-    const usage = await redisCached("dashboard:railway-usage", 900, () =>
-      fetchRailwayResourceUsage(),
-    );
-    if (!usage) return RESOURCE_USAGE_NO_SOURCE;
-    return { ...usage, live: true };
+    const usage = await redisCached("dashboard:railway-usage", 900, async () => {
+      const outcome = await readRailwayResourceUsage();
+      if (outcome.status !== "ok") throw new RailwayUsageUnavailable(outcome);
+      return outcome.usage;
+    });
+    return { ...usage, live: true, status: "live", failure: null };
   } catch (error) {
-    _logger.warn("[getResourceUsage] failed:", error);
-    return RESOURCE_USAGE_NO_SOURCE;
+    if (error instanceof RailwayUsageUnavailable) {
+      const { outcome } = error;
+      return outcome.status === "no-token"
+        ? resourceUsageNoSource("token-unset", null)
+        : resourceUsageNoSource("call-failed", outcome.reason);
+    }
+    // Not a Railway answer (the cache layer itself threw): the reader never got to say.
+    _logger.error("[getResourceUsage] failed:", error);
+    return process.env.RAILWAY_API_TOKEN
+      ? resourceUsageNoSource("call-failed", "usage read failed unexpectedly (see the server log)")
+      : resourceUsageNoSource("token-unset", null);
   }
 }
 
