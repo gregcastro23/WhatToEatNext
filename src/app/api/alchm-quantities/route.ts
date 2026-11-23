@@ -14,6 +14,7 @@ import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeServi
 import type { DegradedInfo } from "@/types/degraded";
 import {
   DEG2RAD,
+  esmsCouplingGain,
   magnitude,
   positionVec,
   type Vec3,
@@ -305,8 +306,9 @@ export async function GET(request: Request): Promise<NextResponse | Response> {
       if (!alch) continue;
       const { r, v } = positionVec(planet, pos);
       // Force magnitude scales with 1/r² (inverse-square coupling),
-      // direction along velocity (motion = force-of-becoming).
-      const coupling = 1 / Math.max(magnitude(r) * magnitude(r), 0.01);
+      // direction along velocity (motion = force-of-becoming). The floor on r²
+      // (so the Moon's gain is flat at 100) lives in `esmsCouplingGain`.
+      const coupling = esmsCouplingGain(r);
       for (const key of ESMS_KEYS) {
         const w = toFinite(alch[key]);
         if (w === 0) continue;
