@@ -1,11 +1,22 @@
 import { readJson } from "@/lib/api/json";
 import { getServiceUrlSafe } from "@/lib/serviceUrls";
 import { McpNetworkSummarySchema } from "@/lib/validation/serviceResponseSchemas";
+import {
+  logMcpFallback,
+  reasonFromError,
+  reasonFromStatus,
+  type McpFallbackReason,
+  type McpSource,
+} from "@/services/mcpFallback";
 
 export type McpVerdict = "OK" | "DEGRADED" | "INCIDENT" | "UNKNOWN";
 
 export interface McpNetworkSummary {
   live: boolean;
+  /** `wten-local` = WTEN's own tables, NOT Planetary Agents' view. Absent reads as PA. */
+  source?: McpSource;
+  /** Why PA was not used (set with `source: "wten-local"`), or why this read failed (set with `live: false`). */
+  fallbackReason?: string;
   generatedAt: string;
   windowMinutes: number;
   verdict: McpVerdict;
@@ -99,6 +110,14 @@ export async function getMcpNetworkSummary(windowMinutes = 60): Promise<McpNetwo
 
   const stale = cachedSummary ? cachedSummary.data : DEFAULT_SUMMARY;
 
+  // A read that failed says WHICH step failed, in the payload and (throttled) in the
+  // production log: it used to be a bare `live: false`, so "PA telemetry unavailable"
+  // had no reason attached anywhere.
+  const degraded = (reason: McpFallbackReason): McpNetworkSummary => {
+    logMcpFallback("mcpNetworkService", reason);
+    return { ...stale, live: false, fallbackReason: reason };
+  };
+
   try {
     let url = "";
     const headers: Record<string, string> = {
@@ -123,7 +142,7 @@ export async function getMcpNetworkSummary(windowMinutes = 60): Promise<McpNetwo
     });
 
     if (!res.ok) {
-      return { ...stale, live: false };
+      return degraded(reasonFromStatus(res.status));
     }
 
     const data = await readJson(res, {
@@ -143,7 +162,7 @@ export async function getMcpNetworkSummary(windowMinutes = 60): Promise<McpNetwo
       Array.isArray(data.byAgent);
 
     if (!wellFormed) {
-      return { ...stale, live: false };
+      return degraded("malformed_response");
     }
 
     const liveData: McpNetworkSummary = {
@@ -153,17 +172,21 @@ export async function getMcpNetworkSummary(windowMinutes = 60): Promise<McpNetwo
       live: data.live !== false,
     };
 
-    // Only a genuinely live payload is worth caching as the stale fallback.
-    if (liveData.live) {
-      cachedSummary = {
-        data: liveData,
-        timestamp: now,
-      };
+    if (!liveData.live) {
+      logMcpFallback("mcpNetworkService", "pa_not_live");
+      return { ...liveData, fallbackReason: liveData.fallbackReason ?? "pa_not_live" };
     }
 
+    // Only a genuinely live payload is worth caching as the stale fallback, and the
+    // not-live case returned above.
+    cachedSummary = {
+      data: liveData,
+      timestamp: now,
+    };
+
     return liveData;
-  } catch (_error) {
+  } catch (error) {
     // Graceful fallback to stale or default summary
-    return { ...stale, live: false };
+    return degraded(reasonFromError(error));
   }
 }
