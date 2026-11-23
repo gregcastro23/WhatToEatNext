@@ -24,6 +24,7 @@ import {
   extractVariantTags,
   normalizeInteractionTag,
 } from "@/lib/analytics/interactionClassify";
+import { isOperatorPath } from "@/lib/analytics/operatorPath";
 
 const ENDPOINT = "/api/track/pageview";
 const FEEDBACK_ENDPOINT = "/api/track/feedback";
@@ -415,7 +416,7 @@ export default function PageViewTracker(): null {
   const rageCooldownRef = useRef<Map<string, number>>(new Map());
 
   useEffect(() => {
-    if (!pathname || pathname === "/admin" || pathname.startsWith("/admin/")) return;
+    if (!pathname || isOperatorPath(pathname)) return;
     if (typeof navigator !== "undefined" && navigator.webdriver) return;
 
     // React StrictMode double-invokes effects in development; one navigation
