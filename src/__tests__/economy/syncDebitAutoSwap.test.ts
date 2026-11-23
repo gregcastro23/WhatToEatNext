@@ -49,6 +49,11 @@ interface FakeState {
   rolledBack: boolean;
   failTransmute: boolean;
   failDebitAfterSwap: boolean;
+  /** The balance UPDATE matches nothing although the row read showed enough: a concurrent debit won. */
+  loseRace: boolean;
+  /** Bound params of each `INSERT INTO economy_debit_refusals` the route sent (hour, reason, empty, shortfall, known). */
+  refusals: unknown[][];
+  failRefusalWrite: boolean;
 }
 
 const state: FakeState = {
@@ -58,6 +63,9 @@ const state: FakeState = {
   rolledBack: false,
   failTransmute: false,
   failDebitAfterSwap: false,
+  loseRace: false,
+  refusals: [],
+  failRefusalWrite: false,
 };
 
 const round4 = (n: number): number => Math.round(n * 10_000) / 10_000;
@@ -77,6 +85,11 @@ const str = (value: unknown): string => String(value);
 const keyOf = (value: unknown): string | null => (value == null ? null : String(value));
 
 function run(sql: string, params: unknown[]): { rows: Array<Record<string, unknown>> } {
+  if (/INSERT INTO economy_debit_refusals/i.test(sql)) {
+    if (state.failRefusalWrite) throw new Error("fake db: refusal counter unavailable");
+    state.refusals.push(params);
+    return { rows: [] };
+  }
   if (/SELECT\s+u\.id/i.test(sql)) return { rows: [{ id: USER_ID, profile_name: "Ada" }] };
   if (/idempotency_key LIKE/i.test(sql)) return { rows: [] };
   if (/INSERT INTO token_balances \(user_id\) VALUES/i.test(sql)) return { rows: [] };
@@ -111,6 +124,7 @@ function run(sql: string, params: unknown[]): { rows: Array<Record<string, unkno
       matter: Number(params[3]),
       substance: Number(params[4]),
     };
+    if (state.loseRace) return { rows: [] };
     if (state.failDebitAfterSwap && state.ledger.length > 0) return { rows: [] };
     if (AXES.some((a) => state.balances[a] < want[a])) return { rows: [] };
     const held = state.balances;
@@ -191,6 +205,9 @@ describe("sync-debit — Swapping Bridge", () => {
     state.rolledBack = false;
     state.failTransmute = false;
     state.failDebitAfterSwap = false;
+    state.loseRace = false;
+    state.refusals = [];
+    state.failRefusalWrite = false;
     getLiveOracleQuote.mockReset();
     getLiveOracleQuote.mockReturnValue({
       bucketStartUtc: "2026-09-30T12:00:00.000Z",
@@ -290,6 +307,72 @@ describe("sync-debit — Swapping Bridge", () => {
     expect(status).toBe(402);
     expect(json.autoSwap).toEqual({ reason: "rates_unavailable", shortfallValue: null, deficits: null });
     expect(state.ledger).toEqual([]);
+  });
+
+  describe("refusal reasons are counted (migration 107), after the 402 is decided", () => {
+    const HOUR = /^\d{4}-\d{2}-\d{2}T\d{2}:00:00\.000Z$/;
+    const BODY_KEYS = ["autoSwap", "balances", "ok", "reason", "userId"];
+
+    it("insufficient_value: counts the shortfall the bridge measured, and a payer who holds something is not empty", async () => {
+      state.balances = { spirit: 3, essence: 0, matter: 0, substance: 0 };
+      const { status, json } = await post();
+      expect(status).toBe(402);
+      expect(state.refusals).toHaveLength(1);
+      const [hour, reason, empty, shortfall, known] = state.refusals[0] ?? [];
+      expect(hour).toMatch(HOUR);
+      expect([reason, empty, known]).toEqual(["insufficient_value", 0, 1]);
+      expect(shortfall).toBe(json.autoSwap.shortfallValue);
+    });
+
+    it("an empty payer is counted as empty", async () => {
+      await post();
+      expect(state.refusals.map((r) => [r[1], r[2]])).toEqual([["insufficient_value", 1]]);
+    });
+
+    it("autoSwap: false is auto_swap_off, with no shortfall to count", async () => {
+      state.balances = { spirit: 20, essence: 0, matter: 1, substance: 2.5 };
+      await post({ autoSwap: false });
+      expect(state.refusals.map((r) => r.slice(1))).toEqual([["auto_swap_off", 0, 0, 0]]);
+    });
+
+    it("an unpriceable sky is rates_unavailable, with no shortfall to count", async () => {
+      state.balances = { spirit: 20, essence: 0, matter: 1, substance: 2.5 };
+      getLiveOracleQuote.mockImplementation(() => {
+        throw new Error("price-index: engine returned unusable ESMS total");
+      });
+      await post();
+      expect(state.refusals.map((r) => r.slice(1))).toEqual([["rates_unavailable", 0, 0, 0]]);
+    });
+
+    it("a lost race is lost_race, and its 402 body is unchanged", async () => {
+      state.balances = { spirit: 10, essence: 10, matter: 10, substance: 10 };
+      state.loseRace = true;
+      const { status, json } = await post();
+      expect(status).toBe(402);
+      expect(Object.keys(json).sort()).toEqual(BODY_KEYS.filter((k) => k !== "autoSwap"));
+      expect(state.refusals.map((r) => r[1])).toEqual(["lost_race"]);
+    });
+
+    it("the 402 body gains no field: the reason is stored, never sent to the caller", async () => {
+      state.balances = { spirit: 3, essence: 0, matter: 0, substance: 0 };
+      const { json } = await post();
+      expect(Object.keys(json).sort()).toEqual(BODY_KEYS);
+    });
+
+    it("a charge that succeeds counts nothing", async () => {
+      state.balances = { spirit: 10, essence: 10, matter: 10, substance: 10 };
+      expect((await post({ idempotencyKey: "same" })).status).toBe(200);
+      expect(state.refusals).toEqual([]);
+    });
+
+    it("a counter that fails changes nothing the caller sees", async () => {
+      state.balances = { spirit: 3, essence: 0, matter: 0, substance: 0 };
+      state.failRefusalWrite = true;
+      const { status, json } = await post();
+      expect(status).toBe(402);
+      expect(json.reason).toBe("insufficient_funds");
+      expect(state.balances).toEqual({ spirit: 3, essence: 0, matter: 0, substance: 0 });
+    });
   });
 
   describe("atomicity", () => {
