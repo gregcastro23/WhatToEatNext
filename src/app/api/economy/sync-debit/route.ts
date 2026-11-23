@@ -9,9 +9,11 @@ import type {
   AutoSwapExecution,
   AutoSwapRefusal,
 } from "@/lib/economy/swappingBridge";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { safeEqual, bearerMatches } from "@/lib/hooks/secureCompare";
 import { withObservability } from "@/lib/observability/withObservability";
 import { SyncDebitRequestSchema } from "@/lib/validation/apiSchemas";
+import { recordDebitRefusal, toDebitRefusal } from "@/services/debitRefusalService";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import { normaliseNatalPositions } from "@/utils/fullChartMonica";
 import { createLogger } from "@/utils/logger";
@@ -427,7 +429,7 @@ async function handlePost(req: NextRequest) {
 
       if (curSpirit < spirit || curEssence < essence || curMatter < matter || curSubstance < substance) {
         if (!autoSwapEnabled) {
-          return { kind: "insufficient_funds" as const, balances: current };
+          return { kind: "insufficient_funds" as const, cause: "auto_swap_off" as const, balances: current };
         }
 
         // 3b. Swapping Bridge. Loaded only for a short basket — the oracle pulls
@@ -443,7 +445,7 @@ async function handlePost(req: NextRequest) {
           // exactly as short as it was before the bridge existed.
           logger.warn("[sync-debit] auto-swap skipped — oracle unavailable", { userId, error: oracleError });
           const refusal: AutoSwapRefusal = { reason: "rates_unavailable", shortfallValue: null, deficits: null };
-          return { kind: "insufficient_funds" as const, balances: current, autoSwap: refusal };
+          return { kind: "insufficient_funds" as const, cause: refusal.reason, balances: current, autoSwap: refusal };
         }
 
         // Plan against exactly what step 4 debits: the 4dp amounts.
@@ -458,11 +460,8 @@ async function handlePost(req: NextRequest) {
           prices: quote.prices,
         });
         if (!plan.canCover) {
-          return {
-            kind: "insufficient_funds" as const,
-            balances: current,
-            autoSwap: bridge.describeRefusal(plan),
-          };
+          const refusal = bridge.describeRefusal(plan);
+          return { kind: "insufficient_funds" as const, cause: refusal.reason, balances: current, autoSwap: refusal };
         }
 
         // Legs are written on THIS transaction's client: they commit with the
@@ -510,6 +509,7 @@ async function handlePost(req: NextRequest) {
         const b2 = cur2.rows[0] ?? { spirit: "0", essence: "0", matter: "0", substance: "0" };
         return {
           kind: "insufficient_funds" as const,
+          cause: "lost_race" as const,
           balances: {
             spirit: parseFloat(b2.spirit) || 0,
             essence: parseFloat(b2.essence) || 0,
@@ -575,6 +575,8 @@ async function handlePost(req: NextRequest) {
       );
     }
     if (outcome.kind === "insufficient_funds") {
+      // Counted after the response: the 402 body is unchanged and never waits on the counter.
+      runAfterResponse("economy.recordDebitRefusal", () => recordDebitRefusal(toDebitRefusal(outcome)));
       return NextResponse.json(
         {
           ok: false,

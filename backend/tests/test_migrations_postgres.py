@@ -19,6 +19,7 @@ created and dropped here, with the runner's connections pointed at it, so nothin
 """
 import importlib
 import os
+import re
 import sys
 import uuid
 from pathlib import Path
@@ -36,6 +37,7 @@ M03 = "03-transit-history-schema.sql"
 M04 = "04-add-potency-columns.sql"
 M05 = "05-add-alchemical-quantities-columns.sql"
 M99 = "99-transit-history-collective-columns.sql"
+M107 = "107-economy-debit-refusals.sql"
 TRANSIT_HISTORY_BASE = [M03, M04, M05]  # how production's transit_history was built, before 99
 
 
@@ -334,3 +336,161 @@ def test_the_runner_stops_at_the_first_failing_file_and_keeps_what_came_before(d
     assert ledger(database_url, schema) == ["01-good.sql"]
     tables = {row[0] for row in sql(database_url, schema, "SELECT tablename FROM pg_tables WHERE schemaname = %s", (schema,))}
     assert tables == {"_migrations", "kept"}, f"the failed file must roll back entirely and the later one must not run: {tables}"
+
+
+# --- migration 107: economy_debit_refusals (sync-debit's 402 counter) --------------------------
+
+
+REFUSAL_SERVICE = REPO / "src" / "services" / "debitRefusalService.ts"
+HOUR_13 = "2026-11-23T13:00:00Z"
+
+
+def service_sql(name: str) -> str:
+    """The statement the app actually sends, cut out of the service source: a hand copy could validate something else."""
+    found = re.search(rf"export const {name} = `(.*?)`;", REFUSAL_SERVICE.read_text(encoding="utf-8"), re.S)
+    assert found, f"{name} is no longer an exported template literal in {REFUSAL_SERVICE.name}"
+    return found.group(1)
+
+
+def refusal_row(**override) -> dict:
+    row = {"hour": HOUR_13, "reason": "insufficient_value", "refusals": 2, "empty_basket": 1, "shortfall_value_sum": 5, "shortfall_value_n": 2}
+    row.update(override)
+    return row
+
+
+def insert_refusal(url: str, schema: str, **override) -> None:
+    row = refusal_row(**override)
+    sql(
+        url, schema,
+        "INSERT INTO economy_debit_refusals (hour, reason, refusals, empty_basket, shortfall_value_sum, shortfall_value_n) "
+        "VALUES (%(hour)s, %(reason)s, %(refusals)s, %(empty_basket)s, %(shortfall_value_sum)s, %(shortfall_value_n)s)",
+        row,
+    )
+
+
+def refusal_constraints(url: str, schema: str) -> List[tuple]:
+    return sql(
+        url, schema,
+        "SELECT contype, pg_get_constraintdef(oid) FROM pg_constraint WHERE conrelid = to_regclass('economy_debit_refusals') ORDER BY contype, pg_get_constraintdef(oid)",
+    )
+
+
+def test_107_creates_the_table_and_the_runner_records_it(database_url, schema, apply):
+    code, out = apply(real_files(M107))
+    assert code == 0 and f"applying {M107}" in out and "done. applied 1 new migration" in out, out
+    assert {name: found[0] for name, found in columns(database_url, schema, "economy_debit_refusals").items()} == {
+        "hour": "timestamp with time zone",
+        "reason": "text",
+        "refusals": "integer",
+        "empty_basket": "integer",
+        "shortfall_value_sum": "numeric",
+        "shortfall_value_n": "integer",
+        "updated_at": "timestamp with time zone",
+    }
+    assert ledger(database_url, schema) == [M107]
+    primary = [definition for kind, definition in refusal_constraints(database_url, schema) if kind == "p"]
+    assert primary == ["PRIMARY KEY (hour, reason)"]
+
+
+# Each row differs from the control row in exactly one field, so the failure can only be that field's rule.
+REFUSED_ROWS = {
+    "an hour that is not a whole UTC hour": {"hour": "2026-11-23T13:30:00Z"},
+    "an hour with seconds": {"hour": "2026-11-23T13:00:01Z"},
+    "a reason the writer does not know": {"reason": "bogus"},
+    "more empty payers than refusals": {"empty_basket": 3},
+    "a negative refusal count": {"refusals": -1, "empty_basket": 0, "shortfall_value_n": 0},
+    "more measured shortfalls than refusals": {"shortfall_value_n": 3},
+    "a negative shortfall total": {"shortfall_value_sum": -1},
+    "a negative empty-payer count": {"empty_basket": -1},
+    "a negative measured-shortfall count": {"shortfall_value_n": -1},
+}
+
+
+@pytest.mark.parametrize("what", sorted(REFUSED_ROWS))
+def test_107_refuses_a_row_that_breaks_its_one_rule(database_url, schema, apply, what):
+    assert apply(real_files(M107))[0] == 0
+    insert_refusal(database_url, schema)  # the control: the same row without the one broken field is accepted
+    with pytest.raises(psycopg2.errors.CheckViolation):
+        insert_refusal(database_url, schema, **{"hour": "2026-11-23T14:00:00Z", **REFUSED_ROWS[what]})
+    assert sql(database_url, schema, "SELECT count(*) FROM economy_debit_refusals") == [(1,)]
+
+
+def test_107_accepts_every_hour_of_the_day_and_every_reason_the_writer_sends(database_url, schema, apply):
+    assert apply(real_files(M107))[0] == 0
+    reasons = ["insufficient_value", "rates_unavailable", "no_balance", "auto_swap_off", "lost_race"]
+    for hour in range(24):
+        for reason in reasons:
+            insert_refusal(database_url, schema, hour=f"2026-11-23T{hour:02d}:00:00Z", reason=reason)
+    assert sql(database_url, schema, "SELECT count(*) FROM economy_debit_refusals") == [(120,)]
+    with pytest.raises(psycopg2.errors.UniqueViolation):
+        insert_refusal(database_url, schema)
+
+
+def test_107_is_a_no_op_the_second_time_through_the_runner_and_when_re_executed(database_url, schema, apply):
+    apply(real_files(M107))
+    insert_refusal(database_url, schema)
+    snapshot = (
+        columns(database_url, schema, "economy_debit_refusals"),
+        refusal_constraints(database_url, schema),
+        sql(database_url, schema, "SELECT * FROM economy_debit_refusals"),
+    )
+
+    code, out = apply(real_files(M107))
+    assert code == 0 and "up to date" in out, out
+
+    # the runner will not offer the file again; the file itself must still be safe to execute (a repair, a re-bootstrap)
+    sql(database_url, schema, (INIT / M107).read_text(encoding="utf-8"))
+    assert (
+        columns(database_url, schema, "economy_debit_refusals"),
+        refusal_constraints(database_url, schema),
+        sql(database_url, schema, "SELECT * FROM economy_debit_refusals"),
+    ) == snapshot
+
+
+def prepared(url: str, schema: str, name: str, types: str, statement: str, calls: List[tuple]) -> List[List[tuple]]:
+    """PREPARE the statement as the app sends it (it uses $n placeholders), then EXECUTE it once per call on the same session.
+
+    The name is made unique and the statement is deallocated afterwards: a single-session server (PGlite) keeps prepared statements
+    across connections, so a second run, or a failed one, would otherwise fail with DuplicatePreparedStatement."""
+    name = f"{name}_{uuid.uuid4().hex[:8]}"
+    conn = connect(url, schema)
+    try:
+        results = []
+        with conn.cursor() as cur:
+            cur.execute(f"PREPARE {name}({types}) AS {statement}")
+            for args in calls:
+                placeholders = ", ".join(["%s"] * len(args))
+                cur.execute(f"EXECUTE {name}({placeholders})", args)
+                results.append(cur.fetchall() if cur.description else [])
+        conn.commit()
+        return results
+    finally:
+        try:
+            conn.rollback()
+            with conn.cursor() as cur:
+                cur.execute(f"DEALLOCATE {name}")
+            conn.commit()
+        except psycopg2.Error:
+            pass  # the PREPARE itself failed, so there is nothing to deallocate
+        conn.close()
+
+
+def test_107_the_recorder_upserts_and_the_reader_reads_what_it_wrote(database_url, schema, apply):
+    assert apply(real_files(M107))[0] == 0
+    record = service_sql("RECORD_DEBIT_REFUSAL_SQL")
+    read = service_sql("READ_DEBIT_REFUSALS_SQL")
+    # (hour, reason, empty payer 0/1, shortfall, measured 0/1): the order the service binds them in
+    prepared(database_url, schema, "record_refusal", "timestamptz, text, int, numeric, int", record, [
+        (HOUR_13, "insufficient_value", 1, 4.5, 1),
+        (HOUR_13, "insufficient_value", 1, 0.5, 1),
+        (HOUR_13, "auto_swap_off", 0, 0, 0),
+        ("2026-11-23T14:00:00Z", "insufficient_value", 1, 2, 1),
+    ])
+    rows = sql(database_url, schema, "SELECT reason, refusals, empty_basket, shortfall_value_sum::float8, shortfall_value_n FROM economy_debit_refusals WHERE hour = %s::timestamptz ORDER BY reason", (HOUR_13,))
+    assert rows == [("auto_swap_off", 1, 0, 0.0, 0), ("insufficient_value", 2, 2, 5.0, 2)]
+    assert sql(database_url, schema, "SELECT count(*) FROM economy_debit_refusals") == [(3,)], "two hours and three (hour, reason) pairs, not four rows"
+
+    (window,) = prepared(database_url, schema, "read_refusals", "timestamptz", read, [("2026-11-23T14:00:00Z",)])
+    assert [(reason, refusals, empty, total, n) for _hour, reason, refusals, empty, total, n in window] == [("insufficient_value", 1, 1, 2.0, 1)]
+    (everything,) = prepared(database_url, schema, "read_all_refusals", "timestamptz", read, [(HOUR_13,)])
+    assert [reason for _hour, reason, *_rest in everything] == ["auto_swap_off", "insufficient_value", "insufficient_value"]
