@@ -1,13 +1,12 @@
 /**
  * Free text → catalog ingredient key(s).
  *
- * Order: the text itself names a catalog ingredient exactly (folded or
- * stemmed, by name or key); else hyphenated compounds ("ginger-garlic paste",
- * "dashi-soy sauce", Ruling 11); else the ingredient-index resolver cleans it
- * ("fresh baby spinach leaves" → spinach, "peanut butter" → peanuts derived)
- * and its slug is mapped onto the catalog; else a derived catalog fallback
- * ("oat flour" → oats derived, "garbanzo flour" → chickpeas derived); else a
- * synonym term.
+ * Order: the text itself names a catalog ingredient exactly (folded, stemmed,
+ * or punctuation-split); else Ruling 15 parentheses handling (outside decides,
+ * gloss only when outside names no card), applying curated false-compound
+ * aliases (Ruling 8), class heads (Ruling 5), hyphen compounds (Ruling 11),
+ * index containment + derived heads (Rulings 1, 2, 4), meat cuts (Ruling 7),
+ * plural catalog derived fallback, and synonyms.
  */
 import type { ContainmentMatch } from "@/data/ingredientContainment";
 import {
@@ -15,6 +14,13 @@ import {
   isDerivedHead,
   NON_DERIVED_HEAD_MODIFIERS,
 } from "./derivedHeads";
+import {
+  extractParentheses,
+  matchClassHead,
+  matchFalseCompound,
+  matchMeatCut,
+  stripParentheses,
+} from "./lineRulings";
 import { INGREDIENT_SYNONYMS } from "./synonyms";
 import { normalizeText } from "./text";
 import type {
@@ -89,9 +95,19 @@ function buildLookupTables(ingredients: readonly IngredientRecord[]): {
   return { exactForms, pluralForms };
 }
 
+const PUNCT_TO_SPACE = /[^a-z0-9\s]+/g;
+
 function lookup(forms: ReadonlyMap<string, string>, text: string): string | null {
   const { folded, stemmed } = normalizeText(text);
   return forms.get(folded) ?? forms.get(stemmed) ?? null;
+}
+
+function lookupExact(forms: ReadonlyMap<string, string>, text: string): string | null {
+  const direct = lookup(forms, text);
+  if (direct !== null) return direct;
+  const ascii = text.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+  const punctFolded = normalizeText(ascii.replace(PUNCT_TO_SPACE, " ")).folded;
+  return punctFolded ? (forms.get(punctFolded) ?? null) : null;
 }
 
 function pluralLookup(pluralForms: ReadonlyMap<string, string>, text: string): string | null {
@@ -170,6 +186,66 @@ function resolveHyphenCompound(
   return null;
 }
 
+interface ResolverEnv {
+  exactForms: ReadonlyMap<string, string>;
+  pluralForms: ReadonlyMap<string, string>;
+  validKeys: ReadonlySet<string>;
+  resolveSingle: (text: string) => ResolvedIngredientKey | null;
+}
+
+interface BodyResolution {
+  suppressed: boolean;
+  entries: readonly ResolvedIngredientKey[];
+}
+
+function resolveBody(text: string, env: ResolverEnv): BodyResolution {
+  const direct = lookupExact(env.exactForms, text);
+  if (direct !== null) return { suppressed: false, entries: [{ key: direct, derived: false }] };
+
+  const fc = matchFalseCompound(text);
+  if (fc !== null) {
+    if (fc.target === null || !env.validKeys.has(fc.target)) {
+      return { suppressed: true, entries: [] };
+    }
+    return { suppressed: false, entries: [{ key: fc.target, derived: false }] };
+  }
+
+  const ch = matchClassHead(text);
+  if (ch !== null && env.validKeys.has(ch.winner)) {
+    return { suppressed: false, entries: [{ key: ch.winner, derived: false }] };
+  }
+
+  const compound = resolveHyphenCompound(text, env.pluralForms, env.resolveSingle);
+  if (compound !== null) return { suppressed: false, entries: compound };
+
+  const single = env.resolveSingle(text);
+  if (single !== null) return { suppressed: false, entries: [single] };
+
+  const cut = matchMeatCut(text);
+  if (cut !== null && env.validKeys.has(cut.target)) {
+    return { suppressed: false, entries: [{ key: cut.target, derived: false }] };
+  }
+
+  return { suppressed: false, entries: [] };
+}
+
+function resolveWithParens(text: string, env: ResolverEnv): readonly ResolvedIngredientKey[] {
+  const direct = lookupExact(env.exactForms, text);
+  if (direct !== null) return [{ key: direct, derived: false }];
+  if (!text.includes("(") && !text.includes(")")) return resolveBody(text, env).entries;
+
+  const outside = stripParentheses(text);
+  if (outside) {
+    const out = resolveBody(outside, env);
+    if (out.suppressed || out.entries.length > 0) return out.entries;
+  }
+  for (const inside of extractParentheses(text)) {
+    const res = resolveBody(inside, env);
+    if (res.suppressed || res.entries.length > 0) return res.entries;
+  }
+  return [];
+}
+
 /** Exact names only (name, key, alias, synonym; folded or stemmed): the intent parser's lookup. */
 export function buildExactIngredientLookup(ingredients: readonly IngredientRecord[]): (text: string) => string | null {
   const { exactForms } = buildLookupTables(ingredients);
@@ -181,6 +257,7 @@ export function buildIngredientKeyResolver(
   resolveIndexSlug: IndexSlugResolver,
 ): IngredientKeyResolver {
   const { exactForms, pluralForms } = buildLookupTables(ingredients);
+  const validKeys = new Set(ingredients.map((entry) => entry.key));
   const cardOf = (slug: string): string | null => lookup(exactForms, slug.replace(/_/g, " "));
   // A slug with no card ("ground_beef") is skipped, so the text can reach the card it names (beef).
   const isCard = (slug: string): boolean => cardOf(slug) !== null;
@@ -197,23 +274,12 @@ export function buildIngredientKeyResolver(
     return resolveCatalogDerived(text, pluralForms) ?? (key === null ? null : { key, derived: false });
   };
 
+  const env: ResolverEnv = { exactForms, pluralForms, validKeys, resolveSingle };
   const memo = new Map<string, readonly ResolvedIngredientKey[]>();
   return (text) => {
     const cached = memo.get(text);
     if (cached !== undefined) return cached;
-    const direct = lookup(exactForms, text);
-    if (direct !== null) {
-      const result: readonly ResolvedIngredientKey[] = [{ key: direct, derived: false }];
-      memo.set(text, result);
-      return result;
-    }
-    const compound = resolveHyphenCompound(text, pluralForms, resolveSingle);
-    if (compound !== null) {
-      memo.set(text, compound);
-      return compound;
-    }
-    const single = resolveSingle(text);
-    const result: readonly ResolvedIngredientKey[] = single === null ? [] : [single];
+    const result = resolveWithParens(text, env);
     memo.set(text, result);
     return result;
   };

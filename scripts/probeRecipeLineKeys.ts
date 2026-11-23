@@ -19,6 +19,7 @@ import { getIngredientCatalog } from "@/lib/ingredients/ingredientCatalog";
 import { ingredientRecords } from "@/lib/search/catalogRecords";
 import { buildIngredientKeyResolver } from "@/lib/search/ingredientKeys";
 import { createLineAuditor, summarizeLineAudits, type LineAudit, type LineFlag } from "@/lib/search/lineAudit";
+import { AUDIT_FLAG_ALLOWLIST, auditAllowlistGaps } from "@/lib/search/lineAuditAllowlist";
 
 const FLAGS: readonly LineFlag[] = ["unit-word", "generic", "modifier"];
 
@@ -36,15 +37,24 @@ async function main(): Promise<void> {
   const audits: LineAudit[] = lines.map(audit);
 
   const summary = summarizeLineAudits(audits);
+  const { unruled, stale } = auditAllowlistGaps(audits, AUDIT_FLAG_ALLOWLIST);
+  const unruledSet = new Set(unruled.map((a) => a.line));
   console.log(
-    `\n${recipes.length} recipes, ${summary.lines} distinct lines, ${summary.unresolved} resolve to no card, ${summary.derived} carry derived attribution`,
+    `\n${recipes.length} recipes, ${summary.lines} distinct lines, ${summary.unresolved} resolve to no card, ${summary.derived} carry derived attribution (${unruled.length} unruled flags, ${stale.length} stale allowlist rows)`,
   );
   for (const flag of FLAGS) {
     const hits = audits.filter((a) => a.flags.includes(flag));
     console.log(`\n${flag}: ${hits.length}`);
     for (const a of hits) {
       const derivedTag = a.derived.length > 0 ? ` (derived: ${a.derived.join(", ")})` : "";
-      console.log(`  ${a.line}  →  ${a.keys.join(", ")}${derivedTag}`);
+      const ruleTag = unruledSet.has(a.line) ? "[UNRULED]" : "[ruled]";
+      console.log(`  ${ruleTag} ${a.line}  →  ${a.keys.join(", ")}${derivedTag}`);
+    }
+  }
+  if (stale.length > 0) {
+    console.log(`\nstale allowlist rows: ${stale.length}`);
+    for (const row of stale) {
+      console.log(`  ${row.line} (${row.flags.join(",")}) → ${row.keys.join(", ")}`);
     }
   }
 

@@ -32,15 +32,42 @@ export interface LineKeys {
   derived: string[];
 }
 
-const ALTERNATIVE_SPLIT = /\s+or\s+/i;
+const ALTERNATIVE_SPLIT = /^\s+or\s+/i;
 /** In an "or" line, commas separate alternatives too: "lamb, beef, or chicken". */
-const LIST_SPLIT = /,\s*/;
+const LIST_SPLIT = /^,\s*/;
 
-function pieces(text: string, separator: RegExp): string[] {
-  return text
-    .split(separator)
-    .map((part) => part.trim())
-    .filter(Boolean);
+/**
+ * Split `text` on `separator` only outside `(...)` so parenthetical
+ * alternatives like `"firm cooking apples (braeburn or cox)"` stay one line (Ruling 15).
+ */
+export function splitOutsideParens(text: string, separator: RegExp): string[] {
+  const anchored = separator.source.startsWith("^")
+    ? separator
+    : new RegExp(`^(?:${separator.source})`, separator.flags.replace(/[gy]/g, ""));
+  const parts: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === "(") {
+      depth += 1;
+      continue;
+    }
+    if (ch === ")") {
+      if (depth > 0) depth -= 1;
+      continue;
+    }
+    if (depth !== 0) continue;
+    const match = text.slice(i).match(anchored);
+    if (match?.index !== 0 || match[0].length === 0) continue;
+    const piece = text.slice(start, i).trim();
+    if (piece) parts.push(piece);
+    i += match[0].length - 1;
+    start = i + 1;
+  }
+  const tail = text.slice(start).trim();
+  if (tail) parts.push(tail);
+  return parts;
 }
 
 function normalizeResolved(
@@ -57,9 +84,11 @@ function normalizeResolved(
  * alternative, and keys only attributed via derived heads carry `derived`.
  */
 export function keysForLine(line: string, keyOf: IngredientKeyResolver): LineKeys {
-  const sides = pieces(line, ALTERNATIVE_SPLIT);
+  const sides = splitOutsideParens(line, ALTERNATIVE_SPLIT);
   const alternative = sides.length > 1;
-  const parts = alternative ? sides.flatMap((side) => pieces(side, LIST_SPLIT)) : sides;
+  const parts = alternative
+    ? sides.flatMap((side) => splitOutsideParens(side, LIST_SPLIT))
+    : sides;
   const byKey = new Map<string, boolean>();
   for (const part of parts) {
     for (const entry of normalizeResolved(keyOf(part))) {

@@ -212,10 +212,14 @@ describe("reverse index: a recipe line is filed under its head ingredient", () =
     // 2,675 distinct lines: generic 5 → 2 (corn/garbanzo/oat flour resolved; date sugar &
     // ice water left), modifier 44 → 19, unresolved 248 → 243 (peanut/coconut butter,
     // white miso paste), derived 80.
+    // [MEASURED 2026-11-22] steps 4 & 6 (curated tables + Ruling 15 parentheses + zero-unruled
+    // allowlist) over 2,675 distinct lines: unit-word 0, generic 2 → 4 (white bread flour x2
+    // moved from wrong white_bread modifier to flour generic, all 4 ruled), modifier 19 → 13
+    // (all 13 ruled), unruled 0, stale 0, unresolved 243 → 236, derived 80 → 78.
     expect(summary.flagged["unit-word"]).toBe(0);
-    expect(summary.flagged.generic).toBeLessThanOrEqual(2);
-    expect(summary.flagged.modifier).toBeLessThanOrEqual(19);
-    expect(summary.unresolved).toBeLessThanOrEqual(243);
+    expect(summary.flagged.generic).toBeLessThanOrEqual(4);
+    expect(summary.flagged.modifier).toBeLessThanOrEqual(13);
+    expect(summary.unresolved).toBeLessThanOrEqual(236);
     expect(summary.derived).toBeGreaterThanOrEqual(75);
   });
 
@@ -243,6 +247,21 @@ describe("reverse index: a recipe line is filed under its head ingredient", () =
     expect(derivedIdx).toBeGreaterThan(directIdx);
     expect(peanuts[directIdx]?.derived).toBe(false);
     expect(peanuts[derivedIdx]?.derived).toBe(true);
+
+    // Step 4 false-compound & Ruling 15 hero attribution controls:
+    const sakeNames = searchOmnibar(index, "sake", { now: SEPTEMBER, containingLimit: 30 }).recipesContaining.map(
+      (r) => r.name,
+    );
+    expect(sakeNames).not.toContain("Authentic Nigiri Sushi (Tuna & Salmon)");
+    expect(sakeNames).not.toContain("Ochazuke (Tea Over Rice)");
+    const turkeyNames = searchOmnibar(index, "turkey", { now: SEPTEMBER, containingLimit: 30 }).recipesContaining.map(
+      (r) => r.name,
+    );
+    expect(turkeyNames).not.toContain("Authentic Ricotta e Fichi (Ricotta and Figs)");
+    const figNames = searchOmnibar(index, "fig", { now: SEPTEMBER, containingLimit: 30 }).recipesContaining.map(
+      (r) => r.name,
+    );
+    expect(figNames).toContain("Authentic Ricotta e Fichi (Ricotta and Figs)");
   });
 });
 
