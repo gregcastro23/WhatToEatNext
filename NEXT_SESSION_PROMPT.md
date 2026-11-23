@@ -1,8 +1,8 @@
-<session_handoff version="5.23" date="2026-11-22">
+<session_handoff version="5.24" date="2026-11-22">
 
   <metadata>
     <repository>/Users/cookingwithcastro/Desktop/WhatToEatNext-master</repository>
-    <base_branch commit="82c39537">master</base_branch>
+    <base_branch commit="f25a6f74">master</base_branch>
     <hardware_profile>Apple Silicon M5 / 16 GB Unified Memory</hardware_profile>
     <runtime_policy>Bun-strict (`bun run ...`, `bunx ...`, `bun --bun run dev`). Never invoke npm or npx for project scripts.</runtime_policy>
   </metadata>
@@ -21,7 +21,7 @@
       Do NOT re-audit, re-seed, or re-test items recorded inside `&lt;completed_state&gt;` unless directly broken by new work. Treat them as validated baseline truth.
     </step>
     <step order="5" name="cleanup_when_it_lands">
-      When a PR merges: remove any temporary worktree (`unlink &lt;worktree&gt;/node_modules` first without trailing slash, then `git worktree remove &lt;worktree&gt;`), delete the merged local branch (`git branch -D &lt;branch&gt;`), and leave unrelated active worktrees untouched (`~/.codex/worktrees/*`, `.claude/worktrees/*`, `~/Desktop/wten-rpc-fix`). Never delete a remote branch with `git push --delete` (triggers slow pre-push verify); use `gh api -X DELETE repos/gregcastro23/WhatToEatNext/git/refs/heads/&lt;branch&gt;` if GitHub did not auto-delete on merge.
+      When a PR merges: remove any temporary worktree (`unlink &lt;worktree&gt;/node_modules` first without trailing slash, then `git worktree remove &lt;worktree&gt;`), delete the merged local branch (`git branch -D &lt;branch&gt;`), and leave unrelated active worktrees untouched (`~/.codex/worktrees/*`, `.claude/worktrees/*`, `~/Desktop/wten-rpc-fix`, `~/wten-work/butcher-ux`, `~/wten-work/baking-measures`). Never delete a remote branch with `git push --delete` (triggers slow pre-push verify); use `gh api -X DELETE repos/gregcastro23/WhatToEatNext/git/refs/heads/&lt;branch&gt;` if GitHub did not auto-delete on merge.
     </step>
   </boot_sequence>
 
@@ -36,13 +36,13 @@
       Never import full static ingredient catalogs, USDA portion tables, or server database modules into `"use client"` components. Enforce all `17` route bundle ceilings in `scripts/check-route-sizes.cjs` (including `/kitchen-lab/butcher`, `/kitchen-lab/sauces`, and `/sauces`).
     </invariant>
     <invariant id="static_ratchets" mandatory="true">
-      The committed baseline JSON files are the source of truth; never hand-edit them — lock improvements only via `bun run lint:debt:ratchet` and `bun scripts/checkBareJsonCasts.ts --ratchet` before committing, then `git add` the updated JSONs. Pass an absolute path outside the repo when calling `bun scripts/auditDeadModules.ts --json &lt;abs-path&gt;`. On `master` (`82c39537`) + `fix/agent-sync-full-chart-monica-and-scale`: `.bare-json-casts-baseline.json` is at `0` production (`9` test casts across `4` allowlisted test files); `.read-json-baseline.json` is at `0` unvalidated (`224` total calls); `.route-validation-baseline.json` is at `0` unvalidated (`133` body-reading routes / `296` total routes); `.lint-debt-baseline.json` sits at `trackedTotal: 1179`, `casts: 122` (`asAny: 32`, `asUnknownAs: 90`, `production: 90`, `test: 32`), `assertionSites: 2501` (`chained: 90`, `single: 2379`, `production: 1914`, `nonNull: 552`), `looseOptionality: 139` (`domain: 71`, `wire: 68`), `preferNullishCoalescing: 266`, `declined: 4563` (`no-void: 320`), `lint` and `lint:scripts` both enforce `--max-warnings=0` (`src/` is at `0` warnings; `eslint.config.mjs` sets `reportUnusedDisableDirectives: "off"` because the `no-console` disable directives are load-bearing for `lint:debt`, whose `eslint.config.audit.mjs` reports a stale directive as an `error` — never delete those directives to clear a warning), and `UNREACHABLE (dead): 0`. New and modified files should stay under 300 lines (pure parsers &lt; 250 lines, functions &lt; 50 lines) with zero new `as` casts or `!` non-null assertions (`check:diff-assertions`, `exactOptionalPropertyTypes: true`).
+      The committed baseline JSON files are the source of truth; never hand-edit them — lock improvements only via `bun run lint:debt:ratchet` and `bun scripts/checkBareJsonCasts.ts --ratchet` before committing, then `git add` the updated JSONs. Pass an absolute path outside the repo when calling `bun scripts/auditDeadModules.ts --json &lt;abs-path&gt;`. On `master` (`f25a6f74`): `.bare-json-casts-baseline.json` is at `0` production (`9` test casts across `4` allowlisted test files); `.read-json-baseline.json` is at `0` unvalidated (`224` total calls); `.route-validation-baseline.json` is at `0` unvalidated (`133` body-reading routes / `296` total routes); `.lint-debt-baseline.json` sits at `trackedTotal: 1179`, `casts: 122` (`asAny: 32`, `asUnknownAs: 90`, `production: 90`, `test: 32`), `assertionSites: 2501` (`chained: 90`, `single: 2379`, `production: 1914`, `nonNull: 552`), `looseOptionality: 139` (`domain: 71`, `wire: 68`), `preferNullishCoalescing: 266`, `declined: 4563` (`no-void: 320`), `lint` and `lint:scripts` both enforce `--max-warnings=0` (`src/` is at `0` warnings; `eslint.config.mjs` sets `reportUnusedDisableDirectives: "off"` because the `no-console` disable directives are load-bearing for `lint:debt`, whose `eslint.config.audit.mjs` reports a stale directive as an `error` — never delete those directives to clear a warning), and `UNREACHABLE (dead): 0`. New and modified files should stay under 300 lines (pure parsers &lt; 250 lines, functions &lt; 50 lines) with zero new `as` casts or `!` non-null assertions (`check:diff-assertions`, `exactOptionalPropertyTypes: true`).
     </invariant>
     <invariant id="wire_parser_rules">
       When adding or updating `readJson(res, parseX)` / `safeReadJson(res, fallback, parseX)` wire parsers: mirror optionality from the producing route/service and cite `file:line`; preserve unmodeled pass-through keys when the host forwards or exports objects whole; keep early `!res.ok` checks ahead of parsing and use never-throwing parsers for side-effecting POSTs; throw if rows arrived and all were malformed; forbid `as`, `!`, and `any`; validate against `JSON.parse("null")`, non-finite `1e999`, real producer shapes, and mutation tests (`*.guards.test.ts`).
     </invariant>
     <invariant id="hooks_push_and_gates" mandatory="true">
-      `pre-commit` runs `next typegen` + `tsc` (`bun run typecheck`) + `lint:changed`. `pre-push` runs `bun run verify` (`verify:static` + full Jest suite; ~15-20 min under load) and does NOT run `next build`: run `bun run build` (and `scripts/check-route-sizes.cjs`) yourself before opening a code PR (docs-only PRs need no build; state so in the PR body). Never use `SKIP_VERIFY` unless full `bun run verify` has already passed cleanly on that exact committed tree (`FAST_PUSH=1` skips duplicate verification). Push with SSH keepalive (`CI=true GIT_SSH_COMMAND='ssh -o ServerAliveInterval=15 -o ServerAliveCountMax=40 -o TCPKeepAlive=yes' git push origin "${SHA}:refs/heads/${BR}"`) and verify `gh api repos/gregcastro23/WhatToEatNext/git/ref/heads/&lt;branch&gt; --jq .object.sha`. Note that `scripts/checkLintDebt.ts` enforces `WATCHDOG_MS = 480_000` (8 min): on 16 GB RAM under heavy swap, avoid running concurrent browsers/builds/dev servers during `lint:debt` or `verify`.
+      `pre-commit` runs `next typegen` + `tsc` (`bun run typecheck`) + `lint:changed`. `pre-push` runs `bun run verify` (`verify:static` + full Jest suite; ~15-20 min under load) and does NOT run `next build`: run `bun run build` (and `scripts/check-route-sizes.cjs`) yourself before opening a code PR (docs-only PRs need no build; state so in the PR body). Never use `SKIP_VERIFY` unless full `bun run verify` has already passed cleanly on that exact committed tree (`FAST_PUSH=1` skips duplicate verification). Push with SSH keepalive (`CI=true GIT_SSH_COMMAND='ssh -o ServerAliveInterval=15 -o ServerAliveCountMax=40 -o TCPKeepAlive=yes' git push origin "${SHA}:refs/heads/${BR}"`) and verify `gh api repos/gregcastro23/WhatToEatNext/git/ref/heads/&lt;branch&gt; --jq .object.sha`. Note that `scripts/checkLintDebt.ts` enforces `WATCHDOG_MS = 480_000` (8 min): on 16 GB RAM under heavy swap, avoid running concurrent browsers/builds/dev servers during `lint:debt` or `verify`. When running `railway run --service Postgres` scripts from an isolated worktree, invoke `railway run` from `/Users/cookingwithcastro/Desktop/WhatToEatNext-master` (where `~/.railway/config.json` binds the project link) and `cd` into the worktree inside the subshell.
     </invariant>
     <invariant id="helper_agents_and_review">
       Keep helper subagents focused (disjoint file lists, explicit worktree paths), verify counts from direct command output, and run an adversarial check before pushing code changes. Preserve the first commit subject cleanly so squash merges match intent.
@@ -162,77 +162,93 @@
       <item>Wired outside-parentheses splitting (`splitOutsideParens`) in `src/lib/search/recipeIngredientIndex.ts`, punctuation-tolerant whole-line `lookupExact` + curated table / Ruling 15 parentheses resolution in `src/lib/search/ingredientKeys.ts`, and `[UNRULED]` / `[ruled]` + stale-row reporting in `scripts/probeRecipeLineKeys.ts`.</item>
       <item>Added `lineRulings.test.ts` and `lineRulingsCorpus.test.ts` (Rulings 5, 6, 7, 8, 15, Ruling 17 stale-row &amp; valid-card checks, Ruling 20 zero-unruled / zero-stale CI gate) and updated `corpus.test.ts`, `recipeIngredientIndex.test.ts`, and `intentCorpus.test.ts`. Measured over `1,113` static recipes / `2,675` distinct lines: `unit-word: 0`, `generic: 2 -&gt; 4` (all 4 ruled), `modifier: 19 -&gt; 13` (all 13 ruled), `unruled: 0`, `stale: 0`, `unresolved: 243 -&gt; 236`, `derived: 80 -&gt; 78`; diet diff `vegan 412 -&gt; 412`, `vegetarian 676 -&gt; 676` (`0` regressions).</item>
     </track>
-    <track id="35" name="Monica Integrity Recovery — agent-sync Full-Chart Recomputation, Production Backfill, Clone Baseline 8 &amp; Sacred-7 Scale (fix/agent-sync-full-chart-monica-and-scale, pending review)">
+    <track id="35" name="Monica Integrity Recovery — agent-sync Full-Chart Recomputation, Production Backfill, Clone Baseline 8 &amp; Sacred-7 Scale (PR #1064 f25a6f74)">
       <item>Updated `POST /api/internal/agent-sync` (`src/app/api/internal/agent-sync/route.ts`) to compute `fullChartMonica(cleanNatalPositions)` for non-placement chart-bearing agents (`resolveSyncMonica`) and refresh `monica_full_chart` / `monica_diurnal` / `monica_nocturnal` / `monica_method` on `ON CONFLICT (user_id) DO UPDATE` whenever `natal_positions` updates for `full-chart` / unclassified rows, while preserving `single-body` / `two-body` rows and bio-only re-syncs; added `4` unit tests (`28/28` in `agent-sync/__tests__/route.test.ts`) and verified the extracted SQL inside a rolled-back Postgres transaction against all 4 `database/init/72-monica-construction-constraints.sql` CHECK constraints.</item>
       <item>Executed `railway run --service Postgres -- bun scripts/backfillMonicaPerConstruction.ts --write` (snapshot `monica_preconstruction_20261123_015453`, `5,527 / 5,527` accounted for: `3,605` single-body, `1,850` two-body, `72` full-chart), then verified `checkAgentMonicaDrift.ts` (`0` drifted, `0` missing, `0` wrong-method across all `5,527` backfilled agents), `auditAgentDataIntegrity.ts` (`24/24` checks ALL CLEAR), and `checkNoFabricatedNatalFields.ts` (`720` bodies clean).</item>
       <item>Updated `KNOWN_GROUPS` in `scripts/checkNoNewClonedCharts.ts` (`10 -&gt; 8`, removing the resolved Carl Jung &amp; Frida Kahlo Aries `0°` clone) and re-measured Sacred-7 `MONICA_POPULATION_SCALE['full-chart']` in `src/lib/sacred-7-stats.ts` from `0.0047205` to `0.070114` (`|-0.140228| / 2`, René Descartes, `n=64` distinct / `72` total across range `[-0.140228, 0.043083]`), updating `monicaPopulationScaleDerivation.test.ts` and `sacred7MonicaMapping.test.ts`.</item>
+      <item>Squash-merged PR `#1064` into `master` (`f25a6f74`), cleaned remote/local `fix/agent-sync-full-chart-monica-and-scale` + `~/wten-work/monica-integrity-fix`, confirmed post-merge `Monica Integrity` workflow run `45100908827` on `master` (`f25a6f74`) passed (`Agent monica drift + integrity: success`, `Backend app boots`, `No fabricated monica fallbacks`, `Cosmic refunds`), and verified production `https://alchm.kitchen/api/health` is `healthy` (`databaseLatencyMs: 48`, `cache: "memory"`).</item>
     </track>
   </completed_state>
 
   <next_horizon_backlog priority_ordered="true">
     <objective priority="P1" id="upstash_fixed_plan_limit">
-      <title>Upgrade or Reset Upstash Redis Fixed Plan Quota</title>
+      <title>Upgrade or Reset Upstash Redis Fixed Plan Quota (Operator Action)</title>
       <context>
-        Live production Upstash Redis continues returning `ERR This database has reached current Fixed plan limits` (`81` warnings on prior deploy `dpl_6mDgfr1n8WiReFaNYNcNejnYTDnU`, `14` on `dpl_2SrFixzsprL5KwoEzbto3EM96tnN`). The app degrades cleanly without crashing or dumping 500 KB command payloads to Vercel logs via the 5-minute quota circuit breaker, sanitized error logs, bounded warm-instance fallback cache, `128 KB` write guard, and default-off `recipes:catalog:all` / `warmImageAssetCache` writes.
+        Live production `https://alchm.kitchen/api/health` on `f25a6f74` still reports `"cache": "memory"` because Upstash Redis returns `ERR This database has reached current Fixed plan limits`. The app degrades cleanly with zero crashes or log spam via the 5-minute quota circuit breaker, bounded warm-instance fallback cache, `128 KB` write guard, and default-off catalog/asset warmers (no code change needed).
       </context>
       <deliverables>
-        <item>Upgrade or enable auto-upgrade on the Upstash Fixed-plan Redis database in Upstash Console when ready — the circuit breaker recovers automatically within 5 minutes without a redeploy.</item>
+        <item>Upgrade or enable auto-upgrade on the Upstash Fixed-plan database in Upstash Console — the circuit breaker recovers automatically within 5 minutes without a redeploy.</item>
       </deliverables>
     </objective>
 
-    <objective priority="P1" id="optional_re_onboard_fabricated_pins">
-      <title>Optional Re-Onboarding for Pre-`#1030` `REFUSE_FABRICATED_PIN` Accounts</title>
+    <objective priority="P1" id="butcher_ux_polish_pr_1057">
+      <title>Promote, Rebase &amp; Land Draft PR #1057 (Butcher UX Polish)</title>
       <context>
-        Two pre-`#1030` accounts (`roberttcastro1@gmail.com` and `evan.blockchain@gmail.com`) remain flagged `REFUSE_FABRICATED_PIN` with the retired Fallback NY literal (`40.7498, -73.7976`) and have no `alchemical_constitutions` row.
+        `#1057` (`feat/butcher-ux-polish`, single commit `33aafd3a` in locked worktree `~/wten-work/butcher-ux`) is the sole open PR in `gregcastro23/WhatToEatNext` (`0` open GitHub issues; `0` open PRs in `gregcastro23/alchm-agents-solana`). Previously rebased onto `4b836334`, it now trails `master` (`f25a6f74`, `#1059`–`#1064`) with no GitHub Actions runs on `33aafd3a` yet. Merged locked worktree `~/wten-work/baking-measures` (`#1058`) also remains untouched for its owning session.
       </context>
       <deliverables>
-        <item>Optionally re-onboard `roberttcastro1@gmail.com` and `evan.blockchain@gmail.com` with verified birthplaces if accurate charts/constitutions are wanted for those accounts.</item>
+        <item>Keep `#1057` Draft and both locked worktrees untouched until the owner or owning session signals readiness.</item>
+        <item>Once unlocked/approved: rebase onto `origin/master` (`f25a6f74`), mark Ready for Review, pass CI (`Verify`, `Build`, `Test`, `rust`, `Monica Integrity`), merge, and prune `~/wten-work/butcher-ux` + `~/wten-work/baking-measures`.</item>
       </deliverables>
     </objective>
 
-    <objective priority="P2" id="launch_readiness_env_and_resource_metering">
-      <title>Optional Gated Subsystems &amp; Host Resource Metering</title>
+    <objective priority="P1" id="domain_engine_rulings_and_roadmap">
+      <title>Obtain Operator Rulings to Unblock Reverse-Index Steps 3/5/7 &amp; Unified Physics v2</title>
       <context>
-        With `auth-jwt` (`AUTH_SECRET` + `JWT_SECRET`) added in `launchReadinessService.ts`, `9/11` `LaunchReadiness` subsystems report `READY` once deployed (`stripe-pro` `4/4`, `restaurant-esms` `5/5`, `onchain-esms` `5/5`, `recipe-nft` `6/6`, `privy` `5/5`, `agent-network` `2/2`, `email` `1/1`, `alerting` `1/1` via `RESEND_API_KEY`, `auth-jwt` `2/2`), with `0 OPEN` in the `/admin/dashboard` Priority Queue (`0 P0 / 0 P1 / 0 P2`). `RAILWAY_API_TOKEN` is configured as a Vercel Production secret. Only `esms-spl-mirror` (`0/6`) and `amazon-fresh` (`0/4`) remain intentionally `OFF` (`gated`).
+        All unblocked reverse-index steps (1 `#883`, 2 `#1062`, 4 &amp; 6 `#1063`, Ruling 16 `#882`) are shipped (`unit-word: 0`, `generic: 4` ruled, `modifier: 13` ruled, `unruled: 0`, `stale: 0`, `unresolved: 236`, `derived: 78`) and `docs/plans/reverse-index-rulings.md` + `docs/physics/UNIFIED_PHYSICS_MODEL.md` are synced. Both remaining core domain tracks require brief operator decisions before further coding.
       </context>
       <deliverables>
+        <item>Reverse-Index (`docs/plans/reverse-index-rulings.md`): rule Step 3 comma list (`"thyme, rosemary"`) vs prep-note (`"garlic, minced"`) disambiguation; rule Step 5 drawer rebuild architecture (regenerate vs retire `4.7 MB` static drawer JSON, authoritative recipe set, canonical ID form — do NOT run `scripts/buildIngredientRecipeIndex.ts` before Step 3); rule Step 7 usage threshold &amp; sourced data standard for new cards.</item>
+        <item>Unified Physics v2 (`docs/physics/UNIFIED_PHYSICS_MODEL.md`): resolve `SYNTHESIS_MODEL.md` §1a (dual-axis Moon + Uranus inversion) vs `ESMS_WAVE_FUNCTION_SPECIFICATION.md` §3 (single-axis Moon); rule canonical `Λ = C` distance-minima bounding (Venus `~5.39x` Sun in stress fixture); approve dropping diurnal default (`~25` call sites, Decision 2), Decan modulation (Decisions 8/15), applying bonus (Decision 11), `inertia` alias consolidation (Decision 17), and stored model versioning (Decision 20); supply written formulas for Open Problems 1 &amp; 2 before coding Decisions 13/14/19.</item>
+      </deliverables>
+    </objective>
+
+    <objective priority="P2" id="unblocked_esms_hygiene_and_debt">
+      <title>Unblocked ESMS 2.0 Residuals &amp; Static-Debt Burndown (Ready to Code Now)</title>
+      <context>
+        Self-contained engineering work verified present on `f25a6f74` that requires no new operator rulings if a session wants immediately actionable code tasks.
+      </context>
+      <deliverables>
+        <item>Delete dead `backend/utils/esms_wavefunction.py` (`7,187` bytes, verified `0` importers across `backend/` and `src/`).</item>
+        <item>Add a Moon coupling-clamp test covering `esmsForce` in `src/app/api/alchm-quantities/route.ts`.</item>
+        <item>Audit the claim bridge against `quantizeEsms` (`src/lib/economy/esmsQuantization.ts`, currently wired only in `priceIndex.ts`) and verify/retire the uncalled Python `/api/user/onboarding` clock-only sect proxy.</item>
+        <item>Continue burning down `.lint-debt-baseline.json` (`trackedTotal: 1179`, `casts: 122`, `assertionSites: 2501`, `looseOptionality: 139`, `no-void: 320`) and lock improvements with `bun run lint:debt:ratchet`.</item>
+      </deliverables>
+    </objective>
+
+    <objective priority="P2" id="agent_ancient_clones_and_snapshot_cleanup">
+      <title>Resolve Remaining 8 Ancient Fallback Charts &amp; Retire Backfill Snapshot</title>
+      <context>
+        Following `#1064` (Carl Jung &amp; Frida Kahlo resolved, `10 -&gt; 8`), only `8` ancients (`Alexander the Great`, `Archimedes`, `Aristotle`, `Herodotus`, `Homer`, `Julius Caesar`, `Marcus Tullius Cicero`, `Plato`) still share one fallback chart (`monica_full_chart = 0.011100`). Production Postgres also retains the `#1064` backfill rollback table `monica_preconstruction_20261123_015453`.
+      </context>
+      <deliverables>
+        <item>If Planetary Agents supplies distinct charts (or reclassifies non-chartable ancients), `POST /api/internal/agent-sync` will auto-recompute `full-chart` Monica; follow up by re-running `scripts/measureThreeOpenNumbers.ts` and updating `KNOWN_GROUPS` (`scripts/checkNoNewClonedCharts.ts`) + `MONICA_POPULATION_SCALE['full-chart']` (`src/lib/sacred-7-stats.ts`).</item>
+        <item>Drop `monica_preconstruction_20261123_015453` in production Postgres only after explicit operator consent.</item>
+      </deliverables>
+    </objective>
+
+    <objective priority="P3" id="optional_operator_housekeeping">
+      <title>Optional Operator Housekeeping (Pre-`#1030` Pins, Gated Subsystems &amp; Workspace Pruning)</title>
+      <context>
+        Zero runtime or production impact; demoted from P1 to P3 as purely optional operator housekeeping. `LaunchReadiness` is live at `9/11 READY` (`0 OPEN` in `/admin/dashboard` Priority Queue; `RAILWAY_API_TOKEN` configured), with only `esms-spl-mirror` (`0/6`) and `amazon-fresh` (`0/4`) intentionally `OFF`.
+      </context>
+      <deliverables>
+        <item>Optionally re-onboard the two pre-`#1030` `REFUSE_FABRICATED_PIN` accounts (`roberttcastro1@gmail.com`, `evan.blockchain@gmail.com`) with verified birthplaces if accurate charts/constitutions are wanted.</item>
         <item>Keep `esms-spl-mirror` and `amazon-fresh` gated until Solana Token-2022 mints or Amazon PA-API credentials are intentionally activated.</item>
+        <item>Optionally archive/clean `~/wten-work/_ghosts-2026-11-21/` and delete stale merged remote branches (e.g. `fix/prewarm-log-sanitization-and-handoff-v518`) via `gh api -X DELETE`.</item>
       </deliverables>
     </objective>
 
-    <objective priority="P2" id="butcher_ux_polish_pr_1057">
-      <title>Review &amp; Promote Draft PR #1057 (Butcher UX Polish) When Ready</title>
-      <context>
-        `#1057` (`feat/butcher-ux-polish`) is already rebased onto `master` `4b836334` as one commit (`33aafd3a`, dropping the `#1056` re-pin commit already upstream) and retargeted to `master` (`MERGEABLE`, still Draft, no GitHub Actions runs on `33aafd3a` yet). Locked worktree `~/wten-work/baking-measures` (`feat/baking-household-measures`, `#1058` already merged) also remains untouched for its owning session.
-      </context>
-      <deliverables>
-        <item>Keep `#1057` Draft and `~/wten-work/baking-measures` untouched until the owner or owning session marks `#1057` ready for review to trigger CI and merge.</item>
-      </deliverables>
-    </objective>
-
-    <objective priority="P2" id="domain_engine_open_items">
-      <title>Domain Engine Backlog (Reverse-Index Steps 3, 5, 7 &amp; Unified Physics Rulings)</title>
-      <context>
-        The 20 reverse-index rulings (2026-09-24) are durably transcribed in `docs/plans/reverse-index-rulings.md` (linked from `docs/plans/omnibar-search-plan.md`), and `docs/physics/UNIFIED_PHYSICS_MODEL.md` status is synced (`PARTIALLY implemented`).
-        Reverse-index status: Steps 1 (`#883`), 2 (`#1062`), 4, and 6 (`#1063`, `82c39537`), plus Ruling 16 (`#882`) are implemented (`unit-word: 0`, `generic: 4` all ruled, `modifier: 13` all ruled, `unruled: 0`, `stale: 0`, `unresolved: 236`, `derived: 78`). Steps 3, 5, and 7 remain blocked on owner/architecture rulings: comma list-vs-prep-note disambiguation, drawer-rebuild architecture (`scripts/buildIngredientRecipeIndex.ts`), and new-card usage threshold/sources.
-        Unified physics v2 &amp; ESMS 2.0 residuals: Decisions 2 (`diurnal` default at ~25 call sites), 8/15 (decan modulation), 11, 13, 14/19, 17 (`inertia` ~9 aliases), and 20 (stored model version) remain open, along with Open Problems 1–2, `esmsForce` Moon clamp test, `Λ = C` distance-minima bounding (e.g., Venus `5.39x` Sun), Python `/api/user/onboarding` clock-proxy sect, `quantizeEsms` claim bridge, dead `backend/utils/esms_wavefunction.py`, and the `SYNTHESIS_MODEL.md` §1a vs `ESMS_WAVE_FUNCTION_SPECIFICATION.md` §3 contradiction.
-      </context>
-      <deliverables>
-        <item>All unblocked reverse-index steps (1, 2, 4, 6) are shipped (`#1063`).</item>
-        <item>Operator rulings needed before coding further physics or Steps 3/5/7: canonical `Λ` bounding, dropping the diurnal default, canonical sect-table cutover (`SYNTHESIS_MODEL.md` §1a vs `ESMS_WAVE_FUNCTION_SPECIFICATION.md` §3), written formulas for Open Problems 1 &amp; 2, and comma list-vs-prep-note / drawer-rebuild rules / Step 7 card thresholds.</item>
-      </deliverables>
-    </objective>
-
-    <objective priority="CLOSED" id="closed_tracks_v5_23">
-      <title>Closed Foundations (Through `82c39537` #1063 + `fix/agent-sync-full-chart-monica-and-scale`)</title>
-      <context>Production bare-json casts remain at `0` (`9` allowlisted test casts across `4` test files); `testOnly` remains `3` (`cryptoPromo.ts`, `agentResponseSchemas.ts`, `sacred-7-stats.ts`, keep); `check:helpers-typecheck` (`tests/helpers/tsconfig.json`) passes with `0` errors; calculations-hub test coverage is pinned by `planetaryScoring.browser.test.ts` and `esmsConformance.test.ts`; Omnibar uses `120 ms` debounce + 50-entry LRU cache (`#1012`); legacy `"Spirit"`-as-element sites, `scripts/` ESLint warnings (`23 -&gt; 0`, `--max-warnings=0`), and `src/` ESLint warnings (`118 -&gt; 0`, `lint` `--max-warnings=0`) are closed; `#1026`, `#1031`–`#1037`, `#1039`–`#1056`, `#1058`–`#1063`, Migrations `105` &amp; `106` (`113/113` in sync), PgBouncer `transaction` mode (`30` pool size, `DB_MAX_CONNECTIONS=4`), `AI · gpt-4o-mini` Traffic Digest (`7/7` sources), Planetary Agents `#102` verified across `18/18` hourly prewarm runs + Railway provider timeout `30.0s`, Vercel Production `JWT_SECRET` restored (`51ba3de09780`) + fail-closed `validateRequest.ts` (`503`) + `auth-jwt` readiness check (`9/11 READY`), `17` budgeted route ceilings, serverless `after()` side-effect lifecycles + Redis quota warning dedupe, durable `docs/plans/reverse-index-rulings.md` + `docs/physics/UNIFIED_PHYSICS_MODEL.md` sync, Reverse-Index Steps 1–2 &amp; 4 &amp; 6 (`#883`, `#1062`, `#1063`), and production Agent Monica drift + `agent-sync` full-chart recomputation + clone baseline (`8`) + Sacred-7 `full-chart` scale (`0.070114`) are closed and verified.</context>
+    <objective priority="CLOSED" id="closed_tracks_v5_24">
+      <title>Closed Foundations (Through `f25a6f74` `#1064`)</title>
+      <context>Production bare-json casts remain at `0` (`9` allowlisted test casts across `4` test files); `testOnly` remains `3` (`cryptoPromo.ts`, `agentResponseSchemas.ts`, `sacred-7-stats.ts`, keep); `check:helpers-typecheck` (`tests/helpers/tsconfig.json`) passes with `0` errors; calculations-hub test coverage is pinned by `planetaryScoring.browser.test.ts` and `esmsConformance.test.ts`; Omnibar uses `120 ms` debounce + 50-entry LRU cache (`#1012`); legacy `"Spirit"`-as-element sites, `scripts/` ESLint warnings (`23 -&gt; 0`, `--max-warnings=0`), and `src/` ESLint warnings (`118 -&gt; 0`, `lint` `--max-warnings=0`) are closed; `#1026`, `#1031`–`#1037`, `#1039`–`#1056`, `#1058`–`#1064`, Migrations `105` &amp; `106` (`113/113` in sync), PgBouncer `transaction` mode (`30` pool size, `DB_MAX_CONNECTIONS=4`), `AI · gpt-4o-mini` Traffic Digest (`7/7` sources), Planetary Agents `#102` verified across `18/18` hourly prewarm runs + Railway provider timeout `30.0s`, Vercel Production `JWT_SECRET` restored (`51ba3de09780`) + fail-closed `validateRequest.ts` (`503`) + `auth-jwt` readiness check (`9/11 READY`), `17` budgeted route ceilings, serverless `after()` side-effect lifecycles + Redis quota warning dedupe, durable `docs/plans/reverse-index-rulings.md` + `docs/physics/UNIFIED_PHYSICS_MODEL.md` sync, Reverse-Index Steps 1–2 &amp; 4 &amp; 6 (`#883`, `#1062`, `#1063`), and production Agent Monica drift + `agent-sync` full-chart recomputation + clone baseline (`8`) + Sacred-7 `full-chart` scale (`0.070114`) + `Monica Integrity` `master` CI recovery (`45100908827`) are closed and verified.</context>
     </objective>
   </next_horizon_backlog>
 
   <verification_gates mandatory_before_commit="true">
     <gate order="1" command="lsof -ti:3000 -ti:5175 &amp;&amp; git status -sb &amp;&amp; git worktree list">Verify no unintended server listeners or cross-session workspace conflicts before starting.</gate>
     <gate order="2" command="bun run verify:static">All 14 static gates must pass (`check:untracked`, `check:route-validation` `0` unvalidated / `133` body-reading / `296` total, `check:read-json` `0` unvalidated / `224` calls, `check:bare-json` `0` prod / `9` test, `check:diff-assertions` `0` new casts, `check:snapshot-witness` `100%`, `test:gates` `21/21` suites &amp; `315/315` tests, `check:scripts`, `check:helpers-typecheck`, `typecheck`, `lint` (`0` warnings, `--max-warnings=0`), `lint:scripts` (`0` warnings), `lint:debt`, `audit:dead-modules` `0` unreachable). Keep live metrics at or below the committed baseline: `trackedTotal &lt;= 1179`, `casts &lt;= 122`, `assertionSites &lt;= 2501` (`single &lt;= 2379`, `production &lt;= 1914`, `nonNull &lt;= 552`), `looseOptionality &lt;= 139`, `preferNullish &lt;= 266`, `declined &lt;= 4563` (`no-void &lt;= 320`).</gate>
-    <gate order="3" command="bun run test --passWithNoTests &amp;&amp; python3 -m pytest backend/tests/test_migration_names.py backend/tests/test_run_init_migrations.py -q">Jest must remain at or above the `v5.23` floor (`767` passed suites / `9,843` passed tests; `6` env-gated suites / `66` tests skipped of `773` suites / `9,909` tests). Plus `23/23` Python migration tests passing.</gate>
+    <gate order="3" command="bun run test --passWithNoTests &amp;&amp; python3 -m pytest backend/tests/test_migration_names.py backend/tests/test_run_init_migrations.py -q">Jest must remain at or above the `v5.24` floor (`767` passed suites / `9,843` passed tests; `6` env-gated suites / `66` tests skipped of `773` suites / `9,909` tests). Plus `23/23` Python migration tests passing.</gate>
     <gate order="4" command="bun run build">Production build and all `17` `scripts/check-route-sizes.cjs` route ceilings must pass for any non-doc code change (docs-only PRs need no build; state explicitly in the PR body).</gate>
     <gate order="5" command="adversarial review">Review diff on correctness/security and regression lenses before pushing; verify clean working tree and PR CI status.</gate>
   </verification_gates>
