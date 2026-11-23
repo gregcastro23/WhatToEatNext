@@ -27,6 +27,7 @@ import {
   type ClassifiedInteraction,
   type InteractionTone,
 } from "@/lib/analytics/interactionClassify";
+import { isOperatorPath } from "@/lib/analytics/operatorPath";
 
 export {
   classifyInteractionTag,
@@ -145,14 +146,13 @@ export function normalizePath(raw: string): string | null {
   return (collapsed || "/").slice(0, 300);
 }
 
-/** Paths never recorded: operator surfaces and non-page routes. */
+/**
+ * Paths never recorded: operator surfaces and non-page routes. Case-insensitive,
+ * so `/ADMIN`, `/Admin/traffic` and `/API/x` are not recorded as page views either.
+ */
 export function isTrackablePath(path: string): boolean {
-  return !(
-    path === "/admin" ||
-    path.startsWith("/admin/") ||
-    path.startsWith("/api/") ||
-    path.startsWith("/_next/")
-  );
+  const lower = path.toLowerCase();
+  return !(isOperatorPath(path) || lower.startsWith("/api/") || lower.startsWith("/_next/"));
 }
 
 /** UTC calendar day, the rotation unit of the visitor hash. */

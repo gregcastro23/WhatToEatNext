@@ -13,6 +13,8 @@ import type {
 } from "@/services/dashboardPanelsService";
 import { Glyph } from "./atoms";
 import { Card } from "./hero";
+import { resourceUsageNoSourceCopy } from "./resourceUsageCopy";
+import { routeErrorCell } from "./routeErrorCell";
 
 // ============================================================
 // SUBDOMAIN MATRIX
@@ -377,13 +379,13 @@ export function APIHeatmap({ db, routeHeatmap }: APIHeatmapProps): React.ReactEl
               className="t-tag"
               style={{ fontSize: 8, textAlign: "right" }}
             >
-              ERR
+              5XX
             </span>
           </div>
           {routeHeatmap.routes.slice(0, 8).map((r, i) => {
             const p95 = r.p95Ms ?? 0;
             const p95Color = p95 > 500 ? "var(--el-fire)" : p95 > 200 ? "var(--accent-2)" : "var(--fg)";
-            const errColor = r.errors5xx > 0 ? "var(--el-fire)" : r.errors4xx > 0 ? "var(--accent-2)" : "var(--fg-mute)";
+            const errCell = routeErrorCell(r.errors5xx, r.errors4xx);
             return (
               <div
                 key={r.path}
@@ -407,7 +409,7 @@ export function APIHeatmap({ db, routeHeatmap }: APIHeatmapProps): React.ReactEl
                 ))}
                 <span className="t-num" style={{ textAlign: "right", color: "var(--fg-dim)" }}>{r.totalRequests.toLocaleString()}</span>
                 <span className="t-num" style={{ textAlign: "right", color: p95Color }}>{r.p95Ms !== null ? `${r.p95Ms}ms` : "—"}</span>
-                <span className="t-num" style={{ textAlign: "right", color: errColor }} title={`${r.errors5xx} 5xx · ${r.errors4xx} 4xx`}>{r.errors5xx + r.errors4xx}</span>
+                <span className="t-num" style={{ textAlign: "right", color: errCell.color }} title={errCell.title}>{errCell.text}</span>
               </div>
             );
           })}
@@ -1440,13 +1442,14 @@ export function ResourceUsage({ data }: { data?: ResourceUsageData }) {
     provider = "Railway",
     periodLabel = "",
     live = false,
+    status = "unread",
+    failure = null,
   } = data ?? {};
+  const noSource = resourceUsageNoSourceCopy({ status, failure });
   return (
     <Card
       title="Resource Usage · MTD"
-      subtitle={
-        live ? `${provider} · ${periodLabel}` : "Railway usage not connected"
-      }
+      subtitle={live ? `${provider} · ${periodLabel}` : noSource.subtitle}
       right={
         <span
           className="t-mono"
@@ -1472,13 +1475,13 @@ export function ResourceUsage({ data }: { data?: ResourceUsageData }) {
           <div
             style={{ fontSize: 11, color: "var(--fg-dim)", marginBottom: 4 }}
           >
-            Railway usage not connected
+            {noSource.headline}
           </div>
           <div
             className="t-mono"
-            style={{ fontSize: 9, color: "var(--fg-mute)" }}
+            style={{ fontSize: 9, color: "var(--fg-mute)", overflowWrap: "anywhere" }}
           >
-            set RAILWAY_API_TOKEN to populate
+            {noSource.detail}
           </div>
         </div>
       ) : (

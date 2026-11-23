@@ -127,6 +127,22 @@ const ZODIAC_SIGNS = [
 ] as const;
 
 /**
+ * Postgres expression for a profile's natal Sun sign, lowercased.
+ *
+ * `natal_chart.planetaryPositions` stores every body as a bare lowercase sign
+ * STRING, `{ "Sun": "leo", ... }` (the onboarding route, `natalChartService` and
+ * the `NatalChart` type all write it that way). The query used to read
+ * `->'Sun'->>'sign'`, a `.sign` field of an object that is never there; `->>` on
+ * a jsonb string gives NULL, so every row was filtered out and all twelve signs
+ * showed 0. It has been wrong since it was written (79f06e83, 2026-05-25).
+ *
+ * OBSERVED in production 2026-11-23: of 9 onboarded humans, 8 have `Sun` as a
+ * jsonb string (1 has no chart at all); the old expression matched 0 of them and
+ * `->>'Sun'` matched 8, every one already lowercase.
+ */
+export const NATAL_SUN_SIGN_SQL = "LOWER(up.natal_chart->'planetaryPositions'->>'Sun')";
+
+/**
  * One sub-query of the insights payload, degraded independently: a failed
  * aggregate yields empty rows (logged) instead of rejecting the whole payload.
  * Consumers already handle empty rows (e.g. `?? emptyRollup()`).
@@ -246,14 +262,14 @@ export async function getUserInsights(): Promise<UserInsightsPayload> {
 
     degradeToEmpty(executeQuery<CountRow<string>>(
       `SELECT
-         LOWER(up.natal_chart->'planetaryPositions'->'Sun'->>'sign') AS bucket,
+         ${NATAL_SUN_SIGN_SQL} AS bucket,
          COUNT(*)::int AS count
        FROM users u
        JOIN user_profiles up ON up.user_id = u.id
        WHERE COALESCE(u.is_agent, false) = false
          AND up.onboarding_completed = true
-         AND up.natal_chart->'planetaryPositions'->'Sun'->>'sign' IS NOT NULL
-       GROUP BY LOWER(up.natal_chart->'planetaryPositions'->'Sun'->>'sign')`,
+         AND ${NATAL_SUN_SIGN_SQL} IS NOT NULL
+       GROUP BY ${NATAL_SUN_SIGN_SQL}`,
     ), markDegraded),
 
     degradeToEmpty(executeQuery<MedianRow>(

@@ -15,6 +15,7 @@
 import { CacheService, executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { getServiceUrl } from "@/lib/serviceUrls";
+import { rotateCandidatesByHour } from "@/services/prewarmRotation";
 import { alchemize } from "@/services/RealAlchemizeService";
 import { cosmicRecipeSchema } from "@/types/cosmicRecipeSchema";
 import { findTopIngredientsForElement } from "@/utils/ingredient/ingredientIndex";
@@ -26,11 +27,14 @@ const PA_TIMEOUT_MS = 45_000;
 const MIN_CANDIDATE_POOL = 8;
 const MAX_CANDIDATE_POOL = 24;
 /**
- * Don't start a generation with less than this left: the fastest real PA
- * generation measured was 13.7s (/api/generate-cosmic-recipe, 2026-08-19),
- * so a shorter window can only abort.
+ * Don't start a generation with less than this left. BASIS: PA takes 17.3-20.8 s
+ * (`llm_ms`, hourly runs after ASOL #102), so 25 s = the slowest plus ~4 s of
+ * transport and parsing. A shorter window usually aborts at the run deadline and
+ * pins the recorded duration at the cap ("near time limit"). It was 15 s, the
+ * FASTEST ever measured (13.7 s). Yield cost ~3.7%: a model, not a measurement.
  */
-const MIN_ATTEMPT_MS = 15_000;
+const MIN_ATTEMPT_MS = 25_000;
+export { rotateCandidatesByHour };
 const ELEMENTS = ["Fire", "Water", "Earth", "Air"] as const;
 type FeedElementLocal = (typeof ELEMENTS)[number];
 
@@ -205,6 +209,10 @@ export interface PrewarmResult {
   generated: number;
   /** Selected but not started because too little of the budget remained. */
   skippedForBudget: number;
+  /** Wall-clock ms of each started generation, in order. */
+  attemptsMs: number[];
+  /** A generation was still running at the deadline: the run's duration is then the cap, not PA's. */
+  deadlineHit: boolean;
 }
 
 async function selectAgents(limit: number): Promise<PrewarmAgentRow[]> {
@@ -224,18 +232,6 @@ async function selectAgents(limit: number): Promise<PrewarmAgentRow[]> {
   return result.rows;
 }
 
-/** Deterministically rotate candidate rows by the current UTC hour bucket. */
-export function rotateCandidatesByHour<T>(
-  rows: readonly T[],
-  nowMs: number = Date.now(),
-): T[] {
-  if (rows.length <= 1) return [...rows];
-  const hourBucket = Math.floor(nowMs / 3_600_000);
-  const offset = ((hourBucket % rows.length) + rows.length) % rows.length;
-  if (offset === 0) return [...rows];
-  return [...rows.slice(offset), ...rows.slice(0, offset)];
-}
-
 /** Rotate candidates deterministically by UTC hour bucket and advance past failures within budget. */
 export async function prewarmAgentRecipes(
   limit = 3,
@@ -244,7 +240,7 @@ export async function prewarmAgentRecipes(
 ): Promise<PrewarmResult> {
   const candidateLimit = Math.min(Math.max(limit * 4, MIN_CANDIDATE_POOL), MAX_CANDIDATE_POOL);
   const rows = rotateCandidatesByHour(await selectAgents(candidateLimit), Date.now());
-  const result: PrewarmResult = { selected: rows.length, attempted: 0, generated: 0, skippedForBudget: 0 };
+  const result: PrewarmResult = { selected: rows.length, attempted: 0, generated: 0, skippedForBudget: 0, attemptsMs: [], deadlineHit: false };
   for (const row of rows) {
     if (result.generated >= limit) break;
     const remaining = deadlineMs - Date.now();
@@ -253,6 +249,7 @@ export async function prewarmAgentRecipes(
       break;
     }
     result.attempted += 1;
+    const attemptStartedMs = Date.now();
     try {
       const outcome = await generateOne(row, Math.min(PA_TIMEOUT_MS, remaining));
       if (outcome.ok) result.generated += 1;
@@ -260,6 +257,9 @@ export async function prewarmAgentRecipes(
     } catch (error) {
       _logger.error("[prewarm] generateOne threw:", error);
       onFailure?.(error instanceof Error ? error.message.slice(0, 140) : "unexpected error");
+    } finally {
+      result.attemptsMs.push(Date.now() - attemptStartedMs);
+      if (Date.now() >= deadlineMs) result.deadlineHit = true;
     }
   }
   return result;

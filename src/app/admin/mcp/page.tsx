@@ -5,6 +5,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { _logger } from "@/lib/logger";
 import { getMcpNetworkSummary, type McpNetworkSummary, type McpVerdict } from "@/services/mcpNetworkService";
+import { McpSourceBanner, mcpStatusLine } from "./McpSourceBanner";
 
 const VERDICT_STYLE: Record<
   McpVerdict,
@@ -176,10 +177,7 @@ export default function McpAdminPage() {
               </span>
             </div>
             <p className="text-xs text-gray-500 mt-0.5">
-              {isStale 
-                ? "Showing cached/stale telemetry. Planetary Agents server is currently unreachable."
-                : `Planetary Agents status healthy · aggregated at ${new Date(currentSummary.generatedAt).toLocaleTimeString()}`
-              }
+              {mcpStatusLine(currentSummary)}
             </p>
           </div>
         </div>
@@ -188,6 +186,8 @@ export default function McpAdminPage() {
           Last refreshed {secondsSinceRefreshed}s ago
         </div>
       </div>
+
+      <McpSourceBanner summary={currentSummary} />
 
       {/* Backdrop Stale Overlay when live: false */}
       <div className="relative">

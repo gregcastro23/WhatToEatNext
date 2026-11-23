@@ -173,7 +173,8 @@ function ActionRow({ m }: { m: AdminAgentsView["actions"]["actionMetrics"][numbe
       </td>
       <td className="py-2.5 text-right font-mono text-gray-900">{m.calls24h !== null ? fmtInt(m.calls24h) : "—"}</td>
       <td className="py-2.5 text-right font-mono text-emerald-600">{m.successes24h !== null ? fmtInt(m.successes24h) : "—"}</td>
-      <td className="py-2.5 text-right font-mono text-amber-600">{m.failures24h !== null ? fmtInt(m.failures24h) : "—"}</td>
+      <td className="py-2.5 text-right font-mono text-gray-500">{m.refusals24h !== null ? fmtInt(m.refusals24h) : "—"}</td>
+      <td className="py-2.5 text-right font-mono text-amber-600">{m.clientFailures24h !== null ? fmtInt(m.clientFailures24h) : "—"}</td>
       <td className="py-2.5 text-right font-mono text-rose-600">{m.serverFailures24h !== null ? fmtInt(m.serverFailures24h) : "—"}</td>
       <td className="py-2.5 text-right font-mono text-gray-600">
         {m.p50Ms !== null ? `${m.p50Ms}ms` : "—"} / {m.p95Ms !== null ? `${m.p95Ms}ms` : "—"}
@@ -185,7 +186,7 @@ function ActionRow({ m }: { m: AdminAgentsView["actions"]["actionMetrics"][numbe
   );
 }
 
-function ActionMetricsTable({
+export function ActionMetricsTable({
   actionMetrics,
 }: {
   actionMetrics: AdminAgentsView["actions"]["actionMetrics"];
@@ -206,7 +207,15 @@ function ActionMetricsTable({
             <th className="py-2">Path</th>
             <th className="py-2 text-right">24h Calls</th>
             <th className="py-2 text-right">Success</th>
-            <th className="py-2 text-right">Fail (4xx)</th>
+            <th
+              className="py-2 text-right"
+              title="402 insufficient_funds and 409 already_applied: documented, expected outcomes, not failures"
+            >
+              Refused (402/409)
+            </th>
+            <th className="py-2 text-right" title="4xx other than 402/409: bad request, unauthorized, not found">
+              Fail (4xx)
+            </th>
             <th className="py-2 text-right">Fail (5xx)</th>
             <th className="py-2 text-right">p50 / p95</th>
             <th className="py-2 text-right">Last Seen</th>

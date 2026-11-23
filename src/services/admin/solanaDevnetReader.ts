@@ -8,6 +8,7 @@
 
 import { z } from "zod";
 import { _logger } from "@/lib/logger";
+import { rpcOrigin } from "@/services/admin/rpcRedaction";
 import { decodeConstellationPool, decodeProgramConfig, decodeProgramDataHeader } from "@/services/admin/solanaDecode";
 import type { SolanaManifests } from "@/services/admin/solanaManifests";
 import {
@@ -16,6 +17,7 @@ import {
   getAccount,
   LargestAccountsSchema,
   rpc,
+  rpcErrorText,
   settle,
   SignaturesSchema,
   solBalance,
@@ -138,7 +140,10 @@ function emptyDevnet(manifests: SolanaManifests): DevnetState {
   return {
     reachable: false,
     error: null,
-    rpc: DEVNET_RPC.replace(/\?.*$/, ""),
+    // Origin only. The old `.replace(/\?.*$/, "")` stripped just a `?query`, but
+    // Alchemy puts its key in the PATH (`/v2/<key>`), so the key was served to the
+    // browser and rendered on /admin/chain. See rpcRedaction.ts.
+    rpc: rpcOrigin(DEVNET_RPC),
     slot: null,
     genesisMatch: null,
     program: null,
@@ -188,7 +193,9 @@ export async function readDevnet(manifests: SolanaManifests): Promise<DevnetStat
   try {
     return { ...base, ...(await readLiveDevnet(manifests.devnet, manifests)) };
   } catch (err) {
-    _logger.error("[admin/chain] devnet read failed:", err);
-    return { ...base, error: err instanceof Error ? err.message : "devnet RPC failed" };
+    // Log the redacted text, not `err`: its message and stack can echo the RPC URL.
+    const error = rpcErrorText(err, "devnet RPC failed");
+    _logger.error(`[admin/chain] devnet read failed: ${error}`);
+    return { ...base, error };
   }
 }

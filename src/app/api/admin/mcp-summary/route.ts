@@ -5,6 +5,12 @@ import { executeQuery } from "@/lib/database";
 import { _logger } from "@/lib/logger";
 import { getServiceUrl } from "@/lib/serviceUrls";
 import { McpNetworkSummarySchema } from "@/lib/validation/serviceResponseSchemas";
+import {
+  logMcpFallback,
+  reasonFromError,
+  reasonFromStatus,
+  type McpFallbackReason,
+} from "@/services/mcpFallback";
 import type { McpNetworkSummary, McpVerdict } from "@/services/mcpNetworkService";
 import type { NextRequest } from "next/server";
 
@@ -232,6 +238,11 @@ export async function GET(request: NextRequest) {
   const secret = process.env.INTERNAL_API_SECRET;
   const base = getServiceUrl("planetaryAgentsApi");
 
+  // Why PA is not used when the answer below comes from WTEN's own tables. The
+  // payload carries it (`source` + `fallbackReason`), so the page cannot present
+  // local data as Planetary Agents' own.
+  let fallbackReason: McpFallbackReason = "no_internal_secret";
+
   if (secret) {
     try {
       const res = await fetch(`${base}/api/admin/mcp-summary?windowMinutes=${windowMinutes}`, {
@@ -242,16 +253,21 @@ export async function GET(request: NextRequest) {
       if (res.ok) {
         const data = await readJson(res, { parse: McpNetworkSummarySchema.nullable().parse });
         if (data && data.live !== false && data.totals && data.totals.calls > 0) {
-          return NextResponse.json(data);
+          return NextResponse.json({ ...data, source: "pa" });
         }
+        fallbackReason = !data ? "malformed_response" : data.live === false ? "pa_not_live" : "pa_reported_no_calls";
+      } else {
+        fallbackReason = reasonFromStatus(res.status);
       }
-    } catch {
-      // Fall through to local WTEN DB telemetry
+    } catch (error) {
+      // Fall through to local WTEN DB telemetry, saying why
+      fallbackReason = reasonFromError(error);
     }
   }
+  logMcpFallback("admin/mcp-summary", fallbackReason);
 
   try {
-    return NextResponse.json(await buildLocalMcpSummary(windowMinutes));
+    return NextResponse.json({ ...(await buildLocalMcpSummary(windowMinutes)), source: "wten-local", fallbackReason });
   } catch (err) {
     _logger.error("[admin/mcp-summary] local DB fallback failed", err);
     return NextResponse.json(

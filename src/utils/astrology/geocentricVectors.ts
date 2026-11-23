@@ -61,6 +61,42 @@ export function resolveGeocentricDistanceAu(planet: string, pos: unknown): numbe
 }
 
 /**
+ * Floor on r² (AU²) inside the inverse-square ESMS force coupling, so the gain
+ * can never exceed 1 / 0.01 = 100. Equivalent to treating every body closer than
+ * 0.1 AU as if it sat at 0.1 AU.
+ *
+ * BASIS: none recorded for this value. It arrived in 2a7bc9b2 (2026-05-16); that
+ * commit's message, the docs and the tests give no rationale for it. Sibling
+ * `Math.max(0.01, …)` floors in the same commit are annotated "Floor avoids ÷0",
+ * so a divide-by-zero guard was probably the intent — inferred, not stated, and a
+ * guard against ÷0 would not need a floor this large: it is what flattens the
+ * Moon. Neither measured nor ruled. Pinned by `geocentricVectors.test.ts` so a
+ * change is deliberate, not an endorsement. Residual (1) of the ESMS 2.0 list,
+ * `docs/physics/UNIFIED_PHYSICS_MODEL.md`.
+ */
+export const ESMS_COUPLING_R2_FLOOR_AU2 = 0.01;
+
+/**
+ * Inverse-square coupling gain applied to a body's velocity when the route sums
+ * `esmsForce`: `1 / max(|r|², ESMS_COUPLING_R2_FLOOR_AU2)`.
+ *
+ * The floor binds for exactly one body. Over `PLANET_MEAN_GEOCENTRIC_AU` the
+ * Moon (r̄ ≈ 0.00257 AU) is the only entry below 0.1 AU, so its gain is flat at
+ * 100 whatever its real distance, where an unclamped 1/r̄² would be ≈ 1.5e5.
+ * Every other body sits in the plain inverse-square regime. That is the Moon's
+ * "different amplitude regime".
+ *
+ * Extracted from `src/app/api/alchm-quantities/route.ts` for the same reason as
+ * `positionVec`: inline, the clamp was reachable only through a four-way weighted
+ * sum, and the one test that touched it re-typed the expression, so it asserted
+ * its own copy and not what the route does.
+ */
+export function esmsCouplingGain(r: Vec3): number {
+  const m = magnitude(r);
+  return 1 / Math.max(m * m, ESMS_COUPLING_R2_FLOOR_AU2);
+}
+
+/**
  * Build the 3D geocentric position and its time derivative for one body.
  *
  * `distanceSpeed` still defaults to 0, and that IS a neutral default unlike the

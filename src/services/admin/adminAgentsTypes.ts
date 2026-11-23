@@ -54,7 +54,10 @@ export interface AgentActionMetric {
   path: string;
   calls24h: number | null;
   successes24h: number | null;
-  failures24h: number | null;
+  /** 4xx other than the expected refusals: bad request, unauthorized, not found, unprocessable. */
+  clientFailures24h: number | null;
+  /** 402 insufficient_funds and 409 already_applied: documented outcomes, not failures. */
+  refusals24h: number | null;
   serverFailures24h: number | null;
   p50Ms: number | null;
   p95Ms: number | null;

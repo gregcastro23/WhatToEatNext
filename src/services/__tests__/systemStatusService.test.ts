@@ -285,4 +285,28 @@ describe("systemStatusService.buildMcpSummary", () => {
       }),
     ).toBe("Idle — WTEN MCP healthy · PA telemetry unavailable");
   });
+
+  it("names why PA telemetry was unavailable when the reason is known", () => {
+    expect(
+      buildMcpSummary({
+        ...base,
+        calls1h: 0,
+        paReachable: false,
+        paFallbackReason: "http_401",
+        paVerdict: "UNKNOWN",
+      }),
+    ).toBe("Idle — WTEN MCP healthy · PA telemetry unavailable (http_401)");
+  });
+
+  it("does not mention a reason when PA was reachable (a control)", () => {
+    expect(
+      buildMcpSummary({
+        ...base,
+        calls1h: 0,
+        paReachable: true,
+        paFallbackReason: "http_401",
+        paVerdict: "UNKNOWN",
+      }),
+    ).toBe("Idle — WTEN MCP healthy · PA MCP idle");
+  });
 });

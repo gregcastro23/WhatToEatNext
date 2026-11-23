@@ -198,7 +198,7 @@ describe("adminPulseDegradation (B2)", () => {
   });
 
   describe("getActionMetrics", () => {
-    it("reports calls24h, successes24h, failures24h as null when query rejects", async () => {
+    it("reports calls24h, successes24h, clientFailures24h, refusals24h as null when query rejects", async () => {
       mockExecuteQuery.mockRejectedValue(new Error("Table request_log_entries locked"));
 
       const metrics = await getActionMetrics();
@@ -207,7 +207,8 @@ describe("adminPulseDegradation (B2)", () => {
       for (const m of metrics) {
         expect(m.calls24h).toBeNull();
         expect(m.successes24h).toBeNull();
-        expect(m.failures24h).toBeNull();
+        expect(m.clientFailures24h).toBeNull();
+        expect(m.refusals24h).toBeNull();
         expect(m.serverFailures24h).toBeNull();
         expect(m.p50Ms).toBeNull();
         expect(m.p95Ms).toBeNull();
@@ -230,7 +231,8 @@ describe("adminPulseDegradation (B2)", () => {
       for (const m of metrics) {
         expect(m.calls24h).toBe(0);
         expect(m.successes24h).toBe(0);
-        expect(m.failures24h).toBe(0);
+        expect(m.clientFailures24h).toBe(0);
+        expect(m.refusals24h).toBe(0);
         expect(m.serverFailures24h).toBe(0);
         expect(m.p50Ms).toBeNull();
         expect(m.p95Ms).toBeNull();

@@ -1182,6 +1182,8 @@ async function probeAgents(): Promise<FlowHealth> {
 export interface McpSummaryInput {
   combinedVerdict: FlowStatus;
   paReachable: boolean;
+  /** Why Planetary Agents could not be read, when it could not (see mcpFallback.ts). */
+  paFallbackReason?: string;
   paVerdict: FlowStatus;
   paP95Ms: number;
   calls1h: number;
@@ -1195,6 +1197,7 @@ export function buildMcpSummary(input: McpSummaryInput): string {
   const {
     combinedVerdict,
     paReachable,
+    paFallbackReason,
     paVerdict,
     paP95Ms,
     calls1h,
@@ -1203,7 +1206,10 @@ export function buildMcpSummary(input: McpSummaryInput): string {
     syntheticStale,
     syntheticFreshFailure,
   } = input;
-  const paLabel = paReachable ? "PA MCP idle" : "PA telemetry unavailable";
+  const paUnavailable = paFallbackReason
+    ? `PA telemetry unavailable (${paFallbackReason})`
+    : "PA telemetry unavailable";
+  const paLabel = paReachable ? "PA MCP idle" : paUnavailable;
 
   if (combinedVerdict === "OK") {
     if (paVerdict === "UNKNOWN") {
@@ -1234,7 +1240,7 @@ export function buildMcpSummary(input: McpSummaryInput): string {
   return "No MCP signals or PA telemetry unreachable";
 }
 
-async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
+export async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
   const synthetic = evaluateSyntheticProbe("mcp", latest, STALE_HOURLY);
 
@@ -1330,6 +1336,7 @@ async function probeMcp(latest: LatestProbeRow[]): Promise<FlowHealth> {
     summary: buildMcpSummary({
       combinedVerdict,
       paReachable,
+      ...(paStatus?.fallbackReason ? { paFallbackReason: paStatus.fallbackReason } : {}),
       paVerdict,
       paP95Ms: paStatus?.totals.p95LatencyMs ?? 0,
       calls1h,

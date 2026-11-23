@@ -12,8 +12,10 @@
  * @file src/services/admin/userGrowthService.ts
  */
 
-import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
+// Every growth query goes through the per-instance admin cap (2 at a time), see
+// `adminQueryLimiter.ts`; the local name is kept so call sites are unchanged.
+import { executeAdminAnalyticsQuery as executeQuery } from "@/services/admin/adminQueryLimiter";
 import {
   activityCte,
   ACTIVITY_DAYS,
