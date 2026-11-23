@@ -23,9 +23,97 @@ import { _logger } from "@/lib/logger";
 import { jsonbOrNull } from "@/services/userDatabaseService";
 import { agentMonicaWithMethod } from "@/utils/agentMonicaResolver";
 import {
+  fullChartMonica,
   natalPositionsFromStoredChart,
   normaliseNatalPositions,
 } from "@/utils/fullChartMonica";
+
+interface SyncedMonicaValues {
+  combined: number | null;
+  diurnal: number | null;
+  nocturnal: number | null;
+  method: "single-body" | "two-body" | "full-chart" | null;
+}
+
+function resolveSyncMonica(
+  resolved: ReturnType<typeof agentMonicaWithMethod>,
+  cleanNatalPositions: unknown,
+): SyncedMonicaValues {
+  if (resolved !== null) {
+    return {
+      combined: resolved.monica.combined,
+      diurnal: resolved.monica.diurnal,
+      nocturnal: resolved.monica.nocturnal,
+      method: resolved.method,
+    };
+  }
+  const fullChart = cleanNatalPositions ? fullChartMonica(cleanNatalPositions) : null;
+  if (fullChart !== null) {
+    return {
+      combined: fullChart.combined,
+      diurnal: fullChart.diurnal,
+      nocturnal: fullChart.nocturnal,
+      method: "full-chart",
+    };
+  }
+  return { combined: null, diurnal: null, nocturnal: null, method: null };
+}
+
+const NEW_USER_PROFILE_INSERT_SQL = `INSERT INTO user_profiles (
+             user_id, name, bio, birth_data, natal_chart, natal_positions,
+             monica_constant, monica_single, monica_two_body, monica_full_chart,
+             monica_diurnal, monica_nocturnal, monica_method, dominant_element
+           ) VALUES ($1, $2, $3, $4, $5, $6,
+             CASE WHEN $10 = 'single-body' THEN $7::numeric END,
+             CASE WHEN $10 = 'single-body' THEN $7::numeric END,
+             CASE WHEN $10 = 'two-body'    THEN $7::numeric END,
+             CASE WHEN $10 = 'full-chart'  THEN $7::numeric END,
+             $8, $9, $10, $11)`;
+
+const EXISTING_USER_PROFILE_UPSERT_SQL = `${NEW_USER_PROFILE_INSERT_SQL}
+           ON CONFLICT (user_id) DO UPDATE SET
+             name = COALESCE(EXCLUDED.name, user_profiles.name),
+             bio = COALESCE(EXCLUDED.bio, user_profiles.bio),
+             birth_data = COALESCE(EXCLUDED.birth_data, user_profiles.birth_data),
+             natal_chart = COALESCE(EXCLUDED.natal_chart, user_profiles.natal_chart),
+             natal_positions = COALESCE(EXCLUDED.natal_positions, user_profiles.natal_positions),
+             monica_constant = CASE
+               WHEN EXCLUDED.monica_method = 'full-chart' AND (user_profiles.monica_method IS NULL OR user_profiles.monica_method = 'full-chart') THEN NULL
+               WHEN user_profiles.monica_method IS NULL THEN EXCLUDED.monica_constant
+               ELSE user_profiles.monica_constant
+             END,
+             monica_single = CASE
+               WHEN EXCLUDED.monica_method = 'full-chart' AND (user_profiles.monica_method IS NULL OR user_profiles.monica_method = 'full-chart') THEN NULL
+               WHEN user_profiles.monica_method IS NULL THEN EXCLUDED.monica_single
+               ELSE user_profiles.monica_single
+             END,
+             monica_two_body = CASE
+               WHEN EXCLUDED.monica_method = 'full-chart' AND (user_profiles.monica_method IS NULL OR user_profiles.monica_method = 'full-chart') THEN NULL
+               WHEN user_profiles.monica_method IS NULL THEN EXCLUDED.monica_two_body
+               ELSE user_profiles.monica_two_body
+             END,
+             monica_full_chart = CASE
+               WHEN EXCLUDED.monica_method = 'full-chart' AND (user_profiles.monica_method IS NULL OR user_profiles.monica_method = 'full-chart') THEN EXCLUDED.monica_full_chart
+               WHEN user_profiles.monica_method IS NULL THEN EXCLUDED.monica_full_chart
+               ELSE user_profiles.monica_full_chart
+             END,
+             monica_diurnal = CASE
+               WHEN EXCLUDED.monica_method = 'full-chart' AND (user_profiles.monica_method IS NULL OR user_profiles.monica_method = 'full-chart') THEN EXCLUDED.monica_diurnal
+               WHEN user_profiles.monica_method IS NULL THEN EXCLUDED.monica_diurnal
+               ELSE user_profiles.monica_diurnal
+             END,
+             monica_nocturnal = CASE
+               WHEN EXCLUDED.monica_method = 'full-chart' AND (user_profiles.monica_method IS NULL OR user_profiles.monica_method = 'full-chart') THEN EXCLUDED.monica_nocturnal
+               WHEN user_profiles.monica_method IS NULL THEN EXCLUDED.monica_nocturnal
+               ELSE user_profiles.monica_nocturnal
+             END,
+             monica_method = CASE
+               WHEN EXCLUDED.monica_method = 'full-chart' AND (user_profiles.monica_method IS NULL OR user_profiles.monica_method = 'full-chart') THEN EXCLUDED.monica_method
+               WHEN user_profiles.monica_method IS NULL THEN EXCLUDED.monica_method
+               ELSE user_profiles.monica_method
+             END,
+             dominant_element = COALESCE(EXCLUDED.dominant_element, user_profiles.dominant_element),
+             updated_at = now()`;
 
 /** `{}` and `[]` mean "absent" here, exactly as jsonbOrNull treats them. */
 const nonEmpty = <T>(v: T): T | undefined =>
@@ -194,8 +282,6 @@ export async function POST(req: NextRequest | Request) {
         error,
       ),
     );
-    const resolvedMonica = resolved?.monica ?? null;
-
     // The upstream producer emits `longitude: data?.longitude ?? data?.degrees ?? 0`
     // over objects carrying neither key, so every body arrives with a fabricated
     // `longitude: 0`. This is the boundary that upstream crosses, so it is the
@@ -216,12 +302,6 @@ export async function POST(req: NextRequest | Request) {
     // is the SAME converter the human writer uses, so a chart-bearing agent and
     // a chart-bearing human now cannot disagree about what their chart means.
     //
-    // `[MEASURED 2026-08-13]` against production this repairs no existing row —
-    // of 6,311 agents with a profile, 71 hold a real chart and all 71 already
-    // hold real positions, and the other 6,240 hold neither. It is a guard, not
-    // a backfill. Derivation is the FALLBACK, never an override: a caller that
-    // sends positions is the authority on its own chart.
-    //
     // `normaliseNatalPositions` returns `unknown` — it passes a non-array
     // through untouched — so "usable" is tested as "a non-empty array" rather
     // than by truthiness. `[]` and a stray object are both absent here, which is
@@ -240,7 +320,8 @@ export async function POST(req: NextRequest | Request) {
           ` derived ${derivedPositions.length} bodies from the chart itself.`,
       );
     }
-    const parsedMonicaConstant = resolvedMonica?.combined ?? null;
+
+    const syncedMonica = resolveSyncMonica(resolved, cleanNatalPositions);
 
     const userProfilePayload = {
       email,
@@ -252,6 +333,25 @@ export async function POST(req: NextRequest | Request) {
       birthData: nonEmpty(birthData),
       natalChart: nonEmpty(natalChart),
     };
+
+    const profileParams = [
+      "",
+      resolvedName,
+      bio ?? null,
+      // jsonbOrNull, not `x ? stringify(x) : null` — an EMPTY object is
+      // truthy, so the old guard wrote '{}' for a caller that has no chart.
+      // Where this statement COALESCEs onto the stored value, a non-null
+      // '{}' WINS that COALESCE and overwrites a real stored chart with an
+      // empty one. NULL correctly leaves the stored value alone.
+      jsonbOrNull(birthData),
+      jsonbOrNull(natalChart),
+      jsonbOrNull(cleanNatalPositions),
+      syncedMonica.combined,
+      syncedMonica.diurnal,
+      syncedMonica.nocturnal,
+      syncedMonica.method,
+      resolvedDominantElement,
+    ];
 
     let wtenUserId = "";
     let created = false;
@@ -283,50 +383,11 @@ export async function POST(req: NextRequest | Request) {
           [wtenUserId, resolvedName, JSON.stringify(userProfilePayload)],
         );
 
-        // Upsert user profile
-        await client.query(
-          `INSERT INTO user_profiles (
-             user_id, name, bio, birth_data, natal_chart, natal_positions,
-             monica_constant, monica_single, monica_two_body,
-             monica_diurnal, monica_nocturnal, monica_method, dominant_element
-           ) VALUES ($1, $2, $3, $4, $5, $6,
-             CASE WHEN $10 = 'single-body' THEN $7::numeric END,
-             CASE WHEN $10 = 'single-body' THEN $7::numeric END,
-             CASE WHEN $10 = 'two-body'    THEN $7::numeric END,
-             $8, $9, $10, $11)
-           ON CONFLICT (user_id) DO UPDATE SET
-             name = COALESCE(EXCLUDED.name, user_profiles.name),
-             bio = COALESCE(EXCLUDED.bio, user_profiles.bio),
-             birth_data = COALESCE(EXCLUDED.birth_data, user_profiles.birth_data),
-             natal_chart = COALESCE(EXCLUDED.natal_chart, user_profiles.natal_chart),
-             natal_positions = COALESCE(EXCLUDED.natal_positions, user_profiles.natal_positions),
-             monica_constant = COALESCE(user_profiles.monica_constant, EXCLUDED.monica_constant),
-             monica_single = COALESCE(user_profiles.monica_single, EXCLUDED.monica_single),
-             monica_two_body = COALESCE(user_profiles.monica_two_body, EXCLUDED.monica_two_body),
-             monica_diurnal = COALESCE(EXCLUDED.monica_diurnal, user_profiles.monica_diurnal),
-             monica_nocturnal = COALESCE(EXCLUDED.monica_nocturnal, user_profiles.monica_nocturnal),
-             monica_method = COALESCE(user_profiles.monica_method, EXCLUDED.monica_method),
-             dominant_element = COALESCE(EXCLUDED.dominant_element, user_profiles.dominant_element),
-             updated_at = now()`,
-          [
-            wtenUserId,
-            resolvedName,
-            bio ?? null,
-            // jsonbOrNull, not `x ? stringify(x) : null` — an EMPTY object is
-            // truthy, so the old guard wrote '{}' for a caller that has no chart.
-            // Where this statement COALESCEs onto the stored value, a non-null
-            // '{}' WINS that COALESCE and overwrites a real stored chart with an
-            // empty one. NULL correctly leaves the stored value alone.
-            jsonbOrNull(birthData),
-            jsonbOrNull(natalChart),
-            jsonbOrNull(cleanNatalPositions),
-            parsedMonicaConstant,
-            resolvedMonica?.diurnal ?? null,
-            resolvedMonica?.nocturnal ?? null,
-            resolved?.method ?? null,
-            resolvedDominantElement,
-          ],
-        );
+        // Upsert user profile (recomputes full-chart monica if natal_positions refreshed)
+        await client.query(EXISTING_USER_PROFILE_UPSERT_SQL, [
+          wtenUserId,
+          ...profileParams.slice(1),
+        ]);
       } else {
         // User does not exist: create user & profile
         wtenUserId = randomUUID();
@@ -343,35 +404,10 @@ export async function POST(req: NextRequest | Request) {
           [wtenUserId, email, resolvedName, JSON.stringify(userProfilePayload)],
         );
 
-        await client.query(
-          `INSERT INTO user_profiles (
-             user_id, name, bio, birth_data, natal_chart, natal_positions,
-             monica_constant, monica_single, monica_two_body,
-             monica_diurnal, monica_nocturnal, monica_method, dominant_element
-           ) VALUES ($1, $2, $3, $4, $5, $6,
-             CASE WHEN $10 = 'single-body' THEN $7::numeric END,
-             CASE WHEN $10 = 'single-body' THEN $7::numeric END,
-             CASE WHEN $10 = 'two-body'    THEN $7::numeric END,
-             $8, $9, $10, $11)`,
-          [
-            wtenUserId,
-            resolvedName,
-            bio ?? null,
-            // jsonbOrNull, not `x ? stringify(x) : null` — an EMPTY object is
-            // truthy, so the old guard wrote '{}' for a caller that has no chart.
-            // Where this statement COALESCEs onto the stored value, a non-null
-            // '{}' WINS that COALESCE and overwrites a real stored chart with an
-            // empty one. NULL correctly leaves the stored value alone.
-            jsonbOrNull(birthData),
-            jsonbOrNull(natalChart),
-            jsonbOrNull(cleanNatalPositions),
-            parsedMonicaConstant,
-            resolvedMonica?.diurnal ?? null,
-            resolvedMonica?.nocturnal ?? null,
-            resolved?.method ?? null,
-            resolvedDominantElement,
-          ],
-        );
+        await client.query(NEW_USER_PROFILE_INSERT_SQL, [
+          wtenUserId,
+          ...profileParams.slice(1),
+        ]);
 
         // Seed wallet balance & tracking streaks for agentic user
         await client.query(
