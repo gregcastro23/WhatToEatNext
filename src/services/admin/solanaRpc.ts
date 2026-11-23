@@ -9,11 +9,23 @@
 
 import { z } from "zod";
 import { readJson } from "@/lib/api/json";
+import { redactRpcMessage } from "@/services/admin/rpcRedaction";
 
 const RPC_TIMEOUT_MS = 7_000;
 
+// These URLs can carry the provider's API key (rpcRedaction.ts). Nothing derived
+// from them may reach a client or a log except through rpcOrigin / rpcErrorText.
 export const DEVNET_RPC = process.env.SOLANA_DEVNET_RPC_URL ?? "https://api.devnet.solana.com";
 export const MAINNET_RPC = process.env.SOLANA_MAINNET_RPC_URL ?? "https://api.mainnet-beta.solana.com";
+
+/**
+ * The text of a failed RPC read, safe to put in a client payload or a log line.
+ * `rpc()` rejects with whatever fetch or the provider said, and that can echo
+ * the URL (and so the key); this is the only way an error from here becomes text.
+ */
+export function rpcErrorText(err: unknown, fallback: string): string {
+  return redactRpcMessage(err instanceof Error ? err.message : fallback, [DEVNET_RPC, MAINNET_RPC]);
+}
 
 const RpcEnvelopeSchema = z.object({
   result: z.unknown().optional(),

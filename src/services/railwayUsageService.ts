@@ -10,9 +10,12 @@
  * cost figure, so dollarizing would require hardcoding per-unit prices — the
  * same fabrication the old "Cost Burndown" panel was removed for (PR #553).
  *
- * Fails OPEN. With no RAILWAY_API_TOKEN configured (or on any error/timeout),
- * `fetchRailwayResourceUsage` returns null and the panel shows its honest
- * "not connected" state — it never invents numbers.
+ * Fails OPEN, and says WHY. `readRailwayResourceUsage` returns one of three
+ * outcomes: `ok`, `no-token` (RAILWAY_API_TOKEN unset), or `failed` (token set,
+ * the call did not succeed, with a one-line reason). The panel shows a
+ * different honest state for each — it never invents numbers, and it never says
+ * "set the token" when the token is set. Every failure is logged with
+ * `_logger.error` (`warn` is silent in production); the token is never logged.
  *
  * Setup: create a Railway **account or team** API token (Bearer-authed) and set
  * it as RAILWAY_API_TOKEN. RAILWAY_PROJECT_ID defaults to the alchm.kitchen
@@ -26,6 +29,8 @@ import { RailwayGraphQLResponseSchema } from "@/lib/validation/serviceResponseSc
 const RAILWAY_GRAPHQL_ENDPOINT = "https://backboard.railway.com/graphql/v2";
 const DEFAULT_PROJECT_ID = "29768485-d0da-48ab-aedf-5cbc142e0f3f"; // alchm.kitchen prod
 const REQUEST_TIMEOUT_MS = 6000;
+/** Bound on the failure reason that goes into a log line and the panel payload. */
+const MAX_REASON_LENGTH = 200;
 
 /** The measurements we surface, in display order, with friendly labels + units. */
 const MEASUREMENTS: Array<{
@@ -60,6 +65,14 @@ export interface RailwayResourceUsage {
   periodLabel: string;
 }
 
+/** What one read of Railway's usage API came to. `reason` never contains the token. */
+export type RailwayUsageOutcome =
+  | { status: "ok"; usage: RailwayResourceUsage }
+  | { status: "no-token" }
+  | { status: "failed"; reason: string };
+
+type GraphqlResult<T> = { ok: true; rows: T[] } | { ok: false; reason: string };
+
 interface UsageRow {
   measurement: string;
   value: number;
@@ -77,13 +90,13 @@ function monthWindow(): { start: string; end: string; label: string } {
 }
 
 /**
- * Fetch real Railway resource usage for the current month. Returns null when
- * the API token is unconfigured or any error occurs (callers show the honest
- * "not connected" state instead of fabricating).
+ * Fetch real Railway resource usage for the current month. Never throws and
+ * never fabricates: no token → `no-token`; any failure of the primary (MTD)
+ * query → `failed` with its reason; the projected estimate is best-effort.
  */
-export async function fetchRailwayResourceUsage(): Promise<RailwayResourceUsage | null> {
+export async function readRailwayResourceUsage(): Promise<RailwayUsageOutcome> {
   const token = process.env.RAILWAY_API_TOKEN;
-  if (!token) return null;
+  if (!token) return { status: "no-token" };
 
   const projectId = process.env.RAILWAY_PROJECT_ID ?? DEFAULT_PROJECT_ID;
   const measurements = MEASUREMENTS.map((m) => m.measurement);
@@ -113,13 +126,13 @@ export async function fetchRailwayResourceUsage(): Promise<RailwayResourceUsage 
     ),
   ]);
 
-  if (mtdRows === null) return null; // no real MTD data → honest no-source
+  if (!mtdRows.ok) return { status: "failed", reason: mtdRows.reason }; // no real MTD data → honest failure
 
   const mtdByMeasurement = new Map(
-    mtdRows.map((r) => [r.measurement, Number(r.value) || 0]),
+    mtdRows.rows.map((r) => [r.measurement, Number(r.value) || 0]),
   );
   const projectedByMeasurement = new Map(
-    (projectedRows ?? []).map((r) => [
+    (projectedRows.ok ? projectedRows.rows : []).map((r) => [
       r.measurement,
       Number(r.estimatedValue) || 0,
     ]),
@@ -137,20 +150,38 @@ export async function fetchRailwayResourceUsage(): Promise<RailwayResourceUsage 
     },
   );
 
-  return { items, provider: "Railway", periodLabel: label };
+  return { status: "ok", usage: { items, provider: "Railway", periodLabel: label } };
+}
+
+/** The token must never reach a log line or a payload, whatever Railway echoes back. */
+function withoutToken(text: string, token: string): string {
+  return text.split(token).join("[redacted]");
+}
+
+function failureReason(error: unknown): string {
+  if (error instanceof Error && error.name === "AbortError") return `timed out after ${REQUEST_TIMEOUT_MS / 1000}s`;
+  return error instanceof Error ? `${error.name}: ${error.message}` : "unknown error";
 }
 
 /**
- * Issue one Railway GraphQL query and return the named field's rows, or null on
- * any failure (HTTP error, GraphQL error, timeout). Each call is independently
- * fault-isolated so the two usage queries don't take each other down.
+ * Issue one Railway GraphQL query and return the named field's rows, or the
+ * reason it failed (HTTP error, GraphQL error, timeout, bad payload). Each call
+ * is independently fault-isolated so the two usage queries don't take each
+ * other down. A failure is logged here, once, as one `_logger.error` line:
+ * the HTTP status or first GraphQL error message, and which field.
  */
 async function railwayGraphql<T>(
   token: string,
   query: string,
   variables: Record<string, unknown>,
   field: string,
-): Promise<T[] | null> {
+): Promise<GraphqlResult<T>> {
+  const fail = (detail: string): GraphqlResult<T> => {
+    // One line, token-free, bounded: a schema error can be a multi-line JSON dump.
+    const reason = withoutToken(`${detail} on ${field}`, token).replace(/\s+/g, " ").slice(0, MAX_REASON_LENGTH);
+    _logger.error(`[railwayUsage] ${reason}`);
+    return { ok: false, reason };
+  };
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
@@ -163,24 +194,15 @@ async function railwayGraphql<T>(
       body: JSON.stringify({ query, variables }),
       signal: controller.signal,
     });
-    if (!resp.ok) {
-      _logger.warn(`[railwayUsage] HTTP ${resp.status} on ${field}`);
-      return null;
-    }
+    if (!resp.ok) return fail(`HTTP ${resp.status}`);
     const json = await readJson(resp, {
       parse: RailwayGraphQLResponseSchema.parse,
     });
     const rows = json.data?.[field] as T[] | undefined;
-    if (json.errors?.length || !rows) {
-      _logger.warn(
-        `[railwayUsage] ${field} error: ${json.errors?.[0]?.message ?? "no data"}`,
-      );
-      return null;
-    }
-    return rows;
+    if (json.errors?.length || !rows) return fail(json.errors?.[0]?.message ?? "no data");
+    return { ok: true, rows };
   } catch (error) {
-    _logger.warn(`[railwayUsage] ${field} fetch failed:`, error);
-    return null;
+    return fail(failureReason(error));
   } finally {
     clearTimeout(timer);
   }
