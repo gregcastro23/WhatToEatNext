@@ -114,18 +114,60 @@ afterEach(() => {
 describe("prewarmAgentRecipes — deadline-aware", () => {
   it("gives each call only the time left, and stops starting calls it cannot finish", async () => {
     const timeoutSpy = jest.spyOn(AbortSignal, "timeout");
+    const result = await prewarmAgentRecipes(3, clock + 70_000);
+
+    // Call 1 gets the full 45s cap and takes 30s; call 2 only the 40s left; the 10s
+    // then left is under the 25s floor, so call 3 never starts.
+    expect(timeoutSpy.mock.calls.map(([ms]) => ms)).toEqual([45_000, 40_000]);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(result).toEqual({
+      selected: 3, attempted: 2, generated: 0, skippedForBudget: 1, attemptsMs: [30_000, 30_000], deadlineHit: false,
+    });
+  });
+
+  it("does not start a second call that would have under 25s, which can only abort at the deadline", async () => {
+    const timeoutSpy = jest.spyOn(AbortSignal, "timeout");
     const result = await prewarmAgentRecipes(3, clock + 48_000);
 
-    // Call 1 gets the full 45s cap; call 2 only the 18s left; call 3 never starts.
-    expect(timeoutSpy.mock.calls.map(([ms]) => ms)).toEqual([45_000, 18_000]);
-    expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(result).toEqual({ selected: 3, attempted: 2, generated: 0, skippedForBudget: 1 });
+    // Call 1 takes 30s of the 48s budget. The 18s left is under the 25s floor (the
+    // slowest observed generation, 20.8s, could not finish in it), so the run stops
+    // instead of starting a call that ends pinned at the deadline.
+    expect(timeoutSpy.mock.calls.map(([ms]) => ms)).toEqual([45_000]);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(result).toEqual({
+      selected: 3, attempted: 1, generated: 0, skippedForBudget: 2, attemptsMs: [30_000], deadlineHit: false,
+    });
   });
 
   it("starts nothing when less than the minimum attempt window remains", async () => {
     const result = await prewarmAgentRecipes(3, clock + 10_000);
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(result).toEqual({ selected: 3, attempted: 0, generated: 0, skippedForBudget: 3 });
+    expect(result).toEqual({
+      selected: 3, attempted: 0, generated: 0, skippedForBudget: 3, attemptsMs: [], deadlineHit: false,
+    });
+  });
+
+  it("starts a call with exactly 25s left and not with 1ms less", async () => {
+    const timeoutSpy = jest.spyOn(AbortSignal, "timeout");
+
+    await prewarmAgentRecipes(3, clock + 24_999);
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    await prewarmAgentRecipes(1, clock + 25_000);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(timeoutSpy.mock.calls.map(([ms]) => ms)).toEqual([25_000]);
+  });
+
+  it("flags a generation still running when the deadline passed, and records its real duration", async () => {
+    fetchMock.mockImplementationOnce(async () => {
+      clock += 40_000;
+      return new Response("{}", { status: 503 });
+    });
+
+    // 30s left is above the 25s floor, so the call starts with a 30s budget, then overruns it.
+    const result = await prewarmAgentRecipes(1, clock + 30_000);
+
+    expect(result).toMatchObject({ attempted: 1, attemptsMs: [40_000], deadlineHit: true });
   });
 
   it("throws when the agent query fails, instead of reporting an empty success", async () => {
@@ -133,7 +175,7 @@ describe("prewarmAgentRecipes — deadline-aware", () => {
     await expect(prewarmAgentRecipes(3, clock + 48_000)).rejects.toThrow("Query read timeout");
   });
 
-  it("reports concise upstream PA error details via onFailure without altering PrewarmResult", async () => {
+  it("reports concise upstream PA error details via onFailure, keeping them out of PrewarmResult", async () => {
     mockExecuteQuery.mockResolvedValueOnce({ rows: [agent("a1")] });
     fetchMock.mockImplementationOnce(async () => {
       clock += 20_000;
@@ -149,7 +191,9 @@ describe("prewarmAgentRecipes — deadline-aware", () => {
     });
     const failures: string[] = [];
     const result = await prewarmAgentRecipes(1, clock + 48_000, (reason) => failures.push(reason));
-    expect(result).toEqual({ selected: 1, attempted: 1, generated: 0, skippedForBudget: 0 });
+    expect(result).toEqual({
+      selected: 1, attempted: 1, generated: 0, skippedForBudget: 0, attemptsMs: [20_000], deadlineHit: false,
+    });
     expect(failures).toEqual(["HTTP 502: all configured recipe providers were unavailable"]);
   });
 
@@ -176,7 +220,9 @@ describe("prewarmAgentRecipes — deadline-aware", () => {
 
     const result = await prewarmAgentRecipes(1, clock + 48_000);
     expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(result).toEqual({ selected: 3, attempted: 2, generated: 1, skippedForBudget: 0 });
+    expect(result).toEqual({
+      selected: 3, attempted: 2, generated: 1, skippedForBudget: 0, attemptsMs: [15_000, 12_000], deadlineHit: false,
+    });
   });
 
   it("finishes candidate DB selection before PA fetch and writes cache only after fetch resolves", async () => {
@@ -199,7 +245,9 @@ describe("prewarmAgentRecipes — deadline-aware", () => {
     });
 
     const result = await prewarmAgentRecipes(1, clock + 48_000);
-    expect(result).toEqual({ selected: 1, attempted: 1, generated: 1, skippedForBudget: 0 });
+    expect(result).toEqual({
+      selected: 1, attempted: 1, generated: 1, skippedForBudget: 0, attemptsMs: [10_000], deadlineHit: false,
+    });
     expect(events).toEqual(["db-select", "pa-fetch-start", "pa-fetch-end", "db-cache-set"]);
     expect(setSpy).toHaveBeenCalledTimes(1);
   });
@@ -212,7 +260,9 @@ describe("prewarmAgentRecipes — deadline-aware", () => {
     );
 
     const result = await prewarmAgentRecipes(1, clock + 48_000);
-    expect(result).toEqual({ selected: 1, attempted: 1, generated: 0, skippedForBudget: 0 });
+    expect(result).toEqual({
+      selected: 1, attempted: 1, generated: 0, skippedForBudget: 0, attemptsMs: [0], deadlineHit: false,
+    });
     expect(errorSpy).toHaveBeenCalledWith(
       "[ERROR] [prewarm] PA call failed for a1 (budget 45000ms): TimeoutError: The operation was aborted due to timeout",
       "",
