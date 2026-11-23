@@ -23,7 +23,7 @@ import { memoize } from "@/lib/cache/memoryCache";
 import { commitTitle, GithubCommitSchema, githubGet, GithubPullSchema, SOLANA_REPO } from "@/services/admin/githubClient";
 import { readDevnet } from "@/services/admin/solanaDevnetReader";
 import { readManifests, type SolanaManifests } from "@/services/admin/solanaManifests";
-import { MAINNET_RPC, MultipleAccountsSchema, rpc } from "@/services/admin/solanaRpc";
+import { MAINNET_RPC, MultipleAccountsSchema, rpc, rpcErrorText } from "@/services/admin/solanaRpc";
 import type { AsolHealth, MainnetState, SolanaProgress, SolanaRepoActivity } from "@/services/admin/solanaTypes";
 
 const ASOL_BASE_URL = process.env.AGENTS_BASE_URL ?? process.env.NEXT_PUBLIC_AGENTS_URL ?? "https://agents.alchm.kitchen";
@@ -108,7 +108,7 @@ async function readMainnet(manifest: SolanaManifests["mainnet"]): Promise<Mainne
     const [program, ...mints] = accounts.value;
     return { ...state, reachable: true, programDeployed: program?.executable ?? false, mintsCreated: mints.filter((m) => m !== null).length };
   } catch (err) {
-    return { ...state, error: err instanceof Error ? err.message : "mainnet RPC failed" };
+    return { ...state, error: rpcErrorText(err, "mainnet RPC failed") };
   }
 }
 

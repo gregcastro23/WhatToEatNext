@@ -515,6 +515,8 @@ export const FALLBACK_DATA: AdminDashboardData = {
     provider: "Railway",
     periodLabel: "",
     live: false,
+    status: "unread",
+    failure: null,
   },
   practitionerGeo: { regions: [], live: false },
   cohortRetention: { cohorts: [], live: false },
