@@ -10,6 +10,7 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server";
+import { TRAFFIC_POLL_MS } from "@/lib/admin/trafficPoll";
 import { validateAdminRequest } from "@/lib/auth/validateRequest";
 import { memoize } from "@/lib/cache/memoryCache";
 import { getTrafficSummary } from "@/services/admin/trafficAnalyticsService";
@@ -26,6 +27,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
   const requested = request.nextUrl.searchParams.get("range");
   const range: TrafficRange = RANGES.find((r) => r === requested) ?? "24h";
-  const payload = await memoize(`admin:traffic:${range}`, 5_000, () => getTrafficSummary(range));
+  // TTL = the page's poll interval (see trafficPoll.ts): a shorter memo recomputed every poll.
+  const payload = await memoize(`admin:traffic:${range}`, TRAFFIC_POLL_MS, () => getTrafficSummary(range));
   return NextResponse.json({ success: true, ...payload });
 }

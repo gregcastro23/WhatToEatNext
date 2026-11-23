@@ -19,6 +19,7 @@
 
 import { executeQuery } from "@/lib/database/connection";
 import { isMissingColumn, isMissingRelation } from "@/lib/database/pgErrors";
+import { runAfterResponse } from "@/lib/hooks/runAfterResponse";
 import { _logger } from "@/lib/logger";
 import {
   ACTIVE_WINDOW_MINUTES,
@@ -161,8 +162,13 @@ export async function recordPageView(row: PageViewInsert): Promise<boolean> {
     } else {
       await insertBaselinePageView(row);
     }
-    if (row.userId && row.sessionId && !row.isBot) {
-      stitchSessionUser(row.sessionId, row.userId).catch(() => undefined);
+    const { userId, sessionId } = row;
+    if (userId && sessionId && !row.isBot) {
+      // Not a bare un-awaited promise: the route returns right after this function,
+      // Vercel then freezes the instance, and a write left in flight is resumed
+      // later as a "Query read timeout" (seen at 337-373 s in production). The
+      // helper registers it with `after()` so the invocation stays alive for it.
+      runAfterResponse("traffic.stitchSessionUser", () => stitchSessionUser(sessionId, userId));
     }
     evaluatePageViewWebhookAlerts(row).catch(() => undefined);
     return true;

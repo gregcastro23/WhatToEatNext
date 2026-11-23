@@ -14,8 +14,10 @@ import {
   isFrustrationOrPerfTag,
   isInteractiveRoute,
 } from "@/lib/analytics/interactionClassify";
-import { executeQuery } from "@/lib/database/connection";
 import { isMissingColumn, isMissingRelation } from "@/lib/database/pgErrors";
+// Every query in this file goes through the per-instance admin cap (2 at a time),
+// see `adminQueryLimiter.ts`; the local name is kept so call sites are unchanged.
+import { executeAdminAnalyticsQuery as executeQuery } from "@/services/admin/adminQueryLimiter";
 import type {
   ActivationStickinessSummary,
   ActiveReviewerAlert,
