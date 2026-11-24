@@ -1,5 +1,11 @@
-import type { ThermodynamicProperties, ZodiacSignType } from "@/types/alchemy";
+import type { ZodiacSignType } from "@/types/alchemy";
 import type { CookingMethodData } from "@/types/cookingMethod";
+
+/** Poaching-only reference tables that the shared method type doesn't declare. */
+interface PoachingExtras {
+  poaching_liquids: Record<string, string>;
+  presentation_techniques: Record<string, string>;
+}
 
 /**
  * Poaching cooking method
@@ -8,7 +14,7 @@ import type { CookingMethodData } from "@/types/cookingMethod";
  * Associated with the alchemical pillar of Coagulation - transforming delicate substances
  * with minimal disruption while preserving their essence.
  */
-export const poaching: CookingMethodData = {
+export const poaching: CookingMethodData & PoachingExtras = {
   name: "poaching",
   description:
     "Gentle cooking method where food is submerged in liquid heated to just below simmering point (160°F-180°F/71°C-82°C), characterized by small bubbles forming on the bottom of the pan without breaking the surface. This technique delicately cooks food while preserving moisture, texture, and shape, ideal for proteins that might toughen at higher temperatures and delicate ingredients that require subtle flavor infusion.",
@@ -247,7 +253,7 @@ export const poaching: CookingMethodData = {
     entropy: 0.3, // Minimal structural disruption
     reactivity: 0.25, // Limited chemical reactions due to low temperature
     gregsEnergy: 0.05, // Calculated using heat - (entropy * reactivity) // Calculated gregsEnergy: heat - (entropy * reactivity)
-  } as unknown as ThermodynamicProperties,
+  },
 
   kineticProfile: {
     voltage: 0.30,            // 140-180°F — gentlest wet heat method
@@ -364,7 +370,7 @@ export const poaching: CookingMethodData = {
     "Control poaching temperature precisely with an instant-read thermometer",
     "Add a splash of vinegar to poaching liquid for eggs (1 Tbsp per quart)",
     "For chicken breasts, start in cold liquid and slowly bring to temperature",
-    "When poaching fisha court bouillon with acid helps maintain firmness",
+    "When poaching fish, a court bouillon with acid helps maintain firmness",
     "Let delicate items like fish rest in turned-off poaching liquid for 1-2 minutes",
     "Butter-baste poached items just before serving for added richness",
     "Strain and freeze poaching liquid for future use (label with date and ingredients)",
@@ -433,4 +439,4 @@ export const poaching: CookingMethodData = {
     herb_garnish:
       "Fresh herbs that echo poaching aromatics for visual and flavor connection",
   },
-} as unknown as CookingMethodData;
+};

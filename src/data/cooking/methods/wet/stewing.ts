@@ -234,7 +234,6 @@ export const stewing: CookingMethodData = {
     "Thicken only in final 30 minutes to prevent burning",
     "Create a bouquet garni for easy removal of woody herbs",
     "Reserve delicate herbs until final 10 minutes of cooking",
-    "Rest meat for 10 minutes before cutting for stewing",
     "Deglaze browning pan with wine or stock to capture all flavors",
     "For clearer broth, blanch bones or meat briefly before stewing",
     "Use a cartouche (parchment paper lid) for gentle evaporation",

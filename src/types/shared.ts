@@ -248,6 +248,7 @@ export type CookingMethod =
   | "broiling"
   // Wet methods
   | "simmering"
+  | "poaching"
   // Specialized frying
   | "stir-frying"
   | "tilt-skillet"
