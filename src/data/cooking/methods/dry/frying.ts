@@ -477,7 +477,6 @@ export const frying: CookingMethodData = {
     "When frying doughs, proof until just underproofed (they expand considerably during frying)",
     "For flavor infusion, filter and cool oil, then steep with herbs, spices, or aromatics",
     "Apply glazes or sauces immediately after draining for better adherence",
-    "For sweet batters, add a small amount of ground nori or MSG to enhance flavor dimensionality",
   ],
 
   ingredientPreparation: {

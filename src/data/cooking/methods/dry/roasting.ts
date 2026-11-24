@@ -313,12 +313,11 @@ export const roasting: CookingMethodData = {
   expertTips: [
     "Dry brine large cuts with salt 24-48 hours before roasting for improved moisture retention and flavor penetration",
     "Create a three-zone fire for outdoor roasting: hot zone for searing, medium zone for cooking, cool zone for resting",
-    "Let meats come to room temperature for 30-60 minutes before roasting to ensure even cooking",
     "When roasting whole poultry, start breast-side down and flip halfway through for even cooking",
     "Use a V-rack for meats to allow air circulation and prevent sogginess on the bottom",
     "For perfect crackling on pork, ensure the skin is completely dry before roasting and score in a diamond pattern",
     "Add liquid to the bottom of the roasting pan when cooking large cuts to maintain humidity and create sauce base",
-    "Rest roasted meats on a warm plate tented with foil for approximately 10 minutes per pound",
+    "Rest roasted meats on a warm plate, loosely tented with foil, before carving",
     "For crisp-skinned poultry, air-dry uncovered in refrigerator for 12-24 hours before roasting",
     "Brush fruits or vegetables with a mixture of oil and honey for enhanced caramelization",
     "For even cooking of irregular cuts, truss or use skewers to create a uniform shape",

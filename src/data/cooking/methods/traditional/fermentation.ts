@@ -308,7 +308,6 @@ export const fermentation: CookingMethodData = {
   expertTips: [
     "For vegetable ferments, use 2% salt by weight for optimal fermentation",
     "Maintain temperature of 65-72°F (18-22°C) for balanced flavor development in most vegetable ferments",
-    "For kefir, avoid metal utensils which can damage the SCOBY",
     "In sourdough, maintain starter at equal weights of flour and water for balanced acidity",
     "When making miso, ensure salt concentration is at least 5% to prevent unwanted microbes",
     "For kimchi, short fermentation (3-5 days) at room temperature followed by refrigeration creates balanced flavors",
@@ -319,7 +318,6 @@ export const fermentation: CookingMethodData = {
     "For kefir, optimum culturing occurs at 68-74°F (20-23°C) for 24 hours",
     "In cheese making, maintaining specific humidity levels is as important as temperature",
     "For tempeh, maintain 85-88°F (29-31°C) with adequate ventilation for proper mycelium growth",
-    "Use wooden rather than plastic tools for sourdough to nurture beneficial microbial environment",
     "For yogurt, pre-heat milk to 180°F (82°C) before cooling to incubation temperature to denature proteins",
     "When making sauerkraut, core removal and fine shredding promote better juice extraction",
     "For koji, maintain 80-85% humidity for optimal enzyme development",
