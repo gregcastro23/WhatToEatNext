@@ -34,6 +34,29 @@ export interface CookingMethodKineticProfile {
   forceImpact: number;
 }
 
+/** A pillar's direction on one ESMS quantity: decreases, leaves alone, or increases. */
+export type PillarDirection = -1 | 0 | 1;
+
+/**
+ * The alchemical pillar a cooking method belongs to, as the method data files
+ * record it (frying, braising, poaching, sous-vide). This replaces a
+ * `Record<string, Record<string, string>>` type that matched none of them:
+ * each file had to cast to it, and frying stored its numbers as strings to fit.
+ */
+export interface MethodAlchemicalAspects {
+  pillarName: string;
+  pillarNumber: number;
+  alchemicalProcess: string;
+  effects: {
+    spirit: PillarDirection;
+    essence: PillarDirection;
+    matter: PillarDirection;
+    substance: PillarDirection;
+  };
+  symbolicMeaning: string;
+  associatedElements: { primary: string; secondary: string };
+}
+
 /**
  * Interface defining the structure of cooking method data
  */
@@ -102,7 +125,7 @@ export interface CookingMethodData {
   technicalNotes?: Record<string, Record<string, string>>;
 
   // Alchemical aspects for advanced cooking methods
-  alchemicalAspects?: Record<string, Record<string, string>>;
+  alchemicalAspects?: MethodAlchemicalAspects;
 
   // P=IV Circuit Model kinetic profile
   kineticProfile?: CookingMethodKineticProfile;
