@@ -1,19 +1,22 @@
-.surface {
+/* The quiz opens in place under its bar. The stage scrolls its own body, so
+   the slot needs a definite height: the viewport less the ~300px of header,
+   tip strip and bar above it, so the stage's footer stays on screen. */
+.inline {
   position: relative;
-  min-height: 480px;
+  height: clamp(460px, calc(100vh - 300px), 620px);
+  height: clamp(460px, calc(100dvh - 300px), 620px);
   min-width: 0;
   isolation: isolate;
-}
-.preview > div {
-  min-height: 480px;
-}
-.overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
   border-radius: 16px;
   overflow: hidden;
   background: #15121f;
+  animation: quizInlineIn 0.28s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+@keyframes quizInlineIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
 }
 .stage {
   display: flex;
@@ -871,17 +874,29 @@
     display: none;
   }
   .bar {
+    height: auto;
+    min-height: 76px;
     padding: 12px;
     gap: 10px;
   }
   .barCopy strong {
     font-size: 12px;
   }
+  /* The bar leads the hero now: on a phone, wrap the line that says what the
+     quiz gives you rather than cutting it off. */
+  .barCopy > span {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    white-space: normal;
+  }
   .barAction {
     font-size: 11px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .inline,
   .stage *,
   .bar {
     transition: none !important;

@@ -31,7 +31,7 @@ export function QuizBar({ tunedSuffix = "" }: { tunedSuffix?: string }): React.J
         <span>
           {summary
             ? "Matched from real recipes · retake any time"
-            : `A ${state.target}-question quiz that reads the moment and finds a real dish`}
+            : `${state.target} quick questions → one real recipe you can cook tonight`}
           {tunedSuffix}
         </span>
       </span>

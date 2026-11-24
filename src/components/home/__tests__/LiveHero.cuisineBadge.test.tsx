@@ -52,11 +52,9 @@ jest.mock("@/hooks/useUserElementalBias", () => {
     },
   };
 });
-// The quiz is another feature; its wrappers must still render the hero's tile grid.
+// The quiz is another feature; its provider must still render the hero's tile grid.
 jest.mock("@/components/home/quiz/QuizBar", () => ({ QuizBar: () => null }));
-jest.mock("@/components/home/quiz/QuizSurface", () => ({
-  QuizSurface: ({ children }: { children: React.ReactNode }) => children,
-}));
+jest.mock("@/components/home/quiz/QuizSurface", () => ({ QuizSurface: () => null }));
 jest.mock("@/components/home/quiz/QuizProvider", () => ({
   QuizProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
