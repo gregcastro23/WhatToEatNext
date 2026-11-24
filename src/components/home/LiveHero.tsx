@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { parseCuisineResponse } from "@/components/dashboard/parseCuisineResponse";
+import { HOME_SECTION_ANCHORS } from "@/components/home/homeSections";
 import { QuizBar } from "@/components/home/quiz/QuizBar";
 import {
   localQuizTime,
@@ -29,9 +30,11 @@ import {
 } from "@/utils/guestPalate";
 
 /**
- * LiveHero — the homepage's consolidated top component: masthead + inline
- * personalization ("Who's eating tonight?") + a preview grid of every site
- * capability + the adaptive meal-crafting quiz, in one surface.
+ * LiveHero — the homepage's consolidated top component, in reading order: the
+ * adaptive meal quiz's bar (it opens in place, right under the bar), the
+ * masthead with the mission and "On this page" jump chips, inline
+ * personalization ("Who's eating tonight?"), and a preview grid of every site
+ * capability, in one surface.
  *
  * Honesty rules: nothing is labeled live unless a real source feeds it (the
  * quantities endpoint's elemental balance, the client-side planetary hour,
@@ -626,18 +629,24 @@ export function LiveHero({
           aria-hidden="true"
         />
 
+        {/* ── The quiz comes first and opens in place, under its bar ── */}
+        <QuizBar tunedSuffix={tunedSuffix} />
+        <QuizSurface />
+
         {/* ── Top band: masthead + who's eating tonight ── */}
         <div className="alchm-lh-top">
           <div className="alchm-lh-masthead">
             <p className="t-tag alchm-lh-eyebrow">
-              YOUR KITCHEN · THE LIVE SKY
+              A CHEF&apos;S KITCHEN · READ LIVE
             </p>
             <h1 id="alchm-lh-title" className="t-display alchm-lh-title">
               Know what to eat next.
             </h1>
             <p className="alchm-lh-intro">
-              Turn your birth chart, pantry, and the current sky into clear
-              culinary recommendations you can actually cook tonight.
+              Fresh, delicious food that&apos;s safe to eat, for whoever is at
+              your table and whatever tradition they carry. Tell us who&apos;s
+              eating and what&apos;s in the pantry. We read tonight&apos;s sky,
+              do the math, and hand you a real dish you can cook tonight.
             </p>
             <div className="alchm-lh-actions">
               <Link href="/recipe-builder" className="alchm-lh-cta">
@@ -653,6 +662,18 @@ export function LiveHero({
                 </Link>
               )}
             </div>
+            <nav className="alchm-lh-onpage" aria-label="On this page">
+              <span className="t-mono alchm-lh-onpage-label">ON THIS PAGE</span>
+              {HOME_SECTION_ANCHORS.map((anchor) => (
+                <a
+                  key={anchor.id}
+                  href={`#${anchor.id}`}
+                  className="alchm-lh-onpage-chip"
+                >
+                  {anchor.label}
+                </a>
+              ))}
+            </nav>
           </div>
 
           <div className="alchm-lh-table" aria-label="Who's eating tonight?">
@@ -818,7 +839,7 @@ export function LiveHero({
           </div>
         </div>
 
-        {/* ── Grid zone: preview tiles / stage / quiz ── */}
+        {/* ── Grid zone: preview tiles / stage ── */}
         <div className="alchm-lh-gridlabel">
           <span className="t-mono">
             THE WHOLE KITCHEN · TAP ANY TILE TO PREVIEW
@@ -826,197 +847,194 @@ export function LiveHero({
           <span className="alchm-lh-rule" aria-hidden="true" />
         </div>
 
-        <QuizSurface>
-          {openTile ? (
-            <div
-              key={openTile.id}
-              className="alchm-lh-stage"
-              style={heroStyle({ "--q": openTile.tint })}
-            >
-              <div className="alchm-lh-panel">
-                <div className="alchm-lh-stagehead">
-                  <span className="alchm-lh-stagehead-id">
-                    <span
-                      className="alchm-lh-glyphbox is-big"
-                      style={heroStyle({ "--e": openTile.tint })}
-                      aria-hidden="true"
-                    >
-                      {openTile.glyph}
-                    </span>
-                    <span>
-                      <span className="t-mono alchm-lh-kicker">
-                        PREVIEW · {openTile.name.toUpperCase()}
-                      </span>
-                      <h3 className="alchm-lh-stagetitle">
-                        {openTile.stageTitle}
-                      </h3>
-                    </span>
-                  </span>
-                  <button
-                    type="button"
-                    className="t-mono alchm-lh-ghost"
-                    onClick={() => setOpenTileId(null)}
+        {openTile ? (
+          <div
+            key={openTile.id}
+            className="alchm-lh-stage"
+            style={heroStyle({ "--q": openTile.tint })}
+          >
+            <div className="alchm-lh-panel">
+              <div className="alchm-lh-stagehead">
+                <span className="alchm-lh-stagehead-id">
+                  <span
+                    className="alchm-lh-glyphbox is-big"
+                    style={heroStyle({ "--e": openTile.tint })}
+                    aria-hidden="true"
                   >
-                    ← All previews
-                  </button>
-                </div>
-                <div className="alchm-lh-cols">
-                  <div className="alchm-lh-col">
-                    <p className="alchm-lh-story">{openTile.story}</p>
-                    <div className="alchm-lh-example">
-                      <p className="t-mono alchm-lh-example-label">
-                        {openTile.id === "sky" && skyPct ? (
-                          <>
-                            <i
-                              className="alchm-lh-livedot"
-                              aria-hidden="true"
+                    {openTile.glyph}
+                  </span>
+                  <span>
+                    <span className="t-mono alchm-lh-kicker">
+                      PREVIEW · {openTile.name.toUpperCase()}
+                    </span>
+                    <h3 className="alchm-lh-stagetitle">
+                      {openTile.stageTitle}
+                    </h3>
+                  </span>
+                </span>
+                <button
+                  type="button"
+                  className="t-mono alchm-lh-ghost"
+                  onClick={() => setOpenTileId(null)}
+                >
+                  ← All previews
+                </button>
+              </div>
+              <div className="alchm-lh-cols">
+                <div className="alchm-lh-col">
+                  <p className="alchm-lh-story">{openTile.story}</p>
+                  <div className="alchm-lh-example">
+                    <p className="t-mono alchm-lh-example-label">
+                      {openTile.id === "sky" && skyPct ? (
+                        <>
+                          <i
+                            className="alchm-lh-livedot"
+                            aria-hidden="true"
+                          />
+                          TONIGHT · LIVE READING
+                        </>
+                      ) : (
+                        openTile.exampleLabel.toUpperCase()
+                      )}
+                    </p>
+                    <div className="alchm-lh-stats">
+                      {(openTile.id === "sky" && skyPct
+                        ? ELEMENT_ORDER.map((el) => ({
+                            label: el,
+                            pct: skyPct[el],
+                          }))
+                        : [...openTile.stats]
+                      ).map((s) => (
+                        <div
+                          key={s.label}
+                          className="alchm-lh-stat"
+                          style={heroStyle({
+                            "--e": ELEMENT_TINTS[s.label] ?? openTile.tint,
+                          })}
+                        >
+                          <span className="t-mono alchm-lh-stat-label">
+                            {s.label}
+                          </span>
+                          <span className="alchm-lh-stat-track">
+                            <span
+                              className="alchm-lh-stat-bar"
+                              style={{ width: `${s.pct}%` }}
                             />
-                            TONIGHT · LIVE READING
-                          </>
-                        ) : (
-                          openTile.exampleLabel.toUpperCase()
-                        )}
-                      </p>
-                      <div className="alchm-lh-stats">
-                        {(openTile.id === "sky" && skyPct
-                          ? ELEMENT_ORDER.map((el) => ({
-                              label: el,
-                              pct: skyPct[el],
-                            }))
-                          : [...openTile.stats]
-                        ).map((s) => (
-                          <div
-                            key={s.label}
-                            className="alchm-lh-stat"
-                            style={heroStyle({
-                              "--e": ELEMENT_TINTS[s.label] ?? openTile.tint,
-                            })}
-                          >
-                            <span className="t-mono alchm-lh-stat-label">
-                              {s.label}
-                            </span>
-                            <span className="alchm-lh-stat-track">
-                              <span
-                                className="alchm-lh-stat-bar"
-                                style={{ width: `${s.pct}%` }}
-                              />
-                            </span>
-                            <span className="t-mono alchm-lh-stat-pct">
-                              {s.pct}%
-                            </span>
-                          </div>
-                        ))}
-                      </div>
+                          </span>
+                          <span className="t-mono alchm-lh-stat-pct">
+                            {s.pct}%
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  <div className="alchm-lh-col">
-                    <p className="t-mono alchm-lh-example-label">
-                      WHAT YOU CAN DO
+                </div>
+                <div className="alchm-lh-col">
+                  <p className="t-mono alchm-lh-example-label">
+                    WHAT YOU CAN DO
+                  </p>
+                  <ul className="alchm-lh-cando">
+                    {openTile.canDo.map((u) => (
+                      <li key={u}>{u}</li>
+                    ))}
+                  </ul>
+                  {openTile.id === "cuisines" && topCuisine && (
+                    <p className="t-mono alchm-lh-liveline">
+                      <i className="alchm-lh-livedot" aria-hidden="true" />
+                      TONIGHT: {topCuisine.toUpperCase()} ↑ · LIVE
                     </p>
-                    <ul className="alchm-lh-cando">
-                      {openTile.canDo.map((u) => (
-                        <li key={u}>{u}</li>
-                      ))}
-                    </ul>
-                    {openTile.id === "cuisines" && topCuisine && (
-                      <p className="t-mono alchm-lh-liveline">
-                        <i className="alchm-lh-livedot" aria-hidden="true" />
-                        TONIGHT: {topCuisine.toUpperCase()} ↑ · LIVE
-                      </p>
-                    )}
-                    <div className="alchm-lh-stageacts">
-                      <Link
-                        href={openTile.href}
-                        className="alchm-lh-cta is-small"
-                      >
-                        {openTile.linkLabel} →
-                      </Link>
-                      <span className="t-mono alchm-lh-realnote">
-                        The real thing runs live further down this page.
-                      </span>
-                    </div>
+                  )}
+                  <div className="alchm-lh-stageacts">
+                    <Link
+                      href={openTile.href}
+                      className="alchm-lh-cta is-small"
+                    >
+                      {openTile.linkLabel} →
+                    </Link>
+                    <span className="t-mono alchm-lh-realnote">
+                      The real thing runs live further down this page.
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
-          ) : (
-            <div className="alchm-lh-grid">
-              {TILES.map((tile, index) => (
-                <button
-                  key={tile.id}
-                  type="button"
-                  className={`alchm-lh-tile is-${tile.id}`}
-                  style={heroStyle({
-                    "--e": tile.tint,
-                    "--i": index,
-                  })}
-                  onClick={() => setOpenTileId(tile.id)}
-                  aria-label={`Preview ${tile.name}`}
-                >
-                  <span className="alchm-lh-tile-top">
-                    <span className="alchm-lh-glyphbox" aria-hidden="true">
-                      {tile.glyph}
-                    </span>
-                    {tile.id === "sky" && hydrated && displayHour && (
-                      <span className="t-mono alchm-lh-livechip">
-                        {/* "LIVE" only when the authoritative context feeds the
-                        hour — the clock-table fallback isn't a live claim */}
-                        {hourIsLive && (
-                          <>
-                            <i
-                              className="alchm-lh-livedot"
-                              aria-hidden="true"
-                            />
-                            LIVE ·{" "}
-                          </>
-                        )}
-                        <span className="alchm-lh-livechip-name">
-                          {displayHour.toUpperCase()} HOUR{" "}
-                        </span>
-                        {PLANET_GLYPHS[displayHour] ?? ""}
-                      </span>
-                    )}
-                    {tile.id === "builder" && featuredThumb && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={featuredThumb}
-                        alt=""
-                        className="alchm-lh-thumb"
-                        loading="lazy"
-                      />
-                    )}
+          </div>
+        ) : (
+          <div className="alchm-lh-grid">
+            {TILES.map((tile, index) => (
+              <button
+                key={tile.id}
+                type="button"
+                className={`alchm-lh-tile is-${tile.id}`}
+                style={heroStyle({
+                  "--e": tile.tint,
+                  "--i": index,
+                })}
+                onClick={() => setOpenTileId(tile.id)}
+                aria-label={`Preview ${tile.name}`}
+              >
+                <span className="alchm-lh-tile-top">
+                  <span className="alchm-lh-glyphbox" aria-hidden="true">
+                    {tile.glyph}
                   </span>
-                  <span className="alchm-lh-tile-name">{tile.name}</span>
-                  <span className="alchm-lh-tile-teaser">{tile.teaser}</span>
-                  {tile.id === "sky" && skyPct && (
-                    <span className="alchm-lh-minibar" aria-hidden="true">
-                      {ELEMENT_ORDER.map((el) => (
-                        <i
-                          key={el}
-                          style={{
-                            width: `${skyPct[el]}%`,
-                            background: ELEMENT_TINTS[el],
-                          }}
-                        />
-                      ))}
+                  {tile.id === "sky" && hydrated && displayHour && (
+                    <span className="t-mono alchm-lh-livechip">
+                      {/* "LIVE" only when the authoritative context feeds the
+                      hour — the clock-table fallback isn't a live claim */}
+                      {hourIsLive && (
+                        <>
+                          <i
+                            className="alchm-lh-livedot"
+                            aria-hidden="true"
+                          />
+                          LIVE ·{" "}
+                        </>
+                      )}
+                      <span className="alchm-lh-livechip-name">
+                        {displayHour.toUpperCase()} HOUR{" "}
+                      </span>
+                      {PLANET_GLYPHS[displayHour] ?? ""}
                     </span>
                   )}
-                  {tile.id === "cuisines" && topCuisine && (
-                    <span className="t-mono alchm-lh-tile-live">
-                      TONIGHT: {topCuisine.toUpperCase()} ↑
-                    </span>
+                  {tile.id === "builder" && featuredThumb && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={featuredThumb}
+                      alt=""
+                      className="alchm-lh-thumb"
+                      loading="lazy"
+                    />
                   )}
-                  {tile.id === "builder" && (
-                    <span className="t-mono alchm-lh-tile-live">
-                      RECIPE BUILDER · LIVE
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
-          )}
-        </QuizSurface>
-        <QuizBar tunedSuffix={tunedSuffix} />
+                </span>
+                <span className="alchm-lh-tile-name">{tile.name}</span>
+                <span className="alchm-lh-tile-teaser">{tile.teaser}</span>
+                {tile.id === "sky" && skyPct && (
+                  <span className="alchm-lh-minibar" aria-hidden="true">
+                    {ELEMENT_ORDER.map((el) => (
+                      <i
+                        key={el}
+                        style={{
+                          width: `${skyPct[el]}%`,
+                          background: ELEMENT_TINTS[el],
+                        }}
+                      />
+                    ))}
+                  </span>
+                )}
+                {tile.id === "cuisines" && topCuisine && (
+                  <span className="t-mono alchm-lh-tile-live">
+                    TONIGHT: {topCuisine.toUpperCase()} ↑
+                  </span>
+                )}
+                {tile.id === "builder" && (
+                  <span className="t-mono alchm-lh-tile-live">
+                    RECIPE BUILDER · LIVE
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
       </section>
     </QuizProvider>
   );
@@ -1084,7 +1102,7 @@ const heroStyles = `
     letter-spacing: -0.03em;
   }
   .alchm-lh-intro {
-    max-width: 520px;
+    max-width: 560px;
     margin: 12px 0 0;
     color: var(--fg-dim);
     font-size: clamp(13px, 1.4vw, 15px);
@@ -1118,6 +1136,28 @@ const heroStyles = `
   }
   .alchm-lh-cta.is-secondary:hover { background: rgba(255,255,255,0.065); color: var(--fg); filter: none; }
   .alchm-lh-cta.is-small { min-height: 36px; padding: 8px 14px; font-size: 11.5px; }
+
+  /* On this page: jump chips to the live sections below the hero */
+  .alchm-lh-onpage { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 16px; }
+  .alchm-lh-onpage-label { margin-right: 4px; color: var(--fg-mute); font-size: 9px; letter-spacing: 0.18em; }
+  .alchm-lh-onpage-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 5px 12px;
+    border: 1px solid var(--line-hi);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.03);
+    color: var(--fg-dim);
+    font-size: 11.5px;
+    text-decoration: none;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .alchm-lh-onpage-chip:hover {
+    border-color: color-mix(in oklch, var(--accent), transparent 45%);
+    background: color-mix(in oklch, var(--accent), transparent 90%);
+    color: var(--fg);
+  }
 
   /* Who's eating tonight */
   .alchm-lh-table {

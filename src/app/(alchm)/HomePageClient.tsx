@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import LivePriceTicker from "@/components/economy/LivePriceTicker";
+import { HOME_SECTION_IDS } from "@/components/home/homeSections";
+import { KitchenTipStrip } from "@/components/home/KitchenTipStrip";
 import { LiveHero } from "@/components/home/LiveHero";
 import { RecipeMintPromo } from "@/components/home/RecipeMintPromo";
 import type { JSX } from "react";
@@ -131,11 +133,13 @@ function SectionLoader({ label }: { label: string }): JSX.Element {
 /* ─── Section wrapper ─────────────────────────────────────────────────────── */
 
 function HomeSection({
+  id,
   tag,
   title,
   children,
   cta,
 }: {
+  id?: string;
   tag: string;
   title: string;
   children: React.ReactNode;
@@ -143,11 +147,14 @@ function HomeSection({
 }): JSX.Element {
   return (
     <section
+      id={id}
       className="alchm-panel"
       style={{
         padding: "20px 22px",
         position: "relative",
         overflow: "hidden",
+        // Clears the sticky site header (63–72px) when a jump chip lands here.
+        scrollMarginTop: 88,
       }}
     >
       <header
@@ -226,8 +233,11 @@ export default function AlchmKitchenHome(): JSX.Element {
           .alchm-home-cookmethods :is(h1, h2, h3, h4) { color: var(--fg); }
         `}</style>
 
-        {/* The consolidated hero: masthead + "Who's eating tonight?" +
-            capability preview grid + meal-crafting quiz, one surface. */}
+        {/* Today's kitchen tips: the first line a visitor reads. */}
+        <KitchenTipStrip />
+
+        {/* The consolidated hero: meal-crafting quiz, then masthead +
+            "Who's eating tonight?" + capability preview grid, one surface. */}
         <LiveHero />
 
         {/* Elemental Exchange ribbon — live per-token index (ADR-011).
@@ -239,6 +249,7 @@ export default function AlchmKitchenHome(): JSX.Element {
 
         {/* 1 · CUISINE RECOMMENDER */}
         <HomeSection
+          id={HOME_SECTION_IDS.cuisines}
           tag="CUISINE · LIVE RECOMMENDATION"
           title="Tonight's cuisine, tuned to the sky"
           cta={{ label: "All cuisines", href: "/cuisines" }}
@@ -252,6 +263,7 @@ export default function AlchmKitchenHome(): JSX.Element {
 
         {/* 2 · INGREDIENT RECOMMENDER */}
         <HomeSection
+          id={HOME_SECTION_IDS.ingredients}
           tag="INGREDIENTS · LIVE SKY"
           title="Ingredients aligned with the live sky"
           cta={{ label: "Open my pantry", href: "/pantry" }}
@@ -278,6 +290,7 @@ export default function AlchmKitchenHome(): JSX.Element {
 
         {/* 3 · COOKING METHOD RECOMMENDER */}
         <HomeSection
+          id={HOME_SECTION_IDS.methods}
           tag="METHODS · LIVE THERMODYNAMICS"
           title="Cooking methods aligned with elemental transits"
           cta={{ label: "All methods", href: "/cooking-methods" }}
@@ -299,6 +312,7 @@ export default function AlchmKitchenHome(): JSX.Element {
             per-method computation to render the identical thing twice.
             Methods now live in section 3 only; this section is sauces. */}
         <HomeSection
+          id={HOME_SECTION_IDS.sauces}
           tag="PREPARATION · CELESTIAL PREP"
           title="Celestial Prep: Sauces"
         >

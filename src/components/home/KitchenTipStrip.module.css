@@ -1,0 +1,121 @@
+.strip {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas: "label tip controls";
+  align-items: center;
+  gap: 16px;
+  padding: 10px 12px 10px 16px;
+  border: 1px solid color-mix(in oklch, var(--accent-2), transparent 68%);
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklch, var(--accent-2), transparent 90%),
+    rgba(255, 255, 255, 0.015) 55%
+  );
+}
+
+.label {
+  grid-area: label;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--accent-2);
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.count {
+  color: var(--fg-mute);
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stack {
+  grid-area: tip;
+  display: grid;
+  min-width: 0;
+}
+
+/* Every tip shares one cell: the strip takes the height of the longest. The
+   outgoing tip vanishes at once and only the incoming one fades, so two tips
+   never overlap mid-change. */
+.item {
+  grid-area: 1 / 1;
+  margin: 0;
+  color: var(--fg);
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.item[data-active="true"] {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.45s ease;
+}
+
+.link {
+  color: var(--accent);
+  font-size: 12px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.controls {
+  grid-area: controls;
+  display: flex;
+  gap: 6px;
+}
+
+.control {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line-hi);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--fg-mute);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.control:hover {
+  border-color: var(--fg-mute);
+  color: var(--fg);
+}
+
+.control:focus-visible,
+.link:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .strip {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "label controls"
+      "tip tip";
+    gap: 6px 10px;
+    padding: 10px 10px 12px 14px;
+  }
+
+  .item {
+    font-size: 12.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item,
+  .item[data-active="true"] {
+    transition: none;
+  }
+}
