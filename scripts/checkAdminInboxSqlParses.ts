@@ -10,11 +10,12 @@
  *
  * This verification script:
  *   1. Imports the live SQL statements from `asolHealthQueries.ts`, `inbox.ts`,
- *      idempotency, and shared admin SQL with ZERO regex scraping.
+ *      idempotency, shared admin SQL, and `debitRefusalService.ts` with ZERO regex scraping.
  *   2. Proves the gate detects broken SQL using a failing control (undefined column).
- *   3. PREPAREs all 13 shipped statements against live PostgreSQL (parse + type analysis).
- *   4. Establishes session-local TEMP tables shadowing `webhook_events` and `users`,
- *      verifying `relnamespace = pg_my_temp_schema()` so writes never touch shared tables.
+ *   3. PREPAREs all 16 shipped statements against live PostgreSQL (parse + type analysis).
+ *   4. Establishes session-local TEMP tables shadowing `webhook_events`, `users`,
+ *      `request_log_entries`, `feed_events`, and `economy_debit_refusals`, verifying
+ *      `relnamespace = pg_my_temp_schema()` so writes never touch shared tables.
  *   5. Exercises the complete claim, conflict, duplicate, completion, failure,
  *      retry, and telemetry query lifecycle on the TEMP schema.
  *   6. Pins every operation to one transaction/backend, then rolls it all back.
@@ -50,6 +51,121 @@ import {
   AGENT_PULSE_ROSTER_SQL as ROSTER_QUERY,
   AGENT_ROSTER_STATS_SQL,
 } from "../src/services/admin/adminAgentSql";
+import {
+  FIRST_REFUSAL_HOUR_SQL,
+  READ_DEBIT_REFUSALS_SQL,
+  RECORD_DEBIT_REFUSAL_SQL,
+} from "../src/services/debitRefusalService";
+
+interface DebitRefusalWindowRow {
+  hour: Date | string;
+  reason: string;
+  refusals: number;
+  empty_basket: number;
+  shortfall_value_sum: number;
+  shortfall_value_n: number;
+}
+
+function hasPgCode(err: unknown, code: string): boolean {
+  return Boolean(err && typeof err === "object" && "code" in err && err.code === code);
+}
+
+function toIsoTimestamp(value: Date | string | null | undefined): string | null {
+  if (value === null || value === undefined) return null;
+  return value instanceof Date ? value.toISOString() : new Date(value).toISOString();
+}
+
+async function createTempDebitRefusalsTable(client: pg.Client): Promise<void> {
+  await client.query(`
+    CREATE TEMP TABLE economy_debit_refusals (
+      hour TIMESTAMPTZ NOT NULL
+        CHECK (hour = date_trunc('hour', hour AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'),
+      reason TEXT NOT NULL
+        CHECK (reason IN ('insufficient_value', 'rates_unavailable', 'no_balance', 'auto_swap_off', 'lost_race')),
+      refusals INTEGER NOT NULL DEFAULT 0 CHECK (refusals >= 0),
+      empty_basket INTEGER NOT NULL DEFAULT 0 CHECK (empty_basket >= 0 AND empty_basket <= refusals),
+      shortfall_value_sum NUMERIC NOT NULL DEFAULT 0 CHECK (shortfall_value_sum >= 0),
+      shortfall_value_n INTEGER NOT NULL DEFAULT 0 CHECK (shortfall_value_n >= 0 AND shortfall_value_n <= refusals),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      PRIMARY KEY (hour, reason)
+    );
+  `);
+  const iso = await client.query<{ isolated: boolean }>(
+    "SELECT relnamespace = pg_my_temp_schema() AS isolated FROM pg_class WHERE oid = to_regclass('economy_debit_refusals')",
+  );
+  assert.equal(iso.rows[0]?.isolated, true, "economy_debit_refusals must resolve to the temporary fixture");
+}
+
+async function assertNonWholeHourRejected(client: pg.Client): Promise<void> {
+  let rejected = false;
+  await client.query("SAVEPOINT debit_refusal_hour_check");
+  try {
+    await client.query(RECORD_DEBIT_REFUSAL_SQL, [
+      "2026-11-23T13:30:00.000Z",
+      "insufficient_value",
+      0,
+      1,
+      1,
+    ]);
+  } catch (err: unknown) {
+    if (hasPgCode(err, "23514")) {
+      rejected = true;
+    }
+  } finally {
+    await client.query("ROLLBACK TO SAVEPOINT debit_refusal_hour_check");
+    await client.query("RELEASE SAVEPOINT debit_refusal_hour_check");
+  }
+  assert.equal(rejected, true, "Non-whole-hour insert must fail the hour CHECK constraint (23514)");
+}
+
+async function runDebitRefusalsScenario(client: pg.Client): Promise<void> {
+  await createTempDebitRefusalsTable(client);
+
+  const emptyFirst = await client.query<{ first_hour: Date | string | null }>(FIRST_REFUSAL_HOUR_SQL);
+  assert.equal(emptyFirst.rows[0]?.first_hour, null);
+
+  for (const params of [
+    ["2026-11-23T13:00:00.000Z", "insufficient_value", 1, 4.5, 1],
+    ["2026-11-23T13:00:00.000Z", "insufficient_value", 0, 1.5, 1],
+    ["2026-11-23T13:00:00.000Z", "auto_swap_off", 0, 0, 0],
+    ["2026-11-23T14:00:00.000Z", "insufficient_value", 1, 2, 1],
+  ]) {
+    await client.query(RECORD_DEBIT_REFUSAL_SQL, params);
+  }
+
+  await assertNonWholeHourRejected(client);
+
+  const lateWindow = await client.query<DebitRefusalWindowRow>(READ_DEBIT_REFUSALS_SQL, ["2026-11-23T14:00:00.000Z"]);
+  assert.equal(lateWindow.rowCount, 1);
+  const lateRow = lateWindow.rows[0];
+  assert.equal(lateRow?.reason, "insufficient_value");
+  assert.equal(lateRow?.refusals, 1);
+  assert.equal(lateRow?.empty_basket, 1);
+  assert.equal(typeof lateRow?.shortfall_value_sum, "number");
+  assert.equal(lateRow?.shortfall_value_sum, 2);
+  assert.equal(lateRow?.shortfall_value_n, 1);
+
+  const fullWindow = await client.query<DebitRefusalWindowRow>(READ_DEBIT_REFUSALS_SQL, ["2026-11-23T13:00:00.000Z"]);
+  assert.equal(fullWindow.rowCount, 3);
+  assert.deepEqual(
+    fullWindow.rows.map((r) => ({
+      hour: toIsoTimestamp(r.hour),
+      reason: r.reason,
+      refusals: r.refusals,
+      empty_basket: r.empty_basket,
+      shortfall_value_sum: r.shortfall_value_sum,
+      shortfall_value_n: r.shortfall_value_n,
+    })),
+    [
+      { hour: "2026-11-23T13:00:00.000Z", reason: "auto_swap_off", refusals: 1, empty_basket: 0, shortfall_value_sum: 0, shortfall_value_n: 0 },
+      { hour: "2026-11-23T13:00:00.000Z", reason: "insufficient_value", refusals: 2, empty_basket: 1, shortfall_value_sum: 6, shortfall_value_n: 2 },
+      { hour: "2026-11-23T14:00:00.000Z", reason: "insufficient_value", refusals: 1, empty_basket: 1, shortfall_value_sum: 2, shortfall_value_n: 1 },
+    ],
+  );
+
+  const populatedFirst = await client.query<{ first_hour: Date | string | null }>(FIRST_REFUSAL_HOUR_SQL);
+  assert.equal(toIsoTimestamp(populatedFirst.rows[0]?.first_hour), "2026-11-23T13:00:00.000Z");
+}
 
 function resolveDatabaseUrl(): string | undefined {
   let url = process.env.DATABASE_PUBLIC_URL ?? process.env.DATABASE_URL;
@@ -98,7 +214,7 @@ async function checkAdminInboxInTransaction(client: pg.Client): Promise<number> 
     );
     await client.query("DEALLOCATE _bad_ctrl");
   } catch (err: unknown) {
-    if (err && typeof err === "object" && "code" in err && err.code === "42703") {
+    if (hasPgCode(err, "42703")) {
       controlPassed = true;
     }
   } finally {
@@ -112,7 +228,7 @@ async function checkAdminInboxInTransaction(client: pg.Client): Promise<number> 
   }
   console.log("✓ Control: PREPARE rejects invalid column query (code 42703)");
 
-  // ── 1. PREPARE all 13 shipped statements against PostgreSQL ───────────────
+  // ── 1. PREPARE all 16 shipped statements against PostgreSQL ───────────────
   const statements = [
     { name: "_stmt_overall", sql: OVERALL_HEALTH_24H_QUERY },
     { name: "_stmt_source", sql: SOURCE_HEALTH_24H_QUERY },
@@ -127,6 +243,9 @@ async function checkAdminInboxInTransaction(client: pg.Client): Promise<number> 
     { name: "_stmt_roster", sql: ROSTER_QUERY },
     { name: "_stmt_actions", sql: AGENT_ACTION_METRICS_SQL },
     { name: "_stmt_roster_stats", sql: AGENT_ROSTER_STATS_SQL },
+    { name: "_stmt_debit_refusal_record", sql: RECORD_DEBIT_REFUSAL_SQL },
+    { name: "_stmt_debit_refusal_read", sql: READ_DEBIT_REFUSALS_SQL },
+    { name: "_stmt_debit_refusal_first_hour", sql: FIRST_REFUSAL_HOUR_SQL },
   ];
 
   for (const stmt of statements) {
@@ -341,6 +460,13 @@ async function checkAdminInboxInTransaction(client: pg.Client): Promise<number> 
   );
   passedScenarios += 1;
   console.log("PASS Scenario 10: active agents are counted from feed events in the last 24 h");
+
+  // ── Scenario 11: Migration 107 debit refusal counters ─────────────────────
+  await runDebitRefusalsScenario(client);
+  passedScenarios += 1;
+  console.log(
+    "PASS Scenario 11: economy_debit_refusals upsert, window read, and first-hour query execute on TEMP fixture",
+  );
 
   console.log(`Admin/Inbox SQL: ${passedScenarios} isolated PostgreSQL scenarios passed.`);
   return passedScenarios;
