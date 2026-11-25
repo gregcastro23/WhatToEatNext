@@ -251,6 +251,44 @@ describe("chainReconcileService - Dual-Rail Ledger Isolation", () => {
       expect(markSpy).toHaveBeenCalledWith("claim-1");
       expect(res).toEqual({ scanned: 1, reconciled: 1, retried: 0, failures: 0 });
     });
+
+    it("retries unclaimed pending mints with exact 4-dp decimal strings via formatStoredLedgerEsms", async () => {
+      mockEsmsOnchainConfigured.mockReturnValue(true);
+      mockMinterConfigured.mockReturnValue(true);
+      jest.spyOn(esmsOnchainClaimService, "listStalePending").mockResolvedValueOnce([
+        {
+          id: "claim-retry-1",
+          claimId: "0xclaimretry1",
+          userId: "u2",
+          walletAddress: "0x1111111111111111111111111111111111111111",
+          amounts: { spirit: 0.0003, essence: 0.0029, matter: 13.81, substance: 0 },
+          status: "pending",
+          txHash: null,
+          error: null,
+          transactionGroupId: "grp-retry-1",
+          targetChain: "eip155:84532",
+          createdAt: "2026-11-24T00:00:00Z",
+        },
+      ]);
+      mockReadEsmsClaimed.mockResolvedValueOnce(false);
+      mockMintEsmsClaim.mockResolvedValueOnce("0xretrytx");
+      const txSpy = jest.spyOn(esmsOnchainClaimService, "recordTxHash").mockResolvedValueOnce();
+
+      const res = await settleStaleClaims("eip155:84532", 25);
+
+      expect(mockMintEsmsClaim).toHaveBeenCalledWith({
+        to: "0x1111111111111111111111111111111111111111",
+        claimId: "0xclaimretry1",
+        amounts: {
+          spirit: "0.0003",
+          essence: "0.0029",
+          matter: "13.8100",
+          substance: "0.0000",
+        },
+      });
+      expect(txSpy).toHaveBeenCalledWith("claim-retry-1", "0xretrytx");
+      expect(res).toEqual({ scanned: 1, reconciled: 0, retried: 1, failures: 0 });
+    });
   });
 
   describe("walletInvariantsSql", () => {

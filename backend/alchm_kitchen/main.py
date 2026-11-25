@@ -346,68 +346,13 @@ async def get_me(user: dict = Depends(get_current_user)):
     return user
 
 # ... (previous imports)
-from backend.utils.natal_alchemy import calculate_natal_alchemical_quantities
 from backend.utils.planetary_alchemy import get_inertial_mass_weight
 
-class OnboardingRequest(BaseModel):
-    birth_date: str # YYYY-MM-DD
-    birth_time: str # HH:MM
-    latitude: float
-    longitude: float
-    city_name: Optional[str] = "Unknown Location"
-    state_country: Optional[str] = "Unknown"
-
-@app.post("/api/user/onboarding")
-async def user_onboarding(
-    data: OnboardingRequest,
-    user: dict = Depends(get_current_user)
-):
-    """
-    Onboard a user: Calculate their Natal Chart and Alchemical Constitution.
-    """
-    try:
-        # Parse date and time
-        b_date = datetime.strptime(data.birth_date, "%Y-%m-%d")
-        b_time = datetime.strptime(data.birth_time, "%H:%M")
-
-        # Calculate Planetary Positions
-        chart_data = calculate_planetary_positions_swisseph(
-            b_date.year, b_date.month, b_date.day,
-            b_time.hour, b_time.minute
-        )
-
-        if not chart_data or "positions" not in chart_data:
-             raise HTTPException(status_code=500, detail="Failed to calculate natal chart")
-
-        # Calculate Alchemical Quantities.
-        # Sect MUST come from the birth moment: this call previously omitted
-        # is_diurnal, so it defaulted to True and every user onboarded here got a
-        # DAY-chart ESMS regardless of birth time. `is_sect_diurnal` is the same
-        # 06:00-18:00 wall-clock approximation the TS side uses
-        # (isSectDiurnalForBirth), so the two runtimes agree on sect for a birth.
-        birth_moment = datetime(
-            b_date.year, b_date.month, b_date.day, b_time.hour, b_time.minute
-        )
-        alchemy_stats = calculate_natal_alchemical_quantities(
-            chart_data["positions"],
-            is_diurnal=is_sect_diurnal(birth_moment),
-        )
-
-        # Return the comprehensive profile.
-        # alchemical_quantities dual-emits the spec-Φ observable under BOTH
-        # "phi" (code name) and "monica" (frozen legacy wire key) — see
-        # backend/utils/natal_alchemy.py. That quantity is NOT the canonical
-        # thermodynamic monica served by /alchemize and philosophers-stone.
-        return {
-            "user_id": user.get("sub"),
-            "birth_data": data.dict(),
-            "natal_chart": chart_data["positions"],
-            "alchemical_quantities": alchemy_stats,
-            "message": "Onboarding successful. Welcome, Alchemist."
-        }
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Onboarding failed: {str(e)}")
+# RETIRED: FastAPI `POST /api/user/onboarding` (uncalled clock-only sect proxy).
+# Next.js `POST /api/onboarding` owns user onboarding with coordinate-derived
+# IANA timezone resolution (`resolveBirthZone`), true UTC instants
+# (`enrichBirthDataWithInstant`), and full `birthData` sect evaluation.
+# Canonical Python ESMS 2.0 conformance remains in `backend/utils/natal_alchemy.py`.
 
 # ==========================================
 # LOCAL ALCHEMICAL CALCULATION ENDPOINT

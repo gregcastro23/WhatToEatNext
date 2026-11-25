@@ -10,16 +10,19 @@ export const RailwayGraphQLResponseSchema = z
     data: z
       .record(
         z.string(),
-        z.array(
-          z
-            .object({
-              measurement: z.string(),
-              value: z.number().optional(),
-              estimatedValue: z.number().optional(),
-            })
-            .passthrough(),
-        ),
+        z
+          .array(
+            z
+              .object({
+                measurement: z.string(),
+                value: z.number().optional(),
+                estimatedValue: z.number().optional(),
+              })
+              .passthrough(),
+          )
+          .nullable(),
       )
+      .nullable()
       .optional(),
     errors: z
       .array(

@@ -21,6 +21,7 @@
 
 import { keccak256, toHex, formatUnits } from "viem";
 import { executeQuery } from "@/lib/database";
+import { formatStoredLedgerEsms } from "@/lib/economy/esmsQuantization";
 import {
   esmsOnchainConfigured,
   probeEsmsContract,
@@ -104,10 +105,10 @@ export async function settleStaleClaims(rail: string, limit = 25): Promise<Claim
         to: claim.walletAddress as Address,
         claimId: claim.claimId,
         amounts: {
-          spirit: String(claim.amounts.spirit),
-          essence: String(claim.amounts.essence),
-          matter: String(claim.amounts.matter),
-          substance: String(claim.amounts.substance),
+          spirit: formatStoredLedgerEsms(claim.amounts.spirit),
+          essence: formatStoredLedgerEsms(claim.amounts.essence),
+          matter: formatStoredLedgerEsms(claim.amounts.matter),
+          substance: formatStoredLedgerEsms(claim.amounts.substance),
         },
       });
       await esmsOnchainClaimService.recordTxHash(claim.id, txHash);
@@ -143,7 +144,7 @@ export async function healBurnedPurchases(maxReads = 40): Promise<BurnHealSummar
     return summary;
   }
 
-  let pairs: Array<{ user_id: string; slug: string; item_id: string }> = [];
+  let pairs: Array<{ user_id: string; slug: string; item_id: string }>;
   try {
     // Wallet-linked users × active one-time items they DON'T own. The hourly
     // hash shuffle rotates which slice of a large pair-space each run scans;

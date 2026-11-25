@@ -104,3 +104,142 @@ export function parseMicroEsms(s: string): number {
   }
   return q;
 }
+
+// ── Ledger claim-bridge quantization (DECIMAL(12, 4) → on-chain 18-dp) ────────
+// Off-chain Postgres balances accumulate across sessions (`token_balances` is
+// DECIMAL(12, 4), reaching > 100 K-units in prod), so the claim bridge cannot
+// apply single-chart `ESMS_K_MAX = 100`. It uses the same §6 discipline instead:
+// floor-never-round, fail-closed on malformed values, integer-math decimal
+// formatting, and never re-quantizing already-stored claim amounts on retry.
+
+/** Off-chain Postgres ledger precision (`DECIMAL(12, 4)`): 1 token = 10⁴ ledger units. */
+export const LEDGER_ESMS_SCALE = 10_000;
+
+/** Exact maximum value representable in Postgres `DECIMAL(12, 4)` (8 integer + 4 decimal digits). */
+export const LEDGER_ESMS_MAX = 99_999_999.9999;
+
+const LEDGER_ESMS_MAX_UNITS = 999_999_999_999;
+
+export interface EsmsTokenQuad {
+  spirit: number;
+  essence: number;
+  matter: number;
+  substance: number;
+}
+
+export interface EsmsDecimalQuad {
+  spirit: string;
+  essence: string;
+  matter: string;
+  substance: string;
+}
+
+export interface QuantizedClaimAmounts {
+  units: EsmsTokenQuad;
+  decimalStrings: EsmsDecimalQuad;
+  numericAmounts: EsmsTokenQuad;
+  totalUnits: number;
+}
+
+/**
+ * Quantize a cumulative off-chain ESMS balance to integer `10⁻⁴` ledger units,
+ * flooring in base-10 so the bridge never over-mints AND never strands `0.0001`
+ * dust on exact 4-dp Postgres `DECIMAL(12, 4)` balances (`0.0003 * 10_000` is
+ * `2.9999999999999996` in IEEE-754 float64, which naive `Math.floor(x * 1e4)`
+ * mis-floors across 6.37% of exact 4-dp decimals).
+ *
+ * By ECMAScript §7.1.12.1, `String(amount)` for every finite number in
+ * `[1e-4, 99_999_999.9999]` (`⊂ [1e-6, 1e21)`) is fixed-point decimal without
+ * scientific notation, and truncating after 4 fractional digits strictly floors.
+ */
+export function quantizeLedgerEsms(amount: number): number {
+  if (!Number.isFinite(amount)) {
+    throw new TypeError(`quantizeLedgerEsms: amount must be finite, got ${String(amount)}`);
+  }
+  if (amount < 0) {
+    throw new TypeError(`quantizeLedgerEsms: amount must be non-negative, got ${amount}`);
+  }
+  if (amount > LEDGER_ESMS_MAX) {
+    throw new TypeError(
+      `quantizeLedgerEsms: amount=${amount} exceeds LEDGER_ESMS_MAX=${LEDGER_ESMS_MAX}`,
+    );
+  }
+  if (amount < 1e-4) return 0;
+  const s = String(amount);
+  const dot = s.indexOf(".");
+  const whole = dot === -1 ? s : s.slice(0, dot);
+  const frac4 = (dot === -1 ? "" : s.slice(dot + 1, dot + 5)).padEnd(4, "0");
+  return Number(whole) * LEDGER_ESMS_SCALE + Number(frac4);
+}
+
+/**
+ * Exact 4-dp decimal string from integer `10⁻⁴` ledger units via integer math
+ * only — no scientific notation and directly safe for `viem` `parseUnits(v, 18)`.
+ */
+export function formatLedgerEsms(units: number): string {
+  if (!Number.isSafeInteger(units) || units < 0 || units > LEDGER_ESMS_MAX_UNITS) {
+    throw new TypeError(
+      `formatLedgerEsms: expected non-negative ledger units <= ${LEDGER_ESMS_MAX_UNITS}, got ${String(units)}`,
+    );
+  }
+  const whole = Math.floor(units / LEDGER_ESMS_SCALE);
+  const frac = units % LEDGER_ESMS_SCALE;
+  return `${whole}.${String(frac).padStart(4, "0")}`;
+}
+
+/** Parse a canonical decimal string (`<int>` or `<int>.<1..4 digits>`) to integer ledger units. */
+export function parseLedgerEsms(s: string): number {
+  const m = /^(\d+)(?:\.(\d{1,4}))?$/.exec(s);
+  if (!m) {
+    throw new TypeError(`parseLedgerEsms: expected "<int>[.<1..4 digits>]", got ${JSON.stringify(s)}`);
+  }
+  const frac4 = (m[2] ?? "").padEnd(4, "0");
+  const units = Number(m[1]) * LEDGER_ESMS_SCALE + Number(frac4);
+  if (!Number.isSafeInteger(units) || units > LEDGER_ESMS_MAX_UNITS) {
+    throw new TypeError(`parseLedgerEsms: ${JSON.stringify(s)} exceeds DECIMAL(12, 4) range`);
+  }
+  return units;
+}
+
+/**
+ * Format an already-quantized `DECIMAL(12, 4)` claim amount for mint retries and
+ * reconciliation without re-entering `Math.floor(n * 10_000)`.
+ */
+export function formatStoredLedgerEsms(amount: number): string {
+  if (!Number.isFinite(amount)) {
+    throw new TypeError(`formatStoredLedgerEsms: amount must be finite, got ${String(amount)}`);
+  }
+  if (amount < 0) {
+    throw new TypeError(`formatStoredLedgerEsms: amount must be non-negative, got ${amount}`);
+  }
+  if (amount > LEDGER_ESMS_MAX) {
+    throw new TypeError(
+      `formatStoredLedgerEsms: amount=${amount} exceeds LEDGER_ESMS_MAX=${LEDGER_ESMS_MAX}`,
+    );
+  }
+  return formatLedgerEsms(parseLedgerEsms(amount.toFixed(4)));
+}
+
+/** Quantize all four ESMS axes once at the off-chain → on-chain claim boundary. */
+export function quantizeClaimAmounts(balances: EsmsTokenQuad): QuantizedClaimAmounts {
+  const units: EsmsTokenQuad = {
+    spirit: quantizeLedgerEsms(balances.spirit),
+    essence: quantizeLedgerEsms(balances.essence),
+    matter: quantizeLedgerEsms(balances.matter),
+    substance: quantizeLedgerEsms(balances.substance),
+  };
+  const decimalStrings: EsmsDecimalQuad = {
+    spirit: formatLedgerEsms(units.spirit),
+    essence: formatLedgerEsms(units.essence),
+    matter: formatLedgerEsms(units.matter),
+    substance: formatLedgerEsms(units.substance),
+  };
+  const numericAmounts: EsmsTokenQuad = {
+    spirit: Number(decimalStrings.spirit),
+    essence: Number(decimalStrings.essence),
+    matter: Number(decimalStrings.matter),
+    substance: Number(decimalStrings.substance),
+  };
+  const totalUnits = units.spirit + units.essence + units.matter + units.substance;
+  return { units, decimalStrings, numericAmounts, totalUnits };
+}

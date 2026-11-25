@@ -1,19 +1,19 @@
 {
-  "trackedTotal": 1179,
+  "trackedTotal": 1178,
   "casts": {
-    "total": 122,
+    "total": 119,
     "asAny": 32,
-    "asUnknownAs": 90,
-    "production": 90,
+    "asUnknownAs": 87,
+    "production": 87,
     "test": 32
   },
   "assertionSites": {
-    "total": 2501,
+    "total": 2496,
     "asAny": 32,
-    "chained": 90,
-    "single": 2379,
-    "production": 1914,
-    "test": 587,
+    "chained": 87,
+    "single": 2377,
+    "production": 1911,
+    "test": 585,
     "asConst": 618,
     "nonNull": 552
   },
@@ -159,7 +159,7 @@
       "autoFixable": 0
     },
     "no-useless-assignment": {
-      "count": 28,
+      "count": 27,
       "autoFixable": 0
     },
     "no-void": {

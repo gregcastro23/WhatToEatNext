@@ -71,6 +71,25 @@ describe("Railway usage failures are logged and token-free", () => {
     expect(mockError.mock.calls).toEqual([["[railwayUsage] Not Authorized on usage"]]);
   });
 
+  it("surfaces real GraphQL error messages when Railway returns data: null or field: null", async () => {
+    stubRailway(
+      { ok: true, status: 200, body: { data: null, errors: [{ message: "Not Authorized" }] } },
+      GOOD_ESTIMATE,
+    );
+    expect(await readRailwayResourceUsage()).toEqual({ status: "failed", reason: "Not Authorized on usage" });
+
+    mockError.mockClear();
+    stubRailway(
+      { ok: true, status: 200, body: { data: { usage: null }, errors: [{ message: "Problem processing request" }] } },
+      GOOD_ESTIMATE,
+    );
+    expect(await readRailwayResourceUsage()).toEqual({
+      status: "failed",
+      reason: "Problem processing request on usage",
+    });
+    expect(mockError.mock.calls).toEqual([["[railwayUsage] Problem processing request on usage"]]);
+  });
+
   it("logs a response that carries neither data nor errors as 'no data'", async () => {
     stubRailway({ ok: true, status: 200, body: {} }, GOOD_ESTIMATE);
 
