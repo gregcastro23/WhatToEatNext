@@ -32,6 +32,7 @@ import {
 } from "@/components/cooking-methods/primitives";
 import MolecularGrid from "@/components/cooking-methods/profile/MolecularGrid";
 import ReactionTelemetry from "@/components/cooking-methods/profile/ReactionTelemetry";
+import { formatTemperature, temperatureUnitFor } from "@/constants/cookingMethodTemperatureUnits";
 import {
   allCookingMethods,
   dryCookingMethods,
@@ -575,7 +576,7 @@ export default async function CookingMethodPage({
                     <MaDataReadout
                       key={label}
                       label={label.replace(/_/g, " ").toUpperCase()}
-                      value={`${temp}°F`}
+                      value={formatTemperature(temp, temperatureUnitFor(key))}
                       valueClassName="text-ma-fg text-sm"
                     />
                   ))}

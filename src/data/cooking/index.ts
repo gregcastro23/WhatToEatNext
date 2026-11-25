@@ -1,3 +1,4 @@
+import { temperatureUnitFor, toFahrenheitValue } from "@/constants/cookingMethodTemperatureUnits";
 import type {
     AstrologicalState,
     CookingMethod,
@@ -192,15 +193,17 @@ export function getCookingMethodsByTemperature(
   maxTemp: number,
 ): Record<string, CookingMethodData> {
   return Object.entries(allCookingMethods)
-    .filter(([_, method]) => {
+    .filter(([key, method]) => {
       // Apply safe type casting for method property access
       const methodData = method;
       // Check if the method has optimal temperatures and at least one falls within range
-      if (!methodData.optimalTemperatures) return false;
+      const unit = temperatureUnitFor(key);
+      if (!methodData.optimalTemperatures || unit === null) return false;
       return Object.values(methodData.optimalTemperatures).some(
         (temp) => {
           // Pattern KK-10: Final Arithmetic Elimination for data layer operations
-          const numericTemp = Number(temp) || 0;
+          // Records differ in unit (constants/cookingMethodTemperatureUnits).
+          const numericTemp = toFahrenheitValue(Number(temp) || 0, unit);
           const numericMinTemp = Number(minTemp) || 0;
           const numericMaxTemp = Number(maxTemp) || 999;
           return numericTemp >= numericMinTemp && numericTemp <= numericMaxTemp;
