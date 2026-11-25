@@ -24,22 +24,8 @@ This document specifies the endpoints and data structures for the WhatToEatNext 
 
 ## 🔮 Astrological & Alchemical Services
 
-### `POST /api/user/onboarding`
-*   **Description:** Onboards a user by calculating their Natal Chart and Alchemical Constitution.
-*   **Request Body (OnboardingRequest):**
-    ```json
-    {
-      "birth_date": "string (YYYY-MM-DD)",
-      "birth_time": "string (HH:MM)",
-      "latitude": "number",
-      "longitude": "number",
-      "city_name": "string (Optional)",
-      "state_country": "string (Optional)"
-    }
-    ```
-*   **Responses:**
-    *   `200`: Successful Response (Profile + Alchemical Stats)
-    *   `422`: Validation Error
+### `POST /api/user/onboarding` *(Retired)*
+*   **Status:** Retired — superseded by Next.js `POST /api/onboarding` (coordinate-derived IANA timezone, true UTC instant, and full `birthData` sect evaluation).
 
 ### `POST /api/recipe-generator`
 *   **Description:** Generates personalized recipe recommendations based on the user's birth chart.

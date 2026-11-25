@@ -73,6 +73,11 @@ def test_no_route_is_registered_twice():
     assert not duplicates, f"registered more than once (only the first is reachable): {duplicates}"
 
 
+def test_retired_python_onboarding_route_is_absent():
+    assert ("POST", "/api/user/onboarding") not in declared_routes()
+    assert ("POST", "/api/user/onboarding") not in set(live_routes())
+
+
 def test_importing_the_app_connects_to_nothing():
     importlib.import_module("backend.alchm_kitchen.main")
     connection = importlib.import_module("backend.database.connection")

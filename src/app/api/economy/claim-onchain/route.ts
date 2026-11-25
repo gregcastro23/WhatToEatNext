@@ -20,6 +20,7 @@ import { NextResponse } from "next/server";
 import { formatUnits } from "viem";
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
 import { executeQuery } from "@/lib/database";
+import { formatStoredLedgerEsms, quantizeClaimAmounts } from "@/lib/economy/esmsQuantization";
 import {
   esmsCaip2,
   esmsChain,
@@ -126,11 +127,6 @@ export async function GET(request: NextRequest) {
     recentClaims: recent,
     chain: chainMeta(),
   });
-}
-
-/** Floor to the ledger's 4-dp precision so debit and mint agree exactly. */
-function floor4(n: number): number {
-  return Math.floor(n * 10_000) / 10_000;
 }
 
 function claimToResponse(claim: EsmsOnchainClaim): EsmsClaimResponse {
@@ -247,10 +243,10 @@ export async function POST(request: NextRequest) {
         to: wallet,
         claimId: pending.claimId,
         amounts: {
-          spirit: String(pending.amounts.spirit),
-          essence: String(pending.amounts.essence),
-          matter: String(pending.amounts.matter),
-          substance: String(pending.amounts.substance),
+          spirit: formatStoredLedgerEsms(pending.amounts.spirit),
+          essence: formatStoredLedgerEsms(pending.amounts.essence),
+          matter: formatStoredLedgerEsms(pending.amounts.matter),
+          substance: formatStoredLedgerEsms(pending.amounts.substance),
         },
       });
       const status = await confirmMint(pending, txHash);
@@ -328,19 +324,23 @@ export async function POST(request: NextRequest) {
 
   // ── Open a new claim for the full off-chain balance ───────────────────────
   const balances = await tokenEconomy.getBalances(user.id);
-  const amounts: EsmsClaimAmounts = {
-    spirit: floor4(balances.spirit),
-    essence: floor4(balances.essence),
-    matter: floor4(balances.matter),
-    substance: floor4(balances.substance),
-  };
-  const total = amounts.spirit + amounts.essence + amounts.matter + amounts.substance;
-  if (total <= 0) {
+  let quantized: ReturnType<typeof quantizeClaimAmounts>;
+  try {
+    quantized = quantizeClaimAmounts(balances);
+  } catch (err) {
+    logger.error("[economy/claim-onchain] invalid off-chain balance for quantization:", err);
+    return NextResponse.json(
+      { success: false, error: "Off-chain balance could not be quantized safely.", code: "invalid_balance" },
+      { status: 500 },
+    );
+  }
+  if (quantized.totalUnits <= 0) {
     return NextResponse.json(
       { success: false, error: "No ESMS to claim — earn some first.", code: "nothing_to_claim" },
       { status: 400 },
     );
   }
+  const amounts: EsmsClaimAmounts = quantized.numericAmounts;
 
   const claim = await esmsOnchainClaimService.createPending({
     userId: user.id,
@@ -376,12 +376,7 @@ export async function POST(request: NextRequest) {
     const txHash = await mintEsmsClaim({
       to: wallet,
       claimId: claim.claimId,
-      amounts: {
-        spirit: String(amounts.spirit),
-        essence: String(amounts.essence),
-        matter: String(amounts.matter),
-        substance: String(amounts.substance),
-      },
+      amounts: quantized.decimalStrings,
     });
     const status = await confirmMint(claim, txHash);
     if (status === "minted") {

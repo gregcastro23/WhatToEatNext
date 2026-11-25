@@ -12,14 +12,8 @@
 - **Description:** Get current authenticated user claims.
 - **Auth:** Requires JWT in Authorization header.
 
-### `POST /api/user/onboarding`
-- **Description:** Calculate Natal Chart & Alchemical Constitution for a new user.
-- **Request Body (OnboardingRequest):**
-  - `birth_date`: string (Required, YYYY-MM-DD)
-  - `birth_time`: string (Required, HH:MM)
-  - `latitude`: number (Required)
-  - `longitude`: number (Required)
-  - `city_name`: string (Optional)
+### `POST /api/user/onboarding` *(Retired)*
+- **Status:** Retired — superseded by Next.js `POST /api/onboarding` (coordinate-derived IANA timezone, true UTC instant, and full `birthData` sect evaluation).
 
 ### `POST /api/recipe-generator`
 - **Description:** Generate personalized recipe recommendations based on birth chart.

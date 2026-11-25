@@ -21,6 +21,7 @@
 
 import { keccak256, toHex, formatUnits } from "viem";
 import { executeQuery } from "@/lib/database";
+import { formatStoredLedgerEsms } from "@/lib/economy/esmsQuantization";
 import {
   esmsOnchainConfigured,
   probeEsmsContract,
@@ -104,10 +105,10 @@ export async function settleStaleClaims(rail: string, limit = 25): Promise<Claim
         to: claim.walletAddress as Address,
         claimId: claim.claimId,
         amounts: {
-          spirit: String(claim.amounts.spirit),
-          essence: String(claim.amounts.essence),
-          matter: String(claim.amounts.matter),
-          substance: String(claim.amounts.substance),
+          spirit: formatStoredLedgerEsms(claim.amounts.spirit),
+          essence: formatStoredLedgerEsms(claim.amounts.essence),
+          matter: formatStoredLedgerEsms(claim.amounts.matter),
+          substance: formatStoredLedgerEsms(claim.amounts.substance),
         },
       });
       await esmsOnchainClaimService.recordTxHash(claim.id, txHash);
