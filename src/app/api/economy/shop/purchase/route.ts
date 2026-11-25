@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { keccak256, toHex } from 'viem'
 import { getDatabaseUserFromRequest } from "@/lib/auth/validateRequest";
+import { formatStoredLedgerEsms } from "@/lib/economy/esmsQuantization";
 import {
   buildRedeemAuthChallenge,
   esmsOnchainConfigured,
@@ -101,12 +102,21 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const safeNonce = isOneTime ? '' : String(body.nonce ?? '');
   const orderId = keccak256(toHex(`shop:${userId}:${shopItemSlug}:${safeNonce}`));
   
-  const amounts = {
-    spirit: String(item.costSpirit || 0),
-    essence: String(item.costEssence || 0),
-    matter: String(item.costMatter || 0),
-    substance: String(item.costSubstance || 0)
-  };
+  let amounts: { spirit: string; essence: string; matter: string; substance: string };
+  try {
+    amounts = {
+      spirit: formatStoredLedgerEsms(item.costSpirit || 0),
+      essence: formatStoredLedgerEsms(item.costEssence || 0),
+      matter: formatStoredLedgerEsms(item.costMatter || 0),
+      substance: formatStoredLedgerEsms(item.costSubstance || 0),
+    };
+  } catch (err) {
+    _logger.error('[api/shop/purchase] invalid item ESMS cost for quantization:', err);
+    return NextResponse.json(
+      { error: 'Shop item ESMS cost could not be quantized safely.', code: 'invalid_item_cost' },
+      { status: 500 },
+    );
+  }
 
   // Record the entitlement. user_purchases.transaction_group_id is UUID NOT NULL, so we
   // mint a fresh uuid (the on-chain {Redeemed} event + orderId are the canonical spend

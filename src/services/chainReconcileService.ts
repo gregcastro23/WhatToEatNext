@@ -144,7 +144,7 @@ export async function healBurnedPurchases(maxReads = 40): Promise<BurnHealSummar
     return summary;
   }
 
-  let pairs: Array<{ user_id: string; slug: string; item_id: string }> = [];
+  let pairs: Array<{ user_id: string; slug: string; item_id: string }>;
   try {
     // Wallet-linked users × active one-time items they DON'T own. The hourly
     // hash shuffle rotates which slice of a large pair-space each run scans;

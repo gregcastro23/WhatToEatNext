@@ -1,5 +1,5 @@
 {
-  "trackedTotal": 1179,
+  "trackedTotal": 1178,
   "casts": {
     "total": 119,
     "asAny": 32,
@@ -159,7 +159,7 @@
       "autoFixable": 0
     },
     "no-useless-assignment": {
-      "count": 28,
+      "count": 27,
       "autoFixable": 0
     },
     "no-void": {

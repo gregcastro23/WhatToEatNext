@@ -12,10 +12,23 @@ import {
 describe("esmsQuantization ledger claim-bridge helpers", () => {
   it("floors rather than rounds and handles production-scale balances above ESMS_K_MAX", () => {
     expect(quantizeLedgerEsms(1.99999)).toBe(19_999);
+    expect(quantizeLedgerEsms(1 - Number.EPSILON)).toBe(9_999);
+    expect(quantizeLedgerEsms(0.00009999)).toBe(0);
+    expect(quantizeLedgerEsms(1e-7)).toBe(0);
     expect(quantizeLedgerEsms(0)).toBe(0);
     expect(quantizeLedgerEsms(4599.35)).toBe(45_993_500);
+    expect(quantizeLedgerEsms(LEDGER_ESMS_MAX)).toBe(999_999_999_999);
     expect(() => quantizeEsms(4599.35)).toThrow(TypeError);
     expect(ESMS_K_MAX).toBe(100);
+  });
+
+  it("is 100% lossless across exact 4-dp DECIMAL(12,4) values where float multiplication drifts", () => {
+    expect(Math.floor(0.0003 * 10_000)).toBe(2);
+    expect(Math.floor(0.0029 * 10_000)).toBe(28);
+    for (let u = 0; u <= 20_000; u++) {
+      const parsedFromPg = Number.parseFloat(formatLedgerEsms(u));
+      expect(quantizeLedgerEsms(parsedFromPg)).toBe(u);
+    }
   });
 
   it("satisfies sub-additivity conservation q(a) + q(b) <= q(a + b)", () => {

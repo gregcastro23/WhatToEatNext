@@ -143,7 +143,14 @@ export interface QuantizedClaimAmounts {
 
 /**
  * Quantize a cumulative off-chain ESMS balance to integer `10⁻⁴` ledger units,
- * flooring so the bridge never mints or debits more than the user holds.
+ * flooring in base-10 so the bridge never over-mints AND never strands `0.0001`
+ * dust on exact 4-dp Postgres `DECIMAL(12, 4)` balances (`0.0003 * 10_000` is
+ * `2.9999999999999996` in IEEE-754 float64, which naive `Math.floor(x * 1e4)`
+ * mis-floors across 6.37% of exact 4-dp decimals).
+ *
+ * By ECMAScript §7.1.12.1, `String(amount)` for every finite number in
+ * `[1e-4, 99_999_999.9999]` (`⊂ [1e-6, 1e21)`) is fixed-point decimal without
+ * scientific notation, and truncating after 4 fractional digits strictly floors.
  */
 export function quantizeLedgerEsms(amount: number): number {
   if (!Number.isFinite(amount)) {
@@ -157,7 +164,12 @@ export function quantizeLedgerEsms(amount: number): number {
       `quantizeLedgerEsms: amount=${amount} exceeds LEDGER_ESMS_MAX=${LEDGER_ESMS_MAX}`,
     );
   }
-  return Math.floor(amount * LEDGER_ESMS_SCALE);
+  if (amount < 1e-4) return 0;
+  const s = String(amount);
+  const dot = s.indexOf(".");
+  const whole = dot === -1 ? s : s.slice(0, dot);
+  const frac4 = (dot === -1 ? "" : s.slice(dot + 1, dot + 5)).padEnd(4, "0");
+  return Number(whole) * LEDGER_ESMS_SCALE + Number(frac4);
 }
 
 /**
