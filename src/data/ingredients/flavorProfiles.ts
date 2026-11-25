@@ -9,16 +9,16 @@ export interface IngredientFlavorProfile {
   umami: number;
 }
 
+export type IngredientWithFlavorProfile = Ingredient & {
+  flavorProfile?: IngredientFlavorProfile;
+};
+
 // Helper function to add flavor profiles to ingredients
 export function enrichIngredientsWithFlavorProfiles(
-  ingredients: Ingredient[],
-): Ingredient[] {
+  ingredients: IngredientWithFlavorProfile[],
+): IngredientWithFlavorProfile[] {
   return ingredients.map((ingredient) => {
-    if (!(ingredient as any)?.flavorProfile) {
-      (ingredient as any).flavorProfile = getFlavorProfileForIngredient(
-        ingredient.name,
-      );
-    }
+    ingredient.flavorProfile ??= getFlavorProfileForIngredient(ingredient.name);
     return ingredient;
   });
 }

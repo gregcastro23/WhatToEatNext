@@ -110,7 +110,7 @@ export function calculateMealCircuit(
     const kinetics: KineticMetrics = calculateKineticProperties(
       alchemicalProps,
       elementalProps,
-      thermodynamics as any,
+      thermodynamics,
     );
 
     // 3. Extract circuit properties from kinetics

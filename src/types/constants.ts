@@ -98,43 +98,43 @@ export type Season = (typeof SEASONS)[number];
 
 // Validation helpers
 export function isElementType(value: string): value is ElementType {
-  return ELEMENT_TYPES.includes(value as ElementType);
+  return ELEMENT_TYPES.some((item) => item === value);
 }
 
 export function isAlchemicalProperty(
   value: string,
 ): value is AlchemicalProperty {
-  return ALCHEMICAL_PROPERTIES.includes(value as AlchemicalProperty);
+  return ALCHEMICAL_PROPERTIES.some((item) => item === value);
 }
 
 export function isZodiacSignType(value: string): value is ZodiacSignType {
-  return ZODIAC_SIGNS.includes(value as any);
+  return ZODIAC_SIGNS.some((item) => item === value);
 }
 
 export function isPlanet(value: string): value is Planet {
-  return PLANETS.includes(value as Planet);
+  return PLANETS.some((item) => item === value);
 }
 
 export function isCookingMethod(value: string): value is CookingMethod {
-  return COOKING_METHODS.includes(value as CookingMethod);
+  return COOKING_METHODS.some((item) => item === value);
 }
 
 export function isCuisineType(value: string): value is CuisineType {
-  return CUISINE_TYPES.includes(value as CuisineType);
+  return CUISINE_TYPES.some((item) => item === value);
 }
 
 export function isDietaryRestriction(
   value: string,
 ): value is DietaryRestriction {
-  return DIETARY_RESTRICTIONS.includes(value as DietaryRestriction);
+  return DIETARY_RESTRICTIONS.some((item) => item === value);
 }
 
 export function isLunarPhase(value: string): value is LunarPhase {
-  return LUNAR_PHASES.includes(value as LunarPhase);
+  return LUNAR_PHASES.some((item) => item === value);
 }
 
 export function isSeason(value: string): value is Season {
-  return SEASONS.includes(value as Season);
+  return SEASONS.some((item) => item === value);
 }
 
 export const MEAL_TYPES = [
@@ -157,9 +157,9 @@ export const SPICE_LEVELS = [
 export type SpiceLevel = (typeof SPICE_LEVELS)[number];
 
 export function isMealType(value: string): value is MealType {
-  return MEAL_TYPES.includes(value as MealType);
+  return MEAL_TYPES.some((item) => item === value);
 }
 
 export function isSpiceLevel(value: string): value is SpiceLevel {
-  return SPICE_LEVELS.includes(value as SpiceLevel);
+  return SPICE_LEVELS.some((item) => item === value);
 }

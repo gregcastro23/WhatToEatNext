@@ -174,7 +174,7 @@ export function formatRailwayResponse(
 
   return {
     success: true,
-    _celestialBodies: { all: allBodies, ...bodies } as any,
+    _celestialBodies: { ...bodies, all: allBodies },
     birth_info: {
       year: params.year,
       month: params.month,
@@ -245,7 +245,7 @@ export function calculateLocally(params: PlanetaryRequest): AstrologizeResponse 
 
   return {
     success: true,
-    _celestialBodies: { all: allBodies, ...bodies } as any,
+    _celestialBodies: { ...bodies, all: allBodies },
     birth_info: {
       year: params.year,
       month: params.month,

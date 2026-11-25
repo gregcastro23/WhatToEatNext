@@ -217,7 +217,7 @@ export async function POST(request: NextRequest) {
   // ── Reconcile any in-flight claim before opening a new one ────────────────
   const pending = await esmsOnchainClaimService.findPending(user.id, rail);
   if (pending) {
-    let alreadyClaimed = false;
+    let alreadyClaimed: boolean;
     try {
       alreadyClaimed = await readEsmsClaimed(pending.claimId);
     } catch {

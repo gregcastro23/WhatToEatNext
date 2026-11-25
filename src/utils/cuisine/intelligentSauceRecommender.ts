@@ -413,7 +413,7 @@ function calculateThermodynamicSauceCompatibility(
     targetThermo.reactivity - sauceThermo.reactivity,
   );
 
-  let score = 0;
+  let score: number;
 
   if (role === "complement") {
     // Prefer similar thermodynamics
@@ -443,7 +443,7 @@ function calculateKineticSauceCompatibility(
   reasoning: string[],
 ): number {
   // Compare force classification
-  let forceScore = 0;
+  let forceScore: number;
   if (
     targetKinetics.forceClassification === sauceKinetics.forceClassification
   ) {
@@ -460,7 +460,7 @@ function calculateKineticSauceCompatibility(
   }
 
   // Compare thermal direction
-  let thermalScore = 0;
+  let thermalScore: number;
   if (role === "balance" || role === "contrast") {
     // Prefer opposite thermal direction for balance
     if (
@@ -505,7 +505,7 @@ function calculateCircuitOptimization(
   // Ideal sauce adds 10-25% power without increasing losses proportionally
   const powerBoostRatio = saucePower / targetPower;
 
-  let optimizationScore = 0;
+  let optimizationScore: number;
 
   if (powerBoostRatio > 0.1 && powerBoostRatio < 0.25) {
     optimizationScore = 1.0;

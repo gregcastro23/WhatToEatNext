@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Best-effort attribution; never blocks the request.
-  let userId: string | null = null;
+  let userId: string | null;
   try {
     userId = await getUserIdFromRequest(request);
   } catch {

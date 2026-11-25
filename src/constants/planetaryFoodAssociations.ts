@@ -335,7 +335,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
     : 0;
 
   // Apply modality boost based on cardinal/fixed/mutable qualities
-  let modalityBoost = 0;
+  let modalityBoost: number;
   const cardinalSigns = ["aries", "cancer", "libra", "capricorn"];
   const fixedSigns = ["taurus", "leo", "scorpio", "aquarius"];
   // If not cardinal or fixed it's mutable (gemini, virgo, sagittarius, pisces)

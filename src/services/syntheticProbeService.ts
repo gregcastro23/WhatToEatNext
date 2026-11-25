@@ -215,7 +215,7 @@ export async function runOnboardingSkipProbe(options: {
 
   let httpStatus: number | null = null;
   let errorMessage: string | null = null;
-  let status: ProbeStatus = "failure";
+  let status: ProbeStatus;
   let responsePayload: Record<string, unknown> = {};
 
   if (!options.bearerToken) {
@@ -373,7 +373,7 @@ export async function runStripeWebhookProbe(options: {
 
   let httpStatus: number | null = null;
   let errorMessage: string | null = null;
-  let status: ProbeStatus = "failure";
+  let status: ProbeStatus;
   let responsePayload: Record<string, unknown> = {};
 
   const controller = new AbortController();
@@ -585,7 +585,7 @@ export async function runAuthSigninProbe(options: {
 
   let httpStatus: number | null = null;
   let errorMessage: string | null = null;
-  let status: ProbeStatus = "failure";
+  let status: ProbeStatus;
   let responsePayload: Record<string, unknown> = {};
 
   const controller = new AbortController();
@@ -741,7 +741,7 @@ async function runJsonPostProbe(args: {
 
   let httpStatus: number | null = null;
   let errorMessage: string | null = null;
-  let status: ProbeStatus = "failure";
+  let status: ProbeStatus;
   let responsePayload: Record<string, unknown> = {};
 
   if (!args.bearerToken) {
@@ -838,7 +838,7 @@ export async function runMcpProbe(): Promise<ProbeResult> {
 
   let status: ProbeStatus = "failure";
   let errorMessage: string | null = null;
-  let responsePayload: Record<string, unknown> = {};
+  let responsePayload: Record<string, unknown>;
 
   const callMeta = {
     _meta: {

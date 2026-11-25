@@ -35,7 +35,7 @@ export interface LiveFeedEvent {
 const MAX_EVENTS = 60;
 
 function mapRow(row: StdbFeedEventRow): LiveFeedEvent {
-  let payload: unknown = {};
+  let payload: unknown;
   try {
     payload = row.payloadJson ? JSON.parse(row.payloadJson) : {};
   } catch {

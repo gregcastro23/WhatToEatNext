@@ -1368,7 +1368,7 @@ async function probeDatabase(): Promise<FlowHealth> {
   const checkedAt = new Date().toISOString();
   let healthy = false;
   let latency: number | null = null;
-  let dbError: string | null = null;
+  let dbError: string | null;
   try {
     const health = await checkDatabaseHealth();
     ({ healthy } = health);

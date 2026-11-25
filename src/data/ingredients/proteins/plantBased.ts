@@ -2083,13 +2083,16 @@ Object.entries(plantBased).forEach(([_id, ingredient]) => {
 
     // Optionally auto-normalize the values
     const factor = 1 / (Number(sum) || 1);
-    Object.entries(ingredient.elementalProperties).forEach(
-      ([element, value]) => {
-        const elementKey = element as any;
-        ingredient.elementalProperties[elementKey] =
-          Number(value) * Number(factor);
-      },
-    );
+    const elementKeys: ReadonlyArray<"Fire" | "Water" | "Earth" | "Air"> = [
+      "Fire",
+      "Water",
+      "Earth",
+      "Air",
+    ];
+    for (const elementKey of elementKeys) {
+      ingredient.elementalProperties[elementKey] =
+        Number(ingredient.elementalProperties[elementKey]) * Number(factor);
+    }
   }
 });
 

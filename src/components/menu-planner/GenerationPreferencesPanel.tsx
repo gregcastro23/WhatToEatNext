@@ -121,16 +121,27 @@ export default function GenerationPreferencesPanel({
   );
 
   // Toggle helpers
-  const toggleArrayItem = useCallback(
-    <K extends "preferredCuisines" | "dietaryRestrictions" | "preferredCookingMethods" | "flavorPreferences">(
-      key: K,
+  const toggleStringPref = useCallback(
+    (
+      key: "preferredCuisines" | "dietaryRestrictions" | "preferredCookingMethods",
       item: string,
     ) => {
-      const current = generationPreferences[key] as string[];
+      const current = generationPreferences[key];
       const updated = current.includes(item)
         ? current.filter((i) => i !== item)
         : [...current, item];
-      updateGenerationPreference(key, updated as any);
+      updateGenerationPreference(key, updated);
+    },
+    [generationPreferences, updateGenerationPreference],
+  );
+
+  const toggleFlavorPref = useCallback(
+    (item: FlavorPreference) => {
+      const current = generationPreferences.flavorPreferences;
+      const updated = current.includes(item)
+        ? current.filter((i) => i !== item)
+        : [...current, item];
+      updateGenerationPreference("flavorPreferences", updated);
     },
     [generationPreferences, updateGenerationPreference],
   );
@@ -382,7 +393,7 @@ export default function GenerationPreferencesPanel({
                 return (
                   <button
                     key={cuisine}
-                    onClick={() => toggleArrayItem("preferredCuisines", cuisine)}
+                    onClick={() => toggleStringPref("preferredCuisines", cuisine)}
                     className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                       isSelected
                         ? "bg-purple-600 text-white shadow-sm"
@@ -407,7 +418,7 @@ export default function GenerationPreferencesPanel({
                 return (
                   <button
                     key={option.id}
-                    onClick={() => toggleArrayItem("dietaryRestrictions", option.id)}
+                    onClick={() => toggleStringPref("dietaryRestrictions", option.id)}
                     className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                       isSelected
                         ? "bg-green-600 text-white shadow-sm"
@@ -434,7 +445,7 @@ export default function GenerationPreferencesPanel({
                   return (
                     <button
                       key={method}
-                      onClick={() => toggleArrayItem("preferredCookingMethods", method)}
+                      onClick={() => toggleStringPref("preferredCookingMethods", method)}
                       className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
                         isSelected
                           ? "bg-amber-600 text-white shadow-sm"
@@ -459,7 +470,7 @@ export default function GenerationPreferencesPanel({
                   return (
                     <button
                       key={flavor.id}
-                      onClick={() => toggleArrayItem("flavorPreferences", flavor.id)}
+                      onClick={() => toggleFlavorPref(flavor.id)}
                       className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
                         isSelected
                           ? "bg-pink-600 text-white shadow-sm"

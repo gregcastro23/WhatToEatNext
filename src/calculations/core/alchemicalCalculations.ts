@@ -184,7 +184,7 @@ export function alchemize(input: unknown): AlchemizeResult {
 
     const elementalValues =
       Object.keys(positions).length > 0
-        ? calculateElementalValues(positions as any)
+        ? calculateElementalValues(positions)
         : { ...EMPTY_ELEMENTS };
 
     // Thermodynamics require non-zero inputs — substitute tiny values when

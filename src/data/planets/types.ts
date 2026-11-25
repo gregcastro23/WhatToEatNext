@@ -35,6 +35,7 @@ export interface PlanetData {
   AstrologicalProperties?: {
     AlchemicalName?: string;
     BeneficType?: string;
+    MaleficType?: string;
     DualDomicile?: {
       Spring?: string;
       Autumn?: string;

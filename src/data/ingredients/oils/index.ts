@@ -71,10 +71,7 @@ export const _airOils = Object.entries(oils)
 export const _highHeatOils = Object.entries(oils)
   .filter(
     ([_, value]) =>
-      (typeof value.smokePoint === "object" &&
-        value.smokePoint !== null &&
-        "fahrenheit" in value.smokePoint &&
-        (value.smokePoint as any).fahrenheit >= 400) ||
+      (value.smokePoint !== undefined && value.smokePoint.fahrenheit >= 400) ||
       value.culinaryApplications?.frying ||
       value.culinaryApplications?.deepfrying,
   )

@@ -272,7 +272,7 @@ export async function discoverTables(
      ORDER BY t.scheduled_at ASC, t.id ASC
      LIMIT ${p.add(fetchLimit)}`;
 
-  let rows: TableRow[] = [];
+  let rows: TableRow[];
   try {
     const result = await executeQuery<TableRow>(sql, p.values);
     ({ rows } = result);
@@ -489,7 +489,7 @@ export async function discoverPeople(
      ORDER BY u.created_at DESC, u.id DESC
      LIMIT ${p.add(fetchLimit)}`;
 
-  let rows: PersonRow[] = [];
+  let rows: PersonRow[];
   try {
     const result = await executeQuery<PersonRow>(sql, p.values);
     ({ rows } = result);

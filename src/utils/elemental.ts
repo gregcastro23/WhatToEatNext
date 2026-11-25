@@ -74,7 +74,6 @@ export const _calculateDominantElement = (
 
   if ((elementalState.Air || 0) > highestValue) {
     dominantElement = "Air";
-    highestValue = elementalState.Air || 0;
   }
 
   return dominantElement;

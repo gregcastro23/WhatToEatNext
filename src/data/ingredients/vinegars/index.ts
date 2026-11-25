@@ -7,9 +7,9 @@ import { vinegars as baseVinegars } from "./vinegars";
 // Combine all vinegar sources into one comprehensive collection
 export const vinegars: Record<string, IngredientMapping> =
   fixIngredientMappings({
-    ...(consolidatedVinegars as any),
+    ...consolidatedVinegars,
     ...baseVinegars,
-    ...(seasoningsVinegars as any), // Detailed vinegar data from seasonings folder (36 items)
+    ...seasoningsVinegars, // Detailed vinegar data from seasonings folder (36 items)
   });
 
 export default vinegars;

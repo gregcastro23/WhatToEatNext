@@ -339,7 +339,7 @@ export class EnhancedRecommendationService {
     } = await this.gatherUserSignals(ctx.userId);
 
     // Load the live recipe catalog via server action (cached internally).
-    let recipes: Recipe[] = [];
+    let recipes: Recipe[];
     try {
       const mod = await import("@/actions/recipes");
       recipes = await mod.getServerRecipes();
@@ -456,7 +456,7 @@ export class EnhancedRecommendationService {
   ): Promise<EnhancedRecommendationResult> {
     const datetime = new Date();
 
-    let recipes: Recipe[] = [];
+    let recipes: Recipe[];
     try {
       const mod = await import("@/actions/recipes");
       recipes = await mod.getServerRecipes();
@@ -582,7 +582,7 @@ export class EnhancedRecommendationService {
       // best-effort
     }
 
-    let presets: FoodSearchResult[] = [];
+    let presets: FoodSearchResult[];
     try {
       const mod = await import("@/services/FoodDiaryService");
       const all = mod.foodDiaryService.getQuickFoodPresets();
