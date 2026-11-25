@@ -158,21 +158,23 @@ function toComputedRecipe(recipe: AlchemicalRecipe): {
       alchemicalProperties: alchemical,
       elementalProperties: elemental,
       thermodynamicProperties: thermodynamics,
-      // Intentionally any: placeholder KineticMetrics for a build-only script.
-      // This literal's fields (resistance/current/voltage/impedance/resonance)
-      // don't exist on the real KineticMetrics interface, and this value is
-      // never serialized into the output manifest (only elementals/alchemical/
-      // thermodynamics/signatures are). A type-safe fix would require
-      // constructing a full valid KineticMetrics, changing emitted data —
-      // out of scope for a types-only pass.
+      // Typed zero placeholder KineticMetrics for a build-only script; never
+      // serialized into the output manifest (only elementals/alchemical/
+      // thermodynamics/signatures are emitted).
       kineticProperties: {
+        velocity: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+        momentum: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+        charge: 0,
+        potentialDifference: 0,
+        currentFlow: 0,
         power: 0,
-        resistance: 0,
-        current: 0,
-        voltage: 0,
-        impedance: 0,
-        resonance: 0,
-      } as any,
+        inertia: 1,
+        force: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+        forceMagnitude: 0,
+        forceClassification: "balanced",
+        aspectPhase: null,
+        thermalDirection: "stable",
+      },
       dominantElement: "Fire",
       dominantAlchemicalProperty: "Spirit",
       computationMetadata: {

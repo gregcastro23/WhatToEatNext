@@ -548,7 +548,7 @@ export function calculateMethodSpecificKinetics(
 
   // ── 11. Aspect Phase ────────────────────────────────────────────────
   // Derive from method's thermodynamic character + planetary influence
-  let aspectPhase: AspectPhase | null = null;
+  let aspectPhase: AspectPhase;
   if (thermodynamics.heat > 0.7 && thermodynamics.reactivity > 0.6) {
     aspectPhase = {
       type: "applying",

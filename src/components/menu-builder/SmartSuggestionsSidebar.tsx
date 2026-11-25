@@ -52,13 +52,14 @@ function countPlannedMeals(weekPlan: WeeklyMenu | null): number {
 /** Extract all ingredient names from the week plan */
 function extractAllIngredients(weekPlan: WeeklyMenu | null): string[] {
   if (!weekPlan) return [];
-  return weekPlan.meals
-    .filter((m) => m.recipe)
-    .flatMap((m) =>
-      (m.recipe!.ingredients || []).map((ing) =>
-        (typeof ing === "string" ? ing : (ing as any).name ?? "").toLowerCase(),
-      ),
-    );
+  const names: string[] = [];
+  for (const m of weekPlan.meals) {
+    if (!m.recipe) continue;
+    for (const ing of m.recipe.ingredients) {
+      names.push(ing.name.toLowerCase());
+    }
+  }
+  return names;
 }
 
 /** Count how often each recipe appears */
@@ -67,23 +68,23 @@ function countRecipeFrequency(
 ): Record<string, number> {
   if (!weekPlan) return {};
   const counts: Record<string, number> = {};
-  weekPlan.meals
-    .filter((m) => m.recipe)
-    .forEach((m) => {
-      const { id } = (m.recipe!);
-      counts[id] = (counts[id] || 0) + 1;
-    });
+  for (const m of weekPlan.meals) {
+    if (!m.recipe) continue;
+    const { id } = m.recipe;
+    counts[id] = (counts[id] || 0) + 1;
+  }
   return counts;
 }
 
 /** Count unique cuisines used */
 function countUniqueCuisines(weekPlan: WeeklyMenu | null): number {
   if (!weekPlan) return 0;
-  const cuisines = new Set(
-    weekPlan.meals
-      .filter((m) => m.recipe?.cuisine)
-      .map((m) => m.recipe!.cuisine!.toLowerCase()),
-  );
+  const cuisines = new Set<string>();
+  for (const m of weekPlan.meals) {
+    if (m.recipe?.cuisine) {
+      cuisines.add(m.recipe.cuisine.toLowerCase());
+    }
+  }
   return cuisines.size;
 }
 

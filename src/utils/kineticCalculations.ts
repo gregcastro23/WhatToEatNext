@@ -20,8 +20,8 @@ export interface ThermodynamicMetrics {
   entropy: number;
   reactivity: number;
   gregsEnergy: number;
-  kalchm: number;
-  monica: number;
+  kalchm?: number;
+  monica?: number;
 }
 
 /**

@@ -117,10 +117,9 @@ export async function DELETE(
   const members = user.profile.groupMembers ?? [];
   const filtered = members.filter((m) => m.id !== commensalId);
 
-  let deletedFromTable = false;
   if (filtered.length === members.length) {
     // Not found in legacy JSONB, try the new table
-    deletedFromTable = await commensalDatabase.deleteManualCompanion(commensalId, user.id);
+    const deletedFromTable = await commensalDatabase.deleteManualCompanion(commensalId, user.id);
     
     if (!deletedFromTable) {
       return NextResponse.json({ success: false, message: "Commensal not found" }, { status: 404 });

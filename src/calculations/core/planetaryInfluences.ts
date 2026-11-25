@@ -321,12 +321,7 @@ export function calculatePlanetaryHoursInfluence(date: Date): {
   }
 
   // Calculate combined influence
-  let influence = 1.0;
-  if (dayRuler === hourRuler) {
-    influence = 1.5; // Same planet rules both day and hour
-  } else {
-    influence = 1.2; // Different planets
-  }
+  const influence = dayRuler === hourRuler ? 1.5 : 1.2;
 
   return { dayRuler, hourRuler, influence };
 }

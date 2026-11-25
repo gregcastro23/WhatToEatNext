@@ -80,7 +80,6 @@ function sliceByMs(startMs: number, endMs: number): CompactSample[] {
     else hi = mid;
   }
   const startIdx = lo;
-  hi = arr.length;
   // First index > endMs
   let l = startIdx;
   let h = arr.length;

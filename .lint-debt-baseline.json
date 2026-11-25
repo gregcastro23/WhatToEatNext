@@ -1,21 +1,21 @@
 {
-  "trackedTotal": 1178,
+  "trackedTotal": 1103,
   "casts": {
-    "total": 119,
-    "asAny": 32,
+    "total": 99,
+    "asAny": 12,
     "asUnknownAs": 87,
-    "production": 87,
+    "production": 67,
     "test": 32
   },
   "assertionSites": {
-    "total": 2496,
-    "asAny": 32,
+    "total": 2465,
+    "asAny": 12,
     "chained": 87,
-    "single": 2377,
-    "production": 1911,
+    "single": 2366,
+    "production": 1880,
     "test": 585,
     "asConst": 618,
-    "nonNull": 552
+    "nonNull": 548
   },
   "looseOptionality": {
     "total": 139,
@@ -71,7 +71,7 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-explicit-any": {
-      "count": 117,
+      "count": 100,
       "autoFixable": 0
     },
     "@typescript-eslint/no-inferrable-types": {
@@ -79,27 +79,27 @@
       "autoFixable": 0
     },
     "@typescript-eslint/no-unnecessary-condition": {
-      "count": 729,
+      "count": 726,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-argument": {
-      "count": 48,
+      "count": 42,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-assignment": {
-      "count": 122,
+      "count": 114,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-call": {
-      "count": 4,
+      "count": 2,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-member-access": {
-      "count": 113,
+      "count": 104,
       "autoFixable": 0
     },
     "@typescript-eslint/no-unsafe-return": {
-      "count": 18,
+      "count": 15,
       "autoFixable": 0
     },
     "@typescript-eslint/prefer-nullish-coalescing": {
@@ -159,7 +159,7 @@
       "autoFixable": 0
     },
     "no-useless-assignment": {
-      "count": 27,
+      "count": 0,
       "autoFixable": 0
     },
     "no-void": {

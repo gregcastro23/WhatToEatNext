@@ -148,7 +148,7 @@ export function resolveBirthZone(input: {
     Math.abs(lon) <= 180;
 
   if (hasCoords) {
-    let zone: string | null = null;
+    let zone: string | null;
     try {
       zone = tzLookup(lat, lon);
     } catch {

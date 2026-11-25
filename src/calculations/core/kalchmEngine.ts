@@ -309,9 +309,9 @@ export function calculateAlchemicalProperties(planetaryPositions: {
 /**
  * Calculate elemental values from zodiac signs and planetary influences
  */
-export function calculateElementalValues(planetaryPositions: {
-  [key: string]: PlanetaryPosition;
-}): ElementalValues {
+export function calculateElementalValues(
+  planetaryPositions: Record<string, { sign?: string }>,
+): ElementalValues {
   const elements: ElementalValues = { Fire: 0, Water: 0, Air: 0, Earth: 0 };
 
   // Sign to element mapping

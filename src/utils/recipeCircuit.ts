@@ -30,17 +30,16 @@ export interface RecipeCircuitRecommendation {
  * Validate recipe as circuit: Input P = Output P + Losses
  */
 export function validateRecipeCircuit(
-  kinetics: KineticMetrics,
+  kinetics: KineticMetrics & { entropy?: number },
   _recipe: Recipe,
 ): CircuitValidationResult {
-  const kineticsData = kinetics as any;
-  const { power, currentFlow, _potentialDifference, entropy } = kineticsData;
+  const { power, currentFlow, entropy } = kinetics;
 
   // Input power
   const inputPower = power;
 
   // Losses via entropy resistance: Entropy acts as resistance R, losses = I²R
-  const resistance = entropy; // Entropy as resistance
+  const resistance = Number(entropy); // Entropy as resistance
   const losses = currentFlow ** 2 * resistance;
 
   // Output power = Input - Losses
@@ -109,7 +108,7 @@ export function getCircuitBasedRecommendations(
  */
 export function calculateKineticsCompatibility(
   kinetics: KineticMetrics,
-  recipe: Recipe,
+  recipe: Recipe & { cookingMethods?: string[] | string },
 ): number {
   const { forceClassification, potentialDifference, charge, forceMagnitude } =
     kinetics;
@@ -143,7 +142,7 @@ export function calculateKineticsCompatibility(
   }
 
   // High force magnitude favors robust cooking methods
-  const cookingMethodsData = recipe.cookingMethods as any;
+  const cookingMethodsData = recipe.cookingMethods;
   if (forceMagnitude > 3.0 && cookingMethodsData?.includes("grilling")) {
     compatibility += 0.15;
   }

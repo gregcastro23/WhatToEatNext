@@ -5,14 +5,14 @@ export type MinimalPositions = Record<string, { sign: string; degree: number }>;
 
 export class AspectsService {
   static toMinimal(
-    positions: Record<string, PlanetaryPosition>,
+    positions: Record<string, Partial<PlanetaryPosition> | undefined>,
   ): MinimalPositions {
     return Object.fromEntries(
       Object.entries(positions || {}).map(([k, v]) => [
         k,
         {
-          sign: String((v as any)?.sign ?? ""),
-          degree: Number((v as any)?.degree ?? 0),
+          sign: String(v?.sign ?? ""),
+          degree: Number(v?.degree ?? 0),
         },
       ]),
     );

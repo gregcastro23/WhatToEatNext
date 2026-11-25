@@ -117,7 +117,7 @@ export async function runAgentDailyYield(limit = 30): Promise<AgentYieldResult> 
     tokensMinted: 0,
   };
 
-  let rows: AgentYieldRow[] = [];
+  let rows: AgentYieldRow[];
   try {
     const query = await executeQuery<AgentYieldRow>(
       `SELECT u.id, u.email, up.name, up.natal_positions
