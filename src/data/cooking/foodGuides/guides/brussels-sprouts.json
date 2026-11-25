@@ -1,0 +1,564 @@
+{
+  "id": "brussels-sprouts",
+  "name": "Brussels sprouts",
+  "aliases": [
+    "brussel sprouts",
+    "brussels sprouts",
+    "fresh brussels sprouts"
+  ],
+  "catalogKeys": [
+    "brussels_sprouts"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Brussels sprouts can be boiled, microwaved, baked, roasted, or steamed.",
+    "sources": [
+      "usu-brussels-sprouts"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Pick firm sprouts that are bright green.",
+      "sources": [
+        "usu-brussels-sprouts"
+      ]
+    },
+    {
+      "text": "Choose sprouts that are similar in size, firm, and compact, with leaves free of blemishes.",
+      "sources": [
+        "uky-brussels-sprouts"
+      ]
+    },
+    {
+      "text": "Avoid wilted or blemished sprouts and those with yellow leaves.",
+      "sources": [
+        "usu-brussels-sprouts"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Remove wilting leaves and store the sprouts in the refrigerator for 3 to 5 days.",
+      "sources": [
+        "usu-brussels-sprouts"
+      ]
+    },
+    {
+      "text": "Do not wash or trim the sprouts before refrigerating them.",
+      "sources": [
+        "usu-brussels-sprouts"
+      ]
+    },
+    {
+      "text": "Keep sprouts in a covered container or perforated bag in the refrigerator for 3 to 5 days.",
+      "sources": [
+        "uky-brussels-sprouts"
+      ]
+    },
+    {
+      "text": "Remove yellow or wilted leaves and wash just before use.",
+      "sources": [
+        "uky-brussels-sprouts"
+      ]
+    },
+    {
+      "text": "Illinois Extension says refrigerator storage should not exceed a day or two.",
+      "sources": [
+        "illinois-brussels-sprouts"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Soak sprouts in water for about 10 minutes, then rinse them in fresh water.",
+      "sources": [
+        "uky-brussels-sprouts"
+      ]
+    },
+    {
+      "text": "Remove wilted outer leaves.",
+      "sources": [
+        "usu-brussels-sprouts"
+      ]
+    },
+    {
+      "text": "Trim the stem end flush with the bottom.",
+      "sources": [
+        "usu-brussels-sprouts"
+      ]
+    },
+    {
+      "text": "Cut a small X in the base with a sharp knife.",
+      "sources": [
+        "usu-brussels-sprouts"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Wash sprouts thoroughly under running water before cooking or eating.",
+      "sources": [
+        "fda-produce-safety"
+      ]
+    },
+    {
+      "text": "Do not use soap or produce wash on sprouts.",
+      "sources": [
+        "fda-produce-safety"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "roast",
+      "label": "Roast at 425 F",
+      "best": true,
+      "why": {
+        "text": "Choose roasting for sprouts that come out tender and golden on the edges, as USU describes.",
+        "sources": [
+          "usu-brussels-sprouts"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "size",
+          "label": "Brussels sprouts per batch",
+          "min": 1,
+          "max": null,
+          "unit": "lb",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        },
+        {
+          "kind": "ratio",
+          "label": "olive oil per 1 lb sprouts",
+          "min": 1,
+          "max": 2,
+          "unit": "tbsp",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "roast oven temperature (USU)",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "roast time (USU)",
+          "min": 18,
+          "max": 25,
+          "unit": "min",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "roast oven temperature (NDSU alternative)",
+          "min": 400,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "roast time (NDSU alternative)",
+          "min": 35,
+          "max": 40,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "equipment": [
+        "baking sheet",
+        "mixing bowl"
+      ],
+      "steps": [
+        {
+          "text": "Clean 1 pound of sprouts, then cut them in half.",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        },
+        {
+          "text": "Toss the halves in 1-2 tbsp of olive oil.",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        },
+        {
+          "text": "Spread on a baking sheet and sprinkle with salt, pepper, and seasonings.",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        },
+        {
+          "text": "Preheat the oven to 425 F and roast 18 to 25 minutes.",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Shake the pan from time to time to brown the sprouts evenly.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Done when crisp on the outside and tender on the inside.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "saute",
+      "label": "Sauté cut side down in oil",
+      "best": false,
+      "why": {
+        "text": "Choose sautéing for caramelized sides on the stovetop; NDSU cooks them undisturbed first.",
+        "sources": [
+          "ndsu-pocket-guide"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "undisturbed sear",
+          "min": 5,
+          "max": 7,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "finish time",
+          "min": 6,
+          "max": 8,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "equipment": [
+        "pan"
+      ],
+      "steps": [
+        {
+          "text": "Prepare the sprouts whole or cut lengthwise, and drizzle with oil in the pan.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Toss until all are lightly coated with oil.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Cook undisturbed on medium heat 5 to 7 minutes until the sides caramelize.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Cook another 6 to 8 minutes until tender.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Add garlic and a squeeze of lemon for flavor.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook until tender.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "steam",
+      "label": "Steam in a small amount of water",
+      "best": false,
+      "why": {
+        "text": "Choose steaming in a small amount of water; USU says this minimizes odors and nutrient losses.",
+        "sources": [
+          "usu-brussels-sprouts"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "ratio",
+          "label": "water depth in saucepan",
+          "min": 0.25,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "uky-brussels-sprouts"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "steam time (USU)",
+          "min": 5,
+          "max": 12,
+          "unit": "min",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "steam time (UKY)",
+          "min": 5,
+          "max": 10,
+          "unit": "min",
+          "sources": [
+            "uky-brussels-sprouts"
+          ]
+        }
+      ],
+      "equipment": [
+        "saucepan",
+        "covered vegetable steamer"
+      ],
+      "steps": [
+        {
+          "text": "Place the sprouts in a saucepan with 1/4 inch of boiling water and cover.",
+          "sources": [
+            "uky-brussels-sprouts"
+          ]
+        },
+        {
+          "text": "Steam 5 to 12 minutes, checking tenderness with a fork.",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        },
+        {
+          "text": "Or set a covered vegetable steamer over an inch of boiling water.",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "Test for tenderness with a fork.",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boil",
+      "label": "Boil uncovered until tender",
+      "best": false,
+      "why": {
+        "text": "Choose boiling for simple tender sprouts; UKY boils them uncovered until tender.",
+        "sources": [
+          "uky-brussels-sprouts"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "ratio",
+          "label": "water per cup of sprouts",
+          "min": 1,
+          "max": null,
+          "unit": "cup",
+          "sources": [
+            "uky-brussels-sprouts"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "boil time",
+          "min": 6,
+          "max": 8,
+          "unit": "min",
+          "sources": [
+            "uky-brussels-sprouts"
+          ]
+        }
+      ],
+      "equipment": [
+        "large pot"
+      ],
+      "steps": [
+        {
+          "text": "Bring water to a boil in a large pot, add the sprouts, and quickly return it to a boil.",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        },
+        {
+          "text": "Boil uncovered 6 to 8 minutes until tender.",
+          "sources": [
+            "uky-brussels-sprouts"
+          ]
+        },
+        {
+          "text": "Drain once they are just tender.",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "Cook until tender.",
+          "sources": [
+            "uky-brussels-sprouts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "microwave",
+      "label": "Microwave with 1/4 cup liquid",
+      "best": false,
+      "why": {
+        "text": "Choose microwaving for a ½ pound batch with ¼ cup liquid in a covered dish.",
+        "sources": [
+          "uky-brussels-sprouts"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "ratio",
+          "label": "liquid per ½ lb sprouts",
+          "min": 0.25,
+          "max": null,
+          "unit": "cup",
+          "sources": [
+            "uky-brussels-sprouts"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "medium sprouts",
+          "min": 4,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "uky-brussels-sprouts"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "large sprouts",
+          "min": 8,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "uky-brussels-sprouts"
+          ]
+        }
+      ],
+      "equipment": [
+        "microwave-safe dish"
+      ],
+      "steps": [
+        {
+          "text": "Put ½ pound of sprouts in a microwave-safe dish with ¼ cup liquid and cover.",
+          "sources": [
+            "uky-brussels-sprouts"
+          ]
+        },
+        {
+          "text": "Cook 4 minutes for medium sprouts or 8 minutes for large.",
+          "sources": [
+            "uky-brussels-sprouts"
+          ]
+        },
+        {
+          "text": "Cook until tender.",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "Done when tender.",
+          "sources": [
+            "usu-brussels-sprouts"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "usu-brussels-sprouts",
+      "publisher": "Utah State University Extension",
+      "title": "Fruit and Vegetable Guide Series: Brussel Sprouts",
+      "url": "https://extension.usu.edu/nutrition/research/brussel-sprouts",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "uky-brussels-sprouts",
+      "publisher": "University of Kentucky Cooperative Extension",
+      "title": "Brussels Sprouts (FCS Commodity)",
+      "url": "https://fcs.mgcafe.uky.edu/commodity/brussels-sprouts",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "illinois-brussels-sprouts",
+      "publisher": "University of Illinois Extension",
+      "title": "Brussels Sprouts",
+      "url": "https://extension.illinois.edu/gardening/brussels-sprouts",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "ndsu-pocket-guide",
+      "publisher": "North Dakota State University Extension",
+      "title": "A Pocket Guide to Preparing Fruits and Vegetables (FN1955)",
+      "url": "https://www.ndsu.edu/agriculture/extension/publications/pocket-guide-preparing-fruits-and-vegetables",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fda-produce-safety",
+      "publisher": "US Food and Drug Administration",
+      "title": "Selecting and Serving Produce Safely",
+      "url": "https://www.fda.gov/food/buy-store-serve-safe-food/selecting-and-serving-produce-safely",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

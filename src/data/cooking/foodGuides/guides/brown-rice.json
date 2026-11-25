@@ -1,0 +1,263 @@
+{
+  "id": "brown-rice",
+  "name": "Brown rice",
+  "aliases": [
+    "brown rice",
+    "long grain brown rice",
+    "soaked brown rice",
+    "whole grain brown rice"
+  ],
+  "catalogKeys": [
+    "brown_rice"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Illinois Extension soaks brown rice in the refrigerator before cooking it on the stovetop or in an electric pressure cooker.",
+    "sources": [
+      "illinois-soaked-brown-rice"
+    ]
+  },
+  "selection": [],
+  "storage": [
+    {
+      "text": "Refrigerate leftover cooked brown rice covered for up to 4 days; freezing keeps it longer.",
+      "sources": [
+        "illinois-soaked-brown-rice"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Rinse the dry rice two or three times, until the water runs clear.",
+      "sources": [
+        "illinois-soaked-brown-rice"
+      ]
+    },
+    {
+      "text": "Or rinse it in a mesh colander under running water for 1 minute.",
+      "sources": [
+        "illinois-soaked-brown-rice"
+      ]
+    },
+    {
+      "text": "Cover the rinsed rice with water by 1 inch.",
+      "sources": [
+        "illinois-soaked-brown-rice"
+      ]
+    },
+    {
+      "text": "Refrigerate the soaking rice for 6 to 8 hours or overnight.",
+      "sources": [
+        "illinois-soaked-brown-rice"
+      ]
+    },
+    {
+      "text": "Drain the soaked rice and cook it in fresh water.",
+      "sources": [
+        "illinois-soaked-brown-rice"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Rinsing before cooking has only a minimal effect on arsenic in the cooked grain, according to FDA.",
+      "sources": [
+        "fda-arsenic-rice"
+      ]
+    },
+    {
+      "text": "Cooking rice similar to how pasta is cooked, in extra water, can reduce inorganic arsenic by 40 to 60 percent, depending on the type of rice, per FDA.",
+      "sources": [
+        "fda-arsenic-rice"
+      ]
+    },
+    {
+      "text": "FDA describes that method as 6 to 10 parts water to 1 part rice, then draining the excess water.",
+      "sources": [
+        "fda-arsenic-rice"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "pressure_cook",
+      "label": "Pressure cook soaked rice",
+      "best": true,
+      "why": {
+        "text": "Choose this when you want a quick cook: Illinois gives 14 minutes on high pressure, followed by a full natural release.",
+        "sources": [
+          "illinois-soaked-brown-rice"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "size",
+          "label": "dry brown rice in recipe batch",
+          "min": 1,
+          "max": null,
+          "unit": "cup",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        },
+        {
+          "kind": "ratio",
+          "label": "water added to soaked rice for pressure cooker",
+          "min": 1.25,
+          "max": null,
+          "unit": "cup",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "high-pressure cook time",
+          "min": 14,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        }
+      ],
+      "equipment": [
+        "electric pressure cooker",
+        "mesh colander"
+      ],
+      "steps": [
+        {
+          "text": "Add the soaked, drained rice and 1 1/4 cups water to an electric pressure cooker.",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        },
+        {
+          "text": "Set the lid to sealing and cook on high pressure for 14 minutes.",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        },
+        {
+          "text": "Let the pressure release naturally until it is fully released.",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        },
+        {
+          "text": "Turn the lid to open only after all pressure is released.",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Turn off the keep warm setting if the cooker defaults to it.",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        }
+      ],
+      "doneness": []
+    },
+    {
+      "id": "simmer",
+      "label": "Simmer soaked rice on the stovetop",
+      "best": false,
+      "why": {
+        "text": "Choose the stovetop version when you do not have a pressure cooker; it cooks in a pot with a lid.",
+        "sources": [
+          "illinois-soaked-brown-rice"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "size",
+          "label": "dry brown rice in recipe batch",
+          "min": 1,
+          "max": null,
+          "unit": "cup",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        },
+        {
+          "kind": "ratio",
+          "label": "water per 1 cup soaked rice",
+          "min": 1,
+          "max": null,
+          "unit": "cup",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "stovetop cook time",
+          "min": 20,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        }
+      ],
+      "equipment": [
+        "pot with lid"
+      ],
+      "steps": [
+        {
+          "text": "Add the soaked, drained rice and 1 cup water to a pot.",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        },
+        {
+          "text": "Bring to a boil, reduce heat to low, and cover with the lid.",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        },
+        {
+          "text": "Cook for 20 minutes, checking tenderness at 15 minutes.",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        },
+        {
+          "text": "Drain any excess water.",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "Check for tenderness at about 15 minutes.",
+          "sources": [
+            "illinois-soaked-brown-rice"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "illinois-soaked-brown-rice",
+      "publisher": "University of Illinois Extension",
+      "title": "Soaked Brown Rice (Stovetop and Electric Pressure Cooker)",
+      "url": "https://extension.illinois.edu/dmp/recipes/soaked-brown-rice-stovetop-and-electric-pressure-cooker",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fda-arsenic-rice",
+      "publisher": "US Food and Drug Administration",
+      "title": "What You Can Do to Limit Exposure to Arsenic",
+      "url": "https://www.fda.gov/food/environmental-contaminants-food/what-you-can-do-limit-exposure-arsenic",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

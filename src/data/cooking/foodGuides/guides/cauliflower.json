@@ -1,0 +1,520 @@
+{
+  "id": "cauliflower",
+  "name": "Cauliflower",
+  "aliases": [
+    "cauliflower",
+    "cauliflower florets",
+    "cauliflower head",
+    "fresh cauliflower"
+  ],
+  "catalogKeys": [
+    "cauliflower"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Cauliflower can be cooked by roasting, steaming, boiling, or microwaving.",
+    "sources": [
+      "illinois-cauliflower"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Pick a compact, space-free head with bright green leaves that feels heavy for its size.",
+      "sources": [
+        "usu-cauliflower"
+      ]
+    },
+    {
+      "text": "Avoid heads with brown spots or gaps between the florets.",
+      "sources": [
+        "usu-cauliflower"
+      ]
+    },
+    {
+      "text": "Avoid heads with brown or spotty leaves.",
+      "sources": [
+        "purdue-cauliflower"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Store cauliflower in a plastic bag in the crisper drawer for up to one week.",
+      "sources": [
+        "usu-cauliflower"
+      ]
+    },
+    {
+      "text": "Store whole heads in a plastic bag with a damp paper towel.",
+      "sources": [
+        "purdue-cauliflower"
+      ]
+    },
+    {
+      "text": "Discard florets that turn yellow or gray, or become soft or slimy.",
+      "sources": [
+        "purdue-cauliflower"
+      ]
+    },
+    {
+      "text": "Freezing is the recommended home preservation method.",
+      "sources": [
+        "illinois-cauliflower"
+      ]
+    },
+    {
+      "text": "Before freezing, blanch the florets in salted water for 3 minutes.",
+      "sources": [
+        "illinois-cauliflower"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Do not wash cauliflower until you are ready to use it.",
+      "sources": [
+        "usu-cauliflower"
+      ]
+    },
+    {
+      "text": "Wash under running water, then shake out the excess water.",
+      "sources": [
+        "usu-cauliflower"
+      ]
+    },
+    {
+      "text": "Cut florets from the main stem with a paring knife and discard the stem.",
+      "sources": [
+        "purdue-cauliflower"
+      ]
+    },
+    {
+      "text": "Pull florets apart by hand.",
+      "sources": [
+        "illinois-cauliflower"
+      ]
+    }
+  ],
+  "substitutions": [
+    {
+      "name": "Mashed cauliflower, prepared like mashed potatoes",
+      "note": "Illinois says it can be mashed like potatoes; it gives no ratio or time.",
+      "sources": [
+        "illinois-cauliflower"
+      ]
+    },
+    {
+      "name": "Cauliflower in place of rice",
+      "note": "Illinois lists it as a rice substitution in recipes; it gives no ratio.",
+      "sources": [
+        "illinois-cauliflower"
+      ]
+    }
+  ],
+  "safety": [
+    {
+      "text": "Wash cauliflower thoroughly under running water before preparing or eating it.",
+      "sources": [
+        "fda-produce-safety"
+      ]
+    },
+    {
+      "text": "Keep cauliflower away from raw meat and its juices to avoid cross-contamination.",
+      "sources": [
+        "purdue-cauliflower"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "roast",
+      "label": "Roast at 425 F",
+      "best": true,
+      "why": {
+        "text": "Choose roasting for golden edges; NDSU bakes it until deeply golden on the edges.",
+        "sources": [
+          "ndsu-pocket-guide"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "roast oven temperature (NDSU)",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "roast time (NDSU)",
+          "min": 25,
+          "max": 30,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "roast oven temperature (USU alternative)",
+          "min": 450,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "usu-cauliflower"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "first roast side (USU alternative)",
+          "min": 10,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "usu-cauliflower"
+          ]
+        }
+      ],
+      "equipment": [
+        "baking sheet"
+      ],
+      "steps": [
+        {
+          "text": "Heat the oven to 425 F.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Place the cauliflower on a baking sheet and drizzle with olive oil.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Bake about 25 to 30 minutes, tossing halfway, until deeply golden on the edges.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "USU roasts at 450°F for about 10 minutes, flips the cauliflower, then roasts about 5 more minutes.",
+          "sources": [
+            "usu-cauliflower"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Done when deeply golden on the edges.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "steam",
+      "label": "Steam until barely fork tender",
+      "best": false,
+      "why": {
+        "text": "Choose steaming for florets that are barely fork tender after a few minutes over water.",
+        "sources": [
+          "usu-cauliflower"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "ratio",
+          "label": "water depth in pan",
+          "min": 0.25,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "steam time (USU)",
+          "min": 3,
+          "max": 5,
+          "unit": "min",
+          "sources": [
+            "usu-cauliflower"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "steam time (NDSU)",
+          "min": 3,
+          "max": 8,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "equipment": [
+        "pan with lid",
+        "steaming basket"
+      ],
+      "steps": [
+        {
+          "text": "Bring about 1/4 inch of water to a boil in a pan.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Add the florets, season, cover, and steam 3 to 8 minutes depending on tenderness.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "USU steams 3 to 5 minutes until barely fork tender.",
+          "sources": [
+            "usu-cauliflower"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Set the florets in a steaming basket over boiling water.",
+          "sources": [
+            "usu-cauliflower"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Done when barely fork tender.",
+          "sources": [
+            "usu-cauliflower"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "microwave",
+      "label": "Microwave with a little water",
+      "best": false,
+      "why": {
+        "text": "Choose microwaving for a short cook with only a little water; Purdue gives about 3 minutes on high.",
+        "sources": [
+          "purdue-cauliflower"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "ratio",
+          "label": "water in bowl",
+          "min": 0.5,
+          "max": 1,
+          "unit": "in",
+          "sources": [
+            "usu-cauliflower"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "microwave on high (Purdue)",
+          "min": 3,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "purdue-cauliflower"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "first microwave burst (USU)",
+          "min": 1,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "usu-cauliflower"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "follow-up interval (USU)",
+          "min": 30,
+          "max": null,
+          "unit": "sec",
+          "sources": [
+            "usu-cauliflower"
+          ]
+        }
+      ],
+      "equipment": [
+        "microwave-safe bowl"
+      ],
+      "steps": [
+        {
+          "text": "Put the cut cauliflower in a microwave-safe bowl with ½ to 1 inch of water.",
+          "sources": [
+            "usu-cauliflower"
+          ]
+        },
+        {
+          "text": "Microwave on high for about 3 minutes.",
+          "sources": [
+            "purdue-cauliflower"
+          ]
+        },
+        {
+          "text": "If it is not soft enough, cook in 30-second intervals until done.",
+          "sources": [
+            "usu-cauliflower"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "Done when fork tender but not soggy.",
+          "sources": [
+            "purdue-cauliflower"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "saute",
+      "label": "Sauté in olive oil on medium heat",
+      "best": false,
+      "why": {
+        "text": "Choose sautéing to brown the florets in a pan; NDSU cooks them until tender and starting to brown.",
+        "sources": [
+          "ndsu-pocket-guide"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "sauté time",
+          "min": 10,
+          "max": 12,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "equipment": [
+        "skillet"
+      ],
+      "steps": [
+        {
+          "text": "Heat olive oil in a skillet on medium heat.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Once the oil is hot, toss in the cauliflower and season with salt and pepper.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Cook until tender and beginning to brown, about 10 to 12 minutes.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Add a little water to the pan near the end to help cook the florets.",
+          "sources": [
+            "purdue-cauliflower"
+          ]
+        }
+      ],
+      "doneness": []
+    },
+    {
+      "id": "boil",
+      "label": "Boil with potatoes, then mash",
+      "best": false,
+      "why": {
+        "text": "Choose boil-and-mash to make cauliflower mashed potatoes; NDSU boils it with potatoes, then mashes.",
+        "sources": [
+          "ndsu-pocket-guide"
+        ]
+      },
+      "quantities": [],
+      "equipment": [
+        "pot"
+      ],
+      "steps": [
+        {
+          "text": "Boil cauliflower with potatoes.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Mash the cooked cauliflower and potatoes together.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "For barely cooked florets, Purdue boils them about one minute, then plunges them into cold water.",
+          "sources": [
+            "purdue-cauliflower"
+          ]
+        }
+      ],
+      "doneness": []
+    }
+  ],
+  "sources": [
+    {
+      "id": "usu-cauliflower",
+      "publisher": "Utah State University Extension",
+      "title": "Fruit and Vegetable Guide Series: Cauliflower",
+      "url": "https://extension.usu.edu/nutrition/research/cauliflower",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "purdue-cauliflower",
+      "publisher": "Purdue Extension (FoodLink)",
+      "title": "cauliflower",
+      "url": "https://extension.purdue.edu/foodlink/food.php?food=cauliflower",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "illinois-cauliflower",
+      "publisher": "University of Illinois Extension",
+      "title": "Preparing Cauliflower",
+      "url": "https://extension.illinois.edu/gardening/preparing-cauliflower",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "ndsu-pocket-guide",
+      "publisher": "North Dakota State University Extension",
+      "title": "A Pocket Guide to Preparing Fruits and Vegetables (FN1955)",
+      "url": "https://www.ndsu.edu/agriculture/extension/publications/pocket-guide-preparing-fruits-and-vegetables",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fda-produce-safety",
+      "publisher": "US Food and Drug Administration",
+      "title": "Selecting and Serving Produce Safely",
+      "url": "https://www.fda.gov/food/buy-store-serve-safe-food/selecting-and-serving-produce-safely",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

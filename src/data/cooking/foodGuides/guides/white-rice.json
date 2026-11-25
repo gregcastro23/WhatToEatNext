@@ -1,0 +1,429 @@
+{
+  "id": "white-rice",
+  "name": "White rice",
+  "aliases": [
+    "basmati rice",
+    "jasmine rice",
+    "long grain white rice",
+    "medium grain white rice",
+    "short grain white rice",
+    "white rice"
+  ],
+  "catalogKeys": [
+    "rice",
+    "white_rice",
+    "jasmine_rice",
+    "basmati_rice"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Long-grain white rice usually uses 2 parts liquid to 1 part rice, and it roughly triples in volume when cooked.",
+    "sources": [
+      "usarice-how-to-cook"
+    ]
+  },
+  "selection": [],
+  "storage": [
+    {
+      "text": "Keep uncooked white rice in a cool, dry place in a tightly closed container.",
+      "sources": [
+        "usarice-how-to-store"
+      ]
+    },
+    {
+      "text": "Milled white rice keeps almost indefinitely on the pantry shelf if stored properly.",
+      "sources": [
+        "usarice-how-to-store"
+      ]
+    },
+    {
+      "text": "Refrigerate cooked rice within 2 hours, or within 1 hour above 90°F.",
+      "sources": [
+        "usu-cooked-rice-sit-out"
+      ]
+    },
+    {
+      "text": "Cooked rice keeps 3 to 4 days in the refrigerator at 40°F or below.",
+      "sources": [
+        "usu-cooked-rice-sit-out"
+      ]
+    },
+    {
+      "text": "Cool cooked rice to 70°F within two hours, then to 40°F within an additional four hours.",
+      "sources": [
+        "usarice-how-to-store"
+      ]
+    },
+    {
+      "text": "Cooked rice can be frozen up to six months.",
+      "sources": [
+        "usarice-how-to-store"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Do not rinse enriched white rice, since rinsing removes nutrients.",
+      "sources": [
+        "montana-rice"
+      ]
+    },
+    {
+      "text": "American-grown rice does not need washing or rinsing before cooking.",
+      "sources": [
+        "usarice-how-to-cook"
+      ]
+    },
+    {
+      "text": "Measure rice and liquid accurately.",
+      "sources": [
+        "usarice-how-to-cook"
+      ]
+    },
+    {
+      "text": "Use a pot large enough, since rice triples in volume.",
+      "sources": [
+        "usarice-how-to-cook"
+      ]
+    }
+  ],
+  "substitutions": [
+    {
+      "name": "U.S. basmati, white",
+      "note": "USA Rice's chart lists 2 parts liquid and 15 to 18 minutes for this white rice.",
+      "sources": [
+        "usarice-how-to-cook"
+      ]
+    },
+    {
+      "name": "Medium-grain white rice",
+      "note": "Use 1 1/2 parts liquid per part of rice, per the USA Rice chart.",
+      "sources": [
+        "usarice-how-to-cook"
+      ]
+    },
+    {
+      "name": "Short-grain white rice",
+      "note": "Use 1 1/4 parts liquid per part of rice, per the USA Rice chart.",
+      "sources": [
+        "usarice-how-to-cook"
+      ]
+    },
+    {
+      "name": "Other white rice types",
+      "note": "Liquid needs can differ slightly by rice type.",
+      "sources": [
+        "usarice-how-to-cook"
+      ]
+    }
+  ],
+  "safety": [
+    {
+      "text": "Refrigerate cooked rice promptly; Bacillus cereus spores survive cooking.",
+      "sources": [
+        "usu-cooked-rice-sit-out"
+      ]
+    },
+    {
+      "text": "Do not leave cooked rice on the counter for long periods while it cools.",
+      "sources": [
+        "usu-cooked-rice-sit-out"
+      ]
+    },
+    {
+      "text": "Rice can look and smell normal even when toxins are present.",
+      "sources": [
+        "usu-cooked-rice-sit-out"
+      ]
+    },
+    {
+      "text": "Putting rice back in the refrigerator does not reset the 2-hour limit.",
+      "sources": [
+        "usu-cooked-rice-sit-out"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "rice_cooker",
+      "label": "Rice cooker",
+      "best": true,
+      "why": {
+        "text": "Rice cookers make white rice easy and foolproof, and they keep it warm.",
+        "sources": [
+          "usarice-how-to-cook"
+        ]
+      },
+      "quantities": [],
+      "equipment": [
+        "rice cooker"
+      ],
+      "steps": [
+        {
+          "text": "Follow the manufacturer's directions for combining the rice and liquid.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "Turn the cooker on and select white rice.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "The cooker switches off on its own once it senses the temperature and moisture change.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "Fluff with a fork or slotted spoon once cooked.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "The cooker stops automatically when the rice has absorbed the liquid.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "simmer",
+      "label": "Stovetop absorption (covered simmer)",
+      "best": false,
+      "why": {
+        "text": "Choose the stovetop when you want the standard method, at 2 parts liquid to 1 part long-grain rice.",
+        "sources": [
+          "usarice-how-to-cook"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "ratio",
+          "label": "Liquid per cup of long-grain rice",
+          "min": 2,
+          "max": null,
+          "unit": "cup",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Covered simmer time, long grain",
+          "min": 15,
+          "max": 18,
+          "unit": "min",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "kind": "ratio",
+          "label": "Montana: water per cup of rice",
+          "min": 2,
+          "max": null,
+          "unit": "cup",
+          "sources": [
+            "montana-rice"
+          ]
+        }
+      ],
+      "equipment": [
+        "2- to 3-quart saucepan",
+        "tight-fitting lid"
+      ],
+      "steps": [
+        {
+          "text": "Combine rice, liquid, salt, and butter in a 2- to 3-quart saucepan.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "Reduce heat to low, cover tightly, and simmer.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "Simmer 15 to 18 minutes for long-grain white rice.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "Remove from the heat and fluff with a fork.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Do not stir the rice; stirring releases starch and makes it sticky.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "Keep the lid on while it cooks so steam does not escape.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "If the rice is crunchy, add more liquid, cover, and keep cooking.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook 2 to 4 minutes longer if the rice is not tender or the liquid is not absorbed.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "Rice is done when the liquid is gone.",
+          "sources": [
+            "montana-rice"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "microwave",
+      "label": "Microwave (1200-watt oven)",
+      "best": false,
+      "why": {
+        "text": "Choose the microwave when you want rice in about 25 minutes, per Montana's long-grain note.",
+        "sources": [
+          "montana-rice"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "High power until boiling",
+          "min": 5,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Medium power",
+          "min": 15,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "Stand time",
+          "min": 5,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        }
+      ],
+      "equipment": [
+        "2½- to 3-quart deep microwave-safe baking dish"
+      ],
+      "steps": [
+        {
+          "text": "Combine the rice, liquid, salt, and butter in a 2½- to 3-quart deep microwave-safe baking dish and cover tightly.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "Microwave on high for five minutes or until boiling.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "Reduce to medium power and microwave 15 minutes, or until the water is absorbed.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "Let stand five minutes.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Microwave wattages differ, so follow your oven's directions.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        },
+        {
+          "text": "Montana gives 10 minutes high then 15 minutes medium-low for long-grain rice.",
+          "sources": [
+            "montana-rice"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Done when the water is absorbed.",
+          "sources": [
+            "usarice-how-to-cook"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "usarice-how-to-cook",
+      "publisher": "USA Rice",
+      "title": "How To Cook Rice",
+      "url": "https://www.usarice.com/thinkrice/how-to/how-to-cook-rice",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "usarice-how-to-store",
+      "publisher": "USA Rice",
+      "title": "How To Store Rice",
+      "url": "https://www.usarice.com/thinkrice/how-to/how-to-store-rice",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "usu-cooked-rice-sit-out",
+      "publisher": "Utah State University Extension",
+      "title": "How Long Can Cooked Rice Sit Out?",
+      "url": "https://extension.usu.edu/answers/articles/how-long-can-cooked-rice-sit-out",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "montana-rice",
+      "publisher": "Montana State University Extension",
+      "title": "Rice",
+      "url": "https://www.montana.edu/extension/buyeatlivebetter/other_nep_resources/fact_sheets/rice/",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

@@ -86,13 +86,17 @@ export function computeCosmicRequestFingerprint(input: {
   preferredCuisine?: string;
   ingredientsMain?: readonly string[];
   disallowedIngredients?: readonly string[];
+  equipment?: readonly string[];
 }): string {
+  const equipment = [...(input.equipment ?? [])].map((s) => s.trim().toLowerCase()).sort();
   const canonical = {
     prompt: (input.prompt ?? "").trim(),
     diet: (input.diet ?? "omnivore").trim().toLowerCase(),
     preferredCuisine: (input.preferredCuisine ?? "").trim().toLowerCase(),
     ingredientsMain: [...(input.ingredientsMain ?? [])].map((s) => s.trim().toLowerCase()).sort(),
     disallowedIngredients: [...(input.disallowedIngredients ?? [])].map((s) => s.trim().toLowerCase()).sort(),
+    // Left out when empty, so keys claimed before equipment existed still match.
+    ...(equipment.length > 0 ? { equipment } : {}),
   };
   return createHash("sha256").update(JSON.stringify(canonical)).digest("hex");
 }

@@ -1,0 +1,457 @@
+{
+  "id": "sweet-potatoes",
+  "name": "Sweet potatoes",
+  "aliases": [
+    "orange sweet potatoes",
+    "sweet potato",
+    "sweet potatoes"
+  ],
+  "catalogKeys": [
+    "sweet_potato"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Sweet potatoes can be baked, boiled, or microwaved; keep them cool and dry rather than refrigerated.",
+    "sources": [
+      "unl-sweet-potato-tips"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Choose firm, well-shaped sweet potatoes with clean, smooth skins.",
+      "sources": [
+        "hgic-sweet-potato-basics"
+      ]
+    },
+    {
+      "text": "Pick deeper-colored varieties, which are usually better tasting.",
+      "sources": [
+        "usu-sweet-potatoes"
+      ]
+    },
+    {
+      "text": "Avoid cracks, soft spots, and blemishes.",
+      "sources": [
+        "unl-sweet-potato-tips"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Do not refrigerate sweet potatoes.",
+      "sources": [
+        "hgic-sweet-potato-basics"
+      ]
+    },
+    {
+      "text": "Cold can cause dark spots and off-flavors.",
+      "sources": [
+        "hgic-sweet-potato-basics"
+      ]
+    },
+    {
+      "text": "Keep them in a cool, dark, dry place and use within 2 to 3 weeks.",
+      "sources": [
+        "unl-sweet-potato-tips"
+      ]
+    },
+    {
+      "text": "Kept dry and dark at about 55 degrees, they last 3 to 4 weeks.",
+      "sources": [
+        "usu-sweet-potatoes"
+      ]
+    },
+    {
+      "text": "Store cooked sweet potatoes in the refrigerator for 3 to 5 days.",
+      "sources": [
+        "aces-sweet-potatoes"
+      ]
+    },
+    {
+      "text": "Freeze cooked sweet potatoes for up to 10 to 12 months.",
+      "sources": [
+        "aces-sweet-potatoes"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Rinse under cool running water and scrub off dirt.",
+      "sources": [
+        "unl-sweet-potato-tips"
+      ]
+    },
+    {
+      "text": "Peeling is not necessary before cooking.",
+      "sources": [
+        "unl-sweet-potato-tips"
+      ]
+    },
+    {
+      "text": "Prick the skin with a fork before baking or microwaving.",
+      "sources": [
+        "hgic-sweet-potato-basics"
+      ]
+    }
+  ],
+  "substitutions": [
+    {
+      "name": "Regular potatoes",
+      "note": "USU says sweet potatoes can stand in for regular potatoes in almost any use.",
+      "sources": [
+        "usu-sweet-potatoes"
+      ]
+    }
+  ],
+  "safety": [],
+  "methods": [
+    {
+      "id": "oven_bake",
+      "label": "Bake whole",
+      "best": true,
+      "why": {
+        "text": "Baking whole gives a potato you can split open and top after cooking.",
+        "sources": [
+          "aces-sweet-potatoes"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Bake temperature",
+          "min": 400,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "hgic-sweet-potato-basics"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Bake time at 400°F",
+          "min": 40,
+          "max": 50,
+          "unit": "min",
+          "sources": [
+            "hgic-sweet-potato-basics"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Bake time, alternate range",
+          "min": 45,
+          "max": 60,
+          "unit": "min",
+          "sources": [
+            "iastate-sweet-potato"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "Bake temperature, higher heat",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "aces-sweet-potatoes"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Bake time at 425°F",
+          "min": 45,
+          "max": 50,
+          "unit": "min",
+          "sources": [
+            "aces-sweet-potatoes"
+          ]
+        }
+      ],
+      "equipment": [
+        "baking sheet",
+        "aluminum foil",
+        "fork"
+      ],
+      "steps": [
+        {
+          "text": "Pierce the skin several times with a fork.",
+          "sources": [
+            "unl-sweet-potato-tips"
+          ]
+        },
+        {
+          "text": "Place the potato on a foil-lined baking sheet.",
+          "sources": [
+            "iastate-sweet-potato"
+          ]
+        },
+        {
+          "text": "Preheat the oven to 400°F.",
+          "sources": [
+            "hgic-sweet-potato-basics"
+          ]
+        },
+        {
+          "text": "Bake 40-50 minutes until fork tender.",
+          "sources": [
+            "unl-sweet-potato-tips"
+          ]
+        },
+        {
+          "text": "Let it cool to the touch, then split it with a knife.",
+          "sources": [
+            "aces-sweet-potatoes"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "USU suggests a two-stage bake: higher heat first, then 375°F for 45 more minutes.",
+          "sources": [
+            "usu-sweet-potatoes"
+          ]
+        },
+        {
+          "text": "Rub a small amount of oil over the skin before baking.",
+          "sources": [
+            "usu-sweet-potatoes"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The potato is easily pierced with a fork.",
+          "sources": [
+            "usu-sweet-potatoes"
+          ]
+        },
+        {
+          "text": "The flesh is soft when fully baked.",
+          "sources": [
+            "hgic-sweet-potato-basics"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "roast",
+      "label": "Roast cubes",
+      "best": false,
+      "why": {
+        "text": "Choose roasting for cubes; ACES flips them every 10 minutes during about 30 minutes in the oven.",
+        "sources": [
+          "aces-sweet-potatoes"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Roast temperature",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "aces-sweet-potatoes"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Roast time",
+          "min": 30,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "aces-sweet-potatoes"
+          ]
+        }
+      ],
+      "equipment": [
+        "baking dish"
+      ],
+      "steps": [
+        {
+          "text": "Peel and cube the sweet potatoes.",
+          "sources": [
+            "aces-sweet-potatoes"
+          ]
+        },
+        {
+          "text": "Drizzle with olive oil and sprinkle with spices.",
+          "sources": [
+            "aces-sweet-potatoes"
+          ]
+        },
+        {
+          "text": "Spread in an even layer in a baking dish.",
+          "sources": [
+            "aces-sweet-potatoes"
+          ]
+        },
+        {
+          "text": "Preheat oven to 425°F.",
+          "sources": [
+            "aces-sweet-potatoes"
+          ]
+        },
+        {
+          "text": "Roast about 30 minutes, flipping every 10 minutes.",
+          "sources": [
+            "aces-sweet-potatoes"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": []
+    },
+    {
+      "id": "boil",
+      "label": "Boil whole",
+      "best": false,
+      "why": {
+        "text": "Boiling is a water method; Clemson gives 30-45 minutes for whole sweet potatoes.",
+        "sources": [
+          "hgic-sweet-potato-basics"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Whole potato boil",
+          "min": 30,
+          "max": 45,
+          "unit": "min",
+          "sources": [
+            "hgic-sweet-potato-basics"
+          ]
+        }
+      ],
+      "equipment": [
+        "pot"
+      ],
+      "steps": [
+        {
+          "text": "Place whole sweet potatoes in boiling water.",
+          "sources": [
+            "hgic-sweet-potato-basics"
+          ]
+        },
+        {
+          "text": "Cook 30-45 minutes; times vary with size.",
+          "sources": [
+            "hgic-sweet-potato-basics"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": []
+    },
+    {
+      "id": "microwave",
+      "label": "Microwave whole",
+      "best": false,
+      "why": {
+        "text": "Choose the microwave for one potato when you need it quickly; Clemson gives 4-6 minutes for one 8-ounce potato.",
+        "sources": [
+          "hgic-sweet-potato-basics"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "One 8-ounce potato, high power",
+          "min": 4,
+          "max": 6,
+          "unit": "min",
+          "sources": [
+            "hgic-sweet-potato-basics"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Whole potato, general range",
+          "min": 5,
+          "max": 8,
+          "unit": "min",
+          "sources": [
+            "unl-sweet-potato-tips"
+          ]
+        }
+      ],
+      "equipment": [
+        "microwave-safe dish"
+      ],
+      "steps": [
+        {
+          "text": "Pierce the potato 5-6 times with a fork.",
+          "sources": [
+            "iastate-sweet-potato"
+          ]
+        },
+        {
+          "text": "Place it on a microwavable plate.",
+          "sources": [
+            "iastate-sweet-potato"
+          ]
+        },
+        {
+          "text": "Microwave on high 4-6 minutes for one 8-ounce potato.",
+          "sources": [
+            "hgic-sweet-potato-basics"
+          ]
+        },
+        {
+          "text": "Turn it halfway through the cooking time.",
+          "sources": [
+            "unl-sweet-potato-tips"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "The potato is tender and easily pierced with a fork.",
+          "sources": [
+            "usu-sweet-potatoes"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "hgic-sweet-potato-basics",
+      "publisher": "Clemson Cooperative Extension, HGIC",
+      "title": "Sweetpotato Basics",
+      "url": "https://hgic.clemson.edu/factsheet/sweet-potato-basics/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "aces-sweet-potatoes",
+      "publisher": "Alabama Cooperative Extension System",
+      "title": "Tasty Tidbits: Sweet Potatoes",
+      "url": "https://www.aces.edu/blog/topics/home-family/tasty-tidbits-sweet-potatoes/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "unl-sweet-potato-tips",
+      "publisher": "University of Nebraska-Lincoln Extension",
+      "title": "Sweet Potato Selection, Storage, and Prep Tips",
+      "url": "https://food.unl.edu/article/healthy-bites/sweet-potato-selection-storage-and-prep-tips",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "iastate-sweet-potato",
+      "publisher": "Iowa State University Extension, Spend Smart. Eat Smart.",
+      "title": "Sweet Potato",
+      "url": "https://spendsmart.extension.iastate.edu/produce-item/sweet-potato-2/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "usu-sweet-potatoes",
+      "publisher": "Utah State University Extension",
+      "title": "Fruit and Vegetable Guide Series: Sweet Potatoes",
+      "url": "https://extension.usu.edu/nutrition/research/sweet-potatoes.php",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

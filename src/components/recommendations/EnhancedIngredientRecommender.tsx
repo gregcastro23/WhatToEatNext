@@ -14,6 +14,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
+import { CulinaryCardButton } from "@/components/ingredients/culinary/CulinaryCardButton";
 import { useAlchemical } from "@/contexts/AlchemicalContext/hooks";
 import {
   calculateKalchm,
@@ -699,6 +700,9 @@ interface ElementCardTone {
 }
 
 /** Named so the `?? ELEMENT_CARD_TONES.Unknown` fallbacks resolve to a value. */
+const COMPACT_CARD_BUTTON =
+  "mt-2 inline-flex min-h-9 w-full items-center justify-center gap-1.5 rounded-lg border border-white/15 bg-white/[0.04] px-3 py-2 text-xs font-semibold text-slate-100 transition-colors hover:border-amber-300/40";
+
 const UNKNOWN_CARD_TONE: ElementCardTone = {
   ring: "border-slate-300/30 shadow-black/30",
   chip: "bg-slate-500/15 text-slate-100 border-slate-300/25",
@@ -2746,6 +2750,7 @@ export const EnhancedIngredientRecommender: React.FC<
               </>
             )}
           </button>
+          <CulinaryCardButton name={ingredient.name} title={displayName} className={COMPACT_CARD_BUTTON} />
         </div>
       </motion.article>
     );

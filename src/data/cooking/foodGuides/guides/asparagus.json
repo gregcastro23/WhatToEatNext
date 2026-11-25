@@ -1,0 +1,347 @@
+{
+  "id": "asparagus",
+  "name": "Asparagus",
+  "aliases": [
+    "asparagus spears",
+    "asparagus stalks",
+    "fresh asparagus",
+    "green asparagus"
+  ],
+  "catalogKeys": [
+    "asparagus"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Asparagus suits steaming, roasting, stir-frying and microwaving, according to UNL Extension.",
+    "sources": [
+      "unl-asparagus"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Pick stalks that are not limp or wilted, with odorless, dry, compact, closed tips.",
+      "sources": [
+        "unl-asparagus"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Wrap the cut ends of unwashed stalks in a damp paper towel and keep them in a plastic bag.",
+      "sources": [
+        "unl-asparagus"
+      ]
+    },
+    {
+      "text": "Refrigerate asparagus for up to four days.",
+      "sources": [
+        "unl-asparagus"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Rinse produce under running tap water, including items you will peel.",
+      "sources": [
+        "ndsu-pocket-guide"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [],
+  "methods": [
+    {
+      "id": "roast",
+      "label": "Roast",
+      "best": true,
+      "why": {
+        "text": "Roasting at 425 F takes 12 to 15 minutes and can be finished with lemon or Parmesan for flavor.",
+        "sources": [
+          "ndsu-pocket-guide"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Roast oven temperature",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Roast time",
+          "min": 12,
+          "max": 15,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "equipment": [
+        "Baking sheet",
+        "Aluminum foil (optional)"
+      ],
+      "steps": [
+        {
+          "text": "Preheat the oven to 425 F and set out a baking sheet, foil-lined for easier cleanup if you like.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Spread the spears in a single layer on the sheet.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Coat with olive oil, then sprinkle with a pinch of salt and pepper.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Roast for 12 to 15 minutes until tender.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Finish with lemon juice or grated Parmesan after roasting.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Done when the spears are tender.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "steam",
+      "label": "Steam",
+      "best": false,
+      "why": {
+        "text": "Choose steaming for a quick, plain side that you season after cooking.",
+        "sources": [
+          "ndsu-pocket-guide"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Steam time",
+          "min": 3,
+          "max": 8,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "equipment": [
+        "Pot with lid",
+        "Steamer insert or basket"
+      ],
+      "steps": [
+        {
+          "text": "Add about an inch of water to a pot fitted with a steamer insert and bring it to a boil.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Cover the pot and steam the spears.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Steam until the thickest stalks can be pierced, about 3 to 8 minutes depending on thickness.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "Pierce the thickest stalk with a sharp knife to test.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grill",
+      "label": "Grill (grill pan)",
+      "best": false,
+      "why": {
+        "text": "Choose a grill pan when you want garlic-oil flavor in about five minutes.",
+        "sources": [
+          "ndsu-pocket-guide"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Grill pan time",
+          "min": 5,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Grill, saute, broil or air-fry time range",
+          "min": 5,
+          "max": 8,
+          "unit": "min",
+          "sources": [
+            "unl-asparagus"
+          ]
+        }
+      ],
+      "equipment": [
+        "Grill pan",
+        "Tongs"
+      ],
+      "steps": [
+        {
+          "text": "Mix oil with garlic and drizzle it over the asparagus.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Grill on the grill pan for about 5 minutes, turning with tongs.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Cook until tender but not mushy.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "UNL gives 5 to 8 minutes for coated asparagus, depending on thickness.",
+          "sources": [
+            "unl-asparagus"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook until tender but not mushy.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boil",
+      "label": "Blanch (for freezing)",
+      "best": false,
+      "why": {
+        "text": "Blanch asparagus before freezing; blanching slows enzyme action that dulls flavor, color and texture.",
+        "sources": [
+          "nchfp-blanching"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Blanch time by stalk size (small, medium, large)",
+          "min": 2,
+          "max": 4,
+          "unit": "min",
+          "sources": [
+            "nchfp-blanching"
+          ]
+        }
+      ],
+      "equipment": [
+        "Blanching basket or wire basket",
+        "Large pot with lid"
+      ],
+      "steps": [
+        {
+          "text": "Use about one gallon of water for each pound of asparagus and bring it to a vigorous boil.",
+          "sources": [
+            "nchfp-blanching"
+          ]
+        },
+        {
+          "text": "Once the water returns to a boil, start timing.",
+          "sources": [
+            "nchfp-blanching"
+          ]
+        },
+        {
+          "text": "Blanch small stalks 2 minutes, medium 3 and large 4.",
+          "sources": [
+            "nchfp-blanching"
+          ]
+        },
+        {
+          "text": "Cool at once in cold water at 60°F or below, or in ice water.",
+          "sources": [
+            "nchfp-blanching"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Drain thoroughly after cooling, since extra moisture lowers quality in frozen vegetables.",
+          "sources": [
+            "nchfp-blanching"
+          ]
+        }
+      ],
+      "doneness": []
+    }
+  ],
+  "sources": [
+    {
+      "id": "ndsu-pocket-guide",
+      "publisher": "North Dakota State University Extension",
+      "title": "A Pocket Guide to Preparing Fruits and Vegetables (FN1955)",
+      "url": "https://www.ndsu.edu/agriculture/extension/publications/pocket-guide-preparing-fruits-and-vegetables",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "unl-asparagus",
+      "publisher": "University of Nebraska-Lincoln Extension, UNL Food",
+      "title": "Asparagus",
+      "url": "https://food.unl.edu/article/asparagus",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "nchfp-blanching",
+      "publisher": "National Center for Home Food Preservation (University of Georgia)",
+      "title": "Blanching Vegetables",
+      "url": "https://nchfp.uga.edu/how/freeze/freeze-general-information/blanching-vegetables/",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

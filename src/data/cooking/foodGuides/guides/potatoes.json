@@ -1,0 +1,683 @@
+{
+  "id": "potatoes",
+  "name": "Potatoes",
+  "aliases": [
+    "baked potato",
+    "new potatoes",
+    "potato",
+    "potatoes",
+    "red potatoes",
+    "russet potatoes",
+    "yellow potatoes"
+  ],
+  "catalogKeys": [
+    "potato"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Potatoes can be baked, roasted, boiled, air fried or microwaved; store them cool and dark, not refrigerated.",
+    "sources": [
+      "potatogoodness-how-to-cook"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Pick potatoes of similar size that feel firm, dry, and clean.",
+      "sources": [
+        "purdue-foodlink-potato"
+      ]
+    },
+    {
+      "text": "Choose russets for baking.",
+      "sources": [
+        "purdue-foodlink-potato"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Store potatoes in a cool, dark place; do not refrigerate them.",
+      "sources": [
+        "purdue-foodlink-potato"
+      ]
+    },
+    {
+      "text": "The best spot is a dark cupboard in a brown paper bag.",
+      "sources": [
+        "purdue-foodlink-potato"
+      ]
+    },
+    {
+      "text": "Use new or young potatoes within 2 weeks.",
+      "sources": [
+        "purdue-foodlink-potato"
+      ]
+    },
+    {
+      "text": "Thick-skinned storage potatoes keep for up to 1 month.",
+      "sources": [
+        "purdue-foodlink-potato"
+      ]
+    },
+    {
+      "text": "Refrigerate cooked leftover potatoes promptly in shallow containers at 40°F.",
+      "sources": [
+        "ndsu-lets-enjoy-potatoes"
+      ]
+    },
+    {
+      "text": "Use cooked leftover potatoes within three days.",
+      "sources": [
+        "ndsu-lets-enjoy-potatoes"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Scrub potatoes under cold running water before preparing them.",
+      "sources": [
+        "purdue-foodlink-potato"
+      ]
+    },
+    {
+      "text": "Cut away green-tinged skin, flesh, sprouts, and nubs before cooking.",
+      "sources": [
+        "purdue-foodlink-potato"
+      ]
+    },
+    {
+      "text": "For boiling, start the potatoes in cold water.",
+      "sources": [
+        "purdue-foodlink-potato"
+      ]
+    },
+    {
+      "text": "Do not wrap baked potatoes in foil; the foil traps water and blocks crisping.",
+      "sources": [
+        "potatogoodness-how-to-cook"
+      ]
+    },
+    {
+      "text": "For extra crispy skin on baked potatoes, dunk them in saltwater before baking.",
+      "sources": [
+        "potatogoodness-how-to-cook"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Cut away green spots and sprouts before cooking.",
+      "sources": [
+        "potatogoodness-how-to-cook"
+      ]
+    },
+    {
+      "text": "Greened potatoes do not necessarily need to be discarded.",
+      "sources": [
+        "uaf-green-potatoes"
+      ]
+    },
+    {
+      "text": "Peeling removes much of the solanine, and steaming or boiling cuts it by 30 to 40 percent.",
+      "sources": [
+        "uaf-green-potatoes"
+      ]
+    },
+    {
+      "text": "A bitter taste is a sign that solanine is present.",
+      "sources": [
+        "uaf-green-potatoes"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "oven_bake",
+      "label": "Oven bake (whole)",
+      "best": true,
+      "why": {
+        "text": "Baking russets gives a fluffy interior with crispy skin.",
+        "sources": [
+          "potatogoodness-how-to-cook"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Bake temperature",
+          "min": 400,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "ndsu-lets-enjoy-potatoes"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Bake time at 400°F",
+          "min": 40,
+          "max": 45,
+          "unit": "min",
+          "sources": [
+            "ndsu-lets-enjoy-potatoes"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Bake time at 400°F, longer range",
+          "min": 45,
+          "max": 60,
+          "unit": "min",
+          "sources": [
+            "purdue-foodlink-potato"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "Higher heat option",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        }
+      ],
+      "equipment": [
+        "oven",
+        "fork",
+        "rack"
+      ],
+      "steps": [
+        {
+          "text": "Wash the potatoes and pierce them in several places with a fork.",
+          "sources": [
+            "ndsu-lets-enjoy-potatoes"
+          ]
+        },
+        {
+          "text": "Preheat the oven to 400°F.",
+          "sources": [
+            "ndsu-lets-enjoy-potatoes"
+          ]
+        },
+        {
+          "text": "Set the potatoes on a rack rather than directly on a baking sheet.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "text": "Bake about 40 to 45 minutes until soft.",
+          "sources": [
+            "ndsu-lets-enjoy-potatoes"
+          ]
+        },
+        {
+          "text": "Test with a fork; it should meet little resistance when done.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Skip foil; it traps moisture and keeps the skin from crisping.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "text": "Dunk potatoes in saltwater before baking for crisper skin.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The potato is soft when baked.",
+          "sources": [
+            "ndsu-lets-enjoy-potatoes"
+          ]
+        },
+        {
+          "text": "A fork meets little resistance.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "text": "A taste test confirms doneness.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "roast",
+      "label": "Roast (1-inch pieces)",
+      "best": false,
+      "why": {
+        "text": "Choose roasting for yellow potatoes when you want more flavor and a crispy exterior.",
+        "sources": [
+          "potatogoodness-how-to-cook"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "size",
+          "label": "Piece size",
+          "min": 1,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "Roast temperature",
+          "min": 450,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Roast time at 450°F",
+          "min": 20,
+          "max": 25,
+          "unit": "min",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "Roast temperature, lower",
+          "min": 400,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Roast time at 400°F",
+          "min": 30,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        }
+      ],
+      "equipment": [
+        "roasting pan"
+      ],
+      "steps": [
+        {
+          "text": "Cut the potatoes into similar-sized pieces.",
+          "sources": [
+            "purdue-foodlink-potato"
+          ]
+        },
+        {
+          "text": "Toss with 1-2 tablespoons of oil, salt, pepper, and rosemary to taste.",
+          "sources": [
+            "purdue-foodlink-potato"
+          ]
+        },
+        {
+          "text": "Heat the oven to 450°F.",
+          "sources": [
+            "purdue-foodlink-potato"
+          ]
+        },
+        {
+          "text": "Spread the pieces in a single layer on a roasting pan.",
+          "sources": [
+            "purdue-foodlink-potato"
+          ]
+        },
+        {
+          "text": "Roast 20-25 minutes at 450°F.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "text": "At 400°F, roast about 30 minutes instead.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Stir partway through roasting, as Purdue's method suggests.",
+          "sources": [
+            "purdue-foodlink-potato"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Check with a taste test.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boil",
+      "label": "Boil",
+      "best": false,
+      "why": {
+        "text": "Boiling suits potatoes for salads or mashing; start them in cold water.",
+        "sources": [
+          "purdue-foodlink-potato"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Baby or 1-inch diced",
+          "min": 12,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Small or 2-inch diced",
+          "min": 15,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Medium or 3-inch diced",
+          "min": 20,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        }
+      ],
+      "equipment": [
+        "pot"
+      ],
+      "steps": [
+        {
+          "text": "Cover the potatoes with cold water in a pot.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "text": "Bring to a boil, then cook at a rapid simmer until the potatoes are soft enough to slice.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "text": "Time pieces about 12 minutes for baby or 1-inch diced potatoes.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "text": "Start timing once the water reaches a boil.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "text": "Drain and let the potatoes rest a few minutes while still warm.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Add salt to the water; potatoes absorb seasonings added while they boil.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "text": "Do not over-boil: long boiling makes potatoes fall apart.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The potatoes are soft enough to slice with no resistance.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "air_fry",
+      "label": "Air fryer (whole)",
+      "best": false,
+      "why": {
+        "text": "Air frying suits petite potatoes as a quick, convenient method.",
+        "sources": [
+          "potatogoodness-how-to-cook"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Air fryer temperature",
+          "min": 400,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "potatogoodness-air-fryer-baked-potato"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Air fry time",
+          "min": 30,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "potatogoodness-air-fryer-baked-potato"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Done temperature",
+          "min": 205,
+          "max": 215,
+          "unit": "°F",
+          "sources": [
+            "potatogoodness-air-fryer-baked-potato"
+          ]
+        }
+      ],
+      "equipment": [
+        "air fryer basket"
+      ],
+      "steps": [
+        {
+          "text": "Preheat the air fryer to 400°F.",
+          "sources": [
+            "potatogoodness-air-fryer-baked-potato"
+          ]
+        },
+        {
+          "text": "Pierce the potatoes with the tip of a knife in random places.",
+          "sources": [
+            "potatogoodness-air-fryer-baked-potato"
+          ]
+        },
+        {
+          "text": "Place in the basket and cook 30 minutes, or until the internal temperature reaches 205°F.",
+          "sources": [
+            "potatogoodness-air-fryer-baked-potato"
+          ]
+        },
+        {
+          "text": "Brush with oil, season with salt, and return to the air fryer for 1-2 minutes.",
+          "sources": [
+            "potatogoodness-air-fryer-baked-potato"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Time varies with potato size and with microwave wattage if you pre-microwave.",
+          "sources": [
+            "potatogoodness-air-fryer-baked-potato"
+          ]
+        },
+        {
+          "text": "Larger potatoes take longer in the air fryer.",
+          "sources": [
+            "potatogoodness-air-fryer-baked-potato"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The internal temperature reaches 205°F to 215°F.",
+          "sources": [
+            "potatogoodness-air-fryer-baked-potato"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "microwave",
+      "label": "Microwave",
+      "best": false,
+      "why": {
+        "text": "Choose the microwave when speed matters most; Potatoes USA calls it the fastest cooking method.",
+        "sources": [
+          "potatogoodness-how-to-cook"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Large potato",
+          "min": 6,
+          "max": 8,
+          "unit": "min",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Pierced potato reference",
+          "min": 10,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "purdue-foodlink-potato"
+          ]
+        }
+      ],
+      "equipment": [
+        "microwave"
+      ],
+      "steps": [
+        {
+          "text": "Pierce the unpeeled potato.",
+          "sources": [
+            "purdue-foodlink-potato"
+          ]
+        },
+        {
+          "text": "Microwave a large potato for 6 to 8 minutes.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        },
+        {
+          "text": "Microwave until tender.",
+          "sources": [
+            "purdue-foodlink-potato"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Microwaved potatoes may cook unevenly, come out dry, or get a tough skin.",
+          "sources": [
+            "potatogoodness-how-to-cook"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The potato is tender.",
+          "sources": [
+            "purdue-foodlink-potato"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "potatogoodness-how-to-cook",
+      "publisher": "Potatoes USA",
+      "title": "How to Cook Potatoes Perfectly!",
+      "url": "https://potatogoodness.com/how-to-cook-potatoes/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "ndsu-lets-enjoy-potatoes",
+      "publisher": "North Dakota State University Extension",
+      "title": "Let's Enjoy Potatoes!",
+      "url": "https://www.ndsu.edu/agriculture/extension/publications/lets-enjoy-potatoes",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "purdue-foodlink-potato",
+      "publisher": "Purdue Extension FoodLink",
+      "title": "potato",
+      "url": "https://extension.purdue.edu/foodlink/food.php?food=potato",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "uaf-green-potatoes",
+      "publisher": "University of Alaska Fairbanks Cooperative Extension",
+      "title": "Green Potatoes Causes and Concerns",
+      "url": "https://www.uaf.edu/ces/publications/database/food/greening-of-potatoes.php",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "potatogoodness-air-fryer-baked-potato",
+      "publisher": "Potatoes USA",
+      "title": "Air Fryer Baked Potato Recipe",
+      "url": "https://potatogoodness.com/recipes/air-fryer-baked-potato/",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+/** Kitchen equipment offered by the homepage recipe bar; a cook can add more. */
+export const COMMON_EQUIPMENT: readonly string[] = [
+  "Stovetop",
+  "Oven",
+  "Sheet pan",
+  "Skillet",
+  "Cast-iron skillet",
+  "Saucepan",
+  "Stockpot",
+  "Dutch oven",
+  "Wok",
+  "Grill",
+  "Air fryer",
+  "Microwave",
+  "Slow cooker",
+  "Pressure cooker",
+  "Rice cooker",
+  "Blender",
+  "Food processor",
+  "Stand mixer",
+];

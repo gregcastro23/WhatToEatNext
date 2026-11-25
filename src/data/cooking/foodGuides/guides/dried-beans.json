@@ -1,0 +1,467 @@
+{
+  "id": "dried-beans",
+  "name": "Dried beans",
+  "aliases": [
+    "dried beans",
+    "dried chickpeas",
+    "dried kidney beans",
+    "dry beans",
+    "dry black beans",
+    "dry chickpeas",
+    "dry kidney beans"
+  ],
+  "catalogKeys": [
+    "black_beans",
+    "pinto_beans",
+    "kidney_beans",
+    "great_northern_beans",
+    "dried_navy_beans"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "One pound of dry beans yields about six cups cooked; soak them for stovetop cooking, or pressure cook them unsoaked.",
+    "sources": [
+      "unl-dry-beans"
+    ]
+  },
+  "selection": [],
+  "storage": [
+    {
+      "text": "Refrigerate cooked beans in shallow containers and use within 3 to 4 days.",
+      "sources": [
+        "unl-dry-beans"
+      ]
+    },
+    {
+      "text": "Freeze any extra cooked beans within 4 days of cooking.",
+      "sources": [
+        "unl-dry-beans"
+      ]
+    },
+    {
+      "text": "Refrigerate boiled kidney beans covered for up to 4 days.",
+      "sources": [
+        "illinois-kidney-beans"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Sort through the beans and discard discolored, shriveled or foreign material.",
+      "sources": [
+        "unl-dry-beans"
+      ]
+    },
+    {
+      "text": "For a hot soak, add 10 cups of water per pound of beans and bring to a boil.",
+      "sources": [
+        "unl-dry-beans"
+      ]
+    },
+    {
+      "text": "For a hot soak, boil 2 to 3 minutes, then cover and soak up to 4 hours. For red kidney beans, soak at least 5 hours instead.",
+      "sources": [
+        "unl-dry-beans",
+        "fda-natural-toxins"
+      ]
+    },
+    {
+      "text": "For a quick soak, boil 2 to 3 minutes, then cover and let stand at least 1 hour. Do not use this for red kidney beans, which need at least 5 hours of soaking.",
+      "sources": [
+        "unl-dry-beans",
+        "fda-natural-toxins"
+      ]
+    },
+    {
+      "text": "For an overnight soak, cover and refrigerate for 8 hours or overnight.",
+      "sources": [
+        "unl-dry-beans"
+      ]
+    },
+    {
+      "text": "Lentils, split peas and black-eyed peas do not need soaking.",
+      "sources": [
+        "unl-dry-beans"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Phytohaemagglutinin (PHA) is a lectin in raw or undercooked beans that can cause severe illness.",
+      "sources": [
+        "fda-natural-toxins"
+      ]
+    },
+    {
+      "text": "Soak red kidney beans for a minimum of 5 hours before cooking.",
+      "sources": [
+        "fda-natural-toxins"
+      ]
+    },
+    {
+      "text": "Boil soaked red kidney beans in fresh water for at least 30 minutes to destroy PHA.",
+      "sources": [
+        "fda-natural-toxins"
+      ]
+    },
+    {
+      "text": "Do not cook raw kidney beans in a slow cooker; it may increase toxicity.",
+      "sources": [
+        "illinois-kidney-beans"
+      ]
+    },
+    {
+      "text": "Canned kidney beans need no extra boiling because they are precooked.",
+      "sources": [
+        "illinois-kidney-beans"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "simmer",
+      "label": "Stovetop simmer",
+      "best": true,
+      "why": {
+        "text": "Simmering lets you taste for doneness as the beans cook.",
+        "sources": [
+          "unl-dry-beans"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Black beans simmer time",
+          "min": 60,
+          "max": 90,
+          "unit": "min",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Great Northern beans simmer time",
+          "min": 45,
+          "max": 60,
+          "unit": "min",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Kidney beans simmer time",
+          "min": 90,
+          "max": 120,
+          "unit": "min",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Navy beans simmer time",
+          "min": 90,
+          "max": 120,
+          "unit": "min",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Pinto beans simmer time",
+          "min": 90,
+          "max": 120,
+          "unit": "min",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Chickpea simmer time",
+          "min": 60,
+          "max": 90,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "kind": "ratio",
+          "label": "Hot-soak water ratio",
+          "min": 10,
+          "max": null,
+          "unit": "cup",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "ratio",
+          "label": "Quick-soak water ratio",
+          "min": 6,
+          "max": null,
+          "unit": "cup",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Overnight soak time",
+          "min": 8,
+          "max": null,
+          "unit": "hr",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        }
+      ],
+      "equipment": [
+        "Large pot with lid",
+        "Colander"
+      ],
+      "steps": [
+        {
+          "text": "Drain and rinse the soaked beans with fresh, cool water.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "text": "Place the beans in a large pot, cover with fresh water and bring to a boil. For red kidney beans, boil briskly for at least 30 minutes before simmering.",
+          "sources": [
+            "illinois-kidney-beans",
+            "fda-natural-toxins"
+          ]
+        },
+        {
+          "text": "Reduce the heat, cover, and simmer gently until tender but firm, using the time for each bean type.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "text": "Drain immediately when done.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Add acidic foods such as lemon juice, vinegar or tomatoes only after the beans are cooked.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "text": "Add herbs and spices toward the end of cooking to reduce flavor loss.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook until tender but still firm.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pressure_cook",
+      "label": "Pressure cook (unsoaked)",
+      "best": false,
+      "why": {
+        "text": "Choose a pressure cooker for a shorter cook; UNL lists 15 to 20 minutes for pinto beans.",
+        "sources": [
+          "unl-dry-beans"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Black beans pressure time",
+          "min": 20,
+          "max": 30,
+          "unit": "min",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Navy beans pressure time",
+          "min": 25,
+          "max": 35,
+          "unit": "min",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Pinto beans pressure time",
+          "min": 15,
+          "max": 20,
+          "unit": "min",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Natural pressure release",
+          "min": 20,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Re-cook time if beans are not tender",
+          "min": 10,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "size",
+          "label": "Water per pound of beans",
+          "min": 6,
+          "max": null,
+          "unit": "cup",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "kind": "ratio",
+          "label": "Oil per pound of beans",
+          "min": 1,
+          "max": 4,
+          "unit": "tbsp",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        }
+      ],
+      "equipment": [
+        "Electric pressure cooker"
+      ],
+      "steps": [
+        {
+          "text": "Pick through the beans, discard damaged ones, and rinse well.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "text": "Cover the beans with about 6 cups of fresh water.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "text": "Keep at least 2 inches of water above the beans and the cooker no more than half full.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "text": "Add 1 to 4 tablespoons of oil and up to 1 tablespoon of salt per pound of beans.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "text": "Seal the cooker and cook for the time listed for the bean type, following the manual.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "text": "Allow 20 minutes for natural pressure release.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "text": "If the beans are not tender, cook 10 more minutes on high and then quick-release.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Do not use this unsoaked method for red kidney beans: they need at least a 5-hour soak, then at least 30 minutes of boiling.",
+          "sources": [
+            "fda-natural-toxins"
+          ]
+        },
+        {
+          "text": "Presoaking is not always necessary in a pressure cooker, according to NDSU testing.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        },
+        {
+          "text": "Follow your cooker's manufacturer instructions, since models differ.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Beans should be tender but not mushy.",
+          "sources": [
+            "unl-dry-beans"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "unl-dry-beans",
+      "publisher": "University of Nebraska-Lincoln Extension, UNL Food",
+      "title": "How to Cook Dry Beans from Scratch",
+      "url": "https://food.unl.edu/article/how-cook-dry-beans-scratch",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "ndsu-pocket-guide",
+      "publisher": "North Dakota State University Extension",
+      "title": "A Pocket Guide to Preparing Fruits and Vegetables (FN1955)",
+      "url": "https://www.ndsu.edu/agriculture/extension/publications/pocket-guide-preparing-fruits-and-vegetables",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fda-natural-toxins",
+      "publisher": "US Food and Drug Administration",
+      "title": "Natural Toxins in Food",
+      "url": "https://www.fda.gov/food/chemical-contaminants-pesticides/natural-toxins-food",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "illinois-kidney-beans",
+      "publisher": "University of Illinois Extension",
+      "title": "Kidney Beans and Slow Cookers",
+      "url": "https://extension.illinois.edu/blogs/live-well-eat-well/2024-02-29-kidney-beans-and-slow-cookers",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

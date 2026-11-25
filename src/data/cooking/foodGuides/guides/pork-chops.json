@@ -1,0 +1,524 @@
+{
+  "id": "pork-chops",
+  "name": "Pork chops",
+  "aliases": [
+    "bone-in pork chops",
+    "boneless pork chops",
+    "pork chops",
+    "pork loin chops"
+  ],
+  "catalogKeys": [
+    "pork"
+  ],
+  "safetyClass": "whole_meat",
+  "summary": {
+    "text": "Pork chops come from the loin and range from about ½ to 2 inches thick; cook them to 145°F with a 3-minute rest.",
+    "sources": [
+      "pork-chops-pork-board"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Bone-in chops often provide the most flavor because the fat and bone help keep the meat moist.",
+      "sources": [
+        "pork-chops-pork-board"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Refrigerated raw pork chops keep 2-4 days, according to Pork Board's table.",
+      "sources": [
+        "pork-buying-storing"
+      ]
+    },
+    {
+      "text": "Frozen pork chops keep 3-6 months, according to the same table.",
+      "sources": [
+        "pork-buying-storing"
+      ]
+    },
+    {
+      "text": "Wrapped pork for the freezer should be held at 0°F or lower.",
+      "sources": [
+        "pork-buying-storing"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Thaw pork in the refrigerator, still in its wrapping.",
+      "sources": [
+        "pork-buying-storing"
+      ]
+    },
+    {
+      "text": "A one-inch thick chop needs about 12-14 hours to thaw in the refrigerator.",
+      "sources": [
+        "pork-buying-storing"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Cook chops to at least 145°F, then rest them 3 minutes before eating.",
+      "sources": [
+        "pork-safety-tips"
+      ]
+    },
+    {
+      "text": "Check the internal temperature in the thickest part of the chop.",
+      "sources": [
+        "pork-safety-tips"
+      ]
+    },
+    {
+      "text": "Never thaw pork at room temperature.",
+      "sources": [
+        "pork-safety-tips"
+      ]
+    },
+    {
+      "text": "Do not leave raw pork at room temperature for more than two hours before refrigerating or freezing it.",
+      "sources": [
+        "pork-safety-tips"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "oven_bake",
+      "label": "Oven bake at 425°F",
+      "best": true,
+      "why": {
+        "text": "Pork Board calls oven baking about as easy as a dinner can get, which suits a weeknight meal.",
+        "sources": [
+          "pork-chops-pork-board"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Oven temperature",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Bake time (chop thickness not stated)",
+          "min": 10,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Finish time after searing in a pan",
+          "min": 6,
+          "max": 8,
+          "unit": "min",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Internal temperature",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "Rest after cooking",
+          "min": 3,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        }
+      ],
+      "equipment": [
+        "baking sheet",
+        "digital meat thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Heat the oven to 425°F.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
+        {
+          "text": "Bake the chops for about 10 minutes.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
+        {
+          "text": "For a sear-first version, brown the chops in a pan, then move them to a baking sheet for 6 to 8 more minutes.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
+        {
+          "text": "Cook until the thickest part reads 145°F, then let the chops rest 3 minutes.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Cook by temperature with a digital meat thermometer rather than by time alone.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Pull the chops when the internal temperature reaches 145°F, then rest 3 minutes.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pan_fry",
+      "label": "Sear in a pan, then finish on a baking sheet",
+      "best": false,
+      "why": {
+        "text": "Choose this route when you want browning in a pan before finishing in the oven; Pork Board presents it as an extra step.",
+        "sources": [
+          "pork-chops-pork-board"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Finish time after searing",
+          "min": 6,
+          "max": 8,
+          "unit": "min",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Internal temperature",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "Rest",
+          "min": 3,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        }
+      ],
+      "equipment": [
+        "skillet",
+        "baking sheet",
+        "digital meat thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Sear the chops in a pan first.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
+        {
+          "text": "Transfer the chops to a baking sheet and cook for 6 to 8 more minutes.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
+        {
+          "text": "Cook to 145°F, then rest 3 minutes.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "Check the thickest part for 145°F before resting.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grill",
+      "label": "Grill over direct medium heat",
+      "best": false,
+      "why": {
+        "text": "Grilling suits summer cookouts and weeknight dinners, according to Pork Board.",
+        "sources": [
+          "pork-chops-pork-board"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Bone-in or boneless chop, about 3/4-inch thick",
+          "min": 8,
+          "max": 12,
+          "unit": "min",
+          "sources": [
+            "pork-grilling"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Bone-in chop, 1 1/2-inch (Pork Board table)",
+          "min": 22,
+          "max": 35,
+          "unit": "min",
+          "sources": [
+            "pork-grilling"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Boneless chop, 1 1/2-inch (Pork Board table)",
+          "min": 12,
+          "max": 22,
+          "unit": "min",
+          "sources": [
+            "pork-grilling"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Internal temperature",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "Rest",
+          "min": 3,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        }
+      ],
+      "equipment": [
+        "grill",
+        "tongs or spatula",
+        "digital meat thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Grill over direct, medium heat, turning once halfway through.",
+          "sources": [
+            "pork-grilling"
+          ]
+        },
+        {
+          "text": "Grill about 8 to 12 minutes for 3/4-inch chops, per Pork Board's grilling table.",
+          "sources": [
+            "pork-grilling"
+          ]
+        },
+        {
+          "text": "Take the chops off at 145°F and rest them 3 minutes.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Use spatulas or tongs rather than sharp utensils, so the juices stay in the meat.",
+          "sources": [
+            "pork-grilling"
+          ]
+        },
+        {
+          "text": "Sugar-based sauces burn if applied early; brush them on during the last few minutes.",
+          "sources": [
+            "pork-grilling"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook to an internal temperature of 145°F, then rest 3 minutes.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "broil",
+      "label": "Broil",
+      "best": false,
+      "why": {
+        "text": "Pork Board names pork chops as a good fit for broiling to add a crisp crust.",
+        "sources": [
+          "pork-broiling"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "size",
+          "label": "Rack distance from broiler element",
+          "min": 4,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "pork-broiling"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Broil time (general pork, not chop-specific)",
+          "min": 3,
+          "max": 18,
+          "unit": "min",
+          "sources": [
+            "pork-broiling"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Internal temperature",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "pork-broiling"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "Rest",
+          "min": 3,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "pork-broiling"
+          ]
+        }
+      ],
+      "equipment": [
+        "broiler",
+        "broiler pan or sheet",
+        "instant-read thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Set the rack so the top of the chops sits about four inches from the element.",
+          "sources": [
+            "pork-broiling"
+          ]
+        },
+        {
+          "text": "Broil on a broiler pan or sheet; a shallow baking dish or cookie sheet also works.",
+          "sources": [
+            "pork-broiling"
+          ]
+        },
+        {
+          "text": "Broil for roughly 3 to 18 minutes, depending on cut and broiler.",
+          "sources": [
+            "pork-broiling"
+          ]
+        },
+        {
+          "text": "Check for 145°F with a 3-minute rest.",
+          "sources": [
+            "pork-broiling"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Broiling times vary by cut, altitude, and broiler type, so rely on a thermometer.",
+          "sources": [
+            "pork-broiling"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook to 145°F, then rest 3 minutes.",
+          "sources": [
+            "pork-broiling"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "pork-chops-pork-board",
+      "publisher": "National Pork Board",
+      "title": "Learn How to Bake, Fry, and Grill Pork Chops",
+      "url": "https://pork.org/cuts/pork-chops/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "pork-grilling",
+      "publisher": "Pork.org (National Pork Board)",
+      "title": "Grilling Pork",
+      "url": "https://pork.org/cooking-techniques/grilling-pork/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "pork-broiling",
+      "publisher": "Pork.org (National Pork Board)",
+      "title": "Achieve Maximum Crispiness by Broiling Pork",
+      "url": "https://pork.org/cooking-techniques/broiling-pork/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "pork-buying-storing",
+      "publisher": "National Pork Board",
+      "title": "Buying, Handling, and Storing Pork",
+      "url": "https://pork.org/buying-handling-and-storing-pork/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "pork-safety-tips",
+      "publisher": "National Pork Board",
+      "title": "Pork Safety Tips for Cooking & Serving Food",
+      "url": "https://pork.org/pork-safety/",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

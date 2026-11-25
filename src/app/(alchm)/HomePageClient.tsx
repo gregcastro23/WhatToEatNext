@@ -110,6 +110,22 @@ const EnhancedCookingMethodRecommender = dynamic(
   { loading: () => <SectionLoader label="Loading cooking methods…" /> },
 );
 
+/* Each section's search, loaded with its section. */
+const CuisineRecipeSearch = dynamic(
+  () => import("@/components/home/search/CuisineRecipeSearch").then((mod) => mod.CuisineRecipeSearch),
+  { loading: () => <SectionLoader label="Loading recipe search…" /> },
+);
+
+const IngredientRecipeBar = dynamic(
+  () => import("@/components/home/search/IngredientRecipeBar").then((mod) => mod.IngredientRecipeBar),
+  { loading: () => <SectionLoader label="Loading recipe builder…" /> },
+);
+
+const MethodGuideSearch = dynamic(
+  () => import("@/components/home/search/MethodGuideSearch").then((mod) => mod.MethodGuideSearch),
+  { loading: () => <SectionLoader label="Loading cooking guides…" /> },
+);
+
 function SectionLoader({ label }: { label: string }): JSX.Element {
   return (
     <div
@@ -254,6 +270,7 @@ export default function AlchmKitchenHome(): JSX.Element {
           title="Tonight's cuisine, tuned to the sky"
           cta={{ label: "All cuisines", href: "/cuisines" }}
         >
+          <CuisineRecipeSearch />
           <DynamicCuisineRecommender
             selectedCuisine={selectedCuisine}
             onSelectCuisine={(c) => setSelectedCuisine(c === selectedCuisine ? null : c)}
@@ -268,6 +285,7 @@ export default function AlchmKitchenHome(): JSX.Element {
           title="Ingredients aligned with the live sky"
           cta={{ label: "Open my pantry", href: "/pantry" }}
         >
+          <IngredientRecipeBar />
           <p
             style={{
               fontSize: 12,
@@ -295,6 +313,7 @@ export default function AlchmKitchenHome(): JSX.Element {
           title="Cooking methods aligned with elemental transits"
           cta={{ label: "All methods", href: "/cooking-methods" }}
         >
+          <MethodGuideSearch />
           <div className="alchm-home-cookmethods">
             <EnhancedCookingMethodRecommender />
           </div>

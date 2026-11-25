@@ -1,0 +1,415 @@
+{
+  "id": "pork-tenderloin",
+  "name": "Pork tenderloin",
+  "aliases": [
+    "pork tenderloin",
+    "pork tenderloin roast",
+    "pork tenderloins"
+  ],
+  "catalogKeys": [
+    "pork"
+  ],
+  "safetyClass": "whole_meat",
+  "summary": {
+    "text": "A lean cut from the full pork loin that typically weighs about ¾ to 1½ pounds.",
+    "sources": [
+      "pork-tenderloin-pork-board"
+    ]
+  },
+  "selection": [
+    {
+      "text": "A typical tenderloin weighs about ¾ to 1½ pounds.",
+      "sources": [
+        "pork-tenderloin-pork-board"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Refrigerated tenderloin keeps 2-4 days, according to Pork Board's table.",
+      "sources": [
+        "pork-buying-storing"
+      ]
+    },
+    {
+      "text": "Frozen tenderloin keeps 3-6 months, according to the same table.",
+      "sources": [
+        "pork-buying-storing"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Remove the silver skin before cutting the tenderloin into strips for stir-frying.",
+      "sources": [
+        "pork-sauteing"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Cook the tenderloin to at least 145°F, then rest it 3 minutes before eating.",
+      "sources": [
+        "pork-safety-tips"
+      ]
+    },
+    {
+      "text": "Use a meat thermometer to test doneness.",
+      "sources": [
+        "pork-safety-tips"
+      ]
+    },
+    {
+      "text": "Never thaw pork at room temperature.",
+      "sources": [
+        "pork-safety-tips"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "roast",
+      "label": "Oven roast at 350°F",
+      "best": true,
+      "why": {
+        "text": "Pork Board says any pork cut can be roasted at 350°F unless otherwise noted, which gives a dependable default.",
+        "sources": [
+          "pork-roasting"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Oven temperature",
+          "min": 350,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "pork-roasting"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Internal temperature",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "pork-tenderloin-pork-board"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "Rest",
+          "min": 3,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "pork-tenderloin-pork-board"
+          ]
+        },
+        {
+          "kind": "size",
+          "label": "Typical tenderloin weight",
+          "min": 0.75,
+          "max": 1.5,
+          "unit": "lb",
+          "sources": [
+            "pork-tenderloin-pork-board"
+          ]
+        }
+      ],
+      "equipment": [
+        "shallow uncovered roasting pan",
+        "meat thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Heat the oven to 350°F.",
+          "sources": [
+            "pork-roasting"
+          ]
+        },
+        {
+          "text": "Roast the tenderloin in a shallow, uncovered pan without adding liquid.",
+          "sources": [
+            "pork-roasting"
+          ]
+        },
+        {
+          "text": "Cook to 145°F in the thickest part, then rest 3 minutes.",
+          "sources": [
+            "pork-tenderloin-pork-board"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Pork Board gives no tenderloin roast time here, so go by internal temperature rather than by minutes.",
+          "sources": [
+            "pork-safety-tips"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook to 145°F, then rest 3 minutes.",
+          "sources": [
+            "pork-tenderloin-pork-board"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grill",
+      "label": "Grill over direct medium heat",
+      "best": false,
+      "why": {
+        "text": "Grill over direct medium heat for an outdoor option; Pork Board gives a 20-30 minute time for a 1 1/2-inch tenderloin.",
+        "sources": [
+          "pork-grilling"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Grill time, 1 1/2-inch tenderloin",
+          "min": 20,
+          "max": 30,
+          "unit": "min",
+          "sources": [
+            "pork-grilling"
+          ]
+        },
+        {
+          "kind": "size",
+          "label": "Tenderloin thickness used in table",
+          "min": 1.5,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "pork-grilling"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Internal temperature",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "pork-grilling"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "Rest",
+          "min": 3,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "pork-grilling"
+          ]
+        }
+      ],
+      "equipment": [
+        "grill",
+        "spatula or tongs",
+        "meat thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Set up direct, medium heat and turn the tenderloin once halfway through.",
+          "sources": [
+            "pork-grilling"
+          ]
+        },
+        {
+          "text": "Grill about 20 to 30 minutes for a 1 1/2-inch tenderloin.",
+          "sources": [
+            "pork-grilling"
+          ]
+        },
+        {
+          "text": "Remove at 145°F and rest 3 minutes.",
+          "sources": [
+            "pork-grilling"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Move the meat to a cooler part of the grill if it starts to brown too fast.",
+          "sources": [
+            "pork-grilling"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook to 145°F, then rest 3 minutes.",
+          "sources": [
+            "pork-grilling"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stir_fry",
+      "label": "Stir-fry strips in a hot skillet",
+      "best": false,
+      "why": {
+        "text": "Pork Board presents a tenderloin stir-fry as a quick dinner option.",
+        "sources": [
+          "pork-sauteing"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum, then rest 3 minutes",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "pork-safety-tips"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Cook garlic and chiles",
+          "min": 1,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "pork-sauteing"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Cook scallion greens",
+          "min": 30,
+          "max": null,
+          "unit": "sec",
+          "sources": [
+            "pork-sauteing"
+          ]
+        }
+      ],
+      "equipment": [
+        "large nonstick skillet"
+      ],
+      "steps": [
+        {
+          "text": "Remove the silver skin and cut the tenderloin into bite-size strips.",
+          "sources": [
+            "pork-sauteing"
+          ]
+        },
+        {
+          "text": "Heat 2 tbsp peanut oil on high in a large nonstick skillet.",
+          "sources": [
+            "pork-sauteing"
+          ]
+        },
+        {
+          "text": "Add garlic and dried chiles and cook for one minute.",
+          "sources": [
+            "pork-sauteing"
+          ]
+        },
+        {
+          "text": "Add the pork and stir once or twice for about one more minute.",
+          "sources": [
+            "pork-sauteing"
+          ]
+        },
+        {
+          "text": "Add the white scallion parts and cook, stirring occasionally.",
+          "sources": [
+            "pork-sauteing"
+          ]
+        },
+        {
+          "text": "Stir in the green scallion parts for 30 seconds.",
+          "sources": [
+            "pork-sauteing"
+          ]
+        },
+        {
+          "text": "Turn off the heat, add soy sauce, and serve right away over white rice.",
+          "sources": [
+            "pork-sauteing"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Pork Board's general stir-fry guidance calls for a wok, while this tenderloin recipe uses a large nonstick skillet.",
+          "sources": [
+            "pork-sauteing"
+          ]
+        },
+        {
+          "text": "Cut the pork into small pieces or thin strips so the outside does not overcook before the inside is done.",
+          "sources": [
+            "pork-sauteing"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook whole muscle pork cuts to 145°F with a 3-minute rest.",
+          "sources": [
+            "pork-safety-tips"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "pork-tenderloin-pork-board",
+      "publisher": "National Pork Board",
+      "title": "Cook Your Pork Tenderloin to Perfection",
+      "url": "https://pork.org/cuts/pork-tenderloin/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "pork-roasting",
+      "publisher": "Pork.org (National Pork Board)",
+      "title": "Roasting Pork brings Convenience to Your Kitchen",
+      "url": "https://pork.org/cooking-techniques/roasting-pork/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "pork-grilling",
+      "publisher": "Pork.org (National Pork Board)",
+      "title": "Grilling Pork",
+      "url": "https://pork.org/cooking-techniques/grilling-pork/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "pork-sauteing",
+      "publisher": "Pork.org (National Pork Board)",
+      "title": "Tips and Tricks for Sautéing and Stir Frying Pork",
+      "url": "https://pork.org/cooking-techniques/sauteing-and-stir-frying-pork/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "pork-buying-storing",
+      "publisher": "National Pork Board",
+      "title": "Buying, Handling, and Storing Pork",
+      "url": "https://pork.org/buying-handling-and-storing-pork/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "pork-safety-tips",
+      "publisher": "National Pork Board",
+      "title": "Pork Safety Tips for Cooking & Serving Food",
+      "url": "https://pork.org/pork-safety/",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

@@ -1,0 +1,707 @@
+{
+  "id": "salmon",
+  "name": "Salmon",
+  "aliases": [
+    "fresh salmon",
+    "salmon filets",
+    "salmon fillet",
+    "salmon fillets",
+    "salmon steak",
+    "salmon steaks"
+  ],
+  "catalogKeys": [
+    "atlantic_salmon"
+  ],
+  "safetyClass": "fish",
+  "summary": {
+    "text": "Fatty fish with fat throughout its tissues; cook until the flesh turns opaque and flakes easily with a fork.",
+    "sources": [
+      "uaf-how-to-cook-fish"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Choose fish that smells fresh and mild, not fishy, sour, or ammonia-like.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "Check that fillets show no discoloration, darkening, or drying at the edges.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "Skip frozen packages with frost or ice crystals, which can mean the fish was stored long or refrozen.",
+      "sources": [
+        "fda-seafood"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "If you will use the salmon within 2 days of buying it, keep it in a clean refrigerator.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "Keep the refrigerator at 40°F or below.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "Use fresh or defrosted fish within one or two days.",
+      "sources": [
+        "uconn-seafood-finfish-shellfish"
+      ]
+    },
+    {
+      "text": "If you will not use it in that window, wrap it tightly and freeze it.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "For best quality, freeze high-fat fish at 0°F or lower for up to four months.",
+      "sources": [
+        "uaf-how-to-cook-fish"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Thaw frozen salmon gradually by moving it to the refrigerator overnight.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "For faster thawing, seal the salmon in a plastic bag and immerse it in cold water.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "Allow about 8–10 hours for refrigerator thawing; very large cuts take longer.",
+      "sources": [
+        "uaf-how-to-cook-fish"
+      ]
+    },
+    {
+      "text": "Rinse thawed fillets under cold water and pat them dry.",
+      "sources": [
+        "snp-how-to-cook-salmon"
+      ]
+    }
+  ],
+  "substitutions": [
+    {
+      "name": "Other fatty fish",
+      "note": "A fish with similar fat content can be used in the same recipe.",
+      "sources": [
+        "uaf-how-to-cook-fish"
+      ]
+    },
+    {
+      "name": "Lean fish",
+      "note": "When a fatty-fish recipe is used for a lean fish, add more butter, bacon, or oil.",
+      "sources": [
+        "uaf-how-to-cook-fish"
+      ]
+    }
+  ],
+  "safety": [
+    {
+      "text": "Cook seafood to an internal temperature of 145°F.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "Do not leave seafood out of the refrigerator for more than 2 hours.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "The limit drops to 1 hour when the temperature is above 90°F.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "Keep raw seafood away from ready-to-eat foods to prevent cross-contamination.",
+      "sources": [
+        "uconn-seafood-finfish-shellfish"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "oven_bake",
+      "label": "Oven bake",
+      "best": true,
+      "why": {
+        "text": "Oven baking is the simplest choice for fillets and steaks, with less prep and cleanup.",
+        "sources": [
+          "uaf-how-to-cook-fish"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Moderate oven bake",
+          "min": 350,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Bake time at 350°F",
+          "min": 20,
+          "max": 25,
+          "unit": "min",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "Hotter oven bake",
+          "min": 400,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Bake time at 400°F",
+          "min": 12,
+          "max": 13,
+          "unit": "min",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fda-seafood"
+          ]
+        }
+      ],
+      "equipment": [
+        "baking sheet",
+        "aluminum foil"
+      ],
+      "steps": [
+        {
+          "text": "Preheat the oven to 400°F and line a baking sheet with foil.",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        },
+        {
+          "text": "Season both sides of the fillets with salt and pepper.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "At 400°F, bake 12-13 minutes.",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        },
+        {
+          "text": "Or bake at 350°F for about 20–25 minutes until it flakes with a fork.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "Check the thickest part; salmon is done at 145°F.",
+          "sources": [
+            "kstate-air-fryer-salmon"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Oil the foil very lightly before placing the fish on it.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "Remove the fish as soon as it is done, since it keeps cooking after it leaves the heat.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "Do not overcook: fish that looks dry or starts to shrink is past done.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The flesh is clear and separates easily with a fork.",
+          "sources": [
+            "fda-seafood"
+          ]
+        },
+        {
+          "text": "The flesh turns opaque or clouded while staying moist.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "The thickest part reaches 145°F.",
+          "sources": [
+            "kstate-air-fryer-salmon"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pan_fry",
+      "label": "Skillet pan-sear",
+      "best": false,
+      "why": {
+        "text": "Choose the skillet for a fast stovetop method; the SNP video cooks salmon in under 15 minutes.",
+        "sources": [
+          "snp-how-to-cook-salmon"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Skin side first",
+          "min": 5,
+          "max": 6,
+          "unit": "min",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "After flipping",
+          "min": 4,
+          "max": 5,
+          "unit": "min",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fda-seafood"
+          ]
+        }
+      ],
+      "equipment": [
+        "skillet"
+      ],
+      "steps": [
+        {
+          "text": "Rinse the thawed fillets under cold water and pat them dry.",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        },
+        {
+          "text": "Brush or spray the flesh with oil and squeeze lemon juice over it, then season with salt and pepper.",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        },
+        {
+          "text": "Preheat a skillet over medium-high heat and let the oil warm in the pan.",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        },
+        {
+          "text": "Place the salmon skin side up in the skillet and cook 5-6 minutes.",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        },
+        {
+          "text": "Flip so the skin side is down and cook an additional 4-5 minutes.",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "UAF's skillet version uses 10 minutes per inch of thickness, measured at the thickest part.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "Flip the fillets partway through so both sides brown.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The fish flakes when tested with a fork.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "The flesh is clear and separates easily with a fork.",
+          "sources": [
+            "fda-seafood"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "poach",
+      "label": "Poach (bare simmer)",
+      "best": false,
+      "why": {
+        "text": "Choose poaching for lean fish, which holds together better in the liquid than fatty fish.",
+        "sources": [
+          "uaf-how-to-cook-fish"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Simmer until flaky",
+          "min": 5,
+          "max": 10,
+          "unit": "min",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        }
+      ],
+      "equipment": [
+        "deep skillet"
+      ],
+      "steps": [
+        {
+          "text": "Heat the poaching liquid in a deep skillet, using just enough to cover the fish.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "Add the fish and adjust the heat until the liquid is just simmering.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "Cover and simmer about 5–10 minutes, until the fish flakes easily with a fork.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "Lift the fish out carefully onto a hot platter.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Use the poaching liquid as the base for a sauce.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "Wrap large pieces in cheesecloth so they hold together.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The fish flakes easily with a fork.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "The flesh turns opaque while staying moist.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grill",
+      "label": "Charcoal grill",
+      "best": false,
+      "why": {
+        "text": "Choose charcoal grilling for thicker cuts, which dry out less during cooking.",
+        "sources": [
+          "uaf-how-to-cook-fish"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Grill time",
+          "min": 10,
+          "max": 20,
+          "unit": "min",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "kind": "size",
+          "label": "Distance from moderately hot coals",
+          "min": 4,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fda-seafood"
+          ]
+        }
+      ],
+      "equipment": [
+        "charcoal grill",
+        "oiled or sprayed rack"
+      ],
+      "steps": [
+        {
+          "text": "Brush the fish with melted butter, margarine, oil, or barbecue sauce, then season with salt and pepper.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "Place the fish on an oiled or sprayed rack about 4 inches from moderately hot coals.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "Grill 10–20 minutes, depending on thickness.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "Cook only until the fish flakes easily with a fork.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Brush occasionally with oil or sauce while it cooks.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "Fish can also be sealed in oiled foil packets and grilled.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The fish flakes easily with a fork.",
+          "sources": [
+            "uaf-how-to-cook-fish"
+          ]
+        },
+        {
+          "text": "The thickest part reaches 145°F.",
+          "sources": [
+            "kstate-air-fryer-salmon"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "air_fry",
+      "label": "Air fryer",
+      "best": false,
+      "why": {
+        "text": "Choose the air fryer for a short cook; K-State cooks salmon 8 to 10 minutes at 400°F.",
+        "sources": [
+          "kstate-air-fryer-salmon"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Air fryer temperature",
+          "min": 400,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "kstate-air-fryer-salmon"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Air fry time",
+          "min": 8,
+          "max": 10,
+          "unit": "min",
+          "sources": [
+            "kstate-air-fryer-salmon"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Done temperature",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "kstate-air-fryer-salmon"
+          ]
+        }
+      ],
+      "equipment": [
+        "air fryer basket"
+      ],
+      "steps": [
+        {
+          "text": "Season the salmon with salt and pepper.",
+          "sources": [
+            "kstate-air-fryer-salmon"
+          ]
+        },
+        {
+          "text": "Arrange the fillets in the air fryer basket.",
+          "sources": [
+            "kstate-air-fryer-salmon"
+          ]
+        },
+        {
+          "text": "Set the air fryer to 400°F and cook for 8 to 10 minutes.",
+          "sources": [
+            "kstate-air-fryer-salmon"
+          ]
+        },
+        {
+          "text": "Check that the thickest part reaches 145°F.",
+          "sources": [
+            "kstate-air-fryer-salmon"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Spray the bottom of the basket with oil before adding the fillets.",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        },
+        {
+          "text": "SNP's air fryer version runs 7 minutes at 400°F.",
+          "sources": [
+            "snp-how-to-cook-salmon"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The thickest part reaches 145°F.",
+          "sources": [
+            "kstate-air-fryer-salmon"
+          ]
+        },
+        {
+          "text": "The flesh is clear and separates easily with a fork.",
+          "sources": [
+            "fda-seafood"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "fda-seafood",
+      "publisher": "US FDA",
+      "title": "Selecting and Serving Fresh and Frozen Seafood Safely",
+      "url": "https://www.fda.gov/food/buy-store-serve-safe-food/selecting-and-serving-fresh-and-frozen-seafood-safely",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "uaf-how-to-cook-fish",
+      "publisher": "University of Alaska Fairbanks Cooperative Extension",
+      "title": "How to Cook Alaska Fish",
+      "url": "https://www.uaf.edu/ces/publications/database/food/how-to-cook-alaska-fish.php",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "kstate-air-fryer-salmon",
+      "publisher": "K-State Research and Extension, Johnson County",
+      "title": "Air Fryer Salmon Recipe",
+      "url": "https://www.johnson.k-state.edu/programs/health-food-safety/recipes/air-fryer-salmon/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "snp-how-to-cook-salmon",
+      "publisher": "Seafood Nutrition Partnership",
+      "title": "How to Cook Salmon: 3 Simple Techniques",
+      "url": "https://www.seafoodnutrition.org/project/how-to-cook-salmon/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "uconn-seafood-finfish-shellfish",
+      "publisher": "University of Connecticut Food Safety",
+      "title": "Seafood: Shellfish and Finfish",
+      "url": "https://foodsafety.uconn.edu/seafood-shellfish-and-finfish/",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

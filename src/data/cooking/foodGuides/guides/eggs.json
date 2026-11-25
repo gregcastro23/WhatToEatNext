@@ -1,0 +1,570 @@
+{
+  "id": "eggs",
+  "name": "Eggs",
+  "aliases": [
+    "eggs",
+    "fried eggs",
+    "hard boiled eggs",
+    "large eggs",
+    "poached eggs",
+    "scrambled eggs",
+    "soft boiled eggs"
+  ],
+  "catalogKeys": [
+    "chicken_egg"
+  ],
+  "safetyClass": "egg",
+  "summary": {
+    "text": "Eggs should be cooked until the yolk and white are firm; raw or undercooked eggs carry a foodborne illness risk.",
+    "sources": [
+      "aeb-food-safety"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Fresh eggs make the best-looking fried eggs, with a compact oval shape, thick white and high yolk.",
+      "sources": [
+        "aeb-fry"
+      ]
+    },
+    {
+      "text": "Use very fresh eggs for poaching.",
+      "sources": [
+        "aeb-poach"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Refrigerated raw shell eggs keep with little quality loss for about 4 to 5 weeks past the pack date.",
+      "sources": [
+        "aeb-food-safety"
+      ]
+    },
+    {
+      "text": "After you bring them home, raw shell eggs keep about 3 weeks.",
+      "sources": [
+        "aeb-food-safety"
+      ]
+    },
+    {
+      "text": "Hard-boiled eggs in the shell keep up to one week refrigerated.",
+      "sources": [
+        "aeb-hard-boil"
+      ]
+    },
+    {
+      "text": "Leftover egg whites keep up to 4 days in a covered container.",
+      "sources": [
+        "aeb-food-safety"
+      ]
+    },
+    {
+      "text": "Store yolks covered in the refrigerator and use them within a day or 2.",
+      "sources": [
+        "aeb-food-safety"
+      ]
+    },
+    {
+      "text": "Refrigerate egg-containing leftovers promptly and eat them within 2 to 3 days.",
+      "sources": [
+        "aeb-food-safety"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Refrigerate eggs for a week to 10 days before hard-boiling, which makes them easier to peel.",
+      "sources": [
+        "aeb-hard-boil"
+      ]
+    }
+  ],
+  "substitutions": [
+    {
+      "name": "Pasteurized shell eggs or pasteurized egg products",
+      "note": "For recipes that use raw or lightly cooked egg, the Egg Board suggests pasteurized shell eggs or pasteurized egg products.",
+      "sources": [
+        "aeb-food-safety"
+      ]
+    },
+    {
+      "name": "Pasteurized egg whites (not a foaming substitute)",
+      "note": "The Egg Board says egg white from pasteurized shell eggs and liquid egg white products will not whip properly in foaming applications.",
+      "sources": [
+        "aeb-food-safety"
+      ]
+    }
+  ],
+  "safety": [
+    {
+      "text": "Raw or undercooked eggs can increase foodborne illness risk, especially for people with certain medical conditions.",
+      "sources": [
+        "aeb-food-safety"
+      ]
+    },
+    {
+      "text": "Over-easy, poached, sunny-side-up and soft-boiled eggs may not reach a food-safe temperature.",
+      "sources": [
+        "aeb-food-safety"
+      ]
+    },
+    {
+      "text": "Cook casseroles and other egg-containing dishes to at least 160°F.",
+      "sources": [
+        "aeb-food-safety"
+      ]
+    },
+    {
+      "text": "Reheat leftovers to at least 165°F.",
+      "sources": [
+        "aeb-food-safety"
+      ]
+    },
+    {
+      "text": "Keep shell eggs and egg dishes at 40°F or below when not being cooked or eaten.",
+      "sources": [
+        "aeb-food-safety"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "scramble",
+      "label": "Stovetop scramble",
+      "best": true,
+      "why": {
+        "text": "Scrambling is a versatile breakfast choice.",
+        "sources": [
+          "aeb-scramble"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "internal_temp",
+          "label": "Egg-dish target temperature",
+          "min": 160,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Hold time at 160°F",
+          "min": 2,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        }
+      ],
+      "equipment": [
+        "large nonstick skillet",
+        "inverted turner",
+        "bowl"
+      ],
+      "steps": [
+        {
+          "text": "Beat the eggs with milk, salt and pepper until blended.",
+          "sources": [
+            "aeb-scramble"
+          ]
+        },
+        {
+          "text": "Heat oil in a nonstick skillet over medium heat, then pour in the egg mixture.",
+          "sources": [
+            "aeb-scramble"
+          ]
+        },
+        {
+          "text": "Pull, lift and fold the eggs as they set until thickened with no visible liquid egg.",
+          "sources": [
+            "aeb-scramble"
+          ]
+        },
+        {
+          "text": "Remove from heat as soon as they are thickened, since the pan keeps cooking them.",
+          "sources": [
+            "aeb-scramble"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Avoid cast iron, which can turn scrambled eggs greenish.",
+          "sources": [
+            "aeb-scramble"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook until thickened with no visible liquid egg.",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pan_fry",
+      "label": "Fried eggs in a nonstick skillet",
+      "best": false,
+      "why": {
+        "text": "Choose fried eggs for sandwiches or to top steak, burgers or hash, as the Egg Board suggests.",
+        "sources": [
+          "aeb-fry"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "internal_temp",
+          "label": "Egg target temperature",
+          "min": 160,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Hold time at 160°F",
+          "min": 2,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        }
+      ],
+      "equipment": [
+        "nonstick skillet",
+        "turner"
+      ],
+      "steps": [
+        {
+          "text": "Heat 2 tsp oil in a nonstick skillet over medium-high heat until hot.",
+          "sources": [
+            "aeb-fry"
+          ]
+        },
+        {
+          "text": "Slip in the eggs one at a time, then reduce the heat to low.",
+          "sources": [
+            "aeb-fry"
+          ]
+        },
+        {
+          "text": "Cook slowly until the whites are set and the yolks begin to thicken but are not hard.",
+          "sources": [
+            "aeb-fry"
+          ]
+        },
+        {
+          "text": "Slide a turner under each egg and flip it to cook the second side to your liking.",
+          "sources": [
+            "aeb-fry"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Keep the heat moderate; high heat makes eggs tough and rubbery.",
+          "sources": [
+            "aeb-fry"
+          ]
+        },
+        {
+          "text": "For basted eggs, use 2 tbsp butter and cover the pan between bastings.",
+          "sources": [
+            "aeb-fry"
+          ]
+        },
+        {
+          "text": "The Egg Board notes this style may not suit high-risk people.",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook to 160°F held for 2 minutes; the Egg Board says a fried egg cooked to that guideline has a firm yolk.",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "poach",
+      "label": "Poach in simmering water",
+      "best": false,
+      "why": {
+        "text": "Poached eggs suit light meals on toast or English muffins, per the Egg Board.",
+        "sources": [
+          "aeb-poach"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Poaching time (classic gentle simmer)",
+          "min": 5,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        }
+      ],
+      "equipment": [
+        "saucepan or deep skillet",
+        "slotted spoon",
+        "custard cup"
+      ],
+      "steps": [
+        {
+          "text": "Heat 2 to 3 inches of water to a boil, then lower the heat to keep it gently simmering.",
+          "sources": [
+            "aeb-poach"
+          ]
+        },
+        {
+          "text": "Break each egg into a cup, then slip it into the water.",
+          "sources": [
+            "aeb-poach"
+          ]
+        },
+        {
+          "text": "Cook 3 to 5 minutes until the whites are set and the yolks just thicken.",
+          "sources": [
+            "aeb-poach"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Do not swirl the water; keep it quietly simmering.",
+          "sources": [
+            "aeb-poach"
+          ]
+        },
+        {
+          "text": "Vinegar or salt in the water is not necessary and can flavor the eggs.",
+          "sources": [
+            "aeb-poach"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Whites fully set and yolks thickened but not hard.",
+          "sources": [
+            "aeb-poach"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boil",
+      "label": "Hard boil",
+      "best": false,
+      "why": {
+        "text": "Hard-boiled eggs make a grab-and-go snack, so a batch can be cooked ahead for the week.",
+        "sources": [
+          "aeb-hard-boil"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "size",
+          "label": "Water depth over eggs",
+          "min": 1,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "aeb-hard-boil"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Standing time by egg size (large 12, medium 9, extra large 15)",
+          "min": 9,
+          "max": 15,
+          "unit": "min",
+          "sources": [
+            "aeb-hard-boil"
+          ]
+        }
+      ],
+      "equipment": [
+        "saucepan with lid",
+        "bowl of ice water"
+      ],
+      "steps": [
+        {
+          "text": "Place the eggs in a single layer in a saucepan.",
+          "sources": [
+            "aeb-hard-boil"
+          ]
+        },
+        {
+          "text": "Add cold water to cover the eggs by 1 inch, then heat until boiling.",
+          "sources": [
+            "aeb-hard-boil"
+          ]
+        },
+        {
+          "text": "Remove from heat, cover, and let stand about 12 minutes for large eggs.",
+          "sources": [
+            "aeb-hard-boil"
+          ]
+        },
+        {
+          "text": "Cool completely under cold running water or in ice water, then refrigerate.",
+          "sources": [
+            "aeb-hard-boil"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Eggs cooked too long or at too high a temperature can get a greenish ring around the yolk.",
+          "sources": [
+            "aeb-hard-boil"
+          ]
+        },
+        {
+          "text": "Hard-boiled eggs peel most easily right after cooling.",
+          "sources": [
+            "aeb-hard-boil"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Eggs should be fully set and thoroughly cooked; hard-boiled eggs spoil faster than raw eggs.",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oven_bake",
+      "label": "Oven bake (casseroles, quiches, strata)",
+      "best": false,
+      "why": {
+        "text": "Oven baking fits casseroles, quiches and stratas, which the Egg Board lists as bake-to-temperature egg dishes.",
+        "sources": [
+          "aeb-food-safety"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "internal_temp",
+          "label": "Internal temperature at center",
+          "min": 160,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Hold time at 160°F",
+          "min": 2,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        }
+      ],
+      "equipment": [
+        "baking dish",
+        "oven",
+        "thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Bake until a thermometer at the center reads at least 160°F and holds it for 2 minutes.",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        },
+        {
+          "text": "Check several spots, because hot spots and oven swings cause uneven cooking.",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        },
+        {
+          "text": "Refrigerate leftovers promptly and eat them within 2 to 3 days.",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Most baked egg dishes reach 160°F for 2 minutes by the time they are done.",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Bake until the center holds at least 160°F for 2 minutes.",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "aeb-food-safety",
+      "publisher": "American Egg Board",
+      "title": "Important Food Safety Information",
+      "url": "https://www.incredibleegg.org/egg-handling-storage-tips/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "aeb-hard-boil",
+      "publisher": "American Egg Board",
+      "title": "How to Make Hard-Boiled Eggs",
+      "url": "https://www.incredibleegg.org/recipes/cooking-school/how-to-hard-boil-eggs/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "aeb-scramble",
+      "publisher": "American Egg Board",
+      "title": "How to Make Stove Top Scrambled Eggs",
+      "url": "https://www.incredibleegg.org/recipes/cooking-school/how-to-make-scrambled-eggs/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "aeb-fry",
+      "publisher": "American Egg Board",
+      "title": "How To Fry An Egg",
+      "url": "https://www.incredibleegg.org/recipes/cooking-school/how-to-make-fried-eggs/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "aeb-poach",
+      "publisher": "American Egg Board",
+      "title": "How to Poach an Egg",
+      "url": "https://www.incredibleegg.org/recipes/cooking-school/how-to-poach-an-egg/",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

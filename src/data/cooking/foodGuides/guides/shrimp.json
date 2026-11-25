@@ -1,0 +1,412 @@
+{
+  "id": "shrimp",
+  "name": "Shrimp",
+  "aliases": [
+    "deveined shrimp",
+    "large shrimp",
+    "medium shrimp",
+    "peeled shrimp",
+    "raw shrimp",
+    "shrimp",
+    "shrimp in shell"
+  ],
+  "catalogKeys": [
+    "shrimp"
+  ],
+  "safetyClass": "fish",
+  "summary": {
+    "text": "Shrimp flesh should look clear and pearl-like with little odor when you buy it, and turns firm, pearly and opaque when cooked.",
+    "sources": [
+      "fda-seafood"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Choose shrimp with clear, pearl-like flesh and little or no odor.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "Buy only shrimp that is refrigerated or iced.",
+      "sources": [
+        "uconn-seafood-finfish-shellfish"
+      ]
+    },
+    {
+      "text": "Check labels, since shrimp is often sold as previously frozen.",
+      "sources": [
+        "uconn-seafood-finfish-shellfish"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "If you will use the shrimp within 2 days of purchase, keep it in a clean refrigerator.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "Keep the refrigerator at 40°F or below.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "Otherwise, wrap it tightly and freeze it.",
+      "sources": [
+        "fda-seafood"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Thaw frozen shrimp gradually in the refrigerator overnight.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "For faster thawing, seal shrimp in a plastic bag and immerse it in cold water.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "If frozen, thaw the shrimp; if fresh, peel and devein it.",
+      "sources": [
+        "tamu-cilantro-lime-shrimp"
+      ]
+    },
+    {
+      "text": "Marinate in the refrigerator for about 10 to 30 minutes at most.",
+      "sources": [
+        "tamu-cilantro-lime-shrimp"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Cook seafood to an internal temperature of 145°F.",
+      "sources": [
+        "fda-seafood"
+      ]
+    },
+    {
+      "text": "Keep raw seafood away from ready-to-eat foods.",
+      "sources": [
+        "uconn-seafood-finfish-shellfish"
+      ]
+    },
+    {
+      "text": "Do not leave seafood out of the refrigerator for more than 2 hours.",
+      "sources": [
+        "fda-seafood"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "grill",
+      "label": "Grill (direct medium heat)",
+      "best": true,
+      "why": {
+        "text": "Grilling is quick: Dinner Tonight calls the shrimp easy to make and quick to grill.",
+        "sources": [
+          "tamu-cilantro-lime-shrimp"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Direct medium heat",
+          "min": 5,
+          "max": 7,
+          "unit": "min",
+          "sources": [
+            "tamu-cilantro-lime-shrimp"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Per side, skewered recipe",
+          "min": 4,
+          "max": 5,
+          "unit": "min",
+          "sources": [
+            "ncsg-marinated-shrimp"
+          ]
+        },
+        {
+          "kind": "size",
+          "label": "Distance from heat",
+          "min": 4,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "ncsg-marinated-shrimp"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fda-seafood"
+          ]
+        }
+      ],
+      "equipment": [
+        "skewers",
+        "grill or grill pan"
+      ],
+      "steps": [
+        {
+          "text": "Marinate the peeled shrimp for about 10 to 30 minutes at most in the refrigerator.",
+          "sources": [
+            "tamu-cilantro-lime-shrimp"
+          ]
+        },
+        {
+          "text": "Thread the shrimp onto skewers, or place them in a grill pan.",
+          "sources": [
+            "tamu-cilantro-lime-shrimp"
+          ]
+        },
+        {
+          "text": "Grill over direct medium heat for 5-7 minutes, turning halfway through.",
+          "sources": [
+            "tamu-cilantro-lime-shrimp"
+          ]
+        },
+        {
+          "text": "Check that the shrimp is pink and cooked through.",
+          "sources": [
+            "tamu-cilantro-lime-shrimp"
+          ]
+        },
+        {
+          "text": "Most seafood should reach 145°F internally.",
+          "sources": [
+            "fda-seafood"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "After grilling, squeeze lime juice over the shrimp if you like.",
+          "sources": [
+            "tamu-cilantro-lime-shrimp"
+          ]
+        },
+        {
+          "text": "Brush the shrimp with reserved marinade as it cooks.",
+          "sources": [
+            "ncsg-marinated-shrimp"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The shrimp turn pink and cooked through.",
+          "sources": [
+            "tamu-cilantro-lime-shrimp"
+          ]
+        },
+        {
+          "text": "The flesh becomes firm, pearly, and opaque.",
+          "sources": [
+            "fda-seafood"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boil",
+      "label": "Boil",
+      "best": false,
+      "why": {
+        "text": "Choose boiling for shrimp in the shell; UConn gives three to five minutes per pound of medium shrimp.",
+        "sources": [
+          "uconn-seafood-finfish-shellfish"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Boil or steam time",
+          "min": 3,
+          "max": 5,
+          "unit": "min",
+          "sources": [
+            "uconn-seafood-finfish-shellfish"
+          ]
+        }
+      ],
+      "equipment": [
+        "pot",
+        "ice water bath"
+      ],
+      "steps": [
+        {
+          "text": "Boil or steam one pound of medium shrimp in the shell for three to five minutes.",
+          "sources": [
+            "uconn-seafood-finfish-shellfish"
+          ]
+        },
+        {
+          "text": "Adjust the time if the shrimp are larger or smaller.",
+          "sources": [
+            "uconn-seafood-finfish-shellfish"
+          ]
+        },
+        {
+          "text": "Stop cooking by placing the shrimp in ice water, then drain and refrigerate.",
+          "sources": [
+            "uconn-seafood-finfish-shellfish"
+          ]
+        },
+        {
+          "text": "Cook until the shrimp turn pink and firm.",
+          "sources": [
+            "uconn-seafood-finfish-shellfish"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Use fresh or thawed seafood within one or two days.",
+          "sources": [
+            "uconn-seafood-finfish-shellfish"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The shrimp turn pink and firm.",
+          "sources": [
+            "uconn-seafood-finfish-shellfish"
+          ]
+        },
+        {
+          "text": "The flesh becomes firm, pearly, and opaque.",
+          "sources": [
+            "fda-seafood"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "broil",
+      "label": "Broil",
+      "best": false,
+      "why": {
+        "text": "Broiling uses the same timing as grilling in the NC Sea Grant recipe, so it works as an oven alternative.",
+        "sources": [
+          "ncsg-marinated-shrimp"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "size",
+          "label": "Distance from heat",
+          "min": 4,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "ncsg-marinated-shrimp"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Per side",
+          "min": 4,
+          "max": 5,
+          "unit": "min",
+          "sources": [
+            "ncsg-marinated-shrimp"
+          ]
+        }
+      ],
+      "equipment": [
+        "skewers"
+      ],
+      "steps": [
+        {
+          "text": "Marinate the shrimp briefly in the refrigerator, stirring occasionally.",
+          "sources": [
+            "ncsg-marinated-shrimp"
+          ]
+        },
+        {
+          "text": "Thread the shrimp on skewers.",
+          "sources": [
+            "ncsg-marinated-shrimp"
+          ]
+        },
+        {
+          "text": "Broil about 4-inches from the heat until golden on one side, about 4 to 5 minutes.",
+          "sources": [
+            "ncsg-marinated-shrimp"
+          ]
+        },
+        {
+          "text": "Turn and repeat on the other side.",
+          "sources": [
+            "ncsg-marinated-shrimp"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Set aside about 2 tablespoons of marinade before adding the shrimp.",
+          "sources": [
+            "ncsg-marinated-shrimp"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "The shrimp turn pink and firm.",
+          "sources": [
+            "uconn-seafood-finfish-shellfish"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "fda-seafood",
+      "publisher": "US FDA",
+      "title": "Selecting and Serving Fresh and Frozen Seafood Safely",
+      "url": "https://www.fda.gov/food/buy-store-serve-safe-food/selecting-and-serving-fresh-and-frozen-seafood-safely",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "uconn-seafood-finfish-shellfish",
+      "publisher": "University of Connecticut Food Safety",
+      "title": "Seafood: Shellfish and Finfish",
+      "url": "https://foodsafety.uconn.edu/seafood-shellfish-and-finfish/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "ncsg-marinated-shrimp",
+      "publisher": "North Carolina Sea Grant",
+      "title": "Marinated Grilled Shrimp",
+      "url": "https://ncseagrant.ncsu.edu/mariners-menu/marinated-grilled-shrimp/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "tamu-cilantro-lime-shrimp",
+      "publisher": "Texas A&M AgriLife Extension, Dinner Tonight",
+      "title": "Cilantro Lime Grilled Shrimp with Dip",
+      "url": "https://dinnertonight.tamu.edu/recipe/cilantro-lime-grilled-shrimp/",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

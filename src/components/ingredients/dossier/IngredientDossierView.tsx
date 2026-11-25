@@ -6,6 +6,7 @@
  * only the sky match and the trending strip are live on the client.
  */
 import { useState, type JSX } from "react";
+import { CulinaryCardButton } from "@/components/ingredients/culinary/CulinaryCardButton";
 import { IngredientActions } from "@/components/ingredients/IngredientActions";
 import { ProcurementKit, type ProcurementItem } from "@/components/ui/alchm";
 import type { IngredientDossier } from "@/lib/ingredients/dossier";
@@ -58,6 +59,9 @@ export function IngredientDossierView({
           butcherHref={butcherHref}
           butcherCutName={butcherCutName}
         />
+        <section>
+          <CulinaryCardButton name={dossier.slug} title={titleCase(card.name)} />
+        </section>
         <section className="ihero-charts">
           <SeasonalityPanel seasons={card.seasons} now={now} />
           <SensoryPanel flavorProfile={card.flavorProfile} />

@@ -1,0 +1,331 @@
+{
+  "id": "whole-chicken",
+  "name": "Whole chicken",
+  "aliases": [
+    "roasting chicken",
+    "whole chicken",
+    "whole roasting chicken"
+  ],
+  "catalogKeys": [
+    "chicken"
+  ],
+  "safetyClass": "poultry",
+  "summary": {
+    "text": "A whole chicken is roasted in the oven; do not cook one in a slow cooker.",
+    "sources": [
+      "illinois-oven-roasted",
+      "clemson-slow-cooker"
+    ]
+  },
+  "selection": [],
+  "storage": [
+    {
+      "text": "Refrigerate leftover cooked chicken in shallow covered containers within two hours of finishing.",
+      "sources": [
+        "clemson-slow-cooker"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "If frozen, thaw the chicken in the refrigerator for 24 hours before cooking.",
+      "sources": [
+        "illinois-oven-roasted"
+      ]
+    },
+    {
+      "text": "Remove giblets from the cavity before cooking and discard them.",
+      "sources": [
+        "illinois-oven-roasted"
+      ]
+    },
+    {
+      "text": "Brush the skin with oil and season with garlic powder and oregano.",
+      "sources": [
+        "illinois-oven-roasted"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Do not cook a whole chicken in a slow cooker.",
+      "sources": [
+        "clemson-slow-cooker"
+      ]
+    },
+    {
+      "text": "Defrost poultry fully before putting it into a slow cooker.",
+      "sources": [
+        "clemson-slow-cooker"
+      ]
+    },
+    {
+      "text": "Cook until the thigh reads 165°F.",
+      "sources": [
+        "illinois-oven-roasted"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "roast",
+      "label": "Oven roast, breast side up at 375°F",
+      "best": true,
+      "why": {
+        "text": "Roasting gives crisp skin; Food Network notes that lowering the oven heat part-way through keeps the chicken juicy.",
+        "sources": [
+          "fn-temp-bake-chicken"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Roasting temperature",
+          "min": 375,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "3 to 4 lb bird at 375°F",
+          "min": 1.5,
+          "max": 2,
+          "unit": "hr",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Minutes per pound at 350°F, 3 to 8 lb birds",
+          "min": 20,
+          "max": 25,
+          "unit": "min",
+          "sources": [
+            "fn-temp-bake-chicken"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "Optional hot start",
+          "min": 400,
+          "max": 425,
+          "unit": "°F",
+          "sources": [
+            "fn-temp-bake-chicken"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum at the thigh",
+          "min": 165,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "Rest before cutting",
+          "min": 15,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        },
+        {
+          "kind": "size",
+          "label": "Tested bird size",
+          "min": 3,
+          "max": 4,
+          "unit": "lb",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        }
+      ],
+      "equipment": [
+        "roasting pan",
+        "meat thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Preheat the oven to 375°F.",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        },
+        {
+          "text": "Set the bird breast-side up in a roasting pan.",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        },
+        {
+          "text": "Brush the skin with oil and season it with garlic powder and oregano.",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        },
+        {
+          "text": "Roast about 1.5 to 2 hours until the thigh reads 165°F.",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        },
+        {
+          "text": "Rest the chicken 15 minutes before carving.",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Check the deepest part of the thigh without touching the bone.",
+          "sources": [
+            "fn-temp-bake-chicken"
+          ]
+        },
+        {
+          "text": "Start checking 15 to 20 minutes before the estimated finish time.",
+          "sources": [
+            "fn-temp-bake-chicken"
+          ]
+        },
+        {
+          "text": "Food Network suggests a hot start at 400 to 425°F, then 350°F after 15 minutes.",
+          "sources": [
+            "fn-temp-bake-chicken"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook until the thigh reads 165°F.",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oven_bake",
+      "label": "Oven bake at 350°F, timed by weight",
+      "best": false,
+      "why": {
+        "text": "Choose 350 F timed by weight for a 3 to 8 lb bird; Food Network gives 20-25 minutes per pound at that temperature.",
+        "sources": [
+          "fn-temp-bake-chicken"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Oven temperature",
+          "min": 350,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fn-temp-bake-chicken"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Minutes per pound",
+          "min": 20,
+          "max": 25,
+          "unit": "min",
+          "sources": [
+            "fn-temp-bake-chicken"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum at the thigh",
+          "min": 165,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        }
+      ],
+      "equipment": [
+        "roasting pan",
+        "meat thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Set the oven to 350°F.",
+          "sources": [
+            "fn-temp-bake-chicken"
+          ]
+        },
+        {
+          "text": "Allow 20 to 25 minutes per pound for a 3 to 8 pound chicken.",
+          "sources": [
+            "fn-temp-bake-chicken"
+          ]
+        },
+        {
+          "text": "Start checking the temperature 15 to 20 minutes before the expected finish.",
+          "sources": [
+            "fn-temp-bake-chicken"
+          ]
+        },
+        {
+          "text": "Cook until the thigh reads 165°F.",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Check the deepest part of the thigh without touching the bone.",
+          "sources": [
+            "fn-temp-bake-chicken"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook until the thigh reads 165°F.",
+          "sources": [
+            "illinois-oven-roasted"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "fn-temp-bake-chicken",
+      "publisher": "Food Network",
+      "title": "At What Temperature Do You Bake Chicken?",
+      "url": "https://www.foodnetwork.com/how-to/packages/food-network-essentials/what-temp-to-bake-chicken",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "illinois-oven-roasted",
+      "publisher": "University of Illinois Extension, Eat.Move.Save.",
+      "title": "Oven Roasted Chicken",
+      "url": "https://eat-move-save.extension.illinois.edu/eat/recipes/oven-roasted-chicken",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "clemson-slow-cooker",
+      "publisher": "Clemson University Cooperative Extension (HGIC)",
+      "title": "Slow Cooker Food Safety",
+      "url": "https://hgic.clemson.edu/factsheet/slow-cooker-food-safety/",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

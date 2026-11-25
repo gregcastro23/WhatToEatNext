@@ -1,0 +1,277 @@
+{
+  "id": "pasta",
+  "name": "Pasta",
+  "aliases": [
+    "angel hair pasta",
+    "dried pasta",
+    "dry pasta",
+    "pasta",
+    "spaghetti"
+  ],
+  "catalogKeys": [
+    "spaghetti",
+    "orzo_pasta",
+    "bowtie_pasta"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Dried pasta is boiled in a large volume of salted water until it is al dente.",
+    "sources": [
+      "sharethepasta-cooking-techniques"
+    ]
+  },
+  "selection": [],
+  "storage": [
+    {
+      "text": "Keep uncooked dry pasta in a cool, dry pantry for up to one year.",
+      "sources": [
+        "sharethepasta-store"
+      ]
+    },
+    {
+      "text": "Store dry pasta in an airtight box or container to keep it fresh.",
+      "sources": [
+        "sharethepasta-store"
+      ]
+    },
+    {
+      "text": "Refrigerate leftover cooked pasta for up to three days.",
+      "sources": [
+        "sharethepasta-store"
+      ]
+    },
+    {
+      "text": "Keep cooked pasta and sauce in separate containers.",
+      "sources": [
+        "sharethepasta-store"
+      ]
+    }
+  ],
+  "preparation": [],
+  "substitutions": [],
+  "safety": [],
+  "methods": [
+    {
+      "id": "boil",
+      "label": "Boil in salted water",
+      "best": true,
+      "why": {
+        "text": "Choose boiling for dried pasta: the large volume of water gives the pasta room to cook without sticking.",
+        "sources": [
+          "sharethepasta-cooking-techniques"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "ratio",
+          "label": "water per lb dry pasta",
+          "min": 4,
+          "max": 6,
+          "unit": "qt",
+          "sources": [
+            "sharethepasta-cooking-techniques"
+          ]
+        },
+        {
+          "kind": "ratio",
+          "label": "minimum water per lb pasta (alternate guide)",
+          "min": 4,
+          "max": null,
+          "unit": "qt",
+          "sources": [
+            "unl-angel-hair"
+          ]
+        },
+        {
+          "kind": "ratio",
+          "label": "salt per 4 quarts water",
+          "min": 2,
+          "max": null,
+          "unit": "tbsp",
+          "sources": [
+            "sharethepasta-cooking-techniques"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "regular dried pasta, approximate cook time",
+          "min": 8,
+          "max": 10,
+          "unit": "min",
+          "sources": [
+            "unl-angel-hair"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "angel hair pasta, approximate cook time",
+          "min": 3,
+          "max": 5,
+          "unit": "min",
+          "sources": [
+            "unl-angel-hair"
+          ]
+        }
+      ],
+      "equipment": [
+        "pasta pot"
+      ],
+      "steps": [
+        {
+          "text": "Use 4 to 6 quarts of water for each pound of dry pasta.",
+          "sources": [
+            "sharethepasta-cooking-techniques"
+          ]
+        },
+        {
+          "text": "Bring the water to a rolling boil before adding the pasta.",
+          "sources": [
+            "sharethepasta-cooking-techniques"
+          ]
+        },
+        {
+          "text": "Add the pasta, stir, and return the water to a boil.",
+          "sources": [
+            "sharethepasta-cooking-techniques"
+          ]
+        },
+        {
+          "text": "When the water boils again, add about 2 tablespoons of salt per 4 quarts of water.",
+          "sources": [
+            "sharethepasta-cooking-techniques"
+          ]
+        },
+        {
+          "text": "Follow the package directions for cooking time.",
+          "sources": [
+            "sharethepasta-cooking-techniques"
+          ]
+        },
+        {
+          "text": "Gently stir the pasta now and then while it cooks.",
+          "sources": [
+            "sharethepasta-cooking-techniques"
+          ]
+        },
+        {
+          "text": "If the pasta will be cooked further in a dish, undercook it by 1/3 of the package time.",
+          "sources": [
+            "unl-angel-hair"
+          ]
+        },
+        {
+          "text": "Taste part way through to check doneness.",
+          "sources": [
+            "sharethepasta-cooking-techniques"
+          ]
+        },
+        {
+          "text": "Drain the pasta immediately and continue with the recipe.",
+          "sources": [
+            "sharethepasta-cooking-techniques"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Do not add oil to the cooking water; it keeps sauce from sticking to the pasta.",
+          "sources": [
+            "sharethepasta-cooking-techniques"
+          ]
+        },
+        {
+          "text": "Cook extra pasta on purpose to serve cold at a later meal.",
+          "sources": [
+            "unl-angel-hair"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook until al dente: firm to the bite but cooked through.",
+          "sources": [
+            "sharethepasta-cooking-techniques"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "microwave",
+      "label": "Reheat cooked pasta in the microwave",
+      "best": false,
+      "why": {
+        "text": "Choose this only to reheat leftover cooked pasta; the guide says to heat it in short bursts and stir between them.",
+        "sources": [
+          "sharethepasta-store"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "reheat burst",
+          "min": 30,
+          "max": 60,
+          "unit": "sec",
+          "sources": [
+            "sharethepasta-store"
+          ]
+        }
+      ],
+      "equipment": [
+        "microwave-safe container"
+      ],
+      "steps": [
+        {
+          "text": "Splash some water on the leftover pasta and place it in a microwave-safe container.",
+          "sources": [
+            "sharethepasta-store"
+          ]
+        },
+        {
+          "text": "Cover with a lid that vents, or use a damp paper towel if you have no lid.",
+          "sources": [
+            "sharethepasta-store"
+          ]
+        },
+        {
+          "text": "Heat in 30-60 second bursts, stirring each time, until warmed through.",
+          "sources": [
+            "sharethepasta-store"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "Heat until the pasta has warmed through.",
+          "sources": [
+            "sharethepasta-store"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "sharethepasta-cooking-techniques",
+      "publisher": "National Pasta Association",
+      "title": "Cooking Techniques",
+      "url": "https://sharethepasta.org/cooking-pasta/tips/cooking-techniques/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "sharethepasta-store",
+      "publisher": "National Pasta Association",
+      "title": "How to Store Pasta",
+      "url": "https://sharethepasta.org/cooking-pasta/tips/how-to-store-pasta/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "unl-angel-hair",
+      "publisher": "University of Nebraska-Lincoln Extension",
+      "title": "Cook Pasta in Half the Time with Angel Hair Pasta",
+      "url": "https://food.unl.edu/article/cook-pasta-half-time-angel-hair-pasta/",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

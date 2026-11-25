@@ -1,0 +1,291 @@
+{
+  "id": "carrots",
+  "name": "Carrots",
+  "aliases": [
+    "carrot",
+    "carrots",
+    "fresh carrots",
+    "whole carrots"
+  ],
+  "catalogKeys": [
+    "carrot"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Carrots can be steamed, sautéed or roasted, according to Utah State Extension.",
+    "sources": [
+      "usu-carrots"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Pick carrots that are firm, smooth-skinned, straight and well colored.",
+      "sources": [
+        "usu-carrots"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Refrigerate carrots in the crisper drawer in a perforated plastic bag for a few weeks.",
+      "sources": [
+        "usu-carrots"
+      ]
+    },
+    {
+      "text": "Keep carrots away from fruit, which releases ethylene gas that shortens storage life.",
+      "sources": [
+        "usu-carrots"
+      ]
+    },
+    {
+      "text": "Remove the tops for longer storage, since they draw moisture from the roots.",
+      "sources": [
+        "usu-carrots"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Scrub carrots under running water with a vegetable brush.",
+      "sources": [
+        "usu-carrots"
+      ]
+    },
+    {
+      "text": "Peel if you want fresher-tasting dishes, knowing peeling removes some vitamins.",
+      "sources": [
+        "usu-carrots"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [],
+  "methods": [
+    {
+      "id": "roast",
+      "label": "Roast",
+      "best": true,
+      "why": {
+        "text": "Roast carrots alongside other vegetables on one pan.",
+        "sources": [
+          "usu-carrots"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Roast oven temperature (Utah State)",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "usu-carrots"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Roast time (Utah State)",
+          "min": 20,
+          "max": 30,
+          "unit": "min",
+          "sources": [
+            "usu-carrots"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "Alternate roast temperature (NDSU)",
+          "min": 400,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "kind": "size",
+          "label": "Oil amount",
+          "min": 1,
+          "max": 2,
+          "unit": "tbsp",
+          "sources": [
+            "usu-carrots"
+          ]
+        }
+      ],
+      "equipment": [
+        "Baking sheet",
+        "Knife and cutting board"
+      ],
+      "steps": [
+        {
+          "text": "Cut the carrots into coin-shaped pieces.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Toss with 1 to 2 tablespoons of olive oil, salt, pepper and other seasonings.",
+          "sources": [
+            "usu-carrots"
+          ]
+        },
+        {
+          "text": "Spread on a baking sheet and roast at 425 F for 20 to 30 minutes.",
+          "sources": [
+            "usu-carrots"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "NDSU suggests drizzling roasted carrots with a honey and butter glaze.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Roast until tender; NDSU's time depends on thickness and desired tenderness.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boil",
+      "label": "Boil",
+      "best": false,
+      "why": {
+        "text": "Choose boiling for a short stovetop cook of 7 to 9 minutes.",
+        "sources": [
+          "ndsu-pocket-guide"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Boil time",
+          "min": 7,
+          "max": 9,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "equipment": [
+        "Pot"
+      ],
+      "steps": [
+        {
+          "text": "Rinse, peel and chop the carrots into the size you want.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Place the carrots in a pot of water and bring it to a boil.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Cook for 7 to 9 minutes, adjusting for carrot size.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": []
+    },
+    {
+      "id": "steam",
+      "label": "Steam",
+      "best": false,
+      "why": {
+        "text": "Steam carrots in a small pot or in the microwave, as Utah State describes.",
+        "sources": [
+          "usu-carrots"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "size",
+          "label": "Pot water depth",
+          "min": 2,
+          "max": 3,
+          "unit": "in",
+          "sources": [
+            "usu-carrots"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Microwave steam time",
+          "min": 2,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "usu-carrots"
+          ]
+        }
+      ],
+      "equipment": [
+        "Pot with lid",
+        "Steamer basket",
+        "Microwave-safe bowl (for microwave method)"
+      ],
+      "steps": [
+        {
+          "text": "Fill a pot with 2 to 3 inches of water.",
+          "sources": [
+            "usu-carrots"
+          ]
+        },
+        {
+          "text": "Set the cut carrots in a steamer basket and steam until tender.",
+          "sources": [
+            "usu-carrots"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "For microwave steaming, use a microwave-safe bowl with 1 to 2 inches of water.",
+          "sources": [
+            "usu-carrots"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Steam until the carrots are tender.",
+          "sources": [
+            "usu-carrots"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "usu-carrots",
+      "publisher": "Utah State University Extension",
+      "title": "Fruit and Vegetable Guide Series: Carrots",
+      "url": "https://extension.usu.edu/nutrition/research/carrots",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "ndsu-pocket-guide",
+      "publisher": "North Dakota State University Extension",
+      "title": "A Pocket Guide to Preparing Fruits and Vegetables (FN1955)",
+      "url": "https://www.ndsu.edu/agriculture/extension/publications/pocket-guide-preparing-fruits-and-vegetables",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

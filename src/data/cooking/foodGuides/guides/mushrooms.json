@@ -1,0 +1,325 @@
+{
+  "id": "mushrooms",
+  "name": "Mushrooms",
+  "aliases": [
+    "button mushrooms",
+    "cremini mushrooms",
+    "fresh mushrooms",
+    "mushrooms",
+    "white mushrooms"
+  ],
+  "catalogKeys": [
+    "mushrooms",
+    "cremini_mushrooms"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Mushrooms are versatile and can be eaten raw or cooked whole, sliced or chopped.",
+    "sources": [
+      "usu-mushrooms"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Pick firm mushrooms with unblemished caps and no mold; avoid dried-out ones.",
+      "sources": [
+        "usu-mushrooms"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Store loose mushrooms in a paper bag in the refrigerator, not an airtight plastic bag.",
+      "sources": [
+        "usu-mushrooms"
+      ]
+    },
+    {
+      "text": "Properly stored mushrooms last about 5 days.",
+      "sources": [
+        "usu-mushrooms"
+      ]
+    },
+    {
+      "text": "Refrigerated mushrooms keep up to a week.",
+      "sources": [
+        "usu-mushrooms"
+      ]
+    },
+    {
+      "text": "Once opened, transfer them to a porous paper bag.",
+      "sources": [
+        "usu-mushrooms"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Clean mushrooms only right before you cook them.",
+      "sources": [
+        "usu-mushrooms"
+      ]
+    },
+    {
+      "text": "Brush off debris, then rinse briefly under cold water or wipe with a damp cloth or soft brush.",
+      "sources": [
+        "usu-mushrooms"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Buy mushrooms from a reputable grower or grocer rather than foraging them yourself.",
+      "sources": [
+        "usu-mushrooms"
+      ]
+    },
+    {
+      "text": "Many wild mushrooms are poisonous.",
+      "sources": [
+        "usu-mushrooms"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "saute",
+      "label": "Sauté",
+      "best": true,
+      "why": {
+        "text": "Sautéed mushrooms add a rich, umami flavor, according to the Mushroom Council.",
+        "sources": [
+          "mushroom-council-saute"
+        ]
+      },
+      "quantities": [],
+      "equipment": [
+        "Skillet or pan",
+        "Oil or butter"
+      ],
+      "steps": [
+        {
+          "text": "Brush the pan with oil or butter and heat it on high.",
+          "sources": [
+            "mushroom-council-saute"
+          ]
+        },
+        {
+          "text": "Add a single layer of mushrooms and do not stir.",
+          "sources": [
+            "mushroom-council-saute"
+          ]
+        },
+        {
+          "text": "When the first side browns, flip and cook the other side the same way.",
+          "sources": [
+            "mushroom-council-saute"
+          ]
+        },
+        {
+          "text": "Cook in small batches for even golden browning.",
+          "sources": [
+            "mushroom-council-saute"
+          ]
+        },
+        {
+          "text": "Cook until the liquid is gone or the mushrooms are golden brown.",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Cut thick slices, since thin slices shrink more when sautéed.",
+          "sources": [
+            "mushroom-council-saute"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook until the liquid is gone or the mushrooms are golden brown.",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "roast",
+      "label": "Roast",
+      "best": false,
+      "why": {
+        "text": "Choose roasting for whole mushrooms seasoned with salt, pepper and garlic.",
+        "sources": [
+          "usu-mushrooms"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Roast oven temperature",
+          "min": 400,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Roast time",
+          "min": 30,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        }
+      ],
+      "equipment": [
+        "Baking dish or pan"
+      ],
+      "steps": [
+        {
+          "text": "Season whole mushrooms with salt, pepper and garlic.",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        },
+        {
+          "text": "Bake at 400 F for 30 minutes.",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Shiitake and portabella stems are often tough, so discard them or use them for flavor.",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Bake until golden brown.",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grill",
+      "label": "Grill or broil",
+      "best": false,
+      "why": {
+        "text": "Choose grilling or broiling for larger mushrooms, which Utah State says work best.",
+        "sources": [
+          "usu-mushrooms"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Grill or broil time per side",
+          "min": 4,
+          "max": 6,
+          "unit": "min",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        }
+      ],
+      "equipment": [
+        "Grill or broiler",
+        "Pastry brush"
+      ],
+      "steps": [
+        {
+          "text": "Brush the mushrooms with oil until moist, then add salt and pepper.",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        },
+        {
+          "text": "Grill or broil 4 to 6 minutes per side.",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "If adding mushrooms to a stew or braise, sauté them first.",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        }
+      ],
+      "doneness": []
+    },
+    {
+      "id": "microwave",
+      "label": "Microwave",
+      "best": false,
+      "why": {
+        "text": "Choose the microwave for a quick cook in a covered bowl on high.",
+        "sources": [
+          "usu-mushrooms"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Microwave time on high",
+          "min": 2,
+          "max": 3,
+          "unit": "min",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        }
+      ],
+      "equipment": [
+        "Microwave-safe bowl with cover"
+      ],
+      "steps": [
+        {
+          "text": "Put the mushrooms in a microwave-safe bowl and cover it.",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        },
+        {
+          "text": "Cook on high for 2 to 3 minutes.",
+          "sources": [
+            "usu-mushrooms"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": []
+    }
+  ],
+  "sources": [
+    {
+      "id": "usu-mushrooms",
+      "publisher": "Utah State University Extension",
+      "title": "Fruit and Vegetable Guide Series: Mushrooms",
+      "url": "https://extension.usu.edu/nutrition/research/mushrooms",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "mushroom-council-saute",
+      "publisher": "Mushroom Council",
+      "title": "Kitchen Tip: How to Sauté Mushrooms",
+      "url": "https://www.mushroomcouncil.com/articles/kitchen-tip-how-to-saute-mushrooms/",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}
