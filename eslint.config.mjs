@@ -6,9 +6,8 @@
 //   - Enforce real bugs and correctness issues as errors
 //   - Flag code quality concerns as warnings for incremental improvement
 //   - Disable rules that produce excessive false positives in this domain
-//   - no-useless-assignment: DISABLED - produces false positives on the common
-//     `let x = default; if (cond) x = other; return x;` pattern used throughout
-//     alchemical/astrological calculation code
+//   - no-useless-assignment: ERROR for src/**/*.{ts,tsx,js,jsx} (0 findings
+//     remaining as of v5.29; left off for scripts/** pending script cleanup)
 //   - preserve-caught-error: WARN - good practice but non-blocking
 
 import js from "@eslint/js";
@@ -328,10 +327,9 @@ export default [
       "no-var": "error",
       "prefer-const": "error",
       "no-const-assign": "error",
-      // DISABLED: Produces false positives on conditional initialization pattern
-      // `let x = default; if (cond) x = other; return x;` which is pervasive
-      // in alchemical calculation code (50+ false positives)
-      "no-useless-assignment": "off",
+      // Promoted to "error" for src/** once all 27 findings were eliminated;
+      // scripts/** remains outside this block so lint:scripts is unaffected.
+      "no-useless-assignment": "error",
 
       // Empty blocks - allow empty catch blocks (intentional error swallowing for non-critical ops)
       "no-empty": ["error", { allowEmptyCatch: true }],
