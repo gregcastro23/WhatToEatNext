@@ -187,7 +187,7 @@ export const HOUSE_STRENGTH: Record<
 export function calculateHouseEffect(
   planet: string,
   house: number,
-  sign: any,
+  sign: ZodiacSignType | string,
 ): Record<ElementalCharacter, number> {
   const effects: Record<ElementalCharacter, number> = {
     Fire: 0,
@@ -256,7 +256,7 @@ export function calculateHouseEffect(
  * @returns Combined elemental effects from all house placements
  */
 export function calculateAllHouseEffects(
-  planetPositions: Record<string, { sign: any; house?: number }>,
+  planetPositions: Record<string, { sign: ZodiacSignType | string; house?: number }>,
   _houses: Record<number, ZodiacSignType>,
 ): Record<ElementalCharacter, number> {
   const totalEffects: Record<ElementalCharacter, number> = {
@@ -285,9 +285,8 @@ export function calculateAllHouseEffects(
     const houseEffects = calculateHouseEffect(planet, house, sign);
 
     // Add to total effects
-    for (const element in houseEffects) {
-      totalEffects[element as ElementalCharacter] +=
-        houseEffects[element as ElementalCharacter];
+    for (const element of ["Fire", "Earth", "Air", "Water"] as const) {
+      totalEffects[element] += houseEffects[element];
     }
   }
 

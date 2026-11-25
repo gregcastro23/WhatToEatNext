@@ -387,17 +387,18 @@ export function calculateSeasonalCompatibility(
 /**
  * Get zodiac signs for a season
  */
-export function getZodiacSignTypesForSeason(season: Season): any[] {
+export function getZodiacSignTypesForSeason(season: Season): ZodiacSignType[] {
   return ZODIAC_SEASONS[season] || [];
 }
 
 /**
  * Get season for a zodiac sign
  */
-export function getSeasonForZodiacSignType(sign: any): Season {
-  for (const [season, signs] of Object.entries(ZODIAC_SEASONS)) {
-    if (Array.isArray(signs) && signs.includes(sign)) {
-      return season as Season;
+export function getSeasonForZodiacSignType(sign: string): Season {
+  for (const season of VALID_SEASONS) {
+    const signs = ZODIAC_SEASONS[season];
+    if (Array.isArray(signs) && signs.some((s) => s === sign)) {
+      return season;
     }
   }
   return "spring"; // Default fallback

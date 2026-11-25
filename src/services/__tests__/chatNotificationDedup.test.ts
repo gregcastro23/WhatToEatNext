@@ -20,7 +20,8 @@ jest.mock("@/lib/database", () => ({
   executeQuery: (...a: unknown[]) => mockExecuteQuery(...a),
 }));
 jest.mock("@/lib/database/connection", () => ({
-  withTransaction: (...a: unknown[]) => (mockWithTransaction as any)(...a),
+  withTransaction: (operation: (client: { query: typeof mockClientQuery }) => Promise<unknown>) =>
+    mockWithTransaction(operation),
 }));
 jest.mock("@/lib/logger", () => ({
   _logger: { info: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() },

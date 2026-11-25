@@ -1088,11 +1088,11 @@ export type BaseIngredient = Ingredient;
 
 // Simplified ALCHEMY_TYPE_INTELLIGENCE_SYSTEM for compilation
 export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
-  analyzeElementalTypes: (_typeData: any) => ({}),
-  analyzeThermodynamicTypes: (_thermoData: any) => ({}),
-  analyzeRecipeTypes: (_recipeData: any) => ({}),
-  analyzeAstrologicalTypes: (_astroData: any) => ({}),
-  analyzeEnergyTypes: (_energyData: any) => ({}),
+  analyzeElementalTypes: (_typeData: unknown): Record<string, never> => ({}),
+  analyzeThermodynamicTypes: (_thermoData: unknown): Record<string, never> => ({}),
+  analyzeRecipeTypes: (_recipeData: unknown): Record<string, never> => ({}),
+  analyzeAstrologicalTypes: (_astroData: unknown): Record<string, never> => ({}),
+  analyzeEnergyTypes: (_energyData: unknown): Record<string, never> => ({}),
 };
 
 /**

@@ -1,5 +1,5 @@
 export function calculateMatchScore(
-  elementalProperties: Record<string, number>,
+  elementalProperties: Record<string, number> | null | undefined,
   elementalState?: Record<string, number>,
   options?: {
     mealType?: string;

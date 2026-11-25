@@ -147,20 +147,20 @@ export class AlchmAPIClient {
   // --- External Data Service Methods with Caching ---
 
   private readonly _cache: {
-    cuisines?: Promise<Record<string, any>>;
-    sauces?: Promise<Record<string, any>>;
-    ingredients?: Promise<Record<string, any>>;
-    cuisineDetails: Record<string, Promise<any>>;
+    cuisines?: Promise<Record<string, unknown>>;
+    sauces?: Promise<Record<string, unknown>>;
+    ingredients?: Promise<Record<string, unknown>>;
+    cuisineDetails: Record<string, Promise<unknown>>;
   } = { cuisineDetails: {} };
 
-  async getCuisines(): Promise<Record<string, any>> {
+  async getCuisines(): Promise<Record<string, unknown>> {
     if (!this._cache.cuisines) {
       if (!this.endpoints.alchemical || typeof window !== "undefined") {
         const { cuisines } = await import("@/data/cuisines");
         return cuisines;
       }
       const url = `${this.endpoints.alchemical}/api/v1/cuisines`;
-      this._cache.cuisines = this.request<Record<string, any>>(url, {
+      this._cache.cuisines = this.request<Record<string, unknown>>(url, {
         init: {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -174,14 +174,14 @@ export class AlchmAPIClient {
     return this._cache.cuisines;
   }
 
-  async getCuisine(id: string): Promise<any> {
+  async getCuisine(id: string): Promise<unknown> {
     if (this._cache.cuisineDetails[id] === undefined) {
       if (!this.endpoints.alchemical || typeof window !== "undefined") {
         const { cuisines } = await import("@/data/cuisines");
         return cuisines[id];
       }
       const url = `${this.endpoints.alchemical}/api/v1/cuisines/${id}`;
-      this._cache.cuisineDetails[id] = this.request<any>(url, {
+      this._cache.cuisineDetails[id] = this.request<unknown>(url, {
         init: {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -195,14 +195,14 @@ export class AlchmAPIClient {
     return this._cache.cuisineDetails[id];
   }
 
-  async getSauces(): Promise<Record<string, any>> {
+  async getSauces(): Promise<Record<string, unknown>> {
     if (!this._cache.sauces) {
       if (!this.endpoints.alchemical || typeof window !== "undefined") {
         const { allSauces } = await import("@/data/sauces");
         return allSauces;
       }
       const url = `${this.endpoints.alchemical}/api/v1/sauces`;
-      this._cache.sauces = this.request<Record<string, any>>(url, {
+      this._cache.sauces = this.request<Record<string, unknown>>(url, {
         init: {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -216,14 +216,14 @@ export class AlchmAPIClient {
     return this._cache.sauces;
   }
 
-  async getIngredients(): Promise<Record<string, any>> {
+  async getIngredients(): Promise<Record<string, unknown>> {
     if (!this._cache.ingredients) {
       if (!this.endpoints.alchemical || typeof window !== "undefined") {
         const { allIngredients } = await import("@/data/ingredients/index");
         return allIngredients;
       }
       const url = `${this.endpoints.alchemical}/api/v1/ingredients`;
-      this._cache.ingredients = this.request<Record<string, any>>(url, {
+      this._cache.ingredients = this.request<Record<string, unknown>>(url, {
         init: {
           method: "GET",
           headers: { "Content-Type": "application/json" },

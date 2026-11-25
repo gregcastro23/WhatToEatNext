@@ -29,7 +29,7 @@ describe("calculateMatchScore", () => {
   });
 
   it("handles null/undefined elementalProperties by defaulting to balanced", () => {
-    const score = calculateMatchScore(null as any, balanced);
+    const score = calculateMatchScore(null, balanced);
     expect(typeof score).toBe("number");
     expect(score).toBeGreaterThanOrEqual(0);
     expect(score).toBeLessThanOrEqual(1);

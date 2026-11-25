@@ -1,5 +1,6 @@
 import { unstable_cache } from "next/cache";
-import { alchemize } from "@/services/RealAlchemizeService";
+import { readJson } from "@/lib/api/json";
+import { alchemize, type PlanetaryPosition } from "@/services/RealAlchemizeService";
 import { createLogger } from "@/utils/logger";
 
 const logger = createLogger("HistoricalStatsService");
@@ -32,6 +33,68 @@ export interface HistoricalContext {
         power: StatSummary;
         currentFlow: StatSummary;
     };
+}
+
+function isPlainObject(val: unknown): val is Record<string, unknown> {
+    return typeof val === "object" && val !== null && !Array.isArray(val);
+}
+
+function isFiniteNumber(val: unknown): val is number {
+    return typeof val === "number" && Number.isFinite(val);
+}
+
+function parsePlanetaryPosition(raw: unknown): PlanetaryPosition | null {
+    if (!isPlainObject(raw)) return null;
+    if (typeof raw.sign !== "string" || !isFiniteNumber(raw.degree)) {
+        return null;
+    }
+    const minute = isFiniteNumber(raw.minute) ? raw.minute : 0;
+    const pos: PlanetaryPosition = {
+        sign: raw.sign,
+        degree: raw.degree,
+        minute,
+    };
+    if (typeof raw.isRetrograde === "boolean") pos.isRetrograde = raw.isRetrograde;
+    if (isFiniteNumber(raw.exactLongitude)) pos.exactLongitude = raw.exactLongitude;
+    if (isFiniteNumber(raw.distance)) pos.distance = raw.distance;
+    return pos;
+}
+
+/**
+ * Strip any non-planet-object entries from a raw positions dict.
+ *
+ * The Python backend used to embed `_aspects` (an array) directly
+ * inside the positions dict. That caused `alchemize()` to receive a
+ * mixed dict and silently corrupt alchemical math. The backend fix
+ * moves aspects to a top-level key, but we filter defensively here
+ * too so stale cache data or future drift can't re-introduce the bug.
+ */
+export function sanitizePositions(raw: unknown): Record<string, PlanetaryPosition> {
+    if (!isPlainObject(raw)) return {};
+    const result: Record<string, PlanetaryPosition> = {};
+    for (const [key, val] of Object.entries(raw)) {
+        const pos = parsePlanetaryPosition(val);
+        if (pos) {
+            result[key] = pos;
+        }
+    }
+    return result;
+}
+
+export interface BulkPositionsPayload {
+    success: true;
+    data: Record<string, Record<string, PlanetaryPosition>>;
+}
+
+export function parseBulkPositionsPayload(raw: unknown): BulkPositionsPayload {
+    if (!isPlainObject(raw) || raw.success !== true || !isPlainObject(raw.data)) {
+        throw new Error("Invalid structure from bulk query");
+    }
+    const data: Record<string, Record<string, PlanetaryPosition>> = {};
+    for (const [dateKey, rawPositions] of Object.entries(raw.data)) {
+        data[dateKey] = sanitizePositions(rawPositions);
+    }
+    return { success: true, data };
 }
 
 function calculateMeanAndVariance(values: number[]): StatSummary {
@@ -84,46 +147,28 @@ async function generateHistoricalStats(): Promise<HistoricalContext | null> {
             throw new Error(`Bulk positions failed: ${res.status}`);
         }
 
-        const payload = await res.json();
-        if (!payload.success || !payload.data) {
-            throw new Error("Invalid structure from bulk query");
-        }
+        const payload = await readJson(res, { parse: parseBulkPositionsPayload });
 
         const dateKeys = Object.keys(payload.data).sort();
 
         // We need 'prev' positions for `alchemize`, so we take the first as reference and drop it
         const datasets: Array<{
             date: Date;
-            positions: any;
-            prevPositions: any;
+            positions: Record<string, PlanetaryPosition>;
+            prevPositions: Record<string, PlanetaryPosition>;
         }> = [];
-
-        /**
-         * Strip any non-planet-object entries from a raw positions dict.
-         *
-         * The Python backend used to embed `_aspects` (an array) directly
-         * inside the positions dict. That caused `alchemize()` to receive a
-         * mixed dict and silently corrupt alchemical math. The backend fix
-         * moves aspects to a top-level key, but we filter defensively here
-         * too so stale cache data or future drift can't re-introduce the bug.
-         */
-        function sanitizePositions(raw: unknown): Record<string, unknown> {
-            if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
-            return Object.fromEntries(
-                Object.entries(raw as Record<string, unknown>).filter(
-                    ([, v]) => v !== null && typeof v === "object" && !Array.isArray(v),
-                ),
-            );
-        }
 
         for (let i = 1; i < dateKeys.length; i++) {
             const curKey = dateKeys[i];
             const prevKey = dateKeys[i - 1];
             if (!curKey || !prevKey) continue;
+            const curPositions = payload.data[curKey];
+            const prevPositions = payload.data[prevKey];
+            if (!curPositions || !prevPositions) continue;
             datasets.push({
                 date: new Date(curKey),
-                positions: sanitizePositions(payload.data[curKey]),
-                prevPositions: sanitizePositions(payload.data[prevKey]),
+                positions: curPositions,
+                prevPositions,
             });
         }
 

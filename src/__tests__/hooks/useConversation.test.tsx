@@ -31,7 +31,11 @@ const fetchMock = jest.fn();
 
 beforeEach(() => {
   fetchMock.mockReset();
-  (global as any).fetch = fetchMock;
+  Object.defineProperty(globalThis, "fetch", {
+    value: fetchMock,
+    writable: true,
+    configurable: true,
+  });
 });
 
 function jsonResponse(body: unknown, ok = true, statusCode = 200) {

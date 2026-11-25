@@ -89,7 +89,9 @@ const createNotification = jest.fn(async (userId: string, type: string, _title: 
 });
 
 jest.mock("@/services/notificationDatabaseService", () => ({
-  notificationDatabase: { createNotification: (...a: unknown[]) => (createNotification as any)(...a) },
+  notificationDatabase: {
+    createNotification: (...a: Parameters<typeof createNotification>) => createNotification(...a),
+  },
 }));
 
 jest.mock("@/services/userDatabaseService", () => ({

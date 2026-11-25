@@ -292,12 +292,18 @@ function getPlanetaryModifiers(planet: string) {
   };
 }
 
+interface ThermodynamicTrendInput {
+  heat: number;
+  entropy: number;
+  reactivity: number;
+}
+
 /**
  * Determine aspect phase based on thermodynamic trends
  */
 function determineAspectPhase(
-  currentThermo: any,
-  previousThermo: any,
+  currentThermo: ThermodynamicTrendInput,
+  previousThermo: ThermodynamicTrendInput | null,
 ): AspectPhase | null {
   if (!previousThermo) return null;
 
