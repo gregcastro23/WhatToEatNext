@@ -128,7 +128,7 @@ for (const r of rows) {
   }
 
   if (placement?.kind === "phase") {
-    let m: { combined: number; diurnal: number; nocturnal: number } | null = null;
+    let m: { combined: number; diurnal: number; nocturnal: number } | null;
     try {
       m = twoBodyMonicaFromName(r.name);
     } catch {

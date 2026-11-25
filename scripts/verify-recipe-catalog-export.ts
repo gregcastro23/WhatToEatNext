@@ -65,7 +65,7 @@ export async function runCatalogVerification(
   const allRecipes: ExportedRecipe[] = [];
   const seenIds = new Set<string>();
 
-  let currentPage: RecipeExportPage | null = null;
+  let currentPage: RecipeExportPage | null;
   let cursor: string | null = null;
   let pagesFetched = 0;
   let pinnedSnapshotId: string | null = null;

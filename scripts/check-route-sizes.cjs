@@ -422,7 +422,7 @@ function evaluateRouteSizes(options = {}) {
 }
 
 function runCli() {
-  let logContent = '';
+  let logContent;
   if (process.argv[2] && fs.existsSync(process.argv[2])) {
     logContent = fs.readFileSync(process.argv[2], 'utf-8');
   } else if (fs.existsSync('.next-build.log')) {

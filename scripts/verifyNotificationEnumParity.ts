@@ -64,7 +64,7 @@ async function main(): Promise<void> {
 
   const applyFixes = process.argv.includes("--apply");
 
-  let parsedHost = "";
+  let parsedHost: string;
   try {
     const url = new URL(databaseUrl.replace(/^postgresql:\/\//, "http://"));
     parsedHost = url.hostname;

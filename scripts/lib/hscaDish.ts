@@ -402,9 +402,9 @@ export function buildHscaDish(r: RawRecipe) {
     : Water > Earth && Water > Air ? "Water"
     : Earth > Air ? "Earth" : "Air";
 
-  let planets = ["Moon"];
-  let signs = ["Taurus"];
-  let lunarPhases = ["New Moon"];
+  let planets: string[];
+  let signs: string[];
+  let lunarPhases: string[];
 
   if (dominantElement === "Fire") {
     planets = ["Sun", "Mars"];

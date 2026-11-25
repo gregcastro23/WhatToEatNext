@@ -6,8 +6,7 @@
 //   - Enforce real bugs and correctness issues as errors
 //   - Flag code quality concerns as warnings for incremental improvement
 //   - Disable rules that produce excessive false positives in this domain
-//   - no-useless-assignment: ERROR for src/**/*.{ts,tsx,js,jsx} (0 findings
-//     remaining as of v5.29; left off for scripts/** pending script cleanup)
+//   - no-useless-assignment: ERROR globally (0 findings across src/** and scripts/**)
 //   - preserve-caught-error: WARN - good practice but non-blocking
 
 import js from "@eslint/js";
@@ -33,6 +32,12 @@ export default [
   // `lint:debt` runs. Here it only misfires on directives that suppress an AUDITED rule which is
   // "off" in this config (`no-console`), so it is off to keep `lint` at zero warnings.
   { linterOptions: { reportUnusedDisableDirectives: "off" } },
+  {
+    // Enforced globally across src/**, scripts/**, and all non-ignored JS/TS/CJS/MJS files.
+    rules: {
+      "no-useless-assignment": "error",
+    },
+  },
   // Register @next/next in flat-config object format (v15 plugin exports it
   // in eslintrc array-of-strings format which ESLint flat config rejects).
   {
@@ -327,9 +332,6 @@ export default [
       "no-var": "error",
       "prefer-const": "error",
       "no-const-assign": "error",
-      // Promoted to "error" for src/** once all 27 findings were eliminated;
-      // scripts/** remains outside this block so lint:scripts is unaffected.
-      "no-useless-assignment": "error",
 
       // Empty blocks - allow empty catch blocks (intentional error swallowing for non-critical ops)
       "no-empty": ["error", { allowEmptyCatch: true }],

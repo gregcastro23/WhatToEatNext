@@ -69,7 +69,7 @@ async function run() {
     const water = elements.Water ?? 0;
     const earth = elements.Earth ?? 0;
 
-    let elementalLighting = "";
+    let elementalLighting: string;
     if (fire > 0.35) {
       elementalLighting = "The banquet table is bathed in warm, glowing amber light, with dramatic shadows and a lively, energetic dining atmosphere. Carved meats and caramelized surfaces glisten beautifully under the ambient heat.";
     } else if (water > 0.35) {

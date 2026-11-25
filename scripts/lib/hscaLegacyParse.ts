@@ -11,7 +11,7 @@ export function legacyParseIngredientString(ingStr: string) {
   ingStr = ingStr.trim();
   let amount = 1;
   let unit = "piece";
-  let name = "";
+  let name: string;
   let notes = "";
 
   // Strip leading words like "approximately", "about", "around"

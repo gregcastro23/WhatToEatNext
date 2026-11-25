@@ -91,7 +91,7 @@ function calculateNutrition(recipe: RecipeToAnalyze) {
     const matched = findIngredient(ing.name);
     
     let amount = Number(ing.amount) || 1;
-    let factor = 1;
+    let factor: number;
     if (ing.unit === 'g') factor = amount / 100;
     else if (ing.unit === 'kg') factor = amount * 10;
     else if (ing.unit === 'cup') factor = amount * 2.4; 
