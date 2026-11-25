@@ -12,8 +12,8 @@ import { elementalCosineHarmony } from "@/utils/elemental/harmony";
 // The ORIGINAL implementation, inlined verbatim as the reference oracle.
 const ELEMENT_ORDER = ["Fire", "Water", "Earth", "Air"] as const;
 function referenceHarmony(a: Record<string, number>, b: Record<string, number>): number {
-  const va = ELEMENT_ORDER.map((e) => (a as any)[e] ?? 0);
-  const vb = ELEMENT_ORDER.map((e) => (b as any)[e] ?? 0);
+  const va = ELEMENT_ORDER.map((e) => a[e] ?? 0);
+  const vb = ELEMENT_ORDER.map((e) => b[e] ?? 0);
   const dot = va.reduce((s, ai, i) => s + ai * vb[i], 0);
   const magA = Math.sqrt(va.reduce((s, ai) => s + ai * ai, 0));
   const magB = Math.sqrt(vb.reduce((s, bi) => s + bi * bi, 0));

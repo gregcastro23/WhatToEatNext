@@ -18,7 +18,8 @@ const mockCreateNotification = jest.fn().mockResolvedValue(undefined);
 
 jest.mock("@/lib/database/connection", () => ({
   executeQuery: (...args: unknown[]) => mockExecuteQuery(...args),
-  withTransaction: (...args: unknown[]) => (mockWithTransaction as any)(...args),
+  withTransaction: (operation: (client: { query: typeof mockClientQuery }) => Promise<unknown>) =>
+    mockWithTransaction(operation),
 }));
 
 jest.mock("@/lib/tables/composite", () => ({

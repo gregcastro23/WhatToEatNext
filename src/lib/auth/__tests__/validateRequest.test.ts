@@ -13,15 +13,20 @@ jest.mock("next/server", () => ({
   NextRequest: class MockNextRequest {
     url: string;
     method?: string;
-    body?: any;
+    body?: string | null;
     headers: { get: (name: string) => string | null };
     cookies: { get: (name: string) => { value: string } | undefined };
-    constructor(url: string, init?: any) {
+    constructor(
+      url: string,
+      init?: { method?: string; body?: string | null; headers?: Record<string, string> },
+    ) {
       this.url = url;
       this.method = init?.method;
       this.body = init?.body;
-      const headersMap = new Map(Object.entries(init?.headers || {}));
-      this.headers = { get: (name: string) => (headersMap.get(name.toLowerCase()) as any) || null };
+      const headersMap = new Map<string, string>(
+        Object.entries(init?.headers ?? {}).map(([k, v]) => [k.toLowerCase(), v]),
+      );
+      this.headers = { get: (name: string) => headersMap.get(name.toLowerCase()) ?? null };
       this.cookies = { get: () => undefined };
     }
     get nextUrl() {

@@ -15,6 +15,19 @@ import { calculateRecipeAlchemicalQuantities } from "@/utils/recipeAlchemicalQua
 
 const logger = createLogger("UnifiedRecipeService");
 
+export function extractIngredientName(ing: unknown): string {
+  if (typeof ing === "string") return ing;
+  if (
+    typeof ing === "object" &&
+    ing !== null &&
+    "name" in ing &&
+    typeof ing.name === "string"
+  ) {
+    return ing.name;
+  }
+  return "";
+}
+
 export class UnifiedRecipeService {
   private static instance: UnifiedRecipeService | undefined;
   private recipesCache: Recipe[] | null = null;
@@ -91,9 +104,7 @@ export class UnifiedRecipeService {
     if (recipe.ingredientAlchemicalSummary) return recipe;
 
     const ingredientNames: string[] = Array.isArray(recipe.ingredients)
-      ? recipe.ingredients.map((ing: any) =>
-          typeof ing === "string" ? ing : (ing.name ?? "")
-        ).filter(Boolean)
+      ? recipe.ingredients.map(extractIngredientName).filter(Boolean)
       : [];
 
     if (ingredientNames.length === 0) return recipe;
@@ -139,10 +150,9 @@ export class UnifiedRecipeService {
 
         // Search in ingredients
         if (Array.isArray(recipe.ingredients)) {
-          const ingredientMatch = recipe.ingredients.some((ing: any) => {
-            const ingName = typeof ing === "string" ? ing : ing.name;
-            return ingName?.toLowerCase().includes(searchTerm);
-          });
+          const ingredientMatch = recipe.ingredients.some((ing) =>
+            extractIngredientName(ing).toLowerCase().includes(searchTerm),
+          );
           if (ingredientMatch) {
             return true;
           }

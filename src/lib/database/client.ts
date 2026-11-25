@@ -493,7 +493,7 @@ export class ElementalService {
 // ==========================================
 
 export class CacheService {
-  static async get(key: string): Promise<any | null> {
+  static async get(key: string): Promise<unknown> {
     try {
       const result = await executeQuery(
         `SELECT result_data FROM calculation_cache
@@ -523,7 +523,7 @@ export class CacheService {
     return null;
   }
 
-  static async set(key: string, data: any, ttlSeconds = 3600): Promise<void> {
+  static async set(key: string, data: unknown, ttlSeconds = 3600): Promise<void> {
     try {
       const expiresAt = new Date(Date.now() + ttlSeconds * 1000);
 
@@ -608,7 +608,7 @@ export class DatabaseHealthService {
     name: string,
     value: number,
     unit?: string,
-    tags: Record<string, any> = {},
+    tags: Record<string, unknown> = {},
   ): Promise<void> {
     try {
       await executeQuery(

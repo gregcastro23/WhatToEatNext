@@ -43,7 +43,7 @@ jest.mock("next/server", () => ({
 
 jest.mock("@/lib/database", () => ({
   executeQuery: (...args: unknown[]) => mockExecuteQuery(...args),
-  withTransaction: (...args: unknown[]) => (mockWithTransaction as any)(...args),
+  withTransaction: (...args: Parameters<typeof mockWithTransaction>) => mockWithTransaction(...args),
 }));
 
 // Force the rate limiter onto its in-memory fallback (no Redis in tests).

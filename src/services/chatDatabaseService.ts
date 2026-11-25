@@ -33,7 +33,14 @@ import type {
   NotifyLevel,
 } from "@/types/chat";
 import { safeJsonParse } from "@/utils/typeGuards";
-import type { PoolClient } from "pg";
+import type { PoolClient, QueryResultRow } from "pg";
+
+interface QueryClient {
+  query: <R extends QueryResultRow = QueryResultRow>(
+    text: string,
+    values?: unknown[],
+  ) => Promise<{ rows: R[]; rowCount?: number | null }>;
+}
 
 
 // ─── Row → domain mapping helpers ────────────────────────────────────────
@@ -275,7 +282,7 @@ class ChatDatabaseService {
    * no first-ensurer workaround.
    */
   async ensureTableConversationOnClient(
-    client: Pick<PoolClient, "query">,
+    client: QueryClient,
     table: { id: string; hostId: string; title: string },
   ): Promise<string> {
     await client.query(

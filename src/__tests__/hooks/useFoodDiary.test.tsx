@@ -3,6 +3,7 @@ import { useFoodDiary, useQuickFoodEntry, useFoodDiaryInsights } from "@/hooks/u
 import * as foodDiaryActions from "@/actions/foodDiary";
 import { useUser } from "@/contexts/UserContext";
 import { installFetchMock } from "@/__tests__/helpers/fetchMock";
+import type { CreateFoodDiaryEntryInput } from "@/types/foodDiary";
 
 // Mock the actions
 jest.mock("@/actions/foodDiary", () => ({
@@ -199,12 +200,12 @@ describe("useFoodDiary hook", () => {
 
   describe("CRUD Operations", () => {
     it("adds an entry and refreshes data", async () => {
-      const newEntryInput = {
+      const newEntryInput: CreateFoodDiaryEntryInput = {
         foodName: "Orange",
-        foodSource: "custom" as const,
+        foodSource: "custom",
         quantity: 1,
         date: new Date(),
-        mealType: "snack" as const,
+        mealType: "snack",
         time: "12:00",
         serving: { amount: 1, unit: "piece", grams: 130 },
       };
@@ -217,7 +218,7 @@ describe("useFoodDiary hook", () => {
 
       let returnedEntry;
       await act(async () => {
-        returnedEntry = await result.current.addEntry(newEntryInput as any);
+        returnedEntry = await result.current.addEntry(newEntryInput);
       });
 
       expect(foodDiaryActions.createServerEntry).toHaveBeenCalledWith(

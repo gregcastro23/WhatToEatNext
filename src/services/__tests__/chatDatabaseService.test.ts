@@ -17,7 +17,8 @@ const mockWithTransaction = jest.fn(
 
 jest.mock("@/lib/database/connection", () => ({
   executeQuery: (...args: unknown[]) => mockExecuteQuery(...args),
-  withTransaction: (...args: unknown[]) => (mockWithTransaction as any)(...args),
+  withTransaction: (operation: (client: { query: typeof mockClientQuery }) => Promise<unknown>) =>
+    mockWithTransaction(operation),
 }));
 
 jest.mock("@/lib/logger", () => ({
@@ -123,7 +124,7 @@ describe("ensureTableConversationOnClient — runs on the CALLER'S client", () =
       .mockResolvedValueOnce({ rows: [], rowCount: 0 }); // seed members
 
     const fakeClient = { query: mockClientQuery };
-    const id = await chatDatabase.ensureTableConversationOnClient(fakeClient as any, {
+    const id = await chatDatabase.ensureTableConversationOnClient(fakeClient, {
       id: TABLE_ID,
       hostId: CURIE,
       title: "Solstice Feast",
