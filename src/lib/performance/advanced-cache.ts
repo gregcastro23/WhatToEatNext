@@ -23,8 +23,8 @@ interface CacheStats {
   hitRate: number;
 }
 
-class AdvancedCache {
-  private readonly cache = new Map<string, CacheEntry<any>>();
+class AdvancedCache<V = unknown> {
+  private readonly cache = new Map<string, CacheEntry<V>>();
   private readonly maxSize: number;
   private readonly defaultTTL: number;
   private readonly stats: CacheStats;
@@ -45,7 +45,9 @@ class AdvancedCache {
   /**
    * Get item from cache with automatic expiration check
    */
-  get<T>(key: string): T | null {
+  get(key: string): V | null;
+  get<T extends V>(key: string, isMatch: (value: V) => value is T): T | null;
+  get(key: string, isMatch?: (value: V) => boolean): V | null {
     const entry = this.cache.get(key);
 
     if (!entry) {
@@ -65,6 +67,10 @@ class AdvancedCache {
       return null;
     }
 
+    if (isMatch && !isMatch(entry.data)) {
+      return null;
+    }
+
     // Update access statistics
     entry.accessCount++;
     entry.lastAccessed = now;
@@ -78,7 +84,7 @@ class AdvancedCache {
   /**
    * Set item in cache with optional TTL override
    */
-  set<T>(key: string, data: T, ttlOverride?: number): void {
+  set(key: string, data: V, ttlOverride?: number): void {
     const now = Date.now();
     const ttl = ttlOverride ?? this.defaultTTL;
 
@@ -87,7 +93,7 @@ class AdvancedCache {
       this.evictLRU();
     }
 
-    const entry: CacheEntry<T> = {
+    const entry: CacheEntry<V> = {
       data,
       timestamp: now,
       ttl,
@@ -108,12 +114,12 @@ class AdvancedCache {
   /**
    * Get or compute value with caching
    */
-  async getOrCompute<T>(
+  async getOrCompute(
     key: string,
-    computeFn: () => Promise<T>,
+    computeFn: () => Promise<V>,
     ttlOverride?: number,
-  ): Promise<T> {
-    const cached = this.get<T>(key);
+  ): Promise<V> {
+    const cached = this.get(key);
 
     if (cached !== null) {
       return cached;
@@ -132,7 +138,7 @@ class AdvancedCache {
   async warmup(
     entries: Array<{
       key: string;
-      computeFn: () => Promise<unknown>;
+      computeFn: () => Promise<V>;
       ttl?: number;
     }>,
   ): Promise<void> {
@@ -140,7 +146,7 @@ class AdvancedCache {
 
     const promises = entries.map(async ({ key, computeFn, ttl }) => {
       try {
-        const data: unknown = await computeFn();
+        const data = await computeFn();
         this.set(key, data, ttl);
         void logger.debug("Cache warmed", { key });
       } catch (error) {

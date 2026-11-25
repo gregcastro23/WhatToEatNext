@@ -51,6 +51,26 @@ import { getNutritionTrackingService } from "./NutritionTrackingService";
 import { reportQuestEventBestEffort } from "./questEventReporter";
 import { tokenEconomy } from "./TokenEconomyService";
 
+function isDailyFoodDiarySummary(val: unknown): val is DailyFoodDiarySummary {
+  return (
+    typeof val === "object" &&
+    val !== null &&
+    "date" in val &&
+    "entries" in val &&
+    "totalNutrition" in val
+  );
+}
+
+function isWeeklyFoodDiarySummary(val: unknown): val is WeeklyFoodDiarySummary {
+  return (
+    typeof val === "object" &&
+    val !== null &&
+    "weekStartDate" in val &&
+    "dailySummaries" in val &&
+    "weeklyNutritionTotals" in val
+  );
+}
+
 // Check if we should use database (only in server-side contexts with DB available)
 const isServerWithDB = (): boolean => typeof window === "undefined" && !!process.env.DATABASE_URL;
 
@@ -3017,7 +3037,7 @@ class FoodDiaryService {
     date: Date,
   ): Promise<DailyFoodDiarySummary> {
     const cacheKey = `daily_summary_${userId}_${date.toISOString().split("T")[0]}`;
-    const cached = userCache.get<DailyFoodDiarySummary>(cacheKey);
+    const cached = userCache.get(cacheKey, isDailyFoodDiarySummary);
     if (cached) return cached;
 
     const entries = await this.getDayEntries(userId, date);
@@ -3035,7 +3055,7 @@ class FoodDiaryService {
     weekStartDate: Date,
   ): Promise<WeeklyFoodDiarySummary> {
     const cacheKey = `weekly_summary_${userId}_${weekStartDate.toISOString().split("T")[0]}`;
-    const cached = userCache.get<WeeklyFoodDiarySummary>(cacheKey);
+    const cached = userCache.get(cacheKey, isWeeklyFoodDiarySummary);
     if (cached) return cached;
 
     const dailySummaries: DailyFoodDiarySummary[] = [];

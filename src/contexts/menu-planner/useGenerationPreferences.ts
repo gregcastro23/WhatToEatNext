@@ -11,7 +11,123 @@
  */
 
 import { useCallback, useState } from "react";
-import type { GenerationPreferences, NutritionalTargets } from "./types";
+import type {
+  FlavorPreference,
+  GenerationPreferences,
+  NutritionalTargets,
+} from "./types";
+
+const FLAVOR_PREFERENCE_LIST: readonly FlavorPreference[] = [
+  "spicy",
+  "sweet",
+  "savory",
+  "bitter",
+  "sour",
+  "umami",
+];
+
+function isPlainObject(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null && !Array.isArray(val);
+}
+
+function readStringArray(val: unknown, fallback: string[]): string[] {
+  if (!Array.isArray(val)) return fallback;
+  return val.filter((item): item is string => typeof item === "string");
+}
+
+function isFlavorPreference(val: unknown): val is FlavorPreference {
+  return (
+    typeof val === "string" && FLAVOR_PREFERENCE_LIST.some((f) => f === val)
+  );
+}
+
+function readFlavorPreferences(
+  val: unknown,
+  fallback: FlavorPreference[],
+): FlavorPreference[] {
+  if (!Array.isArray(val)) return fallback;
+  return val.filter(isFlavorPreference);
+}
+
+function readNullableNumber(val: unknown, fallback: number | null): number | null {
+  if (val === null) return null;
+  return typeof val === "number" && Number.isFinite(val) ? val : fallback;
+}
+
+function readBoolean(val: unknown, fallback: boolean): boolean {
+  return typeof val === "boolean" ? val : fallback;
+}
+
+function parseNutritionalTargets(raw: unknown): NutritionalTargets {
+  if (!isPlainObject(raw)) return DEFAULT_NUTRITIONAL_TARGETS;
+  return {
+    dailyCalories: readNullableNumber(
+      raw.dailyCalories,
+      DEFAULT_NUTRITIONAL_TARGETS.dailyCalories,
+    ),
+    dailyProteinG: readNullableNumber(
+      raw.dailyProteinG,
+      DEFAULT_NUTRITIONAL_TARGETS.dailyProteinG,
+    ),
+    dailyCarbsG: readNullableNumber(
+      raw.dailyCarbsG,
+      DEFAULT_NUTRITIONAL_TARGETS.dailyCarbsG,
+    ),
+    dailyFatG: readNullableNumber(
+      raw.dailyFatG,
+      DEFAULT_NUTRITIONAL_TARGETS.dailyFatG,
+    ),
+    dailyFiberG: readNullableNumber(
+      raw.dailyFiberG,
+      DEFAULT_NUTRITIONAL_TARGETS.dailyFiberG,
+    ),
+    prioritizeProtein: readBoolean(
+      raw.prioritizeProtein,
+      DEFAULT_NUTRITIONAL_TARGETS.prioritizeProtein,
+    ),
+    prioritizeFiber: readBoolean(
+      raw.prioritizeFiber,
+      DEFAULT_NUTRITIONAL_TARGETS.prioritizeFiber,
+    ),
+  };
+}
+
+export function parseStoredGenerationPreferences(
+  raw: unknown,
+): GenerationPreferences {
+  if (!isPlainObject(raw)) return DEFAULT_GENERATION_PREFERENCES;
+  return {
+    preferredCuisines: readStringArray(
+      raw.preferredCuisines,
+      DEFAULT_GENERATION_PREFERENCES.preferredCuisines,
+    ),
+    dietaryRestrictions: readStringArray(
+      raw.dietaryRestrictions,
+      DEFAULT_GENERATION_PREFERENCES.dietaryRestrictions,
+    ),
+    excludeIngredients: readStringArray(
+      raw.excludeIngredients,
+      DEFAULT_GENERATION_PREFERENCES.excludeIngredients,
+    ),
+    requiredIngredients: readStringArray(
+      raw.requiredIngredients,
+      DEFAULT_GENERATION_PREFERENCES.requiredIngredients,
+    ),
+    preferredCookingMethods: readStringArray(
+      raw.preferredCookingMethods,
+      DEFAULT_GENERATION_PREFERENCES.preferredCookingMethods,
+    ),
+    flavorPreferences: readFlavorPreferences(
+      raw.flavorPreferences,
+      DEFAULT_GENERATION_PREFERENCES.flavorPreferences,
+    ),
+    maxPrepTimeMinutes: readNullableNumber(
+      raw.maxPrepTimeMinutes,
+      DEFAULT_GENERATION_PREFERENCES.maxPrepTimeMinutes,
+    ),
+    nutritionalTargets: parseNutritionalTargets(raw.nutritionalTargets),
+  };
+}
 
 const STORAGE_KEY = "alchm-generation-preferences";
 
@@ -59,9 +175,9 @@ export function useGenerationPreferences(): UseGenerationPreferencesReturn {
     if (typeof window === "undefined") return DEFAULT_GENERATION_PREFERENCES;
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      return saved
-        ? { ...DEFAULT_GENERATION_PREFERENCES, ...JSON.parse(saved) }
-        : DEFAULT_GENERATION_PREFERENCES;
+      if (!saved) return DEFAULT_GENERATION_PREFERENCES;
+      const parsed: unknown = JSON.parse(saved);
+      return parseStoredGenerationPreferences(parsed);
     } catch {
       return DEFAULT_GENERATION_PREFERENCES;
     }

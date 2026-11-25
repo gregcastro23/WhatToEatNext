@@ -7,6 +7,7 @@
 //   - Flag code quality concerns as warnings for incremental improvement
 //   - Disable rules that produce excessive false positives in this domain
 //   - no-useless-assignment: ERROR globally (0 findings across src/** and scripts/**)
+//   - @typescript-eslint/no-unsafe-call & no-unsafe-return: ERROR on src/** (0 findings)
 //   - preserve-caught-error: WARN - good practice but non-blocking
 
 import js from "@eslint/js";
@@ -116,8 +117,8 @@ export default [
       "@typescript-eslint/no-explicit-any": "off", // 1,344 warnings - too noisy
       "@typescript-eslint/no-unsafe-assignment": "off", // 1,346 warnings
       "@typescript-eslint/no-unsafe-member-access": "off", // 2,127 warnings
-      "@typescript-eslint/no-unsafe-call": "off", // 386 warnings
-      "@typescript-eslint/no-unsafe-return": "off", // 183 warnings
+      "@typescript-eslint/no-unsafe-call": "error",
+      "@typescript-eslint/no-unsafe-return": "error",
       "@typescript-eslint/no-unsafe-argument": "off", // 338 warnings
 
       // Unused IMPORTS are errors, not warnings, and the reason is nastier
@@ -400,7 +401,6 @@ export default [
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
       "max-lines": "off",
       "max-lines-per-function": "off",
       "max-nested-callbacks": "off",

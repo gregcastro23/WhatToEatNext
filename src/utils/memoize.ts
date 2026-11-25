@@ -6,17 +6,20 @@
  * @param fn The function to memoize.
  * @returns A memoized version of the function.
  */
-export function memoize<T extends (...args: any[]) => any>(fn: T): T {
-  const cache = new Map<string, ReturnType<T>>();
+export function memoize<Args extends unknown[], Result>(
+  fn: (...args: Args) => Result,
+): (...args: Args) => Result {
+  const cache = new Map<string, { value: Result }>();
 
-  return ((...args: Parameters<T>): ReturnType<T> => {
+  return (...args: Args): Result => {
     const key = JSON.stringify(args);
-    if (cache.has(key)) {
-      return cache.get(key)!;
+    const cached = cache.get(key);
+    if (cached !== undefined) {
+      return cached.value;
     }
 
     const result = fn(...args);
-    cache.set(key, result);
+    cache.set(key, { value: result });
     return result;
-  }) as T;
+  };
 }

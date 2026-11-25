@@ -208,5 +208,5 @@ export const _DEFAULT_CALCULATION_PARAMS = {
  * @returns A deep copy of the default object
  */
 export function cloneDefault<T>(defaultObject: T): T {
-  return JSON.parse(JSON.stringify(defaultObject));
+  return structuredClone(defaultObject);
 }
