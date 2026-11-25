@@ -66,7 +66,7 @@ async function main() {
       GROUP BY privy_did HAVING COUNT(*) > 1
     ) d`);
 
-  let probes: unknown[] = [];
+  let probes: unknown[];
   try {
     const r = await client.query(`
       SELECT DISTINCT ON (probe_name)

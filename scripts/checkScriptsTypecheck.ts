@@ -25,9 +25,9 @@ const baseline: ScriptTypecheckBaseline = JSON.parse(baselineRaw);
 
 console.log("Running scripts/** typecheck check against scripts/tsconfig.json...");
 
-let tscStdout = "";
-let tscStderr = "";
-let exitCode = 0;
+let tscStdout: string;
+let tscStderr: string;
+let exitCode: number;
 
 try {
   const result = await execFileAsync(

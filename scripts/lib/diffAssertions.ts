@@ -297,7 +297,7 @@ export function getChangedSourceFiles(
   const tsJsRegex = /\.(ts|tsx|js|jsx)$/i;
   const relTargetDir = path.relative(repoRoot, targetDir).split(path.sep).join("/");
 
-  let diffFiles: string[] = [];
+  let diffFiles: string[];
   try {
     const output = execFileSync(
       "git",
@@ -317,7 +317,7 @@ export function getChangedSourceFiles(
     throw new Error(`git diff --name-only failed against ${mergeBase}: ${msg}`);
   }
 
-  let untrackedFiles: string[] = [];
+  let untrackedFiles: string[];
   try {
     const output = execFileSync(
       "git",
