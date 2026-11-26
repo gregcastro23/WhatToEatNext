@@ -25,7 +25,7 @@ import { fetchAgentsForDate } from '@/lib/planetaryAgentsClient'
 import { AgentFilterPanel, type AgentFilters } from './agent-filter-panel'
 import { DegreeAgentSelector } from './degree-agent-selector'
 import { MultiAgentConversation } from './multi-agent-conversation'
-import { PlanetaryAgentChat } from './planetary-agent-chat'
+import { PlanetaryAgentChat, type AgentEvolution } from './planetary-agent-chat'
 import { ZodiacWheelInteractive } from './zodiac-wheel-interactive'
 
 // Zodiac modality lookup + derivation from a degree-agent id
@@ -363,7 +363,7 @@ export const PlanetaryAgentsView: React.FC<PlanetaryAgentsViewProps> = ({
     setSelectedChatAgent(null)
   }, [])
 
-  const handleAgentEvolution = useCallback((agentId: string, evolution: any) => {
+  const handleAgentEvolution = useCallback((agentId: string, evolution: AgentEvolution) => {
     // Update agent evolution in the activations list
     setActivations(prev =>
       prev.map(activation =>

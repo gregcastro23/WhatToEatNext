@@ -53,7 +53,7 @@ interface InitialAgentContext {
   date?: Date
 }
 
-interface AgentEvolution {
+export interface AgentEvolution {
   evolutionPoints: number
   newLevel: string
   insights: string[]

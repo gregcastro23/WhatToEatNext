@@ -51,7 +51,14 @@ export async function GET(request: NextRequest) {
     const currentTimestamp = new Date().toISOString();
 
     // Compare positions
-    const comparison: Record<string, any> = {};
+    interface PlanetComparison {
+      natal: string;
+      current: string;
+      identical: boolean;
+      natalDegree: number | undefined;
+      currentDegree: number | undefined;
+    }
+    const comparison: Record<string, PlanetComparison> = {};
     const planets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto'];
     const natalPlanetaryPositions = natalChart.planetaryPositions as Record<string, string> | undefined;
 

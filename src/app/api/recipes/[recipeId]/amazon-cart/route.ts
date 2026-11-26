@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { resolveAsin, getStandardizedQuantity } from "@/data/amazon";
+import { isPlainObject } from "@/lib/api/parsers/wirePrimitives";
 import { executeQuery } from "@/lib/database/connection";
 import { _logger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
@@ -47,11 +48,24 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       [recipeId]
     );
     
-    if (recipeResult.rows[0]?.read_model?.ingredients) {
-      rawIngredients = recipeResult.rows[0].read_model.ingredients.map((ing: any) => ({
-        name: typeof ing === 'string' ? ing : ing.name,
-        quantity: typeof ing === 'object' ? (ing.amount ?? 1) : 1
-      }));
+    const fallbackIngredients = recipeResult.rows[0]?.read_model?.ingredients;
+    if (Array.isArray(fallbackIngredients)) {
+      const itemsList: readonly unknown[] = fallbackIngredients;
+      rawIngredients = itemsList.flatMap((ing) => {
+        if (typeof ing === "string") return [{ name: ing, quantity: 1 }];
+        if (isPlainObject(ing) && typeof ing.name === "string") {
+          return [
+            {
+              name: ing.name,
+              quantity:
+                typeof ing.amount === "number" && Number.isFinite(ing.amount)
+                  ? ing.amount
+                  : 1,
+            },
+          ];
+        }
+        return [];
+      });
     }
   }
 

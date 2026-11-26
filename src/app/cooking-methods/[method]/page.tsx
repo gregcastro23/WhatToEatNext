@@ -495,15 +495,19 @@ export default async function CookingMethodPage({
           </div>
           {reference.temperatureF.proteins ? (
             <div className="mt-5 grid grid-cols-2 gap-4 border-t border-ma-line/30 pt-4 md:grid-cols-4">
-              {Object.entries(reference.temperatureF.proteins).map(
-                ([protein, info]) => (
-                  <MaDataReadout
-                    key={protein}
-                    label={protein.toUpperCase()}
-                    value={`${info.temp}°F`}
-                    valueClassName="text-ma-fg text-sm"
-                  />
-                ),
+              {(["poultry", "redMeat", "seafood", "vegetable"] as const).map(
+                (protein) => {
+                  const info = reference.temperatureF.proteins?.[protein];
+                  if (!info) return null;
+                  return (
+                    <MaDataReadout
+                      key={protein}
+                      label={protein.toUpperCase()}
+                      value={`${info.temp}°F`}
+                      valueClassName="text-ma-fg text-sm"
+                    />
+                  );
+                },
               )}
             </div>
           ) : null}

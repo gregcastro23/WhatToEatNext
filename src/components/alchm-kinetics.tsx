@@ -2,31 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { FaHeartbeat, FaChartLine, FaBolt, FaTachometerAlt } from "react-icons/fa";
+import { readJson } from "@/lib/api/json";
+import {
+  parseAlchmKineticsResponse,
+  type AlchmKineticsApiData,
+} from "@/lib/api/parsers/alchmKineticsWireParser";
 import { _logger } from "@/lib/logger";
-import type { HistoricalContext } from "@/services/HistoricalStatsService";
-
-interface ESMSKinetics {
-  velocity: { Spirit: number; Essence: number; Matter: number; Substance: number };
-  acceleration: { Spirit: number; Essence: number; Matter: number; Substance: number };
-  momentum: { Spirit: number; Essence: number; Matter: number; Substance: number };
-}
-
-interface CircuitData {
-  charge: number;
-  potentialDifference: number;
-  currentFlow: number;
-  power: number;
-  inertia: number;
-  forceMagnitude: number;
-  forceClassification: string;
-  thermalDirection: string;
-}
-
-interface ApiData {
-  kinetics: ESMSKinetics;
-  circuit: CircuitData;
-  historicalContext?: HistoricalContext;
-}
 
 const QUANTITIES = ["Spirit", "Essence", "Matter", "Substance"] as const;
 
@@ -152,7 +133,7 @@ const getZScoreBadge = (value: number, stat?: { mean: number; stdDev: number }) 
 };
 
 export default function AlchmKinetics() {
-  const [apiData, setApiData] = useState<ApiData | null>(null);
+  const [apiData, setApiData] = useState<AlchmKineticsApiData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -160,9 +141,9 @@ export default function AlchmKinetics() {
       try {
         const response = await fetch("/api/alchm-quantities");
         if (!response.ok) return;
-        const data = await response.json();
-        if (data.kinetics && data.circuit) {
-          setApiData({ kinetics: data.kinetics, circuit: data.circuit, historicalContext: data.historicalContext });
+        const parsed = await readJson(response, parseAlchmKineticsResponse);
+        if (parsed) {
+          setApiData(parsed);
         }
       } catch (error) {
         _logger.error("Failed to fetch kinetics:", error);

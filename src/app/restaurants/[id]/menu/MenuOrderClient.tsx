@@ -65,6 +65,16 @@ const MenuItemCommentClientSchema = z.object({
 
 type MenuItemComment = z.infer<typeof MenuItemCommentClientSchema>;
 
+function parseMenuItemCommentsResponse(raw: unknown): MenuItemComment[] {
+  if (typeof raw !== "object" || raw === null || Array.isArray(raw)) return [];
+  if (!("comments" in raw) || !Array.isArray(raw.comments)) return [];
+  const items: readonly unknown[] = raw.comments;
+  return items.flatMap((c) => {
+    const parsed = MenuItemCommentClientSchema.safeParse(c);
+    return parsed.success ? [parsed.data] : [];
+  });
+}
+
 type ElementType = "Fire" | "Water" | "Earth" | "Air";
 
 function classifyItemElement(name: string, description?: string): ElementType {
@@ -337,10 +347,10 @@ export default function MenuOrderClient({
         });
         const res = await fetch(`/api/restaurants/comments?${params.toString()}`);
         if (res.ok) {
-          const data = await res.json();
+          const comments = await readJson(res, parseMenuItemCommentsResponse);
           setItemComments((prev) => ({
             ...prev,
-            [itemId]: Array.isArray(data.comments) ? data.comments : [],
+            [itemId]: comments,
           }));
         }
       } catch {
