@@ -15,6 +15,7 @@
  */
 
 import React, { useMemo, useState } from "react";
+import { convertedTemperature, formatTemperature, temperatureUnitFor } from "@/constants/cookingMethodTemperatureUnits";
 import {
   METHOD_PHYSICS,
   RATE_LIMITER_LABEL,
@@ -626,8 +627,10 @@ export function ConditionsTab({
                 <div className="text-[10px] uppercase tracking-wide text-gray-500">
                   {label.replace(/_/g, " ")}
                 </div>
-                <div className="mt-0.5 font-mono text-lg font-bold text-gray-100">{temp}°F</div>
-                <div className="text-[10px] text-gray-500">{Math.round(fToC(temp))}°C</div>
+                <div className="mt-0.5 font-mono text-lg font-bold text-gray-100">
+                  {formatTemperature(temp, temperatureUnitFor(methodId))}
+                </div>
+                <div className="text-[10px] text-gray-500">{convertedTemperature(temp, temperatureUnitFor(methodId))}</div>
               </div>
             ))}
           </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { convertedTemperature, formatTemperature, temperatureUnitFor } from "@/constants/cookingMethodTemperatureUnits";
 import { readJson } from "@/lib/api/json";
 import { parseTechniqueResponse, type TechniqueApiResponse } from "./techniqueParser";
 
@@ -244,9 +245,9 @@ export function TechniqueModal({ techniqueName, onClose }: TechniqueModalProps) 
                     >
                       <div className="text-xs text-white/50 capitalize">{k.replace(/_/g, " ")}</div>
                       <div className="text-base font-bold text-amber-300 tabular-nums">
-                        {v}°F
+                        {formatTemperature(v, temperatureUnitFor(data.canonicalKey ?? ""))}
                         <span className="text-xs text-white/40 ml-1">
-                          / {Math.round(((v - 32) * 5) / 9)}°C
+                          / {convertedTemperature(v, temperatureUnitFor(data.canonicalKey ?? ""))}
                         </span>
                       </div>
                     </div>
