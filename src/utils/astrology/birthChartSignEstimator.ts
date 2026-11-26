@@ -584,7 +584,7 @@ export function estimateBirthChartSigns(
  * positions regardless of the actual birth date.
  */
 export function detectStaticFallback(
-  positions: Record<string, any>,
+  positions: Record<string, unknown>,
 ): boolean {
   let matches = 0;
   let total = 0;
@@ -594,7 +594,10 @@ export function detectStaticFallback(
     if (!pos) continue;
     total++;
 
-    const actualSign = typeof pos === "string" ? pos : pos.sign ?? pos;
+    let actualSign: unknown = pos;
+    if (typeof pos === "object" && "sign" in pos) {
+      actualSign = pos.sign ?? pos;
+    }
     if (String(actualSign).toLowerCase() === expectedSign) {
       matches++;
     }
@@ -612,7 +615,7 @@ export function detectStaticFallback(
  */
 export function validateBirthChartAgainstEstimates(
   birthDate: Date,
-  positions: Record<string, any>,
+  positions: Record<string, unknown>,
 ): ValidationResult {
   const isStaticFallback = detectStaticFallback(positions);
   const estimates = estimateBirthChartSigns(birthDate);

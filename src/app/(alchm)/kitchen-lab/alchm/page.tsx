@@ -29,6 +29,10 @@ import {
   parseHealthPayload,
   type HealthPayload,
 } from "@/lib/api/parsers/alchmTelemetryWireParsers";
+import {
+  parseCuisineSignaturesResponse,
+  parseRecommendedIngredientsResponse,
+} from "@/lib/api/parsers/kitchenLabWireParsers";
 import { getAssetUrl } from "@/utils/urlUtils";
 
 // PlanetaryClock geometry uses Math.sin/cos which can produce micro-different
@@ -159,29 +163,14 @@ const PLANET_GLYPH_LOOKUP: Record<string, string> = {
   Pluto: "♇",
 };
 
-interface RecommendedIngredientPayload {
-  id: string;
-  name: string;
-  category: string;
-  elemental_affinity: "fire" | "water" | "earth" | "air";
-  planet: string;
-  hue: number;
-  match_score: number;
-  thermo: { spirit: number; essence: number; matter: number; substance: number };
-  image_url?: string;
-}
-
 function useRecommendedIngredients(limit = 8): IngredientCardData[] | null {
   const [items, setItems] = useState<IngredientCardData[] | null>(null);
   useEffect(() => {
     let cancelled = false;
     fetch(`/api/recommendations/ingredients?limit=${limit}`, { cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((j) => {
-        if (cancelled || !j) return;
-        const list: RecommendedIngredientPayload[] = Array.isArray(j.ingredients)
-          ? j.ingredients
-          : [];
+      .then((r) => (r.ok ? readJson(r, parseRecommendedIngredientsResponse) : null))
+      .then((list) => {
+        if (cancelled || !list) return;
         setItems(
           list.map((it) => {
             const imageUrl = getAssetUrl(it.image_url);
@@ -211,14 +200,6 @@ function useRecommendedIngredients(limit = 8): IngredientCardData[] | null {
 
 /* ─── Cuisine signatures hook ─────────────────────────────────────────────── */
 
-interface CuisineSignaturePayload {
-  id: string;
-  name: string;
-  region: string;
-  match: number;
-  signature: [number, number, number, number];
-}
-
 interface CuisineSignaturesData {
   total: number;
   rows: CuisineSignatureRow[];
@@ -229,15 +210,12 @@ function useCuisineSignatures(): CuisineSignaturesData | null {
   useEffect(() => {
     let cancelled = false;
     fetch("/api/cuisines/signatures", { cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : null))
+      .then((r) => (r.ok ? readJson(r, parseCuisineSignaturesResponse) : null))
       .then((j) => {
         if (cancelled || !j) return;
-        const list: CuisineSignaturePayload[] = Array.isArray(j.cuisines)
-          ? j.cuisines
-          : [];
         setData({
-          total: typeof j.total === "number" ? j.total : list.length,
-          rows: list.slice(0, 8).map((c) => ({
+          total: j.total,
+          rows: j.cuisines.slice(0, 8).map((c) => ({
             id: c.id,
             name: c.name,
             region: c.region,

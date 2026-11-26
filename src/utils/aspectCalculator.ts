@@ -295,11 +295,12 @@ export function buildAspectsFromChartPlanets(
   planets: ReadonlyArray<{ name?: unknown; sign?: unknown; position?: unknown }> | null | undefined,
 ): AspectWithStrength[] {
   if (!Array.isArray(planets)) return [];
+  const planetList: ReadonlyArray<{ name?: unknown; sign?: unknown; position?: unknown }> = planets;
   const positions: Record<string, unknown> = {};
-  for (const planet of planets) {
+  for (const planet of planetList) {
     if (
-      typeof planet?.name === "string" &&
-      typeof planet?.position === "number" &&
+      typeof planet.name === "string" &&
+      typeof planet.position === "number" &&
       planet.position > 0
     ) {
       positions[planet.name] = { sign: planet.sign, exactLongitude: planet.position };

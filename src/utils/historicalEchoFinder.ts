@@ -19,6 +19,7 @@
 
 import historicalFile from "@/data/alchemicalEchoSamples.json";
 import { cuisineFlavorProfiles } from "@/data/cuisineFlavorProfiles";
+import { isPlainObject } from "@/lib/api/parsers/wirePrimitives";
 import {
   alchemizeDetailed,
   type DetailedAlchemicalResult,
@@ -196,17 +197,20 @@ function snapshotFrom(positions: Record<string, PlanetaryPosition>): PlanetSnaps
   return out;
 }
 
-function asPlanetaryRecord(positions: Record<string, any>): Record<string, PlanetaryPosition> {
+function asPlanetaryRecord(positions: Record<string, unknown>): Record<string, PlanetaryPosition> {
   const out: Record<string, PlanetaryPosition> = {};
-  for (const [planet, p] of Object.entries(positions)) {
-    out[planet] = {
-      sign: String(p?.sign ?? "").toLowerCase(),
-      degree: Number(p?.degree) || 0,
-      minute: Number(p?.minute) || 0,
+  for (const [planet, raw] of Object.entries(positions)) {
+    const p = isPlainObject(raw) ? raw : undefined;
+    const entry: PlanetaryPosition = {
+      sign: typeof p?.sign === "string" ? p.sign.toLowerCase() : "",
+      degree: typeof p?.degree === "number" && Number.isFinite(p.degree) ? p.degree : 0,
+      minute: typeof p?.minute === "number" && Number.isFinite(p.minute) ? p.minute : 0,
       isRetrograde: Boolean(p?.isRetrograde),
-      exactLongitude:
-        typeof p?.exactLongitude === "number" ? p.exactLongitude : undefined,
     };
+    if (typeof p?.exactLongitude === "number") {
+      entry.exactLongitude = p.exactLongitude;
+    }
+    out[planet] = entry;
   }
   return out;
 }

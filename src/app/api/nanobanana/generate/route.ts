@@ -1,5 +1,6 @@
 import { createHash } from "crypto";
 import { NextResponse } from "next/server";
+import { parseJsonRecord, readJson } from "@/lib/api/json";
 import { auth } from "@/lib/auth/auth";
 import { rateLimit } from "@/lib/rateLimit";
 import { redisGet, redisSet } from "@/lib/redis";
@@ -79,10 +80,10 @@ export async function POST(req: NextRequest) {
       throw new Error(`Backend error ${response.status}: ${errText}`);
     }
 
-    const data = await response.json();
+    const data = await readJson(response, parseJsonRecord);
 
     // Cache the successful result
-    if (data.url) {
+    if (typeof data.url === "string" && data.url.length > 0) {
       await redisSet(cacheKey, data, CACHE_TTL).catch((err) =>
         logger.warn("[NanoBanana] Redis write failed:", err),
       );

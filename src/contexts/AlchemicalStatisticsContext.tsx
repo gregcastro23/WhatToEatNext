@@ -15,7 +15,9 @@ import {
   createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode,
 } from "react";
 import { parseAllPeriodsResponse } from "@/contexts/alchemicalStatisticsParser";
+import { parseQuantityContext } from "@/contexts/quantityContextParser";
 import { readJson } from "@/lib/api/json";
+import { isPlainObject } from "@/lib/api/parsers/wirePrimitives";
 import { _logger } from "@/lib/logger";
 import type {
   PeriodStatistics,
@@ -174,19 +176,11 @@ export function useQuantityContext(
     if (!stats) return null;
     const parts = path.split(".");
      
-    let cursor: any = stats;
+    let cursor: unknown = stats;
     for (const part of parts) {
-      if (cursor == null) return null;
+      if (!isPlainObject(cursor)) return null;
       cursor = cursor[part];
     }
-    if (
-      cursor &&
-      typeof cursor === "object" &&
-      typeof cursor.mean === "number" &&
-      typeof cursor.stdDev === "number"
-    ) {
-      return cursor as QuantityContextValue;
-    }
-    return null;
+    return parseQuantityContext(cursor);
   }, [allPeriods, period, path]);
 }

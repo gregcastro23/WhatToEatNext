@@ -19,6 +19,7 @@ import { useToast } from "@/components/ToastProvider";
 import { useUser } from "@/contexts/UserContext";
 import { useLatestRef } from "@/hooks/useLatestRef";
 import { readJson } from "@/lib/api/json";
+import { isPlainObject } from "@/lib/api/parsers/wirePrimitives";
 import type { SavedRestaurant } from "@/types/restaurant";
 import type {
   AlchmScoredRestaurant,
@@ -116,13 +117,10 @@ export function CuisineRestaurantFinder({
       try {
         const stored = window.localStorage.getItem("alchm_user_location");
         if (stored) {
-          const parsed = JSON.parse(stored);
+          const parsed: unknown = JSON.parse(stored);
           if (
-            parsed &&
-            typeof parsed === "object" &&
-            "lat" in parsed &&
+            isPlainObject(parsed) &&
             typeof parsed.lat === "number" &&
-            "lng" in parsed &&
             typeof parsed.lng === "number"
           ) {
             setCoords({ lat: parsed.lat, lng: parsed.lng });

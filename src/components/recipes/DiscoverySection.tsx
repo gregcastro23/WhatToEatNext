@@ -2,32 +2,13 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { readJson } from "@/lib/api/json";
+import {
+  parseRecipeDiscoveryResponse,
+  type DiscoveryData,
+  type DiscoveryRecipe,
+} from "@/lib/api/parsers/recipeDiscoveryWireParser";
 import { _logger } from "@/lib/logger";
-
-interface DiscoveryRecipe {
-  id: string;
-  name: string;
-  description?: string;
-  cuisine?: string;
-  elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
-  spirit?: number;
-  essence?: number;
-  matter?: number;
-  substance?: number;
-  monicaScore?: number;
-  monicaScoreLabel?: string;
-  prepTime?: string;
-  cookTime?: string;
-  isVegetarian?: boolean;
-  isVegan?: boolean;
-  isGlutenFree?: boolean;
-}
-
-interface DiscoveryData {
-  similarElemental: DiscoveryRecipe[];
-  similarAlchemical: DiscoveryRecipe[];
-  sameCuisine: DiscoveryRecipe[];
-}
 
 type Lens = "elemental" | "alchemical" | "cuisine";
 
@@ -120,15 +101,11 @@ export function DiscoverySection({ recipeId }: { recipeId: string }) {
     let cancelled = false;
     setLoading(true);
     fetch(`/api/recipes/${recipeId}/discover`)
-      .then((r) => r.json())
+      .then((r) => (r.ok ? readJson(r, parseRecipeDiscoveryResponse) : null))
       .then((json) => {
         if (cancelled) return;
-        if (json?.success) {
-          setData({
-            similarElemental: json.similarElemental ?? [],
-            similarAlchemical: json.similarAlchemical ?? [],
-            sameCuisine: json.sameCuisine ?? [],
-          });
+        if (json?.success && json.data) {
+          setData(json.data);
         }
       })
       .catch((err) => _logger.error("Discovery fetch failed:", err))

@@ -65,9 +65,11 @@ export default function DayNightEffectsPage() {
     setPreference(!viewDiurnal ? 'light' : 'dark');
   };
 
-  const getHighestESMS = (esms: any) => {
-    const keys = ['Spirit', 'Essence', 'Matter', 'Substance'];
-    return keys.reduce((a, b) => esms[a] > esms[b] ? a : b);
+  const getHighestESMS = (
+    esms: Record<"Spirit" | "Essence" | "Matter" | "Substance", number>,
+  ) => {
+    const keys = ["Spirit", "Essence", "Matter", "Substance"] as const;
+    return keys.reduce((a, b) => (esms[a] > esms[b] ? a : b));
   };
 
   return (

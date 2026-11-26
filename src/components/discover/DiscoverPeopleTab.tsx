@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GradientButton, LabelXS } from "@/components/tables/ui";
 import { Glyph } from "@/components/ui/alchm/Glyph";
+import { readJson } from "@/lib/api/json";
+import { parseCommunityAgentsResponse } from "@/lib/api/parsers/kitchenLabWireParsers";
 import { Chip } from "./Chip";
 import { useDiscoverPeople } from "./hooks";
 import { PersonRow } from "./PersonRow";
@@ -23,24 +25,22 @@ function AnonAgents(): JSX.Element {
   useEffect(() => {
     let active = true;
     void fetch("/api/community/agents?limit=12")
-      .then((r) => r.json())
-      .then((d) => {
-        if (!active || !d?.agents) return;
+      .then((r) => (r.ok ? readJson(r, parseCommunityAgentsResponse) : null))
+      .then((agents) => {
+        if (!active || !agents) return;
         setAgents(
-          (d.agents as Array<{ userId: string; name: string; bio: string | null; dominantElement: string | null }>).map(
-            (a) => ({
-              id: a.userId,
-              name: a.name,
-              avatarUrl: null,
-              bio: a.bio,
-              dominantElement: a.dominantElement,
-              isAgent: true,
-              compatibility: null,
-              mutualCommensals: 0,
-              isCommensal: false,
-              followState: null,
-            }),
-          ),
+          agents.map((a) => ({
+            id: a.userId,
+            name: a.name,
+            avatarUrl: null,
+            bio: a.bio,
+            dominantElement: a.dominantElement,
+            isAgent: true,
+            compatibility: null,
+            mutualCommensals: 0,
+            isCommensal: false,
+            followState: null,
+          })),
         );
       })
       .catch(() => {});
