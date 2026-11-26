@@ -2,6 +2,8 @@
 
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
+import { safeReadJson } from "@/lib/api/json";
+import { parseSaveGroupResponse } from "@/lib/api/parsers/userActionWireParsers";
 import { _logger } from "@/lib/logger";
 import type { BirthData, NatalChart } from "@/types/natalChart";
 
@@ -50,7 +52,11 @@ export function SaveGroupButton({
         credentials: "include",
         body: JSON.stringify({ groupName: trimmed, guests }),
       });
-      const data = await res.json();
+      const data = await safeReadJson(
+        res,
+        { success: false },
+        parseSaveGroupResponse,
+      );
       if (!res.ok || !data.success) {
         setErrorMessage(data.message ?? "Failed to save group");
         setStatus("error");

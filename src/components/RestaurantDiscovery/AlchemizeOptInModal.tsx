@@ -10,6 +10,8 @@
 import { useState } from "react";
 import { useToast } from "@/components/ToastProvider";
 import { getSignatureDishes } from "@/data/restaurant/curatedCatalog";
+import { safeReadJson } from "@/lib/api/json";
+import { parseAlchemizeOptInResponse } from "@/lib/api/parsers/restaurantWireParsers";
 
 export interface AlchemizeOptInModalProps {
   restaurant: {
@@ -77,7 +79,11 @@ export function AlchemizeOptInModal({
         }),
       });
 
-      const data = await res.json();
+      const data = await safeReadJson(
+        res,
+        { success: false },
+        parseAlchemizeOptInResponse,
+      );
       if (!res.ok || !data.success) {
         throw new Error(data.error || "Failed to submit nomination");
       }

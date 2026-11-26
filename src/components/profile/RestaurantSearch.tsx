@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { safeReadJson } from '@/lib/api/json';
+import { parseRestaurantSearchResponse } from '@/lib/api/parsers/restaurantWireParsers';
 import type { SavedRestaurant, FoursquarePlace } from '@/types/restaurant';
 
 interface RestaurantSearchProps {
@@ -38,14 +40,17 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
       if (loc.trim()) params.set('near', loc.trim());
 
       const res = await fetch(`/api/restaurants/search?${params.toString()}`);
-      if (!res.ok && res.status !== 501) throw new Error(`Server error (${res.status})`);
-      const data = await res.json();
-
       if (res.status === 501) {
         setApiNotConfigured(true);
         setResults([]);
         return;
       }
+      if (!res.ok) throw new Error(`Server error (${res.status})`);
+      const data = await safeReadJson(
+        res,
+        { success: false, results: [] },
+        parseRestaurantSearchResponse,
+      );
 
       if (!data.success) {
         setError(data.message ?? 'Search failed.');
@@ -53,7 +58,7 @@ export const RestaurantSearch: React.FC<RestaurantSearchProps> = ({
         return;
       }
 
-      setResults(data.results ?? []);
+      setResults(data.results);
     } catch (_err) {
       setError('Failed to search. Please try again.');
       setResults([]);

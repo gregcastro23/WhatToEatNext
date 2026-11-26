@@ -24,6 +24,11 @@ import {
 } from "@/components/ui/alchm";
 import { useAlchemicalSafe } from "@/contexts/AlchemicalContext/hooks";
 import { useUser } from "@/contexts/UserContext";
+import { readJson } from "@/lib/api/json";
+import {
+  parseHealthPayload,
+  type HealthPayload,
+} from "@/lib/api/parsers/alchmTelemetryWireParsers";
 import { getAssetUrl } from "@/utils/urlUtils";
 
 // PlanetaryClock geometry uses Math.sin/cos which can produce micro-different
@@ -137,14 +142,6 @@ function AwaitingBackend({
       )}
     </div>
   );
-}
-
-/* ─── Service telemetry from /api/health ─────────────────────────────────── */
-
-interface HealthPayload {
-  status?: string;
-  services?: Record<string, string>;
-  timestamp?: string;
 }
 
 /* ─── Recommended ingredients hook ───────────────────────────────────────── */
@@ -349,7 +346,7 @@ function useHealthTelemetry(): PipelineService[] {
   useEffect(() => {
     let cancelled = false;
     fetch("/api/health", { cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : null))
+      .then((r) => (r.ok ? readJson(r, parseHealthPayload) : null))
       .then((j) => {
         if (!cancelled) setData(j);
       })

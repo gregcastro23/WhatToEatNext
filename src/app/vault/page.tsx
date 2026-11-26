@@ -11,6 +11,11 @@
 
 import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useState, Suspense } from "react";
+import { readJson, safeReadJson } from "@/lib/api/json";
+import {
+  parseClaimDailyResponse,
+  parseVaultBalancesResponse,
+} from "@/lib/api/parsers/userActionWireParsers";
 import { PRICED_TOOLS } from "@/lib/economy/featurePrices";
 
 interface TokenBalances {
@@ -43,7 +48,7 @@ function PremiumPageContent() {
     try {
       const res = await fetch("/api/economy/balances");
       if (res.ok) {
-        const data = await res.json();
+        const data = await readJson(res, parseVaultBalancesResponse);
         if (data.balances) {
           setBalances(data.balances);
         }
@@ -64,7 +69,11 @@ function PremiumPageContent() {
     setClaimMessage(null);
     try {
       const res = await fetch("/api/economy/claim-daily", { method: "POST" });
-      const data = await res.json();
+      const data = await safeReadJson(
+        res,
+        { success: false },
+        parseClaimDailyResponse,
+      );
       if (res.ok && data.success) {
         setClaimMessage(data.message || "✨ Daily Cosmic Yield collected!");
         void fetchBalances();

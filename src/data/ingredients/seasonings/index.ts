@@ -138,12 +138,13 @@ export const _getTraditionalCombinations = (
   const combinations: Record<string, string[]> = {};
 
   Object.entries(seasonings).forEach(([key, value]) => {
-    if (
-      Array.isArray(value.traditionalCombinations) &&
-      value.traditionalCombinations.includes(cuisine)
-    ) {
+    const rawCombos: unknown = value.traditionalCombinations;
+    const combos = Array.isArray(rawCombos)
+      ? rawCombos.filter((item): item is string => typeof item === "string")
+      : [];
+    if (combos.includes(cuisine)) {
       combinations[key] ??= [];
-      combinations[key].push(...value.traditionalCombinations);
+      combinations[key].push(...combos);
     }
   });
 

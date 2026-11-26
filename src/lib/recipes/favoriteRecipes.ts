@@ -11,6 +11,8 @@
  */
 
 import { useEffect, useState, useCallback, useMemo } from "react";
+import { readJson } from "@/lib/api/json";
+import { parseFavoriteRecipesResponse } from "@/lib/api/parsers/userActionWireParsers";
 
 export const STORAGE_KEY_IDS = "alchm_favorite_recipes";
 export const STORAGE_KEY_DATA = "alchm_favorite_recipes_data";
@@ -221,7 +223,9 @@ export function useFavoriteRecipes() {
 
     // Background fetch from server
     fetch("/api/recipes/favorites")
-      .then((res) => (res.ok ? res.json() : null))
+      .then((res) =>
+        res.ok ? readJson(res, parseFavoriteRecipesResponse) : null,
+      )
       .then((data) => {
         if (data?.success) {
           if (Array.isArray(data.favoriteIds)) {

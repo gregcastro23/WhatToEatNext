@@ -11,6 +11,11 @@ import {
   FaSun,
   FaMoon,
 } from "react-icons/fa";
+import { readJson } from "@/lib/api/json";
+import {
+  parsePlanetaryContributionsResponse,
+  type PlanetaryContributionsData,
+} from "@/lib/api/parsers/alchmTelemetryWireParsers";
 import {
   formatTransitionTime,
   capitalizeFirstLetter,
@@ -30,43 +35,6 @@ const ESMS_GLYPH: Record<"Spirit" | "Essence" | "Matter" | "Substance", string> 
   Substance: "🝉",
 };
 
-interface PlanetPosition {
-  sign: string;
-  degree: number;
-  minute: number;
-  exactLongitude: number;
-  isRetrograde: boolean;
-}
-
-interface PlanetaryData {
-  name: string;
-  position: PlanetPosition;
-  esms: {
-    Spirit: number;
-    Essence: number;
-    Matter: number;
-    Substance: number;
-  };
-  /** Element derived from the zodiac sign */
-  signElement?: string;
-  /** Element the planet expresses under the current sect */
-  sectElement: string;
-  /** Quality (modality) of the sign the planet currently occupies */
-  signQuality: string;
-  transition: {
-    nextSign: string;
-    estimatedDate: Date | string;
-    daysUntil: number;
-    direction: "forward" | "retrograde";
-  };
-}
-
-interface PlanetaryContributionsData {
-  planets: PlanetaryData[];
-  isDiurnal: boolean;
-  timestamp: string;
-}
-
 export default function PlanetaryContributionsChart() {
   const [data, setData] = useState<PlanetaryContributionsData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -77,7 +45,10 @@ export default function PlanetaryContributionsChart() {
       setLoading(true);
       const response = await fetch("/api/alchm-quantities/planetary");
       if (!response.ok) throw new Error("Failed to fetch planetary data");
-      const result = await response.json();
+      const result = await readJson(
+        response,
+        parsePlanetaryContributionsResponse,
+      );
       setData(result);
       setError(null);
     } catch (err) {

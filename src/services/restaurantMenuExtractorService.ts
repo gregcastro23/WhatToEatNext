@@ -83,12 +83,15 @@ function extractSchemaJsonLd(html: string): unknown[] {
     const content = match[1]?.trim();
     if (!content) continue;
     try {
-      const parsed = JSON.parse(content);
+      const parsed: unknown = JSON.parse(content);
       if (Array.isArray(parsed)) {
-        scripts.push(...parsed);
+        const items: readonly unknown[] = parsed;
+        scripts.push(...items);
       } else if (isRecord(parsed)) {
-        if ("@graph" in parsed && Array.isArray(parsed["@graph"])) {
-          scripts.push(...parsed["@graph"]);
+        const graph: unknown = parsed["@graph"];
+        if (Array.isArray(graph)) {
+          const graphItems: readonly unknown[] = graph;
+          scripts.push(...graphItems);
         } else {
           scripts.push(parsed);
         }

@@ -76,14 +76,15 @@ export async function reserveEsmsForRestaurantOrder(input: {
     );
 
     if (existing.rows.length > 0) {
-      const current = await client.query(
+      const current = await client.query<Record<string, unknown>>(
         "SELECT * FROM token_balances WHERE user_id = $1",
         [input.userId],
       );
+      const [currentRow] = current.rows;
       return {
         reserved: true,
         alreadyReserved: true,
-        balances: current.rows[0] ? rowToBalances(current.rows[0]) : null,
+        balances: currentRow ? rowToBalances(currentRow) : null,
         capExceeded: null,
       };
     }
@@ -160,7 +161,7 @@ export async function reserveEsmsForRestaurantOrder(input: {
       [input.userId],
     );
 
-    const updated = await client.query(
+    const updated = await client.query<Record<string, unknown>>(
       `UPDATE token_balances
        SET spirit = spirit - $2,
            essence = essence - $3,
@@ -182,7 +183,8 @@ export async function reserveEsmsForRestaurantOrder(input: {
       ],
     );
 
-    if (updated.rows.length === 0) {
+    const [updatedRow] = updated.rows;
+    if (!updatedRow) {
       return {
         reserved: false,
         alreadyReserved: false,
@@ -221,7 +223,7 @@ export async function reserveEsmsForRestaurantOrder(input: {
     return {
       reserved: true,
       alreadyReserved: false,
-      balances: rowToBalances(updated.rows[0]),
+      balances: rowToBalances(updatedRow),
       capExceeded: null,
     };
   });

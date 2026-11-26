@@ -253,6 +253,31 @@ export function getZodiacArcPath(
   `;
 }
 
+const CHART_ZODIAC_SIGNS: readonly ZodiacSignType[] = [
+  "aries",
+  "taurus",
+  "gemini",
+  "cancer",
+  "leo",
+  "virgo",
+  "libra",
+  "scorpio",
+  "sagittarius",
+  "capricorn",
+  "aquarius",
+  "pisces",
+];
+
+/** Narrow an untyped sign value to a canonical lowercase `ZodiacSignType`. */
+export function toChartZodiacSign(sign: unknown): ZodiacSignType {
+  if (typeof sign === "string") {
+    const normalized = sign.toLowerCase();
+    const matched = CHART_ZODIAC_SIGNS.find((s) => s === normalized);
+    if (matched) return matched;
+  }
+  return "aries";
+}
+
 /**
  * Get retrograde symbol
  * @returns Unicode symbol for retrograde

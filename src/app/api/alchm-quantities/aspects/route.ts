@@ -67,7 +67,7 @@ export async function GET(request: Request) {
     logger.info("Aspects API called");
 
     // Get current planetary positions
-    let positions: Record<string, any>;
+    let positions: Record<string, PlanetPosition>;
     try {
       positions = await calculatePlanetaryPositions();
     } catch {
@@ -86,10 +86,10 @@ export async function GET(request: Request) {
         Object.entries(positions).map(([name, pos]) => [
           name,
           {
-            sign: (pos).sign,
-            degree: (pos).degree ?? 0,
+            sign: pos.sign,
+            degree: pos.degree,
             exactLongitude: toLongitude(pos),
-            isRetrograde: (pos).isRetrograde ?? false,
+            isRetrograde: pos.isRetrograde ?? false,
           },
         ]),
       ),
@@ -122,7 +122,7 @@ export async function GET(request: Request) {
     const velocityFor = (
       name: string,
     ): { speed: number; source: "ephemeris" | "average-fallback" } => {
-      const pos = positions[name] as Partial<PlanetPosition> | undefined;
+      const pos = positions[name];
       const fromEphem = pos?.longitudeSpeed;
       if (typeof fromEphem === "number" && Number.isFinite(fromEphem)) {
         return { speed: fromEphem, source: "ephemeris" };
@@ -167,8 +167,8 @@ export async function GET(request: Request) {
         influence = "neutral";
       }
 
-      const pos1 = positions[aspect.planet1] as { sign?: string; degree?: number } | undefined;
-      const pos2 = positions[aspect.planet2] as { sign?: string; degree?: number } | undefined;
+      const pos1 = positions[aspect.planet1];
+      const pos2 = positions[aspect.planet2];
 
       result.push({
         planet1: aspect.planet1,
