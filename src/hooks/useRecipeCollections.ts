@@ -33,11 +33,70 @@ export interface RecipeNote {
   updatedAt: string;
 }
 
-function loadFromStorage<T>(key: string, fallback: T): T {
+function isPlainObject(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null && !Array.isArray(val);
+}
+
+function parseStringArray(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.filter((item): item is string => typeof item === "string");
+}
+
+function parseRecipeCollections(raw: unknown): RecipeCollection[] {
+  if (!Array.isArray(raw)) return [];
+  const out: RecipeCollection[] = [];
+  for (const item of raw) {
+    if (
+      !isPlainObject(item) ||
+      typeof item.id !== "string" ||
+      typeof item.name !== "string" ||
+      typeof item.createdAt !== "string"
+    ) {
+      continue;
+    }
+    const collection: RecipeCollection = {
+      id: item.id,
+      name: item.name,
+      recipeIds: parseStringArray(item.recipeIds),
+      createdAt: item.createdAt,
+    };
+    if (typeof item.description === "string") {
+      collection.description = item.description;
+    }
+    out.push(collection);
+  }
+  return out;
+}
+
+function parseStringRecord(raw: unknown): Record<string, string> {
+  if (!isPlainObject(raw)) return {};
+  const out: Record<string, string> = {};
+  for (const [k, v] of Object.entries(raw)) {
+    if (typeof v === "string") out[k] = v;
+  }
+  return out;
+}
+
+function parseNumberRecord(raw: unknown): Record<string, number> {
+  if (!isPlainObject(raw)) return {};
+  const out: Record<string, number> = {};
+  for (const [k, v] of Object.entries(raw)) {
+    if (typeof v === "number" && Number.isFinite(v)) out[k] = v;
+  }
+  return out;
+}
+
+function loadFromStorage<T>(
+  key: string,
+  fallback: T,
+  parse: (raw: unknown) => T,
+): T {
   if (typeof window === "undefined") return fallback;
   try {
     const stored = localStorage.getItem(key);
-    return stored ? JSON.parse(stored) : fallback;
+    if (!stored) return fallback;
+    const parsed: unknown = JSON.parse(stored);
+    return parse(parsed);
   } catch {
     return fallback;
   }
@@ -61,11 +120,13 @@ export function useRecipeCollections() {
 
   // Load from localStorage on mount
   useEffect(() => {
-    setFavoriteIds(loadFromStorage(STORAGE_KEYS.favorites, []));
-    setCollections(loadFromStorage(STORAGE_KEYS.collections, []));
-    setRecentlyViewedIds(loadFromStorage(STORAGE_KEYS.recentlyViewed, []));
-    setNotes(loadFromStorage(STORAGE_KEYS.recipeNotes, {}));
-    setRatings(loadFromStorage(STORAGE_KEYS.recipeRatings, {}));
+    setFavoriteIds(loadFromStorage(STORAGE_KEYS.favorites, [], parseStringArray));
+    setCollections(loadFromStorage(STORAGE_KEYS.collections, [], parseRecipeCollections));
+    setRecentlyViewedIds(
+      loadFromStorage(STORAGE_KEYS.recentlyViewed, [], parseStringArray),
+    );
+    setNotes(loadFromStorage(STORAGE_KEYS.recipeNotes, {}, parseStringRecord));
+    setRatings(loadFromStorage(STORAGE_KEYS.recipeRatings, {}, parseNumberRecord));
   }, []);
 
   // Favorites

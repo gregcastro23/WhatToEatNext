@@ -103,6 +103,100 @@ export interface RecipeBuilderContextType extends RecipeBuilderState {
   isReady: boolean;
 }
 
+const MEAL_TYPE_LIST: readonly MealType[] = [
+  "Breakfast",
+  "Lunch",
+  "Dinner",
+  "Snack",
+];
+
+const FLAVOR_PREFERENCE_LIST: readonly FlavorPreference[] = [
+  "spicy",
+  "sweet",
+  "savory",
+  "bitter",
+  "sour",
+  "umami",
+];
+
+function isPlainObject(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null && !Array.isArray(val);
+}
+
+function isFlavorPreference(val: unknown): val is FlavorPreference {
+  return (
+    typeof val === "string" && FLAVOR_PREFERENCE_LIST.some((f) => f === val)
+  );
+}
+
+function readStringArray(val: unknown): string[] | undefined {
+  if (!Array.isArray(val)) return undefined;
+  return val.filter((item): item is string => typeof item === "string");
+}
+
+function readElementalProps(
+  val: unknown,
+): SelectedIngredient["elementalProperties"] | undefined {
+  if (!isPlainObject(val)) return undefined;
+  const out: NonNullable<SelectedIngredient["elementalProperties"]> = {};
+  if (typeof val.Fire === "number") out.Fire = val.Fire;
+  if (typeof val.Water === "number") out.Water = val.Water;
+  if (typeof val.Earth === "number") out.Earth = val.Earth;
+  if (typeof val.Air === "number") out.Air = val.Air;
+  return out;
+}
+
+function parseSelectedIngredients(val: unknown): SelectedIngredient[] | undefined {
+  if (!Array.isArray(val)) return undefined;
+  const out: SelectedIngredient[] = [];
+  for (const item of val) {
+    if (!isPlainObject(item) || typeof item.name !== "string") continue;
+    const next: SelectedIngredient = { name: item.name };
+    if (typeof item.category === "string") next.category = item.category;
+    const elemental = readElementalProps(item.elementalProperties);
+    if (elemental) next.elementalProperties = elemental;
+    out.push(next);
+  }
+  return out;
+}
+
+export function parseStoredRecipeBuilderState(
+  raw: unknown,
+): Partial<RecipeBuilderState> {
+  if (!isPlainObject(raw)) return {};
+  const out: Partial<RecipeBuilderState> = {};
+  if (raw.mealType === null) {
+    out.mealType = null;
+  } else if (typeof raw.mealType === "string") {
+    const matched = MEAL_TYPE_LIST.find((m) => m === raw.mealType);
+    if (matched) out.mealType = matched;
+  }
+  if (Array.isArray(raw.flavors)) {
+    out.flavors = raw.flavors.filter(isFlavorPreference);
+  }
+  const dietary = readStringArray(raw.dietaryPreferences);
+  if (dietary) out.dietaryPreferences = dietary;
+  const allergies = readStringArray(raw.allergies);
+  if (allergies) out.allergies = allergies;
+  const cuisines = readStringArray(raw.selectedCuisines);
+  if (cuisines) out.selectedCuisines = cuisines;
+  const ingredients = parseSelectedIngredients(raw.selectedIngredients);
+  if (ingredients) out.selectedIngredients = ingredients;
+  const methods = readStringArray(raw.selectedCookingMethods);
+  if (methods) out.selectedCookingMethods = methods;
+  if (raw.quizBrief === null || typeof raw.quizBrief === "string") {
+    out.quizBrief = raw.quizBrief;
+  }
+  if (
+    raw.maxPrepTimeMinutes === null ||
+    (typeof raw.maxPrepTimeMinutes === "number" &&
+      Number.isFinite(raw.maxPrepTimeMinutes))
+  ) {
+    out.maxPrepTimeMinutes = raw.maxPrepTimeMinutes;
+  }
+  return out;
+}
+
 const initialState: RecipeBuilderState = {
   mealType: null,
   flavors: [],
@@ -134,8 +228,9 @@ export function RecipeBuilderProvider({
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
-        const parsed = JSON.parse(stored);
-        setState((prev) => ({ ...prev, ...parsed }));
+        const parsed: unknown = JSON.parse(stored);
+        const restored = parseStoredRecipeBuilderState(parsed);
+        setState((prev) => ({ ...prev, ...restored }));
         logger.info("Loaded recipe builder state from storage");
       }
     } catch (error) {

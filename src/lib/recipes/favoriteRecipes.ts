@@ -32,13 +32,63 @@ export interface TrackedIngredient {
   count: number;
 }
 
+function isPlainObject(val: unknown): val is Record<string, unknown> {
+  return typeof val === "object" && val !== null && !Array.isArray(val);
+}
+
+function readStringArray(val: unknown): string[] {
+  if (!Array.isArray(val)) return [];
+  return val.filter((item): item is string => typeof item === "string");
+}
+
+function readNumberRecord(val: unknown): Record<string, number> | undefined {
+  if (!isPlainObject(val)) return undefined;
+  const out: Record<string, number> = {};
+  for (const [k, v] of Object.entries(val)) {
+    if (typeof v === "number" && Number.isFinite(v)) out[k] = v;
+  }
+  return out;
+}
+
+export function parseFavoriteRecipesData(
+  raw: unknown,
+): Record<string, FavoriteRecipeMetadata> {
+  if (!isPlainObject(raw)) return {};
+  const out: Record<string, FavoriteRecipeMetadata> = {};
+  for (const [key, item] of Object.entries(raw)) {
+    if (
+      !isPlainObject(item) ||
+      typeof item.id !== "string" ||
+      typeof item.name !== "string" ||
+      typeof item.favoritedAt !== "string"
+    ) {
+      continue;
+    }
+    const meta: FavoriteRecipeMetadata = {
+      id: item.id,
+      name: item.name,
+      ingredients: readStringArray(item.ingredients),
+      likedIngredients: readStringArray(item.likedIngredients),
+      favoritedAt: item.favoritedAt,
+    };
+    if (typeof item.cuisine === "string") meta.cuisine = item.cuisine;
+    if (typeof item.notes === "string") meta.notes = item.notes;
+    const elemental = readNumberRecord(item.elementalProfile);
+    if (elemental) meta.elementalProfile = elemental;
+    out[key] = meta;
+  }
+  return out;
+}
+
 export function getStoredFavoriteRecipeIds(): string[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = localStorage.getItem(STORAGE_KEY_IDS) || localStorage.getItem(LEGACY_STORAGE_KEY);
     if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed)
+      ? parsed.filter((item): item is string => typeof item === "string")
+      : [];
   } catch {
     return [];
   }
@@ -61,8 +111,8 @@ export function getStoredFavoriteRecipesData(): Record<string, FavoriteRecipeMet
   try {
     const raw = localStorage.getItem(STORAGE_KEY_DATA);
     if (!raw) return {};
-    const parsed = JSON.parse(raw);
-    return typeof parsed === "object" && parsed !== null ? parsed : {};
+    const parsed: unknown = JSON.parse(raw);
+    return parseFavoriteRecipesData(parsed);
   } catch {
     return {};
   }

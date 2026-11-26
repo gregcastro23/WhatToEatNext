@@ -257,6 +257,19 @@ export async function geocodeLocationSingle(
 }
 
 /**
+ * Parse Nominatim reverse-geocode payload safely without unsafe casts.
+ */
+export function parseReverseGeocodeResponse(raw: unknown): string | null {
+  if (typeof raw !== "object" || raw === null || Array.isArray(raw)) {
+    return null;
+  }
+  if ("display_name" in raw && typeof raw.display_name === "string") {
+    return raw.display_name;
+  }
+  return null;
+}
+
+/**
  * Reverse geocode: get location name from coordinates
  */
 export async function reverseGeocode(
@@ -283,8 +296,7 @@ export async function reverseGeocode(
       throw new Error(`Reverse geocoding API returned ${response.status}`);
     }
 
-    const data = await response.json();
-    return data.display_name ?? null;
+    return await readJson(response, { parse: parseReverseGeocodeResponse });
   } catch (error) {
     _logger.error("Reverse geocoding error:", error);
     return null;
