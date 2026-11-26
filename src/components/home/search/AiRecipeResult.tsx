@@ -34,7 +34,7 @@ function StepList({ recipe }: { recipe: AiRecipe }): JSX.Element {
   );
 }
 
-export function AiRecipeResult({ recipe }: { recipe: AiRecipe }): JSX.Element {
+export function AiRecipeResult({ recipe, onRemove }: { recipe: AiRecipe; onRemove: () => void }): JSX.Element {
   const cart = useGroceryCart();
   const [added, setAdded] = useState<string | null>(null);
   const addToCart = (): void => {
@@ -67,6 +67,9 @@ export function AiRecipeResult({ recipe }: { recipe: AiRecipe }): JSX.Element {
       <div className={styles.controls}>
         <button type="button" className={styles.secondary} disabled={added === recipe.id} onClick={addToCart}>
           {added === recipe.id ? "Added to grocery cart" : "Add ingredients to grocery cart"}
+        </button>
+        <button type="button" className={styles.secondary} onClick={onRemove}>
+          Remove this recipe
         </button>
       </div>
     </article>

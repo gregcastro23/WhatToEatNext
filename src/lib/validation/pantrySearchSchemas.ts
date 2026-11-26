@@ -19,6 +19,8 @@ export const PantryResponseSchema = z.object({
       /** The catalog card it names; null when none does. */
       name: z.string().nullable(),
       href: z.string().nullable(),
+      /** Cards a vague word could mean; empty otherwise. */
+      options: z.array(z.string()),
     }),
   ),
   recipes: z.array(

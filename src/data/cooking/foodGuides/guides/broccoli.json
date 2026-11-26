@@ -197,7 +197,9 @@
           "sources": [
             "hgic-broccoli"
           ]
-        },
+        }
+      ],
+      "tips": [
         {
           "text": "A shorter University of Kentucky timing: microwave 3 to 4 minutes, until crisp-tender.",
           "sources": [
@@ -205,7 +207,6 @@
           ]
         }
       ],
-      "tips": [],
       "doneness": [
         {
           "text": "Cook only until a fork can pierce the stalk.",

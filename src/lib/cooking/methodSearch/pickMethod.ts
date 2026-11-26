@@ -60,7 +60,7 @@ export function pickMethod(guide: FoodGuide, requested: GuideMethodId | null): P
   const [near] = (NEAR[requested] ?? []).flatMap((id) => guide.methods.filter((method) => method.id === id));
   const food = guide.name.toLowerCase();
   if (near) {
-    return { method: near, note: `Showing ${near.label.toLowerCase()}, the closest tested method to ${METHOD_LABELS[requested]} for ${food}.` };
+    return { method: near, note: `Showing ${near.label.charAt(0).toLowerCase()}${near.label.slice(1)}, the closest tested method to ${METHOD_LABELS[requested]} for ${food}.` };
   }
   return {
     method: fallback,

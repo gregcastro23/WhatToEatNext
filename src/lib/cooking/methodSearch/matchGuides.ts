@@ -19,11 +19,22 @@ function containsAll(name: NormalizedText, wanted: NormalizedText): boolean {
   return wanted.stemmed.split(" ").every((word) => words.has(word));
 }
 
-/** Guides for a food phrase: exactly one on an exact name, else every container. */
+/** The last word names the thing: "steak" is a beef steak, "ribs" is not a rib-eye steak. */
+function sameHead(name: NormalizedText, wanted: NormalizedText): boolean {
+  return name.stemmed.split(" ").at(-1) === wanted.stemmed.split(" ").at(-1);
+}
+
+/**
+ * Guides for a food phrase: the exact name or alias, else every guide whose
+ * names contain the words, so the reader chooses. A lone partial match is an
+ * answer only when it names the same thing ("pork loin" is no pork chop).
+ */
 export function matchGuides(food: string, guides: readonly FoodGuide[]): FoodGuide[] {
   const wanted = normalizeText(food);
   if (wanted.folded === "") return [];
   const exact = guides.filter((guide) => namesOf(guide).some((name) => isExact(name, wanted)));
   if (exact.length > 0) return exact;
-  return guides.filter((guide) => namesOf(guide).some((name) => containsAll(name, wanted)));
+  const containing = guides.filter((guide) => namesOf(guide).some((name) => containsAll(name, wanted)));
+  if (containing.length !== 1) return containing;
+  return containing.filter((guide) => namesOf(guide).some((name) => containsAll(name, wanted) && sameHead(name, wanted)));
 }

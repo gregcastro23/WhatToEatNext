@@ -135,7 +135,12 @@ function Results({ state, onPick }: { state: ResourceState<MethodSearchResponse>
 
 export function MethodGuideSearch(): JSX.Element {
   const [query, setQuery] = useState("");
-  const state = useSearchResource(resource, methodSearchUrl(query));
+  const [attempt, setAttempt] = useState(0);
+  const state = useSearchResource(resource, methodSearchUrl(query), attempt);
+  const search = (value: string): void => {
+    setQuery(value);
+    setAttempt((count) => count + 1);
+  };
   return (
     <div className={styles.root}>
       <SectionSearchForm
@@ -144,7 +149,7 @@ export function MethodGuideSearch(): JSX.Element {
         placeholder="e.g. baking bacon, or salmon"
         value={query}
         onChange={setQuery}
-        onSubmit={setQuery}
+        onSubmit={search}
         examples={EXAMPLES}
       />
       <div aria-live="polite">

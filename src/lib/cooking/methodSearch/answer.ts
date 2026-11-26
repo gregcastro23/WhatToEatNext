@@ -65,11 +65,19 @@ function hitsFor(index: SearchIndex, text: string, kind: SearchHit["entity"]["ki
   return rankEntities(index, normalizeText(text)).filter((hit) => hit.entity.kind === kind && hit.tier <= NAMED_TIER);
 }
 
-/** Guided foods among a recipe's ingredients ("Moussaka" → none yet, "Carbonara" → eggs, pasta). */
+/** Words that make an ingredient line a different food ("ground beef", "chicken stock", "rice vinegar"). */
+const OTHER_FOOD = /\b(ground|minced?|broth|stock|sausages?|belly|shoulder|ribs?|brisket|liver|bouillon|sauce|paste|powder|starch|flour|noodles?|vinegar|wine|paper|wrappers?)\b/i;
+
+function lineNames(line: string, guide: FoodGuide): boolean {
+  if (OTHER_FOOD.test(line)) return false;
+  const text = ` ${normalizeText(line).stemmed} `;
+  return [guide.name, ...guide.aliases].some((name) => text.includes(` ${normalizeText(name).stemmed} `));
+}
+
+/** Guides whose own food a recipe line names; a broad catalog card is not enough. */
 function guidesInRecipe(context: MethodSearchContext, recipeId: string): FoodGuide[] {
-  return context.guides.filter((guide) =>
-    guide.catalogKeys.some((key) => (context.index.recipeUses.get(key) ?? []).some((use) => use.recipeId === recipeId)),
-  );
+  const lines = context.index.recipes.get(recipeId)?.ingredientLines ?? [];
+  return context.guides.filter((guide) => lines.some((line) => lineNames(line, guide)));
 }
 
 function recipeAnswer(context: MethodSearchContext, parsed: ParsedMethodQuery, hits: readonly SearchHit[]): MethodAnswer {
@@ -95,23 +103,39 @@ function ingredientAnswer(context: MethodSearchContext, parsed: ParsedMethodQuer
   return general(context, parsed, `There is no tested guide for ${how} ${hit.entity.name.toLowerCase()} yet.`, links);
 }
 
+/** Recipes that only mention the food, once the cooking words are set aside. */
+function mentionsAnswer(context: MethodSearchContext, parsed: ParsedMethodQuery, query: string, hits: readonly SearchHit[]): MethodAnswer {
+  const found = recipeAnswer(context, parsed, hits);
+  return { ...found, note: `No recipe is called “${query.trim()}”. These recipes mention ${parsed.food}:` };
+}
+
+/** A recipe or ingredient the words name, for a food no guide covers. */
+function unguidedAnswer(context: MethodSearchContext, parsed: ParsedMethodQuery, query: string): MethodAnswer | null {
+  const hasCookingWords = normalizeText(query).folded !== parsed.food;
+  const named = hasCookingWords ? hitsFor(context.index, query, "recipe") : [];
+  if (named.length > 0) return recipeAnswer(context, parsed, named);
+  const [ingredient] = hitsFor(context.index, parsed.food, "ingredient");
+  if (ingredient?.tier === 0) return ingredientAnswer(context, parsed, ingredient);
+  const mentions = hitsFor(context.index, parsed.food, "recipe");
+  if (mentions.length > 0) {
+    return hasCookingWords ? mentionsAnswer(context, parsed, query, mentions) : recipeAnswer(context, parsed, mentions);
+  }
+  return ingredient ? ingredientAnswer(context, parsed, ingredient) : null;
+}
+
 /** The whole query is a recipe's own name ("fried rice", "smoked salmon salad"). */
 function exactRecipes(context: MethodSearchContext, query: string): SearchHit[] {
   return rankEntities(context.index, normalizeText(query)).filter((hit) => hit.entity.kind === "recipe" && hit.tier === 0);
 }
 
-function foodAnswer(context: MethodSearchContext, parsed: ParsedMethodQuery): MethodAnswer | null {
+function foodAnswer(context: MethodSearchContext, parsed: ParsedMethodQuery, query: string): MethodAnswer | null {
   const matches = matchGuides(parsed.food, context.guides);
   const [only] = matches;
   if (matches.length === 1 && only) return guideAnswer(only, parsed.method);
   if (matches.length > 1) {
     return { kind: "choose", note: "Which one are you cooking?", choices: matches.map((guide) => suggestion(parsed.methodWords, guide)) };
   }
-  const recipes = hitsFor(context.index, parsed.food, "recipe");
-  const [ingredient] = hitsFor(context.index, parsed.food, "ingredient");
-  if (ingredient?.tier === 0) return ingredientAnswer(context, parsed, ingredient);
-  if (recipes.length > 0) return recipeAnswer(context, parsed, recipes);
-  return ingredient ? ingredientAnswer(context, parsed, ingredient) : null;
+  return unguidedAnswer(context, parsed, query);
 }
 
 function methodOnlyAnswer(context: MethodSearchContext, parsed: ParsedMethodQuery, method: GuideMethodId): MethodAnswer {
@@ -132,7 +156,7 @@ export function answerMethodQuery(context: MethodSearchContext, query: string): 
   const isDish = DISH_NAMES.has(normalizeText(query).folded);
   const named = isDish ? hitsFor(context.index, query, "recipe") : exactRecipes(context, query);
   if (named.length > 0 && matchGuides(query, context.guides).length === 0) return recipeAnswer(context, { ...parsed, method: null }, named);
-  const answer = parsed.food === "" ? null : foodAnswer(context, parsed);
+  const answer = parsed.food === "" ? null : foodAnswer(context, parsed, query);
   if (answer) return answer;
   if (parsed.food === "" && parsed.method !== null) return methodOnlyAnswer(context, parsed, parsed.method);
   return general(context, parsed, "Nothing matched that. Try a food on its own, or one of these tested guides.", []);

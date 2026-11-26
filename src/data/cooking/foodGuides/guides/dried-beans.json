@@ -19,8 +19,9 @@
   ],
   "safetyClass": "none",
   "summary": {
-    "text": "One pound of dry beans yields about six cups cooked; soak them for stovetop cooking, or pressure cook them unsoaked.",
+    "text": "One pound of dry beans yields about six cups cooked; soak them for stovetop cooking, or pressure cook them unsoaked, except red kidney beans.",
     "sources": [
+      "fda-natural-toxins",
       "unl-dry-beans"
     ]
   },
@@ -277,7 +278,7 @@
     },
     {
       "id": "pressure_cook",
-      "label": "Pressure cook (unsoaked)",
+      "label": "Pressure cook unsoaked (not red kidney)",
       "best": false,
       "why": {
         "text": "Choose a pressure cooker for a shorter cook; UNL lists 15 to 20 minutes for pinto beans.",
@@ -362,6 +363,12 @@
       ],
       "steps": [
         {
+          "text": "Not for red kidney beans: soak those at least 5 hours, then boil them in fresh water for at least 30 minutes before any other cooking.",
+          "sources": [
+            "fda-natural-toxins"
+          ]
+        },
+        {
           "text": "Pick through the beans, discard damaged ones, and rinse well.",
           "sources": [
             "unl-dry-beans"
@@ -405,12 +412,6 @@
         }
       ],
       "tips": [
-        {
-          "text": "Do not use this unsoaked method for red kidney beans: they need at least a 5-hour soak, then at least 30 minutes of boiling.",
-          "sources": [
-            "fda-natural-toxins"
-          ]
-        },
         {
           "text": "Presoaking is not always necessary in a pressure cooker, according to NDSU testing.",
           "sources": [

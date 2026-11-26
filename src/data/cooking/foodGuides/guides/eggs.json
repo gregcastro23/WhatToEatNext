@@ -273,6 +273,12 @@
       ],
       "tips": [
         {
+          "text": "Soft-yolk eggs may not be safe for high-risk people; for them, cook until the yolk is firm.",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        },
+        {
           "text": "Keep the heat moderate; high heat makes eggs tough and rubbery.",
           "sources": [
             "aeb-fry"
@@ -282,12 +288,6 @@
           "text": "For basted eggs, use 2 tbsp butter and cover the pan between bastings.",
           "sources": [
             "aeb-fry"
-          ]
-        },
-        {
-          "text": "The Egg Board notes this style may not suit high-risk people.",
-          "sources": [
-            "aeb-food-safety"
           ]
         }
       ],
@@ -348,6 +348,12 @@
         }
       ],
       "tips": [
+        {
+          "text": "Soft-yolk poached eggs may not be safe for high-risk people; for them, cook until the yolk is firm.",
+          "sources": [
+            "aeb-food-safety"
+          ]
+        },
         {
           "text": "Do not swirl the water; keep it quietly simmering.",
           "sources": [

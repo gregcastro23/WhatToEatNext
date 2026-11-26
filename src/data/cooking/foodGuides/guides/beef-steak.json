@@ -53,7 +53,13 @@
   "substitutions": [],
   "safety": [
     {
-      "text": "Cook beef to an internal temperature of 145 F before serving.",
+      "text": "Cook whole steaks to at least 145°F, then rest them 3 minutes.",
+      "sources": [
+        "clemson-slow-cooker"
+      ]
+    },
+    {
+      "text": "Ground beef is different: cook it to 160°F.",
       "sources": [
         "clemson-slow-cooker"
       ]

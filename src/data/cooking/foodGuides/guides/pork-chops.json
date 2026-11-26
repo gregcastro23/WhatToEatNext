@@ -198,7 +198,7 @@
     },
     {
       "id": "pan_fry",
-      "label": "Sear in a pan, then finish on a baking sheet",
+      "label": "Sear in a pan, then finish in the oven",
       "best": false,
       "why": {
         "text": "Choose this route when you want browning in a pan before finishing in the oven; Pork Board presents it as an extra step.",
@@ -207,6 +207,16 @@
         ]
       },
       "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Oven for finishing",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
         {
           "kind": "time",
           "label": "Finish time after searing",
@@ -239,11 +249,18 @@
         }
       ],
       "equipment": [
+        "oven",
         "skillet",
         "baking sheet",
         "digital meat thermometer"
       ],
       "steps": [
+        {
+          "text": "Preheat the oven to 425°F.",
+          "sources": [
+            "pork-chops-pork-board"
+          ]
+        },
         {
           "text": "Sear the chops in a pan first.",
           "sources": [
@@ -251,7 +268,7 @@
           ]
         },
         {
-          "text": "Transfer the chops to a baking sheet and cook for 6 to 8 more minutes.",
+          "text": "Transfer the chops to a baking sheet and cook in the 425°F oven for 6 to 8 more minutes.",
           "sources": [
             "pork-chops-pork-board"
           ]

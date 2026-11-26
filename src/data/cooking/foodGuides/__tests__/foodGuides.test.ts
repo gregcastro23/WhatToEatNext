@@ -76,6 +76,17 @@ describe("food guides", () => {
     expect(missing).toEqual([]);
   });
 
+  it("keeps the safety steps a review restored", () => {
+    const steps = (id: string, method: string): string =>
+      (guides.find((guide) => guide.id === id)?.methods.find((entry) => entry.id === method)?.steps ?? []).map((step) => step.text).join(" ");
+    expect(steps("dried-beans", "pressure_cook")).toMatch(/Not for red kidney beans/);
+    expect(steps("white-rice", "simmer")).toMatch(/boil/i);
+    expect(steps("pork-chops", "pan_fry")).toMatch(/425°F/);
+    expect(steps("pork-tenderloin", "stir_fry")).toMatch(/145°F/);
+    const brownSafety = guides.find((guide) => guide.id === "brown-rice")?.safety.map((entry) => entry.text).join(" ");
+    expect(brownSafety).toMatch(/Bacillus cereus/);
+  });
+
   it("links to ingredient cards that exist", () => {
     const broken = guides.flatMap((guide) =>
       guide.catalogKeys.filter((key) => resolveCatalogIngredient(key)?.entry.key !== key).map((key) => `${guide.id}: ${key}`),

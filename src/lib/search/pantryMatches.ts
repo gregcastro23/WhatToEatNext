@@ -8,6 +8,7 @@ import type { PantryQuery, PantryResponse } from "@/lib/validation/pantrySearchS
 import { publicCuisine } from "@/utils/internalCuisineCodes";
 import { rankEntities } from "./rank";
 import { cuisineLabel, displayName } from "./recipeFamilies";
+import { keysForLine } from "./recipeIngredientIndex";
 import { recipeHref, type SearchIndex } from "./searchIndex";
 import { normalizeText } from "./text";
 
@@ -15,16 +16,28 @@ export const PANTRY_LIMIT = 12;
 /** A typed word names a card when it is exact or a whole-word match. */
 const CARD_TIER = 1;
 
+const OPTION_LIMIT = 6;
+
 interface Resolved {
   term: string;
   key: string | null;
+  /** Cards a vague word could mean ("fish"); empty otherwise. */
+  options: string[];
 }
 
+/**
+ * The exact card; else the only card containing the words; else, when none does
+ * ("chicken breast", "ground beef"), the card recipe lines resolve it to. A
+ * word several cards contain is never guessed at.
+ */
 function resolveTerm(index: SearchIndex, term: string): Resolved {
   const exact = index.exactIngredient(term);
-  if (exact !== null) return { term, key: exact };
-  const hit = rankEntities(index, normalizeText(term)).find((candidate) => candidate.entity.kind === "ingredient" && candidate.tier <= CARD_TIER);
-  return { term, key: hit?.entity.key ?? null };
+  if (exact !== null) return { term, key: exact, options: [] };
+  const hits = rankEntities(index, normalizeText(term)).filter((hit) => hit.entity.kind === "ingredient" && hit.tier <= CARD_TIER);
+  if (hits.length > 1) return { term, key: null, options: hits.slice(0, OPTION_LIMIT).map((hit) => hit.entity.name) };
+  const [only] = hits;
+  const [fromLine] = only ? [only.entity.key] : keysForLine(term, index.keyOf).keys;
+  return { term, key: fromLine ?? null, options: [] };
 }
 
 interface Tally {
@@ -80,9 +93,9 @@ export function pantryMatches(index: SearchIndex, query: PantryQuery): PantryRes
   );
   return {
     success: true,
-    ingredients: resolved.map(({ term, key }) => {
+    ingredients: resolved.map(({ term, key, options }) => {
       const card = key === null ? undefined : index.ingredients.get(key);
-      return { term, name: card?.name ?? null, href: card ? ingredientHref(card.slug) : null };
+      return { term, name: card?.name ?? null, href: card ? ingredientHref(card.slug) : null, options };
     }),
     recipes: rows(index, ranked, keys),
     total: ranked.length,

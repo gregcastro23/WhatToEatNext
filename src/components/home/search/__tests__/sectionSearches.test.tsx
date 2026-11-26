@@ -139,6 +139,35 @@ describe("IngredientRecipeBar", () => {
     expect(await screen.findByRole("button", { name: "Sign in" })).toBeInTheDocument();
   });
 
+  it("never runs unfiltered matches under a gluten-free choice", () => {
+    render(<IngredientRecipeBar />);
+    const input = screen.getByRole("textbox", { name: "Ingredients you have" });
+    fireEvent.change(input, { target: { value: "flour" } });
+    fireEvent.keyDown(input, { key: "Enter" });
+    fireEvent.change(screen.getByRole("combobox", { name: "Diet" }), { target: { value: "gluten-free" } });
+    expect(screen.getByRole("button", { name: "Find recipes" })).toBeDisabled();
+    expect(screen.getByText(/can only be filtered for vegan or vegetarian/)).toBeInTheDocument();
+  });
+
+  it("uses a new key after a refunded attempt, so a retry can succeed", async () => {
+    const fetchMock = installFetchMock(jest.fn(() => json({ message: "Upstream failed.", refunded: true }, 502)));
+    render(<IngredientRecipeBar />);
+    const input = screen.getByRole("textbox", { name: "Ingredients you have" });
+    fireEvent.change(input, { target: { value: "leek" } });
+    fireEvent.keyDown(input, { key: "Enter" });
+    const create = screen.getByRole("button", { name: "Create a new recipe with AI" });
+    for (const round of [1, 2]) {
+      fireEvent.click(create);
+      await screen.findByText("Upstream failed.");
+      await act(async () => {
+        await Promise.resolve();
+      });
+      expect(fetchMock).toHaveBeenCalledTimes(round);
+    }
+    const keys = fetchMock.mock.calls.map(([, init]) => String(Reflect.get(Object(JSON.parse(String(Reflect.get(Object(init), "body")))), "idempotencyKey")));
+    expect(new Set(keys).size).toBe(2);
+  });
+
   it("tells a signed-in cook the ESMS price", () => {
     mockUser.currentUser = { preferences: { dietaryRestrictions: [] } };
     render(<IngredientRecipeBar />);

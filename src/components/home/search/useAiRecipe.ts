@@ -5,13 +5,15 @@
  * lock, a 90 s timeout, and one idempotency key per distinct request so a
  * retry after an uncertain failure replays instead of charging again.
  */
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { readJson, safeReadJson } from "@/lib/api/json";
 import { requestSignature, type PantryRecipeRequest } from "@/lib/recipe-builder/pantryRecipeRequest";
 import { cosmicRecipeSchema } from "@/types/cosmicRecipeSchema";
 
 const TIMEOUT_MS = 90_000;
+/** The last recipe written, kept on this device: it may have cost ESMS. */
+export const SAVED_RECIPE_KEY = "alchm:home:ai-recipe";
 
 const ResultSchema = cosmicRecipeSchema.extend({
   payment: z
@@ -23,11 +25,13 @@ const ResultSchema = cosmicRecipeSchema.extend({
 
 export type AiRecipe = z.infer<typeof ResultSchema>;
 
-const ErrorSchema = z.object({ message: z.string().optional(), error: z.string().optional() });
+const ErrorSchema = z.object({ message: z.string().optional(), error: z.string().optional(), refunded: z.boolean().optional() });
 
 export interface AiFailure {
   message: string;
   signIn: boolean;
+  /** The charge came back, so the next attempt is a new purchase under a new key. */
+  refunded?: boolean;
 }
 
 export function failureFor(status: number, body: z.infer<typeof ErrorSchema> | null): AiFailure {
@@ -39,13 +43,6 @@ export function failureFor(status: number, body: z.infer<typeof ErrorSchema> | n
   return { message: said ?? "The recipe service did not answer. Retrying is safe.", signIn: false };
 }
 
-export interface AiRecipeState {
-  recipe: AiRecipe | null;
-  loading: boolean;
-  failure: AiFailure | null;
-  create: (request: PantryRecipeRequest) => void;
-}
-
 async function post(request: PantryRecipeRequest, idempotencyKey: string): Promise<AiRecipe | AiFailure> {
   const response = await fetch("/api/generate-cosmic-recipe", {
     method: "POST",
@@ -54,12 +51,39 @@ async function post(request: PantryRecipeRequest, idempotencyKey: string): Promi
     body: JSON.stringify({ ...request, idempotencyKey }),
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });
-  if (!response.ok) return failureFor(response.status, await safeReadJson(response, null, ErrorSchema.parse));
-  return readJson(response, (value) => ResultSchema.parse(value));
+  if (response.ok) return readJson(response, (value) => ResultSchema.parse(value));
+  const body = await safeReadJson(response, null, ErrorSchema.parse);
+  return { ...failureFor(response.status, body), refunded: body?.refunded === true };
 }
 
 function isFailure(value: AiRecipe | AiFailure): value is AiFailure {
   return "signIn" in value;
+}
+
+function savedRecipe(): AiRecipe | null {
+  try {
+    const raw = window.localStorage.getItem(SAVED_RECIPE_KEY);
+    return raw === null ? null : ResultSchema.parse(JSON.parse(raw));
+  } catch {
+    return null;
+  }
+}
+
+function keep(recipe: AiRecipe | null): void {
+  try {
+    if (recipe === null) window.localStorage.removeItem(SAVED_RECIPE_KEY);
+    else window.localStorage.setItem(SAVED_RECIPE_KEY, JSON.stringify(recipe));
+  } catch {
+    // Storage is blocked or full: the recipe still shows until the page is left.
+  }
+}
+
+export interface AiRecipeState {
+  recipe: AiRecipe | null;
+  loading: boolean;
+  failure: AiFailure | null;
+  create: (request: PantryRecipeRequest) => void;
+  remove: () => void;
 }
 
 export function useAiRecipe(): AiRecipeState {
@@ -68,6 +92,8 @@ export function useAiRecipe(): AiRecipeState {
   const [failure, setFailure] = useState<AiFailure | null>(null);
   const busy = useRef(false);
   const key = useRef<{ signature: string; value: string } | null>(null);
+  // Read after mounting, so the server and first client render agree.
+  useEffect(() => setRecipe((current) => current ?? savedRecipe()), []);
   const create = (request: PantryRecipeRequest): void => {
     if (busy.current) return;
     busy.current = true;
@@ -78,9 +104,11 @@ export function useAiRecipe(): AiRecipeState {
     post(request, key.current.value)
       .then((result) => {
         if (isFailure(result)) {
+          if (result.refunded === true) key.current = null;
           setFailure(result);
         } else {
           key.current = null;
+          keep(result);
           setRecipe(result);
         }
       })
@@ -90,5 +118,9 @@ export function useAiRecipe(): AiRecipeState {
         setLoading(false);
       });
   };
-  return { recipe, loading, failure, create };
+  const remove = (): void => {
+    keep(null);
+    setRecipe(null);
+  };
+  return { recipe, loading, failure, create, remove };
 }

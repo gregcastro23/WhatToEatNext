@@ -47,6 +47,8 @@ export interface SearchIndex {
   synonyms: readonly IndexedSynonym[];
   /** Exact catalog names → key, for the intent parser's ingredient spans. */
   exactIngredient: (text: string) => string | null;
+  /** The resolver recipe ingredient lines are indexed with. */
+  keyOf: IngredientKeyResolver;
 }
 
 export function recipeHref(id: string): string {
@@ -94,5 +96,5 @@ export function buildSearchIndex(
   const dietOf = createRecipeDietDeriver(keyOf, (key) => ingredients.get(key)?.diet);
   const recipeDiet = new Map([...recipes.values()].map((r) => [r.id, dietOf(r.ingredientLines)]));
   const exactIngredient = buildExactIngredientLookup(catalogs.ingredients);
-  return { entities, ingredients, recipes, recipeUses, recipeDiet, synonyms, exactIngredient };
+  return { entities, ingredients, recipes, recipeUses, recipeDiet, synonyms, exactIngredient, keyOf };
 }

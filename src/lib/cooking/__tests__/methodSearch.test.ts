@@ -5,6 +5,7 @@
  * @jest-environment node
  */
 import { getServerRecipes } from "@/actions/recipes";
+import { getFoodGuides } from "@/lib/cooking/foodGuides/registry";
 import { answerMethodQuery } from "@/lib/cooking/methodSearch/answer";
 import { matchGuides } from "@/lib/cooking/methodSearch/matchGuides";
 import { parseMethodQuery } from "@/lib/cooking/methodSearch/parseMethodQuery";
@@ -103,5 +104,50 @@ describe("answerMethodQuery", () => {
     const result = answer("roasting");
     expect(result).toMatchObject({ kind: "general", method: { id: "roasting" } });
     if (result.kind === "general") expect(result.suggestions.map((item) => item.query)).toContain("roasting chicken thighs");
+  });
+});
+
+/** Queries a review found answered wrongly, run against the shipped guides. */
+describe("shipped guides", () => {
+  const shipped = (query: string): ReturnType<typeof answerMethodQuery> => answerMethodQuery({ guides: getFoodGuides(), index }, query);
+
+  it.each(["ribs", "bbq ribs", "pork loin", "roast pork loin", "beef stew", "oven baked ribs", "beef", "grilled cheese", "egg fried rice"])(
+    "never answers %s with another food's guide",
+    (query) => {
+      expect(shipped(query).kind).not.toBe("guide");
+    },
+  );
+
+  it.each([
+    ["how long do you boil eggs", "eggs"],
+    ["what temperature to bake potatoes", "potatoes"],
+    ["chicken breast temperature", "chicken-breast"],
+    ["bake chicken breast at 375", "chicken-breast"],
+    ["salmon at 400°F", "salmon"],
+    ["can you microwave eggs", "eggs"],
+    ["steak", "beef-steak"],
+    ["baking bacon", "bacon"],
+  ])("reads %s as a question about %s", (query, id) => {
+    expect(shipped(query)).toMatchObject({ kind: "guide", guide: { id } });
+  });
+
+  it("offers no steak or chop guide for a ground or belly meat recipe", () => {
+    const result = shipped("meatloaf");
+    const offered = result.kind === "general" ? result.suggestions.map((item) => item.label) : [];
+    expect(offered).not.toContain("Beef steak");
+    expect(offered).not.toContain("Pork chops");
+    expect(offered).not.toContain("Pork tenderloin");
+  });
+
+  it("says so when no recipe has the name asked for", () => {
+    const result = shipped("grilled cheese");
+    if (result.kind === "general" && result.links.length > 0) expect(result.note).not.toMatch(/^Here is the recipe/);
+  });
+
+  it("shows no roasting or deep-frying record for baking or pan frying", () => {
+    for (const query of ["baking cookies", "pan fry lamb"]) {
+      const result = shipped(query);
+      expect(result.kind === "general" ? result.method : null).toBeNull();
+    }
   });
 });

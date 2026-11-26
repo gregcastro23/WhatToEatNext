@@ -62,7 +62,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       cuisineAffinity: ["French", "Italian", "American", "Chinese", "Thai", "Indian", "Mexican", "Middle Eastern"],
       preparationTips: [
         "Dry-brine for 12–24h for crisp skin and seasoned flesh.",
-        "Temperature matters more than time: breast 63°C (145°F), thigh 74°C (165°F).",
+        "Temperature matters more than time: cook breast and thigh to 74°C (165°F).",
         "Rest whole birds 15 min before carving; joints 5 min.",
         "Spatchcock to cook whole birds in half the time with more even browning.",
       ],
@@ -167,7 +167,7 @@ const rawPoultry: Record<string, Partial<IngredientMapping>> = {
       preparationTips: [
         "Wet-brine 12–24h for moisture (1 cup kosher salt per gallon water).",
         "Separate cooking of dark/white meat (spatchcock or parts) gives better results than a whole bird.",
-        "Pull breast at 63°C (145°F), rest to climb; thigh should reach 74°C (165°F).",
+        "Cook breast and thigh to 74°C (165°F), then rest before carving.",
         "Let rest 30+ minutes before carving — the temperature equalizes and juices reabsorb.",
       ],
     },

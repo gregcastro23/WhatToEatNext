@@ -46,7 +46,12 @@ function Results({ state, query }: { state: ResourceState<RecipeSearchResponse>;
 
 export function CuisineRecipeSearch(): JSX.Element {
   const [query, setQuery] = useState("");
-  const state = useSearchResource(resource, recipeSearchUrl(query));
+  const [attempt, setAttempt] = useState(0);
+  const state = useSearchResource(resource, recipeSearchUrl(query), attempt);
+  const search = (value: string): void => {
+    setQuery(value);
+    setAttempt((count) => count + 1);
+  };
   return (
     <div className={styles.root}>
       <SectionSearchForm
@@ -55,7 +60,7 @@ export function CuisineRecipeSearch(): JSX.Element {
         placeholder="e.g. Moussaka, or eggplant tahini"
         value={query}
         onChange={setQuery}
-        onSubmit={setQuery}
+        onSubmit={search}
         examples={EXAMPLES}
       />
       <div aria-live="polite">

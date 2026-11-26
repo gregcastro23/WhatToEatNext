@@ -8,8 +8,9 @@
 import { useState } from "react";
 import { useRecipeBuilder } from "@/contexts/RecipeBuilderContext";
 import { useUser } from "@/contexts/UserContext";
+import { canMatchDiet, matchCaveat, matchDiet } from "@/lib/recipe-builder/pantryDietRules";
 import { PANTRY_DIET_CHOICES, pantryDietOf, pantryRecipeRequest, type PantryDiet } from "@/lib/recipe-builder/pantryRecipeRequest";
-import { PANTRY_DIETS, type PantryQuery } from "@/lib/validation/pantrySearchSchemas";
+import type { PantryQuery } from "@/lib/validation/pantrySearchSchemas";
 import { AiRecipeResult } from "./AiRecipeResult";
 import { EquipmentPicker } from "./EquipmentPicker";
 import styles from "./homeSearch.module.css";
@@ -23,10 +24,6 @@ const MEMBER_COST = "Your first AI recipe each day is free; after that it costs 
 
 function profileRestrictions(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
-}
-
-export function matchQuery(ingredients: readonly string[], diet: PantryDiet): PantryQuery {
-  return { ingredients: [...ingredients], diet: PANTRY_DIETS.find((choice) => choice === diet) ?? null };
 }
 
 function Failure({ failure }: { failure: AiFailure }): JSX.Element {
@@ -54,19 +51,42 @@ function DietSelect({ diet, onChange }: { diet: PantryDiet; onChange: (diet: Pan
   );
 }
 
+/** The AI price, what it excludes, and why free matching is off. */
+function Notes({ signedIn, allergies, matchable }: { signedIn: boolean; allergies: readonly string[]; matchable: boolean }): JSX.Element {
+  return (
+    <>
+      <p className={styles.meta}>
+        {signedIn ? MEMBER_COST : VISITOR_COST}
+        {allergies.length > 0 ? ` AI will exclude your allergens: ${allergies.join(", ")}.` : ""}
+      </p>
+      {!matchable && <p className={styles.meta}>Site recipes can only be filtered for vegan or vegetarian. Use Create with AI for this diet.</p>}
+    </>
+  );
+}
+
 export function IngredientRecipeBar(): JSX.Element {
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [equipment, setEquipment] = useState<string[]>([]);
   const [diet, setDiet] = useState<PantryDiet>("no-restrictions");
   const [query, setQuery] = useState<PantryQuery | null>(null);
+  const [attempt, setAttempt] = useState(0);
   const { currentUser } = useUser();
   const { allergies } = useRecipeBuilder();
   const ai = useAiRecipe();
   const empty = ingredients.length === 0;
+  const profileDiet = profileRestrictions(currentUser?.preferences?.dietaryRestrictions);
+  const matchable = canMatchDiet(diet);
   const createWithAi = (): void => {
-    ai.create(
-      pantryRecipeRequest({ ingredients, equipment, diet, excluded: allergies, profileDiet: profileRestrictions(currentUser?.preferences?.dietaryRestrictions) }),
-    );
+    ai.create(pantryRecipeRequest({ ingredients, equipment, diet, excluded: allergies, profileDiet }));
+  };
+  const findRecipes = (): void => {
+    setQuery({ ingredients: [...ingredients], diet: matchDiet(diet, profileDiet) });
+    setAttempt((count) => count + 1);
+  };
+  const chooseDiet = (next: PantryDiet): void => {
+    // Results found under another diet must not sit under this one.
+    setDiet(next);
+    setQuery(null);
   };
   return (
     <div className={styles.root}>
@@ -74,23 +94,20 @@ export function IngredientRecipeBar(): JSX.Element {
         <IngredientPicker chosen={ingredients} onChange={setIngredients} />
         <EquipmentPicker chosen={equipment} onChange={setEquipment} />
         <div className={styles.controls}>
-          <DietSelect diet={diet} onChange={setDiet} />
-          <button type="button" className={styles.primary} disabled={empty} onClick={() => setQuery(matchQuery(ingredients, diet))}>
+          <DietSelect diet={diet} onChange={chooseDiet} />
+          <button type="button" className={styles.primary} disabled={empty || !matchable} onClick={findRecipes}>
             Find recipes
           </button>
           <button type="button" className={styles.secondary} disabled={empty || ai.loading} onClick={createWithAi}>
             {ai.loading ? "Writing your recipe…" : "Create a new recipe with AI"}
           </button>
         </div>
-        <p className={styles.meta}>
-          {currentUser ? MEMBER_COST : VISITOR_COST}
-          {allergies.length > 0 ? ` AI will exclude your allergens: ${allergies.join(", ")}.` : ""}
-        </p>
+        <Notes signedIn={Boolean(currentUser)} allergies={allergies} matchable={matchable} />
       </div>
       <div aria-live="polite" className={styles.results}>
-        <PantryMatches query={query} />
+        <PantryMatches query={query} attempt={attempt} caveat={matchCaveat(profileDiet, allergies)} />
         {ai.failure && <Failure failure={ai.failure} />}
-        {ai.recipe && <AiRecipeResult recipe={ai.recipe} />}
+        {ai.recipe && <AiRecipeResult key={ai.recipe.id} recipe={ai.recipe} onRemove={ai.remove} />}
       </div>
     </div>
   );

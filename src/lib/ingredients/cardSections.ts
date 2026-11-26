@@ -18,7 +18,8 @@ export function label(key: string): string {
 /** Every readable line in a value; objects become "Label: …" lines. */
 export function lines(value: unknown): string[] {
   if (typeof value === "string") return value.trim() === "" ? [] : [value.trim()];
-  if (typeof value === "number" || typeof value === "boolean") return [String(value)];
+  // A bare true or false ("washing: false") says nothing to a reader.
+  if (typeof value === "number") return [String(value)];
   if (Array.isArray(value)) return value.flatMap(lines);
   if (typeof value !== "object" || value === null) return [];
   const name: unknown = Reflect.get(value, "name");
@@ -89,12 +90,24 @@ function nutritionLines(record: CardRecord): string[] {
   return [...(typeof serving === "string" ? [`Per ${serving}`] : []), `Calories: ${calories}`, ...macros, `Source: ${source}`];
 }
 
+const ANIMAL_FOOD = /protein|meat|poultry|seafood|fish|egg/i;
+const STATES_TEMPERATURE = /\d\s*(?:°\s*[CF]\b|degrees)/i;
+
+/**
+ * Meat, fish and egg cards print no uncited cooking temperature (some sit below
+ * the safe minimum); those come only from the cited food guides.
+ */
+function safeLines(record: CardRecord, items: readonly string[]): string[] {
+  const kind = `${String(readPath(record, "category") ?? "")} ${String(readPath(record, "subcategory") ?? "")}`;
+  return ANIMAL_FOOD.test(kind) ? items.filter((line) => !STATES_TEMPERATURE.test(line)) : [...items];
+}
+
 export function cardSections(record: CardRecord, templates: TemplateIndex): CardSection[] {
   return [
     ...section("flavor", "Flavor", flavorLines(record, templates)),
-    ...section("cooking", "Cooking", cookingLines(record, templates)),
-    ...section("uses", "Culinary uses", lines(readPath(record, "culinaryApplications"))),
-    ...section("preparation", "Preparing", lines(readPath(record, "preparation"))),
+    ...section("cooking", "Cooking", safeLines(record, cookingLines(record, templates))),
+    ...section("uses", "Culinary uses", safeLines(record, lines(readPath(record, "culinaryApplications")))),
+    ...section("preparation", "Preparing", safeLines(record, lines(readPath(record, "preparation")))),
     ...section("storage", "Storing", lines(ownValue(record, "storage", templates))),
     ...section("smoke-point", "Smoke point", smokePointLines(record)),
     ...pairingSections(record, templates),

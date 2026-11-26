@@ -27,7 +27,7 @@ it("ranks recipes by how many of the ingredients they use", () => {
 
 it("says which typed words are no ingredient, instead of guessing", () => {
   const result = pantryMatches(index, { ingredients: ["zzqxj"], diet: null });
-  expect(result.ingredients).toEqual([{ term: "zzqxj", name: null, href: null }]);
+  expect(result.ingredients).toEqual([{ term: "zzqxj", name: null, href: null, options: [] }]);
   expect(result.recipes).toEqual([]);
 });
 
@@ -42,4 +42,18 @@ it("refuses an empty or oversized query", () => {
   expect(PantryQuerySchema.safeParse({ ingredients: [], diet: null }).success).toBe(false);
   expect(PantryQuerySchema.safeParse({ ingredients: Array.from({ length: 13 }, () => "egg"), diet: null }).success).toBe(false);
   expect(PantryQuerySchema.safeParse({ ingredients: ["egg"], diet: "keto" }).success).toBe(false);
+});
+
+it("resolves cuts the way recipe lines are indexed", () => {
+  const result = pantryMatches(index, { ingredients: ["chicken breast", "ground beef"], diet: null });
+  expect(result.ingredients.every((item) => item.name !== null)).toBe(true);
+  expect(result.total).toBeGreaterThan(0);
+});
+
+it("asks instead of guessing what a vague word means", () => {
+  for (const term of ["fish", "cheese", "beans"]) {
+    const [item] = pantryMatches(index, { ingredients: [term], diet: null }).ingredients;
+    expect(item?.name).toBeNull();
+    expect(item?.options.length).toBeGreaterThan(1);
+  }
 });

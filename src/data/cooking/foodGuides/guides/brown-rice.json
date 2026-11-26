@@ -61,6 +61,30 @@
   "substitutions": [],
   "safety": [
     {
+      "text": "Refrigerate cooked rice promptly; Bacillus cereus spores survive cooking.",
+      "sources": [
+        "usu-cooked-rice-sit-out"
+      ]
+    },
+    {
+      "text": "Do not leave cooked rice on the counter for long periods while it cools.",
+      "sources": [
+        "usu-cooked-rice-sit-out"
+      ]
+    },
+    {
+      "text": "Rice can look and smell normal even when toxins are present.",
+      "sources": [
+        "usu-cooked-rice-sit-out"
+      ]
+    },
+    {
+      "text": "Putting rice back in the refrigerator does not reset the 2-hour limit.",
+      "sources": [
+        "usu-cooked-rice-sit-out"
+      ]
+    },
+    {
       "text": "Rinsing before cooking has only a minimal effect on arsenic in the cooked grain, according to FDA.",
       "sources": [
         "fda-arsenic-rice"
@@ -257,6 +281,13 @@
       "publisher": "US Food and Drug Administration",
       "title": "What You Can Do to Limit Exposure to Arsenic",
       "url": "https://www.fda.gov/food/environmental-contaminants-food/what-you-can-do-limit-exposure-arsenic",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "usu-cooked-rice-sit-out",
+      "publisher": "Utah State University Extension",
+      "title": "How Long Can Cooked Rice Sit Out?",
+      "url": "https://extension.usu.edu/answers/articles/how-long-can-cooked-rice-sit-out",
       "retrieved": "2026-11-25"
     }
   ]

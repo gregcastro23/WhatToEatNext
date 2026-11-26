@@ -37,7 +37,17 @@ const HELP_PHRASES: readonly string[] = [
   "what is the best way to", "what s the best way to", "best way to", "best ways to", "how do i", "how do you", "how to",
   "how long to", "how long do i", "instructions for", "instructions", "tips for", "tips", "recipe for", "recipe", "method for",
   "best", "way", "cook", "cooked", "cooking", "make", "making", "prepare", "preparing", "a", "an", "the", "my", "some", "for", "in", "on",
+  "how long do you", "how long", "what temperature to", "what temperature", "what temp", "temperature", "temp", "what", "can you", "can i", "should i",
+  "do you", "you", "i", "at", "to", "degrees", "degree", "minutes", "minute",
 ];
+
+/** "375", "400f": a number asked about is not part of the food's name. */
+const NUMBER = /^\d+[fc]?$/;
+
+function isNumberWord(tokens: readonly string[], at: number): boolean {
+  const word = tokens[at] ?? "";
+  return NUMBER.test(word) || ((word === "f" || word === "c") && NUMBER.test(tokens[at - 1] ?? ""));
+}
 
 interface Phrase {
   words: readonly string[];
@@ -74,7 +84,7 @@ export function parseMethodQuery(query: string): ParsedMethodQuery {
   while (at < tokens.length) {
     const phrase = PHRASES.find((candidate) => matchesAt(tokens, candidate, at));
     if (phrase) found.push(phrase);
-    else food.push(tokens[at] ?? "");
+    else if (!isNumberWord(tokens, at)) food.push(tokens[at] ?? "");
     at += phrase ? phrase.words.length : 1;
   }
   const named = found.find((phrase) => phrase.method !== null);

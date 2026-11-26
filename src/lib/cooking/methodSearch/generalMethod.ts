@@ -8,11 +8,13 @@ import { getAlchemicalProfile } from "@/data/cooking/profiles";
 import type { GuideMethodId } from "@/lib/cooking/foodGuides/schema";
 import type { GeneralMethod } from "@/lib/validation/methodSearchSchemas";
 
-/** Guide methods with a record on /cooking-methods; the others have none. */
+/**
+ * Guide methods with a record on /cooking-methods. Oven baking and pan frying
+ * have none: the nearest records are roasting (trussing, whole poultry) and
+ * deep frying, which would be wrong advice.
+ */
 const RECORD_FOR: Readonly<Partial<Record<GuideMethodId, keyof typeof allCookingMethods>>> = {
-  oven_bake: "roasting",
   roast: "roasting",
-  pan_fry: "frying",
   saute: "stir_frying",
   stir_fry: "stir_frying",
   deep_fry: "frying",

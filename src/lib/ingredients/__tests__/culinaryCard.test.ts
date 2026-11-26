@@ -58,3 +58,10 @@ it("treats worldwide and every season as no information", () => {
   expect(meaningfulSeasons(["spring", "summer", "autumn", "winter"])).toEqual([]);
   expect(meaningfulSeasons(["autumn"])).toEqual(["fall"]);
 });
+
+it.each(["chicken", "turkey", "salmon", "beef", "pork"])("prints no uncited cooking temperature on the %s card", (name) => {
+  const card = cardFor(name);
+  const text = card.sections.filter((entry) => entry.id !== "storage").flatMap((entry) => entry.items).join(" | ");
+  expect(text).not.toMatch(/\d\s*°\s*[CF]\b/);
+  expect(text).not.toMatch(/: (true|false)\b/);
+});

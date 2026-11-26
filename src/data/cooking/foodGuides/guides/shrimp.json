@@ -202,12 +202,6 @@
           "sources": [
             "tamu-cilantro-lime-shrimp"
           ]
-        },
-        {
-          "text": "Brush the shrimp with reserved marinade as it cooks.",
-          "sources": [
-            "ncsg-marinated-shrimp"
-          ]
         }
       ],
       "doneness": [
@@ -337,6 +331,12 @@
       ],
       "steps": [
         {
+          "text": "Set aside about 2 tablespoons of marinade before adding the shrimp.",
+          "sources": [
+            "ncsg-marinated-shrimp"
+          ]
+        },
+        {
           "text": "Marinate the shrimp briefly in the refrigerator, stirring occasionally.",
           "sources": [
             "ncsg-marinated-shrimp"
@@ -361,14 +361,7 @@
           ]
         }
       ],
-      "tips": [
-        {
-          "text": "Set aside about 2 tablespoons of marinade before adding the shrimp.",
-          "sources": [
-            "ncsg-marinated-shrimp"
-          ]
-        }
-      ],
+      "tips": [],
       "doneness": [
         {
           "text": "The shrimp turn pink and firm.",

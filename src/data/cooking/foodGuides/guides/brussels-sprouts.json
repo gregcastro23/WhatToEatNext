@@ -365,7 +365,9 @@
           "sources": [
             "usu-brussels-sprouts"
           ]
-        },
+        }
+      ],
+      "tips": [
         {
           "text": "Or set a covered vegetable steamer over an inch of boiling water.",
           "sources": [
@@ -373,7 +375,6 @@
           ]
         }
       ],
-      "tips": [],
       "doneness": [
         {
           "text": "Test for tenderness with a fork.",
