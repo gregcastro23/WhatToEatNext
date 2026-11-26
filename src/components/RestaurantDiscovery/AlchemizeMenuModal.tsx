@@ -15,6 +15,8 @@
 
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ToastProvider";
+import { readJson } from "@/lib/api/json";
+import { parseAlchemizeMenuResponse } from "@/lib/api/parsers/restaurantWireParsers";
 import type {
   AlchemizedRestaurantMenu,
   ElementType,
@@ -87,7 +89,7 @@ export function AlchemizeMenuModal({
     if (restaurant.websiteUrl) params.set("url", restaurant.websiteUrl);
 
     fetch(`/api/restaurants/alchemize-menu?${params.toString()}`)
-      .then((res) => (res.ok ? res.json() : null))
+      .then((res) => (res.ok ? readJson(res, parseAlchemizeMenuResponse) : null))
       .then((data) => {
         if (active && data?.success && data.menu) {
           setMenu(data.menu);
@@ -128,7 +130,7 @@ export function AlchemizeMenuModal({
       });
 
       if (!res.ok) throw new Error("Failed to alchemize menu.");
-      const data = await res.json();
+      const data = await readJson(res, parseAlchemizeMenuResponse);
       if (data.success && data.menu) {
         setMenu(data.menu);
         setActiveTab("dishes");

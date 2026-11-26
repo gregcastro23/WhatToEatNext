@@ -2,47 +2,18 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import { readJson } from '@/lib/api/json';
+import {
+  parsePersonalizedRecommendationsResponse,
+  type PersonalizedData,
+} from '@/lib/api/parsers/personalizedRecsWireParser';
 import { _logger } from "@/lib/logger";
 import type { NatalChart } from '@/types/natalChart';
 
 interface DashboardOverviewProps {
-  profileData: any;
+  profileData: unknown;
   natalChart: NatalChart;
   email: string;
-}
-
-interface ChartComparisonData {
-  overallHarmony: number;
-  elementalHarmony: number;
-  alchemicalAlignment: number;
-  planetaryResonance: number;
-  insights: {
-    favorableElements: string[];
-    challengingElements: string[];
-    harmonicPlanets: string[];
-    recommendations: string[];
-  };
-}
-
-interface CurrentAlchemyData {
-  kalchm: number;
-  monica: number;
-  esms: { Spirit: number; Essence: number; Matter: number; Substance: number };
-  dominantElement: string;
-  degraded?: boolean;
-}
-
-interface PersonalizedData {
-  chartComparison: ChartComparisonData;
-  currentAlchemy?: CurrentAlchemyData | null;
-  recommendations: {
-    favorableElements: string[];
-    challengingElements: string[];
-    harmonicPlanets: string[];
-    insights: string[];
-    suggestedCuisines: string[];
-    suggestedCookingMethods: string[];
-  };
 }
 
 interface ElementColors {
@@ -85,7 +56,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           body: JSON.stringify({ email, includeChartAnalysis: true }),
         });
         if (res.ok) {
-          const result = await res.json();
+          const result = await readJson(
+            res,
+            parsePersonalizedRecommendationsResponse,
+          );
           if (result.success && result.data) {
             setPersonalData(result.data);
           }

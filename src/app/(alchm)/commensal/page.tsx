@@ -22,6 +22,8 @@ import {
   useGuestRecommendations,
   type SearchLocation,
 } from "@/hooks/useCommensalRecommendations";
+import { safeReadJson } from "@/lib/api/json";
+import { parseCommensalSaveResponse } from "@/lib/api/parsers/userActionWireParsers";
 import type { BirthData, NatalChart } from "@/types/natalChart";
 import { createLogger } from "@/utils/logger";
 
@@ -82,7 +84,11 @@ function GuestForm({ onAdd, onCompanionSaved, atCapacity = false }: GuestFormPro
                 birthData: data,
               }),
             });
-            const result = await res.json();
+            const result = await safeReadJson(
+              res,
+              { success: false },
+              parseCommensalSaveResponse,
+            );
             if (!res.ok || !result.success) {
               throw new Error(
                 result.message || "Failed to save companion chart",
@@ -109,10 +115,10 @@ function GuestForm({ onAdd, onCompanionSaved, atCapacity = false }: GuestFormPro
             setLatitude("");
             setLongitude("");
             setTimezone("");
-          } catch (err: any) {
+          } catch (err: unknown) {
             logger.error("Failed to save companion:", err);
             setErrorMsg(
-              err.message ||
+              (err instanceof Error ? err.message : undefined) ||
                 "Saved companion locally instead due to a temporary error.",
             );
             // Fallback to local-only guest addition so user can still compute recommendations

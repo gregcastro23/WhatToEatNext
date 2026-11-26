@@ -4,7 +4,7 @@ import React from "react";
 import type { PlanetaryAspect, PlanetaryPosition } from "@/types/celestial";
 import {
     calculateAbsoluteLongitude, degreesToSVGCoords, formatDegreeString, getAspectColor,
-    getAspectLineStyle, getElementColor, getPlanetColor, getPlanetSymbol, getRetrogradeSymbol, getZodiacArcPath, getZodiacGlyph
+    getAspectLineStyle, getElementColor, getPlanetColor, getPlanetSymbol, getRetrogradeSymbol, getZodiacArcPath, getZodiacGlyph, toChartZodiacSign
 } from "@/utils/chartRendering";
 
 /**
@@ -145,11 +145,11 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
       const planet2Pos = positions[aspect.planet2];
       if (!planet1Pos || !planet2Pos) return null;
       const long1 = calculateAbsoluteLongitude(
-        planet1Pos.sign,
+        toChartZodiacSign(planet1Pos.sign),
         planet1Pos.degree,
       );
       const long2 = calculateAbsoluteLongitude(
-        planet2Pos.sign,
+        toChartZodiacSign(planet2Pos.sign),
         planet2Pos.degree,
       );
       const pos1 = degreesToSVGCoords(
@@ -184,7 +184,7 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
   // Render planets
   const renderPlanets = () => Object.entries(positions).map(([planet, position]) => {
       const longitude = calculateAbsoluteLongitude(
-        position.sign,
+        toChartZodiacSign(position.sign),
         position.degree,
       );
       const pos = degreesToSVGCoords(longitude, planetRadius, centerX, centerY);
@@ -240,7 +240,7 @@ export const PlanetaryChart: React.FC<PlanetaryChartProps> = ({
               fill="#666"
             >
               {formatDegreeString(
-                position.sign,
+                toChartZodiacSign(position.sign),
                 position.degree,
                 position.minute,
               )}

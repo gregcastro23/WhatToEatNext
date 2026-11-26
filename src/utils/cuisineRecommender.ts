@@ -71,7 +71,7 @@ export function generateTopSauceRecommendations(
       astrologicalScore = 0.9; // Bonus for matching the planetary day
     }
     if (
-      astrologicalState?.zodiacSign &&
+      typeof astrologicalState?.zodiacSign === "string" &&
       planetaryInfluences.includes(astrologicalState.zodiacSign)
     ) {
       astrologicalScore = Math.min(1, astrologicalScore + 0.2); // Bonus for zodiac sign
@@ -177,7 +177,7 @@ export function getCuisineRecommendations(
       // Zodiac Match Score (30% weight) - safe property access
       const { zodiacInfluences } = cuisine as { zodiacInfluences?: string[] };
       if (
-        astrologicalState.zodiacSign &&
+        typeof astrologicalState.zodiacSign === "string" &&
         zodiacInfluences?.includes(astrologicalState.zodiacSign)
       ) {
         score += 0.3;

@@ -12,21 +12,12 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
+import { readJson } from "@/lib/api/json";
+import {
+  parseAlchmTrendsResponse,
+  type TrendPoint,
+} from "@/lib/api/parsers/alchmTelemetryWireParsers";
 import { _logger } from "@/lib/logger";
-
-interface TrendPoint {
-  time: string;
-  iso?: string;
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-  Fire?: number;
-  Water?: number;
-  Earth?: number;
-  Air?: number;
-  isDiurnal?: boolean;
-}
 
 type ChartMode = "esms" | "elemental" | "both";
 
@@ -41,8 +32,8 @@ export default function AlchmQuantitiesTrends() {
         setLoading(true);
         const response = await fetch("/api/alchm-quantities/trends");
         if (!response.ok) throw new Error("Failed to fetch trends");
-        const data = await response.json();
-        setTrendData(data.trends);
+        const trends = await readJson(response, parseAlchmTrendsResponse);
+        setTrendData(trends);
       } catch (error) {
         _logger.error("Failed to fetch trend data:", error);
         setTrendData([]);

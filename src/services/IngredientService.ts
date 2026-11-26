@@ -1,4 +1,7 @@
-import { calculateSeasonalCompatibility as calcSeasonalCompat } from "@/constants/seasonalCore";
+import {
+  VALID_SEASONS,
+  calculateSeasonalCompatibility as calcSeasonalCompat,
+} from "@/constants/seasonalCore";
 import { calculateFlavorMatch } from "@/data/unified/flavorCompatibilityLayer";
 import { unifiedIngredients } from "@/data/unified/ingredients";
 import type { UnifiedIngredient } from "@/data/unified/unifiedTypes";
@@ -19,6 +22,10 @@ import type {
     IngredientRecommendationOptions,
     IngredientServiceInterface
 } from "./interfaces/IngredientServiceInterface";
+
+function isSeason(value: unknown): value is Season {
+  return typeof value === "string" && VALID_SEASONS.some((s) => s === value);
+}
 
 // Import the ingredient service interface
 // Import unified ingredient data
@@ -427,8 +434,10 @@ export class IngredientService implements IngredientServiceInterface {
         let count = 0;
         for (const s1 of ing1.seasons) {
           for (const s2 of ing2.seasons) {
-            totalCompat += calcSeasonalCompat(s1, s2);
-            count++;
+            if (isSeason(s1) && isSeason(s2)) {
+              totalCompat += calcSeasonalCompat(s1, s2);
+              count++;
+            }
           }
         }
         seasonalCompatibility = count > 0 ? totalCompat / count : 0.8;

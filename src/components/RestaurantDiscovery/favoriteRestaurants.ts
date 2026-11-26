@@ -9,6 +9,8 @@
  */
 
 import { useEffect, useState, useCallback } from "react";
+import { readJson } from "@/lib/api/json";
+import { parseFavoriteRestaurantIdsResponse } from "@/lib/api/parsers/restaurantWireParsers";
 
 const STORAGE_KEY = "alchm_favorite_restaurants";
 
@@ -82,7 +84,9 @@ export function useFavoriteRestaurants() {
 
     // Also fetch remote favorites in background
     fetch("/api/restaurants/favorites")
-      .then((res) => (res.ok ? res.json() : null))
+      .then((res) =>
+        res.ok ? readJson(res, parseFavoriteRestaurantIdsResponse) : null,
+      )
       .then((data) => {
         if (data?.success && Array.isArray(data.favoriteIds)) {
           const merged = Array.from(
