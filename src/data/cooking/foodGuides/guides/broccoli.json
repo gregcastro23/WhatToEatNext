@@ -1,0 +1,563 @@
+{
+  "id": "broccoli",
+  "name": "Broccoli",
+  "aliases": [
+    "broccoli",
+    "broccoli crowns",
+    "broccoli florets",
+    "broccoli stalks",
+    "fresh broccoli"
+  ],
+  "catalogKeys": [
+    "broccoli"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Broccoli can be blanched or boiled, microwaved, steamed, or stir-fried.",
+    "sources": [
+      "hgic-broccoli"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Pick firm stems and tightly packed, dark green heads.",
+      "sources": [
+        "foodhero-broccoli"
+      ]
+    },
+    {
+      "text": "Avoid florets that are enlarged, opened, yellowish-green, or wilted.",
+      "sources": [
+        "hgic-broccoli"
+      ]
+    },
+    {
+      "text": "Choose tender, young stalks with tightly closed buds.",
+      "sources": [
+        "uky-broccoli"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Refrigerate broccoli in a loose bag with airflow and use it within a week for best quality.",
+      "sources": [
+        "foodhero-broccoli"
+      ]
+    },
+    {
+      "text": "Refrigerate fresh broccoli in a plastic bag right after purchase.",
+      "sources": [
+        "hgic-broccoli"
+      ]
+    },
+    {
+      "text": "Use broccoli within 3 days of purchase, since vitamin content falls the longer it is stored.",
+      "sources": [
+        "hgic-broccoli"
+      ]
+    },
+    {
+      "text": "Keep unwashed broccoli in a perforated plastic bag in the refrigerator for no more than three to five days.",
+      "sources": [
+        "uky-broccoli"
+      ]
+    },
+    {
+      "text": "Use pre-cut broccoli within 2 to 3 days.",
+      "sources": [
+        "foodhero-broccoli"
+      ]
+    },
+    {
+      "text": "For longer storage, freeze broccoli after blanching it first.",
+      "sources": [
+        "foodhero-broccoli"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Rinse under running water just before using.",
+      "sources": [
+        "foodhero-broccoli"
+      ]
+    },
+    {
+      "text": "Peel heavy or woody stems and cut stalks into similar-sized pieces.",
+      "sources": [
+        "foodhero-broccoli"
+      ]
+    },
+    {
+      "text": "Trim just the end of each stalk; the rest of the stalk is edible.",
+      "sources": [
+        "hgic-broccoli"
+      ]
+    },
+    {
+      "text": "Wash in cool running water just before preparing; do not soak.",
+      "sources": [
+        "hgic-broccoli"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Wash fresh produce thoroughly under running water before eating it.",
+      "sources": [
+        "fda-produce-safety"
+      ]
+    },
+    {
+      "text": "Do not wash produce with soap, detergent, or commercial produce wash.",
+      "sources": [
+        "fda-produce-safety"
+      ]
+    },
+    {
+      "text": "Store perishable fresh produce, such as broccoli, in a refrigerator at 40° F or below.",
+      "sources": [
+        "fda-produce-safety"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "microwave",
+      "label": "Microwave with a little water",
+      "best": true,
+      "why": {
+        "text": "Choose microwaving when you want the least water; HGIC advises using the least amount of water and the shortest cook.",
+        "sources": [
+          "hgic-broccoli"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "ratio",
+          "label": "water per 1 lb broccoli",
+          "min": 0.25,
+          "max": null,
+          "unit": "cup",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "microwave at highest power (HGIC)",
+          "min": 5,
+          "max": 10,
+          "unit": "min",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "microwave (UKY)",
+          "min": 3,
+          "max": 4,
+          "unit": "min",
+          "sources": [
+            "uky-broccoli"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "rest after microwaving",
+          "min": 5,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        }
+      ],
+      "equipment": [
+        "covered microwave-safe dish"
+      ],
+      "steps": [
+        {
+          "text": "Place a pound of broccoli in a covered dish with ¼ cup water.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "text": "Cook at highest power for 5 to 10 minutes, rotating halfway through.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "text": "Let it stand for 5 minutes before serving.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "A shorter University of Kentucky timing: microwave 3 to 4 minutes, until crisp-tender.",
+          "sources": [
+            "uky-broccoli"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook only until a fork can pierce the stalk.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "steam",
+      "label": "Steam over boiling water",
+      "best": false,
+      "why": {
+        "text": "Choose steaming for pieces that fit a steamer basket; cut them to fit and steam until tender.",
+        "sources": [
+          "hgic-broccoli"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "ratio",
+          "label": "water in pot under basket",
+          "min": 1,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "steam time (HGIC)",
+          "min": 8,
+          "max": 15,
+          "unit": "min",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "steam time (NDSU)",
+          "min": 4,
+          "max": 5,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "steam time (UKY)",
+          "min": 6,
+          "max": 8,
+          "unit": "min",
+          "sources": [
+            "uky-broccoli"
+          ]
+        }
+      ],
+      "equipment": [
+        "steamer basket",
+        "pot with lid"
+      ],
+      "steps": [
+        {
+          "text": "Cut the broccoli into pieces that fit your steamer basket.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "text": "Bring an inch of water to a boil in the pot under the basket.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "text": "Set the basket over the water, cover, and steam 8 to 15 minutes.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "text": "Check that a fork can pierce the stalk.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "Done when a fork can pierce the stalk.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boil",
+      "label": "Blanch or boil briefly",
+      "best": false,
+      "why": {
+        "text": "Choose blanching when you plan to freeze the broccoli, since blanching first preserves color and flavor.",
+        "sources": [
+          "foodhero-broccoli"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "ratio",
+          "label": "water depth for boiling",
+          "min": 1,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "boil time (HGIC, uncovered)",
+          "min": 3,
+          "max": 5,
+          "unit": "min",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "boil time (UKY, covered)",
+          "min": 5,
+          "max": 7,
+          "unit": "min",
+          "sources": [
+            "uky-broccoli"
+          ]
+        }
+      ],
+      "equipment": [
+        "saucepan"
+      ],
+      "steps": [
+        {
+          "text": "Bring about an inch of water to a rapid boil.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "text": "Add the washed, trimmed broccoli and bring back to a second boil.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "text": "Test with a fork and stop when it can be pierced.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "Stop when a fork can pierce the stalk.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stir_fry",
+      "label": "Stir-fry stalks, then florets",
+      "best": false,
+      "why": {
+        "text": "Choose stir-frying for a one-pan method; add the stalks first, then the florets.",
+        "sources": [
+          "hgic-broccoli"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "ratio",
+          "label": "oil per cup of broccoli",
+          "min": 1,
+          "max": null,
+          "unit": "tsp",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "stalk stir-fry time",
+          "min": 1,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "floret stir-fry time",
+          "min": 2,
+          "max": 3,
+          "unit": "min",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        }
+      ],
+      "equipment": [
+        "wok or large skillet"
+      ],
+      "steps": [
+        {
+          "text": "Peel the stalks and cut them into 1- to 2-inch strips; keep the florets separate.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "text": "Heat 1 tsp. of oil for each cup of broccoli in a wok or large skillet.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "text": "Stir-fry the stalks for 1 minute, then add the florets.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        },
+        {
+          "text": "Stir-fry another 2 to 3 minutes, then remove from heat.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "For softer broccoli, cover and let it sit a few minutes after cooking.",
+          "sources": [
+            "hgic-broccoli"
+          ]
+        }
+      ],
+      "doneness": []
+    },
+    {
+      "id": "roast",
+      "label": "Roast on a baking sheet at 425 F",
+      "best": false,
+      "why": {
+        "text": "Choose roasting when you want an oven method; NDSU gives 425 F for 20 to 25 minutes.",
+        "sources": [
+          "ndsu-pocket-guide"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "roast oven temperature",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "roast time",
+          "min": 20,
+          "max": 25,
+          "unit": "min",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "equipment": [
+        "baking sheet"
+      ],
+      "steps": [
+        {
+          "text": "Heat the oven to 425 F.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Toss florets on a baking sheet with oil and seasonings.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        },
+        {
+          "text": "Roast for 20 to 25 minutes.",
+          "sources": [
+            "ndsu-pocket-guide"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": []
+    }
+  ],
+  "sources": [
+    {
+      "id": "foodhero-broccoli",
+      "publisher": "Oregon State University Extension (Food Hero)",
+      "title": "Broccoli",
+      "url": "https://foodhero.org/magazines/broccoli-0",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "hgic-broccoli",
+      "publisher": "Clemson University Extension (HGIC)",
+      "title": "Using & Storing Broccoli",
+      "url": "https://hgic.clemson.edu/factsheet/using-storing-broccoli/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "uky-broccoli",
+      "publisher": "University of Kentucky Cooperative Extension",
+      "title": "Broccoli (FCS Commodity)",
+      "url": "https://fcs.mgcafe.uky.edu/commodity/broccoli",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "ndsu-pocket-guide",
+      "publisher": "North Dakota State University Extension",
+      "title": "A Pocket Guide to Preparing Fruits and Vegetables (FN1955)",
+      "url": "https://www.ndsu.edu/agriculture/extension/publications/pocket-guide-preparing-fruits-and-vegetables",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fda-produce-safety",
+      "publisher": "US Food and Drug Administration",
+      "title": "Selecting and Serving Produce Safely",
+      "url": "https://www.fda.gov/food/buy-store-serve-safe-food/selecting-and-serving-produce-safely",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

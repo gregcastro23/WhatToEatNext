@@ -1,0 +1,456 @@
+{
+  "id": "bacon",
+  "name": "Bacon",
+  "aliases": [
+    "bacon rashers",
+    "bacon slices",
+    "bacon strips",
+    "sliced bacon",
+    "streaky bacon"
+  ],
+  "catalogKeys": [
+    "bacon"
+  ],
+  "safetyClass": "cured_meat",
+  "summary": {
+    "text": "Plain pork bacon is cured pork belly sold raw, so cook it before eating. The three main ways are the oven, a skillet and the microwave.",
+    "sources": [
+      "fsis-bacon"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Look for slices with long veins of lean pink meat and relatively little fat, and buy before any date on the package.",
+      "sources": [
+        "fsis-bacon"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Refrigerate raw bacon at 40°F or below and use it within 7 days, or freeze it.",
+      "sources": [
+        "fsis-bacon",
+        "fda-storage"
+      ]
+    },
+    {
+      "text": "For quality in the freezer, the FDA chart lists 1 month and the USDA bacon sheet 4 months; frozen food stays safe longer.",
+      "sources": [
+        "fda-storage",
+        "fsis-bacon"
+      ]
+    },
+    {
+      "text": "Bacon you cooked yourself keeps 4 to 5 days in the refrigerator, or 1 month frozen.",
+      "sources": [
+        "fsis-bacon"
+      ]
+    },
+    {
+      "text": "Shelf-stable cooked bacon goes in the refrigerator once opened.",
+      "sources": [
+        "fsis-bacon"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "To separate cold slices, slide a dull butter knife along the length between the strips.",
+      "sources": [
+        "pork-bacon-oven"
+      ]
+    },
+    {
+      "text": "You can cook bacon straight from frozen.",
+      "sources": [
+        "fsis-bacon"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Bacon is too thin to check with a thermometer reliably; cooked crisp, it should have reached a safe temperature. Cured bacon can stay pink even then.",
+      "sources": [
+        "fsis-bacon"
+      ]
+    },
+    {
+      "text": "Cook bacon completely in one go; never partly cook it to refrigerate and finish later.",
+      "sources": [
+        "fsis-bacon"
+      ]
+    },
+    {
+      "text": "Well-done or burned bacon carries more nitrosamines than less well-done bacon, and microwaved bacon has less than fried.",
+      "sources": [
+        "fsis-bacon"
+      ]
+    },
+    {
+      "text": "Thaw in the refrigerator, in cold water or in the microwave, never on the counter; cook right away after cold-water or microwave thawing.",
+      "sources": [
+        "fsis-bacon"
+      ]
+    },
+    {
+      "text": "Do not wash raw bacon; cooking destroys any bacteria on the surface.",
+      "sources": [
+        "fsis-bacon"
+      ]
+    },
+    {
+      "text": "Air fryer: Food Network Kitchen tested it and found it too smoky to recommend as a safe practice.",
+      "sources": [
+        "fn-bacon-air-fryer"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "oven_bake",
+      "label": "Oven",
+      "best": true,
+      "why": {
+        "text": "Hands-off and tidy: King Arthur puts baking at about 5 minutes of hands-on time, with little of the work of frying.",
+        "sources": [
+          "king-arthur-bacon"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "On a rack: oven",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "pork-bacon-oven"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "On a rack: bake",
+          "min": 20,
+          "max": 25,
+          "unit": "min",
+          "sources": [
+            "pork-bacon-oven"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "Cold-oven start: set to",
+          "min": 400,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fn-bacon"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Cold-oven start: bake",
+          "min": 25,
+          "max": 35,
+          "unit": "min",
+          "sources": [
+            "fn-bacon"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "Flat on parchment: oven",
+          "min": 350,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "king-arthur-bacon"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Flat on parchment: first bake",
+          "min": 25,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "king-arthur-bacon"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Flat on parchment: then",
+          "min": 5,
+          "max": 15,
+          "unit": "min",
+          "sources": [
+            "king-arthur-bacon"
+          ]
+        }
+      ],
+      "equipment": [
+        "rimmed sheet pan",
+        "wire cooling rack",
+        "foil or parchment",
+        "paper towels"
+      ],
+      "steps": [
+        {
+          "text": "Heat the oven to 425°F.",
+          "sources": [
+            "pork-bacon-oven"
+          ]
+        },
+        {
+          "text": "Line the pan with foil if you will not keep the fat, lightly oil-spray both sides of a cooling rack, and set it in the pan.",
+          "sources": [
+            "pork-bacon-oven"
+          ]
+        },
+        {
+          "text": "Lay the strips across the width of the rack.",
+          "sources": [
+            "pork-bacon-oven"
+          ]
+        },
+        {
+          "text": "Bake for 20 to 25 minutes.",
+          "sources": [
+            "pork-bacon-oven"
+          ]
+        },
+        {
+          "text": "Move the bacon to a paper-towel-lined plate and pat off the excess grease.",
+          "sources": [
+            "pork-bacon-oven"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Cold-oven start: lay strips on a foil- or parchment-lined rimmed sheet without overlapping, put it in a cold oven, set 400°F and bake 25 to 35 minutes.",
+          "sources": [
+            "fn-bacon"
+          ]
+        },
+        {
+          "text": "No rack: lay up to a pound on parchment, bake at 350°F about 25 minutes until it starts to shrink, separate overlapping pieces, then bake 5 to 15 minutes more.",
+          "sources": [
+            "king-arthur-bacon"
+          ]
+        },
+        {
+          "text": "To keep the fat, drain it into a heatproof jar; with parchment you can instead fold it up with the fat and throw it away.",
+          "sources": [
+            "king-arthur-bacon"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Bake until it is as dark and crisp as you like.",
+          "sources": [
+            "king-arthur-bacon"
+          ]
+        },
+        {
+          "text": "Cooked crisp, bacon should have reached a safe temperature, even if it still looks pink.",
+          "sources": [
+            "fsis-bacon"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pan_fry",
+      "label": "Skillet",
+      "best": false,
+      "why": {
+        "text": "Choose the skillet to watch and turn each strip to the crispness you want.",
+        "sources": [
+          "fn-bacon"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Medium heat, turning",
+          "min": 8,
+          "max": 12,
+          "unit": "min",
+          "sources": [
+            "fn-bacon"
+          ]
+        }
+      ],
+      "equipment": [
+        "skillet",
+        "paper towels"
+      ],
+      "steps": [
+        {
+          "text": "Lay the strips without overlapping in a cold skillet; do not preheat it.",
+          "sources": [
+            "fn-bacon"
+          ]
+        },
+        {
+          "text": "Cook over medium heat, which renders the fat evenly.",
+          "sources": [
+            "fn-bacon"
+          ]
+        },
+        {
+          "text": "Turn the strips as needed until they reach the crispness you want, 8 to 12 minutes.",
+          "sources": [
+            "fn-bacon"
+          ]
+        },
+        {
+          "text": "Drain on a paper-towel-lined platter.",
+          "sources": [
+            "fn-bacon"
+          ]
+        }
+      ],
+      "tips": [],
+      "doneness": [
+        {
+          "text": "Cooked crisp, bacon should have reached a safe temperature.",
+          "sources": [
+            "fsis-bacon"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "microwave",
+      "label": "Microwave",
+      "best": false,
+      "why": {
+        "text": "Choose the microwave for a few slices with little mess; it also forms less nitrosamine than frying, though it crisps a little less.",
+        "sources": [
+          "fsis-bacon",
+          "fn-bacon-microwave"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "High power, per slice",
+          "min": 1,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "fn-bacon-microwave"
+          ]
+        }
+      ],
+      "equipment": [
+        "large microwave-safe plate",
+        "paper towels"
+      ],
+      "steps": [
+        {
+          "text": "Put four sheets of paper towel on a microwave-safe plate that holds 4 to 6 slices without folding.",
+          "sources": [
+            "fn-bacon-microwave"
+          ]
+        },
+        {
+          "text": "Lay the slices in a single layer without overlapping.",
+          "sources": [
+            "fn-bacon-microwave"
+          ]
+        },
+        {
+          "text": "Cover with two more sheets so no bacon peeks out.",
+          "sources": [
+            "fn-bacon-microwave"
+          ]
+        },
+        {
+          "text": "Microwave on high about 1 minute per slice, checking halfway because microwaves differ.",
+          "sources": [
+            "fn-bacon-microwave"
+          ]
+        },
+        {
+          "text": "Leave it on the towels for a minute or so; it crisps as it cools.",
+          "sources": [
+            "fn-bacon-microwave"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "If it looks nearly done early, finish in 30-second bursts rather than the full time.",
+          "sources": [
+            "fn-bacon-microwave"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cooked crisp, bacon should have reached a safe temperature.",
+          "sources": [
+            "fsis-bacon"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "fsis-bacon",
+      "publisher": "USDA Food Safety and Inspection Service",
+      "title": "Bacon and Food Safety (revised October 2013, hosted by Utah State University Extension)",
+      "url": "https://extension.usu.edu/fscreate/files/2020-22-staff/FFU_Bacon_and_Food_Safety.pdf",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fda-storage",
+      "publisher": "U.S. Food and Drug Administration",
+      "title": "Refrigerator & Freezer Storage Chart (March 2018)",
+      "url": "https://www.fda.gov/media/74435/download",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "pork-bacon-oven",
+      "publisher": "National Pork Board",
+      "title": "How to Bake Bacon",
+      "url": "https://pork.org/cooking/cuts/bacon",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "king-arthur-bacon",
+      "publisher": "King Arthur Baking",
+      "title": "A better way to make bacon",
+      "url": "https://www.kingarthurbaking.com/blog/2013/12/01/bakin-the-bacon",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fn-bacon",
+      "publisher": "Food Network",
+      "title": "How to Cook Bacon",
+      "url": "https://www.foodnetwork.com/how-to/packages/food-network-essentials/how-to-cook-bacon",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fn-bacon-microwave",
+      "publisher": "Food Network",
+      "title": "How to Make Bacon in the Microwave",
+      "url": "https://www.foodnetwork.com/recipes/articles/how-to-make-bacon-in-the-microwave",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fn-bacon-air-fryer",
+      "publisher": "Food Network",
+      "title": "Can You Make Air Fryer Bacon?",
+      "url": "https://www.foodnetwork.com/how-to/packages/food-network-essentials/make-air-fryer-bacon",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

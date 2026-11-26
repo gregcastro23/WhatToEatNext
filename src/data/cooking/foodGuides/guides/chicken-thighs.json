@@ -1,0 +1,383 @@
+{
+  "id": "chicken-thighs",
+  "name": "Chicken thighs",
+  "aliases": [
+    "bone-in chicken thighs",
+    "boneless chicken thighs",
+    "chicken thighs"
+  ],
+  "catalogKeys": [
+    "chicken"
+  ],
+  "safetyClass": "poultry",
+  "summary": {
+    "text": "Thighs are dark meat that stays juicy and cooks fairly quickly, so they suit several methods.",
+    "sources": [
+      "fn-thigh-bake"
+    ]
+  },
+  "selection": [],
+  "storage": [
+    {
+      "text": "Store cooked thighs in a sealed container in the refrigerator for up to 4 days.",
+      "sources": [
+        "fn-thigh-bake"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Toss boneless thighs with olive oil, salt and pepper until evenly coated.",
+      "sources": [
+        "fn-thigh-bake"
+      ]
+    },
+    {
+      "text": "On bone-in thighs, keep the thermometer away from the bone when checking.",
+      "sources": [
+        "fn-thigh-bake"
+      ]
+    },
+    {
+      "text": "Sear skin-side down in a hot skillet with oil, then reduce to medium heat for crispier skin.",
+      "sources": [
+        "fn-thigh-braise"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Cook thighs to an internal temperature of 165°F.",
+      "sources": [
+        "fn-thigh-bake"
+      ]
+    },
+    {
+      "text": "Thaw frozen poultry in the refrigerator or microwave, not on the counter.",
+      "sources": [
+        "ncc-grill"
+      ]
+    },
+    {
+      "text": "Do not rinse raw chicken; cooking kills the bacteria.",
+      "sources": [
+        "oregon-osu-skillet"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "roast",
+      "label": "Roast in the oven (boneless or bone-in)",
+      "best": true,
+      "why": {
+        "text": "Choose roasting: dark meat holds up at high oven heat and doesn't dry out as quickly as white meat.",
+        "sources": [
+          "fn-temp-bake-chicken"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Boneless roast",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Boneless thighs at 425°F",
+          "min": 25,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "Bone-in skin-on preheated sheet",
+          "min": 500,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Bone-in skin-on thighs",
+          "min": 30,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "USDA approximate time at 350°F for 4-8 oz thighs",
+          "min": 40,
+          "max": 50,
+          "unit": "min",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 165,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        }
+      ],
+      "equipment": [
+        "rimmed baking sheet",
+        "instant-read thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Preheat the oven to 425°F and toss boneless thighs with olive oil, salt and pepper.",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        },
+        {
+          "text": "Roast on a rimmed baking sheet about 25 minutes, until the thickest part reads 165°F.",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        },
+        {
+          "text": "Bone-in, skin-on (a separate recipe): preheat the sheet in a 500°F oven, add the seasoned thighs skin-side up and roast about 30 minutes, until they read 165°F.",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Keep the thermometer in the thickest part and off the bone for bone-in thighs.",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Roast until the thickest part reads 165°F.",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "braise",
+      "label": "Sear then braise, covered in the oven",
+      "best": false,
+      "why": {
+        "text": "Choose braising when you want very tender thighs with a light sauce; the method sears first, then cooks low and slow.",
+        "sources": [
+          "fn-thigh-braise"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Braising oven",
+          "min": 275,
+          "max": 300,
+          "unit": "°F",
+          "sources": [
+            "fn-thigh-braise"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Braise time",
+          "min": 1.5,
+          "max": null,
+          "unit": "hr",
+          "sources": [
+            "fn-thigh-braise"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 165,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        }
+      ],
+      "equipment": [
+        "large skillet",
+        "heavy braiser or Dutch oven"
+      ],
+      "steps": [
+        {
+          "text": "Optionally marinate the seasoned thighs uncovered in the fridge for 1 to 2 days.",
+          "sources": [
+            "fn-thigh-braise"
+          ]
+        },
+        {
+          "text": "Sear the thighs skin-side down in a hot skillet with oil.",
+          "sources": [
+            "fn-thigh-braise"
+          ]
+        },
+        {
+          "text": "Add stock and wine to the pan with the aromatics and bring to a simmer.",
+          "sources": [
+            "fn-thigh-braise"
+          ]
+        },
+        {
+          "text": "Transfer to a covered braiser in the oven and braise about 1 and a half hours until very tender.",
+          "sources": [
+            "fn-thigh-braise"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Keep cooking until the thighs are very tender, not just cooked through.",
+          "sources": [
+            "fn-thigh-braise"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Braise until the thickest part reads 165°F and the meat is very tender.",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grill",
+      "label": "Grill over medium heat",
+      "best": false,
+      "why": {
+        "text": "Choose the grill for charred thighs when you can allow about 25 to 30 minutes, since thighs take longer than breast.",
+        "sources": [
+          "ncc-grill"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Grill time for thighs",
+          "min": 25,
+          "max": 30,
+          "unit": "min",
+          "sources": [
+            "ncc-grill"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 165,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        }
+      ],
+      "equipment": [
+        "grill grates",
+        "instant-read thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Oil the grates to prevent sticking.",
+          "sources": [
+            "ncc-grill"
+          ]
+        },
+        {
+          "text": "Grill the thighs about 25 to 30 minutes.",
+          "sources": [
+            "ncc-grill"
+          ]
+        },
+        {
+          "text": "Check the thickest part; cook until it reads 165°F.",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Keep poultry chilled until it goes on the grill.",
+          "sources": [
+            "ncc-grill"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Grill until the thickest part reads 165°F.",
+          "sources": [
+            "fn-thigh-bake"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "fn-thigh-bake",
+      "publisher": "Food Network",
+      "title": "How Long Should You Bake Chicken Thighs?",
+      "url": "https://www.foodnetwork.com/how-to/packages/food-network-essentials/how-long-to-bake-chicken-thighs",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fn-thigh-braise",
+      "publisher": "Food Network",
+      "title": "How to Cook Chicken Thighs Perfectly, According to a Chef Who Makes Them Every Day",
+      "url": "https://www.foodnetwork.com/fn-dish/recipes/how-to-cook-bone-in-skin-on-chicken-thighs-perfectly",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fn-temp-bake-chicken",
+      "publisher": "Food Network",
+      "title": "At What Temperature Do You Bake Chicken?",
+      "url": "https://www.foodnetwork.com/how-to/packages/food-network-essentials/what-temp-to-bake-chicken",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "ncc-grill",
+      "publisher": "National Chicken Council",
+      "title": "Healthful Chicken on the Grill",
+      "url": "https://www.nationalchickencouncil.org/healthful-chicken-on-the-grill/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "oregon-osu-skillet",
+      "publisher": "Oregon State University Extension",
+      "title": "Skillet-Braised Chicken",
+      "url": "https://extension.oregonstate.edu/imported-publication/skillet-braised-chicken",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

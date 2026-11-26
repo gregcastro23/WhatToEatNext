@@ -1,0 +1,539 @@
+{
+  "id": "chicken-breast",
+  "name": "Chicken breast",
+  "aliases": [
+    "boneless chicken breast",
+    "chicken breasts"
+  ],
+  "catalogKeys": [
+    "chicken"
+  ],
+  "safetyClass": "poultry",
+  "summary": {
+    "text": "Skinless, boneless breasts are low in fat and cook quickly.",
+    "sources": [
+      "ncc-grill"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Choose breast with a light pink color and minimal bruising.",
+      "sources": [
+        "fn-breast-recipe"
+      ]
+    },
+    {
+      "text": "Skip packs with an off smell or a lot of liquid, which can signal spoilage.",
+      "sources": [
+        "fn-breast-recipe"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Refrigerate leftover cooked chicken within 2 hours, or freeze it for longer storage.",
+      "sources": [
+        "oregon-osu-skillet"
+      ]
+    },
+    {
+      "text": "Baked breast keeps up to 4 days refrigerated or up to 4 months frozen.",
+      "sources": [
+        "fn-breast-oven"
+      ]
+    },
+    {
+      "text": "Poached breast keeps up to four days refrigerated or up to three months frozen.",
+      "sources": [
+        "fn-breast-poached"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Optionally brine boneless breasts in the refrigerator for 15 to 30 minutes before cooking.",
+      "sources": [
+        "fn-breast-recipe"
+      ]
+    },
+    {
+      "text": "Pat the breasts completely dry before seasoning and cooking.",
+      "sources": [
+        "fn-breast-recipe"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Cook chicken until the thickest part reaches at least 165°F.",
+      "sources": [
+        "oregon-osu-skillet"
+      ]
+    },
+    {
+      "text": "Do not rinse raw chicken; cooking kills the bacteria.",
+      "sources": [
+        "oregon-osu-skillet"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "oven_bake",
+      "label": "Oven bake (high heat)",
+      "best": true,
+      "why": {
+        "text": "Choose high-heat baking: the chicken cooks quickly and thoroughly without drying out.",
+        "sources": [
+          "fn-breast-recipe"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "High-heat bake",
+          "min": 450,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fn-breast-recipe"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Bake at 450°F until 165°F",
+          "min": 15,
+          "max": 18,
+          "unit": "min",
+          "sources": [
+            "fn-breast-recipe"
+          ]
+        },
+        {
+          "kind": "oven_temp",
+          "label": "Standard bake",
+          "min": 375,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fn-breast-oven"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Boneless breast at 375°F",
+          "min": 20,
+          "max": 30,
+          "unit": "min",
+          "sources": [
+            "fn-breast-oven"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 165,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fn-breast-oven"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "Rest before slicing",
+          "min": 5,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "fn-breast-recipe"
+          ]
+        }
+      ],
+      "equipment": [
+        "9-by-13-inch baking dish",
+        "instant-read thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Preheat the oven to 450°F.",
+          "sources": [
+            "fn-breast-recipe"
+          ]
+        },
+        {
+          "text": "Drizzle the dried breasts with melted butter and season both sides.",
+          "sources": [
+            "fn-breast-recipe"
+          ]
+        },
+        {
+          "text": "Bake until the thickest part reads 165°F, about 15 to 18 minutes.",
+          "sources": [
+            "fn-breast-recipe"
+          ]
+        },
+        {
+          "text": "Rest the chicken 5 minutes before slicing.",
+          "sources": [
+            "fn-breast-recipe"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Probe the thickest part of the breast to check doneness.",
+          "sources": [
+            "fn-breast-oven"
+          ]
+        },
+        {
+          "text": "In a convection oven the chicken cooks faster, so check a few minutes early.",
+          "sources": [
+            "fn-breast-oven"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook until the thickest part reads 165°F.",
+          "sources": [
+            "fn-breast-oven"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pan_fry",
+      "label": "Pan sear with covered low-heat finish",
+      "best": false,
+      "why": {
+        "text": "Choose the skillet when you want a browned surface and a covered low-heat finish in one pan.",
+        "sources": [
+          "oregon-osu-skillet"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Sear per side",
+          "min": 1,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "oregon-osu-skillet"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Covered low-heat cook",
+          "min": 10,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "oregon-osu-skillet"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "Off-heat rest, lid on",
+          "min": 10,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "oregon-osu-skillet"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 165,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "oregon-osu-skillet"
+          ]
+        },
+        {
+          "kind": "size",
+          "label": "Breast thickness in the tested recipe",
+          "min": 1,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "oregon-osu-skillet"
+          ]
+        }
+      ],
+      "equipment": [
+        "skillet with a tight-fitting lid",
+        "food thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Lightly oil a skillet, set it to medium-high, and brown the seasoned breast about one minute per side.",
+          "sources": [
+            "oregon-osu-skillet"
+          ]
+        },
+        {
+          "text": "Cover tightly, drop the heat to low, and cook 10 minutes without lifting the lid.",
+          "sources": [
+            "oregon-osu-skillet"
+          ]
+        },
+        {
+          "text": "Turn off the heat and let it rest 10 minutes with the lid on.",
+          "sources": [
+            "oregon-osu-skillet"
+          ]
+        },
+        {
+          "text": "If it is not done, cover on low for 3 to 5 minutes and recheck.",
+          "sources": [
+            "oregon-osu-skillet"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Keep the lid on during the low-heat covered step.",
+          "sources": [
+            "oregon-osu-skillet"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Check the thickest part with a food thermometer until it reads at least 165°F.",
+          "sources": [
+            "oregon-osu-skillet"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grill",
+      "label": "Grill over medium heat",
+      "best": false,
+      "why": {
+        "text": "Choose the grill when you want charred flavor; NCC says breast grilled with the skin on stays juicier.",
+        "sources": [
+          "ncc-grill"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Boneless, skinless breast on medium heat",
+          "min": 10,
+          "max": 15,
+          "unit": "min",
+          "sources": [
+            "ncc-grill"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 165,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "ncc-grill"
+          ]
+        }
+      ],
+      "equipment": [
+        "grill grates",
+        "instant-read thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Oil the grate surfaces to keep the breasts from sticking.",
+          "sources": [
+            "ncc-grill"
+          ]
+        },
+        {
+          "text": "Grill over steady medium heat for about 10 to 15 minutes, turning every 4 to 5 minutes.",
+          "sources": [
+            "ncc-grill"
+          ]
+        },
+        {
+          "text": "Check that the thickest part reads 165°F.",
+          "sources": [
+            "ncc-grill"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Use an instant-read thermometer to check doneness.",
+          "sources": [
+            "ncc-grill"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook until the breast reads 165°F.",
+          "sources": [
+            "ncc-grill"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "air_fry",
+      "label": "Air fry (breaded pieces)",
+      "best": false,
+      "why": {
+        "text": "Choose the air fryer for crisp breaded pieces with less fat than traditional fried food.",
+        "sources": [
+          "uaex-air-fryer"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Air fryer temperature",
+          "min": 375,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "uaex-air-fryer"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Initial air fry",
+          "min": 7,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "uaex-air-fryer"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "After turning",
+          "min": 7,
+          "max": 10,
+          "unit": "min",
+          "sources": [
+            "uaex-air-fryer"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 165,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "uaex-air-fryer"
+          ]
+        }
+      ],
+      "equipment": [
+        "air fryer basket",
+        "meat thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Soak the chicken in the buttermilk and hot sauce mixture for 15 minutes, drain it, then coat it evenly in the crumb mixture.",
+          "sources": [
+            "uaex-air-fryer"
+          ]
+        },
+        {
+          "text": "Spray lightly, place in the basket without crowding, and cook in batches if needed.",
+          "sources": [
+            "uaex-air-fryer"
+          ]
+        },
+        {
+          "text": "Air fry at 375°F for 7 minutes.",
+          "sources": [
+            "uaex-air-fryer"
+          ]
+        },
+        {
+          "text": "Turn the pieces and air fry 7 to 10 minutes more until a thermometer reads 165°F.",
+          "sources": [
+            "uaex-air-fryer"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Do not overfill the basket, since it interferes with browning.",
+          "sources": [
+            "uaex-air-fryer"
+          ]
+        },
+        {
+          "text": "The tested recipe cuts each boneless breast in half lengthwise into four portions.",
+          "sources": [
+            "uaex-air-fryer"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook until a thermometer in the thickest part reads 165°F.",
+          "sources": [
+            "uaex-air-fryer"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "ncc-grill",
+      "publisher": "National Chicken Council",
+      "title": "Healthful Chicken on the Grill",
+      "url": "https://www.nationalchickencouncil.org/healthful-chicken-on-the-grill/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "oregon-osu-skillet",
+      "publisher": "Oregon State University Extension",
+      "title": "Skillet-Braised Chicken",
+      "url": "https://extension.oregonstate.edu/imported-publication/skillet-braised-chicken",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "uaex-air-fryer",
+      "publisher": "University of Arkansas Division of Agriculture, Cooperative Extension Service",
+      "title": "Ten Cooking Tips for Your Air Fryer",
+      "url": "https://www.uaex.uada.edu/counties/miller/news/fcs/meats-proteins/Ten-Cooking-Tips-for-Your-Air-Fryer.aspx",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fn-breast-oven",
+      "publisher": "Food Network",
+      "title": "How Long to Bake Chicken Breast: Times by Weight, Cut and Temperature",
+      "url": "https://www.foodnetwork.com/how-to/packages/food-network-essentials/how-long-to-cook-chicken-breast-in-the-oven0",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fn-breast-recipe",
+      "publisher": "Food Network Kitchen",
+      "title": "The Best Baked Chicken Breasts (content returned at the How to Cook Perfect, Juicy Chicken Breast URL)",
+      "url": "https://www.foodnetwork.com/how-to/packages/food-network-essentials/how-to-cook-chicken-breast",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fn-breast-poached",
+      "publisher": "Food Network",
+      "title": "The Best Way to Cook Juicy Chicken Breasts for Meal Prep",
+      "url": "https://www.foodnetwork.com/fn-dish/recipes/poached-meal-prep-chicken-breast",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

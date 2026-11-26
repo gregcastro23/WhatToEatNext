@@ -1,0 +1,329 @@
+{
+  "id": "tofu",
+  "name": "Tofu",
+  "aliases": [
+    "baked tofu",
+    "extra firm tofu",
+    "firm tofu",
+    "pressed tofu",
+    "silken tofu",
+    "tofu"
+  ],
+  "catalogKeys": [
+    "firm_tofu",
+    "extra_firm_tofu",
+    "medium_firm_tofu",
+    "silken_tofu",
+    "tofu_varieties"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Tofu comes in firmness levels from silken to super firm; firmer tofu has less water and suits pressing and crisping.",
+    "sources": [
+      "illinois-all-about-tofu"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Silken and soft tofu should not be pressed because they are delicate.",
+      "sources": [
+        "illinois-all-about-tofu"
+      ]
+    },
+    {
+      "text": "Firm tofu can be pressed for the best texture.",
+      "sources": [
+        "illinois-all-about-tofu"
+      ]
+    },
+    {
+      "text": "For extra-firm or super-firm, wipe with a paper towel; press if the towel gets very wet.",
+      "sources": [
+        "illinois-all-about-tofu"
+      ]
+    },
+    {
+      "text": "Baked tofu does not need pressing.",
+      "sources": [
+        "illinois-all-about-tofu"
+      ]
+    }
+  ],
+  "storage": [],
+  "preparation": [
+    {
+      "text": "Wrap the tofu in a clean cloth kitchen towel and set it on a plate or rimmed sheet pan.",
+      "sources": [
+        "illinois-all-about-tofu"
+      ]
+    },
+    {
+      "text": "Press the tofu for at least 30 minutes.",
+      "sources": [
+        "illinois-crispy-tofu"
+      ]
+    },
+    {
+      "text": "Cut the pressed tofu into small cubes.",
+      "sources": [
+        "illinois-crispy-tofu"
+      ]
+    }
+  ],
+  "substitutions": [
+    {
+      "name": "Cooked beans or lentils",
+      "note": "The USU stir-fry template lists cooked beans or lentils as an alternative protein in place of tofu.",
+      "sources": [
+        "usu-stir-fry"
+      ]
+    }
+  ],
+  "safety": [
+    {
+      "text": "Refrigerate leftover tofu dishes within 2 hours.",
+      "sources": [
+        "illinois-crispy-tofu"
+      ]
+    },
+    {
+      "text": "Wash hands with soap and water before preparing.",
+      "sources": [
+        "illinois-crispy-tofu"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "oven_bake",
+      "label": "Press, then bake at 350°F",
+      "best": true,
+      "why": {
+        "text": "Baking gives firm, lightly browned tofu with one turn, the method Illinois Extension uses for its crispy recipe.",
+        "sources": [
+          "illinois-crispy-tofu"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Oven temperature",
+          "min": 350,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "illinois-crispy-tofu"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Bake time",
+          "min": 30,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "illinois-crispy-tofu"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Press time before cooking",
+          "min": 30,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "illinois-crispy-tofu"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Marinate time",
+          "min": 10,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "illinois-crispy-tofu"
+          ]
+        }
+      ],
+      "equipment": [
+        "baking sheet",
+        "foil",
+        "cloth or paper towel"
+      ],
+      "steps": [
+        {
+          "text": "Press the tofu with a cloth or paper towel for at least 30 minutes.",
+          "sources": [
+            "illinois-crispy-tofu"
+          ]
+        },
+        {
+          "text": "Preheat the oven to 350°F.",
+          "sources": [
+            "illinois-crispy-tofu"
+          ]
+        },
+        {
+          "text": "Cut the tofu into small cubes.",
+          "sources": [
+            "illinois-crispy-tofu"
+          ]
+        },
+        {
+          "text": "Mix the marinade, add the cubes, and marinate at least 10 minutes.",
+          "sources": [
+            "illinois-crispy-tofu"
+          ]
+        },
+        {
+          "text": "Spread the drained cubes on a foil-lined sheet and bake about 30 minutes, turning them halfway.",
+          "sources": [
+            "illinois-crispy-tofu"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Foil on the baking sheet makes cleanup easy.",
+          "sources": [
+            "illinois-crispy-tofu"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Bake until firm and lightly browned.",
+          "sources": [
+            "illinois-crispy-tofu"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stir_fry",
+      "label": "Stir-fry cubes in a hot pan",
+      "best": false,
+      "why": {
+        "text": "Stir-frying is quick: USU's template browns the protein in about 2-3 minutes, in batches to keep the pan hot.",
+        "sources": [
+          "usu-stir-fry"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Stir-fry time for protein",
+          "min": 2,
+          "max": 3,
+          "unit": "min",
+          "sources": [
+            "usu-stir-fry"
+          ]
+        },
+        {
+          "kind": "size",
+          "label": "Cube size",
+          "min": 0.5,
+          "max": null,
+          "unit": "in",
+          "sources": [
+            "usu-stir-fry"
+          ]
+        }
+      ],
+      "equipment": [
+        "pan"
+      ],
+      "steps": [
+        {
+          "text": "Cut one package of firm tofu into ½-inch cubes.",
+          "sources": [
+            "usu-stir-fry"
+          ]
+        },
+        {
+          "text": "Add 2 to 4 tablespoons of water or broth to the pan and heat it, then add half the tofu.",
+          "sources": [
+            "usu-stir-fry"
+          ]
+        },
+        {
+          "text": "Stir-fry the tofu until well browned and cooked through, about 2 to 3 minutes.",
+          "sources": [
+            "usu-stir-fry"
+          ]
+        },
+        {
+          "text": "Move that batch to a bowl and cook the rest the same way.",
+          "sources": [
+            "usu-stir-fry"
+          ]
+        },
+        {
+          "text": "Stir-fry the onion about 1 minute until browned but still crisp.",
+          "sources": [
+            "usu-stir-fry"
+          ]
+        },
+        {
+          "text": "Return the tofu to the pan with the sauce or glaze until everything is well coated.",
+          "sources": [
+            "usu-stir-fry"
+          ]
+        },
+        {
+          "text": "Serve right away with noodles or rice.",
+          "sources": [
+            "usu-stir-fry"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Cook the protein in batches to keep the pan hot.",
+          "sources": [
+            "usu-stir-fry"
+          ]
+        },
+        {
+          "text": "Do not overcook the vegetables; keep them tender-crisp.",
+          "sources": [
+            "usu-stir-fry"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Brown the tofu until well browned and cooked through.",
+          "sources": [
+            "usu-stir-fry"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "illinois-crispy-tofu",
+      "publisher": "University of Illinois Extension (Eat.Move.Save.)",
+      "title": "Crispy Soy Tofu",
+      "url": "https://eat-move-save.extension.illinois.edu/eat/recipes/crispy-soy-tofu",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "illinois-all-about-tofu",
+      "publisher": "University of Illinois Extension (Eat.Move.Save.)",
+      "title": "All About Tofu",
+      "url": "https://eat-move-save.extension.illinois.edu/blog/all-about-tofu",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "usu-stir-fry",
+      "publisher": "Utah State University Extension",
+      "title": "Create a Stir Fry",
+      "url": "https://extension.usu.edu/createbetterhealth/blog/createastirfry",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

@@ -1,0 +1,409 @@
+{
+  "id": "green-beans",
+  "name": "Green beans",
+  "aliases": [
+    "fresh green beans",
+    "green bean",
+    "green beans",
+    "snap beans",
+    "string beans"
+  ],
+  "catalogKeys": [
+    "green_beans"
+  ],
+  "safetyClass": "none",
+  "summary": {
+    "text": "Utah State Extension names steaming or broiling as the best ways to cook green beans.",
+    "sources": [
+      "usu-green-beans"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Buy loose beans when you can, rather than pre-packaged in a bag.",
+      "sources": [
+        "usu-green-beans"
+      ]
+    },
+    {
+      "text": "Choose beans that are pliable or flexible rather than tough.",
+      "sources": [
+        "usu-green-beans"
+      ]
+    }
+  ],
+  "storage": [
+    {
+      "text": "Refrigerate fresh beans for about 5 to 7 days.",
+      "sources": [
+        "usu-green-beans"
+      ]
+    },
+    {
+      "text": "Store unwashed beans in an airtight bag to prevent moisture loss and wilting.",
+      "sources": [
+        "usu-green-beans"
+      ]
+    },
+    {
+      "text": "Wait to wash beans until you are ready to use them.",
+      "sources": [
+        "usu-green-beans"
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "text": "Cut or break off the tips at both ends.",
+      "sources": [
+        "usu-green-beans",
+        "foodhero-roasted-green-beans"
+      ]
+    },
+    {
+      "text": "Cut away any damaged or discolored areas.",
+      "sources": [
+        "usu-green-beans"
+      ]
+    },
+    {
+      "text": "Rinse the beans under running water, snapping or cutting off the ends if desired.",
+      "sources": [
+        "foodhero-roasted-green-beans"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [],
+  "methods": [
+    {
+      "id": "steam",
+      "label": "Steam",
+      "best": true,
+      "why": {
+        "text": "Utah State names steaming, with broiling, as the best way to cook green beans.",
+        "sources": [
+          "usu-green-beans"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Steam time",
+          "min": 5,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "usu-green-beans"
+          ]
+        }
+      ],
+      "equipment": [
+        "Steamer basket",
+        "Frying pan or pot with lid"
+      ],
+      "steps": [
+        {
+          "text": "Clean the beans under warm running water.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        },
+        {
+          "text": "Place the beans in a steamer set in a frying pan with about 2 inches of water.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        },
+        {
+          "text": "Cover and boil about 5 minutes, until the spears are tender.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Microwave steaming takes 2 to 5 minutes, depending on the amount of beans.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        },
+        {
+          "text": "Use ½ inch to 1 inch of water in the dish when microwaving.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Done when the spears are tender.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "broil",
+      "label": "Broil",
+      "best": false,
+      "why": {
+        "text": "Choose broiling for light browning; Utah State says to cook until the beans start to lightly brown.",
+        "sources": [
+          "usu-green-beans"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "First-side broil time",
+          "min": 8,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "usu-green-beans"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Second-side broil time",
+          "min": 5,
+          "max": 8,
+          "unit": "min",
+          "sources": [
+            "usu-green-beans"
+          ]
+        }
+      ],
+      "equipment": [
+        "Broiler",
+        "Cookie sheet",
+        "Aluminum foil"
+      ],
+      "steps": [
+        {
+          "text": "Preheat the broiler and line a cookie sheet with foil.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        },
+        {
+          "text": "Spread the beans in a single layer and lightly spray both sides with olive oil.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        },
+        {
+          "text": "Season with ¼ teaspoon salt and ¼ teaspoon black pepper.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        },
+        {
+          "text": "Broil about 8 minutes, until the beans begin to brown lightly.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        },
+        {
+          "text": "Turn the beans and broil the other side for 5 to 8 minutes.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Turn the beans with a spatula after the first side browns.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Beans should start to lightly brown on the first side.",
+          "sources": [
+            "usu-green-beans"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "roast",
+      "label": "Roast",
+      "best": false,
+      "why": {
+        "text": "Choose roasting for a seasoned oven side; the Oregon Food Hero recipe uses a 425 F oven.",
+        "sources": [
+          "foodhero-roasted-green-beans"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Roast oven temperature",
+          "min": 425,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "foodhero-roasted-green-beans"
+          ]
+        },
+        {
+          "kind": "time",
+          "label": "Roast time",
+          "min": 15,
+          "max": 18,
+          "unit": "min",
+          "sources": [
+            "foodhero-roasted-green-beans"
+          ]
+        }
+      ],
+      "equipment": [
+        "Metal baking sheet"
+      ],
+      "steps": [
+        {
+          "text": "Preheat the oven to 425 F.",
+          "sources": [
+            "foodhero-roasted-green-beans"
+          ]
+        },
+        {
+          "text": "Snap or trim the ends if desired, then rinse the beans under running water.",
+          "sources": [
+            "foodhero-roasted-green-beans"
+          ]
+        },
+        {
+          "text": "Lay the beans on a metal baking sheet.",
+          "sources": [
+            "foodhero-roasted-green-beans"
+          ]
+        },
+        {
+          "text": "Drizzle with oil, salt and pepper, then toss to coat.",
+          "sources": [
+            "foodhero-roasted-green-beans"
+          ]
+        },
+        {
+          "text": "Roast 15 to 18 minutes, stirring a couple of times.",
+          "sources": [
+            "foodhero-roasted-green-beans"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Try garlic powder, lemon zest or Parmesan as seasoning variations.",
+          "sources": [
+            "foodhero-roasted-green-beans"
+          ]
+        },
+        {
+          "text": "Refrigerate leftovers within 2 hours.",
+          "sources": [
+            "foodhero-roasted-green-beans"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Roast for 15 to 18 minutes, stirring a couple of times.",
+          "sources": [
+            "foodhero-roasted-green-beans"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "boil",
+      "label": "Blanch (for freezing)",
+      "best": false,
+      "why": {
+        "text": "Blanch green beans before freezing; blanching slows enzyme action that dulls flavor, color and texture.",
+        "sources": [
+          "nchfp-blanching"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "Blanch time (snap, green or wax beans)",
+          "min": 3,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "nchfp-blanching"
+          ]
+        }
+      ],
+      "equipment": [
+        "Blanching basket with lid, or wire basket in a large pot"
+      ],
+      "steps": [
+        {
+          "text": "Use about one gallon of water for each pound of beans and bring it to a vigorous boil.",
+          "sources": [
+            "nchfp-blanching"
+          ]
+        },
+        {
+          "text": "Lower the beans into the boiling water and start timing once the water boils again.",
+          "sources": [
+            "nchfp-blanching"
+          ]
+        },
+        {
+          "text": "Blanch for 3 minutes.",
+          "sources": [
+            "nchfp-blanching"
+          ]
+        },
+        {
+          "text": "Cool the beans in cold water for about the same time as blanching.",
+          "sources": [
+            "nchfp-blanching"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Use cold water at 60°F or below, or ice water, for cooling.",
+          "sources": [
+            "nchfp-blanching"
+          ]
+        }
+      ],
+      "doneness": []
+    }
+  ],
+  "sources": [
+    {
+      "id": "usu-green-beans",
+      "publisher": "Utah State University Extension",
+      "title": "Fruit and Vegetable Guide Series: Green Beans",
+      "url": "https://extension.usu.edu/nutrition/research/green-beans",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "foodhero-roasted-green-beans",
+      "publisher": "Oregon State University Extension, Food Hero",
+      "title": "Roasted Green Beans",
+      "url": "https://foodhero.org/recipes/roasted-green-beans",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "nchfp-blanching",
+      "publisher": "National Center for Home Food Preservation (University of Georgia)",
+      "title": "Blanching Vegetables",
+      "url": "https://nchfp.uga.edu/how/freeze/freeze-general-information/blanching-vegetables/",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}

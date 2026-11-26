@@ -30,6 +30,7 @@ import {
 } from "@/app/actions/generateCosmicRecipe";
 import { isOperatorAccount } from "@/lib/auth/adminEmails";
 import { gateDemoOrAuth } from "@/lib/auth/demoAccess";
+import { equipmentHint, equipmentSchema } from "@/lib/cooking/cosmicEquipment";
 import { recordRecipePipelineEvent } from "@/lib/cooking/recipePipelineTelemetry";
 import {
   verifyAndRepairCosmicRecipe,
@@ -105,6 +106,7 @@ const cosmicRecipeBodySchema = z.object({
   diet: z.string().trim().max(200).optional(),
   ingredients_main: z.array(z.string().max(80)).max(40).optional(),
   disallowed_ingredients: z.array(z.string().max(80)).max(40).optional(),
+  equipment: equipmentSchema,
   birthData: birthDataSchema,
   preferredCuisine: z.string().trim().max(80).optional(),
   idempotencyKey: z.string().trim().min(8).max(160).optional(),
@@ -201,6 +203,7 @@ async function handlePost(request: NextRequest) {
     diet,
     ingredients_main: ingredientsMain,
     disallowed_ingredients: disallowedIngredients,
+    equipment,
     birthData,
     preferredCuisine,
   } = parsed.data;
@@ -233,6 +236,7 @@ async function handlePost(request: NextRequest) {
         preferredCuisine: preferredCuisine ?? "",
         ingredientsMain: ingredientsMain ?? [],
         disallowedIngredients: disallowedIngredients ?? [],
+        equipment: equipment ?? [],
       });
       try {
         const claim = await claimCosmicGenerationOperation({
@@ -626,7 +630,7 @@ async function handlePost(request: NextRequest) {
     const recentFoodsHint = recentFoods
       ? `\nUser recently consumed: ${recentFoods}. Ensure variety or complementary pairings.`
       : "";
-    const enrichedPrompt = `${baseUserPrompt}${preferredIngredientsHint}${recentFoodsHint}`;
+    const enrichedPrompt = `${baseUserPrompt}${preferredIngredientsHint}${equipmentHint(equipment)}${recentFoodsHint}`;
 
     // PA backend at api.agents.alchm.kitchen owns recipe generation since
     // the PA-side rebuild: it handles the alchemical-chef persona, prompt

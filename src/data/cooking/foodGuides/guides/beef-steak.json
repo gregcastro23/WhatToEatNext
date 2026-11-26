@@ -1,0 +1,320 @@
+{
+  "id": "beef-steak",
+  "name": "Beef steak",
+  "aliases": [
+    "beef steak",
+    "filet mignon",
+    "new york strip steak",
+    "rib-eye steak",
+    "steak",
+    "steaks"
+  ],
+  "catalogKeys": [
+    "beef",
+    "flank_steak",
+    "cube_steak"
+  ],
+  "safetyClass": "whole_meat",
+  "summary": {
+    "text": "Steak is cooked over high heat for a browned crust; grilling and a pan-sear-to-oven finish are the sourced methods.",
+    "sources": [
+      "fn-bobby-steak"
+    ]
+  },
+  "selection": [
+    {
+      "text": "Choose boneless rib-eye, New York strip or filet mignon for grilling.",
+      "sources": [
+        "fn-bobby-steak"
+      ]
+    },
+    {
+      "text": "For grilled filet, choose cuts at least 1 1/2 to 2 inches thick that weigh 6 to 8 ounces.",
+      "sources": [
+        "fnk-grilled-filet"
+      ]
+    }
+  ],
+  "storage": [],
+  "preparation": [
+    {
+      "text": "Brush both sides with oil and season generously with salt and pepper.",
+      "sources": [
+        "fn-bobby-steak"
+      ]
+    },
+    {
+      "text": "Oil the grill grates before cooking.",
+      "sources": [
+        "fnk-grilled-filet"
+      ]
+    }
+  ],
+  "substitutions": [],
+  "safety": [
+    {
+      "text": "Cook whole steaks to at least 145°F, then rest them 3 minutes.",
+      "sources": [
+        "clemson-slow-cooker"
+      ]
+    },
+    {
+      "text": "Ground beef is different: cook it to 160°F.",
+      "sources": [
+        "clemson-slow-cooker"
+      ]
+    },
+    {
+      "text": "Check the internal temperature with an accurate thermometer before serving.",
+      "sources": [
+        "clemson-slow-cooker"
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "grill",
+      "label": "Grill over high heat",
+      "best": true,
+      "why": {
+        "text": "Choose high-heat grilling: it browns the steak quickly and builds flavor.",
+        "sources": [
+          "fn-bobby-steak"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "time",
+          "label": "First-side sear",
+          "min": 4,
+          "max": 5,
+          "unit": "min",
+          "sources": [
+            "fn-bobby-steak"
+          ]
+        },
+        {
+          "kind": "size",
+          "label": "Filet thickness",
+          "min": 1.5,
+          "max": 2,
+          "unit": "in",
+          "sources": [
+            "fnk-grilled-filet"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "clemson-slow-cooker"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "Rest before slicing",
+          "min": 5,
+          "max": null,
+          "unit": "min",
+          "sources": [
+            "fn-bobby-steak"
+          ]
+        }
+      ],
+      "equipment": [
+        "grill",
+        "instant-read digital thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Brush the steaks with oil and season both sides with salt and pepper.",
+          "sources": [
+            "fn-bobby-steak"
+          ]
+        },
+        {
+          "text": "Heat the grill to high.",
+          "sources": [
+            "fn-bobby-steak"
+          ]
+        },
+        {
+          "text": "Grill until golden brown and slightly charred, about 4 to 5 minutes, then turn.",
+          "sources": [
+            "fn-bobby-steak"
+          ]
+        },
+        {
+          "text": "Keep cooking, turning as needed, until the thickest part reads 145°F.",
+          "sources": [
+            "clemson-slow-cooker"
+          ]
+        },
+        {
+          "text": "Rest the steaks 5 minutes, tented loosely with foil, before slicing.",
+          "sources": [
+            "fn-bobby-steak"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "Bobby Flay's recipe takes the steaks out of the fridge about 20 minutes before grilling; Food Network Kitchen's filet tests found no wait was needed.",
+          "sources": [
+            "fn-bobby-steak",
+            "fnk-grilled-filet"
+          ]
+        },
+        {
+          "text": "Use an instant-read digital thermometer to check the internal temperature.",
+          "sources": [
+            "fn-bobby-steak"
+          ]
+        },
+        {
+          "text": "Let the steak rest 5 to 10 minutes after grilling so the juices redistribute.",
+          "sources": [
+            "fnk-grilled-filet"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook the steak until the internal temperature reaches 145°F, then rest it.",
+          "sources": [
+            "clemson-slow-cooker"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pan_fry",
+      "label": "Pan sear, finish in a 450°F oven",
+      "best": false,
+      "why": {
+        "text": "Choose pan sear-then-oven for a fast crust on a thick steak; the Food Network guide calls this method fast.",
+        "sources": [
+          "fn-thick-steak"
+        ]
+      },
+      "quantities": [
+        {
+          "kind": "oven_temp",
+          "label": "Finishing oven",
+          "min": 450,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "fn-thick-steak"
+          ]
+        },
+        {
+          "kind": "rest",
+          "label": "Rest before slicing",
+          "min": 5,
+          "max": 10,
+          "unit": "min",
+          "sources": [
+            "fn-thick-steak"
+          ]
+        },
+        {
+          "kind": "internal_temp",
+          "label": "Safe minimum",
+          "min": 145,
+          "max": null,
+          "unit": "°F",
+          "sources": [
+            "clemson-slow-cooker"
+          ]
+        }
+      ],
+      "equipment": [
+        "cast iron skillet",
+        "oven",
+        "digital thermometer"
+      ],
+      "steps": [
+        {
+          "text": "Preheat the oven to 450°F.",
+          "sources": [
+            "fn-thick-steak"
+          ]
+        },
+        {
+          "text": "Heat a cast iron skillet over high heat, then add the steak.",
+          "sources": [
+            "fn-thick-steak"
+          ]
+        },
+        {
+          "text": "Sear one side until deep golden brown, then flip and sear the other side.",
+          "sources": [
+            "fn-thick-steak"
+          ]
+        },
+        {
+          "text": "Move the skillet to the oven and roast a few minutes more.",
+          "sources": [
+            "fn-thick-steak"
+          ]
+        },
+        {
+          "text": "Rest 5 to 10 minutes on a cutting board, then slice.",
+          "sources": [
+            "fn-thick-steak"
+          ]
+        }
+      ],
+      "tips": [
+        {
+          "text": "The pan and oven can get smoky, since the method runs on very high heat.",
+          "sources": [
+            "fn-thick-steak"
+          ]
+        }
+      ],
+      "doneness": [
+        {
+          "text": "Cook until the internal temperature reaches 145°F, then rest.",
+          "sources": [
+            "clemson-slow-cooker"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "fn-bobby-steak",
+      "publisher": "Food Network (Bobby Flay)",
+      "title": "Perfectly Grilled Steak",
+      "url": "https://www.foodnetwork.com/recipes/bobby-flay/perfectly-grilled-steak-recipe-1973350",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fnk-grilled-filet",
+      "publisher": "Food Network Kitchen",
+      "title": "Perfect Grilled Filet Mignon",
+      "url": "https://www.foodnetwork.com/recipes/food-network-kitchen/perfect-grilled-filet-mignon-22236356",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "clemson-slow-cooker",
+      "publisher": "Clemson University Cooperative Extension (HGIC)",
+      "title": "Slow Cooker Food Safety",
+      "url": "https://hgic.clemson.edu/factsheet/slow-cooker-food-safety/",
+      "retrieved": "2026-11-25"
+    },
+    {
+      "id": "fn-thick-steak",
+      "publisher": "Food Network",
+      "title": "How to Cook a Thick Cut Steak",
+      "url": "https://www.foodnetwork.com/how-to/packages/food-network-essentials/how-to-cook-a-thick-cut-steak",
+      "retrieved": "2026-11-25"
+    }
+  ]
+}
