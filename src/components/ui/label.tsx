@@ -1,1 +1,7 @@
-export const Label = ({ children, className = "", ...p }: any) => <label className={className} {...p}>{children}</label>;
+import type { LabelHTMLAttributes } from "react";
+
+export const Label = ({ children, className = "", ...p }: LabelHTMLAttributes<HTMLLabelElement>) => (
+  <label className={className} {...p}>
+    {children}
+  </label>
+);

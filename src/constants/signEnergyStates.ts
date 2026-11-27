@@ -1,5 +1,5 @@
 export interface SignEnergyState {
-  sign: any;
+  sign: string;
   baseEnergy: number;
   planetaryModifiers: Record<string, number>;
   currentEnergy: number;

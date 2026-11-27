@@ -1,1 +1,7 @@
-export const ScrollArea = ({ children, className = "", ...p }: any) => <div className={`overflow-auto ${className}`} {...p}>{children}</div>;
+import type { HTMLAttributes } from "react";
+
+export const ScrollArea = ({ children, className = "", ...p }: HTMLAttributes<HTMLDivElement>) => (
+  <div className={`overflow-auto ${className}`} {...p}>
+    {children}
+  </div>
+);

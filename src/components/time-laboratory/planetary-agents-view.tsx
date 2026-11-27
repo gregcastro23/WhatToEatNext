@@ -41,10 +41,16 @@ function modalityFromAgentId(id: string | undefined): string | undefined {
   return sign ? SIGN_MODALITY[sign] : undefined
 }
 
+export interface AgentTransitContext {
+  date: Date;
+  degree: number | undefined;
+  source: string;
+}
+
 interface PlanetaryAgentsViewProps {
   selectedDate: Date
   userId?: string
-  onAgentChat?: (agentId: string, agentName: string, transitContext?: any) => void
+  onAgentChat?: (agentId: string, agentName: string, transitContext?: AgentTransitContext) => void
   onGroupChat?: (agents: PlanetaryAgentActivation[]) => void
 }
 

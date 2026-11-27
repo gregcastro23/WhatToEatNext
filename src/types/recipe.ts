@@ -30,7 +30,7 @@ export interface RecipeIngredient {
   elementalProperties?: ElementalProperties;
   seasonality?: Season | "all" | Season[]; // Match EnhancedRecipe seasonality
   // Astrological associations
-  zodiacInfluences?: any[];
+  zodiacInfluences?: string[];
   planetaryInfluences?: string[]; // Planet names
   lunarPhaseInfluences?: LunarPhase[];
   [key: string]: unknown;
@@ -156,7 +156,7 @@ export interface Recipe {
   };
   // Enhanced astrological properties
   astrologicalInfluences?: string[];
-  zodiacInfluences?: any[];
+  zodiacInfluences?: string[];
   lunarPhaseInfluences?: LunarPhase[];
   planetaryInfluences?: {
     favorable: string[];
@@ -476,7 +476,7 @@ export interface RecipeDetail {
     Air: number;
   };
   astrologicalInfluences: string[];
-  zodiacInfluences: any[];
+  zodiacInfluences: string[];
   lunarPhaseInfluences: LunarPhase[];
   planetaryInfluences: {
     favorable: string[]; // Planet names that enhance this recipe,

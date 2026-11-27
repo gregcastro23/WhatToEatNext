@@ -18,7 +18,7 @@ export async function GET(request: Request): Promise<NextResponse> {
       id: string;
       name: string;
       cuisine: string | null;
-      payload: any;
+      payload: Record<string, unknown> | null;
       notes: string | null;
     }>(
       `SELECT id, name, cuisine, payload, notes

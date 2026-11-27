@@ -90,7 +90,7 @@ export interface CelestialPosition {
 
 // Planetary position interface for compatibility
 export interface PlanetaryPosition {
-  sign: any;
+  sign: string;
   degree: number;
   minute?: number;
   minutes?: number; // Alternative name used in astrologizeApi
@@ -195,7 +195,7 @@ export type DignityType =
  * Complete astrological state information
  */
 export interface AstrologicalState {
-  currentZodiac?: any;
+  currentZodiac?: string;
   moonPhase?: LunarPhase;
   currentPlanetaryAlignment?: PlanetaryAlignment;
   activePlanets?: string[];
@@ -208,8 +208,8 @@ export interface AstrologicalState {
   aspects?: PlanetaryAspect[];
 
   // Missing properties found in error analysis
-  zodiacSign?: any; // Used extensively in alchemical calculations
-  ascendantSign?: any; // Used in birth chart calculations
+  zodiacSign?: string; // Used extensively in alchemical calculations
+  ascendantSign?: string; // Used in birth chart calculations
   planetaryAlignment?: PlanetaryAlignment; // Alternative name for currentPlanetaryAlignment
   dominantPlanets?: string[]; // Used in recommendation engine
 
@@ -217,8 +217,8 @@ export interface AstrologicalState {
   planetaryPositions?: Record<string, CelestialPosition>;
 
   // Additional properties for compatibility
-  sunSign?: any;
-  moonSign?: any;
+  sunSign?: string;
+  moonSign?: string;
   alchemicalValues?: AlchemicalProperties;
   tarotElementBoosts?: Record<string, number>;
   tarotPlanetaryBoosts?: Record<string, number>;

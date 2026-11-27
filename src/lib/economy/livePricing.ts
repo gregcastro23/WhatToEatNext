@@ -265,7 +265,7 @@ export async function getPersonalizedPricingContext(
   natalPositions: Record<string, string> | null | undefined,
   now = new Date(),
 ): Promise<PersonalizedPricingContext> {
-  let positions: Record<string, any>;
+  let positions: Record<string, unknown>;
   try {
     positions = await calculatePlanetaryPositions(now);
   } catch {

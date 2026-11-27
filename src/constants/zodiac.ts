@@ -85,12 +85,25 @@ export const _TRIPLICITY_RULERS: Record<ElementalCharacter, string[]> = {
 export const _getElementFromZodiac = (sign: ZodiacSignType): ElementalCharacter =>
   zodiacElementMap[sign];
 
+const ALL_ZODIAC_SIGNS: readonly ZodiacSignType[] = [
+  "aries",
+  "taurus",
+  "gemini",
+  "cancer",
+  "leo",
+  "virgo",
+  "libra",
+  "scorpio",
+  "sagittarius",
+  "capricorn",
+  "aquarius",
+  "pisces",
+];
+
 /**
  * Gets all zodiac signs associated with a specific element
  */
 export const _getZodiacSignTypesByElement = (
   element: ElementalCharacter,
-): any[] =>
-  Object.entries(zodiacElementMap)
-    .filter(([_, signElement]) => signElement === element)
-    .map(([sign]) => sign as unknown);
+): ZodiacSignType[] =>
+  ALL_ZODIAC_SIGNS.filter((sign) => zodiacElementMap[sign] === element);

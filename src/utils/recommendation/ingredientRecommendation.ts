@@ -1414,7 +1414,7 @@ export async function recommendIngredients(
     timestamp: new Date(),
     currentStability: 0.5,
     planetaryAlignment: {},
-    currentZodiac: (astroState.currentZodiac as string | undefined) ?? "aries",
+    currentZodiac: astroState.currentZodiac ?? "aries",
     activePlanets: astroState.activePlanets ?? [],
     lunarPhase: astroState.lunarPhase ?? "new",
     aspects: [],
