@@ -40,6 +40,13 @@ import {
 } from "@/utils/agentMonicaResolver";
 import { fullChartMonica } from "@/utils/fullChartMonica";
 
+import {
+  DEFAULT_MONICA_SNAPSHOT_RETAIN_DAYS,
+  MONICA_SNAPSHOT_NAME_RE,
+  PROTECTED_MONICA_ROLLBACK_SNAPSHOTS,
+  type MonicaSnapshotCandidate,
+  selectExpiredMonicaSnapshots,
+} from "./lib/monicaSnapshotRetention";
 import { q } from "./lib/quantile";
 
 const WRITE = process.argv.includes("--write");
@@ -371,6 +378,63 @@ try {
   console.error("ROLLBACK —", err);
   await client.end();
   process.exit(1);
+}
+
+// Cap accumulated post-migration snapshots at 7 days while hard-preserving the
+// true pre-migration rollback point(s) verified by auditAgentDataIntegrity.ts.
+try {
+  const { rows: snapRows } = await client.query<{ table_name: string }>(
+    `SELECT c.relname AS table_name
+       FROM pg_class c JOIN pg_namespace ns ON ns.oid = c.relnamespace
+      WHERE ns.nspname = 'public' AND c.relkind = 'r'
+        AND c.relname LIKE 'monica_preconstruction_%'
+      ORDER BY c.relname`,
+  );
+
+  const candidates: MonicaSnapshotCandidate[] = [];
+  for (const row of snapRows) {
+    if (!MONICA_SNAPSHOT_NAME_RE.test(row.table_name)) continue;
+    if (PROTECTED_MONICA_ROLLBACK_SNAPSHOTS.has(row.table_name)) {
+      candidates.push({ tableName: row.table_name, isTrueRollbackPoint: true });
+      continue;
+    }
+
+    const aRes = await client.query<{ n: string }>(
+      `SELECT count(*)::text n FROM public."${row.table_name}"
+        WHERE monica_method IS NULL AND monica_constant BETWEEN 0.8 AND 7`,
+    );
+    const bRes = await client.query<{ n: string }>(
+      `SELECT count(*)::text n FROM public."${row.table_name}" s
+         JOIN user_profiles up ON up.user_id = s.user_id
+        WHERE up.monica_method = 'two-body' AND s.monica_constant IS NOT NULL`,
+    );
+    const aCount = Number(aRes.rows[0]?.n ?? "0");
+    const bCount = Number(bRes.rows[0]?.n ?? "0");
+    candidates.push({
+      tableName: row.table_name,
+      isTrueRollbackPoint: aCount >= 70 && bCount >= 400,
+    });
+  }
+
+  const expired = selectExpiredMonicaSnapshots(candidates, {
+    retainDays: DEFAULT_MONICA_SNAPSHOT_RETAIN_DAYS,
+    currentSnapshot: snapshot,
+  });
+
+  for (const tableName of expired) {
+    if (!MONICA_SNAPSHOT_NAME_RE.test(tableName)) continue;
+    if (PROTECTED_MONICA_ROLLBACK_SNAPSHOTS.has(tableName)) continue;
+    await client.query(`DROP TABLE IF EXISTS public."${tableName}"`);
+  }
+
+  console.log(
+    `\nretention sweep: dropped ${expired.length} post-migration snapshot(s) >${DEFAULT_MONICA_SNAPSHOT_RETAIN_DAYS}d old; preserved protected rollback point(s).`,
+  );
+} catch (cleanupErr) {
+  console.warn(
+    "\nWARNING: post-commit snapshot retention cleanup failed (migration commit preserved):",
+    cleanupErr,
+  );
 }
 
 // --------------------------------------------------------------- verify ----
