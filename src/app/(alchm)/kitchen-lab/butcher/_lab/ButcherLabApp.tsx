@@ -126,7 +126,7 @@ function ButcherLabBody({
           <Panel tab={tab} lab={lab} onSelectSpecies={onSelectSpecies} onSelectCut={onSelectCut} />
         </section>
         {tab !== "elements" ? (
-          <aside className="bt-hud" aria-label="Real-physics cut telemetry">
+          <aside id="bt-hud" className="bt-hud" aria-label="Real-physics cut telemetry">
             <ButcherTelemetryHUD cut={lab.cut} onShowElements={() => onSelectTab("elements")} />
           </aside>
         ) : null}

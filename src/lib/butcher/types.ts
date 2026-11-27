@@ -27,7 +27,8 @@ export type ButcherTab = "breakdown" | "game" | "thermal" | "elements" | "source
 
 export type ButcherOrderTier = "apprentice" | "journeyman" | "master";
 
-export type MarblingGrade = "lean" | "moderate" | "well-marbled" | "rich";
+/** Fat class from USDA total fat; bands and labels live in src/lib/butcher/science/fatClass.ts. */
+export type FatClass = "lean" | "moderate" | "high" | "very-high";
 
 export type ButcherElement = "Fire" | "Water" | "Earth" | "Air";
 
@@ -120,7 +121,8 @@ export interface AnatomicalCut {
   readonly primalName: string;
   readonly fdcId: number;
   readonly proximate: CutProximate;
-  readonly marblingGrade: MarblingGrade;
+  /** Derived from `proximate.fatG` by `fatClassFor`; never set by hand. */
+  readonly fatClass: FatClass;
   readonly grainVector: Vec3Tuple;
   readonly fiberLengthFactor: number;
   readonly maxFiberLengthMm: number;

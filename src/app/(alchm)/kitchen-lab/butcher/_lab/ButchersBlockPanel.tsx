@@ -3,6 +3,7 @@
 import { SPECIES_LIST, getCutsForSpecies } from "@/data/butcher/cutsCatalogue";
 import { isFabricationTicket, knifeNormalAtAngle } from "@/lib/butcher/science/butcherGame";
 import { evaluateGrainSlice, strategyLabel } from "@/lib/butcher/science/meatPhysics";
+import { ticketCutChecks, ticketMethodCheck } from "@/lib/butcher/science/ticketChecklist";
 import type {
   AnatomicalCut,
   ButcherOrderTicket,
@@ -15,6 +16,7 @@ import type {
 import { FabricationStepsCard, MasteryBadges, SliceCueChip } from "./BlockExtras";
 import { LazyButcherStage } from "./LazyButcherStage";
 import { OrderScorecard } from "./OrderScorecard";
+import { ScoreMeter, TicketChecklist } from "./TicketChecklist";
 import type { ButcherLabState } from "./useButcherLab";
 import type { JSX } from "react";
 
@@ -39,6 +41,11 @@ const STRATEGIES: readonly CookingStrategy[] = [
   "poach-confit",
 ];
 
+/** Thermal pairing is scored on master single-cut tickets only (butcherGame.ts). */
+function scoresThermal(ticket: ButcherOrderTicket): boolean {
+  return ticket.tier === "master" && !isFabricationTicket(ticket);
+}
+
 /** The mass target of the pull in progress (fabrication tickets) or of the ticket itself. */
 function currentTargetMassG(ticket: ButcherOrderTicket, pulled: number): number {
   return ticket.fabricationSteps?.[pulled]?.targetMassG ?? ticket.targetMassG;
@@ -46,15 +53,40 @@ function currentTargetMassG(ticket: ButcherOrderTicket, pulled: number): number 
 
 function ActiveTicketCard({ ticket }: { readonly ticket: ButcherOrderTicket }): JSX.Element {
   return (
-    <div className="rounded-lg border border-amber-400/30 bg-amber-500/10 p-3">
+    <div className="bt-ticket">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="bt-label text-amber-200">Active Order Ticket · {ticket.tier.toUpperCase()}</span>
-        <span className="bt-num text-xs text-amber-100">
-          Target Portion: {ticket.targetMassG} g · Grain Plane: {ticket.targetAngleDeg}°
+        <span className="flex flex-wrap gap-1.5">
+          <span className="bt-chip bt-num">Portion {ticket.targetMassG} g</span>
+          <span className="bt-chip bt-num">Grain {ticket.targetAngleDeg}°</span>
+          {scoresThermal(ticket) ? <span className="bt-chip">{strategyLabel(ticket.targetMethod)} · <span className="bt-num">{ticket.targetCoreTempC} °C</span></span> : null}
         </span>
       </div>
       <h2 className="mt-1 text-lg text-white">{ticket.title}</h2>
-      <p className="text-sm text-white/80">{ticket.prompt}</p>
+      <p className="text-sm text-white/75">{ticket.prompt}</p>
+    </div>
+  );
+}
+
+/** Live requirements and carve meters for the ticket in hand (single-cut tickets). */
+function LiveTicketStatus({
+  lab,
+  ticket,
+  liveSliceEval,
+}: {
+  readonly lab: ButcherLabState;
+  readonly ticket: ButcherOrderTicket;
+  readonly liveSliceEval: GrainSliceEvaluation;
+}): JSX.Element {
+  const cutChecks = ticketCutChecks(ticket, lab.cut);
+  const checks = scoresThermal(ticket) ? [...cutChecks, ticketMethodCheck(ticket, lab.gameMethod)] : cutChecks;
+  return (
+    <div className="bt-live-status">
+      <TicketChecklist checks={checks} cutName={lab.cut.name} />
+      <div className="grid gap-2 sm:grid-cols-2">
+        <ScoreMeter label="Grain (live)" pct={liveSliceEval.grainAngleScore} />
+        <ScoreMeter label="Portion (live)" pct={liveSliceEval.portionPrecisionScore} />
+      </div>
     </div>
   );
 }
@@ -235,6 +267,7 @@ export function ButchersBlockPanel({
         onSliceAngleChange={lab.setSliceAngleDeg}
       />
       <div className="bt-card space-y-4">
+        {isFabricationTicket(ticket) ? null : <LiveTicketStatus lab={lab} ticket={ticket} liveSliceEval={liveSliceEval} />}
         <BlockCarveControls lab={lab} cuts={cuts} ticket={ticket} liveSliceEval={liveSliceEval} onSelectCut={onSelectCut} />
         {isFabricationTicket(ticket) ? (
           <FabricationStepsCard ticket={ticket} picks={lab.fabricationPicks} currentCutName={lab.cut.name} onPull={lab.pullFabricationStep} onUndo={lab.undoFabricationStep} />
