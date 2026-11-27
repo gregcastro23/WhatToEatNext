@@ -84,7 +84,7 @@ describe("/api/cron/observability-prune", () => {
     );
 
     expect(res.status).toBe(200);
-    const body = (await res.json()) as Record<string, unknown>;
+    const body: unknown = await res.json();
     expect(body).toEqual({
       success: true,
       retainDays: 7,
@@ -141,7 +141,7 @@ describe("/api/cron/observability-prune", () => {
     );
 
     expect(res.status).toBe(200);
-    const body = (await res.json()) as Record<string, unknown>;
+    const body: unknown = await res.json();
     expect(body).toMatchObject({
       success: true,
       requestLogDeleted: 2,
