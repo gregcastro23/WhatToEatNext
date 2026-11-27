@@ -452,7 +452,7 @@ export const MultiAgentConversation: React.FC<MultiAgentConversationProps> = ({
             <Input
               value={inputMessage}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputMessage(e.target.value)}
-              onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === 'Enter' && handleSendMessage()}
+              onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => { if (e.key === 'Enter') void handleSendMessage(); }}
               placeholder="Consult the planetary council..."
               className="cosmic-input flex-1"
               disabled={isGenerating || selectedAgents.length === 0}

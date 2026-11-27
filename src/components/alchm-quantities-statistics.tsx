@@ -19,7 +19,11 @@ import {
   STAT_PERIODS,
   useAlchemicalStatistics,
 } from "@/contexts/AlchemicalStatisticsContext";
-import { classifyZScore } from "@/utils/statisticsCalculations";
+import {
+  classifyZScore,
+  type ContextualValue,
+  type Histogram,
+} from "@/utils/statisticsCalculations";
 
 const ESMS_KEYS = ["Spirit", "Essence", "Matter", "Substance"] as const;
 const THERMO_KEYS = [
@@ -99,10 +103,8 @@ function StatCard({
   p10: number;
   p90: number;
   spark: number[];
-   
-  hist: any;
-   
-  ctx: any;
+  hist: Histogram;
+  ctx: ContextualValue;
   color: string;
   unit?: string;
 }) {

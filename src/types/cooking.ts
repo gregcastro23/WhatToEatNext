@@ -50,8 +50,8 @@ export interface CookingMethod {
 
 export interface CookingMethodData extends CookingMethod {
   astrologicalInfluences?: {
-    favorableZodiac?: any[];
-    unfavorableZodiac?: any[];
+    favorableZodiac?: string[];
+    unfavorableZodiac?: string[];
     dominantPlanets?: string[];
   };
 }

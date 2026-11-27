@@ -54,7 +54,7 @@ declare global {
     // Planetary positions with comprehensive type safety
     interface PlanetaryPosition {
       /** Zodiac sign position */
-      sign: any;
+      sign: ZodiacSignType | string;
       /** Degree within the sign (0-29.999...) */
       degree: number;
       /** Exact longitude in degrees (0-359.999...) */
@@ -175,11 +175,11 @@ declare global {
     // Astrological calculation utilities
     interface CalculationUtilities {
       /** Get element for zodiac sign */
-      getElementForSign(sign: any): Element;
+      getElementForSign(sign: ZodiacSignType | string): Element;
       /** Get modality for zodiac sign */
-      getModalityForSign(sign: any): Modality;
+      getModalityForSign(sign: ZodiacSignType | string): Modality;
       /** Get ruling planet for zodiac sign */
-      getRulingPlanetForSign(sign: any): Planet;
+      getRulingPlanetForSign(sign: ZodiacSignType | string): Planet;
       /** Calculate planetary aspects */
       calculateAspects(positions: Record<Planet, PlanetaryPosition>): Array<{
         planet1: Planet;

@@ -78,8 +78,8 @@ export interface CookingMethodData {
 
   // Optional properties
   astrologicalInfluences?: {
-    favorableZodiac?: any[];
-    unfavorableZodiac?: any[];
+    favorableZodiac?: string[];
+    unfavorableZodiac?: string[];
     lunarPhaseEffect?: Record<string, number>;
     dominantPlanets?: string[];
     rulingPlanets?: string[];

@@ -8,6 +8,7 @@ import { LocationSearch } from "@/components/onboarding/LocationSearch";
 import { RecipeCard } from "@/components/RecipeCard";
 import { _logger } from "@/lib/logger";
 import type { BirthData, NatalChart } from "@/types/natalChart";
+import type { Recipe } from "@/types/recipe";
 import { wallClockInputToIso } from "@/utils/astrology/ianaZone";
 
 interface LocationData {
@@ -30,7 +31,7 @@ interface AlchemicalConstitution {
 interface OnboardingResponse {
   success: boolean;
   alchemical_constitution: AlchemicalConstitution;
-  cosmicRecipe: any;
+  cosmicRecipe?: Recipe | null;
   birthData?: BirthData;
   natalChart?: NatalChart;
   error?: string;
@@ -86,7 +87,7 @@ function OnboardingContent() {
 
   // Result payloads from Agent Forge
   const [constitution, setConstitution] = useState<AlchemicalConstitution | null>(null);
-  const [cosmicRecipe, setCosmicRecipe] = useState<any | null>(null);
+  const [cosmicRecipe, setCosmicRecipe] = useState<Recipe | null>(null);
   const [savedBirthData, setSavedBirthData] = useState<BirthData | null>(null);
   const [computedChart, setComputedChart] = useState<NatalChart | null>(null);
   const [isFinishing, setIsFinishing] = useState(false);
@@ -230,7 +231,7 @@ function OnboardingContent() {
 
       // Save references in component state
       setConstitution(data.alchemical_constitution);
-      setCosmicRecipe(data.cosmicRecipe);
+      setCosmicRecipe(data.cosmicRecipe ?? null);
       setSavedBirthData(resolvedBirthData);
       setComputedChart(data.natalChart ?? null);
 

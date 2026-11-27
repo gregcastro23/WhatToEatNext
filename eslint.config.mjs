@@ -7,7 +7,7 @@
 //   - Flag code quality concerns as warnings for incremental improvement
 //   - Disable rules that produce excessive false positives in this domain
 //   - no-useless-assignment: ERROR globally (0 findings across src/** and scripts/**)
-//   - @typescript-eslint/no-unsafe-call, no-unsafe-return, no-unsafe-argument & no-unsafe-member-access: ERROR on src/** (0 findings)
+//   - @typescript-eslint/no-unsafe-call, no-unsafe-return, no-unsafe-argument, no-unsafe-member-access & no-explicit-any: ERROR on src/** (0 findings)
 //   - preserve-caught-error: WARN - good practice but non-blocking
 
 import js from "@eslint/js";
@@ -112,9 +112,9 @@ export default [
       // TypeScript Rules - LINTING CAMPAIGN OPTIMIZED
       // ======================================================================
 
-      // Type Safety - RELAXED FOR DEVELOPMENT (5,746 warnings total)
-      // Rationale: These are development-time noise. Re-enable for production audit.
-      "@typescript-eslint/no-explicit-any": "off", // 1,344 warnings - too noisy
+      // Type Safety - RELAXED FOR DEVELOPMENT
+      // Rationale: no-unsafe-assignment stays off in dev lint until burned down.
+      "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unsafe-assignment": "off", // 1,346 warnings
       "@typescript-eslint/no-unsafe-member-access": "error",
       "@typescript-eslint/no-unsafe-call": "error",
@@ -398,7 +398,6 @@ export default [
 
     rules: {
       // Relax rules for test files
-      "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "max-lines": "off",
       "max-lines-per-function": "off",

@@ -16,7 +16,7 @@ import type { UserNotification } from "@/types/notification";
 interface DailyInsightContent {
   title: string;
   message: string;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }
 
 /**

@@ -126,7 +126,7 @@ export function getAccuratePlanetaryPositionsSync(
 ): Record<string, PlanetaryPosition & { exactLongitude: number }> {
   try {
     const astroTime = new Astronomy.AstroTime(date);
-    const positions: Record<string, any> = {};
+    const positions: Record<string, PlanetaryPosition & { exactLongitude: number }> = {};
 
     for (const [planet, body] of Object.entries(PLANET_MAPPING)) {
       let longitude: number;

@@ -199,7 +199,7 @@ export interface ChartDataPoint {
   /** Shown in place of the rounded value, e.g. "≥1311 kcal" or "—" (no total). */
   display?: string;
   color?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 /**

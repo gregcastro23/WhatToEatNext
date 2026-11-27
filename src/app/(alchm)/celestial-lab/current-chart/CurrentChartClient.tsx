@@ -3,8 +3,9 @@
 import React from 'react';
 import { CurrentTransitAnalysis } from '@/components/dashboard/CurrentTransitAnalysis';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
+import type { NatalChart } from '@/types/natalChart';
 
-export function CurrentChartClient({ natalChart }: { natalChart: any }) {
+export function CurrentChartClient({ natalChart }: { natalChart: NatalChart }) {
   const { state } = useAlchemical();
   
   return (

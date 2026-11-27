@@ -137,7 +137,7 @@ export interface PlanetaryAspect {
  * Interface for astrological profiles of ingredients
  */
 export interface AstrologicalProfile {
-  zodiac?: any[];
+  zodiac?: string[];
   lunar?: LunarPhase[];
   planetary?: PlanetaryPosition[];
   aspects?: PlanetaryAspect[];

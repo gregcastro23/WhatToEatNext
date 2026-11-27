@@ -58,7 +58,7 @@ export const zodiacElements: Record<ZodiacSignType, keyof ElementalProperties> =
   };
 
 // Helper Functions
-export const _getZodiacSignType = (date: Date): any => {
+export const _getZodiacSignType = (date: Date): string => {
   const month = date.getMonth() + 1;
   const day = date.getDate();
   for (const [sign, range] of Object.entries(zodiacDateRanges)) {
@@ -68,7 +68,7 @@ export const _getZodiacSignType = (date: Date): any => {
       (month === startMonth && day >= startDay) ||
       (month === endMonth && day <= endDay)
     ) {
-      return sign as unknown;
+      return sign;
     }
   }
 
@@ -275,7 +275,7 @@ export interface ElementalAffinity {
 }
 
 export interface CelestialPosition {
-  sign: any;
+  sign: string;
   _degree: number;
   _minutes: number;
 }

@@ -99,8 +99,8 @@ function buildSignMaps(positions: Record<string, PlanetPosition>): {
   const lower: Record<string, string> = {};
   const capital: Record<string, string> = {};
   for (const [planet, pos] of Object.entries(positions)) {
-    if (pos?.sign == null) continue;
-    const lowerSign = String(pos.sign).toLowerCase();
+    if (!pos.sign) continue;
+    const lowerSign = pos.sign.toLowerCase();
     lower[planet] = lowerSign;
     capital[planet] = capitalizeSign(lowerSign);
   }

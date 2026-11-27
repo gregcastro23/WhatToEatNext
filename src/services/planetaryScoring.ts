@@ -797,10 +797,12 @@ export class PlanetaryScoringService {
         const ecliptic = (chartPos?.Ecliptic ?? pos) as Record<string, unknown>;
         const arcDegrees = (ecliptic.ArcDegrees ?? pos) as Record<string, unknown>;
         const signData = pos.Sign as Record<string, unknown> | undefined;
-        
+        const rawSign = signData?.key ?? pos.sign;
+        const sign = typeof rawSign === "string" && rawSign.length > 0 ? rawSign : "aries";
+
         positions.push({
           planet,
-          sign: signData?.key ?? pos.sign ?? "aries",
+          sign,
           degree: Number(arcDegrees.degrees ?? pos.degree ?? 0),
           minute: Number(arcDegrees.minutes ?? pos.minute ?? 0),
           exactLongitude: Number(ecliptic.DecimalDegrees ?? pos.exactLongitude ?? 0),
