@@ -47,6 +47,82 @@ const FAUCET_RESONANCE_RETAIN_DAYS = 180;
  */
 const PAGE_VIEWS_RETAIN_DAYS = 180;
 const PAGE_VIEWS_BOT_RETAIN_DAYS = 14;
+const SYNTHETIC_PROBES_RETAIN_DAYS = 14;
+const SYSTEM_METRICS_RETAIN_DAYS = 14;
+const HEALTH_SNAPSHOTS_RETAIN_DAYS = 30;
+const WEBHOOK_EVENTS_RETAIN_DAYS = 30;
+const FEED_EVENTS_RETAIN_DAYS = 60;
+const FEED_EVENTS_BATCH_LIMIT = 5000;
+
+interface TelemetryPruneCounts {
+  syntheticProbesDeleted: number;
+  systemMetricsDeleted: number;
+  healthSnapshotsDeleted: number;
+  webhookEventsDeleted: number;
+}
+
+const ZERO_TELEMETRY_COUNTS: TelemetryPruneCounts = {
+  syntheticProbesDeleted: 0,
+  systemMetricsDeleted: 0,
+  healthSnapshotsDeleted: 0,
+  webhookEventsDeleted: 0,
+};
+
+async function pruneTelemetryAndWebhooks(): Promise<TelemetryPruneCounts> {
+  try {
+    const result = await executeQuery<{
+      synthetic_probes_deleted: string;
+      system_metrics_deleted: string;
+      health_snapshots_deleted: string;
+      webhook_events_deleted: string;
+    }>(
+      `SELECT * FROM prune_telemetry_and_webhooks($1, $2, $3, $4)`,
+      [
+        SYNTHETIC_PROBES_RETAIN_DAYS,
+        SYSTEM_METRICS_RETAIN_DAYS,
+        HEALTH_SNAPSHOTS_RETAIN_DAYS,
+        WEBHOOK_EVENTS_RETAIN_DAYS,
+      ],
+    );
+    const [row] = result.rows;
+    const counts: TelemetryPruneCounts = {
+      syntheticProbesDeleted: row ? Number(row.synthetic_probes_deleted) : 0,
+      systemMetricsDeleted: row ? Number(row.system_metrics_deleted) : 0,
+      healthSnapshotsDeleted: row ? Number(row.health_snapshots_deleted) : 0,
+      webhookEventsDeleted: row ? Number(row.webhook_events_deleted) : 0,
+    };
+    _logger.info("[cron/observability-prune] pruned telemetry & webhooks:", {
+      ...counts,
+      probeRetainDays: SYNTHETIC_PROBES_RETAIN_DAYS,
+      metricsRetainDays: SYSTEM_METRICS_RETAIN_DAYS,
+      snapshotRetainDays: HEALTH_SNAPSHOTS_RETAIN_DAYS,
+      webhookRetainDays: WEBHOOK_EVENTS_RETAIN_DAYS,
+    });
+    return counts;
+  } catch (err) {
+    _logger.error("[cron/observability-prune] telemetry & webhook prune failed:", err);
+    return { ...ZERO_TELEMETRY_COUNTS };
+  }
+}
+
+async function pruneFeedEvents(): Promise<number> {
+  try {
+    const result = await executeQuery<{ feed_events_deleted: string }>(
+      `SELECT * FROM prune_feed_events($1, $2)`,
+      [FEED_EVENTS_RETAIN_DAYS, FEED_EVENTS_BATCH_LIMIT],
+    );
+    const deleted = Number(result.rows[0]?.feed_events_deleted ?? 0);
+    _logger.info("[cron/observability-prune] pruned feed_events rows:", {
+      deleted,
+      retainDays: FEED_EVENTS_RETAIN_DAYS,
+      batchLimit: FEED_EVENTS_BATCH_LIMIT,
+    });
+    return deleted;
+  } catch (err) {
+    _logger.error("[cron/observability-prune] feed_events prune failed:", err);
+    return 0;
+  }
+}
 
 async function prunePageViews(): Promise<number> {
   try {
@@ -130,6 +206,8 @@ export async function GET(request: NextRequest) {
 
     const faucetResonanceDeleted = await pruneFaucetResonance();
     const pageViewsDeleted = await prunePageViews();
+    const telemetryCounts = await pruneTelemetryAndWebhooks();
+    const feedEventsDeleted = await pruneFeedEvents();
 
     await recordCronRun("observability-prune", { status: "success", startedAt });
     return NextResponse.json({
@@ -140,6 +218,8 @@ export async function GET(request: NextRequest) {
       mcpInvocationsDeleted,
       faucetResonanceDeleted,
       pageViewsDeleted,
+      ...telemetryCounts,
+      feedEventsDeleted,
     });
   } catch (err) {
     _logger.error("[cron/observability-prune] failed:", err);
